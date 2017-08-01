@@ -16,10 +16,10 @@
     <target name="prepare">
         <if>
             <not>
-                <isset property="package.dir" />
+                <isset property="package.dir"/>
             </not>
             <then>
-                <fail msg="package.dir not specified, specify package.dir in build.properties file" />
+                <fail msg="package.dir not specified, specify package.dir in build.properties file"/>
             </then>
         </if>
 
@@ -29,7 +29,7 @@
                 value="."
                 override="true"/>
 
-        <xmlproperty file="${extpath}/${extension}.xml" prefix="extensionDetails" keepRoot="false" />
+        <xmlproperty file="${extpath}/${extension}.xml" prefix="extensionDetails" keepRoot="false"/>
 
         <property
                 name="version"
@@ -57,32 +57,32 @@
     <target name="build" depends="prepare">
         <phing phingfile="${project.basedir}/component_packager.xml" target="autopack"
                haltonfailure="true">
-            <property name="package.delete" value="false" />
+            <property name="package.delete" value="false"/>
         </phing>
         <phing phingfile="${project.basedir}/modules_packager.xml" target="autopack"
                haltonfailure="true">
-            <property name="package.delete" value="false" />
+            <property name="package.delete" value="false"/>
         </phing>
         <phing phingfile="${project.basedir}/plugins_packager.xml" target="autopack"
                haltonfailure="true">
-            <property name="package.delete" value="false" />
+            <property name="package.delete" value="false"/>
         </phing>
-		<phing phingfile="${project.basedir}/packages_packager.xml" target="autopack"
-			   haltonfailure="true">
-			<property name="package.delete" value="false" />
-		</phing>
+        <phing phingfile="${project.basedir}/packages_packager.xml" target="autopack"
+               haltonfailure="true">
+            <property name="package.delete" value="false"/>
+        </phing>
 
-        <echo msg="Creating full ZIP package..." />
+        <echo msg="Creating full ZIP package..."/>
         <zip destfile="${package.dir}/${extension}-v${version}_fullpackage-unzipfirst.zip">
             <fileset dir="${tmpdir}">
-                <include name="**" />
-                <exclude name=".*" />
+                <include name="**"/>
+                <exclude name=".*"/>
             </fileset>
         </zip>
-        <delete dir="${tmpdir}/${extension}-${version}-plugins"  />
-        <delete dir="${tmpdir}/${extension}-${version}-modules"  />
-		<delete dir="${tmpdir}/${extension}-${version}-packages"  />
-        <delete file="${tmpdir}/${extension}-v${version}_${joomla.version}.zip"  />
+        <delete dir="${tmpdir}/${extension}-${version}-plugins"/>
+        <delete dir="${tmpdir}/${extension}-${version}-modules"/>
+        <delete dir="${tmpdir}/${extension}-${version}-packages"/>
+        <delete file="${tmpdir}/${extension}-v${version}_${joomla.version}.zip"/>
     </target>
 
     <target name="dist" depends="build">
@@ -93,10 +93,10 @@
         <!-- Do initialization stuff -->
         <if>
             <not>
-                <available file="build.properties" type="file" />
+                <available file="build.properties" type="file"/>
             </not>
             <then>
-                <fail msg="File not found: build.properties" />
+                <fail msg="File not found: build.properties"/>
             </then>
         </if>
 
@@ -107,7 +107,7 @@
                 value="${comp.name}"
                 override="true"/>
 
-        <phingcall target="dist" />
+        <phingcall target="dist"/>
     </target>
 
     <target name="autopack">
@@ -134,6 +134,6 @@
             </then>
         </if>
 
-        <phingcall target="dist" />
+        <phingcall target="dist"/>
     </target>
 </project>

@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Config
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -38,7 +38,7 @@ class RedshopHelperConfig
 	/**
 	 * Configuration
 	 *
-	 * @var  stdClass
+	 * @var  Registry
 	 */
 	protected $config;
 
@@ -115,15 +115,12 @@ class RedshopHelperConfig
 
 		$file = $this->getConfigurationFilePath();
 
-		if (!file_exists($file))
+		if (!JFile::exists($file))
 		{
 			return $this;
 		}
 
-		if (is_file($file))
-		{
-			include_once $file;
-		}
+		include_once $file;
 
 		// Sanitize the namespace.
 		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
@@ -297,51 +294,56 @@ class RedshopHelperConfig
 	/**
 	 * Load previous configuration
 	 *
-	 * @return  bool
-	 *
-	 * @since   2.0.0.5
+	 * @return  boolean
 	 */
 	protected function loadOldConfig()
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
-		$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-		// Old configuration file
-		if (JFile::exists($oldConfigFile))
+		// Since 1.6 we started moving to new config than try to migrate it
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
 		{
-			// New configuration file
-			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
+
+			$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 			// Old configuration file
-			require_once $oldConfigFile;
-
-			// Get new configuration properties
-			$configClass = new RedshopConfig;
-			$properties  = get_object_vars($configClass);
-
-			// Get old configiration properties
-			$defined = get_defined_constants();
-
-			// Replace new configuration values with old one
-			foreach ($properties as $name => $value)
+			if (JFile::exists($oldConfigFile))
 			{
-				if (in_array($name, $defined))
+				// New configuration file
+				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+
+				// Old configuration file
+				require_once $oldConfigFile;
+
+				// Get new configuration properties
+				$configClass = new RedshopConfig;
+				$properties  = get_object_vars($configClass);
+
+				// Get old configiration properties
+				$defined = get_defined_constants();
+
+				// Replace new configuration values with old one
+				foreach ($properties as $name => $value)
 				{
-					if (isset($defined[$name]))
+					if (in_array($name, $defined))
 					{
-						$properties[$name] = $defined[$name];
+						if (isset($defined[$name]))
+						{
+							$properties[$name] = $defined[$name];
+						}
 					}
 				}
+
+				// Save to config file
+				$this->save(new Registry($properties));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'), 'notice');
+
+				return JFile::delete($oldConfigFile);
 			}
 
-			// Save to config file
-			$this->save(new JRegistry($properties));
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
 
-			return JFile::delete($oldConfigFile);
+			return false;
 		}
-
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
 
 		return false;
 	}
@@ -414,6 +416,7 @@ class RedshopHelperConfig
 				});
 			})(jQuery);
 		');
+
 		self::$isLoadScriptDeclaration = true;
 	}
 
@@ -425,7 +428,7 @@ class RedshopHelperConfig
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function get($name = '', $default = null)
 	{
@@ -435,5 +438,62 @@ class RedshopHelperConfig
 		}
 
 		return $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for get config variable of redshop
+	 *
+	 * @param   string  $name   Name of variable.
+	 * @param   mixed   $value  Value of configuration
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function set($name = '', $value = null)
+	{
+		if (empty($this->config))
+		{
+			return;
+		}
+
+		$this->config->set($name, $value);
+	}
+
+	/**
+	 * Method for get config force boolean variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   mixed   $default  Default data if not found.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  2.0.3
+	 */
+	public function getBool($name = '', $default = false)
+	{
+		if (empty($this->config))
+		{
+			return boolval($default);
+		}
+
+		return boolval($this->config->get($name, $default));
+	}
+
+	/**
+	 * Method for return all config in array format
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.4
+	 */
+	public function toArray()
+	{
+		if (empty($this->config))
+		{
+			return array();
+		}
+
+		return $this->config->toArray();
 	}
 }

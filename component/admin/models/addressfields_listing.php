@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 		if ($filter)
 		{
-			$where = " WHERE field_section = '" . $filter . "'";
+			$where = " WHERE section = '" . $filter . "'";
 		}
 
 		if ($where == '')
@@ -110,16 +110,16 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 		if ($filter)
 		{
-			$where = " WHERE field_section = '" . $filter . "'";
+			$where = " WHERE section = '" . $filter . "'";
 		}
 
 		if ($where == '')
 		{
-			$query = "SELECT distinct(f.field_id),f.*  FROM " . $this->_table_prefix . "fields f WHERE 1=1" . $orderby . $limit;
+			$query = "SELECT distinct(f.id),f.*  FROM " . $this->_table_prefix . "fields f WHERE 1=1" . $orderby . $limit;
 		}
 		else
 		{
-			$query = " SELECT distinct(f.field_id),f.*  FROM " . $this->_table_prefix . "fields f" . $where . $orderby . $limit;
+			$query = " SELECT distinct(f.id),f.*  FROM " . $this->_table_prefix . "fields f" . $where . $orderby . $limit;
 		}
 
 		return $query;
@@ -135,11 +135,11 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 		if ($filter_order == 'ordering')
 		{
-			$orderby = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
+			$orderby = ' ORDER BY section, ordering ' . $filter_order_Dir;
 		}
 		else
 		{
-			$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', field_section, ordering';
+			$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', section, ordering';
 		}
 
 		return $orderby;
@@ -147,7 +147,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row = $this->getTable("fields_detail");
+		$row = $this->getTable("field");
 		$groupings = array();
 		$conditions = array();
 
@@ -157,7 +157,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 			$row->load((int) $cid[$i]);
 
 			// Track categories
-			$groupings[] = $row->field_id;
+			$groupings[] = $row->id;
 
 			if ($row->ordering != $order[$i])
 			{
@@ -171,7 +171,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 				}
 
 				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
+				$condition = 'section = ' . (int) $row->section;
 				$found = false;
 
 				foreach ($conditions as $cond)
@@ -184,7 +184,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 				}
 				if (!$found)
 				{
-					$conditions[] = array($row->field_id, $condition);
+					$conditions[] = array($row->id, $condition);
 				}
 			}
 		}
@@ -215,7 +215,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 	 */
 	public function move($direction, $field_id)
 	{
-		$row = $this->getTable("fields_detail");
+		$row = $this->getTable("field");
 
 		if (!$row->load($field_id))
 		{
@@ -224,7 +224,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 			return false;
 		}
 
-		if (!$row->move($direction, 'field_section = ' . (int) $row->field_section))
+		if (!$row->move($direction, 'section = ' . (int) $row->section))
 		{
 			$this->setError($this->_db->getErrorMsg());
 

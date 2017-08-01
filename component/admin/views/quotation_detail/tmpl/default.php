@@ -3,12 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper   = productHelper::getInstance();
 
@@ -96,7 +97,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 {
 	$edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
 	?>
-	<a class="modal btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
+	<a class="joom-box btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
 		<?php echo JText::_('COM_REDSHOP_ADD_USER'); ?>
 	</a>
 <?php
@@ -310,7 +311,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 							}
 						}
 
-						$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
+						$product_title = "<div class='quotation_product_detail'>" . $quo->product_name . $product_number . "</div>" . $product_attribute . $product_accessory . $product_userfield;
 
 						$product_total = $quo->product_price * $quo->product_quantity;
 						$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
@@ -334,7 +335,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 							</td>
 
 							<td><?php echo $wrapper_name;?></td>
-							<td><input type="text" name="product_excl_pricep<?php echo $unq; ?>"
+							<td><input type="number" name="product_excl_pricep<?php echo $unq; ?>"
 							           id="product_excl_pricep<?php echo $unq; ?>" size="10" maxlength="50"
 							           value="<?php echo $producthelper->redpriceDecimal($quo->product_excl_price); ?>"
 							           onchange="getQuotationDetail('p<?php echo $unq; ?>');"></td>
@@ -345,7 +346,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 								       value="<?php echo $quo->product_price; ?>"
 								       id="product_pricep<?php echo $unq; ?>"/></td>
 
-							<td align="center"><input type="text" name="quantityp<?php echo $unq; ?>"
+							<td align="center"><input type="number" name="quantityp<?php echo $unq; ?>"
 							                          value="<?php echo $quotation_item[$i]->product_quantity; ?>"
 							                          id="quantityp<?php echo $unq; ?>"
 							                          onchange="getQuotationDetail('p<?php echo $unq; ?>');"
@@ -422,7 +423,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 								<strong><?php echo JText::_('COM_REDSHOP_DISCOUNT_INCL_VAT');?></strong>
 							</td>
 							<td align="right">
-								<input type="text" name="quotation_discount" size='10'
+								<input type="number" name="quotation_discount" size='10'
 									            value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_discount); ?>"
 									            id="quotation_discount" onchange="calculateQuotationTotal();"/>
 							</td>
@@ -435,7 +436,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 
 
 								<div style="float: right;">
-									<input type="text" name="quotation_special_discount" size='10'
+									<input type="number" name="quotation_special_discount" size='10'
 									       value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_special_discount); ?>"
 									       id="quotation_special_discount" onchange="calculateQuotationTotal();"/>
 									%&nbsp;&nbsp;&nbsp;</div>
@@ -526,14 +527,14 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 							<div id="divUserFieldproduct1"></div>
 						</td>
 						<td id="tdnoteproduct1"></td>
-						<td><input type="text" name="prdexclpriceproduct1" id="prdexclpriceproduct1" style="display: none;"
+						<td><input type="number" name="prdexclpriceproduct1" id="prdexclpriceproduct1" style="display: none;"
 						           onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 						<!-- <td align="right"><div id="prdtaxproduct1"></div><input name="taxpriceproduct1" id="taxpriceproduct1" type="hidden" value="0" /></td> -->
 						<td align="right">
 							<div id="prdpriceproduct1"></div>
 							<input name="productpriceproduct1" id="productpriceproduct1" type="hidden" value="0"/><input
 								name="taxpriceproduct1" id="taxpriceproduct1" type="hidden" value="0"/></td>
-						<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
+						<td><input type="number" name="quantityproduct1" id="quantityproduct1" style="display: none;"
 						           onchange="changeOfflineQuantityBox('product1');" value="1"
 						           size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>" maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 						<td align="right">

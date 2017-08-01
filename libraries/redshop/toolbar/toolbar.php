@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,27 +36,28 @@ class RedshopToolbar extends JToolbar
 	 */
 	public function __construct($name = 'toolbar', $groupTitle = '')
 	{
-		$this->_name = $name;
 
 		$this->groupTitle = $groupTitle;
 
 		// Set base path to find buttons.
 		$this->_buttonPath[] = __DIR__ . '/button';
+
+		parent::__construct($name);
 	}
 
 	/**
 	 * Render a tool bar.
 	 *
-	 * @return  string  HTML for the toolbar.
+	 * @return  void
 	 *
 	 * @since   1.7
 	 */
 	public function renderGroup()
 	{
-		$dhtml = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
+		$html = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
 
-		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Custom', $dhtml);
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $html);
 	}
 
 	/**

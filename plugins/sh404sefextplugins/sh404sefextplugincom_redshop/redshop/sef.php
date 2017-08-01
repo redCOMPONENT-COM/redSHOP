@@ -3,7 +3,7 @@
  * @package     RedSHOP.sh404sef
  * @subpackage  sef_ext sh404sef
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -148,12 +148,18 @@ switch ($view)
 						for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 						{
 							$cat     = $cats[$x];
-							$title[] = str_replace(".", "", $cat->category_name);
+
+							if ($cat->parent_id == 0)
+							{
+								continue;
+							}
+
+							$title[] = str_replace(".", "", $cat->name);
 						}
 					}
 				}
 
-				$title[] = str_replace(".", "", $url->category_name);
+				$title[] = str_replace(".", "", $url->name);
 			}
 			else
 			{
@@ -232,7 +238,7 @@ switch ($view)
 
 							if ($categoryData = RedshopHelperCategory::getCategoryById($cat_in_sefurl))
 							{
-								$category_id = $categoryData->category_id;
+								$category_id = $categoryData->id;
 							}
 						}
 						else
@@ -252,7 +258,13 @@ switch ($view)
 							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 							{
 								$cat     = $cats[$x];
-								$title[] = $cat->category_name;
+
+								if ($cat->parent_id == 0)
+								{
+									continue;
+								}
+
+								$title[] = $cat->name;
 							}
 						}
 					}
@@ -261,7 +273,7 @@ switch ($view)
 
 					if ($categoryData = RedshopHelperCategory::getCategoryById($category_id))
 					{
-						$catname = $categoryData->category_name;
+						$catname = $categoryData->name;
 					}
 
 					$title[] = RedshopHelperUtility::convertToNonSymbol($catname);

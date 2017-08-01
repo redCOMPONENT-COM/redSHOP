@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperText instead
+ * @deprecated  2.0.3  Use RedshopHelperText instead
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Text Library
  *
- *  @deprecated  __DEPLOY_VERSION__  Use RedshopHelperText instead
+ *  @deprecated  2.0.3  Use RedshopHelperText instead
  */
 class text_library
 {
@@ -25,7 +25,7 @@ class text_library
 	 *
 	 * @return object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperText::getTextLibraryData() instead
+	 * @deprecated  2.0.3  Use RedshopHelperText::getTextLibraryData() instead
 	 */
 	public function getTextLibraryData()
 	{
@@ -37,7 +37,7 @@ class text_library
 	 *
 	 * @return string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperText::getTextLibraryTagArray() instead
+	 * @deprecated  2.0.3  Use RedshopHelperText::getTextLibraryTagArray() instead
 	 */
 	public function getTextLibraryTagArray()
 	{
@@ -51,7 +51,7 @@ class text_library
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperText::replaceTexts() instead
+	 * @deprecated  2.0.3  Use RedshopHelperText::replaceTexts() instead
 	 */
 	public function replace_texts($data)
 	{

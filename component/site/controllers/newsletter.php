@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class RedshopControllerNewsletter extends RedshopController
 		/*
 		  *  check if user has alreday subscribe.
 		  */
-		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email1']);
+		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email']);
 
 		if ($alreadysubscriberbymail)
 		{
@@ -87,7 +87,7 @@ class RedshopControllerNewsletter extends RedshopController
 		$model = $this->getModel('newsletter');
 
 		$Itemid           = JRequest::getVar('Itemid');
-		$email            = JRequest::getVar('email1');
+		$email            = JRequest::getVar('email');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
 		$item             = $menu->getItem($newsletteritemid);
@@ -108,9 +108,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = rsUserHelper::getInstance();
-
-			if ($userhelper->newsletterUnsubscribe($email))
+			if (RedshopHelperNewsletter::removeSubscribe($email))
 			{
 				$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 			}

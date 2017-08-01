@@ -29,7 +29,7 @@ class ModRedshopMegaMenuHelper
 	 */
 	public static function getCategories($params)
 	{
-		$categoryId = $params->get('category', 0);
+		$categoryId = $params->get('category', RedshopHelperCategory::getRootId());
 		$end = $params->get('endLevel', 2);
 
 		if (isset(static::$categories[$categoryId]))
@@ -72,16 +72,16 @@ class ModRedshopMegaMenuHelper
 		// Get first sub-categories of parent category
 		foreach ($categories as $category)
 		{
-			if ($category->category_parent_id != $categoryId)
+			if ($category->parent_id != $categoryId)
 			{
 				continue;
 			}
 
-			$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category->category_id . '&manufacturer_id=0', true);
+			$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category->id . '&manufacturer_id=0', true);
 
-			$category->category_name = str_replace('- ', '', $category->category_name);
+			$category->name = str_replace('- ', '', $category->name);
 			$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
-				. $category->category_id . '&manufacturer_id=0&Itemid='
+				. $category->id . '&manufacturer_id=0&Itemid='
 				. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
 			$subCategories[] = $category;
 		}
@@ -90,9 +90,9 @@ class ModRedshopMegaMenuHelper
 		{
 			foreach ($subCategories as $i => $subCat)
 			{
-				if ($item->category_id == $subCat->category_id)
+				if ($item->category_id == $subCat->id)
 				{
-					$firstItem[$k]->category_child_id = $subCat->category_child_id;
+					$firstItem[$k]->category_child_id = $subCat->id;
 					$firstItem[$k]->level = 1;
 				}
 			}
@@ -139,7 +139,6 @@ class ModRedshopMegaMenuHelper
 		$subItem = array();
 		$key = 0;
 		$level++;
-		$end = 2;
 
 		foreach ($items as $item)
     	{
@@ -193,7 +192,7 @@ class ModRedshopMegaMenuHelper
 
 		foreach ($items as $item)
     	{
-    		if ($item->category_parent_id == $parentId)
+    		if ($item->parent_id == $parentId)
         	{
         		$subItem[$key] = new StdClass;
 
@@ -203,12 +202,12 @@ class ModRedshopMegaMenuHelper
 					continue;
 				}
 
-        		$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $item->category_id . '&manufacturer_id=0', true);
+        		$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $item->id . '&manufacturer_id=0', true);
 
-				$subItem[$key]->category_name = str_replace('- ', '', $item->category_name);
-				$subItem[$key]->category_id = $item->category_id;
+				$subItem[$key]->category_name = str_replace('- ', '', $item->name);
+				$subItem[$key]->category_id = $item->id;
 				$subItem[$key]->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
-				. $item->category_id . '&manufacturer_id=0&Itemid='
+				. $item->id . '&manufacturer_id=0&Itemid='
 				. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
 				$subItem[$key]->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
 				$subItem[$key]->level = $level;
@@ -222,7 +221,7 @@ class ModRedshopMegaMenuHelper
 					$subItem[$key]->image = $item->category_full_image;
 				}
 
-				$subItem[$key]->sub_cat = self::getListForRedshopMegamenu($items, $item->category_id, $level, $end);
+				$subItem[$key]->sub_cat = self::getListForRedshopMegamenu($items, $item->id, $level, $end);
 				$key++;
         	}
         }
@@ -241,50 +240,100 @@ class ModRedshopMegaMenuHelper
 	 */
 	public static function displayLevel(&$items, $parentItem, $level = 1)
 	{
-		echo '<div class="dropdown lv' . $level . '">';
-
-		if ($level > 1)
+		if ($level != 1)
 		{
-			echo '<ul class="nav-child unstyled small lv' . $level . '">';
-		}
-		else
-		{
-			echo '<ul class="nav-child unstyled small container lv' . $level . '">';
-
-			if (!empty($parentItem->image))
-			{
-				echo '<div class="left-image row">';
-			}
-			else
-			{
-				echo '<div class="left-image-relative row">';
-			}
+			echo '<ul class="unstyled">';
 		}
 
 		for ($i = 0, $ci = count($items); $i < $ci; $i++)
 		{
+			$parent = (!empty($items[$i]->sub_cat[0]->category_id)) ? ' parent ' : '';
 			$subLevel = $level + 1;
-			echo '<li class="item-' . $items[$i]->category_id . ' level-item-' . $subLevel . ' col-sm-3">';
-			echo '<a href="' . $items[$i]->link . '">';
-			echo '<span class="menuLinkTitle">' . $items[$i]->category_name . '</span>';
 
-			if (!empty($items[$i]->image))
+			if ($level == 1)
 			{
-				echo '<img src="' . JUri::root() . 'components/com_redshop/assets/images/category/' . $items[$i]->image . '" />';
+				echo '<div id="accordion' . $items[$i]->category_id . '-' . $parentItem->category_id . '" class="accordion span3">';
+				echo '<div class="accordion-group item-' . $items[$i]->category_id . '-' . $parentItem->category_id . ' level-item-' . $subLevel . $parent . '">';
+				echo '<div class="accordion-heading">';
+				echo '<a class="categoryLink" href="' . $items[$i]->link . '">';
+				echo '<div class="thumbnail">';
+				echo '<div class="megaMenuEmptyBox">';
+
+				if (!empty($items[$i]->image))
+				{
+					echo '<img src="' . JUri::root() . 'components/com_redshop/assets/images/category/' . $items[$i]->image . '" />';
+				}
+
+				echo '</div>';
+				echo '</div>';
+				echo '<span class="menuLinkTitle">' . $items[$i]->category_name . '</span>';
+
+				if (!empty($items[$i]->sub_cat[0]->category_id))
+				{
+					$attr = array(
+						'href' => '#collapseAnchor' . $items[$i]->category_id . '-' . $parentItem->category_id . '-' . $subLevel,
+						'data-parent' => '#accordion' . $items[$i]->category_id . '-' . $parentItem->category_id,
+						'data-toggle' => 'collapse',
+						'class' => 'accordion-toggle collapsed'
+					);
+					echo '<a ' . self::getLinkAttributes($attr) . '>+</a>';
+				}
+
+				echo '</a>';
+				echo '<div id="collapseAnchor' . $items[$i]->category_id . '-' . $parentItem->category_id . '-' . $subLevel . '" class="accordion-body collapse">';
+				echo '<div class="accordion-inner">';
+
+				if (!empty($items[$i]->sub_cat[0]->category_id))
+				{
+					echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel);
+				}
+			}
+			else
+			{
+				echo '<li class="item-' . $items[$i]->category_id . '-' . $parentItem->category_id . ' level-item-' . $subLevel . '">';
+				echo '<a class="categoryLink" href="' . $items[$i]->link . '">';
+				echo $items[$i]->category_name;
+				echo '</a>';
+
+				if (!empty($items[$i]->sub_cat[0]->category_id))
+				{
+					echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel);
+				}
+
+				echo '</li>';	
 			}
 
-			echo '</a>';
-
-			if (!empty($items[$i]->sub_cat[0]->category_id))
+			if ($level == 1)
 			{
-				echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel + 1);
+				echo '</div></div></div></div></div>';
 			}
-
-			echo '</li>';
 		}
 
-		echo '</ul>';
-		echo '</div>';
+		if ($level != 1)
+		{
+			echo '</ul>';
+		}
+	}
+
+	/**
+	 * Build link attributes to string
+	 *
+	 * @param   array  $attr  Array link attributes
+	 *
+	 * @return  string
+	 */
+	public static function getLinkAttributes($attr)
+	{
+		return implode(' ',
+			array_map(
+				function ($v, $k)
+				{
+					return sprintf('%s="%s"', $k, $v);
+				},
+				$attr,
+				array_keys($attr)
+			)
+		);
 	}
 
 	/**

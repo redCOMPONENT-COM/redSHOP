@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_import" method="upgrade">
+    <name>PLG_REDSHOP_IMPORT_FIELD</name>
+    <version>1.0.0</version>
+    <redshop>2.0.0</redshop>
+    <creationDate>January 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2017 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <description>PLG_REDSHOP_IMPORT_FIELD_DESC</description>
+    <files>
+        <filename plugin="field">field.php</filename>
+        <filename>index.html</filename>
+        <folder>language</folder>
+    </files>
+</extension>

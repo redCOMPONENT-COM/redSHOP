@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,6 +43,7 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 		$model = $this->getModel();
 
 		$this->customers  = $model->getItems();
+		$this->pagination = $model->getPagination();
 		$this->state      = $model->getState();
 		$this->filterForm = $model->getForm();
 

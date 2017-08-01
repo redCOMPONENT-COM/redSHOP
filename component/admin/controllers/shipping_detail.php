@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,9 +20,9 @@ class RedshopControllerShipping_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'shipping_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'shipping_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -33,9 +33,9 @@ class RedshopControllerShipping_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post  = $this->input->post->getArray();
 		$model = $this->getModel('shipping_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 
 		if ($row)
 		{
@@ -58,7 +58,6 @@ class RedshopControllerShipping_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$this->setRedirect('index.php?option=com_redshop&view=shipping');
 	}
 }

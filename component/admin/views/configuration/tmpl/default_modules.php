@@ -3,73 +3,55 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-//JHTML::_ ( 'behavior.tooltip' );
-JHTMLBehavior::modal();
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_STATISTICS_ENABLE'),
+		'field' => $this->lists['statistics_enable']
+	)
+);
 
-$uri = JURI::getInstance();
-$url = $uri->root();
-?>
-<legend><?php echo JText::_('COM_REDSHOP_MODULES_AND_FEATURES'); ?></legend>
-<div class="form-group">
-	<span
-		class="editlinktip hasTip"
-		title="<?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_STATISTICS_ENABLE'); ?>"
-	>
-		<label for="statistics_enable">
-			<?php  echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT');?>
-		</label>
-	</span>
-	<?php echo $this->lists['statistics_enable'];?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_MY_TAGS_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_MY_TAGS'),
+		'field' => $this->lists['my_tags']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_MY_WISHLIST_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MY_WISHLIST'); ?>">
-	<label for="name">
-		<?php echo JText::_('COM_REDSHOP_MY_WISHLIST_LBL');?>
-	</label>
-	<?php echo $this->lists ['my_wishlist'];?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING'),
+		'field' => $this->lists['enable_address_detail_in_shipping']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LOGIN_REQUIRED'); ?>">
-		<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL');?></label>
-	</span>
-	<?php echo $this->lists ['wishlist_login_required'];?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_USE_PRODUCT_RESERVE_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_USE_PRODUCT_RESERVE_LBL'),
+		'field' => $this->lists['is_product_reserve']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_MY_TAGS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MY_TAGS'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_MY_TAGS_LBL');?></label></span>
-	<?php echo $this->lists ['my_tags'];?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING_LBL');?></label></span>
-	<?php echo $this->lists ['enable_address_detail_in_shipping'];?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_USE_PRODUCT_RESERVE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_PRODUCT_RESERVE_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_USE_PRODUCT_RESERVE_LBL');?></label></span>
-	<?php echo $this->lists ['is_product_reserve'];?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip" title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE'); ?>">
-			<?php echo JText::_('COM_REDSHOP_CART_RESERVATION_MESSAGE_LBL');?>:</span>
-	<textarea class="form-control" type="text" name="cart_reservation_message"
-			          id="cart_reservation_message" rows="4"
-			          cols="40"/><?php echo stripslashes($this->config->get('CART_RESERVATION_MESSAGE')); ?>
-	</textarea>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CART_RESERVATION_MESSAGE_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE'),
+		'line'  => false,
+		'field' => '<textarea class="form-control" type="text" name="cart_reservation_message"'
+			. 'id="cart_reservation_message" rows="4"'
+			. 'cols="40"/>' . stripslashes($this->config->get('CART_RESERVATION_MESSAGE')) . '</textarea>'
+	)
+);

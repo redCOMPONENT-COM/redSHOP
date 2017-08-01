@@ -1,10 +1,10 @@
 {
   "components": [
-    "redshop"
+    "redshop",
+    "redshop.assets"
   ],
   "libraries": [
-    "redshop",
-    "tcpdf"
+    "redshop"
   ],
   "modules": {
     "frontend": [
@@ -64,6 +64,35 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_export": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "related_product",
+      "shipping_address",
+      "shopper_group_attribute_price",
+      "shopper_group_product_price",
+      "user"
+    ],
+    "redshop_import": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "shipping_address",
+      "shopper_group_product_price",
+      "shopper_group_attribute_price",
+      "user",
+      "related_product"
+    ],
+    "redshop_order": [
+      "esms"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -107,14 +136,30 @@
       "rs_payment_worldpay",
       "stripe"
     ],
+    "redshop_pdf": [
+      "dompdf",
+      "mpdf",
+      "tcpdf"
+    ],
     "redshop_product": [
-      "CreateColorImage",
+      "bundle",
       "canonical",
+      "CreateColorImage",
+      "discount_affect_attribute",
+      "google_microdata",
       "invoicepdf",
       "postdanmark",
+      "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "discount_affect_attribute",
+      "bundle",
+      "gift"
+    ],
+    "redshop_product_type": [
+      "bundle",
+      "gift"
     ],
     "redshop_shipping": [
       "bring",
@@ -129,7 +174,9 @@
       "uspsv4"
     ],
     "redshop_user": [
-      "registration_acymailing"
+      "cmc_integrate",
+      "registration_acymailing",
+      "joomlamailer_integrate"
     ],
     "redshop_vies_registration": [
       "rs_vies_registration"
@@ -142,12 +189,15 @@
       "sh404sefextplugincom_redshop"
     ],
     "system": [
+      "agile_crm",
       "mvcoverride",
       "quickbook",
       "redgoogleanalytics",
       "redlightbox_slideshow",
       "redproductzoom",
-      "redshop"
+      "redshop",
+      "redshop_send_discountcode",
+      "redshop_product_bundle"
     ],
     "user": [
       "highrise"

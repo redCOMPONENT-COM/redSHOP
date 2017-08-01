@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,32 +17,32 @@ defined('_JEXEC') or die;
 class redshopMail
 {
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $_table_prefix = null;
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $db = null;
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $_carthelper = null;
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $_redhelper = null;
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	protected static $mailTemplates = array();
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	protected static $instance = null;
 
@@ -69,7 +69,7 @@ class redshopMail
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public function __construct()
 	{
@@ -136,7 +136,7 @@ class redshopMail
 	 */
 	public function createMultiprintInvoicePdf($oid)
 	{
-		return RedshopHelperMail::createMultiprintInvoicePdf($oid);
+		return RedshopHelperPdf::createMultiInvoice($oid);
 	}
 
 	/**

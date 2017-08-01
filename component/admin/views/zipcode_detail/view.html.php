@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,12 +48,11 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$world                 = RedshopHelperWorld::getInstance();
-		$countryarray          = $world->getCountryList((array) $detail);
+		$countryarray          = RedshopHelperWorld::getCountryList((array) $detail);
 		$detail->country_code  = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
 
-		$statearray            = $world->getStateList((array) $detail);
+		$statearray            = RedshopHelperWorld::getStateList((array) $detail);
 		$lists['state_code']   = $statearray['state_dropdown'];
 
 		$this->detail      = $detail;

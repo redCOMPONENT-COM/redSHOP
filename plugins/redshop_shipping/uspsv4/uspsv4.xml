@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<extension
-    version="3.0"
-    client="site"
-    type="plugin"
-    group="redshop_shipping"
-    method="upgrade"
->
+<extension version="3.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
     <name>PLG_REDSHOP_SHIPPING_USPSV4</name>
-    <version>1.5.1</version>
+    <version>2.0.0</version>
     <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <creationDate>July 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
@@ -17,35 +11,34 @@
     <shipping_class>uspsv4</shipping_class>
     <shipping_method_code>uspsv4</shipping_method_code>
     <files>
+        <folder>config</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
         <filename plugin="uspsv4">uspsv4.php</filename>
-        <filename plugin="uspsv4">uspsv4.cfg.php</filename>
+        <filename>index.html</filename>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_uspsv4.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_uspsv4.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
                 <field
-                    name="uspsv4_debug"
-                    type="radio"
-                    class="btn-group"
-                    default="0"
-                    label="PLG_REDSHOP_SHIPPING_USPSV4_DEBUG_LBL"
-                    description="PLG_REDSHOP_SHIPPING_USPSV4_DEBUG_DESC"
-                >
+                        name="uspsv4_debug"
+                        type="radio"
+                        class="btn-group"
+                        default="0"
+                        label="PLG_REDSHOP_SHIPPING_USPSV4_DEBUG_LBL"
+                        description="PLG_REDSHOP_SHIPPING_USPSV4_DEBUG_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
                 <field
-                    name="extrafield_shipping"
-                    type="extrafields"
-                    field_section="19"
-                    multiple="multiple"
-                    label="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_LBL"
-                    description="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_DESC"
-                />
+                        name="extrafield_shipping"
+                        type="extrafields"
+                        field_section="19"
+                        multiple="multiple"
+                        label="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_LBL"
+                        description="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_DESC"
+                        />
             </fieldset>
         </fields>
     </config>

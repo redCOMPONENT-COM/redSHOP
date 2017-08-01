@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,12 +27,11 @@ class RedshopControllerNewsletter extends RedshopController
 	{
 		$session = JFactory::getSession();
 
+		$cid = $this->input->post->get('cid', array(0), 'array');
+		$userid = $this->input->post->get('userid', array(0), 'array');
+		$username = $this->input->post->get('username', array(0), 'array');
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$userid = JRequest::getVar('userid', array(0), 'post', 'array');
-		$username = JRequest::getVar('username', array(0), 'post', 'array');
-
-		$newsletter_id = JRequest::getVar('newsletter_id');
+		$newsletter_id = $this->input->get('newsletter_id');
 
 		$tmpcid = array_chunk($cid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
 		$tmpuserid = array_chunk($userid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
@@ -44,13 +43,14 @@ class RedshopControllerNewsletter extends RedshopController
 		$session->set('incNo', 1);
 
 		$this->setRedirect('index.php?option=com_redshop&view=newsletter&layout=previewlog&newsletter_id=' . $newsletter_id);
+
 		return;
 	}
 
 	public function sendRecursiveNewsletter()
 	{
 		$session = JFactory::getSession();
-		$newsletter_id = JRequest::getVar('newsletter_id');
+		$newsletter_id = $this->input->get('newsletter_id');
 
 		$model = $this->getModel('newsletter');
 
@@ -121,12 +121,13 @@ class RedshopControllerNewsletter extends RedshopController
 
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
-		exit;
+
+		JFactory::getApplication()->close();
 	}
 
 	public function publish()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -146,7 +147,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 	public function unpublish()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

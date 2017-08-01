@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
+class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 {
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
@@ -28,11 +28,11 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$plugin = $element;
 		}
 
-		$app               = JFactory::getApplication();
-		$user              = JFactory::getUser();
-
-		$session           = JFactory::getSession();
-		$ccdata            = $session->get('ccdata');
+		$app     = JFactory::getApplication();
+		$user    = JFactory::getUser();
+		$values  = new stdClass;
+		$session = JFactory::getSession();
+		$ccdata  = $session->get('ccdata');
 
 		// Get Payment Params
 		$partner           = $this->params->get("partner");
@@ -43,22 +43,22 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$is_test           = $this->params->get("is_test");
 
 		// Get Customer Data
-		$firstName         = urlencode($data['billinginfo']->firstname);
-		$lastName          = urlencode($data['billinginfo']->lastname);
-		$address           = urlencode($data['billinginfo']->address);
-		$city              = urlencode($data['billinginfo']->city);
-		$state             = urlencode($data['billinginfo']->state_code);
-		$zip               = urlencode($data['billinginfo']->zipcode);
-		$country           = urlencode($data['billinginfo']->country_2_code);
-		$user_email        = $data['billinginfo']->user_email;
+		$firstName  = urlencode($data['billinginfo']->firstname);
+		$lastName   = urlencode($data['billinginfo']->lastname);
+		$address    = urlencode($data['billinginfo']->address);
+		$city       = urlencode($data['billinginfo']->city);
+		$state      = urlencode($data['billinginfo']->state_code);
+		$zip        = urlencode($data['billinginfo']->zipcode);
+		$country    = urlencode($data['billinginfo']->country_2_code);
+		$user_email = $data['billinginfo']->user_email;
 
-		$shfirstName       = urlencode($data['shippinginfo']->firstname);
-		$shlastName        = urlencode($data['shippinginfo']->lastname);
-		$shaddress         = urlencode($data['shippinginfo']->address);
-		$shcity            = urlencode($data['shippinginfo']->city);
-		$shstate           = urlencode($data['shippinginfo']->state_code);
-		$shzip             = urlencode($data['shippinginfo']->zipcode);
-		$shcountry         = urlencode($data['shippinginfo']->country_2_code);
+		$shfirstName = urlencode($data['shippinginfo']->firstname);
+		$shlastName  = urlencode($data['shippinginfo']->lastname);
+		$shaddress   = urlencode($data['shippinginfo']->address);
+		$shcity      = urlencode($data['shippinginfo']->city);
+		$shstate     = urlencode($data['shippinginfo']->state_code);
+		$shzip       = urlencode($data['shippinginfo']->zipcode);
+		$shcountry   = urlencode($data['shippinginfo']->country_2_code);
 
 		// Get CreditCard Data
 		$strCardHolder    = substr($ccdata['order_payment_name'], 0, 100);
@@ -80,24 +80,22 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$currencyID = "USD";
 		}
 
-		$currencyClass = CurrencyHelper::getInstance();
-
 		/*
 		As per the email error no need to remove shipping - tmp fix
 		$order_total = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
 		$order_total = $data['order_total'] - $data['order_tax'];
 		*/
-		$order_total     = $data['order_total'];
-		$amount          = $currencyClass->convert($order_total, '', $currencyID);
-		$amount          = urlencode(number_format($amount, 2));
+		$order_total = $data['order_total'];
+		$amount      = RedshopHelperCurrency::convert($order_total, '', $currencyID);
+		$amount      = urlencode(number_format($amount, 2));
 
 		$shipping_amount = $data['order_shipping'];
-		$shipping_amount = $currencyClass->convert($shipping_amount, '', $currencyID);
+		$shipping_amount = RedshopHelperCurrency::convert($shipping_amount, '', $currencyID);
 		$shipping_amount = urlencode(number_format($shipping_amount, 2));
 
-		$tax_amount      = $data['order_tax'];
-		$tax_amount      = $currencyClass->convert($tax_amount, '', $currencyID);
-		$tax_amount      = urlencode(number_format($tax_amount, 2));
+		$tax_amount = $data['order_tax'];
+		$tax_amount = RedshopHelperCurrency::convert($tax_amount, '', $currencyID);
+		$tax_amount = urlencode(number_format($tax_amount, 2));
 
 		if ($is_test)
 		{
@@ -170,16 +168,16 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		if ($response_array['RESULT'] == 0 && $response_array['RESPMSG'] == 'Approved')
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_ORDER_PLACED');
+			$message                = JText::_('COM_REDSHOP_ORDER_PLACED');
 		}
 		else
 		{
 			$values->responsestatus = 'Fail';
-			$message = $response_array['RESPMSG'];
+			$message                = $response_array['RESPMSG'];
 		}
 
 		$values->transaction_id = $response_array['PNREF'];
-		$values->message = $message;
+		$values->message        = $message;
 
 		return $values;
 	}
@@ -255,6 +253,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$merchant_user     = $this->params->get("merchant_user");
 		$paymentType       = $this->params->get("sales_auth_only");
 		$is_test           = $this->params->get("is_test");
+		$values            = new stdClass;
 
 		$order_id = $data['order_id'];
 		$tid      = $data['order_transactionid'];
@@ -273,8 +272,8 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$currencyClass = CurrencyHelper::getInstance();
-		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
-		$order_amount = urlencode(number_format($order_amount, 2));
+		$order_amount  = RedshopHelperCurrency::convert($data['order_amount'], '', $currencyID);
+		$order_amount  = urlencode(number_format($order_amount, 2));
 
 		if ($is_test)
 		{
@@ -285,7 +284,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$api_url = "https://payflowpro.paypal.com";
 		}
 
-		$params = array(
+		$params      = array(
 			'USER'    => $merchant_user,
 			'VENDOR'  => $merchant_id,
 			'PARTNER' => $partner,
@@ -303,7 +302,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$post_string = substr($post_string, 0, -1);
-		$response = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($order_id . rand())));
+		$response    = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($order_id . rand())));
 
 		$response_array = array();
 		parse_str($response, $response_array);
@@ -311,12 +310,12 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		if ($response_array['RESULT'] == 0 && $response_array['RESPMSG'] == 'Approved')
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
+			$message                = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
 		}
 		else
 		{
 			$values->responsestatus = 'Fail';
-			$message = $response_array['RESPMSG'];
+			$message                = $response_array['RESPMSG'];
 		}
 
 		$values->message = $message;
@@ -333,6 +332,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$merchant_user     = $this->params->get("merchant_user");
 		$paymentType       = $this->params->get("sales_auth_only");
 		$is_test           = $this->params->get("is_test");
+		$values            = new stdClass;
 
 		$order_id = $data['order_id'];
 		$tid      = $data['order_transactionid'];
@@ -350,8 +350,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$currencyID = "USD";
 		}
 
-		$currencyClass = CurrencyHelper::getInstance();
-		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
+		$order_amount = RedshopHelperCurrency::convert($data['order_amount'], '', $currencyID);
 		$order_amount = urlencode(number_format($order_amount, 2));
 
 		if ($is_test)
@@ -363,7 +362,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$api_url = "https://payflowpro.paypal.com";
 		}
 
-		$params = array(
+		$params      = array(
 			'USER'    => $merchant_user,
 			'VENDOR'  => $merchant_id,
 			'PARTNER' => $partner,
@@ -381,7 +380,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$post_string = substr($post_string, 0, -1);
-		$response = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($order_id . rand())));
+		$response    = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($order_id . rand())));
 
 		$response_array = array();
 		parse_str($response, $response_array);
@@ -389,12 +388,12 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		if ($response_array['RESULT'] == 0 && $response_array['RESPMSG'] == 'Approved')
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
+			$message                = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
 		}
 		else
 		{
 			$values->responsestatus = 'Fail';
-			$message = $response_array['RESPMSG'];
+			$message                = $response_array['RESPMSG'];
 		}
 
 		$values->message = $message;

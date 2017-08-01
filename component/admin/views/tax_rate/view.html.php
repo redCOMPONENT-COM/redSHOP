@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,7 +73,7 @@ class RedshopViewTax_Rate extends RedshopViewAdmin
 		$isNew = ($this->item->id < 1);
 
 		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_STATE_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		$title = JText::_('COM_REDSHOP_TAX_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 
 		JToolBarHelper::title($title);
 		JToolBarHelper::apply('tax_rate.apply');

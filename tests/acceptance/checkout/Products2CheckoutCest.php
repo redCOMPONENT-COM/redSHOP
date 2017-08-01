@@ -178,7 +178,7 @@ class Products2CheckoutCest
 		$I->click(['xpath' => "//section[@id='shipping-information']/button"]);
 		$I->click(['xpath' => "//input[@id='same-as-shipping']"]);
 		$I->click(['xpath' => "//section[@id='billing-information']/button"]);
-		$I->waitForElement(['xpath' => "//input[@id='card-number']"],30);
+		$I->waitForElement(['xpath' => "//input[@id='card-number']"], 30);
 		$I->fillField(['xpath' => "//input[@id='card-number']"], $checkoutAccountDetail['debitCardNumber']);
 		$I->click(['xpath' => "//section[@id='payment-method']/div[2]/button"]);
 		$I->waitForText('Your payment has been processed', 10, '//h1');

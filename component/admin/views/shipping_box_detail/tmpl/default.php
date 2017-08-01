@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -46,7 +46,8 @@ $producthelper = productHelper::getInstance();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_BOX_NAME'); ?>:
+							<?php echo JText::_('COM_REDSHOP_BOX_NAME'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -57,7 +58,8 @@ $producthelper = productHelper::getInstance();
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="deliverytime">
-							<?php echo JText::_('COM_REDSHOP_BOX_LENGTH'); ?>:
+							<?php echo JText::_('COM_REDSHOP_BOX_LENGTH'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -68,7 +70,8 @@ $producthelper = productHelper::getInstance();
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="deliverytime">
-							<?php echo JText::_('COM_REDSHOP_BOX_WIDTH'); ?>:
+							<?php echo JText::_('COM_REDSHOP_BOX_WIDTH'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -79,7 +82,8 @@ $producthelper = productHelper::getInstance();
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="deliverytime">
-							<?php echo JText::_('COM_REDSHOP_BOX_HEIGHT'); ?>:
+							<?php echo JText::_('COM_REDSHOP_BOX_HEIGHT'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>

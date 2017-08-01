@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_MASS_DISCOUNT_NAME"
+                description="COM_REDSHOP_MASS_DISCOUNT_NAME_DESC"
+                placeholder="COM_REDSHOP_MASS_DISCOUNT_NAME_DESC"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="type"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="0"
+                label="COM_REDSHOP_MASS_DISCOUNT_TYPE"
+                description="COM_REDSHOP_MASS_DISCOUNT_TYPE_DESC"
+                required="true">
+            <option value="1">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE</option>
+            <option value="0">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_TOTAL</option>
+        </field>
+        <field
+                name="amount"
+                type="number"
+                label="COM_REDSHOP_MASS_DISCOUNT_AMOUNT"
+                description="COM_REDSHOP_MASS_DISCOUNT_AMOUNT_DESC"
+                class="form-control"
+                default=""
+                filter="float"
+                required="true"
+                />
+        <field
+                name="start_date"
+                type="redshop.calendar"
+                label="COM_REDSHOP_MASS_DISCOUNT_START_DATE"
+                description="COM_REDSHOP_MASS_DISCOUNT_START_DATE_DESC"
+                class="form-control"
+                default=""
+                readonly="true"
+                />
+        <field
+                name="end_date"
+                type="redshop.calendar"
+                label="COM_REDSHOP_MASS_DISCOUNT_END_DATE"
+                description="COM_REDSHOP_MASS_DISCOUNT_END_DATE_DESC"
+                class="form-control"
+                default=""
+                readonly="true"
+                />
+        <field
+                name="discount_product"
+                type="rproducts"
+                label="COM_REDSHOP_MASS_DISCOUNT_PRODUCTS"
+                description="COM_REDSHOP_MASS_DISCOUNT_PRODUCTS_DESC"
+                multiple="true"
+                default=""
+                class="form-control">
+            <option value="">COM_REDSHOP_MASS_DISCOUNT_PRODUCTS_SELECT_OPTION</option>
+        </field>
+        <field
+                name="category_id"
+                type="redshopcategory"
+                label="COM_REDSHOP_MASS_DISCOUNT_CATEGORIES"
+                description="COM_REDSHOP_MASS_DISCOUNT_CATEGORIES_DESC"
+                multiple="true"
+                default=""
+                class="form-control">
+            <option value="">COM_REDSHOP_MASS_DISCOUNT_CATEGORIES_SELECT_OPTION</option>
+        </field>
+        <field
+                name="manufacturer_id"
+                type="redshop.manufacturer"
+                label="COM_REDSHOP_MASS_DISCOUNT_MANUFACTURERS"
+                description="COM_REDSHOP_MASS_DISCOUNT_MANUFACTURERS_DESC"
+                multiple="true"
+                default=""
+                class="form-control">
+            <option value="">COM_REDSHOP_MASS_DISCOUNT_MANUFACTURERS_SELECT_OPTION</option>
+        </field>
+    </fieldset>
+</form>

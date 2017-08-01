@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JHtmlBehavior::modal();
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $mediaId = JFactory::getApplication()->input->getInt('media_id');
 
@@ -54,7 +54,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 		</button>
 		<button
 			type="button"
-		    onclick="window.parent.location.reload();window.parent.SqueezeBox.close();"
+			onclick="window.parent.location.reload();window.parent.SqueezeBox.close();"
 		>
 			<?php echo JText::_('COM_REDSHOP_CANCEL');?>
 		</button>
@@ -66,7 +66,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 	method="post"
 	name="additionaladminForm"
 	id="additionaladminForm"
-    enctype="multipart/form-data">
+	enctype="multipart/form-data">
 	<div class="col50">
 		<fieldset class="adminform">
 			<table class="admintable" border="0" width="100%" id="admintable">
@@ -79,13 +79,11 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 							<div
 								class="image"
 								style="padding-top: 0px !important">
-								<a
-									class="modal"
-									title="Image"
-							        href="index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1"
-							        rel="{handler: 'iframe', size: {x: 950, y: 450}}">
-							    	<?php echo JText::_('COM_REDSHOP_FILE'); ?>
-							    </a>
+								<a class="joom-box" title="Image"
+									href="index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1"
+									rel="{handler: 'iframe', size: {x: 950, y: 450}}">
+									<?php echo JText::_('COM_REDSHOP_FILE'); ?>
+								</a>
 							</div>
 						</div>
 						<div id='selected_file'></div>
@@ -104,8 +102,8 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 							name="addvalue"
 							id="addvalue"
 							class="button"
-						    Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
-						    onclick="addNewRow('admintable');"
+							Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+							onclick="addNewRow('admintable');"
 						/>
 					</td>
 				</tr>
@@ -135,13 +133,9 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 					?>
 						<tr class="<?php echo "row$k"; ?>">
 							<td width="70%">
-								<?php if (is_file($path)) : ?>
+								<?php if (JFile::exists($path)) : ?>
 									<?php if ($fileExt == 'gif' || $fileExt == 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg') : ?>
-										<a
-											href="<?php echo $link; ?>"
-											class="modal"
-											rel="{handler: 'image', size: {}}"
-										>
+										<a href="<?php echo $link; ?>" class="joom-box" rel="{handler: 'image', size: {}}">
 											<?php echo $filename;?>
 										</a>
 									<?php else: ?>

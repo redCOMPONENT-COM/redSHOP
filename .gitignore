@@ -39,8 +39,24 @@ npm-debug.log
 node_modules/
 
 # Composer
+composer.lock
 vendor/*
 tests/vendor/*
+libraries/redshop/vendor/*
+plugins/redshop_payment/klarna/library/vendor/*
+plugins/redshop_payment/mollieideal/library/vendor/*
+plugins/redshop_payment/paypalcreditcard/library/vendor/*
+plugins/redshop_payment/payson/libraries/vendor/*
+plugins/redshop_payment/quickbook/library/vendor/*
+plugins/redshop_payment/rs_payment_braintree/library/vendor/*
+plugins/redshop_payment/rs_payment_paymill/library/vendor/*
+plugins/redshop_payment/stripe/library/vendor/*
+plugins/redshop_pdf/dompdf/helper/vendor/*
+plugins/redshop_pdf/mpdf/helper/vendor/*
+plugins/redshop_pdf/tcpdf/helper/vendor/*
+
+# Bower
+bower_components/
 
 # Test related files
 tests/system/servers/configdef.php
@@ -55,6 +71,7 @@ tests/cache
 tests/RoboFile.ini
 selenium-server-standalone.jar
 tests/_support/_generated/*
+tests/releases/*
 
 # Ignore redSHOP config
 component/admin/config/config.php
@@ -66,3 +83,9 @@ component/admin/config/config.php
 
 # Releases folder
 releases/*
+
+# Checksum MD5 Files
+checksum.md5
+checksum.md5.json
+component/admin/assets/checksum.md5
+component/admin/assets/checksum.md5.json

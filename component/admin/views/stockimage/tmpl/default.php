@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,6 +54,7 @@ $model = $this->getModel('stockimage');
 				<th><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_IMAGE_TOOLTIP_LBL', 'stock_amount_image_tooltip', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th><?php echo JText::_('COM_REDSHOP_STOCKIMAGE') ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_QUANTITY_LBL', 'stock_quantity', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_OPTION_LBL', 'stock_option', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCKROOM_NAME', 'stockroom_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
@@ -66,6 +67,17 @@ $model = $this->getModel('stockimage');
 			{
 				$row = $this->data[$i];
 				$row->id = $row->stock_amount_id;
+
+				$thumbUrl = RedShopHelperImages::getImagePath(
+								$row->stock_amount_image,
+								'',
+								'thumb',
+								'stockroom',
+								Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
+								Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+							);
+
 				$link = JRoute::_('index.php?option=com_redshop&view=stockimage_detail&task=edit&cid[]=' . $row->id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i);?></td>
@@ -73,6 +85,7 @@ $model = $this->getModel('stockimage');
 					<td><a href="<?php echo $link; ?>"
 					       title="<?php echo JText::_('COM_REDSHOP_EDIT_STOCKIMAGE'); ?>"><?php echo $row->stock_amount_image_tooltip;?></a>
 					</td>
+					<td><img src="<?php echo $thumbUrl ?>" /></td>
 					<td><?php echo $row->stock_quantity;?></td>
 					<td><?php echo $model->getStockAmountOption($row->stock_option);?></td>
 					<td><?php echo $row->stockroom_name;?></td>

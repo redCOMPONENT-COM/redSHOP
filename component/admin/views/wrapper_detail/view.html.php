@@ -3,14 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewWrapper_detail extends RedshopViewAdmin
+/**
+ * Wrapper_Detail View
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0.6
+ */
+class RedshopViewWrapper_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -26,6 +32,13 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * [display description]
+	 *
+	 * @param   [string]  $tpl  [layout name]
+	 *
+	 * @return  [void]
+	 */
 	public function display($tpl = null)
 	{
 		global $context;
@@ -40,6 +53,8 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_wrapper48');
+
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)
@@ -54,7 +69,6 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['use_to_all'] = JHTML::_('select.booleanlist', 'wrapper_use_to_all', 'class="inputbox"', $detail->wrapper_use_to_all);
 		$product_id = 0;
-		$category_id = 0;
 
 		$showall = JRequest::getVar('showall', '0');
 
@@ -63,14 +77,14 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 			$product_id = JRequest::getVar('product_id');
 		}
 
-		$category = $model->getCategoryInfo($category_id);
+		$category = $model->getCategoryInfo();
 
 		if (count($detail) > 0)
 		{
 			$catid = explode(",", $detail->category_id);
 		}
 
-		$lists['category_name'] = $model->getMultiselectBox("categoryid[]", $category, $catid, "category_id", "category_name", true);
+		$lists['category_name'] = $model->getMultiselectBox("categoryid[]", $category, $catid, "id", "name", true);
 
 		$product = $model->getProductInfo($product_id);
 

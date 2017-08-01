@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,22 +60,9 @@ class RedshopModelTax_Rates extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 't.id', $direction = 'asc')
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$country = $this->getUserStateFromRequest($this->context . '.filter.country', 'filter_country');
-		$this->setState('filter.country', $country);
-
-		$taxGroup = $this->getUserStateFromRequest($this->context . '.filter.tax_group', 'filter_tax_group');
-		$this->setState('filter.tax_group', $taxGroup);
-
-		$eu = $this->getUserStateFromRequest($this->context . '.filter.eu', 'filter_eu');
-		$this->setState('filter.eu', $eu);
-
-		// List state information.
-		parent::populateState($ordering, $direction);
+		parent::populateState('t.id', 'asc');
 	}
 
 	/**
@@ -115,11 +102,11 @@ class RedshopModelTax_Rates extends RedshopModelList
 		$query->select('t.*')
 			->select($db->qn('c.country_name', 'country_name'))
 			->select($db->qn('s.state_name', 'state_name'))
-			->select($db->qn('g.tax_group_name', 'tax_group_name'))
+			->select($db->qn('g.name', 'tax_group_name'))
 			->from($db->qn('#__redshop_tax_rate', 't'))
 			->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('t.tax_country') . ' = ' . $db->qn('c.country_3_code'))
 			->leftJoin($db->qn('#__redshop_state', 's') . ' ON ' . $db->qn('t.tax_state') . ' = ' . $db->qn('s.state_3_code'))
-			->leftJoin($db->qn('#__redshop_tax_group', 'g') . ' ON ' . $db->qn('t.tax_group_id') . ' = ' . $db->qn('g.tax_group_id'));
+			->leftJoin($db->qn('#__redshop_tax_group', 'g') . ' ON ' . $db->qn('t.tax_group_id') . ' = ' . $db->qn('g.id'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -152,6 +139,7 @@ class RedshopModelTax_Rates extends RedshopModelList
 		{
 			$query->where($db->qn('t.tax_group_id') . ' = ' . $filterRaxGroup);
 		}
+
 		// Filter: EU
 		$filterEU = $this->getState('filter.eu', null);
 

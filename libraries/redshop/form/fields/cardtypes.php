@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,8 +23,7 @@ class JFormFieldCardTypes extends JFormFieldCheckboxes
 	/**
 	 * Element name
 	 *
-	 * @access    protected
-	 * @var        string
+	 * @var   string
 	 */
 	public $type = 'cardtypes';
 
@@ -91,8 +90,8 @@ class JFormFieldCardTypes extends JFormFieldCheckboxes
 				jQuery("#jform_params_cardtypes0").click(function(event) {
 					jQuery("[id^=jform_params_cardtypes]").attr("checked", jQuery(this).get(0).checked);
 				});
-			});
-		');
+			});'
+		);
 
 		return $options;
 	}

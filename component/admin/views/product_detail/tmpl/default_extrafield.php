@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -30,46 +30,47 @@ $html = '';
 
 foreach ($fields as $field)
 {
-	if (strstr($template, "{" . $field->field_name . "}"))
+	if (strstr($template, "{" . $field->name . "}"))
 	{
 		$sectionId = 0;
 		$fieldName = '';
 
-		if (12 != $field->field_section || (12 == $field->field_section && 15 == $field->field_type))
+		if (12 != $field->section || (12 == $field->section && 15 == $field->type))
 		{
-			$sectionId = $field->field_section;
-			$fieldName = $field->field_name;
+			$sectionId = $field->section;
+			$fieldName = $field->name;
 		}
 
 		$html .= RedshopHelperExtrafields::listAllField($sectionId, $product_id, $fieldName);
 	}
 }
 
-if (empty($html))
-{
-	echo RedshopLayoutHelper::render(
-			'system.message',
-			array(
-				'msgList' => array(
-								'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
-							),
-				'showHeading' => false,
-				'allowClose' => false
-			)
-		);
-}
-
+$this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
 ?>
 
 <div class="row">
-	<div class="col-sm-12">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
-			</div>
-			<div class="box-body">
-				<?php echo $html; ?>
-			</div>
-		</div>
-	</div>
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
+            </div>
+            <div class="box-body">
+				<?php if (empty($html)): ?>
+					<?php echo RedshopLayoutHelper::render(
+						'system.message',
+						array(
+							'msgList'     => array(
+								'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
+							),
+							'showHeading' => false,
+							'allowClose'  => false
+						)
+					);
+					?>
+				<?php else: ?>
+					<?php echo $html; ?>
+				<?php endif; ?>
+            </div>
+        </div>
+    </div>
 </div>

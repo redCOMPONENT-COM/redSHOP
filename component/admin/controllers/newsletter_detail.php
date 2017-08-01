@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,9 +20,9 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'newsletter_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'newsletter_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -34,13 +34,11 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post = $this->input->post->getArray();
+		$body = $this->input->post->get('body', '', 'raw');
 		$post["body"] = $body;
 
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post ['newsletter_id'] = $cid [0];
 
@@ -67,8 +65,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$val = 0;
 
@@ -115,15 +112,13 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function copy()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('newsletter_detail');
 
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_COPIED_WITH_SUBSCRIBER');
 		}
-
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_NEWSLETTER');

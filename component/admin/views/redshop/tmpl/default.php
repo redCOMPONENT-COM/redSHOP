@@ -3,17 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 $producthelper = productHelper::getInstance();
 
-$model = $this->getModel();
-
-$statistic = $model->getStatisticDashboard();
-
+$statistic = $this->model->getStatisticDashboard();
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -41,7 +38,6 @@ $user           = JFactory::getUser();
 $userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
-
 ?>
 
 <div class="row">

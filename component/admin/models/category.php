@@ -9,213 +9,459 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelCategory extends RedshopModel
+/**
+ * Redshop Category Model
+ *
+ * @package     Redshop.Backend
+ * @subpackage  Models.Category
+ * @since       2.0.6
+ */
+class RedshopModelCategory extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
 	/**
-	 * Method to get a store id based on model configuration state.
+	 * Returns a Table object, always creating it
 	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
+	 * @param   string $type   The table type to instantiate
+	 * @param   string $prefix A prefix for the table class name. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @return  JTable           A database object
 	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
+	 * @since   2.0.6
 	 */
-	protected function getStoreId($id = '')
+	public function getTable($type = 'Category', $prefix = 'RedshopTable', $config = array())
 	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('category_main_filter');
-		$id .= ':' . $this->getState('category_id');
-
-		return parent::getStoreId($id);
+		return RedshopTable::getInstance($type, $prefix, $config);
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to get the record form.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   array   $data     Data for the form. [optional]
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  void
+	 * @return  mixed               A JForm object on success, false on failure
 	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   2.0.6
 	 */
-	protected function populateState($ordering = 'c.ordering', $direction = '')
+	public function getForm($data = array(), $loadData = true)
 	{
-		$category_main_filter = $this->getUserStateFromRequest($this->context . 'category_main_filter', 'category_main_filter', '');
-		$this->setState('category_main_filter', $category_main_filter);
+		// Get the form.
+		$form = $this->loadForm(
+			'com_redshop.category',
+			'category',
+			array(
+				'control'   => 'jform',
+				'load_data' => $loadData
+			)
+		);
 
-		$category_id = $this->getUserStateFromRequest($this->context . 'category_id', 'category_id', 0);
-		$this->setState('category_id', $category_id);
-
-		parent::populateState($ordering, $direction);
-	}
-
-	public function _buildQuery()
-	{
-		$category_main_filter = $this->getState('category_main_filter');
-
-		$orderby = $this->_buildContentOrderBy();
-		$and = "";
-
-		if ($category_main_filter)
+		if (empty($form))
 		{
-			$and .= " AND category_name like '%" . $category_main_filter . "%' ";
+			return false;
 		}
 
-		$q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id,
-		cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering "
-			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
-			. "WHERE c.category_id=cx.category_child_id "
-			. $and
-			. $orderby;
-
-		return $q;
+		return $form;
 	}
 
 	/**
-	 * Method to get an array of data items.
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  An array of data items on success, false on failure.
+	 * @return  mixed  The data for the form.
 	 *
-	 * @since   1.5
+	 * @since   2.0.6
 	 */
-	public function getData()
+	protected function loadFormData()
 	{
-		// Load the list items.
-		$query = $this->_getListQuery();
+		// Check the session for previously entered form data.
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.category.data', array());
 
-		try
+		if (empty($data))
 		{
-			$rows = $this->_getList($query);
+			$data = $this->getItem();
 		}
-		catch (RuntimeException $e)
+
+		$this->preprocessData('com_redshop.category', $data);
+
+		return $data;
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer $pk The id of the primary key.
+	 *
+	 * @return  mixed         Object on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItem($pk = null)
+	{
+		$item = parent::getItem($pk);
+
+		if (!empty($item->id))
 		{
-			$this->setError($e->getMessage());
+			$item->more_template = explode(',', $item->more_template);
+
+			return $item;
+		}
+
+		$item->template = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
+
+		$item->products_per_page = 5;
+
+		return $item;
+	}
+
+	/**
+	 * Method to get extra fields to category.
+	 *
+	 * @param   integer $item The object category values.
+	 *
+	 * @return  mixed           Object on success, false on failure.
+	 *
+	 * @since   2.0.6
+	 */
+	public function getExtraFields($item)
+	{
+		$templateDesc = RedshopHelperTemplate::getTemplate('category', $item->template, '');
+		$template     = $templateDesc[0]->template_desc;
+		$regex        = '/{rs_[\w]{1,}\}/';
+		preg_match_all($regex, $template, $matches);
+
+		if (empty($matches[0]))
+		{
+			return '';
+		}
+
+		$listField = array();
+
+		$fieldName   = implode(',', $matches[0]);
+		$fieldName   = str_replace(array('{', '}'), '', $fieldName);
+		$listField[] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_CATEGORY, $item->id, $fieldName);
+
+		return implode('', $listField);
+	}
+
+	/**
+	 * Method to store category.
+	 *
+	 * @param   array $data The object category data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
+	 */
+	public function save($data)
+	{
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_category');
+		$db  = $this->getDbo();
+		$row = $this->getTable();
+		$pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+
+		// Load the row if saving an existing record.
+		if ($pk > 0)
+		{
+			$row->load($pk);
+		}
+
+		// Set the new parent id if parent id not matched OR while New/Save as Copy .
+		if ($row->parent_id != $data['parent_id'] || $data['id'] == 0)
+		{
+			$row->setLocation($data['parent_id'], 'last-child');
+		}
+
+		if (!$row->bind($data))
+		{
+			$this->setError($row->getError());
 
 			return false;
 		}
 
-		$category_main_filter = $this->getState('category_main_filter');
-		$category_id = $this->getState('category_id');
-
-		if (!$category_main_filter)
+		if (isset($data['image_delete']))
 		{
-			// Establish the hierarchy of the menu
-			$children = array();
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 
-			// First pass - collect children
-			foreach ($rows as $v)
+			$fields = array(
+				$db->qn('category_thumb_image') . ' = ""',
+				$db->qn('category_full_image') . ' = ""'
+			);
+
+			$conditions = array(
+				$db->qn('id') . ' = ' . $db->q((int) $row->id)
+			);
+
+			$query = $db->getQuery(true)
+				->update($db->qn('#__redshop_category'))
+				->set($fields)
+				->where($conditions);
+			$db->setQuery($query)->execute();
+		}
+
+		// Category full images
+		if (empty($data['category_full_image']))
+		{
+			// Dropzone support.
+			$categoryFullImage = JFactory::getApplication()->input->getRaw('category_full_image');
+
+			if (!empty($categoryFullImage))
 			{
-				$pt = $v->parent_id;
-				$list = @$children[$pt] ? $children[$pt] : array();
-				array_push($list, $v);
-				$children[$pt] = $list;
+				// Make the filename unique
+				$fileName                  = RedshopHelperMedia::cleanFileName(basename($categoryFullImage));
+				$row->category_full_image  = $fileName;
+				$row->category_thumb_image = $fileName;
+
+				$src  = JPATH_ROOT . '/' . $categoryFullImage;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
+
+				JFile::move($src, $dest);
 			}
+			// Delete image
+			else
+			{
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image;
 
-			// Second pass - get an indent list of the items
-			$treelist = RedshopHelperUtility::createTree($category_id, '<sup>|_</sup>&nbsp;', array(), $children);
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
+				}
 
-			$total = count($treelist);
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_thumb_image;
+
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
+				}
+
+				$row->category_full_image  = '';
+				$row->category_thumb_image = '';
+			}
 		}
-		else
+
+		if (isset($data['image_back_delete']))
 		{
-			$total = count($rows);
-			$treelist = $rows;
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
+
+			$fields = array(
+				$db->qn('category_back_full_image') . ' = ""'
+			);
+
+			$conditions = array(
+				$db->qn('id') . ' = ' . $db->q((int) $row->id)
+			);
+
+			$query = $db->getQuery(true)
+				->update($db->qn('#__redshop_category'))
+				->set($fields)
+				->where($conditions);
+			$db->setQuery($query)->execute();
 		}
 
-		jimport('joomla.html.pagination');
-		$this->_pagination = new JPagination($total, (int) $this->getState('limitstart'), (int) $this->getState('limit'));
+		// Category Back Full images
+		if (empty($data['category_back_full_image']))
+		{
+			// Dropzone support.
+			$categoryBackFullImage = JFactory::getApplication()->input->getRaw('category_back_full_image');
 
-		// Slice out elements based on limits
-		$items = array_slice($treelist, $this->_pagination->limitstart, $this->_pagination->limit);
+			if (!empty($categoryBackFullImage))
+			{
+				// Make the filename unique
+				$fileName                      = RedshopHelperMedia::cleanFileName(basename($categoryBackFullImage));
+				$row->category_back_full_image = $fileName;
 
-		return $items;
+				$src = JPATH_ROOT . '/' . $categoryBackFullImage;
+
+				// Specific path of the file
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
+
+				JFile::move($src, $dest);
+			}
+			// Delete image
+			else
+			{
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_back_full_image;
+
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
+				}
+
+				$row->category_back_full_image = '';
+			}
+		}
+
+		// Check the data.
+		if (!$row->check())
+		{
+			$this->setError($row->getError());
+
+			return false;
+		}
+
+		if (!$row->store())
+		{
+			return false;
+		}
+
+		$dispatcher->trigger('onAfterCategorySave', array(&$row));
+
+		if (isset($row->id))
+		{
+			$this->setState($this->getName() . '.id', $row->id);
+		}
+
+		// Sheking for the image at the updation time
+		if (!empty($data['id']) && !empty($data['category_full_image']))
+		{
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
+		}
+
+		// Extra Field Data Saved
+		RedshopHelperExtrafields::extraFieldSave($data, 2, $row->id);
+
+		// Start Accessory Product
+		// @TODO Need to add an better solution.
+		$this->productAccessoriesStore($row->id);
+
+		return true;
 	}
 
 	/**
-	 * Method to get a JPagination object for the data set.
+	 * Method to copy.
 	 *
-	 * @return  JPagination  A JPagination object for the data set.
+	 * @param   array $cid Category id list.
 	 *
-	 * @since   1.5
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
 	 */
-	public function getPagination()
+	public function copy($cid = array())
 	{
-		if ($this->_pagination == null)
+		if (!count($cid))
 		{
-			$this->getData();
+			return false;
 		}
 
-		return $this->_pagination;
-	}
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('id') . ' IN (' . implode(',', $cid) . ')');
 
-	public function getProducts($cid)
-	{
-		$query = 'SELECT count(category_id) FROM #__redshop_product_category_xref WHERE category_id="' . $cid . '" ';
-		$this->_db->setQuery($query);
+		$copyData = $db->setQuery($query)->loadObjectList();
 
-		return $this->_db->loadResult();
-	}
-
-	/*
-	 * assign template to multiple categories
-	 * @prams: $data, post variable	array
-	 * @return: boolean
-	 */
-	public function assignTemplate($data)
-	{
-		$cid = $data['cid'];
-
-		$category_template = $data['category_template'];
-
-		if (count($cid))
+		for ($i = 0, $in = count($copyData); $i < $in; $i++)
 		{
-			$cids = implode(',', $cid);
-			$query = 'UPDATE #__redshop_category'
-				. ' SET `category_template` = "' . intval($category_template) . '" '
-				. ' WHERE category_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$post                         = array();
+			$post['id']                   = 0;
+			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
+			$post['short_description']    = $copyData[$i]->short_description;
+			$post['description']          = $copyData[$i]->description;
+			$post['template']             = $copyData[$i]->template;
+			$post['more_template']        = $copyData[$i]->more_template;
+			$post['products_per_page']    = $copyData[$i]->products_per_page;
+			$post['metakey']              = $copyData[$i]->metakey;
+			$post['metadesc']             = $copyData[$i]->metadesc;
+			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
+			$post['metarobot_info']       = $copyData[$i]->metarobot_info;
+			$post['pagetitle']            = $copyData[$i]->pagetitle;
+			$post['pageheading']          = $copyData[$i]->pageheading;
+			$post['sef_url']              = $copyData[$i]->sef_url;
+			$post['published']            = $copyData[$i]->published;
+			$post['category_pdate']       = date("Y-m-d h:i:s");
+			$post['ordering']             = count($copyData) + $i + 1;
+			$post['parent_id']            = $copyData[$i]->parent_id;
+			$post['level']                = $copyData[$i]->level;
 
-			if (!$this->_db->execute())
+			if (!empty($copyData[$i]->category_thumb_image))
 			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
+				$post['category_thumb_image'] = $this->renameToUniqueValue(
+					'category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category'
+				);
 			}
+
+			if (!empty($copyData[$i]->category_full_image))
+			{
+				$post['category_full_image'] = $this->renameToUniqueValue(
+					'category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category'
+				);
+
+				$src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
+
+				if (JFile::exists($src))
+				{
+					JFile::copy($src, $dest);
+				}
+			}
+
+			$this->save($post);
 		}
 
 		return true;
 	}
 
-	public function saveorder($cid = array(), $order)
+	/**
+	 * Process for store product accessories
+	 *
+	 * @param   integer $categoryId ID of category
+	 *
+	 * @since   2.0.6
+	 *
+	 * @return  void
+	 */
+	public function productAccessoriesStore($categoryId)
 	{
-		$row = $this->getTable('category_detail');
-		$groupings = array();
+		$productAccessories = JFactory::getApplication()->input->get('product_accessory', array(), 'array');
 
-		// Update ordering values
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
+		if (empty($productAccessories) || !is_array($productAccessories))
 		{
-			$row->load((int) $cid[$i]);
+			return true;
+		}
 
-			// Track categories
-			$groupings[] = $row->category_id;
+		$productAccessories = array_merge(array(), $productAccessories);
+		$productList        = RedshopEntityCategory::getInstance($categoryId)->getProducts();
 
-			if ($row->ordering != $order[$i])
+		if (empty($productList))
+		{
+			return true;
+		}
+
+		foreach ($productList as $product)
+		{
+			$productId = $product->id;
+
+			foreach ($productAccessories as $productAccessory)
 			{
-				$row->ordering = $order[$i];
+				$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
 
-				if (!$row->store())
+				if ($productId == $productAccessory['child_product_id'])
+				{
+					continue;
+				}
+
+				$accessoryTable = JTable::getInstance('Accessory_detail', 'Table');
+
+				$accessoryTable->accessory_id        = $accessoryId;
+				$accessoryTable->category_id         = $categoryId;
+				$accessoryTable->product_id          = $productId;
+				$accessoryTable->child_product_id    = $productAccessory['child_product_id'];
+				$accessoryTable->accessory_price     = $productAccessory['accessory_price'];
+				$accessoryTable->oprand              = $productAccessory['oprand'];
+				$accessoryTable->ordering            = $productAccessory['ordering'];
+				$accessoryTable->setdefault_selected = 0;
+
+				if (isset($productAccessory['setdefault_selected']) && $productAccessory['setdefault_selected'] == 1)
+				{
+					$accessoryTable->setdefault_selected = 1;
+				}
+
+				if (!$accessoryTable->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -223,7 +469,5 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 		}
-
-		return true;
 	}
 }

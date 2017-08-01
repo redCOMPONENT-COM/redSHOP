@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 class RedshopControllerProduct extends RedshopController
@@ -19,15 +21,15 @@ class RedshopControllerProduct extends RedshopController
 
 	public function ins_product()
 	{
-		JRequest::setVar('layout', 'ins_product');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('layout', 'ins_product');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function importeconomic()
 	{
 		// Add product to economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg = '';
 
@@ -46,7 +48,7 @@ class RedshopControllerProduct extends RedshopController
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
-				$ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
+				$ecoProductNumber = Economic::createProductInEconomic($prd[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
@@ -86,7 +88,7 @@ class RedshopControllerProduct extends RedshopController
 	public function importatteco()
 	{
 		// Add product attribute to economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg = '';
 
@@ -115,7 +117,7 @@ class RedshopControllerProduct extends RedshopController
 				$prdrow = new stdClass;
 				$prdrow->product_id = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createPropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber = Economic::createPropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
@@ -129,7 +131,7 @@ class RedshopControllerProduct extends RedshopController
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
-						$errmsg = $error->message;
+						$errmsg = $error->getMessage();
 					}
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -156,7 +158,7 @@ class RedshopControllerProduct extends RedshopController
 				$prdrow = new stdClass;
 				$prdrow->product_id = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber = Economic::createSubpropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " "
 					. $list[$i]->subattribute_color_number . " -> ";
 
@@ -196,43 +198,42 @@ class RedshopControllerProduct extends RedshopController
 
 	public function saveprice()
 	{
-		$db = JFactory::getDbo();
-		$pid = JRequest::getVar('pid', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
+		JSession::checkToken() or die();
 
-		for ($i = 0, $in = count($pid); $i < $in; $i++)
-		{
-			$sql = "UPDATE #__redshop_product  SET product_price='" . $price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
+		$productIds     = $this->input->post->get('pid', array(), 'array');
+		$discountPrices = $this->input->post->get('price', array(), 'array');
 
-			$db->setQuery($sql);
-			$db->execute();
-		}
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('Product');
+		$model->savePrices($productIds, $discountPrices);
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
 	}
 
+	/**
+	 * Save all discount price
+	 *
+	 * @return void
+	 */
 	public function savediscountprice()
 	{
-		$db = JFactory::getDbo();
-		$pid = JRequest::getVar('pid', array(), 'post', 'array');
-		$discount_price = JRequest::getVar('discount_price', array(), 'post', 'array');
+		JSession::checkToken() or die();
 
-		for ($i = 0, $in = count($pid); $i < $in; $i++)
-		{
-			$sql = "UPDATE #__redshop_product  SET discount_price='" . $discount_price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
+		$productIds     = $this->input->post->get('pid', array(), 'array');
+		$discountPrices = $this->input->post->get('discount_price', array(), 'array');
 
-			$db->setQuery($sql);
-			$db->execute();
-		}
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('Product');
+		$model->saveDiscountPrices($productIds, $discountPrices);
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
 	}
 
 	public function template()
 	{
-		$template_id = JRequest::getVar('template_id', '');
-		$product_id = JRequest::getVar('product_id', '');
-		$section = JRequest::getVar('section', '');
+		$template_id = $this->input->get('template_id', '');
+		$product_id = $this->input->get('product_id', '');
+		$section = $this->input->get('section', '');
 		$model = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
@@ -250,12 +251,12 @@ class RedshopControllerProduct extends RedshopController
 			echo $data_product;
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function assignTemplate()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product');
 
@@ -275,8 +276,8 @@ class RedshopControllerProduct extends RedshopController
 	{
 
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -299,7 +300,7 @@ class RedshopControllerProduct extends RedshopController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel('product_detail');
 		$return = $model->checkin($ids);

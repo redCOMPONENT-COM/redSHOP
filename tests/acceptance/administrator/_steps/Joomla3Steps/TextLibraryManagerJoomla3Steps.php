@@ -38,6 +38,8 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $textTagName);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagDescription, $textTagDescription);
 		$I->click(\TextLibraryManagerJoomla3Page::$sectionDropDown);
+		$I->fillField(['xpath' => "//input[@id='s2id_autogen1_search']"], $textTagSection);
+		$I->waitForElement($textLibraryManagerPage->section($textTagSection), 30);
 		$I->click($textLibraryManagerPage->section($textTagSection));
 		$I->click('Save & Close');
 		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');

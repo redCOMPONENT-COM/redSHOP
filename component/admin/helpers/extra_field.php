@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields instead
+ * @deprecated  2.0.3  Use RedshopHelperExtrafields instead
  */
 
 defined('_JEXEC') or die;
@@ -17,7 +17,7 @@ jimport('joomla.filesystem.file');
 /**
  * Redshop Helper for Extra Fields
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields instead
+ * @deprecated  2.0.3  Use RedshopHelperExtrafields instead
  */
 class extra_field
 {
@@ -48,7 +48,7 @@ class extra_field
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::listAllFieldInProduct() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllFieldInProduct() instead
 	 */
 	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
 	{
@@ -66,7 +66,7 @@ class extra_field
 	 *
 	 * @return  string   HTML <td></td>
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::listAllField() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllField() instead
 	 */
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
@@ -83,7 +83,7 @@ class extra_field
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::extraFieldSave() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::extraFieldSave() instead
 	 */
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
@@ -98,7 +98,7 @@ class extra_field
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::CheckExtraFieldValidation() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::CheckExtraFieldValidation() instead
 	 */
 	public function chk_extrafieldValidation($field_section = "", $section_id = 0)
 	{
@@ -117,7 +117,7 @@ class extra_field
 	 *
 	 * @return string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::listAllFieldDisplay() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllFieldDisplay() instead
 	 */
 	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "", $sendmail = false)
 	{
@@ -134,7 +134,7 @@ class extra_field
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::listAllUserFields() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */
 	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id = '')
 	{
@@ -153,7 +153,7 @@ class extra_field
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::booleanList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::booleanList() instead
 	 */
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
@@ -174,7 +174,7 @@ class extra_field
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::rsBooleanList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::rsBooleanList() instead
 	 */
 	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
 		$yes_value = 'Days', $no_value = 'Weeks')
@@ -189,7 +189,7 @@ class extra_field
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::getFieldValue() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getFieldValue() instead
 	 */
 	public function getFieldValue($id)
 	{
@@ -204,7 +204,7 @@ class extra_field
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::getSectionFieldList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getSectionFieldList() instead
 	 */
 	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
 	{
@@ -221,7 +221,7 @@ class extra_field
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::getSectionFieldDataList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getSectionFieldDataList() instead
 	 */
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
@@ -236,7 +236,7 @@ class extra_field
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::copyProductExtraField() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::copyProductExtraField() instead
 	 */
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
@@ -250,7 +250,7 @@ class extra_field
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::deleteExtraFieldData() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::deleteExtraFieldData() instead
 	 */
 	public function deleteExtraFieldData($data_id)
 	{

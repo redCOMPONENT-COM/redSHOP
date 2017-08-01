@@ -4,26 +4,46 @@ redSHOP wizard styling
 ================================================
 */
 
-div.welcome_wizard
-{
-	font-family: Arial,Helvetica,sans-serif;
-	font-size: 15px;
-}
-
 div.wizard_welcome_terms
 {
 	color: red;
 }
 
-div.wizard_intro_text
+div.welcome_wizard
 {
-	font-weight: bold;
+	padding-top: 20px;
+	line-height: 30px;
 }
 
-div.wizard_header
+div.wizard_intro_text h2
 {
-	font-family: Arial,Helvetica,sans-serif;
-	font-size: 12px;
+	background: transparent url(../images/icon_check.png) left center no-repeat;
+	padding-left: 25px;
+}
+
+.wizard_basic_info h2
+{
+	background: transparent url(../images/icon_setup.png) left center no-repeat;
+	padding-left: 25px;
+}
+
+.wizard_redshop_feature
+{
+
+}
+
+.wizard_checkupdate,
+.wizard_redshoplogo
+{
+	margin-top: 30px;
+}
+
+.wizard_redshoplogo,
+.wizard_redcomponent,
+.wizard_checkupdate
+{
+	float: left;
+	clear: both;
 }
 
 table.admintable td.general_admin_email_info_txt,

@@ -3,12 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 
 class RedshopControllerQuotation_detail extends RedshopController
@@ -21,9 +20,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'quotation_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'quotation_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -35,16 +34,16 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function save($send = 0, $apply = 0)
 	{
 		$quotationHelper = quotationHelper::getInstance();
-		$post = JRequest::get('post');
-		$status = $post['quotation_status'];
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post            = $this->input->post->getArray();
+		$status          = $post['quotation_status'];
+		$cid             = $this->input->post->get('cid', array(0), 'array');
 
 		$post['quotation_id'] = $cid [0];
-		$model = $this->getModel('quotation_detail');
+		$model                = $this->getModel('quotation_detail');
 
 		if ($post['quotation_id'] == 0)
 		{
-			$post['quotation_cdate'] = time();
+			$post['quotation_cdate']   = time();
 			$post['quotation_encrkey'] = $quotationHelper->randomQuotationEncrkey();
 		}
 
@@ -55,7 +54,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		}
 
 		$quotation_item = array();
-		$i = 0;
+		$i              = 0;
 
 		foreach ($post as $key => $value)
 		{
@@ -81,14 +80,14 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 			if (!strcmp("quantity", substr($key, 0, 8)) && strlen($key) < 12)
 			{
-				$quotation_item[$i]->product_quantity = $value;
+				$quotation_item[$i]->product_quantity    = $value;
 				$quotation_item[$i]->product_final_price = $quotation_item[$i]->product_price * $quotation_item[$i]->product_quantity;
 				$i++;
 			}
 		}
 
 		$post['quotation_item'] = $quotation_item;
-		$row = $model->store($post);
+		$row                    = $model->store($post);
 
 		if ($status == 5 && empty($post['order_id']))
 		{
@@ -133,8 +132,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -154,9 +152,8 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function deleteitem()
 	{
-
-		$qitemid = JRequest::getVar('qitemid', 0, 'request', 'int');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$qitemid = $this->input->getInt('qitemid', 0);
+		$cid     = $this->input->get('cid', array(0), 'array');
 
 		$model = $this->getModel('quotation_detail');
 
@@ -171,7 +168,6 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
@@ -179,9 +175,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function newQuotationItem()
 	{
 		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$post = JRequest::get('post');
+		$post               = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('quotation_detail');
 
@@ -204,18 +200,18 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function getQuotationPriceTax()
 	{
 		$producthelper = productHelper::getInstance();
-		$get = JRequest::get('get');
-		$product_id = $get['product_id'];
-		$user_id = $get['user_id'];
-		$newprice = $get['newprice'];
-		$vatprice = 0;
+		$get           = $this->input->get->getArray();
+		$product_id    = $get['product_id'];
+		$user_id       = $get['user_id'];
+		$newprice      = $get['newprice'];
+		$vatprice      = 0;
 
 		if ($newprice > 0)
 		{
 			$vatprice = $producthelper->getProductTax($product_id, $newprice, $user_id);
 		}
 
-		echo "<div id='newtax'>" . $vatprice . "</div>";
-		exit;
+		echo '<div id="newtax">' . $vatprice . '</div>';
+		JFactory::getApplication()->close();
 	}
 }

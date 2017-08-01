@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,32 +19,35 @@ class RedshopControllerCoupon_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'coupon_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'coupon_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		$model = $this->getModel('coupon_detail');
 		$userslist = $model->getuserslist();
-		JRequest::setVar('userslist', $userslist);
+		$this->input->set('userslist', $userslist);
 
 		$product = $model->getproducts();
-		JRequest::setVar('product', $product);
+		$this->input->set('product', $product);
 
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
 	{
-		$app = JFactory::getApplication();
-		$post = JRequest::get('post');
-		$comment = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$this->save(1);
+	}
+
+	public function save($apply = 0)
+	{
+		$app             = JFactory::getApplication();
+		$post            = $this->input->post->getArray();
+		$comment         = $this->input->post->get('comment', '', 'raw');
 		$post["comment"] = $comment;
 
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		$post ['coupon_id'] = $cid [0];
+		$post ['coupon_id']  = $cid [0];
 		$post ['start_date'] = strtotime($post ['start_date']);
 
 		if ($post ['end_date'])
@@ -63,7 +66,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 			}
 		}
 
-		if ($model->store($post))
+		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_SAVED');
 		}
@@ -72,14 +75,19 @@ class RedshopControllerCoupon_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_COUPON_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
+		if ($apply == 1)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
+		}
 	}
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -94,50 +102,6 @@ class RedshopControllerCoupon_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
-	}
-
-	public function publish()
-	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('coupon_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
-	}
-
-	public function unpublish()
-	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('coupon_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_UNPUBLISHED_SUCCESFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 

@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -85,7 +84,7 @@ $url = $uri->root();
 					<td><?php echo JText::_('COM_REDSHOP_COLOUR_IMAGE'); ?> :</td>
 					<td><?php $ilink = JRoute::_('index.php?option=com_media&view=images&tmpl=component&e_name=text');  ?>
 						<div class="button2-left">
-							<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
+							<div class="image"><a class="joom-box" title="Image" href="<?php echo $ilink; ?>"
 							                      rel="{handler: 'iframe', size: {x: 570, y: 400}}">Image</a></div>
 						</div>
 					</td>

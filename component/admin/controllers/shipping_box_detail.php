@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,9 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'shipping_box_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'shipping_box_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -32,12 +32,9 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-
-
-
+		$post  = $this->input->post->getArray();
 		$model = $this->getModel('shipping_box_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 
 		if ($row)
 		{
@@ -60,9 +57,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -72,48 +67,6 @@ class RedshopControllerShipping_box_detail extends RedshopController
 		$model = $this->getModel('shipping_box_detail');
 
 		if (!$model->delete($cid))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
-	}
-
-	public function publish()
-	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('shipping_box_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
-	}
-
-	public function unpublish()
-	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('shipping_box_detail');
-
-		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}

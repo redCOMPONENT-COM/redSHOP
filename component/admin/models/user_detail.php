@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,7 +92,15 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function _initData()
 	{
-		if (empty($this->_data))
+		$data = JFactory::getApplication()->getUserState('com_redshop.user_detail.data');
+
+		if (!empty($data))
+		{
+			$this->_data = (object) $data;
+
+			return (boolean) $this->_data;
+		}
+		elseif (empty($this->_data))
 		{
 			$detail = new stdClass;
 
@@ -165,8 +173,6 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
 
@@ -174,11 +180,11 @@ class RedshopModelUser_detail extends RedshopModel
 
 		if ($post['createaccount'])
 		{
-			$joomlauser = $userhelper->createJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::createJoomlaUser($post);
 		}
 		else
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 		}
 
 		if (!$joomlauser)
@@ -186,15 +192,13 @@ class RedshopModelUser_detail extends RedshopModel
 			return false;
 		}
 
-		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 
 		return $reduser;
 	}
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
@@ -210,18 +214,18 @@ class RedshopModelUser_detail extends RedshopModel
 			$post['zipcode_ST'] = $post['zipcode'];
 			$post['phone_ST'] = $post['phone'];
 
-			$reduser = $userhelper->storeRedshopUserShipping($post);
+			$reduser = RedshopHelperUser::storeRedshopUserShipping($post);
 		}
 		else
 		{
 			$post['billisship'] = 1;
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 
 			if (!$joomlauser)
 			{
 				return false;
 			}
-			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+			$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 		}
 
 		return $reduser;
@@ -250,38 +254,42 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if ($deleteJoomlaUsers)
 			{
-				$queryAllJuserIds = $db->getQuery(true)
-							->select('GROUP_CONCAT(id) AS ids')
+				$queryAllUserIds = $db->getQuery(true)
+							->select($db->qn('id'))
 							->from($db->qn('#__users'));
-
-				$db->setQuery($queryAllJuserIds);
-				$allJuserIds = $db->loadResult();
-
-				// REDSHOP-3553. It should not bug by logic but would cause by specific site case
-				$allJuserIds = trim($allJuserIds, ',');
+				$allUserIds = $db->setQuery($queryAllUserIds)->loadColumn();
 
 				$queryCustom = $db->getQuery(true)
 						->select($db->qn('user_id'))
 						->from($db->qn('#__redshop_users_info'))
 						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
-						->where($db->qn('user_id') . ' IN (' . $allJuserIds . ' )');
+						->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )')
+						->group($db->qn('user_id'));
 
-				$db->setQuery($queryCustom);
-				$juserIds = $db->loadRowList();
+				$joomlaUserIds = $db->setQuery($queryCustom)->loadColumn();
 
-				foreach ($juserIds as $juserId)
+				foreach ($joomlaUserIds as $joomlaUserId)
 				{
-					$jUser = JFactory::getUser($juserId[0]);
+					$joomlaUser = JFactory::getUser($joomlaUserId);
 
-					// Do not delete Super Administrator user
-					if (!$jUser->authorise('core.admin'))
+					// Skip this user whom in Super Administrator group.
+					if ($joomlaUser->authorise('core.admin'))
 					{
-						if (!JFactory::getUser($juserId[0])->delete())
-						{
-							$this->setError($db->getErrorMsg());
+						continue;
+					}
 
-							return false;
-						}
+					$user = JFactory::getUser($joomlaUserId);
+
+					if ($user->guest)
+					{
+						continue;
+					}
+
+					if (!$user->delete())
+					{
+						$this->setError($user->getError());
+
+						return false;
 					}
 				}
 			}

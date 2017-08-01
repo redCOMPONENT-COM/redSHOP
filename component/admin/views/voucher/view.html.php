@@ -3,62 +3,56 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-
-class RedshopViewVoucher extends RedshopViewAdmin
+/**
+ * View Voucher
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewVoucher extends RedshopViewForm
 {
 	/**
-	 * The current user.
+	 * Method for get page title.
 	 *
-	 * @var  JUser
+	 * @return  string
+	 *
+	 * @since   2.0.6
 	 */
-	public $user;
+	public function getTitle()
+	{
+		return JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+	}
 
 	/**
-	 * The request url.
+	 * Method for run before display to initial variables.
 	 *
-	 * @var  string
+	 * @param   string  $tpl  Template name
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
 	 */
-	public $request_url;
-
-	public function display($tpl = null)
+	public function beforeDisplay(&$tpl)
 	{
-		global $context;
+		// Get data from the model
+		$this->item = $this->model->getItem();
+		$this->form = $this->model->getForm();
 
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$productField = '<?xml version="1.0" encoding="utf-8"?>'
+			. '<field label="COM_REDSHOP_VOUCHER_PRODUCTS" description="COM_REDSHOP_VOUCHER_PRODUCTS_DESC" name="voucher_products"'
+			. ' type="redshop.voucher_product" voucher_id="' . $this->item->id . '" class="form-control"/>';
+		$productField = new SimpleXMLElement($productField);
 
-		$document->setTitle(JText::_('COM_REDSHOP_VOUCHER'));
+		$this->form->setField($productField, null, true, 'details');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT'), 'redshop_voucher48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$state = $this->get('State');
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' voucher_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-
-		$vouchers   = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->vouchers = $vouchers;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
-		$this->filter = $state->get('filter');
-
-		parent::display($tpl);
+		$this->checkPermission();
+		$this->loadFields();
 	}
 }

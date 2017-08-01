@@ -155,12 +155,11 @@ class Xmap_Com_Redshop
 		$producthelper = productHelper::getInstance();
 
 		$query = $db->getQuery(true)
-			->select('a.category_id, a.category_name, a.category_pdate')
+			->select('a.id, a.name, a.created_date')
 			->from($db->qn('#__redshop_category', 'a'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'b') . ' ON a.category_id = b.category_child_id')
 			->where('a.published = 1')
-			->where('b.category_parent_id = ' . (int) $catid)
-			->order('a.ordering ASC, a.category_name ASC');
+			->where('b.parent_id = ' . (int) $catid)
+			->order('a.ordering ASC, a.name ASC');
 
 		if ($rows = $db->setQuery($query)->loadObjectList())
 		{
@@ -169,7 +168,7 @@ class Xmap_Com_Redshop
 			foreach ($rows as $row)
 			{
 				// Get Category Menu Itemid
-				$cItemid = $objhelper->getCategoryItemid($row->category_id);
+				$cItemid = RedshopHelperUtility::getCategoryItemid($row->id);
 
 				if ($cItemid != "")
 				{
@@ -178,18 +177,18 @@ class Xmap_Com_Redshop
 
 				$node = new stdclass;
 				$node->id = $parent->id;
-				$node->uid = $parent->uid . 'c' . $row->category_id;
+				$node->uid = $parent->uid . 'c' . $row->id;
 				$node->browserNav = $parent->browserNav;
-				$node->name = stripslashes($row->category_name);
-				$node->modified = strtotime($row->category_pdate);
+				$node->name = stripslashes($row->name);
+				$node->modified = strtotime($row->created_date);
 				$node->priority = $params['cat_priority'];
 				$node->changefreq = $params['cat_changefreq'];
 				$node->expandible = false;
-				$node->link = "index.php?option=com_redshop&view=category&cid=$row->category_id&layout=detail&Itemid=" . $params['Itemid'];
+				$node->link = "index.php?option=com_redshop&view=category&cid=$row->id&layout=detail&Itemid=" . $params['Itemid'];
 
 				if ($xmap->printNode($node) !== false)
 				{
-					self::getCategoryTree($xmap, $parent, $params, $row->category_id);
+					self::getCategoryTree($xmap, $parent, $params, $row->id);
 				}
 			}
 
@@ -199,10 +198,10 @@ class Xmap_Com_Redshop
 		if ($params['include_products'])
 		{
 			$query->clear()
-				->select('a.product_id, a.update_date, a.product_name, a.publish_date, a.product_thumb_image, a.product_full_image, b.category_id, d.category_pdate')
+				->select('a.product_id, a.update_date, a.product_name, a.publish_date, a.product_thumb_image, a.product_full_image, b.category_id, d.created_date')
 				->from($db->qn('#__redshop_product', 'a'))
 				->leftJoin($db->qn('#__redshop_product_category_xref', 'b') . ' ON a.product_id = b.product_id')
-				->leftJoin($db->qn('#__redshop_category', 'd') . ' ON b.category_id = d.category_id')
+				->leftJoin($db->qn('#__redshop_category', 'd') . ' ON b.category_id = d.id')
 				->where('a.published = 1')
 				->where('b.category_id = ' . (int) $catid)
 				->where('a.product_parent_id = 0')
@@ -232,7 +231,7 @@ class Xmap_Com_Redshop
 					}
 					else
 					{
-						$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+						$params['Itemid'] = RedshopHelperUtility::getItemId($row->product_id, $row->category_id);
 					}
 
 					$node = new stdclass;
@@ -324,7 +323,7 @@ class Xmap_Com_Redshop
 				}
 				else
 				{
-					$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+					$params['Itemid'] = RedshopHelperUtility::getItemId($row->product_id, $row->category_id);
 				}
 
 				$node = new stdclass;

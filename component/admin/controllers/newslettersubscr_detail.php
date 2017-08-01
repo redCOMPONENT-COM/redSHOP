@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,9 +20,9 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'newslettersubscr_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'newslettersubscr_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		$model = $this->getModel('newslettersubscr_detail');
 
@@ -35,7 +35,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$userlist = array_merge($temps, $userlist);
 
-		JRequest::setVar('userlist', $userlist);
+		$this->input->set('userlist', $userlist);
 
 		parent::display();
 	}
@@ -47,23 +47,26 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post = $this->input->post->getArray();
+		$body = $this->input->post->get('body', '', 'raw');
 		$post["body"] = $body;
 
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post ['subscription_id'] = $cid [0];
 		$model = $this->getModel('newslettersubscr_detail');
 		$userinfo = $model->getUserFromEmail($post['email']);
 
-		if (count($userinfo) > 0)
+		if (!empty($userinfo))
 		{
 			$post['email'] = $userinfo->user_email;
 			$post['user_id'] = $userinfo->user_id;
+			$post['name']    = $userinfo->firstname . ' ' . $userinfo->lastname;
 		}
 
-		$post ['name'] = $post['username'];
+		if (empty($post['name']))
+		{
+			$post['name'] = !empty($post['username']) ? $post['username'] : $post['email'];
+		}
 
 		if ($row = $model->store($post))
 		{
@@ -86,9 +89,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -108,7 +109,6 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 	}
@@ -156,14 +156,14 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			echo "\n";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function export_acy_data()
 	{
 		ob_clean();
 		$model = $this->getModel('newslettersubscr_detail');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
 		$order_function = order_functions::getInstance();
 		$data = $model->getnewslettersbsc($cid);
 
@@ -195,6 +195,6 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			echo "\n";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

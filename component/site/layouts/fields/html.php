@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,14 +21,14 @@ extract($displayData);
 ?>
 
 <div class="form-group">
-	<label><?php echo JText::_($fieldHandle->field_title); ?></label>
+	<label><?php echo JText::_($fieldHandle->title); ?></label>
 	<?php echo $inputField; ?>
 	<?php if ($fieldHandle->required == 1) : ?>
 		<span class='required'>*</span>
 	<?php endif; ?>
-	<?php if (trim($fieldHandle->field_desc) != '') : ?>
+	<?php if (trim($fieldHandle->desc) != '') : ?>
 		<?php
-			echo '&nbsp; ' . JHTML::tooltip($fieldHandle->field_desc, '', 'tooltip.png', '', '', false);
+			echo '&nbsp; ' . JHTML::tooltip($fieldHandle->desc, '', 'tooltip.png', '', '', false);
 		?>
 	<?php endif; ?>
 </div>

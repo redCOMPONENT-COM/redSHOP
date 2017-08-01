@@ -3,7 +3,7 @@
  * @package     RedSHOP.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,15 +22,15 @@ class RedshopHelperTemplate
 	 *
 	 * @var  array
 	 */
-	protected static $templatesArray = array();
+	protected static $templates = array();
 
 	/**
 	 * Get Template Values
 	 *
-	 * @param   string  $name                  Name template hint
-	 * @param   string  $templateSection       Template section
-	 * @param   string  $descriptionSeparator  Description separator
-	 * @param   string  $lineSeparator         Line separator
+	 * @param   string $name                 Name template hint
+	 * @param   string $templateSection      Template section
+	 * @param   string $descriptionSeparator Description separator
+	 * @param   string $lineSeparator        Line separator
 	 *
 	 * @return array|string
 	 *
@@ -46,7 +46,7 @@ class RedshopHelperTemplate
 			$path = 'mail_template_tag';
 		}
 
-		$result = RedshopLayoutHelper::render('templates.' . $path, array('name' => $name));
+		$result      = RedshopLayoutHelper::render('templates.' . $path, array('name' => $name));
 		$jTextPrefix = 'COM_REDSHOP_' . strtoupper($path) . '_' . strtoupper($name) . '_';
 
 		if ($matches = explode('{', $result))
@@ -71,7 +71,7 @@ class RedshopHelperTemplate
 
 				foreach ($matches as $match)
 				{
-					$replace = '';
+					$replace  = '';
 					$matchFix = strtoupper(str_replace(array(' ', ':'), '_', $match));
 
 					if ($lang->hasKey($jTextPrefix . $matchFix))
@@ -90,6 +90,7 @@ class RedshopHelperTemplate
 							str_replace(array('{', '}'), array('_AA_', '_BB_'), JText::sprintf($replace, $descriptionSeparator)) . $lineSeparator,
 							$result
 						);
+
 						$countItems++;
 					}
 				}
@@ -104,9 +105,9 @@ class RedshopHelperTemplate
 	/**
 	 * Method to get Template
 	 *
-	 * @param   string  $section     Set section Template
-	 * @param   int     $templateId  Template Id
-	 * @param   string  $name        Template Name
+	 * @param   string $section    Set section Template
+	 * @param   int    $templateId Template Id
+	 * @param   string $name       Template Name
 	 *
 	 * @return  array              Template Array
 	 *
@@ -114,9 +115,13 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
-		if (!array_key_exists($section . '_' . $templateId . '_' . $name, self::$templatesArray))
+		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
+
+		$key = $section . '_' . $templateId . '_' . $name;
+
+		if (!array_key_exists($key, self::$templates))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->qn('#__redshop_template'))
@@ -139,14 +144,20 @@ class RedshopHelperTemplate
 			}
 
 			$db->setQuery($query);
-			self::$templatesArray[$section . '_' . $templateId . '_' . $name] = $db->loadObjectList();
+
+			self::$templates[$key] = $db->loadObjectList();
 		}
 
-		$templates = self::$templatesArray[$section . '_' . $templateId . '_' . $name];
+		$templates = self::$templates[$key];
 
-		foreach ($templates as $key => $template)
+		foreach ($templates as $index => $template)
 		{
-			$templates[$key]->template_desc = self::readTemplateFile($template->template_section, $template->template_name);
+			$userContent = self::readTemplateFile($template->template_section, $template->template_name);
+
+			if ($userContent !== false)
+			{
+				$templates[$index]->template_desc = $userContent;
+			}
 		}
 
 		return $templates;
@@ -155,9 +166,9 @@ class RedshopHelperTemplate
 	/**
 	 * Method to read Template from file
 	 *
-	 * @param   string   $section   Template Section
-	 * @param   string   $fileName  Template File Name
-	 * @param   boolean  $isAdmin   Check for administrator call
+	 * @param   string  $section  Template Section
+	 * @param   string  $fileName Template File Name
+	 * @param   boolean $isAdmin  Check for administrator call
 	 *
 	 * @return  string              Template Content
 	 *
@@ -165,7 +176,7 @@ class RedshopHelperTemplate
 	 */
 	public static function readTemplateFile($section, $fileName, $isAdmin = false)
 	{
-		$filePath = self::getTemplatefilepath($section, $fileName, $isAdmin);
+		$filePath = self::getTemplateFilePath($section, $fileName, $isAdmin);
 
 		if (file_exists($filePath))
 		{
@@ -174,39 +185,38 @@ class RedshopHelperTemplate
 			return $content;
 		}
 
-		return "";
+		return false;
 	}
 
 	/**
 	 * Method to get Template file path
 	 *
-	 * @param   string   $section   Template Section
-	 * @param   string   $fileName  Template File Name
-	 * @param   boolean  $isAdmin   Check for administrator call
+	 * @param   string  $section  Template Section
+	 * @param   string  $fileName Template File Name
+	 * @param   boolean $isAdmin  Check for administrator call
 	 *
 	 * @return  string              Template File Path
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function getTemplatefilepath($section, $fileName, $isAdmin = false)
+	public static function getTemplateFilePath($section, $fileName, $isAdmin = false)
 	{
 		$app          = JFactory::getApplication();
 		$fileName     = str_replace(array('/', '\\'), '', $fileName);
 		$section      = str_replace(array('/', '\\'), '', $section);
-		$tempateFile  = "";
 		$templateView = self::getTemplateView($section);
 		$layout       = $app->input->getString('layout', '');
 
 		if (!$isAdmin && $section != 'categoryproduct')
 		{
-			$tempateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$templateView/$section/$fileName.php";
+			$templateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$templateView/$section/$fileName.php";
 		}
 		else
 		{
-			$tempateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$fileName.php";
+			$templateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$fileName.php";
 		}
 
-		if (!file_exists($tempateFile))
+		if (!file_exists($templateFile))
 		{
 			if ($section == 'categoryproduct' && $layout == 'categoryproduct')
 			{
@@ -216,9 +226,16 @@ class RedshopHelperTemplate
 			if ($templateView && $section != 'categoryproduct')
 			{
 				$templateDir = JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl/$section";
-				@chmod(JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl", 0755);
-			}
 
+				try
+				{
+					chmod(JPath::clean(JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl"), 0755);
+				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
 			else
 			{
 				if (!defined('JPATH_REDSHOP_TEMPLATE'))
@@ -229,7 +246,14 @@ class RedshopHelperTemplate
 
 				$templateDir = JPATH_REDSHOP_TEMPLATE . '/' . $section;
 
-				@chmod(JPATH_REDSHOP_TEMPLATE, 0755);
+				try
+				{
+					chmod(JPATH_REDSHOP_TEMPLATE, 0755);
+				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 
 			if (!is_dir($templateDir))
@@ -237,16 +261,16 @@ class RedshopHelperTemplate
 				JFolder::create($templateDir, 0755);
 			}
 
-			$tempateFile = "$templateDir/$fileName.php";
+			$templateFile = "$templateDir/$fileName.php";
 		}
 
-		return $tempateFile;
+		return $templateFile;
 	}
 
 	/**
 	 * Template View selector
 	 *
-	 * @param   string  $section  Template Section
+	 * @param   string $section Template Section
 	 *
 	 * @return  string            Template Joomla view name
 	 *
@@ -255,7 +279,7 @@ class RedshopHelperTemplate
 	public static function getTemplateView($section)
 	{
 		$section = strtolower($section);
-		$view    = "";
+		$view    = '';
 
 		switch ($section)
 		{
@@ -346,31 +370,31 @@ class RedshopHelperTemplate
 	/**
 	 * Method to parse joomla content plugin onContentPrepare event
 	 *
-	 * @param   string  $string  Joomla content
+	 * @param   string $string Joomla content
 	 *
 	 * @return  string           Modified content
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function parseredSHOPplugin($string = "")
+	public static function parseRedshopPlugin($string = "")
 	{
 		global $context;
 
-		$o = new stdClass;
-		$o->text = $string;
-		$x = array();
+		$content       = new stdClass;
+		$content->text = $string;
+		$temp          = array();
 
 		JPluginHelper::importPlugin('content');
-		RedshopHelperUtility::getDispatcher()->trigger('onContentPrepare', array($context, &$o, &$x, 0));
+		RedshopHelperUtility::getDispatcher()->trigger('onContentPrepare', array($context, &$content, &$temp, 0));
 
-		return $o->text;
+		return $content->text;
 	}
 
 	/**
 	 * Collect Template Sections for installation
 	 *
-	 * @param   string   $templateName  Template Name
-	 * @param   boolean  $setFlag       Set true if you want html special character in template content
+	 * @param   string  $templateName Template Name
+	 * @param   boolean $setFlag      Set true if you want html special character in template content
 	 *
 	 * @return  string                  redSHOP Template Contents
 	 *
@@ -378,29 +402,29 @@ class RedshopHelperTemplate
 	 */
 	public static function getInstallSectionTemplate($templateName, $setFlag = false)
 	{
-		$tempateFile = JPATH_SITE . "/components/com_redshop/templates/rsdefaulttemplates/$templateName.php";
+		$templateFile = JPATH_SITE . "/components/com_redshop/templates/rsdefaulttemplates/$templateName.php";
 
-		if (file_exists($tempateFile))
+		if (!file_exists($templateFile))
 		{
-			$handle = fopen($tempateFile, "r");
-			$contents = fread($handle, filesize($tempateFile));
-			fclose($handle);
-
-			if ($setFlag)
-			{
-				return "<pre/>" . htmlspecialchars($contents) . "</pre>";
-			}
-			else
-			{
-				return $contents;
-			}
+			return '';
 		}
+
+		$handle   = fopen($templateFile, "r");
+		$contents = fread($handle, filesize($templateFile));
+		fclose($handle);
+
+		if ($setFlag)
+		{
+			return "<pre/>" . htmlspecialchars($contents) . "</pre>";
+		}
+
+		return $contents;
 	}
 
 	/**
 	 * Collect list of redSHOP Template
 	 *
-	 * @param   string  $sectionValue  Template Section selected value
+	 * @param   string $sectionValue Template Section selected value
 	 *
 	 * @return  array                  Template Section List options
 	 *
@@ -467,13 +491,16 @@ class RedshopHelperTemplate
 			'login'                      => JText::_('COM_REDSHOP_LOGIN_TEMPLATE')
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onTemplateSections', array(&$options));
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 
 	/**
 	 * Collect Mail Template Section Select Option Value
 	 *
-	 * @param   string  $sectionValue  Selected Section Name
+	 * @param   string $sectionValue Selected Section Name
 	 *
 	 * @return  array                  Mail Template Select list options
 	 *
@@ -519,13 +546,16 @@ class RedshopHelperTemplate
 			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onMailSections', array(&$options));
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 
 	/**
 	 * Collect redSHOP costume field section select list option
 	 *
-	 * @param   string  $sectionValue  Selected option Value
+	 * @param   string $sectionValue Selected option Value
 	 *
 	 * @return  array                 Costume field Select list options
 	 *
@@ -548,7 +578,8 @@ class RedshopHelperTemplate
 			'17' => JText::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'),
 			'16' => JText::_('COM_REDSHOP_QUOTATION'),
 			'18' => JText::_('COM_REDSHOP_PAYMENT_GATEWAY'),
-			'19' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY')
+			'19' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY'),
+			'20' => JText::_('COM_REDSHOP_ORDER')
 		);
 
 		return self::prepareSectionOptions($options, $sectionValue);
@@ -557,7 +588,7 @@ class RedshopHelperTemplate
 	/**
 	 * Collect Costume field type select list options
 	 *
-	 * @param   string  $sectionValue  Selected field type section
+	 * @param   string $sectionValue Selected field type section
 	 *
 	 * @return  array                 Costume field type option list
 	 *
@@ -588,8 +619,8 @@ class RedshopHelperTemplate
 	/**
 	 * Prepare Options for Select list
 	 *
-	 * @param   array   $options       Associative Options array
-	 * @param   string  $sectionValue  Get single Section name
+	 * @param   array  $options      Associative Options array
+	 * @param   string $sectionValue Get single Section name
 	 *
 	 * @return  mixed   String or array based on $sectionValue
 	 *
@@ -600,25 +631,67 @@ class RedshopHelperTemplate
 		// Sort array alphabetically
 		asort($options);
 
-		$optionSection = array();
-		$optionSection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$optionSection   = array();
+		$optionSection[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 
-		if (!empty($options))
+		if (empty($options))
 		{
-			foreach ($options as $key => $value)
-			{
-				$optionSection[] = JHTML::_('select.option', $key, $value);
+			return $optionSection;
+		}
 
-				if ($sectionValue != "")
-				{
-					if ($key == $sectionValue)
-					{
-						return $value;
-					}
-				}
+		foreach ($options as $key => $value)
+		{
+			$optionSection[] = JHtml::_('select.option', $key, $value);
+
+			if ($sectionValue != "" && $key == $sectionValue)
+			{
+				return $value;
 			}
 		}
 
 		return $optionSection;
+	}
+
+	/**
+	 * Get ExtraFields For Current Template
+	 *
+	 * @param   array   $fieldNames      Field name list
+	 * @param   string  $templateData    Template data
+	 * @param   int     $isCategoryPage  Flag change extra fields in category page
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getExtraFieldsForCurrentTemplate($fieldNames = array(), $templateData = '', $isCategoryPage = 0)
+	{
+		$prefix = '{';
+
+		if ($isCategoryPage)
+		{
+			$prefix = '{producttag:';
+		}
+
+		if (empty($fieldNames))
+		{
+			return '';
+		}
+
+		$findFields = array();
+
+		foreach ($fieldNames as $filedName)
+		{
+			if (strpos($templateData, $prefix . $filedName . "}") !== false)
+			{
+				$findFields[] = $filedName;
+			}
+		}
+
+		if (empty($findFields))
+		{
+			return '';
+		}
+
+		return implode(',', RedshopHelperUtility::quote($findFields));
 	}
 }

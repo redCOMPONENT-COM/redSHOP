@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,5 +42,57 @@ class Tablenewslettersubscr_detail extends JTable
 		}
 
 		return parent::bind($array, $ignore);
+	}
+
+	/**
+	 * Method to store a row in the database from the JTable instance properties.
+	 *
+	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function store($updateNulls = false)
+	{
+		$isNew = empty($this->subscription_id) ? true : false;
+
+		if (!parent::store($updateNulls))
+		{
+			return false;
+		}
+
+		JPluginHelper::importPlugin('redshop_user');
+		RedshopHelperUtility::getDispatcher()->trigger('addNewsLetterSubscription', array($isNew, $this->getProperties()));
+
+		return true;
+	}
+
+	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$data = $this->getProperties();
+
+		if (!parent::delete($pk))
+		{
+			return false;
+		}
+
+		JPluginHelper::importPlugin('redshop_user');
+		RedshopHelperUtility::getDispatcher()->trigger('removeNewsLetterSubscription', array($data));
+
+		return true;
 	}
 }
