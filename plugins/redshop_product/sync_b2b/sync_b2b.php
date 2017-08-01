@@ -64,7 +64,7 @@ class PlgRedshop_ProductSync_B2b extends JPlugin
 		$result['manufacturer_sku'] = $data->manufacturer_id;
 		$result['date_new']         = date('Y-m-d');
 		$result['price']            = $data->product_price;
-		$result['company']          = $this->params->get('company', 2);;
+		$result['company']          = $this->params->get('company', 2);
 
 		if ($data->manufacturer_id > 0)
 		{
