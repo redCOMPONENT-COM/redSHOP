@@ -105,7 +105,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		$pdfTemplate = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $pdfTemplate);
 		$pdfTemplate = str_replace("{product_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $pdfTemplate);
 		$billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
-		$pdfTemplate = $cartHelper->replaceBillingAddress($pdfTemplate, $billing);
+		$pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
 		$shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 		$pdfTemplate = $cartHelper->replaceShippingAddress($pdfTemplate, $shipping);
 		$pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);
