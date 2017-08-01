@@ -165,7 +165,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 		$config->save($data);
 
 		self::moveAdminHelper($adminHelpers, $codeDir);
-		self::moveAdminHelper($adminTemplateHelpers, $codeDir);
+		self::moveAdminTemplateHelper($adminTemplateHelpers);
 	}
 
 	/**
@@ -387,12 +387,11 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 	 * Method for replace helper override.
 	 *
 	 * @param   array   $adminTemplateHelpers  Admin template helpers
-	 * @param   string  $codeDir               Code directory
 	 *
 	 * @return  void
 	 * @since   2.0.3
 	 */
-	private static function moveAdminTemplateHelper($adminTemplateHelpers, $codeDir)
+	private static function moveAdminTemplateHelper($adminTemplateHelpers)
 	{
 		if (empty($adminTemplateHelpers))
 		{
