@@ -20,55 +20,46 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
     /**
      * Function to add a new Custom Field
      *
-     * @param   string  $name     Name of the new Field
-     * @param   string  $title    Title of the new Field
-     * @param   string  $type     Type of the new Field
-     * @param   string  $section  Section of the new Field
-     * @param   String  $option   Optional Field Value
+     * @param   string $name Name of the new Field
+     * @param   string $title Title of the new Field
+     * @param   string $type Type of the new Field
+     * @param   string $section Section of the new Field
+     * @param   String $option Optional Field Value
      *
      * @return void
      */
     public function addField($name = 'SampleField', $title = 'Field Title', $type = 'Text area', $section = 'Category', $option = 'Testing Options')
     {
         $I = $this;
-        $fieldsForOptions = array("Check box", "Image", "Image with link", "Multiple select box", );
         $I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings(\CustomFieldManagerJoomla3Page::$URL);
         $customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
-        $I->click('New');
-        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
+        $I->click(\CustomFieldManagerJoomla3Page::$newButton);
+        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);
         $I->click(\CustomFieldManagerJoomla3Page::$fieldTypeDropDown);
-        $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTypeSearchField, $type);
-        $I->waitForElement($customFieldsManagerPage->fieldType($type),60);
-        $I->click($customFieldsManagerPage->fieldType($type));
+        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, 3);
+        $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, $type);
+
+        $I->click($customFieldsManagerPage->xPathChoice($type));
+
+
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
+
         $I->click(\CustomFieldManagerJoomla3Page::$fieldSectionDropDown);
-        $I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearchField, $section);
-        $I->waitForElement($customFieldsManagerPage->fieldSection($section),60);
-        $I->click($customFieldsManagerPage->fieldSection($section));
-        //$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
-        $I->click('Save & Close');
-        $I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
-
-        if ($type == "Check box")
-        {
-            $I->executeJS('window.scrollTo(0,0)');
-            $I->click(['link' => 'ID']);
-        }
-
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(['link' => 'ID']);
-        $I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(['link' => 'ID']);
+        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, 3);
+        $I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, $section);
+        $I->click($customFieldsManagerPage->xPathChoice($section));
+//        $I->click('Save');
+//        $I->wait(4);
+//        $I->see(\CustomFieldManagerJoomla3Page::$messageSaveSuccess, \CustomFieldManagerJoomla3Page::$selectorSuccess);
     }
 
     /**
      * Function to Edit a Field
      *
-     * @param   string  $title         Current Title of the Field
-     * @param   string  $updatedTitle  New Title for the Field
+     * @param   string $title Current Title of the Field
+     * @param   string $updatedTitle New Title for the Field
      *
      * @return void
      */
@@ -79,11 +70,11 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
         $I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
-        $I->click('Edit');
-        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
+        $I->click(\CustomFieldManagerJoomla3Page::$editButton);
+        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
-        $I->click('Save & Close');
-        $I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
+        $I->click(\CustomFieldManagerJoomla3Page::$saveCloseButton);
+        $I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
         $I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
         $I->executeJS('window.scrollTo(0,0)');
         $I->click(['link' => 'ID']);
@@ -92,8 +83,8 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
     /**
      * Function to change State of a Custom Field
      *
-     * @param   string  $title  Title of the Custom Field
-     * @param   string  $state  State of the Mail Template
+     * @param   string $title Title of the Custom Field
+     * @param   string $state State of the Mail Template
      *
      * @return void
      */
@@ -105,8 +96,8 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
     /**
      * Function to Search for a Custom Field
      *
-     * @param   string  $title         Title of the Field
-     * @param   string  $functionName  Name of the function After Which search is being Called
+     * @param   string $title Title of the Field
+     * @param   string $functionName Name of the function After Which search is being Called
      *
      * @return void
      */
@@ -118,7 +109,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
     /**
      * Function to get State of the Custom Field
      *
-     * @param   String  $title  Title of the Custom Field
+     * @param   String $title Title of the Custom Field
      *
      * @return string
      */
@@ -132,7 +123,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
     /**
      * Function to Delete Custom Field
      *
-     * @param   String  $title  Title of the Field which is to be Deleted
+     * @param   String $title Title of the Field which is to be Deleted
      *
      * @return void
      */
