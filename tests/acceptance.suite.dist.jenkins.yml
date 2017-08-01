@@ -31,7 +31,7 @@ modules:
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
             database user: 'root'                  # MySQL Server user ID, usually root
-            database password: 'VKZH5pu32ajwPdQD'                  # MySQL Server password, usually empty or root
+            database password: ''                  # MySQL Server password, usually empty or root
             database name: 'testredshop1j3'            # DB Name, at the Server
             database type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
             #database prefix: 'jos_'                # DB Prefix for tables

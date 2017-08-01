@@ -76,19 +76,6 @@ $paypalPostData = Array(
 	'bn'                 => 'redCOMPONENT_SP'
 );
 
-if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-{
-	$paypalShippingData = Array(
-		"address1"   => $data['shippinginfo']->address,
-		"city"       => $data['shippinginfo']->city,
-		"country"    => $data['shippinginfo']->country_2_code,
-		"first_name" => $data['shippinginfo']->firstname,
-		"last_name"  => $data['shippinginfo']->lastname,
-		"state"      => $data['shippinginfo']->state_code,
-		"zip"        => $data['shippinginfo']->zipcode
-	);
-}
-
 $paypalPostData['discount_amount_cart'] = round(RedshopHelperCurrency::convert($data['order']->order_discount, '', $paymentCurrency), 2);
 $paypalPostData['discount_amount_cart'] += round(RedshopHelperCurrency::convert($data['order']->special_discount, '', $paymentCurrency), 2);
 
