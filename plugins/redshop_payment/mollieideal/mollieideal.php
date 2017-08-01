@@ -11,7 +11,14 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentMollieideal extends JPlugin
+/**
+ * Mollie payment class
+ *
+ * @package  Redshop.Plugin
+ *
+ * @since    2.0.0
+ */
+class PlgRedshop_PaymentMollieideal extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -36,9 +43,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/plugins/redshop_payment/mollieideal/library/initialize.php';
-
-		$data['order_id'] = $data['order_id'];
+		$mollie = $this->getFramework();
 
 		$app = JFactory::getApplication();
 
@@ -46,7 +51,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 
 		if (1 == $step)
 		{
-			//$this->showBanks($mollie);
+			// $this->showBanks($mollie);
 			echo RedshopLayoutHelper::render(
 				'form',
 				array(
@@ -57,15 +62,14 @@ class plgRedshop_paymentMollieideal extends JPlugin
 				__DIR__ . '/layouts'
 			);
 		}
-		else if (2 == $step)
+		elseif (2 == $step)
 		{
 			// Determine the url parts to these example files.
-			$protocol    = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
-			$hostname    = $_SERVER['HTTP_HOST'];
-			$path        = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+			$webHookUrl = JUri::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment'
+				. '&payment_plugin=mollieideal&orderid=' . $data['order_id'];
 
-			$webhookUrl  = JUri::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=mollieideal&orderid=" . $data['order_id'];
-			$redirectUrl = JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid=" . $data['order_id'] . "&Itemid=" . $app->input->getInt('Itemid');
+			$redirectUrl = JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid="
+				. $data['order_id'] . "&Itemid=" . $app->input->getInt('Itemid');
 
 			/*
 			 * Payment parameters:
@@ -76,17 +80,19 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			 *   metadata      Custom metadata that is stored with the payment.
 			 *   issuer        The customer's bank. If empty the customer can select it later.
 			 */
-			$payment = $mollie->payments->create(array(
+			$payment = $mollie->payments->create(
+				array(
 					"amount"      => $data['order']->order_total,
 					"method"      => Mollie_API_Object_Method::IDEAL,
 					"description" => JText::_('PLG_REDSHOP_PAYMENT_MOLLIEIDEAL_PAYMENT_DESCRIPTION'),
-					"webhookUrl"  => $webhookUrl,
+					"webhookUrl"  => $webHookUrl,
 					"redirectUrl" => $redirectUrl,
 					"metadata"    => array(
-					"order_id"    => $data['order_id'],
-				),
-				"issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL
-			));
+						"order_id" => $data['order_id'],
+					),
+					"issuer"      => $app->input->post->get('issuer', null)
+				)
+			);
 
 			// Send the customer off to complete the payment.
 			$app->redirect($payment->getPaymentUrl());
@@ -99,7 +105,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 	 * @param   string  $element  Payment Method Name
 	 * @param   array   $request  Request parameter
 	 *
-	 * @return  object  Payment status information
+	 * @return  object            Payment status information
 	 */
 	public function onNotifyPaymentMollieideal($element, $request)
 	{
@@ -108,29 +114,24 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			return;
 		}
 
-		/*
-		 * Initialize the Mollie API library with your API key.
-		 *
-		 * @link  https://www.mollie.com/beheer/account/profielen/
-		 */
-		require_once __DIR__ . '/library/initialize.php';
+		$mollie = $this->getFramework();
 
-		$transactioId = JFactory::getApplication()->input->getString('id');
+		$transactionId = JFactory::getApplication()->input->getString('id');
 
 		// Retrieve the payment's current state.
-		$payment = $mollie->payments->get($transactioId);
+		$payment = $mollie->payments->get($transactionId);
 		$orderId = $payment->metadata->order_id;
 
 		$values = new stdClass;
 
-		if ($payment->isPaid() == TRUE)
+		if ($payment->isPaid() == true)
 		{
 			$values->order_status_code         = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
 			$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 		}
-		elseif ($payment->isOpen() == FALSE)
+		elseif ($payment->isOpen() == false)
 		{
 			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
@@ -138,9 +139,31 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
 
-		$values->transaction_id = $transactioId;
+		$values->transaction_id = $transactionId;
 		$values->order_id       = $orderId;
 
 		return $values;
+	}
+
+	/**
+	 * Method for load mollie framework
+	 *
+	 * @return  Mollie_API_Client  Mollie class
+	 *
+	 * @since  2.0.0
+	 */
+	protected function getFramework()
+	{
+		require_once __DIR__ . '/library/vendor/autoload.php';
+
+		/*
+		 * Initialize the Mollie API library with your API key.
+		 *
+		 * See: https://www.mollie.com/beheer/account/profielen/
+		 */
+		$mollie = new Mollie_API_Client;
+		$mollie->setApiKey($this->params->get('apiKey'));
+
+		return $mollie;
 	}
 }

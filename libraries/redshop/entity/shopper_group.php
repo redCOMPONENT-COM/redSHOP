@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityShopper_Group extends RedshopEntity
 {
 	/**
 	 * @var    RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $discounts;
 
@@ -65,7 +65,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
 	 *
 	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getDiscounts()
 	{
@@ -87,7 +87,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadDiscounts()
 	{

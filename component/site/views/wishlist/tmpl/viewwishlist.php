@@ -505,7 +505,7 @@ function display_products($rows)
 					}
 				}
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $countUserfield = count($userfieldArr); $ui < $countUserfield; $ui++)
 				{
 					if (!$idx)
 					{

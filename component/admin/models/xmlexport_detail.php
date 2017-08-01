@@ -181,9 +181,9 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				$result = $xmlhelper->getXMLExportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" .$result->filename;
 
-				if (is_file($rootpath))
+				if (JFile::exists($rootpath))
 				{
-					unlink($rootpath);
+					JFile::delete($rootpath);
 				}
 			}
 

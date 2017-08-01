@@ -31,8 +31,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An optional associative array of configuration settings
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings
 	 *
 	 * @since   1.0.0
 	 */
@@ -47,9 +47,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onBeforeDisplayProduct - Replace {bundle_template}
 	 *
-	 * @param   string  $templateContent  Template content
-	 * @param   object  $params           Params
-	 * @param   object  $product          Product detail
+	 * @param   string $templateContent Template content
+	 * @param   object $params          Params
+	 * @param   object $product         Product detail
 	 *
 	 * @return  void
 	 *
@@ -73,7 +73,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 		foreach ($this->bundleData as $bundleDetail)
 		{
-			$bundleIds[] = $bundleDetail->bundle_id;
+			$bundleIds[]   = $bundleDetail->bundle_id;
 			$bundleNames[] = $bundleDetail->bundle_name;
 		}
 
@@ -125,8 +125,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * getBundleData - Return Bundle Data from database
 	 *
-	 * @param   int   $productId  Product ID
-	 * @param   int   $bundleId   Bundle ID
+	 * @param   int $productId Product ID
+	 * @param   int $bundleId  Bundle ID
 	 *
 	 * @return  void
 	 *
@@ -134,7 +134,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 	 */
 	private function getBundleData($productId, $bundleId = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -145,11 +145,11 @@ class PlgRedshop_ProductBundle extends JPlugin
 				$db->qn('p.product_number')
 			)
 		)
-		->select($db->qn('p.product_name'))
-		->from($db->qn('#__redshop_product_bundle', 'b'))
-		->innerJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = b.bundle_id')
-		->where($db->qn('b.product_id') . '=' . (int) $productId)
-		->order($db->qn('b.ordering') . ' ASC');
+			->select($db->qn('p.product_name'))
+			->from($db->qn('#__redshop_product_bundle', 'b'))
+			->innerJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = b.bundle_id')
+			->where($db->qn('b.product_id') . '=' . (int) $productId)
+			->order($db->qn('b.ordering') . ' ASC');
 
 		if ($bundleId > 0)
 		{
@@ -164,15 +164,15 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * replaceBundleData
 	 *
-	 * @param   string  $templateContent  Template content
-	 * @param   object  $product          Product detail
+	 * @param   string $templateContent Template content
+	 * @param   object $product         Product detail
 	 *
 	 * @return  void
 	 * @since  1.0.0
 	 */
 	private function replaceBundleData(&$templateContent, $product)
 	{
-		$productHelper = productHelper::getInstance();
+		$productHelper   = productHelper::getInstance();
 		$bundleTemplates = RedshopHelperTemplate::getTemplate('bundle_template');
 
 		if (empty($bundleTemplates))
@@ -201,7 +201,30 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$content = str_replace("{bundle_name}", $bundleDetail->product_name, $content);
 			$content = str_replace("{bundle_number}", $bundleDetail->product_number, $content);
-			$content = $productHelper->replaceProductInStock($bundleDetail->product_id, $content);
+
+			if (strpos($content, "{bundle_stock_amount_image}") !== false)
+			{
+				$productInStock   = RedshopHelperStockroom::getStockAmountWithReserve($bundleDetail->bundle_id);
+				$stockamountList  = RedshopHelperStockroom::getStockAmountImage($bundleDetail->bundle_id, 'product', $productInStock);
+				$stockamountImage = "";
+
+				if (count($stockamountList) > 0)
+				{
+					$stockamountImage = RedshopLayoutHelper::render(
+						'product.stock_amount_image',
+						array(
+							'product_id'       => $product_id,
+							'stockamountImage' => $stockamountList[0]
+						),
+						'',
+						array(
+							'component' => 'com_redshop'
+						)
+					);
+				}
+
+				$content = str_replace("{bundle_stock_amount_image}", $stockamountImage, $content);
+			}
 
 			$bundleSelect = '<a class="bundleselect" onclick="selectBundle(\'' . htmlspecialchars($bundleDetail->product_name) . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',0)">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 
@@ -226,7 +249,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 				'bundle',
 				array
 				(
-					'detail' => $bundleDetail,
+					'detail'  => $bundleDetail,
 					'content' => $content
 				),
 				'',
@@ -240,9 +263,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * replaceAttributeData - Replace Property detail
 	 *
-	 * @param   object  $productDetail    Product detail
-	 * @param   object  $bundleDetail     Bundle detail
-	 * @param   object  $templateContent  Bundle Template
+	 * @param   object $productDetail   Product detail
+	 * @param   object $bundleDetail    Bundle detail
+	 * @param   object $templateContent Bundle Template
 	 *
 	 * @return  object
 	 *
@@ -278,7 +301,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			if (empty($attribute->text) || empty($properties)
 				|| strpos($attributeTable, "{property_start}") === false
-				|| strpos($attributeTable, "{property_start}") === false)
+				|| strpos($attributeTable, "{property_start}") === false
+			)
 			{
 				continue;
 			}
@@ -293,8 +317,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 			{
 				$propertyData .= $propertyTemplate;
 
-				$priceWithVat    = 0;
-				$priceWithoutVat = 0;
+				$priceWithVat          = 0;
+				$priceWithoutVat       = 0;
 				$propertyStock         = RedshopHelperStockroom::getStockAmountWithReserve($property->value, "property");
 				$preOrderPropertyStock = RedshopHelperStockroom::getPreorderStockAmountwithReserve($property->value, "property");
 
@@ -314,9 +338,10 @@ class PlgRedshop_ProductBundle extends JPlugin
 					$propertyImage = "";
 
 					if ($property->property_image
-						&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image))
+						&& JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image)
+					)
 					{
-						$thumbUrl = RedshopHelperMedia::getImagePath(
+						$thumbUrl       = RedshopHelperMedia::getImagePath(
 							$property->property_image,
 							'',
 							'thumb',
@@ -353,8 +378,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onAddtoCart - Add some params for cart form.
 	 *
-	 * @param   string  $cartForm  Cart Form
-	 * @param   object  $product   Product detail
+	 * @param   string $cartForm Cart Form
+	 * @param   object $product  Product detail
 	 *
 	 * @return  void
 	 *
@@ -374,7 +399,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 			return;
 		}
 
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$jinput = $app->input;
 
 		if ($jinput->get('view') != 'product')
@@ -385,7 +410,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 		{
 			foreach ($this->bundleData as $bundleDetail)
 			{
-				$bundleId = 'bundle_product_' . $product->product_id . '_' . $bundleDetail->bundle_id;
+				$bundleId   = 'bundle_product_' . $product->product_id . '_' . $bundleDetail->bundle_id;
 				$bundleName = 'bundle_product[' . $bundleDetail->bundle_id . ']';
 
 				$cartForm .= '<input type="hidden" id="' . $bundleId . '" name="' . $bundleName . '">';
@@ -396,9 +421,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onBeforeSetCartSession - Add bundle_product data to cart
 	 *
-	 * @param   array  $cart  Cart data
-	 * @param   array  $data  Post data
-	 * @param   int    $idx   Cart Index
+	 * @param   array $cart Cart data
+	 * @param   array $data Post data
+	 * @param   int   $idx  Cart Index
 	 *
 	 * @return  void
 	 *
@@ -412,9 +437,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onCartItemDisplay - Replace {bundle_product} on cart view
 	 *
-	 * @param   string  $cartMdata  Cart template
-	 * @param   array   $cart       Cart array
-	 * @param   int     $i          Cart index
+	 * @param   string $cartMdata Cart template
+	 * @param   array  $cart      Cart array
+	 * @param   int    $i         Cart index
 	 *
 	 * @return  void
 	 *
@@ -447,7 +472,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			if (!empty($bundleProduct[$bundleData->bundle_id]))
 			{
-				$properties = RedshopHelperProduct_Attribute::getAttributeProperties($bundleProduct[$bundleData->bundle_id]);
+				$properties   = RedshopHelperProduct_Attribute::getAttributeProperties($bundleProduct[$bundleData->bundle_id]);
 				$propertyData = $properties[0];
 			}
 
@@ -476,9 +501,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onOrderItemDisplay - Replace {bundle_product} on order, mail
 	 *
-	 * @param   string  $cartMdata  Cart template
-	 * @param   array   $rowitem    Cart array
-	 * @param   int     $i          Cart index
+	 * @param   string $cartMdata Cart template
+	 * @param   array  $rowitem   Cart array
+	 * @param   int    $i         Cart index
 	 *
 	 * @return  void
 	 *
@@ -486,12 +511,12 @@ class PlgRedshop_ProductBundle extends JPlugin
 	 */
 	public function onOrderItemDisplay(&$cartMdata, &$rowitem, $i)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('*')
-		->from($db->qn('#__redshop_order_bundle'))
-		->where($db->qn('order_item_id') . '=' . (int) $rowitem[$i]->order_item_id);
+			->from($db->qn('#__redshop_order_bundle'))
+			->where($db->qn('order_item_id') . '=' . (int) $rowitem[$i]->order_item_id);
 
 		$db->setQuery($query);
 		$bundleRows = $db->loadObjectList();
@@ -511,7 +536,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			if ($row->property_id > 0)
 			{
-				$properties = RedshopHelperProduct_Attribute::getAttributeProperties($row->property_id);
+				$properties   = RedshopHelperProduct_Attribute::getAttributeProperties($row->property_id);
 				$propertyData = $properties[0];
 			}
 
@@ -542,9 +567,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * afterOrderItemSave - Save bundle data to order_bundle table
 	 *
-	 * @param   array   $cart     Cart data
-	 * @param   object  $rowitem  Order Item
-	 * @param   int     $i        Cart index
+	 * @param   array  $cart    Cart data
+	 * @param   object $rowitem Order Item
+	 * @param   int    $i       Cart index
 	 *
 	 * @return  void
 	 *
@@ -591,7 +616,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onDisplayOrderItemNote - Display Bundle detail on order detail on backend
 	 *
-	 * @param   object  $orderItem  Order Item
+	 * @param   object $orderItem Order Item
 	 *
 	 * @return  void
 	 *
@@ -599,12 +624,12 @@ class PlgRedshop_ProductBundle extends JPlugin
 	 */
 	public function onDisplayOrderItemNote($orderItem)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('*')
-		->from($db->qn('#__redshop_order_bundle'))
-		->where($db->qn('order_item_id') . '=' . (int) $orderItem->order_item_id);
+			->from($db->qn('#__redshop_order_bundle'))
+			->where($db->qn('order_item_id') . '=' . (int) $orderItem->order_item_id);
 
 		$db->setQuery($query);
 		$bundleRows = $db->loadObjectList();
@@ -614,13 +639,15 @@ class PlgRedshop_ProductBundle extends JPlugin
 			return;
 		}
 
+		// Init $data
+		$data = array();
 		foreach ($bundleRows as $row)
 		{
 			$propertyData = array();
 
 			if ($row->property_id > 0)
 			{
-				$properties = RedshopHelperProduct_Attribute::getAttributeProperties($row->property_id);
+				$properties   = RedshopHelperProduct_Attribute::getAttributeProperties($row->property_id);
 				$propertyData = $properties[0];
 			}
 
@@ -649,10 +676,10 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * checkSameCartProduct - If add 2 products with same bundle data
 	 *
-	 * @param   array  &$cart          Cart data
-	 * @param   array  $data           Post data
-	 * @param   bool   &$sameProduct   Same
-	 * @param   int    $i              Cart index
+	 * @param   array &$cart        Cart data
+	 * @param   array $data         Post data
+	 * @param   bool  &$sameProduct Same
+	 * @param   int   $i            Cart index
 	 *
 	 * @return  void
 	 *
@@ -660,7 +687,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 	 */
 	public function checkSameCartProduct(&$cart, $data, &$sameProduct, $i)
 	{
-		$sel = $data['bundle_product'];
+		$sel       = $data['bundle_product'];
 		$preSelect = $cart[$i]['bundle_product'];
 
 		$newDiff1 = array_diff($sel, $preSelect);

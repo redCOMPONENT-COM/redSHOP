@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityOrder_Item extends RedshopEntity
 {
 	/**
 	 * @var   RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $accessoryItems;
 
@@ -65,7 +65,7 @@ class RedshopEntityOrder_Item extends RedshopEntity
 	 *
 	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getAccessoryItems()
 	{
@@ -87,7 +87,7 @@ class RedshopEntityOrder_Item extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadAccessoryItems()
 	{

@@ -922,12 +922,15 @@ abstract class RedshopEntityBase
 	 *
 	 * @return  integer  The item id
 	 *
-	 * @throws  RuntimeException  When save failed
-	 *
 	 * @since   1.0
 	 */
 	public function save($item = null)
 	{
+		if (!$this->processBeforeSaving($item))
+		{
+			return false;
+		}
+
 		if (null === $item)
 		{
 			$item = $this->getItem();
@@ -935,25 +938,32 @@ abstract class RedshopEntityBase
 
 		if (!$item)
 		{
-			throw new RuntimeException("Nothing to save", 422);
+			JLog::add("Nothing to save", JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		$table = $this->getTable();
 
 		if (!$table instanceof JTable)
 		{
-			throw new RuntimeException("Table for instance " . $this->getInstanceName() . " could not be loaded", 500);
+			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		if (!$table->save((array) $item))
 		{
-			throw new RuntimeException("Item could not be saved: " . $table->getError(), 500);
+			JLog::add($table->getError(), JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
-
 		static::loadFromTable($table);
+
+		$this->processAfterSaving($table);
 
 		return $table->{$table->getKeyName()};
 	}
@@ -961,9 +971,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Method for reset this static for load new data.
 	 *
-	 * @return  RedshopEntityBase
+	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function reset()
 	{
@@ -978,5 +988,29 @@ abstract class RedshopEntityBase
 		unset(static::$instances[$class][$id]);
 
 		return static::getInstance($id);
+	}
+
+	/**
+	 * Process $item data before saving.
+	 *
+	 * @param   mixed  $item  Array / Object of data.
+	 *
+	 * @return  boolean       Return false will break save process
+	 */
+	public function processBeforeSaving(&$item)
+	{
+		return true;
+	}
+
+	/**
+	 * Process data after saving.
+	 *
+	 * @param   JTable  $table  JTable instance data.
+	 *
+	 * @return  boolean
+	 */
+	public function processAfterSaving(&$table)
+	{
+		return true;
 	}
 }

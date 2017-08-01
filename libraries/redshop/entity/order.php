@@ -14,44 +14,51 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityOrder extends RedshopEntity
 {
 	/**
 	 * @var   RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $orderItems;
 
 	/**
 	 * @var   RedshopEntityOrder_Payment
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $payment;
 
 	/**
 	 * @var    RedshopEntitiesCollection
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $users;
 
 	/**
 	 * @var   RedshopEntityOrder_User
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $billing;
 
 	/**
 	 * @var   RedshopEntityOrder_User
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $shipping;
+
+	/**
+	 * @var   array
+	 *
+	 * @since   2.0.6
+	 */
+	protected $statusLog;
 
 	/**
 	 * Get the associated table
@@ -93,7 +100,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getOrderItems()
 	{
@@ -111,11 +118,33 @@ class RedshopEntityOrder extends RedshopEntity
 	}
 
 	/**
+	 * Method for get order status log for this order
+	 *
+	 * @return   array   RedshopEntitiesCollection if success. Null otherwise.
+	 *
+	 * @since   2.0.6
+	 */
+	public function getStatusLog()
+	{
+		if (!$this->hasId())
+		{
+			return null;
+		}
+
+		if (null === $this->statusLog)
+		{
+			$this->loadStatusLog();
+		}
+
+		return $this->statusLog;
+	}
+
+	/**
 	 * Method for get payment for this order
 	 *
 	 * @return   RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getPayment()
 	{
@@ -137,7 +166,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getUsers()
 	{
@@ -159,7 +188,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getBilling()
 	{
@@ -181,7 +210,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getShipping()
 	{
@@ -203,7 +232,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadOrderItems()
 	{
@@ -238,11 +267,41 @@ class RedshopEntityOrder extends RedshopEntity
 	}
 
 	/**
+	 * Method for load order status log for this order
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.6
+	 */
+	protected function loadStatusLog()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('l.*')
+			->select($db->qn('s.order_status_name'))
+			->from($db->qn('#__redshop_order_status_log', 'l'))
+			->leftJoin(
+				$db->qn('#__redshop_order_status', 's') . ' ON '
+				. $db->qn('l.order_status') . ' = ' . $db->qn('s.order_status_code')
+			)
+			->where($db->qn('l.order_id') . ' = ' . $this->getId());
+
+		$this->statusLog = $db->setQuery($query)->loadObjectList();
+
+		return $this;
+	}
+
+	/**
 	 * Method for load payment of this order
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadPayment()
 	{
@@ -274,7 +333,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadUsers()
 	{
@@ -313,7 +372,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadBilling()
 	{
@@ -347,7 +406,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadShipping()
 	{

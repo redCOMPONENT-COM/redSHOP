@@ -34,11 +34,11 @@ class RedshopControllerWishlist extends RedshopController
 
 		if ($model->store($post))
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+			echo "<div class='wishlistmsg'>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
 		}
 		else
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
 
 		if (JRequest::getVar('loginwishlist') == 1)
@@ -75,11 +75,11 @@ class RedshopControllerWishlist extends RedshopController
 
 		if ($model->savewishlist($data))
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+			echo "<div class='wishlistmsg'>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
 		}
 		else
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
 
 		?>

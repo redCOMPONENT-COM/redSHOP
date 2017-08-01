@@ -222,7 +222,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function store($data)
 	{
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$catorder = array();
 		$oldcategory = array();
@@ -261,11 +261,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['thumb_image_delete']))
 		{
 			$row->product_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -287,18 +287,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_full_image'] != null)
 		{
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 
 			$query = 'DELETE FROM ' . $this->table_prefix . 'media
@@ -317,14 +317,19 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['product_full_image_delete']))
 		{
 			$row->product_thumb_image = '';
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
 
-			if (is_file($unlink_path))
+			if (!empty($data['product_full_image']))
 			{
-				unlink($unlink_path);
+				$oldImage = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image']);
+
+				if (JFile::exists($oldImage))
+				{
+					JFile::delete($oldImage);
+				}
 			}
 		}
-		elseif ($file['name'] != "")
+
+		if ($file['name'] != "")
 		{
 			$filename = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
@@ -353,20 +358,23 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$filename = $new_image_name;
 			$row->product_full_image = $filename;
 
-			$src = JPATH_ROOT . '/' . $data['product_full_image'];
+			$src  = JPATH_ROOT . '/' . $data['product_full_image'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
-			copy($src, $dest);
+			if (JFile::exists($src))
+			{
+				JFile::copy($src, $dest);
+			}
 		}
 
 		if (isset($data['back_thumb_image_delete']))
 		{
 			$row->product_back_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_thumb_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_thumb_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -386,11 +394,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['back_image_delete']))
 		{
 			$row->product_back_full_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_full_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_full_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -411,11 +419,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['preview_image_delete']))
 		{
 			$row->product_preview_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -436,11 +444,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['preview_back_image_delete']))
 		{
 			$row->product_preview_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_back_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_back_image']);
 
-			if (is_file($unlink_path))
+			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -641,7 +649,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$product_id = $row->product_id;
 
-			for ($i = 0; $i < count($data['quantity']); $i++)
+			for ($i = 0, $countQuantity = count($data['quantity']); $i < $countQuantity; $i++)
 			{
 				if ($data['ordered_preorder'][$i] > $data['preorder_stock'][$i])
 				{
@@ -679,7 +687,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
-			for ($a = 0; $a < count($data['product_accessory']); $a++)
+			for ($a = 0, $countAccessory = count($data['product_accessory']); $a < $countAccessory; $a++)
 			{
 				$acc = $data['product_accessory'][$a];
 				$accdetail = $this->getTable('accessory_detail');
@@ -871,7 +879,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (isset($data['subscription_period']) && count($data['subscription_period']) > 0)
 		{
-			for ($sub = 0; $sub < count($data['subscription_period']); $sub++)
+			for ($sub = 0, $countSubcription = count($data['subscription_period']); $sub < $countSubcription; $sub++)
 			{
 				$sub_row = $this->getTable('product_subscription');
 				$sub_row->subscription_id = $data['subscription_id'][$sub];
@@ -1048,14 +1056,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $imagename->property_image;
 				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 
-				if (is_file($dest))
+				if (JFile::exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
-				if (is_file($tsrc))
+				if (JFile::exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 
 				// Subattribute delete
@@ -1105,34 +1113,34 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$dest_preview = REDSHOP_FRONT_IMAGES_RELPATH . '/product/' . $imagename->product_preview_image;
 				$tsrc_preview_back = REDSHOP_FRONT_IMAGES_RELPATH . '/product/' . $imagename->product_preview_back_image;
 
-				if (is_file($dest_full))
+				if (JFile::exists($dest_full))
 				{
-					unlink($dest_full);
+					JFile::delete($dest_full);
 				}
 
-				if (is_file($tsrc_thumb))
+				if (JFile::exists($tsrc_thumb))
 				{
-					unlink($tsrc_thumb);
+					JFile::delete($tsrc_thumb);
 				}
 
-				if (is_file($dest_back_full))
+				if (JFile::exists($dest_back_full))
 				{
-					unlink($dest_back_full);
+					JFile::delete($dest_back_full);
 				}
 
-				if (is_file($tsrc_back_thumb))
+				if (JFile::exists($tsrc_back_thumb))
 				{
-					unlink($tsrc_back_thumb);
+					JFile::delete($tsrc_back_thumb);
 				}
 
-				if (is_file($dest_preview))
+				if (JFile::exists($dest_preview))
 				{
-					unlink($dest_preview);
+					JFile::delete($dest_preview);
 				}
 
-				if (is_file($tsrc_preview_back))
+				if (JFile::exists($tsrc_preview_back))
 				{
-					unlink($tsrc_preview_back);
+					JFile::delete($tsrc_preview_back);
 				}
 			}
 
@@ -1383,7 +1391,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				$post = $this->input->getArray($_POST);
+				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
 			}
@@ -1570,7 +1578,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$this->_db->setQuery($query);
 		$attribute = $this->_db->loadObjectList();
 
-		for ($att = 0; $att < count($attribute); $att++)
+		for ($att = 0, $countAttribute = count($attribute); $att < $countAttribute; $att++)
 		{
 			$query = 'INSERT INTO ' . $this->table_prefix . 'product_attribute (attribute_name,
 																				attribute_required,
@@ -1604,7 +1612,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$property_image = null;
 			$property_main_image = null;
 
-			for ($prop = 0; $prop < count($att_property); $prop++)
+			for ($prop = 0, $countProperty = count($att_property); $prop < $countProperty; $prop++)
 			{
 				$property_save['attribute_id'] = $attribute_id;
 				$property_save['property_name'] = $att_property[$prop]->property_name;
@@ -1637,7 +1645,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				$this->update_attr_property_image($property_id, $property_image, $property_main_image);
 
-				for ($li = 0; $li < count($listImages); $li++)
+				for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 				{
 					$mImages = array();
 					$mImages['media_name'] = $listImages[$li]->media_name;
@@ -1654,8 +1662,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 						  WHERE `subattribute_id` =  "' . $att_property[$prop]->property_id . '" order by ordering asc';
 				$this->_db->setQuery($query);
 				$subatt_property = $this->_db->loadObjectList();
+				$countSubProperty = count($subatt_property);
 
-				for ($subprop = 0; $subprop < count($subatt_property); $subprop++)
+				for ($subprop = 0; $subprop < $countSubProperty; $subprop++)
 				{
 					$subproperty_save = array();
 					$subproperty_save['subattribute_color_name'] = $subatt_property[$subprop]->subattribute_color_name;
@@ -1678,8 +1687,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 
 					$listsubpropImages = $this->GetimageInfo($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
+					$countSubPropertyImage = count($listsubpropImages);
 
-					for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+					for ($lsi = 0; $lsi < $countSubPropertyImage; $lsi++)
 					{
 						$smImages = array();
 						$smImages['media_name'] = $listsubpropImages[$lsi]->media_name;
@@ -1760,8 +1770,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('id', 'value'))
-			->select($db->qn('name', 'text'))
+			->select($db->qn('c.id', 'value'))
+			->select($db->qn('c.name', 'text'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
 			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->id));
@@ -1876,6 +1886,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$prop = $this->_db->loadObjectlist();
 				$attribute_id = $attr[$i]->attribute_id;
 				$attribute_name = $attr[$i]->attribute_name;
+				$attribute_description = $attr[$i]->attribute_description;
 				$attribute_required = $attr[$i]->attribute_required;
 				$allow_multiple_selection = $attr[$i]->allow_multiple_selection;
 				$hide_attribute_price = $attr[$i]->hide_attribute_price;
@@ -1893,6 +1904,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 
 				$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
+					'attribute_description' => $attribute_description,
 					'attribute_required' => $attribute_required, 'ordering' => $ordering, 'property' => $prop,
 					'allow_multiple_selection' => $allow_multiple_selection, 'hide_attribute_price' => $hide_attribute_price,
 					'attribute_published' => $attribute_published, 'display_type' => $display_type,
@@ -1978,12 +1990,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -2035,12 +2047,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -2094,12 +2106,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -2394,12 +2406,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (file_exists($dest))
 		{
-			unlink($dest);
+			JFile::delete($dest);
 		}
 
 		if (file_exists($tsrc))
 		{
-			unlink($tsrc);
+			JFile::delete($tsrc);
 		}
 
 		$query = 'DELETE FROM ' . $this->table_prefix . 'media WHERE media_id = "' . $mediaid . '" ';
@@ -2456,12 +2468,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 						if (file_exists($sub))
 						{
-							unlink($sub);
+							JFile::delete($sub);
 						}
 
 						if (file_exists($sub_thumb))
 						{
-							unlink($sub_thumb);
+							JFile::delete($sub_thumb);
 						}
 					}
 
@@ -2524,7 +2536,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (file_exists($sub_dest))
 			{
-				unlink($sub_dest);
+				JFile::delete($sub_dest);
 			}
 
 			$query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "' .
@@ -3012,7 +3024,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 		else
 		{
-			for ($i = 0; $i < count($post['quantity']); $i++)
+			for ($i = 0, $countQuantity = count($post['quantity']); $i < $countQuantity; $i++)
 			{
 				$this->insertProductStock($pid, $post['stockroom_id'][$i], $post['quantity'][$i]);
 			}
@@ -3082,16 +3094,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/thumb/" . $imagename;
 
-		if (is_file($imagethumbsrcphy))
+		if (JFile::exists($imagethumbsrcphy))
 		{
-			unlink($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
-			unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = '" . $pid . "' ";
@@ -3123,16 +3135,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/thumb/" . $imagename;
 
-		if (is_file($imagethumbsrcphy))
+		if (JFile::exists($imagethumbsrcphy))
 		{
-			unlink($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
-			unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->table_prefix . "product_subattribute_color`
@@ -3198,7 +3210,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$section = " AND section = '" . $post['section'] . "' ";
 		$table = "product_attribute";
 
-		for ($i = 0; $i < count($post['quantity']); $i++)
+		for ($i = 0, $countQuantity = count($post['quantity']); $i < $countQuantity; $i++)
 		{
 			$preorder_stock = $post['preorder_stock'][$i];
 			$ordered_preorder = $post['ordered_preorder'][$i];
@@ -3285,7 +3297,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$stockroom_data['preorder_stock'] = $preorder_stock;
 
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = JDispatcher::getInstance();
+				$dispatcher = RedshopHelperUtility::getDispatcher();
 				$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 			}
 		}
@@ -3653,7 +3665,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$this->_db->setQuery($query);
 		$attribute = $this->_db->loadObjectList();
 
-		for ($att = 0; $att < count($attribute); $att++)
+		for ($att = 0, $countAttribute = count($attribute); $att < $countAttribute; $att++)
 		{
 			$attpost = array();
 			$attpost['attribute_id'] = 0;
@@ -3673,7 +3685,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$att_property = $this->_db->loadObjectList();
 
-			for ($prop = 0; $prop < count($att_property); $prop++)
+			for ($prop = 0, $countProperty = count($att_property); $prop < $countProperty; $prop++)
 			{
 				$listImages = $this->GetimageInfo($att_property[$prop]->property_id, 'property');
 				$listStockroomData = $this->GetStockroomData($att_property[$prop]->property_id, 'property');
@@ -3724,12 +3736,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$proprow = $this->store_pro($proppost);
 				$property_id = $proprow->property_id;
 
-				for ($ls = 0; $ls < count($listStockroomData); $ls++)
+				for ($ls = 0, $countStockroom = count($listStockroomData); $ls < $countStockroom; $ls++)
 				{
 					$this->InsertStockroom($property_id, 'property', $listStockroomData[$ls]->stockroom_id, $listStockroomData[$ls]->quantity, '', '');
 				}
 
-				for ($lp = 0; $lp < count($listAttributepriceData); $lp++)
+				$countAttributePrice = count($listAttributepriceData);
+
+				for ($lp = 0; $lp < $countAttributePrice; $lp++)
 				{
 					$this->InsertAttributeprice(
 													$property_id,
@@ -3745,7 +3759,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 												);
 				}
 
-				for ($li = 0; $li < count($listImages); $li++)
+				for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 				{
 					$mImages = array();
 					$mImages['media_name'] = $listImages[$li]->media_name;
@@ -3762,8 +3776,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 						  WHERE `subattribute_id` =  "' . $att_property[$prop]->property_id . '" ';
 				$this->_db->setQuery($query);
 				$subatt_property = $this->_db->loadObjectList();
+				$countSuboproperty = count($subatt_property);
 
-				for ($subprop = 0; $subprop < count($subatt_property); $subprop++)
+				for ($subprop = 0; $subprop < $countSuboproperty; $subprop++)
 				{
 					$listsubpropImages = $this->GetimageInfo($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$listSubStockroomData = $this->GetStockroomData($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
@@ -3813,8 +3828,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$subpost['subattribute_published'] = $subatt_property[$subprop]->subattribute_published;
 					$subrow = $this->store_sub($subpost);
 					$subproperty_id = $subrow->subattribute_color_id;
+					$countSubPropertyImage = count($listsubpropImages);
 
-					for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+					for ($lsi = 0; $lsi < $countSubPropertyImage; $lsi++)
 					{
 						$smImages = array();
 						$smImages['media_name'] = $listsubpropImages[$lsi]->media_name;
@@ -3827,7 +3843,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$this->copyadditionalImage($smImages);
 					}
 
-					for ($lss = 0; $lss < count($listSubStockroomData); $lss++)
+					$countSubStockroom = count($listSubStockroomData);
+
+					for ($lss = 0; $lss < $countSubStockroom; $lss++)
 					{
 						$this->InsertStockroom(
 												$subproperty_id,
@@ -3839,7 +3857,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 												);
 					}
 
-					for ($lsp = 0; $lsp < count($listSubAttributepriceData); $lsp++)
+					$countSubAttributePrice = count($listSubAttributepriceData);
+
+					for ($lsp = 0; $lsp < $countSubAttributePrice; $lsp++)
 					{
 						$this->InsertAttributeprice(
 														$subproperty_id,
@@ -3910,7 +3930,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$stockroom_data['preorder_stock'] = $preorder_stock;
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 
 		return true;
@@ -4264,7 +4284,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->execute();
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -4282,7 +4302,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (empty($attribute_set_id) && empty($product_id))
 		{
-			exit;
+			return;
 		}
 
 		if ($attribute_id)
@@ -4323,8 +4343,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->delete_prop($attributes[$i]->attribute_id, 0);
 			}
 		}
-
-		exit;
 	}
 
 	/**
@@ -4339,9 +4357,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . $section . "/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
-			unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 	}
 
@@ -4695,5 +4713,54 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Store product from webservice
+	 *
+	 * @param   string  $data  Data from the request
+	 *
+	 * @return array
+	 *
+	 */
+	public function saveWS($data)
+	{
+		if ($row = $this->store($data))
+		{
+			return $row->product_id;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get product attributes for the getAttribute webservice
+	 *
+	 * @param   string  $productNumber  Product number of the product
+	 *
+	 * @return array
+	 *
+	 */
+	public function getAttributesWS($productNumber)
+	{
+		$result = null;
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('product_id')
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_number') . ' = ' . $db->q($productNumber));
+		$db->setQuery($query);
+
+		$productId = $db->loadResult();
+
+		if ($productId)
+		{
+			$this->id = $productId;
+
+			$result = $this->getAttributes();
+		}
+
+		return $result;
 	}
 }

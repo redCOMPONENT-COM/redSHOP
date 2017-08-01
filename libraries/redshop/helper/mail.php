@@ -513,11 +513,12 @@ class RedshopHelperMail
 	 * Email Body and Subject is from "Invoice Mail" template section.
 	 * Contains PDF attachement. PDF html is from "Invoice Mail PDF" section.
 	 *
-	 * @param   integer $orderId Order Information Id
+	 * @param   int     $orderId  Order Information Id
+	 * @param   string  $email    Email
 	 *
 	 * @return  boolean  True on sending email successfully.
 	 */
-	public static function sendInvoiceMail($orderId)
+	public static function sendInvoiceMail($orderId, $email = null)
 	{
 		$config = JFactory::getConfig();
 
@@ -577,7 +578,12 @@ class RedshopHelperMail
 		$fromName = $config->get('fromname');
 
 		$billingAddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
-		$email            = $billingAddresses->user_email;
+
+		if (empty($email))
+		{
+			$email = $billingAddresses->user_email;
+		}
+
 		$mailBody         = self::imgInMail($mailBody);
 
 		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2

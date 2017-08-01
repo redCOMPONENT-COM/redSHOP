@@ -45,7 +45,7 @@ class RedshopViewCategories extends RedshopViewList
 		if ($this->canCreate)
 		{
 			JToolbarHelper::addNew($this->getInstanceName() . '.add');
-			JToolBarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolbarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		if ($this->canDelete)
@@ -57,7 +57,7 @@ class RedshopViewCategories extends RedshopViewList
 		{
 			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 	}
 

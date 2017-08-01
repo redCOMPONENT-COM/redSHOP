@@ -1,6 +1,7 @@
 {
   "components": [
-    "redshop", "redshop.assets"
+    "redshop",
+    "redshop.assets"
   ],
   "libraries": [
     "redshop"
@@ -89,6 +90,9 @@
       "user",
       "related_product"
     ],
+    "redshop_order": [
+      "esms"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -138,18 +142,24 @@
       "tcpdf"
     ],
     "redshop_product": [
-      "CreateColorImage",
+      "bundle",
       "canonical",
+      "CreateColorImage",
+      "discount_affect_attribute",
+      "google_microdata",
       "invoicepdf",
       "postdanmark",
+      "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
       "discount_affect_attribute",
-      "bundle"
+      "bundle",
+      "gift"
     ],
     "redshop_product_type": [
-      "bundle"
+      "bundle",
+      "gift"
     ],
     "redshop_shipping": [
       "bring",

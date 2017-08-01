@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityOrder_User extends RedshopEntity
 {
@@ -58,7 +58,7 @@ class RedshopEntityOrder_User extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function loadExtraFields()
 	{

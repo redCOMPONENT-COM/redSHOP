@@ -12,12 +12,17 @@ defined('_JEXEC') or die;
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = submitbutton = function (pressbutton) {
         var form = document.adminForm;
+
         if (pressbutton) {
             form.task.value = pressbutton;
         }
 
-        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'copy')) {
+        if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove') || (pressbutton == 'copy')) {
+            if (pressbutton == 'remove' && !confirm("<?php echo JText::_('COM_REDSHOP_DELETE_ITEMS_CONFIRM') ?>"))
+            {
+                return;
+            }
+
             form.view.value = "template_detail";
         }
         try {
@@ -28,8 +33,6 @@ defined('_JEXEC') or die;
 
         form.submit();
     }
-
-
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
@@ -95,18 +98,18 @@ defined('_JEXEC') or die;
 						<?php echo JHtml::_('grid.id', $i, $row->template_id); ?>
                     </td>
                     <td>
-		                <?php if ($row->checked_out) : ?>
-			                <?php echo JHtml::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time); ?>
-			                <?php if (!$canCheckin) : ?>
-				                <?php echo $row->template_name; ?>
-			                <?php else : ?>
+						<?php if ($row->checked_out) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time); ?>
+							<?php if (!$canCheckin) : ?>
+								<?php echo $row->template_name; ?>
+							<?php else : ?>
                                 <a href="<?php echo $link; ?>"
                                    title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
-			                <?php endif; ?>
-		                <?php else : ?>
+							<?php endif; ?>
+						<?php else : ?>
                             <a href="<?php echo $link; ?>"
                                title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
-		                <?php endif; ?>
+						<?php endif; ?>
                     </td>
                     <td>
 						<?php echo RedshopHelperTemplate::getTemplateSections($row->template_section) ?>

@@ -96,85 +96,17 @@ abstract class JHtmlRedshopGrid
 			return $value;
 		}
 
-		JFactory::getDocument()->addScriptDeclaration('
-			(function($){
-				$(document).ready(function(){
-					$("#' . $name . '-' . $id . '").click(function(event){
-						if (event.target.nodeName == "A") {
-							return true;
-						}
-
-						event.preventDefault();
-
-						var $label = $(this);
-						var $input = $("#" + $(this).data("target"));
-
-						$label.hide("fast", function(){
-							$input.show("fast", function(){$input.focus().select();})
-								.on("blur", function(event) {
-									$input.hide("fast", function(){$label.show("fast");});
-								})
-								.on("keypress", function(event) {
-									var keyCode = event.keyCode || event.which;
-
-									if (keyCode == 13) {
-										event.preventDefault();
-										// Enter key
-										document.adminForm.task.value = "ajaxInlineEdit";
-										formData = $("#adminForm").serialize();
-										formData += "&id=' . $id . '";
-
-										$.ajax({
-											url: document.adminForm.action,
-											type: "POST",
-											data: formData,
-											dataType: "JSON",
-											beforeSend: function(jqXHR, settings) {
-												$input.prop("disabled", true).addClass("disabled"); 
-											},
-											complete: function() {
-												$input.prop("disabled", false).removeClass("disabled"); 
-											}
-										})
-											.done(function(response){
-												if (response == 1) {
-													if ($label.find("a").length) {
-														$label.find("a").text($input.val());
-													} else {
-														$label.text($input.val());
-													}
-													$.redshopAlert(
-														"' . JText::_('COM_REDSHOP_SUCCESS') . '",
-														"' . JText::_('COM_REDSHOP_DATA_UPDATE_SUCCESS') . '"
-													);
-												} else {
-													$.redshopAlert(
-														"' . JText::_('COM_REDSHOP_FAIL') . '",
-														"' . JText::_('COM_REDSHOP_DATA_UPDATE_FAIL') . '",
-														"error"
-													);
-												}
-
-												$input.hide("fast", function(){
-													$label.show("fast");
-												});
-											});
-									} else if (keyCode == 27) {
-										// Escape key
-										$input.val("' . $value . '");
-										$input.hide("fast", function(){$label.show("fast");});
-									}
-								});
-						});
-					});
-				});
-			})(jQuery);
-		');
+		JHtml::script('com_redshop/redshop.inline.js', false, true, false, false);
+		JText::script('COM_REDSHOP_SUCCESS');
+		JText::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
+		JText::script('COM_REDSHOP_FAIL');
+		JText::script('COM_REDSHOP_DATA_UPDATE_FAIL');
 
 		$html = '<input type="' . $type . '" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
-			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" style="display: none;" />';
-		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" class="label-edit-inline">'
-			. $display . '</div>';
+			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" '
+			. ' data-original-value="' . $value . '" disabled="disabled" style="display: none;" />';
+		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" data-id="' . $id . '" '
+			. 'class="label-edit-inline">' . $display . '</div>';
 
 		return $html;
 	}

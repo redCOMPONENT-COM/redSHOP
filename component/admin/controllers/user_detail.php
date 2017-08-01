@@ -43,12 +43,12 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if ($row = $model->store($post))
 		{
-			$msg = JText::_('COM_REDSHOP_USER_DETAIL_SAVED');
+			$this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'));
 			$app->setUserState('com_redshop.fields_detail.data', "");
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL');
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL'), 'error');
 		}
 
 		if ($shipping)
@@ -77,7 +77,7 @@ class RedshopControllerUser_detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect($link, $msg);
+		$this->setRedirect($link);
 	}
 
 	public function remove()

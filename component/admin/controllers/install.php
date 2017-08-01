@@ -90,6 +90,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 			$method    = $process[1];
 		}
 
+		// Load class if path has been provided
+		if (isset($currentTask['path']))
+		{
+			require_once $currentTask['path'];
+		}
+
 		// Check class exist.
 		if (!class_exists($className))
 		{

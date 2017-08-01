@@ -24,7 +24,7 @@ abstract class AbstractUpdate
 	 * Exclude public method for not run when update
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION
+	 * @since  2.0.6
 	 */
 	protected $exclude = array('getTasksList');
 
@@ -126,7 +126,7 @@ abstract class AbstractUpdate
 		{
 			if (file_exists($file))
 			{
-				unlink($file);
+				\JFile::delete($file);
 			}
 		}
 
@@ -163,7 +163,7 @@ abstract class AbstractUpdate
 				continue;
 			}
 
-			if (!unlink($file))
+			if (!\JFile::delete($file))
 			{
 				return false;
 			}

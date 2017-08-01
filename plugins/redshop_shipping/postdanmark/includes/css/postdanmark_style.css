@@ -1,9 +1,12 @@
-#sog_loader, #showMap_input {
+#sog_loader,
+#showMap_input {
     margin-left: 15px;
 }
+
 #TB_ajaxContent {
     overflow: visible;
 }
+
 #pickupLocations {
     padding-top: 5px;
     /*margin-bottom: 15px;*/
@@ -17,7 +20,6 @@ table#mapAddress {
     /*margin-left: 7px;*/
     border: none;
     width: 780px;
-    font-family: "Source Sans Pro", Helvetica, sans-serif;
 }
 
 #postdanmark_list {
@@ -29,18 +31,12 @@ table#mapAddress {
 }
 
 .radio_point_container {
-    float: left;
     width: 190px;
     cursor: pointer;
-    vertical-align: top !important;
     padding-right: 0px;
     padding-top: 3px;
     padding-bottom: 3px;
-
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    border-radius: 10px;
+    vertical-align: top;
 }
 
 .point_table {
@@ -48,14 +44,14 @@ table#mapAddress {
     margin-bottom: 0px;
 }
 
-.gm-style-iw, .gm-style-iw>div {
+.gm-style-iw,
+.gm-style-iw>div {
     overflow: visible !important;
 }
 
 .radio_point_container:hover {
-    background-color: #ED1B2E;
+    background-color: #cc0000;
     color: #FFF;
-
 }
 
 .radio_point_container:hover * {
@@ -65,8 +61,9 @@ table#mapAddress {
 .sel * {
     color: #FFF;
 }
+
 .sel {
-    background-color: #ED1B2E;
+    background-color: #cc0000;
     color: #FFF;
 }
 
@@ -74,7 +71,9 @@ table#mapAddress {
     border: none;
 }
 
-.point_table *, .radio_point_container, #mapAddress tr {
+.point_table *,
+.radio_point_container,
+#mapAddress tr {
     border: none;
 }
 
@@ -89,26 +88,28 @@ table#mapAddress td {
     vertical-align: top;
     padding-right: 3px;
     padding-left: 10px;
-    width:30px;
+    width: 30px;
 }
 
 .point_info {
     vertical-align: top;
     line-height: 14px;
-    font-family: "Source Sans Pro", Helvetica, sans-serif !important;
     font-size: 14px;
 }
 
-table#mapAddress td input[name="postdanmark_pickupLocation"]{
+table#mapAddress td input[name="postdanmark_pickupLocation"] {
     margin-right: 0px;
     display: none;
 }
+
 #sp_address {
     font-weight: normal;
 }
+
 .buttons-container {
     height: 20px;
 }
+
 #mapSeachBox {
     position: absolute;
     top: -15px;
@@ -123,16 +124,20 @@ table#mapAddress td input[name="postdanmark_pickupLocation"]{
 #mapMessage {
     color: red;
 }
+
 #mapButtons {
     height: 0px;
 }
+
 #transportContainer {
     margin: 5px 10px 5px 3px;
     padding-left: 200px;
 }
+
 #transportTypeLabel {
     font-weight: bold;
 }
+
 #transportContainer span {
     margin: 5px 10px 5px 3px;
     position: relative;
@@ -144,52 +149,47 @@ table#mapAddress td input[name="postdanmark_pickupLocation"]{
 }
 
 #showMap {
-    width: 780px;
+    width: 784px;
     /*height: 897px;*/
     margin: 0 auto;
     position: relative;
-/*    top: 5px;*/
-    border: 2px solid #F50000;
+    /*    top: 5px;*/
+    border: 2px solid #cc0000;
     border-top: none;
     border-collapse: collapse;
-
-/*    -moz-border-radius: 20px;
+    /*    -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
     -khtml-border-radius: 20px;
     border-radius: 20px;      */
-
     -moz-box-shadow: 0px 0px 20px 0px #FFF;
     -webkit-box-shadow: 0px 0px 20px 0px #FFF;
     box-shadow: 0px 0px 20px 0px #FFF;
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#FFF')";
-    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#FFF');
+    filter: progid: DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#FFF');
 }
 
 #pd-logo {
     position: absolute;
     z-index: 200;
-    left: 668px;
+    right: 10px;
     top: 35px;
 }
 
 #map_canvas {
-    border-top: 2px solid #F50000;
+    border-top: 2px solid #cc0000;
 }
 
-
-
 #mapAddress>tbody>tr {
-/*    padding-top: 15px !important;*/
-
-    border-top: 1px solid #F50000;
+    /*    padding-top: 15px !important;*/
+    border-top: 1px solid #cc0000;
 }
 
 #mapAddress>tbody>tr:last-of-type {
-    border-bottom: 1px solid #F50000;
+    border-bottom: 1px solid #cc0000;
 }
 
 #mapSeachBox {
-    border: 2px solid #F50000;
+    border: 2px solid #cc0000;
 }
 
 .map_buttons {
@@ -202,28 +202,23 @@ table#mapAddress td input[name="postdanmark_pickupLocation"]{
     width: 180px;
 }
 
-.map_buttons, .postdanmark-choose {
+.map_buttons,
+.postdanmark-choose {
     font-size: 12px;
-
     padding: 0 20px 0 20px;
 }
 
-.map-button-save, .map-button-close {
-    background-color: #ED1B2E;
+.map-button-save,
+.map-button-close {
+    background-color: #cc0000;
     color: #FFF;
     cursor: pointer;
     float: right;
     padding: 2px 5px;
     text-align: center;
-    font-weight:bold;
-    border: 1px solid #ccc;
+    font-weight: bold;
     margin-left: 7px;
     width: 60px;
-
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -khtml-border-radius: 20px;
-    border-radius: 20px;
 }
 
 .postdanmark-choose {
@@ -236,5 +231,5 @@ table#mapAddress td input[name="postdanmark_pickupLocation"]{
 }
 
 .infoWindow {
-    color: #F50000;
+    color: #cc0000;
 }

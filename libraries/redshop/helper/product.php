@@ -40,7 +40,7 @@ class RedshopHelperProduct
 	/**
 	 * @var array  List of available product number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $productPrices = array();
 
@@ -59,11 +59,11 @@ class RedshopHelperProduct
 			$db    = JFactory::getDbo();
 			$query = self::getMainProductQuery();
 			$query->select(
-						array(
-							'p.product_name as text',
-							'p.product_id as value'
-						)
-					);
+				array(
+						'p.product_name as text',
+						'p.product_id as value'
+					)
+			);
 
 			$db->setQuery($query);
 
@@ -579,11 +579,13 @@ class RedshopHelperProduct
 			}
 			else
 			{
-				$chklist = JHtml::_('select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
+				$chklist = JHTML::_(
+					'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
 					. '"  class="inputbox" size="1" attribute_name="' . $attributes[$a]->attribute_name . '" required="'
 					. $attributes[$a]->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
 					. $productId . '\',\'' . $accessoryId . '\',\'' . $attributes[$a]->attribute_id . '\',\'' . $uniqueId
-					. '\');" ', 'value', 'text', '');
+					. '\');" ', 'value', 'text', ''
+				);
 			}
 
 			$lists ['property_id'] = $chklist;
@@ -1075,6 +1077,71 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Get Layout product quantity price
+	 *
+	 * @param   int  $productId  Product Id
+	 * @param   int  $userId     User Id
+	 *
+	 * @return  mixed  Redshop Layout
+	 *
+	 * @since   2.0.5
+	 */
+	public static function getProductQuantityPrice($productId, $userId)
+	{
+		$db      = JFactory::getDbo();
+		$userArr = JFactory::getSession()->get('rs_user');
+		$userHelper = rsUserHelper::getInstance();
+
+		if (empty($userArr))
+		{
+			$userArr = $userHelper->createUserSession($userId);
+		}
+
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
+
+		if ($userId)
+		{
+			$query = $db->getQuery(true)
+				->select('p.*')
+				->from($db->qn('#__redshop_users_info', 'u'))
+				->leftjoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
+				->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
+				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
+				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
+				->order($db->qn('p.price_quantity_start') . ' ASC');
+		}
+		else
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId))
+				->where($db->qn('shopper_group_id') . ' = ' . $db->q((int) $shopperGroupId))
+				->order($db->qn('price_quantity_start') . ' ASC');
+		}
+
+		$result = $db->setQuery($query)->loadObjectList();
+
+		if (empty($result))
+		{
+			return '';
+		}
+
+		return	RedshopLayoutHelper::render(
+			'product.product_price_table',
+			array(
+					'result'    => $result,
+					'productId' => $productId,
+					'userId'    => $userId
+				),
+			'',
+			array(
+					'component' => 'com_redshop'
+				)
+		);
+	}
+
+	/**
 	 * Method for get product tax
 	 *
 	 * @param   integer  $productId     Product Id
@@ -1178,7 +1245,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  object           Product price object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getProductPrices($productId, $userId, $quantity = 1)
 	{

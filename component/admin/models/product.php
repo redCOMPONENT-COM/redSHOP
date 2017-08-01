@@ -40,6 +40,13 @@ class RedshopModelProduct extends RedshopModel
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'product_number'
+			);
+		}
+
 		parent::__construct($config);
 	}
 
@@ -137,6 +144,8 @@ class RedshopModelProduct extends RedshopModel
 		{
 			return $items;
 		}
+
+		$db  = JFactory::getDbo();
 
 		$orderby = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
@@ -241,6 +250,11 @@ class RedshopModelProduct extends RedshopModel
 					$where .= " )  ";
 				}
 			}
+		}
+
+		if ($this->getState('filter.product_number'))
+		{
+			$where .= " AND p.product_number = '" . $db->escape($this->getState('filter.product_number')) . "'";
 		}
 
 		if ($category_id)
@@ -464,12 +478,11 @@ class RedshopModelProduct extends RedshopModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('id'))
-			->select($db->qn('parent_id'))
+			->select($db->qn(array('id', 'parent_id', 'level')))
 			->select($db->qn('name', 'title'))
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('published') . ' = 1')
-			->order($db->qn('ordering'));
+			->where($db->qn('level') . ' > 0')
+			->order($db->qn('lft'));
 
 		$rows = $db->setQuery($query)->loadObjectList();
 
@@ -485,8 +498,11 @@ class RedshopModelProduct extends RedshopModel
 			$children[$pt] = $list;
 		}
 
+		// Get first key to generate tree recursive
+		$firstKey = current(array_keys($children));
+
 		// Second pass - get an indent list of the items
-		$list = $this->treerecurse(1, '-', array(), $children);
+		$list = $this->treerecurse($firstKey, '- ', array(), $children);
 
 		if (count($list) > 0)
 		{
@@ -511,13 +527,13 @@ class RedshopModelProduct extends RedshopModel
 				}
 				else
 				{
-					$txt = '- ' . $v->title;
+					$txt = str_repeat($indent, $v->level) . $v->title;
 				}
 
 				$list[$id] = $v;
-				$list[$id]->treename = $indent . $txt;
+				$list[$id]->treename = $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = $this->treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1);
+				$list = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
 			}
 		}
 

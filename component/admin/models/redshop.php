@@ -13,6 +13,9 @@ class RedshopModelRedshop extends RedshopModel
 {
 	public $_table_prefix = null;
 
+	/**
+	 * RedshopModelRedshop constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,22 +23,61 @@ class RedshopModelRedshop extends RedshopModel
 		$this->_filteroption = 3;
 	}
 
+	/**
+	 * Method for insert demo content
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
 	public function demoContentInsert()
 	{
-		$db = JFactory::getDbo();
-		$category = new stdClass;
-		$category->id = 1;
-		$category->rgt = 7;
-		JFactory::getDbo()->updateObject('#__redshop_category', $category, 'id');
+		$db            = JFactory::getDbo();
+		$categoryTable = RedshopTable::getAdminInstance('Category');
 
-		$query = "INSERT IGNORE INTO `#__redshop_category` (`id`, `name`, `short_description`, `description`, `template`, `more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`, `asset_id`, `parent_id`, `level`, `lft`, `rgt`)
-						VALUES
-							(2, 'Events and Forms', '', '', 5, '5,8', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:06:45', 1, '', '0', 'append', 1, 1, 1, 1, 2),
-							(3, 'CCK and e-Commerce', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:16:31', 2, '', '0', 'append', 1, 1 ,1, 3, 4),
-							(4, 'Templates', '', '', 8, '0', 6, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:17:08', 3, '', '0', 'append', 1, 1, 1, 5, 6)";
-		$db->setQuery($query);
-		$db->execute();
+		// Category insert
+		$categoryTable->id                   = null;
+		$categoryTable->name                 = 'Events and Forms';
+		$categoryTable->template             = 5;
+		$categoryTable->more_template        = '5,8';
+		$categoryTable->products_per_page    = 4;
+		$categoryTable->published            = 1;
+		$categoryTable->ordering             = 1;
+		$categoryTable->append_to_global_seo = 'append';
+		$categoryTable->setLocation(RedshopHelperCategory::getRootId(), 'last-child');
+		$categoryTable->store();
 
+		$firstCatId = $categoryTable->id;
+
+		// Category insert
+		$categoryTable->reset();
+		$categoryTable->id                   = null;
+		$categoryTable->name                 = 'CCK and e-Commerce';
+		$categoryTable->template             = 5;
+		$categoryTable->products_per_page    = 4;
+		$categoryTable->published            = 1;
+		$categoryTable->ordering             = 2;
+		$categoryTable->append_to_global_seo = 'append';
+		$categoryTable->setLocation(RedshopHelperCategory::getRootId(), 'last-child');
+		$categoryTable->store();
+
+		$secondCatId = $categoryTable->id;
+
+		// Category insert
+		$categoryTable->reset();
+		$categoryTable->id                   = null;
+		$categoryTable->name                 = 'Templates';
+		$categoryTable->template             = 8;
+		$categoryTable->products_per_page    = 6;
+		$categoryTable->published            = 1;
+		$categoryTable->ordering             = 3;
+		$categoryTable->append_to_global_seo = 'append';
+		$categoryTable->setLocation(RedshopHelperCategory::getRootId(), 'last-child');
+		$categoryTable->store();
+
+		$thirdCatId = $categoryTable->id;
+
+		unset($categoryTable);
 
 		$query = "INSERT IGNORE INTO `#__redshop_fields`
 					(`id`, `title`, `name`, `type`, `desc`, `class`, `section`, `maxlength`, `cols`, `rows`, `size`, `show_in_front`,`published`, `required`)
@@ -137,20 +179,20 @@ class RedshopModelRedshop extends RedshopModel
 		}
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_category_xref` (`category_id`, `product_id`, `ordering`) VALUES
-						(2, 1, 1),
-						(2, 2, 2),
-						(2, 3, 3),
-						(2, 4, 4),
-						(3, 5, 1),
-						(3, 6, 2),
-						(3, 7, 3),
-						(4, 8, 1),
-						(4, 9, 2),
-						(4, 10, 0),
-						(4, 11, 0),
-						(4, 12, 0),
-						(4, 13, 0),
-						(4, 14, 3)";
+						($firstCatId, 1, 1),
+						($firstCatId, 2, 2),
+						($firstCatId, 3, 3),
+						($firstCatId, 4, 4),
+						($secondCatId, 5, 1),
+						($secondCatId, 6, 2),
+						($secondCatId, 7, 3),
+						($thirdCatId, 8, 1),
+						($thirdCatId, 9, 2),
+						($thirdCatId, 10, 0),
+						($thirdCatId, 11, 0),
+						($thirdCatId, 12, 0),
+						($thirdCatId, 13, 0),
+						($thirdCatId, 14, 3)";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -158,12 +200,11 @@ class RedshopModelRedshop extends RedshopModel
 		$query = "SELECT user_id FROM `#__redshop_users_info` LIMIT 1";
 		$db->setQuery($query);
 		$first_id = $db->loadResult();
-		$query = "INSERT IGNORE INTO `#__redshop_product_rating`
+		$query    = "INSERT IGNORE INTO `#__redshop_product_rating`
 					(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
-					VALUES (1, 1, 'high quality product', 'Flot flot flot...', ". $first_id . ", 1262695786, 4, 1, 1)";
+					VALUES (1, 1, 'high quality product', 'Flot flot flot...', " . $first_id . ", 1262695786, 4, 1, 1)";
 		$db->setQuery($query);
 		$db->execute();
-
 
 		/* Get the current columns for redshop product related */
 		$q = "SHOW INDEX FROM #__redshop_product_related";
@@ -179,16 +220,14 @@ class RedshopModelRedshop extends RedshopModel
 								`related_id` ,
 								`product_id`
 								)";
-				$db->setQuery($q);
-				$db->execute();
+				$db->setQuery($q)->execute();
 			}
 		}
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_related`
 					(`related_id`, `product_id`) VALUES
 					(0, 3),(0, 4),(0, 5),(0, 6),(0, 7),(0, 8),(0, 9),(0, 10),(0, 11),(0, 12),(0, 13),(0, 14),(1, 2),(2, 1),(3, 1),(3, 2)";
-		$db->setQuery($query);
-		$db->execute();
+		$db->setQuery($query)->execute();
 
 		/* Get the current columns for redshop product stockroom  */
 		$q = "SHOW INDEX FROM #__redshop_product_stockroom_xref";
@@ -204,19 +243,16 @@ class RedshopModelRedshop extends RedshopModel
 								`product_id` ,
 								`stockroom_id`
 								)";
-				$db->setQuery($q);
-				$db->execute();
+				$db->setQuery($q)->execute();
 			}
 		}
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_stockroom_xref`
 					(`product_id`, `stockroom_id`, `quantity`) VALUES
 					(2, 1, 100)";
-		$db->setQuery($query);
-		$db->execute();
+		$db->setQuery($query)->execute();
 
 		return true;
-		/*********************************************************/
 	}
 
 	/**
@@ -246,15 +282,15 @@ class RedshopModelRedshop extends RedshopModel
 	{
 		$query = $this->_db->getQuery(true);
 		$query->select(
-				array(
-					$this->_db->qn('o.order_id'),
-					$this->_db->qn('o.order_total'),
-					$this->_db->qn('o.order_status'),
-					$this->_db->qn('o.order_payment_status'),
-					$this->_db->qn('os.order_status_name'),
-					'CONCAT(' .  $this->_db->qn('u.firstname') . '," ",' . $this->_db->qn('u.lastname') . ') AS name'
-				)
+			array(
+				$this->_db->qn('o.order_id'),
+				$this->_db->qn('o.order_total'),
+				$this->_db->qn('o.order_status'),
+				$this->_db->qn('o.order_payment_status'),
+				$this->_db->qn('os.order_status_name'),
+				'CONCAT(' . $this->_db->qn('u.firstname') . '," ",' . $this->_db->qn('u.lastname') . ') AS name'
 			)
+		)
 			->from($this->_db->qn('#__redshop_order_users_info', 'u'))
 			->innerJoin($this->_db->qn('#__redshop_orders', 'o') . ' ON ' . $this->_db->qn('u.order_id') . '=' . $this->_db->qn('o.order_id') . ' AND ' . $this->_db->qn('u.address_type') . '="BT"')
 			->innerJoin($this->_db->qn('#__redshop_order_status', 'os') . ' ON ' . $this->_db->qn('os.order_status_code') . '=' . $this->_db->qn('o.order_status'))
@@ -270,7 +306,7 @@ class RedshopModelRedshop extends RedshopModel
 	public function getUser($user_id)
 	{
 		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+		$userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
 		$this->_db->setQuery($userquery);
 
 		return $this->_db->loadObject();
@@ -279,7 +315,7 @@ class RedshopModelRedshop extends RedshopModel
 	public function gettotalOrder($id = 0)
 	{
 		$this->_table_prefix = '#__redshop_';
-		$userquery = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
+		$userquery           = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
 			. "WHERE `user_info_id`='" . $id . "' ";
 		$this->_db->setQuery($userquery);
 
@@ -289,7 +325,7 @@ class RedshopModelRedshop extends RedshopModel
 	public function gettotalAmount($user_id)
 	{
 		$this->_table_prefix = '#__redshop_';
-		$query = 'SELECT  SUM(o.order_total) AS order_total '
+		$query               = 'SELECT  SUM(o.order_total) AS order_total '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id =uf.user_id'
 			. ' AND address_type LIKE "BT" '
@@ -302,7 +338,7 @@ class RedshopModelRedshop extends RedshopModel
 	public function getavgAmount($user_id)
 	{
 		$this->_table_prefix = '#__redshop_';
-		$query = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
+		$query               = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'WHERE o.user_id =' . $user_id . ' and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$this->_db->setQuery($query);
@@ -313,7 +349,7 @@ class RedshopModelRedshop extends RedshopModel
 	public function getUserinfo($user_id)
 	{
 		$this->_table_prefix = '#__redshop_';
-		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix .
+		$userquery           = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix .
 			"users_info where address_type='BT' and user_id=" . $user_id;
 		$this->_db->setQuery($userquery);
 
@@ -327,16 +363,16 @@ class RedshopModelRedshop extends RedshopModel
 	 */
 	public function getStatisticDashboard()
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Todo: We didn't use JDatabase because $query->unionAll() is not working, please change to use $query->unionAll() when Joomla fixed it
 		$query = 'SELECT SUM(' . $db->qn('order_total') . ') AS total
 			FROM ' . $db->qn('#__redshop_orders') . '
 			WHERE (' . $db->qn('order_status') . ' = ' . $db->q('C')
-				. ' OR '
-				. $db->qn('order_status') . ' = ' . $db->q('PR')
-				. ' OR '
-				. $db->qn('order_status') . ' = ' . $db->q('S') . ')
+			. ' OR '
+			. $db->qn('order_status') . ' = ' . $db->q('PR')
+			. ' OR '
+			. $db->qn('order_status') . ' = ' . $db->q('S') . ')
 			UNION ALL (
 				SELECT COUNT(' . $db->qn('order_id') . ')
 				FROM ' . $db->qn('#__redshop_orders') . '

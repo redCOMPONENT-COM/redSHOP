@@ -70,7 +70,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 					$cardTypes[] = JHtml::_('select.option', $creditCard[$ic], $text);
 				}
 
-				echo JHtml::_('redshopselect.radiolist', $cardTypes, 'creditcard_code', '', 'value', 'text', $creditCardData['creditcard_code']);
+				echo JHtml::_('redshopselect.radiolist', $cardTypes, 'creditcard_code', array('cssClassSuffix' => ''), 'value', 'text', $creditCardData['creditcard_code']);
 				?>
             </div>
         </div>

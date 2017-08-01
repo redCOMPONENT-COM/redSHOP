@@ -21,13 +21,6 @@ use Redshop\Table\AbstractTable;
 class RedshopTable extends AbstractTable
 {
 	/**
-	 * The options.
-	 *
-	 * @var  array
-	 */
-	protected $options = array();
-
-	/**
 	 * Prefix to add to log files
 	 *
 	 * @var  string
@@ -127,39 +120,6 @@ class RedshopTable extends AbstractTable
 	public static function getFrontInstance($name, array $config = array(), $option = 'auto')
 	{
 		return self::getAutoInstance($name, 0, $config, $option);
-	}
-
-	/**
-	 * Set a table option value.
-	 *
-	 * @param   string  $key  The key
-	 * @param   mixed   $val  The default value
-	 *
-	 * @return  JTable
-	 */
-	public function setOption($key, $val)
-	{
-		$this->options[$key] = $val;
-
-		return $this;
-	}
-
-	/**
-	 * Get a table option value.
-	 *
-	 * @param   string  $key      The key
-	 * @param   mixed   $default  The default value
-	 *
-	 * @return  mixed  The value or the default value
-	 */
-	public function getOption($key, $default = null)
-	{
-		if (isset($this->options[$key]))
-		{
-			return $this->options[$key];
-		}
-
-		return $default;
 	}
 
 	/**

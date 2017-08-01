@@ -89,7 +89,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $orderItems = array();
 
@@ -98,7 +98,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $orderProductsDownloadLog = array();
 
@@ -107,7 +107,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $orderProductsDownload = array();
 
@@ -119,7 +119,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object    Order Information Object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderDetail($orderId, $force = false)
 	{
@@ -275,7 +275,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateInvoiceNumber($number, $orderId)
 	{
@@ -335,11 +335,18 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Payment Information for orders
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		return RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
+		$payment = RedshopEntityOrder::getInstance($orderId)->getPayment();
+
+		if (null === $payment)
+		{
+			return null;
+		}
+
+		return $payment->getItem();
 	}
 
 	/**
@@ -349,7 +356,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object             Query Object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderUserQuery($orderId)
 	{
@@ -369,7 +376,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Billing information object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderBillingUserInfo($orderId, $force = false)
 	{
@@ -397,7 +404,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Shipping information object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderShippingUserInfo($orderId, $force = false)
 	{
@@ -426,7 +433,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array                      Extra Field name as a key of an array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderExtraFieldsData($orderUserInfoId, $section = 'billing', $force = false)
 	{
@@ -497,7 +504,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array              Order Items
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEntityOrder::getOrderItems instead
+	 * @deprecated  2.0.6 Use RedshopEntityOrder::getOrderItems instead
 	 */
 	public static function getItems($orderId)
 	{
@@ -812,17 +819,19 @@ class RedshopHelperOrder
 		$filter    = JFilterInput::getInstance();
 
 		// Filter name to remove special characters
+		// We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
 		$firstName = $filter->clean(
-			mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$lastName  = $filter->clean(
-			mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$fullName  = $firstName . " " . $lastName;
-		$address   = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-		$city      = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+
+		$address   = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
+		$city      = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
 
 		if ($billingInfo->is_company)
 		{
@@ -884,9 +893,9 @@ class RedshopHelperOrder
 				<val n="name"><![CDATA[' . $fullName . ']]></val>
 				<val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
 				<val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
-				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
+				<val n="zipcode">' . $billingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
-				<val n="country">' . $shippingInfo->country_code . '</val>
+				<val n="country">' . $billingInfo->country_code . '</val>
 				<val n="contact"><![CDATA[' . $firstName . ']]></val>
 				<val n="phone">' . $shippingInfo->phone . '</val>
 				<val n="doorcode"/>
@@ -938,7 +947,7 @@ class RedshopHelperOrder
 
 			$xmlResponse = $xmlResponse->val;
 
-			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
+			if ('201' === (string) $xmlResponse[1] && 'Created' === (string) $xmlResponse[2])
 			{
 				// Update current order success entry.
 				$query = $db->getQuery(true)
@@ -1066,8 +1075,14 @@ class RedshopHelperOrder
 			}
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+			JPluginHelper::importPlugin('redshop_order');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onAfterOrderStatusUpdate',
+				array(
+					self::getOrderDetails($orderId),
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1085,7 +1100,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateOrderPaymentStatus($orderId, $newStatus)
 	{
@@ -1109,7 +1124,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateOrderComment($orderId, $comment = '')
 	{
@@ -1337,11 +1352,14 @@ class RedshopHelperOrder
 			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(RedshopEntityOrder::getInstance($orderId)->getItem())
+				array(
+					RedshopEntityOrder::getInstance($orderId)->getItem(),
+					$newStatus
+				)
 			);
 
 			if ($paymentStatus == "Paid")
@@ -1364,7 +1382,7 @@ class RedshopHelperOrder
 				}
 			}
 
-			self::createWebPacklabel($orderId, $newStatus, $paymentStatus);
+			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
@@ -1373,7 +1391,6 @@ class RedshopHelperOrder
 		switch ($newStatus)
 		{
 			case "X";
-
 				$orderProducts = self::getOrderItemDetail($orderId);
 
 				for ($i = 0, $in = count($orderProducts); $i < $in; $i++)
@@ -1476,7 +1493,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderDetails($orderId)
 	{
@@ -1696,7 +1713,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  mixed             Object data if success. False otherwise.
+	 * @return  object            Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -1933,7 +1950,7 @@ class RedshopHelperOrder
 
 			$maxOrderNumber = $db->loadResult();
 			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
-			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
+			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
@@ -2231,9 +2248,9 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('element') . ' = ' . $db->quote($payment));
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote($payment));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
@@ -2511,6 +2528,7 @@ class RedshopHelperOrder
 			$search[]       = "{order_detail_link}";
 			$replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
+			// Todo: Move to the shipping plugin to return track no and track url
 			$details = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 			if (count($details) <= 1)
@@ -2518,15 +2536,24 @@ class RedshopHelperOrder
 				$details = explode("|", $orderDetail->ship_method_id);
 			}
 
-			$shopLocation = $orderDetail->shop_id;
-
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+			if ($details[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
-				$shopLocation = '';
+				$arrLocationDetails = explode('|', $orderDetail->shop_id);
+				$orderDetail->track_no = $arrLocationDetails[0];
 			}
 
-			$arrLocationDetails = explode('|', $shopLocation);
-			$orderDetail->track_no = $arrLocationDetails[0];
+			if (strpos($mailData, "{if track_no}") !== false && strpos($mailData, "{track_no end if}") !== false)
+			{
+				if (empty($orderDetail->track_no))
+				{
+					$template_pd_sdata = explode('{if track_no}', $mailData);
+					$template_pd_edata = explode('{track_no end if}', $template_pd_sdata [1]);
+					$mailData          = $template_pd_sdata[0] . $template_pd_edata[1];
+				}
+
+				$mailData = str_replace("{if track_no}", '', $mailData);
+				$mailData = str_replace("{track_no end if}", '', $mailData);
+			}
 
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderDetail->track_no);
@@ -2615,7 +2642,7 @@ class RedshopHelperOrder
 
 			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
-			if (is_file($bookInvoicePdf))
+			if (JFile::exists($bookInvoicePdf))
 			{
 				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}
@@ -2908,7 +2935,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderPaymentDetail($orderPaymentId = 0)
 	{

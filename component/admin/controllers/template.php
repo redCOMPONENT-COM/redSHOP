@@ -33,6 +33,8 @@ class RedshopControllerTemplate extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
+		$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_PUBLISHED', count($cid)));
+
 		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}
 
@@ -51,6 +53,8 @@ class RedshopControllerTemplate extends RedshopController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
+		$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_UNPUBLISHED', count($cid)));
 
 		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}

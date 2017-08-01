@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0.6
  */
-class RedshopUpdate206Beta1 extends RedshopInstallUpdate
+class RedshopUpdate206 extends RedshopInstallUpdate
 {
 	/**
 	 * Return list of old files for clean
@@ -31,14 +31,16 @@ class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redaccesslevel.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php',
-			JPATH_ADMINISTRATOR . '/component/admin/controllers/category_detail.php',
-			JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php',
-			JPATH_ADMINISTRATOR . '/component/admin/controllers/fields_detail.php',
-			JPATH_ADMINISTRATOR . '/component/admin/models/fields_detail.php',
-			JPATH_ADMINISTRATOR . '/component/admin/tables/fields_detail.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/category_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/category_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/configuration/tmpl/default_analytics.php'
 		);
 	}
 
@@ -55,8 +57,8 @@ class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 			JPATH_LIBRARIES . '/redshop/economic',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail',
-			JPATH_ADMINISTRATOR . '/component/admin/views/category_detail',
-			JPATH_ADMINISTRATOR . '/component/admin/views/fields_detail'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/category_detail',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/fields_detail'
 		);
 	}
 
@@ -83,6 +85,7 @@ class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 		$root->level     = 0;
 		$root->lft       = 0;
 		$root->rgt       = 1;
+		$root->published = 1;
 		$db->insertObject('#__redshop_category', $root);
 
 		$rootId = $db->insertid();

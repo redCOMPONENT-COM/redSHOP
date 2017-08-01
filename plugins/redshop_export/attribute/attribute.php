@@ -132,6 +132,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_virtual_number'))
 			->select($db->quote('') . ' AS ' . $db->qn('setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('setrequire_selected'))
 			->select($db->quote('') . ' AS ' . $db->qn('setdisplay_type'))
 			->select($db->quote('') . ' AS ' . $db->qn('oprand'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
@@ -176,6 +177,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->qn('ap.ordering', 'property_ordering'))
 			->select($db->qn('ap.property_number', 'property_virtual_number'))
 			->select($db->qn('ap.setdefault_selected'))
+			->select($db->qn('ap.setrequire_selected'))
 			->select($db->qn('ap.setdisplay_type'))
 			->select($db->qn('ap.oprand'))
 			->select($db->qn('ap.property_price'))
@@ -222,6 +224,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_virtual_number'))
 			->select($db->quote('') . ' AS ' . $db->qn('setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('setrequire_selected'))
 			->select($db->quote('') . ' AS ' . $db->qn('setdisplay_type'))
 			->select($db->quote('') . ' AS ' . $db->qn('oprand'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
@@ -279,16 +282,16 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return  array|bool
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	protected function getHeader()
 	{
 		return array(
 			'product_number','attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
-			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected','setdisplay_type',
-			'oprand','property_price','property_image','property_main_image','subattribute_color_name','subattribute_stock',
+			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected','setrequire_selected',
+			'setdisplay_type', 'oprand','property_price','property_image','property_main_image','subattribute_color_name', 'subattribute_stock',
 			'subattribute_color_ordering','subattribute_setdefault_selected','subattribute_color_title','subattribute_virtual_number',
 			'subattribute_color_oprand','required_sub_attribute','subattribute_color_price','subattribute_color_image','delete',
 			'media_name', 'media_alternate_text', 'media_section', 'media_published', 'media_ordering'
@@ -298,7 +301,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	/**
 	 * Method for get total count of data.
 	 *
-	 * @return int
+	 * @return  integer
 	 *
 	 * @since  1.0.0
 	 */
@@ -316,7 +319,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	/**
 	 * Method for do some stuff for data return. (Like image path,...)
 	 *
-	 * @param   array  &$data  Array of data.
+	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
 	 *
