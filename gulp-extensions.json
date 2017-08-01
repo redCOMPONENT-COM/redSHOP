@@ -145,17 +145,16 @@
       "bundle",
       "canonical",
       "CreateColorImage",
+      "custom_field_mapping",
       "discount_affect_attribute",
+      "gift",
       "google_microdata",
       "invoicepdf",
       "postdanmark",
       "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status",
-      "discount_affect_attribute",
-      "bundle",
-      "gift"
+      "stockroom_status"
     ],
     "redshop_product_type": [
       "bundle",
