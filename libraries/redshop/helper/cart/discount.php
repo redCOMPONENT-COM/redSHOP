@@ -320,8 +320,8 @@ class RedshopHelperCartDiscount
 		}
 
 		$return    = true;
-		$type      = $voucher->voucher_type;
-		$voucherId = $voucher->voucher_id;
+		$type      = $voucher->type;
+		$voucherId = $voucher->id;
 
 		$productId  = $voucher->nproduct;
 		$productArr = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart, $voucher->voucher_left);
@@ -447,7 +447,7 @@ class RedshopHelperCartDiscount
 
 			$vouchers['voucher']   = array_merge($vouchers['voucher'], $oldVouchers);
 			$cart                  = array_merge($cart, $vouchers);
-			$cart['free_shipping'] = $voucher->free_shipping;
+			$cart['free_shipping'] = $voucher->free_ship;
 
 			RedshopHelperCartSession::setCart($cart);
 		}
