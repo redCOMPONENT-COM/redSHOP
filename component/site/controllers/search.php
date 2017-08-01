@@ -110,45 +110,67 @@ class RedshopControllerSearch extends RedshopController
 	/**
 	 * AJAX Task to filter products
 	 *
-	 * @return  mixed  product filter layout
+	 * @return  void
 	 */
 	public function findProducts()
 	{
 		$app   = JFactory::getApplication();
 		$input = $app->input;
 		$model = $this->getModel('Search');
-		$post  = $input->post->get('redform', array(), 'filter');
+		$post  = $input->post->getArray();
+		$data  = $post['redform'];
 
 		$model->setState("filter.data", $post);
 		$list       = $model->getItem();
 		$pagination = $model->getFilterPagination();
-		$orderBy    = $model->getState('order_by');
 		$total      = $model->getFilterTotal();
+		$url = JRoute::_(
+			'index.php?option=' . $post['option']
+			. '&view=' . $post['view']
+			. '&layout=' . $post['layout']
+			. '&cid=' . $data['cid']
+			. '&manufacturer_id=' . $data['mid']
+			. '&Itemid=' . $post['Itemid']
+			. '&categories=' . implode(',', $data['category'])
+			. '&manufacturers=' . implode(',', $data['manufacturer'])
+			. '&filterprice[min]=' . $data['filterprice']['min']
+			. '&filterprice[max]=' . $data['filterprice']['max']
+			. '&template_id=' . $data['template_id']
+			. '&keyword=' . $data['keyword']
+			. '&order_by=' . $post['order_by']
+			. '&limit=' . $post['limit']
+			. '&limitstart=' . $post['limitstart']
+		);
+
+		foreach ($data['custom_field'] as $fieldId => $fieldValues)
+		{
+			$url .= '&custom_field[' . $fieldId . ']=' . implode(',', $fieldValues);
+		}
 
 		// Get layout HTML
-		if (!empty($list))
-		{
-			echo RedshopLayoutHelper::render(
-				'filter.result',
-				array(
-					"products"    => $list,
-					"model"       => $model,
-					"post"        => $post,
-					"pagination"  => $pagination,
-					"orderby"     => $orderBy,
-					'total'       => $total,
-					'template_id' => $post['template_id']
-				),
-				'',
-				array(
-					'component' => 'com_redshop'
-				)
-			);
-		}
-		else
+		if (empty($list))
 		{
 			echo JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
+			$app->close();
 		}
+
+		echo RedshopLayoutHelper::render(
+			'filter.result',
+			array(
+				"products"   => $list,
+				"model"      => $model,
+				"post"       => $data,
+				"pagination" => $pagination,
+				"orderBy"    => $post['order_by'],
+				'total'      => $total,
+				'templateId' => $data['template_id'],
+				'url'        => $url
+			),
+			'',
+			array(
+				'component' => 'com_redshop'
+			)
+		);
 
 		$app->close();
 	}

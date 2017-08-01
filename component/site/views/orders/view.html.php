@@ -29,8 +29,7 @@ class RedshopViewOrders extends RedshopView
 		$this->setLayout($layout);
 
 		$params        = $app->getParams('com_redshop');
-		$prodhelperobj = productHelper::getInstance();
-		$prodhelperobj->generateBreadcrumb();
+		RedshopHelperBreadcrumb::generate();
 
 		// Request variables
 		$limit      = $app->getUserStateFromRequest('com_redshop' . 'limit', 'limit', 10, 'int');

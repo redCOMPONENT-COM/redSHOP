@@ -9,8 +9,15 @@
 
 defined('_JEXEC') or die;
 
-$Itemid = JRequest::getInt('Itemid');
-$userhelper = rsUserHelper::getInstance();
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$input      = JFactory::getApplication()->input;
+$itemId     = $input->getInt('Itemid', 0);
+$isEdit     = $input->getInt('is_edit', 0);
+$return     = $input->getString('return', "");
+$infoId     = $input->getInt('infoid', 0);
+$userHelper = rsUserHelper::getInstance();
+$dispatcher->trigger('onRenderCustomField', array($infoId));
 
 $post = (array) $this->shippingAddresses;
 
@@ -24,6 +31,12 @@ $post['country_code_ST'] = $post['country_code'];
 $post['state_code_ST']   = $post['state_code'];
 ?>
 <script type="text/javascript">
+	<?php if ($isEdit == 1) : ?>
+		setTimeout(function(){
+			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $Itemid); ?>';
+		}, 3000);
+
+	<?php endif; ?>
 	function cancelForm(frm) {
 		frm.task.value = 'cancel';
 		frm.submit();
@@ -75,11 +88,10 @@ $post['state_code_ST']   = $post['state_code'];
 
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
-
 	<div id="divShipping">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-			<?php    echo $userhelper->getShippingTable($post, $this->billingAddresses->is_company, $this->lists);    ?>
+			<?php    echo $userHelper->getShippingTable($post, $this->billingAddresses->is_company, $this->lists);    ?>
 			<table cellspacing="3" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td align="right"><input type="button" class="button btn" name="back"
@@ -107,6 +119,6 @@ $post['state_code_ST']   = $post['state_code'];
 	<input type="hidden" name="task" value="save"/>
 	<input type="hidden" name="address_type" value="ST"/>
 	<input type="hidden" name="view" value="account_shipto"/>
-	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
+	<input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>
 	<input type="hidden" name="option" value="com_redshop"/>
 </form>
