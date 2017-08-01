@@ -101,15 +101,15 @@ class RedshopModelSearch extends RedshopModel
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('c.category_template, t.*')
+			->select('c.template AS category_template, t.*')
 			->from($db->qn('#__redshop_template', 't'))
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON t.template_id = c.category_template')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON t.template_id = c.template')
 			->where('t.template_section = ' . $db->q('category'))
 			->where('t.published = 1');
 
 		if ($cid != 0)
 		{
-			$query->where('c.category_id = ' . (int) $cid);
+			$query->where('c.id = ' . (int) $cid);
 		}
 
 		if ($templateid != 0)
@@ -310,7 +310,7 @@ class RedshopModelSearch extends RedshopModel
 				)
 				->select($db->qn('c.id', 'category_id'))
 				->select($db->qn('c.name', 'category_name'))
-				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
+				->leftJoin('#__redshop_category AS c ON c.id = pc.category_id')
 				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
 
 			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
@@ -319,6 +319,8 @@ class RedshopModelSearch extends RedshopModel
 				$items = array_values($products);
 			}
 		}
+
+		$this->preprocessData($this->context, $items);
 
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
@@ -1141,7 +1143,7 @@ class RedshopModelSearch extends RedshopModel
 			->select('p.product_id AS id, p.product_name AS value')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON x.category_id = c.category_id')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON x.category_id = c.id')
 			->where('p.published = 1')
 			->group('p.product_id');
 
@@ -1184,7 +1186,7 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($category_id != "0")
 		{
-			$query->where('c.category_id = ' . (int) $category_id);
+			$query->where('c.id = ' . (int) $category_id);
 		}
 
 		if ($manufacture_id != "0")
@@ -1225,6 +1227,7 @@ class RedshopModelSearch extends RedshopModel
 		$categories      = !empty($pk['category']) ? $pk['category'] : array();
 		$manufacturers   = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
 		$keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
+		$customField     = !empty($pk['custom_field']) ? $pk['custom_field'] : "";
 
 		if (isset($pk["filterprice"]))
 		{
@@ -1250,7 +1253,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				foreach ($catList as $key => $cat)
 				{
-					$list[] = $cat->category_id;
+					$list[] = $cat->id;
 				}
 
 				array_push($list, $cid);
@@ -1299,7 +1302,25 @@ class RedshopModelSearch extends RedshopModel
 
 		foreach ($catList as $key => $value)
 		{
-			$childCat[] = $value->category_id;
+			$childCat[] = $value->id;
+		}
+
+		if (!empty($customField))
+		{
+			$key = 0;
+
+			foreach ($customField as $fieldId => $fieldValues)
+			{
+				if (empty($fieldValues))
+				{
+					continue;
+				}
+
+				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
+					->where('CONCAT(",", ' . $db->qn('fd' . $key . '.data_txt') . ', ",") REGEXP ",' . implode("|", $fieldValues) . ',"')
+					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
+				$key++;
+			}
 		}
 
 		if (!empty($categoryForSale) && in_array($cid, $childCat))
@@ -1317,12 +1338,12 @@ class RedshopModelSearch extends RedshopModel
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
 			}
-            elseif (!empty($cid) || !empty($categories))
+			elseif (!empty($cid) || !empty($categories))
 			{
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
 		}
-        elseif (!empty($cid) || !empty($categories))
+		elseif (!empty($cid) || !empty($categories))
 		{
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
@@ -1331,7 +1352,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query->where($db->qn("p.manufacturer_id") . " IN (" . implode(',', $manufacturers) . ')');
 		}
-        elseif ($mid)
+		elseif ($mid)
 		{
 			$query->where($db->qn("p.manufacturer_id") . "=" . $db->q((int) $mid));
 		}
@@ -1345,6 +1366,9 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query->order($db->escape($orderBy));
 		}
+
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
 
 		return $query;
 	}
@@ -1363,7 +1387,7 @@ class RedshopModelSearch extends RedshopModel
 		$templateId = $this->getState('template_id');
 
 		$redTemplate  = Redtemplate::getInstance();
-		$templateArr  = $redTemplate->getTemplate("redproductfinder", $templateId);
+		$templateArr  = $redTemplate->getTemplate("category", $templateId);
 		$templateDesc = $templateArr[0]->template_desc;
 
 		if ($templateDesc)

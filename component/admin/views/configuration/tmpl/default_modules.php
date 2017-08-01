@@ -20,24 +20,6 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
-		'title' => JText::_('COM_REDSHOP_MY_WISHLIST_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_MY_WISHLIST'),
-		'field' => $this->lists['my_wishlist']
-	)
-);
-
-echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
-		'title' => JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LOGIN_REQUIRED'),
-		'field' => $this->lists['wishlist_login_required']
-	)
-);
-
-echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
 		'title' => JText::_('COM_REDSHOP_MY_TAGS_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_MY_TAGS'),
 		'field' => $this->lists['my_tags']

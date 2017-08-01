@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,6 +24,10 @@ class plgContentredshop_product extends JPlugin
 		{
 			JHTML::_('behavior.tooltip');
 			JHTML::_('behavior.modal');
+			JHtml::_('redshopjquery.framework');
+
+			JPluginHelper::importPlugin('redshop_product');
+			$dispatcher = RedshopHelperUtility::getDispatcher();
 
 			$session = JFactory::getSession();
 			$post    = JRequest::get('POST');
@@ -32,14 +36,6 @@ class plgContentredshop_product extends JPlugin
 			{
 				$session->set('product_currency', $post['product_currency']);
 			}
-
-			JHtml::_('redshopjquery.framework');
-			JHtml::script('com_redshop/redbox.js', false, true);
-			JHtml::script('com_redshop/attribute.js', false, true);
-			JHtml::script('com_redshop/common.js', false, true);
-			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
-			JHtml::stylesheet('com_redshop/style.css', array(), true);
-			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 
 			$module_id     = "plg_";
 			$producthelper = productHelper::getInstance();
@@ -83,6 +79,8 @@ class plgContentredshop_product extends JPlugin
 					$row->text = str_replace($matches[$i], '', $row->text);
 					continue;
 				}
+
+				$dispatcher->trigger('onPrepareProduct', array(&$prtemplate, &$red_params, $product));
 
 				// Changes for sh404sef duplicating url
 				$catid = $producthelper->getCategoryProduct($product->product_id);
@@ -241,7 +239,7 @@ class plgContentredshop_product extends JPlugin
 						}
 					}
 
-					for ($ui = 0; $ui < count($userfieldArr); $ui++)
+					for ($ui = 0, $countUserfield = count($userfieldArr); $ui < $countUserfield; $ui++)
 					{
 						if (!$idx)
 						{
@@ -316,6 +314,8 @@ class plgContentredshop_product extends JPlugin
 
 				$attribute_template = $producthelper->getAttributeTemplate($prtemplate);
 				$prtemplate = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prtemplate, $attribute_template, $isChilds);
+
+				$dispatcher->trigger('onAfterDisplayProduct', array(&$prtemplate, &$red_params, $product));
 
 				$row->text = str_replace($matches[$i], $prtemplate, $row->text);
 			}

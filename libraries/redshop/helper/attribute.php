@@ -274,7 +274,7 @@ abstract class RedshopHelperAttribute
 
 						if ($property[$i]->property_image)
 						{
-							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[$i]->property_image))
+							if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[$i]->property_image))
 							{
 								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
@@ -509,6 +509,19 @@ abstract class RedshopHelperAttribute
 					else
 					{
 						$attr_title = urldecode($attributes[$a]->text);
+					}
+
+					if (strpos($attribute_table, '{attribute_tooltip}') !== false)
+					{
+						if (!empty($attributes[$a]->attribute_description))
+						{
+							$tooltip = JHTML::tooltip($attributes[$a]->attribute_description, $attributes[$a]->attribute_description, 'tooltip.png', '', '');
+							$attribute_table = str_replace("{attribute_tooltip}", $tooltip, $attribute_table);
+						}
+						else
+						{
+							$attribute_table = str_replace("{attribute_tooltip}", "", $attribute_table);
+						}
 					}
 
 					$attribute_table = str_replace("{attribute_title}", $attr_title, $attribute_table);
@@ -751,7 +764,7 @@ abstract class RedshopHelperAttribute
 					$propertyImage = "";
 
 					if ($property->property_image
-						&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image))
+						&& JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image))
 					{
 						$thumbUrl = RedshopHelperMedia::getImagePath(
 							$property->property_image,
