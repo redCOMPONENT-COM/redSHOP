@@ -84,7 +84,7 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 		);
 
 		// For individual show_price and catalog
-		$show_price_data = $redhelper->getPreOrderByList();
+		$show_price_data = RedshopHelperUtility::getPreOrderByList();
 		$lists['show_price'] = JHTML::_('select.genericlist', $show_price_data, 'show_price',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->show_price
 		);

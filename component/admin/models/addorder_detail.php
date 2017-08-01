@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 
 
 class RedshopModelAddorder_detail extends RedshopModel
@@ -236,9 +238,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function store($postdata)
 	{
-		$redshopMail = redshopMail::getInstance();
 		$order_functions = order_functions::getInstance();
-		$helper = redhelper::getInstance();
 		$producthelper = productHelper::getInstance();
 		$rsCarthelper = rsCarthelper::getInstance();
 		$adminproducthelper = RedshopAdminProduct::getInstance();
@@ -383,7 +383,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$rowitem->wrapper_price = $wrapper_price;
 			$rowitem->is_giftcard = 0;
 
-			if ($producthelper->checkProductDownload($product_id))
+			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
@@ -672,7 +672,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				$userfields = $item[$i]->extrafieldname;
 				$userfields_id = $item[$i]->extrafieldId;
 
-				for ($ui = 0; $ui < count($userfields); $ui++)
+				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
 					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
@@ -752,14 +752,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			$helper->clickatellSMS($row->order_id);
+			RedshopHelperClickatell::clickatellSMS($row->order_id);
 		}
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$economic = economic::getInstance();
-
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
 			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];
 			$economicdata['economic_is_creditcard'] = $postdata['economic_is_creditcard'];
@@ -773,7 +771,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
@@ -782,11 +780,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$checkOrderStatus          = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
-					$redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -794,7 +792,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// ORDER MAIL SEND
 		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
 		{
-			$redshopMail->sendOrderMail($row->order_id);
+			RedshopHelperMail::sendOrderMail($row->order_id);
 		}
 
 		return $row;

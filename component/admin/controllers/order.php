@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 
 class RedshopControllerOrder extends RedshopController
 {
@@ -168,15 +170,13 @@ class RedshopControllerOrder extends RedshopController
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
-			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
+			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
-			if (is_file($bookinvoicepdf))
+			if (JFile::exists($bookinvoicepdf))
 			{
-				$redshopMail = redshopMail::getInstance();
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
@@ -209,16 +209,15 @@ class RedshopControllerOrder extends RedshopController
 			}
 
 			$economic = economic::getInstance();
-			$economic->createInvoiceInEconomic($order_id, $economicdata);
+			Economic::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 1);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
-					$redshopMail = redshopMail::getInstance();
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -235,7 +234,7 @@ class RedshopControllerOrder extends RedshopController
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper = productHelper::getInstance();
@@ -319,7 +318,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
@@ -356,7 +355,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper  = productHelper::getInstance();
@@ -436,7 +435,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo $no_items [$it]->order_item_name . ",";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
@@ -476,11 +475,11 @@ class RedshopControllerOrder extends RedshopController
 		if ($generate_label == "success")
 		{
 			$sussces_message = JText::_('COM_REDSHOP_XML_GENERATED_SUCCESSFULLY');
-			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message, 'success');
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label, 'error');
 		}
 	}
 

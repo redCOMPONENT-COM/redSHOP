@@ -162,7 +162,7 @@ if ($category)
 }
 else
 {
-	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = pc.category_id')
+	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = pc.category_id')
 		->where($db->qn('c.published') . ' = 1');
 }
 

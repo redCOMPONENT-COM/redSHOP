@@ -66,7 +66,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
+		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
 		$lists['shop_country'] = JHTML::_('select.genericlist', $countries, 'shop_country',
 			'class="inputbox" size="1" ', 'value', 'text', $this->temparray['SHOP_COUNTRY']

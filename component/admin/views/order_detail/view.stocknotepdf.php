@@ -82,7 +82,15 @@ class RedshopViewOrder_Detail extends RedshopView
 				$product_detail = Redshop::product((int) $products[$p]->product_id);
 				$middle_data = str_replace("{product_number}", $product_detail->product_number, $middle_data);
 				$middle_data = str_replace("{product_name}", $products[$p]->order_item_name, $middle_data);
-				$middle_data = str_replace("{product_attribute}", $products[$p]->product_attribute, $middle_data);
+
+				$middle_data = RedshopTagsReplacer::_(
+						'attribute',
+						$middle_data,
+						array(
+							'product_attribute' 	=> $products[$p]->product_attribute,
+						)
+					);
+
 				$middle_data = str_replace("{product_quantity}", $products[$p]->product_quantity, $middle_data);
 			}
 
@@ -97,7 +105,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		$pdfTemplate = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $pdfTemplate);
 		$pdfTemplate = str_replace("{product_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $pdfTemplate);
 		$billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
-		$pdfTemplate = $cartHelper->replaceBillingAddress($pdfTemplate, $billing);
+		$pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
 		$shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 		$pdfTemplate = $cartHelper->replaceShippingAddress($pdfTemplate, $shipping);
 		$pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);

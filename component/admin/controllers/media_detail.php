@@ -90,8 +90,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					copy($old_path, $new_path);
 
-					unlink($old_path);
-					unlink($old_thumb_path);
+					JFile::delete($old_path);
+					JFile::delete($old_thumb_path);
 				}
 
 				if ($save = $model->store($post))
@@ -259,9 +259,19 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 		}
+		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "")
+		{
+			$save = $model->store($post);
+			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+					. $post['section_id'] . '&showbuttons=1&section_name='
+					. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+				);
+		}
 		else
 		{
-			if ($cid [0] != 0)
+			if ($cid[0] != 0)
 			{
 				$model->delete($cid);
 				$post['bulk'] = 'no';
@@ -463,7 +473,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
-										unlink($btsrc);
+										JFile::delete($btsrc);
 
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
@@ -524,7 +534,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
-											unlink($btsrc);
+											JFile::delete($btsrc);
 											$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 											if (isset($post['set']) && $post['media_section'] != 'manufacturer')
@@ -593,7 +603,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$originaldir = $post['media_name'];
 									copy($btsrc, $originaldir);
-									unlink($btsrc);
+									JFile::delete($btsrc);
 									$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 									if (isset($post['set']) && $post['media_section'] != 'manufacturer')
@@ -652,20 +662,20 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										// Set First Image as product Main Imaged
 										$originaldir = JPATH_ROOT . '/components/com_redshop/assets/' . $row->media_type . '/'
-											. $row->media_section . '/' . RedShopHelperImages::cleanFileName($scan[$i]);
+											. $row->media_section . '/' . RedshopHelperMedia::cleanFileName($scan[$i]);
 
 										copy($btsrc, $originaldir);
 
-										if (is_file($btsrc))
+										if (JFile::exists($btsrc))
 										{
-											unlink($btsrc);
+											JFile::delete($btsrc);
 										}
 
-										if (is_file($target))
+										if (JFile::exists($target))
 										{
-											rmdir($target . '/' . $name[0]);
-											rmdir($target);
-											unlink($dest);
+											JFolder::delete($target . '/' . $name[0]);
+											JFolder::delete($target);
+											JFile::delete($dest);
 
 											return true;
 										}
@@ -1002,99 +1012,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 	}
 
 	/**
-	 * Publish Media
-	 *
-	 * @return  [type]  [description]
-	 */
-	public function publish()
-	{
-		$post = $this->input->post->getArray();
-
-		$section_id    = $this->input->get('section_id');
-		$media_section = $this->input->get('media_section');
-		$cid           = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('media_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_PUBLISHED_SUCCESSFULLY');
-
-		if ($section_id)
-		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
-				. '&showbuttons=1&media_section=' . $media_section, $msg
-			);
-		}
-
-		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
-		{
-			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script><?php
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
-		}
-	}
-
-	/**
-	 * Unpublish Media
-	 *
-	 * @return  [type]  [description]
-	 */
-	public function unpublish()
-	{
-		$post = $this->input->post->getArray();
-
-		$section_id    = $this->input->get('section_id');
-		$media_section = $this->input->get('media_section');
-		$cid           = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('media_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-
-		if ($section_id)
-		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
-				. '&showbuttons=1&media_section=' . $media_section, $msg
-			);
-		}
-		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
-		{
-			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script><?php
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
-		}
-	}
-
-	/**
 	 * Cancel Media Detail
 	 *
 	 * @return  [type]  [description]
@@ -1138,8 +1055,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$media_section = $this->input->get('media_section');
 		$cid           = $this->input->post->get('cid', array(), 'array');
 		$order         = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		Joomla\Utilities\ArrayHelper::toInteger($cid);
+		Joomla\Utilities\ArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

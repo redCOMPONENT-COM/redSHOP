@@ -30,12 +30,12 @@ $layout             = $app->input->getWord('layout', '');
 $params             = $app->getParams('com_redshop');
 $categoryId         = $app->input->getInt('cid', $params->get('categoryid'));
 $productId          = $app->input->getInt('pid', 0);
-$shopperGroupPortal = $helper->getShopperGroupPortal();
+$shopperGroupPortal = RedshopHelperShopper_Group::getShopperGroupPortal();
 $user               = JFactory::getUser();
 $portal             = 0;
 
 // Add product in cart from db
-$helper->dbtocart();
+RedshopHelperUtility::databaseToCart();
 
 if (!empty($shopperGroupPortal))
 {
@@ -51,8 +51,8 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 		if (!$checkProductPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -63,8 +63,8 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -78,8 +78,8 @@ else
 		if (!$checkProductPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -91,8 +91,8 @@ else
 		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -100,11 +100,11 @@ else
 	if ($vName == 'redshop')
 	{
 		$vName = 'category';
-		JRequest::setVar('view', 'category');
+		$app->input->set('view', 'category');
 	}
 	else
 	{
-		JRequest::setVar('view', $vName);
+		$app->input->set('view', $vName);
 	}
 }
 
@@ -122,21 +122,6 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 	}
 
 	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
-
-	if ($layout != 'receipt')
-	{
-		/*
-		 * get redSHOP Google Analytics Plugin is Enable?
-		 * If it is Disable than load Google Analytics From redSHOP
-		 */
-		$isRedGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
-
-		if (!$isRedGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
-		{
-			$ga = new RedshopHelperGoogleanalytics;
-			$ga->placeTrans();
-		}
-	}
 }
 
 // Check for array format.
@@ -155,7 +140,7 @@ else
 // Check for a not controller.task command.
 if (strpos($command, '.') === false)
 {
-	JRequest::setVar('task', $vName . '.' . $command);
+	$app->input->set('task', $vName . '.' . $command);
 }
 
 // Perform the Request task
@@ -163,7 +148,7 @@ $controller = JControllerLegacy::getInstance('Redshop');
 
 if (version_compare(JVERSION, '3.0', '<'))
 {
-	$task = JRequest::getCmd('task');
+	$task = $app->input->getCmd('task');
 }
 else
 {

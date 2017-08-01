@@ -40,6 +40,13 @@ class RedshopModelProduct extends RedshopModel
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'product_number'
+			);
+		}
+
 		parent::__construct($config);
 	}
 
@@ -138,6 +145,8 @@ class RedshopModelProduct extends RedshopModel
 			return $items;
 		}
 
+		$db  = JFactory::getDbo();
+
 		$orderby = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
 		$keyword = $this->getState('keyword');
@@ -173,7 +182,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 			elseif ($product_sort == 'p.not_for_sale')
 			{
-				$and = 'AND p.not_for_sale=1 ';
+				$and = 'AND p.not_for_sale > 0 ';
 			}
 			elseif ($product_sort == 'p.product_not_on_sale')
 			{
@@ -243,9 +252,14 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
+		if ($this->getState('filter.product_number'))
+		{
+			$where .= " AND p.product_number = '" . $db->escape($this->getState('filter.product_number')) . "'";
+		}
+
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '" . $category_id . "'  ";
+			$where .= " AND c.id = '" . $category_id . "'  ";
 		}
 
 		if ($where == '' && $search_field != 'pa.property_number')
@@ -265,7 +279,7 @@ class RedshopModelProduct extends RedshopModel
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
 			x.ordering , x.category_id "
 			. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.category_id ";
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
@@ -344,11 +358,15 @@ class RedshopModelProduct extends RedshopModel
 
 	public function listedincats($pid)
 	{
-		$query = 'SELECT c.category_name FROM #__redshop_product_category_xref as ref, #__redshop_category as c WHERE product_id ="' . $pid
-			. '" AND ref.category_id=c.category_id ORDER BY c.category_name';
-		$this->_db->setQuery($query);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->order($db->qn('c.name'));
 
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	public function product_template($template_id, $product_id, $section)
@@ -457,11 +475,16 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$this->_categorytreelist = array();
-		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title "
-			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
-			. "WHERE c.category_id=cx.category_child_id " . "ORDER BY ordering ";
-		$this->_db->setQuery($q);
-		$rows = $this->_db->loadObjectList();
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn(array('id', 'parent_id', 'level')))
+			->select($db->qn('name', 'title'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('level') . ' > 0')
+			->order($db->qn('lft'));
+
+		$rows = $db->setQuery($query)->loadObjectList();
 
 		// Establish the hierarchy of the menu
 		$children = array();
@@ -475,8 +498,11 @@ class RedshopModelProduct extends RedshopModel
 			$children[$pt] = $list;
 		}
 
+		// Get first key to generate tree recursive
+		$firstKey = current(array_keys($children));
+
 		// Second pass - get an indent list of the items
-		$list = $this->treerecurse(0, '', array(), $children);
+		$list = $this->treerecurse($firstKey, '- ', array(), $children);
 
 		if (count($list) > 0)
 		{
@@ -501,13 +527,13 @@ class RedshopModelProduct extends RedshopModel
 				}
 				else
 				{
-					$txt = '- ' . $v->title;
+					$txt = str_repeat($indent, $v->level) . $v->title;
 				}
 
 				$list[$id] = $v;
-				$list[$id]->treename = $indent . $txt;
+				$list[$id]->treename = $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = $this->treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1);
+				$list = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
 			}
 		}
 

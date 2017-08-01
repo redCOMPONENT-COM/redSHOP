@@ -47,17 +47,16 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $stockroom_type
 		);
 
-		$product_category = new product_category;
-		$categories = $product_category->getCategoryListArray();
+		$categories = RedshopHelperCategory::getCategoryListArray();
 
 		$temps = array();
 		$temps[0] = new stdClass;
-		$temps[0]->category_id = "0";
-		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->id = "0";
+		$temps[0]->name = JText::_('COM_REDSHOP_SELECT');
 		$categories = @array_merge($temps, $categories);
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id',
 			'class="inputbox" onchange="getTaskChange();document.adminForm.submit();" ',
-			'category_id', 'category_name', $category_id
+			'id', 'name', $category_id
 		);
 
 		$lists ['order']     = $this->state->get('list.ordering', 'p.product_id');

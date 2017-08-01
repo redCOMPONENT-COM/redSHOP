@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Statistic helper
+ *
+ * @since  1.5
+ */
 class statistic
 {
 	protected static $instance = null;
@@ -17,7 +22,7 @@ class statistic
 	 * Returns the productHelper object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  productHelper  The productHelper object
+	 * @return  self  The productHelper object
 	 *
 	 * @since   1.6
 	 */
