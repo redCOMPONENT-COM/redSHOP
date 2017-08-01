@@ -16,8 +16,6 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperCategory
 {
-	protected static $categoriesData = array();
-
 	protected static $categoryListReverse = array();
 
 	protected static $categoryChildListReverse = array();
@@ -27,29 +25,13 @@ class RedshopHelperCategory
 	 *
 	 * @param   int  $cid  Category id
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @deprecated  2.0.6  Use RedshopEntityCategory instead
 	 */
 	public static function getCategoryById($cid)
 	{
-		if (!$cid)
-		{
-			return null;
-		}
-
-		if (!array_key_exists($cid, static::$categoriesData))
-		{
-			$db = JFactory::getDbo();
-
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_category'))
-				->where($db->qn('id') . ' = ' . $db->q((int) $cid))
-				->group($db->qn('id'));
-
-			static::$categoriesData[$cid] = $db->setQuery($query)->loadObject();
-		}
-
-		return static::$categoriesData[$cid];
+		return RedshopEntityCategory::getInstance($cid)->getItem();
 	}
 
 	/**
@@ -101,7 +83,7 @@ class RedshopHelperCategory
 	 *
 	 * @return   array|mixed
 	 */
-	public static function getCategoryListArray($categoryId = 0, $cid = 0)
+	public static function getCategoryListArray($categoryId = 1, $cid = 1)
 	{
 		global $context;
 		$app = JFactory::getApplication();
@@ -434,58 +416,15 @@ class RedshopHelperCategory
 	 *
 	 * @param   string  $cid  Category ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @deprecated  2.0.6  Use RedshopEntityCategory::getProducts() instead.
 	 */
 	public static function getCategoryProductList($cid)
 	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select($db->qn('p.product_id', 'id'))
-			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
-			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.id'))
-			->where($db->qn('c.id') . ' = ' . (int) $cid)
-			->where($db->qn('p.published') . ' = 1');
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
-	 * Check if Accessory is existed
-	 *
-	 * @param   integer  $productId    Product ID
-	 * @param   integer  $accessoryId  Accessory ID
-	 *
-	 * @return integer
-	 *
-	 * @since  2.0.0.3
-	 */
-	public static function checkAccessoryExists($productId, $accessoryId)
-	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select($db->qn(array('pa.accessory_id', 'pa.product_id')))
-			->from($db->qn('#__redshop_product_accessory', 'pa'))
-			->where($db->qn('pa.product_id') . ' = ' . (int) $productId)
-			->where($db->qn('pa.child_product_id') . ' = ' . (int) $accessoryId);
-
-		$db->setQuery($query);
-		$result = $db->loadObjectList();
-
-		if (count($result) > 0)
-		{
-			$return = $result[0]->accessory_id;
-		}
-		else
-		{
-			$return = 0;
-		}
-
-		return $return;
+		return RedshopEntityCategory::getInstance($cid)->getProducts();
 	}
 
 	/**

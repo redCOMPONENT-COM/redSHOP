@@ -21,7 +21,8 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 ?>
-
+<?php if (!empty($productAttribute)) : ?>
 <div id="product_attribute_id" class="product_attribute_class">
 	<?php echo $productAttribute ?>
 </div>
+<?php endif; ?>

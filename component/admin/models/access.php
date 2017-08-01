@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 
 class RedshopModelAccess extends RedshopModelForm

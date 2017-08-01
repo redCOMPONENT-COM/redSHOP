@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Categories
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopModelCategories extends RedshopModelList
 {
@@ -31,7 +31,7 @@ class RedshopModelCategories extends RedshopModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function __construct($config = array())
 	{
@@ -101,7 +101,7 @@ class RedshopModelCategories extends RedshopModelList
 	 *
 	 * @return      string  An SQL query
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function getListQuery()
 	{
@@ -117,7 +117,7 @@ class RedshopModelCategories extends RedshopModelList
 
 		// Filter: Parent ID
 		$parentId = $this->getState('filter.category_id');
-		
+
 
 		if (!empty($parentId))
 		{
@@ -158,24 +158,6 @@ class RedshopModelCategories extends RedshopModelList
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
-	}
-
-	/**
-	 * Method to count category.
-	 *
-	 * @param   int  $cid  category id.
-	 *
-	 * @return  void.
-	 */
-	public function getProducts($cid)
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(category_id)')
-			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('category_id') . ' = ' . $db->q((int) $cid));
-
-		return $db->setQuery($query)->loadResult();
 	}
 
 	/**

@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+namespace Redshop\Site;
 
+defined('_JEXEC') or die;
 
 /**
  * Class catalogModelcatalog

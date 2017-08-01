@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Google Analytics
  *
- * @since  2.5
+ * @since  2.0
+ *
+ * @deprecated  2.0.6  Use plugin system - google analytics for redshop
  */
 class RedshopHelperGoogleanalytics
 {
@@ -21,18 +23,13 @@ class RedshopHelperGoogleanalytics
 	 * It is similar to the previous tracking code, ga.js,
 	 * but offers more flexibility for developers to customize their implementations.
 	 *
-	 * @return  string  PageView tracking code
+	 * @return  string               PageView tracking code
+	 *
+	 * @deprecated  2.0.6
 	 */
-	public static function pageTrackerView()
+	public function pageTrackerView()
 	{
-		// The first line of the tracking script should always initialize the page tracker object.
-		$pagecode = "
-		  	ga('create', '" . Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') . "', 'auto');
-			ga('send', 'pageview');
-
-		";
-
-		return $pagecode;
+		return '';
 	}
 
 	/**
@@ -40,119 +37,56 @@ class RedshopHelperGoogleanalytics
 	 * You can add transaction and item data to the shopping cart, and once fully configured,
 	 * you send all the data at once.
 	 *
-	 * @param   array  $data  Order Information in associative array
+	 * @param   array $data Order Information in associative array
 	 *
-	 * @return  string  Add GA Ecommerce Transaction code
+	 * @return  string        Add GA Ecommerce Transaction code
+	 *
+	 * @deprecated  2.0.6
 	 */
 	public function addTrans($data)
 	{
-		$packegecode = "
-			ga('require', 'ecommerce', 'ecommerce.js');
-
-			ga('ecommerce:addTransaction', {
-				'id': '" . $data['order_id'] . "',             // Transaction ID. Required.
-				'affiliation': '" . $data['shopname'] . "',    // Affiliation or store name.
-				'revenue': '" . $data['order_total'] . "',     // Grand Total.
-				'shipping': '" . $data['order_shipping'] . "', // Shipping.
-				'tax': '" . $data['order_tax'] . "'            // Tax.
-			});
-
-		";
-
-		return $packegecode;
+		return '';
 	}
 
 	/**
 	 * Add items to the shopping cart
 	 *
-	 * @param   array  $itemdata  Order Item information Associative Array
+	 * @param   array $itemData Order Item information Associative Array
 	 *
-	 * @return string Transaction Item information.
+	 * @return  string            Transaction Item information.
+	 *
+	 * @deprecated  2.0.6
 	 */
-	public function addItem($itemdata)
+	public function addItem($itemData)
 	{
-		$itemdata['product_name'] = str_replace("\n", " ", $itemdata['product_name']);
-		$itemdata['product_name'] = str_replace("\r", " ", $itemdata['product_name']);
-
-		$packegecode = "
-
-			ga('ecommerce:addItem', {
-				'id': '" . $itemdata['order_id'] . "',                  // Transaction ID. Required.
-				'name': '" . $itemdata['product_name'] . "',    		// Product name. Required.
-				'sku': '" . $itemdata['product_number'] . "',           // SKU/code.
-				'category': '" . $itemdata['product_category'] . "',    // Category or variation.
-				'price': '" . $itemdata['product_price'] . "',          // Unit price.
-				'quantity': '" . $itemdata['product_quantity'] . "'     // Quantity.
-			});
-		";
-
-		return $packegecode;
+		return '';
 	}
 
 	/**
 	 * Finally, once we have configured all ecommerce data in the shopping cart, we will send it to GA.
 	 *
 	 * @return  string  Sending Information of ecommerce tracking.
+	 *
+	 * @deprecated  2.0.6
 	 */
 	public function trackTrans()
 	{
-		// Submits transaction to the Analytics servers
-		$packegecode = "
-			ga('ecommerce:send');
-		";
-
-		return $packegecode;
+		return '';
 	}
 
 	/**
 	 * Code settings for Google Analytics
 	 *
-	 * @param   array  $analyticsData  Analytics data in associative array which needs to be send on GA.
+	 * @param   array $analyticsData Analytics data in associative array which needs to be send on GA.
 	 *
 	 * @return  void
 	 *
 	 * @see     https://developers.google.com/analytics/devguides/collection/analyticsjs/
+	 *
+	 * @deprecated  2.0.6
 	 */
 	public function placeTrans($analyticsData = array())
 	{
-		$pageCode = "
-
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		";
-
-		$pageCode .= self::pageTrackerView();
-
-		if (isset($analyticsData['addtrans']))
-		{
-			$addtrans = $analyticsData['addtrans'];
-
-			// Add Transaction/Order to google Analytic
-			$pageCode .= $this->addTrans($addtrans);
-
-			if (isset($analyticsData['addItem']))
-			{
-				$addItem = $analyticsData['addItem'];
-
-				$tItem = count($addItem);
-
-				for ($i = 0; $i < $tItem; $i++)
-				{
-					$item = $addItem[$i];
-
-					// Add Order Items to google Analytic
-					$pageCode .= $this->addItem($item);
-				}
-			}
-
-			// Track added order to google analytics
-			$pageCode .= $this->trackTrans();
-		}
-
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($pageCode);
+		return;
 	}
 }

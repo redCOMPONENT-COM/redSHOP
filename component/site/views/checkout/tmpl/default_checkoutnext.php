@@ -37,7 +37,7 @@ $order_functions = order_functions::getInstance();
 $redhelper = redhelper::getInstance();
 $userhelper = rsUserHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 
 $user = JFactory::getUser();
 $session = JFactory::getSession();
@@ -46,7 +46,7 @@ $user_id = $user->id;
 
 // Get redshop helper
 
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 
 if ($Itemid == 0)
 {

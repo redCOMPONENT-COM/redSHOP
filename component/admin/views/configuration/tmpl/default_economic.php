@@ -105,7 +105,7 @@ echo RedshopLayoutHelper::render(
             $('#economic_invoice_draft').on("change", function (e) {
                 e.preventDefault();
 
-                if ($(this).val() == 1) {
+                if ($(this).val() == 2) {
                     $("#booking_order_status").show();
                 } else {
                     $("#booking_order_status").hide();

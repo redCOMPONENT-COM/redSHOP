@@ -145,7 +145,7 @@ class redTigraTreeMenu
 			{
 				$ibg++;
 				$Treeid  = $ibg;
-				$cItemid = $objhelper->getCategoryItemid($category->cid);
+				$cItemid = RedshopHelperUtility::getCategoryItemid($category->cid);
 				if ($cItemid != "")
 				{
 					$tmpItemid = $cItemid;

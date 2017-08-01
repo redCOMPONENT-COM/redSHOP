@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+use Joomla\String\StringHelper;
 
 /**
  * Redshop Model
@@ -325,7 +325,7 @@ class RedshopModelForm extends JModelAdmin
 
 		while ($table->load(array($fieldName => $fieldValue)))
 		{
-			$fieldValue = JString::increment($fieldValue, $style);
+			$fieldValue = StringHelper::increment($fieldValue, $style);
 		}
 
 		return $fieldValue;

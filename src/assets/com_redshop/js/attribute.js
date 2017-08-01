@@ -2057,6 +2057,13 @@ function setAddtocartForm(frmCartName, product_id) {
     return true;
 }
 
+/**
+ * To set redSHOP Validate Add to cart trigger functions
+ *
+ * @type  {Array}
+ */
+var redShopAddtocartValidationJsTrigger = [];
+
 function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftcard_id, frmUserfieldName, totAttribute, totAccessory, totUserfield) {
 
 
@@ -2099,6 +2106,19 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
             alert(requiedProperty);
             return false;
         }
+
+        // Setting up redSHOP JavaScript Add to cart trigger
+        if (redShopAddtocartValidationJsTrigger.length > 0)
+        {
+            for(var g = 0, n = redShopAddtocartValidationJsTrigger.length; g < n; g++)
+            {
+                if (redShopAddtocartValidationJsTrigger[g](arguments) == false)
+                {
+                    return false;
+                }
+            }
+        }
+
         document.getElementById(frmCartName).submit();
 
     } else {
@@ -2134,6 +2154,18 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 
             if (requiedProperty != "") {
                 cansubmit = false;
+            }
+
+            // Setting up redSHOP JavaScript Add to cart trigger
+            if (redShopAddtocartValidationJsTrigger.length > 0)
+            {
+                for(var g = 0, n = redShopAddtocartValidationJsTrigger.length; g < n; g++)
+                {
+                    if (redShopAddtocartValidationJsTrigger[g](arguments) == false)
+                    {
+                        return;
+                    }
+                }
             }
 
             if (ntotal > 0 && cansubmit == false) {

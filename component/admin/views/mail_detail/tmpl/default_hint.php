@@ -62,7 +62,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
-				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
 			}    ?>
 		</td>
 	</tr>
@@ -73,7 +73,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
-				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
 			}    ?>
 		</td>
 	</tr>
@@ -93,7 +93,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
-				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
 			}    ?>
 		</td>
 	</tr>
@@ -104,7 +104,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
-				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
 			}    ?>
 		</td>
 	</tr>

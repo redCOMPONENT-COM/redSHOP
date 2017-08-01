@@ -131,12 +131,10 @@ class RedshopModelZipcode_detail extends RedshopModel
 
 	public function getcountry()
 	{
-				$redhelper = redhelper::getInstance();
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$this->_db->setQuery($q);
 		$countries = $this->_db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
 
-		return $countries;
+		return RedshopHelperUtility::convertLanguageString($countries);
 	}
 }

@@ -143,7 +143,7 @@ class RedshopModelCategory extends RedshopModel
 		$app->setUserState($this->context . '.editTimestamp', time());
 
 		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
-		$orderBy       = redhelper::getInstance()->prepareOrderBy($orderByMethod);
+		$orderBy       = RedshopHelperUtility::prepareOrderBy($orderByMethod);
 
 		$this->setState('list.ordering', $orderBy->ordering);
 		$this->setState('list.direction', $orderBy->direction);
@@ -237,7 +237,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());	
+			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());
 		}
 
 		if ($layout != 'categoryproduct')
@@ -280,12 +280,14 @@ class RedshopModelCategory extends RedshopModel
 
 	public function getCategorylistProduct($categoryId = 0)
 	{
-		$app     = JFactory::getApplication();
-		$menu    = $app->getMenu();
-		$item    = $menu->getActive();
-		$limit   = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
-		$db      = $this->getDbo();
-		$orderBy = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
+		$app           = JFactory::getApplication();
+		$menu          = $app->getMenu();
+		$item          = $menu->getActive();
+		$limit         = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
+		$db            = $this->getDbo();
+		$orderBySelect = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
+		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
+		$orderBy       = RedshopHelperUtility::prepareOrderBy($orderByMethod);
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -297,7 +299,7 @@ class RedshopModelCategory extends RedshopModel
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('pc.category_id') . ' = ' . $db->q((int) $categoryId))
 			->where($db->qn('p.product_parent_id') . ' = 0')
-			->order($orderBy)
+			->order($orderBy->ordering . ' ' . $orderBy->direction)
 			->setLimit(0, $limit);
 
 		$this->_product = $this->_getList($query);
@@ -356,6 +358,7 @@ class RedshopModelCategory extends RedshopModel
 			->where($db->qn('p.published') . ' = 1')
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('p.product_parent_id') . ' = 0')
+			->group($db->qn('p.product_id'))
 			->order($orderBy);
 
 		$filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);
@@ -369,7 +372,7 @@ class RedshopModelCategory extends RedshopModel
 			{
 				foreach ($tmpCategories as $child)
 				{
-					$categories[] = $child->category_id;
+					$categories[] = $child->id;
 				}
 			}
 		}
@@ -385,7 +388,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$queryCount = clone $query;
-		$queryCount->clear('select')
+		$queryCount->clear('select')->clear('group')
 			->select('COUNT(DISTINCT(p.product_id))');
 
 		// First steep get product ids
@@ -426,12 +429,13 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$priceSort = false;
+		$count = count($this->_product);
 
 		if (strpos($orderBy, "p.product_price ASC") !== false)
 		{
 			$priceSort = true;
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
@@ -444,7 +448,7 @@ class RedshopModelCategory extends RedshopModel
 			$priceSort = true;
 			$sort      = "DESC";
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
@@ -560,7 +564,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$orderBy        = redhelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
+		$orderBy        = RedshopHelperUtility::prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
 		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
@@ -808,8 +812,7 @@ class RedshopModelCategory extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$setproductfinderobj = redhelper::getInstance();
-		$setproductfinder    = $setproductfinderobj->isredProductfinder();
+		$setproductfinder    = RedshopHelperUtility::isRedProductFinder();
 		$finder_condition    = "";
 
 		if ($setproductfinder)

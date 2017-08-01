@@ -17,16 +17,16 @@ defined('_JEXEC') or die;
 class RedshopMenuLeft_Menu
 {
 	/**
-	 * @var null
+	 * @var  null
 	 */
 	protected static $view = null;
 
 	/**
-	 * @var null
+	 * @var  null
 	 */
 	protected static $layout = null;
 
-	/*
+	/**
 	 * @var  RedshopMenu
 	 */
 	protected static $menu = null;
@@ -34,7 +34,7 @@ class RedshopMenuLeft_Menu
 	/**
 	 * Method for render left menu
 	 *
-	 * @param   bool  $disableMenu  True for return list of menu. False for return HTML rendered code.
+	 * @param   bool $disableMenu True for return list of menu. False for return HTML rendered code.
 	 *
 	 * @return  mixed               Array of menu / HTML code of menu.
 	 */
@@ -78,7 +78,7 @@ class RedshopMenuLeft_Menu
 		return RedshopLayoutHelper::render(
 			'component.full.sidebar.menu',
 			array(
-				'items' => self::$menu->items,
+				'items'  => self::$menu->items,
 				'active' => $active
 			)
 		);
@@ -159,8 +159,8 @@ class RedshopMenuLeft_Menu
 				return array('DISCOUNT', 'giftcards');
 				break;
 
+			case "vouchers":
 			case "voucher":
-			case "voucher_detail":
 				return array('DISCOUNT', 'voucher');
 				break;
 
@@ -301,11 +301,11 @@ class RedshopMenuLeft_Menu
 			case 'statistic':
 			case "statistic_order":
 			case "statistic_product":
-			/*
-			 * @TODO: Would enable these statistic when done.
-			case "statistic_quotation":
-			case "statistic_variant":
-			*/
+				/**
+				 * @TODO: Would enable these statistic when done.
+				 * case "statistic_quotation":
+				 * case "statistic_variant":
+				 */
 				return array('STATISTIC', 'statistic');
 				break;
 
@@ -329,12 +329,12 @@ class RedshopMenuLeft_Menu
 	protected static function setShop()
 	{
 		self::$menu->addHeaderItem(
-				'index.php?option=com_redshop&view=categories',
-				'COM_REDSHOP_CATEGORY_LISTING',
-				(self::$view == 'categories') ? true : false,
-				null,
-				'fa fa-sitemap'
-			)
+			'index.php?option=com_redshop&view=categories',
+			'COM_REDSHOP_CATEGORY_LISTING',
+			(self::$view == 'categories') ? true : false,
+			null,
+			'fa fa-sitemap'
+		)
 			->addHeaderItem(
 				'index.php?option=com_redshop&view=media',
 				'COM_REDSHOP_MEDIA_LISTING',
@@ -403,8 +403,10 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'tax_rates') ? true : false
 			);
 
-		/*@TODO: Enable when Product Variants ready
-		self::setAttributes();*/
+		/**
+		 * @TODO: Enable when Product Variants ready
+		 * self::setAttributes();
+		 */
 
 		self::$menu->group('PRODUCT_LISTING');
 	}
@@ -488,9 +490,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'giftcards') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=voucher',
+				'index.php?option=com_redshop&view=vouchers',
 				'COM_REDSHOP_VOUCHER_LISTING',
-				(self::$view == 'voucher') ? true : false
+				(self::$view == 'vouchers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=coupon',
@@ -550,16 +552,16 @@ class RedshopMenuLeft_Menu
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
 		{
 			self::$menu->addItem(
-					'index.php?option=com_redshop&view=shipping&task=importeconomic',
-					'COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC'
-				);
+				'index.php?option=com_redshop&view=shipping&task=importeconomic',
+				'COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC'
+			);
 		}
 
 		self::$menu->addItem(
-				'index.php?option=com_redshop&view=shipping_box',
-				'COM_REDSHOP_SHIPPING_BOXES',
-				(self::$view == 'shipping_box') ? true : false
-			)
+			'index.php?option=com_redshop&view=shipping_box',
+			'COM_REDSHOP_SHIPPING_BOXES',
+			(self::$view == 'shipping_box') ? true : false
+		)
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper',
 				'COM_REDSHOP_WRAPPER_LISTING',
@@ -601,8 +603,8 @@ class RedshopMenuLeft_Menu
 			function userSync() {
 				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_SYNC') . '") == true)
 					window.location = "index.php?option=com_redshop&view=user&sync=1";
-			}
-		');
+			}'
+		);
 
 		self::$menu->group('USER');
 	}
@@ -645,8 +647,8 @@ class RedshopMenuLeft_Menu
 			function vmImport() {
 				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM') . '") == true)
 					window.location = "index.php?option=com_redshop&view=import&vm=1";
-			}
-		');
+			}'
+		);
 
 		self::$menu->group('IMPORT_EXPORT');
 	}
@@ -796,8 +798,10 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_STATISTIC_PRODUCT',
 				(self::$view == 'statistic_product' && self::$layout == '') ? true : false
 			)
-			/*
+			/**
 			 * @TODO: Enable this menu when done.
+			 */
+			/*
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_variant',
 				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',
@@ -807,7 +811,8 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic_quotation',
 				'COM_REDSHOP_STATISTIC_QUOTATION',
 				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
-			)*/
+			)
+			*/
 			->addItem(
 				'index.php?option=com_redshop&view=statistic',
 				'COM_REDSHOP_TOTAL_VISITORS',

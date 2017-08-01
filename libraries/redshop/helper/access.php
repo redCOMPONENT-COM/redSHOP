@@ -81,7 +81,7 @@ class RedshopHelperAccess
 		$userHelper     = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{
@@ -119,7 +119,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canView($target = '', $userId = 0)
 	{
@@ -134,7 +134,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canCreate($target = '', $userId = 0)
 	{
@@ -149,7 +149,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canEdit($target = '', $userId = 0)
 	{
@@ -164,7 +164,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canDelete($target = '', $userId = 0)
 	{
@@ -180,7 +180,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canDo($target = '', $task = '', $userId = 0)
 	{
@@ -205,7 +205,7 @@ class RedshopHelperAccess
 	 *
 	 * @since  2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
+	 * @deprecated  2.0.6  This function has been removed.
 	 */
 	public static function checkAccessOfUser($groupId)
 	{
@@ -223,11 +223,11 @@ class RedshopHelperAccess
 	 *
 	 * @since  2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
+	 * @deprecated  2.0.6  This function has been removed.
 	 */
 	public static function checkGroupAccess($view, $task, $groupId)
 	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
+		// @TODO: Need to remove at next release after 2.0.6
 	}
 
 	/**
@@ -240,11 +240,11 @@ class RedshopHelperAccess
 	 *
 	 * @since  2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
+	 * @deprecated  2.0.6  This function has been removed.
 	 */
 	public static function getGroupAccess($view, $groupId)
 	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
+		// @TODO: Need to remove at next release after 2.0.6
 	}
 
 	/**
@@ -257,11 +257,11 @@ class RedshopHelperAccess
 	 *
 	 * @since  2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
+	 * @deprecated  2.0.6  This function has been removed.
 	 */
 	public static function getGroupAccessTaskAdd($view, $groupId)
 	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
+		// @TODO: Need to remove at next release after 2.0.6
 	}
 
 	/**
@@ -274,11 +274,11 @@ class RedshopHelperAccess
 	 *
 	 * @since  2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
+	 * @deprecated  2.0.6  This function has been removed.
 	 */
 	public static function getGroupAccessTaskEdit($view, $groupId)
 	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
+		// @TODO: Need to remove at next release after 2.0.6
 	}
 
 	/**
@@ -291,10 +291,10 @@ class RedshopHelperAccess
 	 *
 	 * @since  2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
+	 * @deprecated  2.0.6  This function has been removed.
 	 */
 	public static function getGroupAccessTaskDelete($view, $groupId)
 	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
+		// @TODO: Need to remove at next release after 2.0.6
 	}
 }

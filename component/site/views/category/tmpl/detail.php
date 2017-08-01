@@ -57,8 +57,11 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
+$categoryItemId = (int) RedshopHelperUtility::getCategoryItemid($this->catid);
+$mainItemid = !$categoryItemId ? $this->itemid : $categoryItemId;
+
 // New tags replacement for category template section
-$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail));
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $mainItemid));
 
 $endlimit = $this->state->get('list.limit');
 
@@ -231,29 +234,18 @@ if (!$slide)
 		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$cItemid = $objhelper->getCategoryItemid($this->catid);
-
-	if ($cItemid != "")
-	{
-		$tmpItemid = $cItemid;
-	}
-	else
-	{
-		$tmpItemid = $this->itemid;
-	}
-
 	$link = JRoute::_(
 						'index.php?option=' . $this->option .
 						'&view=category&cid=' . $this->catid .
 						'&manufacturer_id=' . $this->manufacturer_id .
-						'&layout=detail&Itemid=' . $tmpItemid
+						'&layout=detail&Itemid=' . $mainItemid
 					);
 
 	$cat_main_thumb = "";
 
 	if ($this->maincat->category_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->maincat->category_full_image))
 	{
-		$water_cat_img  = $objhelper->watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+		$water_cat_img  = RedshopHelperMedia::watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
 							"'><img src='" . $water_cat_img . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
 	}
@@ -310,15 +302,15 @@ if (!$slide)
 		}
 
 		$cat_detail = "";
-		$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $subcat_template);
+		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $subcat_template);
 
 		for ($i = 0, $nc = count($this->detail); $i < $nc; $i++)
 		{
 			$row = $this->detail[$i];
 
 			// Filter categories based on Shopper group category ACL
-			$checkcid = $objhelper->checkPortalCategoryPermission($row->id);
-			$sgportal = $objhelper->getShopperGroupPortal();
+			$checkcid = RedshopHelperAccess::checkPortalCategoryPermission($row->id);
+			$sgportal = RedshopHelperShopper_Group::getShopperGroupPortal();
 			$portal   = 0;
 
 			if (count($sgportal) > 0)
@@ -333,22 +325,14 @@ if (!$slide)
 
 			$data_add = $subcat_template;
 
-			$cItemid = $objhelper->getCategoryItemid($row->id);
-
-			if ($cItemid != "")
-			{
-				$tmpItemid = $cItemid;
-			}
-			else
-			{
-				$tmpItemid = $this->itemid;
-			}
+			$categoryItemId = RedshopHelperUtility::getCategoryItemid($row->id);
+			$mainItemId = !$categoryItemId ? $this->itemid : $categoryItemId;
 
 			$link = JRoute::_(
 								'index.php?option=' . $this->option .
 								'&view=category&cid=' . $row->id .
 								'&manufacturer_id=' . $this->manufacturer_id .
-								'&layout=detail&Itemid=' . $tmpItemid
+								'&layout=detail&Itemid=' . $mainItemId
 							);
 
 			$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
@@ -360,15 +344,15 @@ if (!$slide)
 			if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 			{
 				$categoryFullImage = $row->category_full_image;
-				$product_img       = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-				$linkimage         = $objhelper->watermark(
+				$product_img       = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+				$linkimage         = RedshopHelperMedia::watermark(
 				        'category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 			}
 			elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 			{
 				$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-				$product_img       = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-				$linkimage         = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+				$product_img       = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+				$linkimage         = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 			}
 
 			if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
@@ -535,7 +519,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 					$alttext = $media_documents[$m]->media_name;
 				}
 
-				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
+				if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
 					$downlink = JURI::root() .
 								'index.php?tmpl=component&option=' . $this->option .
@@ -640,7 +624,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		}
 		else
 		{
-			$pItemid = $objhelper->getItemid($product->product_id, $catidmain);
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
 		}
 
 		$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
@@ -889,7 +873,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		// Product preview image.
 		if (strpos($data_add, '{product_preview_img}') !== false)
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 			{
 				$previewsrcPath = RedShopHelperImages::getImagePath(
 									$product->product_preview_image,
@@ -1003,6 +987,8 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 															$count_no_user_field
 														);
 
+		$this->dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
+
 		$product_data .= $data_add;
 	}
 
@@ -1024,10 +1010,18 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
 
-	$limitBox = '';
-	$paginationList = '';
+	$limitBox        = '';
+	$paginationList  = '';
 	$usePerPageLimit = false;
-	$pagination = new JPagination($model->_total, $start, $endlimit);
+
+	if ($this->maincat->products_per_page == $endlimit)
+	{
+		$pagination = new JPagination($model->_total, $start, 0);
+	}
+	else
+	{
+		$pagination = new JPagination($model->_total, $start, $endlimit);
+	}
 
 	if ($this->productPriceSliderEnable)
 	{
@@ -1146,5 +1140,5 @@ echo eval("?>" . $template_desc . "<?php ");
 
 if ($slide)
 {
-	exit;
+	JFactory::getApplication()->close();
 }

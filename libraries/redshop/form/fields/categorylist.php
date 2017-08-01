@@ -39,9 +39,9 @@ class JFormFieldCategoryList extends JFormFieldList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   SimpleXMLElement $element   The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed            $value     The form field value to validate.
+	 * @param   string           $group     The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -65,7 +65,7 @@ class JFormFieldCategoryList extends JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string $name The property name for which to the the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -85,8 +85,8 @@ class JFormFieldCategoryList extends JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
-	 * @param   mixed   $value  The value of the property.
+	 * @param   string $name  The property name for which to the the value.
+	 * @param   mixed  $value The value of the property.
 	 *
 	 * @return  void
 	 *
@@ -99,7 +99,7 @@ class JFormFieldCategoryList extends JFormFieldList
 		switch ($name)
 		{
 			case 'allowAdd':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 			default:
@@ -118,30 +118,32 @@ class JFormFieldCategoryList extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options   = array();
 		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
-		$name = (string) $this->element['name'];
+		$name      = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = JFactory::getApplication()->input;
+		$jinput    = JFactory::getApplication()->input;
 		$extension = 'com_redshop';
-		$id = $jinput->getInt('id', 0);
+
 		// For categories the old category is the category id or 0 for new category.
 		if ($this->element['parent'])
 		{
-			$oldCat = $jinput->get('id', 0);
+			$oldCat    = $jinput->get('id', 0);
 			$oldParent = $this->form->getValue($name, 0);
-			
+
 		}
+		// For items the old category is the category they are in when opened or 0 if new.
 		else
-			// For items the old category is the category they are in when opened or 0 if new.
 		{
 			$oldCat = $this->form->getValue($name, 0);
 		}
 
 		$db = JFactory::getDbo();
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.name AS text, a.level, a.published, a.lft');
+
 		$subQuery = $db->getQuery(true)
 			->select('id, name, level, published, parent_id, lft, rgt')
 			->from('#__redshop_category');
@@ -248,7 +250,8 @@ class JFormFieldCategoryList extends JFormFieldList
 
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
 					&& (isset($oldParent))
-					&& $option->value != $oldParent)
+					&& $option->value != $oldParent
+				)
 				{
 					unset($options[$i]);
 				}
@@ -258,7 +261,8 @@ class JFormFieldCategoryList extends JFormFieldList
 				 * create permission and you should also still be able to save in the current category.
 				 */
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& ($option->value != $oldCat && !isset($oldParent)))
+					&& ($option->value != $oldCat && !isset($oldParent))
+				)
 				{
 					{
 						unset($options[$i]);
@@ -267,7 +271,8 @@ class JFormFieldCategoryList extends JFormFieldList
 
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& (isset($oldParent))
-					&& $option->value != $oldParent)
+					&& $option->value != $oldParent
+				)
 				{
 					{
 						unset($options[$i]);
@@ -278,11 +283,12 @@ class JFormFieldCategoryList extends JFormFieldList
 
 		if (($this->element['parent'] == true)
 			&& (isset($row) && !isset($options[0]))
-			&& isset($this->element['show_root']))
+			&& isset($this->element['show_root'])
+		)
 		{
 			if ($row->parent_id == '1')
 			{
-				$parent = new stdClass;
+				$parent       = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 
 				array_unshift($options, $parent);
@@ -294,7 +300,7 @@ class JFormFieldCategoryList extends JFormFieldList
 		if (!isset($this->element['show_root']))
 		{
 			$options[0]->value = '';
-			$options[0]->text = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+			$options[0]->text  = JText::_('COM_REDSHOP_SELECT_CATEGORY');
 		}
 
 		if (isset($this->element['remove_select']))
@@ -317,9 +323,9 @@ class JFormFieldCategoryList extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html = array();
+		$html  = array();
 		$class = array();
-		$attr = '';
+		$attr  = '';
 
 		// Initialize some field attributes.
 		$class[] = !empty($this->class) ? $this->class : '';
@@ -329,9 +335,9 @@ class JFormFieldCategoryList extends JFormFieldList
 			$customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
 
 			$class[] = 'chzn-custom-value';
-			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+			$attr    .= ' data-custom_group_text="' . $customGroupText . '" '
+				. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
+				. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
 		}
 
 		if ($class)
@@ -348,7 +354,8 @@ class JFormFieldCategoryList extends JFormFieldList
 		if ((string) $this->readonly == '1'
 			|| (string) $this->readonly == 'true'
 			|| (string) $this->disabled == '1'
-			|| (string) $this->disabled == 'true')
+			|| (string) $this->disabled == 'true'
+		)
 		{
 			$attr .= ' disabled="disabled"';
 		}

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$dispatcher    = JDispatcher::getInstance();
+$dispatcher    = RedshopHelperUtility::getDispatcher();
 $producthelper = productHelper::getInstance();
 $objshipping   = shipping::getInstance();
 $redhelper     = redhelper::getInstance();
@@ -27,7 +27,7 @@ $model   = $this->getModel('cart');
 $session = JFactory::getSession();
 $user    = JFactory::getUser();
 $print   = JRequest::getInt('print');
-$Itemid  = $redhelper->getCheckoutItemid();
+$Itemid  = RedshopHelperUtility::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display
 $cart_data = $this->data [0]->template_desc;
@@ -66,7 +66,7 @@ $print_tag .= "</a>";
 
 $cart_data = str_replace("{print}", $print_tag, $cart_data);
 $cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
-$session->set('cart', $cart);
+RedshopHelperCartSession::setCart($cart);
 
 if (strstr($cart_data, '{shipping_calculator}') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
@@ -91,7 +91,7 @@ else
 {
 	$checkout = '';
 	JPluginHelper::importPlugin('redshop_payment');
-	$dispatcher   = JDispatcher::getInstance();
+	$dispatcher   = RedshopHelperUtility::getDispatcher();
 	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
@@ -144,7 +144,7 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
-	elseif ($catItemId = $redhelper->getCategoryItemid())
+	elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 	}

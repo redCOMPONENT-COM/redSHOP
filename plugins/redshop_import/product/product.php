@@ -94,8 +94,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array  $header  Header array
-	 * @param   array  $data    Data array
+	 * @param   array $header Header array
+	 * @param   array $data   Data array
 	 *
 	 * @return  array           Mapping data.
 	 *
@@ -114,7 +114,22 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				->from($db->qn('#__redshop_manufacturer'))
 				->where($db->qn('manufacturer_name') . ' = ' . $db->quote($data['manufacturer_name']));
 
-			$data['manufacturer_id'] = (int) $db->setQuery($query)->loadResult();
+			$manufacturerId = (int) $db->setQuery($query)->loadResult();
+
+			if (!empty($manufacturerId))
+			{
+				$data['manufacturer_id'] = $manufacturerId;
+			}
+			else
+			{
+				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+				$manufacturer                    = RedshopTable::getInstance('Manufacturer', 'RedshopTable');
+				$manufacturer->manufacturer_name = $data['manufacturer_name'];
+				$manufacturer->published         = 1;
+				$manufacturer->store();
+				$data['manufacturer_id'] = $manufacturer->manufacturer_id;
+			}
 		}
 
 		if (empty($data['product_thumb_image']))
@@ -125,16 +140,16 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_thumb_image']))
 			{
-				$url = $data['product_thumb_image'];
+				$url       = $data['product_thumb_image'];
 				$imageName = basename($url);
-				$fileName = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
+				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, file_get_contents($url));
 				$data['product_thumb_image'] = $fileName;
 			}
 			else
 			{
-				$imageName = basename($data['product_thumb_image']);
+				$imageName                   = basename($data['product_thumb_image']);
 				$data['product_thumb_image'] = $imageName;
 			}
 		}
@@ -147,16 +162,25 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_full_image']))
 			{
-				$url       = $data['product_full_image'];
-				$imageName = basename($url);
-				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
-				$data['product_full_image'] = $fileName;
+				$url        = $data['product_full_image'];
+				$binaryData = file_get_contents($url);
+
+				if ($binaryData === false)
+				{
+					unset($data['product_full_image']);
+				}
+				else
+				{
+					$imageName = basename($url);
+					$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
+					$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+					JFile::write($dest, $binaryData);
+					$data['product_full_image'] = $fileName;
+				}
 			}
 			else
 			{
-				$imageName = basename($data['product_full_image']);
+				$imageName                  = basename($data['product_full_image']);
 				$data['product_full_image'] = $imageName;
 			}
 		}
@@ -171,14 +195,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$url       = $data['product_back_full_image'];
 				$imageName = basename($url);
-				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
+				JFile::write($dest, file_get_contents($url));
 				$data['product_back_full_image'] = $fileName;
 			}
 			else
 			{
-				$imageName = basename($data['product_back_full_image']);
+				$imageName                       = basename($data['product_back_full_image']);
 				$data['product_back_full_image'] = $imageName;
 			}
 		}
@@ -193,14 +217,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$url       = $data['product_preview_back_image'];
 				$imageName = basename($url);
-				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
+				JFile::write($dest, file_get_contents($url));
 				$data['product_preview_back_image'] = $fileName;
 			}
 			else
 			{
-				$imageName = basename($data['product_preview_back_image']);
+				$imageName                          = basename($data['product_preview_back_image']);
 				$data['product_preview_back_image'] = $imageName;
 			}
 		}
@@ -215,14 +239,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$url       = $data['product_back_thumb_image'];
 				$imageName = basename($url);
-				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
+				JFile::write($dest, file_get_contents($url));
 				$data['product_back_thumb_image'] = $fileName;
 			}
 			else
 			{
-				$imageName = basename($data['product_back_thumb_image']);
+				$imageName                        = basename($data['product_back_thumb_image']);
 				$data['product_back_thumb_image'] = $imageName;
 			}
 		}
@@ -237,14 +261,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$url       = $data['product_preview_image'];
 				$imageName = basename($url);
-				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
+				JFile::write($dest, file_get_contents($url));
 				$data['product_preview_image'] = $fileName;
 			}
 			else
 			{
-				$imageName = basename($data['product_preview_image']);
+				$imageName                     = basename($data['product_preview_image']);
 				$data['product_preview_image'] = $imageName;
 			}
 		}
@@ -269,12 +293,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
 		}
 
-		if (false !== strpos($data['product_price'], ','))
+		if (isset($data['product_price']) && false !== strpos($data['product_price'], ','))
 		{
 			$data['product_price'] = str_replace(',', '.', $data['product_price']);
 		}
 
-		if (false !== strpos($data['discount_price'], ','))
+		if (isset($data['discount_price']) && false !== strpos($data['discount_price'], ','))
 		{
 			$data['discount_price'] = str_replace(',', '.', $data['discount_price']);
 		}
@@ -296,8 +320,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process import data.
 	 *
-	 * @param   \JTable  $table  Header array
-	 * @param   array    $data   Data array
+	 * @param   \JTable $table Header array
+	 * @param   array   $data  Data array
 	 *
 	 * @return  boolean
 	 *
@@ -308,10 +332,17 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$isNew = false;
 		$db    = $this->db;
 
-
 		if (empty($data['product_number']))
 		{
 			return false;
+		}
+
+		// This is attribute data line.
+		if (!empty($data['attribute_name']))
+		{
+			$this->importAttributesData($data);
+
+			return true;
 		}
 
 		// Try to load old data.
@@ -322,6 +353,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 		// Bind data to table
 		if (!$table->bind($data))
+		{
+			return false;
+		}
+
+		// Check table before storing
+		if (!$table->check())
 		{
 			return false;
 		}
@@ -414,7 +451,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Get Extra Field Names
 	 *
-	 * @param   array  $keyProducts  Array key products
+	 * @param   array $keyProducts Array key products
 	 *
 	 * @return  array
 	 */
@@ -441,9 +478,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Update/insert product extra field data
 	 *
-	 * @param   string   $fieldName  Extra Field Names
-	 * @param   array    $data       CSV rawdata
-	 * @param   integer  $productId  Product Id
+	 * @param   string  $fieldName Extra Field Names
+	 * @param   array   $data      CSV rawdata
+	 * @param   integer $productId Product Id
 	 *
 	 * @return  void
 	 */
@@ -458,9 +495,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$value = $data[$fieldName];
 
 		$query = $db->getQuery(true)
-			->select($db->qn('field_id'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_name') . ' = ' . $db->quote($fieldName));
+			->where($db->qn('name') . ' = ' . $db->quote($fieldName));
 
 		if ($fieldId = $db->setQuery($query)->loadResult())
 		{
@@ -494,8 +531,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update categories relation
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -568,8 +605,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update accessories products
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -640,8 +677,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update product stocks
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -705,8 +742,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update additional images
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -751,11 +788,20 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				if (!JUri::isInternal($image))
 				{
-					$imageName = basename($image);
-					$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
-					$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-					JFile::write($dest, JFile::read($image));
-					$data['product_preview_image'] = $fileName;
+					$binaryData = @file_get_contents($image);
+
+					if ($binaryData === false)
+					{
+						unset($data['product_full_image']);
+					}
+					else
+					{
+						$imageName = basename($image);
+						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+						JFile::write($dest, $binaryData);
+						$data['product_preview_image'] = $fileName;
+					}
 				}
 			}
 
@@ -764,11 +810,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			$query->clear()
 				->select('media_id')
-				->from($db->quoteName('#__redshop_media'))
-				->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($image))
-				->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
-				->where($db->quoteName('section_id') . ' = ' . $db->quote($productId))
-				->where($db->quoteName('media_type') . ' = ' . $db->quote('images'));
+				->from($db->qn('#__redshop_media'))
+				->where($db->qn('media_name') . ' LIKE ' . $db->quote($image))
+				->where($db->qn('media_section') . ' = ' . $db->quote('product'))
+				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
+				->where($db->qn('media_type') . ' = ' . $db->quote('images'));
 
 			$mediaId = $db->setQuery($query)->loadResult();
 
@@ -790,10 +836,10 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			else
 			{
 				$query = $db->getQuery(true)
-					->update($db->quoteName('#__redshop_media'))
-					->set($db->quoteName('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->quoteName('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->quoteName('media_id') . ' = ' . $db->quote($mediaId));
+					->update($db->qn('#__redshop_media'))
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -802,8 +848,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update additional videos
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -827,8 +873,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$db    = $this->db;
 		$query = $db->getQuery(true);
 
-		$orderings = !empty($data['video_order']) ? explode('#', $data['video_order']) : array();
-		$alternateTexts  = !empty($data['video_alternattext']) ? explode('#', $data['video_alternattext']) : array();
+		$orderings      = !empty($data['video_order']) ? explode('#', $data['video_order']) : array();
+		$alternateTexts = !empty($data['video_alternattext']) ? explode('#', $data['video_alternattext']) : array();
 
 		foreach ($videos as $index => $video)
 		{
@@ -850,11 +896,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			$query->clear()
 				->select('media_id')
-				->from($db->quoteName('#__redshop_media'))
-				->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($video))
-				->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
-				->where($db->quoteName('section_id') . ' = ' . $db->quote($productId))
-				->where($db->quoteName('media_type') . ' = ' . $db->quote('video'));
+				->from($db->qn('#__redshop_media'))
+				->where($db->qn('media_name') . ' LIKE ' . $db->quote($video))
+				->where($db->qn('media_section') . ' = ' . $db->quote('product'))
+				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
+				->where($db->qn('media_type') . ' = ' . $db->quote('video'));
 
 			$mediaId = $db->setQuery($query)->loadResult();
 
@@ -876,10 +922,10 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			else
 			{
 				$query = $db->getQuery(true)
-					->update($db->quoteName('#__redshop_media'))
-					->set($db->quoteName('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->quoteName('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->quoteName('media_id') . ' = ' . $db->quote($mediaId));
+					->update($db->qn('#__redshop_media'))
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -888,8 +934,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update additional documents
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -913,8 +959,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$db    = $this->db;
 		$query = $db->getQuery(true);
 
-		$orderings = !empty($data['document_order']) ? explode('#', $data['document_order']) : array();
-		$alternateTexts  = !empty($data['document_alternattext']) ? explode('#', $data['document_alternattext']) : array();
+		$orderings      = !empty($data['document_order']) ? explode('#', $data['document_order']) : array();
+		$alternateTexts = !empty($data['document_alternattext']) ? explode('#', $data['document_alternattext']) : array();
 
 		foreach ($documents as $index => $document)
 		{
@@ -936,11 +982,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			$query->clear()
 				->select('media_id')
-				->from($db->quoteName('#__redshop_media'))
-				->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($document))
-				->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
-				->where($db->quoteName('section_id') . ' = ' . $db->quote($productId))
-				->where($db->quoteName('media_type') . ' = ' . $db->quote('document'));
+				->from($db->qn('#__redshop_media'))
+				->where($db->qn('media_name') . ' LIKE ' . $db->quote($document))
+				->where($db->qn('media_section') . ' = ' . $db->quote('product'))
+				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
+				->where($db->qn('media_type') . ' = ' . $db->quote('document'));
 
 			$mediaId = $db->setQuery($query)->loadResult();
 
@@ -962,10 +1008,10 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			else
 			{
 				$query = $db->getQuery(true)
-					->update($db->quoteName('#__redshop_media'))
-					->set($db->quoteName('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->quoteName('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->quoteName('media_id') . ' = ' . $db->quote($mediaId));
+					->update($db->qn('#__redshop_media'))
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -974,8 +1020,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Method for insert/update additional downloads
 	 *
-	 * @param   int    $productId  Product ID
-	 * @param   array  $data       Data
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
 	 *
 	 * @return  void
 	 *
@@ -999,8 +1045,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$db    = $this->db;
 		$query = $db->getQuery(true);
 
-		$orderings = !empty($data['download_order']) ? explode('#', $data['download_order']) : array();
-		$alternateTexts  = !empty($data['download_alternattext']) ? explode('#', $data['download_alternattext']) : array();
+		$orderings      = !empty($data['download_order']) ? explode('#', $data['download_order']) : array();
+		$alternateTexts = !empty($data['download_alternattext']) ? explode('#', $data['download_alternattext']) : array();
 
 		foreach ($downloads as $index => $download)
 		{
@@ -1022,11 +1068,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			$query->clear()
 				->select('media_id')
-				->from($db->quoteName('#__redshop_media'))
-				->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($download))
-				->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
-				->where($db->quoteName('section_id') . ' = ' . $db->quote($productId))
-				->where($db->quoteName('media_type') . ' = ' . $db->quote('download'));
+				->from($db->qn('#__redshop_media'))
+				->where($db->qn('media_name') . ' LIKE ' . $db->quote($download))
+				->where($db->qn('media_section') . ' = ' . $db->quote('product'))
+				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
+				->where($db->qn('media_type') . ' = ' . $db->quote('download'));
 
 			$mediaId = $db->setQuery($query)->loadResult();
 
@@ -1048,12 +1094,466 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			else
 			{
 				$query = $db->getQuery(true)
-					->update($db->quoteName('#__redshop_media'))
-					->set($db->quoteName('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->quoteName('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->quoteName('media_id') . ' = ' . $db->quote($mediaId));
+					->update($db->qn('#__redshop_media'))
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
+	}
+
+	/**
+	 * Process import data.
+	 *
+	 * @param   array $data Data array
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.0
+	 */
+	public function importAttributesData($data)
+	{
+		$table = RedshopTable::getInstance('Attribute', 'RedshopTable');
+		$db    = $this->db;
+		$isNew = false;
+
+		$hasPropertyName    = !empty($data['property_name']) ? true : false;
+		$hasSubPropertyName = !empty($data['subattribute_color_name']) ? true : false;
+
+		// Get product id
+		$query     = $db->getQuery(true)
+			->select($db->qn('product_id'))
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_number') . ' = ' . $db->quote($data['product_number']));
+		$productId = $db->setQuery($query)->loadResult();
+
+		// Get attribute id
+		$query->clear()
+			->select($db->qn('attribute_id'))
+			->from($db->qn('#__redshop_product_attribute'))
+			->where($db->qn('product_id') . ' = ' . $db->quote($productId))
+			->where($db->qn('attribute_name') . ' = ' . $db->quote($data['attribute_name']));
+		$attributeId = $db->setQuery($query)->loadResult();
+
+		// Insert attribute if not exist.
+		if (!$attributeId)
+		{
+			if (!$hasPropertyName && !$hasSubPropertyName)
+			{
+				$attributeData = array(
+					'attribute_name'           => $data['attribute_name'],
+					'ordering'                 => $data['attribute_ordering'],
+					'allow_multiple_selection' => $data['allow_multiple_selection'],
+					'hide_attribute_price'     => $data['hide_attribute_price'],
+					'attribute_required'       => $data['attribute_required'],
+					'display_type'             => $data['display_type'],
+					'product_id'               => $productId
+				);
+
+				if (!$table->bind($attributeData) || !$table->store())
+				{
+					return false;
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		$propertyId = 0;
+
+		// Property data.
+		if ($hasPropertyName)
+		{
+			// Get Property ID
+			$query = $db->getQuery(true)
+				->select($db->qn('property_id'))
+				->from($db->qn('#__redshop_product_attribute_property'))
+				->where($db->qn('attribute_id') . ' = ' . $db->quote($attributeId))
+				->where($db->qn('property_name') . ' = ' . $db->quote($data['property_name']));
+			$propertyId = (int) $db->setQuery($query)->loadResult();
+
+			if (!$hasSubPropertyName)
+			{
+				$propertyTable = JTable::getInstance('Attribute_Property', 'Table');
+
+				if ($propertyId)
+				{
+					$propertyTable->load($propertyId);
+				}
+				else
+				{
+					$propertyTable->property_id = null;
+				}
+
+				$propertyTable->set('attribute_id', $attributeId);
+				$propertyTable->set('property_name', $data['property_name']);
+				$propertyTable->set('property_price', $data['property_price']);
+				$propertyTable->set('ordering', $data['property_ordering']);
+				$propertyTable->set('property_number', $data['property_virtual_number']);
+				$propertyTable->set('setdefault_selected', $data['setdefault_selected']);
+				$propertyTable->set('setrequire_selected', $data['setrequire_selected']);
+				$propertyTable->set('setdisplay_type', $data['setdisplay_type']);
+				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['oprand'] : '';
+
+				$propertyTable->set('oprand', $oprand);
+				$propertyTable->set('property_image', isset($data['property_image']) ? basename($data['property_image']) : '');
+				$propertyTable->set('property_main_image', isset($data['property_main_image']) ? basename($data['property_main_image']) : '');
+
+				if (!$propertyTable->store())
+				{
+					return false;
+				}
+
+				// Property stock
+				if (!empty($data['property_stock']))
+				{
+					$propertyStocks = explode("#", $data['property_stock']);
+
+					foreach ($propertyStocks as $propertyStock)
+					{
+						if (empty($propertyStock))
+						{
+							continue;
+						}
+
+						$propertyStock = explode(':', $propertyStock);
+
+						if (count($propertyStock) != 2)
+						{
+							continue;
+						}
+
+						$query->clear()
+							->select("*")
+							->from($db->qn('#__redshop_stockroom'))
+							->where($db->qn('stockroom_id') . ' = ' . $db->quote($propertyStock[0]));
+						$db->setQuery($query);
+						$stockDatas = $db->loadObjectList();
+
+						if (empty($stockDatas))
+						{
+							continue;
+						}
+
+						$query->clear()
+							->select("*")
+							->from($db->qn('#__redshop_product_attribute_stockroom_xref'))
+							->where($db->qn('stockroom_id') . ' = ' . $db->quote($propertyStock[0]))
+							->where($db->qn('section') . ' = ' . $db->quote('property'))
+							->where($db->qn('section_id') . ' = ' . $db->quote($propertyId));
+
+						$propertyProducts = $db->setQuery($query)->loadObjectList();
+
+						if (!empty($propertyProducts))
+						{
+							$query->clear()
+								->update($db->qn('#__redshop_product_attribute_stockroom_xref'))
+								->set($db->qn('quantity') . ' = ' . $db->quote($propertyStock[1]))
+								->where($db->qn('stockroom_id') . ' = ' . $db->quote($propertyStock[0]))
+								->where($db->qn('section') . ' = ' . $db->quote('property'))
+								->where($db->qn('section_id') . ' = ' . $db->quote($propertyId));
+							$db->setQuery($query)->clear();
+						}
+						else
+						{
+							$newData               = new stdClass;
+							$newData->quantity     = $propertyStock[1];
+							$newData->stockroom_id = $propertyStock[0];
+							$newData->section      = 'property';
+							$newData->section_id   = $propertyId;
+							$db->insertObject('#__redshop_product_attribute_stockroom_xref', $newData);
+						}
+					}
+				}
+
+				if (!empty($data['media_name']) && ($data['media_section'] == 'property'))
+				{
+					$newMediaName  = basename($data['media_name']);
+					$ext           = pathinfo($newMediaName, PATHINFO_EXTENSION);
+					$mediaMimeType = 'images/' . $ext;
+
+					$media = array(
+						'media_name'           => $newMediaName,
+						'media_alternate_text' => $data['media_alternate_text'],
+						'media_section'        => $data['media_section'],
+						'section_id'           => $propertyId,
+						'media_type'           => 'images',
+						'media_mimetype'       => $mediaMimeType,
+						'published'            => $data['media_published'],
+						'ordering'             => $data['media_ordering']
+					);
+
+					$query->clear()
+						->select('*')
+						->from($db->qn('#__redshop_media'))
+						->where($db->qn('section_id') . ' = ' . (int) $propertyId)
+						->where($db->qn('media_name') . ' = ' . $db->q($newMediaName))
+						->where($db->qn('media_section') . ' = ' . $db->q('property'));
+
+					$mediaProperty = $db->setQuery($query)->loadObject();
+
+					if ($mediaProperty)
+					{
+						$mediaId = $mediaProperty->media_id;
+						$fields  = array();
+
+						foreach ($media as $k => $v)
+						{
+							$fields[] = $db->qn($k) . ' = ' . $db->q($v);
+						}
+
+						$query->clear()
+							->update($db->qn('#__redshop_media'))
+							->set($fields)
+							->where($db->qn('media_id') . ' = ' . (int) $mediaId);
+
+						$db->setQuery($query)->execute();
+					}
+					else
+					{
+						$columns = $db->qn(array_keys($media));
+						$values  = $db->q(array_values($media));
+
+						$query->clear()
+							->insert($db->qn('#__redshop_media'))
+							->columns($columns)
+							->values(implode(',', $values));
+
+						$db->setQuery($query)->execute();
+					}
+				}
+
+				// Property image
+				if (!empty($data['property_image']) && JFile::exists($data['property_image']))
+				{
+					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . basename($data['property_image']);
+
+					// Copy If file is not already exist
+					if (!JFile::exists($file))
+					{
+						copy($data['property_image'], $file);
+					}
+				}
+
+				// Property main image
+				if (!empty($data['property_main_image']) && JFile::exists($data['property_main_image']))
+				{
+					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['property_main_image']);
+
+					// Copy If file is not already exist
+					if (!JFile::exists($file))
+					{
+						copy($data['property_main_image'], $file);
+					}
+				}
+
+				// Media
+				if (!empty($data['media_name']) && ($data['media_section'] == 'property') && JFile::exists($data['media_name']))
+				{
+					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['media_name']);
+
+					// Copy If file is not already exist
+					if (!JFile::exists($file))
+					{
+						copy($data['media_name'], $file);
+					}
+				}
+
+				return true;
+			}
+			elseif (!$propertyId)
+			{
+				return false;
+			}
+		}
+
+		if ($hasSubPropertyName)
+		{
+			// Get Sub-property ID
+			$query         = $db->getQuery(true)
+				->select($db->qn('subattribute_color_id'))
+				->from($db->qn('#__redshop_product_subattribute_color'))
+				->where($db->qn('subattribute_id') . ' = ' . $db->quote($propertyId))
+				->where($db->qn('subattribute_color_name') . ' = ' . $db->quote($data['subattribute_color_name']));
+
+			$subPropertyId = (int) $db->setQuery($query)->loadResult();
+
+			/** @var Tablesubattribute_property $subPropertyTable */
+			$subPropertyTable = JTable::getInstance('Subattribute_Property', 'Table');
+
+			if ($subPropertyId)
+			{
+				$subPropertyTable->load($subPropertyId);
+			}
+			else
+			{
+				$subPropertyTable->subattribute_color_id = null;
+			}
+
+			$subPropertyTable->subattribute_color_name   = $data['subattribute_color_name'];
+			$subPropertyTable->subattribute_color_price  = $data['subattribute_color_price'];
+			$subPropertyTable->ordering                  = $data['subattribute_color_ordering'];
+			$subPropertyTable->setdefault_selected       = $data['subattribute_setdefault_selected'];
+			$subPropertyTable->subattribute_color_title  = $data['subattribute_color_title'];
+			$subPropertyTable->subattribute_color_number = $data['subattribute_virtual_number'];
+
+			$oprand                                     = in_array($data['subattribute_color_oprand'], array('+', '-', '*', '/', '=')) ? $data['subattribute_color_oprand'] : '';
+			$subPropertyTable->oprand                   = $oprand;
+			$subPropertyTable->subattribute_color_image = isset($data['subattribute_color_image']) ? basename($data['subattribute_color_image']) : '';
+			$subPropertyTable->subattribute_id          = $propertyId;
+
+			if (!$subPropertyTable->store())
+			{
+				return false;
+			}
+
+			$subPropertyId = $subPropertyTable->subattribute_color_id;
+
+			// Sub-properties stock
+			if (!empty($data['subattribute_stock']))
+			{
+				$stocks = explode("#", $data['subattribute_stock']);
+
+				foreach ($stocks as $stock)
+				{
+					if (empty($stock))
+					{
+						continue;
+					}
+
+					$stock = explode(":", $stock);
+
+					if (count($stock) != 2)
+					{
+						continue;
+					}
+
+					$query->clear()
+						->select("*")
+						->from($db->qn('#__redshop_stockroom'))
+						->where($db->qn('stockroom_id') . ' = ' . $db->quote($stock[0]));
+					$stockDatas = $db->setQuery($query)->loadObjectList();
+
+					if (empty($stockDatas))
+					{
+						continue;
+					}
+
+					$query->clear()
+						->select('COUNT(*)')
+						->from('#__redshop_product_attribute_stockroom_xref')
+						->where($db->qn('stockroom_id') . ' = ' . $db->quote($stock[0]))
+						->where($db->qn('section') . ' = ' . $db->quote('subproperty'))
+						->where($db->qn('section_id') . ' = ' . $db->quote($subPropertyId));
+
+					$count = $db->setQuery($query)->loadResult();
+
+					if ($count)
+					{
+						$query->clear()
+							->update($db->qn('#__redshop_product_attribute_stockroom_xref'))
+							->set($db->qn('quantity') . ' = ' . $db->quote($stock[1]))
+							->where($db->qn('stockroom_id') . ' = ' . $db->quote($stock[0]))
+							->where($db->qn('section') . ' = ' . $db->quote('subproperty'))
+							->where($db->qn('section_id') . ' = ' . $db->quote($subPropertyId));
+						$db->setQuery($query)->execute();
+					}
+					else
+					{
+						$insert               = new stdClass;
+						$insert->quantity     = $stock[1];
+						$insert->stockroom_id = $stock[0];
+						$insert->section_id   = $subPropertyId;
+						$insert->section      = 'subproperty';
+						$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert);
+					}
+				}
+			}
+
+			if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty'))
+			{
+				$newMediaName  = basename($data['media_name']);
+				$ext           = pathinfo($newMediaName, PATHINFO_EXTENSION);
+				$mediaMimeType = 'images/' . $ext;
+
+				$media = array(
+					'media_name'           => $newMediaName,
+					'media_alternate_text' => $data['media_alternate_text'],
+					'media_section'        => $data['media_section'],
+					'section_id'           => $subPropertyId,
+					'media_type'           => 'images',
+					'media_mimetype'       => $mediaMimeType,
+					'published'            => $data['media_published'],
+					'ordering'             => $data['media_ordering']
+				);
+
+				$query->clear()
+					->select('*')
+					->from($db->qn('#__redshop_media'))
+					->where($db->qn('section_id') . ' = ' . (int) $subPropertyId)
+					->where($db->qn('media_name') . ' = ' . $db->q($newMediaName))
+					->where($db->qn('media_section') . ' = ' . $db->q('subproperty'));
+
+				$mediaProperty = $db->setQuery($query)->loadObject();
+
+				if ($mediaProperty)
+				{
+					$mediaId = $mediaProperty->media_id;
+					$fields  = array();
+
+					foreach ($media as $k => $v)
+					{
+						$fields[] = $db->qn($k) . ' = ' . $db->q($v);
+					}
+
+					$query->clear()
+						->update($db->qn('#__redshop_media'))
+						->set($fields)
+						->where($db->qn('media_id') . ' = ' . (int) $mediaId);
+
+					$db->setQuery($query)->execute();
+				}
+				else
+				{
+					$columns = $db->qn(array_keys($media));
+					$values  = $db->q(array_values($media));
+
+					$query->clear()
+						->insert($db->qn('#__redshop_media'))
+						->columns($columns)
+						->values(implode(',', $values));
+
+					$db->setQuery($query)->execute();
+				}
+			}
+
+			// Sub-property image
+			if (!empty($data['subattribute_color_image']) && JFile::exists($data['subattribute_color_image']))
+			{
+				$file = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . basename($data['subattribute_color_image']);
+
+				// Copy If file is not already exist
+				if (!JFile::exists($file))
+				{
+					copy($data['subattribute_color_image'], $file);
+				}
+			}
+
+			if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty') && JFile::exists($data['media_name']))
+			{
+				$file = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . basename($data['media_name']);
+
+				// Copy If file is not already exist
+				if (!JFile::exists($file))
+				{
+					copy($data['media_name'], $file);
+				}
+			}
+		}
+
+		return true;
 	}
 }
