@@ -19,6 +19,9 @@ class TAXRatesJoomla3Page
 
     public static $TaxState = "#rs_state_jformtax_state";
 
+    public static $fieldCountry = '#jform_tax_country';
+    public static $fieldGroup = '#jform_tax_group_id';
+
     public static $taxStateNamePath = "//div[@class='table-responsive']/table/tbody/tr/td[4]/a[2]";
 
     public static $statePath = "#rs_state_jformtax_state";
