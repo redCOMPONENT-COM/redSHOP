@@ -400,7 +400,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		$table  = $this->getModel()->getTable();
 		$result = true;
 
-		if (!$table->load($editKey) || !$table->bind($editData) || !$table->store())
+		if (!$table->load($editKey) || !$table->bind($editData) || !$table->check() || !$table->store())
 		{
 			$result = false;
 		}

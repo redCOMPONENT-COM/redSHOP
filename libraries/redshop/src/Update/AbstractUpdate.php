@@ -126,7 +126,7 @@ abstract class AbstractUpdate
 		{
 			if (file_exists($file))
 			{
-				JFile::delete($file);
+				\JFile::delete($file);
 			}
 		}
 
@@ -163,7 +163,7 @@ abstract class AbstractUpdate
 				continue;
 			}
 
-			if (!JFile::delete($file))
+			if (!\JFile::delete($file))
 			{
 				return false;
 			}
