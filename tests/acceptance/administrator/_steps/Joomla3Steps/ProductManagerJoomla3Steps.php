@@ -171,7 +171,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\ProductManagerPage::$maximumQuantity, $maximumQuantity);
         $I->click("Save");
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
     public function createProductMissingName($productCategory, $productNumber, $price)

@@ -191,7 +191,6 @@ class ManageVoucherAdministratorCest
     {
         $I->wantTo('Test to validate different buttons on Voucher Views');
         $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
-        $I->checkButtons('edit');
         $I->checkButtons('cancel');
         $I->checkButtons('publish');
         $I->checkButtons('unpublish');
