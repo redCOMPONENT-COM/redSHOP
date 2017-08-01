@@ -78,20 +78,20 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			return $shippingRate;
 		}
 
-		$cart     = JFactory::getSession()->get('cart');
-		$district = $data['post']['ghnDistrict'];
+		$cart          = JFactory::getSession()->get('cart');
+		$userInfoId    = $data['users_info_id'];
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $userInfoId);
 
-		if ($data['users_info_id'] != 0)
+		if (empty($districtField))
 		{
-			$userInfoId    = $data['users_info_id'];
-			$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $userInfoId);
+			$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $userInfoId);
+		}
 
-			if (empty($districtField))
-			{
-				$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $userInfoId);
-			}
+		$district = $districtField->data_txt;
 
-			$district = $districtField->data_txt;
+		if ($data['users_info_id'] == 0)
+		{
+			$district = $data['post']['ghnDistrict'];
 		}
 
 		$serviceList = $this->getServiceList($district);
@@ -124,26 +124,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		$items[0]['ToDistrictCode']   = $district;
 		$items[0]['ServiceID']        = $serviceList['Services'][0]['ShippingServiceID'];
 
-		$post = array(
-			'ApiKey'       => $this->params->get('api_key'),
-			'ApiSecretKey' => $this->params->get('api_secret'),
-			'ClientID'     => $this->params->get('client_id'),
-			'Password'     => $this->params->get('password'),
-			'Items'        => $items
-		);
-		$headers = array(
-			"Content-Type: application/x-www-form-urlencoded",
-			"Cache-control: no-cache"
-		);
-
-		$curl = curl_init($this->params->get('url_service') . 'CalculateServiceFee');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		$json = curl_exec($curl);
-		curl_close($curl);
-
-		$result = json_decode($json, true);
+		$result = $this->calculateServiceFee($items);
 
 		if (empty($result['Items']) || !empty($result['ErrorMessage']))
 		{
@@ -328,48 +309,15 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	 */
 	public function onBeforeUserShippingStore(&$data)
 	{
-		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $data->users_info_id);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $data->users_info_id);
+		$shippingExtraFields = $this->getShippingExtraFields($data->users_info_id);
+		$billingExtraFields  = $this->getBillingExtraFields($data->users_info_id);
 
-		if (empty($cityField) && empty($districtField))
-		{
-			$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_city', 7, $data->users_info_id);
-			$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $data->users_info_id);
-		}
-
-		$result = $this->getDistrictProvinceData();
-
-		if (empty($result))
-		{
-			return;
-		}
-
-		$userCity     = "";
-		$userDistrict = "";
-		$cities       = array();
-		$districts    = array();
-
-		foreach ($result['Data'] as $key => $city)
-		{
-			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
-		}
-
-		foreach ($result['Data'] as $key => $district)
-		{
-			if ($cityField->data_txt != $district['ProvinceCode'])
-			{
-				continue;
-			}
-
-			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
-		}
-
-		$userCity = $cities[$cityField->data_txt];
-		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+		$userCity = !empty($shippingExtraFields['city']) ? $shippingExtraFields['city'] : $billingExtraFields['city'];
+		$userDistrict = !empty($shippingExtraFields['district']) ? $shippingExtraFields['district'] : $billingExtraFields['district'];
 
 		$data->address    .= ' ' . $userDistrict . ' ' . $userCity;
 		$data->city       = $userCity;
-		$data->state_code = $cityField->data_txt;
+		$data->state_code = !empty($shippingExtraFields['city_code']) ? $shippingExtraFields['city_code'] : $billingExtraFields['city_code'];
 	}
 
 	/**
@@ -494,6 +442,37 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	}
 
 	/**
+	 * Calculate Service Fee
+	 *
+	 * @param   array  $items  Items to calculate
+	 *
+	 * @return array
+	 */
+	public function calculateServiceFee($items)
+	{
+		$post = array(
+			'ApiKey'       => $this->params->get('api_key'),
+			'ApiSecretKey' => $this->params->get('api_secret'),
+			'ClientID'     => $this->params->get('client_id'),
+			'Password'     => $this->params->get('password'),
+			'Items'        => $items
+		);
+		$headers = array(
+			"Content-Type: application/x-www-form-urlencoded",
+			"Cache-control: no-cache"
+		);
+
+		$curl = curl_init($this->params->get('url_service') . 'CalculateServiceFee');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		$json = curl_exec($curl);
+		curl_close($curl);
+
+		return json_decode($json, true);
+	}
+
+	/**
 	 * get GiaoHangNhanh Service List
 	 *
 	 * @param   int  $districtCode  GHN District code
@@ -515,7 +494,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			"Cache-control: no-cache"
 		);
 
-		$curl = curl_init($this->params->get('url_service') . 'GetServiceList');
+		$curl = curl_init($this->params->get('url_service') . 'ServiceInfos');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
