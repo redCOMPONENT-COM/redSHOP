@@ -9,66 +9,49 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Redshop helper for ClickATell
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       2.0.6
+ * @since       1.0.0
  */
 class PlgRedshop_OrderClickATellHelper
 {
-	public static function check($orderId = 0, $orderStatus = array(), $payments = array())
-	{
-
-	}
-
 	/**
 	 * Method for run process on order ID
 	 *
-	 * @param   integer $orderId ID of order
+	 * @param   integer   $orderId  ID of order
+	 * @param   Registry  $params   Plugin params
 	 *
 	 * @return  void
 	 *
 	 * @since   2.0.6
 	 */
-	public static function clickatellSMS($orderId)
+	public static function sms($orderId, $params)
 	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_order_users_info', 'oui'))
-			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('oui.order_id'))
-			->where($db->qn('oui.order_id') . ' = ' . (int) $orderId)
-			->where($db->qn('oui.address_type') . ' = ' . $db->quote('ST'));
-
-		$orderData = $db->setQuery($query)->loadObject();
-
-		$query->clear()
-			->select($db->qn('p.payment_method_name'))
-			->select($db->qn('op.payment_method_id'))
-			->from($db->qn('#__redshop_order_payment', 'op'))
-			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('op.order_id'))
-			->leftJoin($db->qn('#__redshop_payment_method', 'p') . ' ON ' . $db->qn('p.payment_method_id') . ' = ' . $db->qn('op.payment_method_id'))
-			->where($db->qn('op.order_id') . ' = ' . (int) $orderId);
-
-		$paymentData = $db->setQuery($query)->loadObject();
-
-		$paymentName     = $paymentData->payment_method_name;
-		$paymentMethodId = $paymentData->payment_method_id;
-		$to              = $orderData->phone;
-		$templateDetail  = RedshopHelperTemplate::getTemplate("clicktell_sms_message");
-
-		$orderShippingClass = 0;
-		$orderShipping      = RedshopShippingRate::decrypt($orderData->ship_method_id);
-
-		if (isset($orderShipping[0]))
+		if (!$orderId)
 		{
-			$orderShippingClass = $orderShipping[0];
+			return;
 		}
 
-		$query->clear()
+		$order = RedshopEntityOrder::getInstance($orderId);
+		$billing = $order->getBilling();
+		$payment = $order->getPayment();
+
+		$paymentName     = JText::_($payment->get('order_payment_name'));
+		$paymentMethodId = $payment->get('payment_method_id');
+		$to              = $billing->get('phone');
+		$templateDetail  = $params->get('message', '');
+
+		$orderShipping      = RedshopShippingRate::decrypt($order->get('ship_method_id'));
+
+		$orderShippingClass = isset($orderShipping[0]) ? $orderShipping[0] : '';
+
+		// 1. @TODO: send sms for order has status & payment method match & template exist
+		/*$query->clear()
 			->select('*')
 			->from($db->qn('#__redshop_template', 't'))
 			->where($db->qn('t.template_section') . ' = ' . $db->quote('clicktell_sms_message'))
@@ -83,9 +66,10 @@ class PlgRedshop_OrderClickATellHelper
 		if ($message)
 		{
 			self::sendMessage(urlencode($message), $to);
-		}
+		}*/
 
-		$query->clear()
+		// 2. @TODO: send sms for order has status & shipping method match & template exist
+		/*$query->clear()
 			->select('*')
 			->from($db->qn('#__redshop_template', 't'))
 			->where($db->qn('t.template_section') . ' = ' . $db->quote('clicktell_sms_message'))
@@ -100,9 +84,10 @@ class PlgRedshop_OrderClickATellHelper
 		if ($message)
 		{
 			self::sendMessage(urlencode($message), $to);
-		}
+		}*/
 
-		if (Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS') == $orderData->order_status)
+		// 3. DONE: Send sms for order has status match with plugin config
+		if (in_array($order->get('order_status'), $params->get('status')))
 		{
 			$message = self::replaceMessage($templateDetail[0]->template_desc, $orderData, $paymentName);
 
@@ -131,11 +116,11 @@ class PlgRedshop_OrderClickATellHelper
 
 		if (count($details) > 1)
 		{
-			$text = "";
+			$text = '';
 
 			if (array_key_exists(2, $details))
 			{
-				$text = " (" . $details[2] . ")";
+				$text = ' (' . $details[2] . ')';
 			}
 
 			$shippingMethod = $details[1] . $text;
@@ -174,7 +159,7 @@ class PlgRedshop_OrderClickATellHelper
 
 		// Clickatell_api_id
 		$clickATellAPI = Redshop::getConfig()->get('CLICKATELL_API_ID');
-		$baseUrl       = "http://api.clickatell.com";
+		$baseUrl       = 'http://api.clickatell.com';
 
 		// Auth call
 		$url = $baseUrl . '/http/auth?user=' . $user . '&password=' . $password . '&api_id=' . $clickATellAPI;
@@ -183,9 +168,9 @@ class PlgRedshop_OrderClickATellHelper
 		$result = file($url);
 
 		// Split our response. return string is on first line of the data returned
-		$session = explode(":", $result[0]);
+		$session = explode(':', $result[0]);
 
-		if ($session[0] == "OK")
+		if ($session[0] == 'OK')
 		{
 			// Remove any whitespace
 			$sessionId = trim($session[1]);
@@ -193,20 +178,20 @@ class PlgRedshop_OrderClickATellHelper
 
 			// Do send sms call
 			$result = file($url);
-			$send   = explode(":", $result[0]);
+			$send   = explode(':', $result[0]);
 
-			if ($send[0] == "ID")
+			if ($send[0] == 'ID')
 			{
-				echo "success message ID: " . $send[1];
+				echo 'success message ID: ' . $send[1];
 			}
 			else
 			{
-				JError::raiseWarning(21, "send message failed: ");
+				JError::raiseWarning(21, 'send message failed: ');
 			}
 		}
 		else
 		{
-			JError::raiseWarning(21, "Authentication failure: " . $result[0]);
+			JError::raiseWarning(21, 'Authentication failure: ' . $result[0]);
 		}
 	}
 }

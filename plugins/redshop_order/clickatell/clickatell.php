@@ -37,7 +37,13 @@ class PlgRedshop_OrderClickATell extends JPlugin
 	 */
 	public function onAfterOrderStatusUpdate($data, $newStatus)
 	{
+		// Skip if new order status is not support in plugin params
+		if (!in_array($newStatus, $this->params->get('status', array())))
+		{
+			return;
+		}
 
+		PlgRedshop_OrderClickATellHelper::sms($data->order_id, $this->params);
 	}
 
 	/**
@@ -48,8 +54,8 @@ class PlgRedshop_OrderClickATell extends JPlugin
 	 * @return  void
 	 * @since   1.0.0
 	 */
-	public function onAfterOrderPlace($orderId = 0)
+	public function onAfterOrderPlace($orderId)
 	{
-		PlgRedshop_OrderClickATellHelper::clickatellSMS($orderId);
+		PlgRedshop_OrderClickATellHelper::sms($orderId, $this->params);
 	}
 }
