@@ -2578,9 +2578,19 @@ class RedshopHelperOrder
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderDetail->track_no);
 
-			$order_trackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $orderId;
+			$orderTrackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $orderId;
+
+			JPluginHelper::importPlugin('redshop_shipping');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onReplaceTrackingUrl',
+				array(
+					$orderId,
+					&$orderTrackURL
+				)
+			);
+
 			$search[] = "{order_track_url}";
-			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailBody = str_replace($search, $replace, $mailData);
 			$mailBody = $redshopMail->imginmail($mailBody);
