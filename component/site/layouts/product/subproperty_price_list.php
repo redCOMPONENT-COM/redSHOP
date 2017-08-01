@@ -45,7 +45,7 @@ foreach ($subProperties as $key => $subProperty)
     </tr>
 	<?php $count = 0; ?>
 	<?php foreach ($priceList as $quantity => $list) : ?>
-        <tr class="<?php if ($count >= 1): echo 'hidden price-row'; endif;?> ">
+        <tr class="<?php echo ($count >= 1) ? 'hidden price-row' : ''; ?> ">
 			<?php $count ++;?>
             <td class="quantity"><?php echo $quantity.' stk.'; ?></td>
 			<?php foreach ($subProperties as $key => $subProperty) : ?>
