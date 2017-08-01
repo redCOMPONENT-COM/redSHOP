@@ -339,7 +339,14 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		return RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
+		$payment = RedshopEntityOrder::getInstance($orderId)->getPayment();
+
+		if (null === $payment)
+		{
+			return null;
+		}
+
+		return $payment->getItem();
 	}
 
 	/**
@@ -812,17 +819,19 @@ class RedshopHelperOrder
 		$filter    = JFilterInput::getInstance();
 
 		// Filter name to remove special characters
+		// We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
 		$firstName = $filter->clean(
-			mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$lastName  = $filter->clean(
-			mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$fullName  = $firstName . " " . $lastName;
-		$address   = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-		$city      = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+
+		$address   = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
+		$city      = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
 
 		if ($billingInfo->is_company)
 		{
@@ -884,9 +893,9 @@ class RedshopHelperOrder
 				<val n="name"><![CDATA[' . $fullName . ']]></val>
 				<val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
 				<val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
-				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
+				<val n="zipcode">' . $billingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
-				<val n="country">' . $shippingInfo->country_code . '</val>
+				<val n="country">' . $billingInfo->country_code . '</val>
 				<val n="contact"><![CDATA[' . $firstName . ']]></val>
 				<val n="phone">' . $shippingInfo->phone . '</val>
 				<val n="doorcode"/>
@@ -938,7 +947,7 @@ class RedshopHelperOrder
 
 			$xmlResponse = $xmlResponse->val;
 
-			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
+			if ('201' === (string) $xmlResponse[1] && 'Created' === (string) $xmlResponse[2])
 			{
 				// Update current order success entry.
 				$query = $db->getQuery(true)
@@ -1066,8 +1075,14 @@ class RedshopHelperOrder
 			}
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+			JPluginHelper::importPlugin('redshop_order');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onAfterOrderStatusUpdate',
+				array(
+					self::getOrderDetails($orderId),
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1337,11 +1352,14 @@ class RedshopHelperOrder
 			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(RedshopEntityOrder::getInstance($orderId)->getItem())
+				array(
+					RedshopEntityOrder::getInstance($orderId)->getItem(),
+					$newStatus
+				)
 			);
 
 			if ($paymentStatus == "Paid")
@@ -1364,7 +1382,7 @@ class RedshopHelperOrder
 				}
 			}
 
-			self::createWebPacklabel($orderId, $newStatus, $paymentStatus);
+			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
@@ -1373,7 +1391,6 @@ class RedshopHelperOrder
 		switch ($newStatus)
 		{
 			case "X";
-
 				$orderProducts = self::getOrderItemDetail($orderId);
 
 				for ($i = 0, $in = count($orderProducts); $i < $in; $i++)
@@ -1933,7 +1950,7 @@ class RedshopHelperOrder
 
 			$maxOrderNumber = $db->loadResult();
 			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
-			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
+			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
@@ -2231,9 +2248,9 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('element') . ' = ' . $db->quote($payment));
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote($payment));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
@@ -2625,7 +2642,7 @@ class RedshopHelperOrder
 
 			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
-			if (is_file($bookInvoicePdf))
+			if (JFile::exists($bookInvoicePdf))
 			{
 				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}

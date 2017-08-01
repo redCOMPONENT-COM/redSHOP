@@ -70,4 +70,6 @@ ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_name` (`name` ASC);
 ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_show_in_front` (`show_in_front` ASC);
 ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC);
 
+ALTER TABLE `#__redshop_product_attribute` ADD `attribute_description` VARCHAR(255) NOT NULL DEFAULT '' AFTER `attribute_name`;
+
 SET FOREIGN_KEY_CHECKS = 1;

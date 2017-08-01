@@ -527,7 +527,7 @@ class RedshopModelAccount extends RedshopModel
 					// Attribute ajax change
 					if (!$row->not_for_sale)
 					{
-						$wishlist_data = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
+						$wishlist_data = RedshopHelperProductPrice::getShowPrice($row->product_id, $wishlist_data);
 					}
 					else
 					{

@@ -90,6 +90,9 @@
       "user",
       "related_product"
     ],
+    "redshop_order": [
+      "esms"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -152,11 +155,11 @@
       "stockroom_status",
       "discount_affect_attribute",
       "sync_b2b"
-      "discount_affect_attribute",
       "bundle"
     ],
     "redshop_product_type": [
-      "bundle"
+      "bundle",
+      "gift"
     ],
     "redshop_shipping": [
       "bring",

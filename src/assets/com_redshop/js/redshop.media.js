@@ -185,6 +185,9 @@
              * @return  void
              */
             self.dropzoneInstance.on('addedfile',  function(file) {
+                // disable Save buttons to avoid user click save during ajax event
+                $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", true);
+
                 if (!self.validateFile(file)) {
                     this.removeFile(file);
 
@@ -213,6 +216,9 @@
                 if (response.success) {
                     self.$target.val(response.data.file.url);
                 }
+
+                // enable Save buttons
+                $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", false);
             });
 
             /**
@@ -471,6 +477,7 @@
 
             self.$alertModal.find('.alert-text').text(text);
             self.$alertModal.modal('show');
+            $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", false);
         },
         /**
          * Transform cropper dataURI output to a Blob which Dropzone accepts
