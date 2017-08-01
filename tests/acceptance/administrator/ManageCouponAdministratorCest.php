@@ -21,7 +21,7 @@ class ManageCouponAdministratorCest
     {
         $this->faker = Faker\Factory::create();
         $this->couponCode = $this->faker->bothify('Coupon Code ?##?');
-        $this->couponCodeUser=$this->faker->bothify('CouponCodeUser?##');
+        $this->couponCodeUser = $this->faker->bothify('CouponCodeUser?##');
         $this->updateCouponCode = 'New ' . $this->couponCode;
         $this->couponValueIn = 'Total';
         $this->couponValue = '100';
@@ -44,6 +44,7 @@ class ManageCouponAdministratorCest
     {
         $I->doAdministratorLogin();
     }
+
     /**
      * Function to Test User Creation in Backend
      *
@@ -52,9 +53,10 @@ class ManageCouponAdministratorCest
     {
         $I->wantTo('Test User creation in Administrator');
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
         $I->searchUser($this->firstName);
     }
+
     /**
      * Function to Test Coupon Creation in Backend
      *
