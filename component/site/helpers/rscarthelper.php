@@ -348,6 +348,10 @@ class rsCarthelper
 					$shippingLayout = 'mail.shipping';
 				}
 
+				JPluginHelper::importPlugin('redshop_shipping');
+				$dispatcher = RedshopHelperUtility::getDispatcher();
+				$dispatcher->trigger('onBeforeRenderShippingAddress', array(&$shippingaddresses));
+
 				$shipadd = RedshopLayoutHelper::render(
 					$shippingLayout,
 					array('shippingaddresses' => $shippingaddresses),
