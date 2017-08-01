@@ -188,7 +188,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->executeJS('jQuery("' . $elementId . '").select2("search", "' . $text . '")');
-		$I->waitForElement(['xpath' => "//div[contains(@class, 'select2-drop-active')]/ul[(@class, 'select2-results')]/li[1]/div"], 60);
-		$I->click(['xpath' => "//div[contains(@class, 'select2-drop-active')]/ul[(@class, 'select2-results')]/li[1]/div"]);
+		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
+		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
 	}
 }
