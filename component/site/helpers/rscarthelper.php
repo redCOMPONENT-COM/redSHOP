@@ -3727,7 +3727,7 @@ class rsCarthelper
 						array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
-					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.voucher_id')
+					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.id')
 					->where('vt.voucher_code = ' . $db->quote($voucher_code))
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
