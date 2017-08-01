@@ -18,37 +18,37 @@ JHtml::_('formbehavior.chosen', 'select');
 		<label class="control-label" for="cardName">Name</label>
 		<div class="controls">
 			<input
-				class="input-medium"
-				type="text"
-				placeholder="Name"
-				name="cardName"
-				id="cardName"
-				value="<?php echo $name; ?>"
+					class="input-medium"
+					type="text"
+					placeholder="Name"
+					name="cardName"
+					id="cardName"
+					value="<?php echo $name; ?>"
 			/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="cardType">Type</label>
 		<div class="controls">
-		<?php if ($id) : ?>
-			<?php echo $type; ?>
-		<?php else : ?>
-			<?php
-			echo JHtml::_('select.genericlist', $creditCardTypes, 'cardType', array('class' => 'input-small'), 'value', 'text', $type);
-			?>
-		<?php endif; ?>
+			<?php if ($id) : ?>
+				<?php echo $type; ?>
+			<?php else : ?>
+				<?php
+				echo JHtml::_('select.genericlist', $creditCardTypes, 'cardType', array('class' => 'input-small'), 'value', 'text', $type);
+				?>
+			<?php endif; ?>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="cardNumber">Number</label>
 		<div class="controls">
 			<input
-				class="input-medium"
-				type="text"
-				placeholder="Number"
-				name="cardNumber"
-				id="cardNumber"
-				value="<?php echo $number; ?>"
+					class="input-medium"
+					type="text"
+					placeholder="Number"
+					name="cardNumber"
+					id="cardNumber"
+					value="<?php echo $number; ?>"
 			/>
 		</div>
 	</div>
@@ -56,39 +56,39 @@ JHtml::_('formbehavior.chosen', 'select');
 		<label class="control-label" for="cardExpireMonth">Month/Year</label>
 		<div class="controls">
 			<input
-				class="input-mini"
-				type="text"
-				placeholder="Month"
-				name="cardExpireMonth"
-				id="cardExpireMonth"
-				maxlength="2"
-				value="<?php echo $expireMonth; ?>"
+					class="input-mini"
+					type="text"
+					placeholder="Month"
+					name="cardExpireMonth"
+					id="cardExpireMonth"
+					maxlength="2"
+					value="<?php echo $expireMonth; ?>"
 			/>
 			<input
-				class="input-mini"
-				type="text"
-				placeholder="Year"
-				maxlength="4"
-				name="cardExpireYear"
-				value="<?php echo $expireYear; ?>"
+					class="input-mini"
+					type="text"
+					placeholder="Year"
+					maxlength="4"
+					name="cardExpireYear"
+					value="<?php echo $expireYear; ?>"
 			/>
 		</div>
 	</div>
 	<?php if (!$id) : ?>
-	<div class="control-group">
-		<label class="control-label" for="cardCvv">Cvv2</label>
-		<div class="controls">
-			<input
-				class="input-mini"
-				type="text"
-				placeholder="Cvv2"
-				maxlength="4"
-				name="cardCvv"
-				id="cardCvv"
-				value=""
-			/>
+		<div class="control-group">
+			<label class="control-label" for="cardCvv">Cvv2</label>
+			<div class="controls">
+				<input
+						class="input-mini"
+						type="text"
+						placeholder="Cvv2"
+						maxlength="4"
+						name="cardCvv"
+						id="cardCvv"
+						value=""
+				/>
+			</div>
 		</div>
-	</div>
 	<?php endif; ?>
 	<div class="control-group">
 		<div class="controls">
