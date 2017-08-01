@@ -44,7 +44,6 @@ extract($displayData);
 					<?php $style = 'display: none;'; ?>
 					<?php $strImageLink = ''; ?>
 					<?php $altText = ''; ?>
-				<?php else: ?>
 				<?php endif; ?>
 				<td>
 					<div class="userfield_input">

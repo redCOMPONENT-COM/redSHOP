@@ -19,6 +19,7 @@ class ProductManagerPage
 
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
+
     public static $URLNew='/administrator/index.php?option=com_redshop&view=product_detail&layout=edit';
     public static $productFilter = ['id' => 'keyword'];
     public static $productName = "#product_name";
