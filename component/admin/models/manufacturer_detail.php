@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -118,6 +118,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
+
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
 			if (!$row->excluding_category_list)
@@ -219,7 +220,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function getMediaId($mid)
 	{
-		$query = 'SELECT media_id,media_name FROM ' . $this->_table_prefix . 'media '
+		$query = 'SELECT media_id,media_name,media_alternate_text FROM ' . $this->_table_prefix . 'media '
 			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
 		$this->_db->setQuery($query);
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,9 +119,9 @@ if ($template_middle != "")
 			$cart_mdata1 = explode("{category_heading_start}", $cart_mdata);
 			$cart_mdata2 = explode("{category_heading_end}", $cart_mdata1[1]);
 
-			if ($cname != $manufacturer_products[$i]->category_name)
+			if ($cname != $manufacturer_products[$i]->name)
 			{
-				$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->category_name, $cart_mdata);
+				$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->name, $cart_mdata);
 				$cart_mdata = str_replace("{category_heading_start}", "", $cart_mdata);
 				$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
 			}
@@ -130,7 +130,7 @@ if ($template_middle != "")
 				$cart_mdata = $cart_mdata1[0] . $cart_mdata2[1];
 			}
 
-			$cname = $manufacturer_products[$i]->category_name;
+			$cname = $manufacturer_products[$i]->name;
 
 			$cart_mdata = str_replace("{category_heading_start}", "", $cart_mdata);
 			$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
@@ -187,7 +187,7 @@ if ($template_middle != "")
 		$cart_mdata = str_replace("{product_number}", $manufacturer_products[$i]->product_number, $cart_mdata);
 		$cart_mdata = str_replace("{product_s_desc}", $manufacturer_products[$i]->product_s_desc, $cart_mdata);
 
-		$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->category_name, $cart_mdata);
+		$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->name, $cart_mdata);
 
 		if (strstr($cart_mdata, '{product_desc}'))
 		{
@@ -256,8 +256,8 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		&& $media_image[$m]->media_name
 		&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
-		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
+		$wimg      = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
+		$linkimage = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
 
 		$altText = $producthelper->getAltText('manufacturer', $manufacturer->manufacturer_id);
 

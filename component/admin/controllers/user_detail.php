@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,9 +22,9 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'user_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'user_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -35,25 +35,26 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-
-		$post = JRequest::get('post');
-
-		$model = $this->getModel('user_detail');
+		$app      = JFactory::getApplication();
+		$post     = $this->input->post->getArray();
+		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
+		$app->setUserState('com_redshop.user_detail.data', $post);
 
 		if ($row = $model->store($post))
 		{
-			$msg = JText::_('COM_REDSHOP_USER_DETAIL_SAVED');
+			$this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'));
+			$app->setUserState('com_redshop.fields_detail.data', "");
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL');
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL'), 'error');
 		}
 
 		if ($shipping)
 		{
-			$info_id = JRequest::getVar('info_id', '', 'request', 'string');
-			$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			$info_id = $this->input->getString('info_id', '');
+			$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
 		}
 		else
 		{
@@ -63,9 +64,7 @@ class RedshopControllerUser_detail extends RedshopController
 					'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
 				);
 
-				$input = JFactory::getApplication()->input;
-
-				if ($input->post->get('add_shipping') != null)
+				if ($this->input->post->get('add_shipping') != null)
 				{
 					$link = RedshopHelperUtility::getSSLLink(
 						'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $row->users_info_id . '&cid[]=0'
@@ -78,16 +77,14 @@ class RedshopControllerUser_detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect($link, $msg);
+		$this->setRedirect($link);
 	}
 
 	public function remove()
 	{
-
-		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
-		$app = JFactory::getApplication();
-		$delete_joomla_users = $app->input->getBool('delete_joomla_users', false);
+		$shipping            = $this->input->getString('shipping', '');
+		$cid                 = $this->input->get('cid', array(0), 'array');
+		$delete_joomla_users = $this->input->getBool('delete_joomla_users', false);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -105,7 +102,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if ($shipping)
 		{
-			$info_id = JRequest::getVar('info_id', '', 'request', 'int');
+			$info_id = $this->input->getInt('info_id');
 			$this->setRedirect('index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
 		}
 		else
@@ -116,8 +113,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function publish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -138,8 +134,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -167,8 +162,9 @@ class RedshopControllerUser_detail extends RedshopController
 	 */
 	public function cancel()
 	{
-		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
+		$shipping = $this->input->getString('shipping', '');
+		$info_id  = $this->input->getString('info_id', '');
+		JFactory::getApplication()->setUserState('com_redshop.user_detail.data', "");
 
 		if ($shipping)
 		{
@@ -186,23 +182,22 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function order()
 	{
-
-		$user_id = JRequest::getVar('user_id', 0, 'request', 'string');
+		$user_id = $this->input->getInt('user_id', 0);
 		$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id);
 	}
 
 	public function validation()
 	{
-		$json = JRequest::getVar('json', '');
-		$decoded = json_decode($json);
-		$model = $this->getModel('user_detail');
-		$username = $model->validate_user($decoded->username, $decoded->userid);
-		$email = $model->validate_email($decoded->email, $decoded->userid);
-		$json = array();
-		$json['ind'] = $decoded->ind;
+		$json             = $this->input->get('json', '');
+		$decoded          = json_decode($json);
+		$model            = $this->getModel('user_detail');
+		$username         = $model->validate_user($decoded->username, $decoded->userid);
+		$email            = $model->validate_email($decoded->email, $decoded->userid);
+		$json             = array();
+		$json['ind']      = $decoded->ind;
 		$json['username'] = $username;
-		$json['email'] = $email;
-		$encoded = json_encode($json);
+		$json['email']    = $email;
+		$encoded          = json_encode($json);
 		die($encoded);
 	}
 
@@ -217,8 +212,8 @@ class RedshopControllerUser_detail extends RedshopController
 	{
 		RedshopHelperAjax::validateAjaxRequest('get');
 
-		$username = JFactory::getApplication()->input->getString('username', '');
-		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
+		$username = $this->input->getString('username', '');
+		$user_id = $this->input->getInt('user_id', 0);
 
 		$model = $this->getModel('user_detail');
 		$usernameAvailability = $model->validate_user($username, $user_id);

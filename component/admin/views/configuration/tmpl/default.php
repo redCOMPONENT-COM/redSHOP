@@ -3,18 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
-JHTMLBehavior::modal();
 
-$uri = JURI::getInstance();
-$url = $uri->root();
+$uri = JUri::root();
 
 $app = JFactory::getApplication();
 $selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
@@ -106,9 +103,53 @@ if ($app->input->getInt('dashboard', 0))
 		form.submit();
 	}
 </script>
+<script type="text/javascript">
+    function rsConfigShowOn(fieldName, fieldValue, wrapperId)
+    {
+        (function ($) {
+            var $input = $('input[name="' + fieldName + '"]');
+            var $wrapper = $("#" + wrapperId);
+
+            if ($input.length) {
+                var inputType = $input.attr('type');
+                var inputVal  = '';
+
+                if (inputType == "radio") {
+                    inputVal = $('input[name="' + fieldName + '"]:checked').val();
+                }
+                else {
+                    inputVal = $input.val();
+                }
+
+                if (inputVal == fieldValue) {
+                    $wrapper.show('normal', function(){
+                        $(this).next("hr").show();
+                    });
+                }
+                else {
+                    $wrapper.hide('normal', function(){
+                        $(this).next("hr").hide();
+                    })
+                }
+
+                $input.on('change', function (event) {
+                    if ($(this).val() == fieldValue) {
+                        $wrapper.show('normal', function(){
+                            $(this).next("hr").show();
+                        });
+                    }
+                    else {
+                        $wrapper.hide('normal', function(){
+                            $(this).next("hr").hide();
+                        })
+                    }
+                });
+            }
+        })(jQuery);
+    }
+</script>
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
 	  enctype="multipart/form-data">
-
 	<?php
 		echo RedshopLayoutHelper::render(
 			'component.full.tab.main',
@@ -118,7 +159,8 @@ if ($app->input->getInt('dashboard', 0))
 			)
 		);
 	?>
-
+	<input type="hidden" name="backward_compatible_js" value="<?php echo $this->config->get('BACKWARD_COMPATIBLE_JS') ?>" />
+	<input type="hidden" name="backward_compatible_php" value="<?php echo $this->config->get('BACKWARD_COMPATIBLE_PHP') ?>" />
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="selectedTabPosition" value=""/>

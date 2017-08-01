@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.0.3
@@ -21,14 +21,14 @@ class RedshopHelperMedia
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $medias = array();
 
 	/**
 	 * Checks if the file is an image
 	 *
-	 * @param   string  $fileName  The filename
+	 * @param   string $fileName The filename
 	 *
 	 * @return  boolean
 	 *
@@ -44,7 +44,7 @@ class RedshopHelperMedia
 	/**
 	 * Checks if the file is an image
 	 *
-	 * @param   string  $fileName  The filename
+	 * @param   string $fileName The filename
 	 *
 	 * @return  boolean
 	 *
@@ -59,7 +59,7 @@ class RedshopHelperMedia
 	/**
 	 * Print size of an file to Kb or Mb
 	 *
-	 * @param   integer  $size  Size of file
+	 * @param   integer $size Size of file
 	 *
 	 * @return  string
 	 *
@@ -88,9 +88,9 @@ class RedshopHelperMedia
 	/**
 	 * Resize current resolution of an image to new width and height
 	 *
-	 * @param   integer  $width   New width in pixel
-	 * @param   integer  $height  New height in pixel
-	 * @param   integer  $target  Current resolution
+	 * @param   integer $width  New width in pixel
+	 * @param   integer $height New height in pixel
+	 * @param   integer $target Current resolution
 	 *
 	 * @return  array
 	 *
@@ -114,7 +114,7 @@ class RedshopHelperMedia
 		}
 
 		// Gets the new value and applies the percentage, then rounds the value
-		$width = round($width * $percentage);
+		$width  = round($width * $percentage);
 		$height = round($height * $percentage);
 
 		return array($width, $height);
@@ -123,7 +123,7 @@ class RedshopHelperMedia
 	/**
 	 * Checks amount of files in a directory
 	 *
-	 * @param   string  $dir  Directory need to be checked
+	 * @param   string $dir Directory need to be checked
 	 *
 	 * @return  array
 	 *
@@ -132,7 +132,7 @@ class RedshopHelperMedia
 	public static function countFiles($dir)
 	{
 		$total_file = 0;
-		$total_dir = 0;
+		$total_dir  = 0;
 
 		if (is_dir($dir))
 		{
@@ -140,8 +140,9 @@ class RedshopHelperMedia
 
 			while (false !== ($entry = $d->read()))
 			{
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
-					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+				if (substr($entry, 0, 1) != '.' && JFile::exists($dir . DIRECTORY_SEPARATOR . $entry)
+					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
+				)
 				{
 					$total_file++;
 				}
@@ -161,8 +162,8 @@ class RedshopHelperMedia
 	/**
 	 * Rework and standardlize file name.
 	 *
-	 * @param   string   $fileName  File name
-	 * @param   integer  $id        ID current item
+	 * @param   string  $fileName File name
+	 * @param   integer $id       ID current item
 	 *
 	 * @return  string
 	 *
@@ -200,20 +201,20 @@ class RedshopHelperMedia
 	/**
 	 * Get redSHOP images live thumbnail path
 	 *
-	 * @param   string   $imageName     Image Name
-	 * @param   string   $dest          Image Destination path
-	 * @param   string   $command       Commands like thumb, upload etc...
-	 * @param   string   $type          Thumbnail for types like, product, category, subcolor etc...
-	 * @param   integer  $width         Thumbnail Width
-	 * @param   integer  $height        Thumbnail Height
-	 * @param   integer  $proportional  Thumbnail Proportional sizing enable / disable.
+	 * @param   string  $imageName    Image Name
+	 * @param   string  $dest         Image Destination path
+	 * @param   string  $command      Commands like thumb, upload etc...
+	 * @param   string  $type         Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer $width        Thumbnail Width
+	 * @param   integer $height       Thumbnail Height
+	 * @param   integer $proportional Thumbnail Proportional sizing enable / disable.
 	 *
 	 * @return  string   Thumbnail Live path
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-		$height = 50, $proportional = -1)
+	                                    $height = 50, $proportional = -1)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -246,8 +247,15 @@ class RedshopHelperMedia
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physiclePath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
-		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
+		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
+
+		// Can not generate image
+		if (!$physicalPath)
+		{
+			return false;
+		}
+
+		$thumbUrl = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
 	}
@@ -255,12 +263,12 @@ class RedshopHelperMedia
 	/**
 	 * Generate thumbnail for image file
 	 *
-	 * @param   string   $filePath      Path of an image
-	 * @param   string   $dest          Destination to generate is a new file path
-	 * @param   integer  $width         New width in pixel
-	 * @param   integer  $height        New height in pixel
-	 * @param   string   $command       Have 2 options: 'copy' or 'upload'
-	 * @param   integer  $proportional  Try to make image proportionally
+	 * @param   string  $filePath     Path of an image
+	 * @param   string  $dest         Destination to generate is a new file path
+	 * @param   integer $width        New width in pixel
+	 * @param   integer $height       New height in pixel
+	 * @param   string  $command      Have 2 options: 'copy' or 'upload'
+	 * @param   integer $proportional Try to make image proportionally
 	 *
 	 * @return  string   Return destination of new thumbnail
 	 *
@@ -286,10 +294,10 @@ class RedshopHelperMedia
 			// IMAGETYPE_GIF
 			case '1':
 
-			// IMAGETYPE_JPEG
+				// IMAGETYPE_JPEG
 			case '2':
 
-			// IMAGETYPE_PNG
+				// IMAGETYPE_PNG
 			case '3':
 
 				// This method should be expanded to be useable for other purposes not just making thumbs
@@ -317,9 +325,9 @@ class RedshopHelperMedia
 				else
 				{
 					$srcPathInfo = pathinfo($filePath);
-					$dest = $srcPathInfo['dirname'] . '/thumb/' . $srcPathInfo['filename'] . '_w'
+					$dest        = $srcPathInfo['dirname'] . '/thumb/' . $srcPathInfo['filename'] . '_w'
 						. $width . '_h' . $height . '.' . $srcPathInfo['extension'];
-					$ret = $dest;
+					$ret         = $dest;
 
 					if (!JFile::exists($dest))
 					{
@@ -336,12 +344,12 @@ class RedshopHelperMedia
 	/**
 	 * Copy an image to new destination
 	 *
-	 * @param   string   $src           Source path need to copy
-	 * @param   string   $dest          Destination path to copy
-	 * @param   string   $altDest       If exist alternative path will replace destination path
-	 * @param   integer  $width         New width in pixel
-	 * @param   integer  $height        New height in pixel
-	 * @param   integer  $proportional  Try to make image proportionally
+	 * @param   string  $src          Source path need to copy
+	 * @param   string  $dest         Destination path to copy
+	 * @param   string  $altDest      If exist alternative path will replace destination path
+	 * @param   integer $width        New width in pixel
+	 * @param   integer $height       New height in pixel
+	 * @param   integer $proportional Try to make image proportionally
 	 *
 	 * @return  string   Return destination path
 	 *
@@ -381,7 +389,7 @@ class RedshopHelperMedia
 	/**
 	 * Create a directory
 	 *
-	 * @param   string  $path  New directory path
+	 * @param   string $path New directory path
 	 *
 	 * @return  boolean  Return true or false
 	 *
@@ -413,20 +421,20 @@ class RedshopHelperMedia
 	/**
 	 * Resize image to new resolution
 	 *
-	 * @param   string   $file              Current image to resize
-	 * @param   integer  $width             Width in pixel
-	 * @param   integer  $height            Height in pixel
-	 * @param   integer  $proportional      Try to make image proportionally
-	 * @param   string   $output            Have 3 options: 'browser','file', 'return'
-	 * @param   boolean  $deleteOriginal    Default is true, delete originial file after resize
-	 * @param   boolean  $useLinuxCommands  Default is false use @unlink(), if true use 'rm' instead
+	 * @param   string  $file             Current image to resize
+	 * @param   integer $width            Width in pixel
+	 * @param   integer $height           Height in pixel
+	 * @param   integer $proportional     Try to make image proportionally
+	 * @param   string  $output           Have 3 options: 'browser','file', 'return'
+	 * @param   boolean $deleteOriginal   Default is true, delete originial file after resize
+	 * @param   boolean $useLinuxCommands Default is false use @unlink(), if true use 'rm' instead
 	 *
 	 * @return  mixed    If $output is set by 'return': Return new file path, else return boolean
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-		$deleteOriginal = true, $useLinuxCommands = false)
+	                                   $deleteOriginal = true, $useLinuxCommands = false)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -483,8 +491,8 @@ class RedshopHelperMedia
 					$finalHeight = $height;
 				}
 
-				$xMid = $finalWidth / 2;
-				$yMid = $finalHeight / 2;
+				$xMid             = $finalWidth / 2;
+				$yMid             = $finalHeight / 2;
 				$horizontalCenter = $xMid - ($width / 2);
 				$verticalCenter   = $yMid - ($height / 2);
 				break;
@@ -530,7 +538,9 @@ class RedshopHelperMedia
 			elseif ($transparency >= 0)
 			{
 				$transparentColor = imagecolorsforindex($image, $transparency);
+
 				$transparency = imagecolorallocate($imageResized, $transparentColor['red'], $transparentColor['green'], $transparentColor['blue']);
+
 				imagefill($imageResized, 0, 0, $transparency);
 				imagecolortransparent($imageResized, $transparency);
 			}
@@ -540,7 +550,7 @@ class RedshopHelperMedia
 
 		if ($proportional === 2)
 		{
-			$thumb        = imagecreatetruecolor($width, $height);
+			$thumb = imagecreatetruecolor($width, $height);
 			imagecopyresampled($thumb, $imageResized, 0, 0, $horizontalCenter, $verticalCenter, $width, $height, $width, $height);
 			$imageResized = $thumb;
 		}
@@ -555,7 +565,7 @@ class RedshopHelperMedia
 
 			else
 			{
-				unlink($file);
+				JFile::delete($file);
 			}
 		}
 
@@ -603,11 +613,11 @@ class RedshopHelperMedia
 	/**
 	 * Create thumbnail from gif/jpg/png image
 	 *
-	 * @param   string   $fileType  Have 3 options: gif, png, jpg
-	 * @param   string   $srcImg    Source image
-	 * @param   string   $destImg   Destination to create thumbnail
-	 * @param   integer  $nWidth    Width in pixel
-	 * @param   integer  $nHeight   Height in pixel
+	 * @param   string  $fileType Have 3 options: gif, png, jpg
+	 * @param   string  $srcImg   Source image
+	 * @param   string  $destImg  Destination to create thumbnail
+	 * @param   integer $nWidth   Width in pixel
+	 * @param   integer $nHeight  Height in pixel
 	 *
 	 * @return  string   Destination of new thumbnail
 	 *
@@ -619,13 +629,13 @@ class RedshopHelperMedia
 
 		if ($fileType === "gif")
 		{
-			$im    = imagecreatefromgif($destImg);
+			$im = imagecreatefromgif($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
-			$height   = imagesy($im);
+			$height = imagesy($im);
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 
@@ -635,13 +645,13 @@ class RedshopHelperMedia
 
 		if ($fileType === "jpg")
 		{
-			$im    = imagecreatefromjpeg($destImg);
+			$im = imagecreatefromjpeg($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
-			$height   = imagesy($im);
+			$height = imagesy($im);
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 			imagejpeg($newImg, $srcImg);
@@ -650,13 +660,13 @@ class RedshopHelperMedia
 
 		if ($fileType === "png")
 		{
-			$im    = imagecreatefrompng($destImg);
+			$im = imagecreatefrompng($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
-			$height   = imagesy($im);
+			$height = imagesy($im);
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 			imagepng($newImg, $srcImg);
@@ -669,13 +679,13 @@ class RedshopHelperMedia
 	/**
 	 * Method for get additional media images
 	 *
-	 * @param   int     $sectionId  Section Id
-	 * @param   string  $section    Section name
-	 * @param   string  $mediaType  Media type
+	 * @param   int    $sectionId Section Id
+	 * @param   string $section   Section name
+	 * @param   string $mediaType Media type
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getAdditionMediaImage($sectionId = 0, $section = '', $mediaType = 'images')
 	{
@@ -683,7 +693,7 @@ class RedshopHelperMedia
 
 		if (!array_key_exists($key, static::$medias))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('m.*')
 				->from($db->qn('#__redshop_media', 'm'))
@@ -705,7 +715,7 @@ class RedshopHelperMedia
 				case 'property':
 					$query->select('p.*')
 						->leftJoin(
-							$db->qn('#_redshop_product_attribute_property', 'p')
+							$db->qn('#__redshop_product_attribute_property', 'p')
 							. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('m.section_id')
 						);
 					break;
@@ -733,5 +743,184 @@ class RedshopHelperMedia
 		}
 
 		return static::$medias[$key];
+	}
+
+	/**
+	 *  Generate thumb image with watermark
+	 *
+	 * @param   string  $section         Image section
+	 * @param   string  $imageName       Image name
+	 * @param   string  $thumbWidth      Thumb width
+	 * @param   string  $thumbHeight     Thumb height
+	 * @param   integer $enableWatermark Enable watermark
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public static function watermark($section, $imageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = -1)
+	{
+		if ($enableWatermark == -1)
+		{
+			$enableWatermark = Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE');
+		}
+
+		$pathMainImage = $section . '/' . $imageName;
+
+		try
+		{
+			// If main image not exists - display noimage
+			if (!file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
+			{
+				$pathMainImage = 'noimage.jpg';
+				throw new Exception;
+			}
+
+			// If watermark not exists or disable - display simple thumb
+			if ($enableWatermark < 0
+				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE'))
+			)
+			{
+				throw new Exception;
+			}
+
+			// If width and height not set - use with and height original image
+			if (((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+				|| ((int) $thumbWidth != 0 && (int) $thumbHeight == 0)
+				|| ((int) $thumbWidth == 0 && (int) $thumbHeight != 0)
+			)
+			{
+				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage);
+			}
+
+			$imageNameWithPrefix = JFile::stripExt($imageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
+				. JFile::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . JFile::getExt($imageName);
+
+			$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
+
+			if (JFile::exists($destinationFile))
+			{
+				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
+			}
+
+			$filePath = JPATH_SITE . '/components/com_redshop/assets/images/product/' . Redshop::getConfig()->get('WATERMARK_IMAGE');
+
+			$fileName = self::generateImages($filePath, '', $thumbWidth, $thumbHeight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'));
+
+			$fileInfo  = pathinfo($fileName);
+			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $fileInfo['basename'];
+
+			ob_start();
+			self::resizeImage(
+				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage,
+				$thumbWidth,
+				$thumbHeight,
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
+				'browser',
+				false
+			);
+			$contents = ob_get_contents();
+			ob_end_clean();
+
+			if (!JFile::write($destinationFile, $contents))
+			{
+				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $imageName;
+			}
+
+			switch (JFile::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE')))
+			{
+				case 'gif':
+					$dest = imagecreatefromjpeg($destinationFile);
+					$src  = imagecreatefromgif($watermark);
+
+					list($width, $height) = getimagesize($destinationFile);
+					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
+
+					imagecopymerge(
+						$dest, $src, ($width - $watermarkWidth) >> 1, ($height - $watermarkHeight) >> 1, 0, 0, $watermarkWidth, $watermarkHeight, 50
+					);
+
+					imagejpeg($dest, $destinationFile);
+
+					break;
+
+				case 'png':
+					$im = imagecreatefrompng($watermark);
+
+					switch (JFile::getExt($destinationFile))
+					{
+						case 'gif':
+							$im2 = imagecreatefromgif($destinationFile);
+							break;
+						case 'jpg':
+							$im2 = imagecreatefromjpeg($destinationFile);
+							break;
+						case 'png':
+							$im2 = imagecreatefrompng($destinationFile);
+							break;
+						default:
+							throw new Exception;
+					}
+
+					imagecopy(
+						$im2,
+						$im,
+						(imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2),
+						0,
+						0,
+						imagesx($im),
+						imagesy($im)
+					);
+
+					$waterless = imagesx($im2) - imagesx($im);
+					$rest      = ceil($waterless / imagesx($im) / 2);
+
+					for ($n = 1; $n <= $rest; $n++)
+					{
+						imagecopy(
+							$im2, $im, ((imagesx($im2) / 2) - (imagesx($im) / 2)) - (imagesx($im) * $n),
+							(imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im)
+						);
+
+						imagecopy(
+							$im2, $im, ((imagesx($im2) / 2) - (imagesx($im) / 2)) + (imagesx($im) * $n),
+							(imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im)
+						);
+					}
+
+					imagejpeg($im2, $destinationFile);
+
+					break;
+
+				default:
+
+					throw new Exception;
+			}
+
+			return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
+		}
+		catch (Exception $e)
+		{
+			if ($e->getMessage())
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+			}
+
+			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+			{
+				$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
+			}
+			else
+			{
+				$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
+				$fileName = self::generateImages(
+					$filePath, '', $thumbWidth, $thumbHeight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+				);
+				$fileInfo = pathinfo($fileName);
+				$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $fileInfo['basename'];
+			}
+
+			return $fileName;
+		}
 	}
 }

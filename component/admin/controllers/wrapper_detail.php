@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,33 +20,38 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'wrapper_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'wrapper_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$this->save(1);
+	}
+
+	public function save($apply = 0)
+	{
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$post = JRequest::get('post');
+		$post               = $this->input->post->getArray();
 		$post['product_id'] = (isset($post['container_product'])) ? explode(',', $post['container_product']) : 0;
-		$product_id = JRequest::getInt('product_id', 0);
+		$product_id         = $this->input->getInt('product_id', 0);
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['wrapper_id'] = $cid [0];
 
 		$model = $this->getModel('wrapper_detail');
 
-		if ($model->store($post))
+		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_SAVED');
 		}
@@ -55,20 +60,27 @@ class RedshopControllerWrapper_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_WRAPPER_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		if ($apply == 1)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=wrapper_detail&task=edit&cid[]=' . $row->wrapper_id, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		}
 	}
 
 	public function cancel()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
+		$product_id = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Tags
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,30 +26,37 @@ abstract class RedshopTagsAbstract
 	/**
 	 * @var    array
 	 *
-	 * @since   2.0.0.5
+	 * @since  2.0.0.6
+	 */
+	public $tagAlias = array();
+
+	/**
+	 * @var    array
+	 *
+	 * @since  2.0.0.5
 	 */
 	public $search = array();
 
 	/**
 	 * @var    array
 	 *
-	 * @since   2.0.0.5
+	 * @since  2.0.0.5
 	 */
 	public $replace = array();
 
 	/**
 	 * @var    string
 	 *
-	 * @since   2.0.0.5
+	 * @since  2.0.0.5
 	 */
 	protected $template = '';
 
 	/**
-	 * @var   array
+	 * @var    array
 	 *
-	 * @since   2.0.0.5
+	 * @since  2.0.0.5
 	 */
-	protected $data = array ();
+	protected $data = array();
 
 	/**
 	 * RedshopTagsAbstract constructor.
@@ -62,37 +69,61 @@ abstract class RedshopTagsAbstract
 	public function __construct($template, $data)
 	{
 		$this->template = $template;
-		$this->data = $data;
+		$this->data     = $data;
 		$this->init();
 	}
 
 	/**
 	 * Init
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
 	 * @since   2.0.0.5
 	 */
 	abstract public function init();
 
 	/**
-	 * Check if tag is exists or not
+	 * Check if tag is registered or not
 	 *
 	 * @param   string  $tag  Tag
 	 *
-	 * @return  bool
+	 * @return  boolean
+	 *
+	 * @since   2.1
+	 */
+	public function isTagRegistered($tag)
+	{
+		if (in_array($tag, $this->tagAlias))
+		{
+			$tag = $this->tagAlias[$tag];
+		}
+
+		return in_array($tag, $this->tags);
+	}
+
+	/**
+	 * Check if this tag exists in main template
+	 *
+	 * @param   string  $tag  Tag
+	 *
+	 * @return  boolean
 	 *
 	 * @since   2.1
 	 */
 	public function isTagExists($tag)
 	{
-		return in_array($tag, $this->tags);
+		if (strpos($this->template, $tag) === false)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Get available tags
 	 *
-	 * @return array
+	 * @return  array
 	 *
 	 * @since   2.0.0.5
 	 */
@@ -111,15 +142,17 @@ abstract class RedshopTagsAbstract
 	public function replace()
 	{
 		JPluginHelper::importPlugin('redshop');
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		// Trigger event and cancel replace if event return false
-		if ($dispatcher->trigger('onBeforeReplaceTags', array (&$this->search, &$this->replace, &$this->template)) === false)
+		if ($dispatcher->trigger('onBeforeReplaceTags', array(&$this->search, &$this->replace, &$this->template)) === false)
 		{
 			return $this->template;
 		}
 
-		return str_replace($this->search, $this->replace, $this->template);
+		$this->template = str_replace($this->search, $this->replace, $this->template);
+
+		return $this->template;
 	}
 
 	/**
@@ -128,14 +161,14 @@ abstract class RedshopTagsAbstract
 	 * @param   string  $tag    Tag
 	 * @param   string  $value  Value
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.0.5
 	 */
 	protected function addReplace($tag, $value)
 	{
 		JPluginHelper::importPlugin('redshop');
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		// Trigger event and cancel addReplace if event return false
 		if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false))
@@ -144,12 +177,53 @@ abstract class RedshopTagsAbstract
 		}
 
 		// Make sure this tag is exists before adding replace
-		if (strpos($this->template, $tag) === false || !$this->isTagExists($tag))
+		if ($this->isTagExists($tag) === false || $this->isTagRegistered($tag) === false)
 		{
 			return true;
 		}
 
 		$this->search[]  = $tag;
 		$this->replace[] = $value;
+
+		// Check alias tag
+		if ($key = array_search($tag, $this->tagAlias) !== false)
+		{
+			$this->search[]  = $key;
+			$this->replace[] = $value;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get template between loop tags
+	 *
+	 * @param   string  $beginTag  Begin tag
+	 * @param   string  $endTag    End tag
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.0.6
+	 */
+	protected function getTemplateBetweenLoop($beginTag, $endTag)
+	{
+		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
+		{
+			$templateStartData = explode($beginTag, $this->template);
+			$templateStart     = $templateStartData [0];
+
+			$templateEndData = explode($endTag, $templateStartData [1]);
+			$templateEnd     = $templateEndData[1];
+
+			$templateMain = $templateEndData[0];
+
+			return array(
+				'begin'    => $templateStart,
+				'template' => $templateMain,
+				'end'      => $templateEnd
+			);
+		}
+
+		return false;
 	}
 }

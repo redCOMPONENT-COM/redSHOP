@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -11,6 +11,17 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $uri = JURI::getInstance();
 $url = $uri->root();
+
+$thumbUrl = RedShopHelperImages::getImagePath(
+				$this->detail->stock_amount_image,
+				'',
+				'thumb',
+				'stockroom',
+				Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
+				Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			);
+
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -68,11 +79,7 @@ $url = $uri->root();
 					    class="key"><?php echo JText::_('COM_REDSHOP_STOCK_AMOUNT_IMAGE_LBL'); ?>:
 					</td>
 					<td><input type="file" name="stock_amount_image"/>
-						<?php if ($this->detail->stock_amount_image && JFile::exists(Redshop::getConfig()->get('REDSHOP_FRONT_IMAGES_RELPATH') . 'stockroom/' . $this->detail->stock_amount_image)): ?>
-						<div><img
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $this->detail->stock_amount_image; ?>"
-								width="150px" height="90px"/></div>
-						<?php endif; ?>
+						<div><img src="<?php echo $thumbUrl; ?>" /></div>
 						<input type="hidden" name="stock_image"
 						       value="<?php echo $this->detail->stock_amount_image; ?>"/></td>
 				</tr>

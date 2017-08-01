@@ -67,32 +67,28 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 						. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATE_FAIL", "<span class=\"badge badge-important\">" . $orderId . "</span>")
 					. '</li>';
 		}
-		else
+		elseif (RedshopHelperPdf::isAvailablePdfPlugins())
 		{
-			$pdfObj = RedshopHelperPdf::getInstance();
-
-			$pdfObj->SetTitle('Shipped');
-			$pdfObj->SetMargins(20, 85, 20);
-
-			$font = 'times';
-			$pdfObj->setHeaderFont(array($font, '', 8));
-			$pdfObj->SetFont($font, "", 6);
-
 			$invoice = $this->createShippedInvoicePdf($orderId);
 
-			// Writing Body area
-			$pdfObj->AddPage();
-			$pdfObj->WriteHTML($invoice, true, false, true, false, '');
-
-			$invoice_pdfName = 'shipped_' . $orderId;
-			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
+			JPluginHelper::importPlugin('redshop_pdf');
+			$result = RedshopHelperUtility::getDispatcher()->trigger('onRedshopPdfCreateShippedInvoice', array($orderId, $invoice));
 
 			ob_end_clean();
 
 			// Set response message
-			$message .= '<li class="success text-success">'
-				. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATED", "<span class=\"badge badge-success\">" . $orderId . "</span>")
-				. '</li>';
+			if (in_array(false, $result, true))
+			{
+				$message .= '<li class="red text-error">'
+					. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATE_FAIL", "<span class=\"badge badge-important\">" . $orderId . "</span>")
+					. '</li>';
+			}
+			else
+			{
+				$message .= '<li class="success text-success">'
+					. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATED", "<span class=\"badge badge-success\">" . $orderId . "</span>")
+					. '</li>';
+			}
 
 			array_push($mergeOrderIds, $orderId);
 		}
@@ -175,7 +171,9 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 	/**
 	 * Merge Shipping Information PDF
 	 *
-	 * @return  void  Set PDF path on the viewport
+	 * @param   array  $mergeOrderIds  List id of order
+	 *
+	 * @return  string                 Set PDF path on the viewport
 	 */
 	public function mergeShippingPdf($mergeOrderIds)
 	{
@@ -204,9 +202,9 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 		{
 			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
 
-			if (file_exists($pdfName))
+			if (JFile::exists($pdfName))
 			{
-				unlink($pdfName);
+				JFile::delete($pdfName);
 			}
 		}
 

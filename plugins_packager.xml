@@ -64,41 +64,43 @@
     <!-- Loops through folders creating plugins packages -->
 
     <target name="build" depends="prepare">
-		<!-- Loop through plugins groups -->
-		<foreach param="group_name" target="plugin_loop">
-			<fileset dir="${extpath}/plugins">
-				<type type="dir" />
-				<depth max="0" min="0" />
-			</fileset>
-		</foreach>
+        <!-- Loop through plugins groups -->
+        <foreach param="group_name" target="plugin_loop">
+            <fileset dir="${extpath}/plugins">
+                <type type="dir" />
+                <depth max="0" min="0" />
+            </fileset>
+        </foreach>
 
-		<if>
-			<available file="${package.dir}/${extension}-${version}-plugins" type="dir" />
-			<then>
-		        <delete dir="${package.dir}/${extension}-${version}-plugins"/>
-			</then>
-		</if>
+        <if>
+            <available file="${package.dir}/${extension}-${version}-plugins" type="dir" />
+            <then>
+                <delete dir="${package.dir}/${extension}-${version}-plugins"/>
+            </then>
+        </if>
 
         <copy todir="${package.dir}/${extension}-${version}-plugins">
             <fileset dir="${tmpdir}">
                 <include name="**" />
             </fileset>
         </copy>
-	</target>
+    </target>
 
-	<target name="plugin_loop" description="Loops through plugins folders inside groups">
-		<mkdir dir="${tmpdir}/${group_name}" />
+    <target name="plugin_loop" description="Loops through plugins folders inside groups">
+        <mkdir dir="${tmpdir}/${group_name}" />
 
-		<!-- Loop through plugins -->
-		<foreach param="plugin_name" target="plugin_packager">
-			<fileset dir="${extpath}/plugins/${group_name}">
-				<type type="dir" />
-				<depth max="0" min="0" />
-			</fileset>
-		</foreach>
-	</target>
+        <!-- Loop through plugins -->
+        <foreach param="plugin_name" target="plugin_packager">
+            <fileset dir="${extpath}/plugins/${group_name}">
+                <type type="dir" />
+                <depth max="0" min="0" />
+                <exclude name="dompdf/**" />
+                <exclude name="mpdf/**" />
+            </fileset>
+        </foreach>
+    </target>
 
-	<target name="plugin_packager" description="Packages the extension for delivery">
+    <target name="plugin_packager" description="Packages the extension for delivery">
         <xmlproperty file="${extpath}/plugins/${group_name}/${plugin_name}/${plugin_name}.xml" prefix="pluginmanifest" keepRoot="false" />
         <property
                 name="plugin_version"
@@ -127,14 +129,14 @@
         </if>
 
         <zip
-				destfile="${tmpdir}/${group_name}/${group_name}_${plugin_name}_${plugin_version}${redshop_compatibility}.zip"
-				basedir="${extpath}/plugins/${group_name}/${plugin_name}">
-			<fileset dir="${extpath}/plugins/${group_name}/${plugin_name}">
-				<include name="**" />
-				<exclude name=".*" />
-			</fileset>
-		</zip>
-	</target>
+                destfile="${tmpdir}/${group_name}/${group_name}_${plugin_name}_${plugin_version}${redshop_compatibility}.zip"
+                basedir="${extpath}/plugins/${group_name}/${plugin_name}">
+            <fileset dir="${extpath}/plugins/${group_name}/${plugin_name}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+    </target>
 
     <target name="clean-tmp">
         <delete dir="${tmpdir}"/>

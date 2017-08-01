@@ -31,7 +31,7 @@ class MailCenterManagerJoomla3Page
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $mailTemplateStatePath = "//div[@id='editcell']/table/tbody/tr/td[6]/a";
+	public static $mailTemplateStatePath = "//table[contains(@class,'adminlist')]/tbody/tr/td[6]/a";
 
 	public static $searchField = ['id' => 'filter'];
 

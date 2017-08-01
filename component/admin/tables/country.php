@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class RedshopTableCountry extends RedshopTable
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->qn(['id', 'country_3_code']))
+		$query->select($db->qn(array('id', 'country_3_code')))
 			->from($db->qn('#__redshop_country'))
 			->where($db->qn('country_3_code') . ' = ' . $db->quote($this->country_3_code) . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id));
 
@@ -52,15 +52,14 @@ class RedshopTableCountry extends RedshopTable
 
 		if ($xid)
 		{
-			$this->error = JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS');
-			JError::raiseWarning('', $this->error);
+			$this->setError(JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS'));
 
 			return false;
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$query->select($db->qn(['id', 'country_3_code', 'country_2_code']))
+			$query->select($db->qn(array('id', 'country_3_code', 'country_2_code')))
 				->from($db->qn('#__redshop_country'))
 				->where($db->qn('country_2_code') . ' = ' . $db->q($this->country_2_code) . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id));
 
@@ -69,8 +68,7 @@ class RedshopTableCountry extends RedshopTable
 
 			if ($xid)
 			{
-				$this->error = JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS');
-				JError::raiseWarning('', $this->error);
+				$this->setError(JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS'));
 
 				return false;
 			}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,6 +72,10 @@ class RedshopViewOrder extends RedshopViewAdmin
 			$this->setLayout('labellisting');
 			RedshopToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+		elseif ($layout == 'batch')
+		{
+			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+		}
 		else
 		{
 			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
@@ -85,23 +89,11 @@ class RedshopViewOrder extends RedshopViewAdmin
 				true
 			);
 
-			RedshopToolbarHelper::custom(
-				'allStatusExceptPacsoft',
-				'save.png',
-				'print_f2.png',
-				'COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL',
-				true
-			);
+			RedshopToolbarHelper::modal('massOrderStatusChange', 'fa fa-gears', 'COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL');
 
 			if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 			{
-				RedshopToolbarHelper::custom(
-					'allstatus',
-					'save.png',
-					'save_f2.png',
-					'COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL',
-					true
-				);
+				RedshopToolbarHelper::modal('massOrderStatusPacsoft', 'fa fa-gears', 'COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL');
 			}
 
 			$group = RedshopToolbarHelper::createGroup('export', 'COM_REDSHOP_EXPORT_DATA_LBL');
@@ -137,6 +129,12 @@ class RedshopViewOrder extends RedshopViewAdmin
 			$group->renderGroup();
 
 			RedshopToolbarHelper::deleteList();
+
+			// Check PDF plugin
+			if (!RedshopHelperPdf::isAvailablePdfPlugins())
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_WARNING_MISSING_PDF_PLUGIN'), 'warning');
+			}
 		}
 
 		$state                 = $this->get('State');

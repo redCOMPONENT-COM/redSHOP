@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,10 +17,23 @@ $producthelper = productHelper::getInstance();
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'copy')) {
 			form.view.value = "shipping_box_detail";
 		}
+
+		if (pressbutton == 'shipping_box.remove') {
+			var r = confirm('<?php echo JText::_("COM_REDSHOP_DELETE_SHIPPING_BOXES")?>');
+
+			if (r == true)
+			{
+				form.submit();
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		try {
 			form.onsubmit();
 		}

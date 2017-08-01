@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopControllerQuestion extends RedshopControllerForm
 {
@@ -30,8 +30,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function save($send = 0, $urlVar = null)
 	{
-		$jinput = JFactory::getApplication()->input;
-		$post = $jinput->post->getArray();
+		$post = $this->input->post->getArray();
 		$data = $post['jform'];
 
 		$model = $this->getModel('Question');
@@ -82,8 +81,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function remove()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$cid = $jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -108,9 +106,8 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function removeAnswer()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$cid = $jinput->get('aid', array(0), 'array');
-		$qid = $jinput->get('id', 0, 'int');
+		$cid = $this->input->post->get('aid', array(0), 'array');
+		$qid = $this->input->post->getInt('id', 0);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -135,9 +132,8 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function sendAnswer()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$cid = $jinput->get('aid', array(0), 'array');
-		$qid = $jinput->get('id', 0, 'int');
+		$cid = $this->input->post->get('aid', array(0), 'array');
+		$qid = $this->input->post->getInt('id', 0);
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
@@ -157,9 +153,8 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function saveorder()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$cid = $jinput->get('cid', array(), 'array');
-		$order = $jinput->get('order', array(), 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

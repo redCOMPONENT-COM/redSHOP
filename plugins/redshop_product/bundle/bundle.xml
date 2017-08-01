@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
+    <name>PLG_REDSHOP_PRODUCT_BUNDLE</name>
+    <author>redCOMPONENT.com</author>
+    <version>1.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>April 2017</creationDate>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <description>PLG_REDSHOP_PRODUCT_BUNDLE_DESC</description>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_bundle.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_bundle.sys.ini</language>
+    </languages>
+    <files>
+        <filename plugin="bundle">bundle.php</filename>
+        <filename>index.html</filename>
+        <folder>layouts</folder>
+    </files>
+</extension>

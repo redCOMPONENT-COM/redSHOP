@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,9 +20,9 @@ class RedshopControllerXmlimport_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'xmlimport_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'xmlimport_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -33,9 +33,9 @@ class RedshopControllerXmlimport_detail extends RedshopController
 
 	public function save($import = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post['xmlimport_id'] = $cid [0];
 		$model = $this->getModel('xmlimport_detail');
@@ -76,7 +76,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 	public function remove()
 	{
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -103,8 +103,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 
 	public function auto_syncpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -125,7 +124,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 	public function auto_syncunpublish()
 	{
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -151,8 +150,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 	 */
 	public function publish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -178,8 +176,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 	 */
 	public function unpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

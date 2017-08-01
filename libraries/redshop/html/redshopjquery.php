@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -271,6 +271,12 @@ abstract class JHtmlRedshopjquery
 					$('" . $selector . "').select2(
 						" . static::formatSelect2Options($options) . "
 					)" . static::formatSelect2Events($options) . $prefix . ";
+
+					$('" . $selector . "').on(\"select2-removed\", function(e) {
+						if ($(this).val() == null) {
+							$(this).val(\"\").trigger(\"change\");
+						}
+					});
 				});
 			})(jQuery);
 		";
@@ -523,5 +529,64 @@ abstract class JHtmlRedshopjquery
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 			}
 		}
+	}
+
+	/**
+	 * Add javascript support for Bootstrap popovers
+	 *
+	 * Use element's Title as popover content
+	 *
+	 * @param   string  $selector  Selector for the popover
+	 * @param   array   $params    An array of options for the popover.
+	 *                  Options for the popover can be:
+	 *                      animation  boolean          apply a css fade transition to the popover
+	 *                      html       boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
+	 *                                                  content into the dom.
+	 *                      placement  string|function  how to position the popover - top | bottom | left | right
+	 *                      selector   string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 *                      trigger    string           how popover is triggered - hover | focus | manual
+	 *                      title      string|function  default title value if `title` tag isn't present
+	 *                      content    string|function  default content value if `data-content` attribute isn't present
+	 *                      delay      number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
+	 *                                                  If a number is supplied, delay is applied to both hide/show
+	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
+	 *                      container  string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *
+	 * @return  void
+	 */
+	public static function popover($selector = '.hasPopover', $params = array())
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap framework
+		static::framework();
+
+		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
+		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
+
+		$options = json_encode($opt);
+
+		// Attach the popover to the document
+		JFactory::getDocument()->addScriptDeclaration(
+			"jQuery(document).ready(function()
+			{
+				jQuery('" . $selector . "').popover(" . $options . ");
+			});"
+		);
+
+		static::$loaded[__METHOD__][$selector] = true;
+
+		return;
 	}
 }

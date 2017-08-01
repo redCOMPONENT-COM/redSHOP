@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Discount
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Discount class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperDiscount
 {
@@ -27,7 +27,7 @@ class RedshopHelperDiscount
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getDiscount($subTotal = 0, $userId = 0)
 	{
@@ -42,28 +42,18 @@ class RedshopHelperDiscount
 		$userData       = RedshopHelperUser::createUserSession($userId);
 		$shopperGroupId = (int) $userData['rs_user_shopperGroup'];
 
-		$query = $db->getQuery(true)
-			->select($db->qn('ds.discount_id'))
-			->from($db->qn('#__redshop_discount_shoppers', 'ds'))
-			->where($db->qn('ds.shopper_group_id') . ' = ' . $shopperGroupId);
+		$shopperGroupDiscounts = RedshopEntityShopper_Group::getInstance($shopperGroupId)->getDiscounts();
 
-		$result = $db->setQuery($query)->loadColumn();
-
-		if (empty($result))
+		if ($shopperGroupDiscounts->isEmpty())
 		{
-			return;
+			return false;
 		}
 
-		$result = array_merge(array(0 => '0'), $result);
-
-		// Secure ids
-		$result = ArrayHelper::toInteger($result);
-
-		$query->clear()
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_discount'))
 			->where($db->qn('published') . ' = 1')
-			->where($db->qn('discount_id') . ' IN (' . implode(',', $result) . ')')
+			->where($db->qn('discount_id') . ' IN (' . implode(',', $shopperGroupDiscounts->ids()) . ')')
 			->where($db->qn('start_date') . ' <= ' . time())
 			->where($db->qn('end_date') . ' >= ' . time())
 			->order($db->qn('amount') . ' DESC');
@@ -100,5 +90,34 @@ class RedshopHelperDiscount
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get discount price from product with check discount date.
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return  float
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDiscountPriceBaseDiscountDate($productId)
+	{
+		if ($productData = RedshopHelperProduct::getProductById($productId))
+		{
+			$today = time();
+
+			// Convert discount_enddate to middle night
+			$productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
+
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
+				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
+			{
+				return (float) $productData->discount_price;
+			}
+		}
+
+		return 0.0;
 	}
 }

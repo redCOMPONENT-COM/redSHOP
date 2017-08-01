@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,7 +23,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
 	 *
 	 * @var   array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	protected $items = array();
 
@@ -32,7 +32,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
 	 *
 	 * @var   JPagination
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	protected $pagination = null;
 
@@ -41,7 +41,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
 	 *
 	 * @var   array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	protected $state = null;
 
@@ -50,7 +50,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
 	 *
 	 * @var   string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	protected $ordering = '';
 
@@ -59,7 +59,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
 	 *
 	 * @var   array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public $activeFilters = array();
 
@@ -68,7 +68,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
 	 *
 	 * @var   array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public $filterForm = array();
 

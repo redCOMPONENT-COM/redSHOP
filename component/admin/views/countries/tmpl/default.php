@@ -3,12 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
-JHtml::_('behavior.modal');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -74,8 +72,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<td><a href="<?php echo $link; ?>"
 					   title="<?php echo JText::_('COM_REDSHOP_EDIT_COUNTRY'); ?>"><?php echo $row->country_name ?></a>
 				</td>
-				<td align="center" width="10%"><?php echo $row->country_3_code ?></td>
-				<td align="center" width="10%"><?php echo $row->country_2_code ?></td>
+                <td align="center" width="10%"><?php echo $row->country_3_code ?></td>
+                <td align="center" width="10%"><?php echo $row->country_2_code ?></td>
 				<td align="right"><?php echo $row->id ?></td>
 			</tr>
 			<?php

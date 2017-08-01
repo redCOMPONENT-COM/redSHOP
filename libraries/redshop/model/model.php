@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -301,6 +301,8 @@ class RedshopModel extends JModelLegacy
 			return false;
 		}
 
+		$this->preprocessData($this->context, $items);
+
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
 
@@ -389,5 +391,84 @@ class RedshopModel extends JModelLegacy
 		$id .= ':' . $this->getState('list.direction');
 
 		return md5($this->context . ':' . $id);
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the data.
+	 *
+	 * @param   string  $context  The context identifier.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function preprocessData($context, &$data)
+	{
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop');
+
+		// Trigger the data preparation event.
+		$results = $dispatcher->trigger('onRedshopPrepareData', array($context, &$data));
+
+		// Check for errors encountered while preparing the data.
+		if (count($results) > 0 && in_array(false, $results, true))
+		{
+			$this->setError($dispatcher->getError());
+		}
+	}
+
+	/*
+	 * Method for saving data via webservices
+	 *
+	 * @param   array  $data  Data to be stored.
+	 *
+	 * @return  integer|boolean
+	 */
+	public function saveWS($data)
+	{
+		$table = $this->getTable();
+		$pkField = $table->getKeyName();
+
+		try
+		{
+			if (!$table->save($data))
+			{
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $table->get($pkField);
+	}
+
+	/**
+	 * Delete an item from the web service
+	 *
+	 * @param   mixed  $pk  PK to be found to delete (internal id)
+	 *
+	 * @return  boolean
+	 */
+	public function deleteWS($pk)
+	{
+		$table = $this->getTable();
+
+		try
+		{
+			if (!$result = $table->delete($pk))
+			{
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $result;
 	}
 }

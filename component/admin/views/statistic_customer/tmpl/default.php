@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -28,57 +28,29 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	//draws it.
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
-			[
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION') ?>',
-				'<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT') ?>',
-				{role: 'style'},
-				{role: 'annotation'}
-			],
+			['', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT') ?>', {role: 'annotation'}],
 			<?php if (!empty($this->customers)): ?>
-			<?php foreach ($this->customers as $row) : ?>
-			[
-				'<?php echo $row->customer_name ?>',
-				<?php echo $row->total_sale ?>,
-				'#0099ff',
-				'<?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?>'
-			],
-			<?php endforeach; ?>
+				<?php foreach ($this->customers as $row) : ?>
+				[
+					'<?php echo $row->customer_name ?>',
+					<?php echo $row->total_sale ?>,
+					"<?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?>"
+				],
+				<?php endforeach; ?>
+			<?php else: ?>
+                [0, 0, 0],
 			<?php endif; ?>
 		]);
 
 		var options = {
-			chart: {
-				title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
-				subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
+			title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_CUSTOMER"); ?>',
+			bars: 'vertical',
+			height: 500,
+			vAxis: {
+				format: 'decimal'
 			},
-			annotations: {
-				boxStyle: {
-					// Color of the box outline.
-					stroke: '#888',
-					// Thickness of the box outline.
-					strokeWidth: 1,
-					// x-radius of the corner curvature.
-					rx: 10,
-					// y-radius of the corner curvature.
-					ry: 10,
-					// Attributes for linear gradient fill.
-					gradient: {
-						// Start color for gradient.
-						color1: '#fbf6a7',
-						// Finish color for gradient.
-						color2: '#33b679',
-						// Where on the boundary to start and
-						// end the color1/color2 gradient,
-						// relative to the upper left corner
-						// of the boundary.
-						x1: '0%', y1: '0%',
-						x2: '100%', y2: '100%',
-						// If true, the boundary for x1,
-						// y1, x2, and y2 is the box. If
-						// false, it's the entire chart.
-						useObjectBoundingBoxUnits: true
-					}
-				}
+			legend: {
+				position: 'top'
 			}
 		};
 
@@ -88,10 +60,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	}
 </script>
 <form action="index.php?option=com_redshop&view=statistic_customer" method="post" name="adminForm" id="adminForm">
-	<div class="filterTool">
-		<div class="filterItem">
+	<div class="filterTool row-fluid">
+		<div class="filterItem col-md-3">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('date_range', 'filter') ?>
+			</div>
+		</div>
+		<div class="filterItem col-md-1 pull-right">
+			<div class="js-stools clearfix">
+				<?php echo $this->filterForm->getInput('limit', 'list') ?>
 			</div>
 		</div>
 	</div>
@@ -101,6 +78,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<p><?php echo JText::_('COM_REDSHOP_NO_DATA') ?></p>
 	</div>
 	<?php else: ?>
+	<p></p>
 	<div id="customer_statistic_chart"></div>
 	<hr />
 	<table class="adminlist table table-striped" width="100%">
@@ -120,6 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</th>
 		</tr>
 		</thead>
+		<tbody>
 		<?php foreach ($this->customers as $i => $row) : ?>
 			<tr>
 				<td align="center">
@@ -132,10 +111,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?></td>
 			</tr>
 		<?php endforeach; ?>
+		</tbody>
+		<tfoot>
+			<td colspan="4">
+				<?php echo $this->pagination->getListFooter(); ?>
+			</td>
+		</tfoot>
 	</table>
 	<?php endif; ?>
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="view" value="statistic_customer" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

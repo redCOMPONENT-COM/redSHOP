@@ -110,6 +110,20 @@
                 <exclude name=".*" />
             </fileset>
         </copy>
+        <echo msg="Copying tcpdf plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_pdf/tcpdf">
+            <fileset dir="${extpath}/plugins/redshop_pdf/tcpdf">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+        <echo msg="Copying sh404sefextplugincom_redshop plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/sh404sefextplugins/sh404sefextplugincom_redshop">
+            <fileset dir="${extpath}/plugins/sh404sefextplugins/sh404sefextplugincom_redshop">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
         <echo msg="Copying rs_payment_banktransfer plugin" />
         <copy todir="${tmpdir}/${extension}/plugins/redshop_payment/rs_payment_banktransfer">
             <fileset dir="${extpath}/plugins/redshop_payment/rs_payment_banktransfer">
@@ -141,6 +155,20 @@
         <echo msg="Copying redshop_alert plugin" />
         <copy todir="${tmpdir}/${extension}/plugins/redshop_alert/alert">
             <fileset dir="${extpath}/plugins/redshop_alert/alert">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+        <echo msg="Copying all redSHOP Export plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_export">
+            <fileset dir="${extpath}/plugins/redshop_export">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+        <echo msg="Copying all redSHOP Import plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_import">
+            <fileset dir="${extpath}/plugins/redshop_import">
                 <include name="**" />
                 <exclude name=".*" />
             </fileset>

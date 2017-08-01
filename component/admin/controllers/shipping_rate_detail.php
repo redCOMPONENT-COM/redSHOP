@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,9 +20,9 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'shipping_rate_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'shipping_rate_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -33,13 +33,12 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		// Include extra field class
 
-
 		$post['shipping_rate_on_product'] = explode(',', $post['container_product']);
-		$post["shipping_location_info"] = JRequest::getVar('shipping_location_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post["shipping_location_info"] = $this->input->post->get('shipping_location_info', '', 'raw');
 		$model = $this->getModel('shipping_rate_detail');
 
 		if ($row = $model->store($post))
@@ -69,9 +68,10 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 	public function remove()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+		$count = count($cid);
 		$model = $this->getModel('shipping_rate_detail');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -83,6 +83,14 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+		elseif ($count > 0)
+		{
+			$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_DELETED', $count));
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_N_ITEMS_DELETED_1'));
+		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id']);
 	}
@@ -90,7 +98,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 	public function publish()
 	{
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -110,7 +118,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 	public function unpublish()
 	{
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -129,16 +137,16 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 	public function cancel()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id']);
 	}
 
 	public function copy()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('shipping_rate_detail');
 
 		if ($model->copy($cid))
@@ -155,9 +163,9 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 	public function GetStateDropdown()
 	{
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 		$model = $this->getModel('shipping_rate_detail');
 		$model->GetStateDropdown($get);
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ JLoader::import('redshop.library');
  *
  * @package     Redshop
  * @subpackage  Fields
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class JFormFieldRdaterange extends JFormField
 {

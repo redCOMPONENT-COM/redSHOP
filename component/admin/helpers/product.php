@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,7 +62,7 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceAccessoryData($productId, $accessory, $userId, $uniqueId)
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceAccessoryData($productId, $accessory, $userId, $uniqueId)
 	 *  instead
 	 */
 	public function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
@@ -81,7 +81,7 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId,
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId,
 	 * $uniqueId) instead
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
@@ -98,7 +98,7 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceWrapperData($productId, $userId, $uniqueId) instead
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceWrapperData($productId, $userId, $uniqueId) instead
 	 */
 	public function replaceWrapperData($productId = 0, $userId = 0, $uniqueId = "")
 	{
@@ -116,7 +116,7 @@ class RedshopAdminProduct
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId,
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId,
 	 *  $newProductPrice) instead
 	 */
 	public function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = '', $userId = 0, $newProductPrice = 0)
@@ -133,7 +133,7 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceShippingMethod($d, $shippUsersInfoId, $shippingRateId) instead
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceShippingMethod($d, $shippUsersInfoId, $shippingRateId) instead
 	 */
 	public function replaceShippingMethod($d = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
 	{
@@ -147,7 +147,7 @@ class RedshopAdminProduct
 	 *
 	 * @return array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::redesignProductItem($post) instead
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::redesignProductItem($post) instead
 	 */
 	public function redesignProductItem($post = array())
 	{
@@ -163,7 +163,7 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId) instead
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId) instead
 	 */
 	public function replaceUserfield($productId = 0, $templateId = 0, $uniqueId = "")
 	{
@@ -180,7 +180,7 @@ class RedshopAdminProduct
 	 *
 	 * @return boolen
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::insertProductUserField($fieldId, $orderItemId, $sectionId,
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::insertProductUserField($fieldId, $orderItemId, $sectionId,
 	 * $value) instead
 	 */
 	public function admin_insertProdcutUserfield($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
@@ -193,7 +193,7 @@ class RedshopAdminProduct
 	 *
 	 * @return array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::getProductsSortByList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperProduct::getProductsSortByList() instead
 	 */
 	public function getProductrBySortedList()
 	{

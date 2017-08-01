@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="redshop_pdf" method="upgrade">
+    <name>PLG_REDSHOP_PDF_DOMPDF</name>
+    <version>1.1.0</version>
+    <redshop>2.0.0</redshop>
+    <creationDate>November 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2016 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <description>PLG_REDSHOP_PDF_DOMPDF_DESC</description>
+    <files>
+        <filename plugin="dompdf">dompdf.php</filename>
+        <folder>language</folder>
+        <folder>helper</folder>
+    </files>
+    <scriptfile>install.php</scriptfile>
+</extension>

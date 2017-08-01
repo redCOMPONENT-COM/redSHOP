@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,8 +34,8 @@ class RedshopControllerDiscount extends RedshopController
 
 	public function remove()
 	{
-		$layout = JRequest::getVar('layout');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$layout = $this->input->getCmd('layout', '');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -63,8 +63,8 @@ class RedshopControllerDiscount extends RedshopController
 
 	public function publish()
 	{
-		$layout = JRequest::getVar('layout');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$layout = $this->input->getCmd('layout', '');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -92,8 +92,8 @@ class RedshopControllerDiscount extends RedshopController
 
 	public function unpublish()
 	{
-		$layout = JRequest::getVar('layout');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$layout = $this->input->getCmd('layout', '');
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
