@@ -49,9 +49,9 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			?>>
 			<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
 		<option
-			value="c.category_name"
+			value="c.name"
 			<?php
-			if ($this->search_field == 'c.category_name')
+			if ($this->search_field == 'c.name')
 			{
 					echo "selected='selected'";
 			}

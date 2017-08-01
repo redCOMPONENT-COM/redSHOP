@@ -151,4 +151,39 @@ class RedshopHelperAccessory
 
 		return static::$accessories[$key];
 	}
+
+	/**
+	 * Check if Accessory is existed
+	 *
+	 * @param   integer  $productId    Product ID
+	 * @param   integer  $accessoryId  Accessory ID
+	 *
+	 * @return integer
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function checkAccessoryExists($productId, $accessoryId)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn(array('pa.accessory_id', 'pa.product_id')))
+			->from($db->qn('#__redshop_product_accessory', 'pa'))
+			->where($db->qn('pa.product_id') . ' = ' . (int) $productId)
+			->where($db->qn('pa.child_product_id') . ' = ' . (int) $accessoryId);
+
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+
+		if (count($result) > 0)
+		{
+			$return = $result[0]->accessory_id;
+		}
+		else
+		{
+			$return = 0;
+		}
+
+		return $return;
+	}
 }

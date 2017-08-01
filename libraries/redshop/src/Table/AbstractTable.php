@@ -49,9 +49,16 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	protected $_columnAlias = array();
 
 	/**
+	 * The options.
+	 *
+	 * @var  array
+	 */
+	protected $options = array();
+
+	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabase  &$db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
@@ -75,7 +82,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 		if (empty($key) && !empty($this->_tableKey))
 		{
 			$this->_tbl_key = $this->_tableKey;
-			$key = $this->_tbl_key;
+			$key            = $this->_tbl_key;
 		}
 
 		if (empty($this->_tbl) || empty($key))
@@ -112,7 +119,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	/**
 	 * Delete one or more registers
 	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 * @param   string /array  $pk  Array of ids or ids comma separated
 	 *
 	 * @return  boolean  Deleted successfuly?
 	 */
@@ -203,10 +210,10 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.
+	 * @param   mixed   $pks      An optional array of primary key values to update.
 	 *                            If not set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
+	 * @param   integer $state    The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer $userId   The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
@@ -296,7 +303,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			// If checkin is supported and all rows were adjusted, check them in.
 			if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 
 			// If the JTable instance value is in the list of primary keys that were set, set the instance.
@@ -304,7 +311,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
 			foreach ($this->_tbl_keys AS $key)
 			{
-				if ($this->$key != $pk[$key])
+				if ($this->{$key} != $pk[$key])
 				{
 					$ours = false;
 				}
@@ -312,8 +319,8 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
 			if ($ours)
 			{
-				$publishedField = $this->getColumnAlias('published');
-				$this->$publishedField = $state;
+				$publishedField          = $this->getColumnAlias('published');
+				$this->{$publishedField} = $state;
 			}
 		}
 
@@ -325,7 +332,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	/**
 	 * Do the database store.
 	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
+	 * @param   boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean
 	 */
@@ -349,15 +356,21 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			unset($this->asset_id);
 		}
 
+		$isInsert = true;
+
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->hasPrimaryKey())
 		{
-			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			$clone = clone $this;
+
+			if ($clone->load($this->getPrimaryKey()))
+			{
+				$isInsert = false;
+			}
 		}
-		else
-		{
-			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
-		}
+
+		$result = $isInsert ? $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0])
+			: $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
 
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
@@ -436,5 +449,38 @@ abstract class AbstractTable extends \JTable implements TableInterface
 		$this->_observers->update('onAfterStore', array(&$result));
 
 		return $result;
+	}
+
+	/**
+	 * Get a table option value.
+	 *
+	 * @param   string $key     The key
+	 * @param   mixed  $default The default value
+	 *
+	 * @return  mixed             The value or the default value
+	 */
+	public function getOption($key, $default = null)
+	{
+		if (isset($this->options[$key]))
+		{
+			return $this->options[$key];
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Set a table option value.
+	 *
+	 * @param   string $key The key
+	 * @param   mixed  $val The default value
+	 *
+	 * @return  self
+	 */
+	public function setOption($key, $val)
+	{
+		$this->options[$key] = $val;
+
+		return $this;
 	}
 }

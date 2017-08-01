@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.3
  */
-final class RedshopEntityManufacturer extends RedshopEntity
+class RedshopEntityManufacturer extends RedshopEntity
 {
 	/**
 	 * Get the associated table

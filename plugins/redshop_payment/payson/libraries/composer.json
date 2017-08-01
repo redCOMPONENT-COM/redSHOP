@@ -1,0 +1,19 @@
+{
+  "repositories": [
+    {
+      "type":"package",
+      "package": {
+        "name": "paysonaktiebolag/api-integration-php",
+        "version":"1.0",
+        "source": {
+          "url": "https://github.com/PaysonAktiebolag/api-integration-php.git",
+          "type": "git",
+          "reference":"master"
+        }
+      }
+    }
+  ],
+  "require": {
+    "paysonaktiebolag/api-integration-php" : "*"
+  }
+}

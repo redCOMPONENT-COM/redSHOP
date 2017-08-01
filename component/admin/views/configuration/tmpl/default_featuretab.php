@@ -56,4 +56,16 @@ defined('_JEXEC') or die;
 		);
 		?>
     </div>
+
+    <div class="col-sm-4">
+		<?php
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_WISHLIST_TAB'),
+				'content' => $this->loadTemplate('wishlist_settings')
+			)
+		);
+		?>
+    </div>
 </div>

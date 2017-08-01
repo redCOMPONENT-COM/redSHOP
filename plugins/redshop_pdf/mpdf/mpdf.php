@@ -136,7 +136,7 @@ class PlgRedshop_PdfMPdf extends JPlugin
 		{
 			if (!in_array(basename($file), $storeFiles))
 			{
-				unlink($file);
+				JFile::delete($file);
 			}
 		}
 

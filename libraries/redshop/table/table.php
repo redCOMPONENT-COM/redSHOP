@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\String\StringHelper;
 use Redshop\Table\AbstractTable;
 
 /**
@@ -24,18 +21,11 @@ use Redshop\Table\AbstractTable;
 class RedshopTable extends AbstractTable
 {
 	/**
-	 * The options.
-	 *
-	 * @var  array
-	 */
-	protected $_options = array();
-
-	/**
 	 * Prefix to add to log files
 	 *
 	 * @var  string
 	 */
-	protected $_logPrefix = 'redshop';
+	protected $logPrefix = 'redshop';
 
 	/**
 	 * Get a table instance.
@@ -45,7 +35,7 @@ class RedshopTable extends AbstractTable
 	 * @param   array   $config  An optional array of configuration
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
-	 * @return  RedshopTable  The table
+	 * @return  RedshopTable     The table
 	 *
 	 * @throws  InvalidArgumentException
 	 */
@@ -133,39 +123,6 @@ class RedshopTable extends AbstractTable
 	}
 
 	/**
-	 * Set a table option value.
-	 *
-	 * @param   string  $key  The key
-	 * @param   mixed   $val  The default value
-	 *
-	 * @return  JTable
-	 */
-	public function setOption($key, $val)
-	{
-		$this->_options[$key] = $val;
-
-		return $this;
-	}
-
-	/**
-	 * Get a table option value.
-	 *
-	 * @param   string  $key      The key
-	 * @param   mixed   $default  The default value
-	 *
-	 * @return  mixed  The value or the default value
-	 */
-	public function getOption($key, $default = null)
-	{
-		if (isset($this->_options[$key]))
-		{
-			return $this->_options[$key];
-		}
-
-		return $default;
-	}
-
-	/**
 	 * Validate that the primary key has been set.
 	 *
 	 * @return  boolean  True if the primary key(s) have been set.
@@ -187,5 +144,31 @@ class RedshopTable extends AbstractTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	protected function doDelete($pk = null)
+	{
+		// Skip this check if this option has been set to true. In case use in CLI or API
+		if ($this->getOption('skipCheckPermissionOnDelete') === true)
+		{
+			return parent::doDelete();
+		}
+
+		// Check permission of delete
+		if (!JFactory::getUser()->authorise($this->getInstanceName() . '.delete', 'com_redshop.backend'))
+		{
+			$this->setError(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'));
+
+			return false;
+		}
+
+		return parent::doDelete();
 	}
 }

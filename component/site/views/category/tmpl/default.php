@@ -130,8 +130,8 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$row = $this->detail[$i];
 
 		// Filter categories based on Shopper group category ACL
-		$checkcid = $objhelper->checkPortalCategoryPermission($row->category_id);
-		$sgportal = $objhelper->getShopperGroupPortal();
+		$checkcid = RedshopHelperAccess::checkPortalCategoryPermission($row->id);
+		$sgportal = RedshopHelperShopper_Group::getShopperGroupPortal();
 		$portal   = 0;
 
 		if (count($sgportal) > 0)
@@ -146,7 +146,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		$data_add = $middletemplate_desc;
 
-		$cItemid = $objhelper->getCategoryItemid($row->category_id);
+		$cItemid = RedshopHelperUtility::getCategoryItemid($row->id);
 
 		if ($cItemid != "")
 		{
@@ -157,23 +157,23 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$tmpItemid = $this->itemid;
 		}
 
-		$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->id . '&layout=detail&Itemid=' . $tmpItemid);
 
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $row->category_name . "' ";
-		$alt         = " alt='" . $row->category_name . "' ";
+		$title       = " title='" . $row->name . "' ";
+		$alt         = " alt='" . $row->name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 		$linkimage   = $product_img;
 
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
-			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+			$product_img = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$linkimage   = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 		}
 		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
-			$product_img = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+			$product_img = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$linkimage   = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 		}
 
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
@@ -191,7 +191,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		if (strstr($data_add, '{category_name}'))
 		{
-			$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->category_name . '</a>';
+			$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->name . '</a>';
 			$data_add = str_replace("{category_name}", $cat_name, $data_add);
 		}
 
@@ -203,19 +203,19 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		if (strstr($data_add, '{category_description}'))
 		{
-			$cat_desc = $config->maxchar($row->category_description, Redshop::getConfig()->get('CATEGORY_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_DESC_END_SUFFIX'));
+			$cat_desc = $config->maxchar($row->description, Redshop::getConfig()->get('CATEGORY_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_DESC_END_SUFFIX'));
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_short_desc}'))
 		{
-			$cat_s_desc = $config->maxchar($row->category_short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+			$cat_s_desc = $config->maxchar($row->short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_total_product}'))
 		{
-			$totalprd = $producthelper->getProductCategory($row->category_id);
+			$totalprd = $producthelper->getProductCategory($row->id);
 			$data_add = str_replace("{category_total_product}", count($totalprd), $data_add);
 			$data_add = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $data_add);
 		}
@@ -224,7 +224,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 * category template extra field
 		 * "2" argument is set for category
 		 */
-		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
+		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
 
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);

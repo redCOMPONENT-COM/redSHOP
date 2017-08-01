@@ -15,8 +15,7 @@
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove')) {
 			form.view.value = "sample_detail";
 		}
 		try {
@@ -29,7 +28,7 @@
 	}
 </script>
 
-<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=sample" method="post" name="adminForm" id="adminForm">
 	<div id="editcell" style="background-color: ">
 		<table class="adminlist table table-striped">
 			<thead>

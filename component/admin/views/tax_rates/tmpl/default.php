@@ -102,7 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</td>
 					<td>
 						<?php
-						echo number_format($row->tax_rate, 2, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . " %"
+						echo number_format($row->tax_rate * 100, 2, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . " %"
 						?>
 					</td>
 					<td>

@@ -55,34 +55,39 @@ class RedshopModelProduct extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$and = "";
-
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
-		if ($shopper_group_manufactures != "")
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('p.*')
+			->select($db->qn('c.id', 'category_id'))
+			->select($db->qn('c.name', 'category_name'))
+			->select($db->qn('c.category_full_image'))
+			->select($db->qn('c.category_back_full_image'))
+			->select($db->qn('m.manufacturer_name'))
+			->select($db->qn('pcx.ordering'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('p.product_id') . ' = ' . $db->q((int) $this->_id))
+			->setLimit(0, 1);
+
+		if (!empty($shopperGroupManufactures))
 		{
-			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopper_group_manufactures);
-			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
+			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
+			$query->where($db->qn('p.m.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
-		if (isset ($this->_catid) && $this->_catid != 0)
+		if (isset($this->_catid) && $this->_catid != 0)
 		{
-			$and .= "AND pcx.category_id = " . (int) $this->_catid . " ";
+			$query->where($db->qn('pcx.category_id') . ' = ' . $db->q((int) $this->_catid));
 		}
-
-		$query = "SELECT p.*, c.category_id, c.category_name ,c.category_back_full_image,c.category_full_image , m.manufacturer_name,pcx.ordering "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id " . $and
-			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id = p.manufacturer_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id = pcx.category_id "
-			. "WHERE 1=1 "
-			. "AND p.product_id = " . (int) $this->_id . " "
-			. "LIMIT 0,1 ";
 
 		return $query;
 	}

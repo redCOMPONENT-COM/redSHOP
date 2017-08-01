@@ -23,6 +23,5 @@ class RedshopTableSupplier extends RedshopTable
 	 *
 	 * @var  string
 	 */
-
 	protected $_tableName = 'redshop_supplier';
 }

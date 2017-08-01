@@ -34,16 +34,15 @@ class JFormFieldOrderbymanufacturer extends JFormField
 	 */
 	protected function getInput()
 	{
-		$helper = redhelper::getInstance();
-		$name   = $this->name;
-		$value  = $this->value;
+		$name  = $this->name;
+		$value = $this->value;
 
 		if (!$value)
 		{
 			$value = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
 		}
 
-		$order_data = $helper->getManufacturerOrderByList();
+		$order_data = RedshopHelperUtility::getManufacturerOrderByList();
 
 		$order_select = JHTML::_('select.genericlist', $order_data, $name, 'class="inputbox"', 'value', 'text', $value, $name);
 

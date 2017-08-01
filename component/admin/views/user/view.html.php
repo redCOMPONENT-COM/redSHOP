@@ -48,7 +48,7 @@ class RedshopViewUser extends RedshopViewAdmin
 		$user                = $this->get('Data');
 		$pagination          = $this->get('Pagination');
 
-		$shopper_groups      = $userhelper->getShopperGroupList();
+		$shopper_groups      = Redshop\Helper\ShopperGroup::generateList();
 
 		$temps               = array();
 		$temps[0]            = new stdClass;
