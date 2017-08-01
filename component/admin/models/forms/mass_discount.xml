@@ -44,6 +44,7 @@
                 class="form-control"
                 default=""
                 readonly="true"
+                required="true"
                 />
         <field
                 name="end_date"

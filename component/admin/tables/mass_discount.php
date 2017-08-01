@@ -227,9 +227,9 @@ class RedshopTableMass_Discount extends RedshopTable
 		}
 
 		// Require both of start and end date
-		if (empty($this->start_date) || empty ($this->end_date))
+		if (empty($this->start_date))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_ENDDATE_OR_STARTDATE'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_STARTDATE'), 'error');
 
 			return false;
 		}
