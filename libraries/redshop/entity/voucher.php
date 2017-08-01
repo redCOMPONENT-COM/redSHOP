@@ -19,35 +19,59 @@ defined('_JEXEC') or die;
 class RedshopEntityVoucher extends RedshopEntity
 {
 	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
+	 * @var  RedshopEntitiesCollection
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getTable($name = null)
+	protected $products;
+
+	/**
+	 * Method for get products available with this voucher
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getProducts()
 	{
-		return JTable::getInstance('Voucher_Detail', 'Table');
+		if (null === $this->products)
+		{
+			$this->loadProducts();
+		}
+
+		return $this->products;
 	}
 
 	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
+	 * Method for load products available with this voucher
 	 *
 	 * @return  self
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function loadItem($key = 'voucher_id', $keyValue = null)
+	protected function loadProducts()
 	{
-		if ($key == 'voucher_id' && !$this->hasId())
+		$this->products = new RedshopEntitiesCollection;
+
+		if (!$this->hasId())
 		{
 			return $this;
 		}
 
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'voucher_id' ? $this->id : $keyValue))))
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_id'))
+			->from($db->qn('#__redshop_product_voucher_xref'))
+			->where($db->qn('voucher_id') . ' = ' . $this->getId());
+		$result = $db->setQuery($query)->loadColumn();
+
+		if (empty($result))
 		{
-			$this->loadFromTable($table);
+			return $this;
+		}
+
+		foreach ($result as $productId)
+		{
+			$this->products->add(RedshopEntityProduct::getInstance($productId));
 		}
 
 		return $this;

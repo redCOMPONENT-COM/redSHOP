@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onRenderCustomField', array($this->billingaddresses->users_info_id));
 $input      = JFactory::getApplication()->input;
 $userHelper = rsUserHelper::getInstance();
 $user       = JFactory::getUser();
