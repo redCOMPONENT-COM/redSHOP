@@ -210,12 +210,7 @@ class RedshopModelWishlist extends RedshopModel
 					->columns($db->qn($columns))
 					->values(implode(',', $values));
 
-				if ($db->setQuery($query)->execute())
-				{
-					return true;
-				}
-
-				return false;
+				return (bool) $db->setQuery($query)->execute();
 			}
 			elseif ($numberProduct)
 			{
@@ -231,13 +226,13 @@ class RedshopModelWishlist extends RedshopModel
 					{
 						$field = "productuserfield_" . $k;
 
-						if ($data->$myfield == '')
+						if ($data->$field == '')
 						{
 							continue;
 						}
 
 						$columns = array('wishlist_id', 'product_id', 'userfielddata');
-						$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->$myfield));
+						$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->$field));
 						$query   = $db->getQuery(true)
 							->insert($db->qn('#__redshop_wishlist_userfielddata'))
 							->columns($db->qn($columns))

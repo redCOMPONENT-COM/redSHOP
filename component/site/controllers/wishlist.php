@@ -46,7 +46,7 @@ class RedshopControllerWishlist extends RedshopController
 
 		if ($this->input->post->getInt('loginwishlist', 0) == 1)
 		{
-			$return = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $input->post->getInt('Itemid'), false);
+			$return = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->post->getInt('Itemid'), false);
 			$this->setRedirect($return);
 		}
 		else
