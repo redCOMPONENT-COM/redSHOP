@@ -44,7 +44,7 @@ class ManageStateAdministratorCest
 	{
 		$I->wantTo('Test State creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CountrySteps($scenario);
 		$I->addCountry($this->randomCountryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
 		$I = new AcceptanceTester\StateManagerJoomla3Steps($scenario);
 		$I->wantTo('Add a new State');
