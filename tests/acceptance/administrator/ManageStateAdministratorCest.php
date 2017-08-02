@@ -17,6 +17,9 @@
  */
 class ManageStateAdministratorCest
 {
+	/**
+	 * ManageStateAdministratorCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
@@ -32,12 +35,16 @@ class ManageStateAdministratorCest
 	/**
 	 * Function to Test State Creation in Backend
 	 *
+	 * @param   AcceptanceTester  $I         Acceptance Tester case.
+	 * @param   object            $scenario  Scenario object.
+	 *
+	 * @return  void
 	 */
 	public function createState(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test State creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CountrySteps($scenario);
 		$I->addCountry($this->randomCountryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
 		$I = new AcceptanceTester\StateManagerJoomla3Steps($scenario);
 		$I->wantTo('Add a new State');
@@ -47,6 +54,11 @@ class ManageStateAdministratorCest
 	/**
 	 * Function to Test State Updation in the Administrator
 	 *
+	 * @param   AcceptanceTester  $I         Acceptance Tester case.
+	 * @param   object            $scenario  Scenario object.
+	 *
+	 * @return  void
+	 *
 	 * @depends createState
 	 */
 	public function updateState(AcceptanceTester $I, $scenario)
@@ -54,11 +66,17 @@ class ManageStateAdministratorCest
 		$I->wantTo('Test if State gets updated in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\StateManagerJoomla3Steps($scenario);
+		$I->wantTo('Update state of an State');
 		$I->updateState($this->randomStateName, $this->updatedRandomStateName);
 	}
 
 	/**
 	 * Function to Test State Deletion
+	 *
+	 * @param   AcceptanceTester  $I         Acceptance Tester case.
+	 * @param   object            $scenario  Scenario object.
+	 *
+	 * @return  void
 	 *
 	 * @depends updateState
 	 */
@@ -67,9 +85,13 @@ class ManageStateAdministratorCest
 		$I->wantTo('Deletion of State in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\StateManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete an State');
 		$I->deleteState($this->updatedRandomStateName);
-		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
+		/**
+		 * @TODO: Why delete country here?
+		 */
+		/*$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
 		$I->deleteCountry($this->randomCountryName);
-		$I->searchCountry($this->randomCountryName, 'Delete');
+		$I->searchCountry($this->randomCountryName, 'Delete');*/
 	}
 }

@@ -60,18 +60,14 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerJ3Page::$URL);
-		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
-		$I->click(\StateManagerJ3Page::$searchButton);
-		$I->click(\StateManagerJ3Page::$checkAll);
-		$I->click('Edit');
-		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Edit');
+		$I->searchState($stateName);
+		$I->click($stateName);
+		$I->waitForElement(\StateManagerJ3Page::$stateName, 30);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\StateManagerJ3Page::$stateName, $stateNewName);
-		$I->click("Save & Close");
-		$I->see('Item saved', '.alert-success');
-		$I->amOnPage(\StateManagerJ3Page::$URL);
-		$I->fillField(\StateManagerJ3Page::$searchField, $stateNewName);
-		$I->click(\StateManagerJ3Page::$searchButton);
-		$I->see($stateNewName, \StateManagerJ3Page::$stateResultRow);
+		$I->click(\StateManagerJ3Page::$saveCloseButton);
+		$I->waitForText(\StateManagerJ3Page::$itemSaveSuccessMessage, 60, \StateManagerJ3Page::$selectorSuccess);
+		$I->see(\StateManagerJ3Page::$itemSaveSuccessMessage, \StateManagerJ3Page::$selectorSuccess);
 	}
 
 	/**
@@ -85,14 +81,24 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerJ3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchState($stateName);
+		$I->checkAllResults();
+		$I->click(\StateManagerJ3Page::$deleteButton);
+		$I->acceptPopup();
+		$I->waitForText(\StateManagerJ3Page::$messageDeletedOneSuccess, 60, \StateManagerJ3Page::$selectorSuccess);
+		$I->see(\StateManagerJ3Page::$messageDeletedOneSuccess, \StateManagerJ3Page::$selectorSuccess);
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
-		$I->click(\StateManagerJ3Page::$searchButton);
-		$I->see($stateName, \StateManagerJ3Page::$stateResultRow);
-		$I->click(\StateManagerJ3Page::$checkAll);
-		$I->click('Delete');
-		$I->see('1 item successfully deleted', '.alert-success');
-		$I->amOnPage(\StateManagerJ3Page::$URL);
-		$I->click(\StateManagerJ3Page::$searchButton);
+		$I->pressKey(\StateManagerJ3Page::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->dontSee($stateName, \StateManagerJ3Page::$stateResultRow);
+	}
+
+	public function searchState($stateName)
+	{
+		$I = $this;
+		$I->wantTo('Search State');
+		$I->amOnPage(\StateManagerJ3Page::$URL);
+		$I->waitForText(\StateManagerJ3Page::$namePage, 30, \StateManagerJ3Page::$headPage);
+		$I->filterListBySearching($stateName);
 	}
 }

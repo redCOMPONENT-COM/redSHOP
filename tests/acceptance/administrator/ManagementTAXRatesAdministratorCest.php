@@ -82,7 +82,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX missing tax value Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesMissingTaxValueSave($this->TAXRatesName, $this->VATGroupName);
     }
 
@@ -96,7 +95,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX amount less zero Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesValueAmountLessZeroSave($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValueLessZero);
     }
 
@@ -110,7 +108,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesValueAmountStringSave($this->TaxRatesValueString, $this->VATGroupName, $this->TaxRatesValueString, $this->NameCountry, $this->NameState);
     }
 
