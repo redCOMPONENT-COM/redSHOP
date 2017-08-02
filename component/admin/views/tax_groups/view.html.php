@@ -16,90 +16,58 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       2.0.4
  */
-class RedshopViewTax_Groups extends RedshopViewAdmin
+class RedshopViewTax_Groups extends RedshopViewList
 {
 	/**
-	 * @var  array
-	 */
-	public $items;
-
-	/**
-	 * @var  JPagination
-	 */
-	public $pagination;
-
-	/**
-	 * @var  array
-	 */
-	public $state;
-
-	/**
-	 * @var  array
-	 */
-	public $activeFilters;
-
-	/**
-	 * @var  JForm
-	 */
-	public $filterForm;
-
-	/**
-	 * Display template function
-	 *
-	 * @param   object  $tpl  template variable
+	 * Method for prepare table.
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
-	 *
-	 * @since   2.0.4
+	 * @since   2.0.6
 	 */
-	public function display($tpl = null)
+	protected function prepareTable()
 	{
-		/** @var RedshopModelSuppliers $model */
-		$model = $this->getModel();
+		parent::prepareTable();
 
-		// Get data from the model
-		$this->items         = $model->getItems();
-		$this->pagination    = $model->getPagination();
-		$this->state         = $model->getState();
-		$this->activeFilters = $model->getActiveFilters();
-		$this->filterForm    = $model->getForm();
-
-		// Check for errors.
-		/*if (count($errors = $this->get('Errors')))
-		{
-			throw new Exception(implode('<br />', $errors));
-		}*/
-
-		// Set the tool-bar and number of found items
-		$this->addToolBar();
-
-		// Display the template
-		parent::display($tpl);
+		$this->columns[] = array(
+			// This column is sortable?
+			'sortable'  => false,
+			// Text for column
+			'text'      => JText::_('COM_REDSHOP_TAX_RATE'),
+			// Name of property for get data.
+			'dataCol'   => 'tax_rates',
+			// Width of column
+			'width'     => '10%',
+			// Enable edit inline?
+			'inline'    => false,
+			// Display with edit link or not?
+			'edit_link' => false,
+			// Type of column
+			'type'      => 'text',
+		);
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Method for render 'Published' column
 	 *
-	 * @return  void
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
 	 *
-	 * @since   1.6
+	 * @return  string
+	 *
+	 * @since   2.0.6
 	 */
-	protected function addToolBar()
+	public function onRenderColumn($config, $index, $row)
 	{
-		$title = JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT');
-
-		if ($this->pagination->total)
+		if ($config['dataCol'] !== 'tax_rates')
 		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
+			return parent::onRenderColumn($config, $index, $row);
 		}
 
-		JToolBarHelper::title($title, 'redshop_supplier_48');
-		JToolBarHelper::addNew('tax_group.add');
-		JToolBarHelper::editList('tax_group.edit');
-		JToolBarHelper::deleteList('', 'tax_groups.delete');
-		JToolbarHelper::publish('tax_groups.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish('tax_groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+		$taxRates = RedshopEntityTax_Group::getInstance($row->id)->getTaxRates()->count();
+
+		return '<a href="index.php?option=com_redshop&view=tax_rates&filter[tax_group]=' . $row->id . '" '
+			. 'class="badge label-success">' . $taxRates . '</a>';
 	}
 }

@@ -8,22 +8,23 @@
  */
 defined('_JEXEC') or die;
 
-$post = JRequest::get('post');
+$jinput = JFactory::getApplication()->input;
 
+$post = $jinput->post->getArray();
 
-$filter = JRequest::getVar('filter');
-$number_order = JRequest::getVar('number_order', '');
-$model = $this->getModel('newsletter');
-$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-$newsletter_id = JRequest::getVar('newsletter_id');
-$oprand = JRequest::getVar('oprand', 'select');
-$total_start = JRequest::getVar('total_start', '');
-$total_end = JRequest::getVar('total_end', '');
-$zipstart = JRequest::getVar('zipstart', '');
-$zipend = JRequest::getVar('zipend', '');
-$start = JRequest::getVar('start_date', '');
-$end = JRequest::getVar('end_date', '');
-$cityfilter = JRequest::getVar('cityfilter', '');
+$filter        = $jinput->get('filter');
+$number_order  = $jinput->get('number_order', '');
+$model         = $this->getModel('newsletter');
+$cid           = $jinput->post->get('cid', array(0), 'array');
+$newsletter_id = $jinput->get('newsletter_id');
+$oprand        = $jinput->get('oprand', 'select');
+$total_start   = $jinput->get('total_start', '');
+$total_end     = $jinput->get('total_end', '');
+$zipstart      = $jinput->get('zipstart', '');
+$zipend        = $jinput->get('zipend', '');
+$start         = $jinput->get('start_date', '');
+$end           = $jinput->get('end_date', '');
+$cityfilter    = $jinput->get('cityfilter', '');
 
 if (isset($post['checkoutshoppers']))
 {

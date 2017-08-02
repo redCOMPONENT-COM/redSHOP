@@ -311,7 +311,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 							}
 						}
 
-						$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
+						$product_title = "<div class='quotation_product_detail'>" . $quo->product_name . $product_number . "</div>" . $product_attribute . $product_accessory . $product_userfield;
 
 						$product_total = $quo->product_price * $quo->product_quantity;
 						$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;

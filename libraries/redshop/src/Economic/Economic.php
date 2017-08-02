@@ -1314,7 +1314,7 @@ class Economic
 									$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $orderId . '.pdf';
 									\JFile::write($file, $bookInvoicePdf);
 
-									if (is_file($file))
+									if (JFile::exists($file))
 									{
 										self::updateBookInvoice($orderId);
 									}

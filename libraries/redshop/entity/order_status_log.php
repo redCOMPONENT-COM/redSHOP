@@ -29,27 +29,4 @@ class RedshopEntityOrder_Status_Log extends RedshopEntity
 	{
 		return JTable::getInstance('Order_Status_Log', 'Table');
 	}
-
-	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'order_status_log_id', $keyValue = null)
-	{
-		if ($key == 'order_status_log_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'order_status_log_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
 }

@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * redSHOP Shipping Methods view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0
+ */
 class RedshopViewShipping extends RedshopViewAdmin
 {
 	/**
@@ -19,27 +25,51 @@ class RedshopViewShipping extends RedshopViewAdmin
 	 */
 	public $request_url;
 
+	/**
+	 * @var  array
+	 */
+	public $shippings;
+
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  array
+	 */
+	public $lists;
+
+	/**
+	 * Display the States view
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function display($tpl = null)
 	{
 		$context = 'shipping';
 
-		$uri      = JFactory::getURI();
+		$uri      = JUri::getInstance();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$language = JFactory::getLanguage();
 
 		// Load language files
-		$shippings  = $this->get('Data');
+		$this->shippings = $this->get('Data');
 
-		for ($l = 0, $ln = count($shippings); $l < $ln; $l++)
+		foreach ($this->shippings as $shippingMethod)
 		{
-			$extension = 'plg_redshop_shipping_' . strtolower($shippings[$l]->element);
+			$extension = 'plg_redshop_shipping_' . strtolower($shippingMethod->element);
 			$language->load($extension, JPATH_ADMINISTRATOR);
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_MANAGEMENT'), 'redshop_shipping48');
+		JToolbarHelper::title(JText::_('COM_REDSHOP_SHIPPING_MANAGEMENT'), 'redshop_shipping48');
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -50,7 +80,6 @@ class RedshopViewShipping extends RedshopViewAdmin
 		$pagination = $this->get('Pagination');
 
 		$this->lists       = $lists;
-		$this->shippings   = $shippings;
 		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 

@@ -27,7 +27,7 @@ class RedshopControllerSend_friend extends RedshopController
 	 */
 	public function sendmail()
 	{
-		$post = JRequest::get('post');
+		$post = JFactory::getApplication()->input->post->getArray();
 		$your_name = $post['your_name'];
 		$name = $post['friends_name'];
 		$pid = $post['pid'];

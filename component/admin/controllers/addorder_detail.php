@@ -9,79 +9,110 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Add order detail controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.Addorder_detail
+ * @since       2.0.6
+ */
 class RedshopControllerAddorder_detail extends RedshopController
 {
+	/**
+	 * RedshopControllerAddorder_detail constructor.
+	 *
+	 * @param   array $default Default
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
+
 		$this->input->set('hidemainmenu', 1);
 	}
 
+	/**
+	 * Save and pay
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function savepay()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function save_without_sendmail()
 	{
 		$this->save();
 	}
 
+	/**
+	 * @param   int $apply Apply
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
 
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$order_functions = order_functions::getInstance();
-		$shippinghelper = shipping::getInstance();
+		$cid                  = $this->input->post->get('cid', array(0), 'array');
+		$post ['order_id']    = $cid [0];
+		$model                = $this->getModel('addorder_detail');
+		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
-		$post ['order_id'] = $cid [0];
-		$model = $this->getModel('addorder_detail');
-		$post['order_number'] = $order_functions->generateOrderNumber();
-
-		$orderItem = $adminproducthelper->redesignProductItem($post);
+		$orderItem          = RedshopHelperProduct::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
 		if (empty($orderItem[0]->product_id))
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');
-			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
-					. '&shipping_users_info_id=' . $post['shipp_users_info_id']
-			, $msg
-			, 'warning');
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=addorder_detail&user_id=' .
+				$post['user_id'] .
+				'&shipping_users_info_id=' .
+				$post['shipp_users_info_id'],
+				$msg,
+				'warning'
+			);
 
 			return;
 		}
 
 		// Check product Quantity
-		$stocknote = '';
+		$stockNote                = '';
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			$stockroomhelper = rsstockroomhelper::getInstance();
-			$producthelper = productHelper::getInstance();
-
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
-				$quantity = $orderItem[$i]->quantity;
+				$quantity    = $orderItem[$i]->quantity;
 				$productData = Redshop::product((int) $orderItem[$i]->product_id);
 
 				if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $quantity)
 				{
-					$msg = $productData->product_name . " " . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
-					$stocknote .= sprintf($msg, $productData->min_order_product_quantity) . "<br/>";
-					$quantity = $productData->min_order_product_quantity;
+					$msg       = $productData->product_name . ' ' . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
+					$stockNote .= sprintf($msg, $productData->min_order_product_quantity) . "<br/>";
+					$quantity  = $productData->min_order_product_quantity;
 				}
-				$currentStock = $stockroomhelper->getStockroomTotalAmount($orderItem[$i]->product_id);
+
+				$currentStock  = RedshopHelperStockroom::getStockroomTotalAmoun($orderItem[$i]->product_id);
 				$finalquantity = ($currentStock >= $quantity) ? (int) $quantity : (int) $currentStock;
 
 				if ($finalquantity > 0)
 				{
 					if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $finalquantity)
 					{
-						$msg = $productData->product_name . " " . JText::_('WARNING_MSG_MAXIMUM_QUANTITY') . "<br/>";
-						$stocknote .= sprintf($msg, $productData->max_order_product_quantity);
+						$msg           = $productData->product_name . " " . JText::_('WARNING_MSG_MAXIMUM_QUANTITY') . "<br/>";
+						$stockNote     .= sprintf($msg, $productData->max_order_product_quantity);
 						$finalquantity = $productData->max_order_product_quantity;
 					}
 
@@ -89,7 +120,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 				}
 				else
 				{
-					$stocknote .= $productData->product_name . " " . JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK') . "<br/>";
+					$stockNote .= $productData->product_name . ' ' . JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK') . "<br/>";
 					unset($orderItem[$i]);
 				}
 			}
@@ -100,72 +131,72 @@ class RedshopControllerAddorder_detail extends RedshopController
 			{
 				$msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
 				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
-						. '&shipping_users_info_id=' . $post['shipp_users_info_id']
-				, $msg
-				, 'warning'
+					. '&shipping_users_info_id=' . $post['shipp_users_info_id'],
+					$msg,
+					'warning'
 				);
 
 				return;
 			}
 		}
 
-		$order_total = $post['order_total'];
+		$orderTotal = $post['order_total'];
 
-		$order_shipping = RedshopShippingRate::decrypt($post['shipping_rate_id']);
+		$orderShipping = RedshopShippingRate::decrypt($post['shipping_rate_id']);
 
-		if (count($order_shipping) > 4)
+		if (count($orderShipping) > 4)
 		{
-			$post['order_shipping'] = $order_shipping[3];
-			$order_total = $order_total + $order_shipping[3];
-			$post['order_shipping_tax'] = $order_shipping[6];
+			$post['order_shipping']     = $orderShipping[3];
+			$orderTotal                = $orderTotal + $orderShipping[3];
+			$post['order_shipping_tax'] = $orderShipping[6];
 		}
 
-		$tmporder_total = $order_total;
+		$tmpOrderTotal = $orderTotal;
 
 		if (array_key_exists("issplit", $post) && $post['issplit'])
 		{
-			$tmporder_total = $order_total / 2;
+			$tmpOrderTotal = $orderTotal / 2;
 		}
 
-		$paymentmethod = $order_functions->getPaymentMethodInfo($post['payment_method_class']);
-		$paymentmethod = $paymentmethod[0];
-		$paymentparams = new JRegistry($paymentmethod->params);
-		$paymentinfo = new stdclass;
-		$post['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-		$post['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-		$paymentinfo->payment_price = $paymentparams->get('payment_price', '');
-		$paymentinfo->is_creditcard = $post['economic_is_creditcard'] = $paymentparams->get('is_creditcard', '');
-		$paymentinfo->payment_oprand = $paymentparams->get('payment_oprand', '');
-		$paymentinfo->accepted_credict_card = $paymentparams->get("accepted_credict_card");
+		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($post['payment_method_class']);
+		$paymentmethod                            = $paymentmethod[0];
+		$paymentparams                            = new JRegistry($paymentmethod->params);
+		$paymentinfo                              = new stdclass;
+		$post['economic_payment_terms_id']        = $paymentparams->get('economic_payment_terms_id');
+		$post['economic_design_layout']           = $paymentparams->get('economic_design_layout');
+		$paymentinfo->payment_price               = $paymentparams->get('payment_price', '');
+		$paymentinfo->is_creditcard               = $post['economic_is_creditcard'] = $paymentparams->get('is_creditcard', '');
+		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
+		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
 
 		$cartHelper = rsCarthelper::getInstance();
 
-		$subtotal = $post['order_subtotal'];
-		$update_discount = 0;
+		$subtotal        = $post['order_subtotal'];
+		$updateDiscount = 0;
 
 		if ($post['update_discount'] > 0)
 		{
-			$update_discount = $post['update_discount'];
+			$updateDiscount = $post['update_discount'];
 
-			if ($update_discount > $subtotal)
+			if ($updateDiscount > $subtotal)
 			{
-				$update_discount = $subtotal;
+				$updateDiscount = $subtotal;
 			}
 
-			if ($update_discount != 0)
+			if ($updateDiscount != 0)
 			{
-				$order_total = $order_total - $update_discount;
+				$orderTotal = $orderTotal - $updateDiscount;
 			}
 		}
 
-		$special_discount = $post['special_discount'];
+		$specialDiscount = $post['special_discount'];
 
-		$subtotal_excl_vat = 0;
+		$subTotalExcludeVat = 0;
 
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
-			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
+			$subTotalExcludeVat = $subTotalExcludeVat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
 
 		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
@@ -174,14 +205,14 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 		else
 		{
-			$amt = $subtotal_excl_vat;
+			$amt = $subTotalExcludeVat;
 		}
 
-		$discount_price = ($amt * $special_discount) / 100;
-		$post['special_discount'] = $special_discount;
-		$post['special_discount_amount'] = $discount_price;
+		$discountPrice                   = ($amt * $specialDiscount) / 100;
+		$post['special_discount']        = $specialDiscount;
+		$post['special_discount_amount'] = $discountPrice;
 
-		$order_total = $order_total - $discount_price;
+		$orderTotal = $orderTotal - $discountPrice;
 
 		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
@@ -189,52 +220,57 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 		else
 		{
-			$paymentAmount = $order_total;
+			$paymentAmount = $orderTotal;
 		}
 
-		$paymentMethod = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $order_total);
-		$post['ship_method_id'] = urldecode(urldecode($post['shipping_rate_id']));
-		$order_total = $paymentMethod[0];
-		$post['user_info_id'] = $post['users_info_id'];
-		$post['payment_discount'] = $paymentMethod[1];
-		$post['payment_oprand'] = $paymentinfo->payment_oprand;
-		$post['order_discount'] = $update_discount;
-		$post['order_total'] = $order_total;
-		$post['order_payment_amount'] = $tmporder_total;
-		$post['order_payment_name'] = $paymentmethod->name;
+		$paymentMethod                = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $orderTotal);
+		$post['ship_method_id']       = urldecode(urldecode($post['shipping_rate_id']));
+		$orderTotal                  = $paymentMethod[0];
+		$post['user_info_id']         = $post['users_info_id'];
+		$post['payment_discount']     = $paymentMethod[1];
+		$post['payment_oprand']       = $paymentinfo->payment_oprand;
+		$post['order_discount']       = $updateDiscount;
+		$post['order_total']          = $orderTotal;
+		$post['order_payment_amount'] = $tmpOrderTotal;
+		$post['order_payment_name']   = $paymentmethod->name;
 
 		// Save + Pay button pressed
 		if ($apply == 1)
 		{
 			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
-			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
+			$post['order_status'] = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
 		if ($row = $model->store($post))
 		{
-			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
+			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
 			$type = 'success';
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
+			$msg  = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
 			$type = 'error';
 		}
 
 		if ($apply == 1)
 		{
-			$objorder = order_functions::getInstance();
-			$objorder->getpaymentinformation($row, $post);
+			// @TODO Consider about this method name. get should return value instead of "set"
+			RedshopHelperOrder::getPaymentInformation($row, $post);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote, $type);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stockNote, $type);
 		}
 	}
 
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
@@ -263,37 +299,51 @@ class RedshopControllerAddorder_detail extends RedshopController
 		parent::display();
 	}
 
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function changeshippingaddress()
 	{
 		$shippingadd_id = $this->input->getInt('shippingadd_id', 0);
-		$user_id = $this->input->getInt('user_id', 0);
-		$is_company = $this->input->getInt('is_company', 0);
-		$model = $this->getModel('addorder_detail');
+		$user_id        = $this->input->getInt('user_id', 0);
+		$is_company     = $this->input->getInt('is_company', 0);
+		$model          = $this->getModel('addorder_detail');
 
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 
 		echo $htmlshipping;
-		die();
+
+		JFactory::getApplication()->close();
 	}
 
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function getShippingRate()
 	{
-		$shippinghelper = shipping::getInstance();
-		$get = $this->input->get->getArray();
-		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
-		$order_shipping = 0;
+		$get                  = $this->input->get->getArray();
+		$shipping             = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping_class = '';
+		$order_shipping       = 0;
+		$order_shipping_tax   = '';
 
 		if (count($shipping) > 4)
 		{
-			$order_shipping = $shipping[3] - $shipping[6];
-			$order_shipping_tax = $shipping[6];
+			$order_shipping       = $shipping[3] - $shipping[6];
+			$order_shipping_tax   = $shipping[6];
 			$order_shipping_class = $shipping[0];
 		}
 
 		echo "<div id='resultShippingClass'>" . $order_shipping_class . "</div>";
 		echo "<div id='resultShipping'>" . $order_shipping . "</div>";
 		echo "<div id='resultShippingVat'>" . $order_shipping_tax . "</div>";
-		die();
+
+		JFactory::getApplication()->close();
 	}
 }

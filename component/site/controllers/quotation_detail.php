@@ -28,10 +28,10 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function updatestatus()
 	{
-		$post   = JRequest::get('post');
+		$post   = $this->input->post->getArray();
 
-		$Itemid = JRequest::getVar('Itemid');
-		$encr   = JRequest::getVar('encr');
+		$Itemid = $this->input->get('Itemid');
+		$encr   = $this->input->get('encr');
 		$model = $this->getModel('quotation_detail');
 
 		$quotationHelper = quotationHelper::getInstance();
@@ -59,9 +59,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function checkout()
 	{
 
-		$Itemid = JRequest::getVar('Itemid');
-		$post   = JRequest::get('post');
-		$encr   = JRequest::getVar('encr');
+		$Itemid = $this->input->get('Itemid');
+		$post   = $this->input->post->getArray();
+		$encr   = $this->input->get('encr');
 
 		$quotationHelper = quotationHelper::getInstance();
 		$model           = $this->getModel('quotation_detail');
@@ -70,7 +70,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$cart = array();
 		$cart['idx'] = 0;
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		$quotationProducts = $quotationHelper->getQuotationProduct($post['quotation_id']);
 
@@ -86,7 +86,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;
 		$cart['quotation']     = 1;
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);
 		$Itemid = RedshopHelperUtility::getCheckoutItemId();

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $producthelper = productHelper::getInstance();
 $redhelper     = redhelper::getInstance();
 $userhelper    = rsUserHelper::getInstance();
-$filter        = JRequest::getVar('filter');
+$filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
 ?>
 <script language="javascript" type="text/javascript">
@@ -130,7 +130,7 @@ $model         = $this->getModel('user');
 					<td><?php echo $row->username;?></td>
 					<td>
 						<?php
-						$shoppergroup = $userhelper->getShopperGroupList($row->shopper_group_id);
+						$shoppergroup = Redshop\Helper\ShopperGroup::generateList($row->shopper_group_id);
 
 						if (count($shoppergroup) > 0)
 						{

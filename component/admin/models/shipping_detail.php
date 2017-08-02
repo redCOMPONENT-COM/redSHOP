@@ -32,7 +32,7 @@ class RedshopModelShipping_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 		$db = JFactory::getDbo();
@@ -80,7 +80,7 @@ class RedshopModelShipping_detail extends RedshopModel
 		}
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onWriteconfig', array($data));
 
 		return true;

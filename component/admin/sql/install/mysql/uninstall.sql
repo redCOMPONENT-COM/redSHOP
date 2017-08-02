@@ -66,7 +66,6 @@ DROP TABLE IF EXISTS `#__redshop_product_subscribe_detail`;
 DROP TABLE IF EXISTS `#__redshop_product_subscription`;
 DROP TABLE IF EXISTS `#__redshop_product_tags`;
 DROP TABLE IF EXISTS `#__redshop_product_tags_xref`;
-DROP TABLE IF EXISTS `#__redshop_product_voucher`;
 DROP TABLE IF EXISTS `#__redshop_product_voucher_transaction`;
 DROP TABLE IF EXISTS `#__redshop_product_voucher_xref`;
 DROP TABLE IF EXISTS `#__redshop_quotation`;
@@ -107,5 +106,10 @@ DROP TABLE IF EXISTS `#__redshop_zipcode`;
 DROP TABLE IF EXISTS `#__redshop_notifystock_users`;
 DROP TABLE IF EXISTS `#__redshop_alerts`;
 DROP TABLE IF EXISTS `#__redshop_wishlist_product_item`;
+DROP TABLE IF EXISTS `#__redshop_voucher`;
+
+DELETE FROM `#__content_types` WHERE `type_alias` = 'com_redshop.product';
+DELETE FROM `#__contentitem_tag_map` WHERE `type_alias` = 'com_redshop.product';
+DELETE FROM `#__ucm_content` WHERE `core_type_alias` = 'com_redshop.product';
 
 SET FOREIGN_KEY_CHECKS=1;

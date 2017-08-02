@@ -58,7 +58,7 @@ class RedshopViewDiscount extends RedshopViewAdmin
 
 		$spgrpdis_filter = $this->state->get('spgrpdis_filter');
 		$userhelper = rsUserHelper::getInstance();
-		$shopper_groups = $userhelper->getShopperGroupList();
+		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
 
 		$temps = array();
 		$temps[0] = new stdClass;

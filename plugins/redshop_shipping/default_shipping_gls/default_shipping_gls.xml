@@ -10,6 +10,7 @@
 	<description>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_DESC</description>
 	<files>
 		<filename plugin="default_shipping_gls">default_shipping_gls.php</filename>
+		<folder>layouts</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_default_shipping_gls.ini</language>

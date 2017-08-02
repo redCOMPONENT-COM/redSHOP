@@ -83,9 +83,10 @@ class RedshopHelperCategory
 	 *
 	 * @return   array|mixed
 	 */
-	public static function getCategoryListArray($categoryId = 1, $cid = 1)
+	public static function getCategoryListArray($categoryId = null, $cid = null)
 	{
 		global $context;
+
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$view = $app->input->getCmd('view', '');
@@ -93,7 +94,7 @@ class RedshopHelperCategory
 
 		if ($categoryId)
 		{
-			$cid = $categoryId;
+			$cid = (int) $categoryId;
 		}
 
 		$key = $context . '_' . $view . '_' . $categoryMainFilter . '_' . $cid;
@@ -114,7 +115,8 @@ class RedshopHelperCategory
 			)
 			->from($db->qn('#__redshop_category'))
 			->where($db->qn('parent_id') . ' != 0')
-			->where($db->qn('level') . ' != 0');
+			->where($db->qn('level') . ' > 0')
+			->order($db->qn('lft'));
 
 		if ($view == 'category')
 		{
@@ -133,7 +135,10 @@ class RedshopHelperCategory
 		}
 		else
 		{
-			$query->where($db->qn('parent_id') . ' = ' . (int) $cid);
+			if ($cid !== null)
+			{
+				$query->where($db->qn('parent_id') . ' = ' . (int) $cid);
+			}
 		}
 
 		static::$categoryChildListReverse[$key] = null;
@@ -219,7 +224,8 @@ class RedshopHelperCategory
 		$html  = '';
 		$query = $db->getQuery(true)
 			->select($db->qn('parent_id'))
-			->from($db->qn('#__redshop_category'));
+			->from($db->qn('#__redshop_category'))
+			->order($db->qn('lft'));
 
 		if ($categoryId)
 		{

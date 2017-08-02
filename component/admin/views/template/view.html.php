@@ -9,47 +9,32 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewTemplate extends RedshopViewAdmin
+/**
+ * View Template
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.7
+ */
+class RedshopViewTemplate extends RedshopViewForm
 {
-	public $state;
+	/**
+	 * Split fieldset in form into column
+	 *
+	 * @var   integer
+	 * @since 2.0.7
+	 */
+	public $formFieldsetsColumn = 1;
 
-	public function display($tpl = null)
+	/**
+	 * Method for get page title.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public function getTitle()
 	{
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
-
-		$document->setTitle(JText::_('COM_REDSHOP_TEMPLATES'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMENT'), 'redshop_templates48');
-
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$this->state = $this->get('State');
-		$lists['order']     = $this->state->get('list.ordering', 'template_id');
-		$lists['order_Dir'] = $this->state->get('list.direction');
-
-		$templates  = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$redtemplate = Redtemplate::getInstance();
-		$optionsection = $redtemplate->getTemplateSections();
-
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'template_section',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->state->get('template_section')
-		);
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->templates = $templates;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
+		return JText::_('COM_REDSHOP_TEMPLATE_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
 }

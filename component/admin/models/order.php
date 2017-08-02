@@ -185,10 +185,8 @@ class RedshopModelOrder extends RedshopModel
 
 	public function export_data($cid)
 	{
-		$where = "";
-
+		$where = array();
 		$order_id = implode(',', $cid);
-
 
 		$where[] = " 1=1";
 
@@ -291,7 +289,7 @@ class RedshopModelOrder extends RedshopModel
 				if ($ordersInfo[$i]->ship_method_id != '')
 				{
 					$userDetail = array(
-						$shippingDetails->firstname . ' ' . $shippingDetails->lastname,
+						$billingDetails->firstname . ' ' . $billingDetails->lastname,
 						substr($ordersInfo[$i]->customer_note, 0, 29),		// GLS only support max 29 characters
 						Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
 						$billingDetails->user_email,
@@ -386,9 +384,9 @@ class RedshopModelOrder extends RedshopModel
 
 				$row = array_merge($row, $extraInfo, $rowAppend);
 
-				for ($i = 0, $in = count($row); $i < $in; $i++)
+				foreach ($row as $key => $value)
 				{
-					$row[$i] = utf8_decode($row[$i]);
+					$row[$key] = utf8_decode($value);
 				}
 
 				// Output CSV line

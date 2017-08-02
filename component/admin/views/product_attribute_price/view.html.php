@@ -14,14 +14,13 @@ class RedshopViewProduct_attribute_price extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
-		$db = JFactory::getDbo();
-
-		$section_id = JRequest::getVar('section_id');
-		$section    = JRequest::getVar('section');
-		$cid        = JRequest::getVar('cid');
-
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
+		$db         = JFactory::getDbo();
+		$jinput     = JFactory::getApplication()->input;
+		$section_id = $jinput->get('section_id');
+		$section    = $jinput->get('section');
+		$cid        = $jinput->get('cid');
+		$uri        = JFactory::getURI();
+		$document   = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
 		jimport('joomla.html.pagination');

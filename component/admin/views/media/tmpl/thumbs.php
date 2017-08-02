@@ -7,8 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$fid = JRequest::getVar('fid');
-$fsec = JRequest::getVar('fsec');
+$jinput = JFactory::getApplication()->input;
+
+$fid  = $jinput->get('fid');
+$fsec = $jinput->get('fsec');
 
 $link = "index.php?option=com_redshop&amp;view=media&amp;layout=thumbs";
 if (isset($fsec))
@@ -22,7 +24,7 @@ $link .= "&amp;folder=" . $this->state->folder;
 <form action="<?php echo $link; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
 		<?php
-		$folder = JRequest::getVar('folder', '');
+		$folder = $jinput->get('folder', '');
 		if ($folder != '')
 			echo $this->loadTemplate('up');
 		?>

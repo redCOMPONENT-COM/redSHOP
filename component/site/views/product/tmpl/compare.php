@@ -107,7 +107,19 @@ if ($total > 0)
 		$exp_div = "<div name='exp_" . $product->product_id . "'>";
 		$div_end = "</div>";
 
-		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
+		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+
+		if (count($ItemData) > 0)
+		{
+			$pItemid = $ItemData->id;
+		}
+		else
+		{
+			$catidmain = $product->cat_in_sefurl;
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+		}
+
+		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid);
 
 		$thumbUrl = RedShopHelperImages::getImagePath(
 							$product->product_full_image,
@@ -251,7 +263,7 @@ if ($total > 0)
 			$template = str_replace('{product_category}', $exp_div . $category->name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
-		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->category_id . '&Itemid=' . $this->itemId . '&tmpl=component';
+		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->id . '&Itemid=' . $this->itemId . '&tmpl=component';
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 		$template = str_replace('{remove}', $exp_div . $remove . $div_end . $td_end . $td_start . "{remove}", $template);

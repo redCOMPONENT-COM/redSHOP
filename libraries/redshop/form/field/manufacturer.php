@@ -29,10 +29,16 @@ class RedshopFormFieldManufacturer extends JFormFieldList
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array  The field input markup.
 	 */
 	protected function getOptions()
 	{
+		// Process value
+		if (!empty($this->value) && $this->multiple && !is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('manufacturer_id', 'value'))
@@ -40,8 +46,7 @@ class RedshopFormFieldManufacturer extends JFormFieldList
 			->from($db->qn('#__redshop_manufacturer'));
 		$options = $db->setQuery($query)->loadObjectList();
 
-		$parentOptions = parent::getOptions();
-		$options = array_merge($parentOptions, $options);
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

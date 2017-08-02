@@ -29,10 +29,9 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
-		$data = $app->input->post->get('jform', array(), 'array');
-		$model = $this->getModel('ask_question');
-
+		$app         = JFactory::getApplication();
+		$data        = $app->input->post->get('jform', array(), 'array');
+		$model       = $this->getModel('ask_question');
 		$productId   = $app->input->getInt('pid', 0);
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$ask         = $app->input->getInt('ask', 0);

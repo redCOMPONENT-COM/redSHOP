@@ -136,6 +136,9 @@ abstract class RedshopHelperCart
 			$cart = JFactory::getSession()->get('cart');
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
+
 		$idx = isset($cart['idx']) ? (int) ($cart['idx']) : 0;
 
 		$db = JFactory::getDbo();
@@ -368,6 +371,8 @@ abstract class RedshopHelperCart
 			$userId = $user->id;
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+
 		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
@@ -398,6 +403,8 @@ abstract class RedshopHelperCart
 
 		foreach ($cartItems as $cartItem)
 		{
+			RedshopHelperUtility::getDispatcher()->trigger('onDatabaseToCart', array(&$cartItem));
+
 			$setCartItem           = true;
 			$quantity              = $cartItem->product_quantity;
 			$calcOutput            = "";
@@ -447,6 +454,11 @@ abstract class RedshopHelperCart
 				$cartItemId   = $cartItem->cart_item_id;
 				$productPrice = 0;
 				$productData  = RedshopHelperProduct::getProductById($productId);
+
+				if ($productData->published == 0)
+				{
+					continue;
+				}
 
 				// Attribute price added
 				$generateAttributeCart = self::generateAttributeFromCart($cartItemId, 0, $productId, $quantity);
@@ -559,7 +571,7 @@ abstract class RedshopHelperCart
 				{
 					foreach ($fields as $field)
 					{
-						$dataTxt = (isset($attributes[$field->field_name])) ? $attributes[$field->field_name] : '';
+						$dataTxt = (isset($attributes[$field->name])) ? $attributes[$field->name] : '';
 						$text    = strpbrk($dataTxt, '`');
 
 						if ($text)
@@ -572,7 +584,7 @@ abstract class RedshopHelperCart
 							}
 						}
 
-						$cart[$idx][$field->field_name] = $dataTxt;
+						$cart[$idx][$field->name] = $dataTxt;
 					}
 				}
 
@@ -749,15 +761,15 @@ abstract class RedshopHelperCart
 
 		$cartOutput = array();
 		$carts      = self::generateCartOutput($cart);
-		$text       = RedshopHelperShipping::getFreeShippingRate();
 
 		$cartOutput['cart_output']    = $carts[0];
 		$cartOutput['total_quantity'] = $carts[1];
+		$text                         = RedshopHelperShipping::getFreeShippingRate();
 
 		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{
 			echo "`" . $carts[0] . "`" . $text;
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		return $cartOutput;
@@ -907,5 +919,25 @@ abstract class RedshopHelperCart
 		}
 
 		return true;
+	}
+
+	/**
+	 * Empty and delete current cart
+	 *
+	 * @return   boolean
+	 *
+	 * @since    2.0.6
+	 */
+	public static function emptyCart()
+	{
+		$cart = RedshopHelperCartSession::getCart();
+		unset($cart);
+
+		setcookie("redSHOPcart", "", time() - 3600, "/");
+
+		$cart['idx'] = 0;
+		RedshopHelperCartSession::setCart($cart);
+
+		return RedshopHelperStockroom::deleteCartAfterEmpty();
 	}
 }

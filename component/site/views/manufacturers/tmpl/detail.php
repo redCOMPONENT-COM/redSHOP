@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-$url = JURI::base();
-$extraField = extraField::getInstance();
-$extra_field = extra_field::getInstance();
+$url           = JURI::base();
+$extraField    = extraField::getInstance();
+$extra_field   = extra_field::getInstance();
 $producthelper = productHelper::getInstance();
-$redTemplate = Redtemplate::getInstance();
-$redhelper = redhelper::getInstance();
-$Itemid = JRequest::getInt('Itemid');
-$model = $this->getModel('manufacturers');
+$redTemplate   = Redtemplate::getInstance();
+$redhelper     = redhelper::getInstance();
+$Itemid        = JFactory::getApplication()->input->getInt('Itemid');
+$model         = $this->getModel('manufacturers');
 
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL');
@@ -111,7 +111,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	{
 		if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 		{
-			$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
+			$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $row->manufacturer_id);
 
 			if (!$altText)
 			{

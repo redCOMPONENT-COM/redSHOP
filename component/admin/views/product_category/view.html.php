@@ -18,14 +18,13 @@ class RedshopViewProduct_category extends RedshopViewAdmin
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
-		$task = JRequest::getVar('task');
+		$task = JFactory::getApplication()->input->getCmd('task', '');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
 
 		if ($task == 'assignCategory')
 		{
 			JToolBarHelper::custom('saveProduct_Category', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), false);
 		}
-
 		else
 		{
 			JToolBarHelper::custom('removeProduct_Category', 'delete.png', 'delete.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), false);

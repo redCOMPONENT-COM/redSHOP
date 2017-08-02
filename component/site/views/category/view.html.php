@@ -344,7 +344,7 @@ class RedshopViewCategory extends RedshopView
 		}
 
 		// Breadcrumbs
-		$prodhelperobj->generateBreadcrumb($this->catid);
+		RedshopHelperBreadcrumb::generate($this->catid);
 		$disabled = "";
 
 		if ($this->print)
