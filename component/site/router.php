@@ -858,11 +858,6 @@ class RedshopRouter extends JComponentRouterBase
 							{
 								$vars['cid'] = $segments[0];
 							}
-
-							if (isset($segments[2]))
-							{
-								$vars['manufacturer_id'] = $segments[2];
-							}
 						}
 					}
 					else
