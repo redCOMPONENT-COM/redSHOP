@@ -58,8 +58,7 @@ class RedshopUpdate206 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/category_detail',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/fields_detail',
-			JPATH_SITE . '/components/com_redshop/layouts/tags'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/fields_detail'
 		);
 	}
 
