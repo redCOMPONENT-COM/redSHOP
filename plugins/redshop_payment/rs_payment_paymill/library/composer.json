@@ -1,0 +1,8 @@
+{
+    "name": "redcomponent-com/redshop-payment-paymill",
+    "description": "A redSHOP Payment plugin - Paymill",
+    "license": "GPL-2.0+",
+    "require": {
+        "paymill/paymill": "^4.4.2"
+    }
+}

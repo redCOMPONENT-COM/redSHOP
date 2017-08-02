@@ -3,10 +3,12 @@
   "description": "a Joomla Webshop Component",
   "license"    : "GPL-2.0+",
   "require"    : {
-    "php": ">=5.3.10",
-    "doctrine/annotations": "1.2.7",
+    "php": ">=5.6",
+    "doctrine/annotations": "1.4.*",
     "doctrine/inflector": "^1.1",
-    "behat/transliterator": "^1.1"
+    "behat/transliterator": "^1.2",
+    "setasign/fpdf": "^1.8.1",
+    "setasign/fpdi": "^1.6.2"
   },
   "autoload": {
     "psr-4": {
