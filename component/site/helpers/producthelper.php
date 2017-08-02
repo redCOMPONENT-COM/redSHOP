@@ -5403,7 +5403,7 @@ class productHelper
 		);
 
 		JPluginHelper::importPlugin('redshop_product');
-		RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data));
+		RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
 
 		return $data;
 	}
