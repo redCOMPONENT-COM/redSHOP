@@ -262,14 +262,11 @@ class RedshopRouter extends JComponentRouterBase
 				{
 					$segments[] = $gid;
 
-					$query = $db->getQuery(true)
-						->select($db->qn('giftcard_name'))
-						->from($db->qn('#__redshop_giftcard'))
-						->where($db->qn('giftcard_id') . ' = ' . $db->quote($gid));
+					$entity = RedshopEntityGiftcard::getInstance($gid);
 
-					if ($giftCardName = $db->setQuery($query)->loadResult())
+					if ($entity->isValid())
 					{
-						$segments[] = RedshopHelperUtility::convertToNonSymbol($giftCardName);
+						$segments[] = RedshopHelperUtility::convertToNonSymbol($entity->get('giftcard_name'));
 					}
 				}
 
@@ -332,36 +329,36 @@ class RedshopRouter extends JComponentRouterBase
 					$segments[] = $manufacturerId;
 				}
 
-				if ($cid && ($url = RedshopEntityCategory::getInstance($cid)->getItem()))
+				if ($cid)
 				{
-					if ($url->sef_url == "")
+					$url = RedshopEntityCategory::getInstance($cid)->getItem();
+
+					if (empty($url->get('sef_url')))
 					{
-						$cats = RedshopHelperCategory::getCategoryListReverseArray($cid);
+						$categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($cid);
 
-						if (count($cats) > 0)
+						if (count($categoriesReverse) > 0)
 						{
-							$cats = array_reverse($cats);
+							$categoriesReverse = array_reverse($categoriesReverse);
 
-							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
+							foreach ($categoriesReverse as $categoryReverse)
 							{
-								$cat = $cats[$x];
-
-								if ($cat->parent_id == 0)
+								if ($categoriesReverse->parent_id === 0)
 								{
 									continue;
 								}
 
-								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->name);
+								$segments[] = RedshopHelperUtility::convertToNonSymbol($categoriesReverse->name);
 							}
 						}
 
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->name);
+							$segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->get('name'));
 						}
 						else
 						{
-							$segments[] = RedshopHelperUtility::convertToNonSymbol($url->name);
+							$segments[] = RedshopHelperUtility::convertToNonSymbol($url->get('name'));
 						}
 					}
 					else
@@ -376,12 +373,12 @@ class RedshopRouter extends JComponentRouterBase
 						}
 					}
 				}
-				elseif ($menuItem->title != '')
+				elseif ($menuItem->title !== '')
 				{
 					$segments[] = RedshopHelperUtility::convertToNonSymbol($menuItem->title);
 				}
 
-				if ($layout != 'detail' && $layout != '')
+				if ($layout !== 'detail' && $layout !== '')
 				{
 					$segments[] = $layout;
 				}
@@ -427,11 +424,11 @@ class RedshopRouter extends JComponentRouterBase
 							$categoryId = $product->category_id;
 						}
 
-						if ($cats = RedshopHelperCategory::getCategoryListReverseArray($categoryId))
+						if ($categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($categoryId))
 						{
-							$cats = array_reverse($cats);
+							$categoriesReverse = array_reverse($categoriesReverse);
 
-							foreach ($cats as $cat)
+							foreach ($categoriesReverse as $cat)
 							{
 								if ($cat->parent_id == 0)
 								{
@@ -442,21 +439,16 @@ class RedshopRouter extends JComponentRouterBase
 							}
 						}
 
-						$categoryName = '';
-
-						if ($categoryData = RedshopEntityCategory::getInstance($categoryId)->getItem())
-						{
-							$categoryName = $categoryData->name;
-						}
+						$categoryData = RedshopEntityCategory::getInstance($categoryId);
 
 						// Attach category id with name for consistency
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$segments[] = $categoryId . '-' . RedshopHelperUtility::convertToNonSymbol($categoryName);
+							$segments[] = $categoryId . '-' . RedshopHelperUtility::convertToNonSymbol($categoryData->get('name'));
 						}
 						else
 						{
-							$segments[] = RedshopHelperUtility::convertToNonSymbol($categoryName);
+							$segments[] = RedshopHelperUtility::convertToNonSymbol($categoryData->get('name'));
 						}
 
 						// Add product number if config is enabled
@@ -503,30 +495,27 @@ class RedshopRouter extends JComponentRouterBase
 				if ($mid)
 				{
 					$segments[] = $mid;
-					$query      = $db->getQuery(true);
-					$query->select($db->quoteName(array('sef_url', 'manufacturer_name')))
-						->from($db->quoteName('#__redshop_manufacturer'))
-						->where($db->quoteName('manufacturer_id') . ' = ' . (int) $mid);
-					$url = $db->setQuery($query)->loadObject();
 
-					if ($url)
+					$manufacturer = RedshopEntityManufacturer::getInstance($mid);
+
+					if ($manufacturer->isValid())
 					{
-						if ($url->sef_url == "")
+						if (!empty($manufacturer->get('sef_url')))
 						{
-							$segments[] = str_replace($specialChars, "-", $url->manufacturer_name);
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('sef_url'));
 						}
 						else
 						{
-							$segments[] = str_replace($specialChars, "-", $url->sef_url);
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('manufacturer_name'));
 						}
 					}
 				}
 
 				if (!$mid)
 				{
-					if ($menuItem->title != '')
+					if (!empty($menuItem->title))
 					{
-						$segments[] = str_replace($specialChars, "-", $menuItem->title);
+						$segments[] = str_replace($specialChars, '-', $menuItem->title);
 					}
 					else
 					{
@@ -534,7 +523,7 @@ class RedshopRouter extends JComponentRouterBase
 					}
 				}
 
-				if ($layout != 'detail' && $layout != '')
+				if ($layout !== 'detail' && $layout !== '')
 				{
 					$segments[] = $layout;
 				}
@@ -553,13 +542,8 @@ class RedshopRouter extends JComponentRouterBase
 					{
 						$segments[] = $tagId;
 
-						$query = $db->getQuery(true);
-						$query->select($db->quoteName('tags_name'))
-							->from($db->quoteName('#__redshop_product_tags'))
-							->where($db->quoteName('tags_id') . ' = ' . (int) $tagId);
-						$tagname = $db->setQuery($query)->loadResult();
-
-						$segments[] = str_replace($specialChars, "-", $tagname);
+						$tag = RedshopEntityProduct_Tag::getInstance($tagId);
+						$segments[] = str_replace($specialChars, '-', $tag->get('tags_name'));
 
 						if ($tagId && isset($edit))
 						{

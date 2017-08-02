@@ -494,7 +494,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			"Cache-control: no-cache"
 		);
 
-		$curl = curl_init($this->params->get('url_service') . 'ServiceInfos');
+		$curl = curl_init($this->params->get('url_service') . 'GetServiceList');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
