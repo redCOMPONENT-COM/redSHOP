@@ -23,7 +23,7 @@ class RedshopRouter extends JComponentRouterBase
 	/**
 	 * Build the route for the com_reditem component
 	 *
-	 * @param   array $query An array of URL arguments
+	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array          The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -332,7 +332,7 @@ class RedshopRouter extends JComponentRouterBase
 					$segments[] = $manufacturerId;
 				}
 
-				if ($cid && ($url = RedshopHelperCategory::getCategoryById($cid)))
+				if ($cid && ($url = RedshopEntityCategory::getInstance($cid)->getItem()))
 				{
 					if ($url->sef_url == "")
 					{
@@ -408,9 +408,8 @@ class RedshopRouter extends JComponentRouterBase
 					$segments[] = $itemId;
 				}
 
-				$segments[]    = $task;
-				$productHelper = productHelper::getInstance();
-				$product       = $productHelper->getProductById($pid);
+				$segments[] = $task;
+				$product    = RedshopHelperProduct::getProductById($pid);
 
 				if ($pid && $product)
 				{
@@ -445,7 +444,7 @@ class RedshopRouter extends JComponentRouterBase
 
 						$categoryName = '';
 
-						if ($categoryData = RedshopHelperCategory::getCategoryById($categoryId))
+						if ($categoryData = RedshopEntityCategory::getInstance($categoryId)->getItem())
 						{
 							$categoryName = $categoryData->name;
 						}
@@ -504,9 +503,11 @@ class RedshopRouter extends JComponentRouterBase
 				if ($mid)
 				{
 					$segments[] = $mid;
-					$sql        = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
-					$db->setQuery($sql);
-					$url = $db->loadObject();
+					$query      = $db->getQuery(true);
+					$query->select($db->quoteName(array('sef_url', 'manufacturer_name')))
+						->from($db->quoteName('#__redshop_manufacturer'))
+						->where($db->quoteName('manufacturer_id') . ' = ' . (int) $mid);
+					$url = $db->setQuery($query)->loadObject();
 
 					if ($url)
 					{
@@ -552,9 +553,11 @@ class RedshopRouter extends JComponentRouterBase
 					{
 						$segments[] = $tagId;
 
-						$sql = "SELECT tags_name FROM `#__redshop_product_tags` WHERE `tags_id` = " . $tagId;
-						$db->setQuery($sql);
-						$tagname = $db->loadResult();
+						$query = $db->getQuery(true);
+						$query->select($db->quoteName('tags_name'))
+							->from($db->quoteName('#__redshop_product_tags'))
+							->where($db->quoteName('tags_id') . ' = ' . (int) $tagId);
+						$tagname = $db->setQuery($query)->loadResult();
 
 						$segments[] = str_replace($specialChars, "-", $tagname);
 
@@ -618,7 +621,7 @@ class RedshopRouter extends JComponentRouterBase
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @param   array $segments The segments of the URL to parse.
+	 * @param   array  $segments  The segments of the URL to parse.
 	 *
 	 * @return  array             The URL attributes to be used by the application.
 	 */
@@ -951,7 +954,7 @@ class RedshopRouter extends JComponentRouterBase
 /**
  * Build URL routes for redSHOP
  *
- * @param   array  $query  Request variables
+ * @param   array $query Request variables
  *
  * @return  array
  */
@@ -965,7 +968,7 @@ function redshopBuildRoute(&$query)
 /**
  * Parse redSHOP sef url
  *
- * @param   array  $segments  Sef Url segments
+ * @param   array $segments Sef Url segments
  *
  * @return  array
  */
