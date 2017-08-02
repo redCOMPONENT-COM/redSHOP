@@ -15,39 +15,39 @@ extract($displayData);
 JHtml::script('plg_redshop_payment_paypalcreditcard/cards.min.js', false, true, false);
 
 ?>
-<div class="ajax-error">&nbsp;</div>
-<h2><?php echo JText::_('PLG_PAYPALCREDITCARD'); ?></h2>
+	<div class="ajax-error">&nbsp;</div>
+	<h2><?php echo JText::_('PLG_PAYPALCREDITCARD'); ?></h2>
 
 <?php if (!$selectable) : ?>
-<div class="navbar pull-right">
-  <button type="submit" id="newCardBtn" class="btn btn-primary">New</button>
-</div>
+	<div class="navbar pull-right">
+		<button type="submit" id="newCardBtn" class="btn btn-primary">New</button>
+	</div>
 <?php endif; ?>
 
-<div id="newCardform">
-<?php
-	echo RedshopLayoutHelper::render(
-		'form',
-		array(
-			'id'          => 0,
-			'name'        => null,
-			'type'        => null,
-			'number'      => null,
-			'expireMonth' => null,
-			'expireYear'  => null,
-			'creditCardTypes' => $creditCardTypes
-		),
-		__DIR__
-	);
-?>
-</div>
+	<div id="newCardform">
+		<?php
+		echo RedshopLayoutHelper::render(
+			'form',
+			array(
+				'id'              => 0,
+				'name'            => null,
+				'type'            => null,
+				'number'          => null,
+				'expireMonth'     => null,
+				'expireYear'      => null,
+				'creditCardTypes' => $creditCardTypes
+			),
+			JPATH_PLUGINS . '/redshop_payment/paypalcreditcard/layouts'
+		);
+		?>
+	</div>
 <?php
 try
 {
 	$params = array(
-		"sort_by" => "create_time",
-		"sort_order" => "desc",
-		"merchant_id" => $merchantId,
+		"sort_by"              => "create_time",
+		"sort_order"           => "desc",
+		"merchant_id"          => $merchantId,
 		"external_customer_id" => $externalCustomerId
 	);
 
@@ -55,40 +55,40 @@ try
 
 	if ($cards->total_items)
 	{
-	?>
+		?>
 
 		<div class="creditCards">
 			<table class="table table-hover">
 				<thead>
-					<tr>
+				<tr>
 					<?php if ($selectable) : ?>
 						<th>&nbsp;</th>
 					<?php endif; ?>
-						<th>Name</th>
-						<th>Type</th>
-						<th>Number</th>
-						<th>Expire Month</th>
-						<th>Expire Year</th>
-					</tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Number</th>
+					<th>Expire Month</th>
+					<th>Expire Year</th>
+				</tr>
 				</thead>
 				<tbody>
-			<?php foreach ($cards->items as $card) : ?>
+				<?php foreach ($cards->items as $card) : ?>
 					<?php
-						echo RedshopLayoutHelper::render(
-							'card',
-							array(
-								'card'            => $card,
-								'creditCardTypes' => $creditCardTypes,
-								'selectable'      => $selectable
-							),
-							__DIR__
-						);
+					echo RedshopLayoutHelper::render(
+						'card',
+						array(
+							'card'            => $card,
+							'creditCardTypes' => $creditCardTypes,
+							'selectable'      => $selectable
+						),
+						JPATH_PLUGINS . '/redshop_payment/paypalcreditcard/layouts'
+					);
 					?>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>
-	<?php
+		<?php
 	}
 }
 catch (Exception $ex)

@@ -140,7 +140,7 @@ class RedshopHelperMedia
 
 			while (false !== ($entry = $d->read()))
 			{
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
+				if (substr($entry, 0, 1) != '.' && JFile::exists($dir . DIRECTORY_SEPARATOR . $entry)
 					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
 				)
 				{
@@ -255,6 +255,8 @@ class RedshopHelperMedia
 			return false;
 		}
 
+		// Prevent space in file path
+		$physicalPath = str_replace(' ', '%20', $physicalPath);
 		$thumbUrl = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
@@ -565,7 +567,7 @@ class RedshopHelperMedia
 
 			else
 			{
-				unlink($file);
+				JFile::delete($file);
 			}
 		}
 
