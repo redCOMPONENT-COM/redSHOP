@@ -211,216 +211,20 @@ class rsCarthelper
 	}
 
 	/**
-	 * replace Billing Address
+	 * Method for replace Billing Address
 	 *
-	 * @param $data
-	 * @param $billingaddresses
+	 * @param  string   $content         Template content
+	 * @param  object   $billingAddress  Billing data
+	 * @param  boolean  $sendMail        Is in send mail?
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 * @deprecated    __DEPLOY_VERSION__
+	 *
+	 * @see RedshopHelperBillingTag::replaceBillingAddress()
 	 */
-	public function replaceBillingAddress($data, $billingaddresses, $sendmail = false)
+	public function replaceBillingAddress($content, $billingAddress, $sendMail = false)
 	{
-		if (strpos($data, '{billing_address_start}') !== false && strpos($data, '{billing_address_end}') !== false)
-		{
-			$user           = JFactory::getUser();
-			$template_sdata = explode('{billing_address_start}', $data);
-			$template_edata = explode('{billing_address_end}', $template_sdata[1]);
-			$billingdata    = $template_edata[0];
-
-			$billing_extrafield = '';
-
-			if (isset($billingaddresses))
-			{
-				$extra_section = ($billingaddresses->is_company == 1) ? 8 : 7;
-
-				if ($billingaddresses->is_company == 1 && $billingaddresses->company_name != "")
-				{
-					$billingdata = str_replace("{companyname}", $billingaddresses->company_name, $billingdata);
-					$billingdata = str_replace("{companyname_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $billingdata);
-				}
-
-				if ($billingaddresses->firstname != "")
-				{
-					$billingdata = str_replace("{firstname}", $billingaddresses->firstname, $billingdata);
-					$billingdata = str_replace("{firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $billingdata);
-				}
-
-				if ($billingaddresses->lastname != "")
-				{
-					$billingdata = str_replace("{lastname}", $billingaddresses->lastname, $billingdata);
-					$billingdata = str_replace("{lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $billingdata);
-				}
-
-				if ($billingaddresses->address != "")
-				{
-					$billingdata = str_replace("{address}", $billingaddresses->address, $billingdata);
-					$billingdata = str_replace("{address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $billingdata);
-				}
-
-				if ($billingaddresses->zipcode != "")
-				{
-					$billingdata = str_replace("{zip}", $billingaddresses->zipcode, $billingdata);
-					$billingdata = str_replace("{zip_lbl}", JText::_('COM_REDSHOP_ZIP'), $billingdata);
-				}
-
-				if ($billingaddresses->city != "")
-				{
-					$billingdata = str_replace("{city}", $billingaddresses->city, $billingdata);
-					$billingdata = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $billingdata);
-				}
-
-				$cname = $this->_order_functions->getCountryName($billingaddresses->country_code);
-
-				if ($cname != "")
-				{
-					$billingdata = str_replace("{country}", JText::_($cname), $billingdata);
-					$billingdata = str_replace("{country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $billingdata);
-				}
-
-				$sname = $this->_order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
-
-				if ($sname != "")
-				{
-					$billingdata = str_replace("{state}", $sname, $billingdata);
-					$billingdata = str_replace("{state_lbl}", JText::_('COM_REDSHOP_STATE'), $billingdata);
-				}
-
-				if ($billingaddresses->phone != "")
-				{
-					$billingdata = str_replace("{phone}", $billingaddresses->phone, $billingdata);
-					$billingdata = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $billingdata);
-				}
-
-				if ($billingaddresses->user_email != "")
-				{
-					$billingdata = str_replace("{email}", $billingaddresses->user_email, $billingdata);
-					$billingdata = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $billingdata);
-				}
-				elseif ($user->email != '')
-				{
-					$billingdata = str_replace("{email}", $billingaddresses->email, $billingdata);
-					$billingdata = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $billingdata);
-				}
-
-				if ($billingaddresses->is_company == 1)
-				{
-					if ($billingaddresses->vat_number != "")
-					{
-						$billingdata = str_replace("{vatnumber}", $billingaddresses->vat_number, $billingdata);
-						$billingdata = str_replace("{vatnumber_lbl}", JText::_('COM_REDSHOP_VAT_NUMBER'), $billingdata);
-					}
-
-					if ($billingaddresses->ean_number != "")
-					{
-						$billingdata = str_replace("{ean_number}", $billingaddresses->ean_number, $billingdata);
-						$billingdata = str_replace("{ean_number_lbl}", JText::_('COM_REDSHOP_EAN_NUMBER'), $billingdata);
-					}
-
-					if (Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
-					{
-						if ($billingaddresses->tax_exempt == 1)
-						{
-							$taxexe = JText::_("COM_REDSHOP_TAX_YES");
-						}
-						else
-						{
-							$taxexe = JText::_("COM_REDSHOP_TAX_NO");
-						}
-
-						$billingdata = str_replace("{taxexempt}", $taxexe, $billingdata);
-						$billingdata = str_replace("{taxexempt_lbl}", JText::_('COM_REDSHOP_TAX_EXEMPT'), $billingdata);
-
-						if ($billingaddresses->requesting_tax_exempt == 1)
-						{
-							$taxexereq = JText::_("COM_REDSHOP_YES");
-						}
-						else
-						{
-							$taxexereq = JText::_("COM_REDSHOP_NO");
-						}
-
-						$billingdata = str_replace("{user_taxexempt_request}", $taxexereq, $billingdata);
-						$billingdata = str_replace("{user_taxexempt_request_lbl}", JText::_('COM_REDSHOP_USER_TAX_EXEMPT_REQUEST_LBL'), $billingdata);
-					}
-				}
-
-				$billing_extrafield = $this->_extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id, 1);
-			}
-
-			$billingdata = str_replace("{companyname}", "", $billingdata);
-			$billingdata = str_replace("{companyname_lbl}", "", $billingdata);
-			$billingdata = str_replace("{firstname}", "", $billingdata);
-			$billingdata = str_replace("{firstname_lbl}", "", $billingdata);
-			$billingdata = str_replace("{lastname}", "", $billingdata);
-			$billingdata = str_replace("{lastname_lbl}", "", $billingdata);
-			$billingdata = str_replace("{address}", "", $billingdata);
-			$billingdata = str_replace("{address_lbl}", "", $billingdata);
-			$billingdata = str_replace("{zip}", "", $billingdata);
-			$billingdata = str_replace("{zip_lbl}", "", $billingdata);
-			$billingdata = str_replace("{city}", "", $billingdata);
-			$billingdata = str_replace("{city_lbl}", "", $billingdata);
-			$billingdata = str_replace("{country}", "", $billingdata);
-			$billingdata = str_replace("{country_lbl}", "", $billingdata);
-			$billingdata = str_replace("{state}", "", $billingdata);
-			$billingdata = str_replace("{state_lbl}", "", $billingdata);
-			$billingdata = str_replace("{email}", "", $billingdata);
-			$billingdata = str_replace("{email_lbl}", "", $billingdata);
-			$billingdata = str_replace("{phone}", "", $billingdata);
-			$billingdata = str_replace("{phone_lbl}", "", $billingdata);
-			$billingdata = str_replace("{vatnumber}", "", $billingdata);
-			$billingdata = str_replace("{vatnumber_lbl}", "", $billingdata);
-			$billingdata = str_replace("{ean_number}", "", $billingdata);
-			$billingdata = str_replace("{ean_number_lbl}", "", $billingdata);
-			$billingdata = str_replace("{taxexempt}", "", $billingdata);
-			$billingdata = str_replace("{taxexempt_lbl}", "", $billingdata);
-			$billingdata = str_replace("{user_taxexempt_request}", "", $billingdata);
-			$billingdata = str_replace("{user_taxexempt_request_lbl}", "", $billingdata);
-			$billingdata = str_replace("{billing_extrafield}", $billing_extrafield, $billingdata);
-
-			$data = $template_sdata[0] . $billingdata . $template_edata[1];
-		}
-		elseif (strpos($data, '{billing_address}') !== false)
-		{
-			$billadd = '';
-
-			if (isset($billingaddresses))
-			{
-				$billingLayout = 'cart.billing';
-
-				if ($sendmail)
-				{
-					$billingLayout = 'mail.billing';
-				}
-
-				$billadd = RedshopLayoutHelper::render(
-					$billingLayout,
-					array('billingaddresses' => $billingaddresses),
-					null,
-					array('client' => 0)
-				);
-
-				if (strpos($data, '{quotation_custom_field_list}') !== false)
-				{
-					$data = str_replace('{quotation_custom_field_list}', '', $data);
-
-					if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
-					{
-						$billadd .= $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, '', '');
-					}
-				}
-				elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
-				{
-					$data = $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, '', '', $data);
-				}
-			}
-
-			$data = str_replace("{billing_address}", $billadd, $data);
-		}
-
-		$data = str_replace("{billing_address}", "", $data);
-		$data = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $data);
-
-		return $data;
+		return RedshopHelperBillingTag::replaceBillingAddress($content, $billingAddress, $sendMail);
 	}
 
 	/**
@@ -585,7 +389,7 @@ class rsCarthelper
 	 *
 	 * @see RedshopHelperShippingTag::replaceShippingMethod()
 	 */
-	public function replaceShippingMethod($shipping, $content = "")
+	public function replaceShippingMethod($shipping, $content = '')
 	{
 		return RedshopHelperShippingTag::replaceShippingMethod($shipping, $content);
 	}
@@ -2857,7 +2661,7 @@ class rsCarthelper
         $search [] = "{product_attribute_calculated_price}";
         $replace[] = "";
 
-		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
+		$ReceiptTemplate = RedshopHelperBillingTag::replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
 
 		if (strpos($ReceiptTemplate, '{order_status_log}') !== false)
@@ -3151,7 +2955,7 @@ class rsCarthelper
 		return $box_template_desc;
 	}
 
-	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
+	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
@@ -3162,6 +2966,7 @@ class rsCarthelper
 		$d['shipping_box_id'] = $shipping_box_post_id;
 		$d['ordertotal']      = $ordertotal;
 		$d['order_subtotal']  = $order_subtotal;
+		$d['post']            = $post;
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
 		$extrafield_total     = "";
 
