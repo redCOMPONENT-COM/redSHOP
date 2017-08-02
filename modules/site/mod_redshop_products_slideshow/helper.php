@@ -256,7 +256,7 @@ class RedshopProductSlideshow
 			$curr_link = JRoute::_('index.php?option=com_redshop&amp;view=product&amp;pid=' . $rows[$k]->product_id . '&amp;Itemid=' . $Itemid, true);
 			$pname = $rows[$k]->product_name;
 
-			if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $rows[$k]->product_full_image))
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $rows[$k]->product_full_image))
 			{
 				$imgpath = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 			}

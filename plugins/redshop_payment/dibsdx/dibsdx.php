@@ -3,26 +3,34 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Class PlgRedshop_PaymentDibsDx
+ * Redshop Payment - DIBSDX
  *
  * @since  1.5
  */
 class PlgRedshop_PaymentDibsDx extends JPlugin
 {
 	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'group', 'params', 'language'
-	 * (this list is not meant to be comprehensive).
+	 * @param   object $subject   The object to observe
+	 * @param   array  $config    An optional associative array of configuration settings.
+	 *                            Recognized key values include 'name', 'group', 'params', 'language'
+	 *                            (this list is not meant to be comprehensive).
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -33,8 +41,8 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 	/**
 	 * onPrePayment
 	 *
-	 * @param   string  $element  Name element
-	 * @param   array   $data     Request data
+	 * @param   string $element Name element
+	 * @param   array  $data    Request data
 	 *
 	 * @return  void
 	 */
@@ -45,73 +53,71 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 			return;
 		}
 
-		$app = JFactory::getApplication();
-
 		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
 	/**
 	 * onNotifyPaymentdibsdx
 	 *
-	 * @param   string  $element  Name element
-	 * @param   array   $request  Request data
+	 * @param   string $element Name element
+	 * @param   array  $request Request data
 	 *
-	 * @return  stdClass|void
+	 * @return  mixed
 	 */
-	public function onNotifyPaymentdibsdx($element, $request)
+	public function onNotifyPaymentDibsdx($element, $request)
 	{
 		if ($element != 'dibsdx')
 		{
 			return;
 		}
 
-		$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
-		include $api_path;
-		$dibs_hmac = new dibs_hmac;
+		require JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
+
+		$dibsHmac = new Dibs_Hmac;
 
 		JPlugin::loadLanguage('com_redshop');
+
 		$db      = JFactory::getDbo();
 		$request = JFactory::getApplication()->input->post;
 
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
+		$verifyStatus  = $this->params->get('verify_status', '');
+		$invalidStatus = $this->params->get('invalid_status', '');
 
-		$order_id = $request->getString('orderId');
+		$orderId = $request->getString('orderId');
 
 		// Put your HMAC key below.
-		$HmacKey = $this->params->get('hmac_key');
+		$hmacKey = $this->params->get('hmac_key');
 		$values  = new stdClass;
 
 		// Calculate the MAC for the form key-values posted from DIBS.
-		if ($request)
+		if (!empty($request))
 		{
-			// Getting the array of post values is done this way to maintain compatibility with J2.5. J3 supports using simply `$post->getArray()`
-			$MAC = $dibs_hmac->calculateMac($request->getArray(array_flip(array_keys($_POST))), $HmacKey);
+			$macData = $dibsHmac->calculateMac($request->getArray(), $hmacKey);
 
-			if ($request->getString('MAC') == $MAC && $request->getString('status') == "ACCEPTED")
+			if ($request->getString('MAC') == $macData && $request->getString('status') == "ACCEPTED")
 			{
 				$tid = $request->get('transaction');
 
-				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
+				if ($this->orderPaymentNotYetUpdated($db, $orderId, $tid))
 				{
-					$transaction_id = $tid;
-					$values->order_status_code = $verify_status;
+					$transactionId                     = $tid;
+					$values->order_status_code         = $verifyStatus;
 					$values->order_payment_status_code = 'Paid';
-					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+					$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+					$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 				}
 			}
 			else
 			{
-				$values->order_status_code = $invalid_status;
+				$values->order_status_code         = $invalidStatus;
 				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			}
 		}
 
 		$values->transaction_id = $tid;
-		$values->order_id = $order_id;
+		$values->order_id       = $orderId;
 
 		return $values;
 	}
@@ -119,76 +125,70 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 	/**
 	 * orderPaymentNotYetUpdated
 	 *
-	 * @param   JDatabase  $dbConn    Name element
-	 * @param   int        $order_id  Order ID
-	 * @param   int        $tid       Transaction ID
+	 * @param   JDatabase  $dbConn         Name element
+	 * @param   int        $orderId        Order ID
+	 * @param   int        $transactionId  Transaction ID
 	 *
-	 * @return  stdClass|void
+	 * @return  boolean
 	 */
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $orderId, $transactionId)
 	{
-		$db = JFactory::getDbo();
-		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '"
-			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->setQuery($query);
-		$order_payment = $db->loadResult();
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__redshop_order_payment'))
+			->where($db->qn('order_id') . ' = ' . (int) $orderId)
+			->where($db->qn('order_payment_trans_id') . ' = ' . (int) $transactionId);
 
-		if ($order_payment == 0)
-		{
-			$res = true;
-		}
+		$orderPayment = $db->setQuery($query)->loadResult();
 
-		return $res;
+		return $orderPayment == 0;
 	}
 
 	/**
 	 * onCapture_Paymentdibsdx
 	 *
-	 * @param   string  $element  Name element
-	 * @param   array   $data     Request data
+	 * @param   string $element Name element
+	 * @param   array  $data    Request data
 	 *
 	 * @return  stdClass
 	 */
-	public function onCapture_Paymentdibsdx($element, $data)
+	public function onCapture_PaymentDibsdx($element, $data)
 	{
 		if ($element != 'dibsdx')
 		{
 			return;
 		}
 
-		$db = JFactory::getDbo();
-
 		JPlugin::loadLanguage('com_redshop');
 
-		$order_id  = $data['order_id'];
-		$dibsurl   = "https://payment.architrade.com/cgi-bin/capture.cgi?";
-		$orderid   = $data['order_id'];
-		$hmac_key  = $this->params->get("hmac_key");
+		$dibsUrl = "https://payment.architrade.com/cgi-bin/capture.cgi?";
+		$hmacKey = $this->params->get("hmac_key");
 
-		$api_path  = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
-		include $api_path;
-		$dibs_hmac = new dibs_hmac;
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
+		$dibsHmac = new Dibs_Hmac;
 
-		$formdata = array(
+		$formData = array(
 			'merchant' => $this->params->get("seller_id"),
 			'amount'   => $data['order_amount'],
 			'transact' => $data["order_transactionid"],
 			'orderid'  => $data['order_id']
 		);
 
-		$mac_key = $dibs_hmac->calculateMac($formdata, $hmac_key);
-		$dibsurl .= "merchant=" . urlencode($this->params->get("seller_id")) . "&amount=" . urlencode($data['order_amount']) . "&transact=" . $data["order_transactionid"] . "&orderid=" . $data['order_id'] . "&force=yes&textreply=yes&mac=" . $mac_key;
-		$data    = $dibsurl;
+		$macKey  = $dibsHmac->calculateMac($formData, $hmacKey);
+		$dibsUrl .= "merchant=" . urlencode($this->params->get("seller_id")) . "&amount=" . urlencode($data['order_amount'])
+			. "&transact=" . $data["order_transactionid"] . "&orderid=" . $data['order_id'] . "&force=yes&textreply=yes&mac=" . $macKey;
+		$data    = $dibsUrl;
 		$ch      = curl_init($data);
+		$values  = new stdClass;
 
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$data           = curl_exec($ch);
-		$data           = explode('&', $data);
-		$capture_status = explode('=', $data[0]);
+		$data          = curl_exec($ch);
+		$data          = explode('&', $data);
+		$captureStatus = explode('=', $data[0]);
 
-		if ($capture_status[1] == 'ACCEPTED')
+		if ($captureStatus[1] == 'ACCEPTED')
 		{
 			$values->responsestatus = 'Success';
 			$message                = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');

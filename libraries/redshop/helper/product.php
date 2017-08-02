@@ -1086,7 +1086,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   2.0.5
 	 */
-	public function getProductQuantityPrice($productId, $userId)
+	public static function getProductQuantityPrice($productId, $userId)
 	{
 		$db      = JFactory::getDbo();
 		$userArr = JFactory::getSession()->get('rs_user');
@@ -1097,7 +1097,7 @@ class RedshopHelperProduct
 			$userArr = $userHelper->createUserSession($userId);
 		}
 
-		$shopperGroupId = $userHelper->getShopperGroup($userId);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
 
 		if ($userId)
 		{

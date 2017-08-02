@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
 $cartHelper       = rsCarthelper::getInstance();
@@ -32,11 +34,11 @@ $shipping        = $this->shipping;
 $isCompany       = $billing->is_company;
 $orderId         = $this->detail->order_id;
 $products        = RedshopHelperOrder::getOrderItemDetail($orderId);
-$orderStatusLogs = $model->getOrderLog($orderId);
+$orderStatusLogs = RedshopEntityOrder::getInstance($orderId)->getStatusLog();
 
 if (!$shipping)
 {
-	$shipping = $billing;
+    $shipping = $billing;
 }
 $session->set('shipp_users_info_id', $shipping->users_info_id);
 
@@ -47,9 +49,9 @@ $dproducts            = array();
 
 for ($t = 0; $t < $totalDownloadProduct; $t++)
 {
-	$downloadProduct = $downloadProducts[$t];
+    $downloadProduct = $downloadProducts[$t];
 
-	$dproducts[$downloadProduct->product_id][$downloadProduct->download_id] = $downloadProduct;
+    $dproducts[$downloadProduct->product_id][$downloadProduct->download_id] = $downloadProduct;
 }
 ?>
 <script type="text/javascript">
@@ -76,9 +78,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-blue">
-				<i class="fa fa-calendar" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-blue">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?></span>
@@ -88,9 +90,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-green">
-				<i class="fa fa-money" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-green">
+                <i class="fa fa-money" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?></span>
@@ -101,9 +103,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-aqua">
-				<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-aqua">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></span>
@@ -114,9 +116,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-yellow">
-				<i class="fa fa-area-chart" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-yellow">
+                <i class="fa fa-area-chart" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></span>
@@ -156,11 +158,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             <tr>
                                 <td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
                                 <td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
-									<?php if (count($model->getccdetail($orderId)) > 0): ?>
+                                    <?php if (count($model->getccdetail($orderId)) > 0): ?>
                                         <a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId); ?>"
                                            class="joom-box btn btn-primary"
                                            rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'); ?></a>
-									<?php endif; ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <tr>
@@ -172,15 +174,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             <tr>
                                 <td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_REFERENCE_NUMBER'); ?>:</td>
                                 <td><?php
-									if ($this->payment_detail->order_payment_trans_id != "")
-									{
-										echo $this->payment_detail->order_payment_trans_id;
-									}
-									else
-									{
-										echo "N/A";
-									}
-									?>
+                                    if ($this->payment_detail->order_payment_trans_id != "")
+                                    {
+                                        echo $this->payment_detail->order_payment_trans_id;
+                                    }
+                                    else
+                                    {
+                                        echo "N/A";
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                             <tr>
@@ -198,70 +200,70 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             <tr>
                                 <td align="left"><?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE_LBL'); ?>:</td>
                                 <td>
-									<?php
-									$arr_discount_type = array();
-									$arr_discount      = explode('@', $this->detail->discount_type);
-									$discount_type     = '';
-									for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
-									{
-										if ($arr_discount[$d])
-										{
-											$arr_discount_type = explode(':', $arr_discount[$d]);
+                                    <?php
+                                    $arr_discount_type = array();
+                                    $arr_discount      = explode('@', $this->detail->discount_type);
+                                    $discount_type     = '';
+                                    for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
+                                    {
+                                        if ($arr_discount[$d])
+                                        {
+                                            $arr_discount_type = explode(':', $arr_discount[$d]);
 
-											if ($arr_discount_type[0] == 'c')
-												$discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
-											if ($arr_discount_type[0] == 'v')
-												$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
-										}
-									}
+                                            if ($arr_discount_type[0] == 'c')
+                                                $discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
+                                            if ($arr_discount_type[0] == 'v')
+                                                $discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
+                                        }
+                                    }
 
-									if (!$discount_type)
-									{
-										$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
-									}
-									?>
-									<?php echo $discount_type; ?>
+                                    if (!$discount_type)
+                                    {
+                                        $discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
+                                    }
+                                    ?>
+                                    <?php echo $discount_type; ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2"><h3><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE') ?></h3></td>
                             </tr>
-							<?php //if($is_company){?>
+                            <?php //if($is_company){?>
                             <tr>
                                 <td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER'); ?>:</td>
                                 <td><input class="inputbox" name="requisition_number" id="requisition_number"
                                            type="text"
                                            value="<?php echo $this->detail->requisition_number; ?>"/></td>
                             </tr>
-							<?php //}?>
-							<?php
-							$partialPaid        = $orderFunctions->getOrderPartialPayment($orderId);
-							$sendMailToCustomer = 0;
-							if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
-							{
-								$sendMailToCustomer = "checked";
-							}
-							$linkUpdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order_detail&order_id[]=' . $orderId);
-							?>
+                            <?php //}?>
+                            <?php
+                            $partialPaid        = $orderFunctions->getOrderPartialPayment($orderId);
+                            $sendMailToCustomer = 0;
+                            if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
+                            {
+                                $sendMailToCustomer = "checked";
+                            }
+                            $linkUpdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order_detail&order_id[]=' . $orderId);
+                            ?>
                             <tr>
                                 <td>
-									<?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>
+                                    <?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>
                                 </td>
                                 <td>
-									<?php echo RedshopHelperOrder::getStatusList('status', $this->detail->order_status, "class=\"form-control\" size=\"1\" ") ?>
+                                    <?php echo RedshopHelperOrder::getStatusList('status', $this->detail->order_status, "class=\"form-control\" size=\"1\" ") ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-									<?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>
+                                    <?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>
                                 </td>
                                 <td>
-									<?php echo RedshopHelperOrder::getPaymentStatusList('order_paymentstatus', $this->detail->order_payment_status, "class=\"form-control\" size=\"1\" "); ?>
+                                    <?php echo RedshopHelperOrder::getPaymentStatusList('order_paymentstatus', $this->detail->order_payment_status, "class=\"form-control\" size=\"1\" "); ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td valign="top">
-									<?php echo JText::_('COM_REDSHOP_COMMENT'); ?>
+                                    <?php echo JText::_('COM_REDSHOP_COMMENT'); ?>
                                 </td>
                                 <td>
                                         <textarea cols="50" rows="5" class="form-control"
@@ -288,9 +290,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             </tr>
                             </tbody>
                         </table>
-						<?php if ($tmpl): ?>
+                        <?php if ($tmpl): ?>
                             <input type="hidden" name="tmpl" value="<?php echo $tmpl ?>">
-						<?php endif; ?>
+                        <?php endif; ?>
                         <input type="hidden" name="option" value="com_redshop"/>
                         <input type="hidden" name="view" value="order"/>
                         <input type="hidden" name="task" value="update_status"/>
@@ -302,7 +304,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
         </div>
 
         <div class="col-sm-6">
-			<?php if ($this->detail->ship_method_id) : ?>
+            <?php if ($this->detail->ship_method_id) : ?>
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD'); ?></h3>
@@ -313,65 +315,66 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             <table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed no-margin">
                                 <tr>
                                     <td align="left">
-										<?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
+                                        <?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
                                     </td>
                                     <td>
-										<?php echo $shipping_name = $cartHelper->replaceShippingMethod($this->detail, "{shipping_method}"); ?>
+                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left">
-										<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
+                                        <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
                                     </td>
                                     <td>
-										<?php echo $shipping_name = $cartHelper->replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
+                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-										<?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
+                                        <?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
                                     </td>
                                     <td>
-										<?php echo $ShippingExtrafields = $productHelper->getPaymentandShippingExtrafields($this->detail, 19); ?>
+                                        <?php echo $ShippingExtrafields = $productHelper->getPaymentandShippingExtrafields($this->detail, 19); ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left">
-										<?php echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>:
+                                        <?php echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>:
                                     </td>
                                     <td>
-										<?php echo $this->loadTemplate('shipping'); ?>
+                                        <?php echo $this->loadTemplate('shipping'); ?>
                                     </td>
                                 </tr>
-								<?php
-								$details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
+                                <?php
+                                $details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
 
-								if (count($details) <= 1)
-								{
-									$details = explode("|", $row->ship_method_id);
-								}
+                                if (count($details) <= 1)
+                                {
+                                    $details = explode("|", $row->ship_method_id);
+                                }
 
-								$disp_style = '';
+                                $disp_style = '';
 
-								if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
-								{
-									$disp_style = "style=display:none";
-								}
-								?>
+                                if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+                                {
+                                    $disp_style = "style=display:none";
+                                }
+                                ?>
                                 <tr>
                                     <td align="left">
                                         <div id="rs_glslocationId" <?php echo $disp_style ?>>
-											<?php echo $cartHelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+                                            <?php $result = $dispatcher->trigger('getGLSLocation', array($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id)); ?>
+											<?php echo $result[0]; ?>
                                         </div>
                                     </td>
                                 </tr>
-								<?php if ($this->detail->track_no)
-								{ ?>
+                                <?php if ($this->detail->track_no)
+                                { ?>
                                     <tr>
                                         <td><?php echo JText::_('COM_REDSHOP_TRACKING_NUMBER'); ?>:</td>
                                         <td><?php echo $this->detail->track_no; ?></td>
                                     </tr>
-								<?php } ?>
+                                <?php } ?>
                             </table>
                             <input type="submit" name="add" id="add" class="btn btn-primary"
                                    value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
@@ -385,18 +388,18 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
                     </div>
                 </div>
-			<?php endif; ?>
+            <?php endif; ?>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></h3>
-							<?php if (!$tmpl)
-							{ ?>
+                            <?php if (!$tmpl)
+                            { ?>
                                 <a class="joom-box btn btn-primary"
                                    href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $orderId; ?>"
                                    rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT'); ?></a>
-							<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="box-body">
                             <table class="adminlist table table-striped no-margin">
@@ -408,13 +411,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
                                     <td><?php echo $billing->lastname; ?></td>
                                 </tr>
-								<?php if ($isCompany)
-								{ ?>
+                                <?php if ($isCompany)
+                                { ?>
                                     <tr>
                                         <td align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
                                         <td><?php echo $billing->company_name; ?></td>
                                     </tr>
-								<?php } ?>
+                                <?php } ?>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
                                     <td><?php echo $billing->address; ?></td>
@@ -446,10 +449,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <a href="mailto:<?php echo $billing->user_email; ?>"><?php echo $billing->user_email; ?></a>
                                     </td>
                                 </tr>
-								<?php
-								if ($isCompany)
-								{
-									?>
+                                <?php
+                                if ($isCompany)
+                                {
+                                    ?>
                                     <tr>
                                         <td align="right"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
                                         <td><?php echo $billing->vat_number; ?></td>
@@ -462,14 +465,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <td align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
                                         <td><?php echo $billing->ean_number; ?></td>
                                     </tr>
-									<?php $fields = $extraFieldHelper->list_all_field_display(8, $billing->users_info_id);
-								}
-								else
-								{
-									$fields = $extraFieldHelper->list_all_field_display(7, $billing->users_info_id);
-								}
-								echo $fields;
-								?>
+                                    <?php $fields = $extraFieldHelper->list_all_field_display(8, $billing->users_info_id);
+                                }
+                                else
+                                {
+                                    $fields = $extraFieldHelper->list_all_field_display(7, $billing->users_info_id);
+                                }
+                                echo $fields;
+                                ?>
                             </table>
                         </div>
                     </div>
@@ -478,12 +481,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></h3>
-							<?php if (!$tmpl)
-							{ ?>
+                            <?php if (!$tmpl)
+                            { ?>
                                 <a class="joom-box btn btn-primary"
                                    href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $orderId; ?>"
                                    rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT'); ?></a>
-							<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="box-body">
                             <table class="adminlist table table-striped no-margin">
@@ -519,17 +522,17 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
                                     <td><?php echo $shipping->phone; ?></td>
                                 </tr>
-								<?php
+                                <?php
 
-								if ($isCompany)
-								{
-									$fields = $extraFieldHelper->list_all_field_display(15, $shipping->users_info_id);
-								}
-								else
-								{
-									$fields = $extraFieldHelper->list_all_field_display(14, $shipping->users_info_id);
-								}
-								echo $fields; ?>
+                                if ($isCompany)
+                                {
+                                    $fields = $extraFieldHelper->list_all_field_display(15, $shipping->users_info_id);
+                                }
+                                else
+                                {
+                                    $fields = $extraFieldHelper->list_all_field_display(14, $shipping->users_info_id);
+                                }
+                                echo $fields; ?>
                             </table>
                         </div>
                     </div>
@@ -563,75 +566,79 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     </tr>
                                 </table>
                             </td>
-							<?php if ($totalDownloadProduct > 0) echo '<td>' . JText::_('COM_REDSHOP_DOWNLOAD_SETTING') . '</td>'; ?>
+                            <?php if ($totalDownloadProduct > 0) echo '<td>' . JText::_('COM_REDSHOP_DOWNLOAD_SETTING') . '</td>'; ?>
                         </tr>
-						<?php
-						$ordervolume       = 0;
-						$cart              = array();
-						$subtotal_excl_vat = 0;
+                        <?php
+                        $ordervolume       = 0;
+                        $cart              = array();
+                        $subtotal_excl_vat = 0;
 
-						for ($i = 0, $in = count($products); $i < $in; $i++)
-						{
-							$cart[$i]['product_id'] = $products[$i]->product_id;
-							$cart[$i]['quantity']   = $products[$i]->product_quantity;
-							$quantity               = $products[$i]->product_quantity;
-							$product_id             = $products[$i]->product_id;
+                        for ($i = 0, $in = count($products); $i < $in; $i++)
+                        {
+                            $cart[$i]['product_id'] = $products[$i]->product_id;
+                            $cart[$i]['quantity']   = $products[$i]->product_quantity;
+                            $quantity               = $products[$i]->product_quantity;
+                            $product_id             = $products[$i]->product_id;
 
-							if ($productdetail = $productHelper->getProductById($product_id))
-							{
-								$ordervolume = $ordervolume + $productdetail->product_volume;
-							}
+                            if ($productdetail = $productHelper->getProductById($product_id))
+                            {
+                                $ordervolume = $ordervolume + $productdetail->product_volume;
+                            }
 
-							$order_item_id   = $products[$i]->order_item_id;
-							$order_item_name = $products[$i]->order_item_name;
-							$order_item_sku  = $products[$i]->order_item_sku;
-							$wrapper_id      = $products[$i]->wrapper_id;
+                            $order_item_id   = $products[$i]->order_item_id;
+                            $order_item_name = $products[$i]->order_item_name;
+                            $order_item_sku  = $products[$i]->order_item_sku;
+                            $wrapper_id      = $products[$i]->wrapper_id;
 
-							$p_userfield      = $productHelper->getuserfield($order_item_id);
-							$subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
-							$catId            = $productHelper->getCategoryProduct($product_id);
-							$res              = $productHelper->getSection("category", $catId);
-							$cname            = '';
+                            $p_userfield      = $productHelper->getuserfield($order_item_id);
+                            $subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
+                            $catId            = $productHelper->getCategoryProduct($product_id);
+                            $res              = $productHelper->getSection("category", $catId);
+                            $cname            = '';
 
-							if (count($res) > 0)
-							{
-								$cname = $res->name;
-								$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
-								$cname = "<a href='" . $clink . "'>" . $cname . "</a>";
-							}
+                            if (count($res) > 0)
+                            {
+                                $cname = $res->name;
+                                $clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
+                                $cname = "<a href='" . $clink . "'>" . $cname . "</a>";
+                            }
 
-							$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
-							$vat               = ($products[$i]->product_item_price - $products[$i]->product_item_price_excl_vat);
+                            $subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
+                            $vat               = ($products[$i]->product_item_price - $products[$i]->product_item_price_excl_vat);
 
-							// Make sure this variable is object before we can use it
-							if (is_object($productdetail))
-							{
-								// Generate frontend link
-								$itemData  = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
-								$catIdMain = $productdetail->cat_in_sefurl;
+                            // Make sure this variable is object before we can use it
+                            if (is_object($productdetail))
+                            {
+                                // Generate frontend link
+                                $itemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
+                                $catIdMain = $productdetail->cat_in_sefurl;
 
-								if (count($itemData) > 0)
-								{
-									$pItemid = $itemData->id;
-								}
-								else
-								{
-									$objhelper = redhelper::getInstance();
-									$pItemid   = RedshopHelperUtility::getItemId($productdetail->product_id, $catIdMain);
-								}
+                                if (count($itemData) > 0)
+                                {
+                                    $pItemid = $itemData->id;
+                                }
+                                else
+                                {
+                                    $objhelper = redhelper::getInstance();
+                                    $pItemid   = RedshopHelperUtility::getItemId($productdetail->product_id, $catIdMain);
+                                }
 
-								$productFrontendLink = JUri::root();
-								$productFrontendLink .= 'index.php?option=com_redshop';
-								$productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
-								$productFrontendLink .= '&cid=' . $catIdMain;
-								$productFrontendLink .= '&Itemid=' . $pItemid;
-							}
-							else
-							{
-								$productFrontendLink = '#';
-							}
+                                $productFrontendLink = JUri::root();
+                                $productFrontendLink .= 'index.php?option=com_redshop';
+                                $productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
+                                $productFrontendLink .= '&cid=' . $catIdMain;
+                                $productFrontendLink .= '&Itemid=' . $pItemid;
+                            }
+                            else
+                            {
+                                $productFrontendLink = '#';
+                            }
 
-							?>
+                            $makeAttributeOrder = $productHelper->makeAttributeOrder($order_item_id);
+
+                            $displayAttribute = $makeAttributeOrder->product_attribute;
+
+                            ?>
                             <tr>
                                 <td>
                                     <table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed"
@@ -644,44 +651,49 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                            width="100%">
                                                         <tr>
                                                             <td width="20%">
-                                                                <a href="<?php echo $productFrontendLink; ?>" target="_blank">
-																	<?php echo $order_item_name ?>
-                                                                </a>
-                                                                <div>
-                                                                    <span class="small">SKU:</span>&nbsp;
-                                                                    <span><?php echo $order_item_sku ?></span></div>
-                                                                <div>
-																	<?php if (!empty($p_userfield)): ?>
-                                                                        <div><?php echo $p_userfield ?></div>
-																	<?php endif; ?>
+                                                                <div class="order_product_detail" id="order_product_detail_<?php echo $order_item_id ?>">
+                                                                    <a href="<?php echo $productFrontendLink; ?>" target="_blank">
+                                                                        <?php echo $order_item_name ?>
+                                                                    </a>
                                                                     <div>
-                                                                        <span class="small">Category:</span>
-																		<?php echo $cname ?>
+                                                                        <span class="small">SKU:</span>&nbsp;
+                                                                        <span><?php echo $order_item_sku ?></span>
                                                                     </div>
+                                                                </div>
+                                                                <div class="order_product_detail_more">
+                                                                    <?php if (!empty($p_userfield)): ?>
+                                                                        <div class="order_product_userfield"><?php echo $p_userfield ?></div>
+                                                                    <?php endif; ?>
+                                                                    <?php echo $displayAttribute ?>
+                                                                    <div class="order_product_category">
+                                                                        <span class="small">Category:</span>
+                                                                        <?php echo $cname ?>
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                             <td width="15%">
-																<?php
-																echo $products[$i]->product_attribute . "<br />" . $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
+                                                                <?php
+                                                                echo $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
 
-																if ($wrapper_id)
-																{
-																	$wrapper = $productHelper->getWrapper($product_id, $wrapper_id);
-																	echo "<br>" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
-																}
+                                                                if ($wrapper_id)
+                                                                {
+                                                                    $wrapper = $productHelper->getWrapper($product_id, $wrapper_id);
+                                                                    echo "<br>" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
+                                                                }
 
-																if ($subscribe_detail)
-																{
-																	$subscription_detail   = $model->getProductSubscriptionDetail($product_id, $subscribe_detail->subscription_id);
-																	$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
-																	echo JText::_('COM_REDSHOP_SUBSCRIPTION') . ': ' . $selected_subscription;
-																}
-																?>
+                                                                if ($subscribe_detail)
+                                                                {
+                                                                    $subscription_detail   = $model->getProductSubscriptionDetail($product_id, $subscribe_detail->subscription_id);
+                                                                    $selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
+                                                                    echo JText::_('COM_REDSHOP_SUBSCRIPTION') . ': ' . $selected_subscription;
+                                                                }
+                                                                ?>
                                                                 <br/><br/>
-																<?php
-																JPluginHelper::importPlugin('redshop_product');
-																$dispatcher = JDispatcher::getInstance();
-																$dispatcher->trigger('onDisplayOrderItemNote', array($products[$i]));
-																?>
+                                                                <?php
+                                                                JPluginHelper::importPlugin('redshop_product');
+                                                                $dispatcher = RedshopHelperUtility::getDispatcher();
+                                                                $dispatcher->trigger('onDisplayOrderItemNote', array($products[$i]));
+                                                                ?>
                                                             </td>
                                                             <td width="10%">
                                                                 <div class="input-group">
@@ -699,15 +711,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                        value="<?php echo $quantity; ?>" size="3">
                                                             </td>
                                                             <td align="right" width="10%">
-																<?php
-																echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . "&nbsp;";
-																echo $productHelper->redpriceDecimal($products[$i]->product_final_price);
-																?>
+                                                                <?php
+                                                                echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . "&nbsp;";
+                                                                echo $productHelper->redpriceDecimal($products[$i]->product_final_price);
+                                                                ?>
                                                             </td>
                                                             <td width="20%">
-																<?php
-																echo $orderFunctions->getstatuslist('status', $products[$i]->order_status, "class=\"form-control\" size=\"1\" ");
-																?>
+                                                                <?php
+                                                                echo $orderFunctions->getstatuslist('status', $products[$i]->order_status, "class=\"form-control\" size=\"1\" ");
+                                                                ?>
                                                                 <br/><br/>
                                                                 <textarea cols="30" rows="3" class="form-control"
                                                                           name="customer_note"><?php echo $products[$i]->customer_note; ?></textarea>
@@ -736,67 +748,67 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                     <input type="hidden" name="return" value="order_detail"/>
                                                     <input type="hidden" name="isproduct" value="1"/>
                                                     <input type="hidden" name="option" value="com_redshop"/>
-													<?php if ($tmpl)
-													{ ?>
+                                                    <?php if ($tmpl)
+                                                    { ?>
                                                         <input type="hidden" name="tmpl" value="<?php echo $tmpl; ?>"/>
-													<?php } ?>
+                                                    <?php } ?>
                                                 </form>
                                             </td>
-											<?php
-											$downloadarray = @$dproducts[$product_id];
-											if ($totalDownloadProduct > 0)
-											{
-												?>
+                                            <?php
+                                            $downloadarray = @$dproducts[$product_id];
+                                            if ($totalDownloadProduct > 0)
+                                            {
+                                                ?>
                                                 <td>
-													<?php
-													if (count($downloadarray) > 0)
-													{
-														?>
+                                                    <?php
+                                                    if (count($downloadarray) > 0)
+                                                    {
+                                                        ?>
                                                         <form action="index.php?option=com_redshop" method="post"
                                                               name="download_token<?php echo $order_item_id; ?>">
                                                             <table cellpadding="0" cellspacing="0" border="0">
-																<?php
-																foreach ($downloadarray as $downloads)
-																{
-																	$file_name                 = substr(basename($downloads->file_name), 11);
-																	$download_id               = $downloads->download_id;
-																	$download_max              = $downloads->download_max;
-																	$end_date                  = $downloads->end_date;
-																	$product_download_infinite = ($end_date == 0) ? 1 : 0;
+                                                                <?php
+                                                                foreach ($downloadarray as $downloads)
+                                                                {
+                                                                    $file_name                 = substr(basename($downloads->file_name), 11);
+                                                                    $download_id               = $downloads->download_id;
+                                                                    $download_max              = $downloads->download_max;
+                                                                    $end_date                  = $downloads->end_date;
+                                                                    $product_download_infinite = ($end_date == 0) ? 1 : 0;
 
-																	if ($end_date == 0)
-																	{
-																		$limit_over = false;
-																	}
-																	else
-																	{
-																		$days_in_time = $end_date - time();
-																		$hour         = date("H", $end_date);
-																		$minite       = date("i", $end_date);
-																		$days         = round($days_in_time / (24 * 60 * 60));
-																		$limit_over   = false;
-																		if ($days_in_time <= 0 || $download_max <= 0)
-																		{
-																			$limit_over = true;
-																		}
-																	}
-																	$td_style = ($end_date == 0) ? 'style="display:none;"' : 'style="display:table-row;"';
-																	?>
+                                                                    if ($end_date == 0)
+                                                                    {
+                                                                        $limit_over = false;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        $days_in_time = $end_date - time();
+                                                                        $hour         = date("H", $end_date);
+                                                                        $minite       = date("i", $end_date);
+                                                                        $days         = round($days_in_time / (24 * 60 * 60));
+                                                                        $limit_over   = false;
+                                                                        if ($days_in_time <= 0 || $download_max <= 0)
+                                                                        {
+                                                                            $limit_over = true;
+                                                                        }
+                                                                    }
+                                                                    $td_style = ($end_date == 0) ? 'style="display:none;"' : 'style="display:table-row;"';
+                                                                    ?>
                                                                     <tr>
                                                                         <th colspan="2"
                                                                             align="center"><?php echo JText::_('COM_REDSHOP_TOKEN_ID') . ": " . $download_id; ?></th>
                                                                     </tr>
-																	<?php
-																	if ($limit_over)
-																	{
-																		?>
+                                                                    <?php
+                                                                    if ($limit_over)
+                                                                    {
+                                                                        ?>
                                                                         <tr>
                                                                             <td colspan="2"
                                                                                 align="center"><?php echo JText::_('COM_REDSHOP_DOWNLOAD_LIMIT_OVER'); ?></td>
                                                                         </tr>
-																		<?php
-																	}
-																	?>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                     <tr>
                                                                         <td valign="top" align="right"
                                                                             class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_INFINITE_LIMIT'); ?>
@@ -831,9 +843,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                                    value="<?php echo $download_id; ?>">
                                                                         </td>
                                                                     </tr>
-																	<?php
-																}
-																?>
+                                                                    <?php
+                                                                }
+                                                                ?>
                                                                 <tr>
                                                                     <td colspan="2" align="center">
                                                                         <input type="button" name="update"
@@ -846,30 +858,30 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                                value="<?php echo $product_id; ?>"/>
                                                                         <input type="hidden" name="return" value="order_detail"/>
                                                                         <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>"/>
-																		<?php if ($tmpl)
-																		{ ?>
+                                                                        <?php if ($tmpl)
+                                                                        { ?>
                                                                             <input type="hidden" name="tmpl" value="<?php echo $tmpl; ?>"/>
-																		<?php } ?>
+                                                                        <?php } ?>
                                                                     </td>
                                                                 </tr>
                                                             </table>
                                                         </form>
-														<?php
-													}
-													?>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </td>
-												<?php
-											}
-											?>
+                                                <?php
+                                            }
+                                            ?>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </td>
                             </tr>
-							<?php
-						}
-						$cart['idx'] = count($cart);
-						$session->set('cart', $cart); ?>
+                            <?php
+                        }
+                        $cart['idx'] = count($cart);
+                        RedshopHelperCartSession::setCart($cart); ?>
                         <tr>
                             <td>
                                 <div class="row-fluid">
@@ -882,65 +894,65 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                 <td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SUBTOTAL'); ?>:</strong>
                                                 </td>
                                                 <td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($subtotal_excl_vat); ?>
+                                                    <?php echo $productHelper->getProductFormattedPrice($subtotal_excl_vat); ?>
                                                 </td>
                                             </tr>
                                             <tr align="left">
                                                 <td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TAX'); ?>:</strong></td>
-												<?php
-												$order_tax               = $this->detail->order_tax;
-												$totaldiscount           = $this->detail->order_discount;
-												$special_discount_amount = $this->detail->special_discount_amount;
-												$vatOnDiscount           = false;
+                                                <?php
+                                                $order_tax               = $this->detail->order_tax;
+                                                $totaldiscount           = $this->detail->order_discount;
+                                                $special_discount_amount = $this->detail->special_discount_amount;
+                                                $vatOnDiscount           = false;
 
-												if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
-													&& (int) $this->detail->order_discount != 0 && (int) $order_tax
-													&& !empty($this->detail->order_discount)
-												)
-												{
-													$vatOnDiscount = true;
-													$Discountvat   = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
-													$totaldiscount = $totaldiscount - $Discountvat;
-												}
+                                                if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+                                                    && (int) $this->detail->order_discount != 0 && (int) $order_tax
+                                                    && !empty($this->detail->order_discount)
+                                                )
+                                                {
+                                                    $vatOnDiscount = true;
+                                                    $Discountvat   = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+                                                    $totaldiscount = $totaldiscount - $Discountvat;
+                                                }
 
-												if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
-													&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
-													&& !empty($this->detail->special_discount_amount)
-												)
-												{
-													$vatOnDiscount           = true;
-													$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $special_discount_amount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
-													$special_discount_amount = $special_discount_amount - $Discountvat;
-												}
+                                                if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+                                                    && (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
+                                                    && !empty($this->detail->special_discount_amount)
+                                                )
+                                                {
+                                                    $vatOnDiscount           = true;
+                                                    $Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $special_discount_amount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+                                                    $special_discount_amount = $special_discount_amount - $Discountvat;
+                                                }
 
-												if ($vatOnDiscount)
-												{
-													$order_tax = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
-												}
-												?>
+                                                if ($vatOnDiscount)
+                                                {
+                                                    $order_tax = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
+                                                }
+                                                ?>
                                                 <td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($order_tax); ?>
+                                                    <?php echo $productHelper->getProductFormattedPrice($order_tax); ?>
                                                 </td>
                                             </tr>
                                             <tr align="left">
                                                 <td align="right" width="65%">
                                                     <strong>
-														<?php
-														if ($this->detail->payment_oprand == '+')
-															echo JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL');
-														else
-															echo JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
-														?>:
+                                                        <?php
+                                                        if ($this->detail->payment_oprand == '+')
+                                                            echo JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL');
+                                                        else
+                                                            echo JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
+                                                        ?>:
                                                     </strong>
                                                 </td>
                                                 <td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->payment_discount); ?>
+                                                    <?php echo $productHelper->getProductFormattedPrice($this->detail->payment_discount); ?>
                                                 </td>
                                             </tr>
                                             <tr align="left">
                                                 <td align="right" width="65%">
                                                     <strong>
-														<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT'); ?>:
+                                                        <?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT'); ?>:
                                                     </strong>
                                                 </td>
                                                 <td align="right" width="35%">
@@ -953,14 +965,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                    value="<?php echo $productHelper->redpriceDecimal($this->detail->order_discount); ?>"
                                                                    size="10">
                                                             <span class="input-group-addon">
-																	<a href="#"
+                                                                    <a href="#"
                                                                        onclick="javascript:validateDiscount('#update_discount<?php echo $orderId; ?>');">
-																	<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
-																	</a>
-																	</span>
+                                                                    <?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
+                                                                    </a>
+                                                                    </span>
                                                         </div>
                                                         <br/>
-														<?php echo $productHelper->getProductFormattedPrice($totaldiscount); ?>
+                                                        <?php echo $productHelper->getProductFormattedPrice($totaldiscount); ?>
                                                         <input type="hidden" name="task" value="update_discount">
                                                         <input type="hidden" name="view" value="order_detail">
                                                         <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
@@ -982,16 +994,16 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                    value="<?php echo $this->detail->special_discount; ?>"
                                                                    size="10">
                                                             <span class="input-group-addon">
-																	<a href="#"
+                                                                    <a href="#"
                                                                        onclick="javascript:validateDiscount('#special_discount<?php echo $orderId; ?>');">
-																	<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
-																	</a>
-																	</span>
+                                                                    <?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
+                                                                    </a>
+                                                                    </span>
                                                         </div>
                                                         <br/>
-														<?php
-														echo $productHelper->getProductFormattedPrice($special_discount_amount);
-														?>
+                                                        <?php
+                                                        echo $productHelper->getProductFormattedPrice($special_discount_amount);
+                                                        ?>
                                                         <input type="hidden" name="order_total" value="<?php echo $this->detail->order_total; ?>">
                                                         <input type="hidden" name="task" value="special_discount">
                                                         <input type="hidden" name="view" value="order_detail">
@@ -1003,14 +1015,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                 <td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING'); ?>:</strong>
                                                 </td>
                                                 <td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->order_shipping); ?>
+                                                    <?php echo $productHelper->getProductFormattedPrice($this->detail->order_shipping); ?>
                                                 </td>
                                             </tr>
                                             <tr align="left">
                                                 <td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?>:</strong>
                                                 </td>
                                                 <td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->order_total); ?>
+                                                    <?php echo $productHelper->getProductFormattedPrice($this->detail->order_total); ?>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -1048,18 +1060,18 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             </tr>
                             <tr id="trPrd1">
                                 <td><?php
-									echo JHtml::_('redshopselect.search', '', 'product1',
-										array(
-											'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
-											'select2.options'     => array(
-												'events' => array('select2-selecting' => 'function(e) {
-													document.getElementById(\'product1\').value = e.object.id;
-													displayProductDetailInfo(\'product1\', 0);
-													displayAddbutton(e.object.id, \'product1\');}')
-											)
-										)
-									);
-									?>
+                                    echo JHtml::_('redshopselect.search', '', 'product1',
+                                        array(
+                                            'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+                                            'select2.options'     => array(
+                                                'events' => array('select2-selecting' => 'function(e) {
+                                                    document.getElementById(\'product1\').value = e.object.id;
+                                                    displayProductDetailInfo(\'product1\', 0);
+                                                    displayAddbutton(e.object.id, \'product1\');}')
+                                            )
+                                        )
+                                    );
+                                    ?>
                                     <div id="divAttproduct1"></div>
                                     <div id="divAccproduct1"></div>
                                     <div id="divUserFieldproduct1"></div>
@@ -1106,10 +1118,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     <input type="hidden" name="property_dataproduct1" id="property_dataproduct1" value="0">
                                     <input type="hidden" name="subproperty_dataproduct1" id="subproperty_dataproduct1" value="0">
                                     <input type="hidden" name="requiedAttributeproduct1" id="requiedAttributeproduct1" value="0">
-									<?php if ($tmpl)
-									{ ?>
+                                    <?php if ($tmpl)
+                                    { ?>
                                         <input type="hidden" name="tmpl" id="tmpl" value="<?php echo $tmpl ?>">
-									<?php } ?>
+                                    <?php } ?>
 
                                 </td>
                                 <td><input type="button" class="btn btn-primary" name="add" id="add" style="display: none;"
@@ -1141,13 +1153,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                 </div>
                 <div class="box-body">
                     <ul class="timeline">
-						<?php $orderStatusLogs = array_reverse($orderStatusLogs); ?>
-						<?php foreach ($orderStatusLogs as $index => $log): ?>
-							<?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
+                        <?php $orderStatusLogs = array_reverse($orderStatusLogs); ?>
+                        <?php foreach ($orderStatusLogs as $index => $log): ?>
+                            <?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
                             <li class="time-label">
                                 <span class="bg-green"><?php echo RedshopHelperDatetime::convertDateFormat($log->date_changed) ?></span>
                             </li>
-							<?php if (!$nextLog): ?>
+                            <?php if (!$nextLog): ?>
                                 <li>
                                     <i class="fa fa-check bg-green"></i>
                                     <div class="timeline-item">
@@ -1156,45 +1168,45 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                             <p><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>: <span
                                                         class="label order_status_<?php echo strtolower($log->order_status) ?>"><?php echo $log->order_status_name ?></span>
                                             </p>
-											<?php if (empty($log->order_payment_status)): ?>
+                                            <?php if (empty($log->order_payment_status)): ?>
                                                 <p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
                                                             class="label order_payment_status_unpaid"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?></span>
                                                 </p>
-											<?php else: ?>
-												<?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
+                                            <?php else: ?>
+                                                <?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
                                                 <p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
                                                             class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>"><?php echo $paymentName ?></span>
                                                 </p>
-											<?php endif; ?>
+                                            <?php endif; ?>
                                             <p><?php echo $log->customer_note ?></p>
                                         </div>
                                     </div>
                                 </li>
-							<?php else: ?>
-								<?php if ($log->order_status != $nextLog->order_status): ?>
+                            <?php else: ?>
+                                <?php if ($log->order_status != $nextLog->order_status): ?>
                                     <li>
                                         <i class="fa fa-book bg-blue"></i>
                                         <div class="timeline-item">
                                             <div class="timeline-body">
-												<?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE_TO') ?>&nbsp;<span
+                                                <?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE_TO') ?>&nbsp;<span
                                                         class="label order_status_<?php echo strtolower($log->order_status) ?>"><?php echo $log->order_status_name ?>
                                             </div>
                                         </div>
                                     </li>
-								<?php endif; ?>
-								<?php if ($log->order_payment_status != $nextLog->order_payment_status): ?>
-									<?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
+                                <?php endif; ?>
+                                <?php if ($log->order_payment_status != $nextLog->order_payment_status): ?>
+                                    <?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
                                     <li>
                                         <i class="fa fa-dollar bg-red"></i>
                                         <div class="timeline-item">
                                             <div class="timeline-body">
-												<?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>&nbsp;<span
+                                                <?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>&nbsp;<span
                                                         class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>"><?php echo $paymentName ?>
                                             </div>
                                         </div>
                                     </li>
-								<?php endif; ?>
-								<?php if (!empty($log->customer_note) && $log->customer_note != $nextLog->customer_note): ?>
+                                <?php endif; ?>
+                                <?php if (!empty($log->customer_note) && $log->customer_note != $nextLog->customer_note): ?>
                                     <li>
                                         <i class="fa fa-comment bg-yellow"></i>
                                         <div class="timeline-item">
@@ -1203,16 +1215,16 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                             </div>
                                         </div>
                                     </li>
-								<?php endif; ?>
-							<?php endif; ?>
-						<?php endforeach; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-	<?php if (!empty($this->lists['order_extra_fields'])): ?>
+    <?php if (!empty($this->lists['order_extra_fields'])): ?>
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-primary">
@@ -1222,7 +1234,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                     <div class="box-body">
                         <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=storeExtraField'); ?>" method="post"
                               name="adminForm" id="adminForm">
-							<?php echo $this->lists['order_extra_fields'] ?>
+                            <?php echo $this->lists['order_extra_fields'] ?>
                             <input class="button btn btn-primary" name="submit"
                                    value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
                             <input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
@@ -1232,7 +1244,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                 </div>
             </div>
         </div>
-	<?php endif; ?>
+    <?php endif; ?>
 </div>
 <?php echo $this->loadTemplate('plugin'); ?>
 <div id="divCalc"></div>

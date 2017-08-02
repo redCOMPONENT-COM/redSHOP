@@ -410,7 +410,9 @@ class GoogleCart
 							$xml_data->EmptyElement('world-area');
 						}
 
-						for ($i = 0; $i < count($shipping_restrictions->allowed_country_codes_arr); $i++)
+						$countShippingRestrictions = count($shipping_restrictions->allowed_country_codes_arr);
+
+						for ($i = 0; $i < $countShippingRestrictions; $i++)
 						{
 							$xml_data->Push('postal-area');
 							$country_code = $shipping_restrictions->allowed_country_codes_arr[$i];
@@ -456,7 +458,9 @@ class GoogleCart
 							$xml_data->Pop('us-zip-area');
 						}
 
-						for ($i = 0; $i < count($shipping_restrictions->excluded_country_codes_arr); $i++)
+						$countShippingRestrictions = count($shipping_restrictions->excluded_country_codes_arr);
+
+						for ($i = 0; $i < $countShippingRestrictions; $i++)
 						{
 							$xml_data->Push('postal-area');
 							$country_code = $shipping_restrictions->excluded_country_codes_arr[$i];
@@ -523,7 +527,9 @@ class GoogleCart
 								$xml_data->EmptyElement('world-area');
 							}
 
-							for ($i = 0; $i < count($address_filters->allowed_country_codes_arr); $i++)
+							$countAddressFilter = count($address_filters->allowed_country_codes_arr);
+
+							for ($i = 0; $i < $countAddressFilter; $i++)
 							{
 								$xml_data->Push('postal-area');
 								$country_code = $address_filters->allowed_country_codes_arr[$i];
@@ -569,7 +575,9 @@ class GoogleCart
 								$xml_data->Pop('us-zip-area');
 							}
 
-							for ($i = 0; $i < count($address_filters->excluded_country_codes_arr); $i++)
+							$countAddressFilter = count($address_filters->excluded_country_codes_arr);
+
+							for ($i = 0; $i < $countAddressFilter; $i++)
 							{
 								$xml_data->Push('postal-area');
 								$country_code = $address_filters->excluded_country_codes_arr[$i];
@@ -717,7 +725,9 @@ class GoogleCart
 						$xml_data->Pop('default-tax-rule');
 					}
 
-					for ($i = 0; $i < count($curr_rule->country_codes_arr); $i++)
+					$countCountryCode = count($curr_rule->country_codes_arr);
+
+					for ($i = 0; $i < $countCountryCode; $i++)
 					{
 						$xml_data->Push('default-tax-rule');
 						$xml_data->Element('shipping-taxed', $curr_rule->shipping_taxed);
@@ -802,7 +812,9 @@ class GoogleCart
 							$xml_data->Pop('alternate-tax-rule');
 						}
 
-						for ($i = 0; $i < count($curr_rule->country_codes_arr); $i++)
+						$countCountryCode = count($curr_rule->country_codes_arr);
+
+						for ($i = 0; $i < $countCountryCode; $i++)
 						{
 							$xml_data->Push('alternate-tax-rule');
 							$xml_data->Element('rate', $curr_rule->tax_rate);
