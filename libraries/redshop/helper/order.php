@@ -1321,6 +1321,9 @@ class RedshopHelperOrder
 		// Get order detail before processing
 		$prevOrderStatus = RedshopEntityOrder::getInstance($orderId)->getItem()->order_status;
 
+		// Changing the status of the order
+		self::updateOrderStatus($orderId, $newStatus);
+
 		if (isset($paymentStatus))
 		{
 			self::updateOrderPaymentStatus($orderId, $paymentStatus);
@@ -1357,9 +1360,6 @@ class RedshopHelperOrder
 			{
 				self::updateOrderRequisitionNumber($orderId, $requisitionNumber);
 			}
-
-			// Changing the status of the order
-			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
 			JPluginHelper::importPlugin('redshop_order');
