@@ -5390,7 +5390,7 @@ class productHelper
 			$productPrice += $productVatPrice;
 		}*/
 
-		return array(
+		$data = array(
 			$displayattribute,
 			$productPrice,
 			$productVatPrice,
@@ -5401,6 +5401,11 @@ class productHelper
 			$isPreorderStock,
 			$selectedProperty
 		);
+
+		JPluginHelper::importPlugin('redshop_product');
+		RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data));
+
+		return $data;
 	}
 
 	public function makeAccessoryOrder($order_item_id = 0)
