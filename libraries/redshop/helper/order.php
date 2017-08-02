@@ -1059,18 +1059,17 @@ class RedshopHelperOrder
 				$checkoutModelCheckout->sendGiftCard($orderId);
 
 				// Send the Order mail
-				$redshopMail = redshopMail::getInstance();
 
 				// Send Order Mail After Payment
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C")
 				{
-					$redshopMail->sendOrderMail($orderId);
+					RedshopHelperMail::sendOrderMail($orderId);
 				}
 
 				// Send Invoice mail only if order mail is set to before payment.
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					$redshopMail->sendInvoiceMail($orderId);
+					RedshopHelperMail::sendInvoiceMail($orderId);
 				}
 			}
 
@@ -1382,9 +1381,18 @@ class RedshopHelperOrder
 				// Send the Order mail
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
 				{
-					RedshopHelperMail::sendOrderMail($orderId);
+					if (
+						JFactory::getApplication()->isClient('site') ||
+						(
+							JFactory::getApplication()->isClient('administrator') &&
+							$app->input->getCmd('order_sendordermail') === 'true'
+						)
+					)
+					{
+						// Only send email if order_sendordermail checked or frontend
+						RedshopHelperMail::sendOrderMail($orderId);
+					}
 				}
-
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
 					RedshopHelperMail::sendInvoiceMail($orderId);
@@ -1484,7 +1492,7 @@ class RedshopHelperOrder
 			)
 		);
 
-		if ($app->input->getCmd('order_sendordermail') == 'true')
+		if ($app->input->getCmd('order_sendordermail') == 'true' && JFactory::getApplication()->isClient('administrator'))
 		{
 			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
 		}
