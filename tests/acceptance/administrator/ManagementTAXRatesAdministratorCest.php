@@ -26,7 +26,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test VAT Groups  Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-        $I->wantTo('Create VAT groups  Save button');
         $I->addVATGroupsSave($this->VATGroupName);
     }
 
@@ -41,7 +40,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX Rates Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesSave($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValue, $this->NameCountry, $this->NameState);
     }
 
@@ -68,7 +66,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX Rates missing groups save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesMissingGroupsSave($this->TAXRatesName, $this->TaxRatesValue);
     }
 
@@ -136,7 +133,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX Rates edit with Edit button Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->editTAXRatesName($this->TAXRatesNameEdit, $this->TAXRatesName);
     }
 
@@ -151,7 +147,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Edit TAX missing name in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->editTAXRatesMissingName($this->TAXRatesName);
     }
 
@@ -160,7 +155,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX Rates Save and Close creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesSaveClose($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValue, $this->NameCountry, $this->NameState);
         $I->see(\TAXRatesJoomla3Page::$nameManagement, \TAXRatesJoomla3Page::$selectorNamePage);
         $I->searchTAXRates($this->TAXRatesName);
@@ -171,7 +165,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('check Cancel creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->checkCancel();
         $I->see("VAT Rates", '.page-title');
     }
@@ -181,7 +174,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test delete button in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo(' Delete  button');
         $I->deleteButton();
         $I->see("VAT Rates", '.page-title');
     }
@@ -191,8 +183,7 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test delete button in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo(' Delete  button');
-        $I->deleteTAXRates($this->TAXRatesName);
+        $I->deleteTAXRatesOK($this->TAXRatesName);
         $I->see(\TAXRatesJoomla3Page::$nameManagement, \TAXRatesJoomla3Page::$selectorNamePage);
     }
 
