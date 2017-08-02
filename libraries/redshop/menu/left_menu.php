@@ -159,8 +159,8 @@ class RedshopMenuLeft_Menu
 				return array('DISCOUNT', 'giftcards');
 				break;
 
+			case "vouchers":
 			case "voucher":
-			case "voucher_detail":
 				return array('DISCOUNT', 'voucher');
 				break;
 
@@ -490,9 +490,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'giftcards') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=voucher',
+				'index.php?option=com_redshop&view=vouchers',
 				'COM_REDSHOP_VOUCHER_LISTING',
-				(self::$view == 'voucher') ? true : false
+				(self::$view == 'vouchers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=coupon',

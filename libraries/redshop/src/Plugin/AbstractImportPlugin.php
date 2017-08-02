@@ -126,9 +126,13 @@ class AbstractImportPlugin extends \JPlugin
 			return false;
 		}
 
-		$result = array('folder' => $this->folder, 'lines' => $this->countLines($this->getPath() . '/' . $file['name']));
-
-		$this->splitFiles($this->getPath() . '/' . $file['name']);
+		$result = array(
+			'folder' => $this->folder,
+			// Number of lines in csv file
+			'lines' => $this->countLines($this->getPath() . '/' . $file['name']),
+			// Number of splitted files
+			'files' => $this->splitFiles($this->getPath() . '/' . $file['name'])
+		);
 
 		return $result;
 	}
@@ -228,7 +232,7 @@ class AbstractImportPlugin extends \JPlugin
 		}
 
 		fclose($handle);
-		unlink($this->getPath() . '/' . $this->folder . '/' . $file);
+		JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
 
 		$result->status = 1;
 
@@ -276,7 +280,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @param   string  $file  Path of file.
 	 *
-	 * @return  boolean
+	 * @return  int
 	 *
 	 * @since   2.0.3
 	 */
@@ -287,6 +291,7 @@ class AbstractImportPlugin extends \JPlugin
 			return false;
 		}
 
+		// @TODO    Check if we can't read / open file and return msg for this case
 		$handler = fopen($file, 'r');
 		$rows    = array();
 
@@ -298,11 +303,13 @@ class AbstractImportPlugin extends \JPlugin
 		fclose($handler);
 
 		$headers = array_shift($rows);
-		$rows    = array_chunk($rows, \Redshop::getConfig()->get('IMPORT_MAX_LINE', 1));
+		$maxLine = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
+		$maxLine = $maxLine < 10 ? 10 : $maxLine;
+		$rows    = array_chunk($rows, $maxLine);
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
-		unlink($file);
+		JFile::delete($file);
 
 		foreach ($rows as $index => $fileRows)
 		{
@@ -325,7 +332,7 @@ class AbstractImportPlugin extends \JPlugin
 			fclose($fileHandle);
 		}
 
-		return true;
+		return count($rows);
 	}
 
 	/**

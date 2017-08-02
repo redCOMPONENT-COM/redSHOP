@@ -77,7 +77,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 			$this->setLayout('ccdetail');
 
 			parent::display($tpl);
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		if ($layout == 'shipping' || $layout == 'billing')

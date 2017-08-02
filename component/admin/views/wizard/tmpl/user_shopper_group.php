@@ -85,7 +85,7 @@ $url = $uri->root();
 			                                                        echo $DEFAULT_PORTAL_LOGO;
 			                                                        ?>"/></div>
 			<?php
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO))
 			{
 				?>
 				<div><a class="joom-box"

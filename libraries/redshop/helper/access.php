@@ -81,7 +81,7 @@ class RedshopHelperAccess
 		$userHelper     = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{

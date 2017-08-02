@@ -339,7 +339,14 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		return RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
+		$payment = RedshopEntityOrder::getInstance($orderId)->getPayment();
+
+		if (null === $payment)
+		{
+			return null;
+		}
+
+		return $payment->getItem();
 	}
 
 	/**
@@ -812,17 +819,19 @@ class RedshopHelperOrder
 		$filter    = JFilterInput::getInstance();
 
 		// Filter name to remove special characters
+		// We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
 		$firstName = $filter->clean(
-			mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$lastName  = $filter->clean(
-			mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$fullName  = $firstName . " " . $lastName;
-		$address   = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-		$city      = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+
+		$address   = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
+		$city      = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
 
 		if ($billingInfo->is_company)
 		{
@@ -884,9 +893,9 @@ class RedshopHelperOrder
 				<val n="name"><![CDATA[' . $fullName . ']]></val>
 				<val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
 				<val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
-				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
+				<val n="zipcode">' . $billingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
-				<val n="country">' . $shippingInfo->country_code . '</val>
+				<val n="country">' . $billingInfo->country_code . '</val>
 				<val n="contact"><![CDATA[' . $firstName . ']]></val>
 				<val n="phone">' . $shippingInfo->phone . '</val>
 				<val n="doorcode"/>
@@ -938,7 +947,7 @@ class RedshopHelperOrder
 
 			$xmlResponse = $xmlResponse->val;
 
-			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
+			if ('201' === (string) $xmlResponse[1] && 'Created' === (string) $xmlResponse[2])
 			{
 				// Update current order success entry.
 				$query = $db->getQuery(true)
@@ -1050,24 +1059,39 @@ class RedshopHelperOrder
 				$checkoutModelCheckout->sendGiftCard($orderId);
 
 				// Send the Order mail
-				$redshopMail = redshopMail::getInstance();
 
 				// Send Order Mail After Payment
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C")
 				{
-					$redshopMail->sendOrderMail($orderId);
+					RedshopHelperMail::sendOrderMail($orderId);
 				}
 
 				// Send Invoice mail only if order mail is set to before payment.
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					$redshopMail->sendInvoiceMail($orderId);
+					RedshopHelperMail::sendInvoiceMail($orderId);
 				}
 			}
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+			JPluginHelper::importPlugin('redshop_order');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onAfterOrderStatusUpdate',
+				array(
+					self::getOrderDetails($orderId),
+					$data->order_status_code
+				)
+			);
+
+			JPluginHelper::importPlugin('redshop_shipping');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'sendOrderShipping'
+				, array(
+					$orderId,
+					$data->order_payment_status_code,
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1278,9 +1302,7 @@ class RedshopHelperOrder
 	public static function updateStatus()
 	{
 		$app             = JFactory::getApplication();
-		$helper          = redhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
-		$stockroomHelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
 		$paymentStatus   = $app->input->getString('order_paymentstatus');
@@ -1290,11 +1312,14 @@ class RedshopHelperOrder
 		$customerNote    = stripslashes($customerNote[0]);
 
 		$oid             = $app->input->get('order_id', array(), 'method', 'array');
-		$orderId         = $oid[0];
+		$orderId         = (int) $oid[0];
 
 		$isProduct       = $app->input->getInt('isproduct', 0);
 		$productId       = $app->input->getInt('product_id', 0);
 		$orderItemId     = $app->input->getInt('order_item_id', 0);
+
+		// Get order detail before processing
+		$prevOrderStatus = RedshopEntityOrder::getInstance($orderId)->getItem()->order_status;
 
 		if (isset($paymentStatus))
 		{
@@ -1337,11 +1362,14 @@ class RedshopHelperOrder
 			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(RedshopEntityOrder::getInstance($orderId)->getItem())
+				array(
+					RedshopEntityOrder::getInstance($orderId)->getItem(),
+					$newStatus
+				)
 			);
 
 			if ($paymentStatus == "Paid")
@@ -1351,20 +1379,27 @@ class RedshopHelperOrder
 				$checkoutModel->sendGiftCard($orderId);
 
 				// Send the Order mail
-				$redshopMail = redshopMail::getInstance();
-
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
 				{
-					$redshopMail->sendOrderMail($orderId);
+					if (
+						JFactory::getApplication()->isClient('site') ||
+						(
+							JFactory::getApplication()->isClient('administrator') &&
+							$app->input->getCmd('order_sendordermail') === 'true'
+						)
+					)
+					{
+						// Only send email if order_sendordermail checked or frontend
+						RedshopHelperMail::sendOrderMail($orderId);
+					}
 				}
-
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					$redshopMail->sendInvoiceMail($orderId);
+					RedshopHelperMail::sendInvoiceMail($orderId);
 				}
 			}
 
-			self::createWebPacklabel($orderId, $newStatus, $paymentStatus);
+			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
@@ -1372,7 +1407,9 @@ class RedshopHelperOrder
 
 		switch ($newStatus)
 		{
-			case "X";
+			// Cancel & return
+			case 'X':
+			case 'R':
 
 				$orderProducts = self::getOrderItemDetail($orderId);
 
@@ -1381,12 +1418,18 @@ class RedshopHelperOrder
 					$prodid = $orderProducts[$i]->product_id;
 					$prodqty = $orderProducts[$i]->stockroom_quantity;
 
-					// When the order is set to "cancelled",product will return to stock
-					RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
+					// Do not process update stock if this order already "returned" before
+					if ($prevOrderStatus != 'RT')
+					{
+						// When the order is set to "cancelled",product will return to stock
+						RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
+					}
+
 					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 				break;
 
+			// Returned
 			case "RT":
 
 				if ($isProduct)
@@ -1413,6 +1456,7 @@ class RedshopHelperOrder
 
 				break;
 
+			// Shipped
 			case "S":
 
 				if ($isProduct)
@@ -1426,6 +1470,7 @@ class RedshopHelperOrder
 
 				break;
 
+			// Completed
 			case "C":
 
 				// SensDownload Products
@@ -1437,7 +1482,17 @@ class RedshopHelperOrder
 				break;
 		}
 
-		if ($app->input->getCmd('order_sendordermail') == 'true')
+		JPluginHelper::importPlugin('redshop_shipping');
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'sendOrderShipping',
+			array(
+				$orderId,
+				$paymentStatus,
+				$newStatus
+			)
+		);
+
+		if ($app->input->getCmd('order_sendordermail') == 'true' && JFactory::getApplication()->isClient('administrator'))
 		{
 			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
 		}
@@ -1933,7 +1988,7 @@ class RedshopHelperOrder
 
 			$maxOrderNumber = $db->loadResult();
 			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
-			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
+			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
@@ -2231,9 +2286,9 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('element') . ' = ' . $db->quote($payment));
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote($payment));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
@@ -2465,7 +2520,7 @@ class RedshopHelperOrder
 			$replace [] = $discountType;
 
 			// Getting the order status changed template from mail center end
-			$mailData = $cartHelper->replaceBillingAddress($mailData, $userDetail);
+			$mailData = RedshopHelperBillingTag::replaceBillingAddress($mailData, $userDetail);
 
 			// Get ShippingAddress From order Users info
 			$shippingAddresses = self::getOrderShippingUserInfo($orderId);
@@ -2541,9 +2596,19 @@ class RedshopHelperOrder
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderDetail->track_no);
 
-			$order_trackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $orderId;
+			$orderTrackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $orderId;
+
+			JPluginHelper::importPlugin('redshop_shipping');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onReplaceTrackingUrl',
+				array(
+					$orderId,
+					&$orderTrackURL
+				)
+			);
+
 			$search[] = "{order_track_url}";
-			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailBody = str_replace($search, $replace, $mailData);
 			$mailBody = $redshopMail->imginmail($mailBody);
@@ -2625,7 +2690,7 @@ class RedshopHelperOrder
 
 			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
-			if (is_file($bookInvoicePdf))
+			if (JFile::exists($bookInvoicePdf))
 			{
 				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}

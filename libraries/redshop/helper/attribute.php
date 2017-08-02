@@ -274,7 +274,7 @@ abstract class RedshopHelperAttribute
 
 						if ($property[$i]->property_image)
 						{
-							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[$i]->property_image))
+							if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[$i]->property_image))
 							{
 								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
@@ -764,7 +764,7 @@ abstract class RedshopHelperAttribute
 					$propertyImage = "";
 
 					if ($property->property_image
-						&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image))
+						&& JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image))
 					{
 						$thumbUrl = RedshopHelperMedia::getImagePath(
 							$property->property_image,
