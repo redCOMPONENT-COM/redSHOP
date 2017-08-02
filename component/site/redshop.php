@@ -51,8 +51,8 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 		if (!$checkProductPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -63,8 +63,8 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -78,8 +78,8 @@ else
 		if (!$checkProductPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -91,8 +91,8 @@ else
 		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
+			$app->input->set('view', 'login');
+			$app->input->set('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
@@ -100,11 +100,11 @@ else
 	if ($vName == 'redshop')
 	{
 		$vName = 'category';
-		JRequest::setVar('view', 'category');
+		$app->input->set('view', 'category');
 	}
 	else
 	{
-		JRequest::setVar('view', $vName);
+		$app->input->set('view', $vName);
 	}
 }
 
@@ -140,7 +140,7 @@ else
 // Check for a not controller.task command.
 if (strpos($command, '.') === false)
 {
-	JRequest::setVar('task', $vName . '.' . $command);
+	$app->input->set('task', $vName . '.' . $command);
 }
 
 // Perform the Request task
@@ -148,7 +148,7 @@ $controller = JControllerLegacy::getInstance('Redshop');
 
 if (version_compare(JVERSION, '3.0', '<'))
 {
-	$task = JRequest::getCmd('task');
+	$task = $app->input->getCmd('task');
 }
 else
 {

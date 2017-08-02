@@ -156,7 +156,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->click("New");
         $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
         $I->fillField(['id' => "product_name"], $productName);
         $I->fillField(['id' => "product_number"], $productNumber);
         $I->fillField(['id' => "product_price"], $price);
@@ -171,7 +171,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\ProductManagerPage::$maximumQuantity, $maximumQuantity);
         $I->click("Save");
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
     public function createProductMissingName($productCategory, $productNumber, $price)
@@ -344,7 +343,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->click("New");
         $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
         $I->fillField(['id' => "product_name"], $productName);
         $I->fillField(['id' => "product_number"], $productNumber);
         $I->fillField(['id' => "product_price"], $price);

@@ -15,6 +15,9 @@ $productHelper = productHelper::getInstance();
 ?>
 
 <script language="javascript" type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('select[name="shipping_rate_country[]"]').trigger("change");
+	});
 	Joomla.submitbutton = function (pressbutton)
 	{
 		var form = document.adminForm;

@@ -1,141 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
-	<name>PLG_RS_PAYMENT_DIBSDX</name>
-	<version>1.5.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>PLG_RS_PAYMENT_DIBSDX_DESC</description>
+    <name>PLG_RS_PAYMENT_DIBSDX</name>
+    <version>2.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_RS_PAYMENT_DIBSDX_DESC</description>
 
-	<files>
-		<filename plugin="dibsdx">dibsdx.php</filename>
-		<filename>index.html</filename>
-		<folder>language</folder>
-		<folder>dibsdx</folder>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsdx.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsdx.sys.ini</language>
-	</languages>
-	<config addfieldpath="/libraries/redshop/form/fields">
-		<fields name="params">
-			<fieldset name="basic">
-				<field name="payment_oprand" type="text" size="10" default="-"
-				 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_OPERAND"/>
-				<field name="payment_price" type="text" size="30" default=""
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRICE" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRICE"/>
-				<field name="payment_discount_is_percent" type="radio" default="1"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_DISCOUNT_TYPE">
-					 <option value="1">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PERCENTAGE</option>
-					 <option value="0">PLG_RS_PAYMENT_DIBSDX_PAYMENT_TOTAL</option>
-				</field>
-				<field name="seller_id" type="text" default=""
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INTEGRATION_ID" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INTEGRATION_ID_DESC"/>
-				<field name="dibs_currency" type="list" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CURRENCY"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CURRENCY">
-					 <option value="DKK" selected="selected">Danish Kroner (DKK)</option>
-					 <option value="EUR">PLG_RS_PAYMENT_DIBSDX_PAYMENT_EUR</option>
-					 <option value="USD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_USD</option>
-					 <option value="GBP">PLG_RS_PAYMENT_DIBSDX_PAYMENT_GBP</option>
-					 <option value="SEK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_SEK</option>
-					 <option value="AUD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_AUD</option>
-					 <option value="CAD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_CAD</option>
-					 <option value="ISK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_ISK</option>
-					 <option value="JPY">PLG_RS_PAYMENT_DIBSDX_PAYMENT_JPY</option>
-					 <option value="NZD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_NZD</option>
-					 <option value="NOK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_NOK</option>
-					 <option value="CHF">PLG_RS_PAYMENT_DIBSDX_PAYMENT_CHF</option>
-					 <option value="TRY">PLG_RS_PAYMENT_DIBSDX_PAYMENT_TRY</option>
-				</field>
-				<field name="is_test" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_TEST_MODE"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_TEST_MODE_DESC">
-					 <option value="1">JYES</option>
-					 <option value="0">JNO</option>
-				</field>
-				<field name="instant_capture" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INSTANT_CAPTURE"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INSTANT_CAPTURE">
-					 <option value="1">JYES</option>
-					 <option value="0">JNO</option>
-				</field>
-				<field name="dibs_languages" type="list" default="1"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_DESC">
-					 <option value="Auto" selected="selected">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_AUTO</option>
-					 <option value="da_DK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_DA</option>
-					 <option value="de_DE">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_DE</option>
-					 <option value="en_GB">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_EN</option>
-					 <option value="es_ES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_ES</option>
-					 <option value="fi_FI">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_FI</option>
-					 <option value="fr_FR">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_FR</option>
-					 <option value="it_IT">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_IT</option>
-					 <option value="nb_NO">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_NO</option>
-					 <option value="nl_NL">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_NL</option>
-					 <option value="pl_PL">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_PL</option>
-					 <option value="sv_SE">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_SV</option>
-				</field>
-				<field name="dibs_paytype" type="list" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_DESC" size="10">
-					 <option value="MC">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_MC</option>
-					 <option value="VISA">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_VISA</option>
-					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_CARDS</option>
-					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_INVOICES</option>
-				</field>
-				<field name="hmac_key" type="text" default="" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_HMAC"/>
-				 <field name="verify_status" type="sql"
-					 query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					 key_field="st_value" value_field="st_title" default="C"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_VERIFY_STATUS"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_VERIFY_STATUS_DESC">
-				</field>
-				<field name="invalid_status" type="sql"
-					 query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					 key_field="st_value" value_field="st_title" default="P"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INVALID_STATUS"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INVALID_STATUS_DESC">
-				</field>
-				<field name="capture_status" type="sql"
-					 query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					 key_field="st_value" value_field="st_title" default="S"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CAPTURE_STATUS" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CAPTURE_STATUS_DESC">
-				</field>
-				<field type="spacer"/>
-			</fieldset>
-			<fieldset name="advanced">
-				<field name="private_person" type="radio" default="1"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRIVATE_PERSON" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRIVATE_PERSON_DESC">
-					 <option value="1">JYES</option>
-					 <option value="0">JNO</option>
-				</field>
-				<field name="paytype_private" type="list" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_PRIVATE"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_PRIVATE_DESC" size="10">
-					 <option value="MC">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_MC</option>
-					 <option value="VISA">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_VISA</option>
-					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_CARDS</option>
-					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_INVOICES</option>
-				</field>
-				<field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_BUSINESS_PERSON"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_BUSINESS_PERSON_DESC">
-					 <option value="1">JYES</option>
-					 <option value="0">JNO</option>
-				</field>
-				<field name="paytype_business" type="list" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_BUSINESS"
-					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_PRIVATE_DESC" size="10">
-					 <option value="MC">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_MC</option>
-					 <option value="VISA">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_VISA</option>
-					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_CARDS</option>
-					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_INVOICES</option>
-				</field>
-				<field name="is_creditcard" type="hidden" default="0" value="0"/>
-				<field name="economic_payment_terms_id" type="text" default=""
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_ECONOMIC_ID_CONDITIONS"/>
-				<field name="economic_design_layout" type="text" default=""
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_ECONOMIC_ID_LAYOUT"/>
-				<field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
-					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_SHOPPER_GROUP" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_SHOPPER_GROUP_DESC"/>
-			</fieldset>
-		</fields>
-	</config>
+    <files>
+        <folder>language</folder>
+        <folder>dibsdx</folder>
+        <filename plugin="dibsdx">dibsdx.php</filename>
+        <filename>index.html</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsdx.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsdx.sys.ini</language>
+    </languages>
+
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="payment_oprand" type="text" size="10" default="-"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_OPERAND"/>
+                <field name="payment_price" type="text" size="30" default=""
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRICE" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRICE"/>
+                <field name="payment_discount_is_percent" type="radio" default="1"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_DISCOUNT_TYPE">
+                    <option value="1">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_DIBSDX_PAYMENT_TOTAL</option>
+                </field>
+                <field name="seller_id" type="text" default=""
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INTEGRATION_ID" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INTEGRATION_ID_DESC"/>
+                <field name="dibs_currency" type="list" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CURRENCY"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CURRENCY">
+                    <option value="DKK" selected="selected">Danish Kroner (DKK)</option>
+                    <option value="EUR">PLG_RS_PAYMENT_DIBSDX_PAYMENT_EUR</option>
+                    <option value="USD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_USD</option>
+                    <option value="GBP">PLG_RS_PAYMENT_DIBSDX_PAYMENT_GBP</option>
+                    <option value="SEK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_SEK</option>
+                    <option value="AUD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_AUD</option>
+                    <option value="CAD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_CAD</option>
+                    <option value="ISK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_ISK</option>
+                    <option value="JPY">PLG_RS_PAYMENT_DIBSDX_PAYMENT_JPY</option>
+                    <option value="NZD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_NZD</option>
+                    <option value="NOK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_NOK</option>
+                    <option value="CHF">PLG_RS_PAYMENT_DIBSDX_PAYMENT_CHF</option>
+                    <option value="TRY">PLG_RS_PAYMENT_DIBSDX_PAYMENT_TRY</option>
+                </field>
+                <field name="is_test" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_TEST_MODE"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_TEST_MODE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="instant_capture" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INSTANT_CAPTURE"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INSTANT_CAPTURE">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="dibs_languages" type="list" default="1"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_DESC">
+                    <option value="Auto" selected="selected">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_AUTO</option>
+                    <option value="da_DK">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_DA</option>
+                    <option value="de_DE">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_DE</option>
+                    <option value="en_GB">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_EN</option>
+                    <option value="es_ES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_ES</option>
+                    <option value="fi_FI">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_FI</option>
+                    <option value="fr_FR">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_FR</option>
+                    <option value="it_IT">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_IT</option>
+                    <option value="nb_NO">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_NO</option>
+                    <option value="nl_NL">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_NL</option>
+                    <option value="pl_PL">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_PL</option>
+                    <option value="sv_SE">PLG_RS_PAYMENT_DIBSDX_PAYMENT_LANGUAGE_SV</option>
+                </field>
+                <field name="dibs_paytype" type="list" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_DESC" size="10">
+                    <option value="MC">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_MC</option>
+                    <option value="VISA">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_VISA</option>
+                    <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_CARDS</option>
+                    <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_INVOICES</option>
+                </field>
+                <field name="hmac_key" type="text" default="" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_HMAC"/>
+                <field name="verify_status" type="sql"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       key_field="st_value" value_field="st_title" default="C"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_VERIFY_STATUS"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_VERIFY_STATUS_DESC">
+                </field>
+                <field name="invalid_status" type="sql"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       key_field="st_value" value_field="st_title" default="P"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INVALID_STATUS"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INVALID_STATUS_DESC">
+                </field>
+                <field name="capture_status" type="sql"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       key_field="st_value" value_field="st_title" default="S"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CAPTURE_STATUS" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CAPTURE_STATUS_DESC">
+                </field>
+                <field type="spacer"/>
+            </fieldset>
+            <fieldset name="advanced">
+                <field name="private_person" type="radio" default="1"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRIVATE_PERSON" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PRIVATE_PERSON_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="paytype_private" type="list" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_PRIVATE"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_PRIVATE_DESC" size="10">
+                    <option value="MC">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_MC</option>
+                    <option value="VISA">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_VISA</option>
+                    <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_CARDS</option>
+                    <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_INVOICES</option>
+                </field>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_BUSINESS_PERSON"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_BUSINESS_PERSON_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="paytype_business" type="list" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_BUSINESS"
+                       description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_TYPE_PRIVATE_DESC" size="10">
+                    <option value="MC">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_MC</option>
+                    <option value="VISA">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_VISA</option>
+                    <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_CARDS</option>
+                    <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSDX_PAYMENT_PAY_ALL_INVOICES</option>
+                </field>
+                <field name="is_creditcard" type="hidden" default="0" value="0"/>
+                <field name="economic_payment_terms_id" type="text" default=""
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_ECONOMIC_ID_CONDITIONS"/>
+                <field name="economic_design_layout" type="text" default=""
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_ECONOMIC_ID_LAYOUT"/>
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
+                       label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_SHOPPER_GROUP" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_SHOPPER_GROUP_DESC"/>
+            </fieldset>
+        </fields>
+    </config>
 </extension>

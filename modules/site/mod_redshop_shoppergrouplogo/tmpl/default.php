@@ -14,7 +14,7 @@ $portalLogo = '';
 
 if (!$user->id)
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO')))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO')))
 	{
 		$portalLogo = RedShopHelperImages::getImagePath(
 			Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'),
@@ -28,7 +28,7 @@ if (!$user->id)
 }
 elseif ($userInfo = RedshopHelperUser::getUserInformation($user->id))
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $userInfo->shopper_group_logo))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $userInfo->shopper_group_logo))
 	{
 		$portalLogo = RedShopHelperImages::getImagePath(
 			$userInfo->shopper_group_logo,

@@ -108,9 +108,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = rsUserHelper::getInstance();
-
-			if ($userhelper->newsletterUnsubscribe($email))
+			if (RedshopHelperNewsletter::removeSubscribe($email))
 			{
 				$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 			}
