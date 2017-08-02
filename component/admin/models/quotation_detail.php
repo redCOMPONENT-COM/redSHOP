@@ -26,7 +26,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -703,11 +703,13 @@ class RedshopModelQuotation_detail extends RedshopModel
 				}
 			}
 
-			// Store userfields
-			$userfields = JRequest::getVar('extrafields' . $qitemdata->product_id);
-			$userfields_id = JRequest::getVar('extrafields_id_' . $qitemdata->product_id);
+			$jinput = JFactory::getApplication()->input;
 
-			for ($ui = 0; $ui < count($userfields); $ui++)
+			// Store userfields
+			$userfields    = $jinput->get('extrafields' . $qitemdata->product_id);
+			$userfields_id = $jinput->get('extrafields_id_' . $qitemdata->product_id);
+
+			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
 				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $qitemdata->quotation_item_id, 12, $userfields[$ui]);
 			}

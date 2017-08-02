@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
-	<name>PLG_REDSHOP_SHIPPING_BRING</name>
-	<version>1.5.2</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>PLG_REDSHOP_SHIPPING_BRING_DESC</description>
-	<shipping_class>bring</shipping_class>
-	<shipping_method_code>bring</shipping_method_code>
-	<files>
-		<filename plugin="bring">bring.php</filename>
-		<filename plugin="bring">bring.cfg.php</filename>
-		<filename>index.html</filename>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_bring.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_bring.sys.ini</language>
-	</languages>
+    <name>PLG_REDSHOP_SHIPPING_BRING</name>
+    <version>2.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_REDSHOP_SHIPPING_BRING_DESC</description>
+    <shipping_class>bring</shipping_class>
+    <shipping_method_code>bring</shipping_method_code>
+    <files>
+        <filename plugin="bring">bring.php</filename>
+        <filename>index.html</filename>
+        <folder>config</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+    </files>
+    <scriptfile>install.php</scriptfile>
 </extension>

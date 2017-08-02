@@ -32,7 +32,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
-		$sub_id              = JRequest::getInt('sid', '', 'request');
+		$sub_id              = JFactory::getApplication()->input->getInt('sid', '');
 
 		if ($sub_id)
 		{

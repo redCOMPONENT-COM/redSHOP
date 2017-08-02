@@ -36,7 +36,7 @@ class RedshopViewNewsletter extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'envelope redshop_newsletter48');
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		if ($layout == 'previewlog')
 		{

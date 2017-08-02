@@ -12,19 +12,19 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-
-$config = Redconfiguration::getInstance();
+$app           = JFactory::getApplication();
+$config        = Redconfiguration::getInstance();
 $producthelper = productHelper::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper     = redhelper::getInstance();
 
-$uri = JURI::getInstance();
-$url = $uri->root();
-$Itemid = JRequest::getInt('Itemid');
-$wishlists = $this->wishlists;
-$product_id = JRequest::getInt('product_id');
-$user = JFactory::getUser();
-$session = JFactory::getSession();
-$auth = $session->get('auth');
+$uri        = JURI::getInstance();
+$url        = $uri->root();
+$Itemid     = $app->input->getInt('Itemid');
+$wishlists  = $this->wishlists;
+$product_id = $app->input->getInt('product_id');
+$user       = JFactory::getUser();
+$session    = JFactory::getSession();
+$auth       = $session->get('auth');
 ?>
 <div id="newwishlist" class="wishlist_prompt_header">
 	<?php

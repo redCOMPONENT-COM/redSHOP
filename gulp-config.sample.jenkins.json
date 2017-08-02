@@ -1,0 +1,11 @@
+{
+    "wwwDir"        : "/tests/www/tests/joomla-cms3/",
+    "browserConfig" : {
+        "proxy" : "localhost"
+    },
+    "releaseDir"   : "/tests/www/tests/releases-redshop/",
+    "basePaths": {
+        "plugins" : "./plugins",
+        "modules" : "./modules"
+    }
+}

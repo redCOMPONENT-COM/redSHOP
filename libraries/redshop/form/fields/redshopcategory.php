@@ -26,8 +26,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 	/**
 	 * Element name
 	 *
-	 * @access    protected
-	 * @var        string
+	 * @var  string
 	 */
 	public $type = 'redshopcategory';
 
@@ -45,11 +44,17 @@ class JFormFieldRedshopCategory extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		// Process value
+		if (!empty($this->value) && $this->multiple && !is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
+
 		$options = array();
 
 		if (!$this->multiple)
 		{
-			$options[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
+			$options[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
 		}
 
 		if (!self::$cache)

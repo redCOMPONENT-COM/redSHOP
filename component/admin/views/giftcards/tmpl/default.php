@@ -125,7 +125,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="small hidden-phone">
 							<?php $giftCardPath = 'giftcard/' . $item->giftcard_bgimage; ?>
 
-							<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)) : ?>
+							<?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)) : ?>
 								<?php
 									$giftCardImagePath = RedShopHelperImages::getImagePath(
 										$item->giftcard_bgimage,

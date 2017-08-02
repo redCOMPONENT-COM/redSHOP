@@ -1,0 +1,8 @@
+{
+  "name": "redcomponent-com/redshop-payment-paypal",
+  "description": "A redSHOP Payment - Paypal",
+  "license": "GPL-2.0+",
+  "require": {
+    "paypal/rest-api-sdk-php": "^1.12.0"
+  }
+}

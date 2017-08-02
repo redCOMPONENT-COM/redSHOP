@@ -77,11 +77,9 @@ class RedshopHelperAccess
 			return true;
 		}
 
-		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
-		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
 
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{
@@ -194,107 +192,5 @@ class RedshopHelperAccess
 		}
 
 		return $user->authorise($target . '.' . $task, 'com_redshop.backend');
-	}
-
-	/**
-	 * Check access level of an user
-	 *
-	 * @param   integer $groupId Group ID of an user
-	 *
-	 * @return  array
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  2.0.6  This function has been removed.
-	 */
-	public static function checkAccessOfUser($groupId)
-	{
-		return array();
-	}
-
-	/**
-	 * Check access level of a group users
-	 *
-	 * @param   string  $view    View name
-	 * @param   string  $task    Have 3 options: add/ edit/ remove
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  2.0.6  This function has been removed.
-	 */
-	public static function checkGroupAccess($view, $task, $groupId)
-	{
-		// @TODO: Need to remove at next release after 2.0.6
-	}
-
-	/**
-	 * Get access level of group users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  2.0.6  This function has been removed.
-	 */
-	public static function getGroupAccess($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after 2.0.6
-	}
-
-	/**
-	 * Get access level of group add users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  2.0.6  This function has been removed.
-	 */
-	public static function getGroupAccessTaskAdd($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after 2.0.6
-	}
-
-	/**
-	 * Get access level of group edit users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  2.0.6  This function has been removed.
-	 */
-	public static function getGroupAccessTaskEdit($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after 2.0.6
-	}
-
-	/**
-	 * Get access level of group delete users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  2.0.6  This function has been removed.
-	 */
-	public static function getGroupAccessTaskDelete($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after 2.0.6
 	}
 }

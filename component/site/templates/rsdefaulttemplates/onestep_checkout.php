@@ -8,6 +8,7 @@
 			<div class="panel-body">
 				{edit_billing_address}
 				{billing_address}
+				{billing_template}
 			</div>
 		</div>
 	</div>

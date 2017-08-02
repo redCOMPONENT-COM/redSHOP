@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 $producthelper = productHelper::getInstance();
 $session       = JFactory::getSession();
 
-$post = JRequest::get('get');
+$post = JFactory::getApplication()->input->get->getArray();
 
 $ordertotal          = $post['ordertotal'];
 $ordersubtotal       = $post['ordersubtotal'];
@@ -43,7 +43,7 @@ $session->set('order_user_id', $user_id);
 $session->set('shipp_users_info_id', $shipp_users_info_id);
 $session->set('ordertotal', $ordertotal);
 $session->set('ordersubtotal', $ordersubtotal);
-$session->set('cart', $cart);
+RedshopHelperCartSession::setCart($cart);
 
 echo "<div id='paymentblock'>" . $this->loadTemplate('payment') . "</div>";
 echo "<div id='shippingblock'>" . $this->loadTemplate('shipping') . "</div>";

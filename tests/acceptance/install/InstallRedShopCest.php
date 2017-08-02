@@ -52,8 +52,8 @@ class InstallRedShopCest
 		$I->selectOptionInChosen('Status Module Position', 'Top');
 		$I->selectOptionInRadioField('Pinned Toolbar', 'No');
 		$I->click('Save & Close');
-		$I->waitForText('Style successfully saved.', 60, ['id' => 'system-message-container']);
-		$I->see('Style successfully saved.', ['id' => 'system-message-container']);
+		$I->waitForText('Style saved.', 60, ['id' => 'system-message-container']);
+		$I->see('Style saved.', ['id' => 'system-message-container']);
 	}
 
 	/**

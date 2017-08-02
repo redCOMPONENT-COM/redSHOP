@@ -19,16 +19,11 @@ defined('_JEXEC') or die;
 class RedshopModelStatistic_Order extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
+	 * Construct class
 	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_statistic_order';
-
-	/**
-	 * constructor (registers additional tasks to methods)
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @param   array  $config  config params
+	 * @since   2.x
 	 */
 	public function __construct($config = array())
 	{

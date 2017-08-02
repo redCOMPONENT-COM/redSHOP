@@ -148,6 +148,12 @@ switch ($view)
 						for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 						{
 							$cat     = $cats[$x];
+
+							if ($cat->parent_id == 0)
+							{
+								continue;
+							}
+
 							$title[] = str_replace(".", "", $cat->name);
 						}
 					}
@@ -252,6 +258,12 @@ switch ($view)
 							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 							{
 								$cat     = $cats[$x];
+
+								if ($cat->parent_id == 0)
+								{
+									continue;
+								}
+
 								$title[] = $cat->name;
 							}
 						}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.5.1" type="plugin" group="redshop_pdf" method="upgrade">
     <name>PLG_REDSHOP_PDF_TCPDF</name>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <redshop>2.0.0</redshop>
-    <creationDate>November 2016</creationDate>
+    <creationDate>July 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redcomponent.com</authorUrl>
@@ -15,4 +15,5 @@
         <folder>language</folder>
         <folder>helper</folder>
     </files>
+    <scriptfile>install.php</scriptfile>
 </extension>

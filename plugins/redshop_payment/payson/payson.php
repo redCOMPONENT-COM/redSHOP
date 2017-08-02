@@ -10,9 +10,14 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-require_once 'library/paysonapi.php';
-
-class plgRedshop_PaymentPayson extends JPlugin
+/**
+ * Payson payment class
+ *
+ * @package  Redshop.Plugin
+ *
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentPayson extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -25,10 +30,10 @@ class plgRedshop_PaymentPayson extends JPlugin
 	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card
 	 *
-	 * @param   string  $element  Name of the payment plugin
-	 * @param   array   $data     Cart Information
+	 * @param   string $element Name of the payment plugin
+	 * @param   array  $data    Cart Information
 	 *
-	 * @return  object  Authorize or Charge success or failed message and transaction id
+	 * @return  void            Authorize or Charge success or failed message and transaction id
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -37,27 +42,31 @@ class plgRedshop_PaymentPayson extends JPlugin
 			return;
 		}
 
-		$app           = JFactory::getApplication();
-		$orderHelper   = order_functions::getInstance();
+		$app = JFactory::getApplication();
 
-		$agentID         = $this->params->get('agentID');
-		$md5Key          = $this->params->get('md5Key');
+		$this->getFramework();
 
-		// URLs used by payson for redirection after a completed/canceled purchase.
-		$returnURL       = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'];
-		$cancelURL       = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'];
+		$agentID = $this->params->get('agentID');
+		$md5Key  = $this->params->get('md5Key');
+
+		/*
+		 * URLs used by payson for redirection after a completed/canceled purchase.
+		 *
+		 * $returnURL = JUri::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'];
+		 * $cancelURL = JUri::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'];
+		 */
 
 		// Please note that only IP/URLS accessible from the internet will work
-		$ipnURL    = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=payson&orderid=" . $data['order_id'];
+		$ipnURL = JUri::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail'
+			. '&task=notify_payment&payment_plugin=payson&orderid=' . $data['order_id'];
 
 		$returnURL = $ipnURL;
 		$cancelURL = $ipnURL;
 
 		// Account details of the receiver of money
-		$receiverEmail   = $this->params->get('receiverEmail');
+		$receiverEmail = $this->params->get('receiverEmail');
 
 		// Amount to send to receiver
-
 		$amountToReceive = RedshopHelperCurrency::convert($data['order']->order_total, '', $this->params->get('currencyCode'));
 
 		// Information about the sender of money
@@ -65,14 +74,13 @@ class plgRedshop_PaymentPayson extends JPlugin
 		$senderFirstname = $data['billinginfo']->firstname;
 		$senderLastname  = $data['billinginfo']->lastname;
 
-		/* Every interaction with Payson goes through the PaysonApi object which you set up as follows.
+		/*
+		 * Every interaction with Payson goes through the PaysonApi object which you set up as follows.
 		 * For the use of our test or live environment use one following parameters:
-		 * TRUE: Use test environment, FALSE: use live environment */
+		 * TRUE: Use test environment, FALSE: use live environment
+		 */
 		$credentials = new PaysonCredentials($agentID, $md5Key);
-		$api         = new PaysonApi(
-						$credentials,
-						(boolean) $this->params->get('paymentMode')
-					);
+		$api         = new PaysonApi($credentials, (boolean) $this->params->get('paymentMode'));
 
 		// Details about the receiver
 		$receivers = array(
@@ -94,28 +102,27 @@ class plgRedshop_PaymentPayson extends JPlugin
 			$receivers
 		);
 
+		$orderItems = RedshopHelperOrder::getOrderItemDetail($data['order_id']);
 
-		$items = $orderHelper->getOrderItemDetail($data['order_id']);
+		// Set the list of products. For direct payment this is optional
+		$paysonOrderItems = array();
 
-		//Set the list of products. For direct payment this is optional
-		$orderItems = array();
-
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($orderItems as $orderItem)
 		{
-			$vat = ($items[$i]->product_item_price - $items[$i]->product_item_price_excl_vat) / $items[$i]->product_item_price;
+			$vat = ($orderItem->product_item_price - $orderItem->product_item_price_excl_vat) / $orderItem->product_item_price;
 
-			$orderItems[] = new OrderItem(
-				$items[$i]->order_item_name . strip_tags($items[$i]->product_attribute),
-				RedshopHelperCurrency::convert($items[$i]->product_item_price_excl_vat, '', $this->params->get('currencyCode')),
-				$items[$i]->product_quantity,
+			$paysonOrderItems[] = new OrderItem(
+				$orderItem->order_item_name . strip_tags($orderItem->product_attribute),
+				RedshopHelperCurrency::convert($orderItem->product_item_price_excl_vat, '', $this->params->get('currencyCode')),
+				$orderItem->product_quantity,
 				$vat,
-				$items[$i]->order_item_sku
+				$orderItem->order_item_sku
 			);
 		}
 
 		$shippingInfo = RedshopShippingRate::decrypt($data['order']->ship_method_id);
 
-		$orderItems[] = new OrderItem(
+		$paysonOrderItems[] = new OrderItem(
 			$shippingInfo[2],
 			RedshopHelperCurrency::convert($shippingInfo[3], '', $this->params->get('currencyCode')),
 			1,
@@ -123,7 +130,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 			'shipping-rate'
 		);
 
-		//$payData->setOrderItems($orderItems);
+		$payData->setOrderItems($paysonOrderItems);
 
 		// Set the payment method
 		$constraints = array(FundingConstraint::BANK, FundingConstraint::CREDITCARD);
@@ -144,34 +151,28 @@ class plgRedshop_PaymentPayson extends JPlugin
 		// Step 2 initiate payment
 		$payResponse = $api->pay($payData);
 
-		// Step 3: verify that it suceeded
-		if ($payResponse->getResponseEnvelope()->wasSuccessful())
-		{
-			// Step 4: forward user
-			$app->redirect($api->getForwardPayUrl($payResponse));
-		}
-		else
+		// Step 3: verify that it success
+		if (!$payResponse->getResponseEnvelope()->wasSuccessful())
 		{
 			$errors = $payResponse->getResponseEnvelope()->getErrors();
 
-			$message = '';
-
-			for ($i = 0, $n = count($errors); $i < $n; $i++)
+			foreach ($errors as $error)
 			{
-				$message .= $errors[$i]->getMessage();
+				$app->enqueueMessage($error->getMessage(), 'error');
 			}
-
-			$app->enqueueMessage($message, 'Error');
 
 			$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'], false));
 		}
+
+		// Step 4: forward user
+		$app->redirect($api->getForwardPayUrl($payResponse));
 	}
 
 	/**
 	 * Notify payment
 	 *
-	 * @param   string  $element  Name of plugin
-	 * @param   array   $request  HTTP request data
+	 * @param   string $element Name of plugin
+	 * @param   array  $request HTTP request data
 	 *
 	 * @return  object  Contains the information of order success of falier in object
 	 */
@@ -182,16 +183,14 @@ class plgRedshop_PaymentPayson extends JPlugin
 			return;
 		}
 
-		$app         = JFactory::getApplication();
-		$orderId     = $app->input->getInt('orderid');
-		$values      = new stdClass;
+		$this->getFramework();
+
+		$app     = JFactory::getApplication();
+		$orderId = $app->input->getInt('orderid');
+		$values  = new stdClass;
 
 		// Initialize response
-		$values->order_id                  = $orderId;
-		$values->order_status_code         = $this->params->get('invalid_status', '');
-		$values->order_payment_status_code = 'Unpaid';
-		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_NOT_PLACED');
-		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_NOT_PLACED');
+		$values->order_id = $orderId;
 
 		// Your agent ID and md5 key
 		$agentID = $this->params->get('agentID');
@@ -210,52 +209,67 @@ class plgRedshop_PaymentPayson extends JPlugin
 		// Validate the request
 		$response = $api->validate($postData);
 
-		if ($response->isVerified())
+		if (!$response->isVerified())
 		{
-			// IPN request is verified with Payson
-			// Check details to find out what happened with the payment
-			$details = $response->getPaymentDetails();
-
-			// Payment Trasaction Id
-			$values->transaction_id = 'zzzzz';
-
-			// After we have checked that the response validated we have to check the actual status
-			// of the transfer
-			if ($details->getType() == "TRANSFER" && $details->getStatus() == "COMPLETED")
-			{
-				$values->order_status_code         = $this->params->get('verify_status', '');
-				$values->order_payment_status_code = 'Paid';
-
-				$values->log = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
-				$values->msg = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
-			}
-			else if ($details->getStatus() == "ERROR")
-			{
-				// Handle errors here
-			}
-
-			/*
-			  //More info
-			  $response->getPaymentDetails()->getCustom();
-			  $response->getPaymentDetails()->getShippingAddressName();
-			  $response->getPaymentDetails()->getShippingAddressStreetAddress();
-			  $response->getPaymentDetails()->getShippingAddressPostalCode();
-			  $response->getPaymentDetails()->getShippingAddressCity();
-			  $response->getPaymentDetails()->getShippingAddressCountry();
-			  $response->getPaymentDetails()->getToken();
-			  $response->getPaymentDetails()->getType();
-			  $response->getPaymentDetails()->getStatus();
-			  $response->getPaymentDetails()->getCurrencyCode();
-			  $response->getPaymentDetails()->getTrackingId();
-			  $response->getPaymentDetails()->getCorrelationId();
-			  $response->getPaymentDetails()->getPurchaseId();
-			  $response->getPaymentDetails()->getSenderEmail();
-			  $response->getPaymentDetails()->getInvoiceStatus();
-			  $response->getPaymentDetails()->getGuaranteeStatus();
-			  $details->getReceiverFee();
-			 */
+			return $values;
 		}
 
+		// IPN request is verified with Payson
+		// Check details to find out what happened with the payment
+		$details = $response->getPaymentDetails();
+
+		// After we have checked that the response validated we have to check the actual status of the transfer
+		if ($details->getType() == "TRANSFER" && $details->getStatus() == "COMPLETED")
+		{
+			// Payment transaction Id
+			$values->transaction_id            = $details->getTrackingId();
+			$values->order_status_code         = $this->params->get('verify_status', '');
+			$values->order_payment_status_code = 'Paid';
+
+			$values->log = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
+			$values->msg = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
+		}
+		elseif ($details->getStatus() == "ERROR")
+		{
+			$values->order_status_code         = $this->params->get('invalid_status', '');
+			$values->order_payment_status_code = 'Unpaid';
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_NOT_PLACED');
+			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_NOT_PLACED');
+		}
+
+		/*
+		  //More info
+		  $response->getPaymentDetails()->getCustom();
+		  $response->getPaymentDetails()->getShippingAddressName();
+		  $response->getPaymentDetails()->getShippingAddressStreetAddress();
+		  $response->getPaymentDetails()->getShippingAddressPostalCode();
+		  $response->getPaymentDetails()->getShippingAddressCity();
+		  $response->getPaymentDetails()->getShippingAddressCountry();
+		  $response->getPaymentDetails()->getToken();
+		  $response->getPaymentDetails()->getType();
+		  $response->getPaymentDetails()->getStatus();
+		  $response->getPaymentDetails()->getCurrencyCode();
+		  $response->getPaymentDetails()->getTrackingId();
+		  $response->getPaymentDetails()->getCorrelationId();
+		  $response->getPaymentDetails()->getPurchaseId();
+		  $response->getPaymentDetails()->getSenderEmail();
+		  $response->getPaymentDetails()->getInvoiceStatus();
+		  $response->getPaymentDetails()->getGuaranteeStatus();
+		  $details->getReceiverFee();
+		 */
+
 		return $values;
+	}
+
+	/**
+	 * Method for load payson framework
+	 *
+	 * @return  void
+	 *
+	 * @since   1.7.0
+	 */
+	protected function getFramework()
+	{
+		require_once __DIR__ . '/libraries/vendor/autoload.php';
 	}
 }

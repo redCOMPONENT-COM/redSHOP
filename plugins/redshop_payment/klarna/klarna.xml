@@ -1,192 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	version="3.0"
-	client="site"
-	type="plugin"
-	group="redshop_payment"
-	method="upgrade"
->
-	<name>PLG_REDSHOP_PAYMENT_KLARNA</name>
-	<version>1.0.3</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>PLG_REDSHOP_PAYMENT_KLARNA_DESC</description>
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+    <name>PLG_REDSHOP_PAYMENT_KLARNA</name>
+    <version>1.1.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_REDSHOP_PAYMENT_KLARNA_DESC</description>
 
-	<files>
-		<filename plugin="klarna">klarna.php</filename>
-		<folder>library</folder>
-		<folder>layouts</folder>
-	</files>
+    <files>
+        <filename plugin="klarna">klarna.php</filename>
+        <folder>library</folder>
+        <folder>layouts</folder>
+    </files>
 
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.sys.ini</language>
-	</languages>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.sys.ini</language>
+    </languages>
 
-	<config addfieldpath="/libraries/redshop/form/fields">
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-						name="isTestServer"
-						type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						label="PLG_REDSHOP_PAYMENT_KLARNA_TEST_SERVER"
-						description="PLG_REDSHOP_PAYMENT_KLARNA_TEST_SERVER_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="merchantId"
-					type="text"
-					default=""
-					required="true"
-					hint="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID_HINT"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID_DESC"
-				/>
-				<field
-					name="sharedSecret"
-					type="text"
-					default=""
-					required="true"
-					hint="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_HINT"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_DESC"
-				/>
-				<field
-					name="noteForGeneral"
-					type="note"
-					class="alert alert-info"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE_DESC"
-				/>
-				<field
-					name="extrafield_payment"
-					type="extrafieldpayment"
-					multiple="multiple"
-					default="rs_pno,rs_birthdate,rs_gender,rs_house_number,rs_house_extension"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
-				/>
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="verify_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					key_field="st_value"
-					value_field="st_title"
-					default="C"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_ORDER_STATUS"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_ORDER_STATUS_DESC"
-				/>
-				<field
-					name="invalid_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					key_field="st_value"
-					value_field="st_title"
-					default="P"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_FAILED_STATUS"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_FAILED_STATUS_DESC"
-				/>
-				<field
-					name="capture_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					key_field="st_value"
-					value_field="st_title"
-					default="S"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_CAPTURE_STATUS"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_CAPTURE_STATUS_DESC"
-				/>
-				<field
-					name="payment_oprand"
-					type="text"
-					size="10"
-					default="-"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_OPRAND_LBL"
-				/>
-				<field
-					name="payment_price"
-					type="text"
-					size="30"
-					default=""
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_PRICE_LBL"
-				/>
-				<field
-					name="payment_discount_is_percent"
-					type="radio"
-					default="1"
-					class="btn-group"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_DISCOUNT_IS_PERCENT_LBL"
-				>
-					<option value="1">PLG_REDSHOP_PAYMENT_KLARNA_PERCENTAGE</option>
-					<option value="0">PLG_REDSHOP_PAYMENT_KLARNA_TOTAL</option>
-				</field>
-				<field
-					name="private_person"
-					type="radio"
-					default="1"
-					class="btn-group btn-group-yesno"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_PERSON_LBL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="business"
-					type="radio"
-					default="1"
-					class="btn-group btn-group-yesno"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_BUSINESS_LBL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="shopper_group_id"
-					type="shoppergrouplist"
-					default="0"
-					multiple="multiple"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_SHOPPER_GROUP_ID_LBL"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_SHOPPER_GROUP_ID_DESC"
-				/>
-				<field
-					name="economic_payment_terms_id"
-					type="text"
-					default=""
-					label="PLG_REDSHOP_PAYMENT_KLARNA_ECONOMIC_PAYMENT_TERMS_ID_LBL"
-				/>
-				<field
-					name="economic_design_layout"
-					type="text"
-					default=""
-					label="PLG_REDSHOP_PAYMENT_KLARNA_ECONOMIC_DESIGN_LAYOUT_LBL"
-				/>
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="isTestServer"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="1"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_TEST_SERVER"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_TEST_SERVER_DESC"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="merchantId"
+                        type="text"
+                        default=""
+                        required="true"
+                        hint="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID_HINT"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID_DESC"
+                />
+                <field
+                        name="sharedSecret"
+                        type="text"
+                        default=""
+                        required="true"
+                        hint="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_HINT"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_DESC"
+                />
+                <field
+                        name="noteForGeneral"
+                        type="note"
+                        class="alert alert-info"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE_DESC"
+                />
+                <field
+                        name="extrafield_payment"
+                        type="extrafieldpayment"
+                        multiple="multiple"
+                        default="rs_pno,rs_birthdate,rs_gender,rs_house_number,rs_house_extension"
+                        required="true"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
+                />
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="verify_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="C"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_ORDER_STATUS"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_ORDER_STATUS_DESC"
+                />
+                <field
+                        name="invalid_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="P"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_FAILED_STATUS"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_FAILED_STATUS_DESC"
+                />
+                <field
+                        name="capture_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="S"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_CAPTURE_STATUS"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_CAPTURE_STATUS_DESC"
+                />
+                <field
+                        name="payment_oprand"
+                        type="text"
+                        size="10"
+                        default="-"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_OPRAND_LBL"
+                />
+                <field
+                        name="payment_price"
+                        type="text"
+                        size="30"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_PRICE_LBL"
+                />
+                <field
+                        name="payment_discount_is_percent"
+                        type="radio"
+                        default="1"
+                        class="btn-group"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_DISCOUNT_IS_PERCENT_LBL"
+                >
+                    <option value="1">PLG_REDSHOP_PAYMENT_KLARNA_PERCENTAGE</option>
+                    <option value="0">PLG_REDSHOP_PAYMENT_KLARNA_TOTAL</option>
+                </field>
+                <field
+                        name="private_person"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_PERSON_LBL"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="business"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_BUSINESS_LBL"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="shopper_group_id"
+                        type="shoppergrouplist"
+                        default="0"
+                        multiple="multiple"
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_SHOPPER_GROUP_ID_LBL"
+                        description="PLG_REDSHOP_PAYMENT_KLARNA_SHOPPER_GROUP_ID_DESC"
+                />
+                <field
+                        name="economic_payment_terms_id"
+                        type="text"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_ECONOMIC_PAYMENT_TERMS_ID_LBL"
+                />
+                <field
+                        name="economic_design_layout"
+                        type="text"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_KLARNA_ECONOMIC_DESIGN_LAYOUT_LBL"
+                />
 
-				<!-- Don't remove this hidden field or change value - this is to identify payment gateway is credit card or redirection.  -->
-				<field
-					name="is_creditcard"
-					type="hidden"
-					default="0"
-					value="0"
-				/>
-				<field
-					name="refund"
-					type="hidden"
-					default="1"
-					value="1"
-				/>
-			</fieldset>
-		</fields>
-	</config>
+                <!-- Don't remove this hidden field or change value - this is to identify payment gateway is credit card or redirection.  -->
+                <field
+                        name="is_creditcard"
+                        type="hidden"
+                        default="0"
+                        value="0"
+                />
+                <field
+                        name="refund"
+                        type="hidden"
+                        default="1"
+                        value="1"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

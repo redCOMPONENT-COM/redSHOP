@@ -92,6 +92,7 @@ class JFormFieldExtraFields extends JFormFieldList
 	protected function getOptions()
 	{
 		$this->fieldSection     = isset($this->element['section']) ? (int) $this->element['section'] : 1;
+		$this->fieldType        = isset($this->element['field_type']) ? $this->element['field_type'] : "";
 		$this->fieldShowInFront = isset($this->element['show_in_front']) ? (int) $this->element['show_in_front'] : 1;
 		$this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
 
@@ -134,6 +135,11 @@ class JFormFieldExtraFields extends JFormFieldList
 			->where($db->qn('show_in_front') . ' = ' . (int) $this->fieldShowInFront)
 			->where($db->qn('section') . ' = ' . (int) $this->fieldSection)
 			->order($db->qn('ordering') . ' ASC');
+
+		if ($this->fieldType != "")
+		{
+			$query->where($db->qn('type') . 'IN (' . $this->fieldType . ')');
+		}
 
 		// Set the query and load the result.
 		$db->setQuery($query);

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
-$showall = JRequest::getVar('showall', '0');
+$showall = JFactory::getApplication()->input->get('showall', '0');
 $producthelper = productHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">

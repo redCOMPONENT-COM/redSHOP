@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract class for export plugin
  *
+ * @TODO   Consider to use \Redshop\App\Config instead
  * @since  2.0.6
  */
 class App
@@ -724,7 +725,8 @@ class App
 			"IMPORT_MAX_LINE"                              => $data['import_max_line'],
 			"CURRENCY_LIBRARIES"                           => $data['currency_libraries'],
 			"CURRENCY_LAYER_ACCESS_KEY"                    => $data['currency_layer_access_key'],
-			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload']
+			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload'],
+			"WISHLIST_LIST"                                => $data["wishlist_list"],
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];

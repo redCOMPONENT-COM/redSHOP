@@ -79,8 +79,10 @@ class ModRedshopCurrenciesHelper
 	public static function getActive()
 	{
 		$session        = JFactory::getSession();
-		$activeCurrency = $session->get('product_currency', Redshop::getConfig()->get('CURRENCY_CODE'));
+		$activeCurrency = $session->get('product_currency', 0);
+		$activeCurrency = !$activeCurrency ?
+			RedshopEntityCurrency::getInstance()->loadFromCode(Redshop::getConfig()->get('CURRENCY_CODE'))->getId() : $activeCurrency;
 
-		return RedshopEntityCurrency::getInstance()->loadFromCode($activeCurrency)->getId();
+		return $activeCurrency;
 	}
 }

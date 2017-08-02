@@ -27,7 +27,7 @@ class plgContentredshop_product extends JPlugin
 			JHtml::_('redshopjquery.framework');
 
 			JPluginHelper::importPlugin('redshop_product');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = RedshopHelperUtility::getDispatcher();
 
 			$session = JFactory::getSession();
 			$post    = JRequest::get('POST');
@@ -239,7 +239,7 @@ class plgContentredshop_product extends JPlugin
 						}
 					}
 
-					for ($ui = 0; $ui < count($userfieldArr); $ui++)
+					for ($ui = 0, $countUserfield = count($userfieldArr); $ui < $countUserfield; $ui++)
 					{
 						if (!$idx)
 						{

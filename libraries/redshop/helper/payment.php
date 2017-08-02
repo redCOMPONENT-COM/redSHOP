@@ -148,4 +148,48 @@ class RedshopHelperPayment
 
 		return false;
 	}
+
+	/**
+	 * Replace conditional tag from Redshop payment Discount/charges
+	 *
+	 * @param   string   $template       Template html
+	 * @param   integer  $amount         Amount of cart
+	 * @param   integer  $cart           Is in cart?
+	 * @param   string   $paymentOprand  Payment oprand
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceConditionTag($template = '', $amount = 0, $cart = 0, $paymentOprand = '-')
+	{
+		if (strpos($template, '{if payment_discount}') === false || strpos($template, '{payment_discount end if}') === false)
+		{
+			return $template;
+		}
+
+		if ($cart == 1 || $amount == 0)
+		{
+			$templateDiscountStart = explode('{if payment_discount}', $template);
+			$templateDiscountEnd   = explode('{payment_discount end if}', $templateDiscountStart[1]);
+
+			return $templateDiscountStart[0] . $templateDiscountEnd[1];
+		}
+
+		if ($amount <= 0)
+		{
+			$templateStart = explode('{if payment_discount}', $template);
+			$templateEnd   = explode('{payment_discount end if}', $templateStart[1]);
+
+			return $templateStart[0] . $templateEnd[1];
+		}
+
+		$template = str_replace("{payment_order_discount}", RedshopHelperProductPrice::formattedPrice($amount), $template);
+		$payText  = ($paymentOprand == '+') ? JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
+		$template = str_replace("{payment_discount_lbl}", $payText, $template);
+		$template = str_replace("{payment_discount end if}", '', $template);
+		$template = str_replace("{if payment_discount}", '', $template);
+
+		return $template;
+	}
 }

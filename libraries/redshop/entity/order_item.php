@@ -38,29 +38,6 @@ class RedshopEntityOrder_Item extends RedshopEntity
 	}
 
 	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'order_item_id', $keyValue = null)
-	{
-		if ($key == 'order_item_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'order_item_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Method for get accessory items for this order item
 	 *
 	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.

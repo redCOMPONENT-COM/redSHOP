@@ -83,7 +83,7 @@ class RedshopModelAccount extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$redconfig = $app->getParams();
-		$start     = JRequest::getVar('limitstart', 0, '', 'int');
+		$start     = $app->input->getInt('limitstart', 0);
 		$limit     = $redconfig->get('maxcategory');
 
 		if (empty($this->_data))
@@ -403,8 +403,8 @@ class RedshopModelAccount extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$Itemid     = JRequest::getVar('Itemid');
-		$product_id = JRequest::getVar('pid', 0, '', 'int');
+		$Itemid     = $app->input->get('Itemid');
+		$product_id = $app->input->getInt('pid', 0);
 
 		$user = JFactory::getUser();
 
@@ -429,7 +429,7 @@ class RedshopModelAccount extends RedshopModel
 		$user        = JFactory::getUser();
 		$redshopMail = redshopMail::getInstance();
 
-		$wishlist_id = JRequest::getInt('wishlist_id');
+		$wishlist_id = JFactory::getApplication()->input->getInt('wishlist_id');
 		$emailto     = $post['emailto'];
 		$sender      = $post['sender'];
 		$email       = $post['email'];
@@ -527,7 +527,7 @@ class RedshopModelAccount extends RedshopModel
 					// Attribute ajax change
 					if (!$row->not_for_sale)
 					{
-						$wishlist_data = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
+						$wishlist_data = RedshopHelperProductPrice::getShowPrice($row->product_id, $wishlist_data);
 					}
 					else
 					{

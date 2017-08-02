@@ -33,29 +33,6 @@ class RedshopEntityOrder_Payment extends RedshopEntity
 	}
 
 	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'payment_order_id', $keyValue = null)
-	{
-		if ($key == 'payment_order_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'payment_order_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Method for load plugin data of this payment
 	 *
 	 * @return  self

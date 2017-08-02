@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_REDSHOP_PAYMENT_INGENICO</name>
-	<version>1.6.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>Nov 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -14,11 +14,9 @@
 		<filename plugin="ingenico">ingenico.php</filename>
 		<filename>index.html</filename>
 		<folder>layouts</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_ingenico.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_ingenico.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">

@@ -446,10 +446,10 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function usercreate($data)
 	{
+		$app             = JFactory::getApplication();
 		$redshopMail     = redshopMail::getInstance();
 		$order_functions = order_functions::getInstance();
-		$Itemid          = JRequest::getVar('Itemid');
-		$app = JFactory::getApplication();
+		$Itemid          = $app->input->get('Itemid');
 
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
@@ -481,7 +481,7 @@ class RedshopModelQuotation extends RedshopModel
 		}
 
 		// Bind the post array to the user object
-		if (!$user->bind(JRequest::get('post'), 'usertype'))
+		if (!$user->bind($app->input->post->getArray(), 'usertype'))
 		{
 			JError::raiseError(500, $user->getError());
 		}
@@ -507,14 +507,14 @@ class RedshopModelQuotation extends RedshopModel
 		{
 			$tmp  = @explode(" ", $data['contact_person']);
 			$name = @ $tmp[0] . ' ' . $tmp[1];
-			$name = JRequest::getVar('username');
+			$name = $app->input->get('username');
 		}
 		else
 		{
-			$name = JRequest::getVar('firstname') . ' ' . JRequest::getVar('lastname');
+			$name = $app->input->get('firstname') . ' ' . $app->input->get('lastname');
 		}
 
-		$email = JRequest::getVar('email');
+		$email = $app->input->get('email');
 
 		$password = $order_functions->random_gen_enc_key(12);
 
@@ -643,7 +643,7 @@ class RedshopModelQuotation extends RedshopModel
 		JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, null, $mailbcc);
 
 		$session = JFactory::getSession();
-		$session->set('cart', null);
+		RedshopHelperCartSession::setCart(null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfield', null);

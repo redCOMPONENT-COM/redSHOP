@@ -380,7 +380,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 
-		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
+		$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $this->data->manufacturer_id);
 
 		if (!$altText)
 		{
@@ -624,7 +624,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 									$wrapper[$i]->wrapper_image,
@@ -881,7 +881,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	// Trigger plugin to get merge images.
 	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
 
-	$preselectedresult = $producthelper->displayAdditionalImage(
+	$preselectedresult = RedshopHelperProductTag::displayAdditionalImage(
 		$this->data->product_id,
 		0,
 		0,
@@ -967,7 +967,7 @@ if (strstr($template_desc, $mpimg_tag))
 
 			if ($media_image[$m]->media_name != $media_image[$m]->product_full_image && file_exists($filename1))
 			{
-				$alttext = $producthelper->getAltText('product', $media_image[$m]->section_id, '', $media_image[$m]->media_id);
+				$alttext = RedshopHelperMedia::getAlternativeText('product', $media_image[$m]->section_id, '', $media_image[$m]->media_id);
 
 				if (!$alttext)
 				{
@@ -1197,14 +1197,14 @@ if (strstr($template_desc, "{more_documents}"))
 
 	for ($m = 0, $mn = count($media_documents); $m < $mn; $m++)
 	{
-		$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+		$alttext = RedshopHelperMedia::getAlternativeText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
 		if (!$alttext)
 		{
 			$alttext = $media_documents[$m]->media_name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+		if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
 			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
 										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -1225,22 +1225,13 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 						<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 $link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
-if (count($preselectedresult) > 0)
-{
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->replaceProductImage($this->data, "", "", "", $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, $preselectedresult) .
-					"</div>";
-}
-else
-{
-	// Product image flying addwishlist time start
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) .
-					"</div>";
-}
+// Product image
+$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+				$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
+				"</div>";
 
-// Product image flying addwishlist time end
 $template_desc = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $template_desc);
+// Product image end
 
 $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
@@ -1433,7 +1424,7 @@ else
 // Product preview image.
 if (strstr($template_desc, "{product_preview_img}"))
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
 	{
 		$previewsrcPath = RedShopHelperImages::getImagePath(
 						$this->data->product_preview_image,
