@@ -130,7 +130,7 @@ $model         = $this->getModel('user');
 					<td><?php echo $row->username;?></td>
 					<td>
 						<?php
-						$shoppergroup = $userhelper->getShopperGroupList($row->shopper_group_id);
+						$shoppergroup = Redshop\Helper\ShopperGroup::generateList($row->shopper_group_id);
 
 						if (count($shoppergroup) > 0)
 						{
