@@ -835,4 +835,18 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 
 		return $db->setQuery($query)->loadResult();
 	}
+
+	/**
+	 * Function to get Order by tracking ID
+	 *
+	 * @param   int     $orderId      Order Id
+	 * @param   string  $trackingUrl  Order Tracking URL
+	 *
+	 * @return  void
+	 */
+	public function onReplaceTrackingUrl($orderId, &$trackingUrl)
+	{
+		$orderData = RedshopHelperOrder::getOrderDetail($orderId);
+		$trackingUrl = 'https://5sao.ghn.vn/Tracking/ViewTracking/' . $orderData->track_no;
+	}
 }
