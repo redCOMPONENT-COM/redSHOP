@@ -25,7 +25,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -231,8 +231,8 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			}
 
 			// Store userfields
-			$userfields = JRequest::getVar('extrafields' . $product_id);
-			$userfields_id = JRequest::getVar('extrafields_id_' . $product_id);
+			$userfields    = $jinput->get('extrafields' . $product_id);
+			$userfields_id = $jinput->get('extrafields_id_' . $product_id);
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{

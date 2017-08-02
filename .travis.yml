@@ -16,8 +16,8 @@ cache:
     - $HOME/.composer/cache/files
 env:
   matrix:
-      # - ACCEPTANCE=false # this will run phpcs checks etc
-      - ACCEPTANCE=acceptance/administrator/ManagementTAXRatesAdministrator # run test administrator
+      - ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=acceptance/administrator # run test administrator
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436

@@ -134,4 +134,16 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonClose = "Close";
+
+    /**
+     *
+     * Function get value
+     * @param $value
+     * @return array
+     */
+    public static function returnChoice($value)
+    {
+        $path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
+        return $path;
+    }
 }

@@ -494,7 +494,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			"Cache-control: no-cache"
 		);
 
-		$curl = curl_init($this->params->get('url_service') . 'ServiceInfos');
+		$curl = curl_init($this->params->get('url_service') . 'GetServiceList');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -834,5 +834,19 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			->where($db->qn('track_no') . ' = ' . $db->q($trackingId));
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Function to get Order by tracking ID
+	 *
+	 * @param   int     $orderId      Order Id
+	 * @param   string  $trackingUrl  Order Tracking URL
+	 *
+	 * @return  void
+	 */
+	public function onReplaceTrackingUrl($orderId, &$trackingUrl)
+	{
+		$orderData = RedshopHelperOrder::getOrderDetail($orderId);
+		$trackingUrl = 'https://5sao.ghn.vn/Tracking/ViewTracking/' . $orderData->track_no;
 	}
 }
