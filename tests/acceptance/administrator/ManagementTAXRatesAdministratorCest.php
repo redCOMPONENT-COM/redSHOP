@@ -122,7 +122,6 @@ class ManagementTAXRatesAdministratorCest
         $I->wantTo('Test TAX Rates Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->editTAXRatesName($this->TAXRatesName, $this->TAXRatesNameEdit);
     }
 
