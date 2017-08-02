@@ -208,10 +208,12 @@ class RedshopModelFields extends RedshopModelList
 	 *
 	 * @param   string $section   Section of fields
 	 * @param   string $fieldName Field name
+	 * @param   int    $front     Show field in front
+	 * @param   int    $checkout  Show field in checkout
 	 *
 	 * @return  mixed
 	 */
-	public function getFieldsBySection($section, $fieldName = '')
+	public function getFieldsBySection($section, $fieldName = '', $front = 0, $checkout = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -219,6 +221,16 @@ class RedshopModelFields extends RedshopModelList
 			->from($db->qn('#__redshop_fields', 'f'))
 			->where($db->qn('f.section') . ' = ' . (int) $section)
 			->where($db->qn('f.published') . '= 1 ');
+
+		if ($front)
+		{
+			$query->where($db->qn('show_in_front') . ' = 1');
+		}
+
+		if ($checkout)
+		{
+			$query->where($db->qn('display_in_checkout') . ' = 1');
+		}
 
 		if ($fieldName != '')
 		{
