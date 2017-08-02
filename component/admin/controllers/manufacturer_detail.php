@@ -67,7 +67,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 				{
 					// Delete old image.
 					$oldMediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $mediaTable->media_name;
-					unlink($oldMediaFile);
+					JFile::delete($oldMediaFile);
 				}
 				else
 				{

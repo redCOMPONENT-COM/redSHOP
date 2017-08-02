@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_product');
 /**
  * @var $data

@@ -171,7 +171,7 @@ class shipping
 	 * @param   object  $shippingRate  Shipping Rate information
 	 * @param   array   $data          Shipping Rate user information from cart or checkout selection.
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  float  Shipping Rate
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::applyVatOnShippingRate($shippingRate, $data) instead
 	 */

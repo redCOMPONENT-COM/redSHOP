@@ -31,6 +31,7 @@ class RedshopUpdate206 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redaccesslevel.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php',
