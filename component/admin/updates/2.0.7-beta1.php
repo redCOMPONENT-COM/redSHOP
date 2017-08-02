@@ -46,6 +46,7 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 	{
 		return array(
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/voucher_detail',
+			JPATH_SITE . '/components/com_redshop/layouts/tags'
 		);
 	}
 
