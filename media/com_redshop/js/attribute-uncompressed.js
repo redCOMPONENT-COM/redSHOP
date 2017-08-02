@@ -1914,7 +1914,11 @@ function setAddtocartForm(frmCartName, product_id) {
         frm.property_data.value = document.getElementById('property_data').value;
     }
     if (document.getElementById('subproperty_data')) {
-        frm.subproperty_data.value = document.getElementById('subproperty_data').value;
+        subPropertyId = frm.subproperty_data.value;
+
+        if (jQuery('#subproperty_price_table_' + subPropertyId).val() != 1){
+            frm.subproperty_data.value = document.getElementById('subproperty_data').value;
+        }
     }
     if (document.getElementById('accessory_data')) {
         frm.accessory_data.value = document.getElementById('accessory_data').value;
@@ -1941,10 +1945,21 @@ function setAddtocartForm(frmCartName, product_id) {
         frm.requiedProperty.value = document.getElementById('requiedProperty').value;
     }
 
+    subPropertyId = frm.subproperty_data.value;
     var product_quantity = 1;
-    if (document.getElementById('quantity' + product_id).value) {
-        product_quantity = document.getElementById('quantity' + product_id).value;
+
+    if (jQuery('#subproperty_price_table_' + subPropertyId).val() == 1){
+            var quantityEl = 'quantity' + product_id + subPropertyId;
+            if (document.getElementById(quantityEl).value) {
+            product_quantity = document.getElementById(quantityEl).value;
+        }   
     }
+    else{
+        if (document.getElementById('quantity' + product_id).value) {
+            product_quantity = document.getElementById('quantity' + product_id).value;
+        }   
+    }
+
     if (document.getElementById('hidden_attribute_cartimage' + product_id)) {
         frm.hidden_attribute_cartimage.value = document.getElementById('hidden_attribute_cartimage' + product_id).value;
     }
@@ -2582,15 +2597,21 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 }
 
 function displayAddtocartProperty(frmCartName, product_id, attribute_id, property_id) {
-    if (document.getElementById('attribute_data')) {
-        document.getElementById('attribute_data').value = attribute_id;
+    var frm = document.getElementById(frmCartName);
+    subPropertyId = frm.subproperty_data.value;
+
+    if (jQuery('#subproperty_price_table_'+subPropertyId).val() != 1){
+        if (document.getElementById('attribute_data')) {
+            document.getElementById('attribute_data').value = attribute_id;
+        }
+        if (document.getElementById('property_data')) {
+            document.getElementById('property_data').value = property_id;
+        }
+        if (document.getElementById('subproperty_data')) {
+            document.getElementById('subproperty_data').value = "";
+        }
     }
-    if (document.getElementById('property_data')) {
-        document.getElementById('property_data').value = property_id;
-    }
-    if (document.getElementById('subproperty_data')) {
-        document.getElementById('subproperty_data').value = "";
-    }
+
     //set selected attribute,property,subproperty data and total price to Add to cart form
     if (!setAddtocartForm(frmCartName, product_id)) {
         return false;
