@@ -176,16 +176,6 @@ class ManagementTAXRatesAdministratorCest
         $I->see("VAT Rates", '.page-title');
     }
 
-    public function editButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test edit Button in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-        $I->wantTo('Check Edit button');
-        $I->editButton();
-        $I->see(\TAXRatesJoomla3Page::$nameManagement, \TAXRatesJoomla3Page::$selectorNamePage);
-    }
-
     public function deleteButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test delete button in Administrator');
