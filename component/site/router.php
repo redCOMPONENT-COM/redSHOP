@@ -262,12 +262,12 @@ class RedshopRouter extends JComponentRouterBase
 				{
 					$segments[] = $gid;
 
-					$query = $db->getQuery(true)
+					$sql = $db->getQuery(true)
 						->select($db->qn('giftcard_name'))
 						->from($db->qn('#__redshop_giftcard'))
-						->where($db->qn('giftcard_id') . ' = ' . $db->quote($gid));
+						->where($db->qn('giftcard_id') . ' = ' . (int) $db->quote($gid));
 
-					if ($giftCardName = $db->setQuery($query)->loadResult())
+					if ($giftCardName = $db->setQuery($sql)->loadResult())
 					{
 						$segments[] = RedshopHelperUtility::convertToNonSymbol($giftCardName);
 					}
@@ -503,11 +503,11 @@ class RedshopRouter extends JComponentRouterBase
 				if ($mid)
 				{
 					$segments[] = $mid;
-					$query      = $db->getQuery(true);
-					$query->select($db->quoteName(array('sef_url', 'manufacturer_name')))
+					$sql      = $db->getQuery(true);
+					$sql->select($db->quoteName(array('sef_url', 'manufacturer_name')))
 						->from($db->quoteName('#__redshop_manufacturer'))
 						->where($db->quoteName('manufacturer_id') . ' = ' . (int) $mid);
-					$url = $db->setQuery($query)->loadObject();
+					$url = $db->setQuery($sql)->loadObject();
 
 					if ($url)
 					{
@@ -553,13 +553,13 @@ class RedshopRouter extends JComponentRouterBase
 					{
 						$segments[] = $tagId;
 
-						$query = $db->getQuery(true);
-						$query->select($db->quoteName('tags_name'))
+						$sql = $db->getQuery(true);
+						$sql->select($db->quoteName('tags_name'))
 							->from($db->quoteName('#__redshop_product_tags'))
 							->where($db->quoteName('tags_id') . ' = ' . (int) $tagId);
-						$tagname = $db->setQuery($query)->loadResult();
+						$tagName = $db->setQuery($sql)->loadResult();
 
-						$segments[] = str_replace($specialChars, "-", $tagname);
+						$segments[] = str_replace($specialChars, "-", $tagName);
 
 						if ($tagId && isset($edit))
 						{
@@ -933,12 +933,12 @@ class RedshopRouter extends JComponentRouterBase
 							if (isset($segments[$secondLast]))
 							{
 								$db    = JFactory::getDbo();
-								$query = $db->getQuery(true)
+								$sql = $db->getQuery(true)
 									->select($db->qn('id'))
 									->from($db->qn('#__redshop_category'))
 									->where($db->qn('name') . ' = ' . $db->q($segments[$secondLast]));
 
-								$vars['cid'] = $db->setQuery($query)->loadResult();
+								$vars['cid'] = $db->setQuery($sql)->loadResult();
 							}
 						}
 					}
