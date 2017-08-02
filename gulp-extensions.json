@@ -90,6 +90,9 @@
       "user",
       "related_product"
     ],
+    "redshop_order": [
+      "esms"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -142,17 +145,21 @@
       "bundle",
       "canonical",
       "CreateColorImage",
+      "custom_field_mapping",
       "discount_affect_attribute",
+      "gift",
       "google_microdata",
       "invoicepdf",
       "postdanmark",
       "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "sync_b2b"
     ],
     "redshop_product_type": [
-      "bundle"
+      "bundle",
+      "gift"
     ],
     "redshop_shipping": [
       "bring",
@@ -160,6 +167,7 @@
       "default_shipping_gls",
       "default_shipping_glsbusiness",
       "fedex",
+      "giaohangnhanh",
       "postdanmark",
       "self_pickup",
       "shipper",

@@ -877,7 +877,7 @@ class RedshopHelperShipping
 	 * @param   object $shippingRate Shipping Rate information
 	 * @param   array  $data         Shipping Rate user information from cart or checkout selection.
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  float  Shipping Rate
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -974,7 +974,7 @@ class RedshopHelperShipping
 
 		$userInfo     = self::getShippingAddress($usersInfoId);
 		$country      = '';
-		$state        = '';
+		$state        = $data['state_code'] ? $data['state_code'] : '';
 		$isCompany    = false;
 		$shippingRate = array();
 		$zip          = '';
@@ -1016,8 +1016,10 @@ class RedshopHelperShipping
 		}
 		else
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . ") )";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 
 		if ($state)
@@ -1810,6 +1812,11 @@ class RedshopHelperShipping
 	 */
 	public static function isUserInfoMatch(&$data)
 	{
+		if (!isset($data['users_info_id']) || $data['users_info_id'] == 0)
+		{
+			return false;
+		}
+
 		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
@@ -1837,8 +1844,10 @@ class RedshopHelperShipping
 		}
 		else
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . ")) ";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 
 		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
@@ -2158,5 +2167,148 @@ class RedshopHelperShipping
 				true
 			);
 		}
+	}
+
+	/**
+	 * Method for get shipping table
+	 *
+	 * @param   array   $post      Available data.
+	 * @param   integer $isCompany Is company?
+	 * @param   array   $lists     List of data.
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
+	{
+		$shippingTemplate = RedshopHelperTemplate::getTemplate("shipping_template");
+
+		if (count($shippingTemplate) > 0 && $shippingTemplate[0]->template_desc != "")
+		{
+			$templateHtml = $shippingTemplate[0]->template_desc;
+		}
+		else
+		{
+			$templateHtml = '<table class="admintable" border="0"><tbody><tr><td width="100" align="right">{firstname_st_lbl}</td>'
+				. '<td>{firstname_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_st_lbl}</td>'
+				. '<td>{lastname_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_st_lbl}</td>'
+				. '<td>{address_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_st_lbl}</td>'
+				. '<td>{zipcode_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_st_lbl}</td>'
+				. '<td>{city_st}</td><td><span class="required">*</span></td></tr><tr id="{country_st_txtid}" style="{country_st_style}">'
+				. '<td width="100" align="right">{country_st_lbl}</td><td>{country_st}</td><td><span class="required">*</span></td>'
+				. '</tr><tr id="{state_st_txtid}" style="{state_st_style}"><td width="100" align="right">{state_st_lbl}</td><td>{state_st}</td>'
+				. '<td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_st_lbl}</td><td>{phone_st}</td><td>'
+				. '<span class="required">*</span></td></tr><tr><td colspan="3">{extra_field_st_start} <table border="0"><tbody><tr>'
+				. '<td>{extra_field_st}</td></tr></tbody></table>{extra_field_st_end}</td></tr></tbody></table>';
+		}
+
+		if (!isset($post["phone_ST"]) || $post["phone_ST"] == 0)
+		{
+			$post["phone_ST"] = '';
+		}
+
+		$allowCustomer = $isCompany == 1 ? 'style="display:none;"' : '';
+		$allowCompany  = $isCompany != 1 ? 'style="display:none;"' : '';
+
+		$readOnly  = "";
+		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
+
+		$post['country_code_ST']  = $countries['country_code_ST'];
+		$lists['country_code_ST'] = $countries['country_dropdown'];
+
+		$states = RedshopHelperWorld::getStateList($post, 'state_code_ST', 'ST');
+
+		$lists['state_code_ST'] = $states['state_dropdown'];
+
+		$countryStyle = count($countries['countrylist']) == 1 && count($states['statelist']) == 0 ? 'display:none;' : '';
+		$stateStyle   = $states['is_states'] <= 0 ? 'display:none;' : '';
+
+		$templateHtml = str_replace("{firstname_st_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $templateHtml);
+		$value        = !empty($post["firstname_ST"]) ? $post["firstname_ST"] : '';
+		$templateHtml = str_replace(
+			"{firstname_st}",
+			'<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" '
+			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{lastname_st_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $templateHtml);
+		$value        = (!empty($post["lastname_ST"])) ? $post["lastname_ST"] : '';
+		$templateHtml = str_replace(
+			"{lastname_st}",
+			'<input class="inputbox billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" '
+			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{address_st_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $templateHtml);
+		$value        = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
+		$templateHtml = str_replace(
+			"{address_st}",
+			'<input class="inputbox billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
+			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{zipcode_st_lbl}", JText::_('COM_REDSHOP_ZIP'), $templateHtml);
+		$value        = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
+		$templateHtml = str_replace(
+			"{zipcode_st}",
+			'<input class="inputbox billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
+			. 'value="' . $value . '" onblur="return autoFillCity(this.value,\'ST\');" '
+			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '" />',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{city_st_lbl}", JText::_('COM_REDSHOP_CITY'), $templateHtml);
+		$value        = (!empty($post["city_ST"])) ? $post["city_ST"] : '';
+		$templateHtml = str_replace(
+			"{city_st}",
+			'<input class="inputbox billingRequired valid" type="text" name="city_ST" ' . $readOnly . ' id="city_ST" '
+			. 'value="' . $value . '" size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{phone_st_lbl}", JText::_('COM_REDSHOP_PHONE'), $templateHtml);
+		$value        = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
+		$templateHtml = str_replace(
+			"{phone_st}",
+			'<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
+			. 'value="' . $value . '" onblur="return searchByPhone(this.value,\'ST\');" '
+			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"/>',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{country_st_txtid}", "div_country_st_txt", $templateHtml);
+		$templateHtml = str_replace("{country_st_style}", $countryStyle, $templateHtml);
+		$templateHtml = str_replace("{state_st_txtid}", "div_state_st_txt", $templateHtml);
+		$templateHtml = str_replace("{state_st_style}", $stateStyle, $templateHtml);
+		$templateHtml = str_replace("{country_st_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $templateHtml);
+		$templateHtml = str_replace("{country_st}", $lists['country_code_ST'], $templateHtml);
+		$templateHtml = str_replace("{state_st_lbl}", JText::_('COM_REDSHOP_STATE'), $templateHtml);
+		$templateHtml = str_replace("{state_st}", $lists ['state_code_ST'], $templateHtml);
+
+		if (strpos($templateHtml, "{extra_field_st_start}") !== false && strpos($templateHtml, "{extra_field_st_end}") !== false)
+		{
+			$htmlStart  = explode('{extra_field_st_start}', $templateHtml);
+			$htmlEnd    = explode('{extra_field_st_end}', $htmlStart[1]);
+			$htmlMiddle = $htmlEnd[0];
+
+			$companyExtraField = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1 && $lists['shipping_company_field'] != "") ?
+				$lists['shipping_company_field'] : "";
+			$userExtraField    = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2 && $lists['shipping_customer_field'] != "") ?
+				$lists['shipping_customer_field'] : "";
+
+			$htmlCompany = str_replace("{extra_field_st}", $companyExtraField, $htmlMiddle);
+			$htmlUser    = str_replace("{extra_field_st}", $userExtraField, $htmlMiddle);
+
+			$htmlCompany = '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $htmlCompany . '</div>';
+			$htmlUser    = '<div id="exCustomerFieldST" ' . $allowCustomer . '>' . $htmlUser . '</div>';
+
+			$templateHtml = $htmlStart[0] . $htmlCompany . $htmlUser . $htmlEnd[1];
+		}
+
+		return $templateHtml;
 	}
 }

@@ -65,6 +65,9 @@ defined('_JEXEC') or die;
                         $("#slider-install").parent().fadeOut('slow', function () {
                             $("#install-desc").fadeIn('slow');
                             $("#system-message-container").removeClass("hidden");
+							<?php if ($this->installType == 'update'): ?>
+                            $("#update_versions").fadeIn('slow');
+							<?php endif; ?>
                         });
                     }, 500);
                 })
@@ -90,7 +93,8 @@ defined('_JEXEC') or die;
         </div>
         <div class="row">
             <div class="col-md-4">
-                <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88"
+                <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png"
+                     width="261" height="88"
                      alt="redSHOP Logo" align="left" class="img"/>
             </div>
             <div class="col-md-8">
@@ -98,7 +102,8 @@ defined('_JEXEC') or die;
                 <p><?php echo JText::_('COM_REDSHOP_BY_LINK') ?></p>
                 <p><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION') ?></p>
                 <p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
-                    <a href="http://redcomponent.com/" target="_new"><img src="http://images.redcomponent.com/redcomponent.jpg" alt=""/></a>
+                    <a href="http://redcomponent.com/" target="_new"><img
+                                src="http://images.redcomponent.com/redcomponent.jpg" alt=""/></a>
                 </p>
             </div>
         </div>
@@ -141,10 +146,66 @@ defined('_JEXEC') or die;
                 </td>
                 <td width="20%" style="text-align: right;">
                     <strong class="text-result text-muted">Pending</strong>
-                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img" width="128px" height="15px"/>
+                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img" width="128px"
+                         height="15px"/>
                 </td>
             </tr>
 		<?php endforeach; ?>
         </tbody>
     </table>
+	<?php if ($this->installType == 'update' && !empty($this->availableVersions)): ?>
+        <div class="row" id="update_versions" style="display: none;">
+            <hr/>
+            <div class="col-md-12">
+                <a class="btn btn-warning" role="button" data-toggle="collapse" href="#collapseLastVersion"
+                   aria-expanded="false" aria-controls="collapseLastVersion">
+					<?php echo JText::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE') ?>
+                </a>
+                <p></p>
+                <div class="collapse" id="collapseLastVersion">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="callout callout-default">
+                                <strong class="text-warning"><i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?></strong>
+                                <p><?php echo JText::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE_WARNING') ?></p>
+                            </div>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th width="10%">
+                                        Version
+                                    </th>
+                                    <th>
+                                        Tasks
+                                    </th>
+                                    <th width="10%">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+								<?php foreach ($this->availableVersions as $availableVersion): ?>
+                                    <tr>
+                                        <td><?php echo $availableVersion->version ?></td>
+                                        <td>
+                                            <ul>
+												<?php foreach ($availableVersion->tasks as $task): ?>
+                                                    <li><?php echo $task; ?></li>
+												<?php endforeach; ?>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-block text-center"
+                                               href="index.php?option=com_redshop&view=install&install_type=update&version=<?php echo $availableVersion->version ?>">
+                                                <i class="fa fa-play"></i> <?php echo JText::_('COM_REDSHOP_INSTALL_RUN') ?>
+                                            </a>
+                                        </td>
+                                    </tr>
+								<?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	<?php endif; ?>
 </div>

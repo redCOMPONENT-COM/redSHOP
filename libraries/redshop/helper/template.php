@@ -226,7 +226,15 @@ class RedshopHelperTemplate
 			if ($templateView && $section != 'categoryproduct')
 			{
 				$templateDir = JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl/$section";
-				@chmod(JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl", 0755);
+
+				try
+				{
+					chmod(JPath::clean(JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl"), 0755);
+				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 			else
 			{
@@ -238,7 +246,14 @@ class RedshopHelperTemplate
 
 				$templateDir = JPATH_REDSHOP_TEMPLATE . '/' . $section;
 
-				@chmod(JPATH_REDSHOP_TEMPLATE, 0755);
+				try
+				{
+					chmod(JPATH_REDSHOP_TEMPLATE, 0755);
+				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 
 			if (!is_dir($templateDir))
