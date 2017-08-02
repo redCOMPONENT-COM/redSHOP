@@ -5,50 +5,48 @@
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
- *
- * @since       2.0.7
  */
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class Redshop Helper for Cart - Discount
  *
- * @since  2.0.7
+ * @since  __DEPLOY_VERSION__
  */
 class RedshopHelperCartDiscount
 {
 	/**
-	 * @param   string  $pdcextraids
-	 * @param   integer $productId
+	 * @param   string   $extraIds   Extra Ids
+	 * @param   integer  $productId  Product id
 	 *
 	 * @return  array<object>
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getDiscountCalcDataExtra($pdcextraids = "", $productId = 0)
+	public static function getDiscountCalcDataExtra($extraIds = "", $productId = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('*')->from($db->quoteName('#__product_discount_calc_extra'));
+		$query->select('*')->from($db->qn('#__product_discount_calc_extra'));
 
-		if (!empty($pdcextraids))
+		if (!empty($extraIds))
 		{
-			// Secure $pdcextraids
-			if ($extraIds = explode(',', $pdcextraids))
-			{
-				$extraIds = Joomla\Utilities\ArrayHelper::toInteger($extraIds);
-			}
+			// Secure
+			$extraIds = explode(',', $extraIds);
+			$extraIds = ArrayHelper::toInteger($extraIds);
 
-			$query->where($db->quoteName('pdcextra_id') . ' IN (' . implode(',', $extraIds) . ')');
+			$query->where($db->qn('pdcextra_id') . ' IN (' . implode(',', $extraIds) . ')');
 		}
 
 		if ($productId)
 		{
-			$query->where($db->quoteName('product_id') . ' = ' . (int) $productId);
+			$query->where($db->qn('product_id') . ' = ' . (int) $productId);
 		}
 
-		$query->order($db->quoteName('option_name'));
+		$query->order($db->qn('option_name'));
 
 		return $db->setQuery($query)->loadObjectList();
 	}
@@ -56,7 +54,7 @@ class RedshopHelperCartDiscount
 	/**
 	 * Method for apply coupon to cart.
 	 *
-	 * @param   array $cartData Cart data
+	 * @param   array  $cartData  Cart data
 	 *
 	 * @return  array|bool        Array of cart or boolean value.
 	 *
@@ -64,7 +62,7 @@ class RedshopHelperCartDiscount
 	 */
 	public static function applyCoupon($cartData = array())
 	{
-		$couponCode = JFactory::getApplication()->input->get('discount_code', '');
+		$couponCode = JFactory::getApplication()->input->getString('discount_code', '');
 		$cart       = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
 		if (empty($couponCode))
@@ -269,7 +267,189 @@ class RedshopHelperCartDiscount
 		}
 		elseif (Redshop::getConfig()->get('VOUCHERS_ENABLE'))
 		{
-			$return = rsCarthelper::getInstance()->voucher();
+			$return = self::applyVoucher();
+		}
+
+		if (!empty($cartData))
+		{
+			return $cart;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method for apply voucher to cart.
+	 *
+	 * @param   array  $cartData  Cart data
+	 *
+	 * @return  array|bool        Array of cart or boolean value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function applyVoucher($cartData = array())
+	{
+		$voucherCode = JFactory::getApplication()->input->getString('discount_code', '');
+		$cart        = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
+
+		if (empty($voucherCode))
+		{
+			return !empty($cartData) ? $cart : false;
+		}
+
+		$voucher = rsCarthelper::getInstance()->getVoucherData($voucherCode);
+
+		if (null === $voucher)
+		{
+			return !empty($cartData) ? $cart : false;
+		}
+
+		$counter = 0;
+
+		foreach ($cart['voucher'] as $val)
+		{
+			if ($val['voucher_code'] == $voucherCode)
+			{
+				$counter++;
+			}
+		}
+
+		if ($voucher->voucher_left <= $counter)
+		{
+			return false;
+		}
+
+		$return    = true;
+		$type      = $voucher->type;
+		$voucherId = $voucher->id;
+
+		$productId  = $voucher->nproduct;
+		$productArr = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart, $voucher->voucher_left);
+
+		if (empty($productArr['product_ids']))
+		{
+			$return = false;
+		}
+
+		$productPrice    = $productArr['product_price'];
+		$productIds      = $productArr['product_ids'];
+		$productQuantity = $productArr['product_quantity'];
+		$productQuantity = $productQuantity > $voucher->voucher_left ? $voucher->voucher_left : $productQuantity;
+
+		if ($type != 'Percentage')
+		{
+			$voucher->total *= $productQuantity;
+			$voucherValue   = $voucher->total;
+		}
+		else
+		{
+			$voucherValue = ($productPrice * $voucher->total) / (100);
+		}
+
+		$vouchers    = array();
+		$oldVouchers = array();
+
+		$multiArrayKeyExists = rsCarthelper::getInstance()->rs_multi_array_key_exists('voucher', $cart);
+
+		if (!$multiArrayKeyExists)
+		{
+			$voucherIndex = 0;
+		}
+		else
+		{
+			$oldVouchers  = $cart['voucher'];
+			$voucherIndex = count($oldVouchers) + 1;
+		}
+
+		if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+		{
+			$voucherValue = rsCarthelper::getInstance()->calcAlreadyDiscount($voucherValue, $cart);
+		}
+
+		$remainingVoucherDiscount = 0;
+
+		$totalDiscount = $cart['voucher_discount'] + $cart['cart_discount'] + $cart['coupon_discount'];
+		$subTotal      = $productPrice - $cart['coupon_discount'] - $cart['cart_discount'];
+
+		if ($productPrice < $voucherValue)
+		{
+			$remainingVoucherDiscount = $voucherValue - $productPrice;
+			$voucherValue             = $productPrice;
+		}
+		elseif ($totalDiscount > $subTotal)
+		{
+			$remainingVoucherDiscount = $voucherValue;
+			$voucherValue             = 0;
+		}
+
+		$valueExist = is_array($cart['voucher']) ? rsCarthelper::getInstance()->rs_recursiveArraySearch($cart['voucher'], $voucherCode) : 0;
+
+		switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
+		{
+			case 4:
+				if ($valueExist)
+				{
+					$return = true;
+				}
+
+				break;
+
+			case 3:
+				if ($valueExist && $multiArrayKeyExists)
+				{
+					$return = false;
+				}
+
+				break;
+
+			case 2:
+				$couponKey = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
+
+				if ($valueExist || $couponKey)
+				{
+					$return = false;
+				}
+
+				break;
+
+			case 1:
+			default:
+				$vouchers    = array();
+				$oldVouchers = array();
+
+				unset($cart['coupon']);
+
+				$cart['cart_discount']    = 0;
+				$cart['coupon_discount']  = 0;
+				$cart['voucher_discount'] = 0;
+
+				$return = true;
+
+				break;
+		}
+
+		if ($return)
+		{
+			$transactionVoucherId = 0;
+
+			if (rsCarthelper::getInstance()->rs_multi_array_key_exists('transaction_voucher_id', $voucher))
+			{
+				$transactionVoucherId = $voucher->transaction_voucher_id;
+			}
+
+			$vouchers['voucher'][$voucherIndex]['voucher_code']               = $voucherCode;
+			$vouchers['voucher'][$voucherIndex]['voucher_id']                 = $voucherId;
+			$vouchers['voucher'][$voucherIndex]['product_id']                 = $productIds;
+			$vouchers['voucher'][$voucherIndex]['used_voucher']               = $productQuantity;
+			$vouchers['voucher'][$voucherIndex]['voucher_value']              = $voucherValue;
+			$vouchers['voucher'][$voucherIndex]['remaining_voucher_discount'] = $remainingVoucherDiscount;
+			$vouchers['voucher'][$voucherIndex]['transaction_voucher_id']     = $transactionVoucherId;
+
+			$vouchers['voucher']   = array_merge($vouchers['voucher'], $oldVouchers);
+			$cart                  = array_merge($cart, $vouchers);
+			$cart['free_shipping'] = $voucher->free_ship;
+
+			RedshopHelperCartSession::setCart($cart);
 		}
 
 		if (!empty($cartData))
