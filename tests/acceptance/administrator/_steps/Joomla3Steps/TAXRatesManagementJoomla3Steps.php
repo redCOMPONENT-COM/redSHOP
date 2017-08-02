@@ -122,9 +122,9 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
 		$I->searchTAXRates($TAXRatesName);
 		$I->wait(3);
-		$I->click(\TAXRatesJoomla3Page::$taxStateNamePath);
+		$I->click($TAXRatesName);
 		$I->waitForElement(\TAXRatesJoomla3Page::$TAXRatesName, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), \TAXRatesJoomla3Page::$nameEditPage);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesNameEdit);
 		$I->click(\TAXRatesJoomla3Page::$saveButton);
 		$I->see(\TAXRatesJoomla3Page::$messageSaveSuccess, \TAXRatesJoomla3Page::$selectorSuccess);
@@ -138,21 +138,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->filterListBySearching($TAXRatesName);
 	}
 
-	public function editButtonTAXRatesName($TAXRatesName, $TAXRatesNameEdit)
-	{
-		$I = $this;
-		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
-		$I->searchTAXRates($TAXRatesName);
-		$I->wait(3);
-		$I->checkAllResults();
-		$I->click(\TAXRatesJoomla3Page::$editButton);
-		$I->waitForElement(\TAXRatesJoomla3Page::$TAXRatesName, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), \TAXRatesJoomla3Page::$nameEditPage);
-		$I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesNameEdit);
-		$I->click(\TAXRatesJoomla3Page::$saveButton);
-		$I->see(\TAXRatesJoomla3Page::$messageSaveSuccess, \TAXRatesJoomla3Page::$selectorSuccess);
-	}
-
 	public function checkCancelTAXRates($TAXRatesName)
 	{
 		$I = $this;
@@ -160,7 +145,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchTAXRates($TAXRatesName);
 		$I->wait(3);
 		$I->checkAllResults();
-		$I->click(\TAXRatesJoomla3Page::$editButton);
+		$I->click($TAXRatesName);
 		$I->waitForElement(\TAXRatesJoomla3Page::$TAXRatesName, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), \TAXRatesJoomla3Page::$nameEditPage);
 		$I->click(\TAXRatesJoomla3Page::$cancelButton);
@@ -173,23 +158,12 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
 		$I->searchTAXRates($TAXRatesName);
 		$I->wait(3);
-		$I->click(\TAXRatesJoomla3Page::$taxStateNamePath);
+		$I->click($TAXRatesName);
 		$I->waitForElement(\TAXRatesJoomla3Page::$TAXRatesName, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), \TAXRatesJoomla3Page::$nameEditPage);
 		$I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, "");
 		$I->click(\TAXRatesJoomla3Page::$saveButton);
 		$I->see(\TAXRatesJoomla3Page::$messageError, \TAXRatesJoomla3Page::$selectorErrorHead);
-	}
-
-	public function deleteTAXRates($TAXRatesName)
-	{
-		$I = $this;
-		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
-		$I->searchTAXRates($TAXRatesName);
-		$I->wait(3);
-		$I->checkAllResults();
-		$I->click(\TAXRatesJoomla3Page::$deleteButton);
-		$I->see(\TAXRatesJoomla3Page::$messageSuccess, \TAXRatesJoomla3Page::$selectorSuccess);
 	}
 
 	public function deleteTAXRatesOK($TAXRatesName)
@@ -213,7 +187,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\TAXRatesJoomla3Page::$deleteButton);
 		$I->cancelPopup();
-
 	}
 
 	public function checkCancel()
@@ -224,14 +197,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), \TAXRatesJoomla3Page::$nameNewPage);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click(\TAXRatesJoomla3Page::$cancelButton);
-	}
-
-	public function editButton()
-	{
-		$I = $this;
-		$I->amOnPage(\TAXRatesJoomla3Page::$URL);
-		$I->click(\TAXRatesJoomla3Page::$editButton);
-		$I->acceptPopup();
 	}
 
 	public function deleteButton()
