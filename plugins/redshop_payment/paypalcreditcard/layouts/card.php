@@ -12,15 +12,15 @@ extract($displayData);
 
 ?>
 <tr id="card-<?php echo $card->id; ?>">
-<?php if ($selectable) : ?>
-	<td>
-		<input type="radio" name="selectedCard" value="<?php echo $card->id; ?>">
-	</td>
-<?php endif; ?>
+	<?php if ($selectable) : ?>
+		<td>
+			<input type="radio" name="selectedCard" value="<?php echo $card->id; ?>">
+		</td>
+	<?php endif; ?>
 	<td>
 		<?php
-			$name = $card->first_name . ' ' . $card->last_name;
-			echo $name;
+		$name = $card->first_name . ' ' . $card->last_name;
+		echo $name;
 		?>
 	</td>
 	<td><?php echo $card->type; ?></td>
@@ -35,8 +35,8 @@ extract($displayData);
 			<i class="icon-trash"></i>
 		</a>
 	<td>
-	</tr>
-	<tr id="card-edit-<?php echo $card->id; ?>">
+</tr>
+<tr id="card-edit-<?php echo $card->id; ?>">
 	<td colspan="6">
 		<?php
 		echo RedshopLayoutHelper::render(
@@ -50,7 +50,7 @@ extract($displayData);
 				'expireYear'      => $card->expire_year,
 				'creditCardTypes' => $creditCardTypes
 			),
-			__DIR__
+			JPATH_PLUGINS . '/redshop_payment/paypalcreditcard/layouts'
 		);
 		?>
 	</td>

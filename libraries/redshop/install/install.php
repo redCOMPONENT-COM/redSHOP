@@ -32,36 +32,30 @@ class RedshopInstall
 	 */
 	public static function getInstallTasks()
 	{
-		$app   = JFactory::getApplication();
-		$tasks = $app->getUserState(self::REDSHOP_INSTALL_STATE_NAME, null);
+		$tasks = array(
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
+				'func' => 'RedshopInstall::synchronizeUser'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
+				'func' => 'RedshopInstall::templateData'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_FILES'),
+				'func' => 'RedshopInstall::templateFiles'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
+				'func' => 'RedshopInstall::integrateSh404sef'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
+				'func' => 'RedshopInstall::handleConfig'
+			)
+		);
 
-		if (is_null($tasks))
-		{
-			$tasks = array(
-				array(
-					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
-					'func' => 'RedshopInstall::synchronizeUser'
-				),
-				array(
-					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
-					'func' => 'RedshopInstall::templateData'
-				),
-				array(
-					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_FILES'),
-					'func' => 'RedshopInstall::templateFiles'
-				),
-				array(
-					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
-					'func' => 'RedshopInstall::integrateSh404sef'
-				),
-				array(
-					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
-					'func' => 'RedshopInstall::handleConfig'
-				)
-			);
-
-			$app->setUserState(self::REDSHOP_INSTALL_STATE_NAME, $tasks);
-		}
+		JFactory::getApplication()->setUserState(self::REDSHOP_INSTALL_STATE_NAME, $tasks);
 
 		return $tasks;
 	}
