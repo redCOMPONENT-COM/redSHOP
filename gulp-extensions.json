@@ -154,7 +154,8 @@
       "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "sync_b2b"
     ],
     "redshop_product_type": [
       "bundle",

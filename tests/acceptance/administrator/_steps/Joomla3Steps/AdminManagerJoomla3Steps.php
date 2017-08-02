@@ -191,4 +191,13 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
 		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
 	}
+
+	public function filterListBySearchOrder($text, $searchField = ['id' => 'filter']){
+		$I = $this;
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->fillField($searchField, $text);
+		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->wait(3);
+//        $I->waitForElement(['link' => $text]);
+	}
 }
