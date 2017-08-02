@@ -18,13 +18,12 @@ class ManageShopperGroupAdministratorCest
 		$this->showPrice = 'Yes';
 		$this->nameShopperEdit = $this->shopperType . 'edit';
 		$this->idShopperChange = '1';
-	}
 
+	}
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
-
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Category Save creation in Administrator');
@@ -46,12 +45,29 @@ class ManageShopperGroupAdministratorCest
 	 */
 	public function creatShopperGroup(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Shopper Group Save creation in Administrator');
+		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
 		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->categoryName, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showPrice, 'save');
 		$I->addShopperGroups($this->shopperNameSaveClose, $this->shopperType, $this->customerType, $this->categoryName, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showPrice, 'saveclose');
 
+	}
+
+	/**
+	 *
+	 * Function delte Shopper goups
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 *
+	 * @depends creatShopperGroup
+	 */
+	public function deleteShopperGroupsYes(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Check delete Shopper groups');
+		$I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
+		$I->wantTo('Edit Name of Shopper groups');
+		$I->deleteShopperGroupsYes();
 	}
 
 	/**

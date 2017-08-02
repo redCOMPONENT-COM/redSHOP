@@ -29,6 +29,7 @@ class ManageConfigurationAdministratorCest
 	}
 
 
+
 	public function featureEditInLineYes(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Edit inline is yes  in Administrator');
@@ -90,4 +91,5 @@ class ManageConfigurationAdministratorCest
 		$I->featurePriceYes();
 		$I->see("Configuration", '.page-title');
 	}
+
 }
