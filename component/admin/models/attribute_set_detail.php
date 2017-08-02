@@ -118,14 +118,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 
-				if (is_file($dest))
+				if (JFile::exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
-				if (is_file($tsrc))
+				if (JFile::exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 
 				$attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
@@ -304,12 +304,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -353,12 +353,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -404,12 +404,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -590,12 +590,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		if (file_exists($dest))
 		{
-			unlink($dest);
+			JFile::delete($dest);
 		}
 
 		if (file_exists($tsrc))
 		{
-			unlink($tsrc);
+			JFile::delete($tsrc);
 		}
 
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id = ' . $mediaid;
@@ -644,12 +644,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 						if (file_exists($sub))
 						{
-							unlink($sub);
+							JFile::delete($sub);
 						}
 
 						if (file_exists($sub_thumb))
 						{
-							unlink($sub_thumb);
+							JFile::delete($sub_thumb);
 						}
 					}
 
@@ -715,7 +715,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			if (file_exists($sub_dest))
 			{
-				unlink($sub_dest);
+				JFile::delete($sub_dest);
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "'
@@ -1249,9 +1249,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$src            = JPATH_ROOT . '/' . $imagePath;
 		$imgname        = RedShopHelperImages::cleanFileName($imagePath);
-		$property_image = $section_id . '_' . JFile::getName($imgname);
+		$property_image = $section_id . '_' . basename($imgname);
 		$dest           = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
-		copy($src, $dest);
+		JFile::copy($src, $dest);
 
 		return $property_image;
 	}
@@ -1291,16 +1291,27 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 
-		copy($src, $dest);
+		JFile::copy($src, $dest);
 
 		return $property_image;
 	}
 
+	/**
+	 * @param   int     $id    Id
+	 * @param   string  $type  Type
+	 *
+	 * @return  mixed   The return value or null if the query failed.
+	 */
 	public function GetimageInfo($id, $type)
 	{
-		$image_media = 'SELECT * FROM ' . $this->_table_prefix . 'media WHERE section_id = "' . $id . '" AND media_section = "' . $type . '" ';
-		$this->_db->setQuery($image_media);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		return $this->_db->loadObjectlist();
+		$query->select('*')
+			->from($db->quoteName('#__redshop_media'))
+			->where($db->quoteName('section_id') . ' = ' . (int) $id)
+			->where($db->quoteName('media_section') . ' = ' . $db->quote($type));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

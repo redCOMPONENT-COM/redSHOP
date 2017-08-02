@@ -86,7 +86,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 
@@ -148,7 +148,7 @@ class RedshopControllerCheckout extends RedshopController
 		$app             = JFactory::getApplication();
 		$input           = $app->input;
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher      = JDispatcher::getInstance();
+		$dispatcher      = RedshopHelperUtility::getDispatcher();
 		$usersInfoId     = $input->getInt('users_info_id', 0);
 		$values          = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
 		$values->zipcode = $input->get('zipcode', '');
@@ -188,7 +188,7 @@ class RedshopControllerCheckout extends RedshopController
 		$input = $app->input;
 		$plugin = $input->getCmd('plugin', '');
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
 
 		$app->close();
@@ -374,7 +374,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app               = JFactory::getApplication();
 		$input             = $app->input;
-		$dispatcher        = JDispatcher::getInstance();
+		$dispatcher        = RedshopHelperUtility::getDispatcher();
 		$post              = $input->post->getArray();
 		$Itemid            = $input->post->getInt('Itemid', 0);
 		$model             = $this->getModel('checkout');
@@ -394,7 +394,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 
@@ -433,7 +433,14 @@ class RedshopControllerCheckout extends RedshopController
 			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
 				$users_info_id = JRequest::getInt('users_info_id');
-				$chk           = $this->chkvalidation($users_info_id);
+
+				if (empty($users_info_id))
+				{
+					$userDetail = $model->store($post);
+					$users_info_id = $userDetail->users_info_id;
+				}
+
+				$chk = $this->chkvalidation($users_info_id);
 
 				if (!empty($chk))
 				{
@@ -641,23 +648,16 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($objectname == "users_info_id" || $objectname == "shipping_box_id")
 		{
-			if ($users_info_id > 0)
-			{
-				$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
+			$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
 
-				if (count($shipping_template) > 0)
-				{
-					$rate_template_desc = $shipping_template[0]->template_desc;
-				}
-
-				$returnarr          = $carthelper->replaceShippingTemplate($rate_template_desc, $shipping_rate_id, $shipping_box_id, $user->id, $users_info_id, $order_total, $order_subtotal);
-				$rate_template_desc = $returnarr['template_desc'];
-				$shipping_rate_id   = $returnarr['shipping_rate_id'];
-			}
-			else
+			if (count($shipping_template) > 0)
 			{
-				$rate_template_desc = JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS');
+				$rate_template_desc = $shipping_template[0]->template_desc;
 			}
+
+			$returnarr          = $carthelper->replaceShippingTemplate($rate_template_desc, $shipping_rate_id, $shipping_box_id, $user->id, $users_info_id, $order_total, $order_subtotal, $post);
+			$rate_template_desc = $returnarr['template_desc'];
+			$shipping_rate_id   = $returnarr['shipping_rate_id'];
 		}
 
 		if ($shipping_rate_id != "")
@@ -673,7 +673,7 @@ class RedshopControllerCheckout extends RedshopController
 			$templatelist = $redTemplate->getTemplate("checkout", $cart_template_id);
 			$onestep_template_desc = $templatelist[0]->template_desc;
 
-			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code);
+			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code, '', $post);
 		}
 
 		$display_shippingrate = '<div id="onestepshiprate">' . $rate_template_desc . '</div>';

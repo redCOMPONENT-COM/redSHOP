@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="3.0" client="site" type="plugin" group="editors-xtd" method="upgrade">
     <name>PLG_EDITORS-XTD_PRODUCT</name>
-    <version>1.5.1</version>
-    <redshop>1.5</redshop>
-    <creationDate>April 2013</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
@@ -11,9 +11,7 @@
     <files>
         <filename plugin="product">product.php</filename>
         <filename>index.html</filename>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_editors-xtd_product.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_editors-xtd_product.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
 </extension>

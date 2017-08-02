@@ -138,7 +138,10 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
-
+    
+		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
+ 		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
+    
 		if ($post['discount_stratdate'])
 		{
 			$startDate                  = new JDate($post['discount_stratdate']);
@@ -490,7 +493,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				// Set trigger to save Attribute Property Plugin Data
 				if ((int) $property_id)
 				{
-					$dispatcher = JDispatcher::getInstance();
+					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
@@ -1012,7 +1015,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
 								}
 
-								unlink(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
+								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 							}
 						}
 					}

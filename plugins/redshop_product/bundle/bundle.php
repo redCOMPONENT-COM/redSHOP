@@ -338,7 +338,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 					$propertyImage = "";
 
 					if ($property->property_image
-						&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image)
+						&& JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image)
 					)
 					{
 						$thumbUrl       = RedshopHelperMedia::getImagePath(

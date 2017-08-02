@@ -141,7 +141,7 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 			$cardInforHtml .= '<table width="100%" border="0" cellspacing="2" cellpadding="2">';
 			$cardInforHtml .= '<tr>';
 
-			for ($ic = 0; $ic < count($creditCard); $ic++)
+			for ($ic = 0, $count = count($creditCard); $ic < $count; $ic++)
 			{
 				$cardInforHtml .= '<td align="center"><img src="'
 					. REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $availableCreditCards[$creditCard[$ic]]->img . '" alt="" border="0" /></td>';
@@ -149,7 +149,7 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 
 			$cardInforHtml .= '</tr><tr>';
 
-			for ($ic = 0; $ic < count($creditCard); $ic++)
+			for ($ic = 0, $count = count($creditCard); $ic < $count; $ic++)
 			{
 				$value   = $creditCard[$ic];
 				$checked = "";
