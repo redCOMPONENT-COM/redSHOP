@@ -9,28 +9,23 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Currency\Currency;
-
 JLoader::import('redshop.library');
 
-$Itemid          = $app->input->get('Itemid');
-$order_functions = order_functions::getInstance();
-$order_items     = $order_functions->getOrderItemDetail($data['order_id']);
-$order           = $order_functions->getOrderDetails($data['order_id']);
-$hmac_key        = $this->params->get("hmac_key");
-$language        = $this->params->get("dibs_languages");
-
-if ($language == "Auto")
-{
-	$language = "en";
-}
+$app           = JFactory::getApplication();
+$itemId        = $app->input->get('Itemid');
+$orderFunction = order_functions::getInstance();
+$orderItems    = RedshopHelperOrder::getOrderItemDetail($data['order_id']);
+$order         = RedshopHelperOrder::getOrderDetail($data['order_id']);
+$hmacKey       = $this->params->get("hmac_key");
+$language      = $this->params->get("dibs_languages");
+$language      = ($language == 'Auto') ? 'en' : $language;
 
 // For total amount
-$amount       = 0;
-$paytype      = $this->params->get('dibs_paytype', '');
+$amount  = 0;
+$payType = $this->params->get('dibs_paytype', '');
 
 // Authenticate vars to send
-$formdata = array(
+$formData = array(
 	'merchant'            => $this->params->get("seller_id"),
 	'orderId'             => $data['order_id'],
 	'currency'            => $this->params->get("dibs_currency"),
@@ -38,9 +33,12 @@ $formdata = array(
 	'ourRef'              => $data['order_id'],
 	'language'            => $language,
 	'amount'              => $amount,
-	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsdx&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsdx&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsdx&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'acceptReturnUrl'     => JUri::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail'
+		. '&task=notify_payment&payment_plugin=dibsdx&Itemid=' . $itemId . '&orderid=' . $data['order_id'],
+	'cancelreturnurl'     => JUri::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail'
+		. '&task=notify_payment&payment_plugin=dibsdx&Itemid=' . $itemId . '&orderid=' . $data['order_id'],
+	'callbackUrl'         => JUri::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail'
+		. '&task=notify_payment&payment_plugin=dibsdx&Itemid=' . $itemId . '&orderid=' . $data['order_id'],
 
 	// Customer Billing Address
 	'billingFirstName'    => $data['billinginfo']->firstname,
@@ -63,146 +61,148 @@ $formdata = array(
 
 if ($data['shippinginfo']->is_company)
 {
-	$groupPaytype = $this->params->get('paytype_business', '');
+	$groupPayType = $this->params->get('paytype_business', '');
 }
 else
 {
-	$groupPaytype = $this->params->get('paytype_private', '');
+	$groupPayType = $this->params->get('paytype_private', '');
 }
 
-if (!empty($paytype) && empty($groupPaytype))
+if (!empty($payType) && empty($groupPayType))
 {
-	$formdata['payType'] = $paytype;
+	$formData['payType'] = $payType;
 }
-elseif (!empty($groupPaytype))
+elseif (!empty($groupPayType))
 {
-	$formdata['payType'] = $groupPaytype;
+	$formData['payType'] = $groupPayType;
 }
 
 if ($this->params->get("instant_capture"))
 {
-	$formdata['captureNow'] = $this->params->get("instant_capture");
+	$formData['captureNow'] = $this->params->get("instant_capture");
 }
 
 if ($this->params->get("is_test"))
 {
-	$formdata['test'] = 1;
+	$formData['test'] = 1;
 }
 
-for ($p = 0, $pn = count($order_items); $p < $pn; $p++)
+for ($p = 0, $pn = count($orderItems); $p < $pn; $p++)
 {
 	// Price conversion
-	$product_item_price          = RedshopHelperCurrency::convert($order_items[$p]->product_item_price, '', $this->params->get("dibs_currency"));
-	$product_item_price_excl_vat = RedshopHelperCurrency::convert($order_items[$p]->product_item_price_excl_vat, '', $this->params->get("dibs_currency"));
-	$pvat                        = $product_item_price - $product_item_price_excl_vat;
-	$product_item_price_excl_vat = floor($product_item_price_excl_vat * 1000) / 1000;
-	$product_item_price_excl_vat = number_format($product_item_price_excl_vat, 2, '.', '') * 100;
-	$pvat                        = floor($pvat * 1000) / 1000;
-	$pvat                        = number_format($pvat, 2, '.', '') * 100;
+	$productItemPrice      = RedshopHelperCurrency::convert($orderItems[$p]->product_item_price, '', $this->params->get("dibs_currency"));
+	$productItemPriceNoVat = RedshopHelperCurrency::convert($orderItems[$p]->product_item_price_excl_vat, '', $this->params->get("dibs_currency"));
+	$productVAT            = $productItemPrice - $productItemPriceNoVat;
+	$productItemPriceNoVat = floor($productItemPriceNoVat * 1000) / 1000;
+	$productItemPriceNoVat = number_format($productItemPriceNoVat, 2, '.', '') * 100;
+	$productVAT            = floor($productVAT * 1000) / 1000;
+	$productVAT            = number_format($productVAT, 2, '.', '') * 100;
 
 	// Accumulate total
-	$amount += ($product_item_price_excl_vat + $pvat) * $order_items[$p]->product_quantity;
+	$amount += ($productItemPriceNoVat + $productVAT) * $orderItems[$p]->product_quantity;
 
-	$formdata['oiRow' . ($p + 1) . ''] = $order_items[$p]->product_quantity
-										. ";pcs"
-										. ";" . trim($order_items[$p]->order_item_name)
-										. ";" . $product_item_price_excl_vat
-										. ";" . $order_items[$p]->product_id
-										. ";" . $pvat;
+	$formData['oiRow' . ($p + 1) . ''] = $orderItems[$p]->product_quantity
+		. ";pcs"
+		. ";" . trim($orderItems[$p]->order_item_name)
+		. ";" . $productItemPriceNoVat
+		. ";" . $orderItems[$p]->product_id
+		. ";" . $productVAT;
 }
 
 if ($order->order_discount > 0)
 {
-	$quantity_discount = 1;
-	$discount_amount = RedshopHelperCurrency::convert($order->order_discount, '', $this->params->get("dibs_currency"));
-	$discount_amount = floor($discount_amount * 1000) / 1000;
-	$discount_amount = number_format($discount_amount, 2, '.', '') * 100;
-	$discount_amount = -$discount_amount;
-	$discount_pvat = 0;
+	$quantityDiscount   = 1;
+	$discountAmount     = RedshopHelperCurrency::convert($order->order_discount, '', $this->params->get("dibs_currency"));
+	$discountAmount     = floor($discountAmount * 1000) / 1000;
+	$discountAmount     = number_format($discountAmount, 2, '.', '') * 100;
+	$discountAmount     = -$discountAmount;
+	$discountProductVat = 0;
 
-	$formdata['oiRow' . ($p + 1) . ''] = $quantity_discount
-										. ";pcs"
-										. ";Discount"
-										. ";" . $discount_amount
-										. ";" . ($p + 1)
-										. ";" . $discount_pvat;
+	$formData['oiRow' . ($p + 1) . ''] = $quantityDiscount
+		. ";pcs"
+		. ";Discount"
+		. ";" . $discountAmount
+		. ";" . ($p + 1)
+		. ";" . $discountProductVat;
 	$p++;
-	$amount -= $discount_pvat + $discount_amount;
+	$amount -= $discountProductVat + $discountAmount;
 }
 
 if ($order->order_shipping > 0)
 {
-	$quantity_shipping = 1;
-	$order_shipping_tax = 0;
+	$quantityShipping = 1;
+	$orderShippingTax = 0;
 
 	if ($order->order_shipping_tax > 0 && $order->order_shipping_tax != null)
 	{
-		$order_shipping_tax = $order->order_shipping_tax;
+		$orderShippingTax = $order->order_shipping_tax;
 	}
 
-	$shipping_price = RedshopHelperCurrency::convert($order->order_shipping, '', $this->params->get("dibs_currency"));
-	$shipping_vat   = RedshopHelperCurrency::convert($order_shipping_tax, '', $this->params->get("dibs_currency"));
-	$shipping_price = floor($shipping_price * 1000) / 1000;
-	$shipping_price = number_format($shipping_price, 2, '.', '') * 100;
-	$shipping_vat   = floor($shipping_vat * 1000) / 1000;
-	$shipping_vat   = number_format($shipping_vat, 2, '.', '') * 100;
+	$shippingPrice = RedshopHelperCurrency::convert($order->order_shipping, '', $this->params->get("dibs_currency"));
+	$shippingVat   = RedshopHelperCurrency::convert($orderShippingTax, '', $this->params->get("dibs_currency"));
+	$shippingPrice = floor($shippingPrice * 1000) / 1000;
+	$shippingPrice = number_format($shippingPrice, 2, '.', '') * 100;
+	$shippingVat   = floor($shippingVat * 1000) / 1000;
+	$shippingVat   = number_format($shippingVat, 2, '.', '') * 100;
 
-	$formdata['oiRow' . ($p + 1) . ''] = $quantity_shipping
-										. ";pcs"
-										. ";Shipping"
-										. ";" . ($shipping_price - $shipping_vat)
-										. ";" . ($p + 1)
-										. ";" . $shipping_vat;
+	$formData['oiRow' . ($p + 1) . ''] = $quantityShipping
+		. ";pcs"
+		. ";Shipping"
+		. ";" . ($shippingPrice - $shippingVat)
+		. ";" . ($p + 1)
+		. ";" . $shippingVat;
+
 	$p++;
-	$amount += $shipping_price;
+
+	$amount += $shippingPrice;
 }
 
-$payment_price = $order->payment_discount;
+$paymentPrice = $order->payment_discount;
 
-if ($payment_price > 0)
+if ($paymentPrice > 0)
 {
-	$quantity_payment = 1;
-	$payment_price    = RedshopHelperCurrency::convert($payment_price, '', $this->params->get("dibs_currency"));
-	$payment_price    = floor($payment_price * 1000) / 1000;
-	$payment_price    = number_format($payment_price, 2, '.', '') * 100;
+	$quantityPayment = 1;
+	$paymentPrice    = RedshopHelperCurrency::convert($paymentPrice, '', $this->params->get("dibs_currency"));
+	$paymentPrice    = floor($paymentPrice * 1000) / 1000;
+	$paymentPrice    = number_format($paymentPrice, 2, '.', '') * 100;
 
 	if ($order->payment_oprand == '-')
 	{
-		$discount_payment_price = -$payment_price;
+		$discountPaymentPrice = -$paymentPrice;
 	}
 	else
 	{
-		$discount_payment_price = $payment_price;
+		$discountPaymentPrice = $paymentPrice;
 	}
 
-	$payment_vat = 0;
+	$paymentVat = 0;
 
-	$formdata['oiRow' . ($p + 1) . ''] = $quantity_payment
-										. ";pcs"
-										. ";Payment Handling"
-										. ";" . $discount_payment_price
-										. ";" . ($p + 1)
-										. ";" . $payment_vat;
+	$formData['oiRow' . ($p + 1) . ''] = $quantityPayment
+		. ";pcs"
+		. ";Payment Handling"
+		. ";" . $discountPaymentPrice
+		. ";" . ($p + 1)
+		. ";" . $paymentVat;
 
-	$amount += $discount_payment_price + $payment_vat;
+	$amount += $discountPaymentPrice + $paymentVat;
 }
 
-$formdata['amount'] = $amount;
+$formData['amount'] = $amount;
 
 include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
-$dibs_hmac = new dibs_hmac;
-$mac_key   = $dibs_hmac->calculateMac($formdata, $hmac_key);
+$dibsHmac = new Dibs_Hmac;
+$macKey   = $dibsHmac->calculateMac($formData, $hmacKey);
 
 // Action URL
-$dibsurl = "https://payment.dibspayment.com/dpw/entrypoint";
+$dibsUrl = "https://payment.dibspayment.com/dpw/entrypoint";
 ?>
 <h2><?php echo JText::_('PLG_RS_PAYMENT_DIBSDX_WAIT_MESSAGE'); ?></h2>
-<form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
-	<?php foreach ($formdata as $name => $value): ?>
-	<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
+<form action="<?php echo $dibsUrl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
+	<?php foreach ($formData as $name => $value): ?>
+        <input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
 	<?php endforeach; ?>
-	<input type="hidden" name="MAC" value="<?php echo $mac_key ?>"/>
+    <input type="hidden" name="MAC" value="<?php echo $macKey ?>"/>
 </form>
-<script>
-	document.getElementById("dibscheckout").submit();
+<script type="text/javascript">
+    document.getElementById('dibscheckout').submit()
 </script>

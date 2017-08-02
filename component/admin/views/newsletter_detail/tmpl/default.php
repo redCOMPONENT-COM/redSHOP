@@ -83,10 +83,8 @@ $model = $this->getModel('newsletter_detail');
 						{
 							?>
 							<span style="width:10%;">
-					<a class="joom-box"
-					   href="index.php?tmpl=component&option=com_redshop&view=template_detail&task=edit&showbuttons=1&cid[]=<?php echo $this->detail->template_id; ?>"
-					   rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-						<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE'); ?>
+					<a href="index.php?option=com_redshop&task=template.edit&template_id=<?php echo $this->detail->template_id ?>" target="_blank">
+						<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE') ?>
 					</a>
 				</span>
 						<?php } ?>

@@ -22,7 +22,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -82,7 +82,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 	public function store($data)
 	{
 		$row = $this->getTable('stockimage_detail');
-		$file = JRequest::getVar('stock_amount_image', '', 'files', 'array');
+		$file = JFactory::getApplication()->input->files->get('stock_amount_image', '', 'array');
 
 		if ($_FILES['stock_amount_image']['name'] != "")
 		{
@@ -96,9 +96,9 @@ class RedshopModelStockimage_detail extends RedshopModel
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $filename;
 			JFile::upload($src, $dest);
 
-			if (isset($data['stock_image']) != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']))
+			if (isset($data['stock_image']) != "" && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']))
 			{
-				unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
+				JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
 			}
 		}
 
@@ -132,9 +132,9 @@ class RedshopModelStockimage_detail extends RedshopModel
 				$this->_db->setQuery($query);
 				$stock_amount_image = $this->_db->loadResult();
 
-				if ($stock_amount_image != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image))
+				if ($stock_amount_image != "" && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
+					JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
 				}
 			}
 

@@ -11,13 +11,14 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
+$app           = JFactory::getApplication();
 $producthelper = productHelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $extraField    = extraField::getInstance();
 $config        = Redconfiguration::getInstance();
 $url           = JURI::base();
-$print         = JRequest::getInt('print');
-$Itemid        = JRequest::getInt('Itemid');
+$print         = $app->input->getInt('print');
+$Itemid        = $app->input->getInt('Itemid');
 $redhelper     = redhelper::getInstance();
 
 // Page Title Start
@@ -125,7 +126,7 @@ if ($this->detail && $template_middle != "")
 				{
 					if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 					{
-						$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
+						$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $row->manufacturer_id);
 
 						if (!$altText)
 						{

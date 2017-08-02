@@ -141,7 +141,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		{
 			if (!in_array(basename($file), $storeFiles))
 			{
-				unlink($file);
+				JFile::delete($file);
 			}
 		}
 

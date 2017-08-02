@@ -19,18 +19,13 @@ defined('_JEXEC') or die;
 class RedshopModelMass_Discounts extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
-	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_mass_discounts';
-
-	/**
 	 * Construct class
 	 *
-	 * @since 1.x
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   2.x
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -63,6 +58,9 @@ class RedshopModelMass_Discounts extends RedshopModelList
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
+
+		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type');
+		$this->setState('filter.type', $type);
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -109,6 +107,18 @@ class RedshopModelMass_Discounts extends RedshopModelList
 		{
 			$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where($db->qn('m.name') . ' LIKE ' . $search);
+		}
+
+		// Filter by type.
+		$type = $this->getState('filter.type', null);
+
+		if (is_numeric($type))
+		{
+			$query->where($db->qn('m.type') . ' = ' . (int) $type);
+		}
+		else
+		{
+			$query->where($db->qn('m.type') . ' IN (0,1)');
 		}
 
 		// Add the list ordering clause.

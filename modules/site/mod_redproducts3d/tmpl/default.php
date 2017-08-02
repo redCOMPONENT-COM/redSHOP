@@ -43,7 +43,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 {
 	$row  = $rows[$i];
 	$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $row->product_full_image))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $row->product_full_image))
 	{
 		$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $row->product_full_image;
 	}

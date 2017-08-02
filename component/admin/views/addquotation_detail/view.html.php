@@ -43,7 +43,7 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 
 		$lists = array();
 		$model = $this->getModel();
-		$user_id = JRequest::getVar('user_id', 0);
+		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
 
 		if ($user_id != 0)
 		{

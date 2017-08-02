@@ -159,8 +159,8 @@ class RedshopMenuLeft_Menu
 				return array('DISCOUNT', 'giftcards');
 				break;
 
+			case "vouchers":
 			case "voucher":
-			case "voucher_detail":
 				return array('DISCOUNT', 'voucher');
 				break;
 
@@ -170,7 +170,7 @@ class RedshopMenuLeft_Menu
 				break;
 
 			case "mail":
-			case "mail_detail":
+			case "mails":
 				return array('COMMUNICATION', 'mail');
 				break;
 
@@ -253,7 +253,7 @@ class RedshopMenuLeft_Menu
 				break;
 
 			case "template":
-			case "template_detail":
+			case "templates":
 				return array('CUSTOMIZATION', 'template');
 				break;
 
@@ -490,9 +490,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'giftcards') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=voucher',
+				'index.php?option=com_redshop&view=vouchers',
 				'COM_REDSHOP_VOUCHER_LISTING',
-				(self::$view == 'voucher') ? true : false
+				(self::$view == 'vouchers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=coupon',
@@ -512,9 +512,9 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('communication')
 			->title('COM_REDSHOP_COMMUNICATION')
 			->addItem(
-				'index.php?option=com_redshop&view=mail',
+				'index.php?option=com_redshop&view=mails',
 				'COM_REDSHOP_MAIL_CENTER_LISTING',
-				(self::$view == 'mail') ? true : false
+				(self::$view == 'mails') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=newsletter',
@@ -668,9 +668,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'fields') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=template',
+				'index.php?option=com_redshop&view=templates',
 				'COM_REDSHOP_TEMPLATE_LISTING',
-				(self::$view == 'template') ? true : false
+				(self::$view == 'templates') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=textlibrary',

@@ -18,8 +18,6 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.sys.ini</language>
     </languages>
     <config>
         <fields name="params"  addfieldpath="/libraries/redshop/form/fields">

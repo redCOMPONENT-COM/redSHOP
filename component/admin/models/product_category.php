@@ -21,8 +21,8 @@ class RedshopModelProduct_category extends RedshopModel
 
 	public function getProductlist()
 	{
-		$pid = JRequest::getVar('cid', array(), 'post', 'array');
-		$pids = implode(",", $pid);
+		$pid   = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$pids  = implode(",", $pid);
 		$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
 		$this->_db->setQuery($query);
 
@@ -68,8 +68,9 @@ class RedshopModelProduct_category extends RedshopModel
 
 	public function saveProduct_Category()
 	{
-		$pid = JRequest::getVar('cid', array(), 'post', 'array');
-		$cat_id = JRequest::getVar('category_id');
+		$app    = JFactory::getApplication();
+		$pid    = $app->input->post->get('cid', array(), 'array');
+		$cat_id = $app->input->get('category_id');
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
@@ -94,8 +95,9 @@ class RedshopModelProduct_category extends RedshopModel
 
 	public function removeProduct_Category()
 	{
-		$pid = JRequest::getVar('cid', array(), 'post', 'array');
-		$cat_id = JRequest::getVar('category_id', array(), 'post', 'array');
+		$app     = JFactory::getApplication();
+		$pid     = $app->input->post->get('cid', array(), 'array');
+		$cat_id  = $app->input->post->get('category_id', array(), 'array');
 		$cat_ids = implode(",", $cat_id);
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)

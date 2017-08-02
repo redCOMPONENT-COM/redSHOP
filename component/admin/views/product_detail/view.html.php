@@ -60,8 +60,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$this->input         = $app->input;
 		$user                = JFactory::getUser();
 
+		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher    = JDispatcher::getInstance();
+		$this->dispatcher    = RedshopHelperUtility::getDispatcher();
 
 		$redTemplate         = Redtemplate::getInstance();
 		$redhelper           = redhelper::getInstance();
@@ -578,6 +579,21 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		// For downloadable products
 		$productSerialDetail = $model->getProdcutSerialNumbers();
+
+		// Joomla tags
+		$tagsHelper = new JHelperTags;
+		$jtags = $tagsHelper->searchTags();
+
+		$currentTags = null;
+
+		if (!empty($detail->product_id))
+		{
+			$tagsHelper  = new JHelperTags;
+			$currentTags = $tagsHelper->getTagIds($detail->product_id, 'com_redshop.product');
+			$currentTags = explode(',', $currentTags);
+		}
+
+		$lists['jtags'] = JHtml::_('select.genericlist', $jtags, 'jtags[]', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $currentTags);
 
 		$this->model = $model;
 		$this->lists = $lists;

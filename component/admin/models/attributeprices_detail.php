@@ -27,9 +27,9 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
-		$this->_sectionid = JRequest::getVar('section_id', 0, '', 'int');
-		$this->_section = JRequest::getVar('section');
+		$array            = $jinput->get('cid', 0, 'array');
+		$this->_sectionid = $jinput->getInt('section_id', 0);
+		$this->_section   = $jinput->get('section');
 
 		$this->setId((int) $array[0]);
 	}

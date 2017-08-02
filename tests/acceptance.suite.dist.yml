@@ -30,7 +30,6 @@ modules:
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
-            database host: 'localhost'             # place where the Application is Hosted #server Address
             database user: 'root'                  # MySQL Server user ID, usually root
             database password: ''                  # MySQL Server password, usually empty or root
             database name: 'testredshop1j3'            # DB Name, at the Server

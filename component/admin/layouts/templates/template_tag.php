@@ -252,13 +252,13 @@ switch ($name)
 	case 'onestep_checkout':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ONESTEP_CHECKOUT_HINT'); ?></b><br /><br />
-		{billing_address_information_lbl} {edit_billing_address} {billing_address} {shipping_address_information_lbl} {shipping_address}
+		{billing_template} {billing_address_information_lbl} {edit_billing_address} {billing_address} {shipping_address_information_lbl} {shipping_address}
 		<?php
 		break;
 	case 'order_detail':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_DETAIL_HINT'); ?></b><br /><br />
-		{order_id} {order_number} {order_date} {order_status} {order_status_order_only_lbl} {order_status_payment_only_lbl} {order_status_order_only} {order_status_payment_only} <br />
+		{order_id} {order_number} {order_date} {order_status} {order_status_log} {order_status_order_only_lbl} {order_status_payment_only_lbl} {order_status_order_only} {order_status_payment_only} {tracking_number_lbl} {tracking_number} {tracking_url} <br />
 		{billing_address} {shipping_address} {product_name} {product_number} {product_wrapper} <br />
 		{product_price} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_quantity} {product_total_price} {order_subtotal} {order_total} <br />
 		{order_information_lbl} {order_id_lbl} {order_number_lbl} {order_date_lbl} {order_status_lbl} <br />
@@ -292,7 +292,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_RECEIPT_HINT'); ?></b><br /><br />
 		{product_loop_start} {product_loop_end} {product_name} {product_number} <br />
-		{product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_wrapper} {product_price} {product_quantity} {product_total_price} {order_subtotal} <br />
+		{product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_wrapper} {product_price} {product_quantity} {product_total_price} {order_subtotal}  {tracking_number_lbl} {tracking_number} {tracking_url} <br />
 		{order_id} {order_number} {order_shipping} {order_total} {delivery_time} {payment_status} {print}{delivery_time_lbl}  <br />
 		{if discount} {discount_lbl} {order_discount} {discount_in_percentage} {discount end if} {if vat} {vat_lbl} {order_tax} {vat end if} {shipping_lbl} {shipping_method_lbl} {shipping_method} <br />
 		{if payment_discount} {payment_discount_lbl} {payment_order_discount} {payment_discount end if} <br />

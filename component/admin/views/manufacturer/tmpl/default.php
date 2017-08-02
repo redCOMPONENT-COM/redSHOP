@@ -44,7 +44,7 @@ if ($allowOrder)
 	}
 
 </script>
-<form action="index.php?option=com_redshop"
+<form action="index.php?option=com_redshop&view=manufacturer"
 	  method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterTool">

@@ -206,7 +206,7 @@ class RedshopHelperQuotation
 	/**
 	 * Get list of quotation users
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */

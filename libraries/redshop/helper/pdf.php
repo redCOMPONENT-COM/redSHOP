@@ -23,13 +23,11 @@ class RedshopHelperPdf
 	/**
 	 * Get PDF Merger
 	 *
-	 * @return PDFMerger
+	 * @return  RedshopHelperPdf_Merge
 	 */
 	public static function getPDFMerger()
 	{
-		JLoader::import('helper.PDFMerger', JPATH_REDSHOP_LIBRARY);
-
-		return new PDFMerger;
+		return new RedshopHelperPdf_Merge;
 	}
 
 	/**

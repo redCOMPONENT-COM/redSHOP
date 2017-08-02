@@ -19,10 +19,10 @@ class RedshopViewQuotation extends RedshopView
 		$redconfig = Redconfiguration::getInstance();
 		$uri       = JFactory::getURI();
 
-		$Itemid  = JRequest::getInt('Itemid');
+		$Itemid  = $app->input->getInt('Itemid');
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$return  = JRequest::getString('return');
+		$return  = $app->input->getString('return');
 
 		if (!$return)
 		{

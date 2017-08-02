@@ -17,7 +17,7 @@ class RedshopViewCatalog extends RedshopView
 		$app = JFactory::getApplication();
 
 		$params = $app->getParams('com_redshop');
-		$layout = JRequest::getCmd('layout');
+		$layout = $app->input->getCmd('layout');
 
 		if ($layout == "sample")
 		{

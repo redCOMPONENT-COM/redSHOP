@@ -20,13 +20,17 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public $_table_prefix = null;
 
+	public $input;
+
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$this->input = JFactory::getApplication()->input;
+
+		$array = $this->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}
@@ -52,7 +56,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 
 		if (empty($this->_data))
 		{
@@ -135,7 +139,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 
 		if (count($cid))
 		{
@@ -165,7 +169,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 
 		if (count($cid))
 		{
@@ -211,7 +215,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 		$fieldName = 'discount_id';
 		$tableName = 'discount_shoppers';
 
-		if ('product' == JFactory::getApplication()->input->getCmd('layout'))
+		if ('product' == $this->input->getCmd('layout', ''))
 		{
 			$fieldName = 'discount_product_id';
 			$tableName = 'discount_product_shoppers';
@@ -245,7 +249,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function saveShoppers($did, $sids)
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 
 		foreach ($sids as $sid)
 		{

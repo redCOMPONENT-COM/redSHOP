@@ -44,6 +44,8 @@ foreach ($fields as $field)
 		$html .= RedshopHelperExtrafields::listAllField($sectionId, $product_id, $fieldName);
 	}
 }
+
+$this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
 ?>
 
 <div class="row">
