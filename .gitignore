@@ -45,6 +45,7 @@ tests/vendor/*
 libraries/redshop/vendor/*
 plugins/redshop_payment/klarna/library/vendor/*
 plugins/redshop_payment/mollieideal/library/vendor/*
+plugins/redshop_payment/paypalcreditcard/library/vendor/*
 plugins/redshop_payment/payson/libraries/vendor/*
 plugins/redshop_payment/quickbook/library/vendor/*
 plugins/redshop_payment/rs_payment_braintree/library/vendor/*
