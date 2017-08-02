@@ -45,7 +45,7 @@ class ManageShopperGroupAdministratorCest
      */
     public function creatShopperGroup(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test Category Save creation in Administrator');
+        $I->wantTo('Test Shopper Group Save creation in Administrator');
         $I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->categoryName, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showPrice, 'save');
