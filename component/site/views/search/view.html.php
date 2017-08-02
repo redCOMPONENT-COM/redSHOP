@@ -114,7 +114,7 @@ class RedshopViewSearch extends RedshopView
 			$input = JFactory::getApplication()->input;
 			$input->set('order_by', $app->getUserState('order_by'));
 
-			$dispatcher       = JDispatcher::getInstance();
+			$dispatcher       = RedshopHelperUtility::getDispatcher();
 			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
@@ -515,7 +515,7 @@ class RedshopViewSearch extends RedshopView
 							$alttext = $media_documents[$m]->media_name;
 						}
 
-						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+						if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
 							$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
