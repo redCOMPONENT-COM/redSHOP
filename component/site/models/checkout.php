@@ -1121,6 +1121,9 @@ class RedshopModelCheckout extends RedshopModel
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'BT';
 
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher->trigger('onBeforeUserBillingStore', array(&$orderuserrow));
+
 		if (!$orderuserrow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -1147,6 +1150,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'ST';
+
+		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
 
 		if (!$orderuserrow->store())
 		{
@@ -1907,8 +1912,8 @@ class RedshopModelCheckout extends RedshopModel
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
 				$transaction_voucher_id = 0;
 				$vouchertype[]          = 'v:' . $cart['voucher'][$i]['voucher_code'];
-				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
-					. "WHERE voucher_id  = " . (int) $voucher_id;
+				$sql                    = "UPDATE " . $this->_table_prefix . "voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
+					. "WHERE `id`  = " . (int) $voucher_id;
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
 

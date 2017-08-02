@@ -109,13 +109,9 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         if (strpos($text, 'unpublish') > 0)
         {
             $result = 'published';
-        }
-
-        if (strpos($text, 'publish') > 0)
-        {
+        }else{
             $result = 'unpublished';
         }
-
         return $result;
     }
 
