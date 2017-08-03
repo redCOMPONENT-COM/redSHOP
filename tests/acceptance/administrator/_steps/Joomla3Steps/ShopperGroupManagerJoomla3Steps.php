@@ -50,7 +50,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\ShopperGroupJ3Page::$quotationYes);
 		$I->click(\ShopperGroupJ3Page::$publishYes);
-		switch ($function) {
+		switch ($function){
 			case 'save':
 				$I->click(\ShopperGroupJ3Page::$saveButton);
 				$I->see(\ShopperGroupJ3Page::$saveSuccess, \ShopperGroupJ3Page::$selectorSuccess);
@@ -64,6 +64,17 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	}
 
+	public function deleteShopperGroupsYes()
+	{
+		$I = $this;
+		$I->amOnPage(\ShopperGroupJ3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
+		$I->click(\ShopperGroupJ3Page::$shopperFours);
+		$I->click(\ShopperGroupJ3Page::$deleteButton);
+		$I->acceptPopup();
+		$I->see(\ShopperGroupJ3Page::$deleteButton, \ShopperGroupJ3Page::$selectorSuccess);
+	}
+
 	public function changeStateShopperGroups()
 	{
 		$I = $this;
@@ -73,14 +84,13 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(3);
 	}
 
-	public function changeStateShopperGroup($status)
-	{
+	public function changeStateShopperGroup($status){
 		$I = $this;
 		$I->amOnPage(\ShopperGroupJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
 		$I->click(\ShopperGroupJ3Page::$shopperFirstStatus);
 		$I->wait(3);
-		switch ($status) {
+		switch ($status){
 			case 'unpublished':
 				$currentState = $I->getShopperGroupsStates();
 				$I->verifyState('unpublished', $currentState);
@@ -91,7 +101,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 		}
 	}
-
 	public function checkCloseButton($idShopperGroups)
 	{
 		$I = $this;
@@ -140,16 +149,15 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 
-	public function changStatusAllShopperGroups($status)
-	{
+	public function changStatusAllShopperGroups($status){
 		$I = $this;
 		$I->amOnPage(\ShopperGroupJ3Page::$URL);
 		$I->checkAllResults();
-		switch ($status) {
+		switch ($status){
 			case 'publish':
 				$I->click(\ShopperGroupJ3Page::$publishButton);
 				$I->see(\ShopperGroupJ3Page::$publishSuccess, \ShopperGroupJ3Page::$xpathMessageSuccess);
-				break;
+				break ;
 
 			case 'unpublish':
 				$I->click(\ShopperGroupJ3Page::$unpublishButton);
@@ -160,11 +168,10 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 
-	public function checkButtons($buttonName)
-	{
+	public function checkButtons($buttonName){
 		$I = $this;
 		$I->amOnPage(\ShopperGroupJ3Page::$URL);
-		switch ($buttonName) {
+		switch ($buttonName){
 			case 'edit':
 				$I->click(\ShopperGroupJ3Page::$editButton);
 				$I->acceptPopup();

@@ -22,7 +22,7 @@ $count = count($albums);
 					<?php foreach ($albums as $album): ?>
                         <li role="presentation"><a href="#<?php echo isset($album->id) ? $album->id : '' ?>" role="tab"
                                                    data-toggle="tab"><?php echo isset($album->name) ? $album->name : ''
-								?></a></li>c
+								?></a></li>
 					<?php endforeach; ?>
                 </ul>
                 <!-- Tab panes -->
