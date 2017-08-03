@@ -177,4 +177,13 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->wait(3);
         $I->waitForElement(['link' => $text]);
     }
+
+    public function filterListBySearchOrder($text, $searchField = ['id' => 'filter']){
+        $I = $this;
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->fillField($searchField, $text);
+        $I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->wait(3);
+//        $I->waitForElement(['link' => $text]);
+    }
 }
