@@ -56,6 +56,10 @@ class GiftCardCheckoutProductCest
 		$this->discountStart = "12-12-2016";
 		$this->discountEnd = "23-05-2017";
 
+		//Order change
+		$this->status = "Confirmed";
+		$this->paymentStatus = "Paid";
+		$this->newQuantity = '1';
 		//information checkout
 		$this->checkoutAccountInformation = array(
 			"accessId" => "62qpC9xN9nN4",
@@ -80,7 +84,7 @@ class GiftCardCheckoutProductCest
 		$I->doAdministratorLogin();
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
 		$I->wait(3);
-		$I->installExtensionFromUrl($I->getConfig('redshop packages url').'plugins/plg_redshop_payment_rs_payment_paypal.zip');
+		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->wait(5);
 		$I->enablePlugin('PayPal');
 	}
@@ -166,11 +170,23 @@ class GiftCardCheckoutProductCest
 
 
 		$this->checkoutGiftCardWithAuthorizePayment($I, $scenario, $this->userInformation, $this->userInformation, $this->checkoutAccountInformation, $this->randomCardName);
+
 //		need to goes on backend and change status of order is paid
+		$this->changeStatusOrder($I, $scenario);
+		
 		//get Coupon code done
 		$this->couponCode = $this->fetchCouponCode($I, $scenario);
 		$this->checkoutProductWithCouponCode($I, $scenario, $this->userInformation, $this->userInformation, $this->productName, $this->categoryName, $this->couponCode);
 		$this->deleteGiftCard($I, $scenario);
+	}
+
+	private function changeStatusOrder(AcceptanceTester $I, $scenario)
+	{
+		$I = new AcceptanceTester($scenario);
+		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->editOrder($this->firstName, $this->status, $this->paymentStatus, $this->newQuantity);
+
 	}
 
 	/**
