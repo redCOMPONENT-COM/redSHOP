@@ -20,6 +20,9 @@ class GiftCardCheckoutPage extends AdminJ3Page
 
 	public static $couponButton = ['id' => 'coupon_button'];
 
+	public static $reciverEmail = ['id' => 'reciver_email'];
+
+
 	public static $messageInvalid = "The discount code is valid";
 
 //	public static
