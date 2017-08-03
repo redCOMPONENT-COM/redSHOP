@@ -13,6 +13,7 @@ $products   = $displayData["products"];
 $templateId = $displayData['templateId'];
 $pk         = $displayData["post"];
 $cid        = $pk["cid"] ? $pk["cid"] : 0;
+$keyword    = $displayData['keyword'];
 $model      = $displayData["model"];
 $app        = JFactory::getApplication();
 $input      = $app->input;
@@ -434,6 +435,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX')
 		);
 
+		if (!empty($keyword))
+		{
+			$productName = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productName);
+		}
+
 		if (strstr($dataAdd, '{product_name_nolink}'))
 		{
 			$dataAdd = str_replace("{product_name_nolink}", $productName, $dataAdd);
@@ -469,6 +475,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX')
 			);
 
+			if (!empty($keyword))
+			{
+				$productShortDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productShortDesc);
+			}
+
 			$dataAdd = str_replace("{product_s_desc}", $productShortDesc, $dataAdd);
 		}
 
@@ -479,6 +490,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'),
 				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX')
 			);
+
+			if (!empty($keyword))
+			{
+				$productDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productDesc);
+			}
 
 			$dataAdd = str_replace("{product_desc}", $productDesc, $dataAdd);
 		}
