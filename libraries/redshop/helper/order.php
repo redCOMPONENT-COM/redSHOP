@@ -1302,6 +1302,7 @@ class RedshopHelperOrder
 	 */
 	public static function updateStatus()
 	{
+		JPluginHelper::importPlugin('redshop_shipping');
 		$app             = JFactory::getApplication();
 		$productHelper   = productHelper::getInstance();
 
@@ -1480,7 +1481,6 @@ class RedshopHelperOrder
 				break;
 		}
 
-		JPluginHelper::importPlugin('redshop_shipping');
 		RedshopHelperUtility::getDispatcher()->trigger(
 			'sendOrderShipping',
 			array(
