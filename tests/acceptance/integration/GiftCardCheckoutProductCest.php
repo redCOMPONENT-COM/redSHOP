@@ -50,7 +50,7 @@ class GiftCardCheckoutProductCest
 		$this->productName = 'Testing Products' . rand(99, 999);
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = '24';
-		$this->minimumPerProduct = $this->faker->numberBetween(1, 10);
+		$this->minimumPerProduct = '1';
 		$this->minimumQuantity = $this->faker->numberBetween(1, 10);
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
 		$this->discountStart = "12-12-2016";
@@ -75,13 +75,19 @@ class GiftCardCheckoutProductCest
 
 	}
 
-
+	/**
+	 * Function install payment_paypal and enable
+	 */
 	public function enablePayment(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
 
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
 		$I->doAdministratorLogin();
+		$I->amOnPage('/administrator/index.php');
+		$I->wait(3);
+//		$I->click(\GiftCardCheckoutPage::$buttonStatic);
+		$I->wait(3);
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
 		$I->wait(3);
 		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
@@ -126,8 +132,6 @@ class GiftCardCheckoutProductCest
 	public function createUser(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-
-		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Test User creation in Administrator');
@@ -143,14 +147,11 @@ class GiftCardCheckoutProductCest
 	public function createGiftCard(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-
-		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
 		$I->doAdministratorLogin();
 		$I->wantTo('Test Gift Card creation in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->addCardNew($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity, 'save');
 	}
-
 
 	/**
 	 * Test to Verify the Gift Card Checkout
@@ -167,20 +168,18 @@ class GiftCardCheckoutProductCest
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-
-
 		$this->checkoutGiftCardWithAuthorizePayment($I, $scenario, $this->userInformation, $this->userInformation, $this->checkoutAccountInformation, $this->randomCardName);
 
-//		need to goes on backend and change status of order is paid
-		$this->changeStatusOrder($I, $scenario);
-		
-		//get Coupon code done
-		$this->couponCode = $this->fetchCouponCode($I, $scenario);
-		$this->checkoutProductWithCouponCode($I, $scenario, $this->userInformation, $this->userInformation, $this->productName, $this->categoryName, $this->couponCode);
-		$this->deleteGiftCard($I, $scenario);
+
 	}
 
-	private function changeStatusOrder(AcceptanceTester $I, $scenario)
+	/**
+	 * Change status of order to paid for get coupon
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
+	public function changeStatusOrder(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
 		$I->doAdministratorLogin();
@@ -197,7 +196,7 @@ class GiftCardCheckoutProductCest
 	 *
 	 * @return String
 	 */
-	private function fetchCouponCode(AcceptanceTester $I, $scenario)
+	public function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
 		$I->doAdministratorLogin();
@@ -205,11 +204,14 @@ class GiftCardCheckoutProductCest
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(\CouponManagerJ3Page::$selectFirst);
-		$couponCode = $I->grabTextFrom(\CouponManagerJ3Page::$selectValueCoupon);
-		$I->comment($couponCode);
+		$this->couponCode = $I->grabTextFrom(\CouponManagerJ3Page::$selectValueCoupon);
+	}
 
-		return $couponCode;
-
+	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
+	{
+		$I = new AcceptanceTester($scenario);
+		$this->checkoutProductWithCouponCode($I, $scenario, $this->userInformation, $this->userInformation, $this->productName, $this->categoryName, $this->couponCode);
+		$this->deleteGiftCard($I, $scenario);
 	}
 
 	/**
@@ -229,18 +231,17 @@ class GiftCardCheckoutProductCest
 		$I->doFrontEndLogin($this->userName, $this->password);
 		// here , can't get this link
 		$I->amOnPage(\GiftCardCheckoutPage::$pageCart);
-//		$I->waitForElement(['link' => $giftCardName], 60);
-		$giftCheckoutPage = new \GiftCardCheckoutPage;
+		$I->waitForElement(['link' => $giftCardName], 60);
 		$I->click(['link' => $giftCardName]);
 		$I->waitForElement(\GiftCardCheckoutPage::$reciverName);
 		$I->fillField(\GiftCardCheckoutPage::$reciverName, $this->firstName);
-		$I->fillField(\GiftCardCheckoutPage::$reciverName, $this->email);
+		$I->fillField(\GiftCardCheckoutPage::$reciverEmail, $this->email);
 		$I->click(\GiftCardCheckoutPage::$addToCart);
 		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
 		$I->seeElement(['link' => $giftCardName]);
-//
+
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
 		$I->waitForElement(\GiftCardCheckoutPage::$paymentPayPad, 30);
 		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
@@ -248,9 +249,9 @@ class GiftCardCheckoutProductCest
 
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
 		$I->waitForElementVisible(\GiftCardCheckoutPage::$addressEmail);
-		$I->fillField(\GiftCardCheckoutPage::$addressEmail, $addressDetail['email']);
-		$I->fillField(\GiftCardCheckoutPage::$addressFirstName, $addressDetail['firstName']);
-		$I->fillField(\GiftCardCheckoutPage::$addressLastName, $addressDetail['lastName']);
+		$I->fillField(\GiftCardCheckoutPage::$addressEmail, $this->email);
+		$I->fillField(\GiftCardCheckoutPage::$addressFirstName, $this->firstName);
+		$I->fillField(\GiftCardCheckoutPage::$addressLastName, $this->lastName);
 		$I->fillField(\GiftCardCheckoutPage::$addressAddress, $addressDetail['address']);
 		$I->fillField(\GiftCardCheckoutPage::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(\GiftCardCheckoutPage::$addressCity, $addressDetail['city']);
@@ -279,7 +280,7 @@ class GiftCardCheckoutProductCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithCouponCode(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms', $couponCode)
+	private function checkoutProductWithCouponCode(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName, $categoryName, $couponCode)
 	{
 //		$I->doFrontEndLogin($this->userName, $this->password);
 		$I->doFrontEndLogin("admin", "admin");
@@ -299,33 +300,20 @@ class GiftCardCheckoutProductCest
 		$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
 
-
 		$I->see("$ 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("$ 10,00", \GiftCardCheckoutPage::$priceDiscount);
 		$I->see("$ 14,00", \GiftCardCheckoutPage::$priceEnd);
 	}
 
-
 	/**
 	 * Function to Test Gift Card Deletion
 	 *
 	 */
-	private function deleteGiftCard(AcceptanceTester $I, $scenario)
+	private
+	function deleteGiftCard(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Gift Card in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->randomCardName);
-	}
-
-
-	/**
-	 * Function to Test User Deletion
-	 *
-	 */
-	private function deleteUser(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Deletion of User in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
 	}
 }
