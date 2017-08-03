@@ -15,6 +15,8 @@
  */
 abstract class AdminJ3Page
 {
+
+	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
 	/**
 	 * @var string
 	 */
@@ -162,6 +164,10 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+	/**
+	 * @var string
+	 */
+	public static $addressEmail = "#email1";
 
 	/**
 	 * @var string

@@ -152,7 +152,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->click("New");
         $I->waitForElement(['id' => "product_name"], 30);
