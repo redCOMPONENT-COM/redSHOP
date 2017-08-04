@@ -66,12 +66,12 @@ class RedshopViewTemplate_detail extends RedshopViewAdmin
 		}
 
 		// TEMPLATE MOVE DB TO FILE
-		$post = $jinput->post->getArray();
+		$post = $app->input->post->getArray();
 		if ($isNew && (isset($post['template_name']) && $post['template_name'] != ""))
 		{
 			$detail->template_name    = $post['template_name'];
 			$detail->template_section = $post['template_section'];
-			$template_desc            = $jinput->post->get('template_desc', '', 'raw');
+			$template_desc            = $app->input->post->get('template_desc', '', 'raw');
 			$detail->template_desc    = $template_desc;
 			$detail->published        = $post['published'];
 			$detail->msg              = JText::_('PLEASE_CHANGE_FILE_NAME_IT_IS_ALREADY_EXISTS');
