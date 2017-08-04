@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -326,7 +326,7 @@ echo RedshopLayoutHelper::render(
         <input class="text_area" type="file" name="file_pre_order_image" id="file_pre_order_image" size="40"/>
         <input type="hidden" name="pre_order_image" id="pre_order_image" value="<?php echo $preOrderImage ?>"/>
 
-		<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage)): ?>
+		<?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage)): ?>
             <div class="divimages" id="preorddiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"
                    title="<?php echo $preOrderImage; ?>" rel="{handler: 'image', size: {}}">

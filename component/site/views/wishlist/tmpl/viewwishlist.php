@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,7 +184,7 @@ function display_products($rows)
 		{
 			$row = $rows[$i];
 
-			$Itemid = $redhelper->getItemid($row->product_id);
+			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
@@ -266,7 +266,7 @@ function display_products($rows)
 			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
 
-			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
+			$Itemid = RedshopHelperUtility::getItemId($rows[$i]->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
@@ -505,7 +505,7 @@ function display_products($rows)
 					}
 				}
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $countUserfield = count($userfieldArr); $ui < $countUserfield; $ui++)
 				{
 					if (!$idx)
 					{
@@ -630,7 +630,7 @@ function display_products($rows)
 		$data = $template_d1[0] . $temp_template . $template_d2[1];
 		$data = str_replace('{back_link}', '', $data);
 		$data = str_replace('{all_cart}', $my, $data);
-		$data = RedshopHelperTemplate::parseredSHOPplugin($data);
+		$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 		echo eval("?>" . $data . "<?php ");
 	}
 }

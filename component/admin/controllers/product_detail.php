@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 jimport('joomla.filesystem.file');
 
@@ -27,7 +29,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Constructor to set the right model
 	 *
-	 * @param   array $default Optional configuration parameters
+	 * @param   array  $default  Optional  configuration parameters
 	 */
 	public function __construct($default = array())
 	{
@@ -127,8 +129,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
 		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
-		)
+			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
@@ -137,12 +138,20 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
-
-		$post ['discount_stratdate'] = strtotime($post ['discount_stratdate']);
-
-		if ($post ['discount_enddate'])
+    
+		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
+ 		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
+    
+		if ($post['discount_stratdate'])
 		{
-			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
+			$startDate                  = new JDate($post['discount_stratdate']);
+			$post['discount_stratdate'] = $startDate->toUnix();
+		}
+
+		if ($post['discount_enddate'])
+		{
+			$endDate                  = new JDate($post['discount_enddate']);
+			$post['discount_enddate'] = $endDate->toUnix();
 		}
 
 		// Setting default value
@@ -178,8 +187,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			// Add product to economic
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				$economic = economic::getInstance();
-				$economic->createProductInEconomic($row);
+				Economic::createProductInEconomic($row);
 			}
 
 			$field = extra_field::getInstance();
@@ -203,7 +211,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-			elseif ($apply == 1)
+            elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -392,14 +400,15 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$attribute = array_merge(array(), $post['attribute']);
 
-		for ($a = 0; $a < count($attribute); $a++)
+		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
 		{
-			$attribute_save['attribute_id']        = $attribute[$a]['id'];
-			$tmpordering                           = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
-			$attribute_save['product_id']          = $row->product_id;
-			$attribute_save['attribute_name']      = htmlspecialchars($attribute[$a]['name']);
-			$attribute_save['ordering']            = $attribute[$a]['ordering'];
-			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+			$attribute_save['attribute_id']          = $attribute[$a]['id'];
+			$tmpordering                             = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
+			$attribute_save['product_id']            = $row->product_id;
+			$attribute_save['attribute_name']        = htmlspecialchars($attribute[$a]['name']);
+			$attribute_save['ordering']              = $attribute[$a]['ordering'];
+			$attribute_save['attribute_published']   = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+			$attribute_save['attribute_description'] = $attribute[$a]['attribute_description'];
 
 			$attribute_save['attribute_required']       = isset($attribute[$a]['required'])
 			&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
@@ -417,7 +426,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$propertyImage      = array_keys($attribute[$a]['property']);
 			$tmpproptyimagename = array_merge(array(), $propertyImage);
 
-			for ($p = 0; $p < count($property); $p++)
+			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 			{
 				$property_save['property_id']         = $property[$p]['property_id'];
 				$property_save['attribute_id']        = $attribute_array->attribute_id;
@@ -462,7 +471,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				{
 					$listImages = $model->GetimageInfo($property_id, 'property');
 
-					for ($li = 0; $li < count($listImages); $li++)
+					for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 					{
 						$mImages                         = array();
 						$mImages['media_name']           = $listImages[$li]->media_name;
@@ -478,13 +487,13 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
-					$economic->createPropertyInEconomic($row, $property_array);
+					Economic::createPropertyInEconomic($row, $property_array);
 				}
 
 				// Set trigger to save Attribute Property Plugin Data
 				if ((int) $property_id)
 				{
-					$dispatcher = JDispatcher::getInstance();
+					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
@@ -542,8 +551,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
 						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
+						$countSubpropertyImage = count($listsubpropImages);
 
-						for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
 						{
 							$smImages                         = array();
 							$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
@@ -559,7 +569,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
-						$economic->createSubpropertyInEconomic($row, $subproperty_array);
+						Economic::createSubpropertyInEconomic($row, $subproperty_array);
 					}
 				}
 			}
@@ -923,7 +933,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$child_product_id = $this->input->getInt('child_product_id', null);
 		$model            = $this->getModel('product_detail');
 		$model->removeaccesory($accessory_id, $category_id, $child_product_id);
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -1005,7 +1015,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
 								}
 
-								unlink(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
+								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 							}
 						}
 					}
@@ -1016,5 +1026,23 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for get all available product number
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.4
+	 */
+	public function ajaxGetAllProductNumber()
+	{
+		JSession::checkToken() or die('JINVALID_TOKEN');
+
+		$app = JFactory::getApplication();
+
+		echo implode(',', RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
+
+		$app->close();
 	}
 }

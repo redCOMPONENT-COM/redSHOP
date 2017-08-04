@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="redshop_product" method="upgrade">
+	<name>PLG_REDSHOP_PRODUCT_ALTTEXT</name>
+	<version>1.0</version>
+	<redshop>2.0.3</redshop>
+	<creationDate>Mar 2017</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_REDSHOP_PRODUCT_ALTTEXT_DESC</description>
+	<files>
+		<filename plugin="product_alttext">product_alttext.php</filename>
+		<folder>language</folder>
+	</files>
+	<config addfieldpath="/libraries/redshop/form/fields">
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="product_image_alt_text" type="text" size="50" default="{category_name} - {product_name}"
+					   label="PLG_REDSHOP_PRODUCT_ALTTEXT_TEXT"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

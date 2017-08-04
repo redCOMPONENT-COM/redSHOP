@@ -34,12 +34,11 @@ class plgRedshop_PaymentPaygate extends JPlugin
 			return;
 		}
 
-		$currencyClass   = CurrencyHelper::getInstance();
 		$app = JFactory::getApplication();
 
 		$paymentId       = $this->params->get('paygateId');
 		$reference       = $data['order_id'];
-		$amount          = round($currencyClass->convert($data['order']->order_total, '', 'ZAR'), 2) * 100;
+		$amount          = round(RedshopHelperCurrency::convert($data['order']->order_total, '', 'ZAR'), 2) * 100;
 		$currency        = 'ZAR';
 		$returnUrl       = JURI::base() . "index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=paygate&Itemid=" . $app->input->getInt('Itemid') . "&orderid=" . $data['order_id'];
 		$transactionDate = date('Y-m-d H:i');

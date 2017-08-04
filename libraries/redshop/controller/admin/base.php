@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -29,17 +29,17 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 * @var  array
 	 */
 	protected $states = array(
-		'publish' => 1,
+		'publish'   => 1,
 		'unpublish' => 0,
-		'archive' => 2,
-		'trash' => -2,
-		'report' => -3
+		'archive'   => 2,
+		'trash'     => -2,
+		'report'    => -3
 	);
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @throws  Exception
 	 */
@@ -57,9 +57,9 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $name   The model name. Optional.
+	 * @param   string $prefix The class prefix. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
 	 */
@@ -85,7 +85,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function saveOrderAjax()
 	{
@@ -166,7 +166,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid   = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$value = ArrayHelper::getValue($this->states, $this->getTask(), 0, 'int');
 
 		if (empty($cid))
@@ -224,7 +224,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			}
 		}
 
-		$extension = $this->input->get('extension');
+		$extension    = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 
 		// Set redirect
@@ -241,8 +241,8 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
-		$model = $this->getModel();
+		$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$model  = $this->getModel();
 		$return = $model->checkin($ids);
 
 		if ($return === false)
@@ -280,7 +280,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
 
-		$model = $this->getModel();
+		$model  = $this->getModel();
 		$return = $model->reorder($ids, $inc);
 
 		if ($return === false)
@@ -317,7 +317,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
-		$pks = $this->input->post->get('cid', array(), 'array');
+		$pks   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
@@ -356,7 +356,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	/**
 	 * Get the JRoute object for a redirect to list.
 	 *
-	 * @param   string  $append  An optional string to append to the route
+	 * @param   string $append An optional string to append to the route
 	 *
 	 * @return  string           The JRoute string
 	 */
@@ -374,5 +374,39 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		{
 			return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
 		}
+	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 */
+	public function ajaxInlineEdit()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
+		$editKey  = $this->input->get('id', 0);
+
+		if (empty($editData) || empty($editData[$editKey]))
+		{
+			echo 0;
+		}
+
+		$editData = $editData[$editKey];
+
+		/** @var RedshopTable $table */
+		$table  = $this->getModel()->getTable();
+		$result = true;
+
+		if (!$table->load($editKey) || !$table->bind($editData) || !$table->check() || !$table->store())
+		{
+			$result = false;
+		}
+
+		echo (int) $result;
+
+		JFactory::getApplication()->close();
 	}
 }

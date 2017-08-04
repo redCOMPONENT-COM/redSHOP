@@ -3,13 +3,13 @@
  * @package     Redshop.Library
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+use Joomla\String\StringHelper;
 
 /**
  * Redshop Model
@@ -305,5 +305,29 @@ class RedshopModelForm extends JModelAdmin
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Method to rename value to unique in current table.
+	 *
+	 * @param   string  $fieldName   Field name
+	 * @param   string  $fieldValue  Field value
+	 * @param   string  $style       The the style (default|dash)
+	 * @param   string  $tableName   Use table with name in value
+	 *
+	 * @return  string  Unique field value
+	 *
+	 * @since   1.5
+	 */
+	protected function renameToUniqueValue($fieldName, $fieldValue, $style = 'default', $tableName = '')
+	{
+		$table = $this->getTable($tableName);
+
+		while ($table->load(array($fieldName => $fieldValue)))
+		{
+			$fieldValue = StringHelper::increment($fieldValue, $style);
+		}
+
+		return $fieldValue;
 	}
 }

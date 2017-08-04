@@ -3,12 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 /**
  * Account Controller.
@@ -26,11 +25,12 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function editTag()
 	{
-		$app    = JFactory::getApplication();
-		$post   = JRequest::get('post');
-		$model  = $this->getModel('account');
+		$app   = JFactory::getApplication();
 
-		if ($model->editTag($post))
+		/** @var RedshopModelAccount $model */
+		$model = $this->getModel('account');
+
+		if ($model->editTag($app->input->post->getArray()))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
 		}
@@ -39,7 +39,9 @@ class RedshopControllerAccount extends RedshopController
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $app->input->getInt('Itemid'));
+		$this->setRedirect(
+			JRoute::_('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $app->input->getInt('Itemid'), false)
+		);
 	}
 
 	/**
@@ -49,33 +51,30 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function sendWishlist()
 	{
-		$post = JRequest::get('post');
-		$emailto    = $post['emailto'];
-		$sender     = $post['sender'];
-		$email      = $post['email'];
-		$subject    = $post['subject'];
-		$Itemid     = $post['Itemid'];
-		$wishlis_id = $post['wishlist_id'];
+		$input      = JFactory::getApplication()->input->post;
+		$itemId     = $input->get('Itemid');
+		$wishListId = $input->get('wishlist_id');
 
-		$model      = $this->getModel('account');
+		/** @var RedshopModelAccount $model */
+		$model = $this->getModel('account');
 
-		if ($emailto == "")
+		if ($input->get('emailto') == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
 		}
-		elseif ($sender == "")
+		elseif ($input->get('sender') == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
 		}
-		elseif ($email == "")
+		elseif ($input->get('email') == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
 		}
-		elseif ($subject == "")
+		elseif ($input->get('subject') == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
 		}
-		elseif ($model->sendWishlist($post))
+		elseif ($model->sendWishlist($input->getArray()))
 		{
 			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
 		}
@@ -84,22 +83,24 @@ class RedshopControllerAccount extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SENDING');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component&wishlist_id=' . $wishlis_id . '&Itemid' . $Itemid, $msg);
+		$url = 'index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component'
+			. '&wishlist_id=' . $wishListId . '&Itemid' . $itemId;
+
+		$this->setRedirect(JRoute::_($url, false), $msg);
 	}
 
 	/**
-	 *  Method to subscribe newsletter
+	 * Method to subscribe newsletter
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function newsletterSubscribe()
 	{
-		$userhelper = rsUserHelper::getInstance();
-		$userhelper->newsletterSubscribe(0, array(), 1);
+		RedshopHelperNewsletter::subscribe(0, array(), 1);
 
-		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
+		$itemId = JFactory::getApplication()->input->getInt('Itemid');
 		$this->setRedirect(
-			"index.php?option=com_redshop&view=account&Itemid=" . $Itemid,
+			JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
 			JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS')
 		);
 	}
@@ -111,13 +112,12 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function newsletterUnsubscribe()
 	{
-		$user       = JFactory::getUser();
-		$Itemid     = JFactory::getApplication()->input->getInt('Itemid');
-		$userhelper = rsUserHelper::getInstance();
+		$user   = JFactory::getUser();
+		$itemId = JFactory::getApplication()->input->getInt('Itemid');
 
-		$userhelper->newsletterUnsubscribe($user->email);
+		RedshopHelperNewsletter::removeSubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
-		$this->setRedirect("index.php?option=com_redshop&view=account&Itemid=" . $Itemid, $msg);
+		$this->setRedirect(JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false), $msg);
 	}
 }

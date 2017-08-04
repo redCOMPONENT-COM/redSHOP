@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Shipping.Rate
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,10 +28,10 @@ class RedshopShippingRate
 		$string = implode('|', $data);
 
 		return str_replace(
-					"+",
-					" ",
-					base64_encode(self::cryptMethod($string))
-				);
+			"+",
+			" ",
+			base64_encode(self::cryptMethod($string))
+		);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class RedshopShippingRate
 	 *
 	 * @param   string  $string  String which needs to be crypt
 	 *
-	 * @return  string  Crypted string
+	 * @return  string           Crypted string
 	 */
 	protected static function cryptMethod($string)
 	{
@@ -63,7 +63,6 @@ class RedshopShippingRate
 		for ($position = 0; $position < $length; $position++)
 		{
 			$keyToUse              = (($length + $position) + 1);
-
 			$keyToUse              = (255 + $keyToUse) % 255;
 			$byteToBeEncrypted     = substr($string, $position, 1);
 			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);
@@ -73,5 +72,45 @@ class RedshopShippingRate
 		}
 
 		return $encrypted;
+	}
+
+	/**
+	 * Delete shipping rate when shipping method is not available
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public static function removeShippingRate()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(' . $db->qn('shipping_class') . ')')
+			->from($db->qn('#__redshop_shipping_rate'));
+
+		$shippingClasses = $db->setQuery($query)->loadColumn();
+
+		if (empty($shippingClasses))
+		{
+			return;
+		}
+
+		$query->clear()
+			->select($db->qn('element'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('folder') . ' = ' . $db->quote('redshop_shipping'));
+
+		$shipping = $db->setQuery($query)->loadColumn();
+
+		$differentShipping = array_diff($shippingClasses, $shipping);
+		sort($differentShipping);
+
+		if (!empty($differentShipping))
+		{
+			$query->clear()
+				->delete($db->qn('#__redshop_shipping_rate'))
+				->where($db->qn('shipping_class') . ' IN (' . implode(',', RedshopHelperUtility::quote($differentShipping)) . ')');
+			$db->setQuery($query)->execute();
+		}
 	}
 }

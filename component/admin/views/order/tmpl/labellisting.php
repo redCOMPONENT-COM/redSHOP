@@ -3,14 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $shippinghelper = shipping::getInstance();
-
-$jinput = JFactory::getApplication()->input;
-
+$app      = JFactory::getApplication();
+$jinput   = $app->input;
 $download = $jinput->get('download');
+
 if ($download)
 {
 	$oid = $jinput->getInt('oid');
@@ -39,7 +39,7 @@ if ($download)
 	ob_clean();
 	flush();
 	readfile($tmp_name);
-	exit;
+	$app->close();
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"

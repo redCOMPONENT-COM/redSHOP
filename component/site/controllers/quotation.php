@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,6 +31,9 @@ class RedshopControllerQuotation extends RedshopController
 		$return = JRequest::getVar('return');
 		$post   = JRequest::get('post');
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+
 		if (!$post['user_email'])
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS');
@@ -42,10 +45,15 @@ class RedshopControllerQuotation extends RedshopController
 		$session                = JFactory::getSession();
 		$cart                   = $session->get('cart');
 		$cart['quotation_note'] = $post['quotation_note'];
-		$row                    = $model->store($cart, $post);
+
+		$dispatcher->trigger('onRedshopQuotationBeforeAdding', array(&$cart, &$post));
+
+		$row = $model->store($cart, $post);
 
 		if ($row)
 		{
+			$dispatcher->trigger('onRedshopQuotationAfterAdded', array(&$cart, &$post, $row));
+
 			$sent = $model->sendQuotationMail($row->quotation_id);
 
 			if ($sent)
@@ -58,7 +66,7 @@ class RedshopControllerQuotation extends RedshopController
 			}
 
 			$session = JFactory::getSession();
-			$session->set('cart', null);
+			RedshopHelperCartSession::setCart(null);
 			$session->set('ccdata', null);
 			$session->set('issplit', null);
 			$session->set('userfield', null);
@@ -72,7 +80,8 @@ class RedshopControllerQuotation extends RedshopController
 				<script>
 					window.parent.location.href = "<?php echo $link ?>";
 				</script>
-				<?php exit;
+				<?php
+				JFactory::getApplication()->close();
 			}
 
 			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $msg);
@@ -123,7 +132,7 @@ class RedshopControllerQuotation extends RedshopController
 				window.parent.location.href = "<?php echo $link ?>";
 			</script>
 			<?php
-			exit;
+			JFactory::getApplication()->close();
 		}
 		else
 		{

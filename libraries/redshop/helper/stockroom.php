@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -688,6 +688,9 @@ class RedshopHelperStockroom
 
 						if ($remainingQuantity > 0)
 						{
+							$dispatcher = RedshopHelperUtility::getDispatcher();
+							JPluginHelper::importPlugin('redshop_stockroom');
+							$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $product_data));
 							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
 						}
 					}
@@ -927,7 +930,7 @@ class RedshopHelperStockroom
 	 * @param   string  $section      Section
 	 * @param   int     $stockAmount  Stockroom amount
 	 *
-	 * @return mixed
+	 * @return  array
 	 *
 	 * @since  2.0.0.3
 	 */
@@ -1334,7 +1337,7 @@ class RedshopHelperStockroom
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public static function getMultiSectionsStock($sectionIds = array(), $section = 'product', $stockroomId = 0)
 	{
@@ -1454,7 +1457,7 @@ class RedshopHelperStockroom
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public static function getMultiSectionsPreOrderStock($sectionIds = array(), $section = 'product', $stockroomId = 0)
 	{

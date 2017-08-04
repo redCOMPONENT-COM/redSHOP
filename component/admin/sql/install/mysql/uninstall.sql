@@ -1,6 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
 
-DROP TABLE IF EXISTS `#__redshop_accessmanager`;
 DROP TABLE IF EXISTS `#__redshop_attribute_set`;
 DROP TABLE IF EXISTS `#__redshop_cart`;
 DROP TABLE IF EXISTS `#__redshop_catalog`;
@@ -8,7 +7,6 @@ DROP TABLE IF EXISTS `#__redshop_catalog_colour`;
 DROP TABLE IF EXISTS `#__redshop_catalog_request`;
 DROP TABLE IF EXISTS `#__redshop_catalog_sample`;
 DROP TABLE IF EXISTS `#__redshop_category`;
-DROP TABLE IF EXISTS `#__redshop_category_xref`;
 DROP TABLE IF EXISTS `#__redshop_container`;
 DROP TABLE IF EXISTS `#__redshop_container_product_xref`;
 DROP TABLE IF EXISTS `#__redshop_country`;
@@ -68,7 +66,6 @@ DROP TABLE IF EXISTS `#__redshop_product_subscribe_detail`;
 DROP TABLE IF EXISTS `#__redshop_product_subscription`;
 DROP TABLE IF EXISTS `#__redshop_product_tags`;
 DROP TABLE IF EXISTS `#__redshop_product_tags_xref`;
-DROP TABLE IF EXISTS `#__redshop_product_voucher`;
 DROP TABLE IF EXISTS `#__redshop_product_voucher_transaction`;
 DROP TABLE IF EXISTS `#__redshop_product_voucher_xref`;
 DROP TABLE IF EXISTS `#__redshop_quotation`;
@@ -109,5 +106,6 @@ DROP TABLE IF EXISTS `#__redshop_zipcode`;
 DROP TABLE IF EXISTS `#__redshop_notifystock_users`;
 DROP TABLE IF EXISTS `#__redshop_alerts`;
 DROP TABLE IF EXISTS `#__redshop_wishlist_product_item`;
+DROP TABLE IF EXISTS `#__redshop_voucher`;
 
 SET FOREIGN_KEY_CHECKS=1;

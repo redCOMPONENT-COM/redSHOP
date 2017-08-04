@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_REDSHOP_NAME</name>
-	<author>redCOMPONENT</author>
-	<creationDate>Sep 2016</creationDate>
-	<copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>www.redcomponent.com</authorUrl>
-	<version>2.0</version>
-	<redshop>2.0</redshop>
-	<description>PLG_SYSTEM_REDSHOP_DESCRIPTION</description>
-
-	<files>
-		<filename plugin="redshop">redshop.php</filename>
-		<filename>index.html</filename>
-	</files>
-
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_redshop.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_redshop.sys.ini</language>
-	</languages>
+    <name>PLG_SYSTEM_REDSHOP_NAME</name>
+    <author>redCOMPONENT</author>
+    <creationDate>April 2017</creationDate>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <version>2.0.1</version>
+    <redshop>2.0</redshop>
+    <description>PLG_SYSTEM_REDSHOP_DESCRIPTION</description>
+    <files>
+        <filename plugin="redshop">redshop.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_redshop.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_redshop.sys.ini</language>
+    </languages>
 </extension>

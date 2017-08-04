@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -194,7 +194,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				$propertyTable->set('ordering', $data['property_ordering']);
 				$propertyTable->set('property_number', $data['property_virtual_number']);
 				$propertyTable->set('setdefault_selected', $data['setdefault_selected']);
-				$propertyTable->set('setrequire_selected', $data['required_sub_attribute']);
+				$propertyTable->set('setrequire_selected', $data['setrequire_selected']);
 				$propertyTable->set('setdisplay_type', $data['setdisplay_type']);
 				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['oprand'] : '';
 
@@ -271,6 +271,63 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 					}
 				}
 
+				if (!empty($data['media_name']) && ($data['media_section'] == 'property'))
+				{
+					$newMediaName = basename($data['media_name']);
+					$ext = pathinfo($newMediaName, PATHINFO_EXTENSION);
+					$mediaMimeType = 'images/' . $ext;
+
+					$media = array(
+						'media_name' => $newMediaName,
+						'media_alternate_text' => $data['media_alternate_text'],
+						'media_section' => $data['media_section'],
+						'section_id' => $propertyId,
+						'media_type' => 'images',
+						'media_mimetype' => $mediaMimeType,
+						'published' => $data['media_published'],
+						'ordering' => $data['media_ordering']
+					);
+
+					$query->clear()
+						->select('*')
+						->from($db->qn('#__redshop_media'))
+						->where($db->qn('section_id') . ' = ' . (int) $propertyId)
+						->where($db->qn('media_name') . ' = ' . $db->q($newMediaName))
+						->where($db->qn('media_section') . ' = ' . $db->q('property'));
+
+					$mediaProperty = $db->setQuery($query)->loadObject();
+
+					if ($mediaProperty)
+					{
+						$mediaId = $mediaProperty->media_id;
+						$fields = array();
+
+						foreach ($media as $k => $v)
+						{
+							$fields[] = $db->qn($k) . ' = ' . $db->q($v);
+						}
+
+						$query->clear()
+							->update($db->qn('#__redshop_media'))
+							->set($fields)
+							->where($db->qn('media_id') . ' = ' . (int) $mediaId);
+
+						$db->setQuery($query)->execute();
+					}
+					else
+					{
+						$columns = $db->qn(array_keys($media));
+						$values = $db->q(array_values($media));
+
+						$query->clear()
+							->insert($db->qn('#__redshop_media'))
+							->columns($columns)
+							->values(implode(',', $values));
+
+						$db->setQuery($query)->execute();
+					}
+				}
+
 				// Property image
 				if (!empty($data['property_image']) && JFile::exists($data['property_image']))
 				{
@@ -292,6 +349,18 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 					if (!JFile::exists($file))
 					{
 						copy($data['property_main_image'], $file);
+					}
+				}
+
+				// Media
+				if (!empty($data['media_name']) && ($data['media_section'] == 'property') && JFile::exists($data['media_name']))
+				{
+					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['media_name']);
+
+					// Copy If file is not already exist
+					if (!JFile::exists($file))
+					{
+						copy($data['media_name'], $file);
 					}
 				}
 
@@ -404,6 +473,63 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				}
 			}
 
+			if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty'))
+			{
+				$newMediaName = basename($data['media_name']);
+				$ext = pathinfo($newMediaName, PATHINFO_EXTENSION);
+				$mediaMimeType = 'images/' . $ext;
+
+				$media = array(
+					'media_name' => $newMediaName,
+					'media_alternate_text' => $data['media_alternate_text'],
+					'media_section' => $data['media_section'],
+					'section_id' => $subPropertyId,
+					'media_type' => 'images',
+					'media_mimetype' => $mediaMimeType,
+					'published' => $data['media_published'],
+					'ordering' => $data['media_ordering']
+				);
+
+				$query->clear()
+					->select('*')
+					->from($db->qn('#__redshop_media'))
+					->where($db->qn('section_id') . ' = ' . (int) $subPropertyId)
+					->where($db->qn('media_name') . ' = ' . $db->q($newMediaName))
+					->where($db->qn('media_section') . ' = ' . $db->q('subproperty'));
+
+				$mediaProperty = $db->setQuery($query)->loadObject();
+
+				if ($mediaProperty)
+				{
+					$mediaId = $mediaProperty->media_id;
+					$fields = array();
+
+					foreach ($media as $k => $v)
+					{
+						$fields[] = $db->qn($k) . ' = ' . $db->q($v);
+					}
+
+					$query->clear()
+						->update($db->qn('#__redshop_media'))
+						->set($fields)
+						->where($db->qn('media_id') . ' = ' . (int) $mediaId);
+
+					$db->setQuery($query)->execute();
+				}
+				else
+				{
+					$columns = $db->qn(array_keys($media));
+					$values = $db->q(array_values($media));
+
+					$query->clear()
+						->insert($db->qn('#__redshop_media'))
+						->columns($columns)
+						->values(implode(',', $values));
+
+					$db->setQuery($query)->execute();
+				}
+			}
+
 			// Sub-property image
 			if (!empty($data['subattribute_color_image']) && JFile::exists($data['subattribute_color_image']))
 			{
@@ -413,6 +539,17 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				if (!JFile::exists($file))
 				{
 					copy($data['subattribute_color_image'], $file);
+				}
+			}
+
+			if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty') && JFile::exists($data['media_name']))
+			{
+				$file = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . basename($data['media_name']);
+
+				// Copy If file is not already exist
+				if (!JFile::exists($file))
+				{
+					copy($data['media_name'], $file);
 				}
 			}
 		}
