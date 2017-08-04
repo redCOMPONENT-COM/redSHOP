@@ -7,8 +7,8 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_NGANLUONG</name>
-	<version>1.0.0-beta</version>
-	<redshop>2.0</redshop>
+	<version>2.0.0</version>
+	<redshop>2.0.6</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -32,27 +32,49 @@
 
 	<config>
 	<fields name="params">
-		<fieldset name="extra" label="extra">
-			<field name="nganluong_url_api" type="text" default="" label="PLG_REDSHOP_PAYMENT_NGANLUONG_URL_API"
-			  description="PLG_REDSHOP_PAYMENT_NGANLUONG_URL_API_DESC"/>
-			<field name="nganluong_email" type="text" default="" label="PLG_REDSHOP_PAYMENT_NGANLUONG_EMAIL"
-			  description="PLG_REDSHOP_PAYMENT_NGANLUONG_EMAIL_DESC"/>
-			<field name="nganluong_merchant_id" type="text" default="" label="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_ID"
-			  description="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_ID_DESC"/>
-			<field name="nganluong_merchant_password" type="password" default="" label="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_PASS"
-			  description="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_PASS_DESC"/>
+		<fieldset name="basic">
+			<field 
+				name="nganluong_email" 
+				type="text" 
+				default="" 
+				label="PLG_REDSHOP_PAYMENT_NGANLUONG_EMAIL"
+				description="PLG_REDSHOP_PAYMENT_NGANLUONG_EMAIL_DESC"
+			/>
+			<field 
+				name="nganluong_merchant_id" 
+				type="text" 
+				default="" 
+				label="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_ID"
+				description="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_ID_DESC"
+			/>
+			<field 
+				name="nganluong_merchant_password" 
+				type="password" 
+				default="" 
+				label="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_PASS"
+				description="PLG_REDSHOP_PAYMENT_NGANLUONG_MERCHANT_PASS_DESC"
+			/>
+			<field 
+				name="sandbox" 
+				type="radio" 
+				default="0" 
+				label="PLG_RS_PAYMENT_PAYPAL_SANDBOX_LBL"
+				class="btn-group">
+				<option value="0">PLG_REDSHOP_PAYMENT_NGANLUONG_LIVE</option>
+				<option value="1">PLG_REDSHOP_PAYMENT_NGANLUONG_SANDBOX</option>
+			</field>
 		</fieldset>
 		<fieldset name="advanced">
 			<field
-					name="verify_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
-					key_field="st_value"
-					value_field="st_title"
-					default="C"
-					label="PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_STATUS"
-					description="PLG_REDSHOP_NGANLUONG_PAYGATE_ORDER_STATUS_DESC">
-				</field>
+				name="verify_status"
+				type="sql"
+				query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+				key_field="st_value"
+				value_field="st_title"
+				default="C"
+				label="PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_STATUS"
+				description="PLG_REDSHOP_NGANLUONG_PAYGATE_ORDER_STATUS_DESC">
+			</field>
 			<field
 				name="invalid_status"
 				type="sql"
