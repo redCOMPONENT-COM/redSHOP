@@ -23,6 +23,13 @@ defined('_JEXEC') or die;
 trait Object
 {
 	/**
+	 * Cached item
+	 *
+	 * @var  mixed
+	 */
+	protected $item = null;
+
+	/**
 	 * Identifier of the loaded instance
 	 *
 	 * @var  mixed
