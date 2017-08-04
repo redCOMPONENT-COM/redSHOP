@@ -86,7 +86,7 @@ class GiftCardCheckoutProductCest
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php');
 		$I->wait(3);
-//		$I->click(\GiftCardCheckoutPage::$buttonStatic);
+		$I->click(\GiftCardCheckoutPage::$buttonStatic);
 		$I->wait(3);
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
 		$I->wait(3);
@@ -164,13 +164,10 @@ class GiftCardCheckoutProductCest
 	public function testProductsGiftCardFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$this->checkoutGiftCardWithAuthorizePayment($I, $scenario, $this->userInformation, $this->userInformation, $this->checkoutAccountInformation, $this->randomCardName);
-
-
 	}
 
 	/**
@@ -185,7 +182,6 @@ class GiftCardCheckoutProductCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
 		$I->editOrder($this->firstName, $this->status, $this->paymentStatus, $this->newQuantity);
-
 	}
 
 	/**
@@ -245,7 +241,6 @@ class GiftCardCheckoutProductCest
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
 		$I->waitForElement(\GiftCardCheckoutPage::$paymentPayPad, 30);
 		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
-
 
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
 		$I->waitForElementVisible(\GiftCardCheckoutPage::$addressEmail);
