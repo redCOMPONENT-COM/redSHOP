@@ -322,7 +322,7 @@ class RedshopModelCategory extends RedshopModelForm
 		}
 
 		// Extra Field Data Saved
-		RedshopHelperExtrafields::extraFieldSave($data, 2, $row->id);
+		RedshopHelperExtrafields::extraFieldSave(JFactory::getApplication()->post->input->getArray(), 2, $row->id);
 
 		// Start Accessory Product
 		// @TODO Need to add an better solution.
