@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -428,7 +428,6 @@ class RedshopModelAccount extends RedshopModel
 	{
 		$user        = JFactory::getUser();
 		$redshopMail = redshopMail::getInstance();
-		$redhelper   = redhelper::getInstance();
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -517,7 +516,7 @@ class RedshopModelAccount extends RedshopModel
 			{
 				foreach ($MyWishlist as $row)
 				{
-					$Itemid        = $redhelper->getItemid($row->product_id);
+					$Itemid        = RedshopHelperUtility::getItemid($row->product_id);
 					$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int) $Itemid, true, -1);
 					$thum_image    = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
 					$pname         = $row->product_name;
@@ -528,7 +527,7 @@ class RedshopModelAccount extends RedshopModel
 					// Attribute ajax change
 					if (!$row->not_for_sale)
 					{
-						$wishlist_data = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
+						$wishlist_data = RedshopHelperProductPrice::getShowPrice($row->product_id, $wishlist_data);
 					}
 					else
 					{

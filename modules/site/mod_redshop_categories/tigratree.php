@@ -19,15 +19,15 @@ $root_label = $params->get('root_label');
 
 if ($params->get('categorysorttype') == "catnameasc")
 {
-	$sortparam = "category_name ASC";
+	$sortparam = "name ASC";
 }
 elseif ($params->get('categorysorttype') == "catnamedesc")
 {
-	$sortparam = "category_name DESC";
+	$sortparam = "name DESC";
 }
 elseif ($params->get('categorysorttype') == "newest")
 {
-	$sortparam = "category_id DESC";
+	$sortparam = "id DESC";
 }
 elseif ($params->get('categorysorttype') == "catorder")
 {
@@ -124,14 +124,13 @@ class redTigraTreeMenu
 			$shoppergroup_cat = 0;
 		}
 
-		$query = "SELECT category_name as cname, category_id as cid, category_child_id as ccid FROM #__redshop_category as a "
-			. "LEFT JOIN #__redshop_category_xref as b ON a.category_id=b.category_child_id "
-			. "WHERE a.published=1 "
-			. "AND b.category_parent_id=" . (int) $category_id;
+		$query = "SELECT name as cname, id as cid, id as ccid FROM #__redshop_category "
+			. "WHERE published=1 "
+			. "AND parent_id=" . (int) $category_id;
 
 		if ($shopper_group_id && $shoppergroup_cat)
 		{
-			$query .= " and category_id in (" . $shoppergroup_cat . ")";
+			$query .= " and id in (" . $shoppergroup_cat . ")";
 		}
 
 		$query .= " ORDER BY " . $sortparam . "";
@@ -146,7 +145,7 @@ class redTigraTreeMenu
 			{
 				$ibg++;
 				$Treeid  = $ibg;
-				$cItemid = $objhelper->getCategoryItemid($category->cid);
+				$cItemid = RedshopHelperUtility::getCategoryItemid($category->cid);
 				if ($cItemid != "")
 				{
 					$tmpItemid = $cItemid;

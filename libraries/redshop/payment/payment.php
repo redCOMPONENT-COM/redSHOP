@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Common architecture for payment class.
  *
@@ -38,7 +36,7 @@ abstract class RedshopPayment extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
+	 * @param   object  $subject   The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
@@ -69,12 +67,14 @@ abstract class RedshopPayment extends JPlugin
 	 *
 	 * @param   array  $orderInfo  Order Information
 	 *
-	 * @return  array  Payment Gateway for parameters
+	 * @return  array              Payment Gateway for parameters
 	 */
 	abstract protected function preparePaymentInput($orderInfo);
 
 	/**
 	 * Set Plugin Base path.
+	 *
+	 * @return  void
 	 */
 	protected function setPluginPath()
 	{
@@ -86,11 +86,11 @@ abstract class RedshopPayment extends JPlugin
 	 *
 	 * @param   integer  $orderId  Order Id
 	 *
-	 * @return  string   Notify url
+	 * @return  string             Notify url
 	 */
 	protected function getNotifyUrl($orderId)
 	{
-		return JURI::base()
+		return JUri::base()
 				. 'index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=' . $this->_name
 				. '&orderid=' . $orderId
 				. '&Itemid=' . JFactory::getApplication()->input->getInt('Itemid');
@@ -105,7 +105,7 @@ abstract class RedshopPayment extends JPlugin
 	 */
 	protected function getReturnUrl($orderId)
 	{
-		return JURI::base()
+		return JUri::base()
 				. 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $orderId
 				. '&Itemid=' . JFactory::getApplication()->input->getInt('Itemid');
 	}
@@ -123,38 +123,41 @@ abstract class RedshopPayment extends JPlugin
 	/**
 	 * Render payment form to redirect on payment gateway page.
 	 *
-	 * @param   array   $orderInfo  Order Information Array
+	 * @param   array  $orderInfo  Order Information Array
 	 *
-	 * @return  string  Rendered Layout HTML
+	 * @return  string             Rendered Layout HTML
 	 */
 	protected function renderPaymentForm($orderInfo)
 	{
 		$formInput = $this->preparePaymentInput($orderInfo);
 
 		return RedshopLayoutHelper::render(
-				'form',
-				array(
-					'orderInfo' => $orderInfo,
-					'formInput' => $formInput,
-					'params'    => $this->params
-				),
-				$this->path . '/layouts'
-			);
+			'form',
+			array(
+				'orderInfo' => $orderInfo,
+				'formInput' => $formInput,
+				'params'    => $this->params
+			),
+			$this->path . '/layouts'
+		);
 	}
 
 	/**
 	 * Set order payment status object
 	 *
-	 * @param  integer  $orderId        Order Id
-	 * @param  string   $transactionId  Transaction
-	 * @param  string   $status         Order Status Code
-	 * @param  string   $paymentStatus  Order Payment Status Code
-	 * @param  string   $message        Order Message
-	 * @param  string   $log            Order Payment Log
+	 * @param   integer  $orderId        Order Id
+	 * @param   string   $transactionId  Transaction
+	 * @param   string   $status         Order Status Code
+	 * @param   string   $paymentStatus  Order Payment Status Code
+	 * @param   string   $message        Order Message
+	 * @param   string   $log            Order Payment Log
+	 *
+	 * @return  object                   Values
 	 */
 	protected function setStatus($orderId, $transactionId, $status, $paymentStatus, $message, $log)
 	{
 		$values = new stdClass;
+
 		$values->transaction_id            = $transactionId;
 		$values->order_id                  = $orderId;
 		$values->order_status_code         = $status;

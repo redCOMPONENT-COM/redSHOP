@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="module" client="site" method="upgrade">
     <name>MOD_REDSHOP_NEWSLETTER</name>
-    <version>1.5</version>
-    <redshop>1.5</redshop>
+    <version>1.6.0</version>
+    <redshop>2.0.0</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -26,11 +26,21 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
-                       description="COM_REDSHOP_PARAMMODULECLASSSUFFIX"/>
-                <field name="redirectpage" type="menuitem" default="" disable="separator"
-                       label="Newsletter Subscription Redirection URL"
-                       description="COM_REDSHOP_PARAMNEWSLETTERREDIRECTURL"/>
+                <field
+                        name="moduleclass_sfx"
+                        type="text"
+                        default=""
+                        label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
+                       description="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
+                />
+                <field
+                        name="redirectpage"
+                        type="menuitem"
+                        default=""
+                        disable="separator"
+                        label="Newsletter Subscription Redirection URL"
+                        description="COM_REDSHOP_PARAMNEWSLETTERREDIRECTURL"
+                />
             </fieldset>
         </fields>
     </config>

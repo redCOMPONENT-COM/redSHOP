@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -71,6 +71,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
+		$count = count($cid);
 		$model = $this->getModel('shipping_rate_detail');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -81,6 +82,14 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+		elseif ($count > 0)
+		{
+			$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_DELETED', $count));
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_N_ITEMS_DELETED_1'));
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id']);
@@ -157,6 +166,6 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		$get = $this->input->get->getArray();
 		$model = $this->getModel('shipping_rate_detail');
 		$model->GetStateDropdown($get);
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

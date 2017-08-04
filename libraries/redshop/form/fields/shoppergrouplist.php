@@ -37,7 +37,7 @@ class JFormFieldShoppergrouplist extends JFormFieldList
 		JLoader::import('redshop.library');
 
 		$userHelper = rsUserHelper::getInstance();
-		$shopperGroups = $userHelper->getShopperGroupList();
+		$shopperGroups = Redshop\Helper\ShopperGroup::generateList();
 
 		// Merge any additional options in the XML definition.
 		$shopperGroups = array_merge(parent::getOptions(), $shopperGroups);

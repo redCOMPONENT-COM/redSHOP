@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Configuration controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.4
  */
 class RedshopControllerConfiguration extends RedshopController
 {
@@ -33,8 +33,8 @@ class RedshopControllerConfiguration extends RedshopController
 	/**
 	 * Collect Items from array using specific prefix
 	 *
-	 * @param   array   $array   Array from which needs to collects items based ok keys.
-	 * @param   string  $prefix  Key prefix which needs to be filtered.
+	 * @param   array  $array  Array from which needs to collects items based ok keys.
+	 * @param   string $prefix Key prefix which needs to be filtered.
 	 *
 	 * @return  array            Array of values which is collected using prefix.
 	 */
@@ -43,11 +43,11 @@ class RedshopControllerConfiguration extends RedshopController
 		$keys = array_keys($array);
 
 		$values = array_filter(
-				$keys,
-				function ($value) use ($prefix)
-				{
-					return preg_match("/$prefix\d/", $value);
-				}
+			$keys,
+			function ($value) use ($prefix)
+			{
+				return preg_match("/$prefix\d/", $value);
+			}
 		);
 
 		array_walk(
@@ -65,7 +65,7 @@ class RedshopControllerConfiguration extends RedshopController
 	/**
 	 * Method for save configuration
 	 *
-	 * @param   int  $apply  Apply or not
+	 * @param   int $apply Apply or not
 	 *
 	 * @return  boolean
 	 *
@@ -92,13 +92,44 @@ class RedshopControllerConfiguration extends RedshopController
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
 		{
-			$post['administrator_email'] = implode(",", $post['administrator_email']);
+			$post['administrator_email'] = trim(implode(",", $post['administrator_email']));
 		}
 
-		$msg                   = null;
+		// Only check if this email is filled
+		if (!empty($post['administrator_email']))
+		{
+			$emails = explode(',', $post['administrator_email']);
+			if (is_array($emails))
+			{
+				foreach ($emails as $email)
+				{
+					if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+					{
+						$msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
+						$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+
+						return false;
+					}
+				}
+			}
+		}
+
+		$msg = null;
 		/** @var RedshopModelConfiguration $model */
 		$model                 = $this->getModel('Configuration');
-		$newsletter_test_email = $this->input->get('newsletter_test_email');
+		$newsletter_test_email = $this->input->getRaw('newsletter_test_email');
+
+		// Only check if this email is filled
+		if (!empty($newsletter_test_email))
+		{
+			if (!filter_var($newsletter_test_email, FILTER_VALIDATE_EMAIL))
+			{
+				$msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
+				$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+
+				return false;
+			}
+		}
 
 		$post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
 
@@ -136,7 +167,8 @@ class RedshopControllerConfiguration extends RedshopController
 
 			// Thumb folder deleted and created
 			if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT
-				|| $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
+				|| $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			)
 			{
 				$this->removeThumbImages();
 			}
@@ -214,10 +246,10 @@ class RedshopControllerConfiguration extends RedshopController
 
 		if (JPATH_ROOT . '/' . $spath . '/' . $imname)
 		{
-			unlink(JPATH_ROOT . '/' . $spath . '/' . $imname);
+			JFile::delete(JPATH_ROOT . '/' . $spath . '/' . $imname);
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -256,7 +288,7 @@ class RedshopControllerConfiguration extends RedshopController
 		$userHelper = rsUserHelper::getInstance();
 		$userHelper->updateUserTermsCondition();
 
-		JFactory::getApplication()->exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -268,6 +300,6 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		RedshopHelperOrder::resetOrderId();
 
-		JFactory::getApplication()->exit;
+		JFactory::getApplication()->close();
 	}
 }

@@ -1,22 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="system">
-    <name>plg_system_redproductzoom</name>
+    <name>PLG_SYSTEM_REDPRODUCTZOOM</name>
     <author>redCOMPONENT.com</author>
-    <version>1.5</version>
-	<redshop>1.5</redshop>
-    <creationDate>October 2013</creationDate>
+    <version>2.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>May 2017</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>redCOMPONENT.com</authorUrl>
     <description>PLG_SYSTEM_REDPRODUCTZOOM_DESC</description>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_system_redproductzoom.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_system_redproductzoom.sys.ini</language>
-    </languages>
     <files>
         <filename plugin="redproductzoom">redproductzoom.php</filename>
         <folder plugin="redproductzoom">js</folder>
+        <folder>language</folder>
         <filename>index.html</filename>
     </files>
+    <scriptfile>install.php</scriptfile>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="zoom_type"
+                        type="list"
+                        class="btn-group"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_TYPE"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_TYPE_DESC"
+                        default="window">
+                    <option value="window">PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_TYPE_OPTION_WINDOW</option>
+                    <option value="inner">PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_TYPE_OPTION_INNER</option>
+                    <option value="lens">PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_TYPE_OPTION_LENS</option>
+                </field>
+                <field
+                        name="scroll_zoom"
+                        type="radio"
+                        class="btn-group"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_SCROLL_ZOOM"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_SCROLL_ZOOM_DESC"
+                        default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="tint"
+                        type="radio"
+                        class="btn-group"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_TINT"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_TINT_DESC"
+                        showon="zoom_type:window"
+                        default="0">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="tint_color"
+                        type="color"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_TINT_COLOR"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_TINT_COLOR_DESC"
+                        default="#FF9900"
+                        showon="zoom_type:window"
+                        />
+                <field
+                        name="tint_opacity"
+                        type="number"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_TINT_OPACITY"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_TINT_OPACITY_DESC"
+                        default="0.5"
+                        max="1.0"
+                        min="0.1"
+                        step="0.1"
+                        showon="zoom_type:window"
+                />
+                <field
+                        name="zoom_window_width"
+                        type="number"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_WINDOW_WIDTH"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_WINDOW_WIDTH_DESC"
+                        default="400"
+                        showon="zoom_type:window"
+                />
+                <field
+                        name="zoom_window_height"
+                        type="number"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_WINDOW_HEIGHT"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_ZOOM_WINDOW_HEIGHT_DESC"
+                        default="400"
+                        showon="zoom_type:window"
+                />
+                <field
+                        name="lens_shape"
+                        type="radio"
+                        class="btn-group"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_LENS_SHAPE"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_LENS_SHAPE_DESC"
+                        showon="zoom_type:lens"
+                        default="round">
+                    <option value="round">PLG_SYSTEM_REDPRODUCTZOOM_LENS_SHAPE_OPTION_ROUND</option>
+                    <option value="square">PLG_SYSTEM_REDPRODUCTZOOM_LENS_SHAPE_OPTION_SQUARE</option>
+                </field>
+                <field
+                        name="lens_size"
+                        type="number"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_LENS_SIZE"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_LENS_SIZE_DESC"
+                        showon="zoom_type:lens"
+                        default="200"
+                        />
+                <field
+                        name="lens_fade_in"
+                        type="radio"
+                        class="btn-group"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_LENS_FADE_IN"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_LENS_FADE_IN_DESC"
+                        showon="zoom_type:lens"
+                        default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="lens_fade_out"
+                        type="radio"
+                        class="btn-group"
+                        label="PLG_SYSTEM_REDPRODUCTZOOM_LENS_FADE_OUT"
+                        description="PLG_SYSTEM_REDPRODUCTZOOM_LENS_FADE_OUT_DESC"
+                        showon="zoom_type:lens"
+                        default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
 </extension>

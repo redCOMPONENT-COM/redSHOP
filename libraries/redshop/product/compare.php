@@ -26,7 +26,7 @@ class RedshopProductCompare implements Countable
 	public $compare = array();
 
 	/**
-	 * Items whcih will be added in compare list
+	 * Items which will be added in compare list
 	 *
 	 * @var  object
 	 */
@@ -40,7 +40,7 @@ class RedshopProductCompare implements Countable
 	protected $key = null;
 
 	/**
-	 * Intialize compare array and store the information from session
+	 * Init compare array and store the information from session
 	 */
 	public function __construct()
 	{
@@ -53,8 +53,10 @@ class RedshopProductCompare implements Countable
 			)
 		);
 
-		/* Clean session if user change comparision type to 'category' and different category id found in the last item list,
-		in order to avoid backward incompatibility and user confusion */
+		/*
+		 * Clean session if user change comparision type to 'category' and different category id found in the last item list,
+		 * in order to avoid backward incompatibility and user confusion
+		 */
 		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category' && $this->isMixedCategoryId())
 		{
 			$this->cleanSession();
@@ -74,7 +76,7 @@ class RedshopProductCompare implements Countable
 	/**
 	 * Prepare unique key for compare list array
 	 *
-	 * @return string Unique Key for compare array
+	 * @return  string  Unique Key for compare array
 	 */
 	public function setKey()
 	{
@@ -110,7 +112,7 @@ class RedshopProductCompare implements Countable
 	 *
 	 * @param   object  $item  Compare Item info
 	 *
-	 * @throws  exception Throw exception if not valid items and not unique keys
+	 * @throws  exception      Throw exception if not valid items and not unique keys
 	 *
 	 * @return  void
 	 */
@@ -128,9 +130,12 @@ class RedshopProductCompare implements Countable
 		$this->setKey();
 
 		// Throw an exception if there's no id:
-		if (!$this->key) throw new Exception(JText::_('COM_REDSHOP_ERROR_REQUIRE_UNIQUE_PRODUCT_ID_TO_COMPARE'));
+		if (!$this->key)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_ERROR_REQUIRE_UNIQUE_PRODUCT_ID_TO_COMPARE'));
+		}
 
-		// Throw an exception if comparison is overlimit.
+		// Throw an exception if comparison is over limit.
 		if ($this->count() >= Redshop::getConfig()->get('PRODUCT_COMPARE_LIMIT'))
 		{
 			throw new Exception(JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE'));
@@ -154,7 +159,7 @@ class RedshopProductCompare implements Countable
 	/**
 	 * Removes an item from the list
 	 *
-	 * @param   object  $item  Item object to delete - Null if want to remove All
+	 * @param   object $item Item object to delete - Null if want to remove All
 	 *
 	 * @return  void
 	 */
@@ -201,7 +206,7 @@ class RedshopProductCompare implements Countable
 	/**
 	 * Check the key for having product id
 	 *
-	 * @param   string   $key  Item key
+	 * @param   string $key Item key
 	 *
 	 * @return  boolean
 	 */
@@ -260,11 +265,11 @@ class RedshopProductCompare implements Countable
 	public function cleanSession()
 	{
 		JFactory::getSession()->set('product.compare', array(
-									'items'    => array(),
-									'total'    => 0,
-									'category' => 0
-								)
-					);
+				'items'    => array(),
+				'total'    => 0,
+				'category' => 0
+			)
+		);
 	}
 
 	/**
@@ -318,15 +323,15 @@ class RedshopProductCompare implements Countable
 	/**
 	 * Get item key using product id and/or category id
 	 *
-	 * @param   integer   $productId    Product Id
-	 * @param   integer   $categoryId   Category Id
+	 * @param   integer $productId  Product Id
+	 * @param   integer $categoryId Category Id
 	 *
 	 * @return  string    Matched Item key
 	 */
 	public function getItemKey($productId, $categoryId = 0)
 	{
-		$this->item = new stdClass;
-		$this->item->productId = $productId;
+		$this->item             = new stdClass;
+		$this->item->productId  = $productId;
 		$this->item->categoryId = $categoryId;
 
 		return $this->findItemKey();

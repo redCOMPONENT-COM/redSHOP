@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
 class RedshopViewInstall extends RedshopViewAdmin
 {
@@ -27,6 +27,11 @@ class RedshopViewInstall extends RedshopViewAdmin
 	 * @var  string
 	 */
 	public $installType;
+
+	/**
+	 * @var  array
+	 */
+	public $availableVersions;
 
 	/**
 	 * Do we have to disable a sidebar ?
@@ -42,7 +47,7 @@ class RedshopViewInstall extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.4
 	 */
 	public function display($tpl = null)
 	{
@@ -54,6 +59,11 @@ class RedshopViewInstall extends RedshopViewAdmin
 		$model = $this->getModel();
 
 		$this->steps = $model->getSteps($this->installType);
+
+		if ($this->installType == 'update')
+		{
+			$this->availableVersions = $model->getAvailableUpdate();
+		}
 
 		// Display the template
 		parent::display($tpl);

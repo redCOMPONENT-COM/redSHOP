@@ -16478,7 +16478,8 @@ function _init() {
             e.preventDefault();
         });
 
-        if ($(window).width() > 768) {
+        // Remove the affix toolbar cause un-expected effect on large screen.
+        /*if ($(window).width() > 768) {
             var $toolbar = $('#toolbar');
             if ($toolbar.length)
             {
@@ -16486,10 +16487,27 @@ function _init() {
                     offset: { top: $toolbar.offset().top + 200}
                 });
             }
-        }
+        }*/
 
         $('table').each(function(){
             $(this).wrap( "<div class='table-responsive'></div>" );
+        });
+
+        // Slidetext js
+        $(".rs-more").click(function(e){
+            var $self   = $(this);
+            var $teaser = $self.parent().find(".rs-teaser");
+            var $full   = $self.parent().find(".rs-full");
+
+            $teaser.toggle();
+
+            $full.toggle("slow", function(){
+                if ($(this).css("display") == "none") {
+                    $self.text(Joomla.JText._('COM_REDSHOP_GRID_SLIDERTEXT_MORE'));
+                } else {
+                    $self.text(Joomla.JText._('COM_REDSHOP_GRID_SLIDERTEXT_LESS'));
+                }
+            });
         });
     });
 })(jQuery);

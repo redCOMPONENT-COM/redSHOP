@@ -124,7 +124,7 @@ if (count($rows))
 			}
 			elseif (Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'))
 			{
-				$thumbImage = $redhelper->watermark('product', $product->product_full_image, $thumbwidth, $thumbheight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
+				$thumbImage = RedshopHelperMedia::watermark('product', $product->product_full_image, $thumbwidth, $thumbheight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			}
 			else
 			{
@@ -151,7 +151,7 @@ if (count($rows))
 
 		if ($show_product_name)
 		{
-			$pItemid = $redhelper->getItemid($product->product_id);
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id);
 			$link = JRoute::_(
 					'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid
 			);

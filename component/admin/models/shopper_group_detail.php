@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -117,9 +117,9 @@ class RedshopModelShopper_group_detail extends RedshopModel
 		{
 			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
 
-			if (is_file($logopath))
+			if (JFile::exists($logopath))
 			{
-				unlink($logopath);
+				JFile::delete($logopath);
 			}
 		}
 
@@ -164,9 +164,9 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
 			$copylogopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $destname;
 
-			if (is_file($logopath))
+			if (JFile::exists($logopath))
 			{
-				copy($logopath, $copylogopath);
+				JFile::copy($logopath, $copylogopath);
 			}
 
 			$data['shopper_group_logo'] = $destname;
@@ -259,9 +259,9 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			{
 				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $list[$i]->shopper_group_logo;
 
-				if (is_file($logopath))
+				if (JFile::exists($logopath))
 				{
-					unlink($logopath);
+					JFile::delete($logopath);
 				}
 			}
 

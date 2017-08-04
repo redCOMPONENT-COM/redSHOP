@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -181,9 +181,9 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				$result = $xmlhelper->getXMLExportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" .$result->filename;
 
-				if (is_file($rootpath))
+				if (JFile::exists($rootpath))
 				{
-					unlink($rootpath);
+					JFile::delete($rootpath);
 				}
 			}
 
@@ -314,11 +314,13 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category '
-			. 'WHERE published=1 ';
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('pcx.product_id') . ' = 1');
 
-		return $list;
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

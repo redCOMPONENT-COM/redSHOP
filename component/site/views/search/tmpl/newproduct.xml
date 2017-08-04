@@ -10,7 +10,7 @@
         <fieldset name="request">
             <field name="template_id" type="template" default="0" label="COM_REDSHOP_SELECT_TEMPLATE"
                        description="COM_REDSHOP_SEARCH_RESULT_DISPALY_IN_SELECTED_CATEGORY_TEMPLATE"/>
-            <field name="categorytemplate" type="redshopcategory" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
+            <field name="categorytemplate" type="CategoryList" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
                        description="Displays the selected category product"/>
             <field name="newproduct" type="text" size="4" default=""
                        label="COM_REDSHOP_Enter_Number_of_Days_to_Find_Newest_Products"

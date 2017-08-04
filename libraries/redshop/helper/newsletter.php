@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.0.3
@@ -105,6 +105,49 @@ class RedshopHelperNewsletter
 		{
 			RedshopHelperMail::sendNewsletterConfirmationMail($row->subscription_id);
 		}
+
+		return true;
+	}
+
+	/**
+	 * Method for un-subscribe email from newsletter
+	 *
+	 * @param   string  $email  Email
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function removeSubscribe($email = "")
+	{
+		$db   = JFactory::getDbo();
+		$user = JFactory::getUser();
+
+		// Skip if user is guest and empty email.
+		if (empty($email) && $user->guest)
+		{
+			return true;
+		}
+
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__redshop_newsletter_subscription'));
+
+		if (!$user->guest)
+		{
+			$email = $user->email;
+			$query->where($db->qn('user_id') . ' = ' . $user->id);
+		}
+
+		$query->where($db->qn('email') . ' = ' . $db->quote($email));
+
+		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != '')
+		{
+			$query->where($db->qn('newsletter_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_NEWSLETTER')));
+		}
+
+		$db->setQuery($query)->execute();
+
+		RedshopHelperMail::sendNewsletterCancellationMail($email);
 
 		return true;
 	}

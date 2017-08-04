@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -230,13 +230,11 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				return false;
 			}
 
-			$jinput = JFactory::getApplication()->input;
-
 			// Store userfields
 			$userfields    = $jinput->get('extrafields' . $product_id);
 			$userfields_id = $jinput->get('extrafields_id_' . $product_id);
 
-			for ($ui = 0; $ui < count($userfields); $ui++)
+			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
 				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $rowitem->quotation_item_id, 12, $userfields[$ui]);
 			}
@@ -622,7 +620,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			if ($display_type == 'checkbox' || $display_type == 'radio')
 			{
-				for ($chk = 0; $chk < count($subproperty); $chk++)
+				for ($chk = 0, $countSubProperty = count($subproperty); $chk < $countSubProperty; $chk++)
 				{
 					$chklist .= "<br /><input type='" . $display_type . "' value='" . $subproperty[$chk]->value
 						. "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid

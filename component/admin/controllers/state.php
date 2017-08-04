@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class RedshopControllerState extends RedshopControllerForm
 		$app = JFactory::getApplication();
 
 		$country = $app->input->getString('country', '');
-		$html = RedshopHelperWorld::getStateList(array('country_code' => $country), 'jform_state_code', 'BT', 'form-control', 'state_3_code');
+		$html = RedshopHelperWorld::getStateList(array('country_code' => $country), 'jform[tax_state]', 'BT', 'form-control', 'state_3_code');
 
 		if (!empty($html))
 		{

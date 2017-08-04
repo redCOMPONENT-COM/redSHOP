@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,7 +92,15 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function _initData()
 	{
-		if (empty($this->_data))
+		$data = JFactory::getApplication()->getUserState('com_redshop.user_detail.data');
+
+		if (!empty($data))
+		{
+			$this->_data = (object) $data;
+
+			return (boolean) $this->_data;
+		}
+		elseif (empty($this->_data))
 		{
 			$detail = new stdClass;
 
@@ -132,8 +140,7 @@ class RedshopModelUser_detail extends RedshopModel
 			$detail->ean_number            = null;
 			$detail->state_code_ST         = null;
 
-			$jinput = JFactory::getApplication()->input;
-
+			$jinput   = JFactory::getApplication()->input;
 			$info_id  = $jinput->get('info_id', 0);
 			$shipping = $jinput->get('shipping', 0);
 
@@ -167,8 +174,6 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
 
@@ -176,11 +181,11 @@ class RedshopModelUser_detail extends RedshopModel
 
 		if ($post['createaccount'])
 		{
-			$joomlauser = $userhelper->createJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::createJoomlaUser($post);
 		}
 		else
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 		}
 
 		if (!$joomlauser)
@@ -188,15 +193,13 @@ class RedshopModelUser_detail extends RedshopModel
 			return false;
 		}
 
-		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 
 		return $reduser;
 	}
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
@@ -212,18 +215,18 @@ class RedshopModelUser_detail extends RedshopModel
 			$post['zipcode_ST'] = $post['zipcode'];
 			$post['phone_ST'] = $post['phone'];
 
-			$reduser = $userhelper->storeRedshopUserShipping($post);
+			$reduser = RedshopHelperUser::storeRedshopUserShipping($post);
 		}
 		else
 		{
 			$post['billisship'] = 1;
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 
 			if (!$joomlauser)
 			{
 				return false;
 			}
-			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+			$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 		}
 
 		return $reduser;
@@ -276,9 +279,16 @@ class RedshopModelUser_detail extends RedshopModel
 						continue;
 					}
 
-					if (!JFactory::getUser($joomlaUser)->delete())
+					$user = JFactory::getUser($joomlaUserId);
+
+					if ($user->guest)
 					{
-						$this->setError($db->getErrorMsg());
+						continue;
+					}
+
+					if (!$user->delete())
+					{
+						$this->setError($user->getError());
 
 						return false;
 					}

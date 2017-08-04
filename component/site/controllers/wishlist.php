@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,23 +28,26 @@ class RedshopControllerWishlist extends RedshopController
 	{
 		$user  = JFactory::getUser();
 		$model = $this->getModel("wishlist");
-		$post['wishlist_name'] = JRequest::getVar('txtWishlistname');
+
+		$post                  = array();
+		$post['wishlist_name'] = $this->input->post->getString('txtWishlistname', '');
 		$post['user_id']       = $user->id;
 		$post['cdate']         = time();
+		$post['product_id']    = $this->input->post->getInt('product_id', 0);
 
 		if ($model->store($post))
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+			echo "<div class='wishlistmsg'>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
 		}
 		else
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
 
-		if (JRequest::getVar('loginwishlist') == 1)
+		if ($this->input->post->getInt('loginwishlist', 0) == 1)
 		{
-			$wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . JRequest::getVar('Itemid'), false);
-			$this->setRedirect($wishreturn);
+			$return = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->post->getInt('Itemid'), false);
+			$this->setRedirect($return);
 		}
 		else
 		{
@@ -75,11 +78,11 @@ class RedshopControllerWishlist extends RedshopController
 
 		if ($model->savewishlist($data))
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+			echo "<div class='wishlistmsg'>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
 		}
 		else
 		{
-			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
 
 		?>

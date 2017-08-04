@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -123,9 +123,15 @@ if ($showbuttons)
                 case 'youtube':
                     break;
                 default:
-                    if (form.file.value == '' && form.media_bank_image.value == '') {
-                        return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+                    <?php $input = JFactory::getApplication()->input; ?>
+                    <?php $checkCid = $input->get('cid', []); ?>
+                    var checkCid = '<?php echo count($checkCid)? 'true': 'false'; ?>';
+
+                    if (checkCid == 'false' && form.file.value == '' && form.media_bank_image.value == '')
+                    {
+                        return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');   
                     }
+
                     if (mediaSection == 'product') {
                         if (form.hdn_download_file.value == '' && form.file == '') {
                             return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
@@ -139,6 +145,7 @@ if ($showbuttons)
                     if (form.media_section.value == 0) {
                         return cancelSubmit('<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true); ?>');
                     }
+
                     if (form.section_id.value == '' && form.media_section.value != 'media') {
                         return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
                     }

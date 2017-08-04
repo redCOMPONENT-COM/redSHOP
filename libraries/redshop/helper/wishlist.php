@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,7 +64,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int  $wishlistId  ID of Wishlist ID.
 	 *
-	 * @return  bool|mixed        Data if success. False otherwise.
+	 * @return  mixed             Data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -160,7 +160,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int  $userId  ID of user.
 	 *
-	 * @return  bool|mixed
+	 * @return  mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -191,6 +191,11 @@ class RedshopHelperWishlist
 
 			if (empty($wishList))
 			{
+				$wishList = array(self::createWishlistDefault($userId));
+			}
+
+			if (empty($wishList))
+			{
 				static::$usersWishlist[$userId] = array();
 
 				return static::$usersWishlist[$userId];
@@ -210,7 +215,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int  $productId  ID of Product.
 	 *
-	 * @return  bool|mixed        Data if success. False otherwise.
+	 * @return  mixed        Data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -226,5 +231,92 @@ class RedshopHelperWishlist
 			->where($db->qn('w.user_id') . ' = ' . $db->q((int) $user->id));
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method for get Wishlist module base in element name
+	 *
+	 * @param   string  $elementName  Element name
+	 *
+	 * @return  object|null
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getWishlistModule($elementName)
+	{
+		if (empty($elementName))
+		{
+			return null;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote($elementName));
+
+		return $db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * Method for get Wishlist user field data
+	 *
+	 * @param   integer  $wishlistId  Wish list id
+	 * @param   integer  $productId   Product Id
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getUserFieldData($wishlistId, $productId)
+	{
+		if (empty($wishlistId) || empty($productId))
+		{
+			return array();
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_wishlist_userfielddata'))
+			->where($db->qn('wishlist_id') . ' = ' . $db->quote($wishlistId))
+			->where($db->qn('product_id') . ' = ' . (int) $productId)
+			->order($db->qn('fieldid') . ' ASC');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Create Default wishlist list
+	 *
+	 * @param   int  $userId  ID of user.
+	 *
+	 * @return  object|null
+	 */
+	private static function createWishlistDefault($userId)
+	{
+		if (!$userId)
+		{
+			return null;
+		}
+
+		$db = JFactory::getDbo();
+
+		$wishlist                = new stdClass();
+		$wishlist->wishlist_name = 'Default';
+		$wishlist->user_id       =$userId;
+		$wishlist->cdate         =$db->quote(time());
+
+		// Insert the object into the user profile table.
+		if ($db->insertObject('#__redshop_wishlist', $wishlist))
+		{
+			$wishlist->wishlist_id = $db->insertid();
+
+			return $wishlist;
+		}
+
+		return null;
 	}
 }
