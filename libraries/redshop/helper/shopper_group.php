@@ -291,15 +291,7 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getShopperGroupProductCategory($productId = 0)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('p.product_id'))
-			->select($db->qn('cx.category_id'))
-			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('cx.product_id'))
-			->where($db->qn('p.product_id') . ' = ' . $productId);
-
-		$productCategories = $db->setQuery($query)->loadObjectList();
+		$productCategories = RedshopEntityProduct::getInstance((int) $productId)->getCategories();
 
 		if (empty($productCategories))
 		{

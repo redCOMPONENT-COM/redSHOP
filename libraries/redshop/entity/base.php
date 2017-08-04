@@ -18,6 +18,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class RedshopEntityBase
 {
+	use \Redshop\Entity\Traits\Url;
+
 	/**
 	 * @const  integer
 	 * @since  1.0
@@ -149,7 +151,7 @@ abstract class RedshopEntityBase
 	 *
 	 * @param   string  $name  Property name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function __isset($name)
 	{
@@ -308,30 +310,6 @@ abstract class RedshopEntityBase
 		$class = get_called_class();
 
 		unset(static::$instances[$class][$id]);
-	}
-
-	/**
-	 * Format a link
-	 *
-	 * @param   string   $url     Url to format
-	 * @param   boolean  $routed  Process Url through JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
-	 *
-	 * @return  string
-	 */
-	protected function formatUrl($url, $routed = true, $xhtml = true)
-	{
-		if (!$url)
-		{
-			return null;
-		}
-
-		if (!$routed)
-		{
-			return $url;
-		}
-
-		return JRoute::_($url, $xhtml);
 	}
 
 	/**
