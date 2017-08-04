@@ -54,23 +54,6 @@ class ManageShopperGroupAdministratorCest
     }
 
     /**
-     *
-     * Function delte Shopper goups
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     *
-     * @depends creatShopperGroup
-     */
-    public function deleteShopperGroupsYes(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Check delete Shopper groups');
-        $I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
-        $I->wantTo('Edit Name of Shopper groups');
-        $I->deleteShopperGroupsYes();
-    }
-
-    /**
      * Function change status os shopper groups is unpublish
      * Change Shopper groups have name is Default Private
      *
