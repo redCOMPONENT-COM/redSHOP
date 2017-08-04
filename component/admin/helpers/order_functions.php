@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @deprecated  2.0.3  Use RedshopHelperOrder instead
@@ -371,7 +371,7 @@ class order_functions
 	 *
 	 * @param   integer  $user_id  User ID
 	 *
-	 * @return  array
+	 * @return  object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getBillingAddress() instead
 	 */
@@ -397,15 +397,15 @@ class order_functions
 	/**
 	 * Get Shipping address
 	 *
-	 * @param   integer  $user_id  User Id
+	 * @param   integer  $userId  User Id
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingAddress() instead
 	 */
-	public function getShippingAddress($user_id = 0)
+	public function getShippingAddress($userId = 0)
 	{
-		return RedshopHelperOrder::getShippingAddress($user_id);
+		return RedshopHelperOrder::getShippingAddress($userId);
 	}
 
 	/**

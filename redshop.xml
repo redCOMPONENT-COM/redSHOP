@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
     <name>COM_REDSHOP</name>
-    <creationDate>February 2017</creationDate>
+    <creationDate>July 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.0.3</version>
+    <version>2.0.7-beta1</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -68,6 +68,7 @@
             <folder>models</folder>
             <folder>sql</folder>
             <folder>tables</folder>
+            <folder>updates</folder>
             <folder>views</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>

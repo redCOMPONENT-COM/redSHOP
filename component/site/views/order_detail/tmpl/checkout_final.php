@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ $order_functions = order_functions::getInstance();
 $redhelper = redhelper::getInstance();
 
 $url = JURI::base();
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $order_id = JRequest::getInt('oid');
 
 $order = $order_functions->getOrderDetails($order_id);
@@ -106,7 +106,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		else
 		{
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = RedshopHelperUtility::getDispatcher();
 			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 			$key = array_search(true, $results);

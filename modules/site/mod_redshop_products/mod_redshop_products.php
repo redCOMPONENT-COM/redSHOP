@@ -101,6 +101,16 @@ switch ((int) $type)
 				. $time . ' AND p.discount_enddate = 0))')
 			->order($db->qn('p.product_name'));
 		break;
+	case 6:
+		$session = JFactory::getSession();
+		$watched = $session->get('watched_product');
+
+		if (!empty($watched))
+		{
+			$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $watched) . ')');	
+		}
+		
+		break;
 }
 
 // Only Display Feature Product
@@ -152,7 +162,7 @@ if ($category)
 }
 else
 {
-	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = pc.category_id')
+	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = pc.category_id')
 		->where($db->qn('c.published') . ' = 1');
 }
 

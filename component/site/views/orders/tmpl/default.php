@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,9 +38,9 @@ else
 if ($this->params->get('show_page_heading', 1))
 {
 	?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+	<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_LIST'));?>
-	</div>
+	</h1>
 <?php
 }
 

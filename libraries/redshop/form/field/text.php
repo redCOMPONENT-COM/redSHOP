@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,6 +74,11 @@ class RedshopFormFieldText extends JFormField
 		$this->attribs['readonly'] = ($this->element['readonly'] == 'true') ? 'readonly' : null;
 		$this->attribs['disabled'] = ($this->element['disabled'] == 'true') ? 'disabled' : null;
 		$this->attribs['placeholder'] = $this->element['placeholder'] ? JText::_($this->element['placeholder']) : null;
+
+		if (isset($this->element['filter']) && ($this->element['filter'] == 'float' || $this->element['filter'] == 'integer'))
+		{
+			$this->attribs['type'] = 'number';
+		}
 
 		// Automatically insert any other attribute inserted
 		if ($elementAttribs = $this->element->attributes())

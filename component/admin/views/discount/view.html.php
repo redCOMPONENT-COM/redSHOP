@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,7 +58,7 @@ class RedshopViewDiscount extends RedshopViewAdmin
 
 		$spgrpdis_filter = $this->state->get('spgrpdis_filter');
 		$userhelper = rsUserHelper::getInstance();
-		$shopper_groups = $userhelper->getShopperGroupList();
+		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
 
 		$temps = array();
 		$temps[0] = new stdClass;

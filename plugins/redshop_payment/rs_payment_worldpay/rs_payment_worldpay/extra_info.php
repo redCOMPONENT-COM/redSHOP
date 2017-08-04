@@ -14,11 +14,11 @@ $objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data['order_id']);
 
-$redhelper        = redhelper::getInstance();
-$db               = JFactory::getDbo();
-$user             = JFActory::getUser();
-$task             = JRequest::getVar('task');
-$app              = JFactory::getApplication();
+$redhelper = redhelper::getInstance();
+$db        = JFactory::getDbo();
+$user      = JFActory::getUser();
+$task      = JRequest::getVar('task');
+$app       = JFactory::getApplication();
 
 $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
@@ -49,7 +49,6 @@ else
 	$worldpayurl = "https://secure.worldpay.com/wcc/purchase";
 }
 
-$currencyClass         = CurrencyHelper::getInstance();
 $order->order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 $amount                = $order->order_subtotal;
 $sign_key              = $md5_key . ":" . $instId . ":" . $order->order_subtotal . ":" . Redshop::getConfig()->get('CURRENCY_CODE') . ":" . $cartId;

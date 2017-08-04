@@ -1,0 +1,8 @@
+{
+    "name": "redcomponent-com/redshop-pdf-tcpdf",
+    "description": "A redSHOP PDF plugin - tcPDF",
+    "license": "GPL-2.0+",
+    "require": {
+        "tecnickcom/tcpdf": "dev-master"
+    }
+}

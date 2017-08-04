@@ -3,32 +3,34 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onRenderCustomField');
 
-$url             = JURI::base();
-$user            = JFactory::getUser();
-$session         = JFactory::getSession();
+$url     = JURI::base();
+$user    = JFactory::getUser();
+$session = JFactory::getSession();
 
 $redhelper       = redhelper::getInstance();
 $userhelper      = rsUserHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 
-$telesearch      = $order_functions->getparameters('rs_telesearch');
-$Itemid          = $redhelper->getCheckoutItemid();
-$auth            = $session->get('auth');
-$l               = JRequest::getInt('l', 1);
-$jinput          = JFactory::getApplication()->input;
+$telesearch = $order_functions->getparameters('rs_telesearch');
+$Itemid     = RedshopHelperUtility::getCheckoutItemId();
+$auth       = $session->get('auth');
+$l          = JRequest::getInt('l', 1);
+$jinput     = JFactory::getApplication()->input;
 
 /*
  * REGISTER_METHOD
@@ -39,7 +41,8 @@ $jinput          = JFactory::getApplication()->input;
  *
  * */
 
-$post = $jinput->getArray($_POST);
+// Actually need know and determine which variables we want to use
+$post = $jinput->post->getArray();
 
 $login_template = $redTemplate->getTemplate("login");
 
@@ -119,13 +122,13 @@ else
 
 		if (strstr($login_template_desc, "{rs_login_button}"))
 		{
-			$loginbutton = '<input type="submit" class="button btn btn-primary" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
-			$loginbutton .= '<input type="hidden" name="l" value="1">';
-			$loginbutton .= '<input type="hidden" name="return" value="' . $returnurl . '" />';
-			$loginbutton .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
-			$loginbutton .= '<input type="hidden" name="task" id="task" value="setlogin">';
-			$loginbutton .= '<input type="hidden" name="option" id="option" value="com_redshop">';
-			$loginbutton .= '<input type="hidden" name="view" id="view" value="login">';
+			$loginbutton         = '<input type="submit" class="button btn btn-primary" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
+			$loginbutton         .= '<input type="hidden" name="l" value="1">';
+			$loginbutton         .= '<input type="hidden" name="return" value="' . $returnurl . '" />';
+			$loginbutton         .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
+			$loginbutton         .= '<input type="hidden" name="task" id="task" value="setlogin">';
+			$loginbutton         .= '<input type="hidden" name="option" id="option" value="com_redshop">';
+			$loginbutton         .= '<input type="hidden" name="view" id="view" value="login">';
 			$login_template_desc = str_replace("{rs_login_button}", $loginbutton, $login_template_desc);
 		}
 
@@ -139,122 +142,131 @@ else
 	}
 
 	$allowCustomer = $this->lists['allowCustomer'];
-	$allowCompany = $this->lists['allowCompany'];
-	$is_company = $this->lists['is_company'];
+	$allowCompany  = $this->lists['allowCompany'];
+	$is_company    = $this->lists['is_company'];
 	?>
 
-	<div class="form-group">
-		<label class="radio-inline" <?php echo $allowCustomer;?>>
-			<input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="showCompanyOrCustomer(this);" value="0" <?php echo ($is_company == 0) ? 'checked="checked"' : '' ?> />
-			<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?>
-		</label>
-		<label class="radio-inline" <?php echo $allowCompany;?>>
-			<input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="showCompanyOrCustomer(this);" value="1"  <?php echo ($is_company == 1) ? 'checked="checked"' : '' ?> />
-			<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?>
-		</label>
-	</div>
+    <div class="form-group">
+        <label class="radio-inline" <?php echo $allowCustomer; ?>>
+            <input type="radio" name="togglerchecker" id="toggler1" class="toggler"
+                   onclick="showCompanyOrCustomer(this);"
+                   value="0" <?php echo ($is_company == 0) ? 'checked="checked"' : '' ?> />
+			<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
+        </label>
+        <label class="radio-inline" <?php echo $allowCompany; ?>>
+            <input type="radio" name="togglerchecker" id="toggler2" class="toggler"
+                   onclick="showCompanyOrCustomer(this);"
+                   value="1" <?php echo ($is_company == 1) ? 'checked="checked"' : '' ?> />
+			<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
+        </label>
+    </div>
 
 	<?php if (count($telesearch) > 0 && $telesearch[0]->enabled) : ?>
 
-	<div class="input-group">
+    <div class="input-group">
 		<span class="input-group-btn">
-			<button class="btn btn-primary" type="button" name="searchaddbyphone" id="searchaddbyphone" onclick="return searchByPhone();">
+			<button class="btn btn-primary" type="button" name="searchaddbyphone" id="searchaddbyphone"
+                    onclick="return searchByPhone();">
 				<?php echo JText::_('COM_REDSHOP_SEARCH') ?>
 			</button>
 		</span>
-		<input class="form-control" name="searchphone" id="searchphone" type="text" value="" placeholder="<?php echo JText::_('COM_REDSHOP_GET_ADDRESS_BY_PHONE') ?>" />
-	</div>
+        <input class="form-control" name="searchphone" id="searchphone" type="text" value=""
+               placeholder="<?php echo JText::_('COM_REDSHOP_GET_ADDRESS_BY_PHONE') ?>"/>
+    </div>
 
-	<div id="divSearchPhonemsg" style="display:none">
-		<?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE');?>
-	</div>
-	<?php endif; ?>
+    <div id="divSearchPhonemsg" style="display:none">
+		<?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE'); ?>
+    </div>
+<?php endif; ?>
 
-	<div id="redshopRegistrationForm">
-		<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+    <div id="redshopRegistrationForm">
+        <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>"
+              method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 			<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
 				$checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
-			?>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="createaccount" <?php echo $checked_style;?> id="createaccount" value="1" onclick="createUserAccount(this);"/>
-					<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT');?>
-				</label>
-			</div>
+				?>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="createaccount" <?php echo $checked_style; ?> id="createaccount"
+                               value="1" onclick="createUserAccount(this);"/>
+						<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
+                    </label>
+                </div>
 			<?php endif; ?>
 
-			<fieldset>
-				<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
+            <fieldset>
+                <legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
-				<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX'));    ?>
-			</fieldset>
+				<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')); ?>
+            </fieldset>
 
 			<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
 
-			<?php
-			$billingisshipping = "";
+				<?php
+				$billingisshipping = "";
 
-			if (count($_POST) > 0)
-			{
-				if (isset($post['billisship']) && $post['billisship'] == 1)
+				if (count($_POST) > 0)
+				{
+					if (isset($post['billisship']) && $post['billisship'] == 1)
+					{
+						$billingisshipping = "style='display:none'";
+					}
+				}
+                elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 				{
 					$billingisshipping = "style='display:none'";
 				}
-			}
-			elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
-			{
-				$billingisshipping = "style='display:none'";
-			}
-			?>
+				?>
 
-			<div id="divShipping" <?php echo $billingisshipping;?>>
-				<fieldset class="adminform subTable">
-					<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-					<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists);    ?>
-				</fieldset>
-			</div>
+                <div id="divShipping" <?php echo $billingisshipping; ?>>
+                    <fieldset class="adminform subTable">
+                        <legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
+						<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists); ?>
+                    </fieldset>
+                </div>
 
 			<?php endif; ?>
 
 			<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
 
-			<div class="btn-group">
-				<input type="button" class="btn btn-default btn-lg" name="back" value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
-				<input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
-										 value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
-			</div>
+            <div class="btn-group">
+                <input type="button" class="btn btn-default btn-lg" name="back"
+                       value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
+                <input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
+                       value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
+            </div>
 
-			<div class="clr"></div>
-			<input type="hidden" name="l" value="0">
-			<input type="hidden" name="address_type" value="BT"/>
-			<input type="hidden" name="user_id" id="user_id" value="0"/>
-			<input type="hidden" name="usertype" value="Registered"/>
-			<input type="hidden" name="groups[]" value="2"/>
-			<input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
-			<input type="hidden" name="shopper_group_id" value="1"/>
-			<input type="hidden" name="task" value="checkoutprocess"/>
+            <div class="clr"></div>
+            <input type="hidden" name="l" value="0">
+            <input type="hidden" name="address_type" value="BT"/>
+            <input type="hidden" name="user_id" id="user_id" value="0"/>
+            <input type="hidden" name="usertype" value="Registered"/>
+            <input type="hidden" name="groups[]" value="2"/>
+            <input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
+            <input type="hidden" name="shopper_group_id" value="1"/>
+            <input type="hidden" name="task" value="checkoutprocess"/>
 
-		</form>
-	</div>
+        </form>
+    </div>
 	<?php
 	if ($show_login)
 	{
 		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.end');
 		echo '</div>';
 	}
-}    ?>
+} ?>
 
 <script type="text/javascript">
 
-	function submit_disable(val) {
-		document.adminForm.submit();
-		document.getElementById(val).disabled = true;
-		var op = document.getElementById(val);
-		op.setAttribute("style", "opacity:0.3;");
+    function submit_disable(val) {
+        document.adminForm.submit();
+        document.getElementById(val).disabled = true;
+        var op = document.getElementById(val);
+        op.setAttribute("style", "opacity:0.3;");
 
-		if (op.style.setAttribute) //For IE
-			op.style.setAttribute("filter", "alpha(opacity=30);");
+        if (op.style.setAttribute) //For IE
+            op.style.setAttribute("filter", "alpha(opacity=30);");
 
-	}
+    }
 </script>

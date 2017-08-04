@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 class RedshopControllerStockroom_detail extends RedshopController
@@ -142,7 +144,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
-				$ecoProductNumber = $economic->importStockFromEconomic($prd[$i]);
+				$ecoProductNumber = Economic::importStockFromEconomic($prd[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && isset($ecoProductNumber[0]))
@@ -162,7 +164,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
-						$errmsg = $error->message;
+						$errmsg = $error->getMessage();
 					}
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";

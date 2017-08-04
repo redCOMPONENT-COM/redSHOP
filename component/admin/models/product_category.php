@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,20 +12,17 @@ defined('_JEXEC') or die;
 
 class RedshopModelProduct_category extends RedshopModel
 {
-	public $input;
-
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->input = JFactory::getApplication()->input;
 	}
 
 	public function getProductlist()
 	{
-		$pid = $this->input->post->get('cid', array(), 'array');
-		$pids = implode(",", $pid);
+		$pid   = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$pids  = implode(",", $pid);
 		$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
 		$this->_db->setQuery($query);
 
@@ -48,9 +45,9 @@ class RedshopModelProduct_category extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('c.category_name, pcx.product_id')
+			->select('c.name, pcx.product_id')
 			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.category_id')
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.id')
 			->where('pcx.product_id IN (' . implode(',', array_keys($products)) . ')');
 
 		if ($categories = $db->setQuery($query)->loadObjectList())
@@ -62,7 +59,7 @@ class RedshopModelProduct_category extends RedshopModel
 					$products[$category->product_id]->categories = array();
 				}
 
-				$products[$category->product_id]->categories[] = $category->category_name;
+				$products[$category->product_id]->categories[] = $category->name;
 			}
 		}
 
@@ -71,8 +68,9 @@ class RedshopModelProduct_category extends RedshopModel
 
 	public function saveProduct_Category()
 	{
-		$pid    = $this->input->post->get('cid', array(), 'array');
-		$cat_id = $this->input->get('category_id');
+		$app    = JFactory::getApplication();
+		$pid    = $app->input->post->get('cid', array(), 'array');
+		$cat_id = $app->input->get('category_id');
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
@@ -97,8 +95,9 @@ class RedshopModelProduct_category extends RedshopModel
 
 	public function removeProduct_Category()
 	{
-		$pid     = $this->input->post->get('cid', array(), 'array');
-		$cat_id  = $this->input->post->get('category_id', array(), 'array');
+		$app     = JFactory::getApplication();
+		$pid     = $app->input->post->get('cid', array(), 'array');
+		$cat_id  = $app->input->post->get('category_id', array(), 'array');
 		$cat_ids = implode(",", $cat_id);
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
