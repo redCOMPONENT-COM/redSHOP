@@ -46,10 +46,10 @@ JHtml::_('behavior.formvalidator');
 					$("#jform_tax_state").parent().html(data);
 					$("#jform_tax_state").select2({width:"auto", dropdownAutoWidth:"auto"});
 				}
-				else if ($("#rs_state_jform_state_code").length)
+				else if ($("#rs_state_jformtax_state").length)
 				{
-					$("#rs_state_jform_state_code").parent().html(data);
-					$("#rs_state_jform_state_code").select2({width:"auto", dropdownAutoWidth:"auto"});
+					$("#rs_state_jformtax_state").parent().html(data);
+					$("#rs_state_jformtax_state").select2({width:"auto", dropdownAutoWidth:"auto"});
 				}
 			});
 		})(jQuery);
