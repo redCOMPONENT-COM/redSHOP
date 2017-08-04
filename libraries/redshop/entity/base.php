@@ -49,13 +49,6 @@ abstract class RedshopEntityBase
 	protected static $instances = array();
 
 	/**
-	 * Cached item
-	 *
-	 * @var  mixed
-	 */
-	protected $item = null;
-
-	/**
 	 * Cached table.
 	 *
 	 * @var  JTable
@@ -545,16 +538,6 @@ abstract class RedshopEntityBase
 		$name = str_replace('Entity', '', $name);
 
 		return strtolower($name);
-	}
-
-	/**
-	 * Get the id
-	 *
-	 * @return  int | null
-	 */
-	public function getId()
-	{
-		return $this->id;
 	}
 
 	/**
