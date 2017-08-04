@@ -14,23 +14,21 @@ class RedshopViewOrders extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
+		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
 		// Preform security checks
 		if ($user->id == 0)
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
-			exit;
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+			$app->close();
 		}
 
 		$layout = $app->input->getCmd('layout', 'default');
 		$this->setLayout($layout);
 
 		$params        = $app->getParams('com_redshop');
-		$prodhelperobj = productHelper::getInstance();
-		$prodhelperobj->generateBreadcrumb();
+		RedshopHelperBreadcrumb::generate();
 
 		// Request variables
 		$limit      = $app->getUserStateFromRequest('com_redshop' . 'limit', 'limit', 10, 'int');

@@ -15,7 +15,7 @@ $app         = JFactory::getApplication();
 
 $Itemid = $app->input->getInt('Itemid');
 $layout = $app->input->getCmd('layout', 'default');
-$model = $this->getModel('catalog');
+$model  = $this->getModel('catalog');
 
 $template = $redTemplate->getTemplate("product_sample");
 

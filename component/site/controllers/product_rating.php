@@ -28,16 +28,16 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app   = JFactory::getApplication();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$app = JFactory::getApplication();
+		$data = $app->input->post->get('jform', array(), 'array');
 		$model = $this->getModel('product_rating');
 
-		$productId   = $this->input->getInt('product_id', 0);
-		$Itemid      = $this->input->getInt('Itemid', 0);
-		$modal       = $this->input->getInt('modal', 0);
-		$category_id = $this->input->getInt('category_id', 0);
+		$productId   = $app->input->getInt('product_id', 0);
+		$Itemid      = $app->input->getInt('Itemid', 0);
+		$modal       = $app->input->getInt('modal', 0);
+		$category_id = $app->input->getInt('category_id', 0);
 		$userHelper  = rsUserHelper::getInstance();
-		$user        = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if ($modal)
 		{

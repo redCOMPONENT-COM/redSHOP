@@ -83,8 +83,8 @@ else
 	$billing = '<div class="redshop-billingaddresses">';
 
 	$emailField = new stdClass;
-	$emailField->field_title = JText::_('COM_REDSHOP_EMAIL');
-	$emailField->field_desc = '';
+	$emailField->title = JText::_('COM_REDSHOP_EMAIL');
+	$emailField->desc = '';
 	$emailField->required = '';
 
 	$inputField = '<input type="text" name="user_email" id="user_email" value=""/>';

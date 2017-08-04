@@ -16,63 +16,68 @@ defined('_JEXEC') or die;
         $(document).ready(function () {
             var $first = $($("#table-install").find("tr")[0]);
             window.setTimeout(function () {
-                doProgress($first.attr("data-task"));
+                doProgress($first);
             }, 1000);
         });
     })(jQuery);
 </script>
 <script type="text/javascript">
-    function doProgress(task) {
-        runTasks++;
-        var $row = $("#row-" + task);
-        $row.removeClass("hidden");
-        $row.find('img.loader').removeClass("hidden");
-        $row.find('.text-result').addClass("hidden");
+    function doProgress(row) {
+        (function ($) {
+            runTasks++;
+            var $row = $(row);
+            $row.removeClass("hidden");
+            $row.find('img.loader').removeClass("hidden");
+            $row.find('.text-result').addClass("hidden");
 
-        var percent = runTasks / <?php echo count($this->steps) ?> * 100;
-        $("#slider-install").css("width", percent + "%");
-        $("#slider-install").html(percent.toFixed(2) + "%");
+            var percent = runTasks / <?php echo count($this->steps) ?> * 100;
+            $("#slider-install").css("width", percent + "%");
+            $("#slider-install").html(percent.toFixed(2) + "%");
 
-        $.post(
-            "index.php?option=com_redshop&task=install." + task,
-            {
-                "<?php echo JSession::getFormToken() ?>": 1
-            },
-            function (response) {
-                $row.find('.text-result').text(response)
-                    .removeClass("text-muted hidden").addClass("text-success");
-                $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
-                $row.find('.task-name').removeClass("text-muted").addClass("text-success");
-                $row.addClass("hidden");
-            }
-        )
-            .always(function () {
-
-                $row.find('img.loader').addClass("hidden");
-
-                var $next = $row.next("tr");
-
-                // Still have next progress
-                if ($next.length) {
-                    doProgress($next.attr("data-task"));
-
-                    return;
+            $.post(
+                "index.php?option=com_redshop&task=install.ajaxProcess",
+                {
+                    "<?php echo JSession::getFormToken() ?>": 1
+                },
+                function (response) {
+                    $row.find('.text-result').text(response)
+                        .removeClass("text-muted hidden").addClass("text-success");
+                    $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
+                    $row.find('.task-name').removeClass("text-muted").addClass("text-success");
+                    $row.addClass("hidden");
                 }
+            )
+                .always(function () {
 
-                // This is final step
-                window.setTimeout(function () {
-                    $("#slider-install").parent().fadeOut('slow', function () {
-                        $("#install-desc").fadeIn('slow');
-                        $("#system-message-container").removeClass("hidden");
-                    });
-                }, 500);
-            })
-            .fail(function (response) {
-                $row.find('.text-result').text(response.responseText)
-                    .removeClass("text-muted hidden").addClass("text-danger");
-                $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-remove text-danger");
-                $row.find('.task-name').removeClass("text-muted").addClass("text-danger");
-            });
+                    $row.find('img.loader').addClass("hidden");
+
+                    var $next = $row.next("tr");
+
+                    // Still have next progress
+                    if ($next.length) {
+                        doProgress($next);
+
+                        return;
+                    }
+
+                    // This is final step
+                    window.setTimeout(function () {
+                        $("#slider-install").parent().fadeOut('slow', function () {
+                            $("#install-desc").fadeIn('slow');
+                            $("#system-message-container").removeClass("hidden");
+							<?php if ($this->installType == 'update'): ?>
+                            $("#update_versions").fadeIn('slow');
+							<?php endif; ?>
+                        });
+                    }, 500);
+                })
+                .fail(function (response) {
+                    $row.find('.text-result').text(response.responseText)
+                        .removeClass("text-muted hidden").addClass("text-danger");
+                    $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-remove text-danger");
+                    $row.find('.task-name').removeClass("text-muted").addClass("text-danger");
+                });
+        })(jQuery);
     }
 </script>
 <div class="container">
@@ -88,7 +93,8 @@ defined('_JEXEC') or die;
         </div>
         <div class="row">
             <div class="col-md-4">
-                <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88"
+                <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png"
+                     width="261" height="88"
                      alt="redSHOP Logo" align="left" class="img"/>
             </div>
             <div class="col-md-8">
@@ -96,7 +102,8 @@ defined('_JEXEC') or die;
                 <p><?php echo JText::_('COM_REDSHOP_BY_LINK') ?></p>
                 <p><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION') ?></p>
                 <p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
-                    <a href="http://redcomponent.com/" target="_new"><img src="http://images.redcomponent.com/redcomponent.jpg" alt=""/></a>
+                    <a href="http://redcomponent.com/" target="_new"><img
+                                src="http://images.redcomponent.com/redcomponent.jpg" alt=""/></a>
                 </p>
             </div>
         </div>
@@ -130,7 +137,7 @@ defined('_JEXEC') or die;
     <table class="table" id="table-install">
         <tbody>
 		<?php foreach ($this->steps as $i => $step): ?>
-            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo $step['func'] ?>" class="hidden">
+            <tr id="row-<?php echo preg_replace("/[^A-Za-z0-9?!]/", '', $step['func']) ?>">
                 <td width="1">
                     <i class="fa fa-tasks status-icon"></i>
                 </td>
@@ -139,10 +146,66 @@ defined('_JEXEC') or die;
                 </td>
                 <td width="20%" style="text-align: right;">
                     <strong class="text-result text-muted">Pending</strong>
-                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img hidden" width="128px" height="15px"/>
+                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img" width="128px"
+                         height="15px"/>
                 </td>
             </tr>
 		<?php endforeach; ?>
         </tbody>
     </table>
+	<?php if ($this->installType == 'update' && !empty($this->availableVersions)): ?>
+        <div class="row" id="update_versions" style="display: none;">
+            <hr/>
+            <div class="col-md-12">
+                <a class="btn btn-warning" role="button" data-toggle="collapse" href="#collapseLastVersion"
+                   aria-expanded="false" aria-controls="collapseLastVersion">
+					<?php echo JText::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE') ?>
+                </a>
+                <p></p>
+                <div class="collapse" id="collapseLastVersion">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="callout callout-default">
+                                <strong class="text-warning"><i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?></strong>
+                                <p><?php echo JText::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE_WARNING') ?></p>
+                            </div>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th width="10%">
+                                        Version
+                                    </th>
+                                    <th>
+                                        Tasks
+                                    </th>
+                                    <th width="10%">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+								<?php foreach ($this->availableVersions as $availableVersion): ?>
+                                    <tr>
+                                        <td><?php echo $availableVersion->version ?></td>
+                                        <td>
+                                            <ul>
+												<?php foreach ($availableVersion->tasks as $task): ?>
+                                                    <li><?php echo $task; ?></li>
+												<?php endforeach; ?>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-block text-center"
+                                               href="index.php?option=com_redshop&view=install&install_type=update&version=<?php echo $availableVersion->version ?>">
+                                                <i class="fa fa-play"></i> <?php echo JText::_('COM_REDSHOP_INSTALL_RUN') ?>
+                                            </a>
+                                        </td>
+                                    </tr>
+								<?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	<?php endif; ?>
 </div>

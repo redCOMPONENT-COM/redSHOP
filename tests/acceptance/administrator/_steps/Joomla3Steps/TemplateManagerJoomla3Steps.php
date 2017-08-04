@@ -118,15 +118,23 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Delete Template
 	 *
-	 * @param   String  $name  Name of the Template which is to be Deleted
+	 * @param   String  $templateName  Name of the Template which is to be Deleted
 	 *
 	 * @return void
 	 */
-	public function deleteTemplate($name)
+	public function deleteTemplate($templateName)
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
-		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$this->delete(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst, ['id' => 'filter']);
+		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchTemplate($templateName);
+		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
+		$I->click("Delete");
+		$I->acceptPopup();
+		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
+		$I->see("1 item successfully deleted", '.alert-success');
+		$I->fillField(\TemplateManagerJoomla3Page::$filter, $templateName);
+		$I->pressKey(\TemplateManagerJoomla3Page::$filter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->dontSee($templateName, \TemplateManagerJoomla3Page::$firstResultRow);
 	}
 }

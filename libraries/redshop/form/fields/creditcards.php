@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('checkboxes');
 
 /**
- * Renders a Productfinder Form
+ * Renders a Credit Card Form
  *
  * @package        RedSHOP.Backend
  * @subpackage     Element
@@ -23,8 +23,7 @@ class JFormFieldCreditCards extends JFormFieldCheckboxes
 	/**
 	 * Element name
 	 *
-	 * @access    protected
-	 * @var        string
+	 * @var  string
 	 */
 	protected $type = 'creditcards';
 

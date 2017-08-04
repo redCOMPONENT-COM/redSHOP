@@ -12,6 +12,20 @@ JHtml::_('behavior.formvalidator');
 ?>
 
 <script type="text/javascript">
+	Joomla.submitbutton = function (task) {
+		if (task == "tax_rate.save" || task == "tax_rate.apply") {
+			var tax_rate = document.getElementById('jform_tax_rate').value;
+
+			if (isNaN(parseFloat(tax_rate)) || !isFinite(tax_rate) || parseFloat(tax_rate) < 0) {
+				alert("<?php echo JText::_('COM_REDSHOP_TAX_RATE_INVALID_INPUT_MSG', true); ?>");
+				document.getElementById('jform_tax_rate').focus();
+				return false;
+			}
+		}
+
+		submitform(task);
+	}
+
 	function updateState(countryValue)
 	{
 		(function($){

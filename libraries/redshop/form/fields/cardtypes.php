@@ -23,8 +23,7 @@ class JFormFieldCardTypes extends JFormFieldCheckboxes
 	/**
 	 * Element name
 	 *
-	 * @access    protected
-	 * @var        string
+	 * @var   string
 	 */
 	public $type = 'cardtypes';
 
@@ -91,8 +90,8 @@ class JFormFieldCardTypes extends JFormFieldCheckboxes
 				jQuery("#jform_params_cardtypes0").click(function(event) {
 					jQuery("[id^=jform_params_cardtypes]").attr("checked", jQuery(this).get(0).checked);
 				});
-			});
-		');
+			});'
+		);
 
 		return $options;
 	}

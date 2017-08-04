@@ -37,16 +37,16 @@ class JFormFieldCategoriesParent extends JFormFieldList
 	{
 		// Initialise variables.
 		$options = array();
-		$name = (string) $this->element['name'];
+		$name    = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = JFactory::getApplication()->input;
+		$input     = JFactory::getApplication()->input;
 		$extension = 'com_redshop';
 
 		// For categories the old category is the category id 0 for new category.
 		if ($this->element['parent'])
 		{
-			$oldCat = $jinput->get('id', 0);
+			$oldCat = $input->get('id', 0);
 		}
 		else
 			// For items the old category is the category they are in when opened or 0 if new.
@@ -54,7 +54,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
 			$oldCat = $this->form->getValue($name);
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.name AS text, a.level, a.published')
 			->from('#__redshop_category AS a')
@@ -165,14 +165,11 @@ class JFormFieldCategoriesParent extends JFormFieldList
 			}
 		}
 
-		if (isset($row) && !isset($options[0]))
+		if (isset($row) && !isset($options[0]) && $row->parent_id == '1')
 		{
-			if ($row->parent_id == '1')
-			{
-				$parent = new stdClass;
-				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
-				array_unshift($options, $parent);
-			}
+			$parent       = new stdClass;
+			$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+			array_unshift($options, $parent);
 		}
 
 		// Merge any additional options in the XML definition.

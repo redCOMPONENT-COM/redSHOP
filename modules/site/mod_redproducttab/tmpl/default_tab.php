@@ -37,7 +37,7 @@ $j     = 0;
 		}
 		else
 		{
-			$Itemid = $redhelper->getItemid($row->product_id);
+			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
@@ -170,7 +170,7 @@ $j     = 0;
 				}
 			}
 
-			$addtocart = $producthelper->replaceCartTemplate($row->product_id, $category_id, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id);
+			$addtocart = $producthelper->replaceCartTemplate($row->product_id, $category_id, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $moduleId);
 			echo "<div class=\"mod_redshop_products_addtocart\">" . $addtocart . $hidden_userfield . "</div>";
 		}
 

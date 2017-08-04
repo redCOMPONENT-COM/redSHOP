@@ -173,8 +173,6 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
 
@@ -182,11 +180,11 @@ class RedshopModelUser_detail extends RedshopModel
 
 		if ($post['createaccount'])
 		{
-			$joomlauser = $userhelper->createJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::createJoomlaUser($post);
 		}
 		else
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 		}
 
 		if (!$joomlauser)
@@ -194,15 +192,13 @@ class RedshopModelUser_detail extends RedshopModel
 			return false;
 		}
 
-		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 
 		return $reduser;
 	}
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
@@ -218,18 +214,18 @@ class RedshopModelUser_detail extends RedshopModel
 			$post['zipcode_ST'] = $post['zipcode'];
 			$post['phone_ST'] = $post['phone'];
 
-			$reduser = $userhelper->storeRedshopUserShipping($post);
+			$reduser = RedshopHelperUser::storeRedshopUserShipping($post);
 		}
 		else
 		{
 			$post['billisship'] = 1;
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 
 			if (!$joomlauser)
 			{
 				return false;
 			}
-			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+			$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 		}
 
 		return $reduser;
@@ -282,9 +278,16 @@ class RedshopModelUser_detail extends RedshopModel
 						continue;
 					}
 
-					if (!JFactory::getUser($joomlaUser)->delete())
+					$user = JFactory::getUser($joomlaUserId);
+
+					if ($user->guest)
 					{
-						$this->setError($db->getErrorMsg());
+						continue;
+					}
+
+					if (!$user->delete())
+					{
+						$this->setError($user->getError());
 
 						return false;
 					}

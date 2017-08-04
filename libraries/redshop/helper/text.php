@@ -11,8 +11,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Class Redshop Helper Text
  *
@@ -35,13 +33,13 @@ class RedshopHelperText
 			->from($db->qn('#__redshop_textlibrary'))
 			->where($db->qn('published') . ' = 1');
 
-		return $db->setQuery($query)->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
 	 * Get array of tag for text library
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
@@ -65,7 +63,7 @@ class RedshopHelperText
 	 *
 	 * @param   array  $data  Data to replace with
 	 *
-	 * @return  array
+	 * @return  string
 	 *
 	 * @since   2.0.3
 	 */
