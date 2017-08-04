@@ -64,6 +64,17 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
     }
 
+    public function deleteShopperGroupsYes()
+    {
+        $I = $this;
+        $I->amOnPage(\ShopperGroupJ3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
+        $I->click(\ShopperGroupJ3Page::$shopperFours);
+        $I->click(\ShopperGroupJ3Page::$deleteButton);
+        $I->acceptPopup();
+        $I->see(\ShopperGroupJ3Page::$deleteButton, \ShopperGroupJ3Page::$selectorSuccess);
+    }
+
     public function changeStateShopperGroups()
     {
         $I = $this;
