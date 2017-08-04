@@ -1,141 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.0" client="site" method="upgrade">
-	<name>MOD_REDSHOP_CART</name>
-	<version>1.6</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>MOD_REDSHOP_CART_DESC</description>
-	<files>
-		<filename module="mod_redshop_cart">mod_redshop_cart.php</filename>
-		<filename>index.html</filename>
-		<folder>tmpl</folder>
-		<folder module="mod_redshop_cart">images</folder>
-		<folder module="mod_redshop_cart">css</folder>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.sys.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="cart_output"
-					type="list"
-					default="0"
-					label="MOD_REDSHOP_CART_CART_OUTPUT"
-				>
-					<option value="simple">MOD_REDSHOP_CART_SIMPLE</option>
-					<option value="extended">MOD_REDSHOP_CART_EXTENDED</option>
-				</field>
-				<field
-					name="moduleclass_sfx"
-					type="text"
-					default=""
-					label="MOD_REDSHOP_CART_PARAMMODULECLASSSUFFIX"
-					description="MOD_REDSHOP_CART_PARAMMODULECLASSSUFFIX_DESC"
-				/>
-				<field
-					name="show_with_shipping"
-					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
-					label="MOD_REDSHOP_CART_SHOW_WITH_SHIPPING"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="show_with_discount"
-					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
-					label="MOD_REDSHOP_CART_SHOW_WITH_DISCOUNT"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="show_with_vat"
-					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
-					label="MOD_REDSHOP_CART_SHOW_WITH_VAT"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="show_shipping_line"
-					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
-					label="MOD_REDSHOP_CART_SHOW_SHIPPING_LINE"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="checkout_empty"
-					type="radio"
-					default="1"
-					class="btn-group btn-group-yesno"
-					label="MOD_REDSHOP_CART_SHOW_CHECKOUT_BUTTON_WHEN_EMPTY_LBL"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="button_text"
-					type="text"
-					default=""
-					label="MOD_REDSHOP_CART_CART_BUTTON_TEXT_LBL"
-					description="MOD_REDSHOP_CART_CART_BUTTON_TEXT_DESC"
-				/>
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-				/>
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					rows="3"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
-				/>
-				<field
-					name="cache"
-					type="list"
-					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-				>
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-				<field
-					name="cache_time"
-					type="text"
-					default="900"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
-				/>
-				<field
-					name="cachemode"
-					type="hidden"
-					default="static"
-				>
-					<option value="static"></option>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
+    <name>MOD_REDSHOP_CART</name>
+    <version>1.7.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>September 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_REDSHOP_CART_DESC</description>
+    <files>
+        <filename module="mod_redshop_cart">mod_redshop_cart.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+        <folder module="mod_redshop_cart">images</folder>
+        <folder module="mod_redshop_cart">css</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="cart_output"
+                        type="list"
+                        default="0"
+                        label="MOD_REDSHOP_CART_CART_OUTPUT">
+                    <option value="simple">MOD_REDSHOP_CART_SIMPLE</option>
+                    <option value="extended">MOD_REDSHOP_CART_EXTENDED</option>
+                </field>
+                <field
+                        name="show_with_shipping"
+                        type="radio"
+                        default="0"
+                        class="btn-group btn-group-yesno"
+                        label="MOD_REDSHOP_CART_SHOW_WITH_SHIPPING">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="show_with_discount"
+                        type="radio"
+                        default="0"
+                        class="btn-group btn-group-yesno"
+                        label="MOD_REDSHOP_CART_SHOW_WITH_DISCOUNT">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="show_with_vat"
+                        type="radio"
+                        default="0"
+                        class="btn-group btn-group-yesno"
+                        label="MOD_REDSHOP_CART_SHOW_WITH_VAT">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="show_shipping_line"
+                        type="radio"
+                        default="0"
+                        class="btn-group btn-group-yesno"
+                        label="MOD_REDSHOP_CART_SHOW_SHIPPING_LINE">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="checkout_empty"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="MOD_REDSHOP_CART_SHOW_CHECKOUT_BUTTON_WHEN_EMPTY_LBL">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field
+                        name="button_text"
+                        type="text"
+                        default=""
+                        label="MOD_REDSHOP_CART_CART_BUTTON_TEXT_LBL"
+                        description="MOD_REDSHOP_CART_CART_BUTTON_TEXT_DESC"
+                />
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+                />
+                <field
+                        name="moduleclass_sfx"
+                        type="textarea"
+                        rows="3"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+                />
+                <field
+                        name="cache"
+                        type="list"
+                        default="0"
+                        label="COM_MODULES_FIELD_CACHING_LABEL"
+                        description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option value="1">JGLOBAL_USE_GLOBAL</option>
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+                <field
+                        name="cache_time"
+                        type="text"
+                        default="900"
+                        label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                        description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+                />
+                <field
+                        name="cachemode"
+                        type="hidden"
+                        default="static">
+                    <option value="static"></option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
 </extension>

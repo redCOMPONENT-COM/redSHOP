@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,5 +48,43 @@ class RedshopControllerShipping_box extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_SHIPPING_BOXES_DELETE_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_box', $msg);
+	}
+
+	public function publish()
+	{
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
+
+		$model = $this->getModel('shipping_box_detail');
+
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
+	}
+
+	public function unpublish()
+	{
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
+
+		$model = $this->getModel('shipping_box_detail');
+
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 }

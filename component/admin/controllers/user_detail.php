@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,18 +35,20 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-
-		$model = $this->getModel('user_detail');
+		$app      = JFactory::getApplication();
+		$post     = $this->input->post->getArray();
+		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
+		$app->setUserState('com_redshop.user_detail.data', $post);
 
 		if ($row = $model->store($post))
 		{
-			$msg = JText::_('COM_REDSHOP_USER_DETAIL_SAVED');
+			$this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'));
+			$app->setUserState('com_redshop.fields_detail.data', "");
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL');
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL'), 'error');
 		}
 
 		if ($shipping)
@@ -75,7 +77,7 @@ class RedshopControllerUser_detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect($link, $msg);
+		$this->setRedirect($link);
 	}
 
 	public function remove()
@@ -162,6 +164,7 @@ class RedshopControllerUser_detail extends RedshopController
 	{
 		$shipping = $this->input->getString('shipping', '');
 		$info_id  = $this->input->getString('info_id', '');
+		JFactory::getApplication()->setUserState('com_redshop.user_detail.data', "");
 
 		if ($shipping)
 		{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,7 +84,7 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 		);
 
 		// For individual show_price and catalog
-		$show_price_data = $redhelper->getPreOrderByList();
+		$show_price_data = RedshopHelperUtility::getPreOrderByList();
 		$lists['show_price'] = JHTML::_('select.genericlist', $show_price_data, 'show_price',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->show_price
 		);

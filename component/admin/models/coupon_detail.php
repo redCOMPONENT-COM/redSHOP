@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -210,14 +210,30 @@ class RedshopModelCoupon_detail extends RedshopModel
 		return $fullname;
 	}
 
-	public function checkduplicate($discount_code)
+	/**
+	 * Method for check duplicate code on voucher and coupon
+	 *
+	 * @param   string  $discountCode  Discount code.
+	 *
+	 * @return  integer
+	 */
+	public function checkDuplicate($discountCode)
 	{
-		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"
-			. " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code"
-			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
+		$db = $this->getDbo();
 
-		$this->_db->setQuery($query);
+		$voucherQuery = $db->getQuery(true)
+			->select($db->qn('code'))
+			->from($db->qn('#__redshop_voucher'));
+		$couponQuery = $db->getQuery(true)
+			->select($db->qn('coupon_code', 'code'))
+			->from($db->qn('#__redshop_coupons'));
+		$couponQuery->union($voucherQuery);
 
-		return $this->_db->loadResult();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('(' . $couponQuery . ') AS ' . $db->qn('data'))
+			->where($db->qn('data.code') . ' = ' . $db->quote($discountCode));
+
+		return $db->setQuery($query)->loadResult();
 	}
 }

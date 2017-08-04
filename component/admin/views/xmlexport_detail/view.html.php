@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -22,9 +22,8 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		global $context;
+		$jinput       = JFactory::getApplication()->input;
 		$context      = 'xmlexport_id';
-		$jinput = JFactory::getApplication()->input;
-
 		$layout       = $jinput->getCmd('layout', '');
 		$xmlhelper    = new xmlHelper;
 		$session      = JFactory::getSession();
@@ -37,14 +36,10 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 		$lists                = array();
 		$colvalue             = array();
 		$model                = $this->getModel();
-
 		$detail               = $this->get('data');
-
 		$parentsection        = $jinput->get('parentsection', '');
 		$detail->section_type = $jinput->get('section_type', $detail->section_type);
-
 		$isNew                = ($detail->xmlexport_id < 1);
-
 		$text                 = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_export48');
@@ -64,7 +59,6 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();
 		$columns            = $xmlhelper->getSectionColumnList($detail->section_type, $parentsection);
 		$iparray            = $xmlhelper->getXMLExportIpAddress($detail->xmlexport_id);
-
 		$dbfield            = "";
 		$dbchildname        = "";
 

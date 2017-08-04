@@ -3,12 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 
 class RedshopControllerQuotation_detail extends RedshopController
@@ -44,7 +43,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		if ($post['quotation_id'] == 0)
 		{
-			$post['quotation_cdate'] = time();
+			$post['quotation_cdate']   = time();
 			$post['quotation_encrkey'] = $quotationHelper->randomQuotationEncrkey();
 		}
 
@@ -55,7 +54,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		}
 
 		$quotation_item = array();
-		$i = 0;
+		$i              = 0;
 
 		foreach ($post as $key => $value)
 		{
@@ -81,14 +80,14 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 			if (!strcmp("quantity", substr($key, 0, 8)) && strlen($key) < 12)
 			{
-				$quotation_item[$i]->product_quantity = $value;
+				$quotation_item[$i]->product_quantity    = $value;
 				$quotation_item[$i]->product_final_price = $quotation_item[$i]->product_price * $quotation_item[$i]->product_quantity;
 				$i++;
 			}
 		}
 
 		$post['quotation_item'] = $quotation_item;
-		$row = $model->store($post);
+		$row                    = $model->store($post);
 
 		if ($status == 5 && empty($post['order_id']))
 		{
@@ -212,7 +211,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 			$vatprice = $producthelper->getProductTax($product_id, $newprice, $user_id);
 		}
 
-		echo "<div id='newtax'>" . $vatprice . "</div>";
-		exit;
+		echo '<div id="newtax">' . $vatprice . '</div>';
+		JFactory::getApplication()->close();
 	}
 }

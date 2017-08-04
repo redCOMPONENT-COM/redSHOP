@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,17 +61,20 @@ class RedshopControllerAccount_billto extends RedshopController
 	 */
 	public function save()
 	{
-		$user   = JFactory::getUser();
-		$post   = JRequest::get('post');
-		$return = JRequest::getVar('return');
-		$Itemid = JRequest::getInt('Itemid');
+		$app     = JFactory::getApplication();
+		$input   = $app->input;
+		$user    = JFactory::getUser();
+		$post    = JRequest::get('post');
+		$return  = $input->getString('return', '');
+		$itemId  = $input->getInt('Itemid', 0);
+		$setExit = $input->getInt('setexit', 1);
 
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$post['users_info_id'] = $input->post->getInt('cid', 0);
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "BT";
 		$post['email']         = $post['email1'];
-		$post['password']      = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post['password2']     = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['password']      = $input->post->get('password1', '', 'RAW');
+		$post['password2']     = $input->post->get('password2', '', 'RAW');
 
 		if (isset($user->username))
 		{
@@ -89,26 +92,20 @@ class RedshopControllerAccount_billto extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 		}
 
-		$setexit = JRequest::getInt('setexit', 1);
 		$link = '';
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 
-			if (!isset($setexit) || $setexit != 0)
+			if (!isset($setExit) || $setExit != 0)
 			{
-				?>
-				<script language="javascript">
-					window.parent.location.href = "<?php echo $link ?>";
-				</script>
-				<?php
-				exit;
+				$app->redirect('index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return, $msg);
 			}
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId, false);
 		}
 
 		$this->setRedirect($link, $msg);

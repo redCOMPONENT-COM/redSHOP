@@ -3,13 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$jinput = JFactory::getApplication()->input;
-
+$jinput             = JFactory::getApplication()->input;
 $product_total      = $jinput->get('product_total', 0);
 $product_inserted   = $jinput->get('product_inserted', 0);
 $product_updated    = $jinput->get('product_updated', 0);

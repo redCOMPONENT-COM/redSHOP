@@ -11,7 +11,7 @@
  *
  * @package    RedSHOP.Backend
  *
- * @copyright  Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -32,8 +32,8 @@ if (!$config->isExists() && $app->input->getCmd('view') != 'install')
 }
 
 $redHelper = redhelper::getInstance();
-$redHelper->removeShippingRate();
-$json_var = JFactory::getApplication()->input->get('json');
+RedshopShippingRate::removeShippingRate();
+$json = JFactory::getApplication()->input->get('json');
 
 $view = JFactory::getApplication()->input->getCmd('view', '');
 $user = JFactory::getUser();
@@ -41,7 +41,7 @@ $userType = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid = $user->groups[$user->usertype];
 
-if (!$user->authorise('core.manage', 'com_redshop') && !$json_var)
+if (!$user->authorise('core.manage', 'com_redshop') && !$json)
 {
 	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
@@ -54,9 +54,9 @@ $step     = JFactory::getApplication()->input->get('step', '');
 // Initialize wizard
 if ($isWizard || $step != '')
 {
-	if ($user->gid != 8)
+	if ($user->gid != 8 && !$user->authorise('core.manage', 'com_redshop'))
 	{
-		RedshopHelperAccess::checkGroupAccess('wizard', '', $user->gid);
+		throw new Exception('COM_REDSHOP_DONT_HAVE_PERMISSION');
 	}
 
 	JFactory::getApplication()->input->set('view', 'wizard');

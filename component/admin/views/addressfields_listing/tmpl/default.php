@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,8 +77,8 @@ $field_section_drop = $jinput->get('field_section_drop');
 			for ($i = 0, $n = count($this->fields); $i < $n; $i++)
 			{
 				$row = $this->fields[$i];
-				$row->id = $row->field_id;
-				$link = JRoute::_('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $row->field_id);
+				$row->id = $row->id;
+				$link = JRoute::_('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $row->id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -91,33 +91,33 @@ $field_section_drop = $jinput->get('field_section_drop');
 						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
 					</td>
 					<td width="30%">
-						<?php echo $row->field_title; ?>
+						<?php echo $row->title; ?>
 					</td>
 
 					<td class="order" width="30%">
 						<?php
-						if ($row->field_section == 1) echo 'Product';
-						elseif ($row->field_section == 2) echo 'Category';
-						elseif ($row->field_section == 3) echo 'Form';
-						elseif ($row->field_section == 4) echo 'Email';
-						elseif ($row->field_section == 5) echo 'Confirmation';
-						elseif ($row->field_section == 6) echo 'Userinformations';
-						elseif ($row->field_section == 7) echo 'Customer Address';
-						elseif ($row->field_section == 8) echo 'Company Address';
-						elseif ($row->field_section == 9) echo 'Color sample';
-						elseif ($row->field_section == 10) echo 'Manufacturer';
-						elseif ($row->field_section == 11) echo 'Shipping';
-						elseif ($row->field_section == 12) echo 'Product UserField';
-						elseif ($row->field_section == 13) echo 'Giftcard UserField';
-						elseif ($row->field_section == 14) echo 'Customer shipping Address';
+						if ($row->section == 1) echo 'Product';
+						elseif ($row->section == 2) echo 'Category';
+						elseif ($row->section == 3) echo 'Form';
+						elseif ($row->section == 4) echo 'Email';
+						elseif ($row->section == 5) echo 'Confirmation';
+						elseif ($row->section == 6) echo 'Userinformations';
+						elseif ($row->section == 7) echo 'Customer Address';
+						elseif ($row->section == 8) echo 'Company Address';
+						elseif ($row->section == 9) echo 'Color sample';
+						elseif ($row->section == 10) echo 'Manufacturer';
+						elseif ($row->section == 11) echo 'Shipping';
+						elseif ($row->section == 12) echo 'Product UserField';
+						elseif ($row->section == 13) echo 'Giftcard UserField';
+						elseif ($row->section == 14) echo 'Customer shipping Address';
 						else  echo 'Company Shipping Address';
 
 						?>
 
 
 					<td class="order" width="30%">
-						<span><?php echo $this->pagination->orderUpIcon($i, ($row->field_section == @$this->fields[$i - 1]->field_section), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->field_section == @$this->fields[$i + 1]->field_section), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
+						<span><?php echo $this->pagination->orderUpIcon($i, ($row->section == @$this->fields[$i - 1]->section), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->section == @$this->fields[$i + 1]->section), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 
 						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"

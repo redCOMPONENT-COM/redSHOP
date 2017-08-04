@@ -12,19 +12,26 @@ defined('_JEXEC') or die;
 class plgRedshop_paymentrs_payment_moneris extends JPlugin
 {
 	/**
+	 * Constructor
 	 * Plugin method with the same name as the event will be called automatically.
+	 *
+	 * @param   string  $element    Element
+	 * @param   array   $data       Data
+	 *
+	 * @return  false|stdClass
+	 *
+	 * @since   2.0.6
 	 */
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
-		$config        = Redconfiguration::getInstance();
-		$currencyClass = CurrencyHelper::getInstance();
 
 		// Get user billing information
 		$user = JFActory::getUser();
 
 		if ($element != 'rs_payment_moneris')
 		{
-			return;
+
+			return false;
 		}
 
 		if (empty($plugin))
@@ -49,8 +56,8 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$moneris_api_host = "www3.moneris.com";
 		}
 
-		$session    = JFactory::getSession();
-		$ccdata     = $session->get('ccdata');
+		$session = JFactory::getSession();
+		$ccdata  = $session->get('ccdata');
 
 		// Additional Customer Data
 		$user_id    = $data['billinginfo']->user_id;
@@ -94,7 +101,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$storeid    = $moneris_store_id;
 			$apitoken   = $moneris_api_token;
 			$tot_amount = $order_total = $data['order_total'];
-			$amount     = $currencyClass->convert($tot_amount, '', 'USD');
+			$amount     = RedshopHelperCurrency::convert($tot_amount, '', 'USD');
 		}
 
 		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
@@ -116,12 +123,12 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			'cvd_value'     => $credit_card_code
 		);
 
-		$avsTemplate = array('avs_street_number' => $avs_street_number,'avs_street_name' => '','avs_zipcode' => $avs_zipcode);
+		$avsTemplate = array('avs_street_number' => $avs_street_number, 'avs_street_name' => '', 'avs_zipcode' => $avs_zipcode);
 
 		$mpgAvsInfo = new mpgAvsInfo($avsTemplate);
 		$mpgCvdInfo = new mpgCvdInfo($cvdTemplate);
 
-		$mpgTxn     = new mpgTransaction($txnArray);
+		$mpgTxn = new mpgTransaction($txnArray);
 
 		if ($moneris_check_avs == 1)
 		{
@@ -134,30 +141,30 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		}
 
 		$mpgRequest = new mpgRequest($mpgTxn);
-
+		$mpgGlobals = new mpgGlobals;
 		$mpgHttpPost = new mpgHttpsPost($storeid, $apitoken, $mpgRequest, $moneris_api_host);
 		$mpgResponse = $mpgHttpPost->getMpgResponse();
 
-		if ($moneris_test_status == 1 && false)
+		if ($moneris_test_status == 1)
 		{
 			echo "<pre>";
 			echo "Raw Data<br /><br />";
 			echo "Globals: <br />";
-			var_dump($mpgConfig->getGlobals());
+			var_export($mpgGlobals->getGlobals());
 			echo "<br />";
 			echo "Request: <br />";
-			var_dump($mpgHttpPost);
+			var_export($mpgHttpPost);
 			echo "<br />";
 			echo "Response: <br />";
-			var_dump($mpgResponse);
+			var_export($mpgResponse);
 			echo "</pre>";
 		}
 
-		$mpgRCode = $mpgResponse->getResponseCode();
-		$mpgMessage = $mpgResponse->getMessage();
+		$mpgRCode     = $mpgResponse->getResponseCode();
+		$mpgMessage   = $mpgResponse->getMessage();
 		$mpgTxnNumber = $mpgResponse->getTxnNumber();
-		$mpgAvsCode = $mpgResponse->getAvsResultCode();
-		$mpgCvdCode = $mpgResponse->getCvdResultCode();
+		$mpgAvsCode   = $mpgResponse->getAvsResultCode();
+		$mpgCvdCode   = $mpgResponse->getCvdResultCode();
 
 		$values = new stdClass;
 
@@ -165,7 +172,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		{
 			if (intval($mpgRCode) < 50)
 			{
-				$message = "\nA Message from the processor: " . $mpgMessage . "\n";
+				$message                = "\nA Message from the processor: " . $mpgMessage . "\n";
 				$values->responsestatus = 'Success';
 				$values->transaction_id = $mpgTxnNumber;
 			}
@@ -173,7 +180,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			{
 				if (intval($mpgRCode) >= 50)
 				{
-					$message = "\nA Message from the processor: " . $mpgMessage . "\n";
+					$message                = "\nA Message from the processor: " . $mpgMessage . "\n";
 					$values->responsestatus = 'Fail';
 					$values->transaction_id = $mpgTxnNumber;
 				}
@@ -181,7 +188,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		}
 		else
 		{
-			$message = "\nA Message from the processor: " . $mpgMessage . "\n";
+			$message                = "\nA Message from the processor: " . $mpgMessage . "\n";
 			$values->responsestatus = 'Fail';
 			$values->transaction_id = $mpgTxnNumber;
 		}

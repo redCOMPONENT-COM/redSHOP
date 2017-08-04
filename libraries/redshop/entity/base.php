@@ -355,6 +355,26 @@ abstract class RedshopEntityBase
 	}
 
 	/**
+	 * Set an item property
+	 *
+	 * @param   string  $property  Property to get
+	 * @param   mixed   $data      Data for set to property
+	 *
+	 * @return  self
+	 */
+	public function set($property, $data = null)
+	{
+		if (null === $this->item)
+		{
+			$this->loadItem();
+		}
+
+		$this->item->{$property} = $data;
+
+		return $this;
+	}
+
+	/**
 	 * Get the ACL prefix applied to this class
 	 *
 	 * @return  string
@@ -902,12 +922,15 @@ abstract class RedshopEntityBase
 	 *
 	 * @return  integer  The item id
 	 *
-	 * @throws  RuntimeException  When save failed
-	 *
 	 * @since   1.0
 	 */
 	public function save($item = null)
 	{
+		if (!$this->processBeforeSaving($item))
+		{
+			return false;
+		}
+
 		if (null === $item)
 		{
 			$item = $this->getItem();
@@ -915,26 +938,79 @@ abstract class RedshopEntityBase
 
 		if (!$item)
 		{
-			throw new RuntimeException("Nothing to save", 422);
+			JLog::add("Nothing to save", JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		$table = $this->getTable();
 
 		if (!$table instanceof JTable)
 		{
-			throw new RuntimeException("Table for instance " . $this->getInstanceName() . " could not be loaded", 500);
+			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		if (!$table->save((array) $item))
 		{
-			throw new RuntimeException("Item could not be saved: " . $table->getError(), 500);
+			JLog::add($table->getError(), JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
-
 		static::loadFromTable($table);
 
-		return $table->id;
+		$this->processAfterSaving($table);
+
+		return $table->{$table->getKeyName()};
+	}
+
+	/**
+	 * Method for reset this static for load new data.
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.6
+	 */
+	public function reset()
+	{
+		if (!$this->isLoaded())
+		{
+			return $this;
+		}
+
+		$class = get_called_class();
+		$id = $this->getId();
+
+		unset(static::$instances[$class][$id]);
+
+		return static::getInstance($id);
+	}
+
+	/**
+	 * Process $item data before saving.
+	 *
+	 * @param   mixed  $item  Array / Object of data.
+	 *
+	 * @return  boolean       Return false will break save process
+	 */
+	public function processBeforeSaving(&$item)
+	{
+		return true;
+	}
+
+	/**
+	 * Process data after saving.
+	 *
+	 * @param   JTable  $table  JTable instance data.
+	 *
+	 * @return  boolean
+	 */
+	public function processAfterSaving(&$table)
+	{
+		return true;
 	}
 }

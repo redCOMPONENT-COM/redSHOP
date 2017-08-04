@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,15 +14,13 @@ class RedshopViewProduct_attribute_price extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
-		$db     = JFactory::getDbo();
-		$jinput = JFactory::getApplication()->input;
-
+		$db         = JFactory::getDbo();
+		$jinput     = JFactory::getApplication()->input;
 		$section_id = $jinput->get('section_id');
 		$section    = $jinput->get('section');
 		$cid        = $jinput->get('cid');
-
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
+		$uri        = JFactory::getURI();
+		$document   = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
 		jimport('joomla.html.pagination');

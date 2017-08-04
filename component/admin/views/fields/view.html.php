@@ -3,57 +3,72 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewFields extends RedshopViewAdmin
+/**
+ * View Fields
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.6
+ */
+class RedshopViewFields extends RedshopViewList
 {
-	public $state;
+	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	public $hasOrdering = true;
 
-	public function display($tpl = null)
+	/**
+	 * Method for run before display to initial variables.
+	 *
+	 * @param   string  &$tpl  Template name
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function beforeDisplay(&$tpl)
 	{
-		$document = JFactory::getDocument();
+		parent::beforeDisplay($tpl);
 
-		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
+		// Only display ordering column if user choose filter fields by section
+		$filterSection = (int) $this->state->get('filter.field_section', 0);
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT'), 'redshop_fields48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+		if (!$filterSection)
+		{
+			$this->hasOrdering = false;
+		}
+	}
 
-		$fields        = $this->get('Data');
-		$pagination    = $this->get('Pagination');
+	/**
+	 * Method for render 'Published' column
+	 *
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public function onRenderColumn($config, $index, $row)
+	{
+		if ($config['dataCol'] == 'type')
+		{
+			return RedshopHelperTemplate::getFieldTypeSections($row->type);
+		}
+		elseif ($config['dataCol'] == 'section')
+		{
+			return RedshopHelperTemplate::getFieldSections($row->section);
+		}
 
-		$redtemplate = Redtemplate::getInstance();
-		$optiontype    = $redtemplate->getFieldTypeSections();
-		$optionsection = $redtemplate->getFieldSections();
-		$this->state = $this->get('State');
-
-		$filtertype      = $this->state->get('filtertype');
-		$filtersection    = $this->state->get('filtersection');
-
-		$lists['order'] = $this->state->get('list.ordering', 'ordering');
-		$lists['order_Dir'] = $this->state->get('list.direction');
-
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'filtertype',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();" ',
-			'value', 'text', $filtertype
-		);
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'filtersection',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"',
-			'value', 'text', $filtersection
-		);
-
-		$this->lists = $lists;
-		$this->fields = $fields;
-		$this->pagination = $pagination;
-
-		parent::display($tpl);
+		return parent::onRenderColumn($config, $index, $row);
 	}
 }

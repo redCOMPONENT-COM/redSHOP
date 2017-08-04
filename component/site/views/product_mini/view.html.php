@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,10 +37,10 @@ class RedshopViewProduct_mini extends RedshopView
 		$product_category = new product_category;
 		$categories       = $product_category->getCategoryListArray();
 
-		$temps                   = array();
-		$temps[0]->category_id   = "0";
-		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
-		$categories              = @array_merge($temps, $categories);
+		$temps          = array();
+		$temps[0]->id   = "0";
+		$temps[0]->name = JText::_('COM_REDSHOP_SELECT');
+		$categories     = @array_merge($temps, $categories);
 
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id', 'class="inputbox" onchange="document.adminForm2.submit();"      ', 'category_id', 'category_name', $category_id);
 
