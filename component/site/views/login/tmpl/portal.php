@@ -57,7 +57,7 @@ if ($shoppergroupid != 0)
 		<tr>
 			<td colspan="2" align="center">
 				<?php
-				if (is_file($portallogofile))
+				if (JFile::exists($portallogofile))
 				{
 				?>
 					<img src="<?php echo $portallogo; ?>">

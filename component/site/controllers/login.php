@@ -83,7 +83,7 @@ class RedshopControllerLogin extends RedshopController
 
 			if (!empty($return))
 			{
-				$s_Itemid = $redhelper->getCheckoutItemid();
+				$s_Itemid = RedshopHelperUtility::getCheckoutItemId();
 				$Itemid   = $s_Itemid ? $s_Itemid : $Itemid;
 				$return   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
 

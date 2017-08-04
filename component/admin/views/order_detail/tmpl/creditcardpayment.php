@@ -22,7 +22,7 @@ $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;
 
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $cart = $session->get('cart');
 
 $payment_method_id = $app->input->getCmd('payment_method_id', '');
@@ -32,7 +32,7 @@ $paymentinfo = $paymentinfo[0];
 $order_id = $app->input->getInt('order_id', 0);
 
 JPluginHelper::importPlugin('redshop_product');
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('getStockroomStatus', array($order_id));
 
 $order = $order_functions->getOrderDetails($order_id);
@@ -61,7 +61,7 @@ $paymentinfo->payment_oprand = $payment_oprand;
 $paymentinfo->payment_discount_is_percent = $payment_discount_is_percent;
 $paymentinfo->accepted_credict_card = $accepted_credict_card;
 
-$shopperGroupId = $userhelper->getShopperGroup($user_id);
+$shopperGroupId = RedshopHelperUser::getShopperGroup($user_id);
 
 if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 {
@@ -336,7 +336,7 @@ else
 	else
 	{
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$results = $dispatcher->trigger('onPrePayment', array($plugin, array()));
 		$paymentResponse = $results[0];
 		?>

@@ -39,19 +39,18 @@ class RedshopControllerCart extends RedshopController
 	public function add()
 	{
 		$app                        = JFactory::getApplication();
-		$post                       = $this->input->post->getArray();
+		$post                       = $app->input->post->getArray();
 		$parent_accessory_productid = $post['product_id'];
-		$Itemid                     = $this->input->getInt('Itemid');
+		$Itemid                     = $app->input->getInt('Itemid');
 		$producthelper              = productHelper::getInstance();
-		$redhelper                  = redhelper::getInstance();
-		$Itemid                     = $redhelper->getCartItemid();
+		$Itemid                     = RedshopHelperUtility::getCartItemId();
 		$model                      = $this->getModel('cart');
 
 		// Call add method of modal to store product in cart session
-		$userfield = $this->input->get('userfield');
+		$userfield = $app->input->get('userfield');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
 		$result = $this->_carthelper->addProductToCart($post);
@@ -78,7 +77,7 @@ class RedshopControllerCart extends RedshopController
 				}
 				else
 				{
-					$prdItemid = $redhelper->getItemid($post['product_id']);
+					$prdItemid = RedshopHelperUtility::getItemId($post['product_id'], $product->cat_in_sefurl);
 				}
 
 				// Directly redirect if error found
@@ -144,7 +143,7 @@ class RedshopControllerCart extends RedshopController
 							if (JError::isError(JError::getError()))
 							{
 								$error  = JError::getError();
-								$errmsg = $error->message;
+								$errmsg = $error->getMessage();
 								$app->enqueueMessage($this->getError(), 'error');
 							}
 
@@ -163,7 +162,7 @@ class RedshopControllerCart extends RedshopController
 								}
 								else
 								{
-									$prdItemid = $redhelper->getItemid($post['product_id']);
+									$prdItemid = RedshopHelperUtility::getItemId($post['product_id']);
 								}
 
 								$app->redirect(
@@ -326,7 +325,7 @@ class RedshopControllerCart extends RedshopController
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
 		$cart['mod_cart_total']            = $this->_carthelper->GetCartModuleCalc($cart);
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		return $cart;
 	}
@@ -338,11 +337,11 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function coupon()
 	{
+		$input     = JFactory::getApplication()->input;
 		$session   = JFactory::getSession();
-		$post      = $this->input->post->getArray();
-		$Itemid    = $this->input->getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$post      = $input->post->getArray();
+		$Itemid    = $input->getInt('Itemid');
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call coupon method of model to apply coupon
@@ -383,10 +382,7 @@ class RedshopControllerCart extends RedshopController
 	public function voucher()
 	{
 		$session   = JFactory::getSession();
-		$post      = $this->input->post->getArray();
-		$Itemid    = $this->input->getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call voucher method of model to apply voucher to cart
@@ -426,9 +422,7 @@ class RedshopControllerCart extends RedshopController
 	public function update()
 	{
 		$post      = $this->input->post->getArray();
-		$Itemid    = $this->input->getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		if (isset($post['checkQuantity']))
@@ -452,9 +446,7 @@ class RedshopControllerCart extends RedshopController
 	public function update_all()
 	{
 		$post      = $this->input->post->getArray();
-		$Itemid    = $this->input->getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call update_all method of model to update all products info of cart
@@ -472,13 +464,11 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function empty_cart()
 	{
-		$Itemid    = $this->input->getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call empty_cart method of model to remove all products from cart
-		$model->empty_cart();
+		$model->emptyCart();
 		$user = JFactory::getUser();
 
 		if ($user->id)
@@ -499,9 +489,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		$post        = $this->input->post->getArray();
 		$cartElement = $post['cart_index'];
-		$Itemid      = $this->input->getInt('Itemid');
-		$redhelper   = redhelper::getInstance();
-		$Itemid      = $redhelper->getCartItemid();
+		$Itemid      = RedshopHelperUtility::getCartItemId();
 		$model       = $this->getModel('cart');
 
 		$model->delete($cartElement);
@@ -512,6 +500,26 @@ class RedshopControllerCart extends RedshopController
 	}
 
 	/**
+	 * Method to delete cart entry from session by ajax
+	 *
+	 * @return void
+	 */
+	public function ajaxDeleteCartItem()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+		$app         = JFactory::getApplication();
+		$input       = $app->input;
+		$cartElement = $input->post->getInt('idx');
+		$model       = $this->getModel('cart');
+		$input->set('ajax_cart_box', 1);
+		$model->delete($cartElement);
+		$this->_carthelper->carttodb();
+		$this->_carthelper->cartFinalCalculation();
+
+		$app->close();
+	}
+
+	/**
 	 * discount calculator Ajax Function
 	 *
 	 * @return discount by Ajax
@@ -519,9 +527,10 @@ class RedshopControllerCart extends RedshopController
 	public function discountCalculator()
 	{
 		ob_clean();
-		$get = $this->input->get->getArray();
+		$app = JFactory::getApplication();
+		$get = $app->input->get->getArray();
 		$this->_carthelper->discountCalculator($get);
-		exit;
+		$app->close();
 	}
 
 	/**
@@ -535,8 +544,8 @@ class RedshopControllerCart extends RedshopController
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app    = JFactory::getApplication();
-		$post   = $this->input->post->getArray();
-		$Itemid = $this->input->getInt('Itemid');
+		$post   = $app->input->post->getArray();
+		$Itemid = $app->input->getInt('Itemid');
 
 		if ($post["numbercart"] == "")
 		{
@@ -559,9 +568,9 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function getShippingrate()
 	{
-				$shipping = shipping::getInstance();
+		$shipping = shipping::getInstance();
 		echo $shipping->getShippingrate_calc();
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -571,7 +580,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function changeAttribute()
 	{
-		$post    = $this->input->post->getArray();
+		$post    = JFactory::getApplication()->input->post->getArray();
 		$model   = $this->getModel('cart');
 		$user    = JFactory::getUser();
 		$user_id = $user->id;
@@ -580,7 +589,7 @@ class RedshopControllerCart extends RedshopController
 		$cart = $this->_carthelper->modifyCart($cart, $user_id);
 
 		$session = JFactory::getSession();
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$this->_carthelper->cartFinalCalculation();
 
 		?>
@@ -597,13 +606,15 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function cancel()
 	{
-		$Itemid = $this->input->getInt('Itemid');
+		$app    = JFactory::getApplication();
+		$Itemid = $app->input->getInt('Itemid');
 
 		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);    ?>
 		<script language="javascript">
 			window.parent.location.href = "<?php echo $link ?>";
 		</script>
-		<?php    exit;
+		<?php
+        $app->close();
 	}
 
 	/**
@@ -615,10 +626,11 @@ class RedshopControllerCart extends RedshopController
 	{
 		RedshopHelperAjax::validateAjaxRequest('get');
 
-		$productId    = $this->input->getInt('id', 0);
-		$productPrice = $this->input->getFloat('price', 0);
-		$userId       = $this->input->getInt('userId', 0);
-		$taxExempt    = $this->input->getBool('taxExempt', false);
+		$app          = JFactory::getApplication();
+		$productId    = $app->input->getInt('id', 0);
+		$productPrice = $app->input->getFloat('price', 0);
+		$userId       = $app->input->getInt('userId', 0);
+		$taxExempt    = $app->input->getBool('taxExempt', false);
 
 		$product = new JRegistry;
 		$product->set(
@@ -633,5 +645,6 @@ class RedshopControllerCart extends RedshopController
 
 		ob_clean();
 		echo $product;
+		$app->close();
 	}
 }

@@ -19,6 +19,7 @@ $app              = JFactory::getApplication();
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
+
 $url              = JURI::base();
 $user             = JFactory::getUser();
 $model            = $this->getModel('manufacturers');
@@ -30,11 +31,8 @@ $filter_by_select = $app->input->getString('filter_by', 0);
 $document     = JFactory::getDocument();
 $manufacturer = $this->detail[0];
 $limit        = $model->getProductLimit();
-
-$app    = JFactory::getApplication();
-$router = $app->getRouter();
-$uri    = new JURI('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
-
+$router       = $app->getRouter();
+$uri          = new JURI('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
 // Page Title
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
@@ -257,8 +255,8 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		&& $media_image[$m]->media_name
 		&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
-		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
+		$wimg      = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
+		$linkimage = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
 
 		$altText = $producthelper->getAltText('manufacturer', $manufacturer->manufacturer_id);
 

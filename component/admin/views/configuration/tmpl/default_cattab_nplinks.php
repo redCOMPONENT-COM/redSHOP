@@ -86,7 +86,7 @@ echo RedshopLayoutHelper::render(
                 <a href="#123"
                    onclick="delimg('<?php echo $imagePreviousLinkFind ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?></a>
             </div>
-			<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
+			<?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
                 <div id="prvlinkdiv">
                     <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
                        title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}">
@@ -112,7 +112,7 @@ echo RedshopLayoutHelper::render(
                 <a href="#123"
                    onclick="delimg('<?php echo $imageNextLinkFind ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?></a>
             </div>
-			<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
+			<?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
                 <div id="nxtlinkdiv">
                     <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
                        title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}">

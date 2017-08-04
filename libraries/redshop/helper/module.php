@@ -28,7 +28,7 @@ class RedshopHelperModule
 	public static function loadLanguages()
 	{
 		// Load modules language file
-		$paymentsLangList = redhelper::getInstance()->getModules(-1);
+		$paymentsLangList = RedshopHelperUtility::getModules(-1);
 		$language         = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)

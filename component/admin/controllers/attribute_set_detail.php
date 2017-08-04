@@ -75,46 +75,6 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
-	public function publish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('attribute_set_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
-	}
-
-	public function unpublish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('attribute_set_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
-	}
-
 	public function cancel()
 	{
 
@@ -139,11 +99,12 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$files = $this->input->files->getArray();
 
-		for ($a = 0; $a < count($attribute); $a++)
+		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
 		{
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
 			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
+			$attribute_save['attribute_description'] = $attribute[$a]['attribute_description'];
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
 			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
@@ -158,7 +119,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$propertyImage = array_keys($attribute[$a]['property']);
 			$tmpproptyimagename = array_merge(array(), $propertyImage);
 
-			for ($p = 0; $p < count($property); $p++)
+			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
@@ -368,7 +329,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			echo "sucess";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function removesubpropertyImage()
@@ -384,7 +345,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			echo "sucess";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function saveAttributeStock()

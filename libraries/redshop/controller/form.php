@@ -25,7 +25,7 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config   An optional associative array of configuration settings.
 	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                          'view_path' (this list is not meant to be comprehensive).
 	 *
@@ -34,12 +34,12 @@ class RedshopControllerForm extends JControllerForm
 	public function __construct($config = array())
 	{
 		/** JControllerLegacy */
-		$this->methods = array();
-		$this->message = null;
+		$this->methods     = array();
+		$this->message     = null;
 		$this->messageType = 'message';
-		$this->paths = array();
-		$this->redirect = null;
-		$this->taskMap = array();
+		$this->paths       = array();
+		$this->redirect    = null;
+		$this->taskMap     = array();
 
 		if (defined('JDEBUG') && JDEBUG)
 		{
@@ -52,7 +52,7 @@ class RedshopControllerForm extends JControllerForm
 		$xMethods = get_class_methods('JControllerLegacy');
 
 		// Get the public methods in this class using reflection.
-		$r = new ReflectionClass($this);
+		$r        = new ReflectionClass($this);
 		$rMethods = $r->getMethods(ReflectionMethod::IS_PUBLIC);
 
 		foreach ($rMethods as $rMethod)
@@ -200,9 +200,9 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $name   The model name. Optional.
+	 * @param   string $prefix The class prefix. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
 	 */
@@ -227,7 +227,7 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
+	 * @param   string $key The name of the primary key of the URL variable.
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 */
@@ -235,9 +235,9 @@ class RedshopControllerForm extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
-		$model = $this->getModel();
-		$table = $model->getTable();
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel();
+		$table   = $model->getTable();
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 
@@ -299,18 +299,18 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
-	 * (sometimes required to avoid router collisions).
+	 * @param   string $key    The name of the primary key of the URL variable.
+	 * @param   string $urlVar The name of the URL variable if different from the primary key
+	 *                         (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$app   = JFactory::getApplication();
-		$model = $this->getModel();
-		$table = $model->getTable();
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel();
+		$table   = $model->getTable();
+		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -327,7 +327,7 @@ class RedshopControllerForm extends JControllerForm
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
-		$checkin = property_exists($table, 'checked_out');
+		$checkin  = property_exists($table, 'checked_out');
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -379,7 +379,7 @@ class RedshopControllerForm extends JControllerForm
 	 */
 	public function add()
 	{
-		$app = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";
 
 		// Access check.
@@ -411,8 +411,8 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string $key    The name of the primary key of the URL variable.
+	 * @param   string $urlVar The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 */
@@ -421,14 +421,14 @@ class RedshopControllerForm extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app   = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
-		$model = $this->getModel();
-		$table = $model->getTable();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$app     = JFactory::getApplication();
+		$lang    = JFactory::getLanguage();
+		$model   = $this->getModel();
+		$table   = $model->getTable();
+		$data    = $this->input->post->get('jform', array(), 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
-		$task = $this->getTask();
+		$task    = $this->getTask();
 
 		// Determine the name of the primary key for the data.
 		if (empty($key))
@@ -480,9 +480,9 @@ class RedshopControllerForm extends JControllerForm
 			}
 
 			// Reset the ID, the multilingual associations and then treat the request as for Apply.
-			$data[$key] = 0;
+			$data[$key]           = 0;
 			$data['associations'] = array();
-			$task = 'apply';
+			$task                 = 'apply';
 		}
 
 		// Access check.
@@ -640,8 +640,8 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * @param   integer $recordId The primary key id for the item.
+	 * @param   string  $urlVar   The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 */
@@ -681,9 +681,9 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Get the JRoute object for a redirect to list.
 	 *
-	 * @param   string  $append  An optionnal string to append to the route
+	 * @param   string  $append  An optional string to append to the route
 	 *
-	 * @return  JRoute  The JRoute object
+	 * @return  string
 	 */
 	protected function getRedirectToListRoute($append = null)
 	{
@@ -695,16 +695,14 @@ class RedshopControllerForm extends JControllerForm
 
 			return JRoute::_($returnUrl . $append, false);
 		}
-		else
-		{
-			return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
-		}
+
+		return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
 	}
 
 	/**
 	 * Get the JRoute object for a redirect to item.
 	 *
-	 * @param   string  $append  An optionnal string to append to the route
+	 * @param   string $append An optionnal string to append to the route
 	 *
 	 * @return  string           The url string
 	 */

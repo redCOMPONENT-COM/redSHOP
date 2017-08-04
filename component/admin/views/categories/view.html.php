@@ -14,21 +14,21 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopViewCategories extends RedshopViewList
 {
 	/**
 	 * @var  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $hasOrdering = true;
 
 	/**
 	 * @var  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $isNested = true;
 
@@ -37,7 +37,7 @@ class RedshopViewCategories extends RedshopViewList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -45,7 +45,7 @@ class RedshopViewCategories extends RedshopViewList
 		if ($this->canCreate)
 		{
 			JToolbarHelper::addNew($this->getInstanceName() . '.add');
-			JToolBarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolbarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		if ($this->canDelete)
@@ -57,7 +57,7 @@ class RedshopViewCategories extends RedshopViewList
 		{
 			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 	}
 
@@ -66,7 +66,7 @@ class RedshopViewCategories extends RedshopViewList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function prepareTable()
 	{
@@ -99,7 +99,7 @@ class RedshopViewCategories extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

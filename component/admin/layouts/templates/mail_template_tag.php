@@ -131,7 +131,7 @@ switch ($name)
 		<b><?php echo JText::_('COM_REDSHOP_MAIL_TEMPLATE_TAG_ORDER_HINT'); ?></b><br /><br />
 		{order_mail_intro_text_title} {order_mail_intro_text} {order_information_lbl} {order_id_lbl} {order_id} {order_number_lbl} {order_number} <br />
 		{order_date_lbl} {order_date} {order_status_lbl} {order_status} {billing_address_information_lbl} <br />
-		{billing_address} {shipping_address_information_lbl} {shipping_address} {order_detail_lbl} {product_name_lbl} <br />
+		{billing_address} {shipping_address_information_lbl} {shipping_address} {order_detail_lbl} {product_name_lbl} {stock_status} {tracking_number_lbl} {tracking_number} {tracking_url} <br />
 		{product_name} {product_s_desc} {product_number} {note_lbl} {product_wrapper} {price_lbl} <br />
 		{product_price} {product_sku} {quantity_lbl} {product_quantity} {total_price_lbl} {product_total_price} {order_subtotal_lbl} {order_subtotal} {if discount} {order_discount} {discount_in_percentage} {discount end if} {if vat} {order_tax} {vat end if} {total_lbl} <br />
 		{order_total} {order_detail_link} {payment_lbl} {payment_method} {shipping_lbl} <br />

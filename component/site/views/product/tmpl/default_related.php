@@ -113,7 +113,7 @@ if (count($relptemplate) > 0)
 		// Show Price
 		if (!$related_product [$r]->not_for_sale)
 		{
-			$related_template_data = $producthelper->GetProductShowPrice($related_product[$r]->product_id, $related_template_data, '', 0, 1);
+			$related_template_data = RedshopHelperProductPrice::getShowPrice($related_product[$r]->product_id, $related_template_data, '', 0, 1);
 		}
 		else
 		{

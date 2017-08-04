@@ -159,6 +159,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 
 			$order_data = str_replace('{order_index}', JText::_('COM_REDSHOP_ORDER_NUM'), $order_data);
 			$order_data = str_replace('{order_id}', $orderslist[$j]->order_id, $order_data);
+			$order_data = str_replace('{order_number}', $orderslist[$j]->order_number, $order_data);
 			$order_data = str_replace('{order_detail_link}', $order_detail, $order_data);
 			$order_data = str_replace('{order_total}', $producthelper->getProductFormattedPrice($orderslist[$j]->order_total), $order_data);
 		}
@@ -168,6 +169,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$order_data .= $order_desc;
 		$order_data = str_replace('{order_index}', '', $order_data);
 		$order_data = str_replace('{order_id}', '', $order_data);
+		$order_data = str_replace('{order_number}', '', $order_data);
 		$order_data = str_replace('{order_detail_link}', JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET'), $order_data);
 		$order_data = str_replace('{order_total}', '', $order_data);
 	}

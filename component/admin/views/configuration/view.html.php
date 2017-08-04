@@ -47,20 +47,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$redhelper   = redhelper::getInstance();
 		$config      = Redconfiguration::getInstance();
-		$redTemplate = Redtemplate::getInstance();
 		$extra_field = extra_field::getInstance();
 		$userhelper  = rsUserHelper::getInstance();
 		$lists       = array();
 
 		// Load payment languages
-		RedshopHelperPayment::loadLanguages();
-		RedshopHelperShipping::loadLanguages();
+		RedshopHelperPayment::loadLanguages(true);
+		RedshopHelperShipping::loadLanguages(true);
 		RedshopHelperModule::loadLanguages();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
-		JToolBarHelper::save();
-		JToolBarHelper::apply();
-		JToolBarHelper::cancel();
+		JToolbarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
+		JToolbarHelper::save();
+		JToolbarHelper::apply();
+		JToolbarHelper::cancel();
 
 		$this->setLayout('default');
 
@@ -71,12 +70,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$templatesel[0]->template_id   = 0;
 		$templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 
-		$product_template      = $redTemplate->getTemplate("product");
-		$compare_template      = $redTemplate->getTemplate("compare_product");
-		$category_template     = $redTemplate->getTemplate("category");
-		$categorylist_template = $redTemplate->getTemplate("frontpage_category");
-		$manufacturer_template = $redTemplate->getTemplate("manufacturer_products");
-		$ajax_detail_template  = $redTemplate->getTemplate("ajax_cart_detail_box");
+		$product_template      = RedshopHelperTemplate::getTemplate("product");
+		$compare_template      = RedshopHelperTemplate::getTemplate("compare_product");
+		$category_template     = RedshopHelperTemplate::getTemplate("category");
+		$categorylist_template = RedshopHelperTemplate::getTemplate("frontpage_category");
+		$manufacturer_template = RedshopHelperTemplate::getTemplate("manufacturer_products");
+		$ajax_detail_template  = RedshopHelperTemplate::getTemplate("ajax_cart_detail_box");
 
 		$product_template      = array_merge($templatesel, $product_template);
 		$compare_template      = array_merge($templatesel, $compare_template);
@@ -85,7 +84,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$manufacturer_template = array_merge($templatesel, $manufacturer_template);
 		$ajax_detail_template  = array_merge($templatesel, $ajax_detail_template);
 
-		$shopper_groups = $userhelper->getShopperGroupList();
+		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
 
 		if (count($shopper_groups) <= 0)
 		{
@@ -112,7 +111,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
+		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
 		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__redshop_stockroom ORDER BY stockroom_name ASC";
 		$db->setQuery($q);
@@ -122,7 +121,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$tmp                                       = array();
 		$tmp[]                                     = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$economic_accountgroup                     = $redhelper->getEconomicAccountGroup();
+		$economic_accountgroup                     = RedshopHelperUtility::getEconomicAccountGroup();
 		$economic_accountgroup                     = array_merge($tmp, $economic_accountgroup);
 		$lists['default_economic_account_group']   = JHtml::_('select.genericlist', $economic_accountgroup,
 			'default_economic_account_group', 'class="form-control" size="1" ',
@@ -192,7 +191,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['twoway_related_product']  = JHtml::_('redshopselect.booleanlist', 'twoway_related_product', 'class="form-control" size="1"', $this->config->get('TWOWAY_RELATED_PRODUCT'));
 
 		// For child product opttion
-		$chilproduct_data                       = $redhelper->getChildProductOption();
+		$chilproduct_data                       = RedshopHelperUtility::getChildProductOption();
 		$lists['childproduct_dropdown']         = JHtml::_('select.genericlist', $chilproduct_data, 'childproduct_dropdown',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('CHILDPRODUCT_DROPDOWN')
 		);
@@ -582,7 +581,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" ', 'value', 'text', $this->config->get('DEFAULT_LINK_FIND')
 		);
 
-		$order_data                                            = $redhelper->getOrderByList();
+		$order_data                                            = RedshopHelperUtility::getOrderByList();
 		$lists['default_product_ordering_method']              = JHtml::_('select.genericlist', $order_data, 'default_product_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_PRODUCT_ORDERING_METHOD')
 		);
@@ -591,11 +590,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'text', $this->config->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD')
 		);
 
-		$order_data                                 = $redhelper->getRelatedOrderByList();
+		$order_data                                 = RedshopHelperUtility::getRelatedOrderByList();
 		$lists['default_related_ordering_method']   = JHtml::_('select.genericlist', $order_data, 'default_related_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_RELATED_ORDERING_METHOD')
 		);
-		$order_data                                 = $redhelper->getAccessoryOrderByList();
+		$order_data                                 = RedshopHelperUtility::getAccessoryOrderByList();
 		$lists['default_accessory_ordering_method'] = JHtml::_('select.genericlist', $order_data, 'default_accessory_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_ACCESSORY_ORDERING_METHOD')
 		);
@@ -650,7 +649,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_CATEGORY_ORDERING_METHOD')
 		);
 
-		$order_data                                    = $redhelper->getManufacturerOrderByList();
+		$order_data                                    = RedshopHelperUtility::getManufacturerOrderByList();
 		$lists['default_manufacturer_ordering_method'] = JHtml::_('select.genericlist', $order_data, 'default_manufacturer_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')
 		);
@@ -684,6 +683,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['discount_enable']         = JHtml::_('redshopselect.booleanlist', 'discount_enable', 'class="form-control" ', $this->config->get('DISCOUNT_ENABLE'));
 		$lists['invoice_mail_enable']     = JHtml::_('redshopselect.booleanlist', 'invoice_mail_enable', 'class="form-control"', $this->config->get('INVOICE_MAIL_ENABLE'));
 		$lists['wishlist_login_required'] = JHtml::_('redshopselect.booleanlist', 'wishlist_login_required', 'class="form-control"', $this->config->get('WISHLIST_LOGIN_REQUIRED'));
+		$lists['wishlist_list']           = JHtml::_('redshopselect.booleanlist', 'wishlist_list', 'class="form-control"', $this->config->get('WISHLIST_LIST'));
 
 		$invoice_mail_send_option           = array();
 		$invoice_mail_send_option[0]        = new stdClass;
@@ -834,6 +834,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'redshopselect.booleanlist', 'inline_editing', 'class="form-control" size="1"', $this->config->get('INLINE_EDITING')
 		);
 
+		$lists['currency_libraries'] = JHtml::_('redshopselect.booleanlist', 'currency_libraries',
+			'class="form-control" size="1"', $this->config->get('CURRENCY_LIBRARIES'), $yes = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_LAYER'),
+			$no = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_ECB')
+		);
 
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
