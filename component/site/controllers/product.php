@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -111,7 +111,7 @@ class RedshopControllerProduct extends RedshopController
 		$seoProductSavingPrice  = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
 		echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -152,7 +152,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo $response;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -178,14 +178,14 @@ class RedshopControllerProduct extends RedshopController
 		$redlayout      = $get['redlayout'];
 		$pluginResults  = array();
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
 
 		if (!empty($pluginResults))
 		{
 			$mainImageResponse = $pluginResults['mainImageResponse'];
-			$result            = $producthelper->displayAdditionalImage(
+			$result            = RedshopHelperProductTag::displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
@@ -200,7 +200,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$result            = $producthelper->displayAdditionalImage(
+			$result            = RedshopHelperProductTag::displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
@@ -228,6 +228,7 @@ class RedshopControllerProduct extends RedshopController
 		$notifyStock                   = $result['notifyStock'];
 		$product_availability_date_lbl = $result['product_availability_date_lbl'];
 		$product_availability_date     = $result['product_availability_date'];
+		$additional_vids			   = $result['additional_vids'];
 
 		echo "`_`" . $response
 			. "`_`" . $aHrefImageResponse
@@ -243,8 +244,9 @@ class RedshopControllerProduct extends RedshopController
 			. "`_`" . $attrbimg
 			. "`_`" . $notifyStock
 			. "`_`" . $product_availability_date_lbl
-			. "`_`" . $product_availability_date;
-		exit;
+			. "`_`" . $product_availability_date
+			. "`_`" . $additional_vids;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -431,7 +433,7 @@ class RedshopControllerProduct extends RedshopController
 			}
 
 			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $Itemid . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
-			exit;
+			JFactory::getApplication()->close();
 		}
 		elseif ($wishlistId == 1)
 		{
@@ -778,7 +780,7 @@ class RedshopControllerProduct extends RedshopController
 
 				// Red file using chunksize
 				$this->readfile_chunked($name);
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 	}
@@ -945,9 +947,9 @@ class RedshopControllerProduct extends RedshopController
 			unset($userDocuments[$productId][$id]);
 			$session->set('userDocument', $userDocuments);
 
-			if ($deleteFile && is_file($filePath))
+			if ($deleteFile && JFile::exists($filePath))
 			{
-				unlink($filePath);
+				JFile::delete($filePath);
 			}
 		}
 
@@ -965,7 +967,7 @@ class RedshopControllerProduct extends RedshopController
 		$fname = JRequest::getVar('fname', '', 'request', 'string');
 		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
 
-		if (is_file($fpath))
+		if (JFile::exists($fpath))
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
 
@@ -1018,7 +1020,7 @@ class RedshopControllerProduct extends RedshopController
 
 			// Red file using chunksize
 			$this->readfile_chunked($fpath);
-			exit;
+			JFactory::getApplication()->close();
 		}
 	}
 
@@ -1044,7 +1046,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$pItemid = $objhelper->getItemid($product->product_id, $cid);
+			$pItemid = RedshopHelperUtility::getItemId($post['pid'], $cid);
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['pid'] . '&cid=' . $cid . '&Itemid=' . $pItemid, false);
@@ -1074,7 +1076,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$pItemid = $objhelper->getItemid($product->product_id, $cid);
+			$pItemid = RedshopHelperUtility::getItemId($post['pid'], $cid);
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['pid'] . '&cid=' . $cid . '&Itemid=' . $pItemid, false);
@@ -1105,6 +1107,6 @@ class RedshopControllerProduct extends RedshopController
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

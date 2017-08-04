@@ -3,7 +3,7 @@
  * @package     RedSHOP.Plugin
  * @subpackage  System.RedSHOP
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -201,13 +201,13 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 			$query->select(
 					array
 					(
-						$db->qn('voucher_code', 'code'),
+						$db->qn('code', 'code'),
 						$db->qn('amount', 'value'),
-						$db->qn('voucher_type', 'type'),
+						$db->qn('type', 'type'),
 					)
 				)
-				->from($db->qn('#__redshop_product_voucher'))
-				->where($db->qn('voucher_id') . ' = ' . (int) $id);
+				->from($db->qn('#__redshop_voucher'))
+				->where($db->qn('id') . ' = ' . (int) $id);
 		}
 		else
 		{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,17 +50,8 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
 
-		$language = JFactory::getLanguage();
-		$base_dir = JPATH_ADMINISTRATOR;
-
 		// Load Shipping plugin language files
-		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");
-
-		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_shipping_' . strtolower($shippingPlugins[$l]->name);
-			$language->load($extension, $base_dir);
-		}
+		RedshopHelperShipping::loadLanguages();
 
 		$layout = $input->getCmd('layout', '');
 		$document->addScript('components/com_redshop/assets/js/order.js');
@@ -86,7 +77,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 			$this->setLayout('ccdetail');
 
 			parent::display($tpl);
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		if ($layout == 'shipping' || $layout == 'billing')
@@ -222,6 +213,8 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 			'COM_REDSHOP_PRINT',
 			'_blank'
 		);
+
+		$lists['order_extra_fields'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_ORDER, $order_id, "", "", "", $billing->user_email);
 
 		$this->lists = $lists;
 		$this->detail = $detail;

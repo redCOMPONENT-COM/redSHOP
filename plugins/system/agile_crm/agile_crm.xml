@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" client="site" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_AGILE_CRM</name>
+	<version>1.0.0</version>
+	<creationDate>February 2017</creationDate>
+	<author>redCOMPONENT.com</author>
+	<copyright>Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>PLG_SYSTEM_AGILE_CRM_DESC</description>
+	<files>
+		<folder>language</folder>
+		<filename plugin="agile_crm">agile_crm.php</filename>
+		<filename>agile_crm.xml</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="domain" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_DOMAIN"
+					description="PLG_SYSTEM_AGILE_CRM_DOMAIN_DESC"/>
+				<field name="email" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_USER_EMAIL"
+					description="PLG_SYSTEM_AGILE_CRM_USER_EMAIL_DESC"/>
+				<field name="api_key" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_REST_API_KEY"
+					description="PLG_SYSTEM_AGILE_CRM_REST_API_KEY_DESC"/>
+				<field name="milestone" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_MILESTONE"
+					description="PLG_SYSTEM_AGILE_CRM_MILESTONE_DESC"/>
+				<field name="owner" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_OWNER"
+					description="PLG_SYSTEM_AGILE_CRM_OWNER_DESC"/>	
+				<field name="probability" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_PROBABILITY"
+					description="PLG_SYSTEM_AGILE_CRM_PROBABILITY_DESC"/>
+				<field name="deal_source" 
+					type="text" 
+					label="PLG_SYSTEM_AGILE_CRM_DEAL_SOURCE"
+					description="PLG_SYSTEM_AGILE_CRM_DEAL_SOURCE_DESC"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

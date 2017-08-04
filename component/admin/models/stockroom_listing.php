@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -355,7 +355,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 			$stockroom_data['regular_stock'] = $quantity;
 			$stockroom_data['preorder_stock'] = $preorder_stock;
 			JPluginHelper::importPlugin('redshop_product');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = RedshopHelperUtility::getDispatcher();
 			$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 		}
 	}

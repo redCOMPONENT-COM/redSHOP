@@ -11,31 +11,20 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-/**
- * Joomla! System Logging Plugin
- *
- * @package        Joomla
- * @subpackage     System
- */
-
 JLoader::import('redshop.library');
 
 /**
- * Class Plgredshop_Shippingbring
+ * Class redSHOP Shipping - Bring
  *
  * @since  1.5
  */
-class Plgredshop_Shippingbring extends JPlugin
+class PlgRedshop_ShippingBring extends JPlugin
 {
-    public $payment_code = "bring";
-
-    public $classname = "bring";
-
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object $subject    The object to observe
+	 * @param   array  $config     An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 */
@@ -48,291 +37,245 @@ class Plgredshop_Shippingbring extends JPlugin
 	}
 
 	/**
-	 * onShowconfig
+	 * Event on show configuration
 	 *
-	 * @param   object  $ps  Values
+	 * @param   object $shipping Shipping detail
 	 *
-	 * @return bool
+	 * @return  boolean
+	 *
+	 * @since   1.0.0
 	 */
-	public function onShowconfig($ps)
+	public function onShowConfig($shipping)
 	{
-		if ($ps->element == $this->classname)
+		if ($shipping->element != $this->_name)
 		{
-			$ArrExlode = explode(',', BRING_SERVICE);
-			$bringService = array(
-				'SERVICEPAKKE' => 'SERVICEPAKKE',
-				'A-POST' => 'A-POST',
-				'B-POST' => 'B-POST',
-				'PA_DOREN' => 'PA_DOREN',
-				'BPAKKE_DOR-DOR' => 'BPAKKE_DOR-DOR',
-				'EKSPRESS09' => 'EKSPRESS09'
-			);
-			?>
-			<table class="admintable table table-striped">
-				<tr class="row0">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USERCODE_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_USERCODE" class="inputbox" value="<?php echo BRING_USERCODE ?>"/>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_SERVER_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_SERVER" class="inputbox" value="<?php echo BRING_SERVER ?>"/>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PATH_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_PATH" class="inputbox" value="<?php echo BRING_PATH ?>"/></td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_ZIPCODE_FROM_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_ZIPCODE_FROM" class="inputbox"
-					           value="<?php echo BRING_ZIPCODE_FROM ?>"/></td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_WITHVAT_LBL') ?></strong></td>
-					<td>
-						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_PRICE_SHOW_WITHVAT', '', BRING_PRICE_SHOW_WITHVAT); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_SHORT_DESC_LBL') ?></strong></td>
-					<td>
-						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_PRICE_SHOW_SHORT_DESC', '', BRING_PRICE_SHOW_SHORT_DESC); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_DESC_LBL') ?></strong></td>
-					<td>
-						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_PRICE_SHOW_DESC', '', BRING_PRICE_SHOW_DESC); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td>
-						<strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USE_SHIPPING_BOX_LBL') ?></strong></td>
-					<td>
-						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_USE_SHIPPING_BOX', '', BRING_USE_SHIPPING_BOX); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td>
-						<strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_SERVICE_LBL') ?></strong></td>
-					<td>
-						<?php echo JHtml::_('select.genericlist', $bringService, 'BRING_SERVICE[]', 'multiple="multiple"', 'value', 'text', $ArrExlode); ?>
-					</td>
-				</tr>
-			</table>
-			<?php
+			return false;
+		}
+
+		// Load config
+		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
+
+		echo RedshopLayoutHelper::render(
+			'config',
+			array(
+				'services' => array(
+					'SERVICEPAKKE'   => 'SERVICEPAKKE',
+					'A-POST'         => 'A-POST',
+					'B-POST'         => 'B-POST',
+					'PA_DOREN'       => 'PA_DOREN',
+					'BPAKKE_DOR-DOR' => 'BPAKKE_DOR-DOR',
+					'EKSPRESS09'     => 'EKSPRESS09'
+				),
+				'selected' => explode(',', BRING_SERVICE)
+			),
+			__DIR__ . '/layouts'
+		);
+
+		return true;
+	}
+
+	/**
+	 * Event on write configuration
+	 *
+	 * @param   array $data Configuration data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.0
+	 */
+	public function onWriteConfig($data)
+	{
+		if ($data['element'] != $this->_name)
+		{
 			return true;
 		}
-	}
 
-	/**
-	 * onWriteconfig
-	 *
-	 * @param   array  $d  Values
-	 *
-	 * @return bool
-	 */
-	public function onWriteconfig($d)
-	{
-		if ($d['element'] == $this->classname)
+		$configFile = JPATH_ROOT . '/plugins/redshop_shipping/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
+
+		$configs = array(
+			"BRING_USERCODE"              => $data['BRING_USERCODE'],
+			"BRING_SERVER"                => $data['BRING_SERVER'],
+			"BRING_PATH"                  => $data['BRING_PATH'],
+			"BRING_ZIPCODE_FROM"          => $data['BRING_ZIPCODE_FROM'],
+			"BRING_PRICE_SHOW_WITHVAT"    => $data['BRING_PRICE_SHOW_WITHVAT'],
+			"BRING_PRICE_SHOW_SHORT_DESC" => $data['BRING_PRICE_SHOW_SHORT_DESC'],
+			"BRING_PRICE_SHOW_DESC"       => $data['BRING_PRICE_SHOW_DESC'],
+			"BRING_USE_SHIPPING_BOX"      => $data['BRING_USE_SHIPPING_BOX'],
+			"BRING_SERVICE"               => implode(',', $data['BRING_SERVICE'])
+		);
+
+		$config = "<?php\n";
+		$config .= "defined('_JEXEC') or die;\n";
+
+		foreach ($configs as $key => $value)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
-
-			$my_config_array = array(
-				"BRING_USERCODE"              => $d['BRING_USERCODE'],
-				"BRING_SERVER"                => $d['BRING_SERVER'],
-				"BRING_PATH"                  => $d['BRING_PATH'],
-				"BRING_ZIPCODE_FROM"          => $d['BRING_ZIPCODE_FROM'],
-				"BRING_PRICE_SHOW_WITHVAT"    => $d['BRING_PRICE_SHOW_WITHVAT'],
-				"BRING_PRICE_SHOW_SHORT_DESC" => $d['BRING_PRICE_SHOW_SHORT_DESC'],
-				"BRING_PRICE_SHOW_DESC"       => $d['BRING_PRICE_SHOW_DESC'],
-				"BRING_USE_SHIPPING_BOX"      => $d['BRING_USE_SHIPPING_BOX'],
-				"BRING_SERVICE"               => implode(',', $d['BRING_SERVICE'])
-			);
-
-			$config = "<?php\n";
-			$config .= "defined('_JEXEC') or die;\n";
-
-			foreach ($my_config_array as $key => $value)
-			{
-				$config .= "define('$key', '$value');\n";
-			}
-
-			if ($fp = fopen($maincfgfile, "w"))
-			{
-				fputs($fp, $config, strlen($config));
-				fclose($fp);
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			$config .= "define('$key', '$value');\n";
 		}
+
+		return JFile::write($configFile, $config);
 	}
 
 	/**
-	 * onListRates
+	 * Event run on list rates
 	 *
-	 * @param   array  &$d  Values
+	 * @param   array $data Data
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   1.0.0
 	 */
-	public function onListRates(&$d)
+	public function onListRates(&$data)
 	{
-		$shippinghelper = shipping::getInstance();
-		$producthelper = productHelper::getInstance();
-		$currency = CurrencyHelper::getInstance();
-		$redconfig = Redconfiguration::getInstance();
+		$shippingInformation = RedshopHelperShipping::getShippingAddress($data['users_info_id']);
 
-		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '/' . $this->classname . '.cfg.php';
+		if (is_null($shippingInformation))
+		{
+			return array();
+		}
 
-		$shippingrate = array();
-		$rate = 0;
+		if (isset($shippingInformation->country_code))
+		{
+			$shippingInformation->country_2_code = RedshopHelperWorld::getCountryCode2($shippingInformation->country_code);
+		}
+
+		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
+		$productHelper = productHelper::getInstance();
 
 		// Conversation of weight ( ration )
-		$unitRatio = $producthelper->getUnitConversation('gram', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
-		$unitRatioVolume = $producthelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
+		$unitRatio       = $productHelper->getUnitConversation('gram', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatioVolume = $productHelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
+		$totalDimension  = RedshopHelperShipping::getCartItemDimension();
 
-		$totaldimention = $shippinghelper->getCartItemDimention();
-		$order_weight = $totaldimention['totalweight'];
-
-		if ($unitRatio != 0)
-		{
-			// Converting weight in pounds
-			$order_weight = $order_weight * $unitRatio;
-		}
-
-		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
-
-		if (count($shippinginfo) < 1)
-		{
-			return $shippingrate;
-		}
+		// Converting weight in pounds
+		$orderWeight = $unitRatio != 0 ? $totalDimension['totalweight'] * $unitRatio : $totalDimension['totalweight'];
 
 		if (BRING_USE_SHIPPING_BOX == '1')
 		{
-			$whereShippingBoxes = $shippinghelper->getBoxDimensions($d['shipping_box_id']);
+			$whereShippingBoxes = RedshopHelperShipping::getBoxDimensions($data['shipping_box_id']);
 		}
 		else
 		{
-			$whereShippingBoxes = array();
-			$productData = $shippinghelper->getProductVolumeShipping();
+			$whereShippingBoxes               = array();
+			$productData                      = RedshopHelperShipping::getProductVolumeShipping();
 			$whereShippingBoxes['box_length'] = $productData[2]['length'];
-			$whereShippingBoxes['box_width'] = $productData[1]['width'];
+			$whereShippingBoxes['box_width']  = $productData[1]['width'];
 			$whereShippingBoxes['box_height'] = $productData[0]['height'];
 		}
 
-		$shipping_length = $totaldimention['totallength'];
-		$shipping_height = $totaldimention['totalheight'];
-		$shipping_width = $totaldimention['totalwidth'];
-		$shipping_volume = $totaldimention['totalvolume'];
+		$shippingLength = $totalDimension['totallength'];
+		$shippingHeight = $totalDimension['totalheight'];
+		$shippingWidth  = $totalDimension['totalwidth'];
+		$shippingVolume = $totalDimension['totalvolume'];
 
 		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
 		{
-			$shipping_length = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
-			$shipping_width = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
-			$shipping_height = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
+			$shippingLength = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
+			$shippingWidth  = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
+			$shippingHeight = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
 		}
 
-		if (isset($shippinginfo->country_code))
-		{
-			$shippinginfo->country_2_code = $redconfig->getCountryCode2($shippinginfo->country_code);
-		}
-
-		$dest_zip = substr($shippinginfo->zipcode, 0, 5);
-
-		/* Determine weight in pounds and ounces
-		send integer rounded down
-		end cw733 fix*/
-		$shipping_gram = floor($order_weight);
-
-		// WeightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
-		$query = '';
-		$query .= 'from=' . BRING_ZIPCODE_FROM;
-		$query .= '&to=' . $dest_zip;
-
-		if (!$shipping_length)
-		{
-			$shipping_length = 1;
-		}
-
-		if (!$shipping_width)
-		{
-			$shipping_width = 1;
-		}
-
-		if (!$shipping_height)
-		{
-			$shipping_height = 1;
-		}
-
-		if (!$shipping_volume)
-		{
-			$shipping_volume = 1;
-		}
-
-		if ($shipping_gram)
-		{
-			$query .= '&weightInGrams=' . $shipping_gram;
-		}
-
-		$query .= '&length=' . $shipping_length;
-		$query .= '&width=' . $shipping_width;
-		$query .= '&height=' . $shipping_height;
-		$query .= '&volume=' . $shipping_volume;
-		$xmlDoc = false;
-
-		// Using cURL is Up-To-Date and easier!!
-		if (function_exists("curl_init"))
-		{
-			$myfile = "http://" . BRING_SERVER . BRING_PATH . "?" . $query;
-
-			$CR = curl_init($myfile);
-			curl_setopt($CR, CURLOPT_HEADER, 0);
-			curl_setopt($CR, CURLOPT_HTTPGET, 1);
-			curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
-
-			$xmlResult = curl_exec($CR);
-			$error = curl_error($CR);
-
-			if (!empty($error))
-			{
-				return $shippingrate;
-			}
-			else
-			{
-				// Disable libxml errors and allow to fetch error information as needed
-				libxml_use_internal_errors(true);
-				$xmlDoc = simplexml_load_string($xmlResult, 'SimpleXMLElement');
-			}
-
-			curl_close($CR);
-		}
-
-		// Get shipping options that are selected as available in VM from XML response
-		$bring_products = array();
+		$url    = $this->buildUrl($shippingInformation->zipcode, $shippingLength, $shippingWidth, $shippingHeight, $shippingVolume, $orderWeight);
+		$xmlDoc = $this->loadData($url);
 
 		if ($xmlDoc === false)
 		{
-			return $shippingrate;
+			return array();
 		}
 
-		foreach ($xmlDoc->Product as $oneProduct)
+		// Get shipping options that are selected as available in VM from XML response
+		$bringProducts = $this->loadProducts($xmlDoc);
+
+		return $this->populateShippingRates($bringProducts);
+	}
+
+	/**
+	 * Method for build service url
+	 *
+	 * @param   string   $zipcode  Zip code
+	 * @param   integer  $length   Length
+	 * @param   integer  $width    Width
+	 * @param   integer  $height   Height
+	 * @param   integer  $volume   Volume
+	 * @param   integer  $weight   Weight
+	 *
+	 * @return  string
+	 */
+	protected function buildUrl($zipcode, $length, $width, $height, $volume, $weight)
+	{
+		$length = !$length ? 1 : $length;
+		$width  = !$width ? 1 : $width;
+		$height = !$height ? 1 : $height;
+		$volume = !$volume ? 1 : $volume;
+
+		/*
+		 * Determine weight in pounds and ounces send integer rounded down
+		 * end cw733 fix
+		 */
+		$weight = floor($weight);
+
+		// WeightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
+		$query = 'from=' . BRING_ZIPCODE_FROM . '&to=' . substr($zipcode, 0, 5);
+
+		$query = $weight ? $query . '&weightInGrams=' . $weight : $query;
+		$query .= '&length=' . $length . '&width=' . $width . '&height=' . $height . '&volume=' . $volume;
+
+		return "http://" . BRING_SERVER . BRING_PATH . "?" . $query;
+	}
+
+	/**
+	 * Method for load xml from url
+	 *
+	 * @param   string $url URL
+	 *
+	 * @return  boolean|SimpleXMLElement
+	 */
+	protected function loadData($url = '')
+	{
+		if (empty($url) || !function_exists("curl_init"))
+		{
+			return false;
+		}
+
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		curl_setopt($curl, CURLOPT_HTTPGET, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$xmlResult = curl_exec($curl);
+		$error     = curl_error($curl);
+
+		if (!empty($error))
+		{
+			return false;
+		}
+
+		// Disable libxml errors and allow to fetch error information as needed
+		libxml_use_internal_errors(true);
+		curl_close($curl);
+
+		return simplexml_load_string($xmlResult, 'SimpleXMLElement');
+	}
+
+	/**
+	 * Method for prepare an list of products base on XML data.
+	 *
+	 * @param   SimpleXMLElement $data XML data
+	 *
+	 * @return  array
+	 */
+	protected function loadProducts(SimpleXMLElement $data)
+	{
+		$results = array();
+
+		foreach ($data->Product as $oneProduct)
 		{
 			$bringProduct = new stdClass;
-			$bringProduct->product_id = (string) $oneProduct->ProductId;
+
+			$bringProduct->product_id   = (string) $oneProduct->ProductId;
+			$bringProduct->product_name = $bringProduct->product_id;
 
 			if ((string) $oneProduct->GuiInformation->ProductName)
 			{
 				$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
-			}
-			else
-			{
-				$bringProduct->product_name = $bringProduct->product_id;
 			}
 
 			if ((string) $oneProduct->GuiInformation->DescriptionText)
@@ -345,63 +288,79 @@ class Plgredshop_Shippingbring extends JPlugin
 				$bringProduct->product_desc1 = (string) $oneProduct->GuiInformation->HelpText;
 			}
 
-			$attributePrice = $oneProduct->Price->attributes();
+			$attributePrice                             = $oneProduct->Price->attributes();
 			$bringProduct->currencyidentificationcode = (string) $attributePrice['currencyIdentificationCode'];
-			$bringProduct->AmountWithoutVAT = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
-			$bringProduct->AmountWithVAT = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
-			$bringProduct->VAT = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
-			$bringProduct->delivery = (string) $oneProduct->ExpectedDelivery->WorkingDays;
+			$bringProduct->AmountWithoutVAT            = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
+			$bringProduct->AmountWithVAT               = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
+			$bringProduct->VAT                          = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
+			$bringProduct->delivery                    = (string) $oneProduct->ExpectedDelivery->WorkingDays;
 
-			$bring_products[] = $bringProduct;
+			$results[] = $bringProduct;
 		}
 
-		$ArrExlode = explode(',', BRING_SERVICE);
+		return $results;
+	}
 
-		foreach ($bring_products as $bringProduct)
+	/**
+	 * Method for populate shipping rates
+	 *
+	 * @param   array  $products  Products
+	 *
+	 * @return  array
+	 */
+	protected function populateShippingRates($products = array())
+	{
+		if (empty($products))
 		{
-			$product_id = $bringProduct->product_id;
-
-			if (in_array($product_id, $ArrExlode))
-			{
-				$AmountWithoutVAT = $bringProduct->AmountWithoutVAT;
-				$AmountVAT = $bringProduct->VAT;
-				$product_name = $bringProduct->product_name;
-				$currencyidentificationcode = $bringProduct->currencyidentificationcode;
-
-				// Convert NOK currency to site currency
-				$Displaycost = $currency->convert($AmountWithoutVAT, $currencyidentificationcode);
-				$cost = $currency->convert($AmountWithoutVAT, $currencyidentificationcode);
-				$vat = $currency->convert($AmountVAT, $currencyidentificationcode);
-
-				if (BRING_PRICE_SHOW_WITHVAT)
-				{
-					$Displaycost = $currency->convert($bringProduct->AmountWithVAT, $currencyidentificationcode);
-				}
-
-				$shipping_rate_id = RedshopShippingRate::encrypt(
-									array(
-										__CLASS__ ,
-										$shipping->name ,
-										$product_name ,
-										number_format($cost + $vat, 2, '.', '') ,
-										$product_name ,
-										'single',
-										'0'
-									)
-								);
-
-				$shippingrate[$rate] = new stdClass;
-				$shippingrate[$rate]->text = $product_name;
-				$shippingrate[$rate]->value = $shipping_rate_id;
-				$shippingrate[$rate]->rate = $Displaycost;
-				$shippingrate[$rate]->vat = $vat;
-				$shippingrate[$rate]->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $bringProduct->product_desc : '';
-				$shippingrate[$rate]->desc = (BRING_PRICE_SHOW_DESC) ? $bringProduct->product_desc1 : '';
-				$rate++;
-			}
+			return array();
 		}
 
-		return $shippingrate;
+		$shippingName  = RedshopHelperShipping::getShippingMethodByClass($this->_name)->name;
+		$bringServices = explode(',', BRING_SERVICE);
+		$index         = 0;
+		$results       = array();
+
+		foreach ($products as $product)
+		{
+			if (!in_array($product->product_id, $bringServices))
+			{
+				continue;
+			}
+
+			$productName = $product->product_name;
+			$currencyCode = $product->currencyidentificationcode;
+
+			$rate = new stdClass;
+
+			$rate->text      = $productName;
+			$rate->vat       = RedshopHelperCurrency::convert($product->VAT, $currencyCode);
+			$rate->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $product->product_desc : '';
+			$rate->desc      = (BRING_PRICE_SHOW_DESC) ? $product->product_desc1 : '';
+
+			// Convert NOK currency to site currency
+			$rate->rate = RedshopHelperCurrency::convert($product->AmountWithoutVAT, $currencyCode);
+			$rate->value = RedshopShippingRate::encrypt(
+				array(
+					__CLASS__,
+					$shippingName,
+					$productName,
+					number_format($rate->rate + $rate->vat, 2, '.', ''),
+					$productName,
+					'single',
+					'0'
+				)
+			);
+
+			if (BRING_PRICE_SHOW_WITHVAT)
+			{
+				$rate->rate = RedshopHelperCurrency::convert($product->AmountWithVAT, $currencyCode);
+			}
+
+			$results[$index] = $rate;
+			$index++;
+		}
+
+		return $results;
 	}
 
 	/**
@@ -409,7 +368,7 @@ class Plgredshop_Shippingbring extends JPlugin
 	 *
 	 * @return  boolean  False when the Shipping method has no configration
 	 */
-	public function show_configuration()
+	public function show_Configuration()
 	{
 		return true;
 	}

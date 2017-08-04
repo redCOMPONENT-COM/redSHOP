@@ -232,7 +232,7 @@ class plgSearchRedshop_products extends JPlugin
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid($row->product_id, $row->cat_in_sefurl);
+			$Itemid    = RedshopHelperUtility::getItemId($row->product_id, $row->cat_in_sefurl);
 			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $Itemid;
 
 			$return[]  = $row;

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,11 +43,12 @@ class RedshopControllerImport extends RedshopControllerAdmin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
+		// Init response
 		$response = array('status' => 1, 'msg' => JText::_('COM_REDSHOP_IMPORT_MESSAGE_UPLOAD_FILE_SUCCESS'));
+
 		$plugin   = $this->input->getCmd('plugin_name', '');
 		$file     = $this->input->files->get('csv_file', null);
 		$data     = $this->input->post->getArray();
-
 
 		JPluginHelper::importPlugin('redshop_import');
 		$result = RedshopHelperUtility::getDispatcher()->trigger('onUploadFile', array($plugin, $file, $data));
@@ -59,8 +60,8 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		}
 		else
 		{
-			$response['folder'] = $result[0]['folder'];
-			$response['lines'] = $result[0]['lines'];
+			// Merge array to response. Because we'll need extra data in $result
+			$response = array_merge($response, $result[0]);
 		}
 
 		echo json_encode($response);

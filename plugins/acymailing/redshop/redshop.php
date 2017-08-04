@@ -54,10 +54,12 @@ class plgAcymailingRedshop extends JPlugin
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id, p.product_name, p.product_number, c.category_id, c.category_name')
+			->select('p.product_id, p.product_name, p.product_number')
+			->select($db->qn('c.id', 'category_id'))
+			->select($db->qn('c.name', 'category_name'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON p.product_id = pc.product_id')
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON pc.category_id = c.category_id')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON pc.category_id = c.id')
 			->group('p.product_id')
 			->order($pageInfo->filter->order->value . ' ' . $pageInfo->filter->order->dir);
 
@@ -210,7 +212,7 @@ class plgAcymailingRedshop extends JPlugin
 
 		$link = JUri::root()
 			. 'index.php?option=com_redshop&view=product&pid=' . $productId
-			. '&Itemid=' . $helper->getItemid($productId);
+			. '&Itemid=' . RedshopHelperUtility::getItemId($productId);
 
 		// Get product Image
 		$productImage = $productHelper->getProductImage(

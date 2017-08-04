@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -160,7 +160,7 @@ class RedshopModelMedia extends RedshopModel
 			$current = '';
 		}
 
-		$fdownload = JFactory::getApplication()->input->getInt('fdownload');
+		$fdownload = JRequest::getInt('fdownload');
 
 		if ($fdownload != 1)
 		{
@@ -346,9 +346,9 @@ class RedshopModelMedia extends RedshopModel
 		$filename = $this->_db->loadResult();
 		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
 
-		if (is_file($path))
+		if (JFile::exists($path))
 		{
-			unlink($path);
+			JFile::delete($path);
 		}
 
 		$query = "DELETE FROM `#__redshop_media_download` WHERE `id`='" . $fileId . "' ";
@@ -455,9 +455,9 @@ class RedshopModelMedia extends RedshopModel
 		{
 			$path = JPATH_ROOT . '/components/com_redshop/assets/images/' . $file->media_section . '/' . $file->media_name;
 
-			if (is_file($path))
+			if (JFile::exists($path))
 			{
-				unlink($path);
+				JFile::delete($path);
 			}
 		}
 

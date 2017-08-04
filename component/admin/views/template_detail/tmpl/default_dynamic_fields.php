@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -62,7 +62,7 @@ if ($this->detail->template_section == "category")
                 <td>
                     <h3><?php echo JText::_("COM_REDSHOP_FIELDS") ?></h3>
 					<?php foreach ($tags as $tag): ?>
-                        <div style="margin-left:10px;">{<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></div>
+                        <div style="margin-left:10px;">{<?php echo $tag->name ?>} -- <?php echo $tag->title ?></div>
 					<?php endforeach; ?>
                 </td>
             </tr>
@@ -77,7 +77,7 @@ if ($this->detail->template_section == "category")
                 <td>
                     <h3><?php echo JText::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE") ?></h3>
 					<?php foreach ($tags as $tag): ?>
-                        <div style="margin-left:10px;">{producttag:<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></div>
+                        <div style="margin-left:10px;">{producttag:<?php echo $tag->name ?>} -- <?php echo $tag->title ?></div>
 					<?php endforeach; ?>
                 </td>
             </tr>
@@ -153,7 +153,7 @@ if ($this->detail->template_section == "giftcard")
 
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -200,7 +200,7 @@ if ($this->detail->template_section == "product")
 
 				for ($i = 0; $i < $numberOfTags; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -217,9 +217,9 @@ if ($this->detail->template_section == "product")
                     <h4><?php echo JText::_("COM_REDSHOP_PRODUCT_USERFIELD") ?></h4>
                     <ul class="nav nav-list">
 						<?php foreach ($tags as $tag): ?>
-							<?php if (!in_array($tag->field_name, $displayedTags)): ?>
-                                <li role="presentation">{<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></li>
-								<?php $displayedTags[] = $tag->field_name; ?>
+							<?php if (!in_array($tag->name, $displayedTags)): ?>
+                                <li role="presentation">{<?php echo $tag->name ?>} -- <?php echo $tag->title ?></li>
+								<?php $displayedTags[] = $tag->name; ?>
 							<?php endif; ?>
 						<?php endforeach; ?>
                     </ul>
@@ -315,7 +315,7 @@ if ($this->detail->template_section == "product_sample")
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -354,7 +354,7 @@ if ($this->detail->template_section == "manufacturer")
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -739,7 +739,7 @@ if ($this->detail->template_section == "order_detail")
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -753,7 +753,7 @@ if ($this->detail->template_section == "order_detail")
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -796,7 +796,7 @@ if ($this->detail->template_section == "order_receipt")
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -810,7 +810,7 @@ if ($this->detail->template_section == "order_receipt")
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -902,7 +902,7 @@ if ($this->detail->template_section == "order_print")
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -917,7 +917,7 @@ if ($this->detail->template_section == "order_print")
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
 				} ?>
             </td>
         </tr>
@@ -1042,9 +1042,9 @@ if ($this->detail->template_section == "related_product")
                     <b><?php echo JText::_("COM_REDSHOP_PRODUCT_FIELDS") ?></b>
                     <ul class="nav nav-list">
 						<?php foreach ($tags as $tag): ?>
-							<?php if (!in_array($tag->field_name, $displayedTags)): ?>
-                                <li role="presentation">{<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></li>
-								<?php $displayedTags[] = $tag->field_name; ?>
+							<?php if (!in_array($tag->name, $displayedTags)): ?>
+                                <li role="presentation">{<?php echo $tag->name ?>} -- <?php echo $tag->title ?></li>
+								<?php $displayedTags[] = $tag->name; ?>
 							<?php endif; ?>
 						<?php endforeach; ?>
                     </ul>
@@ -1064,9 +1064,9 @@ if ($this->detail->template_section == "related_product")
                     <b><?php echo JText::_("COM_REDSHOP_PRODUCT_USERFIELD") ?></b>
                     <ul class="nav nav-list">
 						<?php foreach ($tags as $tag): ?>
-							<?php if (!in_array($tag->field_name, $displayedTags)): ?>
-                                <li role="presentation">{<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></li>
-								<?php $displayedTags[] = $tag->field_name; ?>
+							<?php if (!in_array($tag->name, $displayedTags)): ?>
+                                <li role="presentation">{<?php echo $tag->name ?>} -- <?php echo $tag->title ?></li>
+								<?php $displayedTags[] = $tag->name; ?>
 							<?php endif; ?>
 						<?php endforeach; ?>
                     </ul>
@@ -1424,7 +1424,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_desc . '</div>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->desc . '</div>';
 				} ?>
             </td>
         </tr>
@@ -1851,7 +1851,20 @@ if ($this->detail->template_section == "private_billing_template")
 // Billing Template Start
 if ($this->detail->template_section == "company_billing_template")
 {
+	$tags_front = RedshopHelperExtrafields::getSectionFieldList(8, 1);
+	$tags_admin = RedshopHelperExtrafields::getSectionFieldList(8, 0);
+	$tags       = array_merge((array) $tags_admin, (array) $tags_front);
 	echo JHtml::_('tabs.panel', $title, 'company_billing_template'); ?>
+	<?php if (!empty($tags)): ?>
+    <tr>
+        <td>
+            <h3><?php echo JText::_("COM_REDSHOP_FIELDS") ?></h3>
+			<?php foreach ($tags as $tag): ?>
+                <div style="margin-left:10px;">{<?php echo $tag->name ?>} -- <?php echo $tag->title ?></div>
+			<?php endforeach; ?>
+        </td>
+    </tr>
+<?php endif; ?>
     <table class="adminlist table table-striped">
         <tr>
             <td><?php echo Redtemplate::getTemplateValues('company_billing'); ?></td>

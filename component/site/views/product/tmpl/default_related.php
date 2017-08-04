@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,7 +113,7 @@ if (count($relptemplate) > 0)
 		// Show Price
 		if (!$related_product [$r]->not_for_sale)
 		{
-			$related_template_data = $producthelper->GetProductShowPrice($related_product[$r]->product_id, $related_template_data, '', 0, 1);
+			$related_template_data = RedshopHelperProductPrice::getShowPrice($related_product[$r]->product_id, $related_template_data, '', 0, 1);
 		}
 		else
 		{
