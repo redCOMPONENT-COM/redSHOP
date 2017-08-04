@@ -19,6 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 abstract class RedshopEntityBase
 {
 	use \Redshop\Entity\Traits\Url;
+	use \Redshop\Entity\Traits\Object;
 
 	/**
 	 * @const  integer
@@ -39,13 +40,6 @@ abstract class RedshopEntityBase
 	 * @since  1.0
 	 */
 	protected $aclPrefix = "core";
-
-	/**
-	 * Identifier of the loaded instance
-	 *
-	 * @var  mixed
-	 */
-	protected $id = null;
 
 	/**
 	 * Cached instances
@@ -81,82 +75,6 @@ abstract class RedshopEntityBase
 	 * @var  array
 	 */
 	protected $translations = array();
-
-	/**
-	 * Constructor
-	 *
-	 * @param   mixed  $id  Identifier of the active item
-	 */
-	public function __construct($id = null)
-	{
-		if ($id)
-		{
-			$this->id = $id;
-		}
-	}
-
-	/**
-	 * Proxy item properties
-	 *
-	 * @param   string  $property  Property tried to access
-	 *
-	 * @return  mixed   $this->item->property if it exists
-	 */
-	public function __get($property)
-	{
-		if (null != $this->item && property_exists($this->item, $property))
-		{
-			return $this->item->$property;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Proxy item properties
-	 *
-	 * @param   string  $property  Property tried to access
-	 * @param   mixed   $value     Value to assign
-	 *
-	 * @return  self
-	 *
-	 * @since   1.0
-	 */
-	public function __set($property, $value)
-	{
-		if (null === $this->item)
-		{
-			$this->item = new stdClass;
-		}
-
-		$this->item->$property = $value;
-
-		return $this;
-	}
-
-	/**
-	 * Ensure that clones don't modify cached data
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0
-	 */
-	public function __clone()
-	{
-		$this->item = clone $this->item;
-	}
-
-	/**
-	 * Magic method isset for entity property
-	 *
-	 * @param   string  $name  Property name
-	 *
-	 * @return  boolean
-	 */
-	public function __isset($name)
-	{
-		return isset($this->item->$name);
-	}
 
 	/**
 	 * Bind an object/array to the entity
