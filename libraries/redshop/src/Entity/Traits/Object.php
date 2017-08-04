@@ -13,6 +13,13 @@ namespace Redshop\Entity\Traits;
 
 defined('_JEXEC') or die;
 
+/**
+ * Trait Object
+ *
+ * @package Redshop\Entity\Traits
+ *
+ * @since   2.0.7
+ */
 trait Object
 {
 	/**
@@ -33,6 +40,16 @@ trait Object
 		{
 			$this->id = $id;
 		}
+	}
+
+	/**
+	 * Get the id
+	 *
+	 * @return  int | null
+	 */
+	public function getId()
+	{
+		return $this->id;
 	}
 
 	/**
