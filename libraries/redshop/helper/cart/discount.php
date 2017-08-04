@@ -292,7 +292,7 @@ class RedshopHelperCartDiscount
 		$voucherCode = JFactory::getApplication()->input->getString('discount_code', '');
 		$cart        = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
-		if (empty($couponCode))
+		if (empty($voucherCode))
 		{
 			return !empty($cartData) ? $cart : false;
 		}
