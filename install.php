@@ -82,7 +82,7 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * method to update the component
+	 * Method to update the component
 	 *
 	 * @param   object  $parent  Class calling this method
 	 *
@@ -106,6 +106,17 @@ class Com_RedshopInstallerScript
 	public function preflight($type, $parent)
 	{
 		$this->type = $type;
+
+		if ($type == 'update' || $type == 'discover_install')
+		{
+			if (!class_exists('RedshopHelperJoomla'))
+			{
+				require_once __DIR__ . '/libraries/redshop/helper/joomla.php';
+			}
+
+			// Store redSHOP old version.
+			JFactory::getApplication()->setUserState('redshop.old_version', RedshopHelperJoomla::getManifestValue('version'));
+		}
 	}
 
 	/**

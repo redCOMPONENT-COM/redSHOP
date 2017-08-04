@@ -9,18 +9,17 @@
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
+
 $carthelper      = rsCarthelper::getInstance();
 $redconfig       = Redconfiguration::getInstance();
 $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper       = redhelper::getInstance();
 
 $db       = JFactory::getDbo();
 $url      = JURI::base();
-$Itemid   = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $order_id = $app->input->getInt('oid');
 
 // For barcode
@@ -117,13 +116,15 @@ $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
  *
  * trigger content plugin
  */
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 $o          = new stdClass;
 $o->text    = $ReceiptTemplate;
 JPluginHelper::importPlugin('content');
 $x               = array();
 $results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
+
+$dispatcher->trigger('onRenderReceipt', array(&$ReceiptTemplate, $order_id));
 
 // End
 
@@ -143,56 +144,7 @@ if ($issplit)
 
 $billingaddresses = $model->billingaddresses();
 
-// Google analytics code added
-$googleanalytics = new RedshopHelperGoogleanalytics;
-
-$analytics_status = $order->analytics_status;
-
-if ($analytics_status == 0 && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
+if ($order->analytics_status == 0)
 {
-	$orderTrans                   = array();
-	$orderTrans['order_id']       = $order->order_id;
-	$orderTrans['shopname']       = Redshop::getConfig()->get('SHOP_NAME');
-	$orderTrans['order_total']    = $order->order_total;
-	$orderTrans['order_tax']      = $order->order_tax;
-	$orderTrans['order_shipping'] = $order->order_shipping;
-	$orderTrans['city']           = $billingaddresses->city;
-
-	if (isset($billingaddresses->country_code))
-		$orderTrans['state'] = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
-
-	if (isset($billingaddresses->country_code))
-		$orderTrans['country'] = $order_functions->getCountryName($billingaddresses->country_code);
-
-	// Collect data for google analytics
-	// Initiallize variable
-	$analyticsData = array();
-
-	// Collect data to add transaction = order
-	$analyticsData['addtrans'] = $orderTrans;
-
-	// Start array to collect data to addItems
-	$analyticsData['addItem'] = array();
-
-	for ($k = 0, $kn = count($orderitem); $k < $kn; $k++)
-	{
-		$orderaddItem = array();
-
-		$orderaddItem['order_id']         = $orderitem[$k]->order_id;
-		$orderaddItem['product_number']   = $orderitem[$k]->order_item_sku;
-		$orderaddItem['product_name']     = $orderitem[$k]->order_item_name;
-		$orderaddItem['product_category'] = $model->getCategoryNameByProductId($orderitem[$k]->product_id);
-		$orderaddItem['product_price']    = $orderitem[$k]->product_item_price;
-		$orderaddItem['product_quantity'] = $orderitem[$k]->product_quantity;
-
-		$analyticsData['addItem'][] = $orderaddItem;
-	}
-
-	$googleanalytics->placeTrans($analyticsData);
-
 	$model->UpdateAnalytics_status($order->order_id);
-}
-else
-{
-	$googleanalytics->placeTrans();
 }

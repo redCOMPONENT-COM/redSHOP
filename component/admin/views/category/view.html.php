@@ -16,7 +16,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopViewCategory extends RedshopViewForm
 {
@@ -123,14 +123,14 @@ class RedshopViewCategory extends RedshopViewForm
 		// Prepare text for title
 		$title = JText::_('COM_REDSHOP_CATEGORY') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 
-		JToolBarHelper::title($title, 'redshop_categories48');
+		JToolbarHelper::title($title, 'redshop_categories48');
 
 		if ($isNew && (count($user->authorise('com_redshop', 'core.create')) > 0))
 		{
-			JToolBarHelper::apply('category.apply');
-			JToolBarHelper::save('category.save');
-			JToolBarHelper::save2new('category.save2new');
-			JToolBarHelper::cancel('category.cancel');
+			JToolbarHelper::apply('category.apply');
+			JToolbarHelper::save('category.save');
+			JToolbarHelper::save2new('category.save2new');
+			JToolbarHelper::cancel('category.cancel');
 		}
 		else
 		{
@@ -147,10 +147,9 @@ class RedshopViewCategory extends RedshopViewForm
 				}
 			}
 
-			JToolBarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$objhelper = redhelper::getInstance();
-			$itemId    = (int) $objhelper->getCategoryItemid($this->item->id);
+			$itemId    = (int) RedshopHelperUtility::getCategoryItemid($this->item->id);
 
 			$link  = JURI::root() . 'index.php?option=com_redshop'
 					. '&view=&view=category&layout=detail'

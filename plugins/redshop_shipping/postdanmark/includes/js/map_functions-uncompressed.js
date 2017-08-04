@@ -99,8 +99,7 @@ function codeAddress(address, name, number, i, opening, close, opening_sat, clos
 		position: latlng,
 		animation: google.maps.Animation.DROP,
 		icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + (i + 1) + "|FF0000|000000",
-		serviceId: servicePointId,
-		draggable: true
+		serviceId: servicePointId
 	});
 
 	if (typeof number === 'undefined') {

@@ -115,15 +115,12 @@ class RedshopHelperConfig
 
 		$file = $this->getConfigurationFilePath();
 
-		if (!file_exists($file))
+		if (!JFile::exists($file))
 		{
 			return $this;
 		}
 
-		if (is_file($file))
-		{
-			include_once $file;
-		}
+		include_once $file;
 
 		// Sanitize the namespace.
 		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
@@ -451,7 +448,7 @@ class RedshopHelperConfig
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function set($name = '', $value = null)
 	{

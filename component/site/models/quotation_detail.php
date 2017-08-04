@@ -44,8 +44,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function addtocart($data = array())
 	{
-		$app = JFactory::getApplication();
-
+		$app     = JFactory::getApplication();
 		$Itemid  = $app->input->get("Itemid");
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
@@ -68,7 +67,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
 			{
 				$cart[$idx]['quantity'] += 1;
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 
 				return;
 			}
@@ -95,7 +94,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			}
 
 			$cart['idx'] = $idx + 1;
-			$session->set('cart', $cart);
+			RedshopHelperCartSession::setCart($cart);
 
 			return;
 		}
@@ -125,7 +124,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 			$accAttributeCart = array();
 
-			for ($ia = 0; $ia < count($acc_att_data); $ia++)
+			for ($ia = 0, $countAccessoryAttribute = count($acc_att_data); $ia < $countAccessoryAttribute; $ia++)
 			{
 				$accPropertyCart                         = array();
 				$accAttributeCart[$ia]['attribute_id']   = $acc_att_data[$ia]->section_id;
@@ -133,7 +132,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 				$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "property", $acc_att_data[$ia]->section_id);
 
-				for ($ip = 0; $ip < count($acc_prop_data); $ip++)
+				for ($ip = 0, $countAccessoryProperty = count($acc_prop_data); $ip < $countAccessoryProperty; $ip++)
 				{
 					$accSubpropertyCart                      = array();
 					$accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
@@ -141,8 +140,9 @@ class RedshopModelQuotation_detail extends RedshopModel
 					$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
 
 					$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
+					$countAccessorySubroperty = count($acc_subpro_data);
 
-					for ($isp = 0; $isp < count($acc_subpro_data); $isp++)
+					for ($isp = 0; $isp < $countAccessorySubroperty; $isp++)
 					{
 						$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
 						$accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
@@ -160,15 +160,16 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$generateAttributeCart = array();
 
-		for ($ia = 0; $ia < count($quotation_att_data); $ia++)
+		for ($ia = 0, $countQuotationAtrribute = count($quotation_att_data); $ia < $countQuotationAtrribute; $ia++)
 		{
 			$accPropertyCart                              = array();
 			$generateAttributeCart[$ia]['attribute_id']   = $quotation_att_data[$ia]->section_id;
 			$generateAttributeCart[$ia]['attribute_name'] = $quotation_att_data[$ia]->section_name;
 
 			$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "property", $quotation_att_data[$ia]->section_id);
+			$countQuotationProperty = count($acc_prop_data);
 
-			for ($ip = 0; $ip < count($acc_prop_data); $ip++)
+			for ($ip = 0; $ip < $countQuotationProperty; $ip++)
 			{
 				$accSubpropertyCart                      = array();
 				$accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
@@ -176,8 +177,9 @@ class RedshopModelQuotation_detail extends RedshopModel
 				$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
 
 				$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
+				$countQuotationSubproperty = count($acc_subpro_data);
 
-				for ($isp = 0; $isp < count($acc_subpro_data); $isp++)
+				for ($isp = 0; $isp < $countQuotationSubproperty; $isp++)
 				{
 					$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
 					$accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
@@ -204,7 +206,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 		}
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function modifyQuotation($user_id = 0)
@@ -215,7 +217,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$cart = $carthelper->modifyCart($cart, $user_id);
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$carthelper->cartFinalCalculation(false);
 	}
 

@@ -27,8 +27,8 @@ $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');
 if ($this->pageheadingtag != '')
 {
 	$pagetitle = $this->pageheadingtag;
-}?>
-	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+} ?>
+    <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php
 		if ($this->params->get('show_page_heading', 1))
 		{
@@ -40,8 +40,8 @@ if ($this->pageheadingtag != '')
 			{
 				echo $pagetitle;
 			}
-		}?>
-	</h1>
+		} ?>
+    </h1>
 <?php
 // Page title end
 $manufacturers_template = $redTemplate->getTemplate("manufacturer");
@@ -135,19 +135,19 @@ if ($this->detail && $template_middle != "")
 
 						if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 						{
-							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
+							$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 						}
 						else
 						{
 							$manufacturer_img = RedShopHelperImages::getImagePath(
-													$media_image[$m]->media_name,
-													'',
-													'thumb',
-													'manufacturer',
-													$mw_thumb,
-													$mh_thumb,
-													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-												);
+								$media_image[$m]->media_name,
+								'',
+								'thumb',
+								'manufacturer',
+								$mw_thumb,
+								$mh_thumb,
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+							);
 						}
 
 						if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)

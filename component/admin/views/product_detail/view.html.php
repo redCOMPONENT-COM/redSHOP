@@ -60,8 +60,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$this->input         = $app->input;
 		$user                = JFactory::getUser();
 
+		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher    = JDispatcher::getInstance();
+		$this->dispatcher    = RedshopHelperUtility::getDispatcher();
 
 		$redTemplate         = Redtemplate::getInstance();
 		$redhelper           = redhelper::getInstance();
@@ -356,8 +357,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			}
 			else
 			{
-				$objhelper = redhelper::getInstance();
-				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
+				$pItemid = RedshopHelperUtility::getItemId($detail->product_id, $catidmain);
 			}
 
 			$link  = JURI::root();
@@ -430,12 +430,23 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$lists['copy_attribute'] = JHtml::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
 		$lists['product_special'] = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $detail->product_special);
 		$lists['product_download'] = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $detail->product_download);
-		$lists['not_for_sale'] = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
+
+		$detail->not_for_sale_showprice = 0;
+
+		if ($detail->not_for_sale == 2)
+		{
+			$detail->not_for_sale = 1;
+			$detail->not_for_sale_showprice = 1;
+		}
+
+		$lists['not_for_sale']           = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
+		$lists['not_for_sale_showprice'] = JHtml::_('select.booleanlist', 'not_for_sale_showprice', 'class="inputbox"', $detail->not_for_sale_showprice);
+
 		$lists['expired'] = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
 		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
 
 		// For individual pre-order
-		$preorder_data = $redhelper->getPreOrderByList();
+		$preorder_data = RedshopHelperUtility::getPreOrderByList();
 		$lists['preorder'] = JHtml::_('select.genericlist', $preorder_data, 'preorder', 'class="inputbox" size="1" ', 'value', 'text', $detail->preorder);
 
 		// Discount calculator
@@ -557,7 +568,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 									$detail->product_type
 								);
 
-		$accountgroup = $redhelper->getEconomicAccountGroup();
+		$accountgroup = RedshopHelperUtility::getEconomicAccountGroup();
 		$op = array();
 		$op[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$accountgroup = array_merge($op, $accountgroup);

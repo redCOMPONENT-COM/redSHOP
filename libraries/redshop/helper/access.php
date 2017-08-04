@@ -77,11 +77,9 @@ class RedshopHelperAccess
 			return true;
 		}
 
-		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
-		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
 
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{
@@ -119,7 +117,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canView($target = '', $userId = 0)
 	{
@@ -134,7 +132,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canCreate($target = '', $userId = 0)
 	{
@@ -149,7 +147,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canEdit($target = '', $userId = 0)
 	{
@@ -164,7 +162,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canDelete($target = '', $userId = 0)
 	{
@@ -180,7 +178,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean          True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function canDo($target = '', $task = '', $userId = 0)
 	{
@@ -194,107 +192,5 @@ class RedshopHelperAccess
 		}
 
 		return $user->authorise($target . '.' . $task, 'com_redshop.backend');
-	}
-
-	/**
-	 * Check access level of an user
-	 *
-	 * @param   integer $groupId Group ID of an user
-	 *
-	 * @return  array
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
-	 */
-	public static function checkAccessOfUser($groupId)
-	{
-		return array();
-	}
-
-	/**
-	 * Check access level of a group users
-	 *
-	 * @param   string  $view    View name
-	 * @param   string  $task    Have 3 options: add/ edit/ remove
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
-	 */
-	public static function checkGroupAccess($view, $task, $groupId)
-	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
-	}
-
-	/**
-	 * Get access level of group users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
-	 */
-	public static function getGroupAccess($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
-	}
-
-	/**
-	 * Get access level of group add users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
-	 */
-	public static function getGroupAccessTaskAdd($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
-	}
-
-	/**
-	 * Get access level of group edit users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
-	 */
-	public static function getGroupAccessTaskEdit($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
-	}
-
-	/**
-	 * Get access level of group delete users
-	 *
-	 * @param   string  $view    View name
-	 * @param   integer $groupId Group ID
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  This function has been removed.
-	 */
-	public static function getGroupAccessTaskDelete($view, $groupId)
-	{
-		// @TODO: Need to remove at next release after __DEPLOY_VERSION__
 	}
 }

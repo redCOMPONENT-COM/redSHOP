@@ -24,28 +24,28 @@ defined('_JEXEC') or die;
 	}
 </script>
 <?php
-$url  = JURI::base();
+$url = JURI::base();
 $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $app             = JFactory::getApplication();
-$carthelper      = rsCarthelper::getInstance();
-$producthelper   = productHelper::getInstance();
+$carthelper = rsCarthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper       = redhelper::getInstance();
-$userhelper      = rsUserHelper::getInstance();
-$redTemplate     = Redtemplate::getInstance();
-$dispatcher      = JDispatcher::getInstance();
+$redhelper = redhelper::getInstance();
+$userhelper = rsUserHelper::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 
-$user    = JFactory::getUser();
+$user = JFactory::getUser();
 $session = JFactory::getSession();
-$cart    = $session->get('cart');
+$cart = $session->get('cart');
 $user_id = $user->id;
 
 // Get redshop helper
 
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 
 if ($Itemid == 0)
 {

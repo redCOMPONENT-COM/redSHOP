@@ -21,7 +21,6 @@ $app       = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid');
 $return = $app->input->getString('return');
 $post   = $app->input->post->getArray();
-
 $detail = $this->detail;
 
 $firstname  = $detail->firstname;

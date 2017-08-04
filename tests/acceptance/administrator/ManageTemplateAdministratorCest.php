@@ -77,6 +77,5 @@ class ManageTemplateAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TemplateManagerJoomla3Steps($scenario);
 		$I->deleteTemplate($this->newName);
-		$I->searchTemplate($this->newName, 'Delete');
 	}
 }

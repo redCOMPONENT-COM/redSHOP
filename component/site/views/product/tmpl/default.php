@@ -624,7 +624,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 									$wrapper[$i]->wrapper_image,
@@ -881,7 +881,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	// Trigger plugin to get merge images.
 	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
 
-	$preselectedresult = $producthelper->displayAdditionalImage(
+	$preselectedresult = RedshopHelperProductTag::displayAdditionalImage(
 		$this->data->product_id,
 		0,
 		0,
@@ -1204,7 +1204,7 @@ if (strstr($template_desc, "{more_documents}"))
 			$alttext = $media_documents[$m]->media_name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+		if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
 			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
 										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -1225,22 +1225,13 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 						<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 $link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
-if (count($preselectedresult) > 0)
-{
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->replaceProductImage($this->data, "", "", "", $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, $preselectedresult) .
-					"</div>";
-}
-else
-{
-	// Product image flying addwishlist time start
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) .
-					"</div>";
-}
+// Product image
+$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+				$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
+				"</div>";
 
-// Product image flying addwishlist time end
 $template_desc = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $template_desc);
+// Product image end
 
 $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
@@ -1433,7 +1424,7 @@ else
 // Product preview image.
 if (strstr($template_desc, "{product_preview_img}"))
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
 	{
 		$previewsrcPath = RedShopHelperImages::getImagePath(
 						$this->data->product_preview_image,

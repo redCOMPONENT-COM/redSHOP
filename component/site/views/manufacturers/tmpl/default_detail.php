@@ -20,7 +20,7 @@ $redTemplate = Redtemplate::getInstance();
 
 $document = JFactory::getDocument();
 
-$model                  = $this->getModel('manufacturers');
+$model = $this->getModel('manufacturers');
 $manufacturers_template = $model->getManufacturertemplate("manufacturer");
 
 for ($i = 0; $i < count($this->detail); $i++)

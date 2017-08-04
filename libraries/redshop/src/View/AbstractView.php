@@ -20,7 +20,7 @@ jimport('joomla.application.component.viewlegacy');
  *
  * @package     Redshob.Libraries
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 abstract class AbstractView extends \JViewLegacy
 {
@@ -58,7 +58,7 @@ abstract class AbstractView extends \JViewLegacy
 	/**
 	 * @var  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $useUserPermission = true;
 
@@ -85,14 +85,14 @@ abstract class AbstractView extends \JViewLegacy
 	/**
 	 * @var    \JModelLegacy
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $model;
 
 	/**
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $layout;
 
@@ -157,7 +157,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -181,7 +181,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTitle()
 	{
@@ -193,7 +193,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -205,7 +205,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function generatePermission()
 	{
@@ -225,7 +225,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getInstancesName()
 	{
@@ -242,7 +242,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getInstanceName()
 	{

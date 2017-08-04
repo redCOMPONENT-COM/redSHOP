@@ -233,13 +233,13 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 		if ($product->product_full_image)
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 			{
 				$product_image_path = $product->product_full_image;
 			}
 			else
 			{
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
 					$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				}
@@ -247,7 +247,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 		}
 		else
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
 				$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 			}

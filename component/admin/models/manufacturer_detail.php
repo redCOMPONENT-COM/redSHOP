@@ -118,6 +118,12 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
+
+		$isNew = ($row->manufacturer_id > 0) ? false : true;
+		JPluginHelper::importPlugin('redshop_product');
+
+		$result = JDispatcher::getInstance()->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
+
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
 			if (!$row->excluding_category_list)
@@ -132,6 +138,8 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
+
+		JDispatcher::getInstance()->trigger('onAfterManufacturerSave', array(&$row, $isNew));
 
 		return $row;
 	}
@@ -151,7 +159,11 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 				return false;
 			}
+
+			JPluginHelper::importPlugin('redshop_product');
+			JDispatcher::getInstance()->trigger('onAfterManufacturerDelete', array($cid));
 		}
+
 		return true;
 	}
 

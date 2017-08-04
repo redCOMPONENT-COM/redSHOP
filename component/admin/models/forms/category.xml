@@ -10,7 +10,7 @@
                 type="redshop.text"
                 label="COM_REDSHOP_CATEGORY_NAME"
                 description="COM_REDSHOP_TOOLTIP_CATEGORY_NAME"
-                size="40"
+                maxlength="255"
                 class="form-control"
                 required="true"
                 table-sortable="1"
@@ -79,6 +79,7 @@
                 default=""
                 table-sortable="1"
                 table-width="50%"
+                filter="safehtml"
         />
         <field
                 name="short_description"
@@ -87,6 +88,7 @@
                 description="COM_REDSHOP_SHORT_DESCRIPTION"
                 default=""
                 table-hide="1"
+                filter="safehtml"
         />
         <field
                 name="published"

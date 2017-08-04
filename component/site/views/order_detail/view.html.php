@@ -9,60 +9,76 @@
 
 defined('_JEXEC') or die;
 
-
-
-class RedshopViewOrder_detail extends RedshopView
+/**
+ * View Order Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.6
+ */
+class RedshopViewOrder_Detail extends RedshopView
 {
-	public function display ($tpl = null)
+	/**
+	 * @var   object
+	 */
+    public $OrdersDetail;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void          A string if successful, otherwise a Error object.
+	 *
+	 * @throws  \Exception
+	 */
+	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
-		$order_functions = order_functions::getInstance();
+		$orderFunctions = order_functions::getInstance();
 
-		$print = $app->input->getInt('print');
+		$print = $app->input->getInt('print', 0);
 
 		if ($print)
 		{
 			?>
-			<script type="text/javascript" language="javascript">
-				window.print();
-			</script>
-		<?php
+            <script type="text/javascript" language="javascript">
+                window.print();
+            </script>
+			<?php
 		}
 
-		$params = $app->getParams('com_redshop');
+		RedshopHelperBreadcrumb::generate();
 
-		$prodhelperobj = productHelper::getInstance();
-		$prodhelperobj->generateBreadcrumb();
+		$user         = JFactory::getUser();
+		$session      = JFactory::getSession();
+		$auth         = $session->get('auth');
+		$orderId      = $app->input->getInt('oid', $session->get('order_id'));
+		$encr         = $app->input->getString('encr', null);
+		$orderPayment = $orderFunctions->getOrderPaymentDetail($orderId);
 
-		$user          = JFactory::getUser();
-		$session       = JFactory::getSession();
-		$auth          = $session->get('auth');
-		$orderId       = $app->input->getInt('oid', $session->get('order_id'));
-		$encr          = $app->input->getString('encr', null);
-		$order_payment = $order_functions->getOrderPaymentDetail($orderId);
-
-		if ($order_payment && count($order_payment))
+		if ($orderPayment && count($orderPayment))
 		{
 			// Load payment language file
-			$language      = JFactory::getLanguage();
-			$base_dir      = JPATH_ADMINISTRATOR;
-			$language_tag  = $language->getTag();
-			$extension = 'plg_redshop_payment_' . ($order_payment[0]->payment_method_class);
+			$language     = JFactory::getLanguage();
+			$base_dir     = JPATH_ADMINISTRATOR;
+			$language_tag = $language->getTag();
+			$extension    = 'plg_redshop_payment_' . ($orderPayment[0]->payment_method_class);
+
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
+		/** @var RedshopModelOrder_detail $model */
 		$model = $this->getModel('order_detail');
 
-		$OrdersDetail = $order_functions->getOrderDetails($orderId);
+		$orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
 
 		if ($user->id)
 		{
-			if ($OrdersDetail->user_id != $user->id)
+			if ($orderDetail->user_id != $user->id)
 			{
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
-
-				return;
 			}
 		}
 		else
@@ -75,21 +91,20 @@ class RedshopViewOrder_detail extends RedshopView
 				{
 					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
 					echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
-
-					return false;
 				}
 			}
 
 			// Preform security checks
-			elseif (!$user->id && !isset($auth['users_info_id']))
+            elseif (!$user->id && !isset($auth['users_info_id']))
 			{
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
-
-				return;
 			}
 		}
 
-		$this->OrdersDetail = $OrdersDetail;
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onDisplayOrderReceipt', array(&$orderDetail));
+
+		$this->OrdersDetail = $orderDetail;
 		$this->user         = $user;
 		$this->params       = $app->getParams('com_redshop');
 
@@ -99,7 +114,7 @@ class RedshopViewOrder_detail extends RedshopView
 	/**
 	 * Replace Reorder Button
 	 *
-	 * @param   string  &$template  Template Data
+	 * @param   string &$template Template Data
 	 *
 	 * @return  void
 	 */
@@ -109,7 +124,6 @@ class RedshopViewOrder_detail extends RedshopView
 		$order   = $this->OrdersDetail;
 		$orderId = $app->input->getInt('oid', 0);
 		$print   = $app->input->getInt('print', 0);
-		$reorder = '';
 
 		if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid')
 		{
