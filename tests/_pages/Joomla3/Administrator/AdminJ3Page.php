@@ -239,4 +239,15 @@ abstract class AdminJ3Page
 	 */
 	public static $priceEnd = ['id' => 'spnTotal'];
 
+    /**
+     *
+     * Function get value
+     * @param $value
+     * @return array
+     */
+    public static function returnChoice($value)
+    {
+        $path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
+        return $path;
+    }
 }
