@@ -444,19 +444,21 @@ class RedshopHelperExtrafields
 	 * @param   string   $table         Table
 	 * @param   string   $templateDesc  Template
 	 * @param   string   $userEmail     User email
+	 * @param   int      $front         Show field in front
+	 * @param   int      $checkout      Show field in checkout
 	 *
 	 * @return  string                  HTML <td></td>
 	 *
 	 * @since   2.0.3
 	 */
-	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '')
+	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '', $front = 0, $checkout = 0)
 	{
 		$db = JFactory::getDbo();
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 		/** @var RedshopModelFields $model */
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
-		$rowData = $model->getFieldsBySection($fieldSection, $fieldName);
+		$rowData = $model->getFieldsBySection($fieldSection, $fieldName, $front, $checkout);
 
 		$exField = '';
 
