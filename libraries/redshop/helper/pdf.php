@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Helpers
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -23,13 +23,11 @@ class RedshopHelperPdf
 	/**
 	 * Get PDF Merger
 	 *
-	 * @return PDFMerger
+	 * @return  RedshopHelperPdf_Merge
 	 */
 	public static function getPDFMerger()
 	{
-		JLoader::import('helper.PDFMerger', JPATH_REDSHOP_LIBRARY);
-
-		return new PDFMerger;
+		return new RedshopHelperPdf_Merge;
 	}
 
 	/**

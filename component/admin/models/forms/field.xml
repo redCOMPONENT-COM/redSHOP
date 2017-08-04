@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                name="title"
+                type="redshop.text"
+                label="COM_REDSHOP_FIELD_TITLE_HEADER"
+                description="COM_REDSHOP_TOOLTIP_FIELD_TITLE"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+                table-width="25%"
+        />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_FIELD_NAME_HEADER"
+                description="COM_REDSHOP_TOOLTIP_FIELD_NAME"
+                class="form-control validate-fieldNames"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-width="25%"
+        />
+        <field
+                name="type"
+                type="redshop.fieldtype"
+                label="COM_REDSHOP_FIELD_TYPE_HEADER"
+                description="COM_REDSHOP_TOOLTIP_FIELD_TYPE"
+                table-width="17%"
+        />
+        <field
+                name="section"
+                type="redshop.fieldsection"
+                label="COM_REDSHOP_FIELD_SECTION_HEADER"
+                description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
+                onchange="sectionValidation()"
+                table-width="17%"
+        />
+        <field
+                name="class"
+                type="redshop.text"
+                label="COM_REDSHOP_CLASS"
+                description="COM_REDSHOP_TOOLTIP_CLASS"
+                class="form-control"
+                default=""
+                table-hide="1"
+        />
+        <field
+                name="maxlength"
+                type="number"
+                label="COM_REDSHOP_MAX_LENGTH"
+                description="COM_REDSHOP_TOOLTIP_MAX_LENGTH"
+                class="form-control"
+                default=""
+                table-hide="1"
+        />
+        <field
+                name="size"
+                type="number"
+                label="COM_REDSHOP_SIZE"
+                description="COM_REDSHOP_TOOLTIP_SIZE"
+                class="form-control"
+                default=""
+                table-hide="1"
+        />
+        <field
+                name="cols"
+                type="number"
+                label="COM_REDSHOP_COLS"
+                description="COM_REDSHOP_TOOLTIP_COLS"
+                class="form-control"
+                default=""
+                table-hide="1"
+        />
+        <field
+                name="rows"
+                type="number"
+                label="COM_REDSHOP_ROWS"
+                description="COM_REDSHOP_TOOLTIP_ROWS"
+                class="form-control"
+                default=""
+                table-hide="1"
+        />
+        <field
+                name="show_in_front"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_SHOW_AT_FRONT"
+                table-hide="1"
+                required="true">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="display_in_product"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_DISPLAY_IN_PRODUCT_LIST"
+                table-hide="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="display_in_checkout"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_DISPLAY_IN_CHECKOUT"
+                table-hide="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="required"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_IS_REQUIRED"
+                table-hide="1"
+                required="true">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="description"
+                type="editor"
+                label="COM_REDSHOP_DESCRIPTION"
+                description="COM_REDSHOP_DESCRIPTION_DESC"
+                width="300"
+                filter="safehtml"
+                table-sortable="1"
+                table-width="20%"
+                table-hide="1"
+        />
+    </fieldset>
+</form>

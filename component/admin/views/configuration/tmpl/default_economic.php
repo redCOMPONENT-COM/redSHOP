@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -105,7 +105,7 @@ echo RedshopLayoutHelper::render(
             $('#economic_invoice_draft').on("change", function (e) {
                 e.preventDefault();
 
-                if ($(this).val() == 1) {
+                if ($(this).val() == 2) {
                     $("#booking_order_status").show();
                 } else {
                     $("#booking_order_status").hide();

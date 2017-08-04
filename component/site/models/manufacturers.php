@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -220,17 +220,18 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$query = "SELECT DISTINCT(c.category_id) as value, c.category_name as text "
-			. "FROM " . $this->_table_prefix . "category AS c "
-			. "LEFT JOIN #__redshop_product_category_xref  AS pcx ON c.category_id  = pcx.category_id "
-			. "LEFT JOIN #__redshop_product  AS p ON pcx.product_id = p.product_id  "
-			. "WHERE p.manufacturer_id = " . (int) $this->_id . " "
-			. "AND c.published = 1 "
-			. "ORDER BY c.category_name ASC";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.id', 'value'))
+			->select($db->qn('c.name', 'text'))
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->leftjoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+			->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $this->_id))
+			->where($db->qn('c.published') . ' = 1')
+			->order($db->qn('c.name') . ' ASC');
 
-		return $list;
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	public function getManufacturerProducts($template_data = '')
@@ -245,39 +246,39 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductQuery($template_data = '')
 	{
-		$filter_by = JRequest::getVar('filter_by', 0);
-		$and       = '';
+		$orderBy = $this->_buildProductOrderBy($template_data);
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
-		if ($shopper_group_manufactures != "")
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('p.*')
+			->select($db->qn('c.id'))
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $this->_id))
+			->where($db->qn('p.published') . ' = 1')
+			->where($db->qn('p.expired') . ' = 0')
+			->where($db->qn('p.product_parent_id') . ' = 0')
+			->order($orderBy)
+			->group($db->qn('p.product_id'));
+
+		if (!empty($shopperGroupManufactures))
 		{
-			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopper_group_manufactures);
-			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
+			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
+			$query->where($db->qn('p.m.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
-		// Shopper group - choose from manufactures End
-		if ($filter_by != '0')
+		if ($filterBy != '0')
 		{
-			$and .= " AND c.category_id = " . (int) $filter_by;
+			$query->where($db->qn('c.id') . ' = ' . $db->q((int) $filterBy));
 		}
-
-		$orderby = $this->_buildProductOrderBy($template_data);
-
-		$query = "SELECT DISTINCT(p.product_id),p.*, c.category_name, c.category_id FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id "
-			. "WHERE p.published = 1 "
-			. "AND p.manufacturer_id = " . (int) $this->_id . " "
-			. "AND p.expired = 0 "
-			. "AND p.product_parent_id = 0 "
-			. $and
-			. " GROUP BY p.product_id "
-			. $orderby;
 
 		return $query;
 	}
@@ -289,15 +290,15 @@ class RedshopModelManufacturers extends RedshopModel
 		$db = $this->_db;
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT(c.category_id)')
-			->select($db->qn('c.category_name'))
-			->select($db->qn('c.category_short_description'))
-			->select($db->qn('c.category_description'))
+			->select('DISTINCT(c.id)')
+			->select($db->qn('c.name'))
+			->select($db->qn('c.short_description'))
+			->select($db->qn('c.description'))
 			->select($db->qn('c.category_thumb_image'))
 			->select($db->qn('c.category_full_image'))
 			->from($db->qn('#__redshop_product') . ' AS p')
 			->leftJoin($db->qn('#__redshop_product_category_xref') . ' AS pc' . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
-			->leftJoin($db->qn('#__redshop_category') . ' AS c' . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.category_id'))
+			->leftJoin($db->qn('#__redshop_category') . ' AS c' . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.id'))
 			->where($db->qn('p.published') . ' = 1')
 			->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $mid))
 			->where($db->qn('p.expired') . ' = 0')
@@ -308,7 +309,7 @@ class RedshopModelManufacturers extends RedshopModel
 			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
 			JArrayHelper::toInteger($excluding_category_list);
 			$excluding_category_list = implode(',', $excluding_category_list);
-			$query->where($db->qn('c.category_id') . ' NOT IN (' . $excluding_category_list . ')');
+			$query->where($db->qn('c.id') . ' NOT IN (' . $excluding_category_list . ')');
 		}
 
 		return $db->setQuery($query)->loadObjectlist();
@@ -333,8 +334,10 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
-			urldecode(JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD')))
+		$orderByObj  = RedshopHelperUtility::prepareOrderBy(
+			urldecode(
+				JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'))
+			)
 		);
 		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;
 		$filterOrder = 'pc.ordering';
@@ -349,6 +352,6 @@ class RedshopModelManufacturers extends RedshopModel
 			$filterOrder = "c.ordering,c.category_id, " . $filterOrder;
 		}
 
-		return " ORDER BY " . JFactory::getDbo()->escape($filterOrder) . ' ';
+		return JFactory::getDbo()->escape($filterOrder) . ' ';
 	}
 }

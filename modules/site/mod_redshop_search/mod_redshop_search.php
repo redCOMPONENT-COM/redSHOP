@@ -33,16 +33,16 @@ $app = JFactory::getApplication();
 $db = JFactory::getDbo();
 $userHelper = rsUserHelper::getInstance();
 $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-$shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId);
+$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 $query = $db->getQuery(true)
-	->select('category_id as value, category_name as text')
+	->select('id as value, name as text')
 	->from($db->qn('#__redshop_category'))
 	->where('published = 1')
-	->order('category_name asc');
+	->order('name asc');
 
-if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 {
-	$query->where('category_id IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
+	$query->where('id IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
 }
 
 $catdata = $db->setQuery($query)->LoadObjectList();
@@ -52,7 +52,7 @@ $query->clear()
 	->from($db->qn('#__redshop_manufacturer'))
 	->where('published = 1');
 
-if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures)
+if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures)
 {
 	$query->where('manufacturer_id IN(' . $shopperGroupData[0]->shopper_group_manufactures . ')');
 }

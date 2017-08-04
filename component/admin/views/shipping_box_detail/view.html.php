@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,9 +55,8 @@ class RedshopViewShipping_box_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$jinput = JFactory::getApplication()->input;
-
 		// TEMPLATE MOVE DB TO FILE
+		$jinput = JFactory::getApplication()->input;
 		$post = $jinput->post->getArray();
 
 		if ($isNew && (isset($post['shipping_box_name']) && $post['shipping_box_name'] != ""))

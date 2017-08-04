@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 class RedshopControllerShipping extends RedshopController
@@ -40,7 +42,7 @@ class RedshopControllerShipping extends RedshopController
 					$shipping_number = $shipping[$i]->economic_displayname;
 				}
 
-				$economic->createShippingRateInEconomic(
+				Economic::createShippingRateInEconomic(
 					$shipping_number, $shipping_name, $shipping_rate,
 					$shipping[$i]->apply_vat
 				);
