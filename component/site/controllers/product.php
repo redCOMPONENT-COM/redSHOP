@@ -20,6 +20,11 @@ defined('_JEXEC') or die;
 class RedshopControllerProduct extends RedshopController
 {
 	/**
+	 * @var JInput
+	 */
+	protected $input;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -30,6 +35,8 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function __construct($config = array())
 	{
+		$this->input = JFactory::getApplication()->input;
+
 		// Article frontpage Editor product proxying:
 		if ($this->input->get('layout') === 'element')
 		{
