@@ -196,7 +196,7 @@ class RedshopRouter extends JComponentRouterBase
 		}
 
 		// Special char for replace
-		$specialChars = array(".", " ");
+		$specialChars = array('.', ' ');
 
 		switch ($view)
 		{
@@ -262,14 +262,11 @@ class RedshopRouter extends JComponentRouterBase
 				{
 					$segments[] = $gid;
 
-					$query = $db->getQuery(true)
-						->select($db->qn('giftcard_name'))
-						->from($db->qn('#__redshop_giftcard'))
-						->where($db->qn('giftcard_id') . ' = ' . $db->quote($gid));
+					$entity = RedshopEntityGiftcard::getInstance($gid);
 
-					if ($giftCardName = $db->setQuery($query)->loadResult())
+					if ($entity->isValid())
 					{
-						$segments[] = RedshopHelperUtility::convertToNonSymbol($giftCardName);
+						$segments[] = RedshopHelperUtility::convertToNonSymbol($entity->get('giftcard_name'));
 					}
 				}
 
@@ -332,36 +329,36 @@ class RedshopRouter extends JComponentRouterBase
 					$segments[] = $manufacturerId;
 				}
 
-				if ($cid && ($url = RedshopEntityCategory::getInstance($cid)->getItem()))
+				if ($cid)
 				{
-					if ($url->sef_url == "")
+					$url = RedshopEntityCategory::getInstance($cid);
+
+					if (empty($url->get('sef_url')))
 					{
-						$cats = RedshopHelperCategory::getCategoryListReverseArray($cid);
+						$categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($cid);
 
-						if (count($cats) > 0)
+						if (count($categoriesReverse) > 0)
 						{
-							$cats = array_reverse($cats);
+							$categoriesReverse = array_reverse($categoriesReverse);
 
-							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
+							foreach ($categoriesReverse as $categoryReverse)
 							{
-								$cat = $cats[$x];
-
-								if ($cat->parent_id == 0)
+								if ($categoryReverse->parent_id === 0)
 								{
 									continue;
 								}
 
-								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->name);
+								$segments[] = RedshopHelperUtility::convertToNonSymbol($categoryReverse->name);
 							}
 						}
 
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->name);
+							$segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->get('name'));
 						}
 						else
 						{
-							$segments[] = RedshopHelperUtility::convertToNonSymbol($url->name);
+							$segments[] = RedshopHelperUtility::convertToNonSymbol($url->get('name'));
 						}
 					}
 					else
@@ -376,12 +373,12 @@ class RedshopRouter extends JComponentRouterBase
 						}
 					}
 				}
-				elseif ($menuItem->title != '')
+				elseif ($menuItem->title !== '')
 				{
 					$segments[] = RedshopHelperUtility::convertToNonSymbol($menuItem->title);
 				}
 
-				if ($layout != 'detail' && $layout != '')
+				if ($layout !== 'detail' && $layout !== '')
 				{
 					$segments[] = $layout;
 				}
@@ -390,13 +387,13 @@ class RedshopRouter extends JComponentRouterBase
 
 			case 'product':
 
-				if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME') && $layout != "")
+				if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME') && $layout != '')
 				{
 					$segments[] = $layout;
 				}
 				else
 				{
-					if ($layout != "")
+					if ($layout != '')
 					{
 						$segments[] = $layout;
 					}
@@ -416,7 +413,7 @@ class RedshopRouter extends JComponentRouterBase
 					$url                  = $product->sef_url;
 					$showCategoryInSefUrl = $product->cat_in_sefurl;
 
-					if ($url == "")
+					if ($url == '')
 					{
 						// Get cid from request for consistency
 						$categoryId = $showCategoryInSefUrl;
@@ -427,11 +424,11 @@ class RedshopRouter extends JComponentRouterBase
 							$categoryId = $product->category_id;
 						}
 
-						if ($cats = RedshopHelperCategory::getCategoryListReverseArray($categoryId))
+						if ($categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($categoryId))
 						{
-							$cats = array_reverse($cats);
+							$categoriesReverse = array_reverse($categoriesReverse);
 
-							foreach ($cats as $cat)
+							foreach ($categoriesReverse as $cat)
 							{
 								if ($cat->parent_id == 0)
 								{
@@ -442,21 +439,16 @@ class RedshopRouter extends JComponentRouterBase
 							}
 						}
 
-						$categoryName = '';
-
-						if ($categoryData = RedshopEntityCategory::getInstance($categoryId)->getItem())
-						{
-							$categoryName = $categoryData->name;
-						}
+						$categoryData = RedshopEntityCategory::getInstance($categoryId);
 
 						// Attach category id with name for consistency
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$segments[] = $categoryId . '-' . RedshopHelperUtility::convertToNonSymbol($categoryName);
+							$segments[] = $categoryId . '-' . RedshopHelperUtility::convertToNonSymbol($categoryData->get('name'));
 						}
 						else
 						{
-							$segments[] = RedshopHelperUtility::convertToNonSymbol($categoryName);
+							$segments[] = RedshopHelperUtility::convertToNonSymbol($categoryData->get('name'));
 						}
 
 						// Add product number if config is enabled
@@ -503,30 +495,27 @@ class RedshopRouter extends JComponentRouterBase
 				if ($mid)
 				{
 					$segments[] = $mid;
-					$query      = $db->getQuery(true);
-					$query->select($db->quoteName(array('sef_url', 'manufacturer_name')))
-						->from($db->quoteName('#__redshop_manufacturer'))
-						->where($db->quoteName('manufacturer_id') . ' = ' . (int) $mid);
-					$url = $db->setQuery($query)->loadObject();
 
-					if ($url)
+					$manufacturer = RedshopEntityManufacturer::getInstance($mid);
+
+					if ($manufacturer->isValid())
 					{
-						if ($url->sef_url == "")
+						if (!empty($manufacturer->get('sef_url')))
 						{
-							$segments[] = str_replace($specialChars, "-", $url->manufacturer_name);
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('sef_url'));
 						}
 						else
 						{
-							$segments[] = str_replace($specialChars, "-", $url->sef_url);
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('manufacturer_name'));
 						}
 					}
 				}
 
 				if (!$mid)
 				{
-					if ($menuItem->title != '')
+					if (!empty($menuItem->title))
 					{
-						$segments[] = str_replace($specialChars, "-", $menuItem->title);
+						$segments[] = str_replace($specialChars, '-', $menuItem->title);
 					}
 					else
 					{
@@ -534,7 +523,7 @@ class RedshopRouter extends JComponentRouterBase
 					}
 				}
 
-				if ($layout != 'detail' && $layout != '')
+				if ($layout !== 'detail' && $layout !== '')
 				{
 					$segments[] = $layout;
 				}
@@ -553,13 +542,8 @@ class RedshopRouter extends JComponentRouterBase
 					{
 						$segments[] = $tagId;
 
-						$query = $db->getQuery(true);
-						$query->select($db->quoteName('tags_name'))
-							->from($db->quoteName('#__redshop_product_tags'))
-							->where($db->quoteName('tags_id') . ' = ' . (int) $tagId);
-						$tagname = $db->setQuery($query)->loadResult();
-
-						$segments[] = str_replace($specialChars, "-", $tagname);
+						$tag = RedshopEntityProduct_Tag::getInstance($tagId);
+						$segments[] = str_replace($specialChars, '-', $tag->get('tags_name'));
 
 						if ($tagId && isset($edit))
 						{
@@ -633,7 +617,7 @@ class RedshopRouter extends JComponentRouterBase
 		switch ($firstSegment)
 		{
 			case 'giftcard':
-				$vars['view'] = "giftcard";
+				$vars['view'] = 'giftcard';
 
 				if (isset($segments[1]))
 				{
@@ -643,11 +627,11 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'cart':
-				$vars['view'] = "cart";
+				$vars['view'] = 'cart';
 				break;
 
 			case 'search':
-				$vars['view'] = "search";
+				$vars['view'] = 'search';
 
 				if (isset($segments[1]))
 				{
@@ -661,19 +645,19 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'password':
-				$vars['view'] = "password";
+				$vars['view'] = 'password';
 				break;
 
 			case 'registration':
-				$vars['view'] = "registration";
+				$vars['view'] = 'registration';
 				break;
 
 			case 'checkout':
-				$vars['view'] = "checkout";
+				$vars['view'] = 'checkout';
 				break;
 
 			case 'login':
-				$vars['view'] = "login";
+				$vars['view'] = 'login';
 				break;
 
 			case 'account_billto':
@@ -701,7 +685,7 @@ class RedshopRouter extends JComponentRouterBase
 				if (isset($segments[1]))
 				{
 					$vars['mid']    = $segments[1];
-					$vars['layout'] = "detail";
+					$vars['layout'] = 'detail';
 				}
 
 				if (isset($segments[3]))
@@ -824,7 +808,7 @@ class RedshopRouter extends JComponentRouterBase
 			default:
 				$last       = count($segments) - 1;
 				$secondLast = $last - 1;
-				$main       = explode(":", $segments[$last]);
+				$main       = explode(':', $segments[$last]);
 
 				if (isset($segments[$last]))
 				{
@@ -832,12 +816,12 @@ class RedshopRouter extends JComponentRouterBase
 					{
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$vars['view'] = "category";
+							$vars['view'] = 'category';
 
 							if (isset($segments[$last]))
 							{
 								// Fetch category id
-								$categories  = explode(":", $segments[$last]);
+								$categories  = explode(':', $segments[$last]);
 								$categoryId  = $categories[0];
 								$vars['cid'] = $categoryId;
 
@@ -854,20 +838,18 @@ class RedshopRouter extends JComponentRouterBase
 						}
 						else
 						{
-							$vars['view'] = "category";
+							$vars['view'] = 'category';
 
 							$menu = JFactory::getApplication()->getMenu();
 							$item = $menu->getActive();
+
+							$vars['Itemid'] = '';
+							$itemId         = '';
 
 							if (!empty($item))
 							{
 								$vars['Itemid'] = $item->id;
 								$itemId         = $item->id;
-							}
-							else
-							{
-								$vars['Itemid'] = "";
-								$itemId         = "";
 							}
 
 							if (isset($segments[0]) && $segments[0] != $itemId)
@@ -875,7 +857,7 @@ class RedshopRouter extends JComponentRouterBase
 								$vars['cid'] = $segments[0];
 							}
 
-							if (isset($segments[2]))
+							if (isset($segments[2]) && !isset($vars['cid']))
 							{
 								$vars['manufacturer_id'] = $segments[2];
 							}
@@ -885,11 +867,11 @@ class RedshopRouter extends JComponentRouterBase
 					{
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$vars['view'] = "product";
+							$vars['view'] = 'product';
 
 							if (isset($segments[0]))
 							{
-								$categories  = explode(":", $segments[0]);
+								$categories  = explode(':', $segments[0]);
 								$categoryId  = $categories[0];
 								$vars['cid'] = $categoryId;
 							}
@@ -902,7 +884,7 @@ class RedshopRouter extends JComponentRouterBase
 
 							if (isset($segments[$last]))
 							{
-								$products    = explode(":", $segments[$last]);
+								$products    = explode(':', $segments[$last]);
 								$productId   = substr($products[0], 1);
 								$vars['pid'] = $productId;
 							}
@@ -913,7 +895,7 @@ class RedshopRouter extends JComponentRouterBase
 						}
 						else
 						{
-							$vars['view'] = "product";
+							$vars['view'] = 'product';
 
 							if (isset($segments[0]) && $segments[0] == 'compare')
 							{
