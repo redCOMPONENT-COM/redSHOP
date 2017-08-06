@@ -4,4 +4,3 @@
 [submodule ".travis/phpcs/Joomla"]
 	path = .travis/phpcs/Joomla
 	url = https://travisredweb:travisredweb2013github@github.com/redCOMPONENT-COM/coding-standards
-	branch = redweb-phpcs-2
