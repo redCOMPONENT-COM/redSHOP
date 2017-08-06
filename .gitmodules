@@ -1,3 +1,6 @@
 [submodule "plugins/system/mvcoverride"]
 	path = plugins/system/mvcoverride
 	url = https://github.com/redCOMPONENT-COM/mvcOverride.git
+[submodule ".travis/phpcs/Joomla"]
+	path = .travis/phpcs/Joomla
+	url = https://travisredweb:travisredweb2013github@github.com/redCOMPONENT-COM/coding-standards
