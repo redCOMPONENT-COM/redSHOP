@@ -2378,6 +2378,33 @@ class rsCarthelper
 			$replace[] = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
 		}
 
+		// Replace Tracking
+		$search[]      = "{tracking_number_lbl}";
+		$replace[]     = JText::_('COM_REDSHOP_ORDER_TRACKING_NUMBER');
+		$search[]      = "{tracking_number}";
+		$replace[]     = $row->track_no;
+		$orderTrackURL = '';
+
+		JPluginHelper::importPlugin('redshop_shipping');
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'onReplaceTrackingUrl',
+			array(
+				$row->order_id,
+				&$orderTrackURL
+			)
+		);
+
+		if ($row->track_no)
+		{
+			$search[]  = "{tracking_url}";
+			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+		}
+		else
+		{
+			$search[]  = "{tracking_url}";
+			$replace[] = "";
+		}
+
 		$search[]   = "{product_subtotal_excl_vat}";
 		$replace[]  = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
 		$search[]   = "{order_subtotal_excl_vat}";
@@ -3732,7 +3759,7 @@ class rsCarthelper
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
-					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = ' . $db->getNullDate() . ' AND v.end_date = ' . $db->getNullDate() . '))')
+					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = "' . $db->getNullDate() . '" AND v.end_date = "' . $db->getNullDate() . '"))')
 					->where('vt.user_id = ' . (int) $user->id)
 					->order('vt.transaction_voucher_id DESC');
 				$db->setQuery($query);
@@ -3778,7 +3805,7 @@ class rsCarthelper
 
 		$current_time = JFactory::getDate()->toSql();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "voucher as v on v.voucher_id = pv.voucher_id "
+			. "left join " . $this->_table_prefix . "voucher as v on v.id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
 			. " AND v.code=" . $db->quote($voucher_code)
 			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
