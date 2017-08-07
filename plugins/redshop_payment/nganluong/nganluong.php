@@ -110,7 +110,7 @@ class plgRedshop_PaymentNganluong extends JPlugin
 			$email,
 			'',
 			$orderCode,
-			2000,
+			$totalAmount,
 			Redshop::getConfig()->get('CURRENCY_CODE'),
 			$orderQuantity,
 			$taxAmount,
