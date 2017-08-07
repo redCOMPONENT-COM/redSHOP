@@ -1429,11 +1429,6 @@ class RedshopHelperOrder
 					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 
-				RedshopHelperUtility::getDispatcher()->trigger(
-					'onOrderCancelled',
-					array($orderId)
-				);
-
 				break;
 
 			// Returned
