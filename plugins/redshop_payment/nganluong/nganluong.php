@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -11,15 +11,26 @@ defined('_JEXEC') or die;
 // Load nganluong library
 require_once dirname(__DIR__) . '/nganluong/library/init.php';
 
+/**
+ * Nganluong payment class
+ *
+ * @package  Redshop.Plugin
+ *
+ * @since    1.0.0
+ */
 class plgRedshop_PaymentNganluong extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Constructor - note in Joomla 2.5 PHP4.x is no longer supported so we can use this.
 	 *
-	 * @var    boolean
-	 * @since  3.1
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 */
-	protected $autoloadLanguage = true;
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
 
 	/**
 	 * Get notify url for payment status update.
@@ -60,24 +71,19 @@ class plgRedshop_PaymentNganluong extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
-		if ($element != 'nganluong')
-		{
-			return;
-		}
-
 		$app = JFactory::getApplication();
 		$url = 'https://www.nganluong.vn/checkout.php';
 
 		if ($this->params->get('sandbox') == 1)
 		{
-			$url = 'http://sandbox.nganluong.vn:8088/nl30/checkout.php';
+			$url = 'https://sandbox.nganluong.vn:8088/nl30/checkout.php';
 		}
 
-		$merchantId = $this->params->get('nganluong_merchant_id');
+		$merchantId   = $this->params->get('nganluong_merchant_id');
 		$merchantPass = $this->params->get('nganluong_merchant_password');
-		$email = $this->params->get('nganluong_email');
+		$email        = $this->params->get('nganluong_email');
 
-		$nlCheckout                   = new NL_CheckOut;
+		$nlCheckout                   = new NL_Checkout;
 		$nlCheckout->nganluongUrl     = $url;
 		$nlCheckout->merchantSiteCode = $merchantId;
 		$nlCheckout->securePass       = $merchantPass;
@@ -87,24 +93,24 @@ class plgRedshop_PaymentNganluong extends JPlugin
 		$items            = array();
 		$orderCode        = $orderId;
 		$orderQuantity    = $data['order_quantity'];
-		$paymentType      = '';
-		$discountAmount   = $data['order']->order_discount;
+		$discountAmount   = $data['order']->order_discount ? $data['order']->order_discount : 0;
 		$orderDescription = $data['order']->customer_message;
-		$taxAmount        = $data['order']->order_tax;
-		$feeShipping      = $data['order']->order_shipping;
-		$returnUrl        = urlencode($this->getNotifyUrl($orderId));
-		$cancelUrl        = urlencode($this->getReturnUrl($orderId));
+		$taxAmount        = $data['order']->order_tax ? $data['order']->order_tax : 0;
+		$feeShipping      = $data['order']->order_shipping ? $data['order']->order_shipping : 0;
+		$returnUrl        = $this->getNotifyUrl($orderId);
+		$cancelUrl        = $this->getReturnUrl($orderId);
 		$buyerFullname    = $data['billinginfo']->firstname . ' ' . $data['billinginfo']->lastname;
 		$buyerEmail       = $data['billinginfo']->email;
 		$buyerMobile      = $data['billinginfo']->phone;
-		$buyerInfo        = $buyerFullname . "*|*" . $buyerEmail . "*|*" . $buyerMobile;
+		$buyerAddress     = $data['billinginfo']->address;
+		$buyerInfo        = $buyerFullname . "*|*" . $buyerEmail . "*|*" . $buyerMobile . "*|*" . $buyerAddress;
 
 		$nlResult = $nlCheckout->buildCheckoutUrlExpand(
 			$returnUrl,
 			$email,
 			'',
 			$orderCode,
-			$totalAmount,
+			2000,
 			Redshop::getConfig()->get('CURRENCY_CODE'),
 			$orderQuantity,
 			$taxAmount,
@@ -142,18 +148,36 @@ class plgRedshop_PaymentNganluong extends JPlugin
 		$input = $app->input;
 		$token = $input->getString('token');
 
-		$merchantId = $this->params->get('nganluong_merchant_id');
+		$transactionInfo = $input->getString('transaction_info', '');
+		$orderId         = $input->getInt('order_code', 0);
+		$price           = $input->getString('price', '');
+		$paymentId       = $input->getString('payment_id', '');
+		$paymentType     = $input->getString('payment_type', '');
+		$errorText       = $input->getString('error_text', '');
+		$secureCode      = $input->getString('secure_code', '');
+
+		$merchantId   = $this->params->get('nganluong_merchant_id');
 		$merchantPass = $this->params->get('nganluong_merchant_password');
-		$email = $this->params->get('nganluong_email');
-		$url = $this->params->get('nganluong_url_api');
+		$email        = $this->params->get('nganluong_email');
 
-		$nlCheckout       = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
-		$nlResult         = $nlCheckout->GetTransactionDetail($token);
-		$nlErrorCode      = (string) $nlResult->error_code;
+		$nlCheckout                   = new NL_Checkout;
+		$nlCheckout->merchantSiteCode = $merchantId;
+		$nlCheckout->securePass       = $merchantPass;
+
+		$checkPay = $nlCheckout->verifyPaymentUrl(
+			$transactionInfo,
+			$orderId,
+			$price,
+			$paymentId,
+			$paymentType,
+			$errorText,
+			$secureCode
+		);
+
 		$values           = new stdClass;
-		$values->order_id = (int) $nlResult->order_code;
+		$values->order_id = (int) $orderId;
 
-		if ($nlErrorCode == '00')
+		if ($checkPay)
 		{
 			$values->order_status_code         = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
@@ -165,7 +189,7 @@ class plgRedshop_PaymentNganluong extends JPlugin
 			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
-			$values->msg                       = $nlResult->error_message;
+			$values->msg                       = $errorText;
 		}
 
 		return $values;
