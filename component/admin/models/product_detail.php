@@ -342,20 +342,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 		elseif ($data['product_full_image'] != null)
 		{
-			$image_split = explode('/', $data['product_full_image']);
-			$image_name = $image_split[count($image_split) - 1];
-			$image_name = explode("_", $image_name, 2);
-
-			if (strlen($image_name[0]) == 10 && preg_match("/^(\d+)/", $image_name[0]))
-			{
-				$new_image_name = $image_name[1];
-			}
-			else
-			{
-				$new_image_name = $image_split[count($image_split) - 1];
-			}
-
-			$filename = $new_image_name;
+			$filename = basename($data['product_full_image']);
 			$row->product_full_image = $filename;
 
 			$src  = JPATH_ROOT . '/' . $data['product_full_image'];
@@ -1425,6 +1412,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$new_product_back_thumb_image = $this->changeCopyImageName($post['product_back_thumb_image']);
 			$new_product_preview_image = $this->changeCopyImageName($post['product_preview_image']);
 			$new_product_preview_back_image = $this->changeCopyImageName($post['product_preview_back_image']);
+			
+			// Prevent remove old images
+			if (isset($post['old_image']))
+			{
+				unset($post['old_image']);
+			}
 
 			if ($row = $this->store($post))
 			{
