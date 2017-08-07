@@ -854,20 +854,20 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	/**
 	 * Trigger after order cancelled
 	 *
-	 * @param   int  $orderId  Order Id
+	 * @param   object  $orderData  Order Id
+	 * @param   string  $status     New order status
 	 *
 	 * @return  void
 	 */
-	public function onOrderCancelled($orderId)
+	public function onAfterOrderStatusUpdate($orderData, $status)
 	{
-		$app        = JFactory::getApplication();
-		$orderData  = RedshopHelperOrder::getOrderDetail($orderId);
-		$trackingId = $orderData->track_no;
-
-		if ($orderData->order_status == 'X')
+		if ($status != 'X')
 		{
 			return;
 		}
+
+		$app        = JFactory::getApplication();
+		$trackingId = $orderData->track_no;
 
 		if (empty($trackingId))
 		{
