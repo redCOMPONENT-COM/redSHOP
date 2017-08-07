@@ -233,7 +233,10 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function searchCard($cardName = 'Sample Card', $functionName = 'Search')
     {
-        $this->search(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, $functionName);
+        $I=$this;
+        $I->filterListBySearching($cardName);
+        $I->seeElement(['link' => $cardName]);
+//        $this->search(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, $functionName);
     }
 
     /**
