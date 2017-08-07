@@ -348,6 +348,10 @@ class rsCarthelper
 					$shippingLayout = 'mail.shipping';
 				}
 
+				JPluginHelper::importPlugin('redshop_shipping');
+				$dispatcher = RedshopHelperUtility::getDispatcher();
+				$dispatcher->trigger('onBeforeRenderShippingAddress', array(&$shippingaddresses));
+
 				$shipadd = RedshopLayoutHelper::render(
 					$shippingLayout,
 					array('shippingaddresses' => $shippingaddresses),
@@ -2374,6 +2378,33 @@ class rsCarthelper
 			$replace[] = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
 		}
 
+		// Replace Tracking
+		$search[]      = "{tracking_number_lbl}";
+		$replace[]     = JText::_('COM_REDSHOP_ORDER_TRACKING_NUMBER');
+		$search[]      = "{tracking_number}";
+		$replace[]     = $row->track_no;
+		$orderTrackURL = '';
+
+		JPluginHelper::importPlugin('redshop_shipping');
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'onReplaceTrackingUrl',
+			array(
+				$row->order_id,
+				&$orderTrackURL
+			)
+		);
+
+		if ($row->track_no)
+		{
+			$search[]  = "{tracking_url}";
+			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+		}
+		else
+		{
+			$search[]  = "{tracking_url}";
+			$replace[] = "";
+		}
+
 		$search[]   = "{product_subtotal_excl_vat}";
 		$replace[]  = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
 		$search[]   = "{order_subtotal_excl_vat}";
@@ -3590,188 +3621,20 @@ class rsCarthelper
 		return RedshopHelperCartDiscount::applyCoupon($cartData);
 	}
 
-	public function voucher($v_data = array())
+	/**
+	 * Method for apply voucher to cart.
+	 *
+	 * @param   array  $cartData  Cart data
+	 *
+	 * @return  array|bool
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 *
+	 * @see  RedshopHelperCartDiscount::applyVoucher()
+	 */
+	public function voucher($cartData = array())
 	{
-		$voucher_code = JRequest::getVar('discount_code', '');
-		$return       = false;
-
-		if (count($v_data) <= 0)
-		{
-			$cart = $this->_session->get('cart');
-		}
-		else
-		{
-			$cart = $v_data;
-		}
-
-		if ($voucher_code != "")
-		{
-			$voucher = $this->getVoucherData($voucher_code);
-
-			if (count($voucher) > 0)
-			{
-				$return     = true;
-				$type       = $voucher->voucher_type;
-				$voucher_id = $voucher->voucher_id;
-				$counter    = 0;
-
-				foreach ($cart['voucher'] as $key => $val)
-				{
-					if ($val['voucher_code'] == $voucher_code)
-					{
-						$counter++;
-					}
-				}
-
-				if($voucher->voucher_left <= $counter)
-				{
-					return false;
-				}
-
-				if ($type == 'Percentage')
-				{
-					$dis_type = 1;
-				}
-				else
-				{
-					$dis_type = 0;
-				}
-
-				$productArr = array();
-				$product_id = $voucher->nproduct;
-				$productArr = $this->getCartProductPrice($product_id, $cart, $voucher->voucher_left);
-
-				if ($productArr['product_ids'] == '')
-				{
-					$return = false;
-				}
-
-				$product_price = $productArr['product_price'];
-
-				$p_quantity  = $productArr['product_quantity'];
-				$product_ids = $productArr['product_ids'];
-
-				if ($p_quantity > $voucher->voucher_left)
-				{
-					$p_quantity = $voucher->voucher_left;
-				}
-
-				if ($dis_type == 0)
-				{
-					$voucher->total *= $p_quantity;
-					$voucherValue = $voucher->total;
-				}
-				else
-				{
-					$voucherValue = ($product_price * $voucher->total) / (100);
-				}
-
-				$key = $this->rs_multi_array_key_exists('voucher', $cart);
-
-				if (!$key)
-				{
-					$voucherArr    = array();
-					$oldarr        = array();
-					$voucher_index = 0;
-				}
-				else
-				{
-					$oldarr        = $cart['voucher'];
-					$voucher_index = count($oldarr) + 1;
-				}
-
-				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-				{
-					$voucherValue = $this->calcAlreadyDiscount($voucherValue, $cart);
-				}
-
-				$remaining_voucher_discount = 0;
-
-				$totalDiscount = $cart['voucher_discount'] + $cart['cart_discount'] + $cart['coupon_discount'];
-				$tmpsubtotal   = $product_price - $cart['coupon_discount'] - $cart['cart_discount'];
-
-				if ($product_price < $voucherValue)
-				{
-					$remaining_voucher_discount = $voucherValue - $product_price;
-					$voucherValue               = $product_price;
-				}
-				elseif ($totalDiscount > $tmpsubtotal)
-				{
-					$remaining_voucher_discount = $voucherValue;
-					$voucherValue               = 0;
-				}
-
-				$valueExist = 0;
-
-				if (is_array($cart['voucher']))
-					$valueExist = $this->rs_recursiveArraySearch($cart['voucher'], $voucher_code);
-
-				switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
-				{
-					case 4:
-						if ($valueExist)
-						{
-							$return = true;
-						}
-						break;
-					case 3:
-						if ($valueExist && $key)
-						{
-							$return = false;
-						}
-						break;
-					case 2:
-						$couponKey = $this->rs_multi_array_key_exists('coupon', $cart);
-
-						if ($valueExist || $couponKey)
-						{
-							$return = false;
-						}
-						break;
-					case 1:
-					default:
-						$voucherArr = array();
-						$oldarr     = array();
-						unset($cart['coupon']);
-						$cart['cart_discount']    = 0;
-						$cart['coupon_discount']  = 0;
-						$cart['voucher_discount'] = 0;
-						$return                   = true;
-						break;
-				}
-
-				$transaction_voucher_id = 0;
-
-				if ($this->rs_multi_array_key_exists('transaction_voucher_id', $voucher))
-				{
-					$transaction_voucher_id = $voucher->transaction_voucher_id;
-				}
-
-				if ($return)
-				{
-					$voucherArr['voucher'][$voucher_index]['voucher_code']               = $voucher_code;
-					$voucherArr['voucher'][$voucher_index]['voucher_id']                 = $voucher_id;
-					$voucherArr['voucher'][$voucher_index]['product_id']                 = $product_ids;
-					$voucherArr['voucher'][$voucher_index]['used_voucher']               = $p_quantity;
-					$voucherArr['voucher'][$voucher_index]['voucher_value']              = $voucherValue;
-					$voucherArr['voucher'][$voucher_index]['remaining_voucher_discount'] = $remaining_voucher_discount;
-					$voucherArr['voucher'][$voucher_index]['transaction_voucher_id']     = $transaction_voucher_id;
-					$voucherArr['voucher']                                               = array_merge($voucherArr['voucher'], $oldarr);
-					$cart                                                                = array_merge($cart, $voucherArr);
-					$cart['free_shipping']                                               = $voucher->free_shipping;
-					$this->_session->set('cart', $cart);
-				}
-			}
-		}
-
-		if (!empty($v_data))
-		{
-			return $cart;
-		}
-		else
-		{
-			return $return;
-		}
+		return RedshopHelperCartDiscount::applyVoucher($cartData);
 	}
 
 	/**
@@ -3891,12 +3754,12 @@ class rsCarthelper
 						array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
-					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.voucher_id')
+					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.id')
 					->where('vt.voucher_code = ' . $db->quote($voucher_code))
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
-					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = ' . $db->getNullDate() . ' AND v.end_date = ' . $db->getNullDate() . '))')
+					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = "' . $db->getNullDate() . '" AND v.end_date = "' . $db->getNullDate() . '"))')
 					->where('vt.user_id = ' . (int) $user->id)
 					->order('vt.transaction_voucher_id DESC');
 				$db->setQuery($query);
@@ -3942,7 +3805,7 @@ class rsCarthelper
 
 		$current_time = JFactory::getDate()->toSql();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "voucher as v on v.voucher_id = pv.voucher_id "
+			. "left join " . $this->_table_prefix . "voucher as v on v.id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
 			. " AND v.code=" . $db->quote($voucher_code)
 			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
@@ -4078,7 +3941,7 @@ class rsCarthelper
 			$voucher_code = $cart['voucher'][$v]['voucher_code'];
 			unset($cart['voucher'][$v]);
 			$voucher_code = JRequest::setVar('discount_code', $voucher_code);
-			$cart         = $this->voucher($cart);
+			$cart         = RedshopHelperCartDiscount::applyVoucher($cart);
 		}
 
 		if (array_key_exists('voucher', $cart))
