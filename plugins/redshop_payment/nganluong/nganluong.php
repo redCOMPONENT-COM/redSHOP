@@ -71,6 +71,11 @@ class plgRedshop_PaymentNganluong extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
+		if ($element != 'nganluong')
+		{
+			return;
+		}
+
 		$app = JFactory::getApplication();
 		$url = 'https://www.nganluong.vn/checkout.php';
 
