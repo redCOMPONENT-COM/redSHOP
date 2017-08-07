@@ -21,7 +21,7 @@ class NL_Checkout
 	/**
 	 * Địa chỉ thanh toán hoá đơn của NgânLượng.vn
 	 *
-	 * @var  array
+	 * @var  string
 	 *
 	 * @since  2.0
 	 */
@@ -30,7 +30,7 @@ class NL_Checkout
 	/**
 	 * Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
 	 *
-	 * @var  array
+	 * @var  string
 	 *
 	 * @since  2.0
 	 */
@@ -39,7 +39,7 @@ class NL_Checkout
 	/**
 	 * Mật khẩu giao tiếp giữa website của bạn và NgânLượng.vn.Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
 	 *
-	 * @var  array
+	 * @var  string
 	 *
 	 * @since  2.0
 	 */
@@ -48,7 +48,7 @@ class NL_Checkout
 	/**
 	 * Nếu bạn thay đổi mật khẩu giao tiếp trong quản trị website của chức năng tích hợp thanh toán trên NgânLượng.vn, vui lòng update lại mật khẩu này trên website của bạn
 	 *
-	 * @var  array
+	 * @var  string
 	 *
 	 * @since  2.0
 	 */
