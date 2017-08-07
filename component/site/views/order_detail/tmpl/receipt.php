@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 $carthelper      = rsCarthelper::getInstance();
 $redconfig       = Redconfiguration::getInstance();
 $configobj       = Redconfiguration::getInstance();
@@ -17,9 +16,10 @@ $redTemplate     = Redtemplate::getInstance();
 $producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
 
+$app      = JFactory::getApplication();
 $db       = JFactory::getDbo();
 $url      = JURI::base();
-$Itemid = RedshopHelperUtility::getCheckoutItemId();
+$Itemid   = RedshopHelperUtility::getCheckoutItemId();
 $order_id = $app->input->getInt('oid');
 
 // For barcode
