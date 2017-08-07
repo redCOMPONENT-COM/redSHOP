@@ -223,11 +223,6 @@ class NL_Checkout
 		$verifySecureCode = md5($str);
 
 		// Xác thực mã của chủ web với mã trả về từ nganluong.vn
-		if ($verifySecureCode !== $secureCode)
-		{
-			return false;
-		}
-
-		return true;
+		return !($verifySecureCode !== $secureCode);
 	}
 }
