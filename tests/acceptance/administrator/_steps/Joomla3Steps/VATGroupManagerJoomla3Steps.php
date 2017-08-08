@@ -85,7 +85,8 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, "");
 		$I->click("Save & Close");
 		$I->click("Save");
-		$I->see("Field required: VAT / Tax Group Name", '.alert-error');
+		$I->waitForText(\VATGroupManagerJoomla3Page::$fieldMissing, 60, '.alert-error');
+		$I->waitForElement(\VATGroupManagerJoomla3Page::$VATGroupName, 30);
 	}
 
 	public function unpublishVATGroupsName($VATGroupName)
@@ -108,8 +109,6 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(3);
 		$I->see($VATGroupsName, \VATGroupManagerJoomla3Page::$VATGroupsNamePath);
 		$I->click(\VATGroupManagerJoomla3Page::$VATGroupNameStatus);
-
-
 	}
 
 	public function getVATGroupsState($VATGroupsName)
@@ -168,7 +167,8 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management New');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click("Save");
-		$I->see("Field required: VAT / Tax Group Name", '.alert-error');
+		$I->waitForText(\VATGroupManagerJoomla3Page::$fieldMissing, 60, '.alert-error');
+		$I->waitForElement(\VATGroupManagerJoomla3Page::$VATGroupName, 30);
 	}
 
 	public function deleteButton()
