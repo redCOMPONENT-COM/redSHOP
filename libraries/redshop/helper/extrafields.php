@@ -1178,87 +1178,144 @@ class RedshopHelperExtrafields
 			{
 				case extraField::TYPE_TEXT:
 					$extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField         .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.text',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				case extraField::TYPE_TEXT_AREA:
 					$extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField         .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.textarea',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				case extraField::TYPE_CHECK_BOX:
-					$fieldChk = self::getFieldValue($rowData[$i]->id);
-					$chkData  = @explode(",", $dataValue->data_txt);
-
+					$fieldChk        = self::getFieldValue($rowData[$i]->id);
+					$chkData         = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
 					$extraFieldValue = '';
 
-					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
+					foreach ($fieldChk as $key => $data)
 					{
-						if (@in_array($fieldChk[$c]->field_value, $chkData))
+						if (!in_array($data->field_value, $chkData))
 						{
-							$extraFieldValue .= $fieldChk[$c]->field_value;
+							continue;
 						}
+
+						$extraFieldValue .= $data->field_value;
 					}
 
-					$exField .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.checkbox',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				case extraField::TYPE_RADIO_BUTTON:
-					$fieldChk = self::getFieldValue($rowData[$i]->id);
-					$chkData  = @explode(",", $dataValue->data_txt);
-
+					$fieldChk        = self::getFieldValue($rowData[$i]->id);
+					$chkData         = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
 					$extraFieldValue = '';
 
-					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
+					foreach ($fieldChk as $key => $data)
 					{
-						if (@in_array($fieldChk[$c]->field_value, $chkData))
+						if (!in_array($data->field_value, $chkData))
 						{
-							$extraFieldValue .= $fieldChk[$c]->field_value;
+							continue;
 						}
+
+						$extraFieldValue .= $data->field_value;
 					}
 
-					$exField .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.radio',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				case extraField::TYPE_SELECT_BOX_SINGLE:
-					$fieldChk = self::getFieldValue($rowData[$i]->id);
-					$chkData  = @explode(",", $dataValue->data_txt);
-
+					$fieldChk        = self::getFieldValue($rowData[$i]->id);
+					$chkData         = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
 					$extraFieldValue = '';
 
-					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
+					foreach ($fieldChk as $key => $data)
 					{
-						if (@in_array($fieldChk[$c]->field_value, $chkData))
+						if (!in_array($data->field_value, $chkData))
 						{
-							$extraFieldValue .= $fieldChk[$c]->field_value;
+							continue;
 						}
+
+						$extraFieldValue .= $data->field_value;
 					}
 
-					$exField .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.select',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				case extraField::TYPE_SELECT_BOX_MULTIPLE:
-					$fieldChk = self::getFieldValue($rowData[$i]->id);
-					$chkData  = @explode(",", $dataValue->data_txt);
+					$fieldChk        = self::getFieldValue($rowData[$i]->id);
+					$chkData         = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
+					$extraFieldValue = array();
 
-					$extraFieldValue = '';
-
-					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
+					foreach ($fieldChk as $key => $data)
 					{
-						if (@in_array($fieldChk[$c]->field_value, $chkData))
+						if (!in_array($data->field_value, $chkData))
 						{
-							if ($c > 0)
-							{
-								$extraFieldValue .= "," . $fieldChk[$c]->field_value;
-							}
-							else
-							{
-								$extraFieldValue .= $fieldChk[$c]->field_value;
-							}
+							continue;
 						}
+
+						$extraFieldValue[] = $data->field_value;
 					}
 
-					$exField .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.multiple',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				case extraField::TYPE_SELECT_COUNTRY_BOX:
@@ -1270,13 +1327,33 @@ class RedshopHelperExtrafields
 						$extraFieldValue = $fieldChk->get('country_name');
 					}
 
-					$exField .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.country',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 
 				// 12 :- Date Picker
 				case extraField::TYPE_DATE_PICKER:
 					$extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField         .= $extraFieldValue;
+					$exField .= RedshopLayoutHelper::render(
+						'field_display.datepicker',
+						array(
+								'extraFieldLabel' => $extraFieldLabel,
+								'extraFieldValue' => $extraFieldValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
 					break;
 			}
 
@@ -1311,7 +1388,7 @@ class RedshopHelperExtrafields
 
 			return RedshopLayoutHelper::render(
 				$fieldLayout,
-				array('extra_field_label' => JText::_($extraFieldLabel), 'extra_field_value' => $exField),
+				array('extraFieldValue' => $exField),
 				null,
 				$client
 			);
