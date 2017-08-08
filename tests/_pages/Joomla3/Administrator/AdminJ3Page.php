@@ -144,6 +144,8 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $URL = '/index.php?option=com_redshop';
+
+	public static $URLLoginAdmin='/administrator/index.php';
 	/**
 	 * @var string
 	 */
