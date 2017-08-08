@@ -51,7 +51,7 @@ class GiftCardCheckoutProductCest
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = '24';
 		$this->minimumPerProduct = '1';
-		$this->minimumQuantity = $this->faker->numberBetween(1, 10);
+		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
 		$this->discountStart = "12-12-2016";
 		$this->discountEnd = "23-05-2017";
@@ -74,17 +74,18 @@ class GiftCardCheckoutProductCest
 		);
 
 	}
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
 
 	/**
 	 * Function install payment_paypal and enable
 	 */
 	public function enablePayment(AcceptanceTester $I, $scenario)
 	{
-		$I = new AcceptanceTester($scenario);
-
-		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
-		$I->doAdministratorLogin();
-		$I->amOnPage('/administrator/index.php');
+		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using paypal payment plugin for purchasing gift card');
+		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
 		$I->wait(3);
 		$I->click(\GiftCardCheckoutPage::$buttonStatic);
 		$I->wait(3);
@@ -105,7 +106,6 @@ class GiftCardCheckoutProductCest
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Category Save creation in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
 		$I->addCategorySave($this->categoryName);
@@ -119,7 +119,6 @@ class GiftCardCheckoutProductCest
 	public function createProductSave(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Save Manager in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
@@ -131,9 +130,6 @@ class GiftCardCheckoutProductCest
 	 */
 	public function createUser(AcceptanceTester $I, $scenario)
 	{
-		$I = new AcceptanceTester($scenario);
-		$I->doAdministratorLogin();
-
 		$I->wantTo('Test User creation in Administrator');
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
@@ -147,7 +143,6 @@ class GiftCardCheckoutProductCest
 	public function createGiftCard(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-		$I->doAdministratorLogin();
 		$I->wantTo('Test Gift Card creation in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->addCardNew($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity, 'save');
@@ -165,9 +160,8 @@ class GiftCardCheckoutProductCest
 	{
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$this->checkoutGiftCardWithAuthorizePayment($I, $scenario, $this->userInformation, $this->userInformation, $this->checkoutAccountInformation, $this->randomCardName);
+		$this->checkoutGiftCardWithAuthorizePayment($I, $this->userInformation, $this->randomCardName);
 	}
 
 	/**
@@ -179,7 +173,6 @@ class GiftCardCheckoutProductCest
 	public function changeStatusOrder(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
 		$I->editOrder($this->firstName, $this->status, $this->paymentStatus, $this->newQuantity);
 	}
@@ -195,7 +188,6 @@ class GiftCardCheckoutProductCest
 	public function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-		$I->doAdministratorLogin();
 		$I->amOnPage(\CouponManagerJ3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
@@ -206,7 +198,7 @@ class GiftCardCheckoutProductCest
 	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-		$this->checkoutProductWithCouponCode($I, $scenario, $this->userInformation, $this->userInformation, $this->productName, $this->categoryName, $this->couponCode);
+		$this->checkoutProductWithCouponCode($I, $this->productName, $this->categoryName, $this->couponCode);
 		$this->deleteGiftCard($I, $scenario);
 	}
 
@@ -222,7 +214,7 @@ class GiftCardCheckoutProductCest
 	 *
 	 * @return void
 	 */
-	private function checkoutGiftCardWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $giftCardName)
+	private function checkoutGiftCardWithAuthorizePayment(AcceptanceTester $I, $addressDetail, $giftCardName)
 	{
 		$I->doFrontEndLogin($this->userName, $this->password);
 		// here , can't get this link
@@ -275,10 +267,9 @@ class GiftCardCheckoutProductCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithCouponCode(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName, $categoryName, $couponCode)
+	private function checkoutProductWithCouponCode(AcceptanceTester $I, $productName, $categoryName, $couponCode)
 	{
-//		$I->doFrontEndLogin($this->userName, $this->password);
-		$I->doFrontEndLogin("admin", "admin");
+		$I->doFrontEndLogin($this->userName, $this->password);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
@@ -295,17 +286,16 @@ class GiftCardCheckoutProductCest
 		$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
 
-		$I->see("$ 24,00", \GiftCardCheckoutPage::$priceTotal);
-		$I->see("$ 10,00", \GiftCardCheckoutPage::$priceDiscount);
-		$I->see("$ 14,00", \GiftCardCheckoutPage::$priceEnd);
+		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
+		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
+		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
 	}
 
 	/**
 	 * Function to Test Gift Card Deletion
 	 *
 	 */
-	private
-	function deleteGiftCard(AcceptanceTester $I, $scenario)
+	private function deleteGiftCard(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Gift Card in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
