@@ -15,5 +15,13 @@ class VATGroupManagerJoomla3Page
 	public static $VATGroupNameStatus = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
 	public static $VATGroupManagementSearch = "#filter_search";
 
+	/**
+	 * @var string
+	 */
 	public static $fieldMissing = "Field required: VAT / Tax Group Name";
+
+	/**
+	 * @var string
+	 */
+	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
 }
