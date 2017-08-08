@@ -119,6 +119,7 @@ class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\OrderStatusJ3Page::$URL);
 		$I->filterListBySearching($nameStatus);
+		$I->checkAllResults();
 		$I->click(\OrderStatusJ3Page::$buttonDelete);
 		$I->see(\OrderStatusJ3Page::$messageItemDeleteSuccess, \OrderStatusJ3Page::$selectorSuccess);
 	}
