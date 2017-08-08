@@ -33,7 +33,7 @@ extract($displayData);
 			<input 
 				type="checkbox"
 				id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
-				name="<?php echo $rowData->name; ?>"
+				name="<?php echo $rowData->name; ?>[]"
 				class="<?php echo $rowData->class; ?>"
 				value="<?php echo urlencode($field->field_value); ?>"
 				<?php echo $required; ?>
