@@ -13,8 +13,9 @@ $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
 $url = JURI::base();
+$jinput = JFactory::getApplication()->input;
 
-$product_data = JRequest::getVar('product');
+$product_data = $jinput->get('product');
 $model = $this->getModel('rating_detail');
 $productHelper = productHelper::getInstance();
 ?>
@@ -202,8 +203,8 @@ $productHelper = productHelper::getInstance();
 
 	<div class="clr"></div>
 	<?php
-	if (JRequest::getVar('pid'))
-		$pid = JRequest::getVar('pid');
+	if ($jinput->get('pid'))
+		$pid = $jinput->get('pid');
 	else
 		$pid = $this->detail->product_id;
 	?>
