@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
+class plgRedshop_paymentrs_payment_gc_paydirekt extends JPlugin
 {
 	/**
 	 * Merchant ID
@@ -36,16 +36,14 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 	private $projectPassword;
 
 	/**
-	 * Constructor
+	 * [__construct description]
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param  [type]  &$subject  [description]
+	 * @param  array   $config    [description]
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_gc_creditcard');
+		JPlugin::loadLanguage('plgRedshop_paymentrs_payment_gc_paydirekt');
 		parent::__construct($subject, $config);
 
 		/**
@@ -70,7 +68,7 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
-		if ($element != 'rs_payment_gc_creditcard')
+		if ($element != 'rs_payment_gc_paydirekt')
 		{
 			return false;
 		}
@@ -80,22 +78,31 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 			$plugin = $element;
 		}
 
-		$jinput = JFactory::getApplication()->input;
+		$app    = JFactory::getApplication();
+		$jinput = $app->input;
+		$itemId = $jinput->getInt('Itemid');
 
-		$itemId  = $jinput->getInt('Itemid');
+		$amount = number_format($data['carttotal'], 2, '.', '') * 100;
 
-		$amount = $data['carttotal'];
+		$shippingInfo = $data['shippinginfo'];
 
-		$request = new GiroCheckout_SDK_Request('creditCardTransaction');
-		$request->setSecret($this->projectPassword);
-		$request->addParam('merchantId', $this->merchantID)
+		$request = new GiroCheckout_SDK_Request('paydirektTransaction');
+		$request->setSecret($this->projectPassword)
+			->addParam('merchantId', $this->merchantID)
 			->addParam('projectId', $this->projectID)
 			->addParam('merchantTxId', $data['order_id'])
-			->addParam('amount', number_format($amount, 2, '.', '') * 100)
+			->addParam('amount', $amount)
 			->addParam('currency', RedshopHelperCurrency::getISOCode(Redshop::getConfig()->get('CURRENCY_CODE')))
 			->addParam('purpose', 'Beispieltransaktion')
-			->addParam('urlRedirect', JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_gc_creditcard&orderid=" . $data['order_id'] . "&Itemid=" . $itemId)
-			->addParam('urlNotify', JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_gc_creditcard&orderid=" . $data['order_id'] . "&Itemid=" . $itemId)
+			->addParam('shippingAddresseFirstName', $shippingInfo->firstname)
+			->addParam('shippingAddresseLastName', $shippingInfo->lastname)
+			->addParam('shippingEmail', $shippingInfo->email)
+			->addParam('shippingZipCode', $shippingInfo->zipcode)
+			->addParam('shippingCity', $shippingInfo->city)
+			->addParam('shippingCountry', $shippingInfo->country_2_code)
+			->addParam('orderId', $data['order_id'])
+			->addParam('urlRedirect', JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_gc_paydirekt&orderid=" . $data['order_id'] . "&Itemid=" . $itemId)
+			->addParam('urlNotify', JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_gc_paydirekt&orderid=" . $data['order_id'] . "&Itemid=" . $itemId)
 			->submit();
 
 		// If transaction succeeded update your local system an redirect the customer
@@ -114,12 +121,17 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 		}
 	}
 
-	/*
-	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
+	/**
+	 * [onNotifyPaymentrs_payment_gc_paydirekt description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $request  [description]
+	 *
+	 * @return  [type]            [description]
 	 */
-	public function onNotifyPaymentrs_payment_gc_creditcard($element, $request)
+	public function onNotifyPaymentrs_payment_gc_paydirekt($element, $request)
 	{
-		if ($element != 'rs_payment_gc_creditcard')
+		if ($element != 'rs_payment_gc_paydirekt')
 		{
 			return false;
 		}
@@ -148,7 +160,8 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 			)
 		);
 
-		$notify = new GiroCheckout_SDK_Notify('creditCardTransaction');
+
+		$notify = new GiroCheckout_SDK_Notify('paydirektTransaction');
 		$notify->setSecret($this->projectPassword);
 		$notify->parseNotification($inputValues);
 
