@@ -7,14 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+$jinput = JFactory::getApplication()->input;
 
-$filter = JRequest::getVar('filter');
+$filter = $jinput->get('filter');
 
 //Ordering allowed ?
 
 $pagination = $this->pagination;
 $ordering = ($this->lists['order'] == 'ordering');
-$field_section_drop = JRequest::getVar('field_section_drop');
+$field_section_drop = $jinput->get('field_section_drop');
 ?>
 <script language="javascript" type="text/javascript">
 
