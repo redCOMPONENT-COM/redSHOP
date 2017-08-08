@@ -12,7 +12,7 @@ class VATGroupManagerJoomla3Page
 	public static $VATGroupName = "#jform_name";
 	public static $CheckAllVATGroup = "//input[@onclick='Joomla.checkAll(this)']";
 	public static $VATGroupsNamePath = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[4]/a";
-	public static $VATGroupNameStatus = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[3]/a";
+	public static $VATGroupNameStatus = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[5]/a";
 	public static $VATGroupManagementSearch = "#filter_search";
 
 	/**

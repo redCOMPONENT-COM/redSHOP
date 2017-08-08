@@ -121,6 +121,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(3);
 		$I->see($VATGroupsName, \VATGroupManagerJoomla3Page::$resultRow);
 		$text = $I->grabAttributeFrom(\VATGroupManagerJoomla3Page::$VATGroupNameStatus, 'onclick');
+
 		if (strpos($text, 'unpublish') > 0)
 		{
 			$result = 'published';
