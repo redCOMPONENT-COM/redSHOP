@@ -165,8 +165,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
 		$client->pressKey(\TaxGroupPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($VATGroupsName, \TaxGroupPage::$pathName);
-
-
 	}
 
 	public function addVATGroupsMissingName()
@@ -187,7 +185,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->see(\TagGroupPage::$namePage, \TaxGroupPage::$selectorPageTitle);
+		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$selectorPageTitle);
 	}
 
 	public function publishButton()
@@ -196,7 +194,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->click(\TaxGroupPage::$buttonPublish);
 		$client->acceptPopup();
-		$client->see(\TagGroupPage::$namePage, \TaxGroupPage::$selectorPageTitle);
+		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$selectorPageTitle);
 	}
 
 	public function publishAllGroups()
