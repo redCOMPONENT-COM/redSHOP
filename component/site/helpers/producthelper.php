@@ -7581,6 +7581,7 @@ class productHelper
 	 * @param   int    $order_id
 	 * @param   int    $section_id
 	 *
+	 * @return  boolean
 	 *
 	 * @since  2.0.7
 	 */
@@ -7590,6 +7591,11 @@ class productHelper
 		$query = $db->getQuery(true);
 
 		$rows = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
+
+		if (empty($rows))
+		{
+			return false;
+		}
 
 		foreach ($rows as $row)
 		{
@@ -7605,13 +7611,13 @@ class productHelper
 				);
 
 				// @TODO Consider to use object or JTable instead ( in another PR )
-				$query->insert($db->quoteName('#__redshop_fields_data'))
-					->columns($db->quoteName(array('fieldid','data_txt','itemid','section')))
-					->values(implode(', ', $values));
-
-				$db->setQuery($query)->execute();
+				$query->values(implode(', ', $values));
 			}
 		}
+
+		$query->insert($db->quoteName('#__redshop_fields_data'))
+			->columns($db->quoteName(array('fieldid','data_txt','itemid','section')));
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
@@ -7636,14 +7642,7 @@ class productHelper
 			}
 		}
 
-		$resultStr = "";
-
-		if (count($resultArr) > 0)
-		{
-			$resultStr = implode("<br/>", $resultArr);
-		}
-
-		return $resultStr;
+		return !empty($resultArr) ? implode("<br/>", $resultArr) : '';
 	}
 
 	/**
