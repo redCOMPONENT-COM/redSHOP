@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -11,15 +11,55 @@ defined('_JEXEC') or die;
 // Load nganluong library
 require_once dirname(__DIR__) . '/nganluong/library/init.php';
 
-class plgRedshop_PaymentNganluong extends RedshopPayment
+/**
+ * Nganluong payment class
+ *
+ * @package  Redshop.Plugin
+ *
+ * @since    1.0.0
+ */
+class plgRedshop_PaymentNganluong extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Constructor - note in Joomla 2.5 PHP4.x is no longer supported so we can use this.
 	 *
-	 * @var    boolean
-	 * @since  3.1
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 */
-	protected $autoloadLanguage = true;
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
+	 * Get notify url for payment status update.
+	 *
+	 * @param   integer  $orderId  Order Id
+	 *
+	 * @return  string             Notify url
+	 */
+	protected function getNotifyUrl($orderId)
+	{
+		return JUri::base()
+				. 'index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=' . $this->_name
+				. '&orderid=' . $orderId
+				. '&Itemid=' . JFactory::getApplication()->input->getInt('Itemid');
+	}
+
+	/**
+	 * Get return url of for the payment.
+	 *
+	 * @param   integer  $orderId  Order Id
+	 *
+	 * @return  string   Return Url
+	 */
+	protected function getReturnUrl($orderId)
+	{
+		return JUri::base()
+				. 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $orderId
+				. '&Itemid=' . JFactory::getApplication()->input->getInt('Itemid');
+	}
 
 	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card
@@ -27,7 +67,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 	 * @param   string  $element  Name of the payment plugin
 	 * @param   array   $data     Cart Information
 	 *
-	 * @return  object  Authorize or Charge success or failed message and transaction id
+	 * @return  mixed
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -36,108 +76,59 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			return;
 		}
 
-		echo $this->renderPaymentForm($data);
-	}
+		$app = JFactory::getApplication();
+		$url = 'https://www.nganluong.vn/checkout.php';
 
-	/**
-	 * Prepare Payment Input
-	 *
-	 * @param   array  $orderInfo  Order Information
-	 *
-	 * @return  array  Payment Gateway for parameters
-	 */
-	protected function preparePaymentInput($orderInfo)
-	{
-		$inputs = array(
-				'action' 	  => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=process_payment&payment_method_id=nganluong&order_id=" . $orderInfo['order_id'],
-				'firstname'   => $orderInfo['billinginfo']->firstname,
-				'lastname'    => $orderInfo['billinginfo']->lastname,
-				'email'       => $orderInfo['billinginfo']->user_email,
-				'url'         => $this->getReturnUrl($orderInfo['order_id']),
-				'urlc'        => $this->getNotifyUrl($orderInfo['order_id']),
-				'phone'       => $orderInfo['billinginfo']->phone,
-				'street'      => $orderInfo['billinginfo']->address,
-			);
-
-		return $inputs;
-	}
-
-	/**
-	 * Notify payment
-	 *
-	 * @param   string  $element  Name of plugin
-	 * @param   array   $request  HTTP request data
-	 *
-	 * @return  object  Contains the information of order success of falier in object
-	 */
-	public function onPrePayment_Nganluong($element, $request)
-	{
-		if ($element != 'nganluong')
+		if ($this->params->get('sandbox') == 1)
 		{
-			return;
+			$url = 'https://sandbox.nganluong.vn:8088/nl30/checkout.php';
 		}
 
-		$app         = JFactory::getApplication();
-		$input       = $app->input;
-		$orderHelper = order_functions::getInstance();
-		$orderId     = $input->getInt('order_id');
-		$order       = $orderHelper->getOrderDetails($orderId);
-		$price       = $order->order_total;
-
-		$merchantId = $this->params->get('nganluong_merchant_id');
+		$merchantId   = $this->params->get('nganluong_merchant_id');
 		$merchantPass = $this->params->get('nganluong_merchant_password');
-		$email = $this->params->get('nganluong_email');
-		$url = $this->params->get('nganluong_url_api');
+		$email        = $this->params->get('nganluong_email');
 
-		$nlCheckout = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
-		$totalAmount = $price;
-		$items = array();
-		$paymentMethod = $input->post->get('option_payment');
-		$bankCode = $input->post->get('bankcode');
-		$orderCode = $orderId;
-		$paymentType = '';
-		$discountAmount = $order->order_discount;
-		$orderDescription = '';
-		$taxAmount = $order->order_tax;
-		$feeshipping = $order->order_shipping;
-		$returnUrl = urlencode($this->getNotifyUrl($orderId));
-		$cancelUrl = urlencode($this->getReturnUrl($orderId));
+		$nlCheckout                   = new NL_Checkout;
+		$nlCheckout->nganluongUrl     = $url;
+		$nlCheckout->merchantSiteCode = $merchantId;
+		$nlCheckout->securePass       = $merchantPass;
 
-		$buyerFullname = $input->post->get('fullname');
-		$buyerEmail = $input->post->get('email');
-		$buyerMobile = $input->post->get('phone');
-		$buyerAddress = $input->post->get('address');
+		$orderId          = $data['order']->order_id;
+		$totalAmount      = $data['order']->order_total;
+		$items            = array();
+		$orderCode        = $orderId;
+		$orderQuantity    = $data['order_quantity'];
+		$orderDescription = $data['order']->customer_message;
+		$returnUrl        = $this->getNotifyUrl($orderId);
+		$cancelUrl        = $this->getReturnUrl($orderId);
+		$buyerFullname    = $data['billinginfo']->firstname . ' ' . $data['billinginfo']->lastname;
+		$buyerEmail       = $data['billinginfo']->email;
+		$buyerMobile      = $data['billinginfo']->phone;
+		$buyerAddress     = $data['billinginfo']->address;
+		$buyerInfo        = $buyerFullname . "*|*" . $buyerEmail . "*|*" . $buyerMobile . "*|*" . $buyerAddress;
 
-		if (!empty($paymentMethod) && !empty($buyerEmail) && !empty($buyerMobile) && !empty($buyerFullname))
+		$nlResult = $nlCheckout->buildCheckoutUrlExpand(
+			$returnUrl,
+			$email,
+			'',
+			$orderCode,
+			$totalAmount,
+			Redshop::getConfig()->get('CURRENCY_CODE'),
+			$orderQuantity,
+			0,
+			0,
+			0,
+			0,
+			$orderDescription,
+			$buyerInfo,
+			''
+		);
+
+		if (!empty($orderId))
 		{
-			if ($paymentMethod == "VISA")
-			{
-				$nlResult = $nlCheckout->VisaCheckout($orderCode, $totalAmount, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items, $bankCode);
-			}
-			elseif ($paymentMethod == "NL")
-			{
-				$nlResult = $nlCheckout->NLCheckout($orderCode, $totalAmount, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
-			}
-			elseif ($paymentMethod == "ATM_ONLINE" && !empty($bankCode))
-			{
-				$nlResult = $nlCheckout->BankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
-			}
-			elseif ($paymentMethod == "NH_OFFLINE")
-			{
-				$nlResult = $nlCheckout->officeBankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
-			}
-			elseif ($paymentMethod == "ATM_OFFLINE")
-			{
-				$nlResult = $nlCheckout->BankOfflineCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
-			}
-			elseif ($paymentMethod == "IB_ONLINE")
-			{
-				$nlResult = $nlCheckout->IBCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
-			}
+			$nlResult .= '&cancel_url=' . $cancelUrl;
+			$app->redirect($nlResult);
 		}
-
-		$redirect   = (string) $nlResult->checkout_url;
-		$app->redirect($redirect);
 	}
 
 	/**
@@ -159,18 +150,36 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 		$input = $app->input;
 		$token = $input->getString('token');
 
-		$merchantId = $this->params->get('nganluong_merchant_id');
+		$transactionInfo = $input->getString('transaction_info', '');
+		$orderId         = $input->getInt('order_code', 0);
+		$price           = $input->getString('price', '');
+		$paymentId       = $input->getString('payment_id', '');
+		$paymentType     = $input->getString('payment_type', '');
+		$errorText       = $input->getString('error_text', '');
+		$secureCode      = $input->getString('secure_code', '');
+
+		$merchantId   = $this->params->get('nganluong_merchant_id');
 		$merchantPass = $this->params->get('nganluong_merchant_password');
-		$email = $this->params->get('nganluong_email');
-		$url = $this->params->get('nganluong_url_api');
+		$email        = $this->params->get('nganluong_email');
 
-		$nlCheckout       = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
-		$nlResult         = $nlCheckout->GetTransactionDetail($token);
-		$nlErrorCode      = (string) $nlResult->error_code;
+		$nlCheckout                   = new NL_Checkout;
+		$nlCheckout->merchantSiteCode = $merchantId;
+		$nlCheckout->securePass       = $merchantPass;
+
+		$checkPay = $nlCheckout->verifyPaymentUrl(
+			$transactionInfo,
+			$orderId,
+			$price,
+			$paymentId,
+			$paymentType,
+			$errorText,
+			$secureCode
+		);
+
 		$values           = new stdClass;
-		$values->order_id = (int) $nlResult->order_code;
+		$values->order_id = (int) $orderId;
 
-		if ($nlErrorCode == '00')
+		if ($checkPay)
 		{
 			$values->order_status_code         = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
@@ -182,7 +191,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
-			$values->msg                       = $nlResult->error_message;
+			$values->msg                       = $errorText;
 		}
 
 		return $values;
