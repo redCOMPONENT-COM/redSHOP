@@ -98,10 +98,7 @@ class plgRedshop_PaymentNganluong extends JPlugin
 		$items            = array();
 		$orderCode        = $orderId;
 		$orderQuantity    = $data['order_quantity'];
-		$discountAmount   = $data['order']->order_discount ? $data['order']->order_discount : 0;
 		$orderDescription = $data['order']->customer_message;
-		$taxAmount        = $data['order']->order_tax ? $data['order']->order_tax : 0;
-		$feeShipping      = $data['order']->order_shipping ? $data['order']->order_shipping : 0;
 		$returnUrl        = $this->getNotifyUrl($orderId);
 		$cancelUrl        = $this->getReturnUrl($orderId);
 		$buyerFullname    = $data['billinginfo']->firstname . ' ' . $data['billinginfo']->lastname;
@@ -118,10 +115,10 @@ class plgRedshop_PaymentNganluong extends JPlugin
 			$totalAmount,
 			Redshop::getConfig()->get('CURRENCY_CODE'),
 			$orderQuantity,
-			$taxAmount,
-			$discountAmount,
 			0,
-			$feeShipping,
+			0,
+			0,
+			0,
 			$orderDescription,
 			$buyerInfo,
 			''
