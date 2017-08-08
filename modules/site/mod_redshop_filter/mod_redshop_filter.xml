@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_FILTER</name>
-    <version>1.1.0</version>
-    <redshop>2.0.0.4</redshop>
-    <creationDate>July 2017</creationDate>
+    <version>1.0.0</version>
+    <redshop>2.0.6</redshop>
+    <creationDate>Nov 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>MOD_REDSHOP_FILTER_DESC</description>
     <files>
+        <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename module="mod_redshop_filter">mod_redshop_filter.php</filename>
         <folder>tmpl</folder>
@@ -23,77 +24,92 @@
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
+                <field 
+                    name="moduleclass_sfx" 
+                    type="text" 
+                    default="" 
+                    label="MOD_REDSHOP_FILTER_CLASS_SUFFIX"
+                    description="MOD_REDSHOP_FILTER_CLASS_SUFFIX_DESC"/>
+                <field 
+                    name="limit" 
+                    type="number" 
+                    default="" 
+                    label="MOD_REDSHOP_FILTER_LIMIT"
+                    description="MOD_REDSHOP_FILTER_LIMIT_DESC"/>
+                <field 
+                    name="template_id" 
+                    type="sql" 
+                    label="MOD_REDSHOP_FILTER_TEMPLATE"
+                    query="SELECT template_id, template_name FROM #__redshop_template WHERE published = 1 AND template_section = 'category'" 
+                    key_field="template_id"
+                    value_field="template_name"/>
                 <field
-                        name="moduleclass_sfx"
-                        type="text" default=""
-                        label="MOD_REDSHOP_FILTER_CLASS_SUFFIX"
-                        description="MOD_REDSHOP_FILTER_CLASS_SUFFIX_DESC"
-                />
+                    name="root_category"
+                    type="redshopcategory"
+                    default=""
+                    label="MOD_REDSHOP_FILTER_ROOT_CATEGORY"
+                    required="false"
+                    description="MOD_REDSHOP_FILTER_ROOT_CATEGORY_DESC"
+                    multiple="false"
+                    />
                 <field
-                        name="template_id"
-                        type="sql"
-                        label="MOD_REDSHOP_FILTER_TEMPLATE"
-                        query="SELECT template_id, template_name FROM #__redshop_template WHERE published = 1 AND template_section = 'redproductfinder'"
-                        key_field="template_id"
-                        value_field="template_name"
-                />
-                <field
-                        name="root_category"
-                        type="redshopcategory"
-                        default=""
-                        label="MOD_REDSHOP_FILTER_ROOT_CATEGORY"
-                        required="false"
-                        description="MOD_REDSHOP_FILTER_ROOT_CATEGORY_DESC"
-                        multiple="false"
-                />
-                <field
-                        name="category_for_sale"
-                        type="redshopcategory"
-                        default=""
-                        label="MOD_REDSHOP_FILTER_CATEGORY_FOR_SALE"
-                        required="false"
-                        description="MOD_REDSHOP_FILTER_CATEGORY_FOR_SALE_DESC"
-                        multiple="false"
-                />
-                <field
-                        name="keyword"
-                        type="radio"
-                        class="btn-group"
-                        default="0"
-                        label="MOD_REDSHOP_FILTER_ENABLE_KEYWORD"
-                        description="MOD_REDSHOP_FILTER_ENABLE_KEYWORD_DESC">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
+                    name="keyword"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="MOD_REDSHOP_FILTER_ENABLE_KEYWORD"
+                    description="MOD_REDSHOP_FILTER_ENABLE_KEYWORD_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
                 </field>
                 <field
-                        name="category"
-                        type="radio"
-                        class="btn-group"
-                        default="0"
-                        label="MOD_REDSHOP_FILTER_ENABLE_CATEGORY"
-                        description="MOD_REDSHOP_FILTER_ENABLE_CATEGORY_DESC">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
+                    name="category"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="MOD_REDSHOP_FILTER_ENABLE_CATEGORY"
+                    description="MOD_REDSHOP_FILTER_ENABLE_CATEGORY_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
                 </field>
                 <field
-                        name="manufacturer"
-                        type="radio"
-                        class="btn-group"
-                        default="0"
-                        label="MOD_REDSHOP_FILTER_ENABLE_MANUFACTURER"
-                        description="MOD_REDSHOP_FILTER_ENABLE_MANUFACTURER_DESC">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
+                    name="manufacturer"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="MOD_REDSHOP_FILTER_ENABLE_MANUFACTURER"
+                    description="MOD_REDSHOP_FILTER_ENABLE_MANUFACTURER_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
                 </field>
                 <field
-                        name="price"
-                        type="radio"
-                        class="btn-group"
-                        default="0"
-                        label="MOD_REDSHOP_FILTER_ENABLE_PRICE"
-                        description="MOD_REDSHOP_FILTER_ENABLE_PRICE_DESC">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
+                    name="price"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="MOD_REDSHOP_FILTER_ENABLE_PRICE"
+                    description="MOD_REDSHOP_FILTER_ENABLE_PRICE_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
+                </field>
+                <field
+                    name="custom_field"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="MOD_REDSHOP_FILTER_ENABLE_CUSTOM_FIELD"
+                    description="MOD_REDSHOP_FILTER_ENABLE_CUSTOM_FIELD_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
+                </field>
+                <field
+                    name="product_fields"
+                    type="extrafields"
+                    class="btn-group"
+                    field_type="3,4,5,6"
+                    multiple="true"
+                    label="MOD_REDSHOP_FILTER_PRODUCT_FIELD"
+                    description="MOD_REDSHOP_FILTER_PRODUCT_FIELD_DESC">
                 </field>
             </fieldset>
         </fields>

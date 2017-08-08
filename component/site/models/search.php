@@ -1227,6 +1227,7 @@ class RedshopModelSearch extends RedshopModel
 		$categories      = !empty($pk['category']) ? $pk['category'] : array();
 		$manufacturers   = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
 		$keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
+		$customField     = !empty($pk['custom_field']) ? $pk['custom_field'] : "";
 
 		if (isset($pk["filterprice"]))
 		{
@@ -1282,7 +1283,11 @@ class RedshopModelSearch extends RedshopModel
 			$comparePrice         = $db->qn('p.product_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.product_price') . ' <= ' . $db->q(($max));
 			$compareDiscountPrice = $db->qn('p.discount_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.discount_price') . ' <= ' . $db->q(($max));
 			$saleTime             = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
-			$query->where('IF(' . $db->qn('p.product_on_sale') . ' = 1 && UNIX_TIMESTAMP() BETWEEN ' . $saleTime . ', ' . $compareDiscountPrice . ', ' . $comparePrice . ')');
+			$query->where('( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
+				. $saleTime . ') THEN ('
+				. $compareDiscountPrice . ') ELSE ('
+				. $comparePrice . ') END )'
+			);
 		}
 
 		if (!empty($keyword))
@@ -1304,6 +1309,24 @@ class RedshopModelSearch extends RedshopModel
 			$childCat[] = $value->id;
 		}
 
+		if (!empty($customField))
+		{
+			$key = 0;
+
+			foreach ($customField as $fieldId => $fieldValues)
+			{
+				if (empty($fieldValues))
+				{
+					continue;
+				}
+
+				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
+					->where('CONCAT(",", ' . $db->qn('fd' . $key . '.data_txt') . ', ",") REGEXP ",' . implode("|", $fieldValues) . ',"')
+					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
+				$key++;
+			}
+		}
+
 		if (!empty($categoryForSale) && in_array($cid, $childCat))
 		{
 			if (!empty($categories))
@@ -1319,12 +1342,12 @@ class RedshopModelSearch extends RedshopModel
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
 			}
-            elseif (!empty($cid) || !empty($categories))
+			elseif (!empty($cid) || !empty($categories))
 			{
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
 		}
-        elseif (!empty($cid) || !empty($categories))
+		elseif (!empty($cid) || !empty($categories))
 		{
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
@@ -1333,7 +1356,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query->where($db->qn("p.manufacturer_id") . " IN (" . implode(',', $manufacturers) . ')');
 		}
-        elseif ($mid)
+		elseif ($mid)
 		{
 			$query->where($db->qn("p.manufacturer_id") . "=" . $db->q((int) $mid));
 		}
@@ -1368,7 +1391,7 @@ class RedshopModelSearch extends RedshopModel
 		$templateId = $this->getState('template_id');
 
 		$redTemplate  = Redtemplate::getInstance();
-		$templateArr  = $redTemplate->getTemplate("redproductfinder", $templateId);
+		$templateArr  = $redTemplate->getTemplate("category", $templateId);
 		$templateDesc = $templateArr[0]->template_desc;
 
 		if ($templateDesc)

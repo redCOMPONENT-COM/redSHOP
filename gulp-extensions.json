@@ -145,7 +145,9 @@
       "bundle",
       "canonical",
       "CreateColorImage",
+      "custom_field_mapping",
       "discount_affect_attribute",
+      "gift",
       "google_microdata",
       "invoicepdf",
       "postdanmark",
@@ -153,9 +155,7 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "discount_affect_attribute",
-      "bundle",
-      "gift"
+      "sync_b2b"
     ],
     "redshop_product_type": [
       "bundle",
@@ -167,6 +167,7 @@
       "default_shipping_gls",
       "default_shipping_glsbusiness",
       "fedex",
+      "giaohangnhanh",
       "postdanmark",
       "self_pickup",
       "shipper",
