@@ -70,11 +70,13 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 		$lists['use_to_all'] = JHTML::_('select.booleanlist', 'wrapper_use_to_all', 'class="inputbox"', $detail->wrapper_use_to_all);
 		$product_id = 0;
 
-		$showall = JRequest::getVar('showall', '0');
+		$jinput = JFactory::getApplication()->input;
+
+		$showall = $jinput->get('showall', '0');
 
 		if ($showall)
 		{
-			$product_id = JRequest::getVar('product_id');
+			$product_id = $jinput->get('product_id');
 		}
 
 		$category = $model->getCategoryInfo();

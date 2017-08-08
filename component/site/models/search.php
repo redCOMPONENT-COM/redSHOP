@@ -1314,6 +1314,7 @@ class RedshopModelSearch extends RedshopModel
 		if (!empty($customField))
 		{
 			$key = 0;
+			$subQuery = array();
 
 			foreach ($customField as $fieldId => $fieldValues)
 			{
@@ -1322,10 +1323,16 @@ class RedshopModelSearch extends RedshopModel
 					continue;
 				}
 
+				$subQuery[] = $db->qn('fd' . $key . '.data_txt') . ' IN ("' . implode('","', $fieldValues) . '")';
+
 				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
-					->where('CONCAT(",", ' . $db->qn('fd' . $key . '.data_txt') . ', ",") REGEXP ",' . implode("|", $fieldValues) . ',"')
 					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
 				$key++;
+			}
+
+			if (!empty($subQuery))
+			{
+				$query->where(implode(' OR ', $subQuery));
 			}
 		}
 
