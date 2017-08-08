@@ -111,7 +111,6 @@ class ManagerVATGroupAdministratorCest
 		$I->wantTo('Unpublish all VAT/tax Group in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Unpublish all VAT/tax Group a Category');
 		$I->unpublishAllGroups();
 		$I->see("VAT / Tax Group Management", '.page-title');
 	}
@@ -122,17 +121,15 @@ class ManagerVATGroupAdministratorCest
 		$I->wantTo('Publish all VAT/tax Group in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Publish all VAT/tax Group a Category');
 		$I->publishAllGroups();
 		$I->see("VAT / Tax Group Management", '.page-title');
 	}
 
 	public function unpublishVATGroupsWithName(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('UnPublish  VAT/tax Group in Administrator');
+		$I->wantTo('UnPublish all VAT/tax Group in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Unpublish all VAT/tax Group a Category');
 		$I->changeVATGroupState($this->VATGroupNameSaveClose);
 		$currentState = $I->getVATGroupsState($this->VATGroupNameSaveClose);
 		$I->verifyState('unpublished', $currentState);
@@ -140,19 +137,17 @@ class ManagerVATGroupAdministratorCest
 
 	public function publishAllVATGroupsWithName(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Publish  VAT/tax Group in Administrator');
+		$I->wantTo('Publish all VAT/tax Group in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Publish  VAT/tax Group a Category');
 		$I->changeVATGroupState($this->VATGroupNameSaveClose);
 		$currentState = $I->getVATGroupsState($this->VATGroupNameSaveClose);
 		$I->verifyState('published', $currentState);
 	}
 
-
 	public function deleteVATGroupCancel(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Publish  VAT/tax Group in Administrator');
+		$I->wantTo('Delete VAT/tax Group - Cancel in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
 		$I->wantTo('Publish  VAT/tax Group a Category');
@@ -161,19 +156,17 @@ class ManagerVATGroupAdministratorCest
 
 	public function deleteVATGroupOK(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Publish  VAT/tax Group in Administrator');
+		$I->wantTo('Delete VAT/tax Group - OK in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Publish  VAT/tax Group a Category');
 		$I->deleteVATGroupOK($this->VATGroupNameSaveClose);
 	}
 
 	public function addVATGroupsMissingName(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test VAT Groups  Save creation in Administrator');
+		$I->wantTo('Test VAT Groups  Save (Missing Name) creation in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Create VAT groups  Save button');
 		$I->addVATGroupsMissingName();
 	}
 }
