@@ -53,6 +53,7 @@ gulp.task("release:md5:generate", function(){
         "./*(install.php|LICENSE.txt|redshop.xml)",
         "./modules/site/mod_redshop_cart/**",
         "./plugins/system/redshop/**",
+        "./plugins/system/redgoogleanalytics/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
         "./plugins/finder/redshop/**",
