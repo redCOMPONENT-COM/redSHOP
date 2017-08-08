@@ -56,8 +56,8 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management: [ Edit ]');
 		$I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, $VATGroupEdit);
 		$I->click("Save");
-		$I->waitForText("item saved.", 60, '.alert-success');
-		$I->see("item saved.", '.alert-success');
+		$I->waitForText("Item saved.", 60, '.alert-success');
+		$I->see("Item saved.", '.alert-success');
 	}
 
 
@@ -72,8 +72,8 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management: [ Edit ]');
 		$I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, $VATGroupEdit);
 		$I->click("Save & Close");
-		$I->waitForText("item saved.", 60, '.alert-success');
-		$I->see("item saved.", '.alert-success');
+		$I->waitForText("Item saved.", 60, '.alert-success');
+		$I->see("Item saved.", '.alert-success');
 	}
 
 	public function editVATGroupsWithoutName($VATGroupName)
