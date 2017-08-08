@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Redshop\Plugin\Export;
-use Redshop\Ajax\Response;
 
 JLoader::import('redshop.library');
 
@@ -24,7 +23,7 @@ class PlgRedshop_ExportProduct_Stockroom_Data extends Export\AbstractBase
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 *
@@ -40,7 +39,7 @@ class PlgRedshop_ExportProduct_Stockroom_Data extends Export\AbstractBase
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  number
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */

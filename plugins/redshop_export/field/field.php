@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Redshop\Plugin\Export;
-use Redshop\Ajax\Response;
 
 JLoader::import('redshop.library');
 

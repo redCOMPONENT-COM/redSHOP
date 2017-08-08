@@ -9,7 +9,8 @@
 
 namespace Redshop\Plugin;
 
-use Redshop\File\Parser\Excel;
+use Redshop\Filesystem\File;
+use Redshop\Filesystem\File\Parser;
 use Redshop\String\Helper;
 
 /**
@@ -127,7 +128,7 @@ class ImportExport extends AbstractBase
 	 *
 	 * @param   string  $file  File path
 	 *
-	 * @return  boolean|Excel
+	 * @return  boolean|Parser\Excel
 	 *
 	 * @since   2.0.7
 	 */
@@ -135,7 +136,7 @@ class ImportExport extends AbstractBase
 	{
 		if (\JFile::exists($file))
 		{
-			return Excel::load($file, $this->separator);
+			return Parser\Excel::load($file, $this->separator);
 		}
 
 		return false;

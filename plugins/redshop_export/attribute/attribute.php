@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Redshop\Plugin\Export;
-use Redshop\Ajax\Response;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('redshop.library');
@@ -267,7 +266,7 @@ class PlgRedshop_ExportAttribute extends Export\AbstractBase
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.0.0
 	 */

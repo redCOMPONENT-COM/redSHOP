@@ -27,7 +27,7 @@ class RedshopControllerExport extends RedshopControllerAdmin
 	 */
 	public function download()
 	{
-		$file = JFactory::getApplication()->input->getRaw('file_path');
+		$file = $this->input->getRaw('file_path');
 		$file = JPath::clean($file);
 
 		if (JFile::exists($file))

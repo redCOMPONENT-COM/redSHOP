@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\File\Parser;
+namespace Redshop\Filesystem\File\Parser;
 
 use \PhpOffice\PhpSpreadsheet;
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * Excel parser class
  *
- * @package     Redshop\File\Parser
+ * @package     Redshop\Filesystem\File\Parser
  *
  * @since       2.0.7
  */
@@ -52,7 +52,7 @@ class Excel
 	 * @param   string  $name      Method
 	 * @param   array   $arguments Args
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
 	 * @since   2.0.7
 	 */
@@ -190,16 +190,21 @@ class Excel
 	}
 
 	/**
-	 * @param   array  $headerArray  Array of header
+	 * @param   array  $headers  Array of header
 	 *
 	 * @return  $this
 	 *
 	 * @since   2.0.7
 	 */
-	public function writeHeader($headerArray)
+	public function writeHeader($headers)
 	{
+		if (!empty($headers))
+		{
+			return $this;
+		}
+
 		// Write header
-		foreach ($headerArray as $index => $value)
+		foreach ($headers as $index => $value)
 		{
 			$this->writeCell(PhpSpreadsheet\Cell::stringFromColumnIndex($index) . '1', $value);
 		}

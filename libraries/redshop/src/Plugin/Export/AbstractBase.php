@@ -10,7 +10,6 @@
 namespace Redshop\Plugin\Export;
 
 use Redshop\Ajax\Response;
-use Redshop\File\Helper;
 use Redshop\Plugin\ImportExport;
 
 defined('_JEXEC') or die;
@@ -92,7 +91,6 @@ class AbstractBase extends ImportExport
 		$data->limit = $this->limit;
 		$data->total = ceil($data->rows / $data->limit);
 
-
 		$response->setData($data)->success()->respond();
 	}
 
@@ -106,8 +104,7 @@ class AbstractBase extends ImportExport
 	 */
 	protected function export()
 	{
-		$input = \JFactory::getApplication()->input;
-		$this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
+		$this->exporting(\JFactory::getApplication()->input->getInt('from', 0) * $this->limit, $this->limit);
 
 		$response = new Response;
 		$response->success()->respond();

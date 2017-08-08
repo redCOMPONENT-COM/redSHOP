@@ -64,9 +64,9 @@ class Response extends \stdClass
 	 *
 	 * @since   2.0.7
 	 */
-	public function get($property, $default)
+	public function get($property, $default = null)
 	{
-		return (isset($this->$property) ? $this->$property : $default);
+		return (property_exists($this, $property)) ? $this->{$property} : $default;
 	}
 
 	/**

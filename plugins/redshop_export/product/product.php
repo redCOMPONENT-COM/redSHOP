@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Ajax\Response;
 use Redshop\Plugin\Export;
 use Joomla\Utilities\ArrayHelper;
 
