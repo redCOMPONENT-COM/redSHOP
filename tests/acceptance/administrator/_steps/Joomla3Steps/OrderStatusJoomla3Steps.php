@@ -57,7 +57,7 @@ class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
 
 	}
 
-	public function checkButton($buttonName)
+	public function checkButtons($buttonName)
 	{
 		$I = $this;
 		$I->amOnPage(\OrderStatusJ3Page::$URL);
@@ -68,7 +68,7 @@ class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\OrderStatusJ3Page::$buttonNew);
 				$I->waitForElement(\OrderStatusJ3Page::$statusName, 30);
 				$I->click(\OrderStatusJ3Page::$buttonCancel);
-				$I->see(\OrderStatusJ3Page::$namePage, \OrderStatusJ3Page::$selectorNamePage);
+				$I->see(\OrderStatusJ3Page::$namePage, \OrderStatusJ3Page::$selectorPageTitle);
 				break;
 			case 'edit':
 				$I->click(\OrderStatusJ3Page::$buttonEdit);

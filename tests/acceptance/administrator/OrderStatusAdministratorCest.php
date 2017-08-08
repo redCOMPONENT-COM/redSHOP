@@ -20,7 +20,7 @@ class OrderStatusAdministratorCest
 
 	/**
 	 *
-	 * Function create order status , edit and delete 
+	 * Function create order status , edit and delete
 	 *
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -33,6 +33,24 @@ class OrderStatusAdministratorCest
 		$I->deleteOrderStatus($this->statusName);
 		$I->addOrderStatus($this->statusName, $this->statusCode, 'saveclose', 'unpublish');
 		$I->editOrderStatus($this->statusName, $this->satusNameEdit, 'saveclose');
+	}
+
+	/**
+	 *
+	 * Check button when missing action
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
+	public function checkButtons(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test to validate different buttons on Gift Card Views');
+		$I = new AcceptanceTester\OrderStatusJoomla3Steps($scenario);
+		$I->checkButtons('edit');
+		$I->checkButtons('cancel');
+		$I->checkButtons('publish');
+		$I->checkButtons('unpublish');
+		$I->checkButtons('delete');
 	}
 
 }
