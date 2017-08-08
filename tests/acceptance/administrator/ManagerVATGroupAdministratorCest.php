@@ -93,7 +93,7 @@ class ManagerVATGroupAdministratorCest
 		$I->see("VAT / Tax Group Management", '.page-title');
 		$I->searchVATGroup($this->VATGroupNameSaveClose);
 		$I->wait(3);
-		$I->see($this->VATGroupNameEdit, \VATGroupManagerJoomla3Page::$resultRow);
+		$I->see($this->VATGroupNameSaveClose, \VATGroupManagerJoomla3Page::$resultRow);
 	}
 
 	public function addVATGroupsCancel(AcceptanceTester $I, $scenario)
