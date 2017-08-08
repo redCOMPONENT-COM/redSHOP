@@ -438,7 +438,17 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function update_all()
 	{
-		$this->update();
+		$post  = JFactory::getApplication()->input->post->getArray();
+		$model     = $this->getModel('cart');
+
+		// Call update_all method of model to update all products info of cart
+		$model->update_all($post);
+
+		RedshopHelperCart::cartFinalCalculation();
+		RedshopHelperCart::addCartToDatabase();
+
+		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false);
+		$this->setRedirect($link);
 	}
 
 	/**
