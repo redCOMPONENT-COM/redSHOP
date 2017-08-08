@@ -226,6 +226,14 @@ class RedshopTableMass_Discount extends RedshopTable
 			return false;
 		}
 
+		// Require both of start and end date
+		if (empty($this->start_date))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_STARTDATE'), 'error');
+
+			return false;
+		}
+
 		if ($this->start_date > $this->end_date)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
@@ -238,6 +246,16 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		// Convert enddate to same day but at middle night
 		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
+
+		$today = RedshopHelperDatetime::getCurrentDayTimestamp();
+
+		// Make sure start and end date not lower than current day
+		if (($this->start_date < $today) || ($this->end_date < $today))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_OR_STARTDATE_LOWER_THAN_CURRENT'), 'error');
+
+			return false;
+		}
 
 		return true;
 	}
