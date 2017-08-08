@@ -39,10 +39,10 @@ class Helper
 					return \RedshopHelperProduct::getProductById($id);
 					break;
 				case 'category':
-					return \RedshopHelperCategory::getCategoryById($id);
+					return \RedshopEntityCategory::getInstance($id)->getItem();
 					break;
 				default:
-					$db = JFactory::getDbo();
+					$db = \JFactory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from($db->qn('#__redshop_' . $section))
