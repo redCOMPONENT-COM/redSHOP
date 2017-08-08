@@ -171,15 +171,6 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see("Field required:  VAT / Tax Group Name", '.alert-error');
 	}
 
-
-	public function editButton()
-	{
-		$I = $this;
-		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
-		$I->click("Edit");
-		$I->acceptPopup();
-	}
-
 	public function deleteButton()
 	{
 		$I = $this;
