@@ -398,18 +398,30 @@ class rsCarthelper
 		return RedshopHelperShippingTag::replaceShippingMethod($shipping, $content);
 	}
 
+	/**
+	 * @param           $data
+	 * @param   array   $cart
+	 * @param   string  $replace_button
+	 * @param   int     $quotation_mode
+	 *
+	 * @return  string
+	 *
+	 */
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$prdItemid  = JRequest::getInt('Itemid');
+
+		$jInput = JFactory::getApplication()->input;
+
+		$prdItemid  = $jInput->getInt('Itemid');
 		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
-		$mainview   = JRequest::getVar('view');
+		$mainview   = $jInput->get('view');
 
 		if ($Itemid == 0)
 		{
-			$Itemid = JRequest::getInt('Itemid');
+			$Itemid = $jInput->getInt('Itemid');
 		}
 
 		$cart_tr = '';
@@ -1010,7 +1022,7 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$mainview   = JRequest::getVar('view');
+		$mainview   = JFactory::getApplication()->input->get('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
 		$subtotal_excl_vat = 0;
@@ -1020,7 +1032,7 @@ class rsCarthelper
 
 		$wrapper_name = "";
 
-		$OrdersDetail = $this->_order_functions->getOrderDetails($rowitem[0]->order_id);
+		$OrdersDetail = RedshopHelperOrder::getOrderDetails($rowitem[0]->order_id);
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
@@ -2984,6 +2996,82 @@ class rsCarthelper
 		$box_template_desc = "<div style='display:$style;'>" . $box_template_desc . "</div>";
 
 		return $box_template_desc;
+	}
+
+	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
+	{
+		$output           = '';
+		$shippingGLS      = $this->_order_functions->getparameters('default_shipping_gls');
+		$selectedShopId = null;
+
+		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $classname == 'default_shipping_gls')
+		{
+			JPluginHelper::importPlugin('redshop_shipping');
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			$values     = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
+
+			if ($shop_id)
+			{
+				$shopOrderdetail = explode("###", $shop_id);
+
+				// zipcode
+				if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
+				{
+					$values->zipcode = $shopOrderdetail[2];
+				}
+
+				// phone
+				if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
+				{
+					$values->phone = $shopOrderdetail[1];
+				}
+			}
+
+			$shopList   = array();
+			$response   = $dispatcher->trigger('GetNearstParcelShops', array($values));
+
+			if($response && isset($response[0]) && is_array($response[0]))
+			{
+				$shopResponses = $response[0];
+
+				foreach ($shopResponses as $shopResponse)
+				{
+					$shopList[] = JHTML::_(
+						'select.option',
+						$shopResponse->shop_id,
+						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
+					);
+				}
+			}
+
+
+			// Get selected shop id
+			if ($shop_id && (isset($shopResponses) && count($shopResponses) > 0))
+			{
+				foreach ($shopResponses as $shopResponse)
+				{
+					$shopDetail = explode("|", $shop_id);
+
+					if ($shopDetail[0] == $shopResponse->Number)
+					{
+						$selectedShopId = $shopResponse->shop_id;
+						break;
+					}
+				}
+			}
+
+			// GLS layout
+			$output = RedshopLayoutHelper::render(
+						'order.glslocation',
+						array(
+							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id[gls]', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
+							'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
+							'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
+						)
+					);
+		}
+
+		return $output;
 	}
 
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
@@ -5234,7 +5322,7 @@ class rsCarthelper
 			// Secure productsIds
 			if ($productsIds = explode(',', $product_id))
 			{
-				JArrayHelper::toInteger($productsIds);
+				\Joomla\Utilities\ArrayHelper::toInteger($productsIds);
 
 				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
 			}
@@ -5260,7 +5348,7 @@ class rsCarthelper
 			// Secure notAttributeId
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
-				JArrayHelper::toInteger($notAttributeIds);
+				\Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
 
 				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 			}
