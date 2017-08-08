@@ -4011,7 +4011,7 @@ class productHelper
 		$cartform = str_replace($cartTag, '<span id="stockaddtocart' . $stockId . '"></span>' . $cartIcon, $cartform);
 
 		// Trigger event on Add to Cart
-		$dispatcher->trigger('onAddtoCart', array(&$cartform, $product));
+		$dispatcher->trigger('onAddtoCart', array(&$cartform, $product, $addtocartFormName, $property_id));
 
 		$cartform .= "</form>";
 
@@ -4888,7 +4888,7 @@ class productHelper
 				. ' class="stock_addtocart">' . $display_text . '</span>' . $cartIconPreorder . $cartIcon, $cartform);
 
 			// Trigger event on Add to Cart
-			$dispatcher->trigger('onAddtoCart', array(&$cartform, $product));
+			$dispatcher->trigger('onAddtoCart', array(&$cartform, $product, $addtocartFormName, 0));
 
 			$cartform .= "</form>";
 
