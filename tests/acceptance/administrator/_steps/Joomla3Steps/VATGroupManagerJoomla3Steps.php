@@ -83,9 +83,8 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\VATGroupManagerJoomla3Page::$VATGroupName, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management: [ Edit ]');
 		$I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, "");
-		$I->click("Save & Close");
 		$I->click("Save");
-		$I->waitForText(\VATGroupManagerJoomla3Page::$fieldMissing, 60, '.alert-error');
+		$I->waitForText(\VATGroupManagerJoomla3Page::$fieldMissing, 60, '.alert-danger');
 		$I->waitForElement(\VATGroupManagerJoomla3Page::$VATGroupName, 30);
 	}
 
@@ -167,7 +166,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management New');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click("Save");
-		$I->waitForText(\VATGroupManagerJoomla3Page::$fieldMissing, 60, '.alert-error');
+		$I->waitForText(\VATGroupManagerJoomla3Page::$fieldMissing, 60, '.alert-danger');
 		$I->waitForElement(\VATGroupManagerJoomla3Page::$VATGroupName, 30);
 	}
 
