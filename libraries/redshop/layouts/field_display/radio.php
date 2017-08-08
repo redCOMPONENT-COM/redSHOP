@@ -12,8 +12,12 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   string  $extraFieldValue  extra Field Value
+ * @param   string  $extraFieldLabel  Extra field label
+ * @param   string  $extraFieldValue  Extra field value
  */
 extract($displayData);
-
-echo $extraFieldValue;
+?>
+<div class="row">
+	<label class="col-xs-5"><?php echo $extraFieldLabel; ?></label>
+	<div class="col-xs-7"><?php echo $extraFieldValue; ?></div>
+</div>
