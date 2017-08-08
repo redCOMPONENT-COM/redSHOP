@@ -85,7 +85,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, "");
 		$I->click("Save & Close");
 		$I->click("Save");
-		$I->see("Field required:  VAT / Tax Group Name", '.alert-error');
+		$I->see("Field required: VAT / Tax Group Name", '.alert-error');
 	}
 
 	public function unpublishVATGroupsName($VATGroupName)
@@ -168,7 +168,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management New');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click("Save");
-		$I->see("Field required:  VAT / Tax Group Name", '.alert-error');
+		$I->see("Field required: VAT / Tax Group Name", '.alert-error');
 	}
 
 	public function deleteButton()
