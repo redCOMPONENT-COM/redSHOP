@@ -45,7 +45,7 @@ class ManageShopperGroupAdministratorCest
 	 * @depends createCategory
 	 *
 	 */
-	public function creatShopperGroup(AcceptanceTester $I, $scenario)
+	public function createShopperGroup(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
