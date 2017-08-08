@@ -78,11 +78,10 @@ class ManagerVATGroupAdministratorCest
 		$I->wantTo('Test VAT Groups  Save $ Close creation in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Create VAT groups  Save $ Close  button');
 		$I->editVATGroupsName($this->VATGroupNameSaveClose, $this->VATGroupNameEdit);
-		$I->see("item saved", '.alert-success');
 		$I->searchVATGroup($this->VATGroupNameEdit);
-		$I->see($this->VATGroupNameEdit, \VATGroupManagerJoomla3Page::$VATGroupsNamePath);
+		$I->wait(3);
+		$I->see($this->VATGroupNameEdit, \VATGroupManagerJoomla3Page::$resultRow);
 	}
 
 	public function editVATGroupsNameSaveClose(AcceptanceTester $I, $scenario)
@@ -90,12 +89,11 @@ class ManagerVATGroupAdministratorCest
 		$I->wantTo('Test VAT Groups  Save $ Close creation in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Create VAT groups  Save $ Close  button');
 		$I->editVATGroupsNameSaveClose($this->VATGroupNameEdit, $this->VATGroupNameSaveClose);
 		$I->see("VAT / Tax Group Management", '.page-title');
 		$I->searchVATGroup($this->VATGroupNameSaveClose);
-		$I->see($this->VATGroupNameSaveClose, \VATGroupManagerJoomla3Page::$VATGroupsNamePath);
-
+		$I->wait(3);
+		$I->see($this->VATGroupNameEdit, \VATGroupManagerJoomla3Page::$resultRow);
 	}
 
 	public function addVATGroupsCancel(AcceptanceTester $I, $scenario)
