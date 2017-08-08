@@ -109,7 +109,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
 		$I->searchVATGroup($VATGroupsName);
 		$I->wait(3);
-		$I->see($VATGroupsName, \VATGroupManagerJoomla3Page::$VATGroupsNamePath);
+		$I->see($VATGroupsName, \VATGroupManagerJoomla3Page::$resultRow);
 		$I->click(\VATGroupManagerJoomla3Page::$VATGroupNameStatus);
 	}
 
@@ -119,7 +119,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VATGroupManagerJoomla3Page::$URL);
 		$I->searchVATGroup($VATGroupsName);
 		$I->wait(3);
-		$I->see($VATGroupsName, \VATGroupManagerJoomla3Page::$VATGroupsNamePath);
+		$I->see($VATGroupsName, \VATGroupManagerJoomla3Page::$resultRow);
 		$text = $I->grabAttributeFrom(\VATGroupManagerJoomla3Page::$VATGroupNameStatus, 'onclick');
 		if (strpos($text, 'unpublish') > 0)
 		{
