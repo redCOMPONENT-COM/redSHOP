@@ -6,7 +6,6 @@ install:
   - nvm install 8
   - nvm use 8
 php:
-  - 5.6.30
   - 7.0
 addons:
   firefox: "46.0"
@@ -17,8 +16,8 @@ cache:
     - $HOME/.composer/cache/files
 env:
   matrix:
-      - ACCEPTANCE=false # this will run phpcs checks etc
-      - ACCEPTANCE=acceptance/administrator # run test administrator
+      #- ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=acceptance/administrator/administrator/TaxRate # run test administrator
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
