@@ -143,7 +143,6 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\VATGroupManagerJoomla3Page::$CheckAllVATGroup);
         $I->click("Delete");
         $I->acceptPopup();
-        $I->see("1 item successfully deleted", '.alert-success');
         $I->fillField(\VATGroupManagerJoomla3Page::$VATGroupManagementSearch, $VATGroupsName);
         $I->pressKey(\VATGroupManagerJoomla3Page::$VATGroupManagementSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->dontSee($VATGroupsName, \VATGroupManagerJoomla3Page::$VATGroupsNamePath);
