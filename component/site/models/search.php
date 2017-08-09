@@ -421,16 +421,16 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function _buildQuery($manudata = 0, $getTotal = false)
 	{
-		$app = JFactory::getApplication();
-		$db  = JFactory::getDbo();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$db    = JFactory::getDbo();
 
-		$orderByMethod = $app->input->getString(
+		$orderByMethod = $input->getString(
 			'order_by',
 			$app->getParams()->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
 		);
-		$orderByObj    = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
-
-		$orderBy = $orderByObj->ordering . ' ' . $orderByObj->direction;
+		$orderByObj = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
+		$orderBy    = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
 		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
 		{
@@ -454,13 +454,13 @@ class RedshopModelSearch extends RedshopModel
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id')
 			->where('p.published = 1');
 
-		$layout = JRequest::getVar('layout', 'default');
-
+		$layout          = $input->getString('layout', 'default');
 		$category_helper = new product_category;
-		$manufacture_id  = JRequest::getInt('manufacture_id', 0);
+		$manufacture_id  = $input->getInt('manufacture_id', 0);
 		$cat_group       = array();
+		$customField     = $input->get('custom_field', array(), 'array');
 
-		if ($category_id = $app->input->get('category_id', 0))
+		if ($category_id = $input->get('category_id', 0))
 		{
 			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
 
@@ -504,6 +504,31 @@ class RedshopModelSearch extends RedshopModel
 			JArrayHelper::toInteger($manufacturerIds);
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
+		}
+
+		if (!empty($customField))
+		{
+			$key = 0;
+			$subQuery = array();
+
+			foreach ($customField as $fieldId => $fieldValue)
+			{
+				if (empty($fieldValue))
+				{
+					continue;
+				}
+
+				$subQuery[] = 'FIND_IN_SET("' . $fieldValue . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
+
+				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
+					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
+				$key++;
+			}
+
+			if (!empty($subQuery))
+			{
+				$query->where(implode(' OR ', $subQuery));
+			}
 		}
 
 		// Shopper group - choose from manufactures End

@@ -21,9 +21,6 @@ $document->addScriptDeclaration(
 	"var base_url = '" . JURI::root() . "';"
 );
 
-$categoryData     = ModRedshopSearch::getCategories();
-$manufacturerData = ModRedshopSearch::getManufacturers();
-
 $enableAjaxsearch       = trim($params->get('enableAjaxsearch', 0));
 $defaultSearchType      = trim($params->get('defaultSearchType', 'product_name'));
 $showSearchTypeField    = trim($params->get('showSearchTypeField'));
@@ -36,8 +33,14 @@ $standardKeyword        = trim($params->get('stdsearchtext'));
 $templateId             = trim($params->get('templateid'));
 $productPerpage         = trim($params->get('productperpage'));
 $modSearchItemid        = trim($params->get('modsearchitemid', ''));
+$productFields          = $params->get('product_fields', array());
+$showCustomfield        = trim($params->get('showCustomfield', ''));
 $javaFun                = "";
 $itemId                 = RedshopHelperUtility::getItemId();
+
+$categoryData     = ModRedshopSearch::getCategories();
+$manufacturerData = ModRedshopSearch::getManufacturers();
+$fieldData        = ModRedshopSearch::getCustomFields($productFields);
 
 if ($modSearchItemid != "")
 {
@@ -46,8 +49,8 @@ if ($modSearchItemid != "")
 
 if ($enableAjaxsearch)
 {
-	$document->addScript(JURI::base() . "administrator/components/com_redshop/assets/js/search.js");
-	$document->addStyleSheet(JURI::base() . "administrator/components/com_redshop/assets/css/search.css");
+	$document->addScript(JURI::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/js/search.js");
+	$document->addStyleSheet(JURI::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/css/search.css");
 	$javaFun = "makeUrl();";
 }
 
@@ -55,10 +58,11 @@ $type    = $input->getWord('search_type', $defaultSearchType);
 $cid     = $input->getInt('category_id', 0);
 $mid     = $input->getInt('manufacturer_id', 0);
 $keyword = $input->getString('keyword', $standardKeyword);
+$fields  = $input->get('custom_field', array(), 'array');
 
 $lists            = array();
 $category         = array();
-$category[]       = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_CATEGORIES'));
+$category[]       = JHtml::_('select.option', '0', JText::_('MOD_REDSHOP_SEARCH_SELECT_CATEGORIES'));
 $categoryData     = array_merge($category, $categoryData);
 $lists['catdata'] = JHtml::_(
 	'select.genericlist',
@@ -71,7 +75,7 @@ $lists['catdata'] = JHtml::_(
 );
 
 $manufacturer             = array();
-$manufacturer[]           = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+$manufacturer[]           = JHtml::_('select.option', '0', JText::_('MOD_REDSHOP_SEARCH_SELECT_MANUFACTURE'));
 $manufacturerData         = array_merge($manufacturer, $manufacturerData);
 $lists['manufacturedata'] = JHtml::_(
 	'select.genericlist',
@@ -87,37 +91,37 @@ $searchType   = array();
 $searchType[] = JHtml::_(
 	'select.option',
 	'product_name',
-	JText::_('COM_REDSHOP_PRODUCT_NAME')
+	JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NAME')
 );
 $searchType[] = JHtml::_(
 	'select.option',
 	'product_number',
-	JText::_('COM_REDSHOP_PRODUCT_NUMBER')
+	JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NUMBER')
 );
 $searchType[] = JHtml::_(
 	'select.option',
 	'name_number',
-	JText::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER")
+	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER")
 );
 $searchType[] = JHtml::_(
 	'select.option',
 	'product_desc',
-	JText::_("COM_REDSHOP_PRODUCT_DESCRIPTION")
+	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_DESCRIPTION")
 );
 $searchType[] = JHtml::_(
 	'select.option',
 	'virtual_product_num',
-	JText::_("COM_REDSHOP_VIRTUAL_PRODUCT_NUM")
+	JText::_("MOD_REDSHOP_SEARCH_VIRTUAL_PRODUCT_NUM")
 );
 $searchType[] = JHtml::_(
 	'select.option',
 	'name_desc',
-	JText::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
+	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
 );
 $searchType[] = JHtml::_(
 	'select.option',
 	'name_number_desc',
-	JText::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION")
+	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION")
 );
 
 $lists['searchtypedata'] = JHtml::_(
