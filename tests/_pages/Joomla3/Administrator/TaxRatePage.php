@@ -56,11 +56,6 @@ class TaxRatePage extends AdminJ3Page
 	public static $fieldGroup = ['id' => 'jform_tax_group_id'];
 
 	/**
-	 * @var array
-	 */
-	public static $headPage = ['xpath' => "//h1"];
-
-	/**
 	 * @var string
 	 */
 	public static $messageError = "Error";
