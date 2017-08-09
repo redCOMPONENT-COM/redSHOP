@@ -13,7 +13,7 @@ class redSHOPWizard
 
 	function initialize(){
 
-		$step 		= JRequest::getVar('step', '');
+		$step 		= JFactory::getApplication()->input->get('step', '');
 
 		$helper = new redSHOPWizardHelper;
 		$template = new redSHOPWizardTemplate;
@@ -187,6 +187,8 @@ class redSHOPWizardTemplate
 	var $title = null;
 	var $controller = null;
 
+	protected $jinput = null;
+
 	function __construct()
 	{
 		require_once JPATH_COMPONENT . '/controllers/wizard.php';
@@ -194,6 +196,8 @@ class redSHOPWizardTemplate
 		$this->title	= '';
 		$classname  = 'RedshopControllerWizard';
 	   	$this->controller = new $classname( array('default_task' => 'display') );
+		$this->jinput = JFactory::getApplication()->input;
+
 	}
 
 	function getHTML($page='', $params='')
@@ -206,9 +210,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','welcome');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		$this->jinput->set('layout','welcome');
+	   	$this->jinput->set('params',$params);
+	   	$this->controller->execute( $this->jinput->get('task' ));
 
 	   	# update temp file with config data
 		$this->controller->execute( 'copyTempFile');
@@ -224,11 +228,10 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','general');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		$this->jinput->set('layout','general');
+	   	$this->jinput->set('params',$params);
+	   	$this->controller->execute( $this->jinput->get('task' ));
 	   	//$this->controller->redirect();
-
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -240,10 +243,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','terms');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
-
+		$this->jinput->set('layout','terms');
+	   	$this->jinput->set('params',$params);
+	   	$this->controller->execute( $this->jinput->get('task' ));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -255,10 +257,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','user');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
-
+		$this->jinput->set('layout','user');
+	   	$this->jinput->set('params',$params);
+	   	$this->controller->execute( $this->jinput->get('task' ));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -270,10 +271,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','price');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
-
+		$this->jinput->set('layout','price');
+	   	$this->jinput->set('params',$params);
+	   	$this->controller->execute( $this->jinput->get('task' ));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -285,9 +285,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		JRequest::setVar('layout','finish');
-	   	JRequest::setVar('params',$params);
-	   	$this->controller->execute( JRequest::getVar('task' ));
+		$this->jinput->set('layout','finish');
+	   	$this->jinput->set('params',$params);
+	   	$this->controller->execute( $this->jinput->get('task' ));
 
 		$html = ob_get_contents();
 		ob_end_clean();
