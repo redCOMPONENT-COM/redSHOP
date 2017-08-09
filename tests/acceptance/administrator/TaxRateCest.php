@@ -91,7 +91,7 @@ class TaxRateCest
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
-		$client->wantTo('Test VAT Groups  Save creation in Administrator');
+		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
