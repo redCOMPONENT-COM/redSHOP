@@ -198,12 +198,12 @@ class RedshopViewForm extends AbstractView
 
 		foreach ($fields as $field)
 		{
-			if ($field->getAttribute('type') == "spacer")
+			if ($field->getAttribute('type') === "spacer")
 			{
 				continue;
 			}
 
-			if ($field->getAttribute('type') == "hidden")
+			if ($field->getAttribute('type') === "hidden")
 			{
 				$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
 
