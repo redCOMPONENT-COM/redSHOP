@@ -37,7 +37,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->fillField(\TaxRatePage::$fieldName, $taxRateName);
-		$client->fillField(\TaxRatePage::$fieldValue, $taxRateValue);
+		$client->fillField(\TaxRatePage::$fieldValue, (int) $taxRateValue);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $taxGroupName);
 		$client->click(\TaxRatePage::$buttonSave);
