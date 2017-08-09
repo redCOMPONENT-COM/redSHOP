@@ -44,23 +44,24 @@ if ($data->hasOrdering)
             form.task.value = pressbutton;
         }
 
-        if (pressbutton == "<?php echo $viewName ?>.delete') {
+        if (pressbutton === "<?php echo $viewName ?>.delete") {
             var result = confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM') ?>");
 
-        if (result == true) {
-            form.submit();
+            if (result == true) {
+                form.submit();
+            }
+            else {
+                return false;
+            }
         }
-        else {
-            return false;
-        }
-    };
+        ;
 
-    form.submit();
-    }
-    ;
+        form.submit();
+    };
 </script>
 
-<form action="index.php?option=com_redshop&view=<?php echo $viewName ?>" class="adminForm" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop&view=<?php echo $viewName ?>" class="adminForm" id="adminForm" method="post"
+      name="adminForm">
     <div class="filterTool">
 		<?php
 		echo RedshopLayoutHelper::render(
@@ -161,7 +162,8 @@ if ($data->hasOrdering)
                     </span>
 						<?php if ($allowOrder): ?>
                             <input type="text" style="display:none" name="order[]"
-                                    value="<?php echo ($data->isNested) ? $orderKey + 1 : $row->{$orderingColumn} ?>" class="text-area-order"/>
+                                   value="<?php echo ($data->isNested) ? $orderKey + 1 : $row->{$orderingColumn} ?>"
+                                   class="text-area-order"/>
 						<?php endif; ?>
                     </td>
 				<?php endif; ?>
@@ -174,7 +176,7 @@ if ($data->hasOrdering)
                         </a>
 					<?php else: ?>
                         <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&<?php echo $data->getPrimaryKey() ?>=<?php echo $rowId ?>"
-                                class="btn btn-small btn-sm btn-primary">
+                           class="btn btn-small btn-sm btn-primary">
                             <i class="fa fa-edit"></i>
                         </a>
 					<?php endif; ?>
