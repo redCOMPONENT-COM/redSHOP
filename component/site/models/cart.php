@@ -459,7 +459,6 @@ class RedshopModelCart extends RedshopModel
 
 	public function delete($cartElement)
 	{
-		$stockroomhelper = rsstockroomhelper::getInstance();
 		$cart            = RedshopHelperCartSession::getCart();
 
 		if (array_key_exists($cartElement, $cart))
@@ -506,14 +505,14 @@ class RedshopModelCart extends RedshopModel
 		RedshopHelperCartSession::setCart($cart);
 	}
 
-	public function coupon($c_data = array())
+	public function coupon($cartData = array())
 	{
-		return RedshopHelperCartDiscount::applyCoupon();
+		return RedshopHelperCartDiscount::applyCoupon($cartData);
 	}
 
-	public function voucher($v_data = array())
+	public function voucher($cartData = array())
 	{
-		return RedshopHelperCartDiscount::applyVoucher();
+		return RedshopHelperCartDiscount::applyVoucher($cartData);
 	}
 
 	public function redmasscart($post)
