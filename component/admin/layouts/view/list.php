@@ -168,7 +168,7 @@ if ($data->hasOrdering)
                     </td>
 				<?php endif; ?>
                 <td nowrap="nowrap">
-					<?php if ($row->checked_out): ?>
+					<?php if (!empty($row->checked_out)): ?>
 						<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
 					<?php elseif ($data->canEdit == false): ?>
                         <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary disabled">
