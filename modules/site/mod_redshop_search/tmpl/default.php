@@ -1,40 +1,20 @@
 <?php
 /**
  * @package     RedSHOP.Frontend
- * @subpackage  mod_redshop_redshop_search
+ * @subpackage  mod_redshop_search
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-$app = JFactory::getApplication();
-$templateid = $params->get('templateid');
-$defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));
-$perpageproduct = $params->get('productperpage');
-$search_type = $app->input->getWord('search_type', $defaultSearchType);
-$keyword = $app->input->getString('keyword', $standardkeyword);
-
-// Manufacturer Select Id
-$manufac_data = $app->input->getInt('manufacture_id', '');
-
-$redhelper       = redhelper::getInstance();
-$Itemid          = RedshopHelperUtility::getItemId();
-$modsearchitemid = trim($params->get('modsearchitemid', ''));
-
-if ($modsearchitemid != "")
-{
-	$Itemid = $modsearchitemid;
-}
-
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>"
-	method="get"
+	action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $itemId); ?>"
+	method="GET"
     name="redSHOPSEARCH">
 	<div class="product_search">
-		<?php if ($showProductsearchtitle == 'yes'): ?>
+		<?php if ($showProductSearchTitle == 'yes'): ?>
 			<div class="product_search_title">
 				<?php echo JText::_('COM_REDSHOP_PRODUCT_SEARCH'); ?>
 			</div>
@@ -43,14 +23,13 @@ if ($modsearchitemid != "")
 		<?php if ($showSearchTypeField == 'yes'): ?>
 			<div class="product_search_type"><?php echo $lists['searchtypedata'];?></div>
 		<?php else: ?>
-			<input type="hidden" name="search_type" id="search_type" value="<?php echo $search_type; ?>"/>
+			<input type="hidden" name="search_type" id="search_type" value="<?php echo $type; ?>"/>
 		<?php endif; ?>
 
 		<?php if ($showCategory == 'yes'):	?>
 			<div class="product_search_catdata">
 				<?php echo JText::_('COM_REDSHOP_SELECT_CATEGORIES');?><br>
 				<div class="product_search_catdata_category"><?php echo $lists['catdata'];?></div>
-
 				<?php if ($showManufacturer == 'yes'): ?>
 					<div class="product_search_catdata_product" id="product_search_catdata_product"
 					     style="display: none;"></div>
@@ -68,13 +47,13 @@ if ($modsearchitemid != "")
 		<?php endif; ?>
 
 		<?php if ($showSearchField == 'yes'): ?>
-			<?php if ($showKeywordtitle == 'yes'): ?>
+			<?php if ($showKeywordTitle == 'yes'): ?>
 				<div class="product_search_input">
 					<?php echo JText::_('COM_REDSHOP_KEYWORD'); ?>
 				<?php endif; ?>
 					<br>
 					<input type="text" class="span12" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
-			<?php if ($showKeywordtitle == 'yes'): ?>
+			<?php if ($showKeywordTitle == 'yes'): ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
@@ -88,16 +67,16 @@ if ($modsearchitemid != "")
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="search"/>
 	<input type="hidden" name="layout" value="default"/>
-	<input type="hidden" name="templateid" value="<?php echo $templateid; ?>"/>
-	<input type="hidden" name="perpageproduct" value="<?php echo $perpageproduct; ?>"/>
-	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
+	<input type="hidden" name="templateid" value="<?php echo $templateId; ?>"/>
+	<input type="hidden" name="perpageproduct" value="<?php echo $productPerpage; ?>"/>
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $itemId; ?>"/>
 </form>
 
 <script type="text/javascript">
 	var selbox = document.getElementById('category_id') ? document.getElementById('category_id') : "";
 
 	if (selbox) {
-		var OnLoadfunc = 'loadProducts(selbox.options[selbox.selectedIndex].value,"<?php echo $manufac_data;?>")';
+		var OnLoadfunc = 'loadProducts(selbox.options[selbox.selectedIndex].value,"<?php echo $mid; ?>")';
 		window.onload = function () {
 			eval(OnLoadfunc);
 		};
@@ -108,8 +87,8 @@ if ($modsearchitemid != "")
 if ($enableAjaxsearch)
 {
 	$document = JFactory::getDocument();
-	$document->addScriptDeclaration("
-		function makeUrl()
+	$document->addScriptDeclaration(
+		"function makeUrl()
 		{
 			var urlArg = new Array();
 			var urlArgstring = '';
@@ -149,13 +128,13 @@ if ($enableAjaxsearch)
 				cache: false,
 				shownoresults: true,
 				callback: function (obj) {
-					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=" . $Itemid . "';
+					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=" . $itemId . "';
 				}
 			});
 		}
 
 		window.addEvent('domready', function(){
 			makeUrl();
-		});
-	");
+		});"
+	);
 }

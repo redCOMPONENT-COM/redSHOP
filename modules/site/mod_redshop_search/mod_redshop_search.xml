@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SEARCH</name>
-	<version>1.6</version>
-	<redshop>2.0</redshop>
+	<version>1.7</version>
+	<redshop>2.0.7</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -11,7 +11,8 @@
 	<description>MOD_REDSHOP_SEARCH_DESC</description>
 	<files>
 		<filename module="mod_redshop_search">mod_redshop_search.php</filename>
-		<filename module="mod_redshop_search">index.html</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
 		<folder>tmpl</folder>
 		<folder>js</folder>
 	</files>
