@@ -46,6 +46,26 @@ defined('_JEXEC') or die;
 			</div>
 		<?php endif; ?>
 
+		<?php if ($showCustomfield == 'yes' && !empty($fieldData)):?>
+			<div class="mod_redshop_search_custom_field">
+				<?php foreach ($fieldData as $key => $field) : ?>
+					<label><?php echo $field['title']; ?></label>
+					<select name="custom_field[<?php echo $key; ?>]">
+						<option value=""><?php echo JText::_('MOD_REDSHOP_SEARCH_SELECT_FIELD');?></option>
+						<?php foreach ($field['value'] as $value => $name) :?>
+							<option value="<?php echo urldecode($value); ?>"
+							<?php if ($fields[$key] == urldecode($value)) : ?>
+								selected="selected"
+							<?php endif; ?>
+							>
+								<?php echo $name; ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
+
 		<?php if ($showSearchField == 'yes'): ?>
 			<?php if ($showKeywordTitle == 'yes'): ?>
 				<div class="product_search_input">
