@@ -10,7 +10,7 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "~2",
         "codeception/codeception": "~2",
-        "joomla-projects/joomla-browser": "3.7.3",
+        "joomla-projects/joomla-browser": "v3.7.4",
         "consolidation/robo": "~1",
         "joomla-projects/joomla-testing-robo": "dev-container-test",
         "joomla-projects/joomla-testing": "dev-container-test",
