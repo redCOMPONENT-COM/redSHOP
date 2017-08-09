@@ -1,16 +1,23 @@
 <?php
 /**
- * @package     Redshop\Cart
- * @subpackage
+ * @package     RedShop
+ * @subpackage  Libraries
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Redshop\Cart;
 
 use Redshop\Cart\Helper\Session;
 
+/**
+ * This class provide general cart helper methods
+ *
+ * @package     Redshop\Cart
+ *
+ * @since       2.0.7
+ */
 class Helper
 {
 	/**
@@ -79,10 +86,10 @@ class Helper
 
 		return $attArr;
 	}
-	
+
 	/**
-	 * @param   array $data
-	 * @param   int   $newQuantity
+	 * @param   array  $data
+	 * @param   int    $newQuantity
 	 *
 	 * @return  array
 	 *
@@ -140,10 +147,10 @@ class Helper
 	}
 
 	/**
-	 * @param   int   $productId
-	 * @param   array $cart
-	 * @param   int   $voucherLeft
-	 * @param   int   $globalVoucher
+	 * @param   int    $productId
+	 * @param   array  $cart
+	 * @param   int    $voucherLeft
+	 * @param   int    $globalVoucher
 	 *
 	 * @return  array
 	 *
