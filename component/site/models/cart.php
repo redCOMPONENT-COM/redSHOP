@@ -584,23 +584,19 @@ class RedshopModelCart extends RedshopModel
 	/**
 	 * check if attribute tag is present in product template.
 	 *
-	 * @param   int $product_id Product ID
+	 * @param   int $productId Product ID
 	 *
 	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
-	public function checkifTagAvailable($product_id)
+	public function checkifTagAvailable($productId)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('product_template'))
-			->from($db->quoteName('#__redshop_product'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $product_id);
+		$template              = RedshopHelperTemplate::getTemplate(
+			"product",
+			RedshopEntityProduct::getInstance($productId)->loadItem()->getTemplate()
+		);
 
-		$productTemplate = $db->setQuery($query)->loadResult();
-
-		$template              = RedshopHelperTemplate::getTemplate("product", $productTemplate);
 		$product_template_desc = $template[0]->template_desc;
 
 		return strpos($product_template_desc, "{attribute_template:") !== false;
@@ -639,145 +635,43 @@ class RedshopModelCart extends RedshopModel
 		return $shipping_calc;
 	}
 
-	public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
+	/**
+	 * @param   array  $data
+	 * @param   int    $newQuantity
+	 *
+	 * @deprecated   Use \Redshop\Cart\Helper::updateAccessoryPriceArray() instead
+	 *
+	 * @return  array
+	 */
+	public function updateAccessoryPriceArray($data = array(), $newQuantity = 1)
 	{
-		$attArr = $data['cart_accessory'];
-
-		for ($i = 0, $in = count($attArr); $i < $in; $i++)
-		{
-			$attchildArr = $attArr[$i]['accessory_childs'];
-
-			$attArr[$i]['accessory_quantity'] = $newquantity;
-
-			for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
-			{
-				$propArr = $attchildArr[$j]['attribute_childs'];
-
-				for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
-				{
-					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
-
-					if (count($pricelist) > 0)
-					{
-						$propArr[$k]['property_price'] = $pricelist->product_price;
-					}
-					else
-					{
-						$pricelist                     = $this->_producthelper->getProperty($propArr[$k]['property_id'], 'property');
-						$propArr[$k]['property_price'] = $pricelist->product_price;
-					}
-
-					$subpropArr = $propArr[$k]['property_childs'];
-
-					for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
-					{
-						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
-
-						if (count($pricelist) > 0)
-						{
-							$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
-						}
-						else
-						{
-							$pricelist                           = $this->_producthelper->getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
-							$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
-						}
-					}
-
-					$propArr[$k]['property_childs'] = $subpropArr;
-				}
-
-				$attchildArr[$j]['attribute_childs'] = $propArr;
-			}
-
-			$attArr[$i]['accessory_childs'] = $attchildArr;
-		}
-
-		return $attArr;
+		return \Redshop\Cart\Helper::updateAccessoryPriceArray($data, $newQuantity);
 	}
 
-	public function updateAttributePriceArray($data = array(), $newquantity = 1)
+	/**
+	 * @param   array  $data
+	 * @param   int    $newQuantity
+	 *
+	 * @deprecated   Use \Redshop\Cart\Helper::updateAttributePriceArray() instead
+	 *
+	 * @return  array
+	 */
+	public function updateAttributePriceArray($data = array(), $newQuantity = 1)
 	{
-		$attArr = $data['cart_attribute'];
-
-		for ($i = 0, $in = count($attArr); $i < $in; $i++)
-		{
-			$propArr = $attArr[$i]['attribute_childs'];
-
-			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
-			{
-				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
-
-				if (count($pricelist) > 0)
-				{
-					$propArr[$k]['property_price'] = $pricelist->product_price;
-				}
-				else
-				{
-					$pricelist                     = $this->_producthelper->getProperty($propArr[$k]['property_id'], 'property');
-					$propArr[$k]['property_price'] = $pricelist->product_price;
-				}
-
-				$subpropArr = $propArr[$k]['property_childs'];
-
-				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
-				{
-					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
-
-					if (count($pricelist) > 0)
-					{
-						$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
-					}
-					else
-					{
-						$pricelist                           = $this->_producthelper->getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
-						$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
-					}
-				}
-
-				$propArr[$k]['property_childs'] = $subpropArr;
-			}
-
-			$attArr[$i]['attribute_childs'] = $propArr;
-		}
-
-		return $attArr;
+		return \Redshop\Cart\Helper::updateAttributePriceArray($data, $newQuantity);
 	}
 
-	public function getCartProductPrice($product_id, $cart, $voucher_left)
+	/**
+	 * @param   int    $productId
+	 * @param   array  $cart
+	 * @param   int    $voucherLeft
+	 *
+	 * @deprecated   Use \Redshop\Cart\Helper::getCartProductPrice() instead
+	 * @return  array
+	 */
+	public function getCartProductPrice($productId, $cart, $voucherLeft)
 	{
-		$productArr             = array();
-		$affected_product_idArr = array();
-		$idx                    = $cart['idx'];
-		$product_price          = 0;
-		$product_price_excl_vat = 0;
-		$p_quantity             = 0;
-
-		$product_idArr = explode(',', $product_id);
-
-		for ($v = 0; ($v < $idx) && ($voucher_left > 0); $v++)
-		{
-			if ($voucher_left < $cart[$v]['quantity'] && $voucher_left)
-			{
-				$cart[$v]['quantity'] = $voucher_left;
-			}
-
-			if (in_array($cart[$v]['product_id'], $product_idArr) || $this->_globalvoucher)
-			{
-				$product_price            += $cart[$v]['product_price'] * $cart[$v]['quantity'];
-				$p_quantity               += $cart[$v]['quantity'];
-				$product_price_excl_vat   += $cart[$v]['product_price_excl_vat'] * $cart[$v]['quantity'];
-				$affected_product_idArr[] = $cart[$v]['product_id'];
-				$voucher_left             = $voucher_left - $cart[$v]['quantity'];
-			}
-		}
-
-		$productArr['product_ids']            = implode(',', $affected_product_idArr);
-		$productArr['product_price']          = $product_price;
-		$productArr['product_price_excl_vat'] = $product_price_excl_vat;
-		$productArr['product_quantity']       = $p_quantity;
-
-		return $productArr;
+		return \Redshop\Cart\Helper::getCartProductPrice($productId, $cart, $voucherLeft, $this->_globalvoucher);
 	}
 
 	/**
@@ -785,117 +679,11 @@ class RedshopModelCart extends RedshopModel
 	 *
 	 * @return   array
 	 *
+	 * @deprecated   Use \Redshop\Cart\Helper::changeAttribute() instead
 	 * @since    2.0.6
 	 */
 	public function changeAttribute($data)
 	{
-		$imagename = '';
-		$type      = '';
-		$cart      = RedshopHelperCartSession::getCart();
-
-		$generateAttributeCart = array();
-		$product_id            = $data['product_id'];
-		$idx                   = $data['cart_index'];
-
-		if (isset($data['attribute_id_prd_' . $product_id . '_0']))
-		{
-			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
-
-			for ($ia = 0, $countAttribute = count($attribute_data); $ia < $countAttribute; $ia++)
-			{
-				$accPropertyCart                              = array();
-				$attribute                                    = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute_data[$ia]);
-				$generateAttributeCart[$ia]['attribute_id']   = $attribute_data[$ia];
-				$generateAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
-
-				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]]))
-				{
-					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
-
-					for ($ip = 0, $countProperty = count($acc_property_data); $ip < $countProperty; $ip++)
-					{
-						if ($acc_property_data[$ip] != 0)
-						{
-							$accSubpropertyCart = array();
-							$property_price     = 0;
-							$property           = RedshopHelperProduct_Attribute::getProductAttribute($acc_property_data[$ip]);
-							$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($acc_property_data[$ip], $cart[$idx]['quantity'], 'property');
-
-							if (count($pricelist) > 0)
-							{
-								$property_price = $pricelist->product_price;
-							}
-							else
-							{
-								$property_price = $property[0]->property_price;
-							}
-
-							if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
-							{
-								$type      = 'product_attributes';
-								$imagename = $property[0]->property_image;
-							}
-
-							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
-							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
-							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
-							$accPropertyCart[$ip]['property_price']  = $property_price;
-
-							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
-							{
-								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
-								$countSubProperty     = count($acc_subproperty_data);
-
-								for ($isp = 0; $isp < $countSubProperty; $isp++)
-								{
-									if ($acc_subproperty_data[$isp] != 0)
-									{
-										$subproperty_price = 0;
-										$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($acc_subproperty_data[$isp]);
-										$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $cart[$idx]['quantity'], 'subproperty');
-
-										if (count($pricelist) > 0)
-										{
-											$subproperty_price = $pricelist->product_price;
-										}
-										else
-										{
-											$subproperty_price = $subproperty[0]->subattribute_color_price;
-										}
-
-										if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
-										{
-											$type      = 'subcolor';
-											$imagename = $subproperty[0]->subattribute_color_image;
-										}
-
-										$accSubpropertyCart[$isp]['subproperty_id']           = $acc_subproperty_data[$isp];
-										$accSubpropertyCart[$isp]['subproperty_name']         = $subproperty[0]->text;
-										$accSubpropertyCart[$isp]['subproperty_oprand']       = $subproperty[0]->oprand;
-										$accSubpropertyCart[$isp]['subattribute_color_title'] = $subproperty[0]->subattribute_color_title;
-										$accSubpropertyCart[$isp]['subproperty_price']        = $subproperty_price;
-									}
-								}
-							}
-
-							$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
-						}
-					}
-				}
-
-				$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
-			}
-		}
-
-		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
-
-		if (!empty($imagename) && !empty($type))
-		{
-			$cart[$idx]['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;
-		}
-
-		// @TODO Do we need setCart back ?
-
-		return $cart;
+		return \Redshop\Cart\Helper::changeAttribute($data);
 	}
 }

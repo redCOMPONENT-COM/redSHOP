@@ -50,6 +50,6 @@ class RedshopHelperCartSession
 	 */
 	public static function reset()
 	{
-		self::setCart(null);
+		self::setCart(array());
 	}
 }
