@@ -926,13 +926,13 @@ abstract class RedshopHelperCart
 	 */
 	public static function emptyCart()
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper\Session::getCart();
 		unset($cart);
 
 		setcookie("redSHOPcart", "", time() - 3600, "/");
 
 		$cart['idx'] = 0;
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper\Session::setCart($cart);
 
 		return RedshopHelperStockroom::deleteCartAfterEmpty();
 	}

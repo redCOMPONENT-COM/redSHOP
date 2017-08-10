@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Class RedshopModelCart.
  *
@@ -52,8 +51,6 @@ class RedshopModelCart extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
-
 		$this->_producthelper = productHelper::getInstance();
 		$this->_carthelper    = rsCarthelper::getInstance();
 		$this->_userhelper    = rsUserHelper::getInstance();
@@ -74,20 +71,20 @@ class RedshopModelCart extends RedshopModel
 				$cart['idx'] = 0;
 			}
 
-			$user_id        = $user->id;
+			$userId         = $user->id;
 			$usersess       = $session->get('rs_user');
-			$shopperGroupId = RedshopHelperUser::getShopperGroup($user_id);
+			$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
 
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
-				$userArr = RedshopHelperUser::getVatUserInformation($user_id);
+				$userArr = RedshopHelperUser::getVatUserInformation($userId);
 
 				// Removed due to discount issue $usersess['vatCountry']
 				if ($cart['user_shopper_group_id'] != $shopperGroupId
 					|| (!isset($usersess['vatCountry']) || !isset($usersess['vatState']) || $usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code)
 				)
 				{
-					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
+					$cart                          = $this->_carthelper->modifyCart($cart, $userId);
 					$cart['user_shopper_group_id'] = $shopperGroupId;
 
 					$task = JFactory::getApplication()->input->getCmd('task');
@@ -99,7 +96,7 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
-			RedshopHelperCartSession::setCart($cart);
+			\Redshop\Cart\Helper\Session::setCart($cart);
 		}
 	}
 
@@ -112,12 +109,11 @@ class RedshopModelCart extends RedshopModel
 	{
 		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
-			$session     = JFactory::getSession();
 			$db          = JFactory::getDbo();
 			$query       = $db->getQuery(true);
 			$sessionId   = session_id();
-			$carttimeout = (int) Redshop::getConfig()->get('CART_TIMEOUT');
-			$time        = time() - ($carttimeout * 60);
+			$cartTimeout = (int) Redshop::getConfig()->get('CART_TIMEOUT');
+			$time        = time() - ($cartTimeout * 60);
 
 			$query->select($db->quoteName('product_id'))
 				->from($db->quoteName('#__redshop_cart'))
@@ -131,7 +127,7 @@ class RedshopModelCart extends RedshopModel
 			$db->setQuery($query);
 			$deletedrs = $db->loadColumn();
 
-			$cart = $session->get('cart');
+			$cart = \Redshop\Cart\Helper\Session::getCart();
 
 			if ($cart)
 			{
@@ -164,7 +160,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function emptyCart()
 	{
-		return RedshopHelperCart::emptyCart();
+		return Redshop\Cart\Helper::emptyCart();
 	}
 
 	/**
@@ -211,9 +207,9 @@ class RedshopModelCart extends RedshopModel
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
 		$oldQuantity = intval($cart[$cartElement]['quantity']);
 
-		$calculator_price = 0;
-		$wrapper_price    = 0;
-		$wrapper_vat      = 0;
+		$calculatorPrice = 0;
+		$wrapperPrice    = 0;
+		$wrapperVat      = 0;
 
 		if ($newQuantity <= 0)
 		{
@@ -257,12 +253,12 @@ class RedshopModelCart extends RedshopModel
 
 					$discount_cal = $this->_carthelper->discountCalculator($calcdata);
 
-					$calculator_price  = $discount_cal['product_price'];
+					$calculatorPrice   = $discount_cal['product_price'];
 					$product_price_tax = $discount_cal['product_price_tax'];
 				}
 
 				// Attribute price
-				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
+				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculatorPrice, $cart[$cartElement]['quantity']);
 				$product_price              = $retAttArr[1];
 				$product_vat_price          = $retAttArr[2];
 				$product_old_price          = $retAttArr[5] + $retAttArr[6];
@@ -276,8 +272,8 @@ class RedshopModelCart extends RedshopModel
 				if ($cart[$cartElement]['wrapper_id'])
 				{
 					$wrapperArr    = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
-					$wrapper_vat   = $wrapperArr['wrapper_vat'];
-					$wrapper_price = $wrapperArr['wrapper_price'];
+					$wrapperVat   = $wrapperArr['wrapper_vat'];
+					$wrapperPrice = $wrapperArr['wrapper_price'];
 				}
 
 				if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
@@ -288,7 +284,7 @@ class RedshopModelCart extends RedshopModel
 
 					if ($subscription_price)
 					{
-						$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
+						$subscription_vat = RedshopHelperProduct::getProductTax($cart[$cartElement]['product_id'], $subscription_price);
 					}
 
 					$product_vat_price += $subscription_vat;
@@ -297,35 +293,37 @@ class RedshopModelCart extends RedshopModel
 					$product_old_price_excl_vat += $subscription_price;
 				}
 
-				$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-				$cart[$cartElement]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-				$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
-				$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
-				$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+				$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapperPrice + $wrapperVat;
+				$cart[$cartElement]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapperPrice + $wrapperVat;
+				$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapperPrice;
+				$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapperPrice;
+				$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapperVat;
+
 				JPluginHelper::importPlugin('redshop_product');
 				$dispatcher = RedshopHelperUtility::getDispatcher();
 				$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 			}
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper\Session::setCart($cart);
 	}
 
+	/**
+	 * @param   array  $data
+	 */
 	public function update_all($data)
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher    = RedshopHelperUtility::getDispatcher();
-		$productHelper = productHelper::getInstance();
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper\Session::getCart();
 		$user = JFactory::getUser();
 
 		if (empty($cart))
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
-			RedshopHelperCartSession::setCart($cart);
-			$cart        = RedshopHelperCartSession::getCart();
+			\Redshop\Cart\Helper\Session::setCart($cart);
 		}
 
 		$idx           = (int) ($cart['idx']);
@@ -365,9 +363,9 @@ class RedshopModelCart extends RedshopModel
 						$accessoryAsProdutWithoutVat = '{without_vat}';
 						$accessoryPrice              = (float) $accessoryAsProdut->accessory[$cart[$i]['product_id']]->newaccessory_price;
 
-						$productPriceInit                   = $productHelper->productPriceRound($accessoryPrice);
+						$productPriceInit                   = RedshopHelperProductPrice::priceRound($accessoryPrice);
 						$cart[$i]['product_vat']            = 0;
-						$cart[$i]['product_price_excl_vat'] = $productHelper->productPriceRound($accessoryPrice);
+						$cart[$i]['product_price_excl_vat'] = RedshopHelperProductPrice::priceRound($accessoryPrice);
 					}
 
 					$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
@@ -432,7 +430,7 @@ class RedshopModelCart extends RedshopModel
 
 						if ($subscription_price)
 						{
-							$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+							$subscription_vat = RedshopHelperProduct::getProductTax($product_id, $subscription_price);
 						}
 
 						$product_vat_price += $subscription_vat;
@@ -454,12 +452,12 @@ class RedshopModelCart extends RedshopModel
 
 		unset($cart[$idx]);
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper\Session::setCart($cart);
 	}
 
 	public function delete($cartElement)
 	{
-		$cart            = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper\Session::getCart();
 
 		if (array_key_exists($cartElement, $cart))
 		{
@@ -487,6 +485,7 @@ class RedshopModelCart extends RedshopModel
 
 			RedshopHelperStockroom::deleteCartAfterEmpty($cart[$cartElement]['product_id'], 'product', $cart[$cartElement]['quantity']);
 			unset($cart[$cartElement]);
+
 			$cart = array_merge(array(), $cart);
 
 			$Index = $cart['idx'] - 1;
@@ -502,30 +501,43 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper\Session::setCart($cart);
 	}
 
+	/**
+	 * @param   array  $cartData
+	 *
+	 * @return  array|bool
+	 */
 	public function coupon($cartData = array())
 	{
 		return RedshopHelperCartDiscount::applyCoupon($cartData);
 	}
 
+	/**
+	 * @param   array  $cartData
+	 *
+	 * @return  array|bool
+	 */
 	public function voucher($cartData = array())
 	{
 		return RedshopHelperCartDiscount::applyVoucher($cartData);
 	}
 
+	/**
+	 * @param   array  $post
+	 */
 	public function redmasscart($post)
 	{
-		$data            = array();
-		$products_number = explode("\n", $post["numbercart"]);
-		$db              = JFactory::getDbo();
+		$data           = array();
+		$productsNumber = explode("\n", $post["numbercart"]);
+		$db             = JFactory::getDbo();
 
-		foreach ($products_number as $productNumber)
+		foreach ($productsNumber as $productNumber)
 		{
 			$productNumber = trim($productNumber);
 
-			if ($productNumber === '')
+			if (empty($productNumber))
 			{
 				continue;
 			}
@@ -541,30 +553,30 @@ class RedshopModelCart extends RedshopModel
 				continue;
 			}
 
-			$product_id = $product->product_id;
+			$productId = (int) $product->product_id;
 
 			if ($product->published == 0)
 			{
-				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $product_id);
+				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId);
 				JError::raiseWarning(20, $msg);
 				continue;
 			}
 
 			if ($product->not_for_sale > 0)
 			{
-				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $product_id);
+				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId);
 				JError::raiseWarning(20, $msg);
 				continue;
 			}
 
 			if ($product->expired == 1)
 			{
-				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $product_id);
+				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId);
 				JError::raiseWarning(20, $msg);
 				continue;
 			}
 
-			$data["product_id"] = $product_id;
+			$data["product_id"] = $productId;
 
 			if (isset($post["mod_quantity"]) && $post["mod_quantity"] !== "")
 			{
@@ -583,7 +595,7 @@ class RedshopModelCart extends RedshopModel
 	/**
 	 * check if attribute tag is present in product template.
 	 *
-	 * @param   int $productId Product ID
+	 * @param   int  $productId  Product ID
 	 *
 	 * @return  boolean
 	 *
@@ -591,7 +603,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function checkifTagAvailable($productId)
 	{
-		$template              = RedshopHelperTemplate::getTemplate(
+		$template = RedshopHelperTemplate::getTemplate(
 			"product",
 			RedshopEntityProduct::getInstance($productId)->loadItem()->getTemplate()
 		);
@@ -674,12 +686,12 @@ class RedshopModelCart extends RedshopModel
 	}
 
 	/**
-	 * @param    array $data Data
+	 * @param    array  $data  Data
 	 *
 	 * @return   array
 	 *
 	 * @deprecated   Use \Redshop\Cart\Helper::changeAttribute() instead
-	 * @since    2.0.6
+	 * @since        2.0.6
 	 */
 	public function changeAttribute($data)
 	{
