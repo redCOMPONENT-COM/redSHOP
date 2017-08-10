@@ -8,18 +8,22 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
+
+$editor = JFactory::getEditor();
+$jinput = JFactory::getApplication()->input;
+$post = $jinput->post->getArray();
 
 jimport('joomla.filesystem.file');
 
 $url = JUri::root();
 
-$showbuttons   = JFactory::getApplication()->input->get('showbuttons');
-$section_id    = JFactory::getApplication()->input->get('section_id');
-$section_name  = JFactory::getApplication()->input->get('section_name');
-$media_section = JFactory::getApplication()->input->get('media_section');
-$k             = 0;
+$showbuttons   = $jinput->get('showbuttons');
+$section_id    = $jinput->get('section_id');
+$section_name  = $jinput->get('section_name');
+$media_section = $jinput->get('media_section');
+$k = 0;
 
 JFactory::getDocument()->addScriptDeclaration('
 (function ($) {

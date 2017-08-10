@@ -114,7 +114,7 @@ class RedshopViewForm extends AbstractView
 		$app = JFactory::getApplication();
 
 		// Check permission on create new
-		if ((empty($this->item->id) && !$this->canCreate) || (!empty($this->item->id) && !$this->canEdit))
+		if ((empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate) || (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
 
@@ -131,7 +131,7 @@ class RedshopViewForm extends AbstractView
 	 */
 	protected function addToolbar()
 	{
-		$isNew = ($this->item->id < 1);
+		$isNew = ($this->item->{$this->getPrimaryKey()} < 1);
 
 		if ($this->canEdit)
 		{
@@ -198,12 +198,12 @@ class RedshopViewForm extends AbstractView
 
 		foreach ($fields as $field)
 		{
-			if ($field->getAttribute('type') == "spacer")
+			if ($field->getAttribute('type') === "spacer")
 			{
 				continue;
 			}
 
-			if ($field->getAttribute('type') == "hidden")
+			if ($field->getAttribute('type') === "hidden")
 			{
 				$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
 

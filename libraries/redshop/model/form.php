@@ -214,7 +214,7 @@ class RedshopModelForm extends JModelAdmin
 	 *
 	 * @return  JTable
 	 */
-	public function getTable($name = null, $prefix = '', $config = array())
+	public function getTable($name = null, $prefix = 'RedshopTable', $config = array())
 	{
 		$class = get_class($this);
 
