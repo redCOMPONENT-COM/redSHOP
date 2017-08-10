@@ -240,7 +240,7 @@ class Wss_DataFeedApplicationCli extends JApplicationCli
 		$storePath = JPATH_SITE . '/' . $this->getParams()->get('path');
 		$storeFile = $storePath . '/datafeed.xml';
 
-		return (bool) !JFile::write($storeFile, $xml);
+		return JFile::write($storeFile, $xml);
 	}
 }
 
