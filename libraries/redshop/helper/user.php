@@ -653,10 +653,10 @@ class RedshopHelperUser
 		$useBillingAsShipping = !isset($data['billisship']) ? false : true;
 
 		// Info: field_section 6 :User information
-		RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_USER_INFORMATIONS, $row->users_info_id);
+		RedshopHelperExtrafields::extraFieldSave($data, \Redshop\Extrafields\Helper::SECTION_USER_INFORMATIONS, $row->users_info_id);
 
 		$extraFieldSection = !$row->is_company ?
-			RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
+			\Redshop\Extrafields\Helper::SECTION_PRIVATE_BILLING_ADDRESS : \Redshop\Extrafields\Helper::SECTION_COMPANY_BILLING_ADDRESS;
 
 		// Store user billing data.
 		RedshopHelperExtrafields::extraFieldSave($data, $extraFieldSection, $row->users_info_id);
@@ -741,12 +741,12 @@ class RedshopHelperUser
 		if ($data['is_company'] == 0)
 		{
 			// Info: field_section 14 :Customer shipping Address
-			RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $userTable->users_info_id);
+			RedshopHelperExtrafields::extraFieldSave($data, \Redshop\Extrafields\Helper::SECTION_PRIVATE_SHIPPING_ADDRESS, $userTable->users_info_id);
 		}
 		else
 		{
 			// Info: field_section 15 :Company shipping Address
-			RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $userTable->users_info_id);
+			RedshopHelperExtrafields::extraFieldSave($data, \Redshop\Extrafields\Helper::SECTION_COMPANY_SHIPPING_ADDRESS, $userTable->users_info_id);
 		}
 
 		return $userTable;

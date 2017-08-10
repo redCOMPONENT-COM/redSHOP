@@ -214,7 +214,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 			'_blank'
 		);
 
-		$lists['order_extra_fields'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_ORDER, $order_id, "", "", "", $billing->user_email);
+		$lists['order_extra_fields'] = RedshopHelperExtrafields::listAllField(\Redshop\Extrafields\Helper::SECTION_ORDER, $order_id, "", "", "", $billing->user_email);
 
 		$this->lists = $lists;
 		$this->detail = $detail;

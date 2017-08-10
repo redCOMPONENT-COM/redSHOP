@@ -78,14 +78,14 @@ class RedshopHelperBillingTag
 			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 			{
 				$billingContent .= RedshopHelperExtrafields::listAllField(
-					RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id
+					\Redshop\Extrafields\Helper::SECTION_QUOTATION, $billingAddress->users_info_id
 				);
 			}
 		}
 		elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 		{
 			$content = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', '', $content
+				\Redshop\Extrafields\Helper::SECTION_QUOTATION, $billingAddress->users_info_id, '', '', $content
 			);
 		}
 
@@ -241,7 +241,7 @@ class RedshopHelperBillingTag
 			}
 
 			$fieldSection = $billingAddress->is_company === 1 ?
-				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
+				\Redshop\Extrafields\Helper::SECTION_COMPANY_BILLING_ADDRESS : \Redshop\Extrafields\Helper::SECTION_PRIVATE_BILLING_ADDRESS;
 
 			$extraFields = RedshopHelperExtrafields::listAllFieldDisplay($fieldSection, $billingAddress->users_info_id, 1);
 		}
