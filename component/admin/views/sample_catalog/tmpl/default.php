@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $uri = JURI::getInstance();
 $url = $uri->root();
-$comment = JRequest::getVar('filter');
+$comment = JFactory::getApplication()->input->get('filter');
 
 ?>
 

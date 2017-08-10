@@ -7,12 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $shippinghelper = shipping::getInstance();
-
-$download = JRequest::getVar('download');
+$app      = JFactory::getApplication();
+$jinput   = $app->input;
+$download = $jinput->get('download');
 
 if ($download)
 {
-	$oid = JRequest::getInt('oid');
+	$oid = $jinput->getInt('oid');
 	$baseURL = JURI::root();
 
 	$name = 'label_' . $oid . '.pdf';
@@ -38,7 +39,7 @@ if ($download)
 	ob_clean();
 	flush();
 	readfile($tmp_name);
-	JFactory::getApplication()->close();
+	$app->close();
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"

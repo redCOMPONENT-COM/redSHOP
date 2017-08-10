@@ -46,9 +46,7 @@ class RedshopTableCountry extends RedshopTable
 			->from($db->qn('#__redshop_country'))
 			->where($db->qn('country_3_code') . ' = ' . $db->quote($this->country_3_code) . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id));
 
-		$db->setQuery($query);
-
-		$xid = intval($db->loadResult());
+		$xid = $db->setQuery($query)->loadResult();
 
 		if ($xid)
 		{
@@ -63,8 +61,7 @@ class RedshopTableCountry extends RedshopTable
 				->from($db->qn('#__redshop_country'))
 				->where($db->qn('country_2_code') . ' = ' . $db->q($this->country_2_code) . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id));
 
-			$db->setQuery($query);
-			$xid = intval($db->loadResult());
+			$xid = $db->setQuery($query)->loadResult();
 
 			if ($xid)
 			{

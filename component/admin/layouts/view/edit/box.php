@@ -19,11 +19,13 @@ extract($displayData);
 
 JHtml::_('behavior.formvalidator');
 
-$action = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . '.edit&id=' . $data->item->id;
+$primaryKey = $data->getPrimaryKey();
+$itemId     = $data->item->{$primaryKey};
+$action = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . '.edit&' . $primaryKey . '=' . $itemId;
 ?>
 
 <form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform"
-      enctype="multipart/form-data">
+        enctype="multipart/form-data">
     <div class="row">
 		<?php foreach ($data->fields as $fieldSet): ?>
             <div class="col-md-6">

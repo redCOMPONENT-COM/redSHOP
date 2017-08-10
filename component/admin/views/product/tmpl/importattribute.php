@@ -8,8 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-$import_start = JRequest::getInt('import_start', 0);
-$import_end = JRequest::getInt('import_end', 10);
+$jinput       = JFactory::getApplication()->input;
+$import_start = $jinput->getInt('import_start', 0);
+$import_end   = $jinput->getInt('import_end', 10);
+
 if (isset($post['import_start']))
 {
 	$import_start = $post['import_start'];
