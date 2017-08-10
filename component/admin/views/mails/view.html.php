@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  Controller
+ * @subpackage  View
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,12 +10,19 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Mail Detail
+ * View Mails
  *
  * @package     RedSHOP.Backend
- * @subpackage  Controller
+ * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerMail extends RedshopControllerForm
+class RedshopViewMails extends RedshopViewList
 {
+	/**
+	 * Display check-in button or not.
+	 *
+	 * @var   boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $checkIn = false;
 }
