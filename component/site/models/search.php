@@ -1346,7 +1346,10 @@ class RedshopModelSearch extends RedshopModel
 					continue;
 				}
 
-				$subQuery[] = $db->qn('fd' . $key . '.data_txt') . ' IN ("' . implode('","', $fieldValues) . '")';
+				foreach ($fieldValues as $value)
+				{
+					$subQuery[] = 'FIND_IN_SET("' . $value . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
+				}
 
 				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
 					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
