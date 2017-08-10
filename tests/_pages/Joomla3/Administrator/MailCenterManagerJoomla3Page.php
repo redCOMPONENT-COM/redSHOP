@@ -15,7 +15,7 @@
  */
 class MailCenterManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=mail';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=mails';
 
 	public static $mailName = "//input[@id='mail_name']";
 
