@@ -8,10 +8,11 @@
  */
 defined('_JEXEC') or die;
 
+$jinput = JFactory::getApplication()->input;
 
-$model = $this->getModel('newsletter');
-$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-$newsletter_id = JRequest::getVar('newsletter_id');
+$model         = $this->getModel('newsletter');
+$cid           = $jinput->post->get('cid', array(0), 'array');
+$newsletter_id = $jinput->get('newsletter_id');
 ?>
 <script language="javascript" type="text/javascript">
 	var xmlhttp

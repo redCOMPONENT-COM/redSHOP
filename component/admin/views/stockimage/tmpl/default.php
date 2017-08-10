@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-$filter = JRequest::getVar('filter');
+$filter = JFactory::getApplication()->input->get('filter');
 
 $model = $this->getModel('stockimage');
 ?>
