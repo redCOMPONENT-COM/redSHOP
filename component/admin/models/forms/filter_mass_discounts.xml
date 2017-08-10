@@ -2,21 +2,31 @@
 <form>
     <fields name="filter">
         <field
-            name="search"
-            type="redshop.text"
-            label="COM_REDSHOP_FILTER_SEARCH_DESC"
-            placeholder="JSEARCH_FILTER"
-            class="js-enter-submits"
-            />
+                name="search"
+                type="redshop.text"
+                label="COM_REDSHOP_FILTER_SEARCH_DESC"
+                placeholder="JSEARCH_FILTER"
+                class="js-enter-submits"
+        />
+        <field
+                name="type"
+                type="list"
+                label="COM_REDSHOP_MASS_DISCOUNT_FILTER_TYPE"
+                onchange="this.form.submit();"
+                default="">
+            <option value="">COM_REDSHOP_MASS_DISCOUNT_FILTER_TYPE_OPTION_SELECT</option>
+            <option value="1">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE</option>
+            <option value="0">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_TOTAL</option>
+        </field>
     </fields>
     <fields name="list">
         <field
-            name="limit"
-            type="limitbox"
-            default="25"
-            label="JGLOBAL_ORDERING_LIST_LIMIT"
-            description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
-            onchange="this.form.submit();"
-            />
+                name="limit"
+                type="limitbox"
+                default="25"
+                label="JGLOBAL_ORDERING_LIST_LIMIT"
+                description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
     </fields>
 </form>

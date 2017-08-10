@@ -230,7 +230,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!empty($file))
 		{
-			$filename = $file['name'];
+			$filename = RedshopHelperMedia::cleanFileName($file['name']);
 
 			// Image Upload
 			$src     = $file['tmp_name'];
