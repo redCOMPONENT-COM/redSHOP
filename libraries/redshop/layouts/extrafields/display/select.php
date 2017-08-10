@@ -16,4 +16,4 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-echo urldecode(implode('<br>', $htmlData));
+echo urldecode(implode('<br>', $data));
