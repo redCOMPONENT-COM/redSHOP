@@ -849,4 +849,77 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		$orderData = RedshopHelperOrder::getOrderDetail($orderId);
 		$trackingUrl = 'https://5sao.ghn.vn/Tracking/ViewTracking/' . $orderData->track_no;
 	}
+
+
+	/**
+	 * Trigger after order cancelled
+	 *
+	 * @param   object  $orderData  Order Id
+	 * @param   string  $status     New order status
+	 *
+	 * @return  void
+	 */
+	public function onAfterOrderStatusUpdate($orderData, $status)
+	{
+		if ($status != 'X')
+		{
+			return;
+		}
+
+		$app        = JFactory::getApplication();
+		$trackingId = $orderData->track_no;
+
+		if (empty($trackingId))
+		{
+			$app->enqueueMessage(
+				JText::_('PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_TRACKING_IS_EMPTY')
+			);
+
+			return;
+		}
+
+		$data = $this->cancelOrder($trackingId);
+
+		if ($data['ErrorMessage'] == null)
+		{
+			$app->enqueueMessage(
+				JText::_('PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_CANCEL_ORDER_SUCCESSFUL')
+			);
+		}
+		else
+		{
+			$app->enqueueMessage($data['ErrorMessage']);
+		}
+	}
+
+	/**
+	 * Cancelled GiaoHangNhanh Order
+	 *
+	 * @param   string  $trackingId  Order tracking Id
+	 *
+	 * @return  array
+	 */
+	public function cancelOrder($trackingId)
+	{
+		$post = array(
+			'ApiKey'       => $this->params->get('api_key'),
+			'ApiSecretKey' => $this->params->get('api_secret'),
+			'ClientID'     => $this->params->get('client_id'),
+			'Password'     => $this->params->get('password'),
+			'OrderCode'    => $trackingId
+		);
+		$headers = array(
+			"Content-Type: application/x-www-form-urlencoded",
+			"Cache-control: no-cache"
+		);
+
+		$curl = curl_init($this->params->get('url_service') . 'CancelOrder');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		$json = curl_exec($curl);
+		curl_close($curl);
+
+		return json_decode($json, true);
+	}
 }

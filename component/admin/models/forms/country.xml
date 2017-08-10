@@ -16,6 +16,9 @@
                 class="form-control"
                 default=""
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
                 />
         <field
                 name="country_3_code"
@@ -27,6 +30,9 @@
                 class="input-xs"
                 default=""
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
                 />
         <field
                 name="country_2_code"
@@ -38,6 +44,9 @@
                 class="input-xs"
                 default=""
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
                 />
         <field
                 name="country_jtext"
@@ -48,6 +57,9 @@
                 size="80"
                 class="form-control"
                 default=""
+                table-sortable="1"
+                table-inline="1"
+                table-width="20%"
                 />
     </fieldset>
 </form>

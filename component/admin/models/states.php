@@ -28,7 +28,7 @@ class RedshopModelStates extends RedshopModelList
 	/**
 	 * constructor (registers additional tasks to methods)
 	 *
-	 * @param   array  $config  config params
+	 * @param   array $config config params
 	 */
 	public function __construct($config = array())
 	{
@@ -57,7 +57,7 @@ class RedshopModelStates extends RedshopModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -74,8 +74,8 @@ class RedshopModelStates extends RedshopModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -94,28 +94,21 @@ class RedshopModelStates extends RedshopModelList
 	}
 
 	/**
-	 * Method to buil query string
+	 * Method to build query string
 	 *
-	 * @return  String
+	 * @return  string
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
 	public function getListQuery()
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$search = $this->getState('filter.search');
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
+		$search    = $this->getState('filter.search');
 		$countryId = $this->getState('filter.country_id');
 
-		$query->select(
-						[
-							'DISTINCT ' . $db->qn('s.id'),
-							$db->qn('s.state_name'),
-							$db->qn('s.state_3_code'),
-							$db->qn('s.state_2_code'),
-							$db->qn('c.country_name')
-						]
-					)
+		$query->select('s.*')
+			->select($db->qn('c.country_name'))
 			->from($db->qn('#__redshop_state', 's'))
 			->join('LEFT', $db->qn('#__redshop_country', 'c') . ' ON (' . $db->qn('s.country_id') . ' = ' . $db->qn('c.id') . ')');
 
@@ -138,7 +131,7 @@ class RedshopModelStates extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderCol  = $this->state->get('list.ordering', 'id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
@@ -149,7 +142,7 @@ class RedshopModelStates extends RedshopModelList
 	/**
 	 * Method to get country name
 	 *
-	 * @param   int  $countryId  An optional ordering field.
+	 * @param   int $countryId An optional ordering field.
 	 *
 	 * @return  object
 	 *
