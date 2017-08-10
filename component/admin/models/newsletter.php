@@ -134,7 +134,7 @@ class RedshopModelNewsletter extends RedshopModel
 	public function category($uid)
 	{
 		$return     = 1;
-		$categories = JRequest::getVar('product_category');
+		$categories = JFactory::getApplication()->input->get('product_category');
 
 		if (count($categories) > 0)
 		{
@@ -159,7 +159,7 @@ class RedshopModelNewsletter extends RedshopModel
 	public function product($user_id)
 	{
 		$return  = 1;
-		$product = JRequest::getVar('product');
+		$product = JFactory::getApplication()->input->get('product');
 
 		if (count($product) > 0)
 		{
@@ -185,10 +185,9 @@ class RedshopModelNewsletter extends RedshopModel
 		$jInput       = JFactory::getApplication()->input;
 		$number_order = $jInput->getInt('number_order', 0);
 		$oprand       = $jInput->getCmd('oprand', 'select');
-
-		$start       = JRequest::getVar('total_start', '');
-		$end         = JRequest::getVar('total_end', '');
-		$order_total = '';
+		$start        = $jInput->get('total_start', '');
+		$end          = $jInput->get('total_end', '');
+		$order_total  = '';
 
 		if ($start != '' && $end != '')
 		{
