@@ -2038,7 +2038,7 @@ class RedshopHelperExtrafields
 
 					break;
 
-				default :
+				default:
 					break;
 			}
 
