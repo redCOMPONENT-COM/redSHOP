@@ -165,7 +165,7 @@ class Wss_DataFeedApplicationCli extends JApplicationCli
 	/**
 	 * Get WSS Datafeed params
 	 *
-	 * @return object
+	 * @return JRegistry
 	 */
 	public function getParams()
 	{
@@ -219,7 +219,7 @@ class Wss_DataFeedApplicationCli extends JApplicationCli
 	 * @param   string  $tagName  Tag name
 	 * @param   string  $value    XML data
 	 *
-	 * @return  boolean
+	 * @return  string
 	 */
 	private function tag($tagName = '', $value = '')
 	{
@@ -240,12 +240,7 @@ class Wss_DataFeedApplicationCli extends JApplicationCli
 		$storePath = JPATH_SITE . '/' . $this->getParams()->get('path');
 		$storeFile = $storePath . '/datafeed.xml';
 
-		if (!JFile::write($storeFile, $xml))
-		{
-			return false;
-		}
-
-		return true;
+		return (bool) !JFile::write($storeFile, $xml);
 	}
 }
 
