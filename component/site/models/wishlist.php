@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 
 
-
 /**
  * Class wishlistModelwishlist
  *
@@ -29,17 +28,9 @@ class RedshopModelWishlist extends RedshopModel
 	// Product data
 	public $_userid = null;
 
-	public $_table_prefix = null;
-
 	public $_comment = null;
 
 	public $_cdate = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-	}
 
 	/**
 	 * Method for get User Wishlist
@@ -55,24 +46,24 @@ class RedshopModelWishlist extends RedshopModel
 
 	public function getWishlistProduct()
 	{
-		$user = JFactory::getUser();
-		$db   = JFactory::getDbo();
+		$user    = JFactory::getUser();
+		$db      = JFactory::getDbo();
 		$session = JFactory::getSession();
 
 		if ($user->id)
 		{
-			$wishlists     = $this->getUserWishlist();
+			$wishLists    = RedshopHelperWishlist::getUserWishlist();
 			$wishProducts = array();
 
-			foreach ($wishlists as $key => $wishlist)
+			foreach ($wishLists as $key => $wishList)
 			{
 				$query = $db->getQuery(true)
 					->select('DISTINCT wp.*, p.*')
 					->from($db->qn('#__redshop_product', 'p'))
 					->leftJoin($db->qn('#__redshop_wishlist_product', 'wp') . ' ON ' . $db->qn('wp.product_id') . ' = ' . $db->qn('p.product_id'))
-					->where($db->qn('wp.wishlist_id') . ' = ' . $db->q((int) $wishlist->wishlist_id));
+					->where($db->qn('wp.wishlist_id') . ' = ' . $db->q((int) $wishList->wishlist_id));
 
-				$wishProducts[$wishlist->wishlist_id] = $db->setQuery($query)->loadObjectList();
+				$wishProducts[$wishList->wishlist_id] = $db->setQuery($query)->loadObjectList();
 			}
 
 			return $wishProducts;
@@ -103,7 +94,8 @@ class RedshopModelWishlist extends RedshopModel
 				return array();
 			}
 
-			JArrayHelper::toInteger($productIds);
+			Joomla\Utilities\ArrayHelper::toInteger($productIds);
+
 			$query = $db->getQuery(true)
 				->select('DISTINCT *')
 				->from($db->qn('#__redshop_product'))
@@ -113,11 +105,17 @@ class RedshopModelWishlist extends RedshopModel
 		}
 	}
 
+	/**
+	 *
+	 * @return  array|mixed
+	 *
+	 */
 	public function getWishlistProductFromSession()
 	{
 		$db         = JFactory::getDbo();
 		$session    = JFactory::getSession();
 		$wishlist   = $session->get('wishlist');
+
 		$productIds = array();
 
 		if (empty($wishlist))
@@ -167,7 +165,7 @@ class RedshopModelWishlist extends RedshopModel
 		{
 			foreach ($wishes as $wish)
 			{
-				$newWish = clone $products[$productId];
+				$newWish                = clone $products[$productId];
 				$newWish->product_items = $wish->product_items;
 
 				$rows[] = $newWish;
@@ -204,8 +202,8 @@ class RedshopModelWishlist extends RedshopModel
 			if ($productId)
 			{
 				$columns = array('wishlist_id', 'product_id', 'cdate');
-				$values = array($row->wishlist_id, $productId, $db->q(time()));
-				$query = $db->getQuery(true)
+				$values  = array($row->wishlist_id, $productId, $db->q(time()));
+				$query   = $db->getQuery(true)
 					->insert($db->qn('#__redshop_wishlist_product'))
 					->columns($db->qn($columns))
 					->values(implode(',', $values));
@@ -215,8 +213,8 @@ class RedshopModelWishlist extends RedshopModel
 			elseif ($numberProduct)
 			{
 				ob_clean();
-				$extraField = extraField::getInstance();
-				$rowData    = $extraField->getSectionFieldList(12);
+
+				$rowData    = RedshopHelperExtrafields::getSectionFieldList(12);
 
 				for ($si = 1; $si <= $numberProduct; $si++)
 				{
@@ -313,7 +311,7 @@ class RedshopModelWishlist extends RedshopModel
 			 */
 			if ($wishlistProductTable->load($tmpData)
 				&& (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') == 0
-				|| $this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds)))
+					|| $this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds)))
 			{
 				continue;
 			}
@@ -377,55 +375,58 @@ class RedshopModelWishlist extends RedshopModel
 		return true;
 	}
 
-	public function check_user_wishlist_authority($userid, $wishlist_id)
+	/**
+	 * @param   int  $userId
+	 * @param   int  $wishListId
+	 *
+	 * @return  bool
+	 */
+	public function check_user_wishlist_authority($userId, $wishListId)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
-			. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
-		$db->setQuery($query);
+		$query = $db->getQuery(true);
 
-		$rs = $db->loadResult();
+		$query->select($db->quoteName('wishlist_id'))
+			->from($db->quoteName('#__redshop_wishlist'))
+			->where($db->quoteName('wishlist_id') . ' = ' . (int) $wishListId)
+			->where($db->quoteName('user_id') . ' = ' . (int) $userId);
 
-		if ($rs)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return  $db->setQuery($query)->loadResult() ? true : false;
 	}
 
-	public function delwishlist($userid, $wishlist_id)
+	/**
+	 * @param   int  $userId
+	 * @param   int  $wishListId
+	 *
+	 * @return  bool|mixed
+	 */
+	public function delwishlist($userId, $wishListId)
 	{
 		$db    = JFactory::getDbo();
-		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
-			. " WHERE wishlist_id=" . (int) $wishlist_id;
-		$db->setQuery($query);
+		$query = $db->getQuery(true);
 
-		$db->execute();
-		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_userfielddata "
-			. " WHERE wishlist_id=" . (int) $wishlist_id;
-		$db->setQuery($query);
+		$query->delete($db->quoteName('#__redshop_wishlist_product'))
+			->where($db->quoteName('wishlist_id') . ' = ' . (int) $wishListId);
 
-		if ($db->execute())
+		$db->setQuery($query)->execute();
+
+		$query->clear();
+
+		$query->delete($db->quoteName('#__redshop_wishlist_userfielddata'))
+			->where($db->quoteName('wishlist_id') . ' = ' . (int) $wishListId);
+
+		if (!$db->setQuery($query)->execute())
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "wishlist "
-				. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
-			$db->setQuery($query);
-
-			if ($db->execute())
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 		else
 		{
-			return false;
+			$query->clear();
+			$query->delete($db->quoteName('#__redshop_wishlist'))
+				->where($db->quoteName('wishlist_id') . ' = ' . (int) $wishListId)
+				->where($db->quoteName('user_id') . ' = ' . (int) $userId);
+
+			return $db->setQuery($query)->execute();
 		}
 	}
 
@@ -437,13 +438,13 @@ class RedshopModelWishlist extends RedshopModel
 		}
 		else
 		{
-			$productId = isset($data['wishlist_id']) ? (int) $data['wishlist_id'] : 0;
-			$attributeId = isset($data['attribute_id']) ? (int) $data['attribute_id'] : 0;
-			$propertyId = isset($data['property_id']) ? (int) $data['property_id'] : 0;
+			$productId      = isset($data['wishlist_id']) ? (int) $data['wishlist_id'] : 0;
+			$attributeId    = isset($data['attribute_id']) ? (int) $data['attribute_id'] : 0;
+			$propertyId     = isset($data['property_id']) ? (int) $data['property_id'] : 0;
 			$subAttributeId = isset($data['subattribute_id']) ? (int) $data['subattribute_id'] : 0;
 		}
 
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 		$wishlist = $session->get('wishlist');
 
 		if (empty($wishlist) || !isset($wishlist[$productId]))
@@ -463,9 +464,9 @@ class RedshopModelWishlist extends RedshopModel
 			return true;
 		}
 
-		$checkObject = new stdClass;
-		$checkObject->attribute_id = $attributeId;
-		$checkObject->property_id = $propertyId;
+		$checkObject                  = new stdClass;
+		$checkObject->attribute_id    = $attributeId;
+		$checkObject->property_id     = $propertyId;
 		$checkObject->subattribute_id = $subAttributeId;
 
 		foreach ($wishlist[$productId] as $key => $wish)
