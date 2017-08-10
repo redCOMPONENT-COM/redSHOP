@@ -9,12 +9,12 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
-
-$section_type = JRequest::getVar('section_type');
-$parentsection = JRequest::getVar('parentsection');
-$model = $this->getModel('xmlexport_detail');
-$uri = JURI::getInstance();
-$url = $uri->root();    ?>
+$jinput        = JFactory::getApplication()->input;
+$section_type  = $jinput->get('section_type');
+$parentsection = $jinput->get('parentsection');
+$model         = $this->getModel('xmlexport_detail');
+$uri           = JURI::getInstance();
+$url           = $uri->root(); ?>
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
