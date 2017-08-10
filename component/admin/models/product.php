@@ -375,78 +375,83 @@ class RedshopModelProduct extends RedshopModel
 		return $db->setQuery($query)->loadObjectlist();
 	}
 
-	public function product_template($template_id, $product_id, $section)
+	/**
+	 * @param   int  $templateId
+	 * @param   int  $productId
+	 * @param   int  $section
+	 *
+	 * @return  array|string
+	 */
+	public function product_template($templateId, $productId, $section)
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if ($section == 1 || $section == 12)
+		if ($section == \Redshop\Extrafields\Helper::SECTION_PRODUCT || $section == \Redshop\Extrafields\Helper::SECTION_PRODUCT_USERFIELD)
 		{
-			$template_desc = $redTemplate->getTemplate("product", $template_id);
+			$templateDesc = RedshopHelperTemplate::getTemplate("product", $templateId);
 		}
 		else
 		{
-			$template_desc = $redTemplate->getTemplate("category", $template_id);
+			$templateDesc = RedshopHelperTemplate::getTemplate("category", $templateId);
 		}
 
-		if (count($template_desc) == 0)
+		if (empty($templateDesc))
 		{
-			return;
+			return '';
 		}
 
-		$template = $template_desc[0]->template_desc;
+		$template = $templateDesc[0]->template_desc;
 		$str      = array();
-		$sec      = explode(',', $section);
+		$sections = explode(',', $section);
 
-		for ($t = 0, $tn = count($sec); $t < $tn; $t++)
+		foreach ($sections as $section)
 		{
-			$inArr[] = "'" . $sec[$t] . "'";
+			$inArr[] = "'" . $section . "'";
 		}
 
 		$in = implode(',', $inArr);
-		$q  = "SELECT field_name,field_type,field_section from #__redshop_fields where field_section in (" . $in . ") ";
-		$this->_db->setQuery($q);
-		$fields = $this->_db->loadObjectlist();
 
-		for ($i = 0, $in = count($fields); $i < $in; $i++)
+		$query = $this->_db->getQuery(true);
+		$query->select($this->_db->quoteName(array('field_name','field_type','field_section')))
+			->from($this->_db->quoteName('#__redshop_fields'))
+			->where($this->_db->quoteName('field_section') . ' IN ( ' . $in . ' ) ');
+		$fields = $this->_db->setQuery($query)->loadObjectlist();
+
+		foreach ($fields as $field)
 		{
-			if (strstr($template, "{" . $fields[$i]->field_name . "}"))
+			if (strstr($template, "{" . $field->field_name . "}"))
 			{
-				if ($fields[$i]->field_section == 12)
+				if ($field->field_section == \Redshop\Extrafields\Helper::SECTION_PRODUCT_USERFIELD)
 				{
-					if ($fields[$i]->field_type == 15)
+					if ($field->field_type == \Redshop\Extrafields\Helper::SECTION_COMPANY_SHIPPING_ADDRESS)
 					{
-						$str[] = $fields[$i]->field_name;
+						$str[] = $field->field_name;
 					}
 				}
 				else
 				{
-					$str[] = $fields[$i]->field_name;
+					$str[] = $field->field_name;
 				}
 			}
 		}
 
-		$list_field = array();
-
-		if (count($str) > 0)
+		if (empty($str))
 		{
-			$dbname = implode(",", $str);
-			$field  = extra_field::getInstance();
-
-			for ($t = 0, $tn = count($sec); $t < $tn; $t++)
-			{
-				$list_field[] = $field->list_all_field($sec[$t], $product_id, $dbname);
-			}
+			return '';
 		}
 
-		if (count($list_field) > 0)
+		$listField = array();
+
+		foreach ($sections as $section)
 		{
-			return $list_field;
+			$listField[] = RedshopHelperExtrafields::listAllField($section, $productId, implode(",", $str));
 		}
 
-		else
+
+		if (empty($listField))
 		{
-			return "";
+			return '';
 		}
+
+		return $listField;
 	}
 
 	public function assignTemplate($data)
