@@ -314,8 +314,7 @@ abstract class ModRedshopFilter
 		foreach ($data as $key => $value)
 		{
 			$result[$value->field_id]['title'] = $value->title;
-			$result[$value->field_id]['value'][$key]['value'] = $value->field_value;
-			$result[$value->field_id]['value'][$key]['name'] = $value->field_name;
+			$result[$value->field_id]['value'][$value->field_value] = $value->field_name;
 		}
 
 		return $result;

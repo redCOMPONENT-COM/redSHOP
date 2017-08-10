@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal', '.joom-box');
 
 $url = JURI::base();
-$comment = JRequest::getVar('filter');
+$comment = JFactory::getApplication()->input->get('filter');
 $model = $this->getModel('catalog');
 ?>
 <script language="javascript" type="text/javascript">
