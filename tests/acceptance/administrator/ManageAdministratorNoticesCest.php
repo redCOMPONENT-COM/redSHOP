@@ -30,7 +30,7 @@ class ManageAdministratorNoticesCest
 			'Gift Card Manager' => '/administrator/index.php?option=com_redshop&view=giftcards',
 			'Voucher Manager' => '/administrator/index.php?option=com_redshop&view=voucher',
 			'Coupon Manager' => '/administrator/index.php?option=com_redshop&view=coupon',
-			'Mail  Manager' => '/administrator/index.php?option=com_redshop&view=mail',
+			'Mail Manager' => '/administrator/index.php?option=com_redshop&view=mails',
 			'News Letter Manager' => '/administrator/index.php?option=com_redshop&view=newsletter',
 			'Shipping Box Manager' => '/administrator/index.php?option=com_redshop&view=shipping_box',
 			'Wrapping  Manager' => '/administrator/index.php?option=com_redshop&view=wrapper',
