@@ -71,20 +71,19 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 	 * Function to change State of a Mail Template
 	 *
 	 * @param   string $name  Name of the Mail Template
-	 * @param   string $state State of the Mail Template
 	 *
 	 * @return void
 	 */
-	public function changeMailState($name, $state = 'unpublish')
+	public function changeMailState($name)
 	{
 		$client = $this;
 		$client->amOnPage(\MailCenterPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->waitForText(\MailCenterPage::$namePage, 60, \MailCenterPage::$headPage);
-		$client->executeJS('window.scrollTo(0,0)');
-		$client->click('Reset');
-		$client->wait(1);
-		$client->changeState(new \MailCenterPage, $name, $state, \MailCenterPage::$resultRow, \MailCenterPage::$selectFirst, \MailCenterPage::$searchField);
+		$client->searchMail($name);
+		$client->wait(3);
+		$client->see($name, \MailCenterPage::$resultRow);
+		$client->checkAllResults();
+		$client->click(\MailCenterPage::$mailTemplateStatePath);
 	}
 
 	/**

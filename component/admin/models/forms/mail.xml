@@ -19,19 +19,6 @@
                 table-edit-link="1"
         />
         <field
-                name="mail_subject"
-                type="redshop.text"
-                label="COM_REDSHOP_MAIL_SUBJECT"
-                description="COM_REDSHOP_TOOLTIP_MAIL_SUBJECT"
-                placeholder="COM_REDSHOP_TOOLTIP_MAIL_SUBJECT"
-                class="form-control"
-                default=""
-                required="true"
-                table-sortable="1"
-                table-inline="1"
-                table-width="25%"
-        />
-        <field
                 name="mail_section"
                 type="redshop.mail_section"
                 label="COM_REDSHOP_MAIL_SECTION"
@@ -65,6 +52,19 @@
                 class="form-control"
                 default=""
                 table-hide="1"
+        />
+        <field
+                name="mail_subject"
+                type="redshop.text"
+                label="COM_REDSHOP_MAIL_SUBJECT"
+                description="COM_REDSHOP_TOOLTIP_MAIL_SUBJECT"
+                placeholder="COM_REDSHOP_TOOLTIP_MAIL_SUBJECT"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-width="25%"
         />
         <field
                 name="published"
