@@ -139,7 +139,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$detail = new stdClass;
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$data                               = $this->input->getArray($_POST);
+		$data                               = $this->input->post->getArray();
 		$data['product_desc']               = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_desc', '', 'RAW'), 'html');
 		$data['product_s_desc']             = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_s_desc', '', 'RAW'), 'html');
 		$detail->product_id                 = (isset($data['product_id'])) ? $data['product_id'] : 0;

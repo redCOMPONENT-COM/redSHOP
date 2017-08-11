@@ -8,10 +8,12 @@
  */
 defined('_JEXEC') or die;
 
-$fid    = JRequest::getVar('fid', '');
-$fdl    = JRequest::getVar('fdownload', '');
-$fsec   = JRequest::getVar('fsec', '');
-$folder = JRequest::getVar('folder', '');
+$jinput = JFactory::getApplication()->input;
+
+$fid    = $jinput->get('fid', '');
+$fdl    = $jinput->get('fdownload', '');
+$fsec   = $jinput->get('fsec', '');
+$folder = $jinput->get('folder', '');
 
 $basePath = "components/com_redshop/assets/images/";
 

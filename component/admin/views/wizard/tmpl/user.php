@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$params = JRequest::getVar('params');
+$params = JFactory::getApplication()->input->get('params', '', 'raw');
 ?>
 <div>
 	<form action="?option=com_redshop" method="POST" name="installform" id="installform">
