@@ -246,6 +246,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductQuery($template_data = '')
 	{
+		$filterBy = JFactory::getApplication()->input->get('filter_by', 0);
 		$orderBy = $this->_buildProductOrderBy($template_data);
 
 		// Shopper group - choose from manufactures Start
