@@ -139,7 +139,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		$fieldName   = implode(',', $matches[0]);
 		$fieldName   = str_replace(array('{', '}'), '', $fieldName);
-		$listField[] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_CATEGORY, $item->id, $fieldName);
+		$listField[] = RedshopHelperExtrafields::listAllField(\Redshop\Extrafields\Helper::SECTION_CATEGORY, $item->id, $fieldName);
 
 		return implode('', $listField);
 	}

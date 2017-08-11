@@ -2456,14 +2456,14 @@ class RedshopHelperOrder
 			$mailData    = $mailTemplate[0]->mail_body;
 			$mailSubject = $mailTemplate[0]->mail_subject;
 
-			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_ORDER, 0);
+			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_ORDER, 0);
 
 			if (count($fieldArray) > 0)
 			{
 				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 				{
 					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList(
-						$fieldArray[$i]->id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email
+						$fieldArray[$i]->id, \Redshop\Extrafields\Helper::SECTION_ORDER, $orderId, $userDetail->user_email
 					);
 
 					if ($fieldValueArray->data_txt != "")

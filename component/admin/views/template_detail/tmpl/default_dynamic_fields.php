@@ -53,8 +53,8 @@ if ($this->detail->template_section == "category")
 	echo JHtml::_('tabs.panel', $title, 'category-fields'); ?>
     <table class="adminlist table table-striped">
 		<?php
-		$tags_front = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_CATEGORY);
-		$tags_admin = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_CATEGORY, 0);
+		$tags_front = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_CATEGORY);
+		$tags_admin = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_CATEGORY, 0);
 		$tags       = array_merge((array) $tags_admin, (array) $tags_front);
 		?>
 		<?php if (!empty($tags)): ?>
@@ -143,8 +143,8 @@ if ($this->detail->template_section == "giftcard")
         <tr>
             <td>
 				<?php
-				$tags_front = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD, 1);
-				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_GIFT_CARD_USER_FIELD, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_GIFT_CARD_USER_FIELD, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
 
 				if (count($tags) == 0):
@@ -188,8 +188,8 @@ if ($this->detail->template_section == "product")
         <tr>
             <td>
 				<?php
-				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 1);
-				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1031,8 +1031,8 @@ if ($this->detail->template_section == "related_product")
         <tr>
             <td>
 				<?php
-				$tags_front    = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 1);
-				$tags_admin    = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 0);
+				$tags_front    = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT, 1);
+				$tags_admin    = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT, 0);
 				$tags          = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags  = count($tags);
 				$displayedTags = array();
@@ -1055,8 +1055,8 @@ if ($this->detail->template_section == "related_product")
             <td>
 				<?php
 				$displayedTags = array();
-				$tags_front    = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, 1);
-				$tags_admin    = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, 0);
+				$tags_front    = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT_USERFIELD, 1);
+				$tags_admin    = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT_USERFIELD, 0);
 				$tags          = array_merge($tags_front, $tags_admin);
 				?>
 

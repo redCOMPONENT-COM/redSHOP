@@ -3129,7 +3129,7 @@ class productHelper
 						}
 					}
 
-					$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 1, 1);
+					$fieldArray = RedshopHelperExtrafields::getSectionFieldList(\Redshop\Extrafields\Helper::SECTION_PRODUCT, 1, 1);
 
 					if (count($fieldArray) > 0)
 					{
