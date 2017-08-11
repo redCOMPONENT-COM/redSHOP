@@ -29,11 +29,11 @@ class JFormFieldRproducts extends JFormFieldList
 	/**
 	 * Method to get the field input markup for a generic list.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array  The field input markup.
 	 */
 	public function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->select($db->qn('product_name'))
@@ -41,7 +41,7 @@ class JFormFieldRproducts extends JFormFieldList
 			->from($db->qn('#__redshop_product'))
 			->order($db->qn('product_name'));
 
-		if (!$this->element['parent'])
+		if (isset($this->element['parent']) && $this->element['parent'] === '0')
 		{
 			$query->where($db->qn('product_parent_id') . ' != 0');
 		}
