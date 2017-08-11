@@ -144,7 +144,7 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\MailCenterPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->searchCountry($name);
+		$client->searchMail($name);
 		$client->checkAllResults();
 		$client->click(\MailCenterPage::$buttonDelete);
 		$client->acceptPopup();
