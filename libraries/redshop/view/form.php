@@ -79,6 +79,14 @@ class RedshopViewForm extends AbstractView
 	public $hiddenFields;
 
 	/**
+	 * Split fieldset in form into column
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $formFieldsetsColumn = 2;
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
 	 * @param   string  $tpl  Template name
