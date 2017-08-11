@@ -134,6 +134,5 @@ class MailCenterCest
 		$client->doAdministratorLogin();
 		$client = new MailCenterSteps($scenario);
 		$client->deleteMailTemplate($this->newName);
-		$client->searchMail($this->newName, 'Delete');
 	}
 }
