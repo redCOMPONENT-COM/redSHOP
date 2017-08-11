@@ -10,9 +10,6 @@ defined('_JEXEC') or die;
 
 /** @var JPaginationObject $item */
 $item = $displayData['data'];
-echo '<pre>';
-echo print_r('here');
-echo '</pre>';
 
 $display = $item->text;
 
