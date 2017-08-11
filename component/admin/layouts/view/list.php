@@ -193,7 +193,9 @@ if ($data->hasOrdering)
 			<?php endforeach; ?>
             </tbody>
             <tfoot>
-            <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
+                <tr>
+                    <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
+                </tr>
             </tfoot>
         </table>
 	<?php endif; ?>

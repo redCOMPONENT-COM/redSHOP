@@ -28,9 +28,11 @@ class RedshopModelMails extends RedshopModelList
 	/**
 	 * Construct class
 	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @since 1.x
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
