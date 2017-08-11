@@ -110,7 +110,26 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 	 */
 	public function getMailState($name)
 	{
-		return $this->getState(new \MailCenterPage, $name, \MailCenterPage::$resultRow, \MailCenterPage::$mailTemplateStatePath);
+		$client = $this;
+		$client->amOnPage(\MailCenterPage::$url);
+		$client->searchSupplier($name);
+		$client->wait(3);
+		$client->see($name, \MailCenterPage::$resultRow);
+		$text = $client->grabAttributeFrom(\MailCenterPage::$mailTemplateStatePath, 'onclick');
+		echo "Get status text " . $text;
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+		else
+		{
+			$result = 'unpublished';
+		}
+
+		echo "Status need show" . $result;
+
+		return $result;
 	}
 
 	/**
