@@ -18,6 +18,9 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class RedshopEntityBase
 {
+	use \Redshop\Entity\Traits\Url;
+	use \Redshop\Entity\Traits\Object;
+
 	/**
 	 * @const  integer
 	 * @since  1.0
@@ -39,25 +42,11 @@ abstract class RedshopEntityBase
 	protected $aclPrefix = "core";
 
 	/**
-	 * Identifier of the loaded instance
-	 *
-	 * @var  mixed
-	 */
-	protected $id = null;
-
-	/**
 	 * Cached instances
 	 *
 	 * @var  array
 	 */
 	protected static $instances = array();
-
-	/**
-	 * Cached item
-	 *
-	 * @var  mixed
-	 */
-	protected $item = null;
 
 	/**
 	 * Cached table.
@@ -79,82 +68,6 @@ abstract class RedshopEntityBase
 	 * @var  array
 	 */
 	protected $translations = array();
-
-	/**
-	 * Constructor
-	 *
-	 * @param   mixed  $id  Identifier of the active item
-	 */
-	public function __construct($id = null)
-	{
-		if ($id)
-		{
-			$this->id = $id;
-		}
-	}
-
-	/**
-	 * Proxy item properties
-	 *
-	 * @param   string  $property  Property tried to access
-	 *
-	 * @return  mixed   $this->item->property if it exists
-	 */
-	public function __get($property)
-	{
-		if (null != $this->item && property_exists($this->item, $property))
-		{
-			return $this->item->$property;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Proxy item properties
-	 *
-	 * @param   string  $property  Property tried to access
-	 * @param   mixed   $value     Value to assign
-	 *
-	 * @return  self
-	 *
-	 * @since   1.0
-	 */
-	public function __set($property, $value)
-	{
-		if (null === $this->item)
-		{
-			$this->item = new stdClass;
-		}
-
-		$this->item->$property = $value;
-
-		return $this;
-	}
-
-	/**
-	 * Ensure that clones don't modify cached data
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0
-	 */
-	public function __clone()
-	{
-		$this->item = clone $this->item;
-	}
-
-	/**
-	 * Magic method isset for entity property
-	 *
-	 * @param   string  $name  Property name
-	 *
-	 * @return  bool
-	 */
-	public function __isset($name)
-	{
-		return isset($this->item->$name);
-	}
 
 	/**
 	 * Bind an object/array to the entity
@@ -308,30 +221,6 @@ abstract class RedshopEntityBase
 		$class = get_called_class();
 
 		unset(static::$instances[$class][$id]);
-	}
-
-	/**
-	 * Format a link
-	 *
-	 * @param   string   $url     Url to format
-	 * @param   boolean  $routed  Process Url through JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
-	 *
-	 * @return  string
-	 */
-	protected function formatUrl($url, $routed = true, $xhtml = true)
-	{
-		if (!$url)
-		{
-			return null;
-		}
-
-		if (!$routed)
-		{
-			return $url;
-		}
-
-		return JRoute::_($url, $xhtml);
 	}
 
 	/**
@@ -649,16 +538,6 @@ abstract class RedshopEntityBase
 		$name = str_replace('Entity', '', $name);
 
 		return strtolower($name);
-	}
-
-	/**
-	 * Get the id
-	 *
-	 * @return  int | null
-	 */
-	public function getId()
-	{
-		return $this->id;
 	}
 
 	/**

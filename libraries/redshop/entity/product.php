@@ -52,4 +52,27 @@ class RedshopEntityProduct extends RedshopEntity
 
 		return $this;
 	}
+
+	/**
+	 * Get all categories linked with this product
+	 *
+	 * @return  array<object>
+	 *
+	 * @since   2.0.7
+	 */
+	public function getCategories()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('p.product_id'))
+			->select($db->qn('cx.category_id'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin(
+				$db->qn('#__redshop_product_category_xref', 'cx')
+				. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('cx.product_id')
+			)
+			->where($db->qn('p.product_id') . ' = ' . (int) $this->getId());
+
+		return $db->setQuery($query)->loadObjectList();
+	}
 }

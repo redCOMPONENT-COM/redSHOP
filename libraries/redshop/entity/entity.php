@@ -31,37 +31,4 @@ abstract class RedshopEntity extends RedshopEntityBase
 	 * @since  2.0.3
 	 */
 	protected $asset;
-
-	/**
-	 * Converts an array of entities into an array of objects
-	 *
-	 * @param   array  $entities  Array of RedshopbEntity
-	 *
-	 * @return  array
-	 *
-	 * @throws  InvalidArgumentException  If an array of RedshopbEntity is not received
-	 *
-	 * @since   2.0.3
-	 */
-	public function entitiesToObjects(array $entities)
-	{
-		$results = array();
-
-		if (!$entities)
-		{
-			return $results;
-		}
-
-		foreach ($entities as $key => $entity)
-		{
-			if (!$entity instanceof RedshopEntity)
-			{
-				throw new InvalidArgumentException("RedshopEntityExpected in " . __FUNCTION__);
-			}
-
-			$results[$key] = $entity->getItem();
-		}
-
-		return $results;
-	}
 }
