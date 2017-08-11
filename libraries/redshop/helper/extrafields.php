@@ -1637,8 +1637,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since 2.0.3
 	 */
-	public static function rsBooleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
-	                                     $yesValue = 'Days', $noValue = 'Weeks')
+	public static function rsBooleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yesValue = 'Days', $noValue = 'Weeks')
 	{
 		$arr = array(
 			JHtml::_('select.option', $yesValue, JText::_($yes)),
@@ -1885,12 +1884,24 @@ class RedshopHelperExtrafields
 				case self::TYPE_DATE_PICKER:
 				case self::TYPE_SELECT_BOX_SINGLE:
 
-					$displayValue = $dataValue->data_txt;
+					$displayValue = RedshopLayoutHelper::render(
+						'extrafields.display.text',
+						array(
+							'data' => $dataValue->data_txt
+						)
+					);
+
 					break;
 
 				case self::TYPE_TEXT_AREA:
 
-					$displayValue = htmlspecialchars($dataValue->data_txt);
+					$displayValue = RedshopLayoutHelper::render(
+						'extrafields.display.textarea',
+						array(
+							'data' => $dataValue->data_txt
+						)
+					);
+
 					break;
 
 				case self::TYPE_CHECK_BOX:
@@ -1903,13 +1914,20 @@ class RedshopHelperExtrafields
 
 					foreach ($fieldValues as $fieldValue)
 					{
-						if (in_array(urlencode($fieldValue->field_value), $checkData))
+						if (!in_array(urlencode($fieldValue->field_value), $checkData))
 						{
-							$htmlData[] = urldecode($fieldValue->field_value);
+							continue;
 						}
+
+						$htmlData[] = urldecode($fieldValue->field_value);
 					}
 
-					$displayValue = urldecode(implode('<br>', $htmlData));
+					$displayValue = RedshopLayoutHelper::render(
+						'extrafields.display.select',
+						array(
+							'data' => $htmlData
+						)
+					);
 
 					break;
 
@@ -1919,7 +1937,12 @@ class RedshopHelperExtrafields
 
 					if ($dataValue->data_txt != "")
 					{
-						$displayValue = RedshopEntityCountry::getInstance((int) $dataValue->data_txt)->get('country_name');
+						$displayValue = RedshopLayoutHelper::render(
+							'extrafields.display.country',
+							array(
+								'data' => (int) $dataValue->data_txt
+							)
+						);
 					}
 
 					break;
@@ -1949,7 +1972,13 @@ class RedshopHelperExtrafields
 
 							if (JFile::exists($absDocumentLink))
 							{
-								$displayValue .= '<a href="' . $documentLink . '" target="_blank">' . $documentTitle . '</a>';
+								$displayValue = RedshopLayoutHelper::render(
+									'extrafields.display.document',
+									array(
+										'link'  => $documentLink,
+										'title' => $documentTitle
+									)
+								);
 							}
 						}
 					}
@@ -1995,26 +2024,21 @@ class RedshopHelperExtrafields
 						$fileName     = $documentValue->field_name;
 						$documentLink = REDSHOP_FRONT_IMAGES_ABSPATH . "extrafield/" . $fileName;
 
-						if (!empty($imagesLink[$documentValue->value_id]))
-						{
-							$displayValue .= "<a href='" . $imagesLink[$documentValue->value_id]
-								. "' class='imgtooltip' ><img src='" . $documentLink . "' title='" . $documentValue->field_value . "'"
-								. " alt='" . $documentValue->field_value . "' /><span><div class='spnheader'>"
-								. $rowsData[$i]->title . "</div><div class='spnalttext'>"
-								. $imagesHover[$documentValue->value_id] . "</div></span></a>";
-						}
-						else
-						{
-							$displayValue .= "<a class='imgtooltip'><img src='" . $documentLink . "' title='" . $documentValue->field_value . "'"
-								. " alt='" . $documentValue->field_value . "' /><span><div class='spnheader'>"
-								. $rowsData[$i]->title . "</div><div class='spnalttext'>"
-								. $imagesHover[$documentValue->value_id] . "</div></span></a>";
-						}
+						$displayValue = RedshopLayoutHelper::render(
+							'extrafields.display.image',
+							array(
+								'link'      => $imagesLink,
+								'hover'     => $imagesHover,
+								'value'     => $documentValue,
+								'imageLink' => $documentLink,
+								'data'      => $rowData[$i]
+							)
+						);
 					}
 
 					break;
 
-				default :
+				default:
 					break;
 			}
 
