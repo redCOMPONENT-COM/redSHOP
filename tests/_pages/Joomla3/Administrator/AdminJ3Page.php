@@ -145,7 +145,7 @@ abstract class AdminJ3Page
 	 */
 	public static $URL = '/index.php?option=com_redshop';
 
-	public static $URLLoginAdmin='/administrator/index.php';
+	public static $URLLoginAdmin = '/administrator/index.php';
 	/**
 	 * @var string
 	 */
@@ -241,15 +241,16 @@ abstract class AdminJ3Page
 	 */
 	public static $priceEnd = ['id' => 'spnTotal'];
 
-    /**
-     *
-     * Function get value
-     * @param $value
-     * @return array
-     */
-    public static function returnChoice($value)
-    {
-        $path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
-        return $path;
-    }
+	/**
+	 *
+	 * Function get value
+	 * @param $value
+	 * @return array
+	 */
+	public static function returnChoice($value)
+	{
+		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
+		return $path;
+	}
+
 }

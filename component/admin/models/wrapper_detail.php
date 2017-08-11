@@ -210,8 +210,9 @@ class RedshopModelWrapper_detail extends RedshopModel
 			return false;
 		}
 
-		$wrapperfile = JRequest::getVar('wrapper_image', '', 'files', 'array');
-		$wrapperimg = "";
+		$jinput      = JFactory::getApplication()->input;
+		$wrapperfile = $jinput->files->get('wrapper_image', '', 'array');
+		$wrapperimg  = "";
 
 		if ($wrapperfile['name'] != "")
 		{
@@ -254,7 +255,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 		$categoryid = 0;
 
-		if (count(JRequest::getvar('categoryid')) > 0)
+		if (count($jinput->get('categoryid')) > 0)
 		{
 			$categoryid = implode(",", $_POST['categoryid']);
 		}
