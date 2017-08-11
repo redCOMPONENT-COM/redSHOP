@@ -112,7 +112,7 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\MailCenterPage::$url);
-		$client->searchSupplier($name);
+		$client->searchMail($name);
 		$client->wait(3);
 		$client->see($name, \MailCenterPage::$resultRow);
 		$text = $client->grabAttributeFrom(\MailCenterPage::$mailTemplateStatePath, 'onclick');
