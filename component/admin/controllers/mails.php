@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Mail Detail
+ * Mails controller
  *
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.backend
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerMail extends RedshopControllerForm
+class RedshopControllerMails extends RedshopControllerAdmin
 {
 }
