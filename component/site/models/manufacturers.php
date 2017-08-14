@@ -351,7 +351,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 		if (strstr($template_data, '{category_name}'))
 		{
-			$filterOrder = "c.ordering,c.category_id, " . $filterOrder;
+			$filterOrder = "c.ordering, c.id, " . $filterOrder;
 		}
 
 		return JFactory::getDbo()->escape($filterOrder) . ' ';
