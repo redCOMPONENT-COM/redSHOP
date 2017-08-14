@@ -7,7 +7,7 @@
  */
 
 /**
- * Class ManageSupplierAdministratorCest
+ * Class SupplierCest
  *
  * @package  AcceptanceTester
  *
@@ -64,7 +64,7 @@ class SupplierCest
 	 *
 	 * Function check delete button
 	 *
-	 * @param   AcceptanceTester  $client         Current user state.
+	 * @param   AcceptanceTester  $client    Current user state.
 	 * @param   object            $scenario  Scenario for test.
 	 *
 	 * @return  void
