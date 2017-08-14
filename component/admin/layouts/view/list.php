@@ -112,7 +112,7 @@ if ($data->hasOrdering)
                     </th>
 				<?php endforeach; ?>
                 <th width="1">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_REDSHOP_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('COM_REDSHOP_ID'), $data->getPrimaryKey(), $listDirn, $listOrder) ?>
                 </th>
             </tr>
             </thead>
@@ -193,7 +193,9 @@ if ($data->hasOrdering)
 			<?php endforeach; ?>
             </tbody>
             <tfoot>
-            <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
+                <tr>
+                    <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
+                </tr>
             </tfoot>
         </table>
 	<?php endif; ?>
