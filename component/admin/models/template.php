@@ -9,83 +9,72 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelTemplate extends RedshopModel
+/**
+ * Model Template
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopModelTemplate extends RedshopModelForm
 {
 	/**
-	 * Method to get a store id based on model configuration state.
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
+	 * @return  mixed  The data for the form.
 	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
-	protected function getStoreId($id = '')
+	protected function loadFormData()
 	{
-		$id .= ':' . $this->getState('filter');
-		$id .= ':' . $this->getState('template_section');
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.template.data', array());
 
-		return parent::getStoreId($id);
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		$this->preprocessData('com_redshop.template', $data);
+
+		return $data;
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to duplicate suppliers.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   array  $pks  An array of primary key IDs.
 	 *
-	 * @return  void
+	 * @throws  Exception
 	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
 	 */
-	protected function populateState($ordering = 'template_id', $direction = 'desc')
+	public function duplicate(&$pks)
 	{
-		$template_section = $this->getUserStateFromRequest($this->context . '.template_section', 'template_section', 0);
-		$filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
+		$table = $this->getTable();
 
-		$this->setState('filter', $filter);
-		$this->setState('template_section', $template_section);
-
-		parent::populateState($ordering, $direction);
-	}
-
-	public function _buildQuery()
-	{
-		$filter           = $this->getState('filter');
-		$template_section = $this->getState('template_section');
-
-		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Create the base select statement.
-		$query->select('distinct(t.template_id)')
-			->select('t.*')
-			->from($db->qn('#__redshop_template', 't'));
-
-		if (!empty($filter))
+		foreach ($pks as $pk)
 		{
-			$query->where($db->qn('t.template_name') . 'LIKE ' . $db->q('%' . $filter . '%'));
+			if ($table->load($pk))
+			{
+				// Reset the id to create a new record.
+				$table->template_id = 0;
+
+				// Unpublish duplicate module
+				$table->published = 0;
+
+				if (!$table->check() || !$table->store())
+				{
+					throw new Exception($table->getError());
+				}
+			}
+			else
+			{
+				throw new Exception($table->getError());
+			}
 		}
 
-		if ($template_section)
-		{
-			$query->where($db->qn('t.template_section') . 'LIKE ' . $db->q($template_section));
-		}
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=t.checked_out');
-
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
-		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
-
-		return $query;
+		return true;
 	}
 }
