@@ -42,18 +42,15 @@ class RedshopFormFieldPayment_Method extends JFormFieldList
 
 		RedshopHelperPayment::loadLanguages();
 
-		$options = array();
+		$options     = array();
+		$this->value = $this->multiple ? (array) $this->value : (string) $this->value;
 
 		foreach ($payments as $payment)
 		{
 			$option = new stdClass;
 
-			$option->text     = JText::_($payment->name);
-			$option->value    = $payment->element;
-			$option->disable  = false;
-			$option->class    = '';
-			$option->selected = false;
-			$option->checked  = false;
+			$option->text  = JText::_($payment->name);
+			$option->value = $payment->element;
 
 			$options[] = $option;
 		}

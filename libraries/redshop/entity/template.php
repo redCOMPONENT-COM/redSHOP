@@ -19,18 +19,6 @@ defined('_JEXEC') or die;
 class RedshopEntityTemplate extends RedshopEntity
 {
 	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Template_Detail', 'Table');
-	}
-
-	/**
 	 * Default loading is trying to use the associated table
 	 *
 	 * @param   string  $key       Field name used as key
