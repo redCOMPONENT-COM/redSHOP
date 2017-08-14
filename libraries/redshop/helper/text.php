@@ -21,17 +21,25 @@ class RedshopHelperText
 	/**
 	 * Get data of text library
 	 *
-	 * @return  object
+	 * @param   string  $section  Section of text library
+	 *
+	 * @return  array<object>
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getTextLibraryData()
+	public static function getTextLibraryData(string $section = null)
 	{
 		$db    = JFactory::getDbo();
+
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_textlibrary'))
 			->where($db->qn('published') . ' = 1');
+
+		if (null !== $section)
+		{
+			$query->where($db->qn('section') . ' = ' . $db->q($section));
+		}
 
 		return $db->setQuery($query)->loadObjectList();
 	}
