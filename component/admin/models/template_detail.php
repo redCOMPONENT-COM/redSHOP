@@ -253,15 +253,6 @@ class RedshopModelTemplate_detail extends RedshopModel
 		return true;
 	}
 
-	public function availabletexts($section)
-	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE published=1 AND section like "' . $section . '"';
-		$this->_db->setQuery($query);
-		$this->textdata = $this->_db->loadObjectList();
-
-		return $this->textdata;
-	}
-
 	public function availableaddtocart($section)
 	{
 		$query = 'SELECT template_name FROM ' . $this->_table_prefix . 'template WHERE published=1 AND template_section = "' . $section . '"';

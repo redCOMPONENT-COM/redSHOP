@@ -51,88 +51,8 @@ $title = JText::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS');
 if ($this->detail->template_section == "category")
 {
 	echo JHtml::_('tabs.panel', $title, 'category-fields'); ?>
-    <table class="adminlist table table-striped">
-		<?php
-		$tags_front = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_CATEGORY);
-		$tags_admin = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_CATEGORY, 0);
-		$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-		?>
-		<?php if (!empty($tags)): ?>
-            <tr>
-                <td>
-                    <h3><?php echo JText::_("COM_REDSHOP_FIELDS") ?></h3>
-					<?php foreach ($tags as $tag): ?>
-                        <div style="margin-left:10px;">{<?php echo $tag->name ?>} -- <?php echo $tag->title ?></div>
-					<?php endforeach; ?>
-                </td>
-            </tr>
-		<?php endif; ?>
-		<?php
-		$tags_front = RedshopHelperExtrafields::getSectionFieldList(1, 1);
-		$tags_admin = RedshopHelperExtrafields::getSectionFieldList(1, 0);
-		$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-		?>
-		<?php if (!empty($tags)): ?>
-            <tr>
-                <td>
-                    <h3><?php echo JText::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE") ?></h3>
-					<?php foreach ($tags as $tag): ?>
-                        <div style="margin-left:10px;">{producttag:<?php echo $tag->name ?>} -- <?php echo $tag->title ?></div>
-					<?php endforeach; ?>
-                </td>
-            </tr>
-		<?php endif; ?>
-        <tr>
-            <td><?php echo Redtemplate::getTemplateValues('category') ?></td>
-        </tr>
-        <tr>
-            <td>
-				<?php $availableAddtocart = $model->availableaddtocart('add_to_cart'); ?>
-				<?php if (count($availableAddtocart) == 0): ?>
-                    <strong><?php echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE"); ?></strong>
-				<?php else: ?>
-					<?php foreach ($availableAddtocart as $tag): ?>
-                        <div style="margin-left:10px;">{form_addtocart:<?php echo $tag->template_name ?>}
-                            -- <?php echo JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') ?></div>
-					<?php endforeach; ?>
-				<?php endif; ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-				<?php
-				$related_product = $redtemplate->getTemplate('related_product');
-				if (count($related_product) == 0) echo JText::_("COM_REDSHOP_NO_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT") . "<br />";
-				for ($i = 0, $in = count($related_product); $i < $in; $i++)
-				{
-					echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[$i]->template_name . '[:lightboxwidth][:lightboxheight]}</div><br />';
 
-					if ($i == count($related_product) - 1)
-					{
-						echo JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE");
-						echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[0]->template_name . ':600:300}</div>';
-					}
-				}
-				?>
-            </td>
-        </tr>
-    </table>
 	<?php
-	$cat_desc = $redtemplate->getInstallSectionTemplate("category", $setflag = true);
-
-	if ($cat_desc != "")
-	{
-		echo JHtml::_('tabs.panel', $default_template, 'category-desc'); ?>
-        <table class="adminlist table table-striped">
-            <tr>
-                <td>
-					<?php echo $cat_desc; ?>
-                </td>
-            </tr>
-        </table>
-		<?php
-	}
 }
 
 // Giftcard Template Start
@@ -564,32 +484,6 @@ if ($this->detail->template_section == "categoryproduct")
             <tr>
                 <td>
 					<?php echo $catprd; ?>
-                </td>
-            </tr>
-        </table>
-		<?php
-
-	}
-}
-
-// Clicktell Message Template Start
-if ($this->detail->template_section == "clicktell_sms_message")
-{
-	echo JHtml::_('tabs.panel', $title, 'clicktell_sms_template'); ?>
-    <table class="adminlist table table-striped">
-        <tr>
-            <td><?php echo Redtemplate::getTemplateValues('clicktell_sms_message'); ?></td>
-        </tr>
-    </table>
-	<?php
-	$click_desc = $redtemplate->getInstallSectionTemplate("clicktell_sms_message", $setflag = true);
-	if ($click_desc != "")
-	{
-		echo JHtml::_('tabs.panel', $default_template, 'events'); ?>
-        <table class="adminlist table table-striped">
-            <tr>
-                <td>
-					<?php echo $click_desc; ?>
                 </td>
             </tr>
         </table>
