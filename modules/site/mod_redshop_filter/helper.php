@@ -302,12 +302,14 @@ abstract class ModRedshopFilter
 			->select($db->qn('fv.field_id'))
 			->select($db->qn('fv.field_name'))
 			->select($db->qn('f.title'))
+			->select($db->qn('f.class'))
 			->from($db->qn('#__redshop_fields', 'f'))
 			->leftJoin($db->qn('#__redshop_fields_value', 'fv') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fv.field_id'))
 			->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $pids) . ')')
 			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')')
-			->group($db->qn('fv.field_value'));
+			->group($db->qn('fv.field_value'))
+			->order($db->qn('fv.value_id'));
 
 		$data   = $db->setQuery($query)->loadObjectList();
 		$result = array();
@@ -315,6 +317,7 @@ abstract class ModRedshopFilter
 		foreach ($data as $key => $value)
 		{
 			$result[$value->field_id]['title'] = $value->title;
+			$result[$value->field_id]['class'] = $value->class;
 			$result[$value->field_id]['value'][$value->field_value] = $value->field_name;
 		}
 
