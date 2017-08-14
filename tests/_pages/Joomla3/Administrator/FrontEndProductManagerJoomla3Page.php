@@ -81,6 +81,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $valueCoupon=['id' => 'coupon_button'];
 
+	//payment
+	public static $banktransfer=['xpath' => "//div[@id='rs_payment_banktransfer']//label//input"];
+
+	public static $orderReceipt='Order Receipt';
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
 	 *
