@@ -6,7 +6,7 @@
             type="redshop.text"
             label="COM_REDSHOP_FILTER_SEARCH_DESC"
             placeholder="JSEARCH_FILTER"
-            class="js-enter-submits"
+            class="js-enter-submits form-control"
             />
     </fields>
     <fields name="list">

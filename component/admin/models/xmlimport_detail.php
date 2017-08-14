@@ -24,7 +24,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -36,7 +36,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 	public function &getData()
 	{
-		$post = JRequest::get('post');
+		$post = JFactory::getApplication()->input->post->getArray();
 
 		if ($this->_loadData())
 		{
@@ -131,10 +131,11 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 	public function updateFile()
 	{
-		$post = JRequest::get('post');
+		$jinput = JFactory::getApplication()->input;
+		$post = $jinput->post->getArray();
 
 		$xmlimport_url = $this->_data->xmlimport_url;
-		$file = JRequest::getVar('filename_url', '', 'files', 'array');
+		$file = $jinput->files->get('filename_url', '', 'array');
 
 		if (array_key_exists("xmlimport_url", $post) && $post["xmlimport_url"] != "")
 		{

@@ -13,6 +13,7 @@ function getIncludedExtensions() {
     var included = [];
     var includedPlugins = [
         "./plugins/system/redshop/**",
+        "./plugins/system/redgoogleanalytics/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
         "./plugins/finder/redshop/**",
@@ -41,13 +42,14 @@ function getIncludedExtensions() {
         "./plugins/redshop_import/shopper_group_product_price/**",
         "./plugins/redshop_import/shopper_group_attribute_price/**",
         "./plugins/redshop_import/user/**",
-        "./plugins/redshop_import/related_product/**"];
+        "./plugins/redshop_import/related_product/**"
+    ];
     var excluded = [
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/freefont-*/**',
-    ]
+    ];
     var includedModules = [
         "./modules/site/mod_redshop_cart/**"
     ];
