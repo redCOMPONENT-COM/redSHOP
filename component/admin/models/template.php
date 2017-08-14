@@ -19,6 +19,20 @@ defined('_JEXEC') or die;
 class RedshopModelTemplate extends RedshopModelForm
 {
 	/**
+	 * The unique columns.
+	 *
+	 * @var  array
+	 */
+	protected $copyUniqueColumns = array('template_name');
+
+	/**
+	 * The unique columns increment.
+	 *
+	 * @var  string
+	 */
+	protected $copyIncrement = 'dash';
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
@@ -39,42 +53,5 @@ class RedshopModelTemplate extends RedshopModelForm
 		$this->preprocessData('com_redshop.template', $data);
 
 		return $data;
-	}
-
-	/**
-	 * Method to duplicate suppliers.
-	 *
-	 * @param   array  $pks  An array of primary key IDs.
-	 *
-	 * @throws  Exception
-	 *
-	 * @return  boolean|JException  Boolean true on success, JException instance on error
-	 */
-	public function duplicate(&$pks)
-	{
-		$table = $this->getTable();
-
-		foreach ($pks as $pk)
-		{
-			if ($table->load($pk))
-			{
-				// Reset the id to create a new record.
-				$table->template_id = 0;
-
-				// Unpublish duplicate module
-				$table->published = 0;
-
-				if (!$table->check() || !$table->store())
-				{
-					throw new Exception($table->getError());
-				}
-			}
-			else
-			{
-				throw new Exception($table->getError());
-			}
-		}
-
-		return true;
 	}
 }

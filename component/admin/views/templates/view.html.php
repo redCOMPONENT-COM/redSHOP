@@ -19,6 +19,14 @@ defined('_JEXEC') or die;
 class RedshopViewTemplates extends RedshopViewList
 {
 	/**
+	 * Display duplicate button or not.
+	 *
+	 * @var   boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $enableDuplicate = true;
+
+	/**
 	 * Method for render 'Published' column
 	 *
 	 * @param   array   $config  Row config.

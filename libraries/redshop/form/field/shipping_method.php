@@ -33,18 +33,19 @@ class RedshopFormFieldShipping_Method extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$shippings = RedshopHelperOrder::getShippingMethodInfo();
+		$shippingMethods = RedshopHelperOrder::getShippingMethodInfo();
 
-		if (empty($shippings))
+		if (empty($shippingMethods))
 		{
 			return parent::getOptions();
 		}
 
 		RedshopHelperShipping::loadLanguages();
 
-		$options = array();
+		$options     = array();
+		$this->value = $this->multiple ? (array) $this->value : (string) $this->value;
 
-		foreach ($shippings as $shipping)
+		foreach ($shippingMethods as $shipping)
 		{
 			$option = new stdClass;
 
