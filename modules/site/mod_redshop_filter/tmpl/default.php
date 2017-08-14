@@ -127,9 +127,6 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="Itemid" value="<?php echo $itemId; ?>" >
 </form>
 </div>
-
-<link rel="stylesheet" type="text/css" href="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/css/jqui.css'; ?>">
-<script type="text/javascript" src="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/js/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript">
 	function range_slide (min_range, max_range , cur_min , cur_max, callback) {
 		jQuery.ui.slider.prototype.widgetEventPrefix = 'slider';
