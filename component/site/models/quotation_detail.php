@@ -68,7 +68,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
 			{
 				$cart[$idx]['quantity'] += 1;
-				RedshopHelperCartSession::setCart($cart);
+				\Redshop\Cart\Session\Helper::setCart($cart);
 
 				return;
 			}
@@ -95,7 +95,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			}
 
 			$cart['idx'] = $idx + 1;
-			RedshopHelperCartSession::setCart($cart);
+			\Redshop\Cart\Session\Helper::setCart($cart);
 
 			return;
 		}
@@ -207,7 +207,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 	}
 
 	public function modifyQuotation($user_id = 0)
@@ -218,7 +218,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$cart = $carthelper->modifyCart($cart, $user_id);
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 		$carthelper->cartFinalCalculation(false);
 	}
 

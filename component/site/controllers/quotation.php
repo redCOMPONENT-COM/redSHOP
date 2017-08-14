@@ -66,7 +66,7 @@ class RedshopControllerQuotation extends RedshopController
 			}
 
 			$session = JFactory::getSession();
-			RedshopHelperCartSession::setCart(null);
+			\Redshop\Cart\Session\Helper::setCart(null);
 			$session->set('ccdata', null);
 			$session->set('issplit', null);
 			$session->set('userfield', null);

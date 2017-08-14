@@ -101,8 +101,6 @@ class RedshopModelOrder_detail extends RedshopModel
 	 */
 	public function billingaddresses()
 	{
-		$app = JFactory::getApplication();
-		$order_functions = order_functions::getInstance();
 		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();
 
@@ -111,12 +109,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($user->id)
 		{
-			$list = $order_functions->getBillingAddress($user->id);
+			$list = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
-			$list = $order_functions->getBillingAddress($uid);
+			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		return $list;
@@ -149,7 +147,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	 */
 	public function resetcart()
 	{
-		RedshopHelperCartSession::reset();
+		\Redshop\Cart\Session\Helper::reset();
 		$session = JFactory::getSession();
 		$session->set('ccdata', null);
 		$session->set('issplit', null);

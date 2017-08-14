@@ -643,7 +643,7 @@ class RedshopModelQuotation extends RedshopModel
 		JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, null, $mailbcc);
 
 		$session = JFactory::getSession();
-		RedshopHelperCartSession::setCart(null);
+		\Redshop\Cart\Session\Helper::setCart(null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfield', null);

@@ -91,7 +91,7 @@ class RedshopControllerCart extends RedshopController
 		}
 
 		$session = JFactory::getSession();
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Session\Helper::getCart();
 
 		if (isset($cart['AccessoryAsProduct']) && $post['accessory_data'] != '')
 		{
@@ -325,7 +325,7 @@ class RedshopControllerCart extends RedshopController
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
 		$cart['mod_cart_total']            = $this->_carthelper->GetCartModuleCalc($cart);
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 
 		return $cart;
 	}
@@ -341,7 +341,7 @@ class RedshopControllerCart extends RedshopController
 
 		// Call coupon method of model to apply coupon
 		$valid = $this->getModel('cart')->coupon();
-		$cart  = RedshopHelperCartSession::getCart();
+		$cart  = \Redshop\Cart\Session\Helper::getCart();
 		$this->modifyCalculation($cart);
 		RedshopHelperCart::cartFinalCalculation(false);
 
@@ -574,7 +574,7 @@ class RedshopControllerCart extends RedshopController
 
 		$cart = rsCarthelper::getInstance()->modifyCart($model->changeAttribute($post), JFactory::getUser()->id);
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 		RedshopHelperCart::cartFinalCalculation();
 
 		?>

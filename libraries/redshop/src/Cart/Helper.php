@@ -9,8 +9,6 @@
 
 namespace Redshop\Cart;
 
-use Redshop\Cart\Helper\Session;
-
 /**
  * This class provide general cart helper methods
  *
@@ -204,7 +202,7 @@ class Helper
 	{
 		$imageName = '';
 		$type      = '';
-		$cart      = Session::getCart();
+		$cart      = \Redshop\Cart\Session\Helper::getCart();
 
 		$generateAttributeCart = array();
 		$productId             = $data['product_id'];
@@ -331,13 +329,10 @@ class Helper
 	 */
 	public static function emptyCart()
 	{
-		$cart = \Redshop\Cart\Helper\Session::getCart();
-		unset($cart);
+		\Redshop\Cart\Session\Helper::reset();
 
 		setcookie("redSHOPcart", "", time() - 3600, "/");
-
-		$cart['idx'] = 0;
-		\Redshop\Cart\Helper\Session::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart(array('idx' => 0));
 
 		return \RedshopHelperStockroom::deleteCartAfterEmpty();
 	}

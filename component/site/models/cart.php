@@ -96,7 +96,7 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
-			\Redshop\Cart\Helper\Session::setCart($cart);
+			\Redshop\Cart\Session\Helper::setCart($cart);
 		}
 	}
 
@@ -127,7 +127,7 @@ class RedshopModelCart extends RedshopModel
 			$db->setQuery($query);
 			$deletedrs = $db->loadColumn();
 
-			$cart = \Redshop\Cart\Helper\Session::getCart();
+			$cart = \Redshop\Cart\Session\Helper::getCart();
 
 			if ($cart)
 			{
@@ -200,7 +200,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function update($data)
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Session\Helper::getCart();
 		$user = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
@@ -305,7 +305,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		\Redshop\Cart\Helper\Session::setCart($cart);
+		\Redshop\Cart\Helper\Helper::setCart($cart);
 	}
 
 	/**
@@ -316,14 +316,14 @@ class RedshopModelCart extends RedshopModel
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher    = RedshopHelperUtility::getDispatcher();
 
-		$cart = \Redshop\Cart\Helper\Session::getCart();
+		$cart = \Redshop\Cart\Session\Helper::getCart();
 		$user = JFactory::getUser();
 
 		if (empty($cart))
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
-			\Redshop\Cart\Helper\Session::setCart($cart);
+			\Redshop\Cart\Session\Helper::setCart($cart);
 		}
 
 		$idx           = (int) ($cart['idx']);
@@ -452,12 +452,12 @@ class RedshopModelCart extends RedshopModel
 
 		unset($cart[$idx]);
 
-		\Redshop\Cart\Helper\Session::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 	}
 
 	public function delete($cartElement)
 	{
-		$cart = \Redshop\Cart\Helper\Session::getCart();
+		$cart = \Redshop\Cart\Session\Helper::getCart();
 
 		if (array_key_exists($cartElement, $cart))
 		{
@@ -501,7 +501,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		\Redshop\Cart\Helper\Session::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 	}
 
 	/**

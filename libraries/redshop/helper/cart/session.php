@@ -23,10 +23,11 @@ class RedshopHelperCartSession
 	 * @return   boolean|array
 	 *
 	 * @since    2.0.7
+	 * @deprecated  Use \Redshop\Cart\Session\Helper::getCart() instead
 	 */
 	public static function getCart()
 	{
-		return JFactory::getSession()->get('cart', array());
+		return \Redshop\Cart\Session\Helper::getCart();
 	}
 
 	/**
@@ -35,10 +36,11 @@ class RedshopHelperCartSession
 	 * @return  boolean|array
 	 *
 	 * @since   2.0.7
+	 * @deprecated  Use \Redshop\Cart\Session\Helper::setCart() instead
 	 */
 	public static function setCart($cart)
 	{
-		return JFactory::getSession()->set('cart', $cart);
+		return \Redshop\Cart\Session\Helper::setCart($cart);
 	}
 
 	/**
@@ -47,9 +49,10 @@ class RedshopHelperCartSession
 	 * @return  void
 	 *
 	 * @since   2.0.7
+	 * @deprecated  Use \Redshop\Cart\Session\Helper::reset() instead
 	 */
 	public static function reset()
 	{
-		self::setCart(array());
+		\Redshop\Cart\Session\Helper::reset();
 	}
 }

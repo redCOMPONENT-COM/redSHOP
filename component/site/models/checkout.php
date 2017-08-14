@@ -106,7 +106,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart = $this->_carthelper->modifyCart($cart, $user->id);
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 		$this->_carthelper->carttodb();
 	}
 
@@ -283,7 +283,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
 		$cart['total'] = $paymentArray[0];
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 
 		$order_shipping = RedshopShippingRate::decrypt($shipping_rate_id);
 		$order_status   = 'P';
@@ -1845,7 +1845,7 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$session = JFactory::getSession();
 		setcookie("redSHOPcart", "", time() - 3600, "/");
-		RedshopHelperCartSession::setCart(null);
+		\Redshop\Cart\Session\Helper::setCart(null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfield', null);
@@ -2276,7 +2276,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = $this->_carthelper->replaceLabel($template_desc);
 		$template_desc = str_replace("{print}", '', $template_desc);
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Session\Helper::setCart($cart);
 
 		return $template_desc;
 	}

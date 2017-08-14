@@ -881,7 +881,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             <?php
                         }
                         $cart['idx'] = count($cart);
-                        RedshopHelperCartSession::setCart($cart); ?>
+                        \Redshop\Cart\Session\Helper::setCart($cart); ?>
                         <tr>
                             <td>
                                 <div class="row-fluid">

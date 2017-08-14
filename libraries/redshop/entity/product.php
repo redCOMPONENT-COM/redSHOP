@@ -52,21 +52,4 @@ class RedshopEntityProduct extends RedshopEntity
 
 		return $this;
 	}
-
-	/**
-	 *
-	 * @return  integer
-	 *
-	 * @since   2.0.7
-	 */
-	public function getTemplate()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('product_template'))
-			->from($db->quoteName('#__redshop_product'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->getId());
-
-		return $db->setQuery($query)->loadResult();
-	}
 }

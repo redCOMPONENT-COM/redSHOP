@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Cart\Helper;
+namespace Redshop\Cart\Session;
 
 /**
  * This class used to work with cart session
@@ -16,7 +16,7 @@ namespace Redshop\Cart\Helper;
  *
  * @since       2.0.7
  */
-class Session
+class Helper
 {
 	/**
 	 * Get cart from session
