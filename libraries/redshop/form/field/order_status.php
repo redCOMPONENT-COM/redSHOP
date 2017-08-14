@@ -36,6 +36,7 @@ class RedshopFormFieldOrder_Status extends JFormFieldList
 		// Load redSHOP Library
 		JLoader::import('redshop.library');
 
+		$this->value = $this->multiple ? (array) $this->value : (string) $this->value;
 		$orderStatus = RedshopHelperOrder::getOrderStatusList();
 
 		// Merge any additional options in the XML definition.

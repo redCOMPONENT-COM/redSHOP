@@ -32,13 +32,14 @@
         />
         <field
                 name="order_status"
-                type="redshop.template_section"
+                type="redshop.order_status"
                 label="COM_REDSHOP_TEMPLATE_ORDER_STATUS"
                 description="COM_REDSHOP_TEMPLATE_ORDER_STATUS_DESC"
                 placeholder="COM_REDSHOP_TEMPLATE_ORDER_STATUS_DESC"
                 class="form-control"
                 default=""
                 table-hide="1"
+                multiple="true"
                 showon="template_section:clicktell_sms_message"
         />
         <field
@@ -83,7 +84,8 @@
                 editor="codemirror"
                 label="COM_REDSHOP_DESCRIPTION"
                 description="COM_REDSHOP_DESCRIPTION"
-                width="300"
+                class="form-control"
+                rows="50"
                 filter="safehtml"
                 table-hide="1"
         />

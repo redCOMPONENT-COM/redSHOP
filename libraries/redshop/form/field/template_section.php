@@ -33,7 +33,8 @@ class RedshopFormFieldTemplate_Section extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = RedshopHelperTemplate::getTemplateSections();
+		$options     = RedshopHelperTemplate::getTemplateSections();
+		$this->value = $this->multiple ? (array) $this->value : (string) $this->value;
 
 		foreach ($options as $value => $text)
 		{
