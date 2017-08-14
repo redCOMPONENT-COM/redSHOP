@@ -108,4 +108,10 @@ elseif ($view == 'search')
 $rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
 $rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
 
+if ($enablePrice)
+{
+	JHtml::stylesheet('mod_redshop_filter/jqui.css', false, true);
+	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true);
+}
+
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
