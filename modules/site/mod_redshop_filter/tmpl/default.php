@@ -20,13 +20,17 @@ defined('_JEXEC') or die;
 					<ul class='taglist'>
 						<?php foreach ($categories as $key => $cat) :?>
 							<li>
-								<label>
-									<span class='taginput' data-aliases='cat-<?php echo $cat->id;?>'>
-										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->id ?>" onclick="javascript: checkclick(this);" />
-										<span class='tagname'><?php echo $cat->name; ?></span>
-									</span>
-								</label>
-							</li>
+									<label>
+										<span class='taginput' data-aliases='cat-<?php echo $cat->id;?>'>
+											<input type="checkbox" name="redform[category][]" value="<?php echo $cat->id ?>" onclick="javascript: checkclick(this);"
+											<?php if (in_array($cat->id, explode(',', $getData['categories']))) : ?>
+												<?php echo "checked='checked'"; ?>
+											<?php endif; ?>
+											/>
+											<span class='tagname'><?php echo $cat->name; ?></span>
+										</span>
+									</label>
+								</li>
 						<?php endforeach; ?>
 					</ul>
 				</div>
@@ -43,13 +47,17 @@ defined('_JEXEC') or die;
 					<?php if (!empty($manufacturers)) : ?>
 					<?php foreach ($manufacturers as $m => $manu) : ?>
 						<li style="list-style: none">
-							<label>
-								<span class='taginput' data-aliases='manu-<?php echo $manu->manufacturer_id;?>'>
-								<input type="checkbox" name="redform[manufacturer][]" value="<?php echo $manu->manufacturer_id ?>">
-								</span>
-								<span class='tagname'><?php echo $manu->manufacturer_name; ?></span>
-							</label>
-						</li>
+								<label>
+									<span class='taginput' data-aliases='manu-<?php echo $manu->manufacturer_id;?>'>
+									<input type="checkbox" name="redform[manufacturer][]" value="<?php echo $manu->manufacturer_id ?>"
+									<?php if (in_array($manu->manufacturer_id, explode(',', $getData['manufacturers']))) : ?>
+										<?php echo "checked='checked'"; ?>
+									<?php endif; ?>
+									>
+									</span>
+									<span class='tagname'><?php echo $manu->manufacturer_name; ?></span>
+								</label>
+							</li>
 					<?php endforeach; ?>
 					<?php endif; ?>
 				</ul>
@@ -60,20 +68,26 @@ defined('_JEXEC') or die;
 				<div id="customFields">
 					<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CUSTOM_FIELDS_LABEL');?></h3>
 					<ul class='taglist'>
-						<?php foreach ($customFields as $key => $fields) :?>
-							<h4><?php echo $fields['title']; ?></h3>
-							<?php foreach ($fields['value'] as $k => $value) :?>
-							<li>
-								<label>
-									<span class='taginput' data-aliases='cat-<?php echo $value['name'];?>'>
-										<input type="checkbox" name="redform[custom_field][<?php echo $key;?>][]" value="<?php echo $value['value'] ?>" onclick="javascript: checkclick(this);" />
-										<span class='tagname'><?php echo $value['name']; ?></span>
-									</span>
-								</label>
-							</li>
+							<?php foreach ($customFields as $key => $fields) :?>
+								<h4><?php echo $fields['title']; ?></h3>
+								<?php foreach ($fields['value'] as $value => $name) :?>
+								<li>
+									<label>
+										<span class='taginput' data-aliases='cat-<?php echo $value;?>'>
+											<input type="checkbox" name="redform[custom_field][<?php echo $key;?>][]" value="<?php echo urlencode($value); ?>" onclick="javascript: checkclick(this);"
+											<?php foreach ($getData['custom_field'] as $fieldId => $data) :?>
+												<?php if (in_array($value, explode(',', $data)) && $key == $fieldId) : ?>
+													<?php echo "checked='checked'"; ?>
+												<?php endif; ?>
+											<?php endforeach; ?>
+											/>
+											<span class='tagname'><?php echo $name; ?></span>
+										</span>
+									</label>
+								</li>
+								<?php endforeach; ?>
 							<?php endforeach; ?>
-						<?php endforeach; ?>
-					</ul>
+						</ul>
 				</div>
 			<?php endif; ?>
 		</div>
@@ -84,11 +98,11 @@ defined('_JEXEC') or die;
 			<div id="filter-price">
 				<div id="amount-min">
 					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $currentMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 				<div id="amount-max">
 					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $currentMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 			</div>
 		</div>
@@ -175,6 +189,9 @@ defined('_JEXEC') or die;
 		 		jQuery('#main-content .category_main_toolbar').first().remove();
 		 		jQuery('#redshopcomponent').html(data);
 				jQuery('select#orderBy').select2();
+
+				url = jQuery(jQuery.parseHTML(data)).find("#new-url").text();
+				window.history.pushState("", "", url);
 		 	},
 		 	complete: function() {
 			    jQuery('#wait').css('display', 'none');

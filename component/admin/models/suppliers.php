@@ -30,7 +30,6 @@ class RedshopModelSuppliers extends RedshopModelList
 	 *
 	 * @since 1.x
 	 */
-
 	public function __construct()
 	{
 		if (empty($config['filter_fields']))

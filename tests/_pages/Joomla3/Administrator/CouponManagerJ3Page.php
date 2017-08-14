@@ -29,13 +29,14 @@ class CouponManagerJ3Page
 
 	public static $selectFirst = "//input[@id='cb0']";
 
+	public static $selectValueCoupon = ['xpath' => "//div[@id='editcell']//div[2]/table//tbody/tr[1]//td[3]//a"];
 	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 	/**
 	 * Function to get path for CouponValueIn
 	 *
-	 * @param   String  $couponValue  Value of the Coupon
+	 * @param   String $couponValue Value of the Coupon
 	 *
 	 * @return string
 	 */
@@ -49,7 +50,7 @@ class CouponManagerJ3Page
 	/**
 	 * Function to get path for CouponType
 	 *
-	 * @param   String  $couponType  Value of the Coupon
+	 * @param   String $couponType Value of the Coupon
 	 *
 	 * @return string
 	 */

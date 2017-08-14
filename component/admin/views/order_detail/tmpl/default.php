@@ -1194,7 +1194,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         </div>
                                     </li>
                                 <?php endif; ?>
-                                <?php if ($log->order_payment_status != $nextLog->order_payment_status): ?>
+                                <?php if ($log->order_payment_status != $nextLog->order_payment_status && $log->order_payment_status): ?>
                                     <?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
                                     <li>
                                         <i class="fa fa-dollar bg-red"></i>
