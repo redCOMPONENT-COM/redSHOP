@@ -19,6 +19,24 @@ defined('_JEXEC') or die;
 class RedshopEntityProduct extends RedshopEntity
 {
 	/**
+	 * @var    array<object>
+	 * @since  2.0.7
+	 */
+	protected $medias = null;
+
+	/**
+	 * @var    array<object>
+	 * @since  2.0.7
+	 */
+	protected $categories = null;
+
+	/**
+	 * @var    array<object>
+	 * @since  2.0.7
+	 */
+	protected $customFields = null;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
@@ -54,60 +72,76 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
+	 * @param   bool  $reload  True to force reload query
 	 *
 	 * @return  array<object>
 	 *
 	 * @since   2.0.7
 	 */
-	public function getMediaDetail()
+	public function getMediaDetail($reload = false)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*')
-			->from($db->quoteName('#__redshop_media'))
-			->where($db->quoteName('section_id') . ' = ' . (int) $this->getId())
-			->where($db->quoteName('media_section') . ' = ' . $db->quote('product'));
+		if ($this->medias === null || $reload)
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_media'))
+				->where($db->quoteName('section_id') . ' = ' . (int) $this->getId())
+				->where($db->quoteName('media_section') . ' = ' . $db->quote('product'));
+			$this->medias = $db->setQuery($query)->loadObjectlist();
+		}
 
-		return $db->setQuery($query)->loadObjectlist();
+		return $this->medias;
 	}
 
 	/**
+	 * @param   bool  $reload  True to force reload query
 	 *
 	 * @return  array<string>
 	 *
 	 * @since   2.0.7
 	 */
-	public function getCategories()
+	public function getCategories($reload = false)
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
-			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
-			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->getId()))
-			->order($db->qn('c.name'));
+		if ($this->categories === null || $reload)
+		{
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
+				->select($db->qn('name'))
+				->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+				->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+				->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->getId()))
+				->order($db->qn('c.name'));
+			$this->categories = $db->setQuery($query)->loadObjectlist();
+		}
 
-		return $db->setQuery($query)->loadObjectlist();
+		return $this->categories;
 	}
 
 	/**
 	 * Get array object of custom fields' data
+	 *
+	 * @param   bool  $reload  True to force reload query
 	 *
 	 * @return  array<object>|null
 	 *
 	 * @TODO    Use section const instead fixed value.
 	 * @since   2.0.7
 	 */
-	public function getCustomfieldsData()
+	public function getCustomfieldsData($reload = false)
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__redshop_fields_data', 'fd'))
-			->innerJoin($db->quoteName('#__redshop_fields', 'f') . ' ON ' . $db->quoteName('fd.fieldid') . ' = ' . $db->quoteName('f.field_id'))
-			->where($db->quoteName('fd.section') . ' = 1')
-			->where($db->quoteName('fd.itemid') . ' = ' . (int) $this->getId());
+		if ($this->customFields === null || $reload)
+		{
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__redshop_fields_data', 'fd'))
+				->innerJoin($db->quoteName('#__redshop_fields', 'f') . ' ON ' . $db->quoteName('fd.fieldid') . ' = ' . $db->quoteName('f.field_id'))
+				->where($db->quoteName('fd.section') . ' = 1')
+				->where($db->quoteName('fd.itemid') . ' = ' . (int) $this->getId());
+			$this->customFields = $db->setQuery($query)->loadObjectlist();
+		}
 
-		return $db->setQuery($query)->loadObjectlist();
+		return $this->customFields;
 	}
 }
