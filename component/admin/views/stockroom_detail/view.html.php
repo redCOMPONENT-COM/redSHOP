@@ -21,7 +21,7 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$layout = JRequest::getVar('layout', '');
+		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		$lists = array();
 		$uri = JFactory::getURI();

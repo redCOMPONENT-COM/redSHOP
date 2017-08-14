@@ -19,18 +19,6 @@ defined('_JEXEC') or die;
 class RedshopEntityMail extends RedshopEntity
 {
 	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Mail_Detail', 'Table');
-	}
-
-	/**
 	 * Default loading is trying to use the associated table
 	 *
 	 * @param   string  $key       Field name used as key
@@ -40,12 +28,12 @@ class RedshopEntityMail extends RedshopEntity
 	 */
 	public function loadItem($key = 'mail_id', $keyValue = null)
 	{
-		if ($key == 'mail_id' && !$this->hasId())
+		if ($key === 'mail_id' && !$this->hasId())
 		{
 			return $this;
 		}
 
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'mail_id' ? $this->id : $keyValue))))
+		if (($table = $this->getTable()) && $table->load(array($key => ($key === 'mail_id' ? $this->id : $keyValue))))
 		{
 			$this->loadFromTable($table);
 		}

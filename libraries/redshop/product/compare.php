@@ -102,7 +102,7 @@ class RedshopProductCompare implements Countable
 	{
 		return (
 			$this->isEmpty()
-			|| (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category' && $this->getCategoryId() === $this->item->categoryId)
+			|| (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category' && in_array($this->item->categoryId, $this->getCategoryIds()))
 			|| Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'global'
 		);
 	}
@@ -118,7 +118,8 @@ class RedshopProductCompare implements Countable
 	 */
 	public function addItem($item)
 	{
-		$this->item = $item;
+		$this->item  = $item;
+		$productData = RedshopHelperProduct::getProductById($this->item->productId);
 
 		// Throw an exception for invalid entried
 		if (!$this->validItem())
@@ -150,6 +151,7 @@ class RedshopProductCompare implements Countable
 		else
 		{
 			$this->compare['category']          = $this->item->categoryId;
+			$this->compare['categories']        = $productData->categories;
 			$this->compare['items'][$this->key] = array('item' => $this->item);
 		}
 
@@ -226,6 +228,11 @@ class RedshopProductCompare implements Countable
 
 		foreach ($this->compare['items'] as $key => $value)
 		{
+			if (in_array($value['item']->categoryId, $this->getCategoryIds()))
+			{
+				continue;
+			}
+
 			array_push($cids, $value['item']->categoryId);
 		}
 
@@ -305,6 +312,16 @@ class RedshopProductCompare implements Countable
 	public function getCategoryId()
 	{
 		return (int) $this->compare['category'];
+	}
+
+	/**
+	 * Get category id stored in compare list
+	 *
+	 * @return  integer  Category Id
+	 */
+	public function getCategoryIds()
+	{
+		return (array) $this->compare['categories'];
 	}
 
 	/**
