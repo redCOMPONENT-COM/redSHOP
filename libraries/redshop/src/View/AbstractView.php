@@ -253,4 +253,16 @@ abstract class AbstractView extends \JViewLegacy
 
 		return $this->instanceName;
 	}
+
+	/**
+	 * Method for get primary key of data.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getPrimaryKey()
+	{
+		return $this->model->getTable(ucfirst($this->getInstanceName()), 'RedshopTable')->getKeyName();
+	}
 }
