@@ -176,7 +176,7 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
 
@@ -396,7 +396,7 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
 
