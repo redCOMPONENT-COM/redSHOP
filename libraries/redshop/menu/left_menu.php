@@ -170,7 +170,7 @@ class RedshopMenuLeft_Menu
 				break;
 
 			case "mail":
-			case "mail_detail":
+			case "mails":
 				return array('COMMUNICATION', 'mail');
 				break;
 
@@ -512,9 +512,9 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('communication')
 			->title('COM_REDSHOP_COMMUNICATION')
 			->addItem(
-				'index.php?option=com_redshop&view=mail',
+				'index.php?option=com_redshop&view=mails',
 				'COM_REDSHOP_MAIL_CENTER_LISTING',
-				(self::$view == 'mail') ? true : false
+				(self::$view == 'mails') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=newsletter',

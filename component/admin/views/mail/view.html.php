@@ -9,23 +9,40 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewMail extends RedshopViewAdmin
+/**
+ * View Mail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewMail extends RedshopViewForm
 {
 	/**
-	 * The current user.
+	 * Split fieldset in form into column
 	 *
-	 * @var  JUser
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
 	 */
-	public $user;
+	public $formFieldsetsColumn = 1;
 
 	/**
-	 * The request url.
+	 * Method for get page title.
 	 *
-	 * @var  string
+	 * @return  string
+	 *
+	 * @since   2.0.6
 	 */
-	public $request_url;
+	public function getTitle()
+	{
+		return JText::_('COM_REDSHOP_MAIL_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+	}
+}
 
+
+
+/*class RedshopViewMail extends RedshopViewAdmin
+{
 	public function display($tpl = null)
 	{
 		$uri      = JFactory::getURI();
@@ -66,4 +83,4 @@ class RedshopViewMail extends RedshopViewAdmin
 
 		parent::display($tpl);
 	}
-}
+}*/
