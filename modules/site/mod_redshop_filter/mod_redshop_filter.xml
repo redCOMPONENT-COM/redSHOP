@@ -13,6 +13,7 @@
         <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename module="mod_redshop_filter">mod_redshop_filter.php</filename>
+        <folder>lib</folder>
         <folder>tmpl</folder>
     </files>
     <languages>

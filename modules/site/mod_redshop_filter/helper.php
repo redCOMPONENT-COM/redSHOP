@@ -306,7 +306,8 @@ abstract class ModRedshopFilter
 			->leftJoin($db->qn('#__redshop_fields_value', 'fv') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fv.field_id'))
 			->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $pids) . ')')
-			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')');
+			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')')
+			->group($db->qn('fv.field_value'));
 
 		$data   = $db->setQuery($query)->loadObjectList();
 		$result = array();
