@@ -12,12 +12,22 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   string  $extraFieldLabel  Extra field label
- * @param   string  $extraFieldValue  Extra field value
+ * @param   string   $extraFieldLabel  Extra field label
+ * @param   string   $extraFieldValue  Extra field value
+ * @param   boolean  $sendMail         Is send mail
  */
 extract($displayData);
 ?>
-<div class="row">
-	<label class="col-xs-5"><?php echo $extraFieldLabel; ?></label>
-	<div class="col-xs-7"><?php echo $extraFieldValue; ?></div>
-</div>
+<?php if (!empty($extraFieldValue)): ?>
+	<?php if ($sendMail) : ?>
+	<tr>
+		<td><b><?php echo $extraFieldLabel; ?></b></td>
+		<td><?php echo $extraFieldValue; ?></td>
+	</tr>
+	<?php else: ?>
+	<div class="row">
+		<label class="col-xs-5"><?php echo $extraFieldLabel; ?></label>
+		<div class="col-xs-7"><?php echo $extraFieldValue; ?></div>
+	</div>
+	<?php endif; ?>
+<?php endif; ?>
