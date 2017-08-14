@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="redshop.text"
+                label="COM_REDSHOP_FILTER_SEARCH_DESC"
+                placeholder="JSEARCH_FILTER"
+                class="js-enter-submits"
+        />
+        <field
+                name="section"
+                type="redshop.mail_section"
+                label="COM_REDSHOP_MAIL_SECTION"
+                onchange="this.form.submit();"
+                default=""
+        />
+        <field
+                name="published"
+                type="rpublished"
+                onchange="this.form.submit();"
+                label="JOPTION_SELECT_PUBLISHED"
+                statuses="0,1">
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                default="25"
+                label="JGLOBAL_ORDERING_LIST_LIMIT"
+                description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+                class="form-control"
+        />
+    </fields>
+</form>
