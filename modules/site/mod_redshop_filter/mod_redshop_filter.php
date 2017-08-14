@@ -64,6 +64,17 @@ if (!empty($cid))
 }
 elseif (!empty($mid))
 {
+	$manufacturerModel = JModelLegacy::getInstance('Manufacturers', 'RedshopModel');
+	$manufacturerModel->setId($mid);
+	$products = $manufacturerModel->getManufacturerProducts();
+	$productList = array();
+
+	foreach ($products as $key => $product)
+	{
+		$detail = RedshopHelperProduct::getProductById($product->product_id);
+		$productList[] = $detail;
+	}
+
 	$manufacturers = array();
 	$pids          = ModRedshopFilter::getProductByManufacturer($mid);
 	$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory);
