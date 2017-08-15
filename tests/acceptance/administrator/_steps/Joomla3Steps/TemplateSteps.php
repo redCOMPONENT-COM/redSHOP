@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class TemplateManagerJoomla3Steps
+ * Class TemplateSteps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
+class TemplateSteps extends AdminManagerJoomla3Steps
 {
 	/**
 	 * Function to create a New Template
@@ -28,21 +28,14 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addTemplate($templateName = 'Testing', $templateSection = 'Add to cart')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=templates');
-		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Template Manager Page');
-		$I->click('New');
-		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
-		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateName);
-		$I->click(['xpath' => "//div[@id='s2id_template_section']"]);
-		$I->fillField(['id' => "s2id_autogen1_search"], $templateSection);
-		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $templateSection . "')]"], 30);
-		$I->click(['xpath' => "//span[contains(text(), '" . $templateSection . "')]"]);
-		$I->click('Save & Close');
-		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,['id' => 'system-message-container']);
-		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, ['id' => 'system-message-container']);
-		$I->filterListBySearching($templateName, ['id' => "filter"]);
-		$I->seeElement(['link' => strtolower($templateName)]);
+		$I->amOnPage(\TemplatePage::$url);
+		$I->click(\TemplatePage::$buttonNew);
+		$I->verifyNotices(false, $this->checkForNotices(), \TemplatePage::$nameEditPage);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(\TemplatePage::$fieldName, $templateName);
+		$I->chooseOnSelect2(\TemplatePage::$fieldSection, $templateSection);
+		$I->click(\TemplatePage::$buttonSaveClose);
+		$I->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
 	}
 
 	/**
@@ -56,16 +49,16 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editTemplate($templateName = 'Current', $templateUpdatedName = 'UpdatedName')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=templates');
+		$I->amOnPage(\TemplatePage::$url);
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
 		$I->filterListBySearching($templateName, ['id' => "filter"]);
-		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
+		$I->click(\TemplatePage::$selectFirst);
 		$I->click('Edit');
-		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
-		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateUpdatedName);
+		$I->waitForElement(\TemplatePage::$fieldName,30);
+		$I->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
 		$I->click('Save & Close');
-		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,['id' => 'system-message-container']);
-		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, ['id' => 'system-message-container']);
+		$I->waitForText(\TemplatePage::$templateSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\TemplatePage::$templateSuccessMessage, ['id' => 'system-message-container']);
 		$I->click('Reset');
 		$I->filterListBySearching($templateUpdatedName, ['id' => "filter"]);
 		$I->seeElement(['link' => strtolower($templateUpdatedName)]);
@@ -83,9 +76,9 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function changeTemplateState($name, $state = 'unpublish')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=templates');
+		$I->amOnPage(\TemplatePage::$url);
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$this->changeState(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
+		$this->changeState(new \TemplatePage, $name, $state, \TemplatePage::$firstResultRow, \TemplatePage::$selectFirst);
 	}
 
 	/**
@@ -98,7 +91,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchTemplate($name, $functionName = 'Search')
 	{
-		$this->search(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, $functionName);
+		$this->search(new \TemplatePage, $name, \TemplatePage::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -110,7 +103,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function getTemplateState($name)
 	{
-		$result = $this->getState(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$templateStatePath);
+		$result = $this->getState(new \TemplatePage, $name, \TemplatePage::$firstResultRow, \TemplatePage::$templateStatePath);
 
 		return $result;
 	}
@@ -125,16 +118,16 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function deleteTemplate($templateName)
 	{
 		$I = $this;
-		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
+		$I->amOnPage(\TemplatePage::$url);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchTemplate($templateName);
-		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
+		$I->click(\TemplatePage::$selectFirst);
 		$I->click("Delete");
 		$I->acceptPopup();
 		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
 		$I->see("1 item successfully deleted", '.alert-success');
-		$I->fillField(\TemplateManagerJoomla3Page::$filter, $templateName);
-		$I->pressKey(\TemplateManagerJoomla3Page::$filter, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->dontSee($templateName, \TemplateManagerJoomla3Page::$firstResultRow);
+		$I->fillField(\TemplatePage::$filter, $templateName);
+		$I->pressKey(\TemplatePage::$filter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->dontSee($templateName, \TemplatePage::$firstResultRow);
 	}
 }
