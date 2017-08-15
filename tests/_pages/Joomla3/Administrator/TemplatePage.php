@@ -7,22 +7,41 @@
  */
 
 /**
- * Class TemplateManagerJoomla3Page
+ * Class TemplatePage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
  * @since  1.4
  */
 
-class TemplateManagerJoomla3Page
+class TemplatePage extends AdminJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=template';
+	/**
+	 * @var string
+	 */
+	public static $url = '/administrator/index.php?option=com_redshop&view=templates';
 
-	public static $templateName = "//input[@id='template_name']";
+	/**
+	 * @var string
+	 */
+	public static $namePage = "Template Management";
+
+	/**
+	 * @var string
+	 */
+	public static $nameEditPage = 'Template Management: [ Edit ]';
+
+	/**
+	 * @var array
+	 */
+	public static $fieldName = ['id' => 'jform_template_name'];
+
+	/**
+	 * @var array
+	 */
+	public static $fieldSection = ['id' => 'jform_template_section'];
 
 	public static $filter = ['id' => 'filter'];
-
-	public static $templateSectionDropDown = "//div[@id='template_section_chzn']/a";
 
 	public static $templateSectionInput = "//div[@id='template_section_chzn']/div/div/input";
 
