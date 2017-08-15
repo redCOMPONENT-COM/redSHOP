@@ -28,7 +28,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addTemplate($templateName = 'Testing', $templateSection = 'Add to cart')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=templates');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Template Manager Page');
 		$I->click('New');
@@ -56,7 +56,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editTemplate($templateName = 'Current', $templateUpdatedName = 'UpdatedName')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=templates');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
 		$I->filterListBySearching($templateName, ['id' => "filter"]);
 		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
@@ -83,7 +83,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function changeTemplateState($name, $state = 'unpublish')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=templates');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
 		$this->changeState(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
