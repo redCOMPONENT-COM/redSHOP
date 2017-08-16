@@ -20,7 +20,7 @@ class InstallRedShopCest
 	/**
 	 * Test to Install Joomla
 	 *
-	 * @param   AcceptanceTester  $I  Actor Class Object
+	 * @param   AcceptanceTester $I Actor Class Object
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class InstallRedShopCest
 	{
 		$I->wantTo('Execute Joomla Installation');
 		$I->installJoomla();
-//		$I->installJoomlaRemovingInstallationFolder();
+		$I->installJoomlaRemovingInstallationFolder();
 		$I->doAdministratorLogin();
 		$I->setErrorReportingtoDevelopment();
 	}
@@ -39,8 +39,9 @@ class InstallRedShopCest
 		$I->wantTo('disable the floating template toolbars');
 		$I->doAdministratorLogin();
 		$I->waitForText('Control Panel', 60, ['css' => 'h1']);
-		$I->click(['link' => 'Extensions']);
-		$I->waitForElement(['link' => 'Templates'],60);
+		$I->click(".//*[@id='menu']/li[6]/a");
+//		$I->click(['link' => 'Extensions']);
+		$I->waitForElement(['link' => 'Templates'], 60);
 		$I->click(['link' => 'Templates']);
 		$I->waitForText('Templates: Styles', 60, ['css' => 'h1']);
 		$I->selectOptionInChosen('#client_id', 'Administrator');
@@ -60,7 +61,7 @@ class InstallRedShopCest
 	/**
 	 * Test to Install redSHOP Extension on Joomla
 	 *
-	 * @param   AcceptanceTester  $I  Actor Class Object
+	 * @param   AcceptanceTester $I Actor Class Object
 	 *
 	 * @return void
 	 */
