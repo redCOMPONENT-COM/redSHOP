@@ -83,7 +83,6 @@ class TemplateCest
 		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->editTemplate($this->name, $this->newName);
-		$I->searchTemplate($this->newName);
 	}
 
 	/**
@@ -96,13 +95,32 @@ class TemplateCest
 	 *
 	 * @depends updateTemplate
 	 */
-	public function changeTemplateState(AcceptanceTester $I, $scenario)
+	public function changeTemplateStateUnpublish(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test if State of a Template gets Updated in Administrator');
+		$I->wantTo('Test if update status to unpublish of Template gets Updated in Administrator');
 		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->changeTemplateState($this->newName);
 		$I->verifyState('unpublished', $I->getTemplateState($this->newName));
+	}
+
+	/**
+	 * Test for State Change in Template Administrator
+	 *
+	 * @param   AcceptanceTester  $I         Current user state.
+	 * @param   Scenario          $scenario  Scenario for test.
+	 *
+	 * @return  void
+	 *
+	 * @depends updateTemplate
+	 */
+	public function changeTemplateStatePublish(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test change publish Template gets Updated in Administrator');
+		$I->doAdministratorLogin();
+		$I = new TemplateSteps($scenario);
+		$I->changeTemplateState($this->newName);
+		$I->verifyState('published', $I->getTemplateState($this->newName));
 	}
 
 	/**

@@ -41,29 +41,8 @@ class TemplatePage extends AdminJ3Page
 	 */
 	public static $fieldSection = ['id' => 'jform_template_section'];
 
-	public static $filter = ['id' => 'filter'];
-
-	public static $templateSectionInput = "//div[@id='template_section_chzn']/div/div/input";
-
-	public static $templateSuccessMessage = 'Template Saved';
-
-	public static $firstResultRow = "//div[@id='editcell']//table[1]//tbody/tr[1]";
-
-	public static $selectFirst = "//input[@id='cb0']";
-
-	public static $templateStatePath = "//div[@id='editcell']//table[1]//tbody/tr[1]/td[5]/a";
-
 	/**
-	 * Function to get the path for Section
-	 *
-	 * @param   String  $section  Section for the Template
-	 *
-	 * @return string
+	 * @var string
 	 */
-	public function templateSection($section)
-	{
-		$path = "//div[@id='template_section_chzn']/div/ul/li[text() = '" . $section . "']";
-
-		return $path;
-	}
+	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
 }
