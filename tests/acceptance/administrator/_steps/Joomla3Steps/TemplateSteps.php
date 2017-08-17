@@ -28,18 +28,18 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function addTemplate($templateName = 'Testing', $templateSection = 'Add to cart')
 	{
-		$I = $this;
-		$I->amOnPage(\TemplatePage::$url);
-		$I->click(\TemplatePage::$buttonNew);
-		$I->verifyNotices(false, $this->checkForNotices(), \TemplatePage::$nameEditPage);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(\TemplatePage::$fieldName, $templateName);
-		$I->chooseOnSelect2(\TemplatePage::$fieldSection, $templateSection);
-		$I->click(\TemplatePage::$buttonSaveClose);
-		$I->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
-		$I->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
-		$I->searchTemplate($templateName);
-		$I->see($templateName, \TemplatePage::$resultRow);
+		$client = $this;
+		$client->amOnPage(\TemplatePage::$url);
+		$client->click(\TemplatePage::$buttonNew);
+		$client->verifyNotices(false, $this->checkForNotices(), \TemplatePage::$nameEditPage);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->fillField(\TemplatePage::$fieldName, $templateName);
+		$client->chooseOnSelect2(\TemplatePage::$fieldSection, $templateSection);
+		$client->click(\TemplatePage::$buttonSaveClose);
+		$client->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
+		$client->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
+		$client->searchTemplate($templateName);
+		$client->see($templateName, \TemplatePage::$resultRow);
 	}
 
 	/**
@@ -52,37 +52,33 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function editTemplate($templateName = 'Current', $templateUpdatedName = 'UpdatedName')
 	{
-		$I = $this;
-		$I->amOnPage(\TemplatePage::$url);
-		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$I->filterListBySearching($templateName, ['id' => "filter"]);
-		$I->click(\TemplatePage::$selectFirst);
-		$I->click('Edit');
-		$I->waitForElement(\TemplatePage::$fieldName, 30);
-		$I->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
-		$I->click('Save & Close');
-		$I->waitForText(\TemplatePage::$templateSuccessMessage, 60, ['id' => 'system-message-container']);
-		$I->see(\TemplatePage::$templateSuccessMessage, ['id' => 'system-message-container']);
-		$I->click('Reset');
-		$I->filterListBySearching($templateUpdatedName, ['id' => "filter"]);
-		$I->seeElement(['link' => strtolower($templateUpdatedName)]);
-		$I->dontSeeElement(['link' => strtolower($templateName)]);
+		$client = $this;
+		$client->amOnPage(\TemplatePage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchTemplate($templateName);
+		$client->click($templateName);
+		$client->waitForElement(\TemplatePage::$fieldName, 30);
+		$client->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
+		$client->click(\TemplatePage::$buttonSaveClose);
+		$client->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
+		$client->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
 	}
 
 	/**
 	 * Function to change State of a Template
 	 *
 	 * @param   string $name  Name of the  Template
-	 * @param   string $state State of the  Template
 	 *
 	 * @return void
 	 */
-	public function changeTemplateState($name, $state = 'unpublish')
+	public function changeTemplateState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\TemplatePage::$url);
-		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$this->changeState(new \TemplatePage, $name, $state, \TemplatePage::$firstResultRow, \TemplatePage::$selectFirst);
+		$client = $this;
+		$client->amOnPage(\TemplatePage::$url);
+		$client->searchTemplate($name);
+		$client->wait(3);
+		$client->see($name, \TemplatePage::$resultRow);
+		$client->click(\TemplatePage::$statePath);
 	}
 
 	/**
@@ -109,7 +105,24 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function getTemplateState($name)
 	{
-		$result = $this->getState(new \TemplatePage, $name, \TemplatePage::$firstResultRow, \TemplatePage::$templateStatePath);
+		$client = $this;
+		$client->amOnPage(\TemplatePage::$url);
+		$client->searchSupplier($name);
+		$client->wait(3);
+		$client->see($name, \TemplatePage::$resultRow);
+		$text = $client->grabAttributeFrom(\TemplatePage::$statePath, 'onclick');
+		echo "Get status text " . $text;
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+		else
+		{
+			$result = 'unpublished';
+		}
+
+		echo "Status need show" . $result;
 
 		return $result;
 	}
@@ -123,17 +136,17 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteTemplate($templateName)
 	{
-		$I = $this;
-		$I->amOnPage(\TemplatePage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->searchTemplate($templateName);
-		$I->click(\TemplatePage::$selectFirst);
-		$I->click("Delete");
-		$I->acceptPopup();
-		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
-		$I->see("1 item successfully deleted", '.alert-success');
-		$I->fillField(\TemplatePage::$filter, $templateName);
-		$I->pressKey(\TemplatePage::$filter, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->dontSee($templateName, \TemplatePage::$firstResultRow);
+		$client = $this;
+		$client->amOnPage(\TemplatePage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchTemplate($templateName);
+		$client->checkAllResults();
+		$client->click(\TemplatePage::$buttonDelete);
+		$client->acceptPopup();
+		$client->waitForText(\TemplatePage::$messageItemDeleteSuccess, 60, \TemplatePage::$selectorSuccess);
+		$client->see(\TemplatePage::$messageItemDeleteSuccess, \TemplatePage::$selectorSuccess);
+		$client->fillField(\TemplatePage::$searchField, $templateName);
+		$client->pressKey(\TemplatePage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$client->dontSee($templateName, \TemplatePage::$resultRow);
 	}
 }
