@@ -455,7 +455,7 @@ class RedshopHelperExtrafields
 	{
 		$db = JFactory::getDbo();
 
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 		/** @var RedshopModelFields $model */
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 		$rowData = $model->getFieldsBySection($fieldSection, $fieldName, $front, $checkout);
