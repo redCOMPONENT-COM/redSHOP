@@ -112,7 +112,7 @@ class RedshopHelperTemplate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getTemplateTags(string $name, string $templateSection = '')
+	public static function getTemplateTags($name, $templateSection = '')
 	{
 		$lang = JFactory::getLanguage();
 		$path = 'template_tag';
@@ -771,7 +771,7 @@ class RedshopHelperTemplate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function renderFieldTagHints(int $fieldSection = 0, string $heading = '')
+	public static function renderFieldTagHints($fieldSection = 0, $heading = '')
 	{
 		$tagsSite  = RedshopHelperExtrafields::getSectionFieldList($fieldSection, 1);
 		$tagsAdmin = RedshopHelperExtrafields::getSectionFieldList($fieldSection, 0);

@@ -27,7 +27,7 @@ class RedshopHelperText
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getTextLibraryData(string $section = null)
+	public static function getTextLibraryData($section = null)
 	{
 		$db    = JFactory::getDbo();
 
