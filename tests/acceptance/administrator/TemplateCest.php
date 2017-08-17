@@ -46,7 +46,7 @@ class TemplateCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->name = $this->faker->bothify('managetemplateadministratorcest_?##?');
+		$this->name = $this->faker->bothify('managetemplateadministratorcest-?##?');
 		$this->section = 'Add to cart';
 		$this->newName = 'updated' . $this->name;
 	}
