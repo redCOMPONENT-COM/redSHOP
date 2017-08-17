@@ -107,7 +107,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\TemplatePage::$url);
-		$client->searchSupplier($name);
+		$client->searchTemplate($name);
 		$client->wait(3);
 		$client->see($name, \TemplatePage::$resultRow);
 		$text = $client->grabAttributeFrom(\TemplatePage::$statePath, 'onclick');
