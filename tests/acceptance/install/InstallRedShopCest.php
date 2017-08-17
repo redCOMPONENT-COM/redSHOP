@@ -42,7 +42,8 @@ class InstallRedShopCest
 		$I->click(".//*[@id='menu']/li[6]/a");
 //		$I->click(['link' => 'Extensions']);
 		$I->waitForElement(['link' => 'Templates'], 60);
-		$I->click(['link' => 'Templates']);
+		$I->click(".//*[@id='menu']/li[6]/ul/li[5]/a");
+//		$I->click(['link' => 'Templates']);
 		$I->waitForText('Templates: Styles', 60, ['css' => 'h1']);
 		$I->selectOptionInChosen('#client_id', 'Administrator');
 		$I->waitForText('Templates: Styles (Administrator)', 60, ['css' => 'h1']);
