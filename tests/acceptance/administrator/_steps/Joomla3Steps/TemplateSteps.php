@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace AcceptanceTester;
 /**
  * Class TemplateSteps
@@ -20,8 +21,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to create a New Template
 	 *
-	 * @param   string  $templateName     Name of the Template
-	 * @param   string  $templateSection  Section for the Template
+	 * @param   string $templateName    Name of the Template
+	 * @param   string $templateSection Section for the Template
 	 *
 	 * @return void
 	 */
@@ -36,13 +37,15 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$I->chooseOnSelect2(\TemplatePage::$fieldSection, $templateSection);
 		$I->click(\TemplatePage::$buttonSaveClose);
 		$I->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
+		$I->searchTemplate($templateName);
+		$I->see($templateName, \TemplatePage::$resultRow);
 	}
 
 	/**
 	 * Function to edit an already created Template
 	 *
-	 * @param   string  $templateName         Current Name for the Template
-	 * @param   string  $templateUpdatedName  New Name for the Template
+	 * @param   string $templateName        Current Name for the Template
+	 * @param   string $templateUpdatedName New Name for the Template
 	 *
 	 * @return void
 	 */
@@ -54,10 +57,10 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$I->filterListBySearching($templateName, ['id' => "filter"]);
 		$I->click(\TemplatePage::$selectFirst);
 		$I->click('Edit');
-		$I->waitForElement(\TemplatePage::$fieldName,30);
+		$I->waitForElement(\TemplatePage::$fieldName, 30);
 		$I->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
 		$I->click('Save & Close');
-		$I->waitForText(\TemplatePage::$templateSuccessMessage,60,['id' => 'system-message-container']);
+		$I->waitForText(\TemplatePage::$templateSuccessMessage, 60, ['id' => 'system-message-container']);
 		$I->see(\TemplatePage::$templateSuccessMessage, ['id' => 'system-message-container']);
 		$I->click('Reset');
 		$I->filterListBySearching($templateUpdatedName, ['id' => "filter"]);
@@ -68,8 +71,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to change State of a Template
 	 *
-	 * @param   string  $name   Name of the  Template
-	 * @param   string  $state  State of the  Template
+	 * @param   string $name  Name of the  Template
+	 * @param   string $state State of the  Template
 	 *
 	 * @return void
 	 */
@@ -84,20 +87,22 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Search for a Template
 	 *
-	 * @param   string  $name          Name of the Template
-	 * @param   string  $functionName  Name of the function After Which search is being Called
+	 * @param   string $templateName Name of the Template
 	 *
 	 * @return void
 	 */
-	public function searchTemplate($name, $functionName = 'Search')
+	public function searchTemplate($templateName)
 	{
-		$this->search(new \TemplatePage, $name, \TemplatePage::$firstResultRow, $functionName);
+		$client = $this;
+		$client->amOnPage(\TemplatePage::$url);
+		$client->waitForText(\TemplatePage::$namePage, 30, \TemplatePage::$headPage);
+		$client->filterListBySearching($templateName);
 	}
 
 	/**
 	 * Function to get State of the Template
 	 *
-	 * @param   String  $name  Name of the Template
+	 * @param   String $name Name of the Template
 	 *
 	 * @return string
 	 */
@@ -111,7 +116,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Delete Template
 	 *
-	 * @param   String  $templateName  Name of the Template which is to be Deleted
+	 * @param   String $templateName Name of the Template which is to be Deleted
 	 *
 	 * @return void
 	 */

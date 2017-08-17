@@ -65,7 +65,6 @@ class TemplateCest
 		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->addTemplate($this->name, $this->section);
-		$I->searchTemplate($this->name);
 	}
 
 	/**
