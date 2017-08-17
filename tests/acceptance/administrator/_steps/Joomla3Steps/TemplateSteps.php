@@ -36,6 +36,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$I->fillField(\TemplatePage::$fieldName, $templateName);
 		$I->chooseOnSelect2(\TemplatePage::$fieldSection, $templateSection);
 		$I->click(\TemplatePage::$buttonSaveClose);
+		$I->waitForText(\SupplierPage::$messageItemSaveSuccess, 60, \SupplierPage::$selectorSuccess);
 		$I->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
 		$I->searchTemplate($templateName);
 		$I->see($templateName, \TemplatePage::$resultRow);
