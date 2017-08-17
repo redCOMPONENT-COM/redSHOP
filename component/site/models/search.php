@@ -527,7 +527,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if (!empty($subQuery))
 			{
-				$query->where(implode(' OR ', $subQuery));
+				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 
@@ -1358,7 +1358,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if (!empty($subQuery))
 			{
-				$query->where(implode(' OR ', $subQuery));
+				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 
