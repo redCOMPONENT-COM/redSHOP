@@ -354,25 +354,26 @@ class RedshopModelProduct extends RedshopModel
 		return $orderby;
 	}
 
+	/**
+	 * @param   int  $pid
+	 *
+	 * @return  array<object>
+	 * @deprecated Use RedshopEntityProduct::getInstance($pid)->getMediaDetail() instead
+	 */
 	public function MediaDetail($pid)
 	{
-		$query = 'SELECT * FROM #__redshop_media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectlist();
+		return RedshopEntityProduct::getInstance($pid)->getMediaDetail();
 	}
 
+	/**
+	 * @param   int  $pid
+	 *
+	 * @return  array<string>
+	 * @deprecated Use RedshopEntityProduct::getInstance($pid)->getCategories() instead
+	 */
 	public function listedincats($pid)
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
-			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
-			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
-			->order($db->qn('c.name'));
-
-		return $db->setQuery($query)->loadObjectlist();
+		return RedshopEntityProduct::getInstance($pid)->getCategories();
 	}
 
 	public function product_template($template_id, $product_id, $section)
