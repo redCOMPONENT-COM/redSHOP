@@ -470,4 +470,32 @@ class RedshopModelCategory extends RedshopModelForm
 			}
 		}
 	}
+
+	/**
+	 * Saves the manually set order of records.
+	 *
+	 * @param   array    $pks    An array of primary key ids.
+	 * @param   integer  $order  +1 or -1
+	 *
+	 * @return  boolean|JException  Boolean true on success, false on failure, or JException if no items are selected
+	 *
+	 * @since   1.6
+	 */
+	public function saveorder($pks = array(), $order = null)
+	{
+		// Get an instance of the table object.
+		$table = $this->getTable();
+
+		if (!$table->saveorder($pks, $order))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
 }
