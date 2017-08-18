@@ -19,6 +19,13 @@ defined('_JEXEC') or die;
 class RedshopModelSupplier extends RedshopModelForm
 {
 	/**
+	 * The unique columns.
+	 *
+	 * @var  array
+	 */
+	protected $copyUniqueColumns = array('name');
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
@@ -39,43 +46,5 @@ class RedshopModelSupplier extends RedshopModelForm
 		$this->preprocessData('com_redshop.supplier', $data);
 
 		return $data;
-	}
-
-	/**
-	 * Method to duplicate suppliers.
-	 *
-	 * @param   array  &$pks  An array of primary key IDs.
-	 *
-	 * @return  boolean|JException  Boolean true on success, JException instance on error
-	 */
-	public function duplicate(&$pks)
-	{
-		$user = JFactory::getUser();
-		$db   = $this->getDbo();
-
-		$table = $this->getTable();
-
-		foreach ($pks as $pk)
-		{
-			if ($table->load($pk, true))
-			{
-				// Reset the id to create a new record.
-				$table->id = 0;
-
-				// Unpublish duplicate module
-				$table->published = 0;
-
-				if (!$table->check() || !$table->store())
-				{
-					throw new Exception($table->getError());
-				}
-			}
-			else
-			{
-				throw new Exception($table->getError());
-			}
-		}
-
-		return true;
 	}
 }

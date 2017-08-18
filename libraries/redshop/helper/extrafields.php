@@ -1675,7 +1675,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since 2.0.3
 	 */
-	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
+	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = null, $published = 1, $required = 0)
 	{
 		$key = $section . '_' . $front . '_' . $published . '_' . $required;
 
@@ -1688,7 +1688,7 @@ class RedshopHelperExtrafields
 				->where($db->qn('section') . ' = ' . (int) $section)
 				->order($db->qn('ordering'));
 
-			if ($front)
+			if (null !== $front)
 			{
 				$query->where($db->qn('show_in_front') . ' = ' . (int) $front);
 			}
