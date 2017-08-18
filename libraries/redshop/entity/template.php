@@ -18,26 +18,4 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityTemplate extends RedshopEntity
 {
-	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'template_id', $keyValue = null)
-	{
-		if ($key == 'template_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'template_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
 }

@@ -19,18 +19,11 @@ defined('_JEXEC') or die;
 class RedshopModelMails extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
-	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_mails';
-
-	/**
 	 * Construct class
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since 1.x
+	 * @since   2.x
 	 */
 	public function __construct($config = array())
 	{
