@@ -120,7 +120,7 @@ class RedshopModelMails extends RedshopModelList
 		// Filter by section
 		$section = $this->getState('filter.section');
 
-		if (!empty($search))
+		if (!empty($section))
 		{
 			$query->where($db->qn('mail_section') . ' = ' . $db->quote($section));
 		}
