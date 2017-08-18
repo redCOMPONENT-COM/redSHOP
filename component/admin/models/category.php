@@ -334,15 +334,15 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to copy.
 	 *
-	 * @param   array $cid Category id list.
+	 * @param   array $pks Category id list.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
-	public function copy($cid = array())
+	public function copy(&$pks)
 	{
-		if (!count($cid))
+		if (!count($pks))
 		{
 			return false;
 		}
@@ -351,7 +351,7 @@ class RedshopModelCategory extends RedshopModelForm
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('id') . ' IN (' . implode(',', $cid) . ')');
+			->where($db->qn('id') . ' IN (' . implode(',', $pks) . ')');
 
 		$copyData = $db->setQuery($query)->loadObjectList();
 
