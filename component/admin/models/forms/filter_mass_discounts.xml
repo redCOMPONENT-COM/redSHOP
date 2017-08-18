@@ -13,6 +13,7 @@
                 type="list"
                 label="COM_REDSHOP_MASS_DISCOUNT_FILTER_TYPE"
                 onchange="this.form.submit();"
+                class="form-control"
                 default="">
             <option value="">COM_REDSHOP_MASS_DISCOUNT_FILTER_TYPE_OPTION_SELECT</option>
             <option value="1">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE</option>
@@ -27,6 +28,7 @@
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
+                class="form-control"
         />
     </fields>
 </form>
