@@ -19,18 +19,11 @@ defined('_JEXEC') or die;
 class RedshopModelTemplates extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
+	 * Construct class
 	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_templates';
-
-	/**
-	 * Constructor.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settingt.
-	 *
-	 * @see     JModelLegacy
+	 * @since   2.x
 	 */
 	public function __construct($config = array())
 	{

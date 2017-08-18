@@ -12,6 +12,7 @@
                 name="type"
                 type="list"
                 label="COM_REDSHOP_VOUCHER_FILTER_TYPE"
+                class="form-control"
                 onchange="this.form.submit();">
                 <option value="">COM_REDSHOP_VOUCHER_FILTER_TYPE_SELECT</option>
                 <option value="Total">COM_REDSHOP_TOTAL</option>
@@ -21,6 +22,7 @@
                 name="free_ship"
                 type="list"
                 label="COM_REDSHOP_VOUCHER_FILTER_FREE_SHIP"
+                class="form-control"
                 onchange="this.form.submit();">
             <option value="">COM_REDSHOP_VOUCHER_FILTER_FREE_SHIP_SELECT</option>
             <option value="0">JNO</option>
