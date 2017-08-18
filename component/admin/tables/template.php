@@ -125,7 +125,7 @@ class RedshopTableTemplate extends RedshopTable
 			return true;
 		}
 
-		$oldItem->template_name = str_replace(' ', '_', strtolower($oldItem->template_name));
+		$oldItem->template_name = $this->safeTemplateName($oldItem->template_name);
 
 		if ($oldItem->template_name !== $this->template_name || $oldItem->template_section !== $this->template_section)
 		{
@@ -159,7 +159,7 @@ class RedshopTableTemplate extends RedshopTable
 			$this->order_status = implode(',', $this->order_status);
 		}
 
-		$this->template_name = JFilterOutput::stringURLSafe($this->template_name);
+		$this->template_name = $this->safeTemplateName($this->template_name);
 
 		if (!parent::doStore($updateNulls))
 		{
@@ -205,5 +205,19 @@ class RedshopTableTemplate extends RedshopTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for make template name safe
+	 *
+	 * @param   string  $templateName  Template name
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function safeTemplateName($templateName = '')
+	{
+		return str_replace('-', '_', JFilterOutput::stringURLSafe(strtolower($templateName)));
 	}
 }
