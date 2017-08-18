@@ -432,11 +432,6 @@ class RedshopModelSearch extends RedshopModel
 		$orderByObj = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
 		$orderBy    = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
-		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
-		{
-			$orderBy = 'p.product_id DESC';
-		}
-
 		if ($getTotal)
 		{
 			$query = $db->getQuery(true)
