@@ -54,10 +54,10 @@ if (count($shippingBoxes) > 0)
 	$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
 }
 
-$users_info_id        = JRequest::getInt('users_info_id', $this->users_info_id);
-$payment_method_id    = JRequest::getCmd('payment_method_id', $selpayment_method_id);
-$shipping_box_post_id = JRequest::getInt('shipping_box_id', $selshipping_box_post_id);
-$shipping_rate_id     = JRequest::getInt('shipping_rate_id', 0);
+$users_info_id        = $app->input->getInt('users_info_id', $this->users_info_id);
+$payment_method_id    = $app->input->getCmd('payment_method_id', $selpayment_method_id);
+$shipping_box_post_id = $app->input->getInt('shipping_box_id', $selshipping_box_post_id);
+$shipping_rate_id     = $app->input->getInt('shipping_rate_id', 0);
 
 if (!empty($billingaddresses) && $users_info_id == 0)
 {

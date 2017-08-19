@@ -28,10 +28,10 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function updatestatus()
 	{
-		$post   = JRequest::get('post');
+		$post   = $this->input->post->getArray();
 
-		$Itemid = JRequest::getVar('Itemid');
-		$encr   = JRequest::getVar('encr');
+		$Itemid = $this->input->get('Itemid');
+		$encr   = $this->input->get('encr');
 		$model = $this->getModel('quotation_detail');
 
 		$quotationHelper = quotationHelper::getInstance();
@@ -59,9 +59,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function checkout()
 	{
 
-		$Itemid = JRequest::getVar('Itemid');
-		$post   = JRequest::get('post');
-		$encr   = JRequest::getVar('encr');
+		$Itemid = $this->input->get('Itemid');
+		$post   = $this->input->post->getArray();
+		$encr   = $this->input->get('encr');
 
 		$quotationHelper = quotationHelper::getInstance();
 		$model           = $this->getModel('quotation_detail');
