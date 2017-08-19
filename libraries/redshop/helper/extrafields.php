@@ -1182,7 +1182,8 @@ class RedshopHelperExtrafields
 						'field_display.text',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1197,7 +1198,8 @@ class RedshopHelperExtrafields
 						'field_display.textarea',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1225,7 +1227,8 @@ class RedshopHelperExtrafields
 						'field_display.checkbox',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1253,7 +1256,8 @@ class RedshopHelperExtrafields
 						'field_display.radio',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1281,7 +1285,8 @@ class RedshopHelperExtrafields
 						'field_display.select',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1309,7 +1314,8 @@ class RedshopHelperExtrafields
 						'field_display.multiple',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1331,7 +1337,8 @@ class RedshopHelperExtrafields
 						'field_display.country',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1347,7 +1354,8 @@ class RedshopHelperExtrafields
 						'field_display.datepicker',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
