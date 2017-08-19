@@ -1431,7 +1431,6 @@ class productHelper
 
 	public function getCategoryNavigationlist($category_id)
 	{
-		$redhelper = redhelper::getInstance();
 		static $i = 0;
 		static $category_list = array();
 
@@ -1448,7 +1447,7 @@ class productHelper
 			}
 			else
 			{
-				$tmpItemid = JRequest::getVar('Itemid');
+				$tmpItemid = $input  = JFactory::getApplication()->input->get('Itemid');
 			}
 
 			$category_list[$i]['category_id']   = $categorylist->id;
@@ -2691,10 +2690,10 @@ class productHelper
 		$redconfig  = Redconfiguration::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-
-		$viewacc = JRequest::getVar('viewacc', 1);
-		$layout  = JRequest::getVar('layout');
-		$Itemid  = JRequest::getVar('Itemid');
+		$input      = JFactory::getApplication()->input;
+		$viewacc    = $input->get('viewacc', 1);
+		$layout     = $input->get('layout');
+		$Itemid     = $input->get('Itemid');
 
 		$isAjax = 0;
 		$prefix = "";
@@ -3787,10 +3786,11 @@ class productHelper
 
 	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
 	{
+		$input           = JFactory::getApplication()->input;
 		$user_id         = 0;
 		$url             = JURI::base();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$Itemid          = JRequest::getInt('Itemid');
+		$Itemid          = $input->getInt('Itemid');
 
 		$product = $this->getProductById($product_id);
 
@@ -3893,7 +3893,7 @@ class productHelper
 
 		if ($product->product_type == "subscription")
 		{
-			$sub_id = JRequest::getInt('subscription_id', 0);
+			$sub_id = $input->getInt('subscription_id', 0);
 			$cartform .= "<input type='hidden' name='subscription_id' id='hidden_subscription_id' value='" . $sub_id .
 				"' />";
 			$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
@@ -4022,13 +4022,13 @@ class productHelper
 
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
-		$user_id         = 0;
-		$redconfig       = Redconfiguration::getInstance();
-		$extraField      = extraField::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
-
-		$product_quantity = JRequest::getVar('product_quantity');
-		$Itemid           = JRequest::getInt('Itemid');
+		$user_id          = 0;
+		$redconfig        = Redconfiguration::getInstance();
+		$extraField       = extraField::getInstance();
+		$stockroomhelper  = rsstockroomhelper::getInstance();
+		$input            = JFactory::getApplication()->input;
+		$product_quantity = $input->get('product_quantity');
+		$Itemid           = $input->getInt('Itemid');
 		$user             = JFactory::getUser();
 		$product_preorder = "";
 
@@ -4085,7 +4085,7 @@ class productHelper
 			$data_add                     = "{form_addtocart:$cart_template->template_name}";
 		}
 
-		$layout = JRequest::getVar('layout');
+		$layout = $input->getCmd('layout');
 		$cart   = $this->_session->get('cart');
 
 		$isAjax                 = 0;
@@ -4548,7 +4548,7 @@ class productHelper
 			{
 				if ($product->product_type == "subscription")
 				{
-					$sub_id = JRequest::getInt('subscription_id', 0);
+					$sub_id = $input->getInt('subscription_id', 0);
 					$cartform .= "<input type='hidden' name='subscription_id' id='hidden_subscription_id' value='"
 						. $sub_id . "' />";
 					$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
@@ -6316,8 +6316,9 @@ class productHelper
 
 	public function makeCompareProductDiv()
 	{
-		$Itemid          = JRequest::getVar('Itemid');
-		$cmd             = JRequest::getVar('cmd');
+		$input           = JFactory::getApplication()->input;
+		$Itemid          = $input->get('Itemid');
+		$cmd             = $input->get('cmd');
 		$compare_product = $this->_session->get('compare_product');
 
 		if (!$compare_product)
