@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
+$app = JFactory::getApplication();
 
-$Itemid = JRequest::getInt('Itemid');
-$mid = JRequest::getInt('mid');
+$Itemid      = $app->input->getInt('Itemid');
+$mid         = $app->input->getInt('mid');
 $redTemplate = Redtemplate::getInstance();
 
 $document = JFactory::getDocument();

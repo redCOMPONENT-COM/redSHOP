@@ -9,31 +9,30 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = productHelper::getInstance();
-$extra_field = extra_field::getInstance();
-$redTemplate = Redtemplate::getInstance();
-$redhelper = redhelper::getInstance();
-$extraField = extraField::getInstance();
+$producthelper    = productHelper::getInstance();
+$extra_field      = extra_field::getInstance();
+$redTemplate      = Redtemplate::getInstance();
+$redhelper        = redhelper::getInstance();
+$extraField       = extraField::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
+$app              = JFactory::getApplication();
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-$url = JURI::base();
-$user = JFactory::getUser();
-$model = $this->getModel('manufacturers');
-$Itemid = JRequest::getInt('Itemid');
-$print = JRequest::getInt('print');
-$order_by_select = JRequest::getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
-$filter_by_select = JRequest::getString('filter_by', 0);
 
-$document = JFactory::getDocument();
+$url              = JURI::base();
+$user             = JFactory::getUser();
+$model            = $this->getModel('manufacturers');
+$Itemid           = $app->input->getInt('Itemid');
+$print            = $app->input->getInt('print');
+$order_by_select  = $app->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
+$filter_by_select = $app->input->getString('filter_by', 0);
+
+$document     = JFactory::getDocument();
 $manufacturer = $this->detail[0];
-$limit = $model->getProductLimit();
-
-$app = JFactory::getApplication();
-$router = $app->getRouter();
-$uri = new JURI('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
-
+$limit        = $model->getProductLimit();
+$router       = $app->getRouter();
+$uri          = new JURI('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
 // Page Title
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
@@ -299,14 +298,14 @@ $template_desc = str_replace("{print}", $print_tag, $template_desc);
 if (strstr($template_desc, '{filter_by}'))
 {
 	$filterby_form = "<form name='filter_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_FILTER_BY') . $this->lists['filter_select'];
-	$filterby_form .= "<input type='hidden' name='order_by' value='" . JRequest::getString('order_by', '') . "' /></form>";
+	$filterby_form .= "<input type='hidden' name='order_by' value='" . $app->input->getString('order_by', '') . "' /></form>";
 	$template_desc = str_replace("{filter_by}", $filterby_form, $template_desc);
 }
 
 if (strstr($template_desc, '{order_by}'))
 {
 	$orderby_form = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'];
-	$orderby_form .= "<input type='hidden' name='filter_by' value='" . JRequest::getString('filter_by', 0) . "' /></form>";
+	$orderby_form .= "<input type='hidden' name='filter_by' value='" . $app->input->getString('filter_by', 0) . "' /></form>";
 	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
 }
 

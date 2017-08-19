@@ -20,18 +20,18 @@ class RedshopViewCart extends RedshopView
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$layout  = JRequest::getCmd('layout');
+		$layout  = $app->input->getCmd('layout');
 
 		if (!$cart)
 		{
 			$cart = array();
 		}
 
-		$Itemid = JRequest::getInt('Itemid');
+		$Itemid = $app->input->getInt('Itemid');
 
-		if (JRequest::getString('quotemsg') != "")
+		if ($app->input->getString('quotemsg') != "")
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg')));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $app->input->getString('quotemsg')));
 		}
 
 		JHtml::script('com_redshop/common.js', false, true);
