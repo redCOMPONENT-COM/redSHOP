@@ -233,6 +233,9 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{manufacturer_product_link}", $link, $cart_mdata);
 		}
 
+		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
+
 //		$cart_tr .=$cart_mdata ;
 
 //		$cname = $manufacturer_products[$i]->category_name;
