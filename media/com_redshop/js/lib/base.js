@@ -11,20 +11,21 @@
 	{
 		var redSHOP = {};
 		w.redSHOP = redSHOP;
-	};
-
-	// B/C with current redSHOP object by extending it
-	w.redSHOP = $.extend({}, w.redSHOP, {
-		version: '1.0.0'
-	})
-
-	// Define with requirejs
-	if (typeof define === "function" && define.amd)
-	{
-		define("base", [], function ()
-		{
-			return w.redSHOP['Ajax'];
-		});
 	}
+	;
 
+	// Requirejs define
+	define(
+		// dependencies
+		[],
+		function ()
+		{
+			// B/C with current redSHOP object by extending it
+			w.redSHOP = $.extend({}, w.redSHOP, {
+				version: '1.0.0'
+			})
+
+			return w.redSHOP;
+		}
+	)
 })(window, jQuery);
