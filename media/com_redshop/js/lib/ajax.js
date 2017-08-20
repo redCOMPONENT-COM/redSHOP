@@ -139,7 +139,7 @@
 			// Add to redSHOP
 			redSHOP['Ajax'] = redAjax;
 
-			return redSHOP;
+			return redSHOP['Ajax'];
 		}
 	)
 })(window, jQuery);
