@@ -18,7 +18,7 @@
 	define(
 		// dependencies
 		['lib/base'],
-		function ()
+		function (redSHOP)
 		{
 			// Init redAjax object
 			var redAjax = {
@@ -137,9 +137,9 @@
 			}
 
 			// Add to redSHOP
-			w.redSHOP['Ajax'] = redAjax;
+			redSHOP['Ajax'] = redAjax;
 
-			return w.redSHOP['Ajax'];
+			return redSHOP;
 		}
 	)
 })(window, jQuery);
