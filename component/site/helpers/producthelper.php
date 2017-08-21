@@ -7226,7 +7226,8 @@ class productHelper
 					}
 					else
 					{
-						$pItemid = RedshopHelperUtility::getItemId($related_product[$r]->product_id);
+						$catidmain = $related_product[$r]->cat_in_sefurl;
+						$pItemid = RedshopHelperUtility::getItemId($related_product[$r]->product_id, $catidmain);
 					}
 
 					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
