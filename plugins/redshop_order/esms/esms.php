@@ -42,7 +42,21 @@ class PlgRedshop_OrderESms extends JPlugin
 	 */
 	public function onAfterOrderStatusUpdate($data, $newStatus)
 	{
-		$statusList = $this->params->get('status', '');
+		$statusContent = $this->params->get('status_content', array());
+
+		if (empty($statusContent))
+		{
+			return;
+		}
+
+		$statusList  = array();
+		$contentList = array();
+
+		foreach ($statusContent as $key => $value)
+		{
+			$statusList[]                  = $value->status;
+			$contentList[$value->status] = $value->content;
+		}
 
 		if (!in_array($newStatus, $statusList) || $data->order_status == $newStatus)
 		{
@@ -52,7 +66,7 @@ class PlgRedshop_OrderESms extends JPlugin
 		$apiKey    = $this->params->get('api_key', '');
 		$apiSecret = $this->params->get('api_secret', '');
 		$type      = $this->params->get('type', '6');
-		$content   = $this->params->get('content', '');
+		$content   = $contentList[$newStatus];
 		$shopName  = RedShop::getConfig()->get('SHOP_NAME');
 		$billing   = RedshopHelperOrder::getOrderBillingUserInfo($data->order_id);
 		$status    = RedshopHelperOrder::getOrderStatusTitle($newStatus);
