@@ -97,6 +97,14 @@ class RedshopViewList extends AbstractView
 	protected $checkIn = true;
 
 	/**
+	 * Display duplicate button or not.
+	 *
+	 * @var   boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $enableDuplicate = false;
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
 	 * @param   string  $tpl  Template name
@@ -203,6 +211,11 @@ class RedshopViewList extends AbstractView
 
 		if ($this->canEdit)
 		{
+			if ($this->enableDuplicate)
+			{
+				JToolbarHelper::checkin($this->getInstancesName() . '.copy', 'COM_REDSHOP_TOOLBAR_COPY', true);
+			}
+
 			if (!empty($this->stateColumns))
 			{
 				JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);

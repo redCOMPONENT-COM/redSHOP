@@ -334,15 +334,15 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to copy.
 	 *
-	 * @param   array $cid Category id list.
+	 * @param   array $pks Category id list.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
-	public function copy($cid = array())
+	public function copy(&$pks)
 	{
-		if (!count($cid))
+		if (!count($pks))
 		{
 			return false;
 		}
@@ -351,7 +351,7 @@ class RedshopModelCategory extends RedshopModelForm
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('id') . ' IN (' . implode(',', $cid) . ')');
+			->where($db->qn('id') . ' IN (' . implode(',', $pks) . ')');
 
 		$copyData = $db->setQuery($query)->loadObjectList();
 
@@ -469,5 +469,33 @@ class RedshopModelCategory extends RedshopModelForm
 				}
 			}
 		}
+	}
+
+	/**
+	 * Saves the manually set order of records.
+	 *
+	 * @param   array    $pks    An array of primary key ids.
+	 * @param   integer  $order  +1 or -1
+	 *
+	 * @return  boolean|JException  Boolean true on success, false on failure, or JException if no items are selected
+	 *
+	 * @since   1.6
+	 */
+	public function saveorder($pks = array(), $order = null)
+	{
+		// Get an instance of the table object.
+		$table = $this->getTable();
+
+		if (!$table->saveorder($pks, $order))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
 	}
 }
