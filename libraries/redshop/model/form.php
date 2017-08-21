@@ -35,6 +35,20 @@ class RedshopModelForm extends JModelAdmin
 	protected $formName;
 
 	/**
+	 * The unique columns.
+	 *
+	 * @var  array
+	 */
+	protected $copyUniqueColumns = array();
+
+	/**
+	 * The unique columns increment.
+	 *
+	 * @var  string
+	 */
+	protected $copyIncrement = 'default';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  Configuration array
@@ -329,5 +343,50 @@ class RedshopModelForm extends JModelAdmin
 		}
 
 		return $fieldValue;
+	}
+
+	/**
+	 * Method to duplicate items.
+	 *
+	 * @param   array  $pks  An array of primary key IDs.
+	 *
+	 * @return  boolean      Boolean true on success, JException instance on error
+	 *
+	 * @throws  Exception
+	 */
+	public function copy(&$pks)
+	{
+		$table = $this->getTable();
+
+		foreach ($pks as $pk)
+		{
+			if ($table->load($pk, true))
+			{
+				// Reset the id to create a new record.
+				$table->{$table->getKeyName()} = 0;
+
+				// Unpublish duplicate module
+				$table->published = 0;
+
+				if (!empty($this->copyUniqueColumns))
+				{
+					foreach ($this->copyUniqueColumns as $copyColumn)
+					{
+						$table->{$copyColumn} = $this->renameToUniqueValue($copyColumn, $table->{$copyColumn}, $this->copyIncrement);
+					}
+				}
+
+				if (!$table->check() || !$table->store())
+				{
+					throw new Exception($table->getError());
+				}
+			}
+			else
+			{
+				throw new Exception($table->getError());
+			}
+		}
+
+		return true;
 	}
 }

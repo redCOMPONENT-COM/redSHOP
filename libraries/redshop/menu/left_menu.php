@@ -253,7 +253,7 @@ class RedshopMenuLeft_Menu
 				break;
 
 			case "template":
-			case "template_detail":
+			case "templates":
 				return array('CUSTOMIZATION', 'template');
 				break;
 
@@ -668,9 +668,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'fields') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=template',
+				'index.php?option=com_redshop&view=templates',
 				'COM_REDSHOP_TEMPLATE_LISTING',
-				(self::$view == 'template') ? true : false
+				(self::$view == 'templates') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=textlibrary',
