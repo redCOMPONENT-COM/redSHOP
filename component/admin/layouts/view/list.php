@@ -74,8 +74,7 @@ if ($data->hasOrdering)
 					'limitFieldSelector'  => '#list_' . $viewName . '_limit',
 					'activeOrder'         => $listOrder,
 					'activeDirection'     => $listDirn,
-					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1),
-					'filtersHidden'       => (count($data->filterForm->getGroup('filter')) > 1) ? false : true
+					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
 				)
 			)
 		);

@@ -13,7 +13,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class FrontEndProductManagerJoomla3Page
+class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 {
 	// Include url of current page
 	public static $URL = '/index.php?option=com_redshop';
