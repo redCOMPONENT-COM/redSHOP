@@ -46,8 +46,8 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function __construct()
 	{
-		$this->configuration = $this->getConfiguration();
-		$this->cmsPath = $this->getCmsPath();
+		$this->configuration       = $this->getConfiguration();
+		$this->cmsPath             = $this->getCmsPath();
 		$this->executableExtension = $this->getExecutableExtension();
 
 		// Set default timezone (so no warnings are generated if it is not set)
@@ -57,15 +57,16 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Sends Codeception errors to Slack
 	 *
-	 * @param   string $slackChannel The Slack Channel ID
-	 * @param   string $slackToken Your Slack authentication token.
+	 * @param   string $slackChannel            The Slack Channel ID
+	 * @param   string $slackToken              Your Slack authentication token.
 	 * @param   string $codeceptionOutputFolder Optional. By default tests/_output
 	 *
 	 * @return mixed
 	 */
 	public function sendCodeceptionOutputToSlack($slackChannel, $slackToken = null, $codeceptionOutputFolder = null)
 	{
-		if (is_null($slackToken)) {
+		if (is_null($slackToken))
+		{
 			$this->say('we are in Travis environment, getting token from ENV');
 
 			// Remind to set the token in repo Travis settings,
@@ -93,8 +94,10 @@ class RoboFile extends \Robo\Tasks
 	public function prepareSiteForSystemTests($useHtaccess = 0)
 	{
 		// Caching cloned installations locally
-		if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24)) {
-			if (file_exists('tests/cache')) {
+		if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24))
+		{
+			if (file_exists('tests/cache'))
+			{
 				$this->taskDeleteDir('tests/cache')->run();
 			}
 
@@ -102,10 +105,14 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		// Get Joomla Clean Testing sites
-		if (is_dir($this->cmsPath)) {
-			try {
+		if (is_dir($this->cmsPath))
+		{
+			try
+			{
 				$this->taskDeleteDir($this->cmsPath)->run();
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				// Sorry, we tried :(
 				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually. ');
 				exit(1);
@@ -115,12 +122,14 @@ class RoboFile extends \Robo\Tasks
 		$this->_copyDir('tests/cache', $this->cmsPath);
 
 		// Optionally change owner to fix permissions issues
-		if (!empty($this->configuration->localUser) && !$this->isWindows()) {
+		if (!empty($this->configuration->localUser) && !$this->isWindows())
+		{
 			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
 		}
 
 		// Optionally uses Joomla default htaccess file
-		if ($useHtaccess == 1) {
+		if ($useHtaccess == 1)
+		{
 			$this->_copy($this->cmsPath . '/htaccess.txt', $this->cmsPath . '/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /' . $this->cmsPath . '/,g" --in-place ' . $this->cmsPath . '/.htaccess');
 		}
@@ -180,6 +189,16 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
+
 		/*
 		$this->taskCodecept()
 			->arg('--steps')
@@ -228,12 +247,16 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskComposerInstall()->run();
 
-		if (isset($opts['suite']) && 'api' === $opts['suite']) {
+		if (isset($opts['suite']) && 'api' === $opts['suite'])
+		{
 			// Do not launch selenium when running API tests
-		} else {
+		}
+		else
+		{
 			$this->runSelenium();
 
-			if (!$this->isWindows()) {
+			if (!$this->isWindows())
+			{
 				$this->taskWaitForSeleniumStandaloneServer()
 					->run()
 					->stopOnFail();
@@ -243,7 +266,8 @@ class RoboFile extends \Robo\Tasks
 		// Make sure to Run the Build Command to Generate AcceptanceTester
 		$this->_exec("vendor/bin/codecept build");
 
-		if (!$opts['test']) {
+		if (!$opts['test'])
+		{
 			$this->say('Available tests in the system:');
 
 			$iterator = new RecursiveIteratorIterator(
@@ -259,10 +283,12 @@ class RoboFile extends \Robo\Tasks
 			$iterator->rewind();
 			$i = 1;
 
-			while ($iterator->valid()) {
+			while ($iterator->valid())
+			{
 				if (strripos($iterator->getSubPathName(), 'cept.php')
 					|| strripos($iterator->getSubPathName(), 'cest.php')
-				) {
+				)
+				{
 					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
 					$tests[$i] = $iterator->getSubPathName();
 					$i++;
@@ -272,7 +298,7 @@ class RoboFile extends \Robo\Tasks
 			}
 
 			$this->say('');
-			$testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
+			$testNumber   = $this->ask('Type the number of the test  in the list that you want to run...');
 			$opts['test'] = $tests[$testNumber];
 		}
 
@@ -281,24 +307,27 @@ class RoboFile extends \Robo\Tasks
 		// Loading the class to display the methods in the class
 		require 'tests/' . $opts['suite'] . '/' . $opts['test'];
 
-		$classes = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
+		$classes   = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
 		$className = array_keys($classes);
 		$className = $className[0];
 
 		// If test is Cest, give the option to execute individual methods
-		if (strripos($className, 'cest')) {
-			$testFile = new Nette\Reflection\ClassType($className);
+		if (strripos($className, 'cest'))
+		{
+			$testFile    = new Nette\Reflection\ClassType($className);
 			$testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
 
-			foreach ($testMethods as $key => $method) {
+			foreach ($testMethods as $key => $method)
+			{
 				$this->say('[' . $key . '] ' . $method->name);
 			}
 
 			$this->say('');
 			$methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
 
-			if ($methodNumber != 'All') {
-				$method = $testMethods[$methodNumber]->name;
+			if ($methodNumber != 'All')
+			{
+				$method         = $testMethods[$methodNumber]->name;
 				$pathToTestFile = $pathToTestFile . ':' . $method;
 			}
 		}
@@ -311,7 +340,8 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		if (!'api' == $opts['suite']) {
+		if (!'api' == $opts['suite'])
+		{
 			$this->killSelenium();
 		}
 	}
@@ -372,6 +402,15 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
 		/*
 		$this->taskCodecept()
 			->arg('--steps')
@@ -410,7 +449,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Method for run specific scenario
 	 *
-	 * @param   string $testCase Scenario case.
+	 * @param   string $testCase  Scenario case.
 	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
 	 *
 	 * @return  void
@@ -424,7 +463,8 @@ class RoboFile extends \Robo\Tasks
 		$testPath = __DIR__ . '/tests/' . $testCase;
 
 		// Populate test case. In case this path is not an exist folder.
-		if (!file_exists($testPath) || !is_dir($testPath)) {
+		if (!file_exists($testPath) || !is_dir($testPath))
+		{
 			$testCase .= 'Cest.php';
 		}
 
@@ -487,7 +527,8 @@ class RoboFile extends \Robo\Tasks
 	private function getComposer()
 	{
 		// Make sure we have Composer
-		if (!file_exists('./composer.phar')) {
+		if (!file_exists('./composer.phar'))
+		{
 			$this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
 		}
 	}
@@ -507,28 +548,34 @@ class RoboFile extends \Robo\Tasks
 	public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $githubToken, $repoOwner, $repo, $pull)
 	{
 		$errorSelenium = true;
-		$reportError = false;
-		$reportFile = 'tests/selenium.log';
-		$body = 'Selenium log:' . chr(10) . chr(10);
+		$reportError   = false;
+		$reportFile    = 'tests/selenium.log';
+		$body          = 'Selenium log:' . chr(10) . chr(10);
 
 		// Loop throught Codeception snapshots
-		if (file_exists('tests/_output') && $handler = opendir('tests/_output')) {
-			$reportFile = 'tests/_output/report.tap.log';
-			$body = 'Codeception tap log:' . chr(10) . chr(10);
+		if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
+		{
+			$reportFile    = 'tests/_output/report.tap.log';
+			$body          = 'Codeception tap log:' . chr(10) . chr(10);
 			$errorSelenium = false;
 		}
 
-		if (file_exists($reportFile)) {
-			if ($reportFile) {
+		if (file_exists($reportFile))
+		{
+			if ($reportFile)
+			{
 				$body .= file_get_contents($reportFile, null, null, 15);
 			}
 
-			if (!$errorSelenium) {
+			if (!$errorSelenium)
+			{
 				$handler = opendir('tests/_output');
 
-				while (false !== ($errorSnapshot = readdir($handler))) {
+				while (false !== ($errorSnapshot = readdir($handler)))
+				{
 					// Avoid sending system files or html files
-					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION))) {
+					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
+					{
 						continue;
 					}
 
@@ -538,7 +585,7 @@ class RoboFile extends \Robo\Tasks
 					Cloudinary::config(
 						array(
 							'cloud_name' => $cloudName,
-							'api_key' => $apiKey,
+							'api_key'    => $apiKey,
 							'api_secret' => $apiSecret
 						)
 					);
@@ -550,12 +597,14 @@ class RoboFile extends \Robo\Tasks
 			}
 
 			// If it's a Selenium error log, it prints it in the regular output
-			if ($errorSelenium) {
+			if ($errorSelenium)
+			{
 				$this->say($body);
 			}
 
 			// If it needs to, it creates the error log in a Github comment
-			if ($reportError) {
+			if ($reportError)
+			{
 				$this->say('Creating Github issue');
 				$client = new \Github\Client;
 				$client->authenticate($githubToken, \Github\Client::AUTH_HTTP_TOKEN);
@@ -574,7 +623,8 @@ class RoboFile extends \Robo\Tasks
 	private function getDevelop()
 	{
 		// Get current develop branch of the extension for Extension update test
-		if (is_dir('tests/develop')) {
+		if (is_dir('tests/develop'))
+		{
 			$this->taskDeleteDir('tests/develop')->run();
 		}
 
@@ -599,11 +649,13 @@ class RoboFile extends \Robo\Tasks
 	 */
 	private function getCmsPath()
 	{
-		if (empty($this->configuration->cmsPath)) {
+		if (empty($this->configuration->cmsPath))
+		{
 			return 'tests/joomla-cms3';
 		}
 
-		if (!file_exists(dirname($this->configuration->cmsPath))) {
+		if (!file_exists(dirname($this->configuration->cmsPath)))
+		{
 			$this->say('Cms path written in local configuration does not exists or is not readable');
 
 			return 'tests/joomla-cms3';
@@ -619,11 +671,15 @@ class RoboFile extends \Robo\Tasks
 	 */
 	private function getExecutableExtension()
 	{
-		if ($this->isWindows()) {
+		if ($this->isWindows())
+		{
 			// Check whether git.exe or git as command should be used, as on windows both are possible
-			if (!$this->_exec('git.exe --version')->getMessage()) {
+			if (!$this->_exec('git.exe --version')->getMessage())
+			{
 				return '';
-			} else {
+			}
+			else
+			{
 				return '.exe';
 			}
 		}
@@ -640,7 +696,8 @@ class RoboFile extends \Robo\Tasks
 	{
 		$configurationFile = __DIR__ . '/tests/RoboFile.ini';
 
-		if (!file_exists($configurationFile)) {
+		if (!file_exists($configurationFile))
+		{
 			$this->say("No local configuration file");
 
 			return null;
@@ -648,7 +705,8 @@ class RoboFile extends \Robo\Tasks
 
 		$configuration = parse_ini_file($configurationFile);
 
-		if ($configuration === false) {
+		if ($configuration === false)
+		{
 			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
 
 			return null;
