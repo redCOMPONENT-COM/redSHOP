@@ -17,18 +17,17 @@ $producthelper = productHelper::getInstance();
 $objhelper     = redhelper::getInstance();
 $extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
+$app           = JFactory::getApplication();
 
 $model     = $this->getModel('giftcard');
 $url       = JURI::base();
-$itemid    = JRequest::getInt('Itemid');
-$gid       = JRequest::getInt('gid', 0, '', 'int');
+$itemid    = $app->input->getInt('Itemid');
+$gid       = $app->input->getInt('gid', 0);
 $session   = JFactory::getSession();
 $cart      = $session->get('cart');
 $pagetitle = $this->pageheadingtag;
 $detail    = $this->detail;
-
-$app    = JFactory::getApplication();
-$router = $app->getRouter();
+$router    = $app->getRouter();
 
 if (count($this->template) > 0)
 {
