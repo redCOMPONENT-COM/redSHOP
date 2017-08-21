@@ -267,7 +267,7 @@ class RedshopModelSearch extends RedshopModel
 			return $this->cache[$store];
 		}
 
-		$post         = JRequest::get('POST');
+		$post = JFactory::getApplication()->input->post->getArray();
 		$db           = JFactory::getDbo();
 		$items        = array();
 		$query        = $this->_buildQuery($post);
@@ -432,11 +432,6 @@ class RedshopModelSearch extends RedshopModel
 		$orderByObj = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
 		$orderBy    = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
-		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
-		{
-			$orderBy = 'p.product_id DESC';
-		}
-
 		if ($getTotal)
 		{
 			$query = $db->getQuery(true)
@@ -527,7 +522,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if (!empty($subQuery))
 			{
-				$query->where(implode(' OR ', $subQuery));
+				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 
@@ -569,11 +564,11 @@ class RedshopModelSearch extends RedshopModel
 				)
 			);
 		}
-        elseif ($layout == 'featuredproduct')
+		elseif ($layout == 'featuredproduct')
 		{
 			$query->where('p.product_special = 1');
 		}
-        elseif ($layout == 'newproduct')
+		elseif ($layout == 'newproduct')
 		{
 			$catid = $item->query['categorytemplate'];
 
@@ -597,7 +592,7 @@ class RedshopModelSearch extends RedshopModel
 				->where('p.expired = 0')
 				->where('p.product_parent_id = 0');
 		}
-        elseif ($layout == 'redfilter')
+		elseif ($layout == 'redfilter')
 		{
 			$query->where('p.expired = 0');
 
@@ -698,7 +693,9 @@ class RedshopModelSearch extends RedshopModel
 		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
 
-		$type_id_main = explode('.', JRequest::getVar('tagid'));
+		$app = JFactory::getApplication();
+
+		$type_id_main = explode('.', $app->input->get('tagid'));
 
 		// Initialise variables
 		$lstproduct_id = array();
@@ -713,9 +710,9 @@ class RedshopModelSearch extends RedshopModel
 			$main_sal_type = array();
 			$main_sal_tag  = array();
 
-			if (JRequest::getVar('main_sel') != "")
+			if ($app->input->get('main_sel') != "")
 			{
-				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
+				$main_sal_sp = explode(",", $app->input->get('main_sel'));
 
 				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++)
 				{
@@ -975,7 +972,7 @@ class RedshopModelSearch extends RedshopModel
 			?>
             <div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_RESULT'); ?></div>
 
-            <div class="hrdivider"></div>
+			<div class="hrdivider"></div>
 			<?php
 			foreach ($getredfilter as $typeid => $tag_id)
 			{
@@ -1358,7 +1355,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if (!empty($subQuery))
 			{
-				$query->where(implode(' OR ', $subQuery));
+				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 

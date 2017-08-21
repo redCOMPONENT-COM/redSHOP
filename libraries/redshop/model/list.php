@@ -81,14 +81,14 @@ class RedshopModelList extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
 	 */
 	public function __construct($config = array())
 	{
-		$input = JFactory::getApplication()->input;
-		$view = $input->getCmd('view', '');
+		$input  = JFactory::getApplication()->input;
+		$view   = $input->getCmd('view', '');
 		$option = $input->getCmd('option', '');
 
 		// Different context depending on the view
@@ -113,13 +113,18 @@ class RedshopModelList extends JModelList
 			$this->limitField = $this->paginationPrefix . 'limit';
 		}
 
+		if (null === $this->filterFormName)
+		{
+			$this->filterFormName = 'filter_' . strtolower(str_replace('RedshopModel', '', get_called_class()));
+		}
+
 		parent::__construct($config);
 	}
 
 	/**
 	 * Delete items
 	 *
-	 * @param   mixed  $pks  id or array of ids of items to be deleted
+	 * @param   mixed $pks id or array of ids of items to be deleted
 	 *
 	 * @return  boolean
 	 */
@@ -162,8 +167,8 @@ class RedshopModelList extends JModelList
 	/**
 	 * Get the zone form
 	 *
-	 * @param   array    $data      data
-	 * @param   boolean  $loadData  load current data
+	 * @param   array   $data     data
+	 * @param   boolean $loadData load current data
 	 *
 	 * @return  JForm/false  the JForm object or false
 	 */
@@ -182,7 +187,7 @@ class RedshopModelList extends JModelList
 
 			if (!empty($form))
 			{
-				$form->setFieldAttribute($this->limitField, 'default', JFactory::getApplication()->getCfg('list_limit'), 'list');
+				$form->setFieldAttribute($this->limitField, 'default', JFactory::getApplication()->get('list_limit'), 'list');
 			}
 		}
 
@@ -217,7 +222,7 @@ class RedshopModelList extends JModelList
 
 		// Create the pagination object.
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
-		$page = new JPagination($this->getTotal(), $this->getStart(), $limit, $this->paginationPrefix);
+		$page  = new JPagination($this->getTotal(), $this->getStart(), $limit, $this->paginationPrefix);
 
 		// Set the name of the HTML form associated
 		$page->set('formName', $this->htmlFormName);
@@ -237,8 +242,8 @@ class RedshopModelList extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -380,7 +385,7 @@ class RedshopModelList extends JModelList
 		{
 			// Pre-fill the limits
 			$defaultLimit = $params ? $params->get('list_limit', $app->get('list_limit')) : $app->get('list_limit');
-			$limit = $app->getUserStateFromRequest('global.list.' . $this->limitField, $this->limitField, $defaultLimit, 'uint');
+			$limit        = $app->getUserStateFromRequest('global.list.' . $this->limitField, $this->limitField, $defaultLimit, 'uint');
 			$this->setState('list.limit', $limit);
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
@@ -422,7 +427,7 @@ class RedshopModelList extends JModelList
 			$this->setState('list.direction', $oldDirection);
 		}
 
-		$value = $app->getUserStateFromRequest($this->context . '.' . $this->limitstartField, $this->limitstartField, 0, 'int');
+		$value      = $app->getUserStateFromRequest($this->context . '.' . $this->limitstartField, $this->limitstartField, 0, 'int');
 		$limitstart = ($limit > 0 ? (floor($value / $limit) * $limit) : 0);
 		$this->setState('list.start', $limitstart);
 	}
@@ -430,11 +435,11 @@ class RedshopModelList extends JModelList
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string   $name     The name of the form.
-	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array    $options  Optional array of options for the form creation.
-	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   mixed    $xpath    An optional xpath to search for the fields.
+	 * @param   string  $name    The name of the form.
+	 * @param   string  $source  The form source. Can be XML string if file flag is set to false.
+	 * @param   array   $options Optional array of options for the form creation.
+	 * @param   boolean $clear   Optional argument to force load a new form.
+	 * @param   mixed   $xpath   An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *
@@ -498,7 +503,7 @@ class RedshopModelList extends JModelList
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
+	 * @return    mixed    The data for the form.
 	 */
 	protected function loadFormData()
 	{
@@ -511,9 +516,9 @@ class RedshopModelList extends JModelList
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 * @param   JForm  $form  A JForm object.
+	 * @param   mixed  $data  The data expected for the form.
+	 * @param   string $group The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -546,8 +551,8 @@ class RedshopModelList extends JModelList
 	/**
 	 * Publish/Unpublish items
 	 *
-	 * @param   mixed    $pks    id or array of ids of items to be published/unpublished
-	 * @param   integer  $state  New desired state
+	 * @param   mixed   $pks   id or array of ids of items to be published/unpublished
+	 * @param   integer $state New desired state
 	 *
 	 * @return  boolean
 	 */
@@ -563,9 +568,9 @@ class RedshopModelList extends JModelList
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
-	 * @param   array   $data   The data to validate.
-	 * @param   string  $group  The name of the field group to validate.
+	 * @param   JForm  $form  The form to validate against.
+	 * @param   array  $data  The data to validate.
+	 * @param   string $group The name of the field group to validate.
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
@@ -576,7 +581,7 @@ class RedshopModelList extends JModelList
 	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
-		$data = $form->filter($data);
+		$data   = $form->filter($data);
 		$return = $form->validate($data, $group);
 
 		// Check for an error.

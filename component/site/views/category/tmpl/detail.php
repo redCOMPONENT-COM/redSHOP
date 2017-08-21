@@ -616,7 +616,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		/************** end user fields ***************************/
 
 		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$catidmain = Jrequest::getVar("cid");
+		$catidmain = JFactory::getApplication()->input->get("cid");
 
 		if (count($ItemData) > 0)
 		{
