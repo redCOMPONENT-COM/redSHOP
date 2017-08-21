@@ -14,7 +14,6 @@
         <filename>helper.php</filename>
         <filename module="mod_redshop_filter">mod_redshop_filter.php</filename>
         <folder>language</folder>
-        <folder>lib</folder>
         <folder>tmpl</folder>
     </files>
     <media folder="media">
