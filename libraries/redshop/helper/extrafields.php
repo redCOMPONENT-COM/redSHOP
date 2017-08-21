@@ -499,6 +499,11 @@ class RedshopHelperExtrafields
 								'requiredLabel'   => $reqlbl,
 								'errorMsg'        => $errormsg,
 								'textValue'       => $textValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -517,7 +522,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -538,7 +544,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -559,7 +566,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -580,7 +588,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -601,7 +610,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -626,7 +636,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -646,7 +657,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -682,7 +694,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -714,7 +727,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -750,7 +764,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 
@@ -801,7 +816,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 
@@ -847,7 +863,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 
