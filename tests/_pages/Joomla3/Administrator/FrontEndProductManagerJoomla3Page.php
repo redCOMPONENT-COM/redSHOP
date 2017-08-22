@@ -30,6 +30,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
+	public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
+
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
 	public static $addressEmail = "#email1";

@@ -126,9 +126,13 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         //get state
         $I->click(\ConfigurationManageJ3Page::$statePrice);
         $I->waitForElement(\ConfigurationManageJ3Page::$stateSearchPrice, 5);
-        $I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
-        $I->waitForElement($userConfigurationPage->returnChoice($state));
-        $I->click($userConfigurationPage->returnChoice($state));
+        if($state==null){
+
+        }else{
+	        $I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
+	        $I->waitForElement($userConfigurationPage->returnChoice($state));
+	        $I->click($userConfigurationPage->returnChoice($state));
+        }
 
         //get default vat
         $I->click(\ConfigurationManageJ3Page::$vatGroup);

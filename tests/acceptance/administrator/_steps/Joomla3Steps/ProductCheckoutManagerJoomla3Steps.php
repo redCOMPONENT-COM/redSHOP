@@ -61,6 +61,29 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 	}
 
+	public function checkoutApplyVATForUser($userName,$password,$productName,$categoryName){
+		$I=$this;
+		$I->doFrontEndLogin($userName, $this->$password);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \GiftCardCheckoutPage::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+//		$I->fillField(\GiftCardCheckoutPage::$couponInput, $couponCode);
+//		$I->click(\GiftCardCheckoutPage::$couponButton);
+//		$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+//		$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
+
+		$I->see("DKK 100,00", \GiftCardCheckoutPage::$priceTotal);
+//		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
+		$I->see("DKK 110,00", \GiftCardCheckoutPage::$priceEnd);
+	}
 	/**
 	 * Function to fill in Details related to Address Information
 	 *
