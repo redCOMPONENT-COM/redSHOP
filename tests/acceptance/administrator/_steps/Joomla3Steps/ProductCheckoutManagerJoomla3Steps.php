@@ -28,37 +28,22 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	public function checkOutProductWithBankTransfer( $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
-		$I = $this;
+		$I=$this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
-		$I->click(['xpath' => "//input[@value='Checkout']"]);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-		$this->addressInformation($addressDetail);
-		$this->shippingInformation($shipmentDetail);
-		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->click("Checkout");
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
-		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
-		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
+		$I->see("DKK 100,00", \GiftCardCheckoutPage::$priceTotal);
+		$I->see("DKK 110,00", \GiftCardCheckoutPage::$priceEnd);
 	}
 
 	/**
