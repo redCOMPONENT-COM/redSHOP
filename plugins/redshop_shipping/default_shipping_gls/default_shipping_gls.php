@@ -66,8 +66,6 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-
-		$this->onLabelsGLSConnection();
 	}
 
 	/**
@@ -109,6 +107,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		}
 
 		$shopList      = array();
+		$this->onLabelsGLSConnection();
 		$shopResponses = $this->GetNearstParcelShops($values);
 
 		if (!empty($shopResponses) && is_array($shopResponses))
