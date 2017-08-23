@@ -29,27 +29,4 @@ class RedshopEntityShipping_Box extends RedshopEntity
 	{
 		return JTable::getInstance('Shipping_Box_Detail', 'Table');
 	}
-
-	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'shipping_box_id', $keyValue = null)
-	{
-		if ($key == 'shipping_box_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'shipping_box_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
 }

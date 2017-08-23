@@ -13,6 +13,7 @@
                 type="redshop.mail_section"
                 label="COM_REDSHOP_MAIL_SECTION"
                 onchange="this.form.submit();"
+                class="form-control"
                 default=""
         />
         <field
@@ -20,6 +21,7 @@
                 type="rpublished"
                 onchange="this.form.submit();"
                 label="JOPTION_SELECT_PUBLISHED"
+                class="form-control"
                 statuses="0,1">
             <option value="">JOPTION_SELECT_PUBLISHED</option>
         </field>
