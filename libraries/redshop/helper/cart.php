@@ -567,7 +567,7 @@ abstract class RedshopHelperCart
 				{
 					foreach ($fields as $field)
 					{
-						$dataTxt = (isset($attributes[$field->field_name])) ? $attributes[$field->field_name] : '';
+						$dataTxt = (isset($attributes[$field->name])) ? $attributes[$field->name] : '';
 						$text    = strpbrk($dataTxt, '`');
 
 						if ($text)
@@ -580,7 +580,7 @@ abstract class RedshopHelperCart
 							}
 						}
 
-						$cart[$idx][$field->field_name] = $dataTxt;
+						$cart[$idx][$field->name] = $dataTxt;
 					}
 				}
 
