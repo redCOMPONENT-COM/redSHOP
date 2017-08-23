@@ -371,6 +371,8 @@ abstract class RedshopHelperCart
 			$userId = $user->id;
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+
 		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
@@ -401,6 +403,8 @@ abstract class RedshopHelperCart
 
 		foreach ($cartItems as $cartItem)
 		{
+			RedshopHelperUtility::getDispatcher()->trigger('onDatabaseToCart', array(&$cartItem));
+
 			$setCartItem           = true;
 			$quantity              = $cartItem->product_quantity;
 			$calcOutput            = "";
