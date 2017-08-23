@@ -81,6 +81,13 @@ abstract class RedshopEntityBase
 	protected $translations = array();
 
 	/**
+	 * Table primary key for load item.
+	 *
+	 * @var  string
+	 */
+	protected $tableKey = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   mixed  $id  Identifier of the active item
@@ -90,6 +97,11 @@ abstract class RedshopEntityBase
 		if ($id)
 		{
 			$this->id = $id;
+		}
+
+		if (null === $this->tableKey)
+		{
+			$this->tableKey = false !== $this->getTable() ? $this->getTable()->getKeyName() : 'id';
 		}
 	}
 
@@ -900,14 +912,16 @@ abstract class RedshopEntityBase
 	 *
 	 * @return  self
 	 */
-	public function loadItem($key = 'id', $keyValue = null)
+	public function loadItem($key = null, $keyValue = null)
 	{
-		if ($key == 'id' && !$this->hasId())
+		$key = null === $key ? $this->tableKey : $key;
+
+		if ($key === $this->tableKey && !$this->hasId())
 		{
 			return $this;
 		}
 
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'id' ? $this->id : $keyValue))))
+		if (($table = $this->getTable()) && $table->load(array($key => ($key === $this->tableKey ? $this->id : $keyValue))))
 		{
 			$this->loadFromTable($table);
 		}

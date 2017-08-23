@@ -29,8 +29,7 @@ $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-
-
+$app             = JFactory::getApplication();
 $carthelper = rsCarthelper::getInstance();
 $producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
@@ -50,15 +49,15 @@ $Itemid = RedshopHelperUtility::getCheckoutItemId();
 
 if ($Itemid == 0)
 {
-	$Itemid = JRequest::getInt('Itemid');
+	$Itemid = $app->input->getInt('Itemid');
 }
 
-$ccinfo = JRequest::getInt('ccinfo');
-$print = JRequest::getInt('print');
-$gls_mobile = JRequest::getString('gls_mobile');
+$ccinfo     = $app->input->getInt('ccinfo');
+$print      = $app->input->getInt('print');
+$gls_mobile = $app->input->getString('gls_mobile');
 
-$shop_id = JRequest::getString('shop_id') . '###' . $gls_mobile;
-$model = $this->getModel('checkout');
+$shop_id = $app->input->getString('shop_id') . '###' . $gls_mobile;
+$model   = $this->getModel('checkout');
 
 $is_creditcard = $this->is_creditcard;
 
