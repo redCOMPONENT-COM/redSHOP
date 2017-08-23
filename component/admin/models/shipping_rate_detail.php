@@ -306,8 +306,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		$dispatcher->trigger('onRenderShippingRateState', array(&$shippingRateState, $countryCode));
 
 		$shippingRate->shipping_rate_state = explode(',', $shippingRate->shipping_rate_state);
-		$tmp = new stdClass;
-		$tmp = array_merge($tmp, $shippingRate->shipping_rate_state);
+		$tmp = array_merge(array(), $shippingRate->shipping_rate_state);
 
 		echo JHTML::_(
 			'select.genericlist',

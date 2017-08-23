@@ -26,20 +26,19 @@ class RedshopControllerLogin extends RedshopController
 	 */
 	public function setlogin()
 	{
-		$username     = JRequest::getVar('username', '', 'method', 'username');
-		$password     = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-		$Itemid       = JRequest::getVar('Itemid');
-		$returnitemid = JRequest::getVar('returnitemid');
-		$mywishlist   = JRequest::getVar('mywishlist');
+		$username     = $this->input->getUsername('username', '');
+		$password     = $this->input->post->get('password', '', 'raw');
+		$Itemid       = $this->input->get('Itemid');
+		$returnitemid = $this->input->get('returnitemid');
+		$mywishlist   = $this->input->get('mywishlist');
 		$menu         = JFactory::getApplication()->getMenu();
 		$item         = $menu->getItem($returnitemid);
-
 
 		$redhelper = redhelper::getInstance();
 
 		$model = $this->getModel('login');
 
-		$shoppergroupid = JRequest::getInt('protalid', '', 'post', 0);
+		$shoppergroupid = $this->input->post->getInt('protalid', '');
 
 		$msg = "";
 
@@ -51,7 +50,7 @@ class RedshopControllerLogin extends RedshopController
 			if ($check > 0)
 			{
 				$model->setlogin($username, $password);
-				$return = JRequest::getVar('return');
+				$return = $this->input->get('return');
 			}
 			else
 			{
@@ -62,7 +61,7 @@ class RedshopControllerLogin extends RedshopController
 		else
 		{
 			$model->setlogin($username, $password);
-			$return = JRequest::getVar('return');
+			$return = $this->input->get('return');
 		}
 
 		if ($mywishlist == 1)
@@ -107,7 +106,7 @@ class RedshopControllerLogin extends RedshopController
 	{
 		$app           = JFactory::getApplication();
 		$params        = $app->getParams('com_redshop');
-		$logout_itemid = JRequest::getVar('logout');
+		$logout_itemid = $this->input->get('logout');
 		$menu          = JFactory::getApplication()->getMenu();
 		$item          = $menu->getItem($logout_itemid);
 

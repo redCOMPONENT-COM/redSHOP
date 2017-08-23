@@ -16,13 +16,12 @@ $order_functions = order_functions::getInstance();
 $url = JURI::base();
 
 $redconfig = Redconfiguration::getInstance();
+$app       = JFactory::getApplication();
 
-$Itemid = JRequest::getInt('Itemid');
-$return = JRequest::getString('return');
-$jinput = JFactory::getApplication()->input;
-$post   = $jinput->getArray($_POST);
-
-$detail     = $this->detail;
+$Itemid = $app->input->getInt('Itemid');
+$return = $app->input->getString('return');
+$post   = $app->input->post->getArray();
+$detail = $this->detail;
 
 $firstname  = $detail->firstname;
 $lastname   = $detail->lastname;
