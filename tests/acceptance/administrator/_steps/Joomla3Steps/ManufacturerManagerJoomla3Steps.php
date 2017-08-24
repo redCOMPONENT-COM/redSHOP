@@ -29,12 +29,12 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-        $I->click(\ManufacturerManagerJoomla3Page::$newButton);
+        $I->click(\ManufacturerManagerJoomla3Page::$buttonNew);
         $I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab, 30);
         $I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
         $I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $manufacturerName);
         $I->fillField(\ManufacturerManagerJoomla3Page::$productPerPage, $productPerPage);
-        $I->click(\ManufacturerManagerJoomla3Page::$saveCloseButton);
+        $I->click(\ManufacturerManagerJoomla3Page::$buttonSaveClose);
         $I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, 60, \ManufacturerManagerJoomla3Page::$selectorSuccess);
         $I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, \ManufacturerManagerJoomla3Page::$selectorSuccess);
     }
@@ -55,11 +55,11 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$xpathName);
         $I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
-        $I->click(\ManufacturerManagerJoomla3Page::$editButton);
+        $I->click(\ManufacturerManagerJoomla3Page::$buttonEdit);
         $I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab, 30);
         $I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
         $I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $updatedName);
-        $I->click(\ManufacturerManagerJoomla3Page::$saveCloseButton);
+        $I->click(\ManufacturerManagerJoomla3Page::$buttonSaveClose);
         $I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, 60, '.alert-success');
         $I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
     }
