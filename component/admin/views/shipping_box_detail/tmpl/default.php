@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$editor = JFactory::getEditor();
-$showbuttons = JRequest::getVar('showbuttons');
+$editor      = JFactory::getEditor();
+$showbuttons = JFactory::getApplication()->input->get('showbuttons');
 
 $producthelper = productHelper::getInstance();
 

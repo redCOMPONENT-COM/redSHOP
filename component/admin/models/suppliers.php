@@ -19,19 +19,13 @@ defined('_JEXEC') or die;
 class RedshopModelSuppliers extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
-	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_suppliers';
-
-	/**
 	 * Construct class
 	 *
-	 * @since 1.x
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   2.x
 	 */
-
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
