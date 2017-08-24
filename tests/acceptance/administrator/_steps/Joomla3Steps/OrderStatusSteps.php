@@ -6,7 +6,7 @@
 namespace AcceptanceTester;
 
 
-class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
+class OrderStatusSteps extends AdminManagerJoomla3Steps
 {
 	public function addOrderStatus($nameStatus, $codeStatus, $function, $status)
 	{
@@ -70,10 +70,6 @@ class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\OrderStatusJ3Page::$buttonCancel);
 				$I->see(\OrderStatusJ3Page::$namePage, \OrderStatusJ3Page::$selectorPageTitle);
 				break;
-			case 'edit':
-				$I->click(\OrderStatusJ3Page::$buttonEdit);
-				$I->acceptPopup();
-				break;
 			case 'delete':
 				$I->click(\OrderStatusJ3Page::$buttonDelete);
 				$I->acceptPopup();
@@ -96,6 +92,7 @@ class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderStatusJ3Page::$URL);
 		$I->filterListBySearching($nameStatus);
 		$I->click(['link' => $nameStatus]);
+		$I->wait(3);
 		switch ($fucntion) {
 			case 'save':
 				$I->fillField(\OrderStatusJ3Page::$statusName, $newNameStatus);
@@ -121,6 +118,7 @@ class OrderStatusJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->filterListBySearching($nameStatus);
 		$I->checkAllResults();
 		$I->click(\OrderStatusJ3Page::$buttonDelete);
+		$I->acceptPopup();
 		$I->see(\OrderStatusJ3Page::$messageItemDeleteSuccess, \OrderStatusJ3Page::$selectorSuccess);
 	}
 

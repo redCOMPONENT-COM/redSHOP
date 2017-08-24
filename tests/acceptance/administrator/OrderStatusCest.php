@@ -3,7 +3,7 @@
 /**
  * Function order status
  */
-class OrderStatusAdministratorCest
+class OrderStatusCest
 {
 	public function __construct()
 	{
@@ -28,7 +28,7 @@ class OrderStatusAdministratorCest
 	public function addOrderStatus(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test to validate different Missing Fields in the Edit View');
-		$I = new AcceptanceTester\OrderStatusJoomla3Steps($scenario);
+		$I = new AcceptanceTester\OrderStatusSteps($scenario);
 		$I->addOrderStatus($this->statusName, $this->statusCode, 'save', 'publish');
 		$I->deleteOrderStatus($this->statusName);
 		$I->addOrderStatus($this->statusName, $this->statusCode, 'saveclose', 'unpublish');
@@ -45,8 +45,7 @@ class OrderStatusAdministratorCest
 	public function checkButtons(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test to validate different buttons on Gift Card Views');
-		$I = new AcceptanceTester\OrderStatusJoomla3Steps($scenario);
-		$I->checkButtons('edit');
+		$I = new AcceptanceTester\OrderStatusSteps($scenario);
 		$I->checkButtons('cancel');
 		$I->checkButtons('publish');
 		$I->checkButtons('unpublish');
