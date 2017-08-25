@@ -198,6 +198,15 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
+			->run()
+			->stopOnFail();
+
 
 		/*
 		$this->taskCodecept()
@@ -411,6 +420,14 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
+			->run()
+			->stopOnFail();
 		/*
 		$this->taskCodecept()
 			->arg('--steps')
