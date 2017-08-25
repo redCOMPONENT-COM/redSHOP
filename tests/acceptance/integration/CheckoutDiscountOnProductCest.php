@@ -5,7 +5,6 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\DiscountManagerJoomla3Steps;
 use AcceptanceTester\DiscountProductJoomla3Steps;
 
 class CheckoutDiscountOnProductCest
@@ -28,7 +27,7 @@ class CheckoutDiscountOnProductCest
 
 		$this->productPrice = 50;
 		$this->condition = "Higher";
-		$this->type = "Total";
+		$this->type = "Percentage";
 		$this->startDate = "19-06-2017";
 		$this->endDate = "23-06-2017";
 		$this->GroupName = "Product Name";
