@@ -687,6 +687,8 @@ class RedshopViewSearch extends RedshopView
 				// Cart Template
 				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
 
+				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
+
 				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
 
 				$data .= $data_add;
