@@ -19,7 +19,6 @@ env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
       - ACCEPTANCE=acceptance/administrator # run test administrator
-      - ACCEPTANCE=acceptance/integration
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
