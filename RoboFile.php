@@ -176,7 +176,7 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
 
@@ -194,7 +194,16 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/VoucherCheckoutProductCest.php')
+			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
 			->run()
 			->stopOnFail();
 		/*
@@ -396,7 +405,7 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
 
@@ -405,7 +414,7 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
+			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
 			->run()
 			->stopOnFail();
 
@@ -414,9 +423,10 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/VoucherCheckoutProductCest.php')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
 			->run()
 			->stopOnFail();
+
 
 		/*
 		$this->taskCodecept()
