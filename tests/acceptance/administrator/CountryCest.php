@@ -62,12 +62,7 @@ class CountryCest
 		$this->randomThreeCode = $this->faker->numberBetween(99, 999);
 		$this->randomCountry   = $this->faker->bothify('Country ?##?');
 	}
-
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllTables();
-	}
+zz
 	/**
 	 * Function to Test Country Creation in Backend
 	 *
