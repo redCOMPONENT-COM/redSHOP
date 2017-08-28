@@ -155,7 +155,8 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "sync_b2b"
+      "sync_b2b",
+      "wss_datafeed"
     ],
     "redshop_product_type": [
       "bundle",
