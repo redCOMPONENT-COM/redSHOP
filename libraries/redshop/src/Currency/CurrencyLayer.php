@@ -24,14 +24,17 @@ class CurrencyLayer
 	 * @var null
 	 */
 	protected static $instance = null;
+
 	/**
 	 * @var boolean
 	 */
 	public $archive = true;
+
 	/**
 	 * @var string
 	 */
 	public $lastUpdated = '';
+
 	/**
 	 * @var  array
 	 */
@@ -249,7 +252,7 @@ class CurrencyLayer
 	public function initializeCurl()
 	{
 		$accessKey = \Redshop::getConfig()->get('CURRENCY_LAYER_ACCESS_KEY');
-		$source    = 'USD';
+		$source    = \Redshop::getConfig()->get('CURRENCY_CODE', 'USD');
 		$layerApi  = 'http://apilayer.net/api/live?access_key=' . $accessKey . '&source=' . $source . '&format=1';
 
 		$ch = curl_init($layerApi);
