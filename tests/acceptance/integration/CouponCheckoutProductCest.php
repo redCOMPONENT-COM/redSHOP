@@ -46,10 +46,10 @@ class CouponCheckoutProductCest
 	 * @return void
 	 */
 
-	public function delete(AcceptanceTester $I, $scenario)
+	public function deleteData($scenario)
 	{
-		$I= new AcceptanceTester\Redshop($scenario);
-		$I->clearAllTables();
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
