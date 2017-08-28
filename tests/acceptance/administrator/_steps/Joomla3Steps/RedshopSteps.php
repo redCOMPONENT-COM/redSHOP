@@ -1,14 +1,12 @@
 <?php
 /**
- * @package     RedSHOP.Codeception
- * @subpackage  Model
- *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * Created by PhpStorm.
+ * User: nhung
+ * Date: 8/28/17
+ * Time: 2:26 PM
  */
 
-
-class Redshop
+class RedshopSteps
 {
 	/**
 	 * Clear all tables.
@@ -40,5 +38,4 @@ class Redshop
 		$db->setQuery($query)->execute();
 
 	}
-
 }
