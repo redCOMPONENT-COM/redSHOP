@@ -1,11 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nhung
- * Date: 8/28/17
- * Time: 10:16 AM
+ * @package     RedSHOP.Codeception
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 namespace AcceptanceTester;
 
 
@@ -24,7 +24,7 @@ class Redshop extends \AcceptanceTester
 
 	public function clearAllCategories()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_category'))
 			->where($db->qn('parent_id') . ' != 0');
@@ -33,7 +33,7 @@ class Redshop extends \AcceptanceTester
 	}
 
 	public function clearAllProducts(){
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#_redshop_product'))
 			->where('1');
