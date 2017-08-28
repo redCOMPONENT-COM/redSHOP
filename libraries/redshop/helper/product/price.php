@@ -191,15 +191,19 @@ class RedshopHelperProductPrice
 		// If convert set true than use conversation
 		if ($convert && $session->get('product_currency'))
 		{
-			$productPrice = RedshopHelperCurrency::convert($productPrice);
+			$productPrice    = RedshopHelperCurrency::convert($productPrice);
+			$productCurrency = $session->get('product_currency');
+			$currencySymbol  = (int) $productCurrency;
+			$currencySymbol  = !$currencySymbol ?
+				$productCurrency : RedshopEntityCurrency::getInstance($productCurrency)->get('currency_code');
 
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$currencySymbol = " " . $session->get('product_currency');
+				$currencySymbol = " " . $currencySymbol;
 			}
 			else
 			{
-				$currencySymbol = $session->get('product_currency') . " ";
+				$currencySymbol = $currencySymbol . " ";
 			}
 		}
 

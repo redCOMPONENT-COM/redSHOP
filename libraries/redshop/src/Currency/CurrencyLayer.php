@@ -9,6 +9,8 @@
 
 namespace Redshop\Currency;
 
+use RedshopEntityCurrency;
+
 defined('_JEXEC') or die;
 
 /**
@@ -19,24 +21,21 @@ defined('_JEXEC') or die;
 class CurrencyLayer
 {
 	/**
+	 * @var null
+	 */
+	protected static $instance = null;
+	/**
 	 * @var boolean
 	 */
 	public $archive = true;
-
 	/**
 	 * @var string
 	 */
 	public $lastUpdated = '';
-
 	/**
 	 * @var  array
 	 */
 	protected $convertedCurrencies;
-
-	/**
-	 * @var null
-	 */
-	protected static $instance = null;
 
 	/**
 	 * Returns the CurrencyHelper object, only creating it
@@ -54,6 +53,69 @@ class CurrencyLayer
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Convert currency
+	 *
+	 * @param   float  $amount         Amount to convert
+	 * @param   string $sourceCurrency Base Currency code
+	 * @param   string $targetCurrency Currency code in which need amount to be converted
+	 *
+	 * @return  float             Converted amount
+	 *
+	 * @since   2.0.6
+	 */
+	public function convert($amount, $sourceCurrency = '', $targetCurrency = '')
+	{
+		$session = \JFactory::getSession();
+
+		if (!$sourceCurrency)
+		{
+			$sourceCurrency = \Redshop::getConfig()->get('CURRENCY_CODE');
+		}
+
+		if (!$targetCurrency)
+		{
+			$targetCurrency = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('currency_code');
+
+			// If both currency codes match, do nothing
+			if ($sourceCurrency == $targetCurrency)
+			{
+				return $amount;
+			}
+
+			$convertedCurrencies = $this->getConvertedCurrencies();
+
+			if (empty($convertedCurrencies))
+			{
+				$session->set('product_currency', \Redshop::getConfig()->get('CURRENCY_CODE'));
+
+				return $amount;
+			}
+		}
+
+		$valueA = isset($convertedCurrencies[$sourceCurrency]) ? $convertedCurrencies[$sourceCurrency] : 1;
+		$valueB = isset($convertedCurrencies[$targetCurrency]) ? $convertedCurrencies[$targetCurrency] : 1;
+
+		return $amount * $valueB / $valueA;
+	}
+
+	/**
+	 * Method for get converted currencies list
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.6
+	 */
+	public function getConvertedCurrencies()
+	{
+		if (empty($this->convertedCurrencies))
+		{
+			$this->init();
+		}
+
+		return $this->convertedCurrencies;
 	}
 
 	/**
@@ -124,8 +186,8 @@ class CurrencyLayer
 		{
 			try
 			{
-                $contents = json_decode(file_get_contents($currentFile), true);
-                $currentFile = $contents;
+				$contents    = json_decode(file_get_contents($storeFile), true);
+				$currentFile = $contents;
 			}
 			catch (\Exception $e)
 			{
@@ -154,10 +216,10 @@ class CurrencyLayer
 
 		if (!$contents)
 		{
-            $this->convertedCurrencies = array();
+			$this->convertedCurrencies = array();
 
-            return;
-        }
+			return;
+		}
 
 		if ($this->archive)
 		{
@@ -166,78 +228,15 @@ class CurrencyLayer
 		}
 
 		$currencies = $currentFile['quotes'];
-        $result = array();
+		$result     = array();
 
 		foreach ($currencies as $currency => $rate)
 		{
-			$currency = substr($currency, 3);
+			$currency          = substr($currency, 3);
 			$result[$currency] = $rate;
 		}
 
 		$this->convertedCurrencies = $result;
-	}
-
-	/**
-	 * Method for get converted currencies list
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	public function getConvertedCurrencies()
-	{
-		if (empty($this->convertedCurrencies))
-		{
-			$this->init();
-		}
-
-		return $this->convertedCurrencies;
-	}
-
-	/**
-	 * Convert currency
-	 *
-	 * @param   float  $amount         Amount to convert
-	 * @param   string $sourceCurrency Base Currency code
-	 * @param   string $targetCurrency Currency code in which need amount to be converted
-	 *
-	 * @return  float             Converted amount
-	 *
-	 * @since   2.0.6
-	 */
-	public function convert($amount, $sourceCurrency = '', $targetCurrency = '')
-	{
-		$session = \JFactory::getSession();
-
-		if (!$sourceCurrency)
-		{
-			$sourceCurrency = \Redshop::getConfig()->get('CURRENCY_CODE');
-		}
-
-		if (!$targetCurrency)
-		{
-			$targetCurrency = $session->get('product_currency');
-
-		// If both currency codes match, do nothing
-		if ($sourceCurrency == $targetCurrency)
-		{
-			return $amount;
-		}
-
-		$convertedCurrencies = $this->getConvertedCurrencies();
-
-		if (empty($convertedCurrencies))
-		{
-			$session->set('product_currency', \Redshop::getConfig()->get('CURRENCY_CODE'));
-
-			return $amount;
-		}
-        }
-
-		$valueA = isset($convertedCurrencies[$sourceCurrency]) ? $convertedCurrencies[$sourceCurrency] : 1;
-		$valueB = isset($convertedCurrencies[$targetCurrency]) ? $convertedCurrencies[$targetCurrency] : 1;
-
-		return $amount * $valueB / $valueA;
 	}
 
 	/**
@@ -250,8 +249,8 @@ class CurrencyLayer
 	public function initializeCurl()
 	{
 		$accessKey = \Redshop::getConfig()->get('CURRENCY_LAYER_ACCESS_KEY');
-		$source = 'USD';
-		$layerApi = 'http://apilayer.net/api/live?access_key=' . $accessKey . '&source=' . $source . '&format=1';
+		$source    = 'USD';
+		$layerApi  = 'http://apilayer.net/api/live?access_key=' . $accessKey . '&source=' . $source . '&format=1';
 
 		$ch = curl_init($layerApi);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
