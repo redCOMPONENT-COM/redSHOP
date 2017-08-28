@@ -63,9 +63,9 @@ class CountryCest
 		$this->randomCountry   = $this->faker->bothify('Country ?##?');
 	}
 
-	public function delete(AcceptanceTester $I, $scenario)
+	public function deleteData($scenario)
 	{
-		$I= new Redshop($scenario);
+		$I= new RedshopSteps($scenario);
 		$I->clearAllTables();
 	}
 	/**
