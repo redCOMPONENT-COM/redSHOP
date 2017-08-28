@@ -65,7 +65,7 @@ class CountryCest
 
 	public function delete(AcceptanceTester $I, $scenario)
 	{
-		$I= new AcceptanceTester\Redshop($scenario);
+		$I= new Redshop($scenario);
 		$I->clearAllTables();
 	}
 	/**
