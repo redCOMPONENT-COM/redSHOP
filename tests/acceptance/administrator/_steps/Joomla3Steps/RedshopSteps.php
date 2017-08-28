@@ -32,7 +32,7 @@ class RedshopSteps
 	public function clearAllProducts(){
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->delete($db->qn('#_redshop_product'))
+			->delete($db->qn('#__redshop_product'))
 			->where('1');
 
 		$db->setQuery($query)->execute();
