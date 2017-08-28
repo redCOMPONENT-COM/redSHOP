@@ -20,7 +20,7 @@ class RedshopSteps
 		$this->clearTaxRate();
 		$this->clearAllMassDiscount();
 		$this->clearAllVocher();
-		$this->clearAllDicountOnProduct();
+		$this->clearAllDiscountOnProduct();
 	}
 
 	public function clearAllCategories()
@@ -64,7 +64,7 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
-	public function clearAllDicountOnProduct(){
+	public function clearAllDiscountOnProduct(){
 
 		$db= \JFactory::getDbo();
 		$query = $db->getQuery(true)
