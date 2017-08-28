@@ -9,7 +9,7 @@
 namespace AcceptanceTester;
 
 
-class Redshop extends AdminManagerJoomla3Steps
+class Redshop extends \AcceptanceTester
 {
 	/**
 	 * Clear all tables.
@@ -21,8 +21,10 @@ class Redshop extends AdminManagerJoomla3Steps
 		$this->clearAllCategories();
 		$this->clearAllProducts();
 	}
-	public function clearAllCategories(){
-		$db = \JFactory::getDbo();
+
+	public function clearAllCategories()
+	{
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_category'))
 			->where($db->qn('parent_id') . ' != 0');
@@ -31,7 +33,7 @@ class Redshop extends AdminManagerJoomla3Steps
 	}
 
 	public function clearAllProducts(){
-		$db = \JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#_redshop_product'))
 			->where('1');

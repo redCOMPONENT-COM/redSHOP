@@ -63,6 +63,11 @@ class CountryCest
 		$this->randomCountry   = $this->faker->bothify('Country ?##?');
 	}
 
+	public function delete(AcceptanceTester $I, $scenario)
+	{
+		$I= new AcceptanceTester\Redshop($scenario);
+		$I->clearAllTables();
+	}
 	/**
 	 * Function to Test Country Creation in Backend
 	 *
