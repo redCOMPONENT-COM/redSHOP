@@ -10,7 +10,6 @@
 namespace Redshop\Currency;
 
 use RedshopEntityCurrency;
-use function var_dump;
 
 defined('_JEXEC') or die;
 
