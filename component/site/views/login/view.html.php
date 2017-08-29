@@ -21,11 +21,11 @@ class RedshopViewLogin extends RedshopView
 
 		$model = $this->getModel();
 
-		$shoppergroupid = JRequest::getInt('protalid', 0);
+		$shoppergroupid = $app->input->getInt('protalid', 0);
 
 		$ShopperGroupDetail = $model->ShopperGroupDetail($shoppergroupid);
 
-		$layout = JRequest::getCmd('layout', '');
+		$layout = $app->input->getCmd('layout', '');
 
 		$check = $model->CheckShopperGroup($user->username, $shoppergroupid);
 

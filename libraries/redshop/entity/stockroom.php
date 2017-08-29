@@ -29,27 +29,4 @@ class RedshopEntityStockroom extends RedshopEntity
 	{
 		return JTable::getInstance('Stockroom_Detail', 'Table');
 	}
-
-	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'stockroom_id', $keyValue = null)
-	{
-		if ($key == 'stockroom_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'stockroom_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
 }

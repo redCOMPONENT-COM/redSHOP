@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-$configobj = Redconfiguration::getInstance();
+$configobj       = Redconfiguration::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper       = redhelper::getInstance();
 
 $url = JURI::base();
 $Itemid = RedshopHelperUtility::getCheckoutItemId();
-$order_id = JRequest::getInt('oid');
+$order_id = JFactory::getApplication()->input->getInt('oid');
 
-$order = $order_functions->getOrderDetails($order_id);
+$order     = $order_functions->getOrderDetails($order_id);
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
