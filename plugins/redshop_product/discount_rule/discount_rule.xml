@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
+	<name>PLG_REDSHOP_PRODUCT_DISCOUNT_RULE</name>
+	<author>redCOMPONENT.com</author>
+	<version>1.0</version>
+	<redshop>2.0</redshop>
+	<creationDate>May 2017</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_DESC</description>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_discount_rule.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_discount_rule.sys.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_product_discount_rule.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_product_discount_rule.sys.ini</language>
+	</languages>
+	<files>
+		<filename plugin="discount_rule">discount_rule.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="/plugins/redshop_product/discount_rule/form/fields">
+				<field
+                    name="domain"
+                    type="domain"
+                    default=""
+                    label="PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_DOMAIN"
+                    description="PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_DOMAIN_DESC"
+                    multiple="true"
+                    custom="true"
+                    class="input-xxlarge"
+                    />
+				<field
+                    name="oprand"
+                    type="list"
+                    label="PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_OPRAND"
+                    description="PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_OPRAND_DESC"
+                    >
+                    <option value="+">PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_INCREASE</option>
+					<option value="-">PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_DECREASE</option>
+                </field>
+				<field
+                    name="amount"
+                    type="number"
+                    default="0"
+                    label="PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_AMOUNT"
+                    description="PLG_REDSHOP_PRODUCT_DISCOUNT_RULE_AMOUNT_DESC"
+                    />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
