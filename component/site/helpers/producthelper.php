@@ -5003,15 +5003,6 @@ class productHelper
 					$accessory_vat_price = $acc_vat;
 				}
 
-				$displayPrice = " (" . $this->getProductFormattedPrice($accessory_price) . ")";
-
-				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
-				{
-					$displayPrice = "";
-				}
-
-				$displayaccessory .= "<div class='checkout_accessory_title'>" . urldecode($attArr[$i]['accessory_name'])
-					. $displayPrice . "</div>";
 				$attchildArr = $attArr[$i]['accessory_childs'];
 
 				for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
@@ -5025,21 +5016,7 @@ class productHelper
 					$subprovatprice = array();
 					$subprovat      = array();
 
-					$attribute            = $this->getProductAttribute(0, 0, $attchildArr[$j]['attribute_id']);
-					$hide_attribute_price = 0;
-
-					if (count($attribute) > 0)
-					{
-						$hide_attribute_price = $attribute[0]->hide_attribute_price;
-					}
-
 					$propArr = $attchildArr[$j]['attribute_childs'];
-
-					if (count($propArr) > 0)
-					{
-						$displayaccessory .= "<div class='checkout_attribute_title'>"
-							. urldecode($attchildArr[$j]['attribute_name']) . ":</div>";
-					}
 
 					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
@@ -5063,33 +5040,6 @@ class productHelper
 						$provatprice[$k] = $property_price;
 						$provat[$k]      = $acc_vat;
 
-						$displayPrice = " (" . $propArr[$k]['property_oprand'] . " "
-							. $this->getProductFormattedPrice($property_price) . ")";
-
-						if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
-						{
-							$displayPrice = "";
-						}
-
-						$property      = $this->getAttibuteProperty($propArr[$k]['property_id']);
-						$virtualNumber = "";
-
-						if (count($property) > 0 && $property[0]->property_number)
-						{
-							$virtualNumber = "<div class='checkout_attribute_number'>" . $property[0]->property_number
-								. "</div>";
-						}
-//						if(strpos($data,'{product_attribute_price}') === false)
-//						{
-//							$displayPrice = '';
-//						}
-//						if(strpos($data,'{product_attribute_number}') === false)
-//						{
-//							$virtualNumber = '';
-//						}
-
-						$displayaccessory .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>"
-							. urldecode($propArr[$k]['property_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
 						$subpropArr = $propArr[$k]['property_childs'];
 
 						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
@@ -5103,30 +5053,13 @@ class productHelper
 								$acc_subpropvat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
-							$subproperty   = $this->getAttibuteSubProperty($subpropArr[$l]['subproperty_id']);
-							$virtualNumber = "";
-
-							if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
-							{
-								$virtualNumber = "<div class='checkout_subattribute_number'>["
-									. $subproperty[0]->subattribute_color_number . "]</div>";
-							}
-
 							if (!empty($chktag))
 							{
 								$subproperty_price = $subproperty_price + $acc_subpropvat;
 								$acc_vat           = $acc_subpropvat;
 							}
 
-							$displayPrice = " (" . $subpropArr[$l]['subproperty_oprand'] . " "
-								. $this->getProductFormattedPrice($subproperty_price) . ")";
 
-							if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
-							{
-								$displayPrice = "";
-							}
-
-							$displayaccessory .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($subpropArr[$l]['subproperty_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
 							$subprooprand[$k][$l]   = $subpropArr[$l]['subproperty_oprand'];
 							$subproprice[$k][$l]    = $subpropArr[$l]['subproperty_price'];
 							$subprovatprice[$k][$l] = $subproperty_price;
@@ -5170,6 +5103,20 @@ class productHelper
 
 				$accessory_total_price += ($accessory_price);
 			}
+
+			$displayaccessory .= RedshopLayoutHelper::render(
+				'product.product_accessory',
+				array(
+						'accessories' => $attArr,
+						'productId'   => $product_id,
+						'userId'      => $user_id,
+						'checkTag'    => $chktag
+					),
+				'',
+				array(
+						'component' => 'com_redshop'
+					)
+			);
 		}
 
 		$accessory_total_price = $accessory_total_price - $accessory_vat_price;
