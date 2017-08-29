@@ -9,6 +9,8 @@
 
 namespace Redshop\Currency;
 
+use RedshopEntityCurrency;
+
 defined('_JEXEC') or die;
 
 /**
@@ -243,7 +245,7 @@ class Currency
 
 		if (!$targetCurrency)
 		{
-			$targetCurrency = $session->get('product_currency');
+			$targetCurrency = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('currency_code');
 		}
 
 		// Make sure data is correct format.
