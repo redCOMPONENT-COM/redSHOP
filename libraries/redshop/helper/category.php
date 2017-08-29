@@ -224,7 +224,8 @@ class RedshopHelperCategory
 		$html  = '';
 		$query = $db->getQuery(true)
 			->select($db->qn('parent_id'))
-			->from($db->qn('#__redshop_category'));
+			->from($db->qn('#__redshop_category'))
+			->order($db->qn('lft'));
 
 		if ($categoryId)
 		{

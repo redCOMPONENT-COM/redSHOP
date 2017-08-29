@@ -33,6 +33,8 @@ class rsCarthelper
 
 	protected static $instance = null;
 
+	protected $input;
+
 	/**
 	 * Returns the rsCarthelper object, only creating it
 	 * if it doesn't already exist.
@@ -62,6 +64,7 @@ class rsCarthelper
 		$this->_redhelper       = redhelper::getInstance();
 		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
+		$this->input            = JFactory::getApplication()->input;
 	}
 
 	/**
@@ -402,14 +405,14 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$prdItemid  = JRequest::getInt('Itemid');
+		$prdItemid  = $this->input->getInt('Itemid');
 		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
-		$mainview   = JRequest::getVar('view');
+		$mainview   = $this->input->getCmd('view');
 
 		if ($Itemid == 0)
 		{
-			$Itemid = JRequest::getInt('Itemid');
+			$Itemid = $this->input->getInt('Itemid');
 		}
 
 		$cart_tr = '';
@@ -1010,7 +1013,7 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$mainview   = JRequest::getVar('view');
+		$mainview   = $this->input->getCmd('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
 		$subtotal_excl_vat = 0;
@@ -1906,7 +1909,7 @@ class rsCarthelper
 			}
 		}
 
-		$view = JRequest::getVar('view');
+		$view = $this->input->getCmd('view');
 
 		if (key_exists('shipping', $cart) && $view != 'cart')
 		{
@@ -2026,8 +2029,8 @@ class rsCarthelper
 		}
 
 		$this->_show_with_vat = $show_with_vat;
-		$layout               = JRequest::getVar('layout');
-		$view                 = JRequest::getVar('view');
+		$layout               = $this->input->getCmd('layout');
+		$view                 = $this->input->getCmd('view');
 
 		if (array_key_exists('payment_amount', $redArray) && $view == 'checkout' && $layout != 'default')
 		{
@@ -2529,9 +2532,9 @@ class rsCarthelper
 			$orderPaymentStatus = $row->order_payment_status;
 		}
 
-		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
+		$replace[] = $orderPaymentStatus . " " . $this->input->get('order_payment_log') . $issplitdisplay . $issplitdisplay2;
 		$search[]  = "{order_payment_status}";
-		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
+		$replace[] = $orderPaymentStatus . " " . $this->input->get('order_payment_log') . $issplitdisplay . $issplitdisplay2;
 
 		$search  [] = "{order_total}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->order_total);
@@ -2626,7 +2629,7 @@ class rsCarthelper
 			$paymentmethod->order_transfee + $row->order_total
 		);
 
-		if (JRequest::getVar('order_delivery'))
+		if ($this->input->get('order_delivery'))
 		{
 			$search  [] = "{delivery_time_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_DELIVERY_TIME');
@@ -2638,7 +2641,7 @@ class rsCarthelper
 		}
 
 		$search  [] = "{delivery_time}";
-		$replace [] = JRequest::getVar('order_delivery');
+		$replace [] = $this->input->get('order_delivery');
 		$search  [] = "{without_vat}";
 		$replace [] = '';
 		$search  [] = "{with_vat}";
@@ -3536,7 +3539,7 @@ class rsCarthelper
 
 		if (strpos($template_desc, "{newsletter_signup_chk}") !== false)
 		{
-			$Itemid               = JRequest::getVar('Itemid');
+			$Itemid               = $this->input->get('Itemid');
 			$newslettersignup     = "";
 			$newslettersignup_lbl = "";
 			$link                 = "";
@@ -3940,7 +3943,7 @@ class rsCarthelper
 		{
 			$voucher_code = $cart['voucher'][$v]['voucher_code'];
 			unset($cart['voucher'][$v]);
-			$voucher_code = JRequest::setVar('discount_code', $voucher_code);
+			$voucher_code = $this->input->get('discount_code', $voucher_code);
 			$cart         = RedshopHelperCartDiscount::applyVoucher($cart);
 		}
 
@@ -3955,7 +3958,7 @@ class rsCarthelper
 		{
 			$coupon_code = $cart['coupon'][$c]['coupon_code'];
 			unset($cart['coupon'][$c]);
-			$coupon_code = JRequest::setVar('discount_code', $coupon_code);
+			$coupon_code = $this->input->get('discount_code', $coupon_code);
 			$cart        = RedshopHelperCartDiscount::applyCoupon($cart);
 		}
 

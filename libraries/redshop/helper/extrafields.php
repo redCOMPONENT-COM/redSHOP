@@ -455,7 +455,7 @@ class RedshopHelperExtrafields
 	{
 		$db = JFactory::getDbo();
 
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 		/** @var RedshopModelFields $model */
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 		$rowData = $model->getFieldsBySection($fieldSection, $fieldName, $front, $checkout);
@@ -1182,7 +1182,8 @@ class RedshopHelperExtrafields
 						'field_display.text',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1197,7 +1198,8 @@ class RedshopHelperExtrafields
 						'field_display.textarea',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1225,7 +1227,8 @@ class RedshopHelperExtrafields
 						'field_display.checkbox',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1253,7 +1256,8 @@ class RedshopHelperExtrafields
 						'field_display.radio',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1281,7 +1285,8 @@ class RedshopHelperExtrafields
 						'field_display.select',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1309,7 +1314,8 @@ class RedshopHelperExtrafields
 						'field_display.multiple',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1331,7 +1337,8 @@ class RedshopHelperExtrafields
 						'field_display.country',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1347,7 +1354,8 @@ class RedshopHelperExtrafields
 						'field_display.datepicker',
 						array(
 								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue
+								'extraFieldValue' => $extraFieldValue,
+								'sendMail'        => $sendmail
 							),
 						'',
 						array(
@@ -1675,7 +1683,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since 2.0.3
 	 */
-	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
+	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = null, $published = 1, $required = 0)
 	{
 		$key = $section . '_' . $front . '_' . $published . '_' . $required;
 
@@ -1688,7 +1696,7 @@ class RedshopHelperExtrafields
 				->where($db->qn('section') . ' = ' . (int) $section)
 				->order($db->qn('ordering'));
 
-			if ($front)
+			if (null !== $front)
 			{
 				$query->where($db->qn('show_in_front') . ' = ' . (int) $front);
 			}
