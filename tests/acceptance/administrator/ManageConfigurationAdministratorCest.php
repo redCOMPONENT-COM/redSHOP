@@ -145,7 +145,7 @@ class ManageConfigurationAdministratorCest
 
 	/**
 	 *
-	 * function setup cart setting 
+	 * function setup cart setting
 	 *
 	 * @param AcceptanceTester $I
 	 * @param $scenario

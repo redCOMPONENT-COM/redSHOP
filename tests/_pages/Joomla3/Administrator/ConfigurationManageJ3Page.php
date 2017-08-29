@@ -68,6 +68,8 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 
 	public static $ratingTab = ['xpath' => "//h3[text()='Rating']"];
 
+	public static $orderTab = ['xpath'=>'//form[@id=\'adminForm\']/div/div[1]/div/div/ul/li[9]/a'];
+
 	//button
 	public static $featureSetting = "Feature Settings";
 
@@ -127,13 +129,11 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 
 	// orders setting
 
-	public static $orderTab="Orders";
-
-	public static $resetOrderId="Order ID Reset";
+	public static $resetOrderId="Reset Order Id";
 
 	public static $sendOrderEmail=['id'=>'s2id_order_mail_after'];
 
-	public static $sendOrderEmailSearch=['id'=>'id="s2id_autogen44_search"'];
+	public static $sendOrderEmailSearch = ['id'=>'s2id_autogen44_search'];
 
 	public static $enableEmailNo=['id'=>'invoice_mail_enable0-lbl'];
 

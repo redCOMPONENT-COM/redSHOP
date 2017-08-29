@@ -283,6 +283,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 
 	public function orderSetting($sendOrderEmail,$enableEmail,$sendEmailCustom){
 		$I= $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
 		$I->click(\ConfigurationManageJ3Page::$orderTab);
 		$I->click(\ConfigurationManageJ3Page::$sendOrderEmail);
 		$I->waitForElement(\ConfigurationManageJ3Page::$sendOrderEmailSearch,10);
@@ -317,6 +318,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 
 	public function resetOrderId($option){
 		$I= $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
 		$I->click(\ConfigurationManageJ3Page::$orderTab);
 		$I->click(\ConfigurationManageJ3Page::$resetOrderId);
 		switch ($option)
