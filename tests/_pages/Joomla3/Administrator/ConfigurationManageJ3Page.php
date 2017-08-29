@@ -124,4 +124,24 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
+
+	// orders setting
+
+	public static $orderTab="Orders";
+
+	public static $resetOrderId="Order ID Reset";
+
+	public static $sendOrderEmail=['id'=>'s2id_order_mail_after'];
+
+	public static $sendOrderEmailSearch=['id'=>'id="s2id_autogen44_search"'];
+
+	public static $enableEmailNo=['id'=>'invoice_mail_enable0-lbl'];
+
+	public static $enableEmailYes=['id'=>'invoice_mail_enable1-lbl'];
+
+	public static $sendEmailCustomerNo=['id'=>'send_mail_to_customer0-lbl'];
+
+	public static $sendEmailCustomerYes=['id'=>'send_mail_to_customer1-lbl'];
+
+
 }

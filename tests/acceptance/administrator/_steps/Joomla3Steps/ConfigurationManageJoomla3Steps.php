@@ -280,4 +280,55 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
+
+	public function orderSetting($sendOrderEmail,$enableEmail,$sendEmailCustom){
+		$I= $this;
+		$I->click(\ConfigurationManageJ3Page::$orderTab);
+		$I->click(\ConfigurationManageJ3Page::$sendOrderEmail);
+		$I->waitForElement(\ConfigurationManageJ3Page::$sendOrderEmailSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$sendOrderEmailSearch,$sendOrderEmail);
+		$I->pressKey(\ConfigurationManageJ3Page::$sendOrderEmail, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		switch ($sendEmailCustom){
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$sendEmailCustomerYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$sendEmailCustomerNo);
+				break;
+			default:
+				break;
+		}
+
+		switch ($enableEmail){
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$enableEmailYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$enableEmailNo);
+				break;
+			default:
+				break;
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+	public function resetOrderId($option){
+		$I= $this;
+		$I->click(\ConfigurationManageJ3Page::$orderTab);
+		$I->click(\ConfigurationManageJ3Page::$resetOrderId);
+		switch ($option)
+		{
+			case 'yes':
+				$I->acceptPopup();
+				$I->acceptPopup();
+				break;
+			case 'no':
+				$I->cancelPopup();
+		}
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
 }

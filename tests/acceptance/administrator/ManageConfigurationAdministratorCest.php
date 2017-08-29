@@ -37,6 +37,13 @@ class ManageConfigurationAdministratorCest
 		$this->minimunOrder = 0;
 		$this->enableQuation = 'no';
 
+		//setup orders
+		$this->resetOrdersYes='yes';
+		$this->resetOrdersNo='no';
+
+		$this->sendOrderEmail='After Payment';
+		$this->enableEmail='Yes';
+		$this->sendEmailCustom='Yes';
 	}
 
 
@@ -149,6 +156,32 @@ class ManageConfigurationAdministratorCest
 		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
 		$I->wantTo(' Edit inline is yes ');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 *
+	 * Function for setting all orders
+	 *
+	 */
+	public function resetOrderId(AcceptanceTester $I, $scenario){
+		$I->wantTo('Reset Order Id is Yes');
+		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+		$I->resetOrderId($this->resetOrdersYes);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 *
+	 * Function control order setting
+	 *
+	 */
+	public function orderSetting(AcceptanceTester $I, $scenario){
+		$I->wantTo('setup Order setting');
+		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+		$I->orderSetting($this->sendOrderEmail,$this->enableEmail,$this->sendEmailCustom);
 	}
 
 }
