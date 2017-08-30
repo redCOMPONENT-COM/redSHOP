@@ -354,4 +354,25 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($Discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
+
+	public function checkoutQuotation($productName, $categoryName,$userEmail){
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$quotation);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addQuotation);
+
+		$I->acceptPopup();
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$userEmail,$userEmail);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addQuotation);
+
+		$I->see(\FrontEndProductManagerJoomla3Page::$addQuotationSuccess,\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
+
+	}
 }
