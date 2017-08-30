@@ -64,6 +64,10 @@ if ($this->params->get('show_page_heading', 1))
 <?php
 }
 
+JPluginHelper::importPlugin('redshop_account');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onReplaceAccountTemplate', array(&$template_desc, $this->userdata));
+
 $template_desc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $template_desc);
 
 $logoutimg     = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/logout.jpg" align="absmiddle" />';
