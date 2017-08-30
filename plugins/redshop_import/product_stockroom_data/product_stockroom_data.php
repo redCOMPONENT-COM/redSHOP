@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use \Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
+class PlgRedshop_ImportProduct_Stockroom_Data extends Import\AbstractBase
 {
 	/**
 	 * @var string
@@ -36,7 +36,8 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
@@ -50,12 +51,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
@@ -137,7 +133,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	 *
 	 * @param   string  $productNumber  Product number
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since  1.0.0
 	 */

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,15 +18,19 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportUser extends AbstractImportPlugin
+class PlgRedshop_ImportUser extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $primaryKey = 'users_info_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $nameKey = 'email';
 
@@ -41,7 +45,8 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
@@ -55,12 +60,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
@@ -216,6 +216,8 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	 * Get all users information
 	 *
 	 * @return  array  User email id as a key of an array
+	 *
+	 * @since  1.0.0
 	 */
 	private function getUsersInfoByEmail()
 	{
@@ -237,7 +239,9 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	/**
 	 * Get Shopper Group Id from input
 	 *
-	 * @return  integer  Shopper Group Id
+	 * @return  object  Shopper Group object
+	 *
+	 * @since  1.0.0
 	 */
 	public function getShopperGroupInfo()
 	{

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Plugin\Export;
 
 JLoader::import('redshop.library');
 
@@ -18,56 +18,34 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportField extends AbstractExportPlugin
+class PlgRedshop_ExportField extends Export\AbstractBase
 {
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   1.0.0
-	 *
-	 * @TODO: Need to load XML File instead
 	 */
 	public function onAjaxField_Config()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		$this->config();
 	}
 
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  integer
+	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since  1.0.0
 	 */
 	public function onAjaxField_Start()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$this->writeData($this->getHeader(), 'w+');
-
-		return (int) $this->getTotal();
-	}
-
-	/**
-	 * Event run on export process
-	 *
-	 * @return  integer
-	 *
-	 * @since   1.0.0
-	 */
-	public function onAjaxField_Export()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-
-		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
-
-		return $this->exporting($start, $limit);
+		$this->start();
 	}
 
 	/**
@@ -77,11 +55,25 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 *
 	 * @since   1.0.0
 	 */
+	public function onAjaxField_Export()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$this->export();
+	}
+
+	/**
+	 * Event run on export process
+	 *
+	 * @return  string
+	 *
+	 * @since  1.0.0
+	 */
 	public function onAjaxField_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**

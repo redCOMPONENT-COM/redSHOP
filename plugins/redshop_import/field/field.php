@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,15 +18,19 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportField extends AbstractImportPlugin
+class PlgRedshop_ImportField extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since   2.0.3
 	 */
 	protected $primaryKey = 'id';
 
 	/**
 	 * @var string
+	 *
+	 * @since   2.0.3
 	 */
 	protected $nameKey = 'name_field';
 
@@ -63,7 +67,8 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
@@ -77,12 +82,7 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
@@ -94,8 +94,6 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	 */
 	public function getTable()
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
 		return RedshopTable::getInstance('Field', 'RedshopTable');
 	}
 

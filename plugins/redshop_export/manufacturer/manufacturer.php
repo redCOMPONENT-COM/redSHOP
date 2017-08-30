@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Plugin\Export;
 
 JLoader::import('redshop.library');
 
@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
+class PlgRedshop_ExportManufacturer extends Export\AbstractBase
 {
 	/**
 	 * Event run when user load config for export this data.
@@ -33,7 +33,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		$this->config();
 	}
 
 	/**
@@ -47,14 +47,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$headers = $this->getHeader();
-
-		if (!empty($headers))
-		{
-			$this->writeData($headers, 'w+');
-		}
-
-		return (int) $this->getTotal();
+		$this->start();
 	}
 
 	/**
@@ -68,25 +61,21 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
-
-		return $this->exporting($start, $limit);
+		$this->export();
 	}
 
 	/**
 	 * Event run on export process
 	 *
-	 * @return  number
+	 * @return  string
 	 *
 	 * @since  1.0.0
 	 */
 	public function onAjaxManufacturer_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**

@@ -115,5 +115,23 @@ class RedshopModelManufacturer extends RedshopModel
 
 		return true;
 	}
+
+	/**
+	 * Get array of manufacturers
+	 *
+	 * @return  array<object>
+	 *
+	 * @since   2.0.7
+	 */
+	public function getManufacturers()
+	{
+		$db            = JFactory::getDbo();
+		$query         = $db->getQuery(true)
+			->select($db->qn('manufacturer_id', 'value'))
+			->select($db->qn('manufacturer_name', 'text'))
+			->from($db->qn('#__redshop_manufacturer'));
+
+		return $db->setQuery($query)->loadObjectList();
+	}
 }
 

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Plugin\Export;
 
 JLoader::import('redshop.library');
 
@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugin
+class PlgRedshop_ExportShopper_Group_Attribute_Price extends Export\AbstractBase
 {
 	/**
 	 * Event run when user load config for export this data.
@@ -33,7 +33,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		$this->config();
 	}
 
 	/**
@@ -47,9 +47,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$this->writeData($this->getHeader(), 'w+');
-
-		return (int) $this->getTotal();
+		$this->start();
 	}
 
 	/**
@@ -63,11 +61,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
-
-		return $this->exporting($start, $limit);
+		$this->export();
 	}
 
 	/**
@@ -79,9 +73,9 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 	 */
 	public function onAjaxShopper_Group_Attribute_Price_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**
@@ -201,7 +195,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return array|boolean
 	 *
 	 * @since  1.0.0
 	 */

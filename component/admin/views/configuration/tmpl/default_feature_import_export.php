@@ -26,15 +26,7 @@ echo RedshopLayoutHelper::render(
             value="' . $this->config->get('IMPORT_MAX_FILE_SIZE', 2000000) . '"/><span class="input-group-addon">bytes</span></div>'
 	)
 );
-echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
-		'title' => JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME'),
-		'desc'  => JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME_DESC'),
-		'field' => '<input type="text" name="import_file_mime" class="form-control"
-                   value="' . $this->config->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel') . '"/>'
-	)
-);
+
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
@@ -51,7 +43,7 @@ echo RedshopLayoutHelper::render(
 		'title' => JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_LINE'),
 		'desc'  => JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_LINE_DESC'),
 		'field' => '<input type="text" name="import_max_line" class="form-control"
-                   value="' . $this->config->get('IMPORT_MAX_LINE', 1) . '"/>',
+                   value="' . $this->config->get('IMPORT_MAX_LINE', 10) . '"/>',
 		'line'  => false
 	)
 );

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\File\Helper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,4 +20,19 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerExport extends RedshopControllerAdmin
 {
+	/**
+	 * Download exported file
+	 *
+	 * @since  2.0.7
+	 */
+	public function download()
+	{
+		$file = $this->input->getRaw('file_path');
+		$file = JPath::clean($file);
+
+		if (JFile::exists($file))
+		{
+			Helper::download($file);
+		}
+	}
 }

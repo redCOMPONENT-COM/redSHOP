@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Plugin\Export;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('redshop.library');
@@ -19,12 +19,12 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportAttribute extends AbstractExportPlugin
+class PlgRedshop_ExportAttribute extends Export\AbstractBase
 {
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 *
@@ -36,31 +36,21 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 
 		// Prepare categories list.
 		$products = RedshopHelperProduct::getList();
-		$options    = array();
 
-		foreach ($products as $product)
-		{
-			$options[] = JHtml::_('select.option', $product->product_id, $product->product_name, 'value', 'text');
-		}
+		$html = RedshopLayoutHelper::render(
+			'export.config.attribute',
+			array(
+				'products'     => $products
+			)
+		);
 
-		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS') . '</label>
-			<div class="col-md-10">'
-			. JHtml::_(
-				'select.genericlist', $options, 'products[]',
-				'class="form-control" multiple placeholder="' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS_PLACEHOLDER') . '"',
-				'value',
-				'text'
-			) . '</div>
-		</div>';
-
-		return implode('', $configs);
+		$this->config($html);
 	}
 
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  number
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
@@ -68,27 +58,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$this->writeData($this->getHeader(), 'w+');
-
-		return (int) $this->getTotal();
-	}
-
-	/**
-	 * Event run on export process
-	 *
-	 * @return  int
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAjaxAttribute_Export()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-
-		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
-
-		return $this->exporting($start, $limit);
+		$this->start();
 	}
 
 	/**
@@ -96,13 +66,27 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return  void
 	 *
+	 * @since   1.0.0
+	 */
+	public function onAjaxAttribute_Export()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$this->export();
+	}
+
+	/**
+	 * Event run on export process
+	 *
+	 * @return  string
+	 *
 	 * @since  1.0.0
 	 */
 	public function onAjaxAttribute_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**
@@ -282,7 +266,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.0.0
 	 */
