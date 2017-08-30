@@ -7,7 +7,7 @@
  */
 
 /**
- * Class ManageCurrencyAdministratorCest
+ * Class CurrencyCest
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageCurrencyAdministratorCest
+class CurrencyCest
 {
 	public function __construct()
 	{
@@ -33,7 +33,7 @@ class ManageCurrencyAdministratorCest
 	{
 		$I->wantTo('Test currency creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CurrencyManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CurrencySteps($scenario);
 		$I->wantTo('Create a Currency');
 		$I->addCurrency($this->currencyName, $this->randomCurrencyCode);
 		$I->searchCurrency($this->currencyName);
@@ -48,7 +48,7 @@ class ManageCurrencyAdministratorCest
 	{
 		$I->wantTo('Test if Currency gets updated in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CurrencyManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CurrencySteps($scenario);
 		$I->wantTo('Update Existing Currency');
 		$I->editCurrency($this->currencyName, $this->updateCurrencyName);
 		$I->searchCurrency($this->updateCurrencyName);
@@ -63,7 +63,7 @@ class ManageCurrencyAdministratorCest
 	{
 		$I->wantTo('Deletion of Currency in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CurrencyManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CurrencySteps($scenario);
 		$I->wantTo('Delete a Currency');
 		$I->deleteCurrency($this->updateCurrencyName);
 		$I->searchCurrency($this->updateCurrencyName, 'Delete');

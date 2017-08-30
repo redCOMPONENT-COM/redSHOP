@@ -162,6 +162,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
+
+	/**
+	 * @var array
+	 */
+	public static $containerMessage=['id' => 'system-message-container'];
 	/**
 	 * @var string
 	 */
