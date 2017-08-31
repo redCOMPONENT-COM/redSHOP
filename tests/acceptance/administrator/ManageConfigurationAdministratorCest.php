@@ -38,6 +38,21 @@ class ManageConfigurationAdministratorCest
 		$this->minimunOrder = 0;
 		$this->enableQuation = 'no';
 
+		//user shopper registration
+		$this->registerMethod='Normal account creation';
+		$this->createNewUser='no';
+		$this->emailVerify='no';
+		$this->showTerm='perOrder';
+		$this->whoCan='Both';
+		$this->defaultCustomer='Private customer';
+		$this->checkoutLogin='Sliders';
+		//user shopper groups
+		$this->portal='no';
+		$this->privateGroup='Default Private';
+		$this->companyGroups='Default Company';
+		$this->shopperGroupsUnregistered='Default Private';
+		$this->newGroupsInherit='Default Private';
+
 	}
 
 
