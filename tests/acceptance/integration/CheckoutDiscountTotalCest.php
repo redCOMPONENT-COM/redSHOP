@@ -6,6 +6,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\DiscountManagerJoomla3Steps;
+use AcceptanceTester\RedshopSteps;
 class CheckoutDiscountTotalCest
 {
 	public function __construct()
@@ -37,6 +38,11 @@ class CheckoutDiscountTotalCest
 
 	}
 
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	public function _before(AcceptanceTester $I)
 	{
