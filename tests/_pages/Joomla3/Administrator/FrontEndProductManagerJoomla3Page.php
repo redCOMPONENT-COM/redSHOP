@@ -18,6 +18,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	// Include url of current page
 	public static $URL = '/index.php?option=com_redshop';
 
+	public static $quotation="index.php/index.php?option=com_redshop&view=quotation";
+
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
@@ -80,7 +82,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $orderReceipt = "Order Receipt";
 
+	//Quotation
+	public static $addQuotation="//form[@id='adminForm']/div[3]/input[2]";
 
+	public static $userEmail=['id'=>'user_email'];
+
+	public static $addQuotationSuccess="Quotation detail has been sent successfully";
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
 	 *
