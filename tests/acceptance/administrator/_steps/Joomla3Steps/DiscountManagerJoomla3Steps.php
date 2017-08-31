@@ -29,7 +29,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addDiscount($name, $amount, $discountAmount, $shopperGroup, $discountType)
+    public function addDiscount($name, $amount, $discountAmount, $shopperGroup, $discountType,$discountCondition)
     {
         $I = $this;
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
@@ -51,6 +51,11 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 60);
         $I->click($userDiscountPage->resultChoice($shopperGroup));
 
+	    $I->click(\DiscountManagerJ3Page::$conditionId);
+	    $I->waitForElement(\DiscountManagerJ3Page::$conditionSearch,30);
+	    $I->fillField(\DiscountManagerJ3Page::$conditionSearch,$discountCondition);
+	    $I->waitForElement($userDiscountPage->returnChoice($discountCondition), 60);
+	    $I->click($userDiscountPage->returnChoice($discountCondition));
 
         $I->click(\DiscountManagerJ3Page::$saveCloseButton);
         $I->waitForText(\DiscountManagerJ3Page::$messageSaveSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
@@ -79,6 +84,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $userDiscountPage = new \DiscountManagerJ3Page();
         $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
         $I->click($userDiscountPage->resultChoice($shopperGroup));
+
+
 
         $I->click(\DiscountManagerJ3Page::$saveButton);
         $I->waitForText(\DiscountManagerJ3Page::$messageSaveSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);

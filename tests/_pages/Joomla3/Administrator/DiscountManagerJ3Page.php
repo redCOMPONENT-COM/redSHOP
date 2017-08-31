@@ -13,11 +13,10 @@
  *
  * @since  1.4
  */
-class DiscountManagerJ3Page
+class DiscountManagerJ3Page extends AdminJ3Page
 {
 
     public static $namePageManagement = "Product Discount Management";
-
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=discount';
 
@@ -59,6 +58,10 @@ class DiscountManagerJ3Page
     public static $discountType = ['id' => "s2id_discount_type"];
 
     public static $discountTypeSearch = ['id' => "s2id_autogen2_search"];
+
+    public static $conditionId=['id'=>'s2id_condition'];
+
+    public static $conditionSearch=['id'=>'s2id_autogen1_search'];
 
     public static $searchResults = ['id' => "select2-results-2"];
 

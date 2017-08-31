@@ -28,6 +28,7 @@ class ManageDiscountAdministratorCest
         $this->endDate = '13-08-2017';
         $this->shopperGroup = 'Default Private';
         $this->discountType = 'Total';
+        $this->discountCondition='Lower';
     }
 
     /**
@@ -40,7 +41,7 @@ class ManageDiscountAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Discount');
-        $I->addDiscount($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
+        $I->addDiscount($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType,$this->discountCondition);
     }
 
     /**
