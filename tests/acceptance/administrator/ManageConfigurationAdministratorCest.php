@@ -5,6 +5,7 @@
  * Configuration function
  *
  */
+use AcceptanceTester\ConfigurationManageJoomla3Steps;
 class ManageConfigurationAdministratorCest
 {
 	public function __construct()
@@ -149,6 +150,19 @@ class ManageConfigurationAdministratorCest
 		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
 		$I->wantTo(' Edit inline is yes ');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+	}
+
+	public function userRegistration(AcceptanceTester $I, $scenario){
+		$I->wantTo('setup user registration at admin');
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->wantTo(' Edit inline is yes ');
+		$I->registration($this->registerMethod, $this->createNewUser,$this->emailVerify,$this->showTerm,$this->whoCan,$this->defaultCustomer,$this->checkoutLogin);
+	}
+	public function shopperGroups(AcceptanceTester $I,  $scenario){
+		$I->wantTo('setup user registration at admin');
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->wantTo(' Edit inline is yes ');
+		$I->shopperGroups($this->portal,$this->privateGroup,$this->companyGroups,$this->shopperGroupsUnregistered,$this->newGroupsInherit);
 	}
 
 }
