@@ -337,4 +337,41 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle); 
 	}
+
+	public function shopperGroups($portal,$privateGroup,$companyGroups,$shopperGroupsUnregistered,$newGroupsInherit){
+		$I=$this;
+		switch ($portal){
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$portalShopNo);
+				break;
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$portalYes);
+				break;
+			default:
+				break;
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$privateShopperGroup);
+		$I->waitForElement(\ConfigurationManageJ3Page::$privateShopperGroupSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$privateShopperGroupSearch,$privateGroup);
+		$I->pressKey(\ConfigurationManageJ3Page::$privateShopperGroup,\Facebook\WebDriver\WebDriverKeys::ARROW_DOWN,\Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$companyShopperGroup);
+		$I->waitForElement(\ConfigurationManageJ3Page::$companyShopperGroupSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$companyShopperGroupSearch,$companyGroups);
+		$I->pressKey(\ConfigurationManageJ3Page::$companyShopperGroup,\Facebook\WebDriver\WebDriverKeys::ARROW_DOWN,\Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$shopperUnregistered);
+		$I->waitForElement(\ConfigurationManageJ3Page::$shopperUnregisteredSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$shopperUnregisteredSearch,$shopperGroupsUnregistered);
+		$I->pressKey(\ConfigurationManageJ3Page::$shopperUnregistered,\Facebook\WebDriver\WebDriverKeys::ARROW_DOWN,\Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$newShopperGroups);
+		$I->waitForElement(\ConfigurationManageJ3Page::$newShopperGroupSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$newShopperGroupSearch,$newGroupsInherit);
+		$I->pressKey(\ConfigurationManageJ3Page::$newShopperGroups,\Facebook\WebDriver\WebDriverKeys::ARROW_DOWN,\Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
 }
