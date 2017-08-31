@@ -280,4 +280,61 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
+
+	public function registration($registerMethod, $createNewUser,$emailVerify,$newCustomer,$showTerm,$whoCan,$defaultCustomer,$checkoutLogin){
+		$I=$this;
+		$I->click(\ConfigurationManageJ3Page::$registrationId);
+		$I->waitForElement(\ConfigurationManageJ3Page::$registraionSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$registraionSearch,$registerMethod);
+		$I->pressKey(\ConfigurationManageJ3Page::$registrationId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		switch ($createNewUser){
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$createUserNo);
+				break;
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$createUserYes);
+				break;
+			default: break;
+		}
+
+		switch ($emailVerify){
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$emailVerifyYes);
+				break;
+
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$emailVerifyNo);
+				break;
+			default:
+				break;
+		}
+
+		switch ($showTerm){
+			case 'perOrder':
+				$I->click(\ConfigurationManageJ3Page::$termsShowPerOrder);
+				break;
+			case 'perUser':
+				$I->click(\ConfigurationManageJ3Page::$termShowPerUser);
+				break;
+			default:
+				break;
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$whoCanRegister);
+		$I->waitForElement(\ConfigurationManageJ3Page::$whoCanRegisterSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$whoCanRegisterSearch,$whoCan);
+		$I->pressKey(\ConfigurationManageJ3Page::$whoCanRegister, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$defaultCustomer);
+		$I->waitForElement(\ConfigurationManageJ3Page::$defaultCustomerSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$defaultCustomerSearch,$defaultCustomer);
+		$I->pressKey(\ConfigurationManageJ3Page::$defaultCustomer,\Facebook\WebDriver\WebDriverKeys::ARROW_DOWN,\Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$checkoutLogin);
+		$I->waitForElement(\ConfigurationManageJ3Page::$checkoutLoginSearch,10);
+		$I->fillField(\ConfigurationManageJ3Page::$checkoutLoginSearch,$checkoutLogin);
+		$I->pressKey(\ConfigurationManageJ3Page::$checkoutLogin,\Facebook\WebDriver\WebDriverKeys::ARROW_DOWN,\Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle); 
+	}
 }

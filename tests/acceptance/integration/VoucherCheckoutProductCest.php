@@ -192,6 +192,7 @@ class VoucherCheckoutProductCest
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
+		$I->wait(3);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$selectorSuccess);

@@ -127,7 +127,60 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
 
-	//user tab
+	//user tab registration
+	public static $registrationId=['id'=>'s2id_register_method'];
+
+	public static $registraionSearch=['id'=>'s2id_autogen6_search'];
+
+	public static $createUserYes=['id'=>'create_account_checkbox1-lbl'];
+
+	public static $createUserNo=['id'=>'create_account_checkbox0-lbl'];
+
+	public static $emailVerifyYes=['id'=>'show_email_verification1-lbl'];
+
+	public static $emailVerifyNo=['id'=>'show_email_verification0-lbl'];
+
+	public static $newCustomerPreselectedYes=['id'=>'new_customer_selection1-lbl'];
+
+	public static $newCustomerPreselectedNo=['id'=>'new_customer_selection0-lbl'];
+
+	public static $termsShowPerOrder=['id'=>'show_terms_and_conditions0-lbl'];
+
+	public static $termShowPerUser=['id'=>'show_terms_and_conditions1-lbl'];
+
+	public static $whoCanRegister=['id'=>'s2id_allow_customer_register_type'];
+
+	public static $whoCanRegisterSearch=['id'=>'s2id_autogen7_search'];
+
+	public static $defaultCustomer=['id'=>'s2id_default_customer_register_type'];
+
+	public static $defaultCustomerSearch=['id'=>'s2id_autogen8_search'];
+
+	public static $checkoutLogin=['id'=>'s2id_checkout_login_register_switcher'];
+
+	public static $checkoutLoginSearch=['id'=>'s2id_autogen9_search'];
+
+	//user shopper groups
+	public static $portalShopNo=['id'=>'portal_shop0-lbl'];
+
+	public static $portalYes=['id'=>'portal_shop1-lbl'];
+
+	public static $privateShopperGroup=['id'=>'s2id_shopper_group_default_private'];
+
+	public static $privateShopperGroupSearch=['id'=>'s2id_autogen12_search'];
+
+	public static $companyShopperGroup=['id'=>'s2id_shopper_group_default_company'];
+
+	public static $companyShopperGroupSearch=['id'=>'s2id_autogen13_search'];
+
+	public static $shopperUnregistered =['id'=>'s2id_shopper_group_default_unregistered'];
+
+	public static $shopperUnregisteredSearch =['id'=>'s2id_autogen14_search'];
+
+	public static $newShopperGroups=['id'=>'s2id_new_shopper_group_get_value_from'];
+
+	public static $newShopperGroupSearch =['id'=>'s2id_autogen15_search'];
+
 
 
 }
