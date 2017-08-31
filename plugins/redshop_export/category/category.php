@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Plugin\Export;
 
 JLoader::import('redshop.library');
 
@@ -18,12 +18,12 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportCategory extends AbstractExportPlugin
+class PlgRedshop_ExportCategory extends Export\AbstractBase
 {
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
@@ -31,46 +31,21 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		$this->config();
 	}
 
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  integer
+	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Start()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$headers = $this->getHeader();
-
-		if (!empty($headers))
-		{
-			$this->writeData($headers, 'w+');
-		}
-
-		return (int) $this->getTotal();
-	}
-
-	/**
-	 * Event run on export process
-	 *
-	 * @return  integer
-	 *
-	 * @since   1.0.0
-	 */
-	public function onAjaxCategory_Export()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-
-		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
-
-		return $this->exporting($start, $limit);
+		$this->start();
 	}
 
 	/**
@@ -80,11 +55,25 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since   1.0.0
 	 */
+	public function onAjaxCategory_Export()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$this->export();
+	}
+
+	/**
+	 * Event run on export process
+	 *
+	 * @return  string
+	 *
+	 * @since  1.0.0
+	 */
 	public function onAjaxCategory_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**

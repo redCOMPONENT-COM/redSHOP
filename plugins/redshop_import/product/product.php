@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use \Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,15 +18,19 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportProduct extends AbstractImportPlugin
+class PlgRedshop_ImportProduct extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since   2.0.3
 	 */
 	protected $primaryKey = 'product_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since   2.0.3
 	 */
 	protected $nameKey = 'product_name';
 
@@ -34,6 +38,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 * List of columns for encoding UTF8
 	 *
 	 * @var array
+	 *
+	 * @since   2.0.3
 	 */
 	protected $encodingColumns = array('product_name', 'product_desc', 'product_s_desc');
 
@@ -41,13 +47,15 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 * List of columns for number format
 	 *
 	 * @var array
+	 *
+	 * @since   2.0.3
 	 */
 	protected $numberColumns = array('product_price');
 
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
@@ -55,13 +63,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
 	 * Event run when run importing.
 	 *
-	 * @return  mixed
+	 * @return  string
 	 *
 	 * @since  1.0.0
 	 */
@@ -69,12 +78,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
@@ -86,8 +90,6 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 */
 	public function getTable()
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
 		return JTable::getInstance('Product_Detail', 'Table');
 	}
 
@@ -140,12 +142,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_thumb_image']))
 			{
-				$url       = $data['product_thumb_image'];
-				$imageName = basename($url);
-				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, file_get_contents($url));
-				$data['product_thumb_image'] = $fileName;
+				// Fetch image
+				$this->copyFile($data, 'product_thumb_image');
 			}
 			else
 			{
@@ -162,6 +160,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_full_image']))
 			{
+				// @TODO Use copyFile function
 				$url        = $data['product_full_image'];
 				$binaryData = file_get_contents($url);
 
@@ -193,12 +192,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_back_full_image']))
 			{
-				$url       = $data['product_back_full_image'];
-				$imageName = basename($url);
-				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, file_get_contents($url));
-				$data['product_back_full_image'] = $fileName;
+				$this->copyFile($data, 'product_back_full_image');
 			}
 			else
 			{
@@ -215,12 +209,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_preview_back_image']))
 			{
-				$url       = $data['product_preview_back_image'];
-				$imageName = basename($url);
-				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, file_get_contents($url));
-				$data['product_preview_back_image'] = $fileName;
+				$this->copyFile($data, 'product_preview_back_image');
 			}
 			else
 			{
@@ -237,12 +226,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_back_thumb_image']))
 			{
-				$url       = $data['product_back_thumb_image'];
-				$imageName = basename($url);
-				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, file_get_contents($url));
-				$data['product_back_thumb_image'] = $fileName;
+				$this->copyFile($data, 'product_back_thumb_image');
 			}
 			else
 			{
@@ -259,12 +243,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_preview_image']))
 			{
-				$url       = $data['product_preview_image'];
-				$imageName = basename($url);
-				$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, file_get_contents($url));
-				$data['product_preview_image'] = $fileName;
+				$this->copyFile($data, 'product_preview_image');
 			}
 			else
 			{
@@ -315,6 +294,31 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param   array   $data       Array of data
+	 * @param   string  $fieldName  Field name
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.7
+	 */
+	private function copyFile(&$data, $fieldName)
+	{
+		$url       = $data[$fieldName];
+		$imageName = basename($url);
+		$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
+		$dest      = \JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName);
+
+		if (!JFile::write($dest, file_get_contents($url)))
+		{
+			return false;
+		}
+
+		$data[$fieldName] = $fileName;
+
+		return true;
 	}
 
 	/**
@@ -454,6 +458,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 * @param   array $keyProducts Array key products
 	 *
 	 * @return  array
+	 *
+	 * @since   2.0.3
 	 */
 	public function getExtraFieldNames($keyProducts)
 	{
@@ -483,6 +489,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 * @param   integer $productId Product Id
 	 *
 	 * @return  void
+	 *
+	 * @since   2.0.3
 	 */
 	public function importProductFieldData($fieldName, $data, $productId)
 	{
@@ -797,7 +805,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					else
 					{
 						$imageName = basename($image);
-						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 						JFile::write($dest, $binaryData);
 						$data['product_preview_image'] = $fileName;
@@ -1334,7 +1342,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					// Copy If file is not already exist
 					if (!JFile::exists($file))
 					{
-						copy($data['property_image'], $file);
+						JFile::copy($data['property_image'], $file);
 					}
 				}
 
@@ -1346,7 +1354,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					// Copy If file is not already exist
 					if (!JFile::exists($file))
 					{
-						copy($data['property_main_image'], $file);
+						JFile::copy($data['property_main_image'], $file);
 					}
 				}
 
@@ -1358,7 +1366,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					// Copy If file is not already exist
 					if (!JFile::exists($file))
 					{
-						copy($data['media_name'], $file);
+						JFile::copy($data['media_name'], $file);
 					}
 				}
 
@@ -1538,7 +1546,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				// Copy If file is not already exist
 				if (!JFile::exists($file))
 				{
-					copy($data['subattribute_color_image'], $file);
+					JFile::copy($data['subattribute_color_image'], $file);
 				}
 			}
 
@@ -1549,7 +1557,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				// Copy If file is not already exist
 				if (!JFile::exists($file))
 				{
-					copy($data['media_name'], $file);
+					JFile::copy($data['media_name'], $file);
 				}
 			}
 		}

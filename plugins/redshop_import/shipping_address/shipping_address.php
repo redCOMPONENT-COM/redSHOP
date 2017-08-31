@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,10 +18,12 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
+class PlgRedshop_ImportShipping_Address extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since  1.0.0
 	 */
 	protected $primaryKey = 'users_info_id';
 
@@ -41,7 +43,8 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
@@ -55,12 +58,7 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**

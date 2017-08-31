@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,15 +18,19 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
+class PlgRedshop_ImportShopper_group_product_price extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $primaryKey = 'price_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $nameKey = 'product_price';
 
@@ -41,7 +45,8 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
@@ -55,12 +60,7 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
@@ -146,6 +146,8 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
 	 *
 	 * @return  integer  Shopper Group Id
+	 *
+	 * @since  1.0
 	 */
 	public function getShopperGroupId($shopperGroupInputId)
 	{

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,15 +18,19 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportAttribute extends AbstractImportPlugin
+class PlgRedshop_ImportAttribute extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $primaryKey = 'attribute_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $nameKey = 'attribute_name';
 
@@ -34,13 +38,15 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 * List of columns for encoding UTF8
 	 *
 	 * @var array
+	 *
+	 * @since  1.0
 	 */
 	protected $encodingColumns = array('attribute_name', 'property_name', 'subattribute_color_name');
 
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
@@ -48,7 +54,8 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Ajax response
+		$this->config();
 	}
 
 	/**
@@ -62,12 +69,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
@@ -79,8 +81,6 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 */
 	public function getTable()
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
 		return RedshopTable::getInstance('Attribute', 'RedshopTable');
 	}
 
@@ -101,6 +101,8 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 
 		$hasPropertyName    = !empty($data['property_name']) ? true : false;
 		$hasSubPropertyName = !empty($data['subattribute_color_name']) ? true : false;
+
+		// @TODO Move all queries into model or libraries instead inside plugin
 
 		// Get product id
 		$query = $db->getQuery(true)
