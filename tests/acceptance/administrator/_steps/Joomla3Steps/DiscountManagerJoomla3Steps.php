@@ -371,11 +371,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function deleteDiscount($name, $amount)
+	public function deleteDiscount($name)
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click(\DiscountManagerJ3Page::$resetButton);
 		$I->filterListBySearching($name, \DiscountManagerJ3Page::$filter);
 		$I->click(\DiscountManagerJ3Page::$selectFirst);
 		$I->click(\DiscountManagerJ3Page::$deleteButton);
