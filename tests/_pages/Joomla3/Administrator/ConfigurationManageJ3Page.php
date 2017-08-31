@@ -75,6 +75,8 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 
 	public static $cartCheckout = "Cart / Checkout";
 
+	public static $userTab="User";
+
 	// cart checkout cart setting
 
 	public static $addCartProduct = ['id' => 'individual_add_to_cart_enable0-lbl'];
@@ -124,4 +126,8 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
+
+	//user tab
+
+
 }
