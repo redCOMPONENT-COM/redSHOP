@@ -6,7 +6,6 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\DiscountManagerJoomla3Steps;
-use AcceptanceTester\RedshopSteps;
 class CheckoutDiscountTotalCest
 {
 	public function __construct()
@@ -24,7 +23,7 @@ class CheckoutDiscountTotalCest
 		$this->randomProductPrice = 100;
 
 		$this->subtotal="DKK 100,00";
-		$this->Discount ="DKK 0,00";
+		$this->Discount ="DKK 50,00";
 		$this->Total="DKK 50,00";
 
 		$this->discountName = 'Discount' . rand(1, 100);
@@ -43,6 +42,7 @@ class CheckoutDiscountTotalCest
 		$I= new RedshopSteps($scenario);
 		$I->clearAllData();
 	}
+
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -93,6 +93,6 @@ class CheckoutDiscountTotalCest
 
 		$I->wantTo('Delete discount total');
 		$I=new DiscountManagerJoomla3Steps($scenario);
-		$I->deleteDiscount($this->discountName,$this->amount);
+		$I->deleteDiscount($this->discountName);
 	}
 }
