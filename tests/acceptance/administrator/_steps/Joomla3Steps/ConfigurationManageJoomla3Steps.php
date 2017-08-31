@@ -281,8 +281,11 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
 
-	public function registration($registerMethod, $createNewUser,$emailVerify,$newCustomer,$showTerm,$whoCan,$defaultCustomer,$checkoutLogin){
+	public function registration($registerMethod, $createNewUser,$emailVerify,$showTerm,$whoCan,$defaultCustomer,$checkoutLogin){
 		$I=$this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$userTab);
+		$I->waitForElement(\ConfigurationManageJ3Page::$portalShopNo,30);
 		$I->click(\ConfigurationManageJ3Page::$registrationId);
 		$I->waitForElement(\ConfigurationManageJ3Page::$registraionSearch,10);
 		$I->fillField(\ConfigurationManageJ3Page::$registraionSearch,$registerMethod);
@@ -340,6 +343,9 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 
 	public function shopperGroups($portal,$privateGroup,$companyGroups,$shopperGroupsUnregistered,$newGroupsInherit){
 		$I=$this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$userTab);
+		$I->waitForElement(\ConfigurationManageJ3Page::$portalShopNo,30);
 		switch ($portal){
 			case 'no':
 				$I->click(\ConfigurationManageJ3Page::$portalShopNo);

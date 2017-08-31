@@ -75,7 +75,7 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 
 	public static $cartCheckout = "Cart / Checkout";
 
-	public static $userTab="User";
+	public static $userTab=['xpath'=>'//form[@id=\'adminForm\']/div/div[1]/div/div/ul/li[2]/a'];
 
 	// cart checkout cart setting
 

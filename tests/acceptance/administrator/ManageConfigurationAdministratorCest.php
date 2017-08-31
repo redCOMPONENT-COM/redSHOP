@@ -5,6 +5,7 @@
  * Configuration function
  *
  */
+use AcceptanceTester\ConfigurationManageJoomla3Steps;
 class ManageConfigurationAdministratorCest
 {
 	public function __construct()
@@ -36,6 +37,22 @@ class ManageConfigurationAdministratorCest
 		$this->quantityInCart = 0;
 		$this->minimunOrder = 0;
 		$this->enableQuation = 'no';
+
+		//user shopper registration
+		$this->registerMethod='Normal account creation';
+		$this->createNewUser='no';
+		$this->emailVerify='no';
+		$this->showTerm='perOrder';
+		$this->whoCan='Both';
+		$this->defaultCustomer='Private customer';
+		$this->checkoutLogin='Sliders';
+
+		//user shopper groups
+		$this->portal='no';
+		$this->privateGroup='Default Private';
+		$this->companyGroups='Default Company';
+		$this->shopperGroupsUnregistered='Default Private';
+		$this->newGroupsInherit='Default Private';
 
 	}
 
@@ -138,7 +155,7 @@ class ManageConfigurationAdministratorCest
 
 	/**
 	 *
-	 * function setup cart setting 
+	 * function setup cart setting
 	 *
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -151,4 +168,17 @@ class ManageConfigurationAdministratorCest
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 	}
 
+	public function userRegistration(AcceptanceTester $I, $scenario){
+		$I->wantTo('setup user registration at admin');
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->wantTo(' Edit inline is yes ');
+		$I->registration($this->registerMethod, $this->createNewUser,$this->emailVerify,$this->showTerm,$this->whoCan,$this->defaultCustomer,$this->checkoutLogin);
+	}
+
+	public function shopperGroups(AcceptanceTester $I,  $scenario){
+		$I->wantTo('setup user registration at admin');
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->wantTo(' Edit inline is yes ');
+		$I->shopperGroups($this->portal,$this->privateGroup,$this->companyGroups,$this->shopperGroupsUnregistered,$this->newGroupsInherit);
+}
 }
