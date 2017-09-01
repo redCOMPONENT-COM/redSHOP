@@ -50,6 +50,7 @@ class CheckoutDiscountTotalCest
 	}
 
 	/**
+	 * Step1 : delete all database
 	 * Step1 : create category
 	 * Step2 : create product have price is 100
 	 * Step3 : Create Mass  and create discount lower 150 and have discount is 50
@@ -80,7 +81,12 @@ class CheckoutDiscountTotalCest
 
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 *
+	 * Clear database
+	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete product');
