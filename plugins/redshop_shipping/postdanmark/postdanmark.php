@@ -136,15 +136,18 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 			RedshopHelperConfig::script('useMap', $useMap);
 
 			$document = JFactory::getDocument();
-			$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css');
-			$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/functions.js');
+			$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.min.css');
+			$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/functions.min.js');
 
 			if ($useMap)
 			{
-				$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css');
-				$document->addScript('//maps.googleapis.com/maps/api/js?libraries=places&key=' . $this->params->get('mapKey'));
-				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');
+				// Magnific
+				$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.min.css');
 				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js');
+				// Google Map
+				$document->addScript('//maps.googleapis.com/maps/api/js?libraries=places&key=' . $this->params->get('mapKey'));
+				// Postnord script
+				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.min.js');
 			}
 		}
 
@@ -162,6 +165,8 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 
 		$zipcode     = $app->input->getInt('zipcode', '');
 		$countryCode = $app->input->getCmd('countryCode', '');
+
+		header('Content-Type: application/json');
 
 		if (strlen((int) $zipcode) == 4)
 		{
@@ -265,13 +270,12 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 					$shopLocations['servicePointId'] = $servicePointId;
 				}
 
-				ob_clean();
 				echo json_encode($shopLocations);
 			}
 			else
 			{
 				$shopLocations['error'] = JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_NOT_ANSWER_FOR_CURRENT_ZIP');
-				ob_clean();
+
 				echo json_encode($shopLocations);
 			}
 		}
