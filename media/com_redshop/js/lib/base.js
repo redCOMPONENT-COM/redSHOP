@@ -5,27 +5,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-(function (w, $)
-{
-	if (typeof redSHOP === 'undefined')
-	{
-		var redSHOP = {};
-		w.redSHOP = redSHOP;
-	}
-	;
+(function (w, $) {
 
-	// Requirejs define
-	define(
-		// dependencies
-		[],
-		function ()
-		{
-			// B/C with current redSHOP object by extending it
-			w.redSHOP = $.extend({}, w.redSHOP, {
-				version: '1.0.0'
-			})
+	// We are not using requirejs then redSHOP object must be declared
+	var redSHOP = $.extend(w.redSHOP, {
+		version: '1.0.0'
+	})
 
-			return w.redSHOP;
-		}
-	)
 })(window, jQuery);
