@@ -6,7 +6,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\DiscountProductJoomla3Steps;
-
+use AcceptanceTester\ConfigurationManageJoomla3Steps;
 class CheckoutDiscountOnProductCest
 {
 	public function __construct()
@@ -21,34 +21,41 @@ class CheckoutDiscountOnProductCest
 		$this->discountEnd = "23-05-2017";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = 100;
-		$this->subtotal="DKK 100,00";
-		$this->Discount ="DKK 0,00";
+		$this->subtotal="DKK 50,00";
+		$this->Discount ="";
 		$this->Total="DKK 50,00";
 
 		$this->productPrice = 50;
 		$this->condition = "Higher";
 		$this->type = "Percentage";
-		$this->startDate = "19-06-2017";
-		$this->endDate = "23-06-2017";
 		$this->GroupName = "Product Name";
 		$this->discountAmount = 50;
 		$this->groupName = "Default Private";
 	}
+
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
+
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
+
+
 	/**
 	 * Step1 : create category
 	 * Step2 : create product have price is 100
-	 * Step3 : Create Mass  and create discount lower 150 and have discount is 50
-	 * Step4 : Goes on frontend and checkout with this product
+	 * Step3 : Create Mass  and create discount higher 50 and have discount is 50 percentage
+	 * Step4 : Goes on frontend and checkout with this product (when rung configuration we don't show shipping inside cart)
 	 * Step5 : Delete data
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 */
-	public function checkoutWithMassDiscount(AcceptanceTester $I, $scenario)
+	public function checkoutOnProductPrice(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -60,14 +67,12 @@ class CheckoutDiscountOnProductCest
 		$I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I = new DiscountProductJoomla3Steps($scenario);
-		$I->addDiscountProductSave($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->CategoryName, $this->groupName);
+		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->CategoryName, $this->groupName);
 		$I->see(\DiscountProductJ3Page::$messageSaveDiscountSuccess, \DiscountProductJ3Page::$selectorSuccess);
 
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->ProductName,$this->CategoryName,$this->subtotal,$this->Discount,$this->Total);
-
-
 	}
 
 	public function clearUp(AcceptanceTester $I, $scenario)
