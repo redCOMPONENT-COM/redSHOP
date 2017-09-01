@@ -45,10 +45,16 @@ class CouponCheckoutProductCest
 	 *
 	 * @return void
 	 */
+
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
+
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-
 		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 		$I->doAdministratorLogin();
 		$this->createCoupon($I, $scenario);
@@ -119,4 +125,5 @@ class CouponCheckoutProductCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 	}
+
 }
