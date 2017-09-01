@@ -376,7 +376,6 @@
 	 */
 	postDanmark.init = function ()
 	{
-
 		if ($('input[value="postdanmark_postdanmark"]').attr('checked') === 'checked' || $('input[value="postdanmark_postdanmark"]').attr('type') == 'hidden')
 		{
 			postDanmark.injectButton($('input[value="postdanmark_postdanmark"]').parent().parent());
@@ -525,8 +524,10 @@
 		}
 	}
 
+	// Save back this object to redSHOP
 	redSHOP.Shipping.postDanmark = postDanmark;
 
+	// Trigger init after document ready
 	$(document).ready(function ()
 	{
 		postDanmark.init();
