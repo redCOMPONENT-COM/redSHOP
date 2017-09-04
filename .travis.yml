@@ -36,6 +36,8 @@ before_script:
 
 script:
   - cat /etc/apache2/sites-enabled/000-default.conf
+  - sudo sed -i 's"/var/www/html"/"testing"/g' /etc/apache2/sites-enabled/000-default.conf
+  - cat /etc/apache2/sites-enabled/000-default.conf
   #- ./.travis/script.sh
 
 after_script:
