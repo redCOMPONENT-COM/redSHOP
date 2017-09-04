@@ -30,7 +30,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
-		$layout   = JRequest::getVar('layout');
+		$layout   = JFactory::getApplication()->input->getCmd('layout', '');
 
 		if ($layout == "resettemplate")
 		{
@@ -683,6 +683,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['discount_enable']         = JHtml::_('redshopselect.booleanlist', 'discount_enable', 'class="form-control" ', $this->config->get('DISCOUNT_ENABLE'));
 		$lists['invoice_mail_enable']     = JHtml::_('redshopselect.booleanlist', 'invoice_mail_enable', 'class="form-control"', $this->config->get('INVOICE_MAIL_ENABLE'));
 		$lists['wishlist_login_required'] = JHtml::_('redshopselect.booleanlist', 'wishlist_login_required', 'class="form-control"', $this->config->get('WISHLIST_LOGIN_REQUIRED'));
+		$lists['wishlist_list']           = JHtml::_('redshopselect.booleanlist', 'wishlist_list', 'class="form-control"', $this->config->get('WISHLIST_LIST'));
 
 		$invoice_mail_send_option           = array();
 		$invoice_mail_send_option[0]        = new stdClass;

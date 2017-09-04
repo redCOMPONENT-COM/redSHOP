@@ -136,6 +136,9 @@ abstract class RedshopHelperCart
 			$cart = JFactory::getSession()->get('cart');
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
+
 		$idx = isset($cart['idx']) ? (int) ($cart['idx']) : 0;
 
 		$db = JFactory::getDbo();
@@ -754,10 +757,10 @@ abstract class RedshopHelperCart
 
 		$cartOutput = array();
 		$carts      = self::generateCartOutput($cart);
-		$text       = RedshopHelperShipping::getFreeShippingRate();
 
 		$cartOutput['cart_output']    = $carts[0];
 		$cartOutput['total_quantity'] = $carts[1];
+		$text                         = RedshopHelperShipping::getFreeShippingRate();
 
 		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{

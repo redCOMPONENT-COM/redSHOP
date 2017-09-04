@@ -56,8 +56,10 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$media_section = JRequest::getVar('media_section');
-		$showbuttons = JRequest::getVar('showbuttons');
+		$jinput = JFactory::getApplication()->input;
+
+		$media_section = $jinput->get('media_section');
+		$showbuttons   = $jinput->get('showbuttons');
 
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_IMAGE'));
@@ -84,9 +86,9 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$section_id = JRequest::getVar('section_id');
-		$section_name = JRequest::getVar('section_name');
-		$media_section = JRequest::getVar('media_section');
+		$section_id    = $jinput->get('section_id');
+		$section_name  = $jinput->get('section_name');
+		$media_section = $jinput->get('media_section');
 
 		if ($media_section == 'catalog')
 		{

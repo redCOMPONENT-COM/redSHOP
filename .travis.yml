@@ -1,6 +1,24 @@
 language: php
 sudo: required
+dist: precise
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install 8
+  - nvm use 8
+php:
+  - 5.6.30
+  - 7.0
+addons:
+  firefox: "46.0"
+cache:
+  apt: true
+  directories:
+    - "node_modules"
+    - $HOME/.composer/cache/files
 env:
+  matrix:
+      - ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=true # run test
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -8,74 +26,19 @@ env:
     - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
-    - HOST_PATH=$(pwd)
-php:
-  - 5.5
-  - 7.0
-install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install 6
-  - nvm use 6
-  - npm install
-addons:
-  firefox: "46.0"
+
+matrix:
+  fast_finish: true
+
 before_script:
-- sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
-- sudo apt-get update -qq
-- sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
-- sudo mkdir $(pwd)/.run
-- phpenv config-add .travis.ini
-- phpenv rehash
-
-- chmod a+x tests/travis-php-fpm.sh
-- sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
-- sudo a2enmod rewrite actions fastcgi alias
-- echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-- sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
-- sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
-- sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
-- git submodule update --init --recursive
-- sudo service apache2 restart
-- sudo service apache2 status
-- mv tests/RoboFile.ini.dist tests/RoboFile.ini
-- grep -R "DocumentRoot" /etc/apache2/sites-enabled
-# XVFB
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3 # give xvfb some time to start
-
-# Window manager
-- sudo apt-get install fluxbox -y --force-yes
-- fluxbox &
-- sleep 3 # give fluxbox some time to start
-
-# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
-- composer config -g github-oauth.github.com $GITHUB_TOKEN
-- composer update
-- composer install --working-dir ./libraries/redshop --ansi
-
-# Gulp packages
-- npm install
-- npm install -g gulp
-- mv gulp-config.sample.json gulp-config.json
-- gulp release --skip-version
+  - "export DISPLAY=:99.0"
+  - ./.travis/setup.sh
 
 script:
-- php vendor/bin/robo check:for-missed-debug-code
-- php vendor/bin/robo check:for-php-parse
-# - php vendor/bin/robo check:codestyle
-- mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
-# Download Joomla for testing
-- php vendor/bin/robo prepare:site-for-system-tests
-- sudo mkdir /var/www/tests
-- sudo ln -s $(pwd)/tests/joomla-cms3 /var/www/tests/
-- curl http://localhost/
-- curl http://localhost/tests
-- php vendor/bin/robo check:travis-webserver # Test apache
-- php vendor/bin/robo run:tests 1
-#- php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
-- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  - ./.travis/script.sh
+
+after_script:
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:

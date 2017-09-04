@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
 $cartHelper       = rsCarthelper::getInstance();
@@ -32,7 +34,7 @@ $shipping        = $this->shipping;
 $isCompany       = $billing->is_company;
 $orderId         = $this->detail->order_id;
 $products        = RedshopHelperOrder::getOrderItemDetail($orderId);
-$orderStatusLogs = $model->getOrderLog($orderId);
+$orderStatusLogs = RedshopEntityOrder::getInstance($orderId)->getStatusLog();
 
 if (!$shipping)
 {
@@ -316,7 +318,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = $cartHelper->replaceShippingMethod($this->detail, "{shipping_method}"); ?>
+                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -324,7 +326,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = $cartHelper->replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
+                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -361,7 +363,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 <tr>
                                     <td align="left">
                                         <div id="rs_glslocationId" <?php echo $disp_style ?>>
-                                            <?php echo $cartHelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+                                            <?php $result = $dispatcher->trigger('getGLSLocation', array($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id)); ?>
+											<?php echo $result[0]; ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -1191,7 +1194,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         </div>
                                     </li>
                                 <?php endif; ?>
-                                <?php if ($log->order_payment_status != $nextLog->order_payment_status): ?>
+                                <?php if ($log->order_payment_status != $nextLog->order_payment_status && $log->order_payment_status): ?>
                                     <?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
                                     <li>
                                         <i class="fa fa-dollar bg-red"></i>

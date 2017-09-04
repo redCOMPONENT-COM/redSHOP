@@ -30,8 +30,10 @@ class RedshopModelPrices_detail extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
-		$this->_prodid = JRequest::getVar('product_id', 0, '', 'int');
+		$jinput = JFactory::getApplication()->input;
+
+		$array         = $jinput->get('cid', 0, 'array');
+		$this->_prodid = $jinput->getInt('product_id', 0);
 
 		$this->setId((int) $array[0]);
 		$this->setProductName();
