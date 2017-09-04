@@ -33,8 +33,10 @@ before_script:
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
 
+
 script:
-  - ./.travis/script.sh
+  - cat /etc/apache2/sites-enabled/000-default.conf
+  #- ./.travis/script.sh
 
 after_script:
   - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
