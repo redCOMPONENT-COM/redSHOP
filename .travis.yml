@@ -36,9 +36,10 @@ before_script:
 
 script:
   - cat /etc/apache2/sites-enabled/000-default.conf
-  - sudo sed -i 's"/var/www/html"/"testing"/g' /etc/apache2/sites-enabled/000-default.conf
+  - sudo sed -i "s,/var/www/html,/home/travis/build/redCOMPONENT-COM/redSHOP/,g" /etc/apache2/sites-enabled/000-default.conf
   - cat /etc/apache2/sites-enabled/000-default.conf
-  #- ./.travis/script.sh
+  - sudo service apache2 restart
+  - ./.travis/script.sh
 
 after_script:
   - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
