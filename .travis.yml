@@ -38,8 +38,10 @@ script:
   - cat /etc/apache2/sites-enabled/000-default.conf
   - sudo sed -i "s,/var/www/html,/home/travis/build/redCOMPONENT-COM/redSHOP/,g" /etc/apache2/sites-enabled/000-default.conf
   - cat /etc/apache2/sites-enabled/000-default.conf
-  - sudo service apache2 restart
   - curl http://localhost/
+  - echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
+  - sudo a2enconf fqdn
+  - sudo service apache2 restart
   #- ./.travis/script.sh
 
 after_script:
