@@ -156,7 +156,7 @@ class RedshopHelperProductPrice
 				. Redshop::getConfig()->get('PRICE_REPLACE') . "</a>" : Redshop::getConfig()->get('PRICE_REPLACE');
 		}
 
-		if (Redshop::getConfig()->get('SHOW_PRICE') && trim($productPrice) != "")
+		if (Redshop::getConfig()->get('SHOW_PRICE'))
 		{
 			if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '0')
 				|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == '1'))

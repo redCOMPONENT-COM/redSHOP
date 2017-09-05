@@ -645,6 +645,7 @@ class RedshopHelperExtrafields
 				case extraField::TYPE_WYSIWYG:
 					$editor          = JFactory::getEditor();
 					$textareaValue   = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
+
 					$exField .= RedshopLayoutHelper::render(
 						'extrafields.field.editor',
 						array(

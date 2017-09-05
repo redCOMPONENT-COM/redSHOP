@@ -110,7 +110,7 @@ if ($data->hasOrdering)
 						<?php endif; ?>
                     </th>
 				<?php endforeach; ?>
-                <th width="1">
+                <th width="55px">
 					<?php echo JHtml::_('grid.sort', JText::_('COM_REDSHOP_ID'), $data->getPrimaryKey(), $listDirn, $listOrder) ?>
                 </th>
             </tr>
