@@ -29,6 +29,12 @@ $user = JFactory::getUser();
     <script type="text/javascript">
         (function($){
             $(document).ready(function(){
+                $("#plg_redshop_avatar_btn").click(function(event){
+                    event.preventDefault();
+                    $("#plg_redshop_avatar_upload").click();
+                    $(this).blur();
+                });
+
                 $("#plg_redshop_avatar_upload").change(function(){
                     $(this).closest('form').submit();
                 });
@@ -51,6 +57,7 @@ $user = JFactory::getUser();
                         success: function(response) {
                            if (response.length > 0) {
                                $("img#plg_user_redshop_avatar_img").attr("src", response);
+                               $("#plg_redshop_avatar_upload").val("");
                            }
                         }
                     });
@@ -62,7 +69,10 @@ $user = JFactory::getUser();
     </script>
     <form action="<?php echo JUri::root() ?>index.php?option=com_ajax&plugin=uploadAvatar&format=raw&method=post&group=user" method="post"
           id="plg_redshop_avatar_form" enctype="multipart/form-data">
-        <input type="file" name="avatar" id="plg_redshop_avatar_upload"/>
+        <button type="button" id="plg_redshop_avatar_btn" class="btn btn-primary">
+            <i class="icon icon-arrow-up"></i> <?php echo JText::_('PLG_USER_REDSHOP_AVATAR_UPLOAD_BUTTON') ?>
+        </button>
+        <input type="file" name="avatar" id="plg_redshop_avatar_upload" class="hidden"/>
         <?php echo JHtml::_('form.token') ?>
     </form>
 <?php endif;
