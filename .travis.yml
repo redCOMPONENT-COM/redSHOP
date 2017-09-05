@@ -18,6 +18,16 @@ env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
       - ACCEPTANCE=true # run test
+    include:
+      addons:
+        apt:
+          packages:
+            - mysql-server-5.6
+            - mysql-client-core-5.6
+            - mysql-client-5.6
+      services:
+        - mysql
+        - postgresql
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -31,20 +41,35 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - ./.travis/setup.sh
+  #- ./.travis/setup.sh
+  - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
+  - sudo apt-get update -qq
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
+  - sudo mkdir $(pwd)/.run
+  - chmod a+x tests/travis-php-fpm.sh
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
+    ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
+  - git submodule update --init --recursive
+  - sudo service apache2 restart
 
 
 script:
-  - cat /etc/apache2/sites-enabled/000-default.conf
-  - sudo sed -i "s,/var/www/html,/home/travis/build/redCOMPONENT-COM/redSHOP/,g" /etc/apache2/sites-enabled/000-default.conf
-  - cat /etc/apache2/sites-enabled/000-default.conf
-  - echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
-  - sudo a2enconf fqdn
-  - sudo service apache2 reload
-  - sudo service apache2 restart
-  - sudo adduser travis www-data
-  - sudo chown -R www-data:www-data /home/travis/build/redCOMPONENT-COM/redSHOP/
-  - sudo chmod -R g+rw /home/travis/build/redCOMPONENT-COM/redSHOP/
+  #- cat /etc/apache2/sites-enabled/000-default.conf
+  #- sudo sed -i "s,/var/www/html,/home/travis/build/redCOMPONENT-COM/redSHOP/,g" /etc/apache2/sites-enabled/000-default.conf
+  #- cat /etc/apache2/sites-enabled/000-default.conf
+  #- echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
+  #- sudo a2enconf fqdn
+  #- sudo service apache2 reload
+  #- sudo service apache2 restart
+  #- sudo adduser travis www-data
+  #- sudo chown -R www-data:www-data /home/travis/build/redCOMPONENT-COM/redSHOP/
+  #- sudo chmod -R g+rw /home/travis/build/redCOMPONENT-COM/redSHOP/
   - pwd
   - whoami
   - curl http://localhost/
