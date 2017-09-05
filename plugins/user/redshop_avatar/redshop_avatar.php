@@ -173,54 +173,7 @@ class PlgUserRedshop_Avatar extends JPlugin
 		}
 
 		// Image Upload
-		$src = $files['profile'][$this->key]['tmp_name'];
-
-		// Check mime
-		$mimes = array('image/png', 'image/jpeg', 'image/jpg', 'image/gif');
-
-		if (!in_array($files['profile'][$this->key]['type'], $mimes))
-		{
-			$this->_subject->setError('PLG_USER_REDSHOP_AVATAR_ERROR_FILE_MIME');
-
-			return false;
-		}
-
-		$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $this->key . '/' . $userId;
-
-		if (!JFolder::exists($destinationFile))
-		{
-			JFolder::create($destinationFile);
-		}
-
-		$fileName        = RedshopHelperMedia::cleanFileName($files['profile'][$this->key]['name']);
-		$destinationFile .= '/' . $fileName;
-
-		JFile::upload($src, $destinationFile);
-
-		try
-		{
-			$db = JFactory::getDbo();
-
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__user_profiles'))
-				->where($db->qn('user_id') . ' = ' . (int) $userId)
-				->where($db->qn('profile_key') . ' = ' . $db->q($this->key));
-			$db->setQuery($query)->execute();
-
-			$query->clear()
-				->insert($db->qn('#__user_profiles'))
-				->values($userId . ', ' . $db->quote($this->key) . ', ' . $db->quote($fileName) . ', 1');
-
-			$db->setQuery($query)->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->_subject->setError($e->getMessage());
-
-			return false;
-		}
-
-		return true;
+		return $this->uploadAvatar($files['profile'][$this->key], $userId);
 	}
 
 	/**
@@ -294,7 +247,120 @@ class PlgUserRedshop_Avatar extends JPlugin
 
 		$html = RedshopLayoutHelper::render('redshop_avatar', array('image' => $avatar, 'key' => $this->key), __DIR__ . '/layouts');
 
-		$avatar   = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $this->key .  '/' . JFactory::getUser()->id . '/' . $avatar . '" />';
 		$template = str_replace('{avatar}', $html, $template);
+	}
+
+	/**
+	 * Upload avatar for user
+	 *
+	 * @param   array    $file        File data
+	 * @param   integer  $userId      ID of user
+	 * @param   boolean  $returnPath  True for return path.
+	 *
+	 * @return  boolean
+	 */
+	protected function uploadAvatar($file, $userId = 0, $returnPath = false)
+	{
+		if (empty($file) || JFactory::getUser()->guest)
+		{
+			return false;
+		}
+
+		if (!$userId)
+		{
+			$userId = JFactory::getUser()->id;
+		}
+
+		// Image Upload
+		$src = $file['tmp_name'];
+
+		// Check mime
+		$mimes = array('image/png', 'image/jpeg', 'image/jpg', 'image/gif');
+
+		if (!in_array($file['type'], $mimes))
+		{
+			$this->_subject->setError('PLG_USER_REDSHOP_AVATAR_ERROR_FILE_MIME');
+
+			return false;
+		}
+
+		// Clean up folder
+		$folder      = REDSHOP_FRONT_IMAGES_RELPATH . $this->key . '/' . $userId;
+		$thumbFolder = $folder . '/thumb';
+
+		if (JFolder::exists($folder))
+		{
+			JFolder::delete($thumbFolder);
+			JFolder::delete($folder);
+		}
+
+		// Create main folder
+		JFolder::create($folder);
+		JFolder::create($thumbFolder);
+
+		// Upload original images.
+		$fileName        = RedshopHelperMedia::cleanFileName($file['name']);
+		$destinationFile = $folder . '/' . $fileName;
+
+		if (!JFile::upload($src, $destinationFile))
+		{
+			return false;
+		}
+
+		$thumbFile = $thumbFolder . '/' . $fileName;
+
+		if (!JFile::copy($destinationFile, $thumbFile))
+		{
+			return false;
+		}
+
+		// Create thumbnail
+		// @TODO: Later move to plugin config or template tag config.
+		$thumbWidth  = 150;
+		$thumbHeight = 150;
+		RedshopHelperMedia::resizeImage($thumbFile, $thumbWidth, $thumbHeight, 1, 'file', false);
+
+		try
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__user_profiles'))
+				->where($db->qn('user_id') . ' = ' . (int) $userId)
+				->where($db->qn('profile_key') . ' = ' . $db->q($this->key));
+			$db->setQuery($query)->execute();
+
+			$query->clear()
+				->insert($db->qn('#__user_profiles'))
+				->values($userId . ', ' . $db->quote($this->key) . ', ' . $db->quote($fileName) . ', 1');
+
+			$db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->_subject->setError($e->getMessage());
+
+			return false;
+		}
+
+		return !$returnPath ? true : REDSHOP_FRONT_IMAGES_ABSPATH . $this->key . '/' . $userId . '/thumb/' . $fileName;
+	}
+
+	/**
+	 * Method for upload avatar
+	 *
+	 * @return  string
+	 */
+	public function onAjaxUploadAvatar()
+	{
+		JSession::checkToken() or die(JText::_('INVALID_TOKEN'));
+
+		$app = JFactory::getApplication();
+
+		$file = $app->input->post->files->get('avatar');
+
+		echo $this->uploadAvatar($file, 0, true);
+
+		$app->close();
 	}
 }
