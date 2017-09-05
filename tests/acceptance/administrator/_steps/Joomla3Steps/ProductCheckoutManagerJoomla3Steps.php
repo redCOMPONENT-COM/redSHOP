@@ -28,7 +28,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function checkOutProductWithBankTransfer( $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	public function checkOutProductWithBankTransfer( $productName , $categoryName ,$subPrice,$finalPrice)
 	{
 		$I=$this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -37,13 +37,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
-		$I->see("DKK 100,00", \GiftCardCheckoutPage::$priceTotal);
-		$I->see("DKK 110,00", \GiftCardCheckoutPage::$priceEnd);
+		$I->see($subPrice, \GiftCardCheckoutPage::$priceTotal);
+		$I->see($finalPrice, \GiftCardCheckoutPage::$priceEnd);
 	}
 
 	/**
@@ -320,5 +321,23 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
 		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
+	}
+
+	public function checkoutWithDiscount($productName, $categoryName,$subtotal,$Discount,$Total){
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+
+		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->see($Discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
+		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 }

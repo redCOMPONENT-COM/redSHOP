@@ -86,7 +86,7 @@ class ProductVatCheckoutCest
 	/**
 	 * @var string
 	 */
-	public $countryName = '';
+//	public $countryName = '';
 	/**
 	 * @var string
 	 */
@@ -149,20 +149,25 @@ class ProductVatCheckoutCest
 		//setup VAT
 		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
 		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
-		$this->taxGroupName         = 'Testing VAT Groups690';
-		$this->taxRateValue         = rand(0, 1);
+		$this->taxGroupName         = 'Testing VAT Groups'.$this->faker->randomNumber();
+		$this->taxRateValue         = 1;
+
 		$this->countryName          = 'United States';
 		$this->stateName            = 'Alabama';
 		$this->taxRateValueNegative = -1;
 		$this->taxRateValueString   = 'Test';
-		//setup price belong VAT
-		//this value should be change when we setup VAT
-		//$this->vatDefault = 'Default';
+
 		$this->vatCalculation = 'Webshop';
 		$this->vatAfter = 'after';
 		$this->vatNumber =0;
 		$this->calculationBase = 'billing';
 		$this->requiVAT = 'no';
+		$this->select="Select";
+
+		$this->subPrice="DKK 100,00";
+		$this->finalPrice="DKK 200,00";
+
+
 	}
 	public function _before(AcceptanceTester $I)
 	{
@@ -178,28 +183,43 @@ class ProductVatCheckoutCest
 	 */
 	public function testProductWithVatCheckout(AcceptanceTester $client, $scenario)
 	{
-		$client->wantTo('Create category');
-		$client = new CategoryManagerJoomla3Steps($scenario);
-		$client->addCategorySave($this->categoryName);
-		$client->wantTo('Create Product');
-		$client= new ProductManagerJoomla3Steps($scenario);
-		$client->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$client->wantTo('Setup VAT is groups default');
+		$client=new ConfigurationManageJoomla3Steps($scenario);
+		$client->setupVAT($this->select, $this->state, $this->select, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
+
 		$client->wantTo('Create VAT groups');
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
+
 		$client->wantTo('Create VAT rates');
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName);
+
 		$client->wantTo('Setup VAT is groups default');
 		$client=new ConfigurationManageJoomla3Steps($scenario);
-		$client->setupVAT($this->country, $this->state, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+		$client->setupVAT($this->countryName, $this->state, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
+
+		$client->wantTo('Create category');
+		$client = new CategoryManagerJoomla3Steps($scenario);
+		$client->addCategorySave($this->categoryName);
+
+		$client->wantTo('Create Product');
+		$client= new ProductManagerJoomla3Steps($scenario);
+		$client->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+
 		$client->wantTo('Create order with product and user');
 		$client= new ProductCheckoutManagerJoomla3Steps($scenario);
-		$client->checkOutProductWithBankTransfer($this->productName,$this->categoryName);
-
+		$client->checkOutProductWithBankTransfer($this->productName,$this->categoryName,$this->subPrice,$this->finalPrice);
 	}
+
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Setup VAT is groups default');
+		$I=new ConfigurationManageJoomla3Steps($scenario);
+		$I->setupVAT($this->select, $this->state, $this->select, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
 		$I->wantTo('Deletion of Coupon in Administrator');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
@@ -212,5 +232,7 @@ class ProductVatCheckoutCest
 		$I->wantTo('Delete VAT Groups');
 		$I= new TaxGroupSteps($scenario);
 		$I->deleteVATGroupOK($this->taxGroupName);
+
+
 	}
 }
