@@ -7308,6 +7308,47 @@ class productHelper
 						$related_template_data =  str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
 					}
 
+					$childproduct = $this->getChildProduct($related_product[$r]->product_id);
+
+					if (count($childproduct) > 0)
+					{
+						$attributes = array();
+					}
+					else
+					{
+						// Get attributes
+						$attributes_set = array();
+
+						if ($related_product[$r]->attribute_set_id > 0)
+						{
+							$attributes_set = $this->getProductAttribute(0, $related_product[$r]->attribute_set_id, 0, 1);
+						}
+
+						$attributes = $this->getProductAttribute($related_product[$r]->product_id);
+						$attributes = array_merge($attributes, $attributes_set);
+					}
+
+					$totalatt = count($attributes);
+
+					$attributeproductStockStatus = array();
+
+					$productAvailabilityDate = strstr($related_template_data, "{product_availability_date}");
+					$stockNotifyFlag         = strstr($related_template_data, "{stock_notify_flag}");
+					$stockStatus             = strstr($related_template_data, "{stock_status");
+
+					if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+					{
+						$attributeproductStockStatus = $this->getproductStockStatus($related_product[$r]->product_id, $totalatt);
+					}
+
+					$related_template_data = $this->replaceProductStockdata(
+						$related_product[$r]->product_id,
+						0,
+						0,
+						$related_template_data,
+						$attributeproductStockStatus
+					);
+
 					$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $related_product[$r]));
 				}
 
