@@ -42,6 +42,11 @@ script:
   - sudo a2enconf fqdn
   - sudo service apache2 reload
   - sudo service apache2 restart
+  - sudo adduser travis www-data
+  - sudo chown -R www-data:www-data /home/travis/build/redCOMPONENT-COM/redSHOP/
+  - sudo chmod -R g+rw /home/travis/build/redCOMPONENT-COM/redSHOP/
+  - pwd
+  - whoami
   - curl http://localhost/
   #- ./.travis/script.sh
 
