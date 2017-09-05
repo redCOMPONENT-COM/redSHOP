@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="profile">
+        <fieldset name="basic">
+            <field
+                    name="redshop_avatar"
+                    type="file"
+                    label="PLG_USER_REDSHOP_AVATAR_FIELD_AVATAR"
+                    description="PLG_USER_REDSHOP_AVATAR_FIELD_AVATAR_DESC"
+            />
+        </fieldset>
+    </fields>
+</form>
