@@ -58,10 +58,11 @@ before_script:
 - sleep 3 # give fluxbox some time to start
 # Composer
 - composer install
+- curl http://localhost/
 
 script:
 # Build
-- mv jorobo.dist.ini jorobo.ini
+#- mv jorobo.dist.ini jorobo.ini
 - vendor/bin/robo build
 # System tests (Codeception)
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
