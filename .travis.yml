@@ -1,36 +1,29 @@
 sudo: true
 language: php
-
+php:
+  - 5.6.30
+  - 7.0
+addons:
+  firefox: "46.0"
+  apt:
+    packages:
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+services:
+  - mysql
+  - postgresql
 env:
+  matrix:
+      - ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=acceptance/administrator # run test administrator
   global:
-    - RUN_PHPCS="no"
-
-matrix:
-  fast_finish: true
-  include:
-    - php: 5.5
-    - php: 5.6
-      env: RUN_PHPCS="yes"
-    - php: 7.0
-      sudo: true
-      addons:
-        firefox: "47.0.1"
-    - php: 7.1
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # Until the next stable image update sometime after 2016-12-01
-      addons:
-        apt:
-          packages:
-            - mysql-server-5.6
-            - mysql-client-core-5.6
-            - mysql-client-5.6
-      services:
-        - mysql
-        - postgresql
-  allow_failures:
-    - php: hhvm
+    - CLOUD_NAME=redcomponent
+    - API_KEY=365447364384436
+    - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+    - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
+    - ORGANIZATION=redCOMPONENT-COM
+    - REPO=redSHOP
 
 before_script:
 # Forcing localhost in hosts file
@@ -61,11 +54,11 @@ before_script:
 - curl http://localhost/
 
 script:
-# Build
-#- mv jorobo.dist.ini jorobo.ini
-- vendor/bin/robo build
-# System tests (Codeception)
-- mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
-- vendor/bin/robo run:tests --use-htaccess
-# Run phpcs on PHP 5.6 against weblinks source
-- if [[ $RUN_PHPCS == "yes" ]]; then vendor/bin/phpcs --report=full --extensions=php -p --standard=tests/joomla/build/phpcs/Joomla ./src; fi
+  - ./.travis/script.sh
+
+after_script:
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+
+notifications:
+  slack:
+    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
