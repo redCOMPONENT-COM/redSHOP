@@ -45,6 +45,7 @@ before_script:
 - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
 - git submodule update --init --recursive
 - sudo service apache2 restart
+- cat /etc/apache2/sites-available/000-default.conf
 # Xvfb
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
