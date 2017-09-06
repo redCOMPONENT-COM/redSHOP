@@ -51,7 +51,8 @@
                 </field>
                 <field 
                     name="category" 
-                    type="redshopcategory" 
+                    type="categorylist" 
+                    remove_select="true"  
                     size="40" 
                     label="COM_REDSHOP_CATEGORY" 
                     multiple="true"
