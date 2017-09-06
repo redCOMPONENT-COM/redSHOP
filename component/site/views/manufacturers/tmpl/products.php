@@ -235,6 +235,25 @@ if ($template_middle != "")
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
 
+		$productAvailabilityDate = strstr($cart_mdata, "{product_availability_date}");
+		$stockNotifyFlag         = strstr($cart_mdata, "{stock_notify_flag}");
+		$stockStatus             = strstr($cart_mdata, "{stock_status");
+
+		$attributeproductStockStatus = array();
+
+		if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+		{
+			$attributeproductStockStatus = $producthelper->getproductStockStatus($manufacturer_products[$i]->product_id, $totalatt);
+		}
+
+		$cart_mdata = $producthelper->replaceProductStockdata(
+			$manufacturer_products[$i]->product_id,
+			0,
+			0,
+			$cart_mdata,
+			$attributeproductStockStatus
+		);
+
 //		$cart_tr .=$cart_mdata ;
 
 //		$cname = $manufacturer_products[$i]->category_name;
