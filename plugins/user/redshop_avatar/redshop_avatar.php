@@ -316,8 +316,8 @@ class PlgUserRedshop_Avatar extends JPlugin
 
 		// Create thumbnail
 		// @TODO: Later move to plugin config or template tag config.
-		$thumbWidth  = 150;
-		$thumbHeight = 150;
+		$thumbWidth  = 200;
+		$thumbHeight = 200;
 		RedshopHelperMedia::resizeImage($thumbFile, $thumbWidth, $thumbHeight, 1, 'file', false);
 
 		try
