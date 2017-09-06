@@ -15,5 +15,7 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_user_redshop_avatar.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.plg_user_redshop_avatar.sys.ini</language>
+        <language tag="en-GB">language/vi-VN/vi-VN.plg_user_redshop_avatar.ini</language>
+        <language tag="en-GB">language/vi-VN/vi-VN.plg_user_redshop_avatar.sys.ini</language>
     </languages>
 </extension>
