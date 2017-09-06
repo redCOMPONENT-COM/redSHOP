@@ -280,4 +280,41 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
+
+
+	public function newsletter($enableNewsletter,$confirmation,$newsletterSender,$mail,$default,$noMails,$pauseBath){
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$newsletterTab);
+		switch ($enableNewsletter){
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$enableNewsletterYes);
+				if($confirmation=='yes'){
+					$I->click(\ConfigurationManageJ3Page::$enableConfirmationYes);
+				}else{
+					$I->click(\ConfigurationManageJ3Page::$enableConfirmationNo);
+				}
+				$I->fillField(\ConfigurationManageJ3Page::$newsletterName,$newsletterSender);
+				$I->fillField(\ConfigurationManageJ3Page::$newsletterMail,$mail );
+
+				$I->click(\ConfigurationManageJ3Page::$defaultMail);
+				$I->waitForElement(\ConfigurationManageJ3Page::$defaultMailSearch,30);
+				$I->fillField(\ConfigurationManageJ3Page::$defaultMailSearch,$default);
+				$I->pressKey(\ConfigurationManageJ3Page::$defaultMail, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+				$I->fillField(\ConfigurationManageJ3Page::$NoMail,$noMails);
+				$I->fillField(\ConfigurationManageJ3Page::$pauseBetween,$pauseBath );
+
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$enableNewsletterNo);
+
+				break;
+			default:
+				break;
+		}
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+
+	}
 }
