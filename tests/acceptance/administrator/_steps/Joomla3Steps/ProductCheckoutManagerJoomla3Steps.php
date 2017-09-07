@@ -364,6 +364,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart,10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
@@ -374,7 +375,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$priceTotal,30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$priceTotal,30);
 		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);}
 }
