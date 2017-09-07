@@ -373,7 +373,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement(['link' => $productName]);
 
 		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->see($shippingWithVat, \FrontEndProductManagerJoomla3Page::$priceDiscount);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 }
