@@ -289,6 +289,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		switch ($enableNewsletter){
 			case 'yes':
 				$I->click(\ConfigurationManageJ3Page::$enableNewsletterYes);
+				$I->waitForElement(\ConfigurationManageJ3Page::$newsletterName,30);
 				
 				$I->fillField(\ConfigurationManageJ3Page::$newsletterName,$newsletterSender);
 				$I->fillField(\ConfigurationManageJ3Page::$newsletterMail,$mail );
