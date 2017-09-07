@@ -987,6 +987,29 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 															$count_no_user_field
 														);
 
+		//  Extra field display
+		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
+
+		$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
+		$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
+		$stockStatus             = strstr($data_add, "{stock_status");
+
+		$attributeproductStockStatus = array();
+
+		if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+		{
+			$attributeproductStockStatus = $producthelper->getproductStockStatus($product->product_id, $totalatt);
+		}
+
+		$data_add = $producthelper->replaceProductStockdata(
+			$product->product_id,
+			0,
+			0,
+			$data_add,
+			$attributeproductStockStatus
+		);
+
 		$this->dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
 
 		$product_data .= $data_add;
