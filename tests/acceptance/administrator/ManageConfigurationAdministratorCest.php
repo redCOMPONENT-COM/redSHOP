@@ -37,6 +37,27 @@ class ManageConfigurationAdministratorCest
 		$this->minimunOrder = 0;
 		$this->enableQuation = 'no';
 
+		//setting manufacture
+		$this->manufactureDefault="";
+		$this->manufactureSorting="Default Order";
+		$this->manufactureDefaultSorting="Sort by product name asc";
+		$this->titleDescription=10;
+		$this->titleSuffix=10;
+		$this->enableMailSupplier='no';
+		$this->enableMailManufacture='no';
+		//setting image manufacture
+		$this->enableWatermark='no';
+		$this->enableWatermarkProduct='no';
+		$this->manufactureThumbWeight=10;
+		$this->manufactureThumbHeight=10;
+		$this->manufactureThumbTwoWeight=10;
+		$this->manufactureThumbTwoHeight=10;
+		$this->manufactureThumbThreeWeight=10;
+		$this->manufactureThumbThreeHeight=10;
+		$this->manufactureThumbProductWeight=10;
+		$this->manufactureThumbProductHeight=10;
+
+
 	}
 
 
@@ -151,4 +172,18 @@ class ManageConfigurationAdministratorCest
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 	}
 
+	public function manufactureSetting(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('setup manufacturer at admin');
+		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+		$I->manufactureSetting($this->manufactureDefault,$this->manufactureSorting,$this->manufactureDefaultSorting,$this->titleDescription,$this->titleSuffix,$this->enableMailManufacture,$this->enableMailSupplier);
+	}
+
+
+	public function manufactureImageSetting(AcceptanceTester $I, $scenario){
+		$I->wantTo('setup image manufacture at admin');
+		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+		$I->manufactureImage($this->enableWatermark, $this->enableWatermarkProduct, $this->manufactureThumbWeight,$this->manufactureThumbHeight,$this->manufactureThumbTwoWeight,$this->manufactureThumbTwoHeight
+	,$this->manufactureThumbThreeWeight, $this->manufactureThumbThreeHeight,$this->manufactureThumbProductWeight,$this->manufactureThumbProductHeight);
+	}
 }
