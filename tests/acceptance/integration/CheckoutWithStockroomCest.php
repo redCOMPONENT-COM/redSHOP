@@ -39,12 +39,12 @@ class CheckoutWithStockroomCest
 	 * step7 : check value at cart for make sure price is correct
 	 * step8 : delete all data
 	 */
-//
-//	public function deleteData($scenario)
-//	{
-//		$I= new RedshopSteps($scenario);
-//		$I->clearAllData();
-//	}
+
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -73,19 +73,19 @@ class CheckoutWithStockroomCest
 
 	}
 
-//	public function clearUp(AcceptanceTester $I, $scenario)
-//	{
-//		$I->wantTo('Delete product');
-//		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->deleteProduct($this->productName);
-//
-//		$I->wantTo('Delete Category');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->deleteCategory($this->randomCategoryName);
-//
-//		$I = new ConfigurationManageJoomla3Steps($scenario);
-//		$I->wantTo('Stop stockroom ');
-//		$I->featureOffStockRoom();
-//	}
+	public function clearUp(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
+
+		$I->wantTo('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->randomCategoryName);
+
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->wantTo('Stop stockroom ');
+		$I->featureOffStockRoom();
+	}
 
 }
