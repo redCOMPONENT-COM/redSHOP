@@ -16,12 +16,15 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         $I->click(\ShopperGroupJ3Page::$newButton);
         $I->fillField(\ShopperGroupJ3Page::$shopperName, $shopperName);
-        $I->click(\ShopperGroupJ3Page::$shopperGroupType);
-        $I->waitForElement(\ShopperGroupJ3Page::$shopperType);
-        $I->fillField(\ShopperGroupJ3Page::$shopperType, $shopperType);
-        $userShopperPage = new \ShopperGroupJ3Page();
-        $I->waitForElement($userShopperPage->returnSearch($shopperType), 60);
-        $I->click($userShopperPage->returnSearch($shopperType));
+
+        if($shopperType!=null){
+	        $I->click(\ShopperGroupJ3Page::$shopperGroupType);
+	        $I->waitForElement(\ShopperGroupJ3Page::$shopperType);
+	        $I->fillField(\ShopperGroupJ3Page::$shopperType, $shopperType);
+	        $userShopperPage = new \ShopperGroupJ3Page();
+	        $I->waitForElement($userShopperPage->returnSearch($shopperType), 60);
+	        $I->click($userShopperPage->returnSearch($shopperType));
+        }
 
         $I->click(\ShopperGroupJ3Page::$customerType);
         $I->waitForElement(\ShopperGroupJ3Page::$customerTypeSearch);
