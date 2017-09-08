@@ -33,7 +33,7 @@ class CheckoutSpecificShopperGroupsCest
 		//create shopper groups
 		$this->shopperName = $this->faker->bothify(' Testing shopper ##??');
 
-		$this->shopperType = 'Default Private';
+		$this->shopperType = null;
 		$this->customerType = 'Company customer';
 		$this->shippingRate = 10;
 		$this->shippingCheckout = $this->faker->numberBetween(1, 100);
