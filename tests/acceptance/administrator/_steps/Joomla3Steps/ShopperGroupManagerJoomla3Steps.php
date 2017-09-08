@@ -58,8 +58,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         }
 
-        $I->wait(30);
-
         $I->click(\ShopperGroupJ3Page::$showPrice);
         $I->waitForElement(\ShopperGroupJ3Page::$showPriceSearch);
         $I->fillField(\ShopperGroupJ3Page::$showPriceSearch, $showPrice);
