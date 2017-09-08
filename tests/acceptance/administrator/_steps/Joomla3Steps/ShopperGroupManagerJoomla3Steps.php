@@ -27,9 +27,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\ShopperGroupJ3Page::$customerTypeSearch);
         $I->fillField(\ShopperGroupJ3Page::$customerTypeSearch, $shopperCustomer);
         $I->pressKey(\ShopperGroupJ3Page::$customerTypeSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-
-        $I->click(3);
-
+        $I->wait(3);
         if ($shopperGroupPortal=='yes'){
 	        $I->click(\ShopperGroupJ3Page::$shopperGroupPortalYes);
 
