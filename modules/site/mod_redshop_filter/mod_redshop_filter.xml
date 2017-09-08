@@ -43,7 +43,8 @@
                     value_field="template_name"/>
                 <field
                     name="root_category"
-                    type="redshopcategory"
+                    type="categorylist" 
+                    remove_select="true"
                     default=""
                     label="MOD_REDSHOP_FILTER_ROOT_CATEGORY"
                     required="false"
