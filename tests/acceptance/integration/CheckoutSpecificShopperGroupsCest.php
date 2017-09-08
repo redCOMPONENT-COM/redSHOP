@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nhung
- * Date: 9/7/17
- * Time: 2:37 PM
+ * Checkout with specific user
  */
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
@@ -57,11 +54,11 @@ class CheckoutSpecificShopperGroupsCest
 		$this->lastName = 'Last';
 	}
 
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
+//	public function deleteData($scenario)
+//	{
+//		$I= new RedshopSteps($scenario);
+//		$I->clearAllData();
+//	}
 
 	public function _before(AcceptanceTester $I)
 	{
