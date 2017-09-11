@@ -45,20 +45,20 @@ class CheckoutSpecificShopperGroupsCest
 		$this->shopperGroupPortal='no';
 
 		//create user
-		$this->userName = $this->faker->bothify('UserNameCheckoutProductCest ?##?');
+		$this->userName = $this->faker->bothify('UserName ?##?');
 		$this->password = 'test';
 		$this->email = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
 		$this->group = 'Administrator';
-		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
 		$this->lastName = 'Last';
 	}
 
-//	public function deleteData($scenario)
-//	{
-//		$I= new RedshopSteps($scenario);
-//		$I->clearAllData();
-//	}
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -99,7 +99,7 @@ class CheckoutSpecificShopperGroupsCest
 
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName, $this->CategoryName,$this->subtotal,$this->shippingWithVat,$this->Total);
+		$I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName, $this->CategoryName,$this->shippingWithVat,$this->Total);
 	}
 
 	public function clearData(AcceptanceTester $I, $scenario)
