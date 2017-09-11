@@ -20,9 +20,11 @@ defined('_JEXEC') or die;
 extract($displayData);
 $productHelper = productHelper::getInstance();
 ?>
+<?php if (!empty($accessories)) : ?>
 <div class="checkout_accessory_static">
 	<?php echo JText::_("COM_REDSHOP_ACCESSORY"); ?>
 </div>
+<?php endif; ?>
 <?php foreach ($accessories as $key => $accessory): ?>
 	<?php $accessoryVat = 0; ?>
 	<?php $accessoryPrice = $accessory['accessory_price']; ?>
