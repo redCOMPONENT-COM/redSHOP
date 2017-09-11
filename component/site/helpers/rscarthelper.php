@@ -4659,7 +4659,7 @@ class rsCarthelper
 			}
 
 			// Check for product or attribute in stock
-			if (!$isStock)
+			if (!$isStock && Redshop::getConfig()->get('ALLOW_PRE_ORDER') === 0)
 			{
 				if (($product_preorder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "no") || ($product_preorder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 				{
@@ -4968,7 +4968,10 @@ class rsCarthelper
 				$cart[$idx]['quantity'] = 0;
 
 				$newQuantity = $data['quantity'];
-				$cart[$idx]['quantity'] = $this->checkQuantityInStock($cart[$idx], $newQuantity);
+
+				// In case PREORDER
+				//$this->checkQuantityInStock($cart[$idx], $newQuantity);
+				$cart[$idx]['quantity'] = $data['quantity'];
 
 				if ($newQuantity > $cart[$idx]['quantity'])
 				{
