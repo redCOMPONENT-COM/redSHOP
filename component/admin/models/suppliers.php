@@ -19,27 +19,22 @@ defined('_JEXEC') or die;
 class RedshopModelSuppliers extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
-	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_suppliers';
-
-	/**
 	 * Construct class
 	 *
-	 * @since 1.x
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   2.x
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 's.id',
-				'name', 's.name',
-				'description', 's.description',
-				'email', 's.email',
-				'published', 's.published'
+				'id',
+				'name',
+				'description',
+				'email',
+				'published'
 			);
 		}
 
@@ -58,7 +53,7 @@ class RedshopModelSuppliers extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 's.id', $direction = 'asc')
+	protected function populateState($ordering = 'id', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -98,8 +93,8 @@ class RedshopModelSuppliers extends RedshopModelList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('s.*')
-			->from($db->qn('#__redshop_supplier', 's'));
+		$query->select('*')
+			->from($db->qn('#__redshop_supplier'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -108,7 +103,7 @@ class RedshopModelSuppliers extends RedshopModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->qn('s.id') . ' = ' . (int) substr($search, 3));
+				$query->where($db->qn('id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{

@@ -38,7 +38,8 @@ class RedshopControllerSearch extends RedshopController
 	 */
 	public function loadProducts()
 	{
-		$get = JRequest::get('get');
+		$app = JFactory::getApplication();
+		$get = $app->input->get->getArray();
 		$taskid = $get['taskid'];
 
 		$model = $this->getModel('search');
@@ -46,7 +47,7 @@ class RedshopControllerSearch extends RedshopController
 		$brands = $model->loadCatProductsManufacturer($taskid);
 
 		// Manufacture Select Id
-		$manufac_data = (JRequest::getInt('manufacture_id', 0));
+		$manufac_data = ($app->input->getInt('manufacture_id', 0));
 
 		JLoader::import('joomla.application.module.helper');
 		$module           = JModuleHelper::getModule('redshop_search');
@@ -68,7 +69,7 @@ class RedshopControllerSearch extends RedshopController
 			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox span12" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
 		}
 
-		JFactory::getApplication()->close();
+		$app->close();
 	}
 
 	/**

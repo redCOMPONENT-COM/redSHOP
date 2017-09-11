@@ -36,11 +36,10 @@ class RedshopModelGiftcard extends RedshopModel
 
 	public function __construct()
 	{
-		$app = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$Id                  = JRequest::getInt('gid', 0);
+		$Id                  = JFactory::getApplication()->input->getInt('gid', 0);
 
 		$this->setId((int) $Id);
 	}

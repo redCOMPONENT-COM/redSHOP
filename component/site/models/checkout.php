@@ -195,7 +195,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$order_paymentstatus = 'Unpaid';
-		$users_info_id       = JRequest::getInt('users_info_id');
+		$users_info_id       = $input->getInt('users_info_id');
 		$shippingaddresses   = $this->shipaddress($users_info_id);
 		$billingaddresses    = $this->billingaddresses();
 
@@ -2242,7 +2242,7 @@ class RedshopModelCheckout extends RedshopModel
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';
 		$checkout .= '<input type="hidden" name="Itemid" id="onestepItemid" value="' . $Itemid . '" />';
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
-		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
+		$checkout .= '<input type="hidden" name="order_id" value="' . JFactory::getApplication()->input->get('order_id') . '" />';
 
 		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{

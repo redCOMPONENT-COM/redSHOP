@@ -74,8 +74,7 @@ if ($data->hasOrdering)
 					'limitFieldSelector'  => '#list_' . $viewName . '_limit',
 					'activeOrder'         => $listOrder,
 					'activeDirection'     => $listDirn,
-					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1),
-					'filtersHidden'       => (count($data->filterForm->getGroup('filter')) > 1) ? false : true
+					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
 				)
 			)
 		);
@@ -111,7 +110,7 @@ if ($data->hasOrdering)
 						<?php endif; ?>
                     </th>
 				<?php endforeach; ?>
-                <th width="1">
+                <th width="55px">
 					<?php echo JHtml::_('grid.sort', JText::_('COM_REDSHOP_ID'), $data->getPrimaryKey(), $listDirn, $listOrder) ?>
                 </th>
             </tr>

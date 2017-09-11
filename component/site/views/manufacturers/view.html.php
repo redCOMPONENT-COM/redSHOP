@@ -18,8 +18,8 @@ class RedshopViewManufacturers extends RedshopView
 		$producthelper = productHelper::getInstance();
 		$redhelper     = redhelper::getInstance();
 		$document      = JFactory::getDocument();
-		$print         = JRequest::getInt('print');
-		$layout        = JRequest::getCmd('layout', 'default');
+		$print         = $app->input->getInt('print');
+		$layout        = $app->input->getCmd('layout', 'default');
 		$params        = $app->getParams('com_redshop');
 		$Itemid        = $app->input->getInt('itemid', null);
 
@@ -257,7 +257,7 @@ class RedshopViewManufacturers extends RedshopView
 		$temps[0]->value        = "0";
 		$temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
 		$categorylist           = array_merge($temps, $categorylist);
-		$filter_by_select       = JRequest::getString('filter_by', 0);
+		$filter_by_select       = $app->input->getString('filter_by', 0);
 		$lists['filter_select'] = JHTML::_('select.genericlist', $categorylist, 'filter_by', 'class="inputbox" size="1" onchange="document.filter_form.submit();" ' . $disabled . ' ', 'value', 'text', $filter_by_select);
 
 		$pagination = $this->get('Pagination');

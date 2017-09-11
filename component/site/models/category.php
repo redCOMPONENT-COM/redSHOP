@@ -576,7 +576,7 @@ class RedshopModelCategory extends RedshopModel
 		$app = JFactory::getApplication();
 		$endlimit   = $this->getState('list.limit');
 		$limitstart = $this->getState('list.start');
-		$layout     = JRequest::getVar('layout');
+		$layout     = $app->input->getCmd('layout');
 		$query      = $this->_buildQuery();
 
 		if ($layout == "categoryproduct")
