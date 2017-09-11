@@ -358,7 +358,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
-	public function checkoutSpecificShopperGroup($userName,$password,$productName, $categoryName,$subtotal,$shippingWithVat,$Total){
+	public function checkoutSpecificShopperGroup($userName,$password,$productName, $categoryName,$ShippingRate,$Total){
 		$I=$this;
 		$I->doFrontEndLogin($userName, $password);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -372,8 +372,24 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity,"address");
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton,10);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton,10);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 
-		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+
+//		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->see($ShippingRate,\FrontEndProductManagerJoomla3Page::$shippingRate);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 }
