@@ -186,5 +186,101 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 
     }
+	public function cartSetting($addcart, $allowPreOrder, $enableQuation, $cartTimeOut, $enabldAjax, $defaultCart, $buttonCartLead, $onePage, $showShippingCart, $attributeImage, $quantityChange, $quantityInCart, $minimunOrder)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$cartCheckout);
+		$userConfiguration = new \ConfigurationManageJ3Page();
+		switch ($addcart) {
+			case 'product':
+				$I->click(\ConfigurationManageJ3Page::$addCartProduct);
+				break;
+			case 'attribute':
+				$I->click(\ConfigurationManageJ3Page::$addCartAttibute);
+				break;
+		}
+		switch ($allowPreOrder) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$allowPreOrOderYes);
+				break;
 
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$allowPreorderNo);
+				break;
+		}
+		switch ($enableQuation) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$enableQuotationYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$enableQuotationNo);
+				break;
+		}
+
+		$I->fillField(\ConfigurationManageJ3Page::$cartTimeOut, $cartTimeOut);
+
+		switch ($enabldAjax) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$enableAjaxYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$enableAjaxNo);
+				break;
+		}
+		//choice default cart/checkout item ID
+		if ($defaultCart != null) {
+			$I->click(\ConfigurationManageJ3Page::$defaultCart);
+			$I->waitForElement(\ConfigurationManageJ3Page::$defaultCartSearch, 5);
+			$I->fillField(\ConfigurationManageJ3Page::$defaultCartSearch, $defaultCart);
+			$I->waitForElement($userConfiguration->returnchoice($defaultCart));
+			$I->pressKey(\ConfigurationManageJ3Page::$defaultCart, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}
+
+		//Choice add to cart button lead
+		$I->click(\ConfigurationManageJ3Page::$buttonCartLead);
+		$I->waitForElement(\ConfigurationManageJ3Page::$buttonCartSearch);
+		$I->fillField(\ConfigurationManageJ3Page::$buttonCartSearch, $buttonCartLead);
+		$I->waitForElement($userConfiguration->returnchoice($buttonCartLead));
+		$I->pressKey(\ConfigurationManageJ3Page::$buttonCartLead, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		switch ($onePage) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$onePageYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$onePageNo);
+				break;
+		}
+		switch ($showShippingCart) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$showShippingCartYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$showShippingCartNo);
+				break;
+		}
+
+		switch ($attributeImage) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$attributeImageInCartYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$attributeImageInCartNo);
+				break;
+		}
+		switch ($quantityChange) {
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$quantityChangeInCartYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$quantityChangeInCartNo);
+				break;
+		}
+		$I->fillField(\ConfigurationManageJ3Page::$quantityInCart, $quantityInCart);
+
+		$I->fillField(\ConfigurationManageJ3Page::$minimunOrderTotal, $minimunOrder);
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
 }
