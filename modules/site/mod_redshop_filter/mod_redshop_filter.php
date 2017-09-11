@@ -64,6 +64,17 @@ if (!empty($cid))
 }
 elseif (!empty($mid))
 {
+	$manufacturerModel = JModelLegacy::getInstance('Manufacturers', 'RedshopModel');
+	$manufacturerModel->setId($mid);
+	$products = $manufacturerModel->getManufacturerProducts();
+	$productList = array();
+
+	foreach ($products as $key => $product)
+	{
+		$detail = RedshopHelperProduct::getProductById($product->product_id);
+		$productList[] = $detail;
+	}
+
 	$manufacturers = array();
 	$pids          = ModRedshopFilter::getProductByManufacturer($mid);
 	$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory);
@@ -96,5 +107,11 @@ elseif ($view == 'search')
 
 $rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
 $rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
+
+if ($enablePrice)
+{
+	JHtml::stylesheet('mod_redshop_filter/jqui.css', false, true);
+	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true);
+}
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));

@@ -18,6 +18,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	// Include url of current page
 	public static $URL = '/index.php?option=com_redshop';
 
+	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
+
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
 	public static $productList = "//div[@id='redcatproducts']";

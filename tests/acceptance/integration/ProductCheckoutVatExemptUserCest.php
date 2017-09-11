@@ -220,7 +220,7 @@ class ProductCheckoutVatExemptUserCest
 
 		$client->wantTo('Create VAT rates');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName);
 
 		$client->wantTo('Setup VAT is groups default');
 		$client=new ConfigurationManageJoomla3Steps($scenario);
