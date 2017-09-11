@@ -197,6 +197,8 @@ class RedshopHelperWorld
 				array(JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'))),
 				$countries
 			);
+
+			$totalCountries = count($countries);
 		}
 
 		$countryCode = '';
