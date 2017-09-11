@@ -29,7 +29,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addCoupon($couponCode = 'TestCoupon', $couponValueIn = 'Total', $couponValue = '100', $couponType = 'Globally', $couponLeft = '10', $startDate, $endDate)
+    public function addCoupon($couponCode, $couponValueIn , $couponValue , $couponType , $couponLeft , $startDate, $endDate)
     {
         $I = $this;
         $I->amOnPage(\CouponManagerJ3Page::$URL);
@@ -38,8 +38,12 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\CouponManagerJ3Page::$newButton);
         $I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);
         $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
-        $I->fillField(\CouponManagerJ3Page::$startDate, $startDate);
-        $I->fillField(\CouponManagerJ3Page::$endDate, $endDate);
+        if ($startDate!=null){
+	        $I->fillField(\CouponManagerJ3Page::$startDate, $startDate);
+        }
+        if($endDate!=null){
+	        $I->fillField(\CouponManagerJ3Page::$endDate, $endDate);
+        }
         $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
 
         $I->click(\CouponManagerJ3Page::$couponValueInDropDown);

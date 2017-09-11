@@ -25,6 +25,8 @@ class CouponCheckoutProductCest
 		$this->couponValue         = '10';
 		$this->couponType          = 'Globally';
 		$this->couponLeft          = '10';
+		$this->startDate           = null;
+		$this->endDate= null;
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
 		$this->noPage              = $this->faker->randomNumber();
 		$this->productName         = 'Testing Products' . rand(99, 999);
@@ -75,7 +77,7 @@ class CouponCheckoutProductCest
 		$I->wantTo('Test Coupon creation in Administrator');
 		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Coupon');
-		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
+		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft,$this->startDate, $this->endDate);
 		$I->searchCoupon($this->couponCode);
 	}
 
