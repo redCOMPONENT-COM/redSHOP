@@ -121,7 +121,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\ConfigurationManageJ3Page::$countrySearchPrice, $country);
         $userConfigurationPage = new \ConfigurationManageJ3Page();
         $I->waitForElement($userConfigurationPage->returnChoice($country));
-        $I->click($userConfigurationPage->returnChoice($country));
+	    $I->pressKey(\ConfigurationManageJ3Page::$countryPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
         //get state
         $I->click(\ConfigurationManageJ3Page::$statePrice);
