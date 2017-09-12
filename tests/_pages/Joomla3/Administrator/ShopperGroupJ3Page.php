@@ -76,8 +76,9 @@ class ShopperGroupJ3Page
 
     public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
 
-    public static $pageHead="//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
+    public static $pageHead = "//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
 
+    public static $deleteSuccessManagement="//div[@id='system-message']/div/div/p";
 
 
     //selector
@@ -117,13 +118,14 @@ class ShopperGroupJ3Page
     //message
     public static $saveSuccess = 'Shopper Group Detail Saved';
 
-    public static $deleteSuccess = 'Shopper Group can not be deleted.';
 
     public static $unpublishSuccess = 'Shopper Group Detail Unpublished Successfully';
 
     public static $publishSuccess = 'Shopper Group Detail Published Successfully';
 
     public static $cannotDelete = 'Shopper Group can not be deleted.';
+
+    public static $deleteSuccess = "Shopper Group Detail Deleted Successfully";
 
     public function returnSearch($typeSearch)
     {
