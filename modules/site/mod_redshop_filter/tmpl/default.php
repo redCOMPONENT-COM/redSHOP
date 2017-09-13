@@ -26,6 +26,7 @@ defined('_JEXEC') or die;
 												<?php if (in_array($cat->id, explode(',', $getData['categories']))) : ?>
 													<?php echo "checked='checked'"; ?>
 												<?php endif; ?>
+												onchange="javascript:submitform(this)"
 												/>
 												<span class='tagname'><?php echo $cat->name; ?></span>
 											</span>
@@ -53,6 +54,7 @@ defined('_JEXEC') or die;
 										<?php if (in_array($manu->manufacturer_id, explode(',', $getData['manufacturers']))) : ?>
 											<?php echo "checked='checked'"; ?>
 										<?php endif; ?>
+										onchange="javascript:submitform(this)"
 										>
 										</span>
 										<span class='tagname'><?php echo $manu->manufacturer_name; ?></span>
@@ -74,12 +76,13 @@ defined('_JEXEC') or die;
 									<li>
 										<label>
 											<span class='taginput' data-aliases='cat-<?php echo $value;?>'>
-												<input type="checkbox" name="redform[custom_field][<?php echo $key;?>][]" value="<?php echo urlencode($value); ?>" onclick="javascript: checkclick(this);"
+												<input type="checkbox" name="redform[custom_field][<?php echo $key;?>][]" value="<?php echo urlencode($value); ?>"
 												<?php foreach ($getData['custom_field'] as $fieldId => $data) :?>
 													<?php if (in_array($value, explode(',', $data)) && $key == $fieldId) : ?>
 														<?php echo "checked='checked'"; ?>
 													<?php endif; ?>
 												<?php endforeach; ?>
+												onchange="javascript:submitform(this)"
 												/>
 												<span class='tagname'><?php echo $name; ?></span>
 											</span>
@@ -166,10 +169,8 @@ defined('_JEXEC') or die;
 	}
 
 	function submitform (argument) {
-		jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"], select').change(function(event) {
-			jQuery('input[name="limitstart"]').val(0);
-			submitpriceform();
-		});
+		jQuery('input[name="limitstart"]').val(0);
+		submitpriceform();
 	}
 
 	function submitpriceform (argument) {
@@ -179,12 +180,9 @@ defined('_JEXEC') or die;
 		 	data: jQuery('#redproductfinder-form-<?php echo $module->id;?>').serialize(),
 		 	beforeSend: function() {
 				jQuery('#wait').css('display', 'block');
-				jQuery('.category_header').css('display', 'none');
 			},
 		 	success: function(data) {
-		 		jQuery('#redshopcomponent').empty();
-		 		jQuery('#main-content .category_main_toolbar').first().remove();
-		 		jQuery('#redshopcomponent').html(data);
+		 		jQuery('#main #redshopcomponent').html(data);
 				jQuery('select#orderBy').select2();
 
 				url = jQuery(jQuery.parseHTML(data)).find("#new-url").text();
@@ -192,8 +190,22 @@ defined('_JEXEC') or die;
 		 	},
 		 	complete: function() {
 			    jQuery('#wait').css('display', 'none');
-			    jQuery('.category_wrapper .category_main_toolbar').insertBefore('#sidebar1');
+			    var pids = jQuery('input[name="pids"]').val();
+			    <?php if ($restricted) : ?>
+			    	restricted(formData, pids, '<?php echo json_encode($params); ?>');
+			    <?php endif; ?>
 			}
+		 });
+	}
+
+	function restricted(form, pids, params) {
+		jQuery.ajax({
+		 	type: "POST",
+		 	url: "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.restrictedData",
+		 	data: {pids: pids, params: params, form: form},
+		 	success: function(restrictedData) {
+		 		jQuery('#redproductfinder-form-<?php echo $module->id;?>').html(restrictedData);
+		 	},
 		 });
 	}
 
@@ -273,8 +285,6 @@ defined('_JEXEC') or die;
 			jQuery('#redproductfinder-form-<?php echo $module->id;?> #manu #manufacture-list').append(html);
 			checkList();
 		});
-
-		submitform();
 
 		jQuery('#redproductfinder-form-<?php echo $module->id;?> [type="checkbox"]').each(function(){
 			checkclick(jQuery(this))

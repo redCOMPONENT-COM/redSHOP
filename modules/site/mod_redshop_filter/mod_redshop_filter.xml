@@ -13,12 +13,14 @@
         <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename module="mod_redshop_filter">mod_redshop_filter.php</filename>
-        <folder>language</folder>
         <folder>tmpl</folder>
     </files>
-    <media folder="media">
-        <folder>mod_redshop_filter</folder>
-    </media>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_filter.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_filter.sys.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_filter.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_filter.sys.ini</language>
+    </languages>
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
@@ -43,8 +45,7 @@
                     value_field="template_name"/>
                 <field
                     name="root_category"
-                    type="categorylist" 
-                    remove_select="true"
+                    type="redshopcategory"
                     default=""
                     label="MOD_REDSHOP_FILTER_ROOT_CATEGORY"
                     required="false"
@@ -109,6 +110,16 @@
                     multiple="true"
                     label="MOD_REDSHOP_FILTER_PRODUCT_FIELD"
                     description="MOD_REDSHOP_FILTER_PRODUCT_FIELD_DESC">
+                </field>
+                <field
+                    name="restricted"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="MOD_REDSHOP_FILTER_ENABLE_RESTRICTED"
+                    description="MOD_REDSHOP_FILTER_ENABLE_RESTRICTED_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
                 </field>
             </fieldset>
         </fields>
