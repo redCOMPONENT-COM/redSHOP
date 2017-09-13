@@ -33,6 +33,8 @@ class ShopperGroupJ3Page
 
     public static $shopperGroupPortalYes = ['id' => 'shopper_group_portal1-lbl'];
 
+	public static $shopperGroupPortalNo = ['id' => 'shopper_group_portal0-lbl'];
+
     public static $shippingYes = ['id' => 'default_shipping1-lbl'];
 
     public static $shippingNo = ['id' => 'default_shipping0-lbl'];
