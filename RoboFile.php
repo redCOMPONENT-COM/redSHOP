@@ -176,6 +176,15 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
@@ -224,6 +233,9 @@ class RoboFile extends \Robo\Tasks
 			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
 			->run()
 			->stopOnFail();
+
+
+
 
 		/*
 		$this->taskCodecept()
@@ -424,6 +436,16 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
+
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
@@ -464,6 +486,14 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
 
 
 		/*
