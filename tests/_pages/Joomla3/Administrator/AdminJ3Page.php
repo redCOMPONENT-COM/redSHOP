@@ -234,6 +234,10 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
+	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']//label//input"];
+	/**
+	 * @var array
+	 */
 	public static $acceptTerms = ['xpath' => "//div//label//input[@id='termscondition']"];
 	/**
 	 * @var string
@@ -247,6 +251,8 @@ abstract class AdminJ3Page
 	 * @var array
 	 */
 	public static $priceEnd = ['id' => 'spnTotal'];
+
+	public static $shippingRate=['id'=>'spnShippingrate'];
 
 	/**
 	 *
