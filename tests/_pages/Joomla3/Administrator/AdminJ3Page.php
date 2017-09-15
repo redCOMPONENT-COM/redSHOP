@@ -75,6 +75,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorError=".alert-error";
+
+	/**
+	 * @var string
+	 */
 	public static $selectorMissing = '.alert-danger';
 
 	/**
