@@ -32,6 +32,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 
+	public static $alterOutOfStock="Sorry, This product is out of stock....";
+
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";

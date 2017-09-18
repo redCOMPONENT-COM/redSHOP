@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace AcceptanceTester;
 /**
  * Class ProductCheckoutManagerJoomla3Steps
@@ -59,6 +60,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 	}
+
 	/**
 	 * Function to fill in Details related to Address Information
 	 *
@@ -76,11 +78,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
-//    $I->selectOption(\FrontEndProductManagerJoomla3Page::$addressCountry, $addressDetail['country']);
-//    $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressState, 20);
-//    $I->selectOption(\FrontEndProductManagerJoomla3Page::$addressState, $addressDetail['state']);
+//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$addressCountry, $addressDetail['country']);
+//		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressState, 20);
+//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$addressState, $addressDetail['state']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
 	}
+
 	/**
 	 * Function to fill in Detail related to shipping Address
 	 *
@@ -97,11 +100,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
-//    $I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingCountry, $shippingDetail['country']);
-//    $I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingState, 20);
-//    $I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingState, $shippingDetail['state']);
+//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingCountry, $shippingDetail['country']);
+//		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingState, 20);
+//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingState, $shippingDetail['state']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
 	}
+
 	/**
 	 * Function to Test Checkout Process of a Product using the Paypal Payment Plugin
 	 *
@@ -155,6 +159,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
 		$I->seeElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage);
 	}
+
 	/**
 	 * Function to Test Checkout Process of a Product using the 2Checkout Payment Plugin
 	 *
@@ -208,6 +213,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Your payment has been processed', 10, '//h1');
 		$I->see('Your payment has been processed', '//h1');
 	}
+
 	/**
 	 * Function to Test Checkout Process of a Product using the Braintree Payment Plugin
 	 *
@@ -257,6 +263,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
+
 	/**
 	 * Function to Test Checkout Process of a Product using the Braintree Payment Plugin
 	 *
@@ -306,6 +313,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
+
 	public function checkoutProductWithCouponOrGift($productName, $categoryName, $couponCode)
 	{
 		$I = $this;
@@ -324,10 +332,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
+
 		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
 		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
 	}
+
 	public function checkoutWithDiscount($productName, $categoryName,$subtotal,$Discount,$Total){
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -342,10 +352,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
+
 		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($Discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
+
 	public function checkoutSpecificShopperGroup($userName,$password,$productName, $categoryName,$ShippingRate,$Total){
 		$I=$this;
 		$I->doFrontEndLogin($userName, $password);
@@ -374,10 +386,35 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton,10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-//    $I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+
+
+//		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($ShippingRate,\FrontEndProductManagerJoomla3Page::$shippingRate);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
+
+
+
+	public function checkProductInsideStockRoom($productName, $categoryName,$subtotal,$Total){
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart,10);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alterOutOfStock, 60, \FrontEndProductManagerJoomla3Page::$selectorError);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$priceTotal,30);
+		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);}
+
 	public function checkoutQuotation($productName, $categoryName,$userEmail){
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
