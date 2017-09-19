@@ -36,13 +36,14 @@ branches:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - ./.travis/setup.sh
+  - if [$TRAVIS_PULL_REQUEST_BRANCH != "test-travis-3"]; ./.travis/setup.sh; fi
 
 script:
-  - ./.travis/script.sh
+  - if [$TRAVIS_PULL_REQUEST_BRANCH != "test-travis-3"]; then ./.travis/script.sh; fi
+  #- ./.travis/script.sh
 
 after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  - if [ $TRAVIS_PULL_REQUEST != "false" && $TRAVIS_PULL_REQUEST_BRANCH != "test-travis-3" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
