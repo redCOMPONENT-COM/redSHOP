@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
-
-
+/**
+ * Class RedshopControllerShipping
+ *
+ * @since  1.0.0
+ */
 class RedshopControllerShipping extends RedshopController
 {
 	public function importeconomic()
@@ -42,7 +44,7 @@ class RedshopControllerShipping extends RedshopController
 					$shipping_number = $shipping[$i]->economic_displayname;
 				}
 
-				Economic::createShippingRateInEconomic(
+				Redshop\Economic\Economic::createShippingRateInEconomic(
 					$shipping_number, $shipping_name, $shipping_rate,
 					$shipping[$i]->apply_vat
 				);
