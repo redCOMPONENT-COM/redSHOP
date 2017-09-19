@@ -36,7 +36,7 @@ branches:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - if [$TRAVIS_PULL_REQUEST_BRANCH != "test-travis-3"]; ./.travis/setup.sh; fi
+  - if [$TRAVIS_PULL_REQUEST_BRANCH != "test-travis-3"]; then ./.travis/setup.sh; fi
 
 script:
   - if [$TRAVIS_PULL_REQUEST_BRANCH != "test-travis-3"]; then ./.travis/script.sh; fi
