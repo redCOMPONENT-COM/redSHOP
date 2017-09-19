@@ -37,6 +37,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('attribute_set_detail');
+		$msg   = '';
 
 		if ($row = $model->store($post))
 		{
