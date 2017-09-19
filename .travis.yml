@@ -30,6 +30,10 @@ env:
 matrix:
   fast_finish: true
 
+branches:
+  except:
+  - test-travis-3
+
 before_script:
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
