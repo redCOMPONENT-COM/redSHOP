@@ -4742,7 +4742,11 @@ class rsCarthelper
 
 				if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 				{
-					if (!$generateAccessoryCart)
+					if (is_bool($generateAccessoryCart))
+					{
+						return JText::_('COM_REDSHOP_ACCESSORY_HAS_REQUIRED_ATTRIBUTES');
+					}
+					elseif (!$generateAccessoryCart)
 					{
 						return false;
 					}
