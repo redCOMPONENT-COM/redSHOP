@@ -176,6 +176,15 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
@@ -212,9 +221,31 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
+			->run()
+			->stopOnFail();
+
+
+	$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
 			->run()
 			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
+			->run()
+			->stopOnFail();
+
+
+
 
 		/*
 		$this->taskCodecept()
@@ -415,6 +446,16 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
+
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
@@ -442,10 +483,45 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
 
 
 		/*
