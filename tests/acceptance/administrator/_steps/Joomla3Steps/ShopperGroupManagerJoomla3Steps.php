@@ -175,12 +175,12 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         switch ($status){
             case 'publish':
                 $I->click(\ShopperGroupJ3Page::$publishButton);
-                $I->see(\ShopperGroupJ3Page::$publishSuccess, \ShopperGroupJ3Page::$xpathMessageSuccess);
+                $I->see(\ShopperGroupJ3Page::$publishSuccess, \ShopperGroupJ3Page::$selectorSuccess);
                 break ;
 
             case 'unpublish':
                 $I->click(\ShopperGroupJ3Page::$unpublishButton);
-                $I->see(\ShopperGroupJ3Page::$unpublishSuccess, \ShopperGroupJ3Page::$xpathMessageSuccess);
+                $I->see(\ShopperGroupJ3Page::$unpublishSuccess, \ShopperGroupJ3Page::$selectorSuccess);
                 break;
         }
         $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorNamePage);
@@ -225,7 +225,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\ShopperGroupJ3Page::$deleteButton);
         $I->acceptPopup();
 
-        $I->waitForElement(\ShopperGroupJ3Page::$xpathMessageSuccess);
+        $I->waitForElement(\ShopperGroupJ3Page::$selectorSuccess);
     }
 
     public function getShopperGroupsStates()
