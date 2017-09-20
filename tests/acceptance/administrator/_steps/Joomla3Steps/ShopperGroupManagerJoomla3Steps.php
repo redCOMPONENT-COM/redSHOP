@@ -213,7 +213,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\ShopperGroupJ3Page::$cancelButton);
                 break;
         }
-        $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$pageHead);
+        $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$headPage);
     }
 
     public function deleteAllShopperGroups()
