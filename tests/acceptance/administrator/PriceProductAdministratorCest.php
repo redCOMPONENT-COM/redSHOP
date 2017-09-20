@@ -72,7 +72,7 @@ class PriceProductAdministratorCest
         $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addDiscountPrice($this->randomProductName, $this->randomPriceDiscount);
-        $I->see(\PriceProductJoomla3Page::$namePage, \PriceProductJoomla3Page::$selectorPage);
+        $I->see(\PriceProductJoomla3Page::$namePage, \PriceProductJoomla3Page::$headPage);
     }
 
 //    //this case can not run at firefox because have something wrong at code .
