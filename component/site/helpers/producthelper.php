@@ -4984,8 +4984,6 @@ class productHelper
 
 		if (count($attArr) > 0)
 		{
-			$displayaccessory .= "<div class='checkout_accessory_static'>" . JText::_("COM_REDSHOP_ACCESSORY") . "</div>";
-
 			for ($i = 0, $in = count($attArr); $i < $in; $i++)
 			{
 				$acc_vat = 0;
@@ -5364,18 +5362,17 @@ class productHelper
 		if (count($orderItemdata) > 0)
 		{
 			$displayaccessory .= "<div class='checkout_accessory_static'>"
-				. JText::_("COM_REDSHOP_ACCESSORY") . ":</div>";
-
-			for ($i = 0, $in = count($orderItemdata); $i < $in; $i++)
+				. JText::_("COM_REDSHOP_ACCESSORY") . "</div>";
+			foreach ($orderItemdata as $data)
 			{
 				$accessory_quantity = " [" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " "
-					. $orderItemdata[$i]->product_quantity . "] ";
+					. $data->product_quantity . "] ";
 				$displayaccessory .= "<div class='checkout_accessory_title'>"
-					. urldecode($orderItemdata[$i]->order_acc_item_name)
+					. urldecode($data->order_acc_item_name)
 					. " ("
-					. $this->getProductFormattedPrice($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat)
+					. $this->getProductFormattedPrice($data->order_acc_price + $data->order_acc_vat)
 					. ")" . $accessory_quantity . "</div>";
-				$makeAttributeOrder = $this->makeAttributeOrder($order_item_id, 1, $orderItemdata[$i]->product_id);
+				$makeAttributeOrder = $this->makeAttributeOrder($order_item_id, 1, $data->product_id);
 				$displayaccessory   .= $makeAttributeOrder->product_attribute;
 			}
 		}
