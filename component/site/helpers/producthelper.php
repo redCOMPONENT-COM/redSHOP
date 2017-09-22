@@ -3599,6 +3599,7 @@ class productHelper
 							'subProperties'     => $subproperty,
 							'commonId'          => $commonid,
 							'productId'         => $product_id,
+							'propertyId'        => $property_id,
 							'subPropertyId'     => $subpropertyid,
 							'accessoryId'       => $accessory_id,
 							'relatedProductId'  => $relatedprd_id,
