@@ -15,6 +15,7 @@ defined('JPATH_BASE') or die;
  * @param   object  $subProperties        Subproperty
  * @param   string  $commonId             Common ID
  * @param   string  $productId            Product ID
+ * @param   string  $propertyId           Property ID
  * @param   string  $subPropertyId        Subproperty ID
  * @param   string  $accessoryId          Accessory ID
  * @param   string  $relatedProductId     Related product ID
@@ -62,7 +63,7 @@ if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 							?>
-							isFlowers<?php echo $commonId; ?>.addThumbnail("<?php echo $thumbUrl; ?>", "javascript:isFlowers<?php echo $commonId; ?>.scrollImageCenter('<?php echo $key; ?>');setSubpropImage('<?php echo $productId; ?>', '<?php echo $subPropertyId; ?>', '<?php echo $subProperty->value; ?>');calculateTotalPrice('<?php echo $productId; ?>', '<?php echo $relatedProductId; ?>');displayAdditionalImage('<?php echo $productId; ?>', '<?php echo $accessoryId; ?>', '<?php echo $relatedProductId; ?>', '<?php echo $subPropertyId . '_subpropimg_' . $subProperty->value; ?>');", "<?php echo $borderStyle; ?>");
+							isFlowers<?php echo $commonId; ?>.addThumbnail("<?php echo $thumbUrl; ?>", "javascript:isFlowers<?php echo $commonId; ?>.scrollImageCenter('<?php echo $key; ?>');setSubpropImage('<?php echo $productId; ?>', '<?php echo $subPropertyId; ?>', '<?php echo $subProperty->value; ?>');calculateTotalPrice('<?php echo $productId; ?>', '<?php echo $relatedProductId; ?>');displayAdditionalImage('<?php echo $productId; ?>', '<?php echo $accessoryId; ?>', '<?php echo $relatedProductId; ?>', '<?php echo $propertyId ?>', '<?php echo $subProperty->value ?>');", "", "", "<?php echo $subPropertyId . '_subpropimg_' . $subProperty->value; ?>", "<?php echo $borderStyle; ?>");
 						<?php endforeach; ?>
 						isFlowers<?php echo $commonId; ?>.setThumbnailHeight(<?php echo $atth; ?>);
 						isFlowers<?php echo $commonId; ?>.setThumbnailWidth(<?php echo $attw; ?>);
