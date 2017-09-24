@@ -173,7 +173,7 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskCodecept()
 			->arg('--steps')
-			//  ->arg('--debug')
+			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
