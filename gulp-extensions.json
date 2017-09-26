@@ -121,7 +121,6 @@
       "rs_payment_eway",
       "rs_payment_eway3dsecure",
       "rs_payment_giropay",
-      "rs_payment_googlecheckout",
       "rs_payment_imglobal",
       "rs_payment_moneris",
       "rs_payment_moneybooker",
