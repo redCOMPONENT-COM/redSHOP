@@ -7,8 +7,8 @@ var config = require('../../../gulp-config.json');
 var browserSync = require('browser-sync');
 var del         = require('del');
 
-var group = 'redshop_payment';
-var name  = 'rs_payment_googlecheckout';
+var group = 'user';
+var name  = 'redshop_avatar';
 
 var baseTask   = 'plugins.' + group + '.' + name;
 var extPath    = './plugins/' + group + '/' + name;

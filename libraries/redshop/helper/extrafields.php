@@ -499,6 +499,11 @@ class RedshopHelperExtrafields
 								'requiredLabel'   => $reqlbl,
 								'errorMsg'        => $errormsg,
 								'textValue'       => $textValue
+							),
+						'',
+						array(
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -517,7 +522,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -538,7 +544,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -559,7 +566,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -580,7 +588,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -601,7 +610,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -626,13 +636,16 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
 
 				case extraField::TYPE_WYSIWYG:
 					$editor          = JFactory::getEditor();
+					$textareaValue   = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
+
 					$exField .= RedshopLayoutHelper::render(
 						'extrafields.field.editor',
 						array(
@@ -646,7 +659,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -682,7 +696,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -714,7 +729,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 					break;
@@ -750,7 +766,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 
@@ -801,7 +818,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 
@@ -847,7 +865,8 @@ class RedshopHelperExtrafields
 							),
 						'',
 						array(
-								'component' => 'com_redshop'
+								'component' => 'com_redshop',
+								'client'    => 0
 							)
 					);
 
