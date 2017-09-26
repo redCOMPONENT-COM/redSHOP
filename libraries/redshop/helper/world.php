@@ -201,9 +201,9 @@ class RedshopHelperWorld
 
 		$countryCode = '';
 
-		for ($i = 0; $i < $totalCountries; $i++)
+		foreach ($countries as $country)
 		{
-			if ($countries[$i]->value == $selectedCountry)
+			if ($country->value == $selectedCountry)
 			{
 				$countryCode = $selectedCountry;
 
