@@ -29,7 +29,7 @@ class MassDiscountCheckoutCest
 		$this->randomProductPrice = 100;
 
 		$this->subtotal="DKK 10,00";
-		$this->Discount ="DKK 0,00";
+		$this->Discount ="";
 		$this->Total="DKK 10,00";
 	}
 
@@ -40,6 +40,7 @@ class MassDiscountCheckoutCest
 	}
 
 	/**
+	 * (Checkout with product discount and don't show shipping cart at cart checkout )
 	 * Step1 : create category
 	 * Step2 : create product
 	 * Step3 : Create Mass Discount

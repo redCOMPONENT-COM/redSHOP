@@ -17,7 +17,7 @@ class ManageConfigurationAdministratorCest
 		$this->vatDefault = 'Default';
 		$this->vatCalculation = 'Webshop';
 		$this->vatAfter = 'after';
-		$this->vatNumber = $this->faker->numberBetween(1, 10);
+		$this->vatNumber = 0;
 		$this->calculationBase = 'billing';
 		$this->requiVAT = 'no';
 
@@ -138,7 +138,7 @@ class ManageConfigurationAdministratorCest
 
 	/**
 	 *
-	 * function setup cart setting 
+	 * function setup cart setting
 	 *
 	 * @param AcceptanceTester $I
 	 * @param $scenario
