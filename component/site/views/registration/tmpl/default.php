@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 $url = JURI::base();
-
+$app = JFactory::getApplication();
 JHtml::_('behavior.calendar');
-$Itemid = JRequest::getInt('Itemid');
-$jinput = JFactory::getApplication()->input;
-$post   = $jinput->getArray($_POST);
+$Itemid = $app->input->getInt('Itemid');
+$post   = $app->input->post->getArray();
 
 $userhelper = rsUserHelper::getInstance();
 $rsCarthelper = rsCarthelper::getInstance();
@@ -74,7 +73,7 @@ if ($this->params->get('show_page_heading', 1))
 		<div class="clr"></div>
 
 		<input type="hidden" name="l" value="0">
-		<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getString('wishlist'); ?>">
+		<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo $app->input->getString('wishlist'); ?>">
 		<input type="hidden" name="address_type" value="BT"/>
 		<input type="hidden" name="usertype" value="Registered"/>
 		<input type="hidden" name="groups[]" value="2"/>

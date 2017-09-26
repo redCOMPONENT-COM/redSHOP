@@ -83,7 +83,7 @@ abstract class RedshopTagsAbstract
 	abstract public function init();
 
 	/**
-	 * Check if tag is registered or not
+	 * Check if tag / tagAlias is registered or not
 	 *
 	 * @param   string  $tag  Tag
 	 *
@@ -93,7 +93,7 @@ abstract class RedshopTagsAbstract
 	 */
 	public function isTagRegistered($tag)
 	{
-		if (in_array($tag, $this->tagAlias))
+		if (array_key_exists($tag, $this->tagAlias))
 		{
 			$tag = $this->tagAlias[$tag];
 		}
@@ -141,8 +141,7 @@ abstract class RedshopTagsAbstract
 	 */
 	public function replace()
 	{
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher = $this->getDispatcher();
 
 		// Trigger event and cancel replace if event return false
 		if ($dispatcher->trigger('onBeforeReplaceTags', array(&$this->search, &$this->replace, &$this->template)) === false)
@@ -156,7 +155,7 @@ abstract class RedshopTagsAbstract
 	}
 
 	/**
-	 * Add replace
+	 * Add custom tag replace
 	 *
 	 * @param   string  $tag    Tag
 	 * @param   string  $value  Value
@@ -167,8 +166,7 @@ abstract class RedshopTagsAbstract
 	 */
 	protected function addReplace($tag, $value)
 	{
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher = $this->getDispatcher();
 
 		// Trigger event and cancel addReplace if event return false
 		if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false))
@@ -196,7 +194,7 @@ abstract class RedshopTagsAbstract
 	}
 
 	/**
-	 * Get template between loop tags
+	 * Get template content between loop tags
 	 *
 	 * @param   string  $beginTag  Begin tag
 	 * @param   string  $endTag    End tag
@@ -225,5 +223,18 @@ abstract class RedshopTagsAbstract
 		}
 
 		return false;
+	}
+
+	/**
+	 *
+	 * @return  JEventDispatcher
+	 *
+	 * @since  2.0.6
+	 */
+	protected function getDispatcher()
+	{
+		JPluginHelper::importPlugin('redshop');
+
+		return RedshopHelperUtility::getDispatcher();
 	}
 }

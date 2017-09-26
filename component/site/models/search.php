@@ -267,7 +267,7 @@ class RedshopModelSearch extends RedshopModel
 			return $this->cache[$store];
 		}
 
-		$post         = JRequest::get('POST');
+		$post = JFactory::getApplication()->input->post->getArray();
 		$db           = JFactory::getDbo();
 		$items        = array();
 		$query        = $this->_buildQuery($post);
@@ -421,21 +421,16 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function _buildQuery($manudata = 0, $getTotal = false)
 	{
-		$app = JFactory::getApplication();
-		$db  = JFactory::getDbo();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$db    = JFactory::getDbo();
 
-		$orderByMethod = $app->input->getString(
+		$orderByMethod = $input->getString(
 			'order_by',
 			$app->getParams()->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
 		);
-		$orderByObj    = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
-
-		$orderBy = $orderByObj->ordering . ' ' . $orderByObj->direction;
-
-		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
-		{
-			$orderBy = 'p.product_id DESC';
-		}
+		$orderByObj = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
+		$orderBy    = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
 		if ($getTotal)
 		{
@@ -454,13 +449,13 @@ class RedshopModelSearch extends RedshopModel
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id')
 			->where('p.published = 1');
 
-		$layout = JRequest::getVar('layout', 'default');
-
+		$layout          = $input->getString('layout', 'default');
 		$category_helper = new product_category;
-		$manufacture_id  = JRequest::getInt('manufacture_id', 0);
+		$manufacture_id  = $input->getInt('manufacture_id', 0);
 		$cat_group       = array();
+		$customField     = $input->get('custom_field', array(), 'array');
 
-		if ($category_id = $app->input->get('category_id', 0))
+		if ($category_id = $input->get('category_id', 0))
 		{
 			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
 
@@ -506,6 +501,31 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
 
+		if (!empty($customField))
+		{
+			$key = 0;
+			$subQuery = array();
+
+			foreach ($customField as $fieldId => $fieldValue)
+			{
+				if (empty($fieldValue))
+				{
+					continue;
+				}
+
+				$subQuery[] = 'FIND_IN_SET("' . $fieldValue . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
+
+				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
+					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
+				$key++;
+			}
+
+			if (!empty($subQuery))
+			{
+				$query->where('(' . implode(' OR ', $subQuery) . ')');
+			}
+		}
+
 		// Shopper group - choose from manufactures End
 		if ($aclProducts != "")
 		{
@@ -544,11 +564,11 @@ class RedshopModelSearch extends RedshopModel
 				)
 			);
 		}
-        elseif ($layout == 'featuredproduct')
+		elseif ($layout == 'featuredproduct')
 		{
 			$query->where('p.product_special = 1');
 		}
-        elseif ($layout == 'newproduct')
+		elseif ($layout == 'newproduct')
 		{
 			$catid = $item->query['categorytemplate'];
 
@@ -572,7 +592,7 @@ class RedshopModelSearch extends RedshopModel
 				->where('p.expired = 0')
 				->where('p.product_parent_id = 0');
 		}
-        elseif ($layout == 'redfilter')
+		elseif ($layout == 'redfilter')
 		{
 			$query->where('p.expired = 0');
 
@@ -673,7 +693,9 @@ class RedshopModelSearch extends RedshopModel
 		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
 
-		$type_id_main = explode('.', JRequest::getVar('tagid'));
+		$app = JFactory::getApplication();
+
+		$type_id_main = explode('.', $app->input->get('tagid'));
 
 		// Initialise variables
 		$lstproduct_id = array();
@@ -688,9 +710,9 @@ class RedshopModelSearch extends RedshopModel
 			$main_sal_type = array();
 			$main_sal_tag  = array();
 
-			if (JRequest::getVar('main_sel') != "")
+			if ($app->input->get('main_sel') != "")
 			{
-				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
+				$main_sal_sp = explode(",", $app->input->get('main_sel'));
 
 				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++)
 				{
@@ -950,7 +972,7 @@ class RedshopModelSearch extends RedshopModel
 			?>
             <div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_RESULT'); ?></div>
 
-            <div class="hrdivider"></div>
+			<div class="hrdivider"></div>
 			<?php
 			foreach ($getredfilter as $typeid => $tag_id)
 			{
@@ -1283,7 +1305,11 @@ class RedshopModelSearch extends RedshopModel
 			$comparePrice         = $db->qn('p.product_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.product_price') . ' <= ' . $db->q(($max));
 			$compareDiscountPrice = $db->qn('p.discount_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.discount_price') . ' <= ' . $db->q(($max));
 			$saleTime             = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
-			$query->where('IF(' . $db->qn('p.product_on_sale') . ' = 1 && UNIX_TIMESTAMP() BETWEEN ' . $saleTime . ', ' . $compareDiscountPrice . ', ' . $comparePrice . ')');
+			$query->where('( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
+				. $saleTime . ') THEN ('
+				. $compareDiscountPrice . ') ELSE ('
+				. $comparePrice . ') END )'
+			);
 		}
 
 		if (!empty($keyword))
@@ -1308,6 +1334,7 @@ class RedshopModelSearch extends RedshopModel
 		if (!empty($customField))
 		{
 			$key = 0;
+			$subQuery = array();
 
 			foreach ($customField as $fieldId => $fieldValues)
 			{
@@ -1316,10 +1343,19 @@ class RedshopModelSearch extends RedshopModel
 					continue;
 				}
 
+				foreach ($fieldValues as $value)
+				{
+					$subQuery[] = 'FIND_IN_SET("' . $value . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
+				}
+
 				$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
-					->where('CONCAT(",", ' . $db->qn('fd' . $key . '.data_txt') . ', ",") REGEXP ",' . implode("|", $fieldValues) . ',"')
 					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
 				$key++;
+			}
+
+			if (!empty($subQuery))
+			{
+				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 

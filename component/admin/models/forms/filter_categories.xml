@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="filter">
-		<field
-			name="search"
-			type="text"
-			label="COM_REDSHOP_FILTER_SEARCH_DESC"
-			placeholder="JSEARCH_FILTER"
-			class="js-enter-submits"
-			/>
-		<field
-			name="category_template"
-			type="template"
-			label="COM_REDSHOP_FILTER_CATEGORY"
-			description="COM_REDSHOP_FILTER_CATEGORY_DESC"
-			onchange="return AssignTemplate()"
-			>
-			<option value="0">COM_REDSHOP_SELECT_TEMPLATE</option>
-		</field>
-		<field
-			name="category_id"
-			type="categorylist"
-			label="COM_REDSHOP_FILTER_CATEGORY"
-			description="COM_REDSHOP_FILTER_CATEGORY_DESC"
-			onchange="this.form.submit();"
-			>
-		</field>
-	</fields>
-	<fields name="list">
-		<field
-			name="limit"
-			type="limitbox"
-			class="inputbox input-mini chzn"
-			default="25"
-			label="JGLOBAL_ORDERING_LIST_LIMIT"
-			description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
-			onchange="this.form.submit();" />
-	</fields>
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                label="COM_REDSHOP_FILTER_SEARCH_DESC"
+                placeholder="JSEARCH_FILTER"
+                class="js-enter-submits"
+        />
+        <field
+                name="category_template"
+                type="template"
+                label="COM_REDSHOP_FILTER_CATEGORY"
+                description="COM_REDSHOP_FILTER_CATEGORY_DESC"
+                onchange="return AssignTemplate()"
+                class="form-control"
+        >
+            <option value="0">COM_REDSHOP_SELECT_TEMPLATE</option>
+        </field>
+        <field
+                name="category_id"
+                type="categorylist"
+                label="COM_REDSHOP_FILTER_CATEGORY"
+                description="COM_REDSHOP_FILTER_CATEGORY_DESC"
+                onchange="this.form.submit();"
+                class="form-control"
+        >
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                class="form-control"
+                default="25"
+                label="JGLOBAL_ORDERING_LIST_LIMIT"
+                description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
+                onchange="this.form.submit();" />
+    </fields>
 </form>

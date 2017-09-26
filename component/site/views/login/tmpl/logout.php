@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$app = JFactory::getApplication();
-$Itemid = JRequest::getInt('Itemid');
-$user = JFactory::getUser();
+$app    = JFactory::getApplication();
+$Itemid = $app->input->getInt('Itemid');
+$user   = JFactory::getUser();
 $params = $app->getParams('com_redshop');
-$menu = JFactory::getApplication()->getMenu();
+$menu   = JFactory::getApplication()->getMenu();
 
 $returnitemid = $params->get('logout', $Itemid);
 ?>
