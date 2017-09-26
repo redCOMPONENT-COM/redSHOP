@@ -197,17 +197,6 @@ abstract class RedshopHelperAttribute
 						$property_woscrollerdiv = "<div class='property_main_outer'>";
 					}
 
-					$property_scrollerdiv = "<table cellpadding='5' cellspacing='5'><tr>";
-					$property_scrollerdiv .= "<td><a class='leftButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-						. ".scrollReverse();\"></a></td>";
-					$property_scrollerdiv .= "<td><div id=\"isFlowersFrame" . $commonid
-						. "\" name=\"isFlowersFrame" . $commonid
-						. "\" style=\"margin: 0px; padding: 0px;position: relative; overflow: hidden;\"><div id=\"isFlowersImageRow"
-						. $commonid . "\" name=\"isFlowersImageRow" . $commonid . "\" style=\"position: absolute; top: 0px;left: 0px;\">";
-					$property_scrollerdiv .= "<script type=\"text/javascript\">var isFlowers" . $commonid
-						. " = new ImageScroller(\"isFlowersFrame" . $commonid . "\", \"isFlowersImageRow"
-						. $commonid . "\");";
-
 					for ($i = 0, $in = count($property); $i < $in; $i++)
 					{
 						if (count($selectProperty) > 0)
@@ -295,14 +284,6 @@ abstract class RedshopHelperAttribute
 									. $attributes [$a]->value . "\",\"" . $property[$i]->value . "\",\"" . $mpw_thumb
 									. "\",\"" . $mph_thumb
 									. "\");'><img class='redAttributeImage' width='50' height='50' src='" . $thumbUrl . "'></a></div>";
-
-								$property_scrollerdiv .= "isFlowers" . $commonid . ".addThumbnail(\""
-									. $thumbUrl . "\",\"javascript:isFlowers" . $commonid . ".scrollImageCenter('" . $i . "');setPropImage('"
-									. $productId . "','" . $propertyid . "','" . $property[$i]->value . "');changePropertyDropdown('"
-									. $productId . "','" . $accessoryId . "','" . $relatedProductId . "','"
-									. $attributes [$a]->value . "','" . $property[$i]->value . "','" . $mpw_thumb . "','"
-									. $mph_thumb . "');\",\"" . $property[$i]->text . "\",\"\",\"" . $propertyid . "_propimg_" . $property[$i]->value
-									. "\",\"" . $borderstyle . "\");";
 								$imgAdded++;
 							}
 						}
@@ -411,22 +392,6 @@ abstract class RedshopHelperAttribute
 						$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
 					}
 
-					$property_scrollerdiv .= "
-					isFlowers" . $commonid . ".setThumbnailHeight(" . $atth . ");
-					isFlowers" . $commonid . ".setThumbnailWidth(" . $attw . ");
-					isFlowers" . $commonid . ".setThumbnailPadding(5);
-					isFlowers" . $commonid . ".setScrollType(0);
-					isFlowers" . $commonid . ".enableThumbBorder(false);
-					isFlowers" . $commonid . ".setClickOpenType(1);
-					isFlowers" . $commonid . ".setThumbsShown(" . Redshop::getConfig()->get('NOOF_THUMB_FOR_SCROLLER') . ");
-					isFlowers" . $commonid . ".setNumOfImageToScroll(1);
-					isFlowers" . $commonid . ".renderScroller();
-        		    </script>";
-					$property_scrollerdiv .= "</div></div></td>";
-					$property_scrollerdiv .= "<td><a class='rightButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-						. ".scrollForward();\"></a></td>";
-					$property_scrollerdiv .= "</tr></table>";
-
 					if (strpos($attribute_table, "{property_image_without_scroller}") !== false)
 					{
 						$property_woscrollerdiv .= "</div>";
@@ -527,13 +492,33 @@ abstract class RedshopHelperAttribute
 					$attribute_table = str_replace("{attribute_title}", $attr_title, $attribute_table);
 					$attribute_table = str_replace("{property_dropdown}", $lists ['property_id'], $attribute_table);
 
+					$propertyScroller = RedshopLayoutHelper::render(
+						'product.property_scroller',
+						array(
+								'attribute'        => $attributes[$a],
+								'properties'       => $property,
+								'commonId'         => $commonid,
+								'productId'        => $productId,
+								'propertyId'       => $propertyid,
+								'accessoryId'      => $accessoryId,
+								'relatedProductId' => $relatedProductId,
+								'selectedProperty' => $selectedProperty,
+								'width'            => $mpw_thumb,
+								'height'           => $mph_thumb
+							),
+						'',
+						array(
+								'component' => 'com_redshop'
+							)
+					);
+
 					// Changes for attribue Image Scroll
 					if ($imgAdded == 0 || $isAjax == 1)
 					{
-						$property_scrollerdiv = "";
+						$propertyScroller = "";
 					}
 
-					$attribute_table = str_replace("{property_image_scroller}", $property_scrollerdiv, $attribute_table);
+					$attribute_table = str_replace("{property_image_scroller}", $propertyScroller, $attribute_table);
 					$attribute_table = str_replace("{property_image_without_scroller}", $property_woscrollerdiv, $attribute_table);
 
 					if ($subdisplay)

@@ -34,7 +34,7 @@ extract($displayData);
 	<table>
 		<?php foreach ($fieldCheck as $key => $field) : ?>
 			<tr>
-				<?php if (in_array($fieldCheck[$c]->value_id, $checkData)): ?>
+				<?php if (in_array($field->value_id, $checkData)): ?>
 					<?php $class = 'class="pointer imgClass_' . $sectionId . ' selectedimg"'; ?>
 					<?php $style = 'display: block;'; ?>
 					<?php $strImageLink = $imageLink[$field->value_id]; ?>
@@ -49,7 +49,7 @@ extract($displayData);
 					<div class="userfield_input">
 						<img 
 							id="<?php echo $field->value_id; ?>"
-							name="imgfield[]"
+							name="imgField[]"
 							src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field->field_name; ?>"
 							title="<?php echo $field->field_value; ?>"
 							alt="<?php echo $field->field_value; ?>"

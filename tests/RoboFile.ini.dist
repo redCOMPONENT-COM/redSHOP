@@ -7,7 +7,7 @@ skipClone = false
 cmsPath = tests/joomla-cms3
 
 ; If you want to clone a different branch, you can set it here
-branch = 3.7.4
+branch = 3.7.5
 
 ; (Linux / Mac only) If you want to set a different owner for the CMS root folder, you can set it here.
 ; localUser = www-data

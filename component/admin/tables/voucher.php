@@ -140,7 +140,7 @@ class RedshopTableVoucher extends RedshopTable
 
 		$products = $this->getOption('products', null);
 
-		if (empty($products))
+		if (empty(array_filter($products)))
 		{
 			return true;
 		}

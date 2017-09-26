@@ -152,7 +152,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->click("New");
         $I->waitForElement(['id' => "product_name"], 30);
@@ -628,8 +627,32 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     }
 
 
-    // The test case for product huse stockroom
+    // The test case for product used stockroom
+	public function createProductInStock($productName,$productNumber,$price,$productCategory,$quantityInStock, $preOrder){
 
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->waitForText(\ProductManagerPage::$namePage, 30, \ProductManagerPage::$headPage);
+		$I->click(\ProductManagerPage::$buttonNew);
+		$I->waitForElement(\ProductManagerPage::$productName, 30);
+		$I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
+		$I->fillField(\ProductManagerPage::$productName, $productName);
+		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(\ProductManagerPage::$productPrice, $price);
+		$I->click(\ProductManagerPage::$category);
+		$I->fillField(\ProductManagerPage::$categoryInput, $productCategory);
+		$usePage = new \ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($productCategory));
+		$I->click($usePage->returnChoice($productCategory));
+
+		$I->click(\ProductManagerPage::$stockroomTab);
+		$I->waitForElement(\ProductManagerPage::$quantityInStock,30);
+		$I->fillField(\ProductManagerPage::$quantityInStock,$quantityInStock);
+		$I->fillField(\ProductManagerPage::$preOrderStock,$preOrder);
+
+		$I->click(\ProductManagerPage::$buttonSave);
+		$I->waitForText(\ProductManagerPage::$messageSaveSuccess, 30, \ProductManagerPage::$selectorSuccess);
+	}
 
 
 }

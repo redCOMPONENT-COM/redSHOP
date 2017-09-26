@@ -34,17 +34,21 @@ class RedshopModelProduct extends RedshopModel
 
 	public $_catid = null;
 
+	protected $input;
+
 	public function __construct()
 	{
 		parent::__construct();
 
+		$this->input = JFactory::getApplication()->input;
+
 		$this->_table_prefix = '#__redshop_';
-		$pid                 = JRequest::getInt('pid', 0);
+		$pid                 = $this->input->getInt('pid', 0);
 
 		$GLOBALS['childproductlist'] = array();
 
 		$this->setId((int) $pid);
-		$this->_catid = (int) JRequest::getVar('cid', 0);
+		$this->_catid = (int) $this->input->get('cid', 0);
 	}
 
 	public function setId($id)
@@ -219,7 +223,7 @@ class RedshopModelProduct extends RedshopModel
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
-		$Itemid     = JRequest::getVar('Itemid');
+		$Itemid     = $this->input->get('Itemid');
 		$mailbcc    = null;
 		$fromname   = $data['username'];
 		$from       = $user->email;

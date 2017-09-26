@@ -33,6 +33,8 @@ class rsCarthelper
 
 	protected static $instance = null;
 
+	protected $input;
+
 	/**
 	 * Returns the rsCarthelper object, only creating it
 	 * if it doesn't already exist.
@@ -62,6 +64,7 @@ class rsCarthelper
 		$this->_redhelper       = redhelper::getInstance();
 		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
+		$this->input            = JFactory::getApplication()->input;
 	}
 
 	/**
@@ -145,7 +148,7 @@ class rsCarthelper
 			}
 			else
 			{
-				$data    = str_replace("{payment_order_discount}", $this->_producthelper->getProductFormattedPrice($amount), $data);
+				$data    = str_replace("{payment_order_discount}", RedshopHelperProductPrice::formattedPrice($amount), $data);
 				$payText = ($payment_oprand == '+') ? JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
 				$data    = str_replace("{payment_discount_lbl}", $payText, $data);
 				$data    = str_replace("{payment_discount end if}", '', $data);
@@ -402,14 +405,14 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$prdItemid  = JRequest::getInt('Itemid');
+		$prdItemid  = $this->input->getInt('Itemid');
 		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
-		$mainview   = JRequest::getVar('view');
+		$mainview   = $this->input->getCmd('view');
 
 		if ($Itemid == 0)
 		{
-			$Itemid = JRequest::getInt('Itemid');
+			$Itemid = $this->input->getInt('Itemid');
 		}
 
 		$cart_tr = '';
@@ -1010,7 +1013,7 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$mainview   = JRequest::getVar('view');
+		$mainview   = $this->input->getCmd('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
 		$subtotal_excl_vat = 0;
@@ -1906,7 +1909,7 @@ class rsCarthelper
 			}
 		}
 
-		$view = JRequest::getVar('view');
+		$view = $this->input->getCmd('view');
 
 		if (key_exists('shipping', $cart) && $view != 'cart')
 		{
@@ -2026,8 +2029,8 @@ class rsCarthelper
 		}
 
 		$this->_show_with_vat = $show_with_vat;
-		$layout               = JRequest::getVar('layout');
-		$view                 = JRequest::getVar('view');
+		$layout               = $this->input->getCmd('layout');
+		$view                 = $this->input->getCmd('view');
 
 		if (array_key_exists('payment_amount', $redArray) && $view == 'checkout' && $layout != 'default')
 		{
@@ -2378,6 +2381,33 @@ class rsCarthelper
 			$replace[] = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
 		}
 
+		// Replace Tracking
+		$search[]      = "{tracking_number_lbl}";
+		$replace[]     = JText::_('COM_REDSHOP_ORDER_TRACKING_NUMBER');
+		$search[]      = "{tracking_number}";
+		$replace[]     = $row->track_no;
+		$orderTrackURL = '';
+
+		JPluginHelper::importPlugin('redshop_shipping');
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'onReplaceTrackingUrl',
+			array(
+				$row->order_id,
+				&$orderTrackURL
+			)
+		);
+
+		if ($row->track_no)
+		{
+			$search[]  = "{tracking_url}";
+			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+		}
+		else
+		{
+			$search[]  = "{tracking_url}";
+			$replace[] = "";
+		}
+
 		$search[]   = "{product_subtotal_excl_vat}";
 		$replace[]  = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
 		$search[]   = "{order_subtotal_excl_vat}";
@@ -2502,9 +2532,9 @@ class rsCarthelper
 			$orderPaymentStatus = $row->order_payment_status;
 		}
 
-		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
+		$replace[] = $orderPaymentStatus . " " . $this->input->get('order_payment_log') . $issplitdisplay . $issplitdisplay2;
 		$search[]  = "{order_payment_status}";
-		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
+		$replace[] = $orderPaymentStatus . " " . $this->input->get('order_payment_log') . $issplitdisplay . $issplitdisplay2;
 
 		$search  [] = "{order_total}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->order_total);
@@ -2599,7 +2629,7 @@ class rsCarthelper
 			$paymentmethod->order_transfee + $row->order_total
 		);
 
-		if (JRequest::getVar('order_delivery'))
+		if ($this->input->get('order_delivery'))
 		{
 			$search  [] = "{delivery_time_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_DELIVERY_TIME');
@@ -2611,7 +2641,7 @@ class rsCarthelper
 		}
 
 		$search  [] = "{delivery_time}";
-		$replace [] = JRequest::getVar('order_delivery');
+		$replace [] = $this->input->get('order_delivery');
 		$search  [] = "{without_vat}";
 		$replace [] = '';
 		$search  [] = "{with_vat}";
@@ -3509,7 +3539,7 @@ class rsCarthelper
 
 		if (strpos($template_desc, "{newsletter_signup_chk}") !== false)
 		{
-			$Itemid               = JRequest::getVar('Itemid');
+			$Itemid               = $this->input->get('Itemid');
 			$newslettersignup     = "";
 			$newslettersignup_lbl = "";
 			$link                 = "";
@@ -3732,7 +3762,7 @@ class rsCarthelper
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
-					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = ' . $db->getNullDate() . ' AND v.end_date = ' . $db->getNullDate() . '))')
+					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = "' . $db->getNullDate() . '" AND v.end_date = "' . $db->getNullDate() . '"))')
 					->where('vt.user_id = ' . (int) $user->id)
 					->order('vt.transaction_voucher_id DESC');
 				$db->setQuery($query);
@@ -3778,7 +3808,7 @@ class rsCarthelper
 
 		$current_time = JFactory::getDate()->toSql();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "voucher as v on v.voucher_id = pv.voucher_id "
+			. "left join " . $this->_table_prefix . "voucher as v on v.id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
 			. " AND v.code=" . $db->quote($voucher_code)
 			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
@@ -3913,7 +3943,7 @@ class rsCarthelper
 		{
 			$voucher_code = $cart['voucher'][$v]['voucher_code'];
 			unset($cart['voucher'][$v]);
-			$voucher_code = JRequest::setVar('discount_code', $voucher_code);
+			$voucher_code = $this->input->get('discount_code', $voucher_code);
 			$cart         = RedshopHelperCartDiscount::applyVoucher($cart);
 		}
 
@@ -3928,7 +3958,7 @@ class rsCarthelper
 		{
 			$coupon_code = $cart['coupon'][$c]['coupon_code'];
 			unset($cart['coupon'][$c]);
-			$coupon_code = JRequest::setVar('discount_code', $coupon_code);
+			$coupon_code = $this->input->get('discount_code', $coupon_code);
 			$cart        = RedshopHelperCartDiscount::applyCoupon($cart);
 		}
 
@@ -5020,7 +5050,7 @@ class rsCarthelper
 
 		if (count($userfieldArr) > 0)
 		{
-			$req_fields = $this->_extraFieldFront->getSectionFieldList($section, 1, 1, 1);
+			$req_fields = RedshopHelperExtrafields::getSectionFieldList($section, 1, 1, 1);
 
 			for ($i = 0, $in = count($req_fields); $i < $in; $i++)
 			{
@@ -5037,29 +5067,37 @@ class rsCarthelper
 		return $msg;
 	}
 
+	/**
+	 * @param   array  $data
+	 * @param   int    $user_id
+	 *
+	 * @return  array|bool
+	 */
 	public function generateAccessoryArray($data, $user_id = 0)
 	{
 		$generateAccessoryCart = array();
-		$accessory_total_price = 0;
+		$accessoryTotalPrice   = 0;
 
 		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 		{
-			$accessory_data    = explode("@@", $data['accessory_data']);
-			$acc_quantity_data = array();
+			$accessoryData    = explode("@@", $data['accessory_data']);
+			$accQuantityData = array();
 
 			if (isset($data['acc_quantity_data']))
 			{
-				$acc_quantity_data = explode("@@", $data['acc_quantity_data']);
+				$accQuantityData = explode("@@", $data['acc_quantity_data']);
 			}
 
-			for ($i = 0, $in = count($accessory_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessoryData); $i < $in; $i++)
 			{
-				$accessory          = $this->_producthelper->getProductAccessory($accessory_data[$i]);
-				$accessorypricelist = $this->_producthelper->getAccessoryPrice($data['product_id'], $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1, $user_id);
-				$accessory_price    = $accessorypricelist[0];
-				$acc_quantity       = (isset($acc_quantity_data[$i]) && $acc_quantity_data[$i]) ? $acc_quantity_data[$i] : $data['quantity'];
+				$accessory          = RedshopHelperAccessory::getProductAccessories($accessoryData[$i]);
+				$accessoryPriceList = $this->_producthelper->getAccessoryPrice(
+					$data['product_id'], $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1, $user_id
+				);
+				$accessory_price    = $accessoryPriceList[0];
+				$acc_quantity       = (isset($accQuantityData[$i]) && $accQuantityData[$i]) ? $accQuantityData[$i] : $data['quantity'];
 
-				$generateAccessoryCart[$i]['accessory_id']       = $accessory_data[$i];
+				$generateAccessoryCart[$i]['accessory_id']       = $accessoryData[$i];
 				$generateAccessoryCart[$i]['accessory_name']     = $accessory[0]->product_name;
 				$generateAccessoryCart[$i]['accessory_oprand']   = $accessory[0]->oprand;
 				$generateAccessoryCart[$i]['accessory_price']    = $accessory_price * $acc_quantity;
@@ -5079,7 +5117,7 @@ class rsCarthelper
 						for ($ia = 0; $ia < $countAccessoryAttribute; $ia++)
 						{
 							$accPropertyCart                         = array();
-							$attribute                               = $this->_producthelper->getProductAttribute(0, 0, $acc_attribute_data[$ia]);
+							$attribute                               = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $acc_attribute_data[$ia]);
 							$accAttributeCart[$ia]['attribute_id']   = $acc_attribute_data[$ia];
 							$accAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
 
@@ -5097,8 +5135,8 @@ class rsCarthelper
 									{
 										$accSubpropertyCart = array();
 										$property_price     = 0;
-										$property           = $this->_producthelper->getAttibuteProperty($acc_property_data[$ip]);
-										$pricelist          = $this->_producthelper->getPropertyPrice($acc_property_data[$ip], $data['quantity'], 'property', $user_id);
+										$property           = RedshopHelperProduct_Attribute::getAttributeProperties($acc_property_data[$ip]);
+										$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($acc_property_data[$ip], $data['quantity'], 'property', $user_id);
 
 										if (count($pricelist) > 0)
 										{
@@ -5129,8 +5167,8 @@ class rsCarthelper
 												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
 													$subproperty_price = 0;
-													$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
-													$pricelist         = $this->_producthelper->getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
+													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($acc_subproperty_data[$isp]);
+													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
 
 													if (count($pricelist) > 0)
 													{
@@ -5168,16 +5206,16 @@ class rsCarthelper
 						$attributes_acc_set = $this->getProductAccAttribute($accessory[0]->child_product_id, $attribute_set_id, 0, 0, 1);
 					}
 
-					$req_attribute = $this->_producthelper->getProductAttribute($accessory[0]->child_product_id, 0, 0, 0, 1);
-					$req_attribute = array_merge($req_attribute, $attributes_acc_set);
+					$requireAttribute = RedshopHelperProduct_Attribute::getProductAttribute($accessory[0]->child_product_id, 0, 0, 0, 1);
+					$requireAttribute = array_merge($requireAttribute, $attributes_acc_set);
 
-					if (count($req_attribute) > 0)
+					if (count($requireAttribute) > 0)
 					{
 						$requied_attributeArr = array();
 
-						for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
+						for ($re = 0, $countAttribute = count($requireAttribute); $re < $countAttribute; $re++)
 						{
-							$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
+							$requied_attributeArr[$re] = urldecode($requireAttribute[$re]->attribute_name);
 						}
 
 						$requied_attribute_name = implode(", ", $requied_attributeArr);
@@ -5207,7 +5245,7 @@ class rsCarthelper
 			// Secure productsIds
 			if ($productsIds = explode(',', $product_id))
 			{
-				JArrayHelper::toInteger($productsIds);
+				Joomla\Utilities\ArrayHelper::toInteger($productsIds);
 
 				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
 			}
@@ -5233,7 +5271,7 @@ class rsCarthelper
 			// Secure notAttributeId
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
-				JArrayHelper::toInteger($notAttributeIds);
+				Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
 
 				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 			}
@@ -5254,12 +5292,7 @@ class rsCarthelper
 
 	public function getAttributeSetId($pid)
 	{
-		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
-			. " WHERE product_id=" . (int) $pid;
-
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return RedshopEntityProduct::getInstance($pid)->loadItem()->get('attribute_set_id');
 	}
 
 	public function generateAttributeArray($data, $user_id = 0)
@@ -5425,11 +5458,19 @@ class rsCarthelper
 		return $ret;
 	}
 
+	/**
+	 * @param   int  $order_item_id
+	 * @param   int  $is_accessory
+	 * @param   int  $parent_section_id
+	 * @param   int  $quantity
+	 *
+	 * @return  array
+	 */
 	public function generateAttributeFromOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{
 		$generateAttributeCart = array();
 
-		$orderItemAttdata = $this->_order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
+		$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
 
 		for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 		{
@@ -5437,14 +5478,14 @@ class rsCarthelper
 			$generateAttributeCart[$i]['attribute_id']   = $orderItemAttdata[$i]->section_id;
 			$generateAttributeCart[$i]['attribute_name'] = $orderItemAttdata[$i]->section_name;
 
-			$orderPropdata = $this->_order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
+			$orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 
 			for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 			{
 				$accSubpropertyCart = array();
 				$property_price     = 0;
-				$property           = $this->_producthelper->getAttibuteProperty($orderPropdata[$p]->section_id);
-				$pricelist          = $this->_producthelper->getPropertyPrice($orderPropdata[$p]->section_id, $quantity, 'property');
+				$property           = RedshopHelperProduct_Attribute::getAttributeProperties($orderPropdata[$p]->section_id);
+				$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($orderPropdata[$p]->section_id, $quantity, 'property');
 
 				if (count($pricelist) > 0)
 				{
@@ -5460,13 +5501,13 @@ class rsCarthelper
 				$accPropertyCart[$p]['property_oprand'] = $property[0]->oprand;
 				$accPropertyCart[$p]['property_price']  = $property_price;
 
-				$orderSubpropdata = $this->_order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
+				$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
 				for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 				{
 					$subproperty_price = 0;
-					$subproperty       = $this->_producthelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
-					$pricelist         = $this->_producthelper->getPropertyPrice($orderSubpropdata[$sp]->section_id, $quantity, 'subproperty');
+					$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubpropdata[$sp]->section_id);
+					$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($orderSubpropdata[$sp]->section_id, $quantity, 'subproperty');
 
 					if (count($pricelist) > 0)
 					{
@@ -5496,20 +5537,20 @@ class rsCarthelper
 	{
 		$generateAccessoryCart = array();
 
-		$orderItemdata = $this->_order_functions->getOrderItemAccessoryDetail($order_item_id);
+		$orderItemdata = RedshopHelperOrder::getOrderItemAccessoryDetail($order_item_id);
 
-		for ($i = 0, $in = count($orderItemdata); $i < $in; $i++)
+		foreach ($orderItemdata as $index => $orderItem)
 		{
-			$accessory          = $this->_producthelper->getProductAccessory($orderItemdata[$i]->product_id);
+			$accessory          = RedshopHelperAccessory::getProductAccessories($orderItem->product_id);
 			$accessorypricelist = $this->_producthelper->getAccessoryPrice($product_id, $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1);
 			$accessory_price    = $accessorypricelist[0];
 
-			$generateAccessoryCart[$i]['accessory_id']       = $orderItemdata[$i]->product_id;
-			$generateAccessoryCart[$i]['accessory_name']     = $accessory[0]->product_name;
-			$generateAccessoryCart[$i]['accessory_oprand']   = $accessory[0]->oprand;
-			$generateAccessoryCart[$i]['accessory_price']    = $accessory_price;
-			$generateAccessoryCart[$i]['accessory_quantity'] = $orderItemdata[$i]->product_quantity;
-			$generateAccessoryCart[$i]['accessory_childs']   = $this->generateAttributeFromOrder($order_item_id, 1, $orderItemdata[$i]->product_id, $quantity);
+			$generateAccessoryCart[$index]['accessory_id']       = $orderItem->product_id;
+			$generateAccessoryCart[$index]['accessory_name']     = $accessory[0]->product_name;
+			$generateAccessoryCart[$index]['accessory_oprand']   = $accessory[0]->oprand;
+			$generateAccessoryCart[$index]['accessory_price']    = $accessory_price;
+			$generateAccessoryCart[$index]['accessory_quantity'] = $orderItem->product_quantity;
+			$generateAccessoryCart[$index]['accessory_childs']   = $this->generateAttributeFromOrder($order_item_id, 1, $orderItem->product_id, $quantity);
 		}
 
 		return $generateAccessoryCart;
@@ -5642,22 +5683,24 @@ class rsCarthelper
 		}
 	}
 
-	/*
-	 * discount calculaor Ajax Function
+	/**
+	 * Discount calculator Ajax Function
 	 *
-	 * @return: ajax responce
+	 * @param   array  $get
+	 *
+	 * @return  array
 	 */
 	public function discountCalculator($get)
 	{
-		$product_id = $get['product_id'];
+		$productId = (int) $get['product_id'];
 
 		$discount_cal = array();
 
-		$productprice = $this->_producthelper->getProductNetPrice($product_id);
+		$productPrice = RedshopHelperProductPrice::getNetPrice($productId);
 
-		$product_price = $productprice['product_price_novat'];
+		$product_price = $productPrice['product_price_novat'];
 
-		$data = $this->_producthelper->getProductById($product_id);
+		$data = RedshopHelperProduct::getProductById($productId);
 
 		// Default calculation method
 		$calcMethod = $data->discount_calc_method;
@@ -5737,7 +5780,7 @@ class rsCarthelper
 			$finalArea = number_format($finalArea, 8, '.', '');
 
 			// Calculation prices as per various area
-			$discount_calc_data = $this->getDiscountCalcData($finalArea, $product_id);
+			$discount_calc_data = $this->getDiscountCalcData($finalArea, $productId);
 
 		}
 		else
@@ -5828,9 +5871,9 @@ class rsCarthelper
 
 				$price_per_piece = $area_price;
 
-				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
+				$formatted_price_per_area = RedshopHelperProductPrice::formattedPrice($area_price);
 
-				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
+				$price_per_piece_tax = RedshopHelperProduct::getProductTax($productId, $price_per_piece, 0, 1);
 
 				echo $display_final_area . "\n";
 
@@ -5853,7 +5896,7 @@ class rsCarthelper
 			{
 				$price_per_piece = $discount_calc_data[0]->price_per_piece;
 
-				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
+				$price_per_piece_tax = RedshopHelperProduct::getProductTax($productId, $price_per_piece, 0, 1);
 
 				echo $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet . "\n";
 
