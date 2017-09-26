@@ -66,8 +66,6 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-
-		$this->onLabelsGLSConnection();
 	}
 
 	/**
@@ -109,6 +107,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		}
 
 		$shopList      = array();
+		$this->onLabelsGLSConnection();
 		$shopResponses = $this->GetNearstParcelShops($values);
 
 		if (!empty($shopResponses) && is_array($shopResponses))
@@ -185,11 +184,18 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 
 		try
 		{
+			$countryCode = $values->country_code;
+
+			if (!$countryCode)
+			{
+				$countryCode = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+			}
+
 			$handle = $this->client->SearchNearestParcelShops(
 				array(
 					'street'           => (string) $values->address,
 					'zipcode'          => (string) $values->zipcode,
-					'countryIso3166A2' => RedshopHelperWorld::getCountryCode2($values->country_code),
+					'countryIso3166A2' => RedshopHelperWorld::getCountryCode2($countryCode),
 					'Amount'           => $this->params->get('amount_shop', 10)
 				)
 			)->SearchNearestParcelShopsResult;
@@ -330,9 +336,9 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		for ($i = 0; $i < $countRate; $i++)
 		{
 			$rs                      = $rates[$i];
-			$shippingRate            = $rs->shipping_rate_value;
+			$shippingRateValue       = $rs->shipping_rate_value;
 			$rs->shipping_rate_value = RedshopHelperShipping::applyVatOnShippingRate($rs, $data);
-			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
+			$shippingVatRate         = $rs->shipping_rate_value - $shippingRateValue;
 			$economicDisplayNumber   = $rs->economic_displaynumber;
 			$shippingRateId          = RedshopShippingRate::encrypt(
 				array(

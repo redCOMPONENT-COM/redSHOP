@@ -195,7 +195,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$order_paymentstatus = 'Unpaid';
-		$users_info_id       = JRequest::getInt('users_info_id');
+		$users_info_id       = $input->getInt('users_info_id');
 		$shippingaddresses   = $this->shipaddress($users_info_id);
 		$billingaddresses    = $this->billingaddresses();
 
@@ -1912,8 +1912,8 @@ class RedshopModelCheckout extends RedshopModel
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
 				$transaction_voucher_id = 0;
 				$vouchertype[]          = 'v:' . $cart['voucher'][$i]['voucher_code'];
-				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
-					. "WHERE voucher_id  = " . (int) $voucher_id;
+				$sql                    = "UPDATE " . $this->_table_prefix . "voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
+					. "WHERE `id`  = " . (int) $voucher_id;
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
 
@@ -2242,7 +2242,7 @@ class RedshopModelCheckout extends RedshopModel
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';
 		$checkout .= '<input type="hidden" name="Itemid" id="onestepItemid" value="' . $Itemid . '" />';
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
-		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
+		$checkout .= '<input type="hidden" name="order_id" value="' . JFactory::getApplication()->input->get('order_id') . '" />';
 
 		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{

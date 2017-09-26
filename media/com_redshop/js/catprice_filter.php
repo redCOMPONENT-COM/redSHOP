@@ -8,6 +8,10 @@
  */
 
 defined('_JEXEC') or die;
+
+$input = JFactory::getApplication()->input;
+$priceMin = $input->get('texpricemin', null);
+$priceMax = $input->get('texpricemax', null);
 ?>
 
 <div id="tmpdiv" style="display:none"></div>
@@ -29,7 +33,7 @@ defined('_JEXEC') or die;
 				range: true, // necessary for creating a range slider
 				min: <?php echo $minmax[0];?>, // minimum range of slider
 				max: <?php echo $minmax[1];?>, //maximimum range of slider
-				values: [<?php echo (isset($_REQUEST["texpricemin"]) ? $_REQUEST["texpricemin"] : $minmax[0]);?>, <?php echo (isset($_REQUEST["texpricemax"]) ? $_REQUEST["texpricemax"] : $minmax[1]);?>], //initial range of slider
+				values: [<?php echo null !== $priceMin ? $priceMin : $minmax[0];?>, <?php echo null !== $priceMax ? $priceMax : $minmax[1];?>], //initial range of slider
 				slide: function(event, ui) { // This event is triggered on every mouse move during slide.
 
 					var startrange = number_format(ui.values[0],redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
