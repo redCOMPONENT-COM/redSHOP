@@ -392,4 +392,24 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 
 		$template = str_replace("{gls_shipping_location}", $glsLocation, $template);
 	}
+
+	public function onReplaceShippingTemplate($data, &$template, $className, $checked)
+	{
+		if ($className != "default_shipping_gls")
+		{
+			return;
+		}
+
+		$glsLocation = $this->getGLSLocation($data['users_info_id'], $className);
+		$style       = $checked != "checked" ? "style='display:none;'" : "style='display:block;'";
+
+		if ($glsLocation)
+		{
+			$glsLocation = "<div " . $style . " id='rs_glslocationId'>" . $glsLocation . "</div>";
+		}
+
+		$template = str_replace("{gls_shipping_location}", $glsLocation, $template);
+
+		return;
+	}
 }
