@@ -705,7 +705,7 @@ trait HasAutoEvents
 	 *
 	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean                True on success.
 	 */
 	public function store($updateNulls = false)
 	{
@@ -719,18 +719,21 @@ trait HasAutoEvents
 		{
 			$oldItem = clone $this;
 
-			$data = array();
-
-			foreach ($this->_tbl_keys as $key)
+			if ($this->getOption('skip.checkPrimary', false) == false)
 			{
-				$data[$key] = $this->$key;
-			}
+				$data = array();
 
-			if (!$oldItem->load($data))
-			{
-				$this->setError(\JText::sprintf('LIB_REDSHOP_FIELD_ERROR_CANNOT_LOAD_FIELD', $this->$k));
+				foreach ($this->_tbl_keys as $key)
+				{
+					$data[$key] = $this->{$key};
+				}
 
-				return false;
+				if (!$oldItem->load($data))
+				{
+					$this->setError(\JText::sprintf('LIB_REDSHOP_FIELD_ERROR_CANNOT_LOAD_FIELD', $this->{$k}));
+
+					return false;
+				}
 			}
 		}
 

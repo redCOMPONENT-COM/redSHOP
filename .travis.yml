@@ -1,31 +1,24 @@
 language: php
 sudo: required
-
-dist:
-  precise
-
-php:
-  - '5.6.29'
-  - 7.0
-
-addons:
-  firefox: "46.0"
-
-cache:
-  apt: true
-  directories:
-    - node_modules
-    - $HOME/.composer/cache/files
-
+dist: precise
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
   - nvm use 8
-
+php:
+  - 5.6.30
+  - 7.0
+addons:
+  firefox: "46.0"
+cache:
+  apt: true
+  directories:
+    - "node_modules"
+    - $HOME/.composer/cache/files
 env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
-      - ACCEPTANCE=true # this will run acceptance test
+      - ACCEPTANCE=true # run test
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
