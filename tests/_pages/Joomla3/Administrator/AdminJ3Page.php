@@ -75,6 +75,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorError=".alert-error";
+
+	/**
+	 * @var string
+	 */
 	public static $selectorMissing = '.alert-danger';
 
 	/**
@@ -227,19 +232,30 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $acceptTerms = ['xpath' => "//div//label//input[@id='termscondition']"];
+	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']"];
+	/**
+	 * @var array
+	 */
+	public static $acceptTerms = ['xpath' => "//input[@id='termscondition']"];
 	/**
 	 * @var string
 	 */
-	public static $priceTotal = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[1]/div";
+//	public static $priceTotal = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[1]/div";
+
+	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
+	//
 	/**
 	 * @var string
 	 */
-	public static $priceDiscount = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[2]/div";
+//	public static $priceDiscount = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[2]/div";
+
+	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
 	/**
 	 * @var array
 	 */
 	public static $priceEnd = ['id' => 'spnTotal'];
+
+	public static $shippingRate=['id'=>'spnShippingrate'];
 
 	/**
 	 *
