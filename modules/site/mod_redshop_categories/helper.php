@@ -13,27 +13,27 @@ JLoader::import('redshop.library');
 
 class modProMenuHelper
 {
-	public function hasChilds($category_id)
+	public function hasChilds($categoryId)
 	{
-		$db = JFactory::getDbo();
-
-		if (empty($GLOBALS['category_info'][$category_id]['has_childs']))
+		if (!empty($GLOBALS['category_info'][$categoryId]['has_childs']))
 		{
-			$q = "SELECT category_child_id FROM #__redshop_category_xref ";
-			$q .= "WHERE category_parent_id=" . (int) $category_id;
-			$db->setQuery($q);
-
-			if ($db->loadObjectList() > 0)
-			{
-				$GLOBALS['category_info'][$category_id]['has_childs'] = true;
-			}
-			else
-			{
-				$GLOBALS['category_info'][$category_id]['has_childs'] = false;
-			}
+			return $GLOBALS['category_info'][$categoryId]['has_childs'];
 		}
 
-		return $GLOBALS['category_info'][$category_id]['has_childs'];
+		$GLOBALS['category_info'][$categoryId]['has_childs'] = false;
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(id)')
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('parent_id') . ' = ' . (int) $categoryId);
+
+		if ($db->setQuery($query)->loadResult() > 0)
+		{
+			$GLOBALS['category_info'][$categoryId]['has_childs'] = true;
+		}
+
+		return $GLOBALS['category_info'][$categoryId]['has_childs'];
 	}
 
 	public function sortCategoryTreeArray(&$categoryArr, $parent_selected)
@@ -149,7 +149,7 @@ class modProMenuHelper
 		);
 	}
 
-	public function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove)
+	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove, $params)
 	{
 		global $categorysorttype;
 		$db = JFactory::getDbo();
@@ -197,7 +197,9 @@ class modProMenuHelper
 				$query->where($db->qn('c.id') . ' NOT IN (' . implode(',', $parent_selected_remove) . ')');
 			}
 
-			if (!empty($cid))
+			$baseOnCategory = $params->get('base_on_category', 'no');
+
+			if (!empty($cid) && $baseOnCategory == 'yes')
 			{
 				$query->where($db->qn('c.parent_id') . ' = ' . $cid);
 			}
@@ -307,7 +309,7 @@ class modProMenuHelper
 		$parent_selected        = $params->get('redshop_category', RedshopHelperCategory::getRootId());
 		$parent_selected_remove = $params->get('redshop_category_remove', '');
 
-		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove);
+		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove, $params);
 
 		// Sort array of category objects
 		$result       = $this->sortCategoryTreeArray($categories, $parent_selected);

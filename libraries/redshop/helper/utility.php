@@ -168,7 +168,7 @@ class RedshopHelperUtility
 	 * @since   1.5
 	 */
 	public static function createTree($id, $indent, $list, &$childs, $maxLevel = 9999, $level = 0, $key = 'id', $nameKey = 'title',
-	                                  $spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
+									  $spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
 	{
 		if (empty($childs[$id]) || $level > $maxLevel)
 		{
@@ -245,14 +245,13 @@ class RedshopHelperUtility
 	/**
 	 * Define "Show Price" dynamic vars
 	 *
-	 * @return  integer
+	 * @return  integer  "1" for show price. "0" for hide.
 	 */
 	protected static function showPrice()
 	{
 		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroups  = $userHelper->getShopperGroupList($shopperGroupId);
+		$shopperGroups  = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroups))
 		{
@@ -261,9 +260,9 @@ class RedshopHelperUtility
 
 		$shopperGroups = $shopperGroups[0];
 
-		if (($shopperGroups->show_price == "yes") || ($shopperGroups->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
-			|| ($shopperGroups->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
-		)
+		if ($shopperGroups->show_price == "yes"
+			|| ($shopperGroups->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
+			|| ($shopperGroups->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1))
 		{
 			return 1;
 		}
@@ -279,11 +278,10 @@ class RedshopHelperUtility
 	protected static function getCatalog()
 	{
 		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroup   = $userHelper->getShopperGroupList($shopperGroupId);
+		$shopperGroup   = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
-		if (empty($shopperGroups))
+		if (empty($shopperGroup))
 		{
 			return Redshop::getConfig()->get('PRE_USE_AS_CATALOG');
 		}
@@ -292,8 +290,7 @@ class RedshopHelperUtility
 
 		if ($shopperGroup->use_as_catalog == "yes"
 			|| ($shopperGroup->use_as_catalog == "global" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
-			|| ($shopperGroup->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
-		)
+			|| ($shopperGroup->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1))
 		{
 			return 1;
 		}
@@ -370,13 +367,13 @@ class RedshopHelperUtility
 	/**
 	 * Method for sub-string with length.
 	 *
-	 * @param   string  $text         Text for sub-string
-	 * @param   int     $length       Maximum chars
-	 * @param   string  $ending       Ending text
-	 * @param   boolean $exact        Exact
-	 * @param   boolean $considerHtml Consider HTML
+	 * @param   string   $text          Text for sub-string
+	 * @param   int      $length        Maximum chars
+	 * @param   string   $ending        Ending text
+	 * @param   boolean  $exact         Exact
+	 * @param   boolean  $considerHtml  Consider HTML
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   2.0.6
 	 */
@@ -404,7 +401,6 @@ class RedshopHelperUtility
 					{
 						array_unshift($openTags, $tag[2]);
 					}
-
 					elseif (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag))
 					{
 						$pos = array_search($closeTag[1], $openTags);
@@ -429,15 +425,13 @@ class RedshopHelperUtility
 					{
 						foreach ($entities[0] as $entity)
 						{
-							if ($entity[1] + 1 - $entitiesLength <= $left)
-							{
-								$left--;
-								$entitiesLength += strlen($entity[0]);
-							}
-							else
+							if ($entity[1] + 1 - $entitiesLength > $left)
 							{
 								break;
 							}
+
+							$left--;
+							$entitiesLength += strlen($entity[0]);
 						}
 					}
 
@@ -462,10 +456,8 @@ class RedshopHelperUtility
 			{
 				return $text;
 			}
-			else
-			{
-				$truncate = substr($text, 0, $length - strlen($ending));
-			}
+
+			$truncate = substr($text, 0, $length - strlen($ending));
 		}
 
 		if (!$exact)
@@ -497,12 +489,14 @@ class RedshopHelperUtility
 
 		$truncate .= $ending;
 
-		if ($considerHtml)
+		if (!$considerHtml)
 		{
-			foreach ($openTags as $tag)
-			{
-				$truncate .= '</' . $tag . '>';
-			}
+			return $truncate;
+		}
+
+		foreach ($openTags as $tag)
+		{
+			$truncate .= '</' . $tag . '>';
 		}
 
 		return $truncate;
@@ -727,13 +721,16 @@ class RedshopHelperUtility
 	 *
 	 * @return  mixed
 	 *
+	 * @throws  Exception
+	 *
 	 * @since   2.0.6
 	 */
 	public static function getItemId($productId = 0, $categoryId = 0)
 	{
-		if ($categoryId)
+		// Get Itemid from Product detail
+		if ($productId)
 		{
-			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId));
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId));
 
 			if ($result)
 			{
@@ -741,20 +738,14 @@ class RedshopHelperUtility
 			}
 		}
 
-		if ($productId)
+		// Get Itemid from Category detail
+		if ($categoryId)
 		{
-			$product = RedshopHelperProduct::getProductById($productId);
+			$result = self::getCategoryItemid($categoryId);
 
-			if ($product && is_array($product->categories))
+			if ($result)
 			{
-				$result = self::getRedShopMenuItem(
-					array('option' => 'com_redshop', 'view' => 'category', 'cid' => $product->categories)
-				);
-
-				if ($result)
-				{
-					return $result;
-				}
+				return $result;
 			}
 		}
 
@@ -783,7 +774,7 @@ class RedshopHelperUtility
 	/**
 	 * Get Category Itemid
 	 *
-	 * @param   int $categoryId Category id
+	 * @param   int  $categoryId  Category id
 	 *
 	 * @return  mixed
 	 *
@@ -791,24 +782,48 @@ class RedshopHelperUtility
 	 */
 	public static function getCategoryItemid($categoryId = 0)
 	{
-		if ($categoryId)
-		{
-			$result = self::getRedShopMenuItem(
-				array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId)
-			);
-
-			if ($result)
-			{
-				return $result;
-			}
-		}
-		else
+		if (!$categoryId)
 		{
 			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
 
 			if ($result)
 			{
 				return $result;
+			}
+
+			return null;
+		}
+
+		$categories = explode(',', $categoryId);
+
+		if ($categories)
+		{
+			foreach ($categories as $category)
+			{
+				$result = self::getRedShopMenuItem(
+					array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $category)
+				);
+
+				if ($result)
+				{
+					return $result;
+				}
+			}
+		}
+
+		// Get from Parents
+		$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
+
+		if ($categories)
+		{
+			foreach ($categories as $category)
+			{
+				$result = self::getCategoryItemid($category->id);
+
+				if ($result)
+				{
+					return $result;
+				}
 			}
 		}
 
@@ -888,9 +903,9 @@ class RedshopHelperUtility
 	/**
 	 * Prepare order by object for ordering from string.
 	 *
-	 * @param   string $case Order By string generated in getOrderByList method
+	 * @param   string  $case  Order By string generated in getOrderByList method
 	 *
-	 * @return  object         Parsed strings in ordering and direction object key.
+	 * @return  stdClass       Parsed strings in ordering and direction object key.
 	 *
 	 * @since   2.0.6
 	 */
@@ -900,50 +915,58 @@ class RedshopHelperUtility
 
 		switch ($case)
 		{
-			case 'name':
-			default:
-				$orderBy->ordering  = 'p.product_name';
-				$orderBy->direction = 'ASC';
-
-				break;
 			case 'name_desc':
 				$orderBy->ordering  = 'p.product_name';
 				$orderBy->direction = 'DESC';
 
 				break;
+
 			case 'price':
 				$orderBy->ordering  = 'p.product_price';
 				$orderBy->direction = 'ASC';
 
 				break;
+
 			case 'price_desc':
 				$orderBy->ordering  = 'p.product_price';
 				$orderBy->direction = 'DESC';
 
 				break;
+
 			case 'number':
 				$orderBy->ordering  = 'p.product_number';
 				$orderBy->direction = 'ASC';
 
 				break;
+
 			case 'number_desc':
 				$orderBy->ordering  = 'p.product_number';
 				$orderBy->direction = 'DESC';
 
 				break;
+
 			case 'id':
 				$orderBy->ordering  = 'p.product_id';
 				$orderBy->direction = 'DESC';
 
 				break;
+
 			case 'ordering':
 				$orderBy->ordering  = 'pc.ordering';
 				$orderBy->direction = 'ASC';
 
 				break;
+
 			case 'ordering_desc':
 				$orderBy->ordering  = 'pc.ordering';
 				$orderBy->direction = 'DESC';
+
+				break;
+
+			case 'name':
+			default:
+				$orderBy->ordering  = 'p.product_name';
+				$orderBy->direction = 'ASC';
 
 				break;
 		}

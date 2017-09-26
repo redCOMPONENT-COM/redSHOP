@@ -25,19 +25,22 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	public function save()
 	{
-		$post   = JRequest::get('post');
-		$return = JRequest::getVar('return');
-		$Itemid = JRequest::getVar('Itemid');
+		$app     = JFactory::getApplication();
+		$input   = $app->input;
+		$post    = $input->post->getArray();
+		$return  = $input->getString('return', '');
+		$itemId  = $input->getInt('Itemid', 0);
+		$setExit = $input->getInt('setexit', 1);
 
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$post['users_info_id'] = $input->post->getInt('cid', 1);
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "ST";
 
 		$model = $this->getModel('account_shipto');
 
-		if ($reduser = $model->store($post))
+		if ($redUser = $model->store($post))
 		{
-			$post['users_info_id'] = $reduser->users_info_id;
+			$post['users_info_id'] = $redUser->users_info_id;
 			$msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
 		}
 		else
@@ -45,27 +48,18 @@ class RedshopControllerAccount_shipto extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
 		}
 
-		$return  = JRequest::getVar('return');
-		$setexit = JRequest::getInt('setexit', 1);
-
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $itemId, false);
 
-			if (!isset($setexit) || $setexit != 0)
+			if (!isset($setExit) || $setExit != 0)
 			{
-				?>
-				<script language="javascript">
-					window.parent.location.href = "<?php echo $link ?>";
-				</script>
-
-				<?php
-				exit;
+				$app->redirect('index.php?option=com_redshop&view=account_shipto&tmpl=component&is_edit=1&return=' . $return, $msg);
 			}
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -78,8 +72,9 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	public function remove()
 	{
-		$Itemid = JRequest::getVar('Itemid');
-		$infoid = JRequest::getInt('infoid', 0);
+		$input  = JFactory::getApplication()->input;
+		$Itemid = $input->get('Itemid');
+		$infoid = $input->getInt('infoid', 0);
 		$model  = $this->getModel('account_shipto');
 
 		if (!$infoid)
@@ -93,7 +88,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		}
 
 		$msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
-		$return = JRequest::getVar('return');
+		$return = $input->get('return');
 
 		if ($return != "")
 		{
@@ -114,11 +109,12 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	function cancel()
 	{
-		$Itemid                = JRequest::getInt('Itemid');
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$input                 = JFactory::getApplication()->input;
+		$Itemid                = $input->getInt('Itemid');
+		$post['users_info_id'] = $input->getInt('cid');
 		$msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
-		$return                = JRequest::getVar('return');
-		$setexit               = JRequest::getInt('setexit', 1);
+		$return                = $input->get('return');
+		$setexit               = $input->getInt('setexit', 1);
 		$link                  = '';
 
 		if ($return != "")

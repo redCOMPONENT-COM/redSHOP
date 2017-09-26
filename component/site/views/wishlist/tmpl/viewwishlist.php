@@ -12,26 +12,26 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-
-$config = Redconfiguration::getInstance();
+$app           = JFactory::getApplication();
+$config        = Redconfiguration::getInstance();
 $producthelper = productHelper::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper     = redhelper::getInstance();
 
-$url = JURI::base();
-$Itemid = JRequest::getInt('Itemid');
-$wishlists = $this->wishlists;
-$product_id = JRequest::getInt('product_id');
-$user = JFactory::getUser();
+$url        = JURI::base();
+$Itemid     = $app->input->getInt('Itemid');
+$wishlists  = $this->wishlists;
+$product_id = $app->input->getInt('product_id');
+$user       = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
-$redTemplate = Redtemplate::getInstance();
-$extraField = extraField::getInstance();
-$template = $redTemplate->getTemplate("wishlist_template");
-$wishlist_data1 = $template[0]->template_desc;
-$returnArr = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
+$redTemplate        = Redtemplate::getInstance();
+$extraField         = extraField::getInstance();
+$template           = $redTemplate->getTemplate("wishlist_template");
+$wishlist_data1     = $template[0]->template_desc;
+$returnArr          = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
 $template_userfield = $returnArr[0];
-$userfieldArr = $returnArr[1];
+$userfieldArr       = $returnArr[1];
 
 	if ($this->params->get('show_page_heading', 1))
 	{
@@ -505,7 +505,7 @@ function display_products($rows)
 					}
 				}
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $countUserfield = count($userfieldArr); $ui < $countUserfield; $ui++)
 				{
 					if (!$idx)
 					{

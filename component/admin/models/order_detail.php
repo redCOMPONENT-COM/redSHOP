@@ -29,7 +29,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}
@@ -346,7 +346,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$orderitemdata->wrapper_id = $item[$i]->wrapper_data;
 			$orderitemdata->wrapper_price = $wrapper_price;
 
-			if ($producthelper->checkProductDownload($product_id))
+			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
@@ -635,7 +635,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$userfields = $item[$i]->extrafieldname;
 			$userfields_id = $item[$i]->extrafieldId;
 
-			for ($ui = 0; $ui < count($userfields); $ui++)
+			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
 				$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $orderitemdata->order_item_id, 12, $userfields[$ui]);
 			}

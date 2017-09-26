@@ -232,7 +232,7 @@ class AbstractImportPlugin extends \JPlugin
 		}
 
 		fclose($handle);
-		unlink($this->getPath() . '/' . $this->folder . '/' . $file);
+		JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
 
 		$result->status = 1;
 
@@ -309,7 +309,7 @@ class AbstractImportPlugin extends \JPlugin
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
-		unlink($file);
+		JFile::delete($file);
 
 		foreach ($rows as $index => $fileRows)
 		{

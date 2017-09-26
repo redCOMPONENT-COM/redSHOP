@@ -47,4 +47,4 @@ $cart_template = str_replace("{show_cart_button}", $viewbutton, $cart_template);
 $cart_template = str_replace("{continue_shopping_button}", $countinuebutton, $cart_template);
 
 echo eval("?>" . $cart_template . "<?php ");
-exit;
+JFactory::getApplication()->close();

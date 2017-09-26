@@ -37,6 +37,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('attribute_set_detail');
+		$msg   = '';
 
 		if ($row = $model->store($post))
 		{
@@ -99,7 +100,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$files = $this->input->files->getArray();
 
-		for ($a = 0; $a < count($attribute); $a++)
+		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
 		{
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
@@ -119,7 +120,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$propertyImage = array_keys($attribute[$a]['property']);
 			$tmpproptyimagename = array_merge(array(), $propertyImage);
 
-			for ($p = 0; $p < count($property); $p++)
+			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
@@ -329,7 +330,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			echo "sucess";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function removesubpropertyImage()
@@ -345,7 +346,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			echo "sucess";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function saveAttributeStock()

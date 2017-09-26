@@ -27,10 +27,10 @@ class RedshopControllerNewsletter extends RedshopController
 	 */
 	public function subscribe()
 	{
-		$post             = JRequest::get('post');
+		$post             = $this->input->post->getArray();
 		$model            = $this->getModel('newsletter');
-		$Itemid           = JRequest::getVar('Itemid');
-		$newsletteritemid = JRequest::getVar('newsletteritemid');
+		$Itemid           = $this->input->get('Itemid');
+		$newsletteritemid = $this->input->get('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
 		$item             = $menu->getItem($newsletteritemid);
 
@@ -83,12 +83,12 @@ class RedshopControllerNewsletter extends RedshopController
 	 */
 	public function unsubscribe()
 	{
-		$post  = JRequest::get('get');
+		$post  = $this->input->get->getArray();
 		$model = $this->getModel('newsletter');
 
-		$Itemid           = JRequest::getVar('Itemid');
-		$email            = JRequest::getVar('email');
-		$newsletteritemid = JRequest::getVar('newsletteritemid');
+		$Itemid           = $this->input->get('Itemid');
+		$email            = $this->input->get('email');
+		$newsletteritemid = $this->input->get('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
 		$item             = $menu->getItem($newsletteritemid);
 
@@ -108,9 +108,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = rsUserHelper::getInstance();
-
-			if ($userhelper->newsletterUnsubscribe($email))
+			if (RedshopHelperNewsletter::removeSubscribe($email))
 			{
 				$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 			}
@@ -135,9 +133,8 @@ class RedshopControllerNewsletter extends RedshopController
 	public function tracker()
 	{
 		$db    = JFactory::getDbo();
-		$app   = JFactory::getApplication();
 
-		$trackerId = $app->input->getInt('tracker_id', 0);
+		$trackerId = $this->input->getInt('tracker_id', 0);
 
 		if (!$trackerId)
 		{
@@ -157,6 +154,6 @@ class RedshopControllerNewsletter extends RedshopController
 		header("Content-type: image/gif");
 		readfile(JURI::root() . 'components/com_redshop/assets/images/spacer.gif');
 
-		$app->close();
+		JFactory::getApplication()->close();
 	}
 }

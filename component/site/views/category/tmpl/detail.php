@@ -519,7 +519,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 					$alttext = $media_documents[$m]->media_name;
 				}
 
-				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
+				if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
 					$downlink = JURI::root() .
 								'index.php?tmpl=component&option=' . $this->option .
@@ -616,7 +616,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		/************** end user fields ***************************/
 
 		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$catidmain = Jrequest::getVar("cid");
+		$catidmain = JFactory::getApplication()->input->get("cid");
 
 		if (count($ItemData) > 0)
 		{
@@ -873,7 +873,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		// Product preview image.
 		if (strpos($data_add, '{product_preview_img}') !== false)
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 			{
 				$previewsrcPath = RedShopHelperImages::getImagePath(
 									$product->product_preview_image,
@@ -1140,5 +1140,5 @@ echo eval("?>" . $template_desc . "<?php ");
 
 if ($slide)
 {
-	exit;
+	JFactory::getApplication()->close();
 }

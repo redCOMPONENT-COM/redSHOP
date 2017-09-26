@@ -23,7 +23,7 @@ class RedshopViewUser extends RedshopViewAdmin
 		$userhelper = rsUserHelper::getInstance();
 
 		$this->state = $this->get('State');
-		$sync                      = JRequest::getVar('sync');
+		$sync                      = JFactory::getApplication()->input->get('sync');
 		$spgrp_filter              = $this->state->get('spgrp_filter');
 		$tax_exempt_request_filter = $this->state->get('tax_exempt_request_filter');
 
@@ -48,7 +48,7 @@ class RedshopViewUser extends RedshopViewAdmin
 		$user                = $this->get('Data');
 		$pagination          = $this->get('Pagination');
 
-		$shopper_groups      = $userhelper->getShopperGroupList();
+		$shopper_groups      = Redshop\Helper\ShopperGroup::generateList();
 
 		$temps               = array();
 		$temps[0]            = new stdClass;

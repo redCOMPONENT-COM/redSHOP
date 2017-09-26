@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$app        = JFactory::getApplication();
 
 // Event
-$task = JRequest::getCmd('task');
+$task = $app->input->getCmd('task');
 
 // Group
-$type   = JRequest::getCmd('type');
+$type = $app->input->getCmd('type');
 
-$jinput = JFactory::getApplication()->input;
-$post   = $jinput->getArray($_REQUEST);
+$post   = $app->input->getArray();
 
 JPluginHelper::importPlugin($type);
 

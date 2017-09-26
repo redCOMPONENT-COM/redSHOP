@@ -9,19 +9,18 @@
 
 defined('_JEXEC') or die;
 
-
-$carthelper = rsCarthelper::getInstance();
-$redconfig = Redconfiguration::getInstance();
-$configobj = Redconfiguration::getInstance();
-$redTemplate = Redtemplate::getInstance();
-$producthelper = productHelper::getInstance();
+$carthelper      = rsCarthelper::getInstance();
+$redconfig       = Redconfiguration::getInstance();
+$configobj       = Redconfiguration::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
 
-$db = JFactory::getDbo();
-$url = JURI::base();
-$Itemid = RedshopHelperUtility::getCheckoutItemId();
-$order_id = JRequest::getInt('oid');
+$app      = JFactory::getApplication();
+$db       = JFactory::getDbo();
+$url      = JURI::base();
+$Itemid   = RedshopHelperUtility::getCheckoutItemId();
+$order_id = $app->input->getInt('oid');
 
 // For barcode
 $model = $this->getModel('order_detail');
@@ -67,7 +66,7 @@ $orderitem = $order_functions->getOrderItemDetail($order_id);
 // Replace Reorder Button
 $this->replaceReorderButton($ReceiptTemplate);
 
-$print = JRequest::getInt('print');
+$print = $app->input->getInt('print');
 
 if ($print)
 {
@@ -117,13 +116,15 @@ $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
  *
  * trigger content plugin
  */
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 $o          = new stdClass;
 $o->text    = $ReceiptTemplate;
 JPluginHelper::importPlugin('content');
 $x               = array();
 $results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
+
+$dispatcher->trigger('onRenderReceipt', array(&$ReceiptTemplate, $order_id));
 
 // End
 

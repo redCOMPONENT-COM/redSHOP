@@ -16,7 +16,7 @@ class RedshopViewCheckout extends RedshopView
 	{
 		$app = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
-		$Itemid    = JRequest::getInt('Itemid');
+		$Itemid    = $app->input->getInt('Itemid');
 		$user      = JFactory::getUser();
 		$redhelper = redhelper::getInstance();
 		$field     = extraField::getInstance();
@@ -104,7 +104,7 @@ class RedshopViewCheckout extends RedshopView
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid));
 			}
 
-			$users_info_id     = JRequest::getInt('users_info_id');
+			$users_info_id     = $app->input->getInt('users_info_id');
 			$billingaddresses  = $model->billingaddresses();
 			$shippingaddresses = $model->shippingaddresses();
 
@@ -124,9 +124,9 @@ class RedshopViewCheckout extends RedshopView
 				}
 			}
 
-			$shipping_rate_id = JRequest::getInt('shipping_rate_id');
-			$element          = JRequest::getCmd('payment_method_id');
-			$ccinfo           = JRequest::getInt('ccinfo');
+			$shipping_rate_id = $app->input->getInt('shipping_rate_id');
+			$element          = $app->input->getCmd('payment_method_id');
+			$ccinfo           = $app->input->getInt('ccinfo');
 
 			if (!isset($cart['voucher_discount']))
 			{
@@ -151,7 +151,6 @@ class RedshopViewCheckout extends RedshopView
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
-			$this->users_info_id = $users_info_id;
 			$this->shipping_rate_id = $shipping_rate_id;
 			$this->element = $element;
 			$this->ccinfo = $ccinfo;
@@ -160,6 +159,8 @@ class RedshopViewCheckout extends RedshopView
 		}
 		else
 		{
+			$users_info_id = 0;
+
 			if ($lists['is_company'])
 			{
 				// Field_section Company
@@ -175,11 +176,12 @@ class RedshopViewCheckout extends RedshopView
 			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 		}
 
-		if (($user->id || $auth['users_info_id'] > 0) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
+		if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$this->setLayout('onestepcheckout');
 		}
 
+		$this->users_info_id = $users_info_id;
 		$this->lists = $lists;
 		parent::display($tpl);
 	}

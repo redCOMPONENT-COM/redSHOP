@@ -25,7 +25,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -118,7 +118,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		$userRow->country_code = $data['country_code'];
 		$userRow->phone        = $data['phone'];
 		$userRow->city         = $data['city'];
-		$userRow->state_code   = $data['state_code'];
+		$userRow->state_code   = isset($data['state_code']) ? $data['state_code'] : '';
 
 		if (!$userRow->store())
 		{
@@ -230,11 +230,13 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				return false;
 			}
 
-			// Store userfields
-			$userfields = JRequest::getVar('extrafields' . $product_id);
-			$userfields_id = JRequest::getVar('extrafields_id_' . $product_id);
+			$jinput = JFactory::getApplication()->input;
 
-			for ($ui = 0; $ui < count($userfields); $ui++)
+			// Store userfields
+			$userfields    = $jinput->get('extrafields' . $product_id);
+			$userfields_id = $jinput->get('extrafields_id_' . $product_id);
+
+			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
 				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $rowitem->quotation_item_id, 12, $userfields[$ui]);
 			}
@@ -620,7 +622,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			if ($display_type == 'checkbox' || $display_type == 'radio')
 			{
-				for ($chk = 0; $chk < count($subproperty); $chk++)
+				for ($chk = 0, $countSubProperty = count($subproperty); $chk < $countSubProperty; $chk++)
 				{
 					$chklist .= "<br /><input type='" . $display_type . "' value='" . $subproperty[$chk]->value
 						. "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid

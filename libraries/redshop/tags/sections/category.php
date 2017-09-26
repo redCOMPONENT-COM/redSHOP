@@ -32,6 +32,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	);
 
 	/**
+	 * List of tag alias
+	 *
 	 * @var    array
 	 * @since  2.1
 	 */
@@ -83,8 +85,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * Replace category fields tags
 	 *
-	 * @param   object  $category  Category object
-	 * @param   string  $template  Template to replace
+	 * @param   object $category Category object
+	 * @param   string $template Template to replace
 	 *
 	 * @return  string
 	 *
@@ -119,15 +121,30 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->name))
 		{
-			$link = JRoute::_('index.php?option=com_redshop' .
-							'&view=category&cid=' . $category->id .
-							'&manufacturer_id=' . $this->data['manufacturerId'] .
-							'&layout=detail&Itemid=' . $this->data['itemId']
-						);
+			$link         = JRoute::_('index.php?option=com_redshop' .
+				'&view=category&cid=' . $category->id .
+				'&manufacturer_id=' . $this->data['manufacturerId'] .
+				'&layout=detail&Itemid=' . $this->data['itemId']
+			);
 			$categoryName = '<a href="' . $link . '" title="' . $category->name . '">' . $category->name . '</a>';
 			$template     = str_replace("{category_name}", $categoryName, $template);
 		}
 
+		$this->replaceCategoryProperties($template, $category);
+
+		return $template;
+	}
+
+	/**
+	 * @param   string  $template  Template
+	 * @param   object  $category  Category object
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	private function replaceCategoryProperties(&$template, $category)
+	{
 		// Replace all registered tag if category object have it
 		foreach ($this->tags as $tag)
 		{
@@ -146,21 +163,24 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		{
 			$tag = str_replace('{', '', $tag);
 			$tag = str_replace('}', '', $tag);
+			$tagWithoutPrefix = str_replace('category_', '', $tag);
 
 			// Make this this tag also have object property to use
 			if (property_exists($category, $tag))
 			{
 				$template = str_replace($alias, $category->{$tag}, $template);
 			}
+			else
+			{
+				$template = str_replace($alias, $category->{$tagWithoutPrefix}, $template);
+			}
 		}
-
-		return $template;
 	}
 
 	/**
 	 * Replace sub categories tags
 	 *
-	 * @param   array  $subCategories  Sub categories array
+	 * @param   array $subCategories Sub categories array
 	 *
 	 * @return  string
 	 *
@@ -192,9 +212,9 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * getThumbnail
 	 *
-	 * @param   object  $category  Category object
-	 * @param   int     $width     Width
-	 * @param   int     $height    Height
+	 * @param   object $category Category object
+	 * @param   int    $width    Width
+	 * @param   int    $height   Height
 	 *
 	 * @return string
 	 */
