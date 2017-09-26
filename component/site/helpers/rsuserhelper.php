@@ -119,7 +119,7 @@ class RsUserHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 */
 	public function getShopperGroupList($shopperGroupId = 0)
 	{
@@ -177,7 +177,7 @@ class RsUserHelper
 	 *
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperJoomla::updateJoomlaUser
+	 * @deprecated   2.0.7  Use RedshopHelperJoomla::updateJoomlaUser
 	 */
 	public function updateJoomlaUser($data)
 	{
@@ -192,7 +192,7 @@ class RsUserHelper
 	 *
 	 * @return  boolean|JUser       JUser if success. False otherwise.
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.0.7
 	 */
 	public function createJoomlaUser($data, $createUser = 0)
 	{
@@ -205,7 +205,7 @@ class RsUserHelper
 	 * @param   string   $data            The answer
 	 * @param   boolean  $displayWarning  Display warning or not.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 *
 	 * @return  boolean
 	 */
@@ -223,7 +223,7 @@ class RsUserHelper
 	 *
 	 * @return  bool|\JTable      RedshopTableUser if success. False otherwise.
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.0.7
 	 */
 	public function storeRedshopUser($data, $userId = 0, $admin = 0)
 	{
@@ -237,7 +237,7 @@ class RsUserHelper
 	 *
 	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperUser::storeRedshopUserShipping
+	 * @deprecated  2.0.7  Use RedshopHelperUser::storeRedshopUserShipping
 	 */
 	public function storeRedshopUserShipping($data)
 	{
@@ -282,7 +282,7 @@ class RsUserHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function newsletterUnsubscribe($email = "")
 	{
@@ -301,7 +301,7 @@ class RsUserHelper
 	 *
 	 * @return  string                    HTML content layout.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__   Use RedshopHelperBilling::renderTemplate instead
+	 * @deprecated   2.0.7   Use RedshopHelperBilling::renderTemplate instead
 	 */
 	public function getBillingTable($post = array(), $isCompany = 0, $lists, $showShipping = 0, $showNewsletter = 0, $createAccount = 1)
 	{
@@ -317,7 +317,7 @@ class RsUserHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperBilling::replaceCommonFields
+	 * @deprecated   2.0.7  Use RedshopHelperBilling::replaceCommonFields
 	 */
 	public function replaceBillingCommonFields($templateHtml, $data, $lists)
 	{
@@ -333,7 +333,7 @@ class RsUserHelper
 	 *
 	 * @return  string                 Html content after replace
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperBilling::replacePrivateCustomer
+	 * @deprecated   2.0.7  Use RedshopHelperBilling::replacePrivateCustomer
 	 */
 	public function replacePrivateCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
@@ -349,7 +349,7 @@ class RsUserHelper
 	 *
 	 * @return  string                 Html content after replace
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperBilling::replaceCompanyCustomer instead.
+	 * @deprecated  2.0.7  Use RedshopHelperBilling::replaceCompanyCustomer instead.
 	 */
 	public function replaceCompanyCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
@@ -365,7 +365,7 @@ class RsUserHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShipping::getShippingTable
+	 * @deprecated  2.0.7  Use RedshopHelperShipping::getShippingTable
 	 */
 	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
 	{
@@ -389,7 +389,7 @@ class RsUserHelper
 	 *
 	 * @return  string  List of manufacturer Ids.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function getShopperGroupManufacturers()
 	{

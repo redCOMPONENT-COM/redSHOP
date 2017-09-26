@@ -110,7 +110,7 @@ class RedshopHelperTemplate
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getTemplateTags($name, $templateSection = '')
 	{
@@ -769,7 +769,7 @@ class RedshopHelperTemplate
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function renderFieldTagHints($fieldSection = 0, $heading = '')
 	{

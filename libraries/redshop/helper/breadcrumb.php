@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopHelperBreadcrumb
 {
@@ -25,7 +25,7 @@ class RedshopHelperBreadcrumb
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function generate($sectionId = 0)
 	{

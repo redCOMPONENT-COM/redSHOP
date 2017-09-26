@@ -82,7 +82,7 @@ class RedshopViewForm extends AbstractView
 	 * Split fieldset in form into column
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.7
 	 */
 	public $formFieldsetsColumn = 2;
 
