@@ -1119,7 +1119,7 @@ class RedshopHelperMail
 
 		if ($quotation->user_id != 0)
 		{
-			$message = $cartHelper->replaceBillingAddress($message, $quotation, true);
+			$message = RedshopHelperBillingTag::replaceBillingAddress($message, $quotation, true);
 		}
 		else
 		{

@@ -29,27 +29,4 @@ class RedshopEntityXml_Import extends RedshopEntity
 	{
 		return JTable::getInstance('XmlImport_Detail', 'Table');
 	}
-
-	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'xmlimport_id', $keyValue = null)
-	{
-		if ($key == 'xmlimport_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'xmlimport_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
 }
