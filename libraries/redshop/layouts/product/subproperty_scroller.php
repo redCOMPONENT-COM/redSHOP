@@ -12,19 +12,21 @@ defined('JPATH_BASE') or die;
 /**
  * $displayData extract
  *
- * @param   object  $subProperties        Subproperty
- * @param   string  $commonId             Common ID
- * @param   string  $productId            Product ID
- * @param   string  $propertyId           Property ID
- * @param   string  $subPropertyId        Subproperty ID
- * @param   string  $accessoryId          Accessory ID
- * @param   string  $relatedProductId     Related product ID
- * @param   int     $selectedSubProperty  Subproperty is selected
- * @param   array   $subPropertyArray     Subproperty array
- * @param   float   $width                Image width
- * @param   float   $height               Image height
+ * @var   array   $displayData          Display data
+ * @var   object  $subProperties        Subproperty
+ * @var   string  $commonId             Common ID
+ * @var   string  $productId            Product ID
+ * @var   string  $propertyId           Property ID
+ * @var   string  $subPropertyId        Subproperty ID
+ * @var   string  $accessoryId          Accessory ID
+ * @var   string  $relatedProductId     Related product ID
+ * @var   int     $selectedSubProperty  Subproperty is selected
+ * @var   array   $subPropertyArray     Subproperty array
+ * @var   float   $width                Image width
+ * @var   float   $height               Image height
  */
 extract($displayData);
+
 $atth = 50;
 $attw = 50;
 
@@ -53,7 +55,7 @@ if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 						<?php foreach ($subProperties as $key => $subProperty): ?>
 							<?php
 								$borderStyle = ($selectedSubProperty == $subProperty->value) ? " 1px solid " : "";
-								$thumbUrl = RedShopHelperImages::getImagePath(
+								$thumbUrl = RedshopHelperMedia::getImagePath(
 									$subProperty->subattribute_color_image,
 									'',
 									'thumb',
