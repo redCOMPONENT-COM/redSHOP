@@ -87,7 +87,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Downloads and prepares a Joomla CMS site for testing
 	 *
-	 * @param   int  $useHtaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 * @param   int $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
 	 *
 	 * @return mixed
 	 */
@@ -176,9 +176,76 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
 			->run()
 			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
+			->run()
+			->stopOnFail();
+
+
+	$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
+			->run()
+			->stopOnFail();
+
+
+
 
 		/*
 		$this->taskCodecept()
@@ -218,11 +285,11 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Executes Selenium System Tests in your machine
 	 *
-	 * @param   array  $opts  Use -h to see available options
+	 * @param   array $opts Use -h to see available options
 	 *
 	 * @return mixed
 	 */
-	public function runTest($opts = array('test|t'  => null, 'suite|s' => 'acceptance'))
+	public function runTest($opts = array('test|t' => null, 'suite|s' => 'acceptance'))
 	{
 		$this->getComposer();
 
@@ -267,7 +334,8 @@ class RoboFile extends \Robo\Tasks
 			while ($iterator->valid())
 			{
 				if (strripos($iterator->getSubPathName(), 'cept.php')
-					|| strripos($iterator->getSubPathName(), 'cest.php'))
+					|| strripos($iterator->getSubPathName(), 'cest.php')
+				)
 				{
 					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
 					$tests[$i] = $iterator->getSubPathName();
@@ -329,7 +397,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Function to Run tests in a Group
 	 *
-	 * @param   int  $useHtaccess  Use htacess.
+	 * @param   int $useHtaccess Use htacess.
 	 *
 	 * @return  void
 	 */
@@ -378,9 +446,83 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
 			->run()
 			->stopOnFail();
+
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
+
 
 		/*
 		$this->taskCodecept()
@@ -420,7 +562,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Method for run specific scenario
 	 *
-	 * @param   string  $testCase  Scenario case.
+	 * @param   string $testCase  Scenario case.
 	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
 	 *
 	 * @return  void
@@ -451,8 +593,8 @@ class RoboFile extends \Robo\Tasks
 
 		// Install Joomla + redSHOP
 		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
+			// ->arg('--steps')
+			// ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')

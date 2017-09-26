@@ -19,13 +19,6 @@ defined('_JEXEC') or die;
 class RedshopModelCategories extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
-	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_categories';
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.

@@ -27,9 +27,10 @@ class RedshopControllerQuotation extends RedshopController
 	 */
 	public function addquotation()
 	{
-		$Itemid = JRequest::getVar('Itemid');
-		$return = JRequest::getVar('return');
-		$post   = JRequest::get('post');
+		$app    = JFactory::getApplication();
+		$Itemid = $app->input->get('Itemid');
+		$return = $app->input->get('return');
+		$post   = $app->input->post->getArray();
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -81,7 +82,7 @@ class RedshopControllerQuotation extends RedshopController
 					window.parent.location.href = "<?php echo $link ?>";
 				</script>
 				<?php
-				JFactory::getApplication()->close();
+				$app->close();
 			}
 
 			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $msg);
@@ -101,10 +102,11 @@ class RedshopControllerQuotation extends RedshopController
 	 */
 	public function usercreate()
 	{
-		$Itemid = JRequest::getVar('Itemid');
-		$return = JRequest::getVar('return');
+		$input  = JFactory::getApplication()->input;
+		$Itemid = $input->get('Itemid');
+		$return = $input->get('return');
 		$model  = $this->getModel('quotation');
-		$post   = JRequest::get('post');
+		$post   = $input->post->getArray();
 
 		$model->usercreate($post);
 
@@ -120,8 +122,9 @@ class RedshopControllerQuotation extends RedshopController
 	 */
 	public function cancel()
 	{
-		$Itemid = JRequest::getVar('Itemid');
-		$return = JRequest::getVar('return');
+		$app  = JFactory::getApplication();
+		$Itemid = $app->input->get('Itemid');
+		$return = $app->input->get('return');
 
 		if ($return != "")
 		{
@@ -132,7 +135,7 @@ class RedshopControllerQuotation extends RedshopController
 				window.parent.location.href = "<?php echo $link ?>";
 			</script>
 			<?php
-			JFactory::getApplication()->close();
+			$app->close();
 		}
 		else
 		{
