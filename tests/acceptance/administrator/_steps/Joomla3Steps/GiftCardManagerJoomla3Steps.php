@@ -233,7 +233,10 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function searchCard($cardName = 'Sample Card', $functionName = 'Search')
     {
-        $this->search(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, $functionName);
+        $I=$this;
+        $I->filterListBySearching($cardName);
+        $I->seeElement(['link' => $cardName]);
+//        $this->search(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, $functionName);
     }
 
     /**
@@ -257,7 +260,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
-        $I->click(\GiftCardManagerPage::$checkAllCart);
+        $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$unpublishButton);
         $I->waitForText(\GiftCardManagerPage::$messageUnpublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
     }
@@ -267,7 +270,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
-        $I->click(\GiftCardManagerPage::$checkAllCart);
+        $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$publishButton);
         $I->waitForText(\GiftCardManagerPage::$messagePublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
     }
@@ -277,7 +280,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
-        $I->click(\GiftCardManagerPage::$checkAllCart);
+        $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$unpublishButton);
         $I->wait(3);
     }
@@ -286,7 +289,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
-        $I->click(\GiftCardManagerPage::$checkAllCart);
+        $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$publishButton);;
     }
 

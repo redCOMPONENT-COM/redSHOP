@@ -28,7 +28,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}
@@ -119,6 +119,11 @@ class RedshopModelManufacturer_detail extends RedshopModel
 			return false;
 		}
 
+		$isNew = ($row->manufacturer_id > 0) ? false : true;
+		JPluginHelper::importPlugin('redshop_product');
+
+		$result = JDispatcher::getInstance()->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
+
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
 			if (!$row->excluding_category_list)
@@ -133,6 +138,8 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
+
+		JDispatcher::getInstance()->trigger('onAfterManufacturerSave', array(&$row, $isNew));
 
 		return $row;
 	}
@@ -152,7 +159,11 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 				return false;
 			}
+
+			JPluginHelper::importPlugin('redshop_product');
+			JDispatcher::getInstance()->trigger('onAfterManufacturerDelete', array($cid));
 		}
+
 		return true;
 	}
 
@@ -233,7 +244,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		$row = $this->getTable();
 
 		$total = count($cid);
-		$order = (empty($order)) ? JRequest::getVar('order', array(0), 'post', 'array') : $order;
+		$order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
 		JArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values

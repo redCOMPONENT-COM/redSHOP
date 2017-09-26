@@ -31,7 +31,15 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/voucher_detail.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/views/voucher/tmpl/default.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/models/voucher_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/voucher_detail.php'
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/voucher_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/mail_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/views/mail/tmpl/default.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/mail_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/mail_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/template_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/views/template/tmpl/default.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/template_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/template_detail.php'
 		);
 	}
 
@@ -46,6 +54,9 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 	{
 		return array(
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/voucher_detail',
+			JPATH_SITE . '/components/com_redshop/layouts/tags',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/mail_detail',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/template_detail'
 		);
 	}
 

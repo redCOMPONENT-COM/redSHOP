@@ -255,6 +255,8 @@ class RedshopHelperMedia
 			return false;
 		}
 
+		// Prevent space in file path
+		$physicalPath = str_replace(' ', '%20', $physicalPath);
 		$thumbUrl = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
@@ -523,7 +525,7 @@ class RedshopHelperMedia
 		// This is the resizing/resampling/transparency-preserving magic
 		$imageResized = imagecreatetruecolor($finalWidth, $finalHeight);
 
-		if (($info[2] == IMAGETYPE_GIF) || ($info[2] == IMAGETYPE_PNG))
+		if ($info[2] == IMAGETYPE_GIF || $info[2] == IMAGETYPE_PNG)
 		{
 			$transparency = imagecolortransparent($image);
 
@@ -534,7 +536,6 @@ class RedshopHelperMedia
 				imagefill($imageResized, 0, 0, $color);
 				imagesavealpha($imageResized, true);
 			}
-
 			elseif ($transparency >= 0)
 			{
 				$transparentColor = imagecolorsforindex($image, $transparency);
@@ -573,12 +574,17 @@ class RedshopHelperMedia
 		switch (strtolower($output))
 		{
 			case 'browser':
-			case 'file':
 				$output = null;
 				break;
+
+			case 'file':
+				$output = $file;
+				break;
+
 			case 'return':
 				return $imageResized;
 				break;
+
 			default:
 				break;
 		}
@@ -623,7 +629,7 @@ class RedshopHelperMedia
 	 *
 	 * @since  2.0.0.3
 	 */
-	public function createThumb($fileType, $srcImg, $destImg, $nWidth, $nHeight)
+	public static function createThumb($fileType, $srcImg, $destImg, $nWidth, $nHeight)
 	{
 		$newImg = null;
 
@@ -640,7 +646,7 @@ class RedshopHelperMedia
 			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 
 			imagegif($newImg, $srcImg);
-			chmod("$srcImg", 0755);
+			JPath::setPermissions($srcImg, '0644');
 		}
 
 		if ($fileType === "jpg")
@@ -655,7 +661,7 @@ class RedshopHelperMedia
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 			imagejpeg($newImg, $srcImg);
-			chmod("$srcImg", 0755);
+			JPath::setPermissions($srcImg, '0644');
 		}
 
 		if ($fileType === "png")
@@ -670,7 +676,7 @@ class RedshopHelperMedia
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 			imagepng($newImg, $srcImg);
-			chmod("$srcImg", 0755);
+			JPath::setPermissions($srcImg, '0644');
 		}
 
 		return $newImg;

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-$filter = JRequest::getVar('filter');
+$filter = JFactory::getApplication()->input->get('filter');
 
 ?>
 <script language="javascript" type="text/javascript">

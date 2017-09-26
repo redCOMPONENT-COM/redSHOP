@@ -218,7 +218,7 @@ class RedshopModelZip_import extends RedshopModel
 
 	public function _getPackageFromFolder()
 	{
-		$p_dir = JRequest::getString('install_directory');
+		$p_dir = JFactory::getApplication()->input->getString('install_directory');
 		$p_dir = JPath::clean($p_dir);
 
 		// Did you give us a valid directory?

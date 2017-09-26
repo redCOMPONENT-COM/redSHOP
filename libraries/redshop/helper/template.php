@@ -103,6 +103,72 @@ class RedshopHelperTemplate
 	}
 
 	/**
+	 * Get Template Values
+	 *
+	 * @param   string  $name             Name template hint
+	 * @param   string  $templateSection  Template section
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTemplateTags($name, $templateSection = '')
+	{
+		$lang = JFactory::getLanguage();
+		$path = 'template_tag';
+
+		if ($templateSection == 'mail')
+		{
+			$path = 'mail_template_tag';
+		}
+
+		$result      = RedshopLayoutHelper::render('templates.' . $path, array('name' => $name));
+		$jTextPrefix = 'COM_REDSHOP_' . strtoupper($path) . '_' . strtoupper($name) . '_';
+		$tags        = array();
+
+		if ($matches = explode('{', $result))
+		{
+			foreach ($matches as $key => $match)
+			{
+				$str = strpos($match, '}');
+
+				if ($str !== false)
+				{
+					$matches[$key] = substr($match, 0, $str);
+				}
+				else
+				{
+					unset($matches[$key]);
+				}
+			}
+
+			if (count($matches) > 0)
+			{
+				$countItems = 0;
+
+				foreach ($matches as $match)
+				{
+					$replace  = '';
+					$matchFix = strtoupper(str_replace(array(' ', ':'), '_', $match));
+
+					if ($lang->hasKey($jTextPrefix . $matchFix))
+					{
+						$replace = $jTextPrefix . $matchFix;
+					}
+					elseif ($lang->hasKey('COM_REDSHOP_TEMPLATE_TAG_' . $matchFix))
+					{
+						$replace = 'COM_REDSHOP_TEMPLATE_TAG_' . $matchFix;
+					}
+
+					$tags[$match] = trim(str_replace('{' . $match . '}', '', JText::sprintf($replace, '')));
+				}
+			}
+		}
+
+		return $tags;
+	}
+
+	/**
 	 * Method to get Template
 	 *
 	 * @param   string $section    Set section Template
@@ -693,5 +759,31 @@ class RedshopHelperTemplate
 		}
 
 		return implode(',', RedshopHelperUtility::quote($findFields));
+	}
+
+	/**
+	 * Method for render hints of field in specific section
+	 *
+	 * @param   integer  $fieldSection  Field section.
+	 * @param   string   $heading       Heading.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function renderFieldTagHints($fieldSection = 0, $heading = '')
+	{
+		$tagsSite  = RedshopHelperExtrafields::getSectionFieldList($fieldSection, 1);
+		$tagsAdmin = RedshopHelperExtrafields::getSectionFieldList($fieldSection, 0);
+		$tags      = array_merge((array) $tagsAdmin, (array) $tagsSite);
+
+		$fieldTags = array();
+
+		foreach ($tags as $tag)
+		{
+			$fieldTags[$tag->name] = $tag->title;
+		}
+
+		return RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $fieldTags, 'header' => $heading));
 	}
 }
