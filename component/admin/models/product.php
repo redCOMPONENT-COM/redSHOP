@@ -25,7 +25,7 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
 	 */
@@ -34,9 +34,9 @@ class RedshopModelProduct extends RedshopModel
 		// Different context depending on the view
 		if (empty($this->context))
 		{
-			$input = JFactory::getApplication()->input;
-			$view = $input->getString('view', '');
-			$layout = $input->getString('layout', 'none');
+			$input         = JFactory::getApplication()->input;
+			$view          = $input->getString('view', '');
+			$layout        = $input->getString('layout', 'none');
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
@@ -57,7 +57,7 @@ class RedshopModelProduct extends RedshopModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -77,8 +77,8 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -136,6 +136,12 @@ class RedshopModelProduct extends RedshopModel
 		return $this->_data;
 	}
 
+	/**
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
 	public function _buildQuery()
 	{
 		static $items;
@@ -145,18 +151,18 @@ class RedshopModelProduct extends RedshopModel
 			return $items;
 		}
 
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
-		$orderby = $this->_buildContentOrderBy();
+		$orderby      = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
-		$keyword = $this->getState('keyword');
-		$category_id = $this->getState('category_id');
+		$keyword      = $this->getState('keyword');
+		$category_id  = $this->getState('category_id');
 		$product_sort = $this->getState('product_sort');
-		$keyword = addslashes($keyword);
-		$arr_keyword = array();
+		$keyword      = addslashes($keyword);
+		$arr_keyword  = array();
 
 		$where = '';
-		$and = '';
+		$and   = '';
 
 		if (!empty($product_sort))
 		{
@@ -190,11 +196,11 @@ class RedshopModelProduct extends RedshopModel
 			}
 			elseif ($product_sort == 'p.sold_out')
 			{
-				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
-				$tot_products = $this->_getList($query_prd);
-				$product_id_array = '';
-				$producthelper = productHelper::getInstance();
-				$products_stock = $producthelper->removeOutofstockProduct($tot_products);
+				$query_prd           = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
+				$tot_products        = $this->_getList($query_prd);
+				$product_id_array    = '';
+				$producthelper       = productHelper::getInstance();
+				$products_stock      = $producthelper->removeOutofstockProduct($tot_products);
 				$final_product_stock = $this->getFinalProductStock($products_stock);
 
 				if (count($final_product_stock) > 0)
@@ -278,14 +284,14 @@ class RedshopModelProduct extends RedshopModel
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
 			x.ordering , x.category_id "
-			. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
+				. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
 			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
 				$query .= "LEFT JOIN #__redshop_product_attribute AS a ON a.product_id = p.product_id "
-						. "LEFT JOIN #__redshop_product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
-						. "LEFT JOIN #__redshop_product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
+					. "LEFT JOIN #__redshop_product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
+					. "LEFT JOIN #__redshop_product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
 
 			$query .= "WHERE 1=1 ";
@@ -314,7 +320,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 
 			$product_id = implode(',', $product);
-			$query_prd = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
+			$query_prd  = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
 			$this->_db->setQuery($query_prd);
 			$final_products = $this->_db->loadColumn();
 
@@ -324,9 +330,9 @@ class RedshopModelProduct extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
-		$category_id = $this->getState('category_id');
+		$category_id      = $this->getState('category_id');
 		$filter_order_Dir = $this->getState('list.direction');
 
 		if ($category_id)
@@ -358,7 +364,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function listedincats($pid)
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('name'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
@@ -388,8 +394,8 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$template = $template_desc[0]->template_desc;
-		$str = array();
-		$sec = explode(',', $section);
+		$str      = array();
+		$sec      = explode(',', $section);
 
 		for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 		{
@@ -397,7 +403,7 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$in = implode(',', $inArr);
-		$q = "SELECT field_name,field_type,field_section from #__redshop_fields where field_section in (" . $in . ") ";
+		$q  = "SELECT field_name,field_type,field_section from #__redshop_fields where field_section in (" . $in . ") ";
 		$this->_db->setQuery($q);
 		$fields = $this->_db->loadObjectlist();
 
@@ -424,7 +430,7 @@ class RedshopModelProduct extends RedshopModel
 		if (count($str) > 0)
 		{
 			$dbname = implode(",", $str);
-			$field = extra_field::getInstance();
+			$field  = extra_field::getInstance();
 
 			for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 			{
@@ -451,7 +457,7 @@ class RedshopModelProduct extends RedshopModel
 
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE #__redshop_product' . ' SET `product_template` = "'
 				. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -476,11 +482,12 @@ class RedshopModelProduct extends RedshopModel
 
 		$this->_categorytreelist = array();
 
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'parent_id', 'level')))
 			->select($db->qn('name', 'title'))
 			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1')
 			->where($db->qn('level') . ' > 0')
 			->order($db->qn('lft'));
 
@@ -492,7 +499,7 @@ class RedshopModelProduct extends RedshopModel
 		// First pass - collect children
 		foreach ($rows as $v)
 		{
-			$pt = $v->parent_id;
+			$pt   = $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push($list, $v);
 			$children[$pt] = $list;
@@ -519,7 +526,6 @@ class RedshopModelProduct extends RedshopModel
 			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
-				$spacer = '  ';
 
 				if ($v->parent_id == 0)
 				{
@@ -530,10 +536,10 @@ class RedshopModelProduct extends RedshopModel
 					$txt = str_repeat($indent, $v->level) . $v->title;
 				}
 
-				$list[$id] = $v;
+				$list[$id]           = $v;
 				$list[$id]->treename = $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
+				$list                = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
 			}
 		}
 
@@ -586,8 +592,8 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Method for save discount for list of product Ids
 	 *
-	 * @param   array  $productIds      Product Id
-	 * @param   array  $discountPrices  List of discount price.
+	 * @param   array $productIds     Product Id
+	 * @param   array $discountPrices List of discount price.
 	 *
 	 * @return  bool
 	 *
@@ -633,8 +639,8 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Method for save discount for list of product Ids
 	 *
-	 * @param   array  $productIds  Product Id
-	 * @param   array  $prices      List of discount price.
+	 * @param   array $productIds Product Id
+	 * @param   array $prices     List of discount price.
 	 *
 	 * @return  bool
 	 *

@@ -18,7 +18,7 @@ if (!$shipping)
 if (!isset($shipping->order_info_id))
 	$shipping->order_info_id = 0;
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JFactory::getApplication()->input->get('Itemid');
 ?>
 <script type="text/javascript">
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="redshop.text"
+                label="COM_REDSHOP_FILTER_SEARCH_DESC"
+                placeholder="JSEARCH_FILTER"
+                class="js-enter-submits"
+        />
+        <field
+                name="type"
+                type="list"
+                label="COM_REDSHOP_VOUCHER_FILTER_TYPE"
+                class="form-control"
+                onchange="this.form.submit();">
+                <option value="">COM_REDSHOP_VOUCHER_FILTER_TYPE_SELECT</option>
+                <option value="Total">COM_REDSHOP_TOTAL</option>
+                <option value="Percentage">COM_REDSHOP_PERCENTAGE</option>
+        </field>
+        <field
+                name="free_ship"
+                type="list"
+                label="COM_REDSHOP_VOUCHER_FILTER_FREE_SHIP"
+                class="form-control"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_VOUCHER_FILTER_FREE_SHIP_SELECT</option>
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                default="25"
+                label="JGLOBAL_ORDERING_LIST_LIMIT"
+                description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+                class="form-control"
+        />
+    </fields>
+</form>

@@ -400,7 +400,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		$table  = $this->getModel()->getTable();
 		$result = true;
 
-		if (!$table->load($editKey) || !$table->bind($editData) || !$table->store())
+		if (!$table->load($editKey) || !$table->bind($editData) || !$table->check() || !$table->store())
 		{
 			$result = false;
 		}
@@ -408,5 +408,34 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		echo (int) $result;
 
 		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Method to clone an existing item.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function copy()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$pks = ArrayHelper::toInteger($pks);
+
+		try
+		{
+			$model = $this->getModel();
+			$model->copy($pks);
+			$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_COPIED', count($pks)));
+		}
+		catch (Exception $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		$this->setRedirect($this->getRedirectToListRoute());
 	}
 }
