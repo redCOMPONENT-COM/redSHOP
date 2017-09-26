@@ -33,7 +33,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$this->_order_functions = order_functions::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		JRequest::setVar('layout', 'default');
+		JFactory::getApplication()->input->set('layout', 'default');
 		parent::__construct($default);
 	}
 
@@ -44,8 +44,9 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function checkoutprocess()
 	{
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getVar('Itemid');
+		$input  = JFactory::getApplication()->input;
+		$post   = $input->post->getArray();
+		$Itemid = $input->get('Itemid');
 		$model  = $this->getModel('checkout');
 
 		if ($model->store($post))
@@ -56,8 +57,8 @@ class RedshopControllerCheckout extends RedshopController
 		}
 		else
 		{
-			JRequest::setVar('view', 'checkout');
-			JRequest::setVar('task', '');
+			$input->set('view', 'checkout');
+			$input->set('task', '');
 			parent::display('default');
 		}
 	}
@@ -101,9 +102,7 @@ class RedshopControllerCheckout extends RedshopController
 		}
 
 		$rs_user = $session->set('rs_user', $rs_user);
-
-		$helper        = redhelper::getInstance();
-		$chk           = $this->chkvalidation($users_info_id);
+		$chk     = $this->chkvalidation($users_info_id);
 
 		if (!empty($chk))
 		{
@@ -432,7 +431,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
-				$users_info_id = JRequest::getInt('users_info_id');
+				$users_info_id = $input->getInt('users_info_id');
 
 				if (empty($users_info_id))
 				{
@@ -648,23 +647,16 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($objectname == "users_info_id" || $objectname == "shipping_box_id")
 		{
-			if ($users_info_id > 0)
-			{
-				$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
+			$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
 
-				if (count($shipping_template) > 0)
-				{
-					$rate_template_desc = $shipping_template[0]->template_desc;
-				}
-
-				$returnarr          = $carthelper->replaceShippingTemplate($rate_template_desc, $shipping_rate_id, $shipping_box_id, $user->id, $users_info_id, $order_total, $order_subtotal);
-				$rate_template_desc = $returnarr['template_desc'];
-				$shipping_rate_id   = $returnarr['shipping_rate_id'];
-			}
-			else
+			if (count($shipping_template) > 0)
 			{
-				$rate_template_desc = JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS');
+				$rate_template_desc = $shipping_template[0]->template_desc;
 			}
+
+			$returnarr          = $carthelper->replaceShippingTemplate($rate_template_desc, $shipping_rate_id, $shipping_box_id, $user->id, $users_info_id, $order_total, $order_subtotal, $post);
+			$rate_template_desc = $returnarr['template_desc'];
+			$shipping_rate_id   = $returnarr['shipping_rate_id'];
 		}
 
 		if ($shipping_rate_id != "")

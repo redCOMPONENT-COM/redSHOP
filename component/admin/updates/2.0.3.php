@@ -78,8 +78,8 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 	 */
 	public static function updateOverrideTemplate()
 	{
-		$dir                  = JPATH_SITE . "/templates/";
-		$codeDir              = JPATH_SITE . "/code/";
+		$dir                  = JPATH_SITE . '/templates/';
+		$codeDir              = JPATH_SITE . '/code/';
 		$files                = JFolder::folders($dir);
 		$templates            = array();
 		$adminHelpers         = array();
@@ -129,58 +129,75 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 		$override   = array();
 		$jsOverride = array();
 
-		foreach ($templates as $key => $value)
+		self::getOverrideFromTemplates($templates, $override, $jsOverride, $adminTemplateHelpers);
+
+		$overrideFiles = self::getOverrideFiles($override);
+
+		$app  = JFactory::getApplication();
+		$data = Redshop::getConfig()->toArray();
+		$temp = $app->getUserState('com_redshop.config.global.data');
+
+		if (!empty($temp))
 		{
-			foreach ($value as $name)
-			{
-				if (!JFile::exists($key . '/' . $name))
-				{
-					if (JFolder::exists($key . '/com_redshop'))
-					{
-						$override[$key . '/com_redshop'] = JFolder::folders($key . '/com_redshop');
-					}
+			$data = array_merge($data, $temp);
+		}
 
-					if (JFolder::exists($key . '/html'))
-					{
-						$override[$key . '/html'] = JFolder::folders($key . '/html');
-					}
+		$data['BACKWARD_COMPATIBLE_PHP'] = 0;
+		$data['BACKWARD_COMPATIBLE_JS']  = 0;
+		$config                          = Redshop::getConfig();
 
-					if (JFolder::exists($key . '/js/com_redshop'))
-					{
-						$jsOverride[$key . '/js/com_redshop'] = JFolder::files($key . '/js/com_redshop');
-					}
+		if (!empty($overrideFiles))
+		{
+			self::replaceCode($overrideFiles);
 
-					if (JFolder::exists($key . '/code/com_redshop'))
-					{
-						$override[$key . '/code/com_redshop'] = JFolder::folders($key . '/code/com_redshop');
-					}
+			// Check site used MVC && Templates Override
+			$data['BACKWARD_COMPATIBLE_PHP'] = 1;
+		}
 
-					if (JFolder::exists($key . '/code/components/com_redshop'))
-					{
-						$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
-					}
+		if (!empty($jsOverride))
+		{
+			// Check site used JS Override
+			$data['BACKWARD_COMPATIBLE_JS'] = 1;
+		}
 
-					if (JFolder::exists($key . '/code/com_redshop/helpers'))
-					{
-						$adminTemplateHelpers[$key] = JFolder::files($key . '/code/com_redshop/helpers');
-					}
-				}
-			}
+		$app->setUserState('com_redshop.config.global.data', $data);
+		$data = new Registry($data);
+		$config->save($data);
+
+		self::moveAdminHelper($adminHelpers, $codeDir);
+		self::moveAdminTemplateHelper($adminTemplateHelpers);
+	}
+
+	/**
+	 * Method for get override files
+	 *
+	 * @param   array  $override  Override
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.3
+	 */
+	private static function getOverrideFiles($override)
+	{
+		if (empty($override))
+		{
+			return array();
 		}
 
 		$overrideFolders       = array();
 		$overrideLayoutFolders = array();
 		$overrideLayoutFiles   = array();
+		$overrideFiles         = array();
 
 		foreach ($override as $key => $value)
 		{
 			foreach ($value as $name)
 			{
-				if ($name == 'layouts')
+				if ($name === 'layouts')
 				{
 					$overrideLayoutFolders[$key . '/' . $name] = JFolder::folders($key . '/' . $name);
 				}
-				elseif (!JFile::exists($key . '/' . $name) && $name != 'layouts' && $name == 'com_redshop' || strpos($name, 'mod_redshop') !== false)
+				elseif (!JFile::exists($key . '/' . $name) && ($name === 'com_redshop' || strpos($name, 'mod_redshop') !== false))
 				{
 					// Read all files and folders in parent folder
 					$overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
@@ -188,20 +205,12 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			}
 		}
 
-		$overrideFiles = array();
-
 		foreach ($overrideFolders as $key => $value)
 		{
 			foreach ($value as $name)
 			{
-				if (!JFile::exists($key . '/' . $name))
-				{
-					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
-				}
-				else
-				{
-					$overrideFiles[$key] = JFolder::files($key);
-				}
+				$target = !JFile::exists($key . '/' . $name) ? $key . '/' . $name : $key;
+				$overrideFiles[$target] = JFolder::files($target);
 			}
 		}
 
@@ -209,10 +218,12 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 		{
 			foreach ($value as $name)
 			{
-				if (!JFile::exists($key . '/' . $name) && $name == 'com_redshop')
+				if ($name !== 'com_redshop' || JFile::exists($key . '/' . $name))
 				{
-					$overrideLayoutFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+					continue;
 				}
+
+				$overrideLayoutFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
 			}
 		}
 
@@ -222,12 +233,32 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			{
 				foreach ($value as $name)
 				{
-					if (!JFile::exists($key . '/' . $name))
+					if (JFile::exists($key . '/' . $name))
 					{
-						$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+						continue;
 					}
+
+					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
 				}
 			}
+		}
+
+		return $overrideFiles;
+	}
+
+	/**
+	 * Method for replace helper override.
+	 *
+	 * @param   array  $overrideFiles  Override Files
+	 *
+	 * @return  void
+	 * @since   2.0.3
+	 */
+	private static function replaceCode($overrideFiles)
+	{
+		if (empty($overrideFiles))
+		{
+			return;
 		}
 
 		$replaceString = array(
@@ -257,49 +288,41 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
 		);
 
-		$data = Redshop::getConfig()->toArray();
-		$temp = JFactory::getApplication()->getUserState('com_redshop.config.global.data');
-
-		if (!empty($temp))
+		foreach ($overrideFiles as $path => $files)
 		{
-			$data = array_merge($data, $temp);
-		}
-
-		$data['BACKWARD_COMPATIBLE_PHP'] = 0;
-		$data['BACKWARD_COMPATIBLE_JS']  = 0;
-		$config                          = Redshop::getConfig();
-
-		if (!empty($overrideFiles))
-		{
-			foreach ($overrideFiles as $path => $files)
+			foreach ($files as $file)
 			{
-				foreach ($files as $file)
-				{
-					$content = file_get_contents($path . '/' . $file);
+				$content = file_get_contents($path . '/' . $file);
 
-					foreach ($replaceString as $old => $new)
+				foreach ($replaceString as $old => $new)
+				{
+					if (strpos($content, $old) === false)
 					{
-						if (strstr($content, $old))
-						{
-							$content = str_replace($old, $new, $content);
-							JFile::write($path . '/' . $file, $content);
-						}
+						continue;
 					}
+
+					$content = str_replace($old, $new, $content);
+					JFile::write($path . '/' . $file, $content);
 				}
 			}
-
-			// Check site used MVC && Templates Override
-			$data['BACKWARD_COMPATIBLE_PHP'] = 1;
 		}
+	}
 
-		if (!empty($jsOverride))
+	/**
+	 * Method for replace helper override.
+	 *
+	 * @param   array   $adminHelpers  Admin helpers
+	 * @param   string  $codeDir       Code directory
+	 *
+	 * @return  void
+	 * @since   2.0.3
+	 */
+	private static function moveAdminHelper($adminHelpers, $codeDir)
+	{
+		if (empty($adminHelpers))
 		{
-			// Check site used JS Override
-			$data['BACKWARD_COMPATIBLE_JS'] = 1;
+			return;
 		}
-
-		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $data);
-		$config->save(new Registry($data));
 
 		$replaceAdminHelper = array(
 			'adminorder.php'         => 'order_functions.php',
@@ -326,74 +349,170 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'user.php'             => 'rsuserhelper.php'
 		);
 
-		if (!empty($adminHelpers))
+		foreach ($adminHelpers as $path => $files)
 		{
-			foreach ($adminHelpers as $path => $files)
+			foreach ($replaceAdminHelper as $old => $new)
 			{
-				foreach ($replaceAdminHelper as $old => $new)
+				if (!JFile::exists($path . '/' . $old))
 				{
-					if (JFile::exists($path . '/' . $old))
-					{
-						if (!JFolder::exists($codeDir . 'administrator/components/com_redshop/helpers'))
-						{
-							JFolder::create($codeDir . 'administrator/components/com_redshop/helpers');
-						}
-
-						$src  = $codeDir . 'com_redshop/helpers/' . $old;
-						$dest = $codeDir . 'administrator/components/com_redshop/helpers/' . $new;
-						JFile::move($src, $dest);
-					}
+					continue;
 				}
 
-				foreach ($replaceSiteHelper as $old => $new)
+				if (!JFolder::exists($codeDir . 'administrator/components/com_redshop/helpers'))
 				{
-					if (JFile::exists($path . '/' . $old))
-					{
-						if (!JFolder::exists($codeDir . 'components/com_redshop/helpers'))
-						{
-							JFolder::create($codeDir . 'components/com_redshop/helpers');
-						}
-
-						$src  = $codeDir . 'com_redshop/helpers/' . $old;
-						$dest = $codeDir . 'components/com_redshop/helpers/' . $new;
-						JFile::move($src, $dest);
-					}
+					JFolder::create($codeDir . 'administrator/components/com_redshop/helpers');
 				}
+
+				JFile::move($codeDir . 'com_redshop/helpers/' . $old, $codeDir . 'administrator/components/com_redshop/helpers/' . $new);
+			}
+
+			foreach ($replaceSiteHelper as $old => $new)
+			{
+				if (!JFile::exists($path . '/' . $old))
+				{
+					continue;
+				}
+
+				if (!JFolder::exists($codeDir . 'components/com_redshop/helpers'))
+				{
+					JFolder::create($codeDir . 'components/com_redshop/helpers');
+				}
+
+				JFile::move($codeDir . 'com_redshop/helpers/' . $old, $codeDir . 'components/com_redshop/helpers/' . $new);
 			}
 		}
+	}
 
-		if (!empty($adminTemplateHelpers))
+	/**
+	 * Method for replace helper override.
+	 *
+	 * @param   array   $adminTemplateHelpers  Admin template helpers
+	 *
+	 * @return  void
+	 * @since   2.0.3
+	 */
+	private static function moveAdminTemplateHelper($adminTemplateHelpers)
+	{
+		if (empty($adminTemplateHelpers))
 		{
-			foreach ($adminTemplateHelpers as $path => $files)
-			{
-				foreach ($replaceAdminHelper as $old => $new)
-				{
-					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
-					{
-						if (!JFolder::exists($path . '/code/administrator/components/com_redshop/helpers'))
-						{
-							JFolder::create($path . '/code/administrator/components/com_redshop/helpers');
-						}
+			return;
+		}
 
-						$src  = $path . '/code/com_redshop/helpers/' . $old;
-						$dest = $path . '/code/administrator/components/com_redshop/helpers/' . $new;
-						JFile::move($src, $dest);
-					}
+		$replaceAdminHelper = array(
+			'adminorder.php'         => 'order_functions.php',
+			'admincategory.php'      => 'product_category.php',
+			'adminquotation.php'     => 'quotationhelper.php',
+			'adminaccess_level.php'  => 'redaccesslevel.php',
+			'adminconfiguration.php' => 'redconfiguration.php',
+			'adminmedia.php'         => 'redmediahelper.php',
+			'adminimages.php'        => 'redshophelperimages.php',
+			'adminmail.php'          => 'redshopmail.php',
+			'adminupdate.php'        => 'redshopupdate.php',
+			'admintemplate.php'      => 'redtemplate.php',
+			'adminstockroom.php'     => 'rsstockroom.php',
+			'adminshopper.php'       => 'shoppergroup.php'
+		);
+
+		$replaceSiteHelper = array(
+			'currency.php'         => 'currencyhelper.php',
+			'extra_field.php'      => 'extrafield.php',
+			'google_analytics.php' => 'googleanalytics.php',
+			'product.php'          => 'producthelper.php',
+			'helper.php'           => 'redhelper.php',
+			'cart.php'             => 'rscarthelper.php',
+			'user.php'             => 'rsuserhelper.php'
+		);
+
+		foreach ($adminTemplateHelpers as $path => $files)
+		{
+			foreach ($replaceAdminHelper as $old => $new)
+			{
+				if (!JFile::exists($path . '/code/com_redshop/helpers/' . $old))
+				{
+					continue;
 				}
 
-				foreach ($replaceSiteHelper as $old => $new)
+				if (!JFolder::exists($path . '/code/administrator/components/com_redshop/helpers'))
 				{
-					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
-					{
-						if (!JFolder::exists($path . '/code/components/com_redshop/helpers'))
-						{
-							JFolder::create($path . '/code/components/com_redshop/helpers');
-						}
+					JFolder::create($path . '/code/administrator/components/com_redshop/helpers');
+				}
 
-						$src  = $path . '/code/com_redshop/helpers/' . $old;
-						$dest = $path . '/code/components/com_redshop/helpers/' . $new;
-						JFile::move($src, $dest);
-					}
+				JFile::move($path . '/code/com_redshop/helpers/' . $old, $path . '/code/administrator/components/com_redshop/helpers/' . $new);
+			}
+
+			foreach ($replaceSiteHelper as $old => $new)
+			{
+				if (!JFile::exists($path . '/code/com_redshop/helpers/' . $old))
+				{
+					continue;
+				}
+
+				if (!JFolder::exists($path . '/code/components/com_redshop/helpers'))
+				{
+					JFolder::create($path . '/code/components/com_redshop/helpers');
+				}
+
+				JFile::move($path . '/code/com_redshop/helpers/' . $old, $path . '/code/components/com_redshop/helpers/' . $new);
+			}
+		}
+	}
+
+	/**
+	 * Get override template from templates.
+	 *
+	 * @param   array  $templates             Templates
+	 * @param   array  $override              Overrides
+	 * @param   array  $jsOverride            Javascript overrides
+	 * @param   array  $adminTemplateHelpers  Admin template overrides.
+	 *
+	 *
+	 * @return  void
+	 * @since   2.0.3
+	 */
+	private static function getOverrideFromTemplates($templates, &$override, &$jsOverride, &$adminTemplateHelpers)
+	{
+		if (empty($templates))
+		{
+			return;
+		}
+
+		foreach ($templates as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (JFile::exists($key . '/' . $name))
+				{
+					continue;
+				}
+
+				if (JFolder::exists($key . '/com_redshop'))
+				{
+					$override[$key . '/com_redshop'] = JFolder::folders($key . '/com_redshop');
+				}
+
+				if (JFolder::exists($key . '/html'))
+				{
+					$override[$key . '/html'] = JFolder::folders($key . '/html');
+				}
+
+				if (JFolder::exists($key . '/js/com_redshop'))
+				{
+					$jsOverride[$key . '/js/com_redshop'] = JFolder::files($key . '/js/com_redshop');
+				}
+
+				if (JFolder::exists($key . '/code/com_redshop'))
+				{
+					$override[$key . '/code/com_redshop'] = JFolder::folders($key . '/code/com_redshop');
+				}
+
+				if (JFolder::exists($key . '/code/components/com_redshop'))
+				{
+					$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
+				}
+
+				if (JFolder::exists($key . '/code/com_redshop/helpers'))
+				{
+					$adminTemplateHelpers[$key] = JFolder::files($key . '/code/com_redshop/helpers');
 				}
 			}
 		}

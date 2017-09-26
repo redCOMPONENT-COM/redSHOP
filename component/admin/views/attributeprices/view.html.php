@@ -19,8 +19,8 @@ class RedshopViewAttributeprices extends RedshopViewAdmin
 
 		$app = JFactory::getApplication();
 
-		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
+		$section_id = $app->input->get('section_id');
+		$section    = $app->input->get('section');
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'));

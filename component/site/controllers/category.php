@@ -26,7 +26,7 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function download()
 	{
-		$filename = JRequest::getVar('file', '', 'request', 'string');
+		$filename = $this->input->getString('file', '');
 		$db       = JFactory::getDbo();
 		$this->_table_prefix = "#__redshop_";
 
@@ -278,7 +278,7 @@ class RedshopControllerCategory extends RedshopController
 	{
 		$db = JFactory::getDbo();
 		ob_clean();
-		$mainzipcode = JRequest::getString('q', '');
+		$mainzipcode = $this->input->getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
 		$db->setQuery($sel_zipcode);
 		echo $db->loadResult();
@@ -293,7 +293,7 @@ class RedshopControllerCategory extends RedshopController
 	public function generateXMLExportFile()
 	{
 		$app      = JFactory::getApplication();
-		$exportId = $app->input->getInt('xmlexport_id');
+		$exportId = $this->input->getInt('xmlexport_id');
 
 		if ($exportId)
 		{

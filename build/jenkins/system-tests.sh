@@ -32,6 +32,7 @@ echo $(pwd)
 ls -la
 whoami
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
+mv tests/RoboFile.ini.dist tests/RoboFile.ini
 vendor/bin/robo prepare:site-for-system-tests
 chown -R www-data:www-data tests/joomla-cms3
 git submodule update --init --recursive
@@ -47,7 +48,6 @@ npm install -g gulp
 gulp -version
 mv gulp-config.sample.jenkins.json gulp-config.json
 gulp release --skip-version
-mv tests/RoboFile.ini.dist tests/RoboFile.ini
 
 # Move folder to /tests
 ln -s $(pwd)/tests/joomla-cms3 /tests/www/tests/
@@ -55,13 +55,18 @@ ln -s $(pwd)/tests/joomla-cms3 /tests/www/tests/
 # Run tests
 vendor/bin/robo run:tests-jenkins
 
-#send screenshot of failed test to Travis
-export CLOUD_NAME=redcomponent
-export API_KEY=365447364384436
-export API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
-export GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
-export ORGANIZATION=redCOMPONENT-COM
-export REPO=redSHOP
-echo $ORGANIZATION
-echo $ghprbPullId
-vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $ghprbPullId
+if [ $? -eq 0 ]
+then
+  echo "Tests Runs were successful"
+  #send screenshot of failed test to Travis
+  echo ${CHANGE_ID}
+  echo $CLOUD_NAME
+  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO ${CHANGE_ID}
+  exit 0
+else
+  echo "Tests Runs Failed" >&2
+  echo ${CHANGE_ID}
+  echo $CLOUD_NAME
+  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO ${CHANGE_ID}
+  exit 1
+fi

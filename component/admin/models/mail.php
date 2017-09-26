@@ -9,72 +9,35 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelMail extends RedshopModel
+/**
+ * Model Mail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopModelMail extends RedshopModelForm
 {
 	/**
-	 * Method to get a store id based on model configuration state.
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
+	 * @return  mixed  The data for the form.
 	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
-	protected function getStoreId($id = '')
+	protected function loadFormData()
 	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter');
-		$id .= ':' . $this->getState('filter_section');
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.mail.data', array());
 
-		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 */
-	protected function populateState($ordering = 'm.mail_id', $direction = '')
-	{
-		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
-		$filter_section = $this->getUserStateFromRequest($this->context . 'filter_section', 'filter_section', 0);
-
-		$this->setState('filter', $filter);
-		$this->setState('filter_section', $filter_section);
-
-		parent::populateState($ordering, $direction);
-	}
-
-	public function _buildQuery()
-	{
-		$filter = $this->getState('filter');
-		$filter_section = $this->getState('filter_section');
-		$orderby = $this->_buildContentOrderBy();
-		$where = '';
-
-		if ($filter)
+		if (empty($data))
 		{
-			$where .= "AND mail_name LIKE '" . $filter . "%' ";
+			$data = $this->getItem();
 		}
-		if ($filter_section)
-		{
-			$where .= "AND mail_section='" . $filter_section . "' ";
-		}
-		$query = "SELECT distinct(m.mail_id),m.* FROM #__redshop_mail AS m "
-			. "WHERE 1=1 "
-			. $where
-			. $orderby;
 
-		return $query;
+		$this->preprocessData('com_redshop.mail', $data);
+
+		return $data;
 	}
 }

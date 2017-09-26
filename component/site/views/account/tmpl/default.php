@@ -21,8 +21,8 @@ $extraField      = extraField::getInstance();
 $carthelper      = rsCarthelper::getInstance();
 
 $user         = JFactory::getUser();
-$Itemid       = JRequest::getInt('Itemid');
 $app          = JFactory::getApplication();
+$Itemid       = $app->input->getInt('Itemid');
 $params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('logout', $Itemid);
 
@@ -63,6 +63,9 @@ if ($this->params->get('show_page_heading', 1))
 	</h1>
 <?php
 }
+
+JPluginHelper::importPlugin('user');
+RedshopHelperUtility::getDispatcher()->trigger('onReplaceAccountTemplate', array(&$template_desc));
 
 $template_desc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $template_desc);
 
@@ -159,6 +162,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 
 			$order_data = str_replace('{order_index}', JText::_('COM_REDSHOP_ORDER_NUM'), $order_data);
 			$order_data = str_replace('{order_id}', $orderslist[$j]->order_id, $order_data);
+			$order_data = str_replace('{order_number}', $orderslist[$j]->order_number, $order_data);
 			$order_data = str_replace('{order_detail_link}', $order_detail, $order_data);
 			$order_data = str_replace('{order_total}', $producthelper->getProductFormattedPrice($orderslist[$j]->order_total), $order_data);
 		}
@@ -168,6 +172,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$order_data .= $order_desc;
 		$order_data = str_replace('{order_index}', '', $order_data);
 		$order_data = str_replace('{order_id}', '', $order_data);
+		$order_data = str_replace('{order_number}', '', $order_data);
 		$order_data = str_replace('{order_detail_link}', JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET'), $order_data);
 		$order_data = str_replace('{order_total}', '', $order_data);
 	}
@@ -282,16 +287,18 @@ if (strpos($template_desc, "{if tag}") !== false && strpos($template_desc, "{tag
 	}
 }
 
+$quotations = array();
+
 if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "{quotation_loop_end}"))
 {
 	$quotation_image = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'quotation_16.jpg" align="absmiddle">';
 	$template_desc   = str_replace('{quotation_image}', $quotation_image, $template_desc);
 	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
 
-	$quotationlist = $quotationHelper->getQuotationUserList();
+	$quotations = $quotationHelper->getQuotationUserList();
 
 	// More Order information
-	if (count($quotationlist) > 0)
+	if (!empty($quotations))
 	{
 		$quotationmoreurl = JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
 		$template_desc    = str_replace('{more_quotations}', "<a href='" . $quotationmoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
@@ -303,9 +310,9 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 
 	$quotation_data = '';
 
-	if (count($quotationlist))
+	if (count($quotations))
 	{
-		for ($j = 0, $jn = count($quotationlist); $j < $jn; $j++)
+		for ($j = 0, $jn = count($quotations); $j < $jn; $j++)
 		{
 			if ($j >= 5)
 			{
@@ -313,11 +320,11 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 			}
 
 			$quotation_data .= $quotation_desc;
-			$quotationurl     = JRoute::_('index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotationlist[$j]->quotation_id . '&Itemid=' . $Itemid);
+			$quotationurl     = JRoute::_('index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotations[$j]->quotation_id . '&Itemid=' . $Itemid);
 			$quotation_detail = '<a href="' . $quotationurl . '" title="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '"  alt="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '">' . JText::_('COM_REDSHOP_DETAILS') . '</a>';
 
 			$quotation_data = str_replace('{quotation_index}', JText::_('COM_REDSHOP_QUOTATION') . " #", $quotation_data);
-			$quotation_data = str_replace('{quotation_id}', $quotationlist[$j]->quotation_id, $quotation_data);
+			$quotation_data = str_replace('{quotation_id}', $quotations[$j]->quotation_id, $quotation_data);
 			$quotation_data = str_replace('{quotation_detail_link}', $quotation_detail, $quotation_data);
 		}
 	}
@@ -344,7 +351,7 @@ if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc,
 	$template_d1 = explode("{if quotation}", $template_desc);
 	$template_d2 = explode("{quotation end if}", $template_d1[1]);
 
-	if (count($quotationlist))
+	if (!empty($quotations))
 	{
 		$template_desc = str_replace("{if quotation}", "", $template_desc);
 		$template_desc = str_replace("{quotation end if}", "", $template_desc);
@@ -389,6 +396,8 @@ if (strpos($template_desc, "{if wishlist}") !== false && strpos($template_desc, 
 	}
 }
 
+$userDownloadProduct = array();
+
 if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_desc, "{product_serial_loop_end}"))
 {
 	$product_serial_image = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'products16.png" align="absmiddle">';
@@ -403,7 +412,7 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 
 	$serial_data = '';
 
-	if (count($userDownloadProduct))
+	if (!empty($userDownloadProduct))
 	{
 		for ($j = 0, $jn = count($userDownloadProduct); $j < $jn; $j++)
 		{
@@ -429,7 +438,7 @@ if (strpos($template_desc, "{if product_serial}") !== false && strpos($template_
 	$template_d1 = explode("{if product_serial}", $template_desc);
 	$template_d2 = explode("{product_serial end if}", $template_d1[1]);
 
-	if (count($userDownloadProduct))
+	if (!empty($userDownloadProduct))
 	{
 		$template_desc = str_replace("{if product_serial}", "", $template_desc);
 		$template_desc = str_replace("{product_serial end if}", "", $template_desc);
