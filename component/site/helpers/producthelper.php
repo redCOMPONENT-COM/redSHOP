@@ -195,7 +195,7 @@ class productHelper
 	 *
 	 * @return  null|object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProductPrice::getProductSpecialPrice
+	 * @deprecated  2.0.7  Use RedshopHelperProductPrice::getProductSpecialPrice
 	 */
 	public function getProductSpecialPrice($productPrice, $discountStringIds, $productId = 0)
 	{
@@ -321,7 +321,7 @@ class productHelper
 	 *
 	 * @return  object|null  VAT rates information
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 *
 	 * @see  RedshopHelperTax::getVatRates
 	 */
@@ -357,7 +357,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 */
 	public function getExtraSectionTag($fieldNames = array(), $productId = 0, $section = 0, $templateContent = '', $categoryPage = 0)
 	{
@@ -371,7 +371,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 */
 	public function getPriceReplacement($productPrice)
 	{
@@ -387,7 +387,7 @@ class productHelper
 	 *
 	 * @return  string                    Formatted Product Price
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function getProductFormattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
@@ -401,7 +401,7 @@ class productHelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 */
 	public function productPriceRound($productPrice)
 	{
@@ -921,7 +921,7 @@ class productHelper
 	 *
 	 * @return  mixed|string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperProductPrice::getShowPrice()
 	 */
@@ -941,7 +941,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function getProductNetPrice($productId, $userId = 0, $quantity = 1, $dataAdd = '', $attributes = array())
 	{
@@ -1143,7 +1143,7 @@ class productHelper
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
@@ -1315,7 +1315,7 @@ class productHelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperDiscount::getDiscountPriceBaseDiscountDate()
 	 */
@@ -1471,7 +1471,7 @@ class productHelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.0.7
 	 *
 	 * @see RedshopHelperBreadcrumb::generate()
 	 */
@@ -1688,7 +1688,7 @@ class productHelper
 	 *
 	 * @return  object|integer
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperProductDownload::checkDownload()
 	 */
@@ -6192,7 +6192,7 @@ class productHelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function calOprandPrice($firstPrice, $oprand, $secondPrice)
 	{
@@ -7032,7 +7032,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.0.7
 	 *
 	 * @see  RedshopHelperProductTag::displayAdditionalImage
 	 */
@@ -7661,7 +7661,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.7
 	 */
 	public function checkCompareProduct($productId)
 	{

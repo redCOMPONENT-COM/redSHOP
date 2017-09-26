@@ -328,7 +328,7 @@ class RedshopHelperShopper_Group
 	 *
 	 * @return  string            List of manufacturer Ids.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function getShopperGroupManufacturers($userId = 0)
 	{

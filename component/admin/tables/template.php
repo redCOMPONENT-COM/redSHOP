@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopTableTemplate extends RedshopTable
 {
@@ -214,7 +214,7 @@ class RedshopTableTemplate extends RedshopTable
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected function safeTemplateName($templateName = '')
 	{

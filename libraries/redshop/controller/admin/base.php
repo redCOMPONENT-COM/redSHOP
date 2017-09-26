@@ -415,7 +415,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public function copy()
 	{
