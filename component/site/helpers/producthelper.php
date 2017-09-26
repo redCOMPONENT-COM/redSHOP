@@ -3399,17 +3399,6 @@ class productHelper
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
 				}
 
-				$subproperty_scrollerdiv = "<table cellpadding='0' cellspacing='0' border='0'><tr>";
-				$subproperty_scrollerdiv .= "<td><a class='leftButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-					. ".scrollReverse();\" ></a></td>";
-				$subproperty_scrollerdiv .= "<td><div id=\"isFlowersFrame" . $commonid . "\" name=\"isFlowersFrame"
-					. $commonid
-					. "\" style=\"margin: 0px; padding: 0px;position: relative; overflow: hidden;\"><div id=\"isFlowersImageRow"
-					. $commonid . "\" name=\"isFlowersImageRow" . $commonid
-					. "\" style=\"position: absolute; top: 0px;left: 0px;\">";
-				$subproperty_scrollerdiv .= "<script type=\"text/javascript\">var isFlowers" . $commonid
-					. " = new ImageScroller(\"isFlowersFrame" . $commonid . "\", \"isFlowersImageRow" . $commonid . "\");";
-
 				$subprop_Arry = array();
 
 				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
@@ -3452,15 +3441,6 @@ class productHelper
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
 								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
 								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "'></a></div>";
-
-							$subproperty_scrollerdiv .= "isFlowers" . $commonid . ".addThumbnail(\""
-								. $thumbUrl . "\",\"javascript:isFlowers"
-								. $commonid . ".scrollImageCenter('" . $i . "');setSubpropImage('" . $product_id . "','"
-								. $subpropertyid . "','" . $subproperty[$i]->value . "');calculateTotalPrice('"
-								. $product_id . "','" . $relatedprd_id . "');displayAdditionalImage('" . $product_id
-								. "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "','"
-								. $subproperty[$i]->value . "');\",\"\",\"\",\"" . $subpropertyid . "_subpropimg_"
-								. $subproperty[$i]->value . "\",\"" . $borderstyle . "\");";
 
 							$imgAdded++;
 						}
@@ -3515,47 +3495,6 @@ class productHelper
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->stock . '" />';
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
 				}
-
-				if (!$mph_thumb)
-				{
-					$mph_thumb = 50;
-				}
-
-				if (!$mpw_thumb)
-				{
-					$mpw_thumb = 50;
-				}
-
-				$atth = 50;
-				$attw = 50;
-
-				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
-				{
-					$atth = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT');
-				}
-
-				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
-				{
-					$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
-				}
-
-				$subproperty_scrollerdiv .= "
-				isFlowers" . $commonid . ".setThumbnailHeight(" . $atth . ");
-				isFlowers" . $commonid . ".setThumbnailWidth(" . $attw . ");
-				isFlowers" . $commonid . ".setThumbnailPadding(5);
-				isFlowers" . $commonid . ".setScrollType(0);
-				isFlowers" . $commonid . ".enableThumbBorder(false);
-				isFlowers" . $commonid . ".setClickOpenType(1);
-				isFlowers" . $commonid . ".setThumbsShown(" . Redshop::getConfig()->get('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER') . ");
-				isFlowers" . $commonid . ".setNumOfImageToScroll(1);
-				isFlowers" . $commonid . ".renderScroller();
-	      		    </script>";
-				$subproperty_scrollerdiv .= "<div id=\"divsubimgscroll" . $commonid . "\" style=\"display:none\">"
-					. implode("#_#", $subprop_Arry) . "</div>";
-				$subproperty_scrollerdiv .= "</div></div></td>";
-				$subproperty_scrollerdiv .= "<td><a class='rightButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-					. ".scrollForward();\" ></a></td>";
-				$subproperty_scrollerdiv .= "</tr></table>";
 
 				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
 				{
@@ -3654,9 +3593,30 @@ class productHelper
 					$subpropertyid
 				);
 
+				$subPropertyScroller = RedshopLayoutHelper::render(
+					'product.subproperty_scroller',
+					array(
+							'subProperties'     => $subproperty,
+							'commonId'          => $commonid,
+							'productId'         => $product_id,
+							'propertyId'        => $property_id,
+							'subPropertyId'     => $subpropertyid,
+							'accessoryId'       => $accessory_id,
+							'relatedProductId'  => $relatedprd_id,
+							'selectSubproperty' => $selectedsubproperty,
+							'subPropertyArray'  => $subprop_Arry,
+							'width'             => $mpw_thumb,
+							'height'            => $mph_thumb
+						),
+					'',
+					array(
+							'component' => 'com_redshop'
+						)
+				);
+
 				if ($imgAdded == 0 || $isAjax == 1)
 				{
-					$subproperty_scrollerdiv = "";
+					$subPropertyScroller = "";
 				}
 
 				if ($subproperty[0]->setrequire_selected == 1)
@@ -3673,7 +3633,7 @@ class productHelper
 				}
 				elseif (strpos($subatthtml, "{subproperty_image_scroller}") !== false)
 				{
-					$attribute_table = str_replace("{subproperty_image_scroller}", $subproperty_scrollerdiv, $attribute_table);
+					$attribute_table = str_replace("{subproperty_image_scroller}", $subPropertyScroller, $attribute_table);
 					$attribute_table = str_replace("{subproperty_image_without_scroller}", "", $attribute_table);
 				}
 			}
