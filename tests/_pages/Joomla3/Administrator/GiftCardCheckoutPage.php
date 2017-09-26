@@ -12,7 +12,6 @@ class GiftCardCheckoutPage extends AdminJ3Page
 
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
-	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']//label//input"];
 
 	public static $addressLink = ['link' => "Add address"];
 
@@ -25,7 +24,6 @@ class GiftCardCheckoutPage extends AdminJ3Page
 
 	public static $messageInvalid = "The discount code is valid";
 
-//	public static
 
 
 }
