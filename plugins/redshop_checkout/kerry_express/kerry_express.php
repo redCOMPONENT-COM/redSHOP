@@ -22,8 +22,8 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	/**
 	 * Constructor - note in Joomla 2.5 PHP4.x is no longer supported so we can use this.
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An array that holds the plugin configuration
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An array that holds the plugin configuration
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -34,7 +34,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	/**
 	 * redSHOP render custom field
 	 *
-	 * @param   int  $infoId  User shipping id
+	 * @param   int $infoId User shipping id
 	 *
 	 * @return mixed
 	 */
@@ -43,7 +43,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		echo RedshopLayoutHelper::render(
 			'template',
 			array(
-				'id' => $infoId,
+				'id'      => $infoId,
 				'zipcode' => $this->params->get('zipcode')
 			),
 			JPATH_PLUGINS . '/redshop_checkout/kerry_express/layouts'
@@ -105,6 +105,19 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
+	 * get Kerry Data List
+	 *
+	 * @return resource
+	 */
+	public function getDistrictProvinceData()
+	{
+		$path   = JPATH_PLUGINS . '/redshop_checkout/kerry_express/data/data.csv';
+		$handle = fopen($path, 'r');
+
+		return $handle;
+	}
+
+	/**
 	 * get Kerry District List
 	 *
 	 * @return mixed
@@ -145,8 +158,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		uasort(
 			$data[$city],
-			function ($a, $b)
-			{
+			function ($a, $b) {
 				return strnatcmp($a, $b);
 			}
 		);
@@ -208,8 +220,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		uasort(
 			$data[$district],
-			function ($a, $b)
-			{
+			function ($a, $b) {
 				return strnatcmp($a, $b);
 			}
 		);
@@ -233,7 +244,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	/**
 	 * trigger before user billing stored
 	 *
-	 * @param   object  $data  User billing data
+	 * @param   object $data User billing data
 	 *
 	 * @return void
 	 */
@@ -242,15 +253,62 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$billing = $this->getBillingExtraFields($data->users_info_id);
 
 		$data->address .= ' ' . $billing['ward'] . ' ' . $billing['district'] . ' ' . $billing['city'];
-		$data->city = $userCity;
+		$data->city    = $billing['city'];
 
 		return;
 	}
 
 	/**
+	 * Function to get User billing extra fields
+	 *
+	 * @param   int $userInfoId Order info id
+	 *
+	 * @return  array
+	 */
+	public function getBillingExtraFields($userInfoId)
+	{
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $userInfoId);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $userInfoId);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $userInfoId);
+
+		if (empty($cityField) && empty($districtField) && empty($wardField))
+		{
+			return array();
+		}
+
+		$cities    = array();
+		$districts = array();
+		$wards     = array();
+
+		$handle = $this->getDistrictProvinceData();
+
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$cities[$result[1]]                = $result[0];
+			$districts[$result[1]][$result[3]] = $result[2];
+			$wards[$result[3]][$result[5]]     = $result[4];
+		}
+
+		$userCity     = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
+
+		return array(
+			'city'     => $userCity,
+			'district' => $userDistrict,
+			'ward'     => $userWard,
+		);
+	}
+
+	/**
 	 * trigger before user shipping stored
 	 *
-	 * @param   object  $data  User shipping data
+	 * @param   object $data User shipping data
 	 *
 	 * @return void
 	 */
@@ -267,12 +325,9 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 			$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $data->users_info_id);
 		}
 
-		$userCity     = "";
-		$userDistrict = "";
-		$userWard     = "";
-		$cities       = array();
-		$districts    = array();
-		$wards        = array();
+		$cities    = array();
+		$districts = array();
+		$wards     = array();
 
 		$handle = $this->getDistrictProvinceData();
 
@@ -293,7 +348,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
 
 		$data->address .= ' ' . $userWard . ' ' . $userDistrict . ' ' . $userCity;
-		$data->city = $userCity;
+		$data->city    = $userCity;
 
 		$this->createShippingOrder($data);
 
@@ -301,22 +356,9 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
-	 * get Kerry Data List
-	 *
-	 * @return array
-	 */
-	public function getDistrictProvinceData()
-	{
-		$path = JPATH_PLUGINS . '/redshop_checkout/kerry_express/data/data.csv';
-		$handle = fopen($path, 'r');
-
-		return $handle;
-	}
-
-	/**
 	 * Create Kerry express Shipping Order
 	 *
-	 * @param   object  $data  Order shipping data
+	 * @param   object $data Order shipping data
 	 *
 	 * @return array
 	 */
@@ -333,40 +375,40 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		foreach ($items as $item)
 		{
-			$productData = RedshopHelperProduct::getProductById($item->product_id);
-			$weight += $productData->weight;
+			$productData                       = RedshopHelperProduct::getProductById($item->product_id);
+			$weight                            += $productData->weight;
 			$itemList[$i]['product_name']      = $productData->product_name;
 			$itemList[$i]['package_weight']    = $productData->weight;
 			$itemList[$i]['package_dimension'] = '0x0x0';
 			$i++;
 		}
 
-		$post = array(
+		$post    = array(
 			'token_key'        => $this->params->get('token_key'),
 			'order_number'     => $orderId,
 			'waybill_number'   => $orderId,
 			'no_packs'         => count($items),
 			'package_weight'   => $weight,
 			'cod'              => 0,
-			'service_type'      => '0201',
+			'service_type'     => '0201',
 			'order_note'       => $data->firstname . ' ' . $data->lastname,
 			'receiver_address' => array(
-					'full_address'       => $data->address,
-					'province_area_code' => $cityField->data_txt,
-					'district_area_code' => $districtField->data_txt,
-					'ward_area_code'     => $wardField->data_txt,
-					'contact_phone'      => $data->phone,
-					'contact_name'       => $data->firstname . ' ' . $data->lastname
-				),
-			'sender_address' => array(
-					'full_address'       => $this->params->get('address'),
-					'province_area_code' => $this->params->get('city'),
-					'district_area_code' => $this->params->get('district_code'),
-					'ward_area_code'     => $this->params->get('ward_code'),
-					'contact_phone'      => $this->params->get('contact_phone'),
-					'contact_name'       => $this->params->get('contact_name')
-				),
-			'orderItem' => $itemList
+				'full_address'       => $data->address,
+				'province_area_code' => $cityField->data_txt,
+				'district_area_code' => $districtField->data_txt,
+				'ward_area_code'     => $wardField->data_txt,
+				'contact_phone'      => $data->phone,
+				'contact_name'       => $data->firstname . ' ' . $data->lastname
+			),
+			'sender_address'   => array(
+				'full_address'       => $this->params->get('address'),
+				'province_area_code' => $this->params->get('city'),
+				'district_area_code' => $this->params->get('district_code'),
+				'ward_area_code'     => $this->params->get('ward_code'),
+				'contact_phone'      => $this->params->get('contact_phone'),
+				'contact_name'       => $this->params->get('contact_name')
+			),
+			'orderItem'        => $itemList
 		);
 		$headers = array(
 			"Content-Type: application/json",
@@ -386,15 +428,14 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	/**
 	 * Trigger before store redSHOP user
 	 *
-	 * @param   array    $data   Order shipping data
-	 * @param   boolean  $isNew  User is new
+	 * @param   array   $data  Order shipping data
+	 * @param   boolean $isNew User is new
 	 *
 	 * @return void
 	 */
 	public function onBeforeCreateRedshopUser(&$data, $isNew)
 	{
-		$userCity     = "";
-		$cities       = array();
+		$cities = array();
 
 		$handle = $this->getDistrictProvinceData();
 
@@ -410,7 +451,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		$userCity = $cities[$data['rs_kerry_billing_city']];
 
-		$data['city'] = $userCity;
+		$data['city']    = $userCity;
 		$data['zipcode'] = $this->params->get('zipcode', '70000');
 
 		return;
@@ -419,7 +460,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	/**
 	 * Trigger before render Billing address in checkout
 	 *
-	 * @param   array  $data  User billing data
+	 * @param   object  $data  User billing data
 	 *
 	 * @return  void
 	 */
@@ -428,16 +469,16 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$billing = $this->getBillingExtraFields($data->users_info_id);
 
 		$data->extraField = array(
-				'rs_kerry_billing_city'     => $billing['city'],
-				'rs_kerry_billing_district' => $billing['district'],
-				'rs_kerry_billing_ward'     => $billing['ward'],
-			);
+			'rs_kerry_billing_city'     => $billing['city'],
+			'rs_kerry_billing_district' => $billing['district'],
+			'rs_kerry_billing_ward'     => $billing['ward'],
+		);
 	}
 
 	/**
 	 * Trigger before render Shipping address in checkout
 	 *
-	 * @param   array  $data  User shipping data
+	 * @param   object  $data  User shipping data
 	 *
 	 * @return  void
 	 */
@@ -446,97 +487,16 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$shipping = $this->getShippingExtraFields($data->users_info_id);
 
 		$data->extraField = array(
-				'rs_kerry_city'     => $shipping['city'],
-				'rs_kerry_district' => $shipping['district'],
-				'rs_kerry_ward'     => $shipping['ward'],
-			);
-	}
-
-	/**
-	 * Trigger before Webservice store redSHOP order
-	 *
-	 * @param   array  $data  Order shipping data
-	 *
-	 * @return  void
-	 */
-	public function onBeforeWSOrderStore(&$data)
-	{
-		$data['status'] = $this->params->get(strtolower($data['status']));
-	}
-
-	/**
-	 * Trigger after Webservice store redSHOP order
-	 *
-	 * @param   array  $data  Order shipping data
-	 *
-	 * @return  void
-	 */
-	public function onAfterWSOrderStore($data)
-	{
-		$data['status'] = $this->params->get(strtolower($data['status']));
-
-		$log               = new stdClass;
-		$log->order_id     = $data['order_id'];
-		$log->order_status = $data['status'];
-		$log->date_changed = time();
-
-		JFactory::getDbo()->insertObject('#__redshop_order_status_log', $log);
-	}
-
-	/**
-	 * Function to get User billing extra fields
-	 *
-	 * @param   int  $userInfoId  Order info id
-	 *
-	 * @return  array
-	 */
-	public function getBillingExtraFields($userInfoId)
-	{
-		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $userInfoId);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $userInfoId);
-		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $userInfoId);
-
-		if (empty($cityField) && empty($districtField) && empty($wardField))
-		{
-			return array();
-		}
-
-		$userCity     = "";
-		$userDistrict = "";
-		$userWard     = "";
-		$cities       = array();
-		$districts    = array();
-		$wards        = array();
-
-		$handle = $this->getDistrictProvinceData();
-
-		while ($result = fgetcsv($handle, null, ',', '"'))
-		{
-			if (!is_numeric($result[1]))
-			{
-				continue;
-			}
-
-			$cities[$result[1]]                = $result[0];
-			$districts[$result[1]][$result[3]] = $result[2];
-			$wards[$result[3]][$result[5]]     = $result[4];
-		}
-
-		$userCity     = $cities[$cityField->data_txt];
-		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
-		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
-
-		return array(
-				'city'     => $userCity,
-				'district' => $userDistrict,
-				'ward'     => $userWard,
-			);
+			'rs_kerry_city'     => $shipping['city'],
+			'rs_kerry_district' => $shipping['district'],
+			'rs_kerry_ward'     => $shipping['ward'],
+		);
 	}
 
 	/**
 	 * Function to get User shipping extra fields
 	 *
-	 * @param   int  $userInfoId  Order info id
+	 * @param   int $userInfoId Order info id
 	 *
 	 * @return  array
 	 */
@@ -551,12 +511,9 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 			return array();
 		}
 
-		$userCity     = "";
-		$userDistrict = "";
-		$userWard     = "";
-		$cities       = array();
-		$districts    = array();
-		$wards        = array();
+		$cities    = array();
+		$districts = array();
+		$wards     = array();
 
 		$handle = $this->getDistrictProvinceData();
 
@@ -577,9 +534,40 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
 
 		return array(
-				'city'     => $userCity,
-				'district' => $userDistrict,
-				'ward'     => $userWard,
-			);
+			'city'     => $userCity,
+			'district' => $userDistrict,
+			'ward'     => $userWard,
+		);
+	}
+
+	/**
+	 * Trigger before Webservice store redSHOP order
+	 *
+	 * @param   array $data Order shipping data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeWSOrderStore(&$data)
+	{
+		$data['status'] = $this->params->get(strtolower($data['status']));
+	}
+
+	/**
+	 * Trigger after Webservice store redSHOP order
+	 *
+	 * @param   array $data Order shipping data
+	 *
+	 * @return  void
+	 */
+	public function onAfterWSOrderStore($data)
+	{
+		$data['status'] = $this->params->get(strtolower($data['status']));
+
+		$log               = new stdClass;
+		$log->order_id     = $data['order_id'];
+		$log->order_status = $data['status'];
+		$log->date_changed = time();
+
+		JFactory::getDbo()->insertObject('#__redshop_order_status_log', $log);
 	}
 }

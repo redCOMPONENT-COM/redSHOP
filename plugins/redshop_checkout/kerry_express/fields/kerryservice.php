@@ -47,7 +47,7 @@ class JFormFieldKerryservice extends JFormFieldList
 			}
 
 			$list[$result[1]]['value'] = $result[0];
-			$list[$result[1]]['text'] = $result[1];
+			$list[$result[1]]['text']  = $result[1];
 			$i++;
 		}
 
@@ -57,7 +57,7 @@ class JFormFieldKerryservice extends JFormFieldList
 	/**
 	 * get Kerry Service List
 	 *
-	 * @return array
+	 * @return resource
 	 */
 	public function getServiceData()
 	{
