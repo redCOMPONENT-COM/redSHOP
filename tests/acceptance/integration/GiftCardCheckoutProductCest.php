@@ -192,6 +192,7 @@ class GiftCardCheckoutProductCest
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(\CouponManagerJ3Page::$selectFirst);
+		$I->wait(500);
 		$this->couponCode = $I->grabTextFrom(\CouponManagerJ3Page::$selectValueCoupon);
 	}
 
