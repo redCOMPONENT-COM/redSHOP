@@ -38,7 +38,8 @@ class RedshopHelperBreadcrumb
 		$customPathways = array();
 
 		// Clean up current pathway.
-		$paths = $pathway->getPathway();
+		$paths     = $pathway->getPathway();
+		$menuPaths = $paths;
 
 		for ($j = 0, $total = count($paths); $j < $total; $j++)
 		{
@@ -50,6 +51,21 @@ class RedshopHelperBreadcrumb
 		switch ($view)
 		{
 			case "category":
+				// Use menu path if menu of category detail is same.
+				if ($sectionId)
+				{
+					$manufacturerId = $app->input->getInt('manufacturer_id', 0);
+					$link = "index.php?option=com_redshop&view=category&layout=detail&cid=" . $sectionId . "&manufacturer_id=" . $manufacturerId;
+					$menu = productHelper::getInstance()->getMenuDetail($link);
+
+					if ($menu)
+					{
+						$pathway->setPathway($menuPaths);
+
+						return;
+					}
+				}
+
 				$customPathways = array();
 				$newLink        = "index.php?option=com_redshop&view=category";
 
