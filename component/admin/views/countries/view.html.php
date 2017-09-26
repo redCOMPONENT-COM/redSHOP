@@ -23,7 +23,7 @@ class RedshopViewCountries extends RedshopViewList
 	 * Column for render published state.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $stateColumns = array();
 
@@ -31,7 +31,7 @@ class RedshopViewCountries extends RedshopViewList
 	 * Display check-in button or not.
 	 *
 	 * @var   boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $checkIn = false;
 }

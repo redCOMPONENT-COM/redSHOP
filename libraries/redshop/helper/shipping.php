@@ -2178,7 +2178,7 @@ class RedshopHelperShipping
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
 	{

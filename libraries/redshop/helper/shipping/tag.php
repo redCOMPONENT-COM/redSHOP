@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Shipping Tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperShippingTag
 {
@@ -24,7 +24,7 @@ class RedshopHelperShippingTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceShippingMethod($shipping, $content = "")
 	{

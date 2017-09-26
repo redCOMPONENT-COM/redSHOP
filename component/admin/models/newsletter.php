@@ -45,7 +45,7 @@ class RedshopModelNewsletter extends RedshopModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public function listAllSubscribers($newsletterId = 0)
 	{
