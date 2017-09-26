@@ -23,7 +23,7 @@ $extra_field = extra_field::getInstance();
 if (!isset($billing->order_info_id))
 	$billing->order_info_id = 0;
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JFactory::getApplication()->input->get('Itemid');
 ?>
 <script type="text/javascript">
 

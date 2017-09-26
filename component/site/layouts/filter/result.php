@@ -13,6 +13,7 @@ $products   = $displayData["products"];
 $templateId = $displayData['templateId'];
 $pk         = $displayData["post"];
 $cid        = $pk["cid"] ? $pk["cid"] : 0;
+$keyword    = $displayData['keyword'];
 $model      = $displayData["model"];
 $app        = JFactory::getApplication();
 $input      = $app->input;
@@ -46,15 +47,16 @@ $orderBy = JHtml::_(
 	$displayData['orderBy']
 );
 
-$productData    = '';
-$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+$productData = '';
 
 JPluginHelper::importPlugin('redshop_product');
 
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$params     = $app->getParams('com_redshop');
-$itemId     = $input->get('Itemid', 0, "int");
-$fieldArray = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
+$dispatcher         = RedshopHelperUtility::getDispatcher();
+$params             = $app->getParams('com_redshop');
+$itemId             = $input->get('Itemid', 0, "int");
+$fieldArray         = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
+$extraFieldProduct  = $extraField->getSectionFieldNameArray(1, 1, 1);
+$extraFieldCategory = $extraField->getSectionFieldNameArray(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
@@ -89,6 +91,8 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 	$templateDesc = str_replace("{template_selector_category_lbl}", "", $templateDesc);
 	$templateDesc = str_replace("{template_selector_category}", "", $templateDesc);
 }
+
+$templateDesc = $productHelper->getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
 
 if (strpos($templateDesc, "{load_more}") !== false)
 {
@@ -129,7 +133,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 	}
 
 	$catDetail = "";
-	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $subcatTemplate);
+	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldCategory, $subcatTemplate);
 
 	for ($i = 0, $nc = count($categoryData); $i < $nc; $i++)
 	{
@@ -434,6 +438,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX')
 		);
 
+		if (!empty($keyword))
+		{
+			$productName = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productName);
+		}
+
 		if (strstr($dataAdd, '{product_name_nolink}'))
 		{
 			$dataAdd = str_replace("{product_name_nolink}", $productName, $dataAdd);
@@ -469,6 +478,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX')
 			);
 
+			if (!empty($keyword))
+			{
+				$productShortDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productShortDesc);
+			}
+
 			$dataAdd = str_replace("{product_s_desc}", $productShortDesc, $dataAdd);
 		}
 
@@ -479,6 +493,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'),
 				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX')
 			);
+
+			if (!empty($keyword))
+			{
+				$productDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productDesc);
+			}
 
 			$dataAdd = str_replace("{product_desc}", $productDesc, $dataAdd);
 		}
@@ -795,6 +814,8 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			0,
 			""
 		);
+
+		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 

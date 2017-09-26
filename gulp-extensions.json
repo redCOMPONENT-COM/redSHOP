@@ -124,7 +124,6 @@
       "rs_payment_eway",
       "rs_payment_eway3dsecure",
       "rs_payment_giropay",
-      "rs_payment_googlecheckout",
       "rs_payment_imglobal",
       "rs_payment_moneris",
       "rs_payment_moneybooker",
@@ -148,7 +147,9 @@
       "bundle",
       "canonical",
       "CreateColorImage",
+      "custom_field_mapping",
       "discount_affect_attribute",
+      "gift",
       "google_microdata",
       "invoicepdf",
       "postdanmark",
@@ -156,9 +157,8 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "discount_affect_attribute",
-      "bundle",
-      "gift"
+      "sync_b2b",
+      "wss_datafeed"
     ],
     "redshop_product_type": [
       "bundle",

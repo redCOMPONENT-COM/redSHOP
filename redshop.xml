@@ -104,6 +104,7 @@
         <plugin name="alert" group="redshop_alert"/>
         <plugin name="sh404sefextplugincom_redshop" group="sh404sefextplugins" published="published"/>
         <plugin name="tcpdf" group="redshop_pdf" published="published"/>
+        <plugin name="redgoogleanalytics" group="system"/>
         <!-- Redshop Export plugins -->
         <plugin name="attribute" group="redshop_export" published="published"/>
         <plugin name="category" group="redshop_export" published="published"/>

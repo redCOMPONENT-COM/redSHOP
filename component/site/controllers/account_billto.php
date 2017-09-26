@@ -44,7 +44,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		$billingaddresses            = $order_functions->getBillingAddress($user->id);
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
-		$task = JRequest::getVar('submit', 'post');
+		$task = JFactory::getApplication()->input->get('submit', 'post');
 
 		if ($task == 'Cancel')
 		{
@@ -64,8 +64,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		$app     = JFactory::getApplication();
 		$input   = $app->input;
 		$user    = JFactory::getUser();
-		$post    = JRequest::get('post');
-		$return  = $input->getString('return', '');
+		$post    = $input->post->getArray();
 		$itemId  = $input->getInt('Itemid', 0);
 		$setExit = $input->getInt('setexit', 1);
 
@@ -118,10 +117,11 @@ class RedshopControllerAccount_billto extends RedshopController
 	 */
 	function cancel()
 	{
-		$Itemid  = JRequest::getVar('Itemid');
+		$input   = JFactory::getApplication()->input;
+		$Itemid  = $input->get('Itemid');
 		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
-		$return  = JRequest::getVar('return');
-		$setexit = JRequest::getInt('setexit', 1);
+		$return  = $input->get('return');
+		$setexit = $input->getInt('setexit', 1);
 		$link    = '';
 
 		if ($return != "")

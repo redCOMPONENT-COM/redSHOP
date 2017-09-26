@@ -164,7 +164,7 @@ class quotationHelper
 	/**
 	 * Get list of quotation users
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationUserList() instead
 	 */

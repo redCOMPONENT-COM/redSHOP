@@ -15,12 +15,13 @@ defined('_JEXEC') or die;
 $producthelper = productHelper::getInstance();
 $carthelper    = rsCarthelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
+$app           = JFactory::getApplication();
 
 $cart       = $this->cart;
 $idx        = $cart ['idx'];
-$Itemid     = JRequest::getInt('Itemid');
-$cart_index = JRequest::getInt('cart_index');
-$product_id = JRequest::getInt('pid');
+$Itemid     = $app->input->getInt('Itemid');
+$cart_index = $app->input->getInt('cart_index');
+$product_id = $app->input->getInt('pid');
 $model      = $this->getModel('cart');
 
 $session  = JFactory::getSession();

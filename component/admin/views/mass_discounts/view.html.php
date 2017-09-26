@@ -16,87 +16,111 @@ defined('_JEXEC') or die;
  * @subpackage  States.View
  * @since       2.0.3
  */
-class RedshopViewMass_Discounts extends RedshopViewAdmin
+class RedshopViewMass_Discounts extends RedshopViewList
 {
 	/**
-	 * @var  array
-	 */
-	public $items;
-
-	/**
-	 * @var  JPagination
-	 */
-	public $pagination;
-
-	/**
-	 * @var  array
-	 */
-	public $state;
-
-	/**
-	 * @var  array
-	 */
-	public $activeFilters;
-
-	/**
-	 * @var  JForm
-	 */
-	public $filterForm;
-
-	/**
-	 * Display the States view
+	 * Column for render published state.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @throws  Exception
-	 *
-	 * @return  void
+	 * @var    array
+	 * @since  2.0.6
 	 */
-	public function display($tpl = null)
+	protected $stateColumns = array();
+
+	/**
+	 * Method for render 'Published' column
+	 *
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onRenderColumn($config, $index, $row)
 	{
-		// Get data from the model
-		$model = $this->getModel();
+		$value = $row->{$config['dataCol']};
 
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->activeFilters = $model->getActiveFilters();
-		$this->filterForm    = $model->getForm();
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		switch ($config['dataCol'])
 		{
-			throw new Exception(implode('<br />', $errors));
+			case 'type':
+				if ($value == 1)
+				{
+					return '<span class="label label-success">' . JText::_('COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE') . '</span>';
+				}
 
-			return false;
+				return '<span class="label label-primary">' . JText::_('COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_TOTAL') . '</span>';
+
+			case 'start_date':
+			case 'end_date':
+				if (empty($value))
+				{
+					return '';
+				}
+
+				return JFactory::getDate($value)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));
+
+			case 'discount_product':
+				if (empty($value))
+				{
+					return '';
+				}
+
+				return $this->generateList($value, 'Product', 'product_name');
+
+			case 'category_id':
+				if (empty($value))
+				{
+					return '';
+				}
+
+				return $this->generateList($value, 'Category', 'name');
+
+			case 'manufacturer_id':
+				if (empty($value))
+				{
+					return '';
+				}
+
+				return $this->generateList($value, 'Manufacturer', 'manufacturer_name');
+
+			default:
+				return parent::onRenderColumn($config, $index, $row);
 		}
-
-		// Set the tool-bar and number of found items
-		$this->addToolBar();
-
-		// Display the template
-		parent::display($tpl);
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Method for return list of object->property
 	 *
-	 * @return  void
+	 * @param   string  $ids       Array list.
+	 * @param   string  $entity    Entity class
+	 * @param   string  $property  Property name
 	 *
-	 * @since   2.0.3
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolBar()
+	protected function generateList($ids, $entity, $property)
 	{
-		$title = JText::_('COM_REDSHOP_MASS_DISCOUNT_MANAGEMENT');
-
-		if ($this->pagination->total)
+		if (empty($ids) || empty($entity) || empty($property))
 		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
+			return '';
 		}
 
-		JToolBarHelper::title($title);
-		JToolBarHelper::addNew('mass_discount.add');
-		JToolBarHelper::editList('mass_discount.edit');
-		JToolBarHelper::deleteList('', 'mass_discounts.delete');
+		$ids    = explode(',', $ids);
+		$return = array();
+		$entity = 'RedshopEntity' . $entity;
+
+		if (!class_exists($entity))
+		{
+			return '';
+		}
+
+		foreach ($ids as $id)
+		{
+			$return[] = $entity::getInstance($id)->get($property);
+		}
+
+		return implode('<br />', $return);
 	}
 }
