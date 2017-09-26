@@ -975,21 +975,21 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		// Get cart tempalte
 		$data_add = $producthelper->replaceCartTemplate(
-															$product->product_id,
-															$this->catid,
-															0,
-															0,
-															$data_add,
-															$isChilds,
-															$userfieldArr,
-															$totalatt,
-															$product->total_accessories,
-															$count_no_user_field
-														);
+            $product->product_id,
+            $this->catid,
+            0,
+            0,
+            $data_add,
+            $isChilds,
+            $userfieldArr,
+            $totalatt,
+            $product->total_accessories,
+            $count_no_user_field
+        );
 
 		//  Extra field display
-		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
-		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
+		$extraFieldName = $extraField->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT);
+		$data_add       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
 
 		$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
 		$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
