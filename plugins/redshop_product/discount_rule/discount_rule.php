@@ -25,8 +25,8 @@ class PlgRedshop_ProductDiscount_Rule extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An optional associative array of configuration settings
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings
 	 *
 	 * @since   1.0.0
 	 */
@@ -41,8 +41,8 @@ class PlgRedshop_ProductDiscount_Rule extends JPlugin
 	/**
 	 * onSetProductPrice - Set product price
 	 *
-	 * @param   float  $productPrice  Product Price
-	 * @param   int    $productId     Product ID
+	 * @param   float $productPrice Product Price
+	 * @param   int   $productId    Product ID
 	 *
 	 * @return  void
 	 *
@@ -51,15 +51,42 @@ class PlgRedshop_ProductDiscount_Rule extends JPlugin
 	public function onSetProductPrice(&$productPrice, $productId)
 	{
 		$this->getDiscountRule($productPrice);
+	}
 
-		return;
+	/**
+	 * Get Product Discount Rult
+	 *
+	 * @param   float $price Product price
+	 *
+	 * @return  void
+	 *
+	 * @since  1.0.0
+	 */
+	public function getDiscountRule(&$price)
+	{
+		$oprand     = $this->params->get("oprand", '-');
+		$amount     = $this->params->get("amount", 0);
+		$domain     = $this->params->get('domain', array());
+		$domainList = array();
+
+		foreach ($domain as $value)
+		{
+			$domainList[] = str_replace('#new#', '', $value);
+		}
+
+		if (!in_array(App::getVisitor()->getDomain()->get('domain'), $domainList))
+		{
+			return;
+		}
+
+		$price = $oprand == '+' ? $price + ($price * ($amount / 100)) : $price - ($price * ($amount / 100));
 	}
 
 	/**
 	 * onSetProductDiscountPrice - Set product price
 	 *
-	 * @param   float  $productDiscountPrice  Product Discount Price
-	 * @param   int    $productId             Product ID
+	 * @param   float $productDiscountPrice Product Discount Price
+	 * @param   int   $productId            Product ID
 	 *
 	 * @return  void
 	 *
@@ -68,50 +95,5 @@ class PlgRedshop_ProductDiscount_Rule extends JPlugin
 	public function onSetProductDiscountPrice(&$productDiscountPrice, $productId)
 	{
 		$this->getDiscountRule($productDiscountPrice);
-
-		return;
-	}
-
-	/**
-	 * Get Product Discount Rult
-	 *
-	 * @param   float  $price  Product price
-	 *
-	 * @return  void
-	 *
-	 * @since  1.0.0
-	 */
-	public function getDiscountRule(&$price)
-	{
-		$oprand    = $this->params->get("oprand", '-');
-		$amount    = $this->params->get("amount", 0);
-		$domain    = $this->params->get('domain', array());
-		$domainList = array();
-
-		foreach ($domain as $value)
-		{
-			$domainList[] = str_replace('#new#', '', $value);
-		}
-
-		$visitor       = App::getVisitor();
-		$currentDomain = $visitor->getDomain();
-
-		if (!in_array($currentDomain->get('domain'), $domainList))
-		{
-			return;
-		}
-
-		switch ($oprand)
-		{
-			case "+" :
-				$price += ($price * ($amount / 100));
-				break;
-			case "-" :
-			default:
-				$price -= ($price * ($amount / 100));
-				break;
-		}
-
-		return;
 	}
 }

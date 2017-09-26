@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -102,57 +100,6 @@ class JFormFieldDomain extends JFormFieldList
 	}
 
 	/**
-	 * Method to get a list of tags
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.1
-	 */
-	protected function getOptions()
-	{
-		$options = array();
-
-		if (!empty($this->value))
-		{
-			foreach ($this->value as $value)
-			{
-				$option = new stdClass;
-
-				$option->text  = str_replace('#new#', '', $value);
-				$option->value = $value;
-				$option->checked = true;
-
-				$options[] = $option;
-			}
-		}
-
-		return JHelperTags::convertPathsToNames(array_merge(parent::getOptions(), $options));
-	}
-
-	/**
-	 * Add "-" before nested tags, depending on level
-	 *
-	 * @param   array  &$options  Array of tags
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.1
-	 */
-	protected function prepareOptionsNested(&$options)
-	{
-		if ($options)
-		{
-			foreach ($options as &$option)
-			{
-				$repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
-				$option->text = str_repeat('- ', $repeat) . $option->text;
-			}
-		}
-
-		return $options;
-	}
-
-	/**
 	 * Determine if the field has to be tagnested
 	 *
 	 * @return  boolean
@@ -181,11 +128,57 @@ class JFormFieldDomain extends JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && $this->element['custom'] == 'deny')
+		return !(isset($this->element['custom']) && $this->element['custom'] == 'deny');
+	}
+
+	/**
+	 * Method to get a list of tags
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   3.1
+	 */
+	protected function getOptions()
+	{
+		$options = array();
+
+		if (!empty($this->value))
 		{
-			return false;
+			foreach ($this->value as $value)
+			{
+				$option = new stdClass;
+
+				$option->text    = str_replace('#new#', '', $value);
+				$option->value   = $value;
+				$option->checked = true;
+
+				$options[] = $option;
+			}
 		}
 
-		return true;
+		return JHelperTags::convertPathsToNames(array_merge(parent::getOptions(), $options));
+	}
+
+	/**
+	 * Add "-" before nested tags, depending on level
+	 *
+	 * @param   array  $options  Array of tags
+	 *
+	 * @return  array            The field option objects.
+	 *
+	 * @since   3.1
+	 */
+	protected function prepareOptionsNested(&$options)
+	{
+		if ($options)
+		{
+			foreach ($options as &$option)
+			{
+				$repeat       = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+				$option->text = str_repeat('- ', $repeat) . $option->text;
+			}
+		}
+
+		return $options;
 	}
 }
