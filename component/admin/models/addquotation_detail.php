@@ -25,7 +25,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -118,7 +118,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		$userRow->country_code = $data['country_code'];
 		$userRow->phone        = $data['phone'];
 		$userRow->city         = $data['city'];
-		$userRow->state_code   = $data['state_code'];
+		$userRow->state_code   = isset($data['state_code']) ? $data['state_code'] : '';
 
 		if (!$userRow->store())
 		{
@@ -230,9 +230,11 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				return false;
 			}
 
+			$jinput = JFactory::getApplication()->input;
+
 			// Store userfields
-			$userfields = JRequest::getVar('extrafields' . $product_id);
-			$userfields_id = JRequest::getVar('extrafields_id_' . $product_id);
+			$userfields    = $jinput->get('extrafields' . $product_id);
+			$userfields_id = $jinput->get('extrafields_id_' . $product_id);
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{

@@ -23,7 +23,7 @@ class RedshopViewUser extends RedshopViewAdmin
 		$userhelper = rsUserHelper::getInstance();
 
 		$this->state = $this->get('State');
-		$sync                      = JRequest::getVar('sync');
+		$sync                      = JFactory::getApplication()->input->get('sync');
 		$spgrp_filter              = $this->state->get('spgrp_filter');
 		$tax_exempt_request_filter = $this->state->get('tax_exempt_request_filter');
 

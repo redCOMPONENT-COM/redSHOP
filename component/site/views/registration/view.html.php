@@ -16,7 +16,7 @@ class RedshopViewRegistration extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$Itemid = JRequest::getInt('Itemid');
+		$Itemid = $app->input->getInt('Itemid');
 
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();

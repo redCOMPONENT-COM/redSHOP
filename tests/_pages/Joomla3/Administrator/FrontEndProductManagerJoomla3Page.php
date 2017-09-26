@@ -13,10 +13,12 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class FrontEndProductManagerJoomla3Page
+class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 {
 	// Include url of current page
 	public static $URL = '/index.php?option=com_redshop';
+
+	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
@@ -27,6 +29,8 @@ class FrontEndProductManagerJoomla3Page
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+
+	public static $alterOutOfStock="Sorry, This product is out of stock....";
 
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
@@ -76,10 +80,13 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
+	public static $orderReceipt = "Order Receipt";
+
+
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
 	 *
-	 * @param   String  $categoryName  Name of the Category
+	 * @param   String $categoryName Name of the Category
 	 *
 	 * @return string
 	 */
@@ -93,7 +100,7 @@ class FrontEndProductManagerJoomla3Page
 	/**
 	 * Function to get the Path for Product
 	 *
-	 * @param   String  $productName  Name of the Product
+	 * @param   String $productName Name of the Product
 	 *
 	 * @return string
 	 */
@@ -107,7 +114,7 @@ class FrontEndProductManagerJoomla3Page
 	/**
 	 * Function to return path of the Product on the Final Receipt Page
 	 *
-	 * @param   String  $productName  Name of the Product
+	 * @param   String $productName Name of the Product
 	 *
 	 * @return string
 	 */

@@ -13,6 +13,10 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.modal');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onRenderCustomField');
+
 $url     = JURI::base();
 $user    = JFactory::getUser();
 $session = JFactory::getSession();
@@ -25,8 +29,8 @@ $redTemplate     = Redtemplate::getInstance();
 $telesearch = $order_functions->getparameters('rs_telesearch');
 $Itemid     = RedshopHelperUtility::getCheckoutItemId();
 $auth       = $session->get('auth');
-$l          = JRequest::getInt('l', 1);
 $jinput     = JFactory::getApplication()->input;
+$l               = $jinput->getInt('l', 1);
 
 /*
  * REGISTER_METHOD
