@@ -4677,7 +4677,7 @@ class productHelper
 				$cartstyle     = '';
 				$preorderstyle = 'style="display:none"';
 
-				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
+				if (Redshop::getConfig()->get('USE_AS_CATALOG') || $this->_userhelper->getShopperGroupData($user_id)->use_as_catalog == 'yes')
 				{
 					$cartstyle = 'style="display:none"';
 
