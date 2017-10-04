@@ -40,6 +40,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 	protected static $childproductlist = array();
 
 	/**
+	 * Alias for querying mapping and content type table.
+	 *
+	 * @var    string
+	 * @since  2.0.7
+	 */
+	public $typeAlias = 'com_redshop.product';
+
+	/**
 	 * Constructor to set the right model
 	 */
 	public function __construct()
@@ -954,6 +962,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
+		// Tags
+		$tagsHelper = new JHelperTags;
+		$tagsHelper->typeAlias = $this->typeAlias;
+
+		$tagsHelper->preStoreProcess($row, $data['jtags']);
+		$tagsHelper->postStoreProcess($row, $data['jtags']);
+
 		return $row;
 	}
 
@@ -1412,7 +1427,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$new_product_back_thumb_image = $this->changeCopyImageName($post['product_back_thumb_image']);
 			$new_product_preview_image = $this->changeCopyImageName($post['product_preview_image']);
 			$new_product_preview_back_image = $this->changeCopyImageName($post['product_preview_back_image']);
-			
+
 			// Prevent remove old images
 			if (isset($post['old_image']))
 			{
