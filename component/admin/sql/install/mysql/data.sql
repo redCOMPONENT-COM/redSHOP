@@ -963,3 +963,8 @@ ALTER TABLE `#__redshop_category` DISABLE KEYS;
 INSERT INTO `#__redshop_category` VALUES (NULL, 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 'root', '', 0, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 ALTER TABLE `#__redshop_category` ENABLE KEYS;
 UNLOCK TABLES;
+
+INSERT IGNORE INTO `#__content_types`
+(`type_title`, `type_alias`, `table`, `rules`, `field_mappings`, `router`, `content_history_options`)
+VALUES
+('redSHOP', 'com_redshop.product', '{"special":{"dbtable":"#__redshop_product","key":"product_id"}}', '', '{"common":{"core_content_item_id":"product_id","core_title":"product_name","core_state":"published","core_catid":"cat_in_sefurl"}}', 'RedshopHelperRoute::getProductRoute', '');

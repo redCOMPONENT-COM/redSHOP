@@ -108,4 +108,8 @@ DROP TABLE IF EXISTS `#__redshop_alerts`;
 DROP TABLE IF EXISTS `#__redshop_wishlist_product_item`;
 DROP TABLE IF EXISTS `#__redshop_voucher`;
 
+DELETE FROM `#__content_types` WHERE `type_alias` = 'com_redshop.product';
+DELETE FROM `#__contentitem_tag_map` WHERE `type_alias` = 'com_redshop.product';
+DELETE FROM `#__ucm_content` WHERE `core_type_alias` = 'com_redshop.product';
+
 SET FOREIGN_KEY_CHECKS=1;
