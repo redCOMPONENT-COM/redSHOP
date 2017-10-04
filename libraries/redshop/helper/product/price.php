@@ -287,7 +287,7 @@ class RedshopHelperProductPrice
 		// Set Product Custom Price through product plugin
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
-		$results = $dispatcher->trigger('setProductCustomPrice', array($productId));
+		$results = $dispatcher->trigger('setProductCustomPrice', array($productId, $quantity));
 
 		if (count($results) > 0 && $results[0])
 		{
