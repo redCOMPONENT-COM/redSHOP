@@ -180,10 +180,8 @@ function display_products($rows)
 
 	if (count($template) <= 0)
 	{
-		for ($i = 0, $in = count($rows); $i < $in; $i++)
+		foreach ($rows as $row)
 		{
-			$row = $rows[$i];
-
 			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
@@ -261,13 +259,12 @@ function display_products($rows)
 		$totattid = '';
 		$totcount_no_user_field = '';
 
-		for ($i = 0, $in = count($rows); $i < $in; $i++)
+		foreach ($rows as $row)
 		{
-			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
 
-			$Itemid = RedshopHelperUtility::getItemId($rows[$i]->product_id);
-			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
+			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
+			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
