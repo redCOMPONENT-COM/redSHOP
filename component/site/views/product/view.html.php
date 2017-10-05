@@ -100,6 +100,11 @@ class RedshopViewProduct extends RedshopView
 			$this->pid = $params->get('productid');
 		}
 
+		if (Redshop::getConfig()->get('MY_WISHLIST'))  // if enable wishlist
+		{
+			JHtml::script('com_redshop/redshop.wishlist.js', false, true);
+		}
+
 		/*
 		 *  Include JavaScript.
 		 *  But, first check if a plugin wants to use its own jQuery.
