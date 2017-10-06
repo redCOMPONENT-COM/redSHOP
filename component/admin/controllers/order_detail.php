@@ -187,8 +187,6 @@ class RedshopControllerOrder_detail extends RedshopController
 			return;
 		}
 
-		var_dump($post);
-
 		// Delete order item.
 		if ($model->delete_item($post))
 		{
