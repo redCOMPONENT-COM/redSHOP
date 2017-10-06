@@ -39,7 +39,8 @@ class RedshopUpdate207 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/template_detail.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/views/template/tmpl/default.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/models/template_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/template_detail.php'
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/template_detail.php',
+			JPATH_LIBRARIES . '/redshop/helper/route.php'
 		);
 	}
 
