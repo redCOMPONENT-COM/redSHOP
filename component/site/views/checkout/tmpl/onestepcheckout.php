@@ -278,6 +278,9 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 	}
 }
 
+JPluginHelper::importPlugin('redshop_checkout');
+JDispatcher::getInstance()->trigger('onRenderInvoiceOnstepCheckout', array (&$onestep_template_desc));
+
 $payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $isCompany, $ean_number);
 $onestep_template_desc = str_replace($payment_template, $payment_template_desc, $onestep_template_desc);
 
