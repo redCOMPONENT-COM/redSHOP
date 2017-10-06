@@ -169,14 +169,14 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function delete_item()
 	{
 		$post = $this->input->post->getArray();
+		$cid  = $this->input->post->get('cid', array(0), 'array');
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
+		/** @var RedshopModelOrder_detail $model */
 		$model = $this->getModel('order_detail');
 
-		$order_functions = order_functions::getInstance();
-		$orderItem       = $order_functions->getOrderItemDetail($cid[0]);
+		$orderItem = RedshopHelperOrder::getOrderItemDetail($cid[0]);
 
+		// Delete order if there are only 1 order item
 		if (count($orderItem) == 1 && $orderItem[0]->order_item_id == $post['order_item_id'])
 		{
 			$model->delete($cid);
@@ -187,6 +187,9 @@ class RedshopControllerOrder_detail extends RedshopController
 			return;
 		}
 
+		var_dump($post);
+
+		// Delete order item.
 		if ($model->delete_item($post))
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_ITEM_DELETED');
