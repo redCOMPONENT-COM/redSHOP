@@ -84,7 +84,7 @@ class RedshopModelProduct extends RedshopModel
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
 			JArrayHelper::toInteger($shopperGroupManufactures);
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
-			$query->where($db->qn('p.m.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
+			$query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
