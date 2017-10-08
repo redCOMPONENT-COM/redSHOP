@@ -4742,7 +4742,11 @@ class rsCarthelper
 
 				if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 				{
-					if (!$generateAccessoryCart)
+					if (is_bool($generateAccessoryCart))
+					{
+						return JText::_('COM_REDSHOP_ACCESSORY_HAS_REQUIRED_ATTRIBUTES');
+					}
+					elseif (!$generateAccessoryCart)
 					{
 						return false;
 					}
@@ -5125,6 +5129,11 @@ class rsCarthelper
 							{
 								$acc_property_data = explode('@@', $data['acc_property_data']);
 								$acc_property_data = explode('##', $acc_property_data[$i]);
+
+								if (empty($acc_property_data[$ia]) && $attribute[0]->attribute_required == 1)
+								{
+									return array();
+								}
 
 								if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 								{

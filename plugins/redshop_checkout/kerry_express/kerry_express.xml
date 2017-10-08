@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="redshop_checkout" method="upgrade">
+    <name>PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS</name>
+    <version>1.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>May 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2014 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+
+    <description>PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DESC</description>
+
+    <files>
+        <filename plugin="kerry_express">kerry_express.php</filename>
+        <filename>index.html</filename>
+        <folder>data</folder>
+        <folder>fields</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+        <folder>sql</folder>
+    </files>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_checkout_kerry_express.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_checkout_kerry_express.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params" addfieldpath="/plugins/redshop_checkout/kerry_express/fields">
+            <fieldset name="basic">
+                <field
+                        name="token_key"
+                        type="text"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_TOKEN_KEY"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_TOKEN_KEY_DESC"
+                />
+                <field
+                        name="service_type"
+                        type="kerryservice"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_SERVICE"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_SERVICE_DESC"
+                />
+                <field
+                        name="city"
+                        type="kerrycity"
+                        onchange="kerrySelectDistrict(this);"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CITY"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CITY_DESC"
+                />
+                <field
+                        name="district_code"
+                        type="kerrydistrict"
+                        onchange="kerrySelectWard(this);"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DISTRICT"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DISTRICT_DESC"
+                />
+                <field
+                        name="ward_code"
+                        type="kerryward"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_WARD"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_WARD_DESC"
+                />
+                <field
+                        name="address"
+                        type="text"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ADDRESS"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ADDRESS_DESC"
+                />
+                <field
+                        name="contact_name"
+                        type="text"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_NAME"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_NAME_DESC"
+                />
+                <field
+                        name="contact_phone"
+                        type="text"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_PHONE"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_PHONE_DESC"
+                />
+                <field
+                        name="zipcode"
+                        type="number"
+                        default=""
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ZIPCODE"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ZIPCODE_DESC"
+                />
+            </fieldset>
+            <fieldset name="extra" label="extra" addfieldpath="/libraries/redshop/form/fields">
+                <field
+                        name="pux"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUX"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUX_DESC"
+                />
+                <field
+                        name="pup"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUP"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUP_DESC"
+                />
+                <field
+                        name="sip"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIP"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIP_DESC"
+                />
+                <field
+                        name="sip-l"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIPL"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIPL_DESC"
+                />
+                <field
+                        name="sop-d"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPD"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPD_DESC"
+                />
+                <field
+                        name="pod"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_POD"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_POD_DESC"
+                />
+                <field
+                        name="podex"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODEX"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODEX_DESC"
+                />
+                <field
+                        name="cancel"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_CANCEL"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_CANCEL_DESC"
+                />
+                <field
+                        name="podr"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODR"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODR_DESC"
+                />
+                <field
+                        name="sopr"
+                        type="orderstatus"
+                        required="true"
+                        label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPR"
+                        description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPR_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+</extension>

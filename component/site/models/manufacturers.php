@@ -274,7 +274,7 @@ class RedshopModelManufacturers extends RedshopModel
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
 			$shopperGroupManufactures = ArrayHelper::toInteger($shopperGroupManufactures);
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
-			$query->where($db->qn('p.m.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
+			$query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
 		if ($filterBy != '0')
