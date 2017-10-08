@@ -689,6 +689,25 @@ class RedshopViewSearch extends RedshopView
 
 				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
 
+				$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
+				$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
+				$stockStatus             = strstr($data_add, "{stock_status");
+
+				$attributeproductStockStatus = array();
+
+				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+				{
+					$attributeproductStockStatus = $producthelper->getproductStockStatus($this->search[$i]->product_id, $totalatt);
+				}
+
+				$data_add = $producthelper->replaceProductStockdata(
+					$this->search[$i]->product_id,
+					0,
+					0,
+					$data_add,
+					$attributeproductStockStatus
+				);
+
 				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
 
 				$data .= $data_add;
