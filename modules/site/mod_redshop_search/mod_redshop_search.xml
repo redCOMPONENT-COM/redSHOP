@@ -19,38 +19,32 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_search.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_search.sys.ini</language>
-		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.ini</language>
-		<language tag="de-DE">language/de-DE/de-DE.mod_redshop_search.sys.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params" addfieldpath="/libraries/redshop/form/fields">
 			<fieldset name="basic">
-				<field 
+				<field
 					name="moduleclass_sfx"
 					type="text"
 					default=""
 					label="MOD_REDSHOP_SEARCH_PARAMMODULECLASSSUFFIX"
 					description="MOD_REDSHOP_SEARCH_PARAMMODULECLASSSUFFIX"
 				/>
-				<field 
+				<field
 					name="templateid"
 					type="template"
 					default="0"
 					label="MOD_REDSHOP_SEARCH_SELECT_TEMPLATE_LBL"
 					description="MOD_REDSHOP_SEARCH_SELECT_TEMPLATE_DESC"
 				/>
-				<field 
+				<field
 					name="productperpage"
 					type="text"
 					default=""
 					label="MOD_REDSHOP_SEARCH_PRODUCT_PER_PAGE_LBL"
 					description="MOD_REDSHOP_SEARCH_PRODUCT_PER_PAGE_DESC"
 				/>
-				<field 
+				<field
 					name="enableAjaxsearch"
 					type="radio"
 					default="0"
@@ -60,26 +54,26 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field 
+				<field
 					name="modsearchitemid"
 					type="text"
 					default=""
 					label="MOD_REDSHOP_SEARCH_ENTER_ITEMID_LBL"
 					description="MOD_REDSHOP_SEARCH_ENTER_ITEMID_LBL"/>
-				<field 
+				<field
 					name="noofsearchresults"
 					type="text"
 					default="10"
 					label="MOD_REDSHOP_SEARCH_NO_SEARCH_RESULT_LBL"
 					description="MOD_REDSHOP_SEARCH_NO_SEARCH_RESULT_DESC"/>
-				<field 
+				<field
 					name="defaultSearchType"
 					type="searchtype"
 					default=""
 					label="MOD_REDSHOP_SEARCH_DEFAULT_SEARCH_TYPE_LBL"
 					description="MOD_REDSHOP_SEARCH_DEFAULT_SEARCH_TYPE_DESC"
 				/>
-				<field 
+				<field
 					name="showSearchTypeField"
 					type="radio"
 					default="yes"
@@ -89,7 +83,7 @@
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field 
+				<field
 					name="showSearchField"
 					type="radio"
 					default="yes"
@@ -99,7 +93,7 @@
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field 
+				<field
 					name="showCategory"
 					type="radio"
 					default="yes"
@@ -109,7 +103,7 @@
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field 
+				<field
 					name="showManufacturer"
 					type="radio"
 					default="yes"
@@ -119,7 +113,7 @@
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field 
+				<field
 					name="showProductsearchtitle"
 					type="radio"
 					default="yes"
@@ -129,7 +123,7 @@
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field 
+				<field
 					name="showKeywordtitle"
 					type="radio"
 					default="yes"
@@ -139,13 +133,13 @@
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field 
+				<field
 					name="stdsearchtext"
 					type="text"
 					default=""
 					label="MOD_REDSHOP_SEARCH_STANDARD_SEARCH_TEXT_LBL"
 					description="MOD_REDSHOP_SEARCH_STANDARD_SEARCH_TEXT_LBL"/>
-				<field 
+				<field
 					name="showCustomfield"
 					type="radio"
 					default="no"
