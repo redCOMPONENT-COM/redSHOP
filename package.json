@@ -24,8 +24,11 @@
     "joomla-gulp-release": "^1.0.9",
     "merge-stream": "^1.0.1",
     "minimatch": "^3.0.4",
+    "pretty-data": "^0.40.0",
     "require-dir": "^0.3.2",
-    "xml2js": "^0.4.17",
+    "through2": "^2.0.3",
+    "upath": "^1.0.0",
+    "xml2js": "^0.4.19",
     "yargs": "^8.0.2"
   },
   "scripts": {
