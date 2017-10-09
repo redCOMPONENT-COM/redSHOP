@@ -26,6 +26,7 @@ $productFields      = $params->get('product_fields');
 $enableKeyword      = $params->get('keyword');
 $template           = $params->get('template_id');
 $limit              = $params->get('limit', 0);
+$restricted         = $params->get('restricted', 0);
 $option             = $input->getCmd('option', '');
 $view               = $input->getCmd('view', '');
 $layout             = $input->getCmd('layout', '');
@@ -59,7 +60,6 @@ if (!empty($cid))
 	$catList       = array_unique($catList);
 	$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
 	$categories    = ModRedshopFilter::getCategories($catList, $rootCategory, $cid);
-	$customFields  = ModRedshopFilter::getCustomFields($pids, $productFields);
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 elseif (!empty($mid))
@@ -82,8 +82,18 @@ elseif (!empty($mid))
 }
 elseif ($view == 'search')
 {
+	$db          = JFactory::getDbo();
 	$modelSearch = JModelLegacy::getInstance("Search", "RedshopModel");
-	$productList = $modelSearch->getData();
+	$query       = $modelSearch->_buildQuery($input->post->getArray());
+	$productIds  = $db->setQuery($query)->loadColumn();
+	$productList = array();
+
+	foreach ($productIds as $key => $product)
+	{
+		$detail = RedshopHelperProduct::getProductById($product);
+		$productList[] = $detail;
+	}
+
 	$manuList    = array();
 	$catList     = array();
 	$pids        = array();
@@ -103,10 +113,12 @@ elseif ($view == 'search')
 	$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
 	$categories    = ModRedshopFilter::getSearchCategories(array_unique($catList));
 	$rangePrice    = ModRedshopFilter::getRange($pids);
+	$mid           = $input->getInt('manufacturer_id', 0);
 }
 
-$rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
-$rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
+$customFields = ModRedshopFilter::getCustomFields($pids, $productFields);
+$rangeMin     = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
+$rangeMax     = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
 
 if ($enablePrice)
 {
