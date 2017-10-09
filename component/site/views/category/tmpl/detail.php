@@ -616,7 +616,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		/************** end user fields ***************************/
 
 		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$catidmain = Jrequest::getVar("cid");
+		$catidmain = JFactory::getApplication()->input->get("cid");
 
 		if (count($ItemData) > 0)
 		{
@@ -975,17 +975,40 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		// Get cart tempalte
 		$data_add = $producthelper->replaceCartTemplate(
-															$product->product_id,
-															$this->catid,
-															0,
-															0,
-															$data_add,
-															$isChilds,
-															$userfieldArr,
-															$totalatt,
-															$product->total_accessories,
-															$count_no_user_field
-														);
+            $product->product_id,
+            $this->catid,
+            0,
+            0,
+            $data_add,
+            $isChilds,
+            $userfieldArr,
+            $totalatt,
+            $product->total_accessories,
+            $count_no_user_field
+        );
+
+		//  Extra field display
+		$extraFieldName = $extraField->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT);
+		$data_add       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
+
+		$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
+		$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
+		$stockStatus             = strstr($data_add, "{stock_status");
+
+		$attributeproductStockStatus = array();
+
+		if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+		{
+			$attributeproductStockStatus = $producthelper->getproductStockStatus($product->product_id, $totalatt);
+		}
+
+		$data_add = $producthelper->replaceProductStockdata(
+			$product->product_id,
+			0,
+			0,
+			$data_add,
+			$attributeproductStockStatus
+		);
 
 		$this->dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
 

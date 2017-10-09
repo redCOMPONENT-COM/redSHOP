@@ -16,7 +16,7 @@ class RedshopViewCheckout extends RedshopView
 	{
 		$app = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
-		$Itemid    = JRequest::getInt('Itemid');
+		$Itemid    = $app->input->getInt('Itemid');
 		$user      = JFactory::getUser();
 		$redhelper = redhelper::getInstance();
 		$field     = extraField::getInstance();
@@ -82,14 +82,18 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany'] = "";
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
 		{
 			$lists['allowCompany'] = "style='display:none;'";
+			$lists['allowCustomer'] = "style='display:none;'";
+		}
+
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+		{
 			$openToStretcher = 0;
 		}
 		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
-			$lists['allowCustomer'] = "style='display:none;'";
 			$openToStretcher = 1;
 		}
 
@@ -104,7 +108,7 @@ class RedshopViewCheckout extends RedshopView
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid));
 			}
 
-			$users_info_id     = JRequest::getInt('users_info_id');
+			$users_info_id     = $app->input->getInt('users_info_id');
 			$billingaddresses  = $model->billingaddresses();
 			$shippingaddresses = $model->shippingaddresses();
 
@@ -124,9 +128,9 @@ class RedshopViewCheckout extends RedshopView
 				}
 			}
 
-			$shipping_rate_id = JRequest::getInt('shipping_rate_id');
-			$element          = JRequest::getCmd('payment_method_id');
-			$ccinfo           = JRequest::getInt('ccinfo');
+			$shipping_rate_id = $app->input->getInt('shipping_rate_id');
+			$element          = $app->input->getCmd('payment_method_id');
+			$ccinfo           = $app->input->getInt('ccinfo');
 
 			if (!isset($cart['voucher_discount']))
 			{

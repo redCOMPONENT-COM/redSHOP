@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $extraFieldLabel  Extra field label
- * @param   string  $required         Extra field required
- * @param   string  $requiredLabel    Extra field required label
- * @param   string  $errorMsg         Extra field error message
- * @param   string  $fieldCheck       Extra field check
- * @param   string  $checkData        Extra field check data
- * @param   string  $value            Extra field value
- * @param   string  $sectionId        Extra field section Id
+ * @var   object  $rowData          Extra field data
+ * @var   string  $extraFieldLabel  Extra field label
+ * @var   string  $required         Extra field required
+ * @var   string  $requiredLabel    Extra field required label
+ * @var   string  $errorMsg         Extra field error message
+ * @var   array   $fieldCheck       Extra field check
+ * @var   array   $checkData        Extra field check data
+ * @var   string  $value            Extra field value
+ * @var   string  $sectionId        Extra field section Id
  */
 extract($displayData);
 ?>
@@ -32,27 +32,27 @@ extract($displayData);
 	<table>
 		<tr>
 			<?php foreach ($fieldCheck as $key => $field) : ?>
-				<?php if (in_array($fieldCheck[$c]->value_id, $checkData)): ?>
+				<?php if (in_array($field->value_id, $checkData)): ?>
 					<?php $class = 'class="pointer imgClass_' . $sectionId . ' selectedimg"'; ?>
 				<?php else: ?>
 					<?php $class = 'class="pointer imgClass_' . $sectionId . '"'; ?>
 				<?php endif; ?>
 				<td>
 					<div class="userfield_input">
-						<img 
+						<img
 							id="<?php echo $field->value_id; ?>"
-							name="imgfield[]"
+							name="imgField[]"
 							src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field->field_name; ?>"
 							title="<?php echo $field->field_value; ?>"
 							alt="<?php echo $field->field_value; ?>"
 							onclick="javascript:setProductUserFieldImage(<?php echo $field->value_id; ?>, <?php echo $sectionId; ?>, <?php echo $field->field_id; ?>, this);"
 							<?php echo $class; ?>
-						>
+						/>
 					</div>
 				</td>
 			<?php endforeach; ?>
 		</tr>
-		<input 
+		<input
 			type="hidden"
 			name="imgFieldId<?php echo $rowData->id; ?>"
 			id="imgFieldId<?php echo $rowData->id; ?>"

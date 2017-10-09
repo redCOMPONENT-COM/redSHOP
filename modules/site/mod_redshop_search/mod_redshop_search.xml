@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SEARCH</name>
-	<version>1.6</version>
-	<redshop>2.0</redshop>
+	<version>1.7</version>
+	<redshop>2.0.7</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -11,7 +11,8 @@
 	<description>MOD_REDSHOP_SEARCH_DESC</description>
 	<files>
 		<filename module="mod_redshop_search">mod_redshop_search.php</filename>
-		<filename module="mod_redshop_search">index.html</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
 		<folder>tmpl</folder>
 		<folder>js</folder>
 	</files>
@@ -26,108 +27,143 @@
 		<language tag="it-IT">language/it-IT/it-IT.mod_redshop_search.sys.ini</language>
 	</languages>
 	<config>
-		<fields name="params">
+		<fields name="params" addfieldpath="/libraries/redshop/form/fields">
 			<fieldset name="basic">
-				<field name="moduleclass_sfx"
-					   type="text"
-					   default=""
-					   label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
-					   description="COM_REDSHOP_PARAMMODULECLASSSUFFIX"/>
-				<field name="templateid"
-					   type="template"
-					   default="0"
-					   label="COM_REDSHOP_SELECT_TEMPLATE_LBL"
-					   description="COM_REDSHOP_SELECT_TEMPLATE_DESC"
-					   addfieldpath="/libraries/redshop/form/fields"/>
-				<field name="productperpage"
-					   type="text"
-					   default=""
-					   label="COM_REDSHOP_PRODUCT_PER_PAGE_LBL"
-					   description="COM_REDSHOP_PRODUCT_PER_PAGE_DESC"/>
-				<field name="enableAjaxsearch"
-					   type="radio"
-					   default="0"
-					   class="btn-group"
-					   label="COM_REDSHOP_ENABLE_AJAX_SEACRH_LBL"
-					   description="COM_REDSHOP_ENABLE_AJAX_SEACRH_DESC">
+				<field 
+					name="moduleclass_sfx"
+					type="text"
+					default=""
+					label="MOD_REDSHOP_SEARCH_PARAMMODULECLASSSUFFIX"
+					description="MOD_REDSHOP_SEARCH_PARAMMODULECLASSSUFFIX"
+				/>
+				<field 
+					name="templateid"
+					type="template"
+					default="0"
+					label="MOD_REDSHOP_SEARCH_SELECT_TEMPLATE_LBL"
+					description="MOD_REDSHOP_SEARCH_SELECT_TEMPLATE_DESC"
+				/>
+				<field 
+					name="productperpage"
+					type="text"
+					default=""
+					label="MOD_REDSHOP_SEARCH_PRODUCT_PER_PAGE_LBL"
+					description="MOD_REDSHOP_SEARCH_PRODUCT_PER_PAGE_DESC"
+				/>
+				<field 
+					name="enableAjaxsearch"
+					type="radio"
+					default="0"
+					class="btn-group"
+					label="MOD_REDSHOP_SEARCH_ENABLE_AJAX_SEACRH_LBL"
+					description="MOD_REDSHOP_SEARCH_ENABLE_AJAX_SEACRH_DESC">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="modsearchitemid"
-					   type="text"
-					   default=""
-					   label="COM_REDSHOP_ENTER_ITEMID_LBL"
-					   description="COM_REDSHOP_ENTER_ITEMID_LBL"/>
-				<field name="noofsearchresults"
-					   type="text"
-					   default="10"
-					   label="COM_REDSHOP_NO_SEARCH_RESULT_LBL"
-					   description="COM_REDSHOP_NO_SEARCH_RESULT_DESC"/>
-				<field name="defaultSearchType"
-					   type="searchtype"
-					   default=""
-					   label="COM_REDSHOP_DEFAULT_SEARCH_TYPE_LBL"
-					   description="COM_REDSHOP_DEFAULT_SEARCH_TYPE_DESC"
-					   addfieldpath="/libraries/redshop/form/fields"/>
-				<field name="showSearchTypeField"
-					   type="radio"
-					   default="yes"
-					   label="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_LBL"
-					   class="btn-group"
-					   description="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_DESC">
+				<field 
+					name="modsearchitemid"
+					type="text"
+					default=""
+					label="MOD_REDSHOP_SEARCH_ENTER_ITEMID_LBL"
+					description="MOD_REDSHOP_SEARCH_ENTER_ITEMID_LBL"/>
+				<field 
+					name="noofsearchresults"
+					type="text"
+					default="10"
+					label="MOD_REDSHOP_SEARCH_NO_SEARCH_RESULT_LBL"
+					description="MOD_REDSHOP_SEARCH_NO_SEARCH_RESULT_DESC"/>
+				<field 
+					name="defaultSearchType"
+					type="searchtype"
+					default=""
+					label="MOD_REDSHOP_SEARCH_DEFAULT_SEARCH_TYPE_LBL"
+					description="MOD_REDSHOP_SEARCH_DEFAULT_SEARCH_TYPE_DESC"
+				/>
+				<field 
+					name="showSearchTypeField"
+					type="radio"
+					default="yes"
+					label="MOD_REDSHOP_SEARCH_SHOW_SEARCH_TYPE_FIELD_LBL"
+					class="btn-group"
+					description="MOD_REDSHOP_SEARCH_SHOW_SEARCH_TYPE_FIELD_DESC">
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field name="showSearchField"
-					   type="radio"
-					   default="yes"
-					   label="COM_REDSHOP_SHOW_SEARCH_FIELD_LBL"
-					   class="btn-group"
-					   description="COM_REDSHOP_SHOW_SEARCH_FIELD_DESC">
+				<field 
+					name="showSearchField"
+					type="radio"
+					default="yes"
+					label="MOD_REDSHOP_SEARCH_SHOW_SEARCH_FIELD_LBL"
+					class="btn-group"
+					description="MOD_REDSHOP_SEARCH_SHOW_SEARCH_FIELD_DESC">
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field name="showCategory"
-					   type="radio"
-					   default="yes"
-					   label="COM_REDSHOP_SHOW_CATEGORY_FIELD_LBL"
-					   class="btn-group"
-					   description="COM_REDSHOP_SHOW_CATEGORY_FIELD_DESC">
+				<field 
+					name="showCategory"
+					type="radio"
+					default="yes"
+					label="MOD_REDSHOP_SEARCH_SHOW_CATEGORY_FIELD_LBL"
+					class="btn-group"
+					description="MOD_REDSHOP_SEARCH_SHOW_CATEGORY_FIELD_DESC">
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field name="showManufacturer"
-					   type="radio"
-					   default="yes"
-					   class="btn-group"
-					   label="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_LBL"
-					   description="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_DESC">
+				<field 
+					name="showManufacturer"
+					type="radio"
+					default="yes"
+					class="btn-group"
+					label="MOD_REDSHOP_SEARCH_SHOW_MANUFACTURER_FIELD_LBL"
+					description="MOD_REDSHOP_SEARCH_SHOW_MANUFACTURER_FIELD_DESC">
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field name="showProductsearchtitle"
-					   type="radio"
-					   default="yes"
-					   class="btn-group"
-					   label="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_LBL"
-					   description="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_DESC">
+				<field 
+					name="showProductsearchtitle"
+					type="radio"
+					default="yes"
+					class="btn-group"
+					label="MOD_REDSHOP_SEARCH_SHOW_PRODUCT_SEARCH_TITLE_LBL"
+					description="MOD_REDSHOP_SEARCH_SHOW_PRODUCT_SEARCH_TITLE_DESC">
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field name="showKeywordtitle"
-					   type="radio"
-					   default="yes"
-					   label="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL"
-					   class="btn-group"
-					   description="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL">
+				<field 
+					name="showKeywordtitle"
+					type="radio"
+					default="yes"
+					label="MOD_REDSHOP_SEARCH_SHOW_KEYWORD_TITLE_LBL"
+					class="btn-group"
+					description="MOD_REDSHOP_SEARCH_SHOW_KEYWORD_TITLE_LBL">
 					<option value="yes">JYES</option>
 					<option value="no">JNO</option>
 				</field>
-				<field name="stdsearchtext"
-					   type="text"
-					   default=""
-					   label="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"
-					   description="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"/>
+				<field 
+					name="stdsearchtext"
+					type="text"
+					default=""
+					label="MOD_REDSHOP_SEARCH_STANDARD_SEARCH_TEXT_LBL"
+					description="MOD_REDSHOP_SEARCH_STANDARD_SEARCH_TEXT_LBL"/>
+				<field 
+					name="showCustomfield"
+					type="radio"
+					default="no"
+					label="MOD_REDSHOP_SEARCH_SHOW_CUSTOM_FIELD"
+					class="btn-group"
+					description="MOD_REDSHOP_SEARCH_SHOW_CUSTOM_FIELD_DESC">
+					<option value="yes">JYES</option>
+					<option value="no">JNO</option>
+				</field>
+				<field
+					name="product_fields"
+					type="extrafields"
+					class="btn-group"
+					field_type="3,4,5,6"
+					multiple="true"
+					label="MOD_REDSHOP_SEARCH_PRODUCT_FIELD"
+					description="MOD_REDSHOP_SEARCH_PRODUCT_FIELD_DESC">
+                </field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field

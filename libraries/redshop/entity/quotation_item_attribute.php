@@ -29,27 +29,4 @@ class RedshopEntityQuotation_Item_Attribute extends RedshopEntity
 	{
 		return JTable::getInstance('Quotation_Attribute_Item', 'Table');
 	}
-
-	/**
-	 * Default loading is trying to use the associated table
-	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
-	 *
-	 * @return  self
-	 */
-	public function loadItem($key = 'quotation_att_item_id', $keyValue = null)
-	{
-		if ($key == 'quotation_att_item_id' && !$this->hasId())
-		{
-			return $this;
-		}
-
-		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'quotation_att_item_id' ? $this->id : $keyValue))))
-		{
-			$this->loadFromTable($table);
-		}
-
-		return $this;
-	}
 }

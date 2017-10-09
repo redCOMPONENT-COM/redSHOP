@@ -16,60 +16,46 @@ defined('_JEXEC') or die;
  * @subpackage  States.View
  * @since       2.0.0.4
  */
-class RedshopViewStates extends RedshopViewAdmin
+class RedshopViewStates extends RedshopViewList
 {
 	/**
-	 * Display the States view
+	 * Column for render published state.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function display($tpl = null)
-	{
-		// Get data from the model
-		$model = $this->getModel();
-
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->activeFilters = $model->getActiveFilters();
-		$this->filterForm    = $model->getForm();
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new Exception(implode('<br />', $errors));
-
-			return false;
-		}
-
-		// Set the tool-bar and number of found items
-		$this->addToolBar();
-
-		// Display the template
-		parent::display($tpl);
-	}
+	protected $stateColumns = array();
 
 	/**
-	 * Add the page title and toolbar.
+	 * Method for render 'Published' column
 	 *
-	 * @return  void
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
 	 *
-	 * @since   2.0.0.4
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolBar()
+	public function onRenderColumn($config, $index, $row)
 	{
-		$title = JText::_('COM_REDSHOP_STATE_MANAGEMENT');
+		$value = $row->{$config['dataCol']};
 
-		if ($this->pagination->total)
+		if ($config['dataCol'] === 'country_id')
 		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
+			return RedshopEntityCountry::getInstance($value)->get('country_name');
 		}
 
-		JToolBarHelper::title($title, 'redshop_state_48');
-		JToolBarHelper::addNew('state.add');
-		JToolBarHelper::editList('state.edit');
-		JToolBarHelper::deleteList('', 'states.delete');
+		if ($config['dataCol'] === 'show_state')
+		{
+			if ($value === 3)
+			{
+				return JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
+			}
+
+			return JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
+		}
+
+		return parent::onRenderColumn($config, $index, $row);
 	}
 }

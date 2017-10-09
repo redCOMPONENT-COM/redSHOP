@@ -12,26 +12,26 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-
-$config = Redconfiguration::getInstance();
+$app           = JFactory::getApplication();
+$config        = Redconfiguration::getInstance();
 $producthelper = productHelper::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper     = redhelper::getInstance();
 
-$url = JURI::base();
-$Itemid = JRequest::getInt('Itemid');
-$wishlists = $this->wishlists;
-$product_id = JRequest::getInt('product_id');
-$user = JFactory::getUser();
+$url        = JURI::base();
+$Itemid     = $app->input->getInt('Itemid');
+$wishlists  = $this->wishlists;
+$product_id = $app->input->getInt('product_id');
+$user       = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
-$redTemplate = Redtemplate::getInstance();
-$extraField = extraField::getInstance();
-$template = $redTemplate->getTemplate("wishlist_template");
-$wishlist_data1 = $template[0]->template_desc;
-$returnArr = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
+$redTemplate        = Redtemplate::getInstance();
+$extraField         = extraField::getInstance();
+$template           = $redTemplate->getTemplate("wishlist_template");
+$wishlist_data1     = $template[0]->template_desc;
+$returnArr          = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
 $template_userfield = $returnArr[0];
-$userfieldArr = $returnArr[1];
+$userfieldArr       = $returnArr[1];
 
 	if ($this->params->get('show_page_heading', 1))
 	{
@@ -180,10 +180,8 @@ function display_products($rows)
 
 	if (count($template) <= 0)
 	{
-		for ($i = 0, $in = count($rows); $i < $in; $i++)
+		foreach ($rows as $row)
 		{
-			$row = $rows[$i];
-
 			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
@@ -261,13 +259,12 @@ function display_products($rows)
 		$totattid = '';
 		$totcount_no_user_field = '';
 
-		for ($i = 0, $in = count($rows); $i < $in; $i++)
+		foreach ($rows as $row)
 		{
-			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
 
-			$Itemid = RedshopHelperUtility::getItemId($rows[$i]->product_id);
-			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
+			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
+			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);

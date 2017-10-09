@@ -22,7 +22,7 @@ class RedshopViewSearch extends RedshopView
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 
-		$layout = JRequest::getCmd('layout', '');
+		$layout = $app->input->getCmd('layout', '');
 		$model  = $this->getModel('search');
 
 		if ($layout == 'default')
@@ -34,11 +34,11 @@ class RedshopViewSearch extends RedshopView
 		if ($layout == 'redfilter')
 		{
 			$session      = JSession::getInstance('none', array());
-			$tagid        = JRequest::getInt('tagid', 0);
-			$typeid       = JRequest::getInt('typeid', 0);
-			$remove       = JRequest::getInt('remove', 0);
-			$Itemid       = JRequest::getInt('Itemid', 0);
-			$cntproduct   = JRequest::getInt('cnt', 0);
+			$tagid        = $app->input->getInt('tagid', 0);
+			$typeid       = $app->input->getInt('typeid', 0);
+			$remove       = $app->input->getInt('remove', 0);
+			$Itemid       = $app->input->getInt('Itemid', 0);
+			$cntproduct   = $app->input->getInt('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
 			if (count($getredfilter) == 0)
@@ -77,14 +77,14 @@ class RedshopViewSearch extends RedshopView
 
 			if ($cntproduct == 1)
 			{
-				$mypid = JRequest::getInt('pid', 0);
+				$mypid = $app->input->getInt('pid', 0);
 
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid));
 			}
 		}
 
 		$order_data            = RedshopHelperUtility::getOrderByList();
-		$getorderby            = JRequest::getString('order_by',
+		$getorderby            = $app->input->getString('order_by',
 			$app->getUserState('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
 		);
 		$app->setUserState('order_by', $getorderby);
@@ -123,17 +123,17 @@ class RedshopViewSearch extends RedshopView
 			$stockroomhelper  = rsstockroomhelper::getInstance();
 			$objhelper        = redhelper::getInstance();
 
-			$Itemid         = JRequest::getInt('Itemid');
-			$search_type    = JRequest::getCmd('search_type');
-			$cid            = JRequest::getInt('category_id');
-			$manufacture_id = JRequest::getInt('manufacture_id');
+			$Itemid         = $app->input->getInt('Itemid');
+			$search_type    = $app->input->getCmd('search_type');
+			$cid            = $app->input->getInt('category_id');
+			$manufacture_id = $app->input->getInt('manufacture_id');
 
 			$manisrch       = $this->search;
-			$templateid     = JRequest::getInt('templateid');
+			$templateid     = $app->input->getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = JRequest::getString('keyword');
-			$layout         = JRequest::getCmd('layout', 'default');
+			$keyword        = $app->input->getString('keyword');
+			$layout         = $app->input->getCmd('layout', 'default');
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -195,8 +195,8 @@ class RedshopViewSearch extends RedshopView
 			$template_org = str_replace($category_tmpl, "", $template_org);
 			$template_org = str_replace("{category_loop_start}", "", $template_org);
 			$template_org = str_replace("{category_loop_end}", "", $template_org);
-			$print        = JRequest::getInt('print');
-			$p_url        = @ explode('?', $_SERVER['REQUEST_URI']);
+			$print        = $app->input->getInt('print');
+			$p_url        = @ explode('?', $app->input->server->get('REQUEST_URI', '', 'raw'));
 			$print_tag    = '';
 
 			if ($print)
@@ -687,6 +687,27 @@ class RedshopViewSearch extends RedshopView
 				// Cart Template
 				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
 
+				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
+
+				$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
+				$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
+				$stockStatus             = strstr($data_add, "{stock_status");
+
+				$attributeproductStockStatus = array();
+
+				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+				{
+					$attributeproductStockStatus = $producthelper->getproductStockStatus($this->search[$i]->product_id, $totalatt);
+				}
+
+				$data_add = $producthelper->replaceProductStockdata(
+					$this->search[$i]->product_id,
+					0,
+					0,
+					$data_add,
+					$attributeproductStockStatus
+				);
+
 				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
 
 				$data .= $data_add;
@@ -695,7 +716,7 @@ class RedshopViewSearch extends RedshopView
 			$app    = JFactory::getApplication();
 			$router = $app->getRouter();
 
-			$getorderby = JRequest::getVar('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
+			$getorderby = $app->input->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 
 			$vars = array(
 				'option'         => 'com_redshop',
