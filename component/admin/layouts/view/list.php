@@ -185,7 +185,7 @@ if ($data->hasOrdering)
 						<?php echo $data->onRenderColumn($column, $i, $row) ?>
                     </td>
 				<?php endforeach; ?>
-                <td class="redshop-tc-rowid">
+                <td>
 					<?php echo $rowId ?>
                 </td>
                 </tr>
