@@ -1,161 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_payment" method="upgrade">
-	<name>PLG_RS_PAYMENT_GC_PAYDIREKT</name>
-	<version>1.0.0</version>
-	<redshop>2.0</redshop>
-	<creationDate>Jul 2017</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>PLG_RS_PAYMENT_GC_PAYDIREKT_DESC</description>
+    <name>PLG_RS_PAYMENT_GC_PAYDIREKT</name>
+    <version>1.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>Jul 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_RS_PAYMENT_GC_PAYDIREKT_DESC</description>
 
-	<files>
-		<filename plugin="rs_payment_gc_paydirekt">rs_payment_gc_paydirekt.php</filename>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_gc_paydirekt.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_gc_paydirekt.sys.ini</language>
-	</languages>
-	<config addfieldpath="/libraries/redshop/form/fields">
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="merchant_id"
-					type="text"
-					default=""
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_MERCHANT_ID_LABEL"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_MERCHANT_ID_DESC"
-				/>
-				<field
-					name="project_id"
-					type="text"
-					default=""
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_PROJECT_ID_LABEL"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_PROJECT_ID_DESC"
-				/>
-				<field
-					name="secret_password"
-					type="text"
-					default=""
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_SECRET_PASSWORD_LABEL"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_SECRET_PASSWORD_DESC"
-				/>
+    <files>
+        <filename plugin="rs_payment_gc_paydirekt">rs_payment_gc_paydirekt.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_gc_paydirekt.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_gc_paydirekt.sys.ini</language>
+    </languages>
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="merchant_id"
+                        type="text"
+                        class="input-xlarge"
+                        default=""
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_MERCHANT_ID_LABEL"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_MERCHANT_ID_DESC"
+                />
+                <field
+                        name="project_id"
+                        type="text"
+                        class="input-xlarge"
+                        default=""
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_PROJECT_ID_LABEL"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_PROJECT_ID_DESC"
+                />
+                <field
+                        name="secret_password"
+                        type="password"
+                        class="input-xlarge"
+                        default=""
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_SECRET_PASSWORD_LABEL"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_SECRET_PASSWORD_DESC"
+                />
 
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="verify_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
-					key_field="st_value"
-					value_field="st_title"
-					default="C"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS_DESC">
-				</field>
-				<field
-					name="invalid_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
-					key_field="st_value"
-					value_field="st_title"
-					default="P"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS_FAIL"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS_FAIL_DESC"
-				>
-				</field>
-				<field
-					name="capture_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
-					key_field="st_value"
-					value_field="st_title"
-					default="S"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_CAPTURE_PAYMENT_STATUS"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_CAPTURE_PAYMENT_STATUS_DESC"
-				/>
-				<field
-					name="payment_oprand"
-					type="text"
-					class="input-large"
-					default="-"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_OPERAND"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_OPERAND_DESC"
-				/>
-				<field
-					name="payment_price"
-					type="text"
-					size="30"
-					default=""
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_PRICE"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_PRICE_DESC"
-				/>
-				<field
-					name="payment_discount_is_percent"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_DISCOUNT_TYPE"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_DISCOUNT_TYPE_DESC"
-				>
-					<option value="1">PLG_RS_PAYMENT_GC_PAYDIREKT_PERCENTAGE</option>
-					<option value="0">PLG_RS_PAYMENT_GC_PAYDIREKT_TOTAL</option>
-				</field>
-				<field
-					name="private_person"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_PRIVATE_PERSON"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_PRIVATE_PERSON_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="business"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_BUSINESS_PERSON"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_BUSINESS_PERSON_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="is_creditcard"
-					type="hidden"
-					default="0"
-					value="0"
-				/>
-				<field
-					name="economic_payment_terms_id"
-					type="text"
-					class="input-mini"
-					default=""
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_CONDITION_ID"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_CONDITION_ID_DESC"
-				/>
-				<field
-					name="economic_design_layout"
-					type="text"
-					class="input-mini"
-					default=""
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_LAYOUT_ID"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_LAYOUT_ID_DESC"
-				/>
-				<field
-					name="shopper_group_id"
-					type="shoppergrouplist"
-					default="0"
-					multiple="multiple"
-					label="PLG_RS_PAYMENT_GC_PAYDIREKT_SHOPPER_GROUP"
-					description="PLG_RS_PAYMENT_GC_PAYDIREKT_SHOPPER_GROUP_DESC"
-				/>
-			</fieldset>
-		</fields>
-	</config>
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="verify_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="C"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS_DESC">
+                </field>
+                <field
+                        name="invalid_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="P"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS_FAIL"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_ORDER_STATUS_FAIL_DESC"
+                >
+                </field>
+                <field
+                        name="capture_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="S"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_CAPTURE_PAYMENT_STATUS"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_CAPTURE_PAYMENT_STATUS_DESC"
+                />
+                <field
+                        name="payment_oprand"
+                        type="text"
+                        class="input-large"
+                        default="-"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_OPERAND"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_OPERAND_DESC"
+                />
+                <field
+                        name="payment_price"
+                        type="text"
+                        size="30"
+                        default=""
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_PRICE"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_PAYMENT_PRICE_DESC"
+                />
+                <field
+                        name="payment_discount_is_percent"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_DISCOUNT_TYPE"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_DISCOUNT_TYPE_DESC"
+                >
+                    <option value="1">PLG_RS_PAYMENT_GC_PAYDIREKT_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_GC_PAYDIREKT_TOTAL</option>
+                </field>
+                <field
+                        name="private_person"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_PRIVATE_PERSON"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_PRIVATE_PERSON_DESC"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="business"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_BUSINESS_PERSON"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_BUSINESS_PERSON_DESC"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="is_creditcard"
+                        type="hidden"
+                        default="0"
+                        value="0"
+                />
+                <field
+                        name="economic_payment_terms_id"
+                        type="text"
+                        class="input-mini"
+                        default=""
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_CONDITION_ID"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_CONDITION_ID_DESC"
+                />
+                <field
+                        name="economic_design_layout"
+                        type="text"
+                        class="input-mini"
+                        default=""
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_LAYOUT_ID"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_ECONOMIC_LAYOUT_ID_DESC"
+                />
+                <field
+                        name="shopper_group_id"
+                        type="shoppergrouplist"
+                        default="0"
+                        multiple="multiple"
+                        label="PLG_RS_PAYMENT_GC_PAYDIREKT_SHOPPER_GROUP"
+                        description="PLG_RS_PAYMENT_GC_PAYDIREKT_SHOPPER_GROUP_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

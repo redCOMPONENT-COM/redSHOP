@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
+/**
+ * Class plgRedshop_paymentrs_payment_gc_creditcard
+ *
+ * @since  1.0.0
+ */
+class PlgRedshop_Paymentrs_Payment_Gc_Creditcard extends JPlugin
 {
 	/**
 	 * Merchant ID
@@ -38,10 +43,10 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param   object $subject   The object to observe
+	 * @param   array  $config    An optional associative array of configuration settings.
+	 *                            Recognized key values include 'name', 'group', 'params', 'language'
+	 *                            (this list is not meant to be comprehensive).
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -63,10 +68,10 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 	/**
 	 * [onPrePayment description]
 	 *
-	 * @param   [type]  $element  [description]
-	 * @param   [type]  $data     [description]
+	 * @param   string $element [description]
+	 * @param   array  $data    [description]
 	 *
-	 * @return  [type]            [description]
+	 * @return  void            [description]
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -80,10 +85,8 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 			$plugin = $element;
 		}
 
-		$jinput = JFactory::getApplication()->input;
-
-		$itemId  = $jinput->getInt('Itemid');
-
+		$input  = JFactory::getApplication()->input;
+		$itemId = $input->getInt('Itemid');
 		$amount = $data['carttotal'];
 
 		$request = new GiroCheckout_SDK_Request('creditCardTransaction');
@@ -94,8 +97,15 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 			->addParam('amount', number_format($amount, 2, '.', '') * 100)
 			->addParam('currency', RedshopHelperCurrency::getISOCode(Redshop::getConfig()->get('CURRENCY_CODE')))
 			->addParam('purpose', 'Beispieltransaktion')
-			->addParam('urlRedirect', JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_gc_creditcard&orderid=" . $data['order_id'] . "&Itemid=" . $itemId)
-			->addParam('urlNotify', JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_gc_creditcard&orderid=" . $data['order_id'] . "&Itemid=" . $itemId)
+			->addParam(
+				'urlRedirect',
+				JURI::base() . 'index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment'
+				. '&payment_plugin=rs_payment_gc_creditcard&orderid=' . $data['order_id'] . '&Itemid=' . $itemId
+			)
+			->addParam(
+				'urlNotify', JURI::base() . 'index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail'
+				. '&task=notify_payment&payment_plugin=rs_payment_gc_creditcard&orderid=' . $data['order_id'] . '&Itemid=' . $itemId
+			)
 			->submit();
 
 		// If transaction succeeded update your local system an redirect the customer
@@ -105,17 +115,21 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 			$request->getResponseParam('redirect');
 			$request->redirectCustomerToPaymentProvider();
 		}
-		else
-		{
-			$request->getResponseParam('rc');
-			$request->getResponseParam('msg');
-			$request->getResponseMessage($request->getResponseParam('rc'), 'DE');
-			$app->enqueueMessage($request->getResponseRaw());
-		}
+
+		$request->getResponseParam('rc');
+		$request->getResponseParam('msg');
+		$request->getResponseMessage($request->getResponseParam('rc'), 'DE');
+
+		JFactory::getApplication()->enqueueMessage($request->getResponseRaw());
 	}
 
-	/*
+	/**
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
+	 *
+	 * @param   string $element [description]
+	 * @param   array  $request   Description
+	 *
+	 * @return  boolean|object
 	 */
 	public function onNotifyPaymentrs_payment_gc_creditcard($element, $request)
 	{
@@ -124,27 +138,27 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 			return false;
 		}
 
-		$verifyStatus   = $this->params->get('verify_status', '');
-		$invalidStatus  = $this->params->get('invalid_status', '');
-		$values          = new stdClass;
+		$verifyStatus  = $this->params->get('verify_status', '');
+		$invalidStatus = $this->params->get('invalid_status', '');
+		$values        = new stdClass;
 
-		$jinput = JFactory::getApplication()->input;
-		$inputValues = $jinput->getArray(
+		$input       = JFactory::getApplication()->input;
+		$inputValues = $input->getArray(
 			array(
-				'option' => 'STRING',
-				'view' => 'STRING',
-				'tmpl' => 'STRING',
-				'controller' => 'STRING',
-				'task' => 'STRING',
-				'payment_plugin' => 'STRING',
-				'orderid' => 'int',
-				'gcReference' => 'CMD',
-				'gcMerchantTxId' => 'RAW',
-				'gcBackendTxId' => 'RAW',
-				'gcAmount' => 'int',
-				'gcCurrency' => 'ALNUM',
+				'option'          => 'STRING',
+				'view'            => 'STRING',
+				'tmpl'            => 'STRING',
+				'controller'      => 'STRING',
+				'task'            => 'STRING',
+				'payment_plugin'  => 'STRING',
+				'orderid'         => 'int',
+				'gcReference'     => 'CMD',
+				'gcMerchantTxId'  => 'RAW',
+				'gcBackendTxId'   => 'RAW',
+				'gcAmount'        => 'int',
+				'gcCurrency'      => 'ALNUM',
 				'gcResultPayment' => 'int',
-				'gcHash' => 'ALNUM'
+				'gcHash'          => 'ALNUM'
 			)
 		);
 
@@ -155,16 +169,16 @@ class plgRedshop_paymentrs_payment_gc_creditcard extends JPlugin
 		// Check response and update transaction
 		if ($notify->paymentSuccessful())
 		{
-			$values->order_status_code = $verifyStatus;
+			$values->order_status_code         = $verifyStatus;
 			$values->order_payment_status_code = 'Paid';
 		}
 		else
 		{
-			$values->order_status_code = $invalidStatus;
+			$values->order_status_code         = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 		}
 
-		$values->log = $values->msg = $notify->getResponseMessage($notify->getResponseParam('gcResultPayment'), 'DE');
+		$values->log            = $values->msg = $notify->getResponseMessage($notify->getResponseParam('gcResultPayment'), 'DE');
 		$values->transaction_id = $notify->getResponseParam('gcReference');
 		$values->order_id       = $inputValues['orderid'];
 

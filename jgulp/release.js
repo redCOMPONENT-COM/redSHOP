@@ -20,6 +20,7 @@ gulp.task("release",
     [
         "release:plugin",
         "release:module",
+        "release:library",
         "release:redshop"
     ]
 );

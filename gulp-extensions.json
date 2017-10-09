@@ -4,7 +4,8 @@
     "redshop.assets"
   ],
   "libraries": [
-    "redshop"
+    "redshop",
+    "girocheckout"
   ],
   "modules": {
     "frontend": [
@@ -124,6 +125,8 @@
       "rs_payment_epayv2",
       "rs_payment_eway",
       "rs_payment_eway3dsecure",
+      "rs_payment_gc_creditcard",
+      "rs_payment_gc_paydirekt",
       "rs_payment_giropay",
       "rs_payment_imglobal",
       "rs_payment_moneris",

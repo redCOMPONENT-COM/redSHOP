@@ -1,6 +1,6 @@
 <?php
 /**
- * RedSLIDER Library file.
+ * redSHOP - GiroCheckout Library file.
  * Including this file into your application will make redSLIDER available to use.
  *
  * @package    RedSLIDER.Library
