@@ -25,7 +25,7 @@ pipeline {
             extensions {
                 commitStatus {
                     completedStatus('SUCCESS', 'All is well')
-                    completedStatus('FAILURE', 'Something went wrong. Investigate!')
+                    completedStatus('FAILURE', 'Somethig went wrong. Investigate!')
                     completedStatus('PENDING', 'still in progress...')
                     completedStatus('ERROR', 'Something went really wrong. Investigate!')
                 }
