@@ -15,8 +15,6 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redproductscroller.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redproductscroller.sys.ini</language>
     </languages>
     <config>
         <fields name="params">

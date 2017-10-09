@@ -29,9 +29,6 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_categories.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.mod_redshop_categories.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_categories.ini</language>
-        <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_categories.ini</language>
     </languages>
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">

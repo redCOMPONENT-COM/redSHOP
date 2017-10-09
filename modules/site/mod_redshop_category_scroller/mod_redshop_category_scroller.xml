@@ -19,8 +19,6 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_category_scroller.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_category_scroller.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_category_scroller.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_category_scroller.sys.ini</language>
     </languages>
     <config>
         <fields name="params">

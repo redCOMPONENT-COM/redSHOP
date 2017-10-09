@@ -14,9 +14,12 @@
 		<filename module="mod_redshop_discount">helper.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
 	</files>
 	<scriptfile>install.php</scriptfile>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_discount.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_discount.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
