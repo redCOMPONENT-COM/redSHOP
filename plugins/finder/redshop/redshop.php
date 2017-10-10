@@ -163,7 +163,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 
 		$alias = JFilterOutput::stringURLSafe($item->slug);
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = RedshopHelperRoute::getProductRoute($alias, $item->catid, $item->manu_id);
+		$item->route = RedshopHelperRoute::getProductRoute($alias, $item->catid, $item->language, $item->manu_id);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Add the meta-author.
