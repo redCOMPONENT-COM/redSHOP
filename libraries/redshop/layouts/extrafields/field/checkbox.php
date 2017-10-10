@@ -30,7 +30,7 @@ extract($displayData);
 	<?php foreach ($fieldCheck as $key => $field) : ?>
 		<?php $checked = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
 		<label>
-			<input 
+			<input
 				type="checkbox"
 				id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
 				name="<?php echo $rowData->name; ?>[]"
@@ -41,7 +41,7 @@ extract($displayData);
 				<?php echo $errorMsg; ?>
 				<?php echo $checked; ?>
 			/>
-			<span><?php echo $field->field_value ?></span>
+			<span><?php echo $field->field_name ?></span>
 		</label>
 	<?php endforeach; ?>
 </td>
