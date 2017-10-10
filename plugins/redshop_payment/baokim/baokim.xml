@@ -26,8 +26,13 @@
     <config>
         <fields name="params">
             <fieldset name="extra" label="extra">
-                <field name="baokim_email" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL"
-                       description="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL_DESC"/>
+                <field
+                        name="baokim_email"
+                        type="text"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL"
+                        description="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL_DESC"
+                />
                 <field name="baokim_merchant_id" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_ID"
                        description="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_ID_DESC"/>
                 <field name="baokim_merchant_password" type="password" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_PASS"
