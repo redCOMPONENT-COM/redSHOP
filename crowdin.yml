@@ -1,5 +1,5 @@
 "preserve_hierarchy": true
-commit_message: "New localization strings available"
+commit_message: "New localization strings available [ci skip]"
 "files": [
   {
     "source": "/component/admin/language/en-GB/en-GB.com_redshop.ini",
