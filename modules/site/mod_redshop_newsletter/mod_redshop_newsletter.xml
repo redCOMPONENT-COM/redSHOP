@@ -18,10 +18,6 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_newsletter.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_newsletter.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_newsletter.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_newsletter.sys.ini</language>
-        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_newsletter.ini</language>
-        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_newsletter.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
