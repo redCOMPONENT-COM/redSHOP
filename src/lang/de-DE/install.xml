@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="file" version="3.6" method="upgrade">
+    <name>redSHOP de-DE</name>
+    <creationDate>October 2017</creationDate>
+    <version>2.0.6</version>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <copyright>Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>GNU/GPL</license>
+    <description>redSHOP German (de-DE) language pack</description>
+
+    <fileset>
+        <files folder="admin" target="administrator/language">
+            <folder>de-DE</folder>
+        </files>
+        <files folder="site" target="language">
+            <folder>de-DE</folder>
+        </files>
+    </fileset>
+</extension>
