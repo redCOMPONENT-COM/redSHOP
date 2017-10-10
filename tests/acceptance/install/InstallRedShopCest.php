@@ -27,7 +27,8 @@ class InstallRedShopCest
 	public function testInstallJoomla(AcceptanceTester $I)
 	{
 		$I->wantTo('Execute Joomla Installation');
-		$I->installJoomlaRemovingInstallationFolder();
+		$I->installJoomla();
+		$I->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
 		$I->doAdministratorLogin();
 		$I->setErrorReportingtoDevelopment();
 	}
