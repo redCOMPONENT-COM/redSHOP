@@ -2,6 +2,36 @@
 
 pipeline {
     agent any
+    options {
+            timeout(time: 1, unit: 'HOURS')
+    }
+    scm {
+        git {
+            remote {
+                github('redCOMPONENT-COM/redSHOP.git')
+                refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+            }
+            branch('${sha1}')
+        }
+    }
+
+    triggers {
+        pullRequest {
+            admins(['jooservices', 'puneet0191', 'thongredweb', 'ducredweb', 'nhungredweb', 'turedweb', 'luredweb'])
+            cron('* * * * *')
+            triggerPhrase('OK to test')
+            useGitHubHooks()
+            permitAll()
+            extensions {
+                commitStatus {
+                    completedStatus('SUCCESS', 'All is well')
+                    completedStatus('FAILURE', 'Something went wrong. Investigate!')
+                    completedStatus('PENDING', 'still in progress...')
+                    completedStatus('ERROR', 'Something went really wrong. Investigate!')
+                }
+            }
+        }
+    }
 
     stages {
         stage('Setup') {
