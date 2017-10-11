@@ -87,8 +87,7 @@ class GiftCardCheckoutProductCest
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using paypal payment plugin for purchasing gift card');
 		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
 		$I->wait(3);
-		$I->click(\GiftCardCheckoutPage::$buttonStatic);
-		$I->wait(3);
+		$I->disableStatistics();
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
 		$I->wait(3);
 		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');

@@ -57,7 +57,7 @@ class ManageProductsAdministratorCest
      *
      * @return void
      */
-    public function testProductAdministrator(AcceptanceTester $I, $scenario)
+    public function addCategorySave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Create Category in Administrator');
         $I->doAdministratorLogin();

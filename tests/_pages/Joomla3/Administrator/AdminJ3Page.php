@@ -16,10 +16,6 @@
 abstract class AdminJ3Page
 {
 
-	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
-	/**
-	 * @var string
-	 */
 	public static $namePage = "";
 
 	/**
