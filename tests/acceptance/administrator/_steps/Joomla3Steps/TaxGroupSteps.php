@@ -94,7 +94,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
 		$client->fillField(\TaxGroupPage::$fieldName, "");
 		$client->click(\TaxGroupPage::$buttonSave);
-		$client->waitForText(\TaxGroupPage::$messageErrorFieldMissing, 60, \TaxGroupPage::$selectorError);
+		$client->waitForText(\TaxGroupPage::$messageErrorFieldMissing, 60, \TaxGroupPage::$selectorMissing);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 	}
 
@@ -158,7 +158,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupsName);
 		$client->wait(3);
-		$client->click(\TaxGroupPage::$pathCheckAll);
+		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->acceptPopup();
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
@@ -174,7 +174,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\TaxGroupPage::$buttonSave);
-		$client->waitForText(\TaxGroupPage::$messageErrorFieldMissing, 60, \TaxGroupPage::$selectorError);
+		$client->waitForText(\TaxGroupPage::$messageErrorFieldMissing, 60, \TaxGroupPage::$selectorMissing);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 	}
 
@@ -200,7 +200,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
-		$client->click(\TaxGroupPage::$pathCheckAll);
+		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonPublish);
 		$client->waitForText("Message", 30, \TaxGroupPage::$selectorSuccess);
 	}
@@ -218,7 +218,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
-		$client->click(\TaxGroupPage::$pathCheckAll);
+		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonUnpublish);
 		$client->waitForText("Message", 30, \TaxGroupPage::$selectorSuccess);
 	}
