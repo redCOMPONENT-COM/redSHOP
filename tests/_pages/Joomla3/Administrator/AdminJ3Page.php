@@ -16,10 +16,6 @@
 abstract class AdminJ3Page
 {
 
-	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
-	/**
-	 * @var string
-	 */
 	public static $namePage = "";
 
 	/**
@@ -149,8 +145,15 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $URL = '/index.php?option=com_redshop';
-
+	/**
+	 * @var string
+	 */
 	public static $URLLoginAdmin = '/administrator/index.php';
+
+	/**
+	 * @var string
+	 */
+	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
 	/**
 	 * @var string
 	 */
