@@ -5313,36 +5313,18 @@ class productHelper
 		return $data;
 	}
 
-	public function makeAccessoryOrder($order_item_id = 0)
+	/**
+	 * Method for generate accessory of order.
+	 *
+	 * @param   integer  $orderItemId  Order item ID.
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use Redshop\Order\Helper::generateAccessories()
+	 */
+	public function makeAccessoryOrder($orderItemId = 0)
 	{
-		$order_functions  = order_functions::getInstance();
-		$displayaccessory = "";
-		$orderItemdata    = $order_functions->getOrderItemAccessoryDetail($order_item_id);
-
-		if (count($orderItemdata) > 0)
-		{
-			$displayaccessory .= "<div class='checkout_accessory_static'>"
-				. JText::_("COM_REDSHOP_ACCESSORY") . "</div>";
-			foreach ($orderItemdata as $data)
-			{
-				$accessory_quantity = " [" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " "
-					. $data->product_quantity . "] ";
-				$displayaccessory .= "<div class='checkout_accessory_title'>"
-					. urldecode($data->order_acc_item_name)
-					. " ("
-					. $this->getProductFormattedPrice($data->order_acc_price + $data->order_acc_vat)
-					. ")" . $accessory_quantity . "</div>";
-				$makeAttributeOrder = $this->makeAttributeOrder($order_item_id, 1, $data->product_id);
-				$displayaccessory   .= $makeAttributeOrder->product_attribute;
-			}
-		}
-		else
-		{
-			$orderItemdata    = $order_functions->getOrderItemDetail(0, 0, $order_item_id);
-			$displayaccessory = $orderItemdata[0]->product_accessory;
-		}
-
-		return $displayaccessory;
+		return Redshop\Order\Helper::generateAccessories($orderItemId);
 	}
 
 	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
@@ -5553,7 +5535,7 @@ class productHelper
 	 *
 	 * @return  array           Matched string array
 	 */
-	function findStringBetween($start, $end, $string)
+	public function findStringBetween($start, $end, $string)
 	{
 		preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
 
