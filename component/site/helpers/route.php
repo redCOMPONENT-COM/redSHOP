@@ -7,15 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JLoader::import('redshop.library');
+
 defined('_JEXEC') or die;
 
 /**
- * Contact Component Route Helper
+ * Redshop Component Route Helper.
  *
  * @static
  * @package     Redshop.Libararies
  * @subpackage  com_redshop
- * @since       1.5
+ * @since       2.0.7
  */
 abstract class RedshopHelperRoute
 {
@@ -48,13 +50,14 @@ abstract class RedshopHelperRoute
 	 *
 	 * @param   integer $id             The id of the product
 	 * @param   integer $catid          The id of the product's category
+	 * @param   string  $language       Language
 	 * @param   integer $manufacturerId The id of the product's manufacturer
 	 *
 	 * @return  string  The link to the product
 	 *
 	 * @since   1.5
 	 */
-	public static function getProductRoute($id, $catid, $manufacturerId)
+	public static function getProductRoute($id, $catid, $language, $manufacturerId = 0)
 	{
 		$needles = array(
 			'product' => array((int) $id)
@@ -79,6 +82,11 @@ abstract class RedshopHelperRoute
 		if (isset($items[0]))
 		{
 			$link .= '&Itemid=' . $items[0]->id;
+		}
+
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		{
+			$link .= '&lang=' . $language;
 		}
 
 		return $link;
