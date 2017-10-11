@@ -270,6 +270,16 @@ $calendarFormat = '%d-%m-%Y';
 							echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
 							?>
                         </div >
+
+                         <div class="form-group" >
+                            <label for="product_tax_group_id" >
+                                <?php echo JText::_('JTAG'); ?>
+                                <?php
+                                echo JHtml::tooltip(JText::_('JTAG'), JText::_('JTAG_DESC'), 'tooltip.png', '', '', false);
+                                ?>
+                            </label >
+                            <?php echo $this->lists['jtags']; ?>
+                        </div >
                     </div >
                 </div >
             </div >
