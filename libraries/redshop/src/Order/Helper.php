@@ -12,9 +12,9 @@ namespace Redshop\Order;
 defined('_JEXEC') or die;
 
 /**
- * Utility helper
+ * Order helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class Helper
 {
@@ -25,7 +25,7 @@ class Helper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function generateAccessories($orderItemId = 0)
 	{
