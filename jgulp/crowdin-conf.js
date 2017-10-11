@@ -14,7 +14,7 @@ var stripPrefix = function (name) {
 
 gulp.task("crowdin-conf", ["getAdminFiles", "getSiteFiles"], function () {
     var content = "\"preserve_hierarchy\": true\n";
-    content += "commit_message: \"New localization strings available\"\n";
+    content += "commit_message: \"New localization strings available [ci skip]\"\n";
     content += "\"files\": " + pd.json(JSON.stringify(iniJsons));
     fs.writeFileSync("./crowdin.yml", content);
 });
