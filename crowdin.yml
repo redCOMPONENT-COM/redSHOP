@@ -1,5 +1,5 @@
 "preserve_hierarchy": true
-commit_message: "New localization strings available"
+commit_message: "New localization strings available [ci skip]"
 "files": [
   {
     "source": "/component/admin/language/en-GB/en-GB.com_redshop.ini",
@@ -38,48 +38,32 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redcategoryscroller.sys.ini"
   },
   {
-    "source": "/plugins/aesir_field/redshop_product/language/en-GB/en-GB.plg_aesir_field_redshop_product.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_aesir_field_redshop_product.ini"
+    "source": "/plugins/acymailing/redshop/language/en-GB/en-GB.plg_acymailing_redshop.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_acymailing_redshop.ini"
   },
   {
     "source": "/modules/site/mod_redfeaturedproduct/language/en-GB/en-GB.mod_redfeaturedproduct.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redfeaturedproduct.ini"
   },
   {
-    "source": "/plugins/aesir_field/redshop_product/language/en-GB/en-GB.plg_aesir_field_redshop_product.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_aesir_field_redshop_product.sys.ini"
+    "source": "/plugins/acymailing/redshop/language/en-GB/en-GB.plg_acymailing_redshop.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_acymailing_redshop.sys.ini"
   },
   {
     "source": "/modules/site/mod_redfeaturedproduct/language/en-GB/en-GB.mod_redfeaturedproduct.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redfeaturedproduct.sys.ini"
   },
   {
-    "source": "/plugins/acymailing/redshop/language/en-GB/en-GB.plg_acymailing_redshop.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_acymailing_redshop.ini"
-  },
-  {
-    "source": "/modules/site/mod_redmasscart/language/en-GB/en-GB.mod_redmasscart.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redmasscart.ini"
-  },
-  {
-    "source": "/plugins/acymailing/redshop/language/en-GB/en-GB.plg_acymailing_redshop.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_acymailing_redshop.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redmasscart/language/en-GB/en-GB.mod_redmasscart.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redmasscart.sys.ini"
-  },
-  {
-    "source": "/plugins/ajax/xmlcron/language/en-GB/en-GB.plg_ajax_xmlcron.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_ajax_xmlcron.ini"
+    "source": "/plugins/aesir_field/redshop_product/language/en-GB/en-GB.plg_aesir_field_redshop_product.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_aesir_field_redshop_product.ini"
   },
   {
     "source": "/modules/site/mod_redmanufacturer/language/en-GB/en-GB.mod_redmanufacturer.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redmanufacturer.ini"
   },
   {
-    "source": "/plugins/ajax/xmlcron/language/en-GB/en-GB.plg_ajax_xmlcron.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_ajax_xmlcron.sys.ini"
+    "source": "/plugins/aesir_field/redshop_product/language/en-GB/en-GB.plg_aesir_field_redshop_product.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_aesir_field_redshop_product.sys.ini"
   },
   {
     "source": "/modules/site/mod_redmanufacturer/language/en-GB/en-GB.mod_redmanufacturer.sys.ini",
@@ -90,12 +74,28 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_economic_economic.ini"
   },
   {
-    "source": "/modules/site/mod_redproducts3d/language/en-GB/en-GB.mod_redproducts3d.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproducts3d.ini"
+    "source": "/modules/site/mod_redmasscart/language/en-GB/en-GB.mod_redmasscart.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redmasscart.ini"
   },
   {
     "source": "/plugins/economic/economic/language/en-GB/en-GB.plg_economic_economic.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_economic_economic.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redmasscart/language/en-GB/en-GB.mod_redmasscart.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redmasscart.sys.ini"
+  },
+  {
+    "source": "/plugins/ajax/xmlcron/language/en-GB/en-GB.plg_ajax_xmlcron.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_ajax_xmlcron.ini"
+  },
+  {
+    "source": "/modules/site/mod_redproducts3d/language/en-GB/en-GB.mod_redproducts3d.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproducts3d.ini"
+  },
+  {
+    "source": "/plugins/ajax/xmlcron/language/en-GB/en-GB.plg_ajax_xmlcron.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_ajax_xmlcron.sys.ini"
   },
   {
     "source": "/modules/site/mod_redproducts3d/language/en-GB/en-GB.mod_redproducts3d.sys.ini",
@@ -106,32 +106,32 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_content_redshop_product.ini"
   },
   {
-    "source": "/modules/site/mod_redproductscroller/language/en-GB/en-GB.mod_redproductscroller.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproductscroller.ini"
+    "source": "/modules/site/mod_redproducttab/language/en-GB/en-GB.mod_redproducttab.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproducttab.ini"
   },
   {
     "source": "/plugins/content/redshop_product/language/en-GB/en-GB.plg_content_redshop_product.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_content_redshop_product.sys.ini"
   },
   {
-    "source": "/modules/site/mod_redproductscroller/language/en-GB/en-GB.mod_redproductscroller.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproductscroller.sys.ini"
+    "source": "/modules/site/mod_redproducttab/language/en-GB/en-GB.mod_redproducttab.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproducttab.sys.ini"
   },
   {
     "source": "/plugins/editors-xtd/product/language/en-GB/en-GB.plg_editors-xtd_product.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_editors-xtd_product.ini"
   },
   {
-    "source": "/modules/site/mod_redproducttab/language/en-GB/en-GB.mod_redproducttab.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproducttab.ini"
+    "source": "/modules/site/mod_redproductscroller/language/en-GB/en-GB.mod_redproductscroller.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproductscroller.ini"
   },
   {
     "source": "/plugins/editors-xtd/product/language/en-GB/en-GB.plg_editors-xtd_product.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_editors-xtd_product.sys.ini"
   },
   {
-    "source": "/modules/site/mod_redproducttab/language/en-GB/en-GB.mod_redproducttab.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproducttab.sys.ini"
+    "source": "/modules/site/mod_redproductscroller/language/en-GB/en-GB.mod_redproductscroller.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redproductscroller.sys.ini"
   },
   {
     "source": "/plugins/finder/redshop/language/en-GB/en-GB.plg_finder_redshop.ini",
@@ -214,304 +214,304 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_discount.ini"
   },
   {
-    "source": "/plugins/redshop_import/attribute/language/en-GB/en-GB.plg_redshop_import_attribute.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_attribute.ini"
+    "source": "/plugins/redshop_export/attribute/language/en-GB/en-GB.plg_redshop_export_attribute.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_attribute.ini"
   },
   {
     "source": "/modules/site/mod_redshop_discount/language/en-GB/en-GB.mod_redshop_discount.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_discount.sys.ini"
   },
   {
-    "source": "/plugins/redshop_import/attribute/language/en-GB/en-GB.plg_redshop_import_attribute.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_attribute.sys.ini"
+    "source": "/plugins/redshop_export/attribute/language/en-GB/en-GB.plg_redshop_export_attribute.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_attribute.sys.ini"
   },
   {
     "source": "/modules/site/mod_redshop_filter/language/en-GB/en-GB.mod_redshop_filter.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_filter.ini"
   },
   {
-    "source": "/plugins/redshop_import/category/language/en-GB/en-GB.plg_redshop_import_category.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_category.ini"
+    "source": "/plugins/redshop_export/category/language/en-GB/en-GB.plg_redshop_export_category.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_category.ini"
   },
   {
     "source": "/modules/site/mod_redshop_filter/language/en-GB/en-GB.mod_redshop_filter.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_filter.sys.ini"
   },
   {
-    "source": "/plugins/redshop_import/category/language/en-GB/en-GB.plg_redshop_import_category.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_category.sys.ini"
+    "source": "/plugins/redshop_export/category/language/en-GB/en-GB.plg_redshop_export_category.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_category.sys.ini"
   },
   {
     "source": "/modules/site/mod_redshop_logingreeting/language/en-GB/en-GB.mod_redshop_logingreeting.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_logingreeting.ini"
   },
   {
-    "source": "/plugins/redshop_import/field/language/en-GB/en-GB.plg_redshop_import_field.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_field.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/field/language/en-GB/en-GB.plg_redshop_import_field.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_field.sys.ini"
+    "source": "/plugins/redshop_export/field/language/en-GB/en-GB.plg_redshop_export_field.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_field.ini"
   },
   {
     "source": "/modules/site/mod_redshop_logingreeting/language/en-GB/en-GB.mod_redshop_logingreeting.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_logingreeting.sys.ini"
   },
   {
-    "source": "/plugins/redshop_import/manufacturer/language/en-GB/en-GB.plg_redshop_import_manufacturer.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_manufacturer.ini"
+    "source": "/plugins/redshop_export/field/language/en-GB/en-GB.plg_redshop_export_field.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_field.sys.ini"
   },
   {
     "source": "/modules/site/mod_redshop_megamenu/language/en-GB/en-GB.mod_redshop_megamenu.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_megamenu.ini"
   },
   {
-    "source": "/plugins/redshop_import/manufacturer/language/en-GB/en-GB.plg_redshop_import_manufacturer.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_manufacturer.sys.ini"
+    "source": "/plugins/redshop_export/manufacturer/language/en-GB/en-GB.plg_redshop_export_manufacturer.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_manufacturer.ini"
   },
   {
     "source": "/modules/site/mod_redshop_megamenu/language/en-GB/en-GB.mod_redshop_megamenu.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_megamenu.sys.ini"
   },
   {
-    "source": "/plugins/redshop_import/product/language/en-GB/en-GB.plg_redshop_import_product.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product.ini"
+    "source": "/plugins/redshop_export/manufacturer/language/en-GB/en-GB.plg_redshop_export_manufacturer.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_manufacturer.sys.ini"
   },
   {
     "source": "/modules/site/mod_redshop_newsletter/language/en-GB/en-GB.mod_redshop_newsletter.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_newsletter.ini"
   },
   {
-    "source": "/plugins/redshop_import/product/language/en-GB/en-GB.plg_redshop_import_product.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product.sys.ini"
+    "source": "/plugins/redshop_export/product/language/en-GB/en-GB.plg_redshop_export_product.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product.ini"
   },
   {
     "source": "/modules/site/mod_redshop_newsletter/language/en-GB/en-GB.mod_redshop_newsletter.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_newsletter.sys.ini"
   },
   {
-    "source": "/plugins/redshop_import/product_stockroom_data/language/en-GB/en-GB.plg_redshop_import_product_stockroom_data.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product_stockroom_data.ini"
+    "source": "/plugins/redshop_export/product/language/en-GB/en-GB.plg_redshop_export_product.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product.sys.ini"
   },
   {
     "source": "/modules/site/mod_redshop_pricefilter/language/en-GB/en-GB.mod_redshop_pricefilter.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_pricefilter.ini"
   },
   {
-    "source": "/plugins/redshop_import/product_stockroom_data/language/en-GB/en-GB.plg_redshop_import_product_stockroom_data.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product_stockroom_data.sys.ini"
+    "source": "/plugins/redshop_export/product_stockroom_data/language/en-GB/en-GB.plg_redshop_export_product_stockroom_data.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product_stockroom_data.ini"
   },
   {
     "source": "/modules/site/mod_redshop_pricefilter/language/en-GB/en-GB.mod_redshop_pricefilter.sys.ini",
     "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_pricefilter.sys.ini"
   },
   {
-    "source": "/modules/site/mod_redshop_productcompare/language/en-GB/en-GB.mod_redshop_productcompare.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_productcompare.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/related_product/language/en-GB/en-GB.plg_redshop_import_related_product.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_related_product.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_productcompare/language/en-GB/en-GB.mod_redshop_productcompare.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_productcompare.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/related_product/language/en-GB/en-GB.plg_redshop_import_related_product.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_related_product.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_products/language/en-GB/en-GB.mod_redshop_products.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/shipping_address/language/en-GB/en-GB.plg_redshop_import_shipping_address.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shipping_address.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_products/language/en-GB/en-GB.mod_redshop_products.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/shipping_address/language/en-GB/en-GB.plg_redshop_import_shipping_address.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shipping_address.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_products_slideshow/language/en-GB/en-GB.mod_redshop_products_slideshow.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products_slideshow.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/shopper_group_attribute_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_attribute_price.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_attribute_price.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_products_slideshow/language/en-GB/en-GB.mod_redshop_products_slideshow.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products_slideshow.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/shopper_group_attribute_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_attribute_price.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_attribute_price.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_promote_free_shipping/language/en-GB/en-GB.mod_redshop_promote_free_shipping.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_promote_free_shipping.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/shopper_group_product_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_product_price.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_product_price.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_promote_free_shipping/language/en-GB/en-GB.mod_redshop_promote_free_shipping.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_promote_free_shipping.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/shopper_group_product_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_product_price.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_product_price.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_search/language/en-GB/en-GB.mod_redshop_search.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_search.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/user/language/en-GB/en-GB.plg_redshop_import_user.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_user.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_search/language/en-GB/en-GB.mod_redshop_search.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_search.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_import/user/language/en-GB/en-GB.plg_redshop_import_user.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_user.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_shoppergrouplogo/language/en-GB/en-GB.mod_redshop_shoppergrouplogo.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergrouplogo.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/attribute/language/en-GB/en-GB.plg_redshop_export_attribute.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_attribute.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_shoppergrouplogo/language/en-GB/en-GB.mod_redshop_shoppergrouplogo.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergrouplogo.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/attribute/language/en-GB/en-GB.plg_redshop_export_attribute.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_attribute.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_shoppergroup_category/language/en-GB/en-GB.mod_redshop_shoppergroup_category.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_category.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/category/language/en-GB/en-GB.plg_redshop_export_category.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_category.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_shoppergroup_category/language/en-GB/en-GB.mod_redshop_shoppergroup_category.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_category.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/category/language/en-GB/en-GB.plg_redshop_export_category.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_category.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_shoppergroup_product/language/en-GB/en-GB.mod_redshop_shoppergroup_product.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_product.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/field/language/en-GB/en-GB.plg_redshop_export_field.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_field.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_shoppergroup_product/language/en-GB/en-GB.mod_redshop_shoppergroup_product.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_product.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/field/language/en-GB/en-GB.plg_redshop_export_field.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_field.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_who_bought/language/en-GB/en-GB.mod_redshop_who_bought.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_who_bought.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/manufacturer/language/en-GB/en-GB.plg_redshop_export_manufacturer.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_manufacturer.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_who_bought/language/en-GB/en-GB.mod_redshop_who_bought.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_who_bought.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/manufacturer/language/en-GB/en-GB.plg_redshop_export_manufacturer.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_manufacturer.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_wishlist/language/en-GB/en-GB.mod_redshop_wishlist.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_wishlist.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/product/language/en-GB/en-GB.plg_redshop_export_product.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_wishlist/language/en-GB/en-GB.mod_redshop_wishlist.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_wishlist.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/product/language/en-GB/en-GB.plg_redshop_export_product.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/product_stockroom_data/language/en-GB/en-GB.plg_redshop_export_product_stockroom_data.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product_stockroom_data.ini"
-  },
-  {
     "source": "/plugins/redshop_export/product_stockroom_data/language/en-GB/en-GB.plg_redshop_export_product_stockroom_data.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_product_stockroom_data.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_productcompare/language/en-GB/en-GB.mod_redshop_productcompare.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_productcompare.ini"
   },
   {
     "source": "/plugins/redshop_export/related_product/language/en-GB/en-GB.plg_redshop_export_related_product.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_related_product.ini"
   },
   {
+    "source": "/modules/site/mod_redshop_productcompare/language/en-GB/en-GB.mod_redshop_productcompare.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_productcompare.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_export/related_product/language/en-GB/en-GB.plg_redshop_export_related_product.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_related_product.sys.ini"
   },
   {
-    "source": "/plugins/redshop_export/shipping_address/language/en-GB/en-GB.plg_redshop_export_shipping_address.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shipping_address.ini"
-  },
-  {
-    "source": "/plugins/redshop_export/shipping_address/language/en-GB/en-GB.plg_redshop_export_shipping_address.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shipping_address.sys.ini"
+    "source": "/modules/site/mod_redshop_products/language/en-GB/en-GB.mod_redshop_products.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products.ini"
   },
   {
     "source": "/plugins/redshop_export/shopper_group_attribute_price/language/en-GB/en-GB.plg_redshop_export_shopper_group_attribute_price.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shopper_group_attribute_price.ini"
   },
   {
+    "source": "/modules/site/mod_redshop_products/language/en-GB/en-GB.mod_redshop_products.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_export/shopper_group_attribute_price/language/en-GB/en-GB.plg_redshop_export_shopper_group_attribute_price.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shopper_group_attribute_price.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_products_slideshow/language/en-GB/en-GB.mod_redshop_products_slideshow.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products_slideshow.ini"
+  },
+  {
+    "source": "/plugins/redshop_export/shipping_address/language/en-GB/en-GB.plg_redshop_export_shipping_address.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shipping_address.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_products_slideshow/language/en-GB/en-GB.mod_redshop_products_slideshow.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_products_slideshow.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_export/shipping_address/language/en-GB/en-GB.plg_redshop_export_shipping_address.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shipping_address.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_promote_free_shipping/language/en-GB/en-GB.mod_redshop_promote_free_shipping.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_promote_free_shipping.ini"
   },
   {
     "source": "/plugins/redshop_export/shopper_group_product_price/language/en-GB/en-GB.plg_redshop_export_shopper_group_product_price.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shopper_group_product_price.ini"
   },
   {
+    "source": "/modules/site/mod_redshop_promote_free_shipping/language/en-GB/en-GB.mod_redshop_promote_free_shipping.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_promote_free_shipping.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_export/shopper_group_product_price/language/en-GB/en-GB.plg_redshop_export_shopper_group_product_price.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_shopper_group_product_price.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_search/language/en-GB/en-GB.mod_redshop_search.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_search.ini"
   },
   {
     "source": "/plugins/redshop_export/user/language/en-GB/en-GB.plg_redshop_export_user.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_user.ini"
   },
   {
+    "source": "/modules/site/mod_redshop_search/language/en-GB/en-GB.mod_redshop_search.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_search.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_export/user/language/en-GB/en-GB.plg_redshop_export_user.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_user.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_shoppergrouplogo/language/en-GB/en-GB.mod_redshop_shoppergrouplogo.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergrouplogo.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/attribute/language/en-GB/en-GB.plg_redshop_import_attribute.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_attribute.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_shoppergrouplogo/language/en-GB/en-GB.mod_redshop_shoppergrouplogo.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergrouplogo.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/attribute/language/en-GB/en-GB.plg_redshop_import_attribute.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_attribute.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_shoppergroup_category/language/en-GB/en-GB.mod_redshop_shoppergroup_category.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_category.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/category/language/en-GB/en-GB.plg_redshop_import_category.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_category.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_shoppergroup_category/language/en-GB/en-GB.mod_redshop_shoppergroup_category.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_category.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/category/language/en-GB/en-GB.plg_redshop_import_category.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_category.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_shoppergroup_product/language/en-GB/en-GB.mod_redshop_shoppergroup_product.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_product.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/field/language/en-GB/en-GB.plg_redshop_import_field.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_field.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_shoppergroup_product/language/en-GB/en-GB.mod_redshop_shoppergroup_product.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_shoppergroup_product.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/field/language/en-GB/en-GB.plg_redshop_import_field.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_field.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_who_bought/language/en-GB/en-GB.mod_redshop_who_bought.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_who_bought.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/manufacturer/language/en-GB/en-GB.plg_redshop_import_manufacturer.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_manufacturer.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_who_bought/language/en-GB/en-GB.mod_redshop_who_bought.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_who_bought.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/manufacturer/language/en-GB/en-GB.plg_redshop_import_manufacturer.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_manufacturer.sys.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_wishlist/language/en-GB/en-GB.mod_redshop_wishlist.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_wishlist.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/product/language/en-GB/en-GB.plg_redshop_import_product.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product.ini"
+  },
+  {
+    "source": "/modules/site/mod_redshop_wishlist/language/en-GB/en-GB.mod_redshop_wishlist.sys.ini",
+    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_wishlist.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/product/language/en-GB/en-GB.plg_redshop_import_product.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/product_stockroom_data/language/en-GB/en-GB.plg_redshop_import_product_stockroom_data.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product_stockroom_data.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/product_stockroom_data/language/en-GB/en-GB.plg_redshop_import_product_stockroom_data.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_product_stockroom_data.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/related_product/language/en-GB/en-GB.plg_redshop_import_related_product.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_related_product.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/related_product/language/en-GB/en-GB.plg_redshop_import_related_product.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_related_product.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/shipping_address/language/en-GB/en-GB.plg_redshop_import_shipping_address.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shipping_address.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/shipping_address/language/en-GB/en-GB.plg_redshop_import_shipping_address.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shipping_address.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/shopper_group_attribute_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_attribute_price.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_attribute_price.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/shopper_group_attribute_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_attribute_price.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_attribute_price.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/shopper_group_product_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_product_price.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_product_price.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/shopper_group_product_price/language/en-GB/en-GB.plg_redshop_import_shopper_group_product_price.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_shopper_group_product_price.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/user/language/en-GB/en-GB.plg_redshop_import_user.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_user.ini"
+  },
+  {
+    "source": "/plugins/redshop_import/user/language/en-GB/en-GB.plg_redshop_import_user.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_import_user.sys.ini"
   },
   {
     "source": "/plugins/redshop_order/esms/language/en-GB/en-GB.plg_redshop_order_esms.ini",
@@ -522,12 +522,28 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_order_esms.sys.ini"
   },
   {
-    "source": "/plugins/redshop_payment/cielo/language/en-GB/en-GB.plg_redshop_payment_cielo.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_cielo.ini"
+    "source": "/plugins/redshop_pdf/mpdf/language/en-GB/en-GB.plg_redshop_pdf_mpdf.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_mpdf.ini"
   },
   {
-    "source": "/plugins/redshop_payment/cielo/language/en-GB/en-GB.plg_redshop_payment_cielo.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_cielo.sys.ini"
+    "source": "/plugins/redshop_pdf/mpdf/language/en-GB/en-GB.plg_redshop_pdf_mpdf.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_mpdf.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_pdf/dompdf/language/en-GB/en-GB.plg_redshop_pdf_dompdf.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_dompdf.ini"
+  },
+  {
+    "source": "/plugins/redshop_pdf/dompdf/language/en-GB/en-GB.plg_redshop_pdf_dompdf.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_dompdf.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_pdf/tcpdf/language/en-GB/en-GB.plg_redshop_pdf_tcpdf.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_tcpdf.ini"
+  },
+  {
+    "source": "/plugins/redshop_pdf/tcpdf/language/en-GB/en-GB.plg_redshop_pdf_tcpdf.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_tcpdf.sys.ini"
   },
   {
     "source": "/plugins/redshop_payment/baokim/language/en-GB/en-GB.plg_redshop_payment_baokim.ini",
@@ -536,6 +552,14 @@ commit_message: "New localization strings available"
   {
     "source": "/plugins/redshop_payment/baokim/language/en-GB/en-GB.plg_redshop_payment_baokim.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_baokim.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/cielo/language/en-GB/en-GB.plg_redshop_payment_cielo.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_cielo.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/cielo/language/en-GB/en-GB.plg_redshop_payment_cielo.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_cielo.sys.ini"
   },
   {
     "source": "/plugins/redshop_payment/dibsdx/language/en-GB/en-GB.plg_redshop_payment_dibsdx.ini",
@@ -626,20 +650,20 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_quickpay.sys.ini"
   },
   {
-    "source": "/plugins/redshop_payment/rs_payment_2checkout/language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_2checkout.ini"
-  },
-  {
-    "source": "/plugins/redshop_payment/rs_payment_2checkout/language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_2checkout.sys.ini"
-  },
-  {
     "source": "/plugins/redshop_payment/rs_payment_amazoncheckout/language/en-GB/en-GB.plg_redshop_payment_rs_payment_amazoncheckout.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_amazoncheckout.ini"
   },
   {
     "source": "/plugins/redshop_payment/rs_payment_amazoncheckout/language/en-GB/en-GB.plg_redshop_payment_rs_payment_amazoncheckout.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_amazoncheckout.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/rs_payment_2checkout/language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_2checkout.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/rs_payment_2checkout/language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_2checkout.sys.ini"
   },
   {
     "source": "/plugins/redshop_payment/rs_payment_authorize/language/en-GB/en-GB.plg_redshop_payment_rs_payment_authorize.ini",
@@ -690,14 +714,6 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_beanstream.sys.ini"
   },
   {
-    "source": "/plugins/redshop_payment/rs_payment_braintree/language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_braintree.ini"
-  },
-  {
-    "source": "/plugins/redshop_payment/rs_payment_braintree/language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_braintree.sys.ini"
-  },
-  {
     "source": "/plugins/redshop_payment/rs_payment_cod/language/en-GB/en-GB.plg_redshop_payment_rs_payment_cod.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_cod.ini"
   },
@@ -712,6 +728,14 @@ commit_message: "New localization strings available"
   {
     "source": "/plugins/redshop_payment/rs_payment_dibspaymentmethod/language/en-GB/en-GB.plg_redshop_payment_rs_payment_dibspaymentmethod.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_dibspaymentmethod.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/rs_payment_braintree/language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_braintree.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/rs_payment_braintree/language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_braintree.sys.ini"
   },
   {
     "source": "/plugins/redshop_payment/rs_payment_eantransfer/language/en-GB/en-GB.plg_redshop_payment_rs_payment_eantransfer.ini",
@@ -762,20 +786,20 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_imglobal.sys.ini"
   },
   {
-    "source": "/plugins/redshop_payment/rs_payment_moneris/language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneris.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_moneris.ini"
-  },
-  {
-    "source": "/plugins/redshop_payment/rs_payment_moneris/language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneris.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_moneris.sys.ini"
-  },
-  {
     "source": "/plugins/redshop_payment/rs_payment_moneybooker/language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneybooker.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_moneybooker.ini"
   },
   {
     "source": "/plugins/redshop_payment/rs_payment_moneybooker/language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneybooker.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_moneybooker.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/rs_payment_moneris/language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneris.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_moneris.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/rs_payment_moneris/language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneris.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_moneris.sys.ini"
   },
   {
     "source": "/plugins/redshop_payment/rs_payment_payflowpro/language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.ini",
@@ -850,38 +874,6 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_rs_payment_worldpay.sys.ini"
   },
   {
-    "source": "/plugins/redshop_payment/stripe/language/en-GB/en-GB.plg_redshop_payment_stripe.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_stripe.ini"
-  },
-  {
-    "source": "/plugins/redshop_payment/stripe/language/en-GB/en-GB.plg_redshop_payment_stripe.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_stripe.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_pdf/dompdf/language/en-GB/en-GB.plg_redshop_pdf_dompdf.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_dompdf.ini"
-  },
-  {
-    "source": "/plugins/redshop_pdf/dompdf/language/en-GB/en-GB.plg_redshop_pdf_dompdf.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_dompdf.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_pdf/mpdf/language/en-GB/en-GB.plg_redshop_pdf_mpdf.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_mpdf.ini"
-  },
-  {
-    "source": "/plugins/redshop_pdf/mpdf/language/en-GB/en-GB.plg_redshop_pdf_mpdf.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_mpdf.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_pdf/tcpdf/language/en-GB/en-GB.plg_redshop_pdf_tcpdf.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_tcpdf.ini"
-  },
-  {
-    "source": "/plugins/redshop_pdf/tcpdf/language/en-GB/en-GB.plg_redshop_pdf_tcpdf.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_pdf_tcpdf.sys.ini"
-  },
-  {
     "source": "/plugins/redshop_product/bundle/language/en-GB/en-GB.plg_redshop_product_bundle.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_bundle.ini"
   },
@@ -890,20 +882,20 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_bundle.sys.ini"
   },
   {
+    "source": "/plugins/redshop_payment/stripe/language/en-GB/en-GB.plg_redshop_payment_stripe.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_stripe.ini"
+  },
+  {
+    "source": "/plugins/redshop_payment/stripe/language/en-GB/en-GB.plg_redshop_payment_stripe.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_payment_stripe.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_product/canonical/language/en-GB/en-GB.plg_redshop_product_canonical.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_canonical.ini"
   },
   {
     "source": "/plugins/redshop_product/canonical/language/en-GB/en-GB.plg_redshop_product_canonical.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_canonical.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_product/CreateColorImage/language/en-GB/en-GB.plg_redshop_product_CreateColorImage.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_CreateColorImage.ini"
-  },
-  {
-    "source": "/plugins/redshop_product/CreateColorImage/language/en-GB/en-GB.plg_redshop_product_CreateColorImage.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_CreateColorImage.sys.ini"
   },
   {
     "source": "/plugins/redshop_product/custom_field_mapping/language/en-GB/en-GB.plg_redshop_product_custom_field_mapping.ini",
@@ -928,6 +920,14 @@ commit_message: "New localization strings available"
   {
     "source": "/plugins/redshop_product/discount_rule/language/en-GB/en-GB.plg_redshop_product_discount_rule.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_discount_rule.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_product/CreateColorImage/language/en-GB/en-GB.plg_redshop_product_CreateColorImage.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_CreateColorImage.ini"
+  },
+  {
+    "source": "/plugins/redshop_product/CreateColorImage/language/en-GB/en-GB.plg_redshop_product_CreateColorImage.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_CreateColorImage.sys.ini"
   },
   {
     "source": "/plugins/redshop_product/gift/language/en-GB/en-GB.plg_redshop_product_gift.ini",
@@ -1010,6 +1010,22 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_wss_datafeed.sys.ini"
   },
   {
+    "source": "/plugins/redshop_product_type/bundle/language/en-GB/en-GB.plg_redshop_product_type_bundle.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_bundle.ini"
+  },
+  {
+    "source": "/plugins/redshop_product_type/bundle/language/en-GB/en-GB.plg_redshop_product_type_bundle.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_bundle.sys.ini"
+  },
+  {
+    "source": "/plugins/redshop_product_type/gift/language/en-GB/en-GB.plg_redshop_product_type_gift.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_gift.ini"
+  },
+  {
+    "source": "/plugins/redshop_product_type/gift/language/en-GB/en-GB.plg_redshop_product_type_gift.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_gift.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_shipping/bring/language/en-GB/en-GB.plg_redshop_shipping_bring.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_bring.ini"
   },
@@ -1066,6 +1082,14 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_postdanmark.sys.ini"
   },
   {
+    "source": "/plugins/redshop_shipping/shipper/language/en-GB/en-GB.plg_redshop_shipping_shipper.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_shipper.ini"
+  },
+  {
+    "source": "/plugins/redshop_shipping/shipper/language/en-GB/en-GB.plg_redshop_shipping_shipper.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_shipper.sys.ini"
+  },
+  {
     "source": "/plugins/redshop_shipping/self_pickup/language/en-GB/en-GB.plg_redshop_shipping_self_pickup.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_self_pickup.ini"
   },
@@ -1082,36 +1106,12 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_ups.sys.ini"
   },
   {
-    "source": "/plugins/redshop_shipping/shipper/language/en-GB/en-GB.plg_redshop_shipping_shipper.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_shipper.ini"
-  },
-  {
-    "source": "/plugins/redshop_shipping/shipper/language/en-GB/en-GB.plg_redshop_shipping_shipper.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_shipper.sys.ini"
-  },
-  {
     "source": "/plugins/redshop_shipping/uspsv4/language/en-GB/en-GB.plg_redshop_shipping_uspsv4.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_uspsv4.ini"
   },
   {
     "source": "/plugins/redshop_shipping/uspsv4/language/en-GB/en-GB.plg_redshop_shipping_uspsv4.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_shipping_uspsv4.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_product_type/bundle/language/en-GB/en-GB.plg_redshop_product_type_bundle.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_bundle.ini"
-  },
-  {
-    "source": "/plugins/redshop_product_type/bundle/language/en-GB/en-GB.plg_redshop_product_type_bundle.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_bundle.sys.ini"
-  },
-  {
-    "source": "/plugins/redshop_product_type/gift/language/en-GB/en-GB.plg_redshop_product_type_gift.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_gift.ini"
-  },
-  {
-    "source": "/plugins/redshop_product_type/gift/language/en-GB/en-GB.plg_redshop_product_type_gift.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_product_type_gift.sys.ini"
   },
   {
     "source": "/plugins/redshop_user/cmc_integrate/language/en-GB/en-GB.plg_redshop_user_cmc_integrate.ini",
@@ -1146,6 +1146,14 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_vies_registration_rs_vies_registration.sys.ini"
   },
   {
+    "source": "/plugins/sh404sefextplugins/sh404sefextplugincom_redshop/language/en-GB/en-GB.plg_sh404sefextplugins_sh404sefextplugincom_redshop.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_sh404sefextplugins_sh404sefextplugincom_redshop.ini"
+  },
+  {
+    "source": "/plugins/sh404sefextplugins/sh404sefextplugincom_redshop/language/en-GB/en-GB.plg_sh404sefextplugins_sh404sefextplugincom_redshop.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_sh404sefextplugins_sh404sefextplugincom_redshop.sys.ini"
+  },
+  {
     "source": "/plugins/search/redshop_categories/language/en-GB/en-GB.plg_search_redshop_categories.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_search_redshop_categories.ini"
   },
@@ -1162,14 +1170,6 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_search_redshop_products.sys.ini"
   },
   {
-    "source": "/plugins/sh404sefextplugins/sh404sefextplugincom_redshop/language/en-GB/en-GB.plg_sh404sefextplugins_sh404sefextplugincom_redshop.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_sh404sefextplugins_sh404sefextplugincom_redshop.ini"
-  },
-  {
-    "source": "/plugins/sh404sefextplugins/sh404sefextplugincom_redshop/language/en-GB/en-GB.plg_sh404sefextplugins_sh404sefextplugincom_redshop.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_sh404sefextplugins_sh404sefextplugincom_redshop.sys.ini"
-  },
-  {
     "source": "/plugins/system/agile_crm/language/en-GB/en-GB.plg_system_agile_crm.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_agile_crm.ini"
   },
@@ -1184,6 +1184,14 @@ commit_message: "New localization strings available"
   {
     "source": "/plugins/system/mvcoverride/language/en-GB/en-GB.plg_system_mvcoverride.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_mvcoverride.sys.ini"
+  },
+  {
+    "source": "/plugins/system/quickbook/language/en-GB/en-GB.plg_system_quickbook.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_quickbook.ini"
+  },
+  {
+    "source": "/plugins/system/quickbook/language/en-GB/en-GB.plg_system_quickbook.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_quickbook.sys.ini"
   },
   {
     "source": "/plugins/system/redgoogleanalytics/language/en-GB/en-GB.plg_system_redgoogleanalytics.ini",
@@ -1210,14 +1218,6 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redproductzoom.sys.ini"
   },
   {
-    "source": "/plugins/system/quickbook/language/en-GB/en-GB.plg_system_quickbook.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_quickbook.ini"
-  },
-  {
-    "source": "/plugins/system/quickbook/language/en-GB/en-GB.plg_system_quickbook.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_quickbook.sys.ini"
-  },
-  {
     "source": "/plugins/system/redshop/language/en-GB/en-GB.plg_system_redshop.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop.ini"
   },
@@ -1226,20 +1226,28 @@ commit_message: "New localization strings available"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop.sys.ini"
   },
   {
-    "source": "/plugins/system/redshop_product_bundle/language/en-GB/en-GB.plg_system_redshop_product_bundle.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop_product_bundle.ini"
-  },
-  {
-    "source": "/plugins/system/redshop_product_bundle/language/en-GB/en-GB.plg_system_redshop_product_bundle.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop_product_bundle.sys.ini"
-  },
-  {
     "source": "/plugins/system/redshop_send_discountcode/language/en-GB/en-GB.plg_system_redshop_send_discountcode.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop_send_discountcode.ini"
   },
   {
     "source": "/plugins/system/redshop_send_discountcode/language/en-GB/en-GB.plg_system_redshop_send_discountcode.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop_send_discountcode.sys.ini"
+  },
+  {
+    "source": "/plugins/xmap/com_redshop/language/en-GB/en-GB.plg_xmap_com_redshop.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_xmap_com_redshop.ini"
+  },
+  {
+    "source": "/plugins/xmap/com_redshop/language/en-GB/en-GB.plg_xmap_com_redshop.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_xmap_com_redshop.sys.ini"
+  },
+  {
+    "source": "/plugins/system/redshop_product_bundle/language/en-GB/en-GB.plg_system_redshop_product_bundle.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop_product_bundle.ini"
+  },
+  {
+    "source": "/plugins/system/redshop_product_bundle/language/en-GB/en-GB.plg_system_redshop_product_bundle.sys.ini",
+    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_system_redshop_product_bundle.sys.ini"
   },
   {
     "source": "/plugins/user/highrise/language/en-GB/en-GB.plg_user_highrise.ini",
@@ -1256,13 +1264,5 @@ commit_message: "New localization strings available"
   {
     "source": "/plugins/user/redshop_avatar/language/en-GB/en-GB.plg_user_redshop_avatar.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_user_redshop_avatar.sys.ini"
-  },
-  {
-    "source": "/plugins/xmap/com_redshop/language/en-GB/en-GB.plg_xmap_com_redshop.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_xmap_com_redshop.ini"
-  },
-  {
-    "source": "/plugins/xmap/com_redshop/language/en-GB/en-GB.plg_xmap_com_redshop.sys.ini",
-    "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_xmap_com_redshop.sys.ini"
   }
 ]
