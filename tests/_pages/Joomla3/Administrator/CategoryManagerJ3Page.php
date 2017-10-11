@@ -39,19 +39,13 @@ class CategoryManagerJ3Page extends AdminJ3Page
 
     public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
 
-    public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[5]";
+    public static $categoryResultRow = ['xpath'=>'//table[@id=\'table-categories\']/tbody/tr[1]'];
 
-    public static $categoryId = "//div[@class='table-responsive']/table/tbody/tr/td[9]";
-
-    public static $categoryCheckInRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]";
-
-    public static $categoryStatePath = "//tbody/tr/td[7]/a";
-
-    public static $checkAll = "//input[@id='cb0']";
-
-    public static $checkAllCategory = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $categoryId = "//table[@id='table-categories']//tr[1]//td[9]";
 
     public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
+
+	public static $categoryStatePath = ['xpath'=>'//table[@id=\'table-categories\']/tbody/tr/td[7]/a'];
 
     public static $categoryNoPage = "#jform_products_per_page";
 
@@ -63,11 +57,7 @@ class CategoryManagerJ3Page extends AdminJ3Page
 
     public static $accessoriesFill = "#s2id_autogen1";
 
-    public static $categoryManagement = "/html/body/div/div/div/section[1]/div[1]/h1";
-
     public static $tabAccessory = ['link' => "Accessories"];
-
-    public static $accessorySearch = ['xpath' => '//div[@id="s2id_category_accessory_search"]//a'];
 
     public static $searchFirst = ['id' => "s2id_autogen1_search"];
 
