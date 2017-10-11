@@ -5320,7 +5320,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use Redshop\Order\Helper::generateAccessories()
+	 * @deprecated  2.0.7  Use Redshop\Order\Helper::generateAccessories()
 	 */
 	public function makeAccessoryOrder($orderItemId = 0)
 	{
