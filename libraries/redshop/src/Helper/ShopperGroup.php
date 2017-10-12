@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
 /**
  * Shopper group helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class ShopperGroup
 {
 	/**
 	 * @var array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected static $list = array();
 
@@ -32,7 +32,7 @@ class ShopperGroup
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function generateList($shopperGroupId = 0)
 	{

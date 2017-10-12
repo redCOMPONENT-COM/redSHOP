@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Product Download
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperProductDownload
 {
@@ -24,7 +24,7 @@ class RedshopHelperProductDownload
 	 *
 	 * @return  object|integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function checkDownload($productId, $return = false)
 	{
