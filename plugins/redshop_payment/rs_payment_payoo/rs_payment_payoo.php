@@ -60,39 +60,38 @@ class PlgRedshop_Paymentrs_Payment_Payoo extends JPlugin
 	 */
 	public function onNotifyPaymentrs_Payment_Payoo($element, $request)
 	{
-		/*if ($element != 'rs_payment_payoo')
+		if ($element != 'rs_payment_payoo')
 		{
 			return;
 		}
 
-		$request        = JRequest::get('request');
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
-		$order_id       = $request["orderid"];
-		$status         = $request['payment_status'];
-		$tid            = $request['txn_id'];
-		$pending_reason = $request['pending_reason'];
-		$values         = new stdClass;
-		$key = array($order_id, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
-		$key = md5(implode('|', $key));
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
-		if (($status == 'Completed' || $pending_reason == 'authorization') && $request['key'] == $key)
+		$orderId  = $input->getInt('order_no', 0);
+		$session  = $input->getString('session', '');
+		$status   = $input->getInt('status', 0);
+		$checksum = $input->getString('checksum', '');
+
+		$checksumKey = hash('sha512', $this->params->get('checksumkey') . $session . '.' . $orderId . '.' . $status);
+
+		$values           = new stdClass;
+		$values->order_id = (int) $orderId;
+
+		if ($status == '1' && $checksumKey == $checksum)
 		{
-			$values->order_status_code = $verify_status;
+			$values->order_status_code         = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
-			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
-			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
+			$values->log                       = JText::_('PLG_RS_PAYMENT_PAYOO_ORDER_PLACED');
+			$values->msg                       = JText::_('PLG_RS_PAYMENT_PAYOO_ORDER_PLACED');
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
-			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->log                       = JText::_('PLG_RS_PAYMENT_PAYOO_NOT_PLACED');
+			$values->msg                       = JText::_('PLG_RS_PAYMENT_PAYOO_NOT_PLACED');
 		}
-
-		$values->transaction_id = $tid;
-		$values->order_id = $order_id;*/
 
 		return $values;
 	}
