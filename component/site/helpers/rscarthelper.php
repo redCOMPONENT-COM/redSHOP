@@ -221,7 +221,7 @@ class rsCarthelper
 	 * @param  boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  mixed
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.0.7
 	 *
 	 * @see RedshopHelperBillingTag::replaceBillingAddress()
 	 */
@@ -392,7 +392,7 @@ class rsCarthelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see RedshopHelperShippingTag::replaceShippingMethod()
 	 */
@@ -3615,7 +3615,7 @@ class rsCarthelper
 	 *
 	 * @return  array|bool
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperCartDiscount::applyCoupon()
 	 */
@@ -3631,7 +3631,7 @@ class rsCarthelper
 	 *
 	 * @return  array|bool
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperCartDiscount::applyVoucher()
 	 */

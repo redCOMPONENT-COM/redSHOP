@@ -53,7 +53,7 @@ class RedshopHelperTax
 	 *
 	 * @return  object|null      VAT rates information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getVatRates($productId = 0, $userId = 0)
 	{

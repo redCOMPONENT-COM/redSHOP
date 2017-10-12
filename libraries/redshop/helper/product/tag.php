@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Product Tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperProductTag
 {
@@ -32,7 +32,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getExtraSectionTag($fieldNames = array(), $productId = 0, $section = 0, $templateContent = '', $categoryPage = 0)
 	{
@@ -63,7 +63,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function displayAdditionalImage(
 		$productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0,
@@ -461,7 +461,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
 	{
@@ -614,7 +614,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareAdditionalVideos($videos = array())
 	{
@@ -649,7 +649,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function preparePropertyAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
 	{
@@ -788,7 +788,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function preparePropertyAdditionalVideos($videos = array())
 	{
@@ -823,7 +823,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareSubPropertyAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
 	{
@@ -939,7 +939,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareSubPropertyAdditionalVideos($videos = array())
 	{

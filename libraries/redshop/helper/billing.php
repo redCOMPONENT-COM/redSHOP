@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopHelperBilling
 {
@@ -234,7 +234,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceCommonFields($templateHtml, $data, $lists)
 	{
@@ -365,7 +365,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string                 Html content after replace
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function replacePrivateCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
@@ -391,7 +391,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string                 Html content after replace
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function replaceCompanyCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
@@ -478,7 +478,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string   HTML content of default template.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function getDefaultTemplate()
 	{
@@ -501,7 +501,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string   HTML content of default template.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function getDefaultPrivateTemplate()
 	{
@@ -525,7 +525,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string   HTML content of default template.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function getDefaultCompanyTemplate()
 	{

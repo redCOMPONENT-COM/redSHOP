@@ -20,7 +20,7 @@ class RedshopEntityVoucher extends RedshopEntity
 {
 	/**
 	 * @var  RedshopEntitiesCollection
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $products;
 
@@ -29,7 +29,7 @@ class RedshopEntityVoucher extends RedshopEntity
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public function getProducts()
 	{
@@ -46,7 +46,7 @@ class RedshopEntityVoucher extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected function loadProducts()
 	{

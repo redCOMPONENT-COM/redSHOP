@@ -3,7 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- -----------------------------------------------------
 -- Table `#__redshop_voucher`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_voucher` ;
+DROP TABLE IF EXISTS `#__redshop_voucher`;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_voucher` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
