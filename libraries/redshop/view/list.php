@@ -92,7 +92,7 @@ class RedshopViewList extends AbstractView
 	 * Display check-in button or not.
 	 *
 	 * @var   boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $checkIn = true;
 
@@ -100,7 +100,7 @@ class RedshopViewList extends AbstractView
 	 * Display duplicate button or not.
 	 *
 	 * @var   boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $enableDuplicate = false;
 

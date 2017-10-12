@@ -14,16 +14,16 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Update
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
-class RedshopUpdate207Beta1 extends RedshopInstallUpdate
+class RedshopUpdate207 extends RedshopInstallUpdate
 {
 	/**
 	 * Return list of old files for clean
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	protected function getOldFiles()
 	{
@@ -49,7 +49,7 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	protected function getOldFolders()
 	{
@@ -66,7 +66,7 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public function migrateVoucher()
 	{
@@ -120,7 +120,7 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	protected function dropOldTable()
 	{
