@@ -43,7 +43,6 @@
 
     <languages folder="component/site/language">
         <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
-        <language tag="vi-VN">vi-VN/vi-VN.com_redshop.ini</language>
     </languages>
 
     <!-- Medias -->
@@ -79,8 +78,6 @@
         <languages folder="component/admin/language">
             <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_redshop.sys.ini</language>
-            <language tag="vi-VN">vi-VN/vi-VN.com_redshop.ini</language>
-            <language tag="vi-VN">vi-VN/vi-VN.com_redshop.sys.ini</language>
         </languages>
     </administration>
 
