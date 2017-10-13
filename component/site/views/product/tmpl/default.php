@@ -380,7 +380,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 
-		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
+		$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $this->data->manufacturer_id);
 
 		if (!$altText)
 		{
@@ -967,7 +967,7 @@ if (strstr($template_desc, $mpimg_tag))
 
 			if ($media_image[$m]->media_name != $media_image[$m]->product_full_image && file_exists($filename1))
 			{
-				$alttext = $producthelper->getAltText('product', $media_image[$m]->section_id, '', $media_image[$m]->media_id);
+				$alttext = RedshopHelperMedia::getAlternativeText('product', $media_image[$m]->section_id, '', $media_image[$m]->media_id);
 
 				if (!$alttext)
 				{
@@ -1197,7 +1197,7 @@ if (strstr($template_desc, "{more_documents}"))
 
 	for ($m = 0, $mn = count($media_documents); $m < $mn; $m++)
 	{
-		$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+		$alttext = RedshopHelperMedia::getAlternativeText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
 		if (!$alttext)
 		{
