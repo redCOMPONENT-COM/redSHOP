@@ -491,7 +491,7 @@ class RedshopHelperProductTag
 				continue;
 			}
 
-			$altText = productHelper::getInstance()->getAltText('product', $image->section_id, '', $image->media_id);
+			$altText = RedshopHelperMedia::getAlternativeText('product', $image->section_id, '', $image->media_id);
 			$altText = !$altText ? $image->media_name : $altText;
 
 			if ($isWaterMarkProductAdditionalImage)
@@ -676,7 +676,7 @@ class RedshopHelperProductTag
 				continue;
 			}
 
-			$altText = productHelper::getInstance()->getAltText('property', $image->section_id, '', $image->media_id);
+			$altText = RedshopHelperMedia::getAlternativeText('property', $image->section_id, '', $image->media_id);
 			$altText = !$altText ? $thumb : $altText;
 
 			if ($productAddingIsLightbox)
@@ -852,7 +852,7 @@ class RedshopHelperProductTag
 				continue;
 			}
 
-			$altText = productHelper::getInstance()->getAltText('subproperty', $image->section_id, '', $image->media_id);
+			$altText = RedshopHelperMedia::getAlternativeText('subproperty', $image->section_id, '', $image->media_id);
 			$altText = empty($altText) ? $thumb : $altText;
 
 			if ($productAddingIsLightbox)
