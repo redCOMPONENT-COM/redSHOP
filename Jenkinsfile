@@ -63,13 +63,18 @@ pipeline {
                 GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
                 ORGANIZATION='redCOMPONENT-COM'
                 REPO='redSHOP'
+                TEMP='MPONENT-COM_redSHOP_PR-'${CHANGE_ID}'*'
             }
             steps {
-                sh 'bash build/jenkins/system-tests.sh'
+                sh 'echo $(pwd)'
             }
             post {
                 always {
                     step([$class: 'WsCleanup'])
+                    sh 'cd ../'
+                    sh 'ls -la'
+                    sh 'echo $TEMP'
+                    sh 'rm -rf $TEMP'
                 }
             }
         }
