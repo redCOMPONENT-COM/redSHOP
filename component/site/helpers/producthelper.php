@@ -650,7 +650,7 @@ class productHelper
 			}
 		}
 
-		$altText = $this->getAltText('product', $product_id, $product_image);
+		$altText = RedshopHelperMedia::getAlternativeText('product', $product_id, $product_image);
 		$altText = empty($altText) ? $product->product_name : $altText;
 
 		$dispatcher    = RedshopHelperUtility::getDispatcher();
@@ -1159,42 +1159,13 @@ class productHelper
 	 * @param   int     $mediaId       Media id
 	 * @param   string  $mediaType     Media type
 	 *
-	 * @return  string  Alternative text from media
+	 * @return  string                 Alternative text from media
+	 *
+	 * @deprecated  2.0.7
 	 */
 	public function getAltText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
 	{
-		if ($mediaSection == 'product' && $mediaType = 'images')
-		{
-			if ($productData = $this->getProductById($sectionId))
-			{
-				if ($mediaName == $productData->product_full_image || $mediaId == $productData->media_id)
-				{
-					return $productData->media_alternate_text;
-				}
-			}
-		}
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('media_alternate_text')
-			->from($db->qn('#__redshop_media'))
-			->where('media_section = ' . $db->q($mediaSection))
-			->where('section_id = ' . (int) $sectionId)
-			->where('media_type = ' . $db->q($mediaType));
-
-		if ($mediaName)
-		{
-			$query->where('media_name = ' . $db->q($mediaName));
-		}
-
-		if ($mediaId)
-		{
-			$query->where('media_id = ' . (int) $mediaId);
-		}
-
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopHelperMedia::getAlternativeText($mediaSection, $sectionId, $mediaName, $mediaId, $mediaType);
 	}
 
 	/**
@@ -1414,19 +1385,18 @@ class productHelper
 		return $list;
 	}
 
+	/**
+	 * Method for get list of pathway
+	 *
+	 * @param   array  $category  List of category
+	 *
+	 * @return  array             List of pathway
+	 *
+	 * @deprecated    2.0.7
+	 */
 	public function getBreadcrumbPathway($category = array())
 	{
-		$pathway_items = array();
-
-		for ($i = 0, $in = count($category); $i < $in; $i++)
-		{
-			$item            = new stdClass;
-			$item->name      = $category[$i]['category_name'];
-			$item->link      = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]['category_id'] . '&Itemid=' . $category[$i]['catItemid']);
-			$pathway_items[] = $item;
-		}
-
-		return $pathway_items;
+		return RedshopHelperBreadcrumb::getPathway($category);
 	}
 
 	public function getCategoryNavigationlist($category_id)
