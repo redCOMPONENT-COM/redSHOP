@@ -7,7 +7,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class PriceProductJoomla3Page
+class PriceProductJoomla3Page extends AdminJ3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=product&layout=listing';
 
@@ -29,7 +29,7 @@ class PriceProductJoomla3Page
 
     public static $namePage = "Product Management";
 
-    public static $selectorPage = ".page-title";
+//    public static $selectorPage = ".page-title";
 
 
 }

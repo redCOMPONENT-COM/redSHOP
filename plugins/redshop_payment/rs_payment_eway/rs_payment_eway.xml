@@ -13,8 +13,11 @@
     <files>
         <filename plugin="rs_payment_eway">rs_payment_eway.php</filename>
         <folder>rs_payment_eway</folder>
-        <folder>language</folder>
     </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eway.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eway.sys.ini</language>
+    </languages>
     <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">

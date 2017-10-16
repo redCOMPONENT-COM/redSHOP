@@ -38,25 +38,16 @@ class TaxGroupPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $pathCheckAll = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $pathName = "//div[@id='name-1']";
 
 	/**
 	 * @var string
 	 */
-	public static $pathName = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[4]/a";
-
-	/**
-	 * @var string
-	 */
-	public static $pathStatus = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[5]/a";
+	public static $pathStatus = "//table[@id='table-tax_groups']/tbody/tr/td[5]/a";
 
 	/**
 	 * @var string
 	 */
 	public static $messageErrorFieldMissing = "Field required: VAT / Tax Group Name";
 
-	/**
-	 * @var string
-	 */
-	public static $selectorError = ".alert-danger";
 }

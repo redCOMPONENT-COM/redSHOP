@@ -13,7 +13,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class CategoryManagerJ3Page
+class CategoryManagerJ3Page extends AdminJ3Page
 {
     // Include url of current page
     public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
@@ -56,6 +56,7 @@ class CategoryManagerJ3Page
     public static $categoryNoPage = "#jform_products_per_page";
 
     public static $parentCategory = "//div[@id='s2id_jform_parent_id']/a";
+
     public static $choiceCategoryParent = "//div[@id='select2-result-label-13']/a";
 
     public static $accessories = "//div[@id='s2id_category_accessory_search']/a";

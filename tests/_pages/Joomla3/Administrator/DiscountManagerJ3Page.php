@@ -48,8 +48,6 @@ class DiscountManagerJ3Page extends AdminJ3Page
 
 	public static $discountCheckBox = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
-	public static $CheckAllDiscount = "//input[@onclick='Joomla.checkAll(this)']";
-
 
 	//selctor
 

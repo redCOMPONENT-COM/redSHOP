@@ -116,7 +116,7 @@ class RedshopHelperNewsletter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function removeSubscribe($email = "")
 	{
