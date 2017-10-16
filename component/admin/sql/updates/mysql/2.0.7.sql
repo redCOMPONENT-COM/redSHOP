@@ -3,7 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- -----------------------------------------------------
 -- Table `#__redshop_voucher`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_voucher` ;
+DROP TABLE IF EXISTS `#__redshop_voucher`;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_voucher` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -26,5 +26,14 @@ CREATE TABLE IF NOT EXISTS `#__redshop_voucher` (
   INDEX `#__rs_voucher_common` (`code` ASC, `published` ASC, `start_date` ASC, `end_date` ASC),
   INDEX `#__rs_voucher_left` (`voucher_left` ASC))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Tags
+-- -----------------------------------------------------
+INSERT IGNORE INTO `#__content_types`
+(`type_title`, `type_alias`, `table`, `rules`, `field_mappings`, `router`, `content_history_options`)
+VALUES
+('redSHOP', 'com_redshop.product', '{"special":{"dbtable":"#__redshop_product","key":"product_id"}}', '', '{"common":{"core_content_item_id":"product_id","core_title":"product_name","core_state":"published","core_catid":"cat_in_sefurl"}}', 'RedshopHelperRoute::getProductRoute', '');
 
 SET FOREIGN_KEY_CHECKS = 1;

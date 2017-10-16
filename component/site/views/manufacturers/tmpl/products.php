@@ -280,7 +280,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$wimg      = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
 		$linkimage = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
 
-		$altText = $producthelper->getAltText('manufacturer', $manufacturer->manufacturer_id);
+		$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $manufacturer->manufacturer_id);
 
 		if (!$altText)
 		{

@@ -117,7 +117,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	private function fileUpload(&$data)
 	{
@@ -192,7 +192,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	private function fileUploadProgress(&$return, $source = '', $sourceClean = null, $tmpFile = '', $folderPrefix = '')
 	{
