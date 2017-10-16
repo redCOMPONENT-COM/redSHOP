@@ -133,7 +133,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategoryCancel();
-        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$categoryManagement);
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$headPage);
     }
 
     /**

@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper Product Price
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperProductPrice
 {
@@ -32,7 +32,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  null|object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getProductSpecialPrice($productPrice, $discountStringIds, $productId = 0)
 	{
@@ -139,7 +139,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function priceReplacement($productPrice)
 	{
@@ -179,7 +179,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  string                    Formatted Product Price
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function formattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
@@ -242,7 +242,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function priceRound($productPrice)
 	{
@@ -260,7 +260,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getNetPrice($productId, $userId = 0, $quantity = 1, $templateHtml = '', $attributes = array())
 	{
@@ -287,7 +287,7 @@ class RedshopHelperProductPrice
 		// Set Product Custom Price through product plugin
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
-		$results = $dispatcher->trigger('setProductCustomPrice', array($productId));
+		$results = $dispatcher->trigger('setProductCustomPrice', array($productId, $quantity));
 
 		if (count($results) > 0 && $results[0])
 		{
@@ -499,7 +499,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return mixed|string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getShowPrice($productId, $templateHtml, $seoTemplate = "", $userId = 0, $isRel = false, $attributes = array())
 	{
