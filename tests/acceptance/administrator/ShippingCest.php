@@ -59,10 +59,4 @@ class ShippingCest
 		$I->editShippingRateStandard($this->shippingNameEdit,$this->shippingName, $this->shippingRate,'saveclose');
 	}
 
-	public function deleteShippingRate(AcceptanceTester $I, $scenario){
-		$I->wantTo('Edit a shipping Rate');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\ShippingSteps($scenario);
-		$I->deleteShippingRate($this->shippingName);
-	}
 }
