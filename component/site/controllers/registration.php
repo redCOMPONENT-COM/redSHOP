@@ -61,7 +61,7 @@ class RedshopControllerRegistration extends RedshopController
 
 				if (!empty($retMenuItem))
 				{
-					$link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id);
+					$link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id, false);
 				}
 
 				// Redirection settings End

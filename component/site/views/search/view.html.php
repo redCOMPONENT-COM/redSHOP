@@ -508,7 +508,9 @@ class RedshopViewSearch extends RedshopView
 
 					for ($m = 0, $countMedia = count($media_documents); $m < $countMedia; $m++)
 					{
-						$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+						$alttext = RedshopHelperMedia::getAlternativeText(
+							"product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document"
+						);
 
 						if (!$alttext)
 						{
@@ -688,6 +690,25 @@ class RedshopViewSearch extends RedshopView
 				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
 
 				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
+
+				$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
+				$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
+				$stockStatus             = strstr($data_add, "{stock_status");
+
+				$attributeproductStockStatus = array();
+
+				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+				{
+					$attributeproductStockStatus = $producthelper->getproductStockStatus($this->search[$i]->product_id, $totalatt);
+				}
+
+				$data_add = $producthelper->replaceProductStockdata(
+					$this->search[$i]->product_id,
+					0,
+					0,
+					$data_add,
+					$attributeproductStockStatus
+				);
 
 				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
 

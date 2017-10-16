@@ -234,7 +234,7 @@ class RedshopHelperUser
 	 *
 	 * @return  null|object  Shopper group object data. Null if not found.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopEntityShopper_Group instead.
+	 * @deprecated  2.0.7  Use RedshopEntityShopper_Group instead.
 	 */
 	public static function getShopperGroupDataById($id)
 	{
@@ -483,7 +483,7 @@ class RedshopHelperUser
 	 *
 	 * @return  boolean|Tableuser_detail      RedshopTableUser if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function storeRedshopUser($data, $userId = 0, $admin = 0)
 	{
@@ -690,7 +690,7 @@ class RedshopHelperUser
 	 *
 	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function storeRedshopUserShipping($data = array())
 	{

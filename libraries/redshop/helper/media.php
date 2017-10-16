@@ -929,4 +929,51 @@ class RedshopHelperMedia
 			return $fileName;
 		}
 	}
+
+	/**
+	 * Get alternative text for media
+	 *
+	 * @param   string  $mediaSection  Media section
+	 * @param   int     $sectionId     Section id
+	 * @param   string  $mediaName     Media name
+	 * @param   int     $mediaId       Media id
+	 * @param   string  $mediaType     Media type
+	 *
+	 * @return  string                 Alternative text from media
+	 *
+	 * @since   2.0.7
+	 */
+	public static function getAlternativeText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
+	{
+		if ($mediaSection == 'product' && $mediaType = 'images')
+		{
+			$productData = RedshopHelperProduct::getProductById($sectionId);
+
+			if ($mediaName == $productData->product_full_image || $mediaId == $productData->media_id)
+			{
+				return $productData->media_alternate_text;
+			}
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('media_alternate_text'))
+			->from($db->qn('#__redshop_media'))
+			->where($db->qn('media_section') . ' = ' . $db->quote($mediaSection))
+			->where($db->qn('section_id') . ' = ' . (int) $sectionId)
+			->where($db->qn('media_type') . ' = ' . $db->quote($mediaType));
+
+		if (!empty($mediaName))
+		{
+			$query->where($db->qn('media_name') . ' = ' . $db->q($mediaName));
+		}
+
+		if ($mediaId)
+		{
+			$query->where($db->qn('media_id') . ' = ' . (int) $mediaId);
+		}
+
+		return $db->setQuery($query)->loadResult();
+	}
 }
