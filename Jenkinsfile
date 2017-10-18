@@ -22,7 +22,6 @@ pipeline {
             }
         }
         stage('Browser Tests setup') {
-            failFast true
             environment {
                 CLOUD_NAME= 'redcomponent'
                 API_KEY= '365447364384436'
