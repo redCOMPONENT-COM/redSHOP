@@ -57,7 +57,7 @@ class RedshopHelperJoomla
 	 *
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function createJoomlaUser($data, $createUser = false)
 	{
@@ -206,7 +206,7 @@ class RedshopHelperJoomla
 	 *
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function updateJoomlaUser($data)
 	{

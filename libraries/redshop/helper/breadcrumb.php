@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopHelperBreadcrumb
 {
@@ -25,7 +25,7 @@ class RedshopHelperBreadcrumb
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function generate($sectionId = 0)
 	{
@@ -87,7 +87,7 @@ class RedshopHelperBreadcrumb
 				if ($sectionId != 0)
 				{
 					$category_list  = array_reverse(productHelper::getInstance()->getCategoryNavigationlist($sectionId));
-					$customPathways = array_merge($customPathways, productHelper::getInstance()->getBreadcrumbPathway($category_list));
+					$customPathways = array_merge($customPathways, self::getPathway($category_list));
 				}
 
 				break;
@@ -186,7 +186,7 @@ class RedshopHelperBreadcrumb
 						if ($categoryId)
 						{
 							$category_list  = array_reverse(productHelper::getInstance()->getCategoryNavigationlist($categoryId));
-							$customPathways = array_merge($customPathways, productHelper::getInstance()->getBreadcrumbPathway($category_list));
+							$customPathways = array_merge($customPathways, self::getPathway($category_list));
 						}
 
 						$main             = new stdClass;
@@ -354,5 +354,32 @@ class RedshopHelperBreadcrumb
 		{
 			$pathway->addItem($customPathway->name, $customPathway->link);
 		}
+	}
+
+	/**
+	 * Method for get list of pathway
+	 *
+	 * @param   array  $categories  List of category
+	 *
+	 * @return  array               List of pathway
+	 *
+	 * @since   2.0.7
+	 */
+	public static function getPathway($categories = array())
+	{
+		$items = array();
+
+		foreach ($categories as $category)
+		{
+			$item       = new stdClass;
+			$item->name = $category['category_name'];
+			$item->link = JRoute::_(
+				'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category['category_id'] . '&Itemid=' . $category['catItemid']
+			);
+
+			$items[] = $item;
+		}
+
+		return $items;
 	}
 }
