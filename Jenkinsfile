@@ -12,7 +12,8 @@ pipeline {
                     pwd && \
                     whoami && \
                     echo $WORKSPACE && \
-                    ls -la
+                    ls -la && \
+                    touch
                 '''
             }
             post {
