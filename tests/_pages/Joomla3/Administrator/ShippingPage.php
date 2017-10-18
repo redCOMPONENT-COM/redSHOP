@@ -44,7 +44,7 @@ class ShippingPage extends AdminJ3Page
 
 	public static $zipCodeEnd=['id'=>'shipping_rate_zip_start'];
 
-	public static $country=['id'=>'s2id_shipping_rate_country'];
+	public static $country = ['id'=>'s2id_shipping_rate_country'];
 
 	public static $shippingRateProduct =['id'=>'s2id_container_product'];
 
