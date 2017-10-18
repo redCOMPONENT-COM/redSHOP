@@ -22,7 +22,7 @@ class RedshopViewStates extends RedshopViewList
 	 * Column for render published state.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $stateColumns = array();
 
@@ -35,7 +35,7 @@ class RedshopViewStates extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

@@ -111,7 +111,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	{
 		if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 		{
-			$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
+			$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $row->manufacturer_id);
 
 			if (!$altText)
 			{

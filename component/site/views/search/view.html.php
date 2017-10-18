@@ -508,7 +508,9 @@ class RedshopViewSearch extends RedshopView
 
 					for ($m = 0, $countMedia = count($media_documents); $m < $countMedia; $m++)
 					{
-						$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+						$alttext = RedshopHelperMedia::getAlternativeText(
+							"product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document"
+						);
 
 						if (!$alttext)
 						{

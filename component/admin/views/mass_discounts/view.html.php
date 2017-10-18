@@ -35,7 +35,7 @@ class RedshopViewMass_Discounts extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -98,7 +98,7 @@ class RedshopViewMass_Discounts extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	protected function generateList($ids, $entity, $property)
 	{

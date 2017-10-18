@@ -64,9 +64,4 @@ class TaxRatePage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $messageSuccess = "Message";
-
-	/**
-	 * @var string
-	 */
-	public static $selectorError = '.alert-danger';
 }
