@@ -42,6 +42,7 @@ node_modules/
 composer.lock
 vendor/*
 tests/vendor/*
+**/vendor/*
 libraries/redshop/vendor/*
 plugins/redshop_payment/klarna/library/vendor/*
 plugins/redshop_payment/mollieideal/library/vendor/*
