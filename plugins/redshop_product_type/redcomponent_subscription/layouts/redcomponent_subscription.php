@@ -15,37 +15,48 @@ extract($displayData);
 	<div class="col-sm-12">
 		<fieldset class="adminform">
 			<table class="admintable table">
-					<tr>
-						<td class="key">
-							<label for="input">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?>
-							</label>
-						</td>
-						<td>
-							<?php
-							echo JHtml::_('redshopselect.search', '',
-								'product_redcomponent_subscription_search',
-								array(
-									'select2.options' => array(
-										'events' => array(
-											'select2-selecting' => 'function(e) {create_table_redcomponent_subscription(e.object.text, e.object.id, e.object.price)}',
-											'select2-close' => 'function(e) {$(this).select2("val", "")}'
-										)
-									),
-									'select2.ajaxOptions' => array(
-										'typeField' => ', accessoryList: function(){
-											var listAcc = [];
-											jQuery(\'input.productSubscription\').each(function(){
-												listAcc[listAcc.length] = jQuery(this).val();
-											});
-											return listAcc.join(",");
-										}, product_id:' . $product->product_id
-									),
-								)
-							);
-							?>
-						</td>
-					</tr>
+				<tr>
+					<td class="key">
+						<label for="productSubscriptionPeriod">
+							<?php echo JText::_('PLG_REDSHOP_PRODUCT_TYPE_REDCOMPONENT_SUBSCRIPTION_PERIOD'); ?>
+						</label>
+					</td>
+					<td>
+						<input id="productSubscriptionPeriod" type="text" value="<?php echo $period ?>" name="productSubscriptionPeriod" />
+					</td>
+				</tr>
+
+				<tr>
+					<td class="key">
+						<label>
+							<?php echo JText::_('PLG_REDSHOP_PRODUCT_TYPE_REDCOMPONENT_SUBSCRIPTION_SELECT_PRODUCTS'); ?>
+						</label>
+					</td>
+					<td>
+						<?php
+						echo JHtml::_('redshopselect.search', '',
+							'product_redcomponent_subscription_search',
+							array(
+								'select2.options' => array(
+									'events' => array(
+										'select2-selecting' => 'function(e) {create_table_redcomponent_subscription(e.object.text, e.object.id, e.object.price)}',
+										'select2-close' => 'function(e) {$(this).select2("val", "")}'
+									)
+								),
+								'select2.ajaxOptions' => array(
+									'typeField' => ', accessoryList: function(){
+										var listAcc = [];
+										jQuery(\'input.productSubscription\').each(function(){
+											listAcc[listAcc.length] = jQuery(this).val();
+										});
+										return listAcc.join(",");
+									}, product_id:' . $product->product_id
+								),
+							)
+						);
+						?>
+					</td>
+				</tr>
 			</table>
 		</fieldset>
 		<table id="redcomponent_subscription_table" class="adminlist table table-striped" border="0">

@@ -48,32 +48,44 @@ class PlgRedshop_Product_TypeRedcomponent_Subscription extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$subQuery = $db->getQuery(true);
-		$subQuery->select($db->qn('s.subscriptions'))
-			->from($db->qn('#__redshop_redcomponent_subscription', 's'))
-			->where($db->qn('s.product_id') . '=' . (int) $product->product_id);
-
 		$query = $db->getQuery(true);
-		$query->select(
-			array(
-				$db->qn('p.product_id'),
-				$db->qn('p.product_name'),
-				$db->qn('p.product_price')
-			)
-		)
-			->from($db->qn('#__redshop_product', 'p'))
-			->where('FIND_IN_SET(' . $db->qn('p.product_id') . ', (' . $subQuery . '))');
+		$query->select('*')
+			->from($db->qn('#__redshop_redcomponent_subscription'))
+			->where($db->qn('product_id') . '=' . (int) $product->product_id);
 
 		$db->setQuery($query);
+		$subscriptionDetail = $db->loadObject();
 
-		$subscriptions = $db->loadObjectList();
+		$subscriptions = array();
+		$period        = '';
+
+		if ($subscriptionDetail)
+		{
+			$query = $db->getQuery(true);
+			$query->select(
+				array(
+					$db->qn('p.product_id'),
+					$db->qn('p.product_name'),
+					$db->qn('p.product_price')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.product_id') . ' IN (' . $subscriptionDetail->subscriptions . ')');
+
+			$db->setQuery($query);
+
+			$subscriptions = $db->loadObjectList();
+
+			$period = $subscriptionDetail->period;
+		}
 
 		echo RedshopLayoutHelper::render(
 			'redcomponent_subscription',
 			array
 			(
-				'product'    => $product,
-				'subscriptions' => $subscriptions
+				'product'       => $product,
+				'subscriptions' => $subscriptions,
+				'period'        => $period
 			),
 			JPATH_PLUGINS . '/redshop_product_type/redcomponent_subscription/layouts'
 		);
@@ -113,12 +125,13 @@ class PlgRedshop_Product_TypeRedcomponent_Subscription extends JPlugin
 		$query = $db->getQuery(true);
 
 		// Insert columns.
-		$columns = array('product_id', 'subscriptions');
+		$columns = array('product_id', 'subscriptions', 'period');
 
 		// Insert values.
 		$values = array(
 			(int) $product->product_id,
-			$db->q($subscriptions)
+			$db->q($subscriptions),
+			(int) $post['productSubscriptionPeriod'],
 		);
 
 		// Prepare the insert query.
