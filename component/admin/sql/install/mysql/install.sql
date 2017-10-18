@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `discount_stratdate` INT(11) NOT NULL,
   `discount_enddate` INT(11) NOT NULL,
   `product_number` VARCHAR(250) NOT NULL,
-  `product_type` VARCHAR(20) NOT NULL,
+  `product_type` VARCHAR(250) NOT NULL,
   `product_s_desc` LONGTEXT NOT NULL,
   `product_desc` LONGTEXT NOT NULL,
   `product_volume` DOUBLE NOT NULL,
