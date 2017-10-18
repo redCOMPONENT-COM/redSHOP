@@ -1,38 +1,10 @@
 #!groovy
-
 pipeline {
     agent any
     options {
             timeout(time: 1, unit: 'HOURS')
     }
-    scm {
-        git {
-            remote {
-                github('redCOMPONENT-COM/redSHOP.git')
-                refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-            }
-            branch('${sha1}')
-        }
-    }
-
-    triggers {
-        pullRequest {
-            admins(['jooservices', 'puneet0191', 'thongredweb', 'ducredweb', 'nhungredweb', 'turedweb', 'luredweb'])
-            cron('* * * * *')
-            triggerPhrase('OK to test')
-            useGitHubHooks()
-            permitAll()
-            extensions {
-                commitStatus {
-                    completedStatus('SUCCESS', 'All is well')
-                    completedStatus('FAILURE', 'Somethig went wrong. Investigate!')
-                    completedStatus('PENDING', 'still in progress...')
-                    completedStatus('ERROR', 'Something went really wrong. Investigate!')
-                }
-            }
-        }
-    }
-
+    triggers { pollSCM ('* * * * *') }
     stages {
         stage('Setup') {
             steps {
@@ -50,12 +22,7 @@ pipeline {
             }
         }
         stage('Browser Tests setup') {
-            agent {
-                docker {
-                    image 'joomlaprojects/docker-systemtests'
-                    args  '--user 0 --privileged=true'
-                }
-            }
+            failFast true
             environment {
                 CLOUD_NAME= 'redcomponent'
                 API_KEY= '365447364384436'
@@ -64,8 +31,31 @@ pipeline {
                 ORGANIZATION='redCOMPONENT-COM'
                 REPO='redSHOP'
             }
-            steps {
-                sh 'bash build/jenkins/system-tests.sh'
+            parallel {
+                stage('Test Stage A') {
+                    agent {
+                        docker {
+                            image 'joomlaprojects/docker-systemtests'
+                            args  '--user 0 --privileged=true'
+                            args  '-v /tmp:/tmp'
+                        }
+                    }
+                    steps {
+                        sh 'bash build/jenkins/system-tests.sh'
+                    }
+                }
+                stage('Test Stage B') {
+                    agent {
+                        docker {
+                            image 'joomlaprojects/docker-systemtests'
+                            args  '--user 0 --privileged=true'
+                            args  '-v /tmp:/tmp'
+                        }
+                    }
+                    steps {
+                        sh 'bash build/jenkins/system-tests.sh'
+                    }
+                }
             }
             post {
                 always {
