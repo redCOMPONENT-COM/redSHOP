@@ -12,8 +12,7 @@ pipeline {
                     pwd && \
                     whoami && \
                     echo $WORKSPACE && \
-                    ls -la && \
-                    touch
+                    ls -la
                 '''
             }
             post {
@@ -36,8 +35,7 @@ pipeline {
                     agent {
                         docker {
                             image 'joomlaprojects/docker-systemtests'
-                            args  '--user 0 --privileged=true'
-                            args  '-v /tmp:/tmp'
+                            args  '--user 0 --privileged=true -v /tmp:/tmp'
                         }
                     }
                     steps {
@@ -49,7 +47,6 @@ pipeline {
                         docker {
                             image 'joomlaprojects/docker-systemtests'
                             args  '--user 0 --privileged=true'
-                            args  '-v /tmp:/tmp'
                         }
                     }
                     steps {
