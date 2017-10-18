@@ -50,6 +50,7 @@ pipeline {
                         }
                     }
                     steps {
+                        sh 'whoami'
                         sh 'bash build/jenkins/system-tests.sh'
                     }
                 }
