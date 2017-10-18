@@ -127,7 +127,6 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		switch ($function){
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
-				$I->seeInField(ShippingPage::$shippingRateValue,$shippingRate);
 				break;
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
