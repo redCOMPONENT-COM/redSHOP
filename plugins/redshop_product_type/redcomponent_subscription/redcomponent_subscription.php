@@ -46,13 +46,12 @@ class PlgRedshop_Product_TypeRedcomponent_Subscription extends JPlugin
 	 */
 	public function onDisplayProductTypeData($product)
 	{
-		$db     = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$subQuery = $db->getQuery(true);
 		$subQuery->select($db->qn('s.subscriptions'))
 			->from($db->qn('#__redshop_redcomponent_subscription', 's'))
 			->where($db->qn('s.product_id') . '=' . (int) $product->product_id);
-
 
 		$query = $db->getQuery(true);
 		$query->select(
