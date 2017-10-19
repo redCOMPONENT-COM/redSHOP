@@ -11,6 +11,8 @@ ln -s /opt/firefox47/firefox /usr/bin/firefox
 firefox --version
 service apache2 restart
 service mysql start
+whoami
+cat /var/log/syslog
 echo $WORKSPACE
 grep -R "DocumentRoot" /etc/apache2/sites-enabled
 cd ./tests/
