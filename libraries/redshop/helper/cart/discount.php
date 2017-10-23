@@ -30,7 +30,7 @@ class RedshopHelperCartDiscount
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('*')->from($db->qn('#__product_discount_calc_extra'));
+		$query->select('*')->from($db->qn('#__redshop_product_discount_calc_extra'));
 
 		if (!empty($extraIds))
 		{
