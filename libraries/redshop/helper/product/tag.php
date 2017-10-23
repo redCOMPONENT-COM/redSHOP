@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Product Tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperProductTag
 {
@@ -32,7 +32,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getExtraSectionTag($fieldNames = array(), $productId = 0, $section = 0, $templateContent = '', $categoryPage = 0)
 	{
@@ -63,7 +63,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function displayAdditionalImage(
 		$productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0,
@@ -461,7 +461,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
 	{
@@ -491,7 +491,7 @@ class RedshopHelperProductTag
 				continue;
 			}
 
-			$altText = productHelper::getInstance()->getAltText('product', $image->section_id, '', $image->media_id);
+			$altText = RedshopHelperMedia::getAlternativeText('product', $image->section_id, '', $image->media_id);
 			$altText = !$altText ? $image->media_name : $altText;
 
 			if ($isWaterMarkProductAdditionalImage)
@@ -614,7 +614,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareAdditionalVideos($videos = array())
 	{
@@ -649,7 +649,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function preparePropertyAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
 	{
@@ -676,7 +676,7 @@ class RedshopHelperProductTag
 				continue;
 			}
 
-			$altText = productHelper::getInstance()->getAltText('property', $image->section_id, '', $image->media_id);
+			$altText = RedshopHelperMedia::getAlternativeText('property', $image->section_id, '', $image->media_id);
 			$altText = !$altText ? $thumb : $altText;
 
 			if ($productAddingIsLightbox)
@@ -788,7 +788,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function preparePropertyAdditionalVideos($videos = array())
 	{
@@ -823,7 +823,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareSubPropertyAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
 	{
@@ -852,7 +852,7 @@ class RedshopHelperProductTag
 				continue;
 			}
 
-			$altText = productHelper::getInstance()->getAltText('subproperty', $image->section_id, '', $image->media_id);
+			$altText = RedshopHelperMedia::getAlternativeText('subproperty', $image->section_id, '', $image->media_id);
 			$altText = empty($altText) ? $thumb : $altText;
 
 			if ($productAddingIsLightbox)
@@ -939,7 +939,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function prepareSubPropertyAdditionalVideos($videos = array())
 	{
