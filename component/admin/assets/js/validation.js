@@ -216,38 +216,6 @@ function validateemail(o) {
     }
 }
 
-// Mail Section Select
-function mail_select(str) {
-    var form = document.forms['adminForm'];
-
-    var val = form.mail_section.value;
-
-    var please = form.please.value;
-
-    if (val != 'order_status') {
-
-        document.getElementById("order_state_edit").style.display = "none";
-        document.getElementById("order_state").style.display = "none";
-        return false;
-    }
-    if (val == '0') {
-        alert(please);
-        return true;
-    }
-
-    var JSONObject = new Object;
-
-    JSONObject.mail_order_status = form.mail_section.value;
-
-    JSONstring = JSON.stringify(JSONObject);
-
-    request = getHTTPObject();
-    request.onreadystatechange = mail_order_status;
-    request.open("GET", "index.php?tmpl=component&option=com_redshop&view=mail_detail&task=mail_section&json=" + JSONstring, true);
-    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    request.send(null);
-}
-
 function mail_order_status() {
 
     if (request.readyState == 4) {
@@ -739,7 +707,7 @@ jQuery(document).ready(function(){
             // Allow: backspace, delete, tab, escape, enter and .
             if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (e.keyCode >= 35 && e.keyCode <= 40)) {
                      // let it happen, don't do anything
@@ -755,7 +723,7 @@ jQuery(document).ready(function(){
             // Allow: backspace, delete, tab, escape, enter and .
             if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (e.keyCode >= 35 && e.keyCode <= 40)) {
                      // let it happen, don't do anything

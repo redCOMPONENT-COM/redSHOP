@@ -13,141 +13,142 @@
  *
  * @since  1.4
  */
-class DiscountManagerJ3Page
+class DiscountManagerJ3Page extends AdminJ3Page
 {
 
-    public static $namePageManagement = "Product Discount Management";
+	public static $namePageManagement = "Product Discount Management";
+
+	public static $URL = '/administrator/index.php?option=com_redshop&view=discount';
+
+	public static $name = "//input[@id='name']";
+
+	public static $amount = "//input[@id='amount']";
+
+	public static $discountSuccessMessage = 'Discount Detail Saved';
+
+	public static $discountAmount = "//input[@id='discount_amount']";
+
+	public static $discountTypeDropDown = "//div[@id='discount_type_chzn']/a";
+
+	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
+
+	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+
+	public static $selectFirst = "//input[@id='cb0']";
+
+	public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
+
+	public static $startDate = "//input[@id='start_date']";
+
+	public static $endDate = "//input[@id='end_date']";
+
+	public static $discountNamePath = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+
+	public static $discountState = "//div[@class='table-responsive']/table/tbody/tr/td[8]/a";
+
+	public static $discountCheckBox = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
 
-    public static $URL = '/administrator/index.php?option=com_redshop&view=discount';
+	//selctor
 
-    public static $name = "//input[@id='name']";
+	public static $selectorPage = '.page-title';
 
-    public static $amount = "//input[@id='amount']";
+	public static $discountType = ['id' => "s2id_discount_type"];
 
-    public static $discountSuccessMessage = 'Discount Detail Saved';
+	public static $discountTypeSearch = ['id' => "s2id_autogen2_search"];
 
-    public static $discountAmount = "//input[@id='discount_amount']";
+	public static $conditionId=['id'=>'s2id_condition'];
 
-    public static $discountTypeDropDown = "//div[@id='discount_type_chzn']/a";
+	public static $conditionSearch=['id'=>'s2id_autogen1_search'];
 
-    public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
+	public static $searchResults = ['id' => "select2-results-2"];
 
-    public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+	public static $searchShopperId = ['id' => "s2id_shopper_group_id"];
 
-    public static $selectFirst = "//input[@id='cb0']";
+	public static $saveSuccess = ['id' => 'system-message-container'];
 
-    public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
+	public static $filter = ['id' => 'name_filter'];
 
-    public static $startDate = "//input[@id='start_date']";
-
-    public static $endDate = "//input[@id='end_date']";
-
-    public static $discountNamePath = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
-
-    public static $discountState = "//div[@class='table-responsive']/table/tbody/tr/td[8]/a";
-
-    public static $discountCheckBox = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
-
-    public static $CheckAllDiscount = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $pageManagement = ['xpath' => "//h1"];
 
 
-    //selctor
+	//message
 
-    public static $selectorPage = '.page-title';
+	public static $messageSaveSuccess = "Discount Detail Saved";
 
-    public static $discountType = ['id' => "s2id_discount_type"];
+	public static $messageUnpublishSuccess = "Discount Detail UnPublished Successfully";
 
-    public static $discountTypeSearch = ['id' => "s2id_autogen2_search"];
+	public static $messagePublishSuccess = "Discount Detail Published Successfully";
 
-    public static $searchResults = ['id' => "select2-results-2"];
-
-    public static $searchShopperId = ['id' => "s2id_shopper_group_id"];
-
-    public static $saveSuccess = ['id' => 'system-message-container'];
-
-    public static $filter = ['id' => 'name_filter'];
-
-    public static $pageManagement = ['xpath' => "//h1"];
+	public static $messageDeleteSuccess = "Discount Detail Deleted Successfully";
 
 
-    //message
+	//button
 
-    public static $messageSaveSuccess = "Discount Detail Saved";
+	public static $saveCloseButton = "Save & Close";
 
-    public static $messageUnpublishSuccess = "Discount Detail UnPublished Successfully";
+	public static $saveButton = "Save";
 
-    public static $messagePublishSuccess = "Discount Detail Published Successfully";
+	public static $deleteButton = "Delete";
 
-    public static $messageDeleteSuccess = "Discount Detail Deleted Successfully";
+	public static $newButton = "New";
 
+	public static $saveButon = "Save";
 
-    //button
+	public static $cancelButton = "Cancel";
 
-    public static $saveCloseButton = "Save & Close";
+	public static $publish = "Publish";
 
-    public static $saveButton = "Save";
+	public static $unpublish = "Unpublish";
 
-    public static $deleteButton = "Delete";
+	public static $editButton = "Edit";
 
-    public static $newButton = "New";
+	public static $resetButton = "Reset";
 
-    public static $saveButon = "Save";
+	/**
+	 * Function to get the path for Discount Type
+	 *
+	 * @param   String $discountType Type of Discount
+	 *
+	 * @return string
+	 */
+	public function discountType($discountType)
+	{
+		$path = "//div[@id='discount_type_chzn']/div/ul/li[contains(text(), '" . $discountType . "')]";
 
-    public static $cancelButton = "Cancel";
+		return $path;
+	}
 
-    public static $publish = "Publish";
+	/**
+	 * Function to get the Path for Shopper Group
+	 *
+	 * @param   String $groupType Type of the Group
+	 *
+	 * @return string
+	 */
+	public function shopperGroup($shopperGroup)
+	{
+		$path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $shopperGroup . "')]";
 
-    public static $unpublish = "Unpublish";
+		return $path;
+	}
 
-    public static $editButton = "Edit";
+	/**
+	 *
+	 * Function to choie shopper
+	 *
+	 * @param $typeChoice
+	 * @return string
+	 */
+	public function resultChoice($typeChoice)
+	{
+		$path = ['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $typeChoice . "')]"];
 
-    public static $resetButton = "Reset";
+		return $path;
+	}
 
-    /**
-     * Function to get the path for Discount Type
-     *
-     * @param   String $discountType Type of Discount
-     *
-     * @return string
-     */
-    public function discountType($discountType)
-    {
-        $path = "//div[@id='discount_type_chzn']/div/ul/li[contains(text(), '" . $discountType . "')]";
-
-        return $path;
-    }
-
-    /**
-     * Function to get the Path for Shopper Group
-     *
-     * @param   String $groupType Type of the Group
-     *
-     * @return string
-     */
-    public function shopperGroup($shopperGroup)
-    {
-        $path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $shopperGroup . "')]";
-
-        return $path;
-    }
-
-    /**
-     *
-     * Function to choie shopper
-     *
-     * @param $typeChoice
-     * @return string
-     */
-    public function resultChoice($typeChoice)
-    {
-        $path = ['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $typeChoice . "')]"];
-
-        return $path;
-    }
-
-    public static function getCurrencyCode()
-    {
-        return "DKK ";
-    }
+	public static function getCurrencyCode()
+	{
+		return "DKK ";
+	}
 }

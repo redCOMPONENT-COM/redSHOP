@@ -36,37 +36,39 @@ class RedshopModelSearch extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$id = JRequest::getVar('id', 0);
+		$jinput = JFactory::getApplication()->input;
 
-		$product_id = JRequest::getVar('product_id', '');
+		$id = $jinput->get('id', 0);
 
-		$related = JRequest::getVar('related', '');
+		$product_id = $jinput->get('product_id', '');
 
-		$navigator = JRequest::getVar('navigator', '');
+		$related = $jinput->get('related', '');
 
-		$voucher_id = JRequest::getVar('voucher_id', '');
+		$navigator = $jinput->get('navigator', '');
 
-		$stockroom_id = JRequest::getVar('stockroom_id', '');
+		$voucher_id = $jinput->get('voucher_id', '');
 
-		$media_section = JRequest::getVar('media_section', '');
+		$stockroom_id = $jinput->get('stockroom_id', '');
 
-		$user = JRequest::getVar('user', '');
+		$media_section = $jinput->get('media_section', '');
 
-		$plgcustomview = JRequest::getVar('plgcustomview', '');
+		$user = $jinput->get('user', '');
 
-		$this->_iscompany = JRequest::getInt('iscompany', -1);
+		$plgcustomview = $jinput->get('plgcustomview', '');
 
-		$addreduser = JRequest::getVar('addreduser', '');
+		$this->_iscompany = $jinput->getInt('iscompany', -1);
 
-		$products = JRequest::getVar('isproduct', '');
+		$addreduser = $jinput->get('addreduser', '');
 
-		$search = JRequest::getVar('input', '');
+		$products = $jinput->get('isproduct', '');
 
-		$parent = JRequest::getVar('parent', '');
+		$search = $jinput->get('input', '');
 
-		$alert = JRequest::getVar('alert', '');
+		$parent = $jinput->get('parent', '');
 
-		$limit = JRequest::getVar('limit', '');
+		$alert = $jinput->get('alert', '');
+
+		$limit = $jinput->get('limit', '');
 
 		$this->_parent = $parent;
 

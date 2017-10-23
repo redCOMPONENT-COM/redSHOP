@@ -40,7 +40,7 @@ class RedshopModelWrapper extends RedshopModel
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
 
-		$product_id = JRequest::getVar('product_id');
+		$product_id = JFactory::getApplication()->input->get('product_id');
 		$this->setProductId((int) $product_id);
 	}
 
@@ -85,10 +85,10 @@ class RedshopModelWrapper extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$showall = JRequest::getVar('showall', '0');
-		$and = '';
+		$db      = JFactory::getDbo();
+		$app     = JFactory::getApplication();
+		$showall = $app->input->get('showall', '0');
+		$and     = '';
 
 		if ($showall && $this->_productid != 0)
 		{

@@ -43,7 +43,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
@@ -73,7 +73,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$uri      = JFactory::getURI();
 
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		// We don't need toolbar in the modal window.
 		if ($layout !== 'element')

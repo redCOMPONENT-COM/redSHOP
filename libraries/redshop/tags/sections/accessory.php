@@ -43,7 +43,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		{
 			$accessoryId = $accessory[$a]->child_product_id;
 			$productInfo = $productHelper->getProductById($accessoryId);
-			$imageUrl    = RedShopHelperImages::getImagePath(
+			$imageUrl    = RedshopHelperMedia::getImagePath(
 				$productInfo->product_preview_image,
 				'',
 				'thumb',
@@ -54,7 +54,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 			);
 
 			$previewImage .= RedshopLayoutHelper::render(
-			'tags.accessory.preview_image',
+				'tags.accessory.preview_image',
 				array(
 					'accessoryId' => $accessoryId,
 					'imageUrl'    => $imageUrl,

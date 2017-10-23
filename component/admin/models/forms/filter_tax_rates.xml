@@ -43,6 +43,7 @@
         <field
                 name="limit"
                 type="limitbox"
+                class="form-control"
                 default="25"
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"

@@ -20,8 +20,6 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_worldpay.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_worldpay.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_worldpay.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_worldpay.sys.ini</language>
     </languages>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">

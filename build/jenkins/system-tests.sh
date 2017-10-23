@@ -11,6 +11,8 @@ ln -s /opt/firefox47/firefox /usr/bin/firefox
 firefox --version
 service apache2 restart
 service mysql start
+whoami
+cat /var/log/syslog
 echo $WORKSPACE
 grep -R "DocumentRoot" /etc/apache2/sites-enabled
 cd ./tests/
@@ -32,6 +34,7 @@ echo $(pwd)
 ls -la
 whoami
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
+mv tests/RoboFile.ini.dist tests/RoboFile.ini
 vendor/bin/robo prepare:site-for-system-tests
 chown -R www-data:www-data tests/joomla-cms3
 git submodule update --init --recursive
@@ -47,7 +50,6 @@ npm install -g gulp
 gulp -version
 mv gulp-config.sample.jenkins.json gulp-config.json
 gulp release --skip-version
-mv tests/RoboFile.ini.dist tests/RoboFile.ini
 
 # Move folder to /tests
 ln -s $(pwd)/tests/joomla-cms3 /tests/www/tests/

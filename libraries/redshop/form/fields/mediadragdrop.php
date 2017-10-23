@@ -38,15 +38,17 @@ class JFormFieldMediadragdrop extends JFormField
 	{
 		// Define data to display in html
 		$displayData = [
-			'id'           => $this->id,
-			'name'         => $this->name,
-			'value'        => $this->value
+			'id'    => $this->id,
+			'name'  => $this->name,
+			'value' => $this->value
 		];
 
 		// Render html in layouts/html
 		return RedshopLayoutHelper::render(
-			'html.dropzone',
-			$displayData
+			'media.dropzone',
+			$displayData,
+			null,
+			array('option' => 'com_redshop')
 		);
 	}
 }

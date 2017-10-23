@@ -215,7 +215,9 @@ function validateProductQuantity()
 }
 </script>
 <?php
-if (!JRequest::getvar('ajaxtask'))
+$jinput = JFactory::getApplication()->input;
+
+if (!$jinput->get('ajaxtask'))
 {
 ?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
@@ -330,12 +332,12 @@ if (!JRequest::getvar('ajaxtask'))
 				<?php
 				}
 
-				if (JRequest::getvar('ajaxtask') == "getuser")
+				if ($jinput->get('ajaxtask') == "getuser")
 				{
 					die();
 				}
 
-				if (!JRequest::getvar('ajaxtask'))
+				if (!$jinput->get('ajaxtask'))
 				{
 				?>
 			</td>

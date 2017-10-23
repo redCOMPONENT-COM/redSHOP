@@ -36,7 +36,7 @@ class RedshopViewNewslettersubscr extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_MANAGEMENT'), 'envelope redshop_newsletter48');
-		$task = JRequest::getVar('task');
+		$task = JFactory::getApplication()->input->getCmd('task', '');
 
 		if ($task != 'import_data')
 		{

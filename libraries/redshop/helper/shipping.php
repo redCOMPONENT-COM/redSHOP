@@ -974,7 +974,7 @@ class RedshopHelperShipping
 
 		$userInfo     = self::getShippingAddress($usersInfoId);
 		$country      = '';
-		$state        = $data['state_code'] ? $data['state_code'] : '';
+		$state        = isset($data['state_code']) ? $data['state_code'] : '';
 		$isCompany    = false;
 		$shippingRate = array();
 		$zip          = '';
@@ -2178,7 +2178,7 @@ class RedshopHelperShipping
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
 	{

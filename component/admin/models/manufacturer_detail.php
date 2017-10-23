@@ -28,7 +28,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}
@@ -244,7 +244,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		$row = $this->getTable();
 
 		$total = count($cid);
-		$order = (empty($order)) ? JRequest::getVar('order', array(0), 'post', 'array') : $order;
+		$order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
 		JArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values

@@ -21,18 +21,13 @@ use Joomla\Utilities\ArrayHelper;
 class RedshopModelFields extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
+	 * Constructor.
 	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_fields';
-
-	/**
-	 * Construct class
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since 1.x
+	 * @since   2.0.3
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{

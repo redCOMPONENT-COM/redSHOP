@@ -29,7 +29,7 @@ class RedshopModelAccount_shipto extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$infoid              = JRequest::getInt('infoid');
+		$infoid              = JFactory::getApplication()->input->getInt('infoid');
 
 		$this->setId($infoid);
 	}

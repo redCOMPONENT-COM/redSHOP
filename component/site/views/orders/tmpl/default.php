@@ -11,19 +11,19 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-$url = JURI::base();
-
+$url            = JURI::base();
+$app            = JFactory::getApplication();
 $order_function = order_functions::getInstance();
-$redconfig = Redconfiguration::getInstance();
-$producthelper = productHelper::getInstance();
-$carthelper = rsCarthelper::getInstance();
+$redconfig      = Redconfiguration::getInstance();
+$producthelper  = productHelper::getInstance();
+$carthelper     = rsCarthelper::getInstance();
 
-$Itemid = JRequest::getInt('Itemid');
-$print = JRequest::getInt('print');
-$document = JFactory::getDocument();
+$Itemid      = $app->input->getInt('Itemid');
+$print       = $app->input->getInt('print');
+$document    = JFactory::getDocument();
 $redTemplate = Redtemplate::getInstance();
 
-$template_id = $this->params->get('template_id');
+$template_id         = $this->params->get('template_id');
 $orderslist_template = $redTemplate->getTemplate("order_list", $template_id);
 
 if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc != "")

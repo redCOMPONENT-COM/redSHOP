@@ -25,7 +25,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -338,7 +338,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable();
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
 		$conditions = array();
 
 		// Update ordering values

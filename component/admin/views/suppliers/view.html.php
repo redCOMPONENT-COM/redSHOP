@@ -18,4 +18,11 @@ defined('_JEXEC') or die;
  */
 class RedshopViewSuppliers extends RedshopViewList
 {
+	/**
+	 * Display duplicate button or not.
+	 *
+	 * @var   boolean
+	 * @since  2.0.7
+	 */
+	protected $enableDuplicate = true;
 }

@@ -24,7 +24,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}
@@ -183,7 +183,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function getproducts()
 	{
-		$product_id = JRequest::getVar('pid');
+		$product_id = JFactory::getApplication()->input->get('pid');
 
 		if ($product_id)
 		{

@@ -20,19 +20,14 @@ defined('_JEXEC') or die;
 class RedshopModelCountries extends RedshopModelList
 {
 	/**
-	 * Name of the filter form to load
+	 * Constructor.
 	 *
-	 * @var  string
-	 */
-	protected $filterFormName = 'filter_countries';
-
-	/**
-	 * Construct class
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since 1.x
+	 * @see     JController
+	 * @since   2.0.0.2
 	 */
-
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
