@@ -185,10 +185,7 @@ class RedshopModelOrder extends RedshopModel
 
 	public function export_data($cid)
 	{
-		$where = "";
-
 		$order_id = implode(',', $cid);
-
 
 		$where[] = " 1=1";
 
