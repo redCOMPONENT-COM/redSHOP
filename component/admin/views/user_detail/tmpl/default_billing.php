@@ -142,14 +142,20 @@ $statestyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
 				}
 				else
 				{
-					if ($this->lists['customer_field'] != "")
-					{
-						echo '<div id="exCustomerField" ' . $allowCustomer . '>' . $this->lists['customer_field'] . '</div>';
-					}
-					if ($this->lists['company_field'] != "")
-					{
-						echo '<div id="exCompanyField" ' . $allowCompany . '>' . $this->lists['company_field'] . '</div>';
-					}
+					if ($this->detail->is_company == 1)
+                    {
+                        if ($this->lists['company_field'] != "")
+                        {
+                            echo '<div id="exCompanyField" ' . $allowCompany . '>' . $this->lists['company_field'] . '</div>';
+                        }
+                    }
+                    else
+                    {
+                        if ($this->lists['customer_field'] != "")
+                        {
+                            echo '<div id="exCustomerField" ' . $allowCustomer . '>' . $this->lists['customer_field'] . '</div>';
+                        }
+                    }
 				} ?></td >
         </tr >
 		<?php

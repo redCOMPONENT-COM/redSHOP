@@ -13,6 +13,7 @@
                 type="rproducts"
                 label="COM_REDSHOP_FILTER_PRODUCT"
                 description="COM_REDSHOP_FILTER_PRODUCT_DESC"
+                class="form-control"
                 onchange="this.form.submit();">
             <option value="">COM_REDSHOP_SELECT_PRODUCT</option>
         </field>
@@ -21,6 +22,7 @@
                 type="rpublished"
                 onchange="this.form.submit();"
                 label="JOPTION_SELECT_PUBLISHED"
+                class="form-control"
                 statuses="0,1">
             <option value="">JOPTION_SELECT_PUBLISHED</option>
         </field>
@@ -29,7 +31,7 @@
         <field
                 name="limit"
                 type="limitbox"
-                class="inputbox input-mini chzn"
+                class="form-control"
                 default="25"
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"

@@ -61,6 +61,7 @@
                 class="form-control"
                 default=""
                 table-hide="1"
+                showon="type:1"
         />
         <field
                 name="size"
@@ -70,6 +71,7 @@
                 class="form-control"
                 default=""
                 table-hide="1"
+                showon="type:1"
         />
         <field
                 name="cols"
@@ -79,6 +81,7 @@
                 class="form-control"
                 default=""
                 table-hide="1"
+                showon="type:2"
         />
         <field
                 name="rows"
@@ -87,6 +90,7 @@
                 description="COM_REDSHOP_TOOLTIP_ROWS"
                 class="form-control"
                 default=""
+                showon="type:2"
                 table-hide="1"
         />
         <field
@@ -106,6 +110,7 @@
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_PRODUCT_LIST"
+                showon="section:1,17"
                 table-hide="1">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
@@ -116,6 +121,7 @@
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_CHECKOUT"
+                showon="section:1,17"
                 table-hide="1">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
@@ -145,11 +151,11 @@
         </field>
         <field
                 name="description"
-                type="editor"
+                type="textarea"
                 label="COM_REDSHOP_DESCRIPTION"
                 description="COM_REDSHOP_DESCRIPTION_DESC"
-                width="300"
-                filter="safehtml"
+                class="form-control"
+                rows="20"
                 table-sortable="1"
                 table-width="20%"
                 table-hide="1"

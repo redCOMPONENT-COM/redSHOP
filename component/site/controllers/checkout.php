@@ -33,7 +33,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$this->_order_functions = order_functions::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		JRequest::setVar('layout', 'default');
+		JFactory::getApplication()->input->set('layout', 'default');
 		parent::__construct($default);
 	}
 
@@ -44,8 +44,9 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function checkoutprocess()
 	{
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getVar('Itemid');
+		$input  = JFactory::getApplication()->input;
+		$post   = $input->post->getArray();
+		$Itemid = $input->get('Itemid');
 		$model  = $this->getModel('checkout');
 
 		if ($model->store($post))
@@ -56,8 +57,8 @@ class RedshopControllerCheckout extends RedshopController
 		}
 		else
 		{
-			JRequest::setVar('view', 'checkout');
-			JRequest::setVar('task', '');
+			$input->set('view', 'checkout');
+			$input->set('task', '');
 			parent::display('default');
 		}
 	}
@@ -101,9 +102,7 @@ class RedshopControllerCheckout extends RedshopController
 		}
 
 		$rs_user = $session->set('rs_user', $rs_user);
-
-		$helper        = redhelper::getInstance();
-		$chk           = $this->chkvalidation($users_info_id);
+		$chk     = $this->chkvalidation($users_info_id);
 
 		if (!empty($chk))
 		{
@@ -432,7 +431,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
-				$users_info_id = JRequest::getInt('users_info_id');
+				$users_info_id = $input->getInt('users_info_id');
 
 				if (empty($users_info_id))
 				{

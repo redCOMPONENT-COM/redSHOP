@@ -17,7 +17,7 @@ JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
 $params = $app->getParams('com_redshop');
 
-$Itemid = JRequest::getInt('Itemid');
+$Itemid = $app->input->getInt('Itemid');
 
 $returnitemid = $params->get('logout', $Itemid);
 

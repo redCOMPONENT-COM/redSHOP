@@ -136,6 +136,9 @@ abstract class RedshopHelperCart
 			$cart = JFactory::getSession()->get('cart');
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
+
 		$idx = isset($cart['idx']) ? (int) ($cart['idx']) : 0;
 
 		$db = JFactory::getDbo();

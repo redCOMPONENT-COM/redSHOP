@@ -26,8 +26,9 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function newRegistration()
 	{
-		$post       = $this->input->post->getArray();
-		$itemId     = $this->input->getInt('Itemid', 0);
+		$input      = JFactory::getApplication()->input;
+		$post       = $input->post->getArray();
+		$itemId     = $input->getInt('Itemid', 0);
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$model   = $this->getModel('registration');
@@ -60,7 +61,7 @@ class RedshopControllerRegistration extends RedshopController
 
 				if (!empty($retMenuItem))
 				{
-					$link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id);
+					$link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id, false);
 				}
 
 				// Redirection settings End
@@ -81,7 +82,8 @@ class RedshopControllerRegistration extends RedshopController
 	public function searchUserdetailByPhone()
 	{
 		ob_clean();
-		$get    = $this->input->get->getArray();
+		$app    = JFactory::getApplication();
+		$get    = $app->input->get->getArray();
 		$return = "";
 
 		JPluginHelper::importPlugin('telesearch');
@@ -101,7 +103,7 @@ class RedshopControllerRegistration extends RedshopController
 
 		echo $return;
 
-		JFactory::getApplication()->close();
+		$app->close();
 	}
 
 	/**
@@ -111,9 +113,10 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function getCompanyOrCustomer()
 	{
+		$app        = JFactory::getApplication();
 		$extraField = extraField::getInstance();
 
-		$get        = $this->input->get->getArray();
+		$get        = $app->input->get->getArray();
 		$templateId = $get['template_id'];
 		$isCompany  = $get['is_company'];
 		$lists      = array('isAjax' => 1);
@@ -153,7 +156,7 @@ class RedshopControllerRegistration extends RedshopController
 
 		echo $return = '<div id="ajaxRegistrationDiv">' . $templateHtml . '</div>';
 
-		JFactory::getApplication()->close();
+		$app->close();
 	}
 
 	/**

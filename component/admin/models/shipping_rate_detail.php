@@ -28,7 +28,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		parent::__construct($config);
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -306,8 +306,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		$dispatcher->trigger('onRenderShippingRateState', array(&$shippingRateState, $countryCode));
 
 		$shippingRate->shipping_rate_state = explode(',', $shippingRate->shipping_rate_state);
-		$tmp = new stdClass;
-		$tmp = array_merge($tmp, $shippingRate->shipping_rate_state);
+		$tmp = array_merge(array(), $shippingRate->shipping_rate_state);
 
 		echo JHTML::_(
 			'select.genericlist',

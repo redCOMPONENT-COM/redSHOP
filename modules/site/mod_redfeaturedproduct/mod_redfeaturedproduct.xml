@@ -1,169 +1,165 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-	<name>MOD_REDFEATUREDPRODUCT</name>
-	<version>1.5.3</version>
+    <name>MOD_REDFEATUREDPRODUCT</name>
+    <version>1.5.3</version>
     <redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>MOD_REDFEATUREDPRODUCT_DESC</description>
-	<files>
-		<filename module="mod_redfeaturedproduct">mod_redfeaturedproduct.php</filename>
-		<filename>index.html</filename>
-		<filename>helper.php</filename>
-		<folder module="mod_redfeaturedproduct">images</folder>
-		<folder module="mod_redfeaturedproduct">css</folder>
-		<folder>tmpl</folder>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redfeaturedproduct.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redfeaturedproduct.sys.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redfeaturedproduct.ini</language>
-		<language tag="it-IT">language/it-IT/it-IT.mod_redfeaturedproduct.sys.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="pretext"
-					type="textarea"
-					default=""
-					label="MOD_REDFEATUREDPRODUCT_PRETEXT_LBL"
-					description="MOD_REDFEATUREDPRODUCT_PRETEXT"
-				/>
-				<field
-					name="NumberOfProducts"
-					type="text"
-					default="5"
-					label="MOD_REDFEATUREDPRODUCT_NUMBER_OF_PRODUCT_LBL"
-					description="MOD_REDFEATUREDPRODUCT_NUMBER_OF_PRODUCT_DESC"
-				/>
-				<field
-					name="ScrollSortMethod"
-					type="radio"
-					default="random"
-					class="btn-group"
-					label="MOD_REDFEATUREDPRODUCT_SCROLL_SORT_METHOD_LBL"
-					description="MOD_REDFEATUREDPRODUCT_SCROLL_SORT_METHOD_DESC"
-				>
-					<option value="newest">MOD_REDFEATUREDPRODUCT_NEWEST</option>
-					<option value="oldest">MOD_REDFEATUREDPRODUCT_OLDEST</option>
-					<option value="random">MOD_REDFEATUREDPRODUCT_RANDOM</option>
-				</field>
-				<field
-					name="show_product_name"
-					type="radio"
-					default="1"
-					label="MOD_REDFEATUREDPRODUCT_SHOW_PRODUCT_NAME_LBL"
-					description="MOD_REDFEATUREDPRODUCT_SHOW_PRODUCT_NAME_DESC"
-					class="btn-group btn-group-yesno"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="show_addtocart"
-					type="radio"
-					default="1"
-					label="MOD_REDFEATUREDPRODUCT_SHOW_ADD_TO_CART_LBL"
-					description="MOD_REDFEATUREDPRODUCT_SHOW_ADD_TO_CART_DESC"
-					class="btn-group btn-group-yesno"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="show_price"
-					type="radio"
-					default="1"
-					label="MOD_REDFEATUREDPRODUCT_SHOW_PRICE_LBL"
-					description="MOD_REDFEATUREDPRODUCT_SHOW_PRICE_DESC"
-					class="btn-group btn-group-yesno"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="show_vatprice"
-					type="radio"
-					default="1"
-					label="MOD_REDFEATUREDPRODUCT_SHOW_VATPRICE_LBL"
-					description="MOD_REDFEATUREDPRODUCT_SHOW_VATPRICE_DESC"
-					class="btn-group btn-group-yesno"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="thumbwidth"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_WIDTH"
-					description="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_WIDTH"
-					default="100"
-				/>
-				<field
-					name="thumbheight"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_HEIGHT"
-					description="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_HEIGHT"
-					default="100"
-				/>
-				<field
-					name="scrollerheight"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_SCROLLER_HEIGHT"
-					description="MOD_REDFEATUREDPRODUCT_SCROLLER_HEIGHT"
-					default="200"
-				/>
-				<field
-					name="scrollerwidth"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_SCROLLER_WIDTH"
-					description="MOD_REDFEATUREDPRODUCT_SCROLLER_WIDTH"
-					default="700"
-				/>
+    <creationDate>Sep 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_REDFEATUREDPRODUCT_DESC</description>
+    <files>
+        <filename module="mod_redfeaturedproduct">mod_redfeaturedproduct.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <folder module="mod_redfeaturedproduct">images</folder>
+        <folder module="mod_redfeaturedproduct">css</folder>
+        <folder>tmpl</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="pretext"
+                        type="textarea"
+                        default=""
+                        label="MOD_REDFEATUREDPRODUCT_PRETEXT_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_PRETEXT"
+                />
+                <field
+                        name="NumberOfProducts"
+                        type="text"
+                        default="5"
+                        label="MOD_REDFEATUREDPRODUCT_NUMBER_OF_PRODUCT_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_NUMBER_OF_PRODUCT_DESC"
+                />
+                <field
+                        name="ScrollSortMethod"
+                        type="radio"
+                        default="random"
+                        class="btn-group"
+                        label="MOD_REDFEATUREDPRODUCT_SCROLL_SORT_METHOD_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_SCROLL_SORT_METHOD_DESC"
+                >
+                    <option value="newest">MOD_REDFEATUREDPRODUCT_NEWEST</option>
+                    <option value="oldest">MOD_REDFEATUREDPRODUCT_OLDEST</option>
+                    <option value="random">MOD_REDFEATUREDPRODUCT_RANDOM</option>
+                </field>
+                <field
+                        name="show_product_name"
+                        type="radio"
+                        default="1"
+                        label="MOD_REDFEATUREDPRODUCT_SHOW_PRODUCT_NAME_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_SHOW_PRODUCT_NAME_DESC"
+                        class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="show_addtocart"
+                        type="radio"
+                        default="1"
+                        label="MOD_REDFEATUREDPRODUCT_SHOW_ADD_TO_CART_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_SHOW_ADD_TO_CART_DESC"
+                        class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="show_price"
+                        type="radio"
+                        default="1"
+                        label="MOD_REDFEATUREDPRODUCT_SHOW_PRICE_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_SHOW_PRICE_DESC"
+                        class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="show_vatprice"
+                        type="radio"
+                        default="1"
+                        label="MOD_REDFEATUREDPRODUCT_SHOW_VATPRICE_LBL"
+                        description="MOD_REDFEATUREDPRODUCT_SHOW_VATPRICE_DESC"
+                        class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="thumbwidth"
+                        type="text"
+                        size="10"
+                        label="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_WIDTH"
+                        description="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_WIDTH"
+                        default="100"
+                />
+                <field
+                        name="thumbheight"
+                        type="text"
+                        size="10"
+                        label="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_HEIGHT"
+                        description="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_HEIGHT"
+                        default="100"
+                />
+                <field
+                        name="scrollerheight"
+                        type="text"
+                        size="10"
+                        label="MOD_REDFEATUREDPRODUCT_SCROLLER_HEIGHT"
+                        description="MOD_REDFEATUREDPRODUCT_SCROLLER_HEIGHT"
+                        default="200"
+                />
+                <field
+                        name="scrollerwidth"
+                        type="text"
+                        size="10"
+                        label="MOD_REDFEATUREDPRODUCT_SCROLLER_WIDTH"
+                        description="MOD_REDFEATUREDPRODUCT_SCROLLER_WIDTH"
+                        default="700"
+                />
 
-				<field
-					name="show_discountpricelayout"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					label="MOD_REDFEATUREDPRODUCT_SHOW_DISCOUNT_PRICE_LAYOUT"
-					description="MOD_REDFEATUREDPRODUCT_SHOW_DISCOUNT_PRICE_LAYOUT">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-			</fieldset>
+                <field
+                        name="show_discountpricelayout"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="1"
+                        label="MOD_REDFEATUREDPRODUCT_SHOW_DISCOUNT_PRICE_LAYOUT"
+                        description="MOD_REDFEATUREDPRODUCT_SHOW_DISCOUNT_PRICE_LAYOUT">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
 
-			<fieldset
-				name="advanced">
-				<field
-						name="layout"
-						type="modulelayout"
-						label="JFIELD_ALT_LAYOUT_LABEL"
-						description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-				<field
-					name="moduleclass_sfx"
-					type="textarea" rows="3"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
-				/>
-				<field
-					name="class_sfx"
-					type="text"
-					default=""
-					label="MOD_REDFEATUREDPRODUCT_MENU_CLASS_SFX"
-					description="MOD_REDFEATUREDPRODUCT_MENU_CLASS_SFX_DESC"
-				/>
-			</fieldset>
-		</fields>
-	</config>
+            <fieldset
+                    name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+                <field
+                        name="moduleclass_sfx"
+                        type="textarea" rows="3"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+                />
+                <field
+                        name="class_sfx"
+                        type="text"
+                        default=""
+                        label="MOD_REDFEATUREDPRODUCT_MENU_CLASS_SFX"
+                        description="MOD_REDFEATUREDPRODUCT_MENU_CLASS_SFX_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

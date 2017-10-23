@@ -13,24 +13,52 @@
  *
  * @since  1.4
  */
-class ProductManagerPage
+class ProductManagerPage extends AdminJ3Page
 {
 
 
+	public static $namePage="Product Management";
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
     public static $URLNew='/administrator/index.php?option=com_redshop&view=product_detail&layout=edit';
+
     public static $productFilter = ['id' => 'keyword'];
+
     public static $productName = "#product_name";
+
     public static $discountStart = ['id' => "discount_stratdate"];
+
     public static $discountEnd = ['id' => "discount_enddate"];
+
     public static $discountPrice = ['id' => "discount_price"];
+
     public static $minimumPerProduct = ['id' => "minimum_per_product_total"];
+
     public static $minimumQuantity = ['id' => "min_order_product_quantity"];
+
     public static $maximumQuantity = ['id' => "max_order_product_quantity"];
+
+    public static $productNumber= ['id'=>'product_number'];
+
+    public static $productPrice=['id'=>'product_price'];
+
+    public static $category=['xpath' => "//div[@id='s2id_product_category']//ul/li"];
+
+    public static $categoryInput=['xpath' => "//div[@id='s2id_product_category']//ul/li//input"];
+
 
     public static $checkAllProducts="//input[@onclick='Joomla.checkAll(this)']";
 
+    //stockroom for product
+	public static $stockroomTab =['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
+//
+//	public static $stockroomTab =['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
+
+	public static $quantityInStock=['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[2]/input[1]'];
+
+	public static $preOrderStock=['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[4]/input[1]'];
+
+	public static $messageSaveSuccess="Product details saved";
 
 }

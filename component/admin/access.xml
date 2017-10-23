@@ -17,6 +17,10 @@
         <action name="field.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="field.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
         <action name="field.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="voucher.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="voucher.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="voucher.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="voucher.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <!--
         <action name="product.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
         <action name="product.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
@@ -67,14 +71,6 @@
         <action name="product_discount.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="product_discount.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
         <action name="product_discount.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
-        <action name="voucher.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
-        <action name="voucher.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
-        <action name="voucher.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
-        <action name="voucher.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
-        <action name="field.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
-        <action name="field.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
-        <action name="field.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
-        <action name="field.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <action name="text_library.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
         <action name="text_library.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="text_library.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />

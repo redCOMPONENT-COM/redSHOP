@@ -346,7 +346,7 @@ if (!$slide)
 				$categoryFullImage = $row->category_full_image;
 				$product_img       = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 				$linkimage         = RedshopHelperMedia::watermark(
-				        'category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+						'category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 			}
 			elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 			{
@@ -435,18 +435,18 @@ if (!$slide)
 	if (strpos($template_desc, "{product_price_slider}") !== false)
 	{
 		$price_slider  = '<div id="pricefilter">
-			    <div class="left" id="leftSlider">
-			        <div id="range">' . JText::_('COM_REDSHOP_PRICE') . ': <span id="redcatamount"> </span></div>
-			        <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="redcatslider">
-			        	<div style="left: 52.381%; width: 0%;" class="ui-slider-range ui-widget-header"></div>
-			        	<a style="left: 52.381%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-			        	<a style="left: 52.381%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-			        </div>
+				<div class="left" id="leftSlider">
+					<div id="range">' . JText::_('COM_REDSHOP_PRICE') . ': <span id="redcatamount"> </span></div>
+					<div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="redcatslider">
+						<div style="left: 52.381%; width: 0%;" class="ui-slider-range ui-widget-header"></div>
+						<a style="left: 52.381%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+						<a style="left: 52.381%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+					</div>
 				</div>
 				<div class="left" id="blankfilter"></div>
 				<div class="left" id="productsWrap">
-			        <div style="display: none;" id="ajaxcatMessage">' . JText::_('COM_REDSHOP_LOADING') . '</div>
-			    </div>
+					<div style="display: none;" id="ajaxcatMessage">' . JText::_('COM_REDSHOP_LOADING') . '</div>
+				</div>
 			</div>';
 		$template_desc = str_replace("{product_price_slider}", $price_slider, $template_desc);
 		$product_tmpl  = JText::_('COM_REDSHOP_NO_PRODUCT_FOUND');
@@ -512,7 +512,9 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 			for ($m = 0, $nm = count($media_documents); $m < $nm; $m++)
 			{
-				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+				$alttext = RedshopHelperMedia::getAlternativeText(
+					"product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document"
+				);
 
 				if (!$alttext)
 				{
@@ -616,7 +618,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		/************** end user fields ***************************/
 
 		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$catidmain = Jrequest::getVar("cid");
+		$catidmain = JFactory::getApplication()->input->get("cid");
 
 		if (count($ItemData) > 0)
 		{
@@ -975,17 +977,40 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		// Get cart tempalte
 		$data_add = $producthelper->replaceCartTemplate(
-															$product->product_id,
-															$this->catid,
-															0,
-															0,
-															$data_add,
-															$isChilds,
-															$userfieldArr,
-															$totalatt,
-															$product->total_accessories,
-															$count_no_user_field
-														);
+			$product->product_id,
+			$this->catid,
+			0,
+			0,
+			$data_add,
+			$isChilds,
+			$userfieldArr,
+			$totalatt,
+			$product->total_accessories,
+			$count_no_user_field
+		);
+
+		//  Extra field display
+		$extraFieldName = $extraField->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT);
+		$data_add       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
+
+		$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
+		$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
+		$stockStatus             = strstr($data_add, "{stock_status");
+
+		$attributeproductStockStatus = array();
+
+		if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+		{
+			$attributeproductStockStatus = $producthelper->getproductStockStatus($product->product_id, $totalatt);
+		}
+
+		$data_add = $producthelper->replaceProductStockdata(
+			$product->product_id,
+			0,
+			0,
+			$data_add,
+			$attributeproductStockStatus
+		);
 
 		$this->dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
 

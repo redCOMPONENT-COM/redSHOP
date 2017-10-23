@@ -25,7 +25,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -111,7 +111,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$logo = JRequest::getVar('shopper_group_logo', '', 'files', '');
+		$logo = JFactory::getApplication()->input->files->get('shopper_group_logo', '');
 
 		if ($logo['name'] != "" || $data['shopper_group_logo_tmp'] != null)
 		{

@@ -64,6 +64,9 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_checkout": [
+      "kerry_express"
+    ],
     "redshop_export": [
       "attribute",
       "category",
@@ -115,13 +118,13 @@
       "rs_payment_banktransfer_discount",
       "rs_payment_beanstream",
       "rs_payment_braintree",
+      "rs_payment_cod",
       "rs_payment_dibspaymentmethod",
       "rs_payment_eantransfer",
       "rs_payment_epayv2",
       "rs_payment_eway",
       "rs_payment_eway3dsecure",
       "rs_payment_giropay",
-      "rs_payment_googlecheckout",
       "rs_payment_imglobal",
       "rs_payment_moneris",
       "rs_payment_moneybooker",
@@ -155,7 +158,8 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "sync_b2b"
+      "sync_b2b",
+      "wss_datafeed"
     ],
     "redshop_product_type": [
       "bundle",

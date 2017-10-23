@@ -40,8 +40,8 @@ class RedshopModelAttributeprices extends RedshopModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$section_id = JRequest::getVar('section_id');
-		$this->_section = JRequest::getVar('section');
+		$section_id     = $app->input->get('section_id');
+		$this->_section = $app->input->get('section');
 		$this->setSectionId((int) $section_id);
 	}
 

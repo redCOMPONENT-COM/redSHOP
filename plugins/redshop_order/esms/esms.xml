@@ -11,12 +11,14 @@
     <license>GNU/GPL</license>
     <description>PLG_REDSHOP_ORDER_ESMS_DESC</description>
     <files>
+        <folder>form</folder>
         <folder>language</folder>
+        <folder>layouts</folder>
         <filename plugin="esms">esms.php</filename>
         <filename>index.html</filename>
     </files>
     <config>
-        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params" addfieldpath="/plugins/redshop_order/esms/form/fields">
             <fieldset name="basic">
                 <field
                         name="api_key"
@@ -53,25 +55,11 @@
                     <option value="7">PLG_REDSHOP_ORDER_ESMS_API_TYPE_7</option>
                     <option value="8">PLG_REDSHOP_ORDER_ESMS_API_TYPE_8</option>
                 </field>
-                <field
-                        name="status"
-                        type="orderstatus"
-                        multiple="true"
-                        required="true"
-                        class="input-xxlarge"
-                        label="PLG_REDSHOP_ORDER_ESMS_ORDER_STATUS"
-                        description="PLG_REDSHOP_ORDER_ESMS_ORDER_STATUS_DESC">
-                </field>
-                <field
-                        name="content"
-                        type="textarea"
-                        maxlength="160"
-                        default="Order ID: {order_id} in {shop_name} has been updated to {status}"
-                        required="true"
-                        rows="4"
-                        class="input-xxlarge"
-                        label="PLG_REDSHOP_ORDER_ESMS_CONTENT"
-                        description="PLG_REDSHOP_ORDER_ESMS_CONTENT_DESC">
+                <field 
+                        name="status_content" 
+                        type="statuscontent"
+                        label="PLG_REDSHOP_ORDER_ESMS_ORDER_STATUS_CONTENT"
+                        description="PLG_REDSHOP_ORDER_ESMS_ORDER_STATUS_CONTENT_DESC">
                 </field>
             </fieldset>
         </fields>

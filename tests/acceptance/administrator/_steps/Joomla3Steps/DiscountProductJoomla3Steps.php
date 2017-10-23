@@ -54,6 +54,50 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\DiscountProductJ3Page::$productPrice, 30);
     }
 
+	public function addDiscountToday($productPrice, $condition, $type, $discountAmount, $nameCate, $groupName)
+	{
+		$I = $this;
+		$I->amOnPage(\DiscountProductJ3Page::$URL);
+		$I->click(\DiscountProductJ3Page::$newButton);
+		$I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
+		$I->checkForPhpNoticesOrWarnings();
+		$userDiscountPage = new\DiscountProductJ3Page();
+		$I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
+
+		$I->click(\DiscountProductJ3Page::$condition);
+		$I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
+		$I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
+
+		$I->waitForElement($userDiscountPage->returnType($condition), 60);
+		$I->click($userDiscountPage->returnType($condition));
+
+		$I->click(\DiscountProductJ3Page::$discountType);
+		$I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
+		$I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
+
+		$I->waitForElement($userDiscountPage->returnType($type), 60);
+		$I->click($userDiscountPage->returnType($type));
+
+
+		$I->fillField(\DiscountProductJ3Page::$discountAmount, $discountAmount);
+		$I->click(\DiscountProductJ3Page::$category);
+		$I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
+
+		$I->waitForElement($userDiscountPage->returnType($nameCate), 60);
+		$I->click($userDiscountPage->returnType($nameCate));
+
+
+		$I->click(\DiscountProductJ3Page::$shopperGroup);
+		$I->fillField(\DiscountProductJ3Page::$shopperGroupInput, $groupName);
+
+		$I->waitForElement($userDiscountPage->returnType($groupName), 60);
+		$I->click($userDiscountPage->returnType($groupName));
+
+
+		$I->click(\DiscountProductJ3Page::$saveButton);
+		$I->waitForElement(\DiscountProductJ3Page::$productPrice, 30);
+	}
+
     public function addDiscountProductSaveClose($productPrice, $condition, $type, $discountAmount, $startDate, $endDate, $nameCate, $groupName)
     {
         $I = $this;

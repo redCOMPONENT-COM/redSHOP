@@ -14,6 +14,9 @@
                 class="form-control"
                 default=""
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
                 />
         <field
                 name="type"
@@ -22,7 +25,9 @@
                 default="0"
                 label="COM_REDSHOP_MASS_DISCOUNT_TYPE"
                 description="COM_REDSHOP_MASS_DISCOUNT_TYPE_DESC"
-                required="true">
+                required="true"
+                table-sortable="1"
+                table-width="5%">
             <option value="1">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE</option>
             <option value="0">COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_TOTAL</option>
         </field>
@@ -35,6 +40,9 @@
                 default=""
                 filter="float"
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
                 />
         <field
                 name="start_date"
@@ -44,6 +52,8 @@
                 class="form-control"
                 default=""
                 readonly="true"
+                table-sortable="1"
+                table-width="10%"
                 />
         <field
                 name="end_date"
@@ -53,6 +63,8 @@
                 class="form-control"
                 default=""
                 readonly="true"
+                table-sortable="1"
+                table-width="10%"
                 />
         <field
                 name="discount_product"

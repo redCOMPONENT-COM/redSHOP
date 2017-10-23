@@ -10,10 +10,11 @@
                 type="rcountries"
                 label="COM_REDSHOP_STATE_COUNTRY"
                 class="form-control"
-                description="COM_REDSHOP_COUNTRY_DESC"
-                required="true">
-            <option value="">COM_REDSHOP_SELECT_COUNTRY</option>
-        </field>
+                description="COM_REDSHOP_STATE_COUNTRY_DESC"
+                required="true"
+                table-sortable="1"
+                table-width="10%"
+        />
         <field
                 name="state_name"
                 type="redshop.text"
@@ -23,6 +24,9 @@
                 class="form-control"
                 default=""
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
                 />
         <field
                 name="state_3_code"
@@ -33,7 +37,11 @@
                 size="3"
                 class="input-xs"
                 default=""
+                maxlength="3"
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
                 />
         <field
                 name="state_2_code"
@@ -45,6 +53,10 @@
                 class="input-xs"
                 default=""
                 required="true"
+                maxlength="2"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
                 />
         <field
                 name="show_state"
@@ -53,7 +65,9 @@
                 description="COM_REDSHOP_STATE_DISPLAY_ABBERVIATION_DESC"
                 label-class="radio-inline"
                 default="2"
-                required="true">
+                required="true"
+                table-sortable="1"
+                table-width="15%">
             <option value="2">COM_REDSHOP_TWO_LETTER_ABBRIVATION</option>
             <option value="3">COM_REDSHOP_THREE_LETTER_ABBRIVATION</option>
         </field>

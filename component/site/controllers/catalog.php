@@ -26,8 +26,9 @@ class RedshopControllerCatalog extends RedshopController
 	 */
 	public function catalog_send()
 	{
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getVar('Itemid');
+		$input  = JFactory::getApplication()->input;
+		$post   = $input->post->getArray();
+		$Itemid = $input->get('Itemid');
 
 		$model  = $this->getModel('catalog');
 		$post["registerDate"] = time();
@@ -55,9 +56,9 @@ class RedshopControllerCatalog extends RedshopController
 	 */
 	public function catalogsample_send()
 	{
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getVar('Itemid');
-
+		$input  = JFactory::getApplication()->input;
+		$post   = $input->post->getArray();
+		$Itemid = $input->get('Itemid');
 		$model  = $this->getModel('catalog');
 
 		if (isset($post["sample_code"]))

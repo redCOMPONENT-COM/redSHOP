@@ -27,7 +27,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 	{
 		$app     = JFactory::getApplication();
 		$input   = $app->input;
-		$post    = JRequest::get('post');
+		$post    = $input->post->getArray();
 		$return  = $input->getString('return', '');
 		$itemId  = $input->getInt('Itemid', 0);
 		$setExit = $input->getInt('setexit', 1);
@@ -72,8 +72,9 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	public function remove()
 	{
-		$Itemid = JRequest::getVar('Itemid');
-		$infoid = JRequest::getInt('infoid', 0);
+		$input  = JFactory::getApplication()->input;
+		$Itemid = $input->get('Itemid');
+		$infoid = $input->getInt('infoid', 0);
 		$model  = $this->getModel('account_shipto');
 
 		if (!$infoid)
@@ -87,7 +88,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		}
 
 		$msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
-		$return = JRequest::getVar('return');
+		$return = $input->get('return');
 
 		if ($return != "")
 		{
@@ -108,11 +109,12 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	function cancel()
 	{
-		$Itemid                = JRequest::getInt('Itemid');
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$input                 = JFactory::getApplication()->input;
+		$Itemid                = $input->getInt('Itemid');
+		$post['users_info_id'] = $input->getInt('cid');
 		$msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
-		$return                = JRequest::getVar('return');
-		$setexit               = JRequest::getInt('setexit', 1);
+		$return                = $input->get('return');
+		$setexit               = $input->getInt('setexit', 1);
 		$link                  = '';
 
 		if ($return != "")

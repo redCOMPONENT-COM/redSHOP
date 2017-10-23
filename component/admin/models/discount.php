@@ -24,9 +24,9 @@ class RedshopModelDiscount extends RedshopModel
 		// Different context depending on the view
 		if (empty($this->context))
 		{
-			$input = JFactory::getApplication()->input;
-			$view = $input->getString('view', '');
-			$layout = $input->getString('layout', 'none');
+			$this->input = JFactory::getApplication()->input;
+			$view = $this->input->getCmd('view', '');
+			$layout = $this->input->getCmd('layout', '');
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
@@ -73,7 +73,7 @@ class RedshopModelDiscount extends RedshopModel
 		$this->setState('spgrpdis_filter', $spgrpdis_filter);
 		$this->setState('discount_type', $discount_type);
 		$this->setState('name_filter', $name_filter);
-		$layout = JFactory::getApplication()->input->getCmd('layout', '');
+		$layout = $this->input->getCmd('layout', '');
 
 		if ($layout == 'product')
 		{
@@ -87,7 +87,7 @@ class RedshopModelDiscount extends RedshopModel
 	{
 		$where = "";
 		$orderby = $this->_buildContentOrderBy();
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
 		$discount_type = $this->getState('discount_type');
 		$name_filter = $this->getState('name_filter');
@@ -125,9 +125,8 @@ class RedshopModelDiscount extends RedshopModel
 	public function _buildContentOrderBy()
 	{
 		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
 
-		$layout = $app->input->getCmd('layout', '');
+		$layout = $this->input->getCmd('layout', '');
 
 		if (isset($layout) && $layout == 'product')
 		{

@@ -27,7 +27,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 		$this->_order_functions = order_functions::getInstance();
 		$this->_db = JFactory::getDbo();
@@ -69,7 +69,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function setBilling()
 	{
-		$post = JRequest::get('post');
+		$post = JFactory::getApplication()->input->post->getArray();
 
 		$is_company = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 		$detail = new stdClass;
@@ -97,7 +97,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function setShipping()
 	{
-		$post = JRequest::get('post');
+		$post = JFactory::getApplication()->input->post->getArray();
 
 		$detail = new stdClass;
 		$detail->billisship = (isset($post['billisship'])) ? $post['billisship'] : 1;

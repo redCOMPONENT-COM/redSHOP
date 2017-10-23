@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-$configobj = Redconfiguration::getInstance();
+$configobj       = Redconfiguration::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper       = redhelper::getInstance();
 
 $url = JURI::base();
 $Itemid = RedshopHelperUtility::getCheckoutItemId();
-$order_id = JRequest::getInt('oid');
+$order_id = JFactory::getApplication()->input->getInt('oid');
 
-$order = $order_functions->getOrderDetails($order_id);
+$order     = $order_functions->getOrderDetails($order_id);
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
@@ -114,7 +114,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 			if (is_array($results) && $key !== false)
 			{
 				$app = JFactory::getApplication();
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid, false));
 			}
 		}
 	}
@@ -122,7 +122,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 else
 {
 	$app = JFactory::getApplication();
-	$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid));
+	$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid, false));
 }
 ?>
 </div>

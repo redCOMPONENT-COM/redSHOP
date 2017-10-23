@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper Product Price
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperProductPrice
 {
@@ -32,7 +32,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  null|object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getProductSpecialPrice($productPrice, $discountStringIds, $productId = 0)
 	{
@@ -139,7 +139,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function priceReplacement($productPrice)
 	{
@@ -156,7 +156,7 @@ class RedshopHelperProductPrice
 				. Redshop::getConfig()->get('PRICE_REPLACE') . "</a>" : Redshop::getConfig()->get('PRICE_REPLACE');
 		}
 
-		if (Redshop::getConfig()->get('SHOW_PRICE') && trim($productPrice) != "")
+		if (Redshop::getConfig()->get('SHOW_PRICE'))
 		{
 			if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '0')
 				|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == '1'))
@@ -179,7 +179,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  string                    Formatted Product Price
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function formattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
@@ -191,15 +191,19 @@ class RedshopHelperProductPrice
 		// If convert set true than use conversation
 		if ($convert && $session->get('product_currency'))
 		{
-			$productPrice = RedshopHelperCurrency::convert($productPrice);
+			$productPrice    = RedshopHelperCurrency::convert($productPrice);
+			$productCurrency = $session->get('product_currency');
+			$currencySymbol  = (int) $productCurrency;
+			$currencySymbol  = !$currencySymbol ?
+				$productCurrency : RedshopEntityCurrency::getInstance($productCurrency)->get('currency_code');
 
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$currencySymbol = " " . $session->get('product_currency');
+				$currencySymbol = " " . $currencySymbol;
 			}
 			else
 			{
-				$currencySymbol = $session->get('product_currency') . " ";
+				$currencySymbol = $currencySymbol . " ";
 			}
 		}
 
@@ -238,7 +242,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function priceRound($productPrice)
 	{
@@ -256,7 +260,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getNetPrice($productId, $userId = 0, $quantity = 1, $templateHtml = '', $attributes = array())
 	{
@@ -283,7 +287,7 @@ class RedshopHelperProductPrice
 		// Set Product Custom Price through product plugin
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
-		$results = $dispatcher->trigger('setProductCustomPrice', array($productId));
+		$results = $dispatcher->trigger('setProductCustomPrice', array($productId, $quantity));
 
 		if (count($results) > 0 && $results[0])
 		{
@@ -495,7 +499,7 @@ class RedshopHelperProductPrice
 	 *
 	 * @return mixed|string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getShowPrice($productId, $templateHtml, $seoTemplate = "", $userId = 0, $isRel = false, $attributes = array())
 	{
