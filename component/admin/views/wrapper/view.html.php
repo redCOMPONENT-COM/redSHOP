@@ -31,11 +31,10 @@ class RedshopViewWrapper extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$product_id = JRequest::getVar('product_id');
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$uri       = JFactory::getURI();
+		$app       = JFactory::getApplication();
+		$document  = JFactory::getDocument();
+		$product_id = $app->input->get('product_id');
 
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 

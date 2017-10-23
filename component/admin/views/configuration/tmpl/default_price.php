@@ -91,6 +91,19 @@ echo RedshopLayoutHelper::render(
             value="' . $this->config->get('CALCULATION_PRICE_DECIMAL') . '" />'
 	)
 );
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title'  => JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_LBL'),
+		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_ZERO_PRICE_REPLACEMENT_LBL'),
+		'id'     => 'zero_price_replacement',
+		'showOn' => 'show_price:1',
+		'field'  => '<input type="text" name="zero_price_replacement" id="zero_price_replacement" class="form-control"
+            value="' . $this->config->get('ZERO_PRICE_REPLACE') . '" />'
+	)
+);
+
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(

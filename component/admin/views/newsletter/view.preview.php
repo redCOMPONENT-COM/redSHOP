@@ -14,14 +14,15 @@ class RedshopViewNewsletter extends RedshopView
 {
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
 		$context = 'newsletter_preview';
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $app->input->post->get('cid', array(0), 'array');
 
-		$selected_product = JRequest::getVar('product', '');
-		$n = $cid[0];
-		$model = $this->getModel('newsletter');
-		$subscribers = $model->listallsubscribers($n);
+		$selected_product = $app->input->get('product', '');
+		$n                = $cid[0];
+		$model            = $this->getModel('newsletter');
+		$subscribers      = $model->listallsubscribers($n);
 		$product_category = new product_category;
 
 		$document = JFactory::getDocument();
@@ -33,7 +34,6 @@ class RedshopViewNewsletter extends RedshopView
 		JToolBarHelper::cancel('close', JText::_('JTOOLBAR_CLOSE'));
 
 		$uri = JFactory::getURI();
-		$app = JFactory::getApplication();
 
 		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -43,7 +43,7 @@ class RedshopViewNewsletter extends RedshopView
 		$newsletters = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$oprand = JFactory::getApplication()->input->getCmd('oprand', 'select');
+		$oprand = $app->input->getCmd('oprand', 'select');
 
 		$optionoprand = array();
 		$optionoprand[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
@@ -59,7 +59,7 @@ class RedshopViewNewsletter extends RedshopView
 
 		$country_data = array_merge($country_option, $country);
 
-		$country_value = JRequest::getVar('country', '');
+		$country_value = $app->input->get('country', '');
 
 		$lists['country'] = JHTML::_('select.genericlist', $country_data, 'country[]',
 			'class="inputbox" multiple="multiple" size="4" ', 'value', 'text', $country_value
@@ -77,11 +77,11 @@ class RedshopViewNewsletter extends RedshopView
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $selected_product
 		);
 
-		$shopper_option = array();
+		$shopper_option   = array();
 		$shopper_option[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
-		$shoppergroup = JRequest::getVar('shoppergroups', '');
-		$ShopperGrup = $model->getShopperGroup();
-		$ShopperGroups = array_merge($shopper_option, $ShopperGrup);
+		$shoppergroup     = $app->input->get('shoppergroups', '');
+		$ShopperGrup      = $model->getShopperGroup();
+		$ShopperGroups    = array_merge($shopper_option, $ShopperGrup);
 
 		$lists['shoppergroups'] = JHTML::_('select.genericlist', $ShopperGroups, 'shoppergroups[]',
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup

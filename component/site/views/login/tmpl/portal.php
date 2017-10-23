@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$Itemid         = JRequest::getInt('Itemid');
+$app            = JFactory::getApplication();
+$Itemid         = $app->input->getInt('Itemid');
 $loginlink      = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
 $newuser_link   = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
-$shoppergroupid = JRequest::getInt('protalid', 0);
+$shoppergroupid = $app->input->getInt('protalid', 0);
 
 $returnitemid = $Itemid;
 

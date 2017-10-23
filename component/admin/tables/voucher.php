@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopTableVoucher extends RedshopTable
 {
@@ -140,7 +140,7 @@ class RedshopTableVoucher extends RedshopTable
 
 		$products = $this->getOption('products', null);
 
-		if (empty($products))
+		if (empty(array_filter($products)))
 		{
 			return true;
 		}

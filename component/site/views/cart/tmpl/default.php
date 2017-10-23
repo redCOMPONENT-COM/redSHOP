@@ -26,7 +26,7 @@ $idx     = $cart['idx'];
 $model   = $this->getModel('cart');
 $session = JFactory::getSession();
 $user    = JFactory::getUser();
-$print   = JRequest::getInt('print');
+$print   = JFactory::getApplication()->input->getInt('print');
 $Itemid  = RedshopHelperUtility::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display

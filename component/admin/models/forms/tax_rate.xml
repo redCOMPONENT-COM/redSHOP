@@ -14,6 +14,9 @@
                 class="form-control"
                 default=""
                 required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
                 />
         <field
                 name="tax_group_id"
@@ -22,7 +25,9 @@
                 description="COM_REDSHOP_TAX_RATE_GROUP_DESC"
                 class="form-control"
                 required="true"
-                default="">
+                default=""
+                table-sortable="1"
+                table-width="20%">
             <option value="">COM_REDSHOP_TAX_RATE_GROUP_SELECT</option>
         </field>
         <field
@@ -33,7 +38,9 @@
                 class="form-control"
                 idfield="country_3_code"
                 onchange="javascript:updateState(this.value)"
-                default="">
+                default=""
+                table-sortable="1"
+                table-width="10%">
             <option value="">COM_REDSHOP_TAX_RATE_COUNTRY_SELECT</option>
         </field>
         <field
@@ -43,7 +50,9 @@
                 description="COM_REDSHOP_TAX_RATE_STATE_DESC"
                 class="form-control"
                 default=""
-                idfield="state_3_code">
+                idfield="state_3_code"
+                table-sortable="1"
+                table-width="10%">
             <option value="">COM_REDSHOP_TAX_RATE_STATE_SELECT</option>
         </field>
         <field
@@ -55,6 +64,8 @@
                 class="form-control"
                 default=""
                 filter="float"
+                table-sortable="1"
+                table-width="10%"
                 />
         <field
                 name="is_eu_country"
@@ -63,7 +74,8 @@
                 description="COM_REDSHOP_TAX_RATE_EU_DESC"
                 label-class="radio-inline"
                 default="0"
-                required="true">
+                required="true"
+                table-hide="1">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>

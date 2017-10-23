@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 $producthelper = productHelper::getInstance();
 $session       = JFactory::getSession();
 
-$post = JRequest::get('get');
+$post = JFactory::getApplication()->input->get->getArray();
 
 $ordertotal          = $post['ordertotal'];
 $ordersubtotal       = $post['ordersubtotal'];

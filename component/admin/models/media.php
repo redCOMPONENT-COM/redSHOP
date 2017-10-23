@@ -69,7 +69,7 @@ class RedshopModelMedia extends RedshopModel
 		$media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
 		$this->setState('media_type', $media_type);
 
-		$folder = JRequest::getVar('folder', '', '', 'path');
+		$folder = JFactory::getApplication()->input->getPath('folder', '');
 		$this->setState('folder', $folder);
 
 		$parent = str_replace("\\", "/", dirname($folder));
@@ -367,7 +367,7 @@ class RedshopModelMedia extends RedshopModel
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable('media_detail');
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
 		$conditions = array();
 
 		// Update ordering values

@@ -60,7 +60,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$redconfig = Redconfiguration::getInstance();
 
-		$request = JRequest::get('request');
+		$request = $this->input->getArray();
 
 		// Get Order Detail
 		$order = $this->_order_functions->getOrderDetails($request['order_id']);
@@ -72,7 +72,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$shippingaddresses    = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
 
-		$Itemid               = JRequest::getInt('Itemid');
+		$Itemid               = $this->input->getInt('Itemid');
 
 		if (isset($billingaddresses))
 		{
@@ -111,7 +111,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
 		$ccdata['order_payment_expire_year']  = $request['order_payment_expire_year'];
 		$ccdata['credit_card_code']           = $request['credit_card_code'];
-		$ccdata['selectedCardId']             = $app->input->getString('selectedCard');
+		$ccdata['selectedCardId']             = $this->input->getString('selectedCard');
 
 		// Create session
 		$session->set('ccdata', $ccdata);
@@ -166,8 +166,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
-		$request = JRequest::get('request');
-		$Itemid  = JRequest::getInt('Itemid');
+		$request = $this->input->getArray();
+		$Itemid  = $this->input->getInt('Itemid');
 		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
@@ -246,7 +246,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		// If empty then load order item detail from order table
 		if (empty($row))
 		{
-			$order_item_id = $app->input->getInt('order_item_id');
+			$order_item_id = $this->input->getInt('order_item_id');
 
 			$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
 			$row = (array) $orderItem[0];
@@ -352,7 +352,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function reorder()
 	{
 		$app     = JFactory::getApplication();
-		$orderId = $app->input->getInt('order_id');
+		$orderId = $this->input->getInt('order_id');
 
 		if ($orderId)
 		{
@@ -385,8 +385,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$app       = JFactory::getApplication();
 		$redconfig = Redconfiguration::getInstance();
-		$Itemid    = JRequest::getInt('Itemid');
-		$order_id  = JRequest::getInt('order_id');
+		$Itemid    = $this->input->getInt('Itemid');
+		$order_id  = $this->input->getInt('order_id');
 
 		$order       = $this->_order_functions->getOrderDetails($order_id);
 		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
@@ -438,9 +438,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function AjaxOrderPaymentStatusCheck()
 	{
-		$app = JFactory::getApplication();
-
-		$orderId = $app->input->post->getInt('id');
+		$orderId = $this->input->post->getInt('id');
 
 		$orderPaymentStatus = RedshopEntityOrder::load($orderId)->get('order_payment_status');
 
@@ -453,7 +451,5 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		ob_clean();
 		echo $status;
-
-		$app->close();
 	}
 }

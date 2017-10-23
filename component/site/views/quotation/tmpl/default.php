@@ -11,16 +11,17 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 $redTemplate = Redtemplate::getInstance();
-$carthelper = rsCarthelper::getInstance();
+$carthelper  = rsCarthelper::getInstance();
+$app         = JFactory::getApplication();
 
-$Itemid = JRequest::getInt('Itemid');
-$return = JRequest::getString('return');
+$Itemid  = $app->input->getInt('Itemid');
+$return  = $app->input->getString('return');
 $session = JFactory::getSession();
-$cart = $session->get('cart');
+$cart    = $session->get('cart');
 
-$detail = $this->detail;
-$user = JFactory::getUser();
-$extraField   = extraField::getInstance();
+$detail     = $this->detail;
+$user       = JFactory::getUser();
+$extraField = extraField::getInstance();
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 

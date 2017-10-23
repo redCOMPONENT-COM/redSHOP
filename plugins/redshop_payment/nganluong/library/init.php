@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,516 +14,215 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Plugins
  * @subpackage  NganLuong
- * @since       1.6
+ * @since       2.0.0
  */
-class NL_CheckOutV3
+class NL_Checkout
 {
-	public $url_api           = 'https://www.nganluong.vn/checkout.api.nganluong.post.php';
+	/**
+	 * Địa chỉ thanh toán hoá đơn của NgânLượng.vn
+	 *
+	 * @var  string
+	 *
+	 * @since  2.0
+	 */
+	public $nganluongUrl = 'https://www.nganluong.vn/checkout.php';
 
-	public $merchant_id       = '';
+	/**
+	 * Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
+	 *
+	 * @var  string
+	 *
+	 * @since  2.0
+	 */
+	public $merchantSiteCode = '275';
 
-	public $merchant_password = '';
+	/**
+	 * Mật khẩu giao tiếp giữa website của bạn và NgânLượng.vn.Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
+	 *
+	 * @var  string
+	 *
+	 * @since  2.0
+	 */
+	public $securePass = '123456';
 
-	public $receiver_email    = '';
+	/**
+	 * Nếu bạn thay đổi mật khẩu giao tiếp trong quản trị website của chức năng tích hợp thanh toán trên NgânLượng.vn, vui lòng update lại mật khẩu này trên website của bạn
+	 *
+	 * @var  string
+	 *
+	 * @since  2.0
+	 */
+	public $affiliateCode = '';
 
-	public $cur_code          = 'vnd';
-
-	function __construct($merchant_id, $merchant_password, $receiver_email, $url_api)
+	/**
+	 * HÀM TẠO ĐƯỜNG LINK THANH TOÁN QUA NGÂNLƯỢNG.VN VỚI THAM SỐ MỞ RỘNG
+	 *
+	 * @param   string  $returnUrl        Đường link dùng để cập nhật tình trạng hoá đơn tại website của bạn khi người mua thanh toán thành công tại  NgânLượng.vn
+	 * @param   string  $receiver         Địa chỉ Email chính của tài khoản NgânLượng.vn của người bán dùng nhận tiền bán hàng
+	 * @param   string  $transactionInfo  Tham số bổ sung, bạn có thể dùng để lưu các tham số tuỳ ý để cập nhật thông tin khi NgânLượng.vn trả kết quả về
+	 * @param   string  $orderCode        Mã hoá đơn hoặc tên sản phẩm
+	 * @param   int     $price            Tổng tiền hoá đơn/sản phẩm, chưa kể phí vận chuyển, giảm giá, thuế.
+	 * @param   string  $currency         Loại tiền tệ, nhận một trong các giá trị 'vnd', 'usd'. Mặc định đồng tiền thanh toán là 'vnd'
+	 * @param   int     $quantity         Số lượng sản phẩm
+	 * @param   int     $tax              Thuế
+	 * @param   int     $discount         Giảm giá
+	 * @param   int     $feeCal           Nhận giá trị 0 hoặc 1. Do trên hệ thống NgânLượng.vn cho phép chủ tài khoản cấu hình cho nhập/thay đổi phí lúc thanh toán hay không. Nếu website của bạn đã có phí vận chuyển và không cho sửa thì đặt tham số này = 0
+	 * @param   int     $feeShipping      Phí vận chuyển
+	 * @param   string  $orderDescription Mô tả về sản phẩm, đơn hàng
+	 * @param   string  $buyerInfo        Thông tin người mua
+	 * @param   string  $affiliateCode    Mã đối tác tham gia chương trình liên kết của NgânLượng.vn
+	 *
+	 * @return string
+	 */
+	public function buildCheckoutUrlExpand($returnUrl, $receiver, $transactionInfo, $orderCode, $price, $currency = 'vnd', $quantity = 1, $tax = 0, $discount = 0, $feeCal = 0, $feeShipping = 0, $orderDescription = '', $buyerInfo = '', $affiliateCode = '')
 	{
-		$this->version           = '3.1';
-		$this->url_api           = $url_api;
-		$this->merchant_id       = $merchant_id;
-		$this->merchant_password = $merchant_password;
-		$this->receiver_email    = $receiver_email;
-	}
+		if ($affiliateCode == "")
+		{
+			$affiliateCode = $this->affiliateCode;
+		}
 
-	function GetTransactionDetail($token)
-	{
-		$params = array(
-			'merchant_id'       => $this->merchant_id ,
-			'merchant_password' => MD5($this->merchant_password),
-			'version'           => $this->version,
-			'function'          => 'GetTransactionDetail',
-			'token'             => $token
+		$arrParam = array(
+			'merchant_site_code' => strval($this->merchantSiteCode),
+			'return_url'         => strval(strtolower($returnUrl)),
+			'receiver'           => strval($receiver),
+			'transaction_info'   => strval($transactionInfo),
+			'order_code'         => strval($orderCode),
+			'price'              => strval($price),
+			'currency'           => strval($currency),
+			'quantity'           => strval($quantity),
+			'tax'                => strval($tax),
+			'discount'           => strval($discount),
+			'fee_cal'            => strval($feeCal),
+			'fee_shipping'       => strval($feeShipping),
+			'order_description'  => strval($orderDescription),
+			'buyer_info'         => strval($buyerInfo),
+			'affiliate_code'     => strval($affiliateCode)
 		);
 
-		$post_field = '';
+		$secureCode              = implode(' ', $arrParam) . ' ' . $this->securePass;
+		$arrParam['secure_code'] = md5($secureCode);
+		$redirectUrl             = $this->nganluongUrl;
 
-		foreach ($params as $key => $value)
+		if (strpos($redirectUrl, '?') === false)
 		{
-			if ($post_field != '')
-				$post_field .= '&';
-			$post_field .= $key . "=" . $value;
+			$redirectUrl .= '?';
+		}
+		elseif (substr($redirectUrl, strlen($redirectUrl) - 1, 1) != '?' && strpos($redirectUrl, '&') === false)
+		{
+			$redirectUrl .= '&';
 		}
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $this->url_api);
-		curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-		curl_setopt($ch, CURLOPT_VERBOSE, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_field);
-		$result = curl_exec($ch);
-		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$error = curl_error($ch);
+		$url = '';
 
-		if ($result != '' && $status == 200)
+		foreach ($arrParam as $key => $value)
 		{
-			$nl_result  = simplexml_load_string($result);
+			$value = urlencode($value);
 
-			return $nl_result;
+			if ($url == '')
+			{
+				$url .= $key . '=' . $value;
+			}
+			else
+			{
+				$url .= '&' . $key . '=' . $value;
+			}
 		}
 
-		return false;
+		return $redirectUrl . $url;
 	}
 
-	function VisaCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items, $bank_code)
+	/**
+	 * HÀM TẠO ĐƯỜNG LINK THANH TOÁN QUA NGÂNLƯỢNG.VN VỚI THAM SỐ CƠ BẢN
+	 *
+	 * @param   string  $returnUrl        Đường link dùng để cập nhật tình trạng hoá đơn tại website của bạn khi người mua thanh toán thành công tại NgânLượng.vn
+	 * @param   string  $receiver         Địa chỉ Email chính của tài khoản NgânLượng.vn của người bán dùng nhận tiền bán hàng
+	 * @param   string  $transactionInfo  Tham số bổ sung, bạn có thể dùng để lưu các tham số tuỳ ý để cập nhật thông tin khi NgânLượng.vn trả kết quả về
+	 * @param   string  $orderCode        Mã hoá đơn/Tên sản phẩm
+	 * @param   int     $price            Tổng tiền phải thanh toán
+	 *
+	 * @return  string
+	 */
+	public function buildCheckoutUrl($returnUrl, $receiver, $transactionInfo, $orderCode, $price)
 	{
-		$params = array(
-				'cur_code'          =>	$this->cur_code,
-				'function'          => 'SetExpressCheckout',
-				'version'           => $this->version,
-				'merchant_id'       => $this->merchant_id,
-				'receiver_email'    => $this->receiver_email,
-				'merchant_password' => MD5($this->merchant_password),
-				'order_code'        => $order_code,
-				'total_amount'      => $total_amount,
-				'payment_method'    => 'VISA',
-				'bank_code'         => $bank_code,
-				'payment_type'      => $payment_type,
-				'order_description' => $order_description,
-				'tax_amount'        => $tax_amount,
-				'fee_shipping'      => $fee_shipping,
-				'discount_amount'   => $discount_amount,
-				'return_url'        => $return_url,
-				'cancel_url'        => $cancel_url,
-				'buyer_fullname'    => $buyer_fullname,
-				'buyer_email'       => $buyer_email,
-				'buyer_mobile'      => $buyer_mobile,
-				'buyer_address'     => $buyer_address,
-				'total_item'        => count($array_items)
-			);
-			$post_field = '';
-
-			foreach ($params as $key => $value)
-			{
-				if ($post_field != '')
-					$post_field .= '&';
-				$post_field .= $key . "=" . $value;
-			}
-
-			if (count($array_items) > 0)
-			{
-				foreach ($array_items as $array_item)
-				{
-					foreach ($array_item as $key => $value)
-					{
-						if ($post_field != '')
-							$post_field .= '&';
-						$post_field .= $key . "=" . $value;
-					}
-				}
-			}
-
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
-	}
-
-	function BankCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items)
-	{
-		$params = array(
-				'cur_code'          =>	$this->cur_code,
-				'function'          => 'SetExpressCheckout',
-				'version'           => $this->version,
-				'merchant_id'       => $this->merchant_id,
-				'receiver_email'    => $this->receiver_email,
-				'merchant_password' => MD5($this->merchant_password),
-				'order_code'        => $order_code,
-				'total_amount'      => $total_amount,
-				'payment_method'    => 'ATM_ONLINE',
-				'bank_code'         => $bank_code,
-				'payment_type'      => $payment_type,
-				'order_description' => $order_description,
-				'tax_amount'        => $tax_amount,
-				'fee_shipping'      => $fee_shipping,
-				'discount_amount'   => $discount_amount,
-				'return_url'        => $return_url,
-				'cancel_url'        => $cancel_url,
-				'buyer_fullname'    => $buyer_fullname,
-				'buyer_email'       => $buyer_email,
-				'buyer_mobile'      => $buyer_mobile,
-				'buyer_address'     => $buyer_address,
-				'total_item'        => count($array_items)
-			);
-
-			$post_field = '';
-
-			foreach ($params as $key => $value)
-			{
-				if ($post_field != '')
-					$post_field .= '&';
-				$post_field .= $key . "=" . $value;
-			}
-
-			if (count($array_items) > 0)
-			{
-				foreach ($array_items as $array_item)
-				{
-					foreach ($array_item as $key => $value)
-					{
-						if ($post_field != '')
-							$post_field .= '&';
-						$post_field .= $key . "=" . $value;
-					}
-				}
-			}
-
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
-	}
-
-	function BankOfflineCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items)
-	{
-		$params = array(
-				'cur_code'          =>	$this->cur_code,
-				'function'          => 'SetExpressCheckout',
-				'version'           => $this->version,
-				'merchant_id'       => $this->merchant_id,
-				'receiver_email'    => $this->receiver_email,
-				'merchant_password' => MD5($this->merchant_password),
-				'order_code'        => $order_code,
-				'total_amount'      => $total_amount,
-				'payment_method'    => 'ATM_OFFLINE',
-				'bank_code'         => $bank_code,
-				'payment_type'      => $payment_type,
-				'order_description' => $order_description,
-				'tax_amount'        => $tax_amount,
-				'fee_shipping'      => $fee_shipping,
-				'discount_amount'   => $discount_amount,
-				'return_url'        => $return_url,
-				'cancel_url'        => $cancel_url,
-				'buyer_fullname'    => $buyer_fullname,
-				'buyer_email'       => $buyer_email,
-				'buyer_mobile'      => $buyer_mobile,
-				'buyer_address'     => $buyer_address,
-				'total_item'        => count($array_items)
-			);
-
-			$post_field = '';
-
-			foreach ($params as $key => $value)
-			{
-				if ($post_field != '')
-					$post_field .= '&';
-				$post_field .= $key . "=" . $value;
-			}
-
-			if (count($array_items) > 0)
-			{
-				foreach ($array_items as $array_item)
-				{
-					foreach ($array_item as $key => $value)
-					{
-						if ($post_field != '')
-							$post_field .= '&';
-						$post_field .= $key . "=" . $value;
-					}
-				}
-			}
-
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
-	}
-
-	function officeBankCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items)
-	{
-		$params = array(
-				'cur_code'          => $this->cur_code,
-				'function'          => 'SetExpressCheckout',
-				'version'           => $this->version,
-				'merchant_id'       => $this->merchant_id,
-				'receiver_email'    => $this->receiver_email,
-				'merchant_password' => MD5($this->merchant_password),
-				'order_code'        => $order_code,
-				'total_amount'      => $total_amount,
-				'payment_method'    => 'NH_OFFLINE',
-				'bank_code'         => $bank_code,
-				'payment_type'      => $payment_type,
-				'order_description' => $order_description,
-				'tax_amount'        => $tax_amount,
-				'fee_shipping'      => $fee_shipping,
-				'discount_amount'   => $discount_amount,
-				'return_url'        => $return_url,
-				'cancel_url'        => $cancel_url,
-				'buyer_fullname'    => $buyer_fullname,
-				'buyer_email'       => $buyer_email,
-				'buyer_mobile'      => $buyer_mobile,
-				'buyer_address'     => $buyer_address,
-				'total_item'        => count($array_items)
-			);
-
-			$post_field = '';
-
-			foreach ($params as $key => $value)
-			{
-				if ($post_field != '')
-					$post_field .= '&';
-				$post_field .= $key . "=" . $value;
-			}
-
-			if (count($array_items) > 0)
-			{
-				foreach ($array_items as $array_item)
-				{
-					foreach ($array_item as $key => $value)
-					{
-						if ($post_field != '')
-							$post_field .= '&';
-						$post_field .= $key . "=" . $value;
-					}
-				}
-			}
-
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
-	}
-
-	function TTVPCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items)
-	{
-		$params = array(
-				'cur_code'          =>	$this->cur_code,
-				'function'          => 'SetExpressCheckout',
-				'version'           => $this->version,
-				'merchant_id'       => $this->merchant_id,
-				'receiver_email'    => $this->receiver_email,
-				'merchant_password' => MD5($this->merchant_password),
-				'order_code'        => $order_code,
-				'total_amount'      => $total_amount,
-				'payment_method'    => 'ATM_ONLINE',
-				'bank_code'         => $bank_code,
-				'payment_type'      => $payment_type,
-				'order_description' => $order_description,
-				'tax_amount'        => $tax_amount,
-				'fee_shipping'      => $fee_shipping,
-				'discount_amount'   => $discount_amount,
-				'return_url'        => $return_url,
-				'cancel_url'        => $cancel_url,
-				'buyer_fullname'    => $buyer_fullname,
-				'buyer_email'       => $buyer_email,
-				'buyer_mobile'      => $buyer_mobile,
-				'buyer_address'     => $buyer_address,
-				'total_item'        => count($array_items)
-			);
-
-			$post_field = '';
-
-			foreach ($params as $key => $value)
-			{
-				if ($post_field != '')
-					$post_field .= '&';
-				$post_field .= $key . "=" . $value;
-			}
-
-			if (count($array_items) > 0)
-			{
-				foreach ($array_items as $array_item)
-				{
-					foreach ($array_item as $key => $value)
-					{
-						if ($post_field != '')
-							$post_field .= '&';
-						$post_field .= $key . "=" . $value;
-					}
-				}
-			}
-
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
-	}
-
-	function NLCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items)
-	{
-		$params = array(
-				'cur_code'          => $this->cur_code,
-				'function'          => 'SetExpressCheckout',
-				'version'           => $this->version,
-				'merchant_id'       => $this->merchant_id,
-				'receiver_email'    => $this->receiver_email,
-				'merchant_password' => MD5($this->merchant_password),
-				'order_code'        => $order_code,
-				'total_amount'      => $total_amount,
-				'payment_method'    => 'NL',
-				'payment_type'      => $payment_type,
-				'order_description' => $order_description,
-				'tax_amount'        => $tax_amount,
-				'fee_shipping'      => $fee_shipping,
-				'discount_amount'   => $discount_amount,
-				'return_url'        => $return_url,
-				'cancel_url'        => $cancel_url,
-				'buyer_fullname'    => $buyer_fullname,
-				'buyer_email'       => $buyer_email,
-				'buyer_mobile'      => $buyer_mobile,
-				'buyer_address'     => $buyer_address,
-				'total_item'        => count($array_items)
-			);
-			$post_field = '';
-
-			foreach ($params as $key => $value)
-			{
-				if ($post_field != '')
-					$post_field .= '&';
-				$post_field .= $key . "=" . $value;
-			}
-
-			if (count($array_items) > 0)
-			{
-				foreach ($array_items as $array_item)
-				{
-					foreach ($array_item as $key => $value)
-					{
-						if ($post_field != '')
-							$post_field .= '&';
-						$post_field .= $key . "=" . $value;
-					}
-				}
-			}
-
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
-	}
-
-	function IBCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items)
-	{
-		$params = array(
-			'cur_code'          => $this->cur_code,
-			'function'          => 'SetExpressCheckout',
-			'version'           => $this->version,
-			'merchant_id'       => $this->merchant_id,
-			'receiver_email'    => $this->receiver_email,
-			'merchant_password' => MD5($this->merchant_password),
-			'order_code'        => $order_code,
-			'total_amount'      => $total_amount,
-			'payment_method'    => 'IB_ONLINE',
-			'bank_code'         => $bank_code,
-			'payment_type'      => $payment_type,
-			'order_description' => $order_description,
-			'tax_amount'        => $tax_amount,
-			'fee_shipping'      => $fee_shipping,
-			'discount_amount'   => $discount_amount,
-			'return_url'        => $return_url,
-			'cancel_url'        => $cancel_url,
-			'buyer_fullname'    => $buyer_fullname,
-			'buyer_email'       => $buyer_email,
-			'buyer_mobile'      => $buyer_mobile,
-			'buyer_address'     => $buyer_address,
-			'total_item'        => count($array_items)
+		// Bước 1. Mảng các tham số chuyển tới nganluong.vn
+		$arrParam = array(
+			'merchant_site_code' => strval($this->merchantSiteCode),
+			'return_url'         => strtolower(urlencode($returnUrl)),
+			'receiver'           => strval($receiver),
+			'transaction_info'   => strval($transactionInfo),
+			'order_code'         => strval($orderCode),
+			'price'              => strval($price)
 		);
-		$post_field = '';
 
-		foreach ($params as $key => $value)
+		$secureCode = implode(' ', $arrParam) . ' ' . $this->securePass;
+		$arrParam['secure_code'] = md5($secureCode);
+
+		// Bước 2. Kiểm tra  biến $redirectUrl xem có '?' không, nếu không có thì bổ sung vào
+		$redirectUrl = $this->nganluongUrl;
+
+		if (strpos($redirectUrl, '?') === false)
 		{
-			if ($post_field != '')
-				$post_field .= '&';
-			$post_field .= $key . "=" . $value;
+			$redirectUrl .= '?';
+		}
+		elseif (substr($redirectUrl, strlen($redirectUrl) - 1, 1) != '?' && strpos($redirectUrl, '&') === false)
+		{
+			// Nếu biến $redirectUrl có '?' nhưng không kết thúc bằng '?' và có chứa dấu '&' thì bổ sung vào cuối
+			$redirectUrl .= '&';
 		}
 
-		if (count($array_items) > 0)
+		// Bước 3. tạo url
+		$url = '';
+
+		foreach ($arrParam as $key => $value)
 		{
-			foreach ($array_items as $array_item)
+			if ($key != 'return_url')
 			{
-				foreach ($array_item as $key => $value)
-				{
-					if ($post_field != '')
-						$post_field .= '&';
-					$post_field .= $key . "=" . $value;
-				}
+				$value = urlencode($value);
+			}
+
+			if ($url == '')
+			{
+				$url .= $key . '=' . $value;
+			}
+			else
+			{
+				$url .= '&' . $key . '=' . $value;
 			}
 		}
 
-		$nl_result = $this->CheckoutCall($post_field);
-
-		return $nl_result;
+		return $redirectUrl . $url;
 	}
 
-	function CheckoutCall($post_field)
+	/**
+	 * HÀM KIỂM TRA TÍNH ĐÚNG ĐẮN CỦA ĐƯỜNG LINK KẾT QUẢ TRẢ VỀ TỪ NGÂNLƯỢNG.VN
+	 *
+	 * @param   string  $transactionInfo  Thông tin về giao dịch, Giá trị do website gửi sang
+	 * @param   string  $orderCode        Mã hoá đơn/tên sản phẩm
+	 * @param   string  $price            Tổng tiền đã thanh toán
+	 * @param   string  $paymentId        Mã giao dịch tại NgânLượng.vn
+	 * @param   int     $paymentType      Hình thức thanh toán: 1 - Thanh toán ngay (tiền đã chuyển vào tài khoản NgânLượng.vn của người bán); 2 - Thanh toán Tạm giữ (tiền người mua đã thanh toán nhưng NgânLượng.vn đang giữ hộ)
+	 * @param   string  $errorText        Giao dịch thanh toán có bị lỗi hay không. $error_text == "" là không có lỗi. Nếu có lỗi, mô tả lỗi được chứa trong $error_text
+	 * @param   string  $secureCode       Mã checksum (mã kiểm tra)
+	 *
+	 * @return  boolean
+	 */
+	public function verifyPaymentUrl($transactionInfo, $orderCode, $price, $paymentId, $paymentType, $errorText, $secureCode)
 	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $this->url_api);
-		curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-		curl_setopt($ch, CURLOPT_VERBOSE, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_field);
-		$result = curl_exec($ch);
-		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$error = curl_error($ch);
+		// Tạo mã xác thực từ chủ web
+		$str = '';
+		$str .= ' ' . strval($transactionInfo);
+		$str .= ' ' . strval($orderCode);
+		$str .= ' ' . strval($price);
+		$str .= ' ' . strval($paymentId);
+		$str .= ' ' . strval($paymentType);
+		$str .= ' ' . strval($errorText);
+		$str .= ' ' . strval($this->merchantSiteCode);
+		$str .= ' ' . strval($this->securePass);
 
-		if ($result != '' && $status == 200)
-		{
-			$xml_result = str_replace('&', '&amp;', (string) $result);
-			$nl_result  = simplexml_load_string($xml_result);
-			$nl_result->error_message = $this->GetErrorMessage($nl_result->error_code);
-		}
-		else
-			$nl_result->error_message = $error;
+		// Mã hóa các tham số
+		$verifySecureCode = md5($str);
 
-		return $nl_result;
-	}
-
-	function GetErrorMessage($error_code)
-	{
-		$arrCode = array(
-		'00' => 'Thành công',
-		'99' => 'Lỗi chưa xác minh',
-		'06' => 'Mã merchant không tồn tại hoặc bị khóa',
-		'02' => 'Địa chỉ IP truy cập bị từ chối',
-		'03' => 'Mã checksum không chính xác, truy cập bị từ chối',
-		'04' => 'Tên hàm API do merchant gọi tới không hợp lệ (không tồn tại)',
-		'05' => 'Sai version của API',
-		'07' => 'Sai mật khẩu của merchant',
-		'08' => 'Địa chỉ email tài khoản nhận tiền không tồn tại',
-		'09' => 'Tài khoản nhận tiền đang bị phong tỏa giao dịch',
-		'10' => 'Mã đơn hàng không hợp lệ',
-		'11' => 'Số tiền giao dịch lớn hơn hoặc nhỏ hơn quy định',
-		'12' => 'Loại tiền tệ không hợp lệ',
-		'29' => 'Token không tồn tại',
-		'80' => 'Không thêm được đơn hàng',
-		'81' => 'Đơn hàng chưa được thanh toán',
-		'110' => 'Địa chỉ email tài khoản nhận tiền không phải email chính',
-		'111' => 'Tài khoản nhận tiền đang bị khóa',
-		'113' => 'Tài khoản nhận tiền chưa cấu hình là người bán nội dung số',
-		'114' => 'Giao dịch đang thực hiện, chưa kết thúc',
-		'115' => 'Giao dịch bị hủy',
-		'118' => 'tax_amount không hợp lệ',
-		'119' => 'discount_amount không hợp lệ',
-		'120' => 'fee_shipping không hợp lệ',
-		'121' => 'return_url không hợp lệ',
-		'122' => 'cancel_url không hợp lệ',
-		'123' => 'items không hợp lệ',
-		'124' => 'transaction_info không hợp lệ',
-		'125' => 'quantity không hợp lệ',
-		'126' => 'order_description không hợp lệ',
-		'127' => 'affiliate_code không hợp lệ',
-		'128' => 'time_limit không hợp lệ',
-		'129' => 'buyer_fullname không hợp lệ',
-		'130' => 'buyer_email không hợp lệ',
-		'131' => 'buyer_mobile không hợp lệ',
-		'132' => 'buyer_address không hợp lệ',
-		'133' => 'total_item không hợp lệ',
-		'134' => 'payment_method, bank_code không hợp lệ',
-		'135' => 'Lỗi kết nối tới hệ thống ngân hàng',
-		'140' => 'Đơn hàng không hỗ trợ thanh toán trả góp',);
-
-		return $arrCode[(string) $error_code];
+		// Xác thực mã của chủ web với mã trả về từ nganluong.vn
+		return !($verifySecureCode !== $secureCode);
 	}
 }

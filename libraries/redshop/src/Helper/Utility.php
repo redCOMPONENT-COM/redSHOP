@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 /**
  * Utility helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class Utility
 {
@@ -30,7 +30,7 @@ class Utility
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function checkCaptcha($data, $displayWarning = true)
 	{

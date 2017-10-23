@@ -12,8 +12,8 @@ JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper = productHelper::getInstance();
 
-$showall = JRequest::getVar('showall', '0');
-$tmpl    = '';
+$showall = JFactory::getApplication()->input->get('showall', '0');
+$tmpl = '';
 
 $uri = JURI::getInstance();
 $url = $uri->root(); ?>

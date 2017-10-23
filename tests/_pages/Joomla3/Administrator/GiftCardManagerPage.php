@@ -41,8 +41,6 @@ class GiftCardManagerPage
 
     public static $errorPath = "//div[@id='system-message-container']/div/div";
 
-    public static $checkAllCart = "//input[@onclick='Joomla.checkAll(this)']";
-
     public static $getCartStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[2]"];
 
     public static $errorValid = ['xpath' => "//div[@id='system-message-container']/div/div"];

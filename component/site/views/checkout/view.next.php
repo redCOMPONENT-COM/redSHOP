@@ -19,10 +19,10 @@ class RedshopViewCheckout extends RedshopView
 		$order_functions = order_functions::getInstance();
 
 		$params  = $app->getParams('com_redshop');
-		$Itemid  = JRequest::getInt('Itemid');
-		$issplit = JRequest::getBool('issplit');
-		$ccinfo  = JRequest::getInt('ccinfo');
-		$task    = JRequest::getCmd('task');
+		$Itemid  = $app->input->getInt('Itemid');
+		$issplit = $app->input->getBool('issplit');
+		$ccinfo  = $app->input->getInt('ccinfo');
+		$task    = $app->input->getCmd('task');
 
 		$model   = $this->getModel('checkout');
 		$session = JFactory::getSession();
@@ -32,8 +32,8 @@ class RedshopViewCheckout extends RedshopView
 			$session->set('issplit', $issplit);
 		}
 
-		$payment_method_id = JRequest::getCmd('payment_method_id');
-		$users_info_id     = JRequest::getInt('users_info_id');
+		$payment_method_id = $app->input->getCmd('payment_method_id');
+		$users_info_id     = $app->input->getInt('users_info_id');
 		$auth              = $session->get('auth');
 
 		if (empty($users_info_id))
@@ -41,7 +41,7 @@ class RedshopViewCheckout extends RedshopView
 			$users_info_id = $auth['users_info_id'];
 		}
 
-		$shipping_rate_id = JRequest::getString('shipping_rate_id');
+		$shipping_rate_id = $app->input->getString('shipping_rate_id');
 		$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 		if (count($shippingdetail) < 4)
