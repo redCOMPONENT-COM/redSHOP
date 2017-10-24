@@ -9,6 +9,8 @@
 
 namespace Redshop\Plugin;
 
+use WhichBrowser\Parser;
+
 defined('_JEXEC') or die;
 
 /**
@@ -192,26 +194,14 @@ class AbstractExportPlugin extends \JPlugin
 	 */
 	protected function downloadFile()
 	{
-		/* Start output to the browser */
-		if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "Opera";
-		}
-		elseif (preg_match('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "IE";
-		}
-		else
-		{
-			$UserBrowser = '';
-		}
+		$userBrowser = new Parser($_SERVER['HTTP_USER_AGENT']);
+		$mimeType    = ($userBrowser->browser->isFamily('Internet Explorer') || $userBrowser->browser->isFamily('Opera')) ?
+			'application/octetstream' : 'application/octet-stream';
 
-		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
-
-		/* Clean the buffer */
+		// Clean the buffer
 		ob_clean();
 
-		header('Content-Type: ' . $mime_type);
+		header('Content-Type: ' . $mimeType);
 		header('Content-Encoding: UTF-8');
 		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
@@ -224,7 +214,7 @@ class AbstractExportPlugin extends \JPlugin
 
 		$filename = basename($this->getFilePath());
 
-		if ($UserBrowser == 'IE')
+		if ($userBrowser->browser->isFamily('Internet Explorer'))
 		{
 			header('Content-Disposition: inline; filename="' . $filename . '"');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -239,7 +229,7 @@ class AbstractExportPlugin extends \JPlugin
 		readfile($this->getFilePath());
 
 		// Clean up file.
-		JFile::delete($this->getFilePath());
+		\JFile::delete($this->getFilePath());
 	}
 
 	/**

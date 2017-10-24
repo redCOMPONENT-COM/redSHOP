@@ -133,8 +133,10 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$this->isAttributes  = JFactory::getApplication()->input->getBool('include_attributes', 0);
-		$this->isExtraFields = JFactory::getApplication()->input->getBool('product_extrafields', 0);
+		$input = JFactory::getApplication()->input;
+
+		$this->isAttributes  = (boolean) $input->getInt('include_attributes', 0);
+		$this->isExtraFields = (boolean) $input->getInt('product_extrafields', 0);
 
 		$headers = $this->getHeader();
 
@@ -355,10 +357,19 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		$stockrooms = RedshopHelperStockroom::getStockroom();
 
 		// Process fields if needed.
-		$fieldsData = array();
+		$isExtraFields = (boolean) JFactory::getApplication()->input->getInt('product_extrafields', 0);
+		$fieldsData    = array();
 
-		if ($this->isExtraFields)
+		if ($isExtraFields)
 		{
+			// Prepare general field list.
+			$sectionFields = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT);
+
+			foreach ($sectionFields as $sectionField)
+			{
+				$fieldsData[$sectionField->name] = array();
+			}
+
 			$productIds = array_map(
 				function($o) {
 					return $o->product_id;
@@ -366,15 +377,29 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				$data
 			);
 
-			$db     = $this->db;
-			$query  = $db->getQuery(true)
+			$db    = $this->db;
+			$query = $db->getQuery(true)
 				->select($db->qn(array('d.data_txt', 'd.itemid', 'f.name')))
 				->from($db->qn('#__redshop_fields', 'f'))
 				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
-				->where($db->qn('f.section') . ' = 1')
+				->where($db->qn('f.section') . ' = ' . RedshopHelperExtrafields::SECTION_PRODUCT)
 				->where($db->qn('d.itemid') . ' IN (' . implode(',', $productIds) . ')')
 				->order($db->qn('f.id') . ' ASC');
-			$fieldsData = $db->setQuery($query)->loadObjectList('itemid');
+
+			$fieldResults = $db->setQuery($query)->loadObjectList();
+
+			if (!empty($fieldResults))
+			{
+				foreach ($fieldResults as $fieldResult)
+				{
+					if (!isset($fieldsData[$fieldResult->name]))
+					{
+						$fieldsData[$fieldResult->name] = array();
+					}
+
+					$fieldsData[$fieldResult->name][$fieldResult->itemid] = $fieldResult->data_txt;
+				}
+			}
 		}
 
 		$isAttributes = JFactory::getApplication()->input->getBool('include_attributes', 0);
@@ -382,14 +407,27 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		foreach ($data as $index => $item)
 		{
-			$item = (array) $item;
+			$item          = (array) $item;
 			$attributeRows = array();
 
-			if ($this->isExtraFields && isset($fieldsData[$item['product_id']]))
+			// Stockroom process
+			if (!empty($stockrooms))
 			{
-				$itemField = $fieldsData[$item['product_id']];
+				foreach ($stockrooms as $stockroom)
+				{
+					$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
+					$amount = !empty($amount) ? $amount[0]->quantity : 0;
 
-				$item[$itemField->name] = $itemField->data_txt;
+					$item[$stockroom->stockroom_name] = $amount;
+				}
+			}
+
+			if ($isExtraFields && !empty($fieldsData))
+			{
+				foreach ($fieldsData as $fieldName => $fieldValue)
+				{
+					$item[$fieldName] = isset($fieldValue[$item['product_id']]) ? $fieldValue[$item['product_id']] : '';
+				}
 			}
 
 			foreach ($item as $column => $value)
@@ -432,18 +470,6 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 					$item[$column] = !empty($item[$column]) ? RedshopHelperDatetime::convertDateFormat($item[$column]) : null;
 
 					continue;
-				}
-			}
-
-			// Stockroom process
-			if (!empty($stockrooms))
-			{
-				foreach ($stockrooms as $stockroom)
-				{
-					$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
-					$amount = !empty($amount) ? $amount[0]->quantity : 0;
-
-					$item[$stockroom->stockroom_name] = $amount;
 				}
 			}
 
