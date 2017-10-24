@@ -232,7 +232,7 @@ class AbstractImportPlugin extends \JPlugin
 		}
 
 		fclose($handle);
-		JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
+		\JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
 
 		$result->status = 1;
 
@@ -280,7 +280,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @param   string  $file  Path of file.
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   2.0.3
 	 */
@@ -309,7 +309,7 @@ class AbstractImportPlugin extends \JPlugin
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
-		JFile::delete($file);
+		\JFile::delete($file);
 
 		foreach ($rows as $index => $fileRows)
 		{
@@ -385,7 +385,7 @@ class AbstractImportPlugin extends \JPlugin
 	/**
 	 * Method for do encoding utf8 necessary column
 	 *
-	 * @param   array  &$data  Data.
+	 * @param   array  $data  Data.
 	 *
 	 * @return  void
 	 *
@@ -424,7 +424,7 @@ class AbstractImportPlugin extends \JPlugin
 	/**
 	 * Method for do format number an column.
 	 *
-	 * @param   array  &$data  Data.
+	 * @param   array  $data  Data.
 	 *
 	 * @return  void
 	 *
@@ -451,7 +451,7 @@ class AbstractImportPlugin extends \JPlugin
 	/**
 	 * Method for generate column with alias.
 	 *
-	 * @param   array  &$data  Data.
+	 * @param   array  $data  Data.
 	 *
 	 * @return  void
 	 *
