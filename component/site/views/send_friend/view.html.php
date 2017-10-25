@@ -18,9 +18,9 @@ class RedshopViewSend_friend extends RedshopView
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$id     = JRequest::getInt('id');
-		$Itemid = JRequest::getInt('Itemid');
-		$pid    = JRequest::getInt('pid');
+		$id     = $app->input->getInt('id');
+		$Itemid = $app->input->getInt('Itemid');
+		$pid    = $app->input->getInt('pid');
 
 		$params = $app->getParams('com_redshop');
 

@@ -1,0 +1,1 @@
+DELETE `#__redshop_fields` WHERE `name` IN ('rs_ghn_city', 'rs_ghn_district', 'rs_ghn_billing_city', 'rs_ghn_billing_district');

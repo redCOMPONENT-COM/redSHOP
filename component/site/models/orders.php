@@ -40,7 +40,7 @@ class RedshopModelOrders extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_limitstart   = JRequest::getVar('limitstart', 0);
+		$this->_limitstart   = $app->input->get('limitstart', 0);
 		$this->_limit        = $app->getUserStateFromRequest($context . 'limit', 'limit', 10, 'int');
 	}
 

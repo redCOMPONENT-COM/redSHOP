@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require __DIR__ . '/mpdf/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 /**
  * Extends mPDF

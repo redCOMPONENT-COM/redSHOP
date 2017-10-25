@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$params = JRequest::getVar('params');
+$params = JFactory::getApplication()->input->get('params', '', 'raw');
 ?>
 
 <form action="?option=com_redshop" method="POST" name="installform" id="installform">

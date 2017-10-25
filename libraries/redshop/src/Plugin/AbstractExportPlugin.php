@@ -239,7 +239,7 @@ class AbstractExportPlugin extends \JPlugin
 		readfile($this->getFilePath());
 
 		// Clean up file.
-		unlink($this->getFilePath());
+		JFile::delete($this->getFilePath());
 	}
 
 	/**

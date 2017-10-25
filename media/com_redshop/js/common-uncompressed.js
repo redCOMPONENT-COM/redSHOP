@@ -691,10 +691,30 @@ function showCompanyOrCustomer(obj)
 		jQuery('#tmpRegistrationDiv').html('');
 
 		jQuery('select:not(".disableBootstrapChosen")').select2();
+
+		jQuery(document).trigger("AfterGetBillingTemplate");
 	})
 	.fail(function() {
 		console.warn("error");
 	});
+}
+
+function getBillingTemplate(el)
+{
+	var isCompany = jQuery(el).val();
+	var type = jQuery(el).attr('billing_type');
+	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getBillingTemplate";
+
+	jQuery.ajax({
+		url: url,
+		type: 'POST',
+		data: {type: type, isCompany: isCompany},
+		success: function(html) {
+			jQuery('#wrapper-billing').html('');
+			jQuery('#wrapper-billing').append(html);
+			jQuery(document).trigger("AfterGetBillingTemplate");
+		}
+	})
 }
 
 function updateGLSLocation(zipcode)
@@ -897,6 +917,8 @@ function onestepCheckoutProcess(objectname,classname)
 			Itemid	: Itemid,
 			sid	: Math.random()
 		};
+
+		jQuery(redSHOP).trigger("onBeforeOneStepCheckoutProcess", [postParams]);
 
 		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
 

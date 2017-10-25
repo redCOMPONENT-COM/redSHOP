@@ -930,7 +930,7 @@ class RedshopHelperStockroom
 	 * @param   string  $section      Section
 	 * @param   int     $stockAmount  Stockroom amount
 	 *
-	 * @return mixed
+	 * @return  array
 	 *
 	 * @since  2.0.0.3
 	 */

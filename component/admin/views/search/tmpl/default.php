@@ -14,5 +14,4 @@ $encoded = json_encode($test);
 
 echo "{\"results\": " . $encoded . "}";
 
-exit;
-?>
+JFactory::getApplication()->close();

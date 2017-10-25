@@ -63,7 +63,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 			if ($success)
 			{
-				unlink($dest);
+				JFile::delete($dest);
 				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS');
 				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 			}

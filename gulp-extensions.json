@@ -64,6 +64,9 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_checkout": [
+      "kerry_express"
+    ],
     "redshop_export": [
       "attribute",
       "category",
@@ -90,6 +93,9 @@
       "user",
       "related_product"
     ],
+    "redshop_order": [
+      "esms"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -112,13 +118,13 @@
       "rs_payment_banktransfer_discount",
       "rs_payment_beanstream",
       "rs_payment_braintree",
+      "rs_payment_cod",
       "rs_payment_dibspaymentmethod",
       "rs_payment_eantransfer",
       "rs_payment_epayv2",
       "rs_payment_eway",
       "rs_payment_eway3dsecure",
       "rs_payment_giropay",
-      "rs_payment_googlecheckout",
       "rs_payment_imglobal",
       "rs_payment_moneris",
       "rs_payment_moneybooker",
@@ -142,17 +148,22 @@
       "bundle",
       "canonical",
       "CreateColorImage",
+      "custom_field_mapping",
       "discount_affect_attribute",
+      "gift",
       "google_microdata",
       "invoicepdf",
       "postdanmark",
       "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "sync_b2b",
+      "wss_datafeed"
     ],
     "redshop_product_type": [
-      "bundle"
+      "bundle",
+      "gift"
     ],
     "redshop_shipping": [
       "bring",
@@ -160,6 +171,7 @@
       "default_shipping_gls",
       "default_shipping_glsbusiness",
       "fedex",
+      "giaohangnhanh",
       "postdanmark",
       "self_pickup",
       "shipper",

@@ -35,8 +35,8 @@ class RedshopModelUser_detail extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$this->_context = 'order_id';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
-		$this->_uid = JRequest::getVar('user_id', 0);
+		$array      = $app->input->get('cid', 0, 'array');
+		$this->_uid = $app->input->get('user_id', 0);
 
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
@@ -140,8 +140,9 @@ class RedshopModelUser_detail extends RedshopModel
 			$detail->ean_number            = null;
 			$detail->state_code_ST         = null;
 
-			$info_id = JRequest::getVar('info_id', 0);
-			$shipping = JRequest::getVar('shipping', 0);
+			$jinput   = JFactory::getApplication()->input;
+			$info_id  = $jinput->get('info_id', 0);
+			$shipping = $jinput->get('shipping', 0);
 
 			if ($shipping)
 			{
@@ -173,8 +174,6 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
 
@@ -182,11 +181,11 @@ class RedshopModelUser_detail extends RedshopModel
 
 		if ($post['createaccount'])
 		{
-			$joomlauser = $userhelper->createJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::createJoomlaUser($post);
 		}
 		else
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 		}
 
 		if (!$joomlauser)
@@ -194,15 +193,13 @@ class RedshopModelUser_detail extends RedshopModel
 			return false;
 		}
 
-		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 
 		return $reduser;
 	}
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
@@ -218,18 +215,18 @@ class RedshopModelUser_detail extends RedshopModel
 			$post['zipcode_ST'] = $post['zipcode'];
 			$post['phone_ST'] = $post['phone'];
 
-			$reduser = $userhelper->storeRedshopUserShipping($post);
+			$reduser = RedshopHelperUser::storeRedshopUserShipping($post);
 		}
 		else
 		{
 			$post['billisship'] = 1;
-			$joomlauser = $userhelper->updateJoomlaUser($post);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 
 			if (!$joomlauser)
 			{
 				return false;
 			}
-			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
+			$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 		}
 
 		return $reduser;

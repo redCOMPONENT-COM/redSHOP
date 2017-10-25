@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
+JPluginHelper::importPlugin('redshop_category');
+JDispatcher::getInstance()->trigger('onRenderCategoryExtraFields', array($this->item->id));
 ?>
 <div class="row">
     <div class="col-sm-12">

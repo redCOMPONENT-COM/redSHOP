@@ -28,7 +28,7 @@ class RedshopViewCoupon_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$userslist = JRequest::getVar('userslist', array());
+		$userslist = JFactory::getApplication()->input->get('userslist', array(), 'raw');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT_DETAIL'), 'redshop_coupon48');
 

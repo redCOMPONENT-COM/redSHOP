@@ -29,6 +29,11 @@ class RedshopViewInstall extends RedshopViewAdmin
 	public $installType;
 
 	/**
+	 * @var  array
+	 */
+	public $availableVersions;
+
+	/**
 	 * Do we have to disable a sidebar ?
 	 *
 	 * @var  boolean
@@ -54,6 +59,11 @@ class RedshopViewInstall extends RedshopViewAdmin
 		$model = $this->getModel();
 
 		$this->steps = $model->getSteps($this->installType);
+
+		if ($this->installType == 'update')
+		{
+			$this->availableVersions = $model->getAvailableUpdate();
+		}
 
 		// Display the template
 		parent::display($tpl);

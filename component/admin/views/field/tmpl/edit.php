@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidator');
 
-$editor = JFactory::getEditor();
+$editor = JEditor::getInstance();
 ?>
 
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (task) {
-        var form = document.adminForm;
-        var field_type = document.getElementById('jform_type').value;
-        var field_section = document.getElementById('jform_section').value;
+        var form          = document.adminForm;
+        var field_type    = document.getElementById("jform_type").value;
+        var field_section = document.getElementById("jform_section").value;
 
         if (task == "field.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
             Joomla.submitform(task);
@@ -28,32 +28,32 @@ $editor = JFactory::getEditor();
             var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?";
 
             for (var i = 0; i < document.getElementById('jform_name').value.length; i++) {
-                if (iChars.indexOf(document.getElementById('jform_name').value.charAt(i)) != -1) {
+                if (iChars.indexOf(document.getElementById("jform_name").value.charAt(i)) != -1) {
                     alert(" !@#$%^&*()+=-[]\\\';,./{}| \n Special characters are not allowed.\n Please remove them and try again.");
                     return false;
                 }
             }
 
-            if (document.getElementById('jform_name').value == "") {
+            if (document.getElementById("jform_name").value == "") {
                 alert("<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_NAME', true); ?>");
-                document.getElementById('jform_name').focus();
+                document.getElementById("jform_name").focus();
                 return false;
-            } else if (document.getElementById('jform_title').value == "") {
+            } else if (document.getElementById("jform_title").value == "") {
                 alert("<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_TITLE', true); ?>");
-                document.getElementById('jform_title').focus();
+                document.getElementById("jform_title").focus();
                 return false;
-            } else if ((document.getElementById('jform_section').value == 13) && (document.getElementById('jform_type').value == 8 || document.getElementById('jform_type').value == 9 || document.getElementById('jform_type').value == 10)) {
+            } else if ((document.getElementById("jform_section").value == 13) && (document.getElementById("jform_type").value == 8 || document.getElementById("jform_type").value == 9 || document.getElementById("jform_type").value == 10)) {
                 alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD', true);?>");
                 return false;
-            } else if (document.getElementById('jform_section').value == 0) {
-                alert('<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_SECTION'); ?>');
+            } else if (document.getElementById("jform_section").value == 0) {
+                alert("<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_SECTION'); ?>");
                 return false;
-            } else if (document.getElementById('jform_type').value == 0) {
-                alert('<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_TYPE'); ?>');
+            } else if (document.getElementById("jform_type").value == 0) {
+                alert("<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_TYPE'); ?>");
                 return false;
             }
             if (field_type == 3 || field_type == 4 || field_type == 5 || field_type == 6 || field_type == 11 || field_type == 13) {
-                var chks = document.getElementsByName('extra_value[]');//here extra_value[] is the name of the textbox
+                var chks = document.getElementsByName("extra_value[]");//here extra_value[] is the name of the textbox
 
                 for (var i = 0; i < chks.length; i++) {
                     if (chks[i].value == "") {
@@ -68,28 +68,20 @@ $editor = JFactory::getEditor();
                 return false;
             }
 
-            document.getElementById('jform_section').disabled = false;
+            document.getElementById("jform_section").disabled = false;
 
             submitform(task);
         }
-    }
+    };
 
     function sectionValidation() {
-        var field_type = document.getElementById('jform_type').value;
-        var field_section = document.getElementById('jform_section').value;
+        var field_type    = document.getElementById("jform_type").value;
+        var field_section = document.getElementById("jform_section").value;
 
         // Field_section
         if ((field_section == 13) && (field_type == 8 || field_type == 9 || field_type == 10)) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD') ?>");
             return false;
-        }
-
-        if (field_section == 1 || field_section == 17) {
-            jQuery("#jform_display_in_product").parent().parent().show();
-            jQuery("#jform_display_in_checkout").parent().parent().show();
-        } else {
-            jQuery("#jform_display_in_product").parent().parent().hide();
-            jQuery("#jform_display_in_checkout").parent().parent().hide();
         }
     }
 
@@ -104,50 +96,50 @@ $editor = JFactory::getEditor();
         }
     }
 
-    var showMessage = function (type) {
-        // 9 is type of media
-        if (type === "9") {
-            // You can stack multiple messages of the same type
-            var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED"); ?>'];
-            Joomla.renderMessages({'notice': jmsgs});
-
-            // Hide button
-            jQuery('#toolbar-apply,#toolbar-save').hide();
-        }
-        else {
-            jQuery('#system-message-container > .alert-notice').remove();
-            jQuery('#toolbar-apply,#toolbar-save').show();
-        }
-    };
-
     var manageFieldOptions = function (type) {
         type = parseInt(type);
-        jQuery('#field_data').hide();
+        jQuery("#field_data").hide();
 
         if (jQuery.inArray(type, [3, 11, 13, 6, 4, 5]) >= 0) {
-            jQuery('#field_data').show();
+            jQuery("#field_data").show();
 
             if (jQuery.inArray(type, [11, 13]) >= 0) {
-                jQuery('.divfieldText').addClass('hide').hide();
-                jQuery('.divfieldFile').removeClass('hide').show();
+                jQuery(".divfieldText").addClass("hide").hide();
+                jQuery(".divfieldFile").removeClass("hide").show();
             }
             else {
-                jQuery('.divfieldText').removeClass('hide').show();
-                jQuery('.divfieldFile').addClass('hide').hide();
+                jQuery(".divfieldText").removeClass("hide").show();
+                jQuery(".divfieldFile").addClass("hide").hide();
             }
         }
     };
 
     window.onload = function () {
-        var fieldType = jQuery('#jform_type');
+        var fieldType = jQuery("#jform_type");
 
         showMessage(fieldType.val());
         manageFieldOptions(fieldType.val());
 
-        fieldType.on('change', function (el) {
+        fieldType.on("change", function (el) {
             showMessage(jQuery(this).val());
             manageFieldOptions(jQuery(this).val());
         });
+    };
+
+    function showMessage(type) {
+        // 9 is type of media
+        if (type === "9") {
+            // You can stack multiple messages of the same type
+            var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED") ?>'];
+            Joomla.renderMessages({"notice": jmsgs});
+
+            // Hide button
+            jQuery("#toolbar-apply,#toolbar-save").hide();
+        }
+        else {
+            jQuery("#system-message-container > .alert-notice").remove();
+            jQuery("#toolbar-apply,#toolbar-save").show();
+        }
     }
 </script>
 
@@ -160,22 +152,19 @@ $editor = JFactory::getEditor();
                 "index.php?option=com_redshop&task=field.ajaxGetAllFieldName",
                 {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "field_id": "<?php echo $this->item->id ?>"
+                    "field_id"                              : "<?php echo $this->item->id ?>"
                 },
                 function (response) {
-                    fieldNames = response.split(',');
+                    fieldNames = response.split(",");
                 });
 
             document.formvalidator.setHandler("fieldNames", function (value) {
-                console.log(value);
-                value = value.replace(' ', '_', value);
-                var tmp = value.split('_');
+                value   = value.replace(" ", "_");
+                var tmp = value.split("_");
 
-                if (tmp[0] != 'rs') {
-                    value = 'rs_' + value;
+                if (tmp[0] != "rs") {
+                    value = "rs_" + value;
                 }
-
-                console.log(value);
 
                 return !fieldNames.contains(value);
             });
@@ -215,6 +204,7 @@ $editor = JFactory::getEditor();
 					<?php echo $this->form->renderField('show_in_front') ?>
 					<?php echo $this->form->renderField('required') ?>
 					<?php echo $this->form->renderField('published') ?>
+					<?php echo $this->form->renderField('description') ?>
                 </div>
             </div>
         </div>
@@ -227,7 +217,8 @@ $editor = JFactory::getEditor();
                     <p class="text text-primary"><?php echo JText::_('COM_REDSHOP_USE_THE_TABLE_BELOW_TO_ADD_NEW_VALUES') ?></p>
 
                     <p><input type="button" name="addvalue" id="addvalue" class="btn btn-primary"
-                              Value="<?php echo JText::_('COM_REDSHOP_ADD_VALUE'); ?>" onclick="addNewRow('extra_table');"/></p>
+                              Value="<?php echo JText::_('COM_REDSHOP_ADD_VALUE'); ?>"
+                              onclick="addNewRow(" extra_table");"/></p>
 
                     <table cellpadding="0" cellspacing="5" border="0" id="extra_table" class="table table-striped">
                         <thead>
@@ -240,7 +231,7 @@ $editor = JFactory::getEditor();
                         </thead>
                         <tbody>
 						<?php if (count($this->lists['extra_data']) > 0) : ?>
-							<?php for ($k = 0; $k < count($this->lists['extra_data']); $k++) : ?>
+							<?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
                                 <tr>
                                     <td>
                                         <input
@@ -283,7 +274,8 @@ $editor = JFactory::getEditor();
                                     </td>
                                     <td>
 										<?php if (count($this->lists['extra_data']) > 1) : ?>
-                                            <input value="Delete" onclick="deleteRow(this)" class="btn btn-danger" type="button"/>
+                                            <input value="Delete" onclick="deleteRow(this);" class="btn btn-danger"
+                                                   type="button"/>
 										<?php endif; ?>
                                     </td>
                                 </tr>
@@ -321,18 +313,6 @@ $editor = JFactory::getEditor();
 						<?php endif; ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DESCRIPTION') ?></h3>
-                </div>
-                <div class="box-body">
-					<?php echo $editor->display("desc", $this->item->desc, '$widthPx', '$heightPx', '100', '20'); ?>
                 </div>
             </div>
         </div>

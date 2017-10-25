@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
+    <name>PLG_REDSHOP_PRODUCT_SYNC_B2B</name>
+    <author>redCOMPONENT.com</author>
+    <version>1.0.0</version>
+    <creationDate>April 2017</creationDate>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <description>PLG_REDSHOP_PRODUCT_SYNC_B2B_DESC</description>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
+        </sql>
+    </install>
+    <files>
+        <filename plugin="sync_b2b">sync_b2b.php</filename>
+        <folder>language</folder>
+        <folder>sql</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_product_sync_b2b.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_product_sync_b2b.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="url"
+                    type="text"
+                    default=""
+                    label="PLG_REDSHOP_PRODUCT_SYNC_B2B_URL"
+                    description="PLG_REDSHOP_PRODUCT_SYNC_B2B_URL_DESC"
+                />
+                <field
+                    name="client_id"
+                    type="text"
+                    default=""
+                    label="PLG_REDSHOP_PRODUCT_SYNC_B2B_CLIENT_ID"
+                    description="PLG_REDSHOP_PRODUCT_SYNC_B2B_CLIENT_ID_DESC"
+                />
+                <field
+                    name="client_secret"
+                    type="text"
+                    default=""
+                    label="PLG_REDSHOP_PRODUCT_SYNC_B2B_CLIENT_SECRET"
+                    description="PLG_REDSHOP_PRODUCT_SYNC_B2B_CLIENT_SECRET_DESC"
+                />
+                <field
+                    name="company"
+                    type="number"
+                    default=""
+                    label="PLG_REDSHOP_PRODUCT_SYNC_B2B_COMPANY"
+                    description="PLG_REDSHOP_PRODUCT_SYNC_B2B_COMPANY_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

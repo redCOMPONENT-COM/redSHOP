@@ -6,10 +6,9 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die;
 
-$params = JRequest::getVar('params');
+$params = JFactory::getApplication()->input->get('params', '', 'raw');
 ?>
 <style type="text/css">
 fieldset.adminform label.radiobtn, table.admintable label.radiobtn

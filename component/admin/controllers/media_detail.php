@@ -90,8 +90,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					copy($old_path, $new_path);
 
-					unlink($old_path);
-					unlink($old_thumb_path);
+					JFile::delete($old_path);
+					JFile::delete($old_thumb_path);
 				}
 
 				if ($save = $model->store($post))
@@ -473,7 +473,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
-										unlink($btsrc);
+										JFile::delete($btsrc);
 
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
@@ -534,7 +534,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
-											unlink($btsrc);
+											JFile::delete($btsrc);
 											$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 											if (isset($post['set']) && $post['media_section'] != 'manufacturer')
@@ -603,7 +603,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$originaldir = $post['media_name'];
 									copy($btsrc, $originaldir);
-									unlink($btsrc);
+									JFile::delete($btsrc);
 									$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 									if (isset($post['set']) && $post['media_section'] != 'manufacturer')
@@ -662,20 +662,20 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										// Set First Image as product Main Imaged
 										$originaldir = JPATH_ROOT . '/components/com_redshop/assets/' . $row->media_type . '/'
-											. $row->media_section . '/' . RedShopHelperImages::cleanFileName($scan[$i]);
+											. $row->media_section . '/' . RedshopHelperMedia::cleanFileName($scan[$i]);
 
 										copy($btsrc, $originaldir);
 
-										if (is_file($btsrc))
+										if (JFile::exists($btsrc))
 										{
-											unlink($btsrc);
+											JFile::delete($btsrc);
 										}
 
-										if (is_file($target))
+										if (JFile::exists($target))
 										{
-											rmdir($target . '/' . $name[0]);
-											rmdir($target);
-											unlink($dest);
+											JFolder::delete($target . '/' . $name[0]);
+											JFolder::delete($target);
+											JFile::delete($dest);
 
 											return true;
 										}
@@ -1055,8 +1055,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$media_section = $this->input->get('media_section');
 		$cid           = $this->input->post->get('cid', array(), 'array');
 		$order         = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		Joomla\Utilities\ArrayHelper::toInteger($cid);
+		Joomla\Utilities\ArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

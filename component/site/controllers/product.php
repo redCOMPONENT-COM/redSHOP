@@ -20,6 +20,11 @@ defined('_JEXEC') or die;
 class RedshopControllerProduct extends RedshopController
 {
 	/**
+	 * @var JInput
+	 */
+	protected $input;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -54,7 +59,7 @@ class RedshopControllerProduct extends RedshopController
 			}
 
 			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
-			JRequest::setVar('layout', 'element');
+			$this->input->set('layout', 'element');
 		}
 
 		parent::__construct($config);
@@ -69,7 +74,7 @@ class RedshopControllerProduct extends RedshopController
 	{
 		ob_clean();
 
-		$get  = JRequest::get('get');
+		$get  = $this->input->get->getArray();
 
 		$producthelper   = productHelper::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
@@ -111,7 +116,7 @@ class RedshopControllerProduct extends RedshopController
 		$seoProductSavingPrice  = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
 		echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -122,7 +127,7 @@ class RedshopControllerProduct extends RedshopController
 	public function displaySubProperty()
 	{
 		$propid        = $subpropid = array();
-		$get           = JRequest::get('get');
+		$get           = $this->input->get->getArray();
 		$producthelper = productHelper::getInstance();
 
 		$product_id    = $get['product_id'];
@@ -141,7 +146,7 @@ class RedshopControllerProduct extends RedshopController
 			$subpropid = explode(",", $get['subproperty_id']);
 		}
 
-		$subatthtml = htmlspecialchars_decode(base64_decode(JRequest::getVar('subatthtml', '', 'get', 'string', JREQUEST_ALLOWRAW)));
+		$subatthtml = htmlspecialchars_decode(base64_decode($this->input->get->get('subatthtml', '', 'raw')));
 
 		$response = "";
 
@@ -152,7 +157,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo $response;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -163,7 +168,7 @@ class RedshopControllerProduct extends RedshopController
 	public function displayAdditionImage()
 	{
 		$url           = JURI::base();
-		$get           = JRequest::get('get');
+		$get           = $this->input->get->getArray();
 		$producthelper = productHelper::getInstance();
 
 		$property_id    = urldecode($get['property_id']);
@@ -178,14 +183,14 @@ class RedshopControllerProduct extends RedshopController
 		$redlayout      = $get['redlayout'];
 		$pluginResults  = array();
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
 
 		if (!empty($pluginResults))
 		{
 			$mainImageResponse = $pluginResults['mainImageResponse'];
-			$result            = $producthelper->displayAdditionalImage(
+			$result            = RedshopHelperProductTag::displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
@@ -200,7 +205,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$result            = $producthelper->displayAdditionalImage(
+			$result            = RedshopHelperProductTag::displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
@@ -246,7 +251,7 @@ class RedshopControllerProduct extends RedshopController
 			. "`_`" . $product_availability_date_lbl
 			. "`_`" . $product_availability_date
 			. "`_`" . $additional_vids;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -261,29 +266,28 @@ class RedshopControllerProduct extends RedshopController
 		$extraField    = extraField::getInstance();
 		$productHelper = productHelper::getInstance();
 		$user          = JFactory::getUser();
-		$input         = $app->input;
 
 		ob_clean();
 		$section  = 12;
 		$row_data = $extraField->getSectionFieldList($section);
 
 		// GetVariables
-		$cid        = $input->getInt('cid', 0);
-		$Itemid     = $input->getInt('Itemid', 0);
-		$ajaxOn     = $input->getInt('ajaxon', 0);
-		$wishlistId = $input->getInt('wid', 0);
-		$attributeIds = $input->getString('attribute_id', '');
-		$propertyIds = $input->getString('property_id', '');
-		$subAttributeIds = $input->getString('subattribute_id', '');
+		$cid             = $this->input->getInt('cid', 0);
+		$Itemid          = $this->input->getInt('Itemid', 0);
+		$ajaxOn          = $this->input->getInt('ajaxon', 0);
+		$wishlistId      = $this->input->getInt('wid', 0);
+		$attributeIds    = $this->input->getString('attribute_id', '');
+		$propertyIds     = $this->input->getString('property_id', '');
+		$subAttributeIds = $this->input->getString('subattribute_id', '');
 
 		if ($ajaxOn == 1 && ($wishlistId == 1 || $wishlistId == 2))
 		{
-			$post = $input->post->getArray();
+			$post = $this->input->post->getArray();
 
-			$post['product_id'] = $input->getInt('product_id', 0);
+			$post['product_id'] = $this->input->getInt('product_id', 0);
 			$proname            = RedshopHelperProduct::getProductById($post['product_id']);
-			$post['view']       = $input->getCmd('view', '');
-			$post['task']       = $input->getCmd('task', '');
+			$post['view']       = $this->input->getCmd('view', '');
+			$post['task']       = $this->input->getCmd('task', '');
 			$index              = 0;
 
 			foreach ($row_data as $data)
@@ -321,7 +325,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$post    = $input->post->getArray();
+			$post    = $this->input->post->getArray();
 			$proname = RedshopHelperProduct::getProductById($post['product_id']);
 
 			for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -433,7 +437,7 @@ class RedshopControllerProduct extends RedshopController
 			}
 
 			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $Itemid . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
-			exit;
+			JFactory::getApplication()->close();
 		}
 		elseif ($wishlistId == 1)
 		{
@@ -460,11 +464,9 @@ class RedshopControllerProduct extends RedshopController
 		$app = JFactory::getApplication();
 
 		// GetVariables
-		$cid = JRequest::getInt('cid');
-		$Itemid = JRequest::getVar('Itemid');
-
-
-		$post = JRequest::get('post');
+		$cid    = $this->input->getInt('cid');
+		$Itemid = $this->input->get('Itemid');
+		$post   = $this->input->post->getArray();
 
 		// Initiallize variable
 		$tagnames = $post['tags_name'];
@@ -541,11 +543,10 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function addToCompare()
 	{
-		$app = JFactory::getApplication();
 		$item = new stdClass;
 
-		$item->productId  = $app->input->getInt('pid', null);
-		$item->categoryId = $app->input->getInt('cid', null);
+		$item->productId  = $this->input->getInt('pid', null);
+		$item->categoryId = $this->input->getInt('cid', null);
 
 		$compare = new RedshopProductCompare();
 
@@ -553,12 +554,12 @@ class RedshopControllerProduct extends RedshopController
 
 		try
 		{
-			if ($app->input->getCmd('cmd') == 'add')
+			if ($this->input->getCmd('cmd') == 'add')
 			{
 				//$compare->deleteItem();
 				$compare->addItem($item);
 			}
-			elseif ($app->input->getCmd('cmd') == 'remove')
+			elseif ($this->input->getCmd('cmd') == 'remove')
 			{
 				$compare->deleteItem($item);
 			}
@@ -580,8 +581,6 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo json_encode($response);
-
-		$app->close();
 	}
 
 	/**
@@ -592,11 +591,10 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function removeCompare()
 	{
-		$app = JFactory::getApplication();
 		$item = new stdClass;
 
-		$item->productId  = $app->input->getInt('pid', 0);
-		$item->categoryId = $app->input->getInt('cid', 0);
+		$item->productId  = $this->input->getInt('pid', 0);
+		$item->categoryId = $this->input->getInt('cid', 0);
 
 		$compare = new RedshopProductCompare();
 
@@ -610,7 +608,7 @@ class RedshopControllerProduct extends RedshopController
 			$compare->deleteItem();
 		}
 
-		$Itemid = $app->input->getInt('Itemid', 0);
+		$Itemid = $this->input->getInt('Itemid', 0);
 
 		$this->setRedirect(
 			JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid, false),
@@ -626,10 +624,10 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function downloadProduct()
 	{
-		$Itemid = JRequest::getVar('Itemid');
+		$Itemid = $this->input->get('Itemid');
 		$model = $this->getModel('product');
 
-		$tid = JRequest::getCmd('download_id', "");
+		$tid = $this->input->getCmd('download_id', "");
 
 		$data = $model->downloadProduct($tid);
 
@@ -672,7 +670,7 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function Download()
 	{
-		$post = JRequest::get('POST');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product');
 
@@ -780,7 +778,7 @@ class RedshopControllerProduct extends RedshopController
 
 				// Red file using chunksize
 				$this->readfile_chunked($name);
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 	}
@@ -840,15 +838,13 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function ajaxupload()
 	{
-		$app = JFactory::getApplication();
+		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$productId = $this->input->getInt('product_id', 0);
+		$name      = $this->input->getCmd('mname', '') . '_' . $productId;
 
-		$uploadDir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$productId = $app->input->getInt('product_id', 0);
-		$name       = $app->input->getCmd('mname', '') . '_' . $productId;
-
-		if ($app->input->files)
+		if ($this->input->files)
 		{
-			$uploadFileData = $app->input->files->get($name);
+			$uploadFileData = $this->input->files->get($name);
 			$fileExtension = JFile::getExt($uploadFileData['name']);
 			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
 
@@ -860,8 +856,6 @@ class RedshopControllerProduct extends RedshopController
 			if (!in_array(strtolower($fileExtension), $legalExts))
 			{
 				echo '<li class="error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
-
-				$app->close();
 			}
 
 			if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath))
@@ -870,9 +864,9 @@ class RedshopControllerProduct extends RedshopController
 				$sendData               = array();
 				$sendData['id']         = $id;
 				$sendData['product_id'] = $productId;
-				$sendData['uniqueOl']   = $app->input->getString('uniqueOl', '');
-				$sendData['fieldName']  = $app->input->getString('fieldName', '');
-				$sendData['ajaxFlag']   = $app->input->getString('ajaxFlag', '');
+				$sendData['uniqueOl']   = $this->input->getString('uniqueOl', '');
+				$sendData['fieldName']  = $this->input->getString('fieldName', '');
+				$sendData['ajaxFlag']   = $this->input->getString('ajaxFlag', '');
 				$sendData['fileName']   = $fileName;
 				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
 				$session = JFactory::getSession();
@@ -902,8 +896,6 @@ class RedshopControllerProduct extends RedshopController
 		{
 			echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
 		}
-
-		$app->close();
 	}
 
 	/**
@@ -913,12 +905,11 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function removeAjaxUpload()
 	{
-		$app = JFactory::getApplication();
-		$id = $app->input->getString('id', '');
-		$productId = $app->input->getInt('product_id', 0);
-		$session = JFactory::getSession();
+		$id            = $this->input->getString('id', '');
+		$productId     = $this->input->getInt('product_id', 0);
+		$session       = JFactory::getSession();
 		$userDocuments = $session->get('userDocument', array());
-		$deleteFile = true;
+		$deleteFile    = true;
 
 		if (isset($userDocuments[$productId]) && array_key_exists($id, $userDocuments[$productId]))
 		{
@@ -947,13 +938,11 @@ class RedshopControllerProduct extends RedshopController
 			unset($userDocuments[$productId][$id]);
 			$session->set('userDocument', $userDocuments);
 
-			if ($deleteFile && is_file($filePath))
+			if ($deleteFile && JFile::exists($filePath))
 			{
-				unlink($filePath);
+				JFile::delete($filePath);
 			}
 		}
-
-		$app->close();
 	}
 
 	/**
@@ -964,10 +953,10 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function downloadDocument()
 	{
-		$fname = JRequest::getVar('fname', '', 'request', 'string');
+		$fname = $this->input->getString('fname', '');
 		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
 
-		if (is_file($fpath))
+		if (JFile::exists($fpath))
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
 
@@ -1020,7 +1009,7 @@ class RedshopControllerProduct extends RedshopController
 
 			// Red file using chunksize
 			$this->readfile_chunked($fpath);
-			exit;
+			JFactory::getApplication()->close();
 		}
 	}
 
@@ -1034,7 +1023,7 @@ class RedshopControllerProduct extends RedshopController
 		$producthelper = productHelper::getInstance();
 		$objhelper = redhelper::getInstance();
 
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$cid = $producthelper->getCategoryProduct($post['pid']);
 
@@ -1064,7 +1053,7 @@ class RedshopControllerProduct extends RedshopController
 		$producthelper = productHelper::getInstance();
 		$objhelper = redhelper::getInstance();
 
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$cid = $producthelper->getCategoryProduct($post['pid']);
 
@@ -1094,7 +1083,7 @@ class RedshopControllerProduct extends RedshopController
 		ob_clean();
 		$model = $this->getModel('product');
 
-		$post = JRequest::get('request');
+		$post = $this->input->getArray();
 
 		$product_id = $post['product_id'];
 		$property_id = $post['property_id'];
@@ -1107,6 +1096,6 @@ class RedshopControllerProduct extends RedshopController
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

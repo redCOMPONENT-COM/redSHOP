@@ -15,17 +15,17 @@
  */
 class ManufacturerManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturer';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturer';
 
-	public static $detailsTab = "//a[contains(text(), 'Details')]";
+    public static $detailsTab = "//a[contains(text(), 'Details')]";
 
-	public static $manufacturerName = "//input[@id='manufacturer_name']";
+    public static $manufacturerName = "//input[@id='manufacturer_name']";
 
-	public static $manufacturerSuccessMessage = 'Manufacturer Detail Saved';
+    public static $manufacturerSuccessMessage = 'Manufacturer Detail Saved';
 
-	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
+    public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
 
-	public static $selectFirst = "//input[@id='cb0']";
+    public static $selectFirst = "//input[@id='cb0']";
 
-	public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
+    public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
 }
