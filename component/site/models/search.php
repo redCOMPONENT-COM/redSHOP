@@ -536,6 +536,16 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.product_id IN (' . implode(',', $productIds) . ')');
 		}
 
+		$excludeCategories = $app->input->getString('excludeCategories', '');
+
+		if (!empty($excludeCategories))
+		{
+			$excludeCategories = explode(',', $excludeCategories);
+			JArrayHelper::toInteger($excludeCategories);
+
+			$query->where('pc.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
+		}
+
 		if ($layout == 'productonsale')
 		{
 			$categoryid = $item->params->get('categorytemplate');
