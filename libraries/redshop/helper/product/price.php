@@ -401,7 +401,7 @@ class RedshopHelperProductPrice
 					$productPriceIncludingVat = $productDiscountPriceTemp + $taxAmount;
 
 					$oldPrice = productHelper::getInstance()->defaultAttributeDataPrice(
-						$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
+						$productId, $productPriceExcludingVat, $templateHtml, $userId, intval($isApplyTax), $attributes
 					);
 
 					$productDiscountPriceTemp = productHelper::getInstance()->defaultAttributeDataPrice(
