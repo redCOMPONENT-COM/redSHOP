@@ -173,12 +173,9 @@ class RedshopControllerConfiguration extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
 		}
 
-		if ($apply)
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg);
-		}
+		$redirect = $apply ? 'index.php?option=com_redshop&view=configuration' : 'index.php?option=com_redshop';
 
-		$this->setRedirect('index.php?option=com_redshop', $msg);
+		$this->setRedirect($redirect, $msg);
 	}
 
 	/**
