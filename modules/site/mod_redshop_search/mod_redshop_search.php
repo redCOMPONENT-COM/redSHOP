@@ -35,6 +35,7 @@ $productPerpage         = trim($params->get('productperpage'));
 $modSearchItemid        = trim($params->get('modsearchitemid', ''));
 $productFields          = $params->get('product_fields', array());
 $showCustomfield        = trim($params->get('showCustomfield', ''));
+$excludeCategories      = implode(',', $params->get('excludeCategories', ''));
 $javaFun                = "";
 $itemId                 = RedshopHelperUtility::getItemId();
 
