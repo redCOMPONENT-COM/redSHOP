@@ -198,12 +198,7 @@ class RedshopModelConfiguration extends RedshopModel
 	{
 		$allowedDefaultExt = array ('jpg', 'jpeg', 'gif', 'png');
 
-		if (empty($source))
-		{
-			return;
-		}
-
-		if (!in_array(JFile::getExt($source), $allowedDefaultExt))
+		if (empty($source) || !in_array(JFile::getExt($source), $allowedDefaultExt))
 		{
 			return;
 		}
