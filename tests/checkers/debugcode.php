@@ -36,8 +36,8 @@ foreach ($folders as $folder)
 	}
 
 	fwrite(STDOUT, "\033[32;1m- Checking missed debug code at: " . $folder . "\033[0m\n");
-	$phpDebugCheck = shell_exec('grep -r --include "*.php" var_dump ' . $folderToCheck);
-	$jsDebugCheck  = shell_exec('grep -r --include "*.js" console.log ' . $folderToCheck);
+	$phpDebugCheck = shell_exec('grep -r --include "*.php" --exclude-dir={vendor} var_dump ' . $folderToCheck);
+	$jsDebugCheck  = shell_exec('grep -r --include "*.js" --exclude-dir={vendor} console.log ' . $folderToCheck);
 
 	if ($phpDebugCheck)
 	{
