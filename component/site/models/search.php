@@ -1226,6 +1226,16 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 		}
 
+		$excludeCategories = $app->input->getString('excludeCategories', '');
+
+		if (!empty($excludeCategories))
+		{
+			$excludeCategories = explode(',', $excludeCategories);
+			JArrayHelper::toInteger($excludeCategories);
+
+			$query->where('x.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
+		}
+
 		return $db->setQuery($query, 0, $limit)->loadObjectList();
 	}
 
