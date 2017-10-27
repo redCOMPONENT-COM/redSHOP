@@ -198,20 +198,13 @@ class RedshopModelConfiguration extends RedshopModel
 	{
 		$allowedDefaultExt = array ('jpg', 'jpeg', 'gif', 'png');
 
-		if ($source != "")
-		{
-			return;
-		}
-
-		$fileType = JFile::getExt($source);
-
-		if (!in_array($fileType, $allowedDefaultExt))
+		if (empty($source) || !in_array(JFile::getExt($source), $allowedDefaultExt))
 		{
 			return;
 		}
 
 		$return = RedshopHelperMedia::cleanFileName($source, $sourceClean);
-		$dest    = REDSHOP_FRONT_IMAGES_RELPATH . $folderPrefix . $return;
+		$dest   = REDSHOP_FRONT_IMAGES_RELPATH . $folderPrefix . $return;
 
 		// Delete old file
 		if (JFile::exists($dest))
@@ -223,14 +216,14 @@ class RedshopModelConfiguration extends RedshopModel
 	}
 
 	/**
-	 * @param   string  $d  D
+	 * @param   array  $data  Data for prepare
 	 *
 	 * @return  boolean
 	 *
 	 */
-	public function configurationPrepare($d)
+	public function configurationPrepare($data)
 	{
-		$this->configData = $this->redConfiguration->prepareConfigData($d);
+		$this->configData = $this->redConfiguration->prepareConfigData($data);
 
 		return (boolean) $this->configData;
 	}
@@ -265,8 +258,8 @@ class RedshopModelConfiguration extends RedshopModel
 		return $object;
 	}
 
-	/*
-	 * get Shop Currency Support
+	/**
+	 * Get Shop Currency Support
 	 *
 	 * @params: string $currency 	comma separated countries
 	 * @return: array stdClass Array for Shop country
@@ -286,7 +279,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
 		$this->_db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $this->_db->loadObjectList();
 	}
 
 	public function getnewsletters()
