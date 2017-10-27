@@ -141,6 +141,11 @@ if ($enableAjaxsearch)
 				urlArg[i++] = 'manufacture_id=' + manufactureId.options[manufactureId.selectedIndex].value;
 			}
 
+			if (document.getElementById('excludeCategories'))
+			{
+				urlArg[i++] = 'excludeCategories=' + document.getElementById('excludeCategories').value;
+			}
+
 			urlArgstring = urlArg.join('&');
 			new bsn.AutoSuggest('keyword', {
 				script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
