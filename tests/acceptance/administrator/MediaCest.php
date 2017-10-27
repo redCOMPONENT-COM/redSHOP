@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nhung
- * Date: 10/26/17
- * Time: 1:24 PM
- */
+
 use AcceptanceTester\MediaSteps as MediaSteps;
 use  AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 use  AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerJoomla3Steps;
@@ -29,12 +24,26 @@ class MediaCest
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
 		$this->discountStart       = "12-12-2016";
 		$this->discountEnd         = "23-05-2017";
+
+		$this->fieldMediaAlterImage = $this->faker->bothify('fieldMediaAlterImage ?##?');
+		$this->fieldMediaAlterImageEdit = $this->fieldMediaAlterImage.'Edit';
+
+		// youtube
+		$this->fieldMediaAlterYou = $this->faker->bothify('fieldMediaAlterYou ?##?');
+		$this->fieldMediaAlterYouEdit= $this->fieldMediaAlterYou.'Edit';
+		$this->youTube = 'wIft-t-MQuE';
 	}
 
 
 	public function _before(MediaSteps $client)
 	{
 		$client->doAdministratorLogin();
+	}
+
+
+	public function deleteMedia(MediaSteps $client){
+		$client->comment('I want to delete all media ');
+		$client->deleteAllMedia();
 	}
 
 	public function createCategoryProduct(AcceptanceTester $I, $scenario)
@@ -49,9 +58,19 @@ class MediaCest
 
 	}
 
-	public function createImage(MediaSteps $client)
+	public function createUpdateDeleteImage(MediaSteps $client)
 	{
-		$client->addImageMedia($this->productName);
+		$client->comment('Client create update and delete Image ');
+		$client->addImageMedia($this->productName,$this->fieldMediaAlterImage);
+		$client->editImageMedia($this->fieldMediaAlterImage, $this->fieldMediaAlterImageEdit);
+		$client->deleteAllMedia();
+	}
+
+	public function createUpdateDeleteYoutube (MediaSteps $client)
+	{
+		$client->comment('Client create and delete media is youtube');
+		$client->addYouTubeMedia($this->productName,$this->fieldMediaAlterYou,$this->youTube);
+		$client->deleteAllMedia();
 	}
 
 }
