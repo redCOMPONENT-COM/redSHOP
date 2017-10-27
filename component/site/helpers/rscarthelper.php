@@ -3100,6 +3100,8 @@ class rsCarthelper
 								}
 
 								$dispatcher->trigger('onReplaceShippingTemplate', array($d, &$data, $classname, $checked));
+
+								$data = str_replace("{gls_shipping_location}", "", $data);
 							}
 
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
