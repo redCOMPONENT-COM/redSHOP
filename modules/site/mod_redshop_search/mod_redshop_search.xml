@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SEARCH</name>
-	<version>1.7</version>
+	<version>1.8</version>
 	<redshop>2.0.7</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -158,6 +158,14 @@
 					label="MOD_REDSHOP_SEARCH_PRODUCT_FIELD"
 					description="MOD_REDSHOP_SEARCH_PRODUCT_FIELD_DESC">
                 </field>
+
+                <field
+					name="excludeCategories"
+					type="CategoriesParent"
+					default=""
+					label="MOD_REDSHOP_SEARCH_EXCLUDE_CATEGORIES_LBL"
+					description="MOD_REDSHOP_SEARCH_EXCLUDE_CATEGORIES_DESC"
+				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
