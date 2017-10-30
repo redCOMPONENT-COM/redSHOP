@@ -298,27 +298,37 @@ abstract class ModRedshopFilter
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('fv.field_value'))
-			->select($db->qn('fv.field_id'))
-			->select($db->qn('fv.field_name'))
+			->select('DISTINCT(fd.data_txt)')
+			->select($db->qn('f.id'))
+			->select($db->qn('f.name'))
 			->select($db->qn('f.title'))
 			->select($db->qn('f.class'))
 			->from($db->qn('#__redshop_fields', 'f'))
-			->leftJoin($db->qn('#__redshop_fields_value', 'fv') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fv.field_id'))
 			->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $pids) . ')')
 			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')')
-			->group($db->qn('fv.field_value'))
-			->order($db->qn('fv.value_id'));
+			->where($db->qn('fd.data_txt') . '!=""')
+			->order($db->qn('fd.data_txt'));
 
 		$data   = $db->setQuery($query)->loadObjectList();
 		$result = array();
 
 		foreach ($data as $key => $value)
 		{
-			$result[$value->field_id]['title'] = $value->title;
-			$result[$value->field_id]['class'] = $value->class;
-			$result[$value->field_id]['value'][$value->field_value] = $value->field_name;
+			$result[$value->id]['title'] = $value->title;
+			$result[$value->id]['class'] = $value->class;
+
+			$txt = explode(",", urldecode($value->data_txt));
+
+			$query = $db->getQuery(true)
+				->select($db->qn('field_name'))
+				->from($db->qn('#__redshop_fields_value'))
+				->where($db->qn('field_value') . ' IN (' . implode(',', $db->q($txt)) . ')');
+
+			if ($name = $db->setQuery($query)->loadResult())
+			{
+				$result[$value->id]['value'][$value->data_txt] = $name;
+			}
 		}
 
 		return $result;
