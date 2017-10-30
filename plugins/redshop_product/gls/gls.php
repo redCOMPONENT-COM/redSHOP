@@ -45,16 +45,16 @@ class PlgRedshop_ProductGls extends JPlugin
 			return;
 		}
 
-		// Initialiase variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		// Init variables.
+		$db = JFactory::getDbo();
 
 		$companyName = 'ServicePointID:' . $locationInfo[0] . ':PostDanmark';
 		$city = explode('###', $locationInfo[7]);
 		$city = trim($city[0]);
 
 		// Create the base update statement.
-		$query->update($db->qn('#__redshop_order_users_info'))
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_order_users_info'))
 			->set($db->qn('company_name') . ' = ' . $db->q($companyName))
 			->set($db->qn('firstname') . ' = ' . $db->q($locationInfo[1]))
 			->set($db->qn('lastname') . ' = ' . $db->q(''))
