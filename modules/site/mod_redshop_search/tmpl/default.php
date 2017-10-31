@@ -90,6 +90,7 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="templateid" value="<?php echo $templateId; ?>"/>
 	<input type="hidden" name="perpageproduct" value="<?php echo $productPerpage; ?>"/>
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $itemId; ?>"/>
+	<input type="hidden" name="excludeCategories" id="excludeCategories" value="<?php echo $excludeCategories; ?>"/>
 </form>
 
 <script type="text/javascript">
@@ -138,6 +139,11 @@ if ($enableAjaxsearch)
 			{
 				var manufactureId = document.getElementById('manufacture_id');
 				urlArg[i++] = 'manufacture_id=' + manufactureId.options[manufactureId.selectedIndex].value;
+			}
+
+			if (document.getElementById('excludeCategories'))
+			{
+				urlArg[i++] = 'excludeCategories=' + document.getElementById('excludeCategories').value;
 			}
 
 			urlArgstring = urlArg.join('&');
