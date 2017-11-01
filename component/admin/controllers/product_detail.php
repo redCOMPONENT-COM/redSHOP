@@ -138,10 +138,10 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
-    
+
 		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
  		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
-    
+
 		if ($post['discount_stratdate'])
 		{
 			$startDate                  = new JDate($post['discount_stratdate']);
@@ -1041,7 +1041,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		echo implode(',', RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
+		echo json_encode(RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
 
 		$app->close();
 	}
