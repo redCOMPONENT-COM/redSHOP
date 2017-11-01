@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class ManufacturerManagerJoomla3Page
+class ManufacturerManagerJoomla3Page extends AdminJ3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturer';
 
@@ -27,5 +27,10 @@ class ManufacturerManagerJoomla3Page
 
     public static $selectFirst = "//input[@id='cb0']";
 
-    public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
+    public static $manufacturerStatePath = "//div[@id='editcell']/div[2]/table/tbody/tr/td[5]/a";
+
+    public static $xpathName="//div[@id='editcell']/div[2]/table/tbody/tr/td[2]/a";
+
+
+    public static $productPerPage="//input[@id='product_per_page']";
 }

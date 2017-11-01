@@ -22,6 +22,12 @@ class ManageManufacturerAdministratorCest
         $this->faker = Faker\Factory::create();
         $this->manufacturerName = $this->faker->bothify('ManageManufacturerAdministratorCest ?##?');
         $this->updatedName = 'Updated ' . $this->manufacturerName;
+        $this->productPerPage = $this->faker->numberBetween(1, 100);
+    }
+
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
     }
 
     /**
@@ -31,9 +37,8 @@ class ManageManufacturerAdministratorCest
     public function createManufacturer(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Manufacture creation in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
-        $I->addManufacturer($this->manufacturerName);
+        $I->addManufacturer($this->manufacturerName, $this->productPerPage);
         $I->searchManufacturer($this->manufacturerName);
     }
 
@@ -45,7 +50,6 @@ class ManageManufacturerAdministratorCest
     public function updateManufacturer(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if Manufacture gets updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
         $I->editManufacturer($this->manufacturerName, $this->updatedName);
         $I->searchManufacturer($this->updatedName);
@@ -59,7 +63,6 @@ class ManageManufacturerAdministratorCest
     public function changeManufacturerState(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if State of a Manufacture gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
         $I->changeManufacturerState($this->updatedName);
         $I->verifyState('unpublished', $I->getManufacturerState($this->updatedName));
@@ -74,9 +77,7 @@ class ManageManufacturerAdministratorCest
     public function deleteManufacturer(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Deletion of Manufacture in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
         $I->deleteManufacturer($this->updatedName);
-        $I->searchManufacturer($this->updatedName, 'Delete');
     }
 }
