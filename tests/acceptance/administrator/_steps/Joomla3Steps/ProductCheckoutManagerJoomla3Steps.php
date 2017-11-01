@@ -336,6 +336,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
 		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
+		$I->comment('price end is 14');
 	}
 
 	public function checkoutWithDiscount($productName, $categoryName,$subtotal,$Discount,$Total){
