@@ -49,7 +49,7 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 			<?php $editLink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
 			<tr>A
 				<td>
-					<?php echo "- <a href='" . JRoute::_($editLink) . "'>" . $this->shippingaddresses[$i]->text . "</a>"; ?>
+					<?php echo "- <a href='" . JRoute::_($editLink) . "'>" . $this->shippingAddresses[$i]->text . "</a>"; ?>
 				</td>
 			</tr>
 		<?php endfor; ?>
