@@ -19,6 +19,8 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payoo.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payoo.sys.ini</language>
+		<language tag="vi-VN">language/vi-VN/vi-VN.plg_redshop_payment_rs_payment_payoo.ini</language>
+		<language tag="vi-VN">language/vi-VN/vi-VN.plg_redshop_payment_rs_payment_payoo.sys.ini</language>
 	</languages>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
