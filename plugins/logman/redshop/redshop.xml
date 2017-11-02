@@ -15,9 +15,13 @@
 
     <files>
         <filename plugin="redshop">redshop.php</filename>
-        <folder>language</folder>
         <folder>activity</folder>
     </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_logman_redshop.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_logman_redshop.sys.ini</language>
+    </languages>
 
     <config>
         <fields name="params" />

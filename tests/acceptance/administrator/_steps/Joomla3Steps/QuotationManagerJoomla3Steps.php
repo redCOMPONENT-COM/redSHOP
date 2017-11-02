@@ -54,6 +54,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\QuotationManagerPage::$URL);
         $I->click(\QuotationManagerPage::$quotationId);
+        $I->waitForElement(\QuotationManagerPage::$quantityp1,30);
         $I->fillField(\QuotationManagerPage::$quantityp1, $newQuantity);
         $I->click(\QuotationManagerPage::$saveButton);
         $I->see(\QuotationManagerPage::$messageSaveSuccess, \QuotationManagerPage::$selectorSuccess);

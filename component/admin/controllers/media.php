@@ -125,11 +125,11 @@ class RedshopControllerMedia extends RedshopController
 
 	public function saveorder()
 	{
-		$section_id    = $this->input->getInt('section_id');
-		$section_name  = $this->input->get('section_name');
-		$media_section = $this->input->get('media_section');
-		$cid           = $this->input->post->get('cid', array(), 'array');
-		$order         = $this->input->post->get('order', array(), 'array');
+		$sectionId    = $this->input->getInt('section_id');
+		$sectionName  = $this->input->get('section_name');
+		$mediaSection = $this->input->get('media_section');
+		$cid          = $this->input->post->get('cid', array(), 'array');
+		$order        = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
@@ -148,14 +148,14 @@ class RedshopControllerMedia extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if (isset($sectionId))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
-				. '&showbuttons=1&section_name=' . $section_name
-				. '&media_section=' . $media_section, $msg
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $sectionId
+				. '&showbuttons=1&section_name=' . $sectionName
+				. '&media_section=' . $mediaSection, $msg
 			);
 		}
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+        elseif (null !== $this->input->post->get('set', null) && $mediaSection == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">

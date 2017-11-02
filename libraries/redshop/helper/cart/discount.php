@@ -13,7 +13,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper for Cart - Discount
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperCartDiscount
 {
@@ -23,14 +23,14 @@ class RedshopHelperCartDiscount
 	 *
 	 * @return  array<object>
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function getDiscountCalcDataExtra($extraIds = "", $productId = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('*')->from($db->qn('#__product_discount_calc_extra'));
+		$query->select('*')->from($db->qn('#__redshop_product_discount_calc_extra'));
 
 		if (!empty($extraIds))
 		{
@@ -58,7 +58,7 @@ class RedshopHelperCartDiscount
 	 *
 	 * @return  array|bool        Array of cart or boolean value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function applyCoupon($cartData = array())
 	{
@@ -285,7 +285,7 @@ class RedshopHelperCartDiscount
 	 *
 	 * @return  array|bool        Array of cart or boolean value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function applyVoucher($cartData = array())
 	{

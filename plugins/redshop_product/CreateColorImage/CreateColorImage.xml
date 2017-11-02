@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
-   <name>PLG_RS_PRODUCT_CREATECOLORIMAGE</name>
-   <author>Redweb.dk</author>
-   <creationDate>Sep 2016</creationDate>
-   <copyright>redCOMPONENT.com</copyright>
-   <license>GNU/GPL</license>
-   <authorEmail>email@redweb.dk</authorEmail>
-   <authorUrl>www.redweb.dk</authorUrl>
-   <version>1.4</version>
-   <redshop>2.0</redshop>
-   <description>PLG_RS_PRODUCT_CREATECOLORIMAGE_DESC</description>
- 	<files>
-		<filename plugin="CreateColorImage">CreateColorImage.php</filename>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_CreateColorImage.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_CreateColorImage.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_product_CreateColorImage.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_product_CreateColorImage.sys.ini</language>
+    <name>PLG_RS_PRODUCT_CREATECOLORIMAGE</name>
+    <author>Redweb.dk</author>
+    <creationDate>Sep 2016</creationDate>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>email@redweb.dk</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <version>1.4</version>
+    <redshop>2.0</redshop>
+    <description>PLG_RS_PRODUCT_CREATECOLORIMAGE_DESC</description>
+    <files>
+        <filename plugin="CreateColorImage">CreateColorImage.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_CreateColorImage.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_CreateColorImage.sys.ini</language>
     </languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field name="colorToBeReplaced"
-					   type="text" size="10" default=""
-					   label="PLG_RS_PRODUCT_CREATECOLORIMAGE_COLOR_CODE_LABEL"
-					   description="PLG_RS_PRODUCT_CREATECOLORIMAGE_COLOR_CODE_DESC"/>
-				<field name="bgImage"
-					   type="media" size="10" default=""
-					   label="PLG_RS_PRODUCT_CREATECOLORIMAGE_BG_IMAGE_LABEL"
-					   description="PLG_RS_PRODUCT_CREATECOLORIMAGE_BG_IMAGE_DESC"/>
-			</fieldset>
-		</fields>
-	</config>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="colorToBeReplaced"
+                        type="text"
+                        size="10"
+                        default=""
+                        label="PLG_RS_PRODUCT_CREATECOLORIMAGE_COLOR_CODE_LABEL"
+                        description="PLG_RS_PRODUCT_CREATECOLORIMAGE_COLOR_CODE_DESC"
+                />
+                <field
+                        name="bgImage"
+                        type="media"
+                        size="10"
+                        default=""
+                        label="PLG_RS_PRODUCT_CREATECOLORIMAGE_BG_IMAGE_LABEL"
+                        description="PLG_RS_PRODUCT_CREATECOLORIMAGE_BG_IMAGE_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

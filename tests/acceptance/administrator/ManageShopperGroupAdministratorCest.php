@@ -18,6 +18,10 @@ class ManageShopperGroupAdministratorCest
 		$this->showPrice = 'Yes';
 		$this->nameShopperEdit = $this->shopperType . 'edit';
 		$this->idShopperChange = '1';
+		$this->shipping='no';
+		$this->enableQuotation='yes';
+		$this->showVat='no';
+		$this->shopperGroupPortal='no';
 
 	}
 
@@ -50,8 +54,8 @@ class ManageShopperGroupAdministratorCest
 		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
-		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->categoryName, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showPrice, 'save');
-		$I->addShopperGroups($this->shopperNameSaveClose, $this->shopperType, $this->customerType, $this->categoryName, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showPrice, 'saveclose');
+		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->shopperGroupPortal,$this->categoryName, $this->shipping,$this->shippingRate, $this->shippingCheckout, $this->catalog,$this->showVat, $this->showPrice, $this->enableQuotation,'save');
+		$I->addShopperGroups($this->shopperNameSaveClose, $this->shopperType, $this->customerType, $this->shopperGroupPortal,$this->categoryName,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
 
 	}
 

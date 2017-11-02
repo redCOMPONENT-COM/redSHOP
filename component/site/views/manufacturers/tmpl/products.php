@@ -235,6 +235,25 @@ if ($template_middle != "")
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
 
+		$productAvailabilityDate = strstr($cart_mdata, "{product_availability_date}");
+		$stockNotifyFlag         = strstr($cart_mdata, "{stock_notify_flag}");
+		$stockStatus             = strstr($cart_mdata, "{stock_status");
+
+		$attributeproductStockStatus = array();
+
+		if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+		{
+			$attributeproductStockStatus = $producthelper->getproductStockStatus($manufacturer_products[$i]->product_id, $totalatt);
+		}
+
+		$cart_mdata = $producthelper->replaceProductStockdata(
+			$manufacturer_products[$i]->product_id,
+			0,
+			0,
+			$cart_mdata,
+			$attributeproductStockStatus
+		);
+
 //		$cart_tr .=$cart_mdata ;
 
 //		$cname = $manufacturer_products[$i]->category_name;
@@ -261,7 +280,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		$wimg      = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
 		$linkimage = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
 
-		$altText = $producthelper->getAltText('manufacturer', $manufacturer->manufacturer_id);
+		$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $manufacturer->manufacturer_id);
 
 		if (!$altText)
 		{

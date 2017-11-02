@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 class rsCarthelper
@@ -125,38 +127,13 @@ class rsCarthelper
 	 * @param int    $cart
 	 * @param string $payment_oprand
 	 *
-	 * @return mixed|string
+	 * @return  string
+	 *
+	 * @deprecated  2.0.7
 	 */
 	public function replacePayment($data = '', $amount = 0, $cart = 0, $payment_oprand = '-')
 	{
-		if (strpos($data, '{if payment_discount}') !== false && strpos($data, '{payment_discount end if}') !== false)
-		{
-			if ($cart == 1 || $amount == 0)
-			{
-				$template_pdiscount_sdata = explode('{if payment_discount}', $data);
-				$template_pdiscount_edata = explode('{payment_discount end if}', $template_pdiscount_sdata[1]);
-				$data                     = $template_pdiscount_sdata[0] . $template_pdiscount_edata[1];
-
-				return $data;
-			}
-
-			if ($amount <= 0)
-			{
-				$template_pd_sdata = explode('{if payment_discount}', $data);
-				$template_pd_edata = explode('{payment_discount end if}', $template_pd_sdata[1]);
-				$data              = $template_pd_sdata[0] . $template_pd_edata[1];
-			}
-			else
-			{
-				$data    = str_replace("{payment_order_discount}", RedshopHelperProductPrice::formattedPrice($amount), $data);
-				$payText = ($payment_oprand == '+') ? JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
-				$data    = str_replace("{payment_discount_lbl}", $payText, $data);
-				$data    = str_replace("{payment_discount end if}", '', $data);
-				$data    = str_replace("{if payment_discount}", '', $data);
-			}
-		}
-
-		return $data;
+		return RedshopHelperPayment::replaceConditionTag($data, $amount, $cart, $payment_oprand);
 	}
 
 	/**
@@ -221,7 +198,7 @@ class rsCarthelper
 	 * @param  boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  mixed
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.0.7
 	 *
 	 * @see RedshopHelperBillingTag::replaceBillingAddress()
 	 */
@@ -392,7 +369,7 @@ class rsCarthelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see RedshopHelperShippingTag::replaceShippingMethod()
 	 */
@@ -2230,19 +2207,21 @@ class rsCarthelper
 			$total_for_discount = $subtotal;
 		}
 
-		$cart_data = $this->replaceDiscount($cart_data, $discount_amount + $tmp_discount, $total_for_discount, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
+		$cart_data = RedshopHelperCartTag::replaceDiscount($cart_data, $discount_amount + $tmp_discount, $total_for_discount, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 
 		if ($checkout)
 		{
-			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0, $cart['payment_oprand']);
+			$cart_data = RedshopHelperPayment::replaceConditionTag($cart_data, $cart['payment_amount'], 0, $cart['payment_oprand']);
 		}
 		else
 		{
 			$paymentOprand = (isset($cart['payment_oprand'])) ? $cart['payment_oprand'] : '-';
-			$cart_data     = $this->replacePayment($cart_data, 0, 1, $paymentOprand);
+			$cart_data     = RedshopHelperPayment::replaceConditionTag($cart_data, 0, 1, $paymentOprand);
 		}
 
-		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
+		$cart_data = RedshopHelperCartTag::replaceTax(
+			$cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+		);
 
 		return $cart_data;
 	}
@@ -2718,9 +2697,9 @@ class rsCarthelper
 		}
 
 		$message = str_replace($search, $replace, $ReceiptTemplate);
-		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
-		$message = $this->replaceDiscount($message, $row->order_discount, $total_for_discount);
-		$message = $this->replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);
+		$message = RedshopHelperPayment::replaceConditionTag($message, $row->payment_discount, 0, $row->payment_oprand);
+		$message = RedshopHelperCartTag::replaceDiscount($message, $row->order_discount, $total_for_discount);
+		$message = RedshopHelperCartTag::replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);
 
 		return $message;
 	}
@@ -2890,7 +2869,7 @@ class rsCarthelper
 
 						if ($subscription_price)
 						{
-							$subscription_vat = $this->_producthelper->getProductTax($this->data->product_id, $subscription_price);
+							$subscription_vat = RedshopHelperProduct::getProductTax($this->data->product_id, $subscription_price);
 						}
 
 						$product_vat += $subscription_vat;
@@ -3121,6 +3100,8 @@ class rsCarthelper
 								}
 
 								$dispatcher->trigger('onReplaceShippingTemplate', array($d, &$data, $classname, $checked));
+
+								$data = str_replace("{gls_shipping_location}", "", $data);
 							}
 
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
@@ -3169,7 +3150,7 @@ class rsCarthelper
 
 			if (count($shippingmethod) > 0)
 			{
-				$errorMSG = $this->_shippinghelper->getShippingRateError($d);
+				$errorMSG = RedshopHelperShipping::getShippingRateError($d);
 			}
 
 			$template_desc = "<div></div>";
@@ -3213,7 +3194,7 @@ class rsCarthelper
 
 		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
 		{
-			$paymentparams = new JRegistry($paymentmethod->params);
+			$paymentparams = new Registry($paymentmethod->params);
 			$acceptedCredictCard = $paymentparams->get("accepted_credict_card", array());
 
 			if ($paymentparams->get('is_creditcard', 0)
@@ -3615,7 +3596,7 @@ class rsCarthelper
 	 *
 	 * @return  array|bool
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperCartDiscount::applyCoupon()
 	 */
@@ -3631,7 +3612,7 @@ class rsCarthelper
 	 *
 	 * @return  array|bool
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperCartDiscount::applyVoucher()
 	 */
@@ -4742,7 +4723,11 @@ class rsCarthelper
 
 				if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 				{
-					if (!$generateAccessoryCart)
+					if (is_bool($generateAccessoryCart))
+					{
+						return JText::_('COM_REDSHOP_ACCESSORY_HAS_REQUIRED_ATTRIBUTES');
+					}
+					elseif (!$generateAccessoryCart)
 					{
 						return false;
 					}
@@ -5125,6 +5110,11 @@ class rsCarthelper
 							{
 								$acc_property_data = explode('@@', $data['acc_property_data']);
 								$acc_property_data = explode('##', $acc_property_data[$i]);
+
+								if (empty($acc_property_data[$ia]) && $attribute[0]->attribute_required == 1)
+								{
+									return array();
+								}
 
 								if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 								{
