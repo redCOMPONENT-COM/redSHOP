@@ -283,7 +283,7 @@ abstract class RedshopHelperAttribute
 									. $productId . "\",\"" . $accessoryId . "\",\"" . $relatedProductId . "\",\""
 									. $attributes [$a]->value . "\",\"" . $property[$i]->value . "\",\"" . $mpw_thumb
 									. "\",\"" . $mph_thumb
-									. "\");'><img class='redAttributeImage' width='50' height='50' src='" . $thumbUrl . "'></a></div>";
+									. "\");'><img class='redAttributeImage' width='50' height='50' src='" . $thumbUrl . "' title='" . $property[$i]->property_name . "'></a></div>";
 								$imgAdded++;
 							}
 						}
