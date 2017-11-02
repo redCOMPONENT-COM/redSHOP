@@ -1,8 +1,10 @@
 #!groovy
-
 pipeline {
     agent any
-
+    options {
+            timeout(time: 1, unit: 'HOURS')
+    }
+    triggers { pollSCM ('* * * * *') }
     stages {
         stage('Setup') {
             steps {
@@ -20,12 +22,6 @@ pipeline {
             }
         }
         stage('Browser Tests setup') {
-            agent {
-                docker {
-                    image 'joomlaprojects/docker-systemtests'
-                    args  '--user 0 --privileged=true'
-                }
-            }
             environment {
                 CLOUD_NAME= 'redcomponent'
                 API_KEY= '365447364384436'
@@ -34,8 +30,30 @@ pipeline {
                 ORGANIZATION='redCOMPONENT-COM'
                 REPO='redSHOP'
             }
-            steps {
-                sh 'bash build/jenkins/system-tests.sh'
+            parallel {
+                stage('Test Stage A') {
+                    agent {
+                        docker {
+                            image 'joomlaprojects/docker-systemtests'
+                            args  '--user 0 --privileged=true -v /tmp:/tmp'
+                        }
+                    }
+                    steps {
+                        sh 'bash build/jenkins/system-tests.sh'
+                    }
+                }
+                stage('Test Stage B') {
+                    agent {
+                        docker {
+                            image 'joomlaprojects/docker-systemtests'
+                            args  '--user 0 --privileged=true -v /tmp:/tmp'
+                        }
+                    }
+                    steps {
+                        sh 'whoami'
+                        sh 'bash build/jenkins/system-tests.sh'
+                    }
+                }
             }
             post {
                 always {

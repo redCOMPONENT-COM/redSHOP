@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Billing Tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperBillingTag
 {
@@ -24,7 +24,7 @@ class RedshopHelperBillingTag
 	 * @param   boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  mixed
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceBillingAddress($content, $billingAddress, $sendMail = false)
 	{
@@ -42,7 +42,7 @@ class RedshopHelperBillingTag
 	 * @param   boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceSingle(&$content, $billingAddress, $sendMail = false)
 	{
@@ -99,7 +99,7 @@ class RedshopHelperBillingTag
 	 * @param   object  $billingAddress  Billing data
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceBlock(&$content, $billingAddress)
 	{

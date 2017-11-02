@@ -165,6 +165,7 @@ class ProductCheckoutVatExemptUserCest
 		$this->productName = 'Testing Products' . rand(99, 999);
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = '100';
+		$this->productPriceEndVAT = '110';
 		$this->minimumPerProduct = '1';
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
@@ -232,7 +233,7 @@ class ProductCheckoutVatExemptUserCest
 
 		$client->wantTo('Create order with product and user');
 		$client= new ProductCheckoutManagerJoomla3Steps($scenario);
-		$client->checkoutApplyVATForUser($this->userName,$this->password,$this->productName,$this->categoryName);
+		$client->checkoutApplyVATForUser($this->userName, $this->password, $this->productName, $this->categoryName, $this->randomProductPrice, $this->productPriceEndVAT);
 	}
 
 	public function clearUp(AcceptanceTester $I, $scenario)

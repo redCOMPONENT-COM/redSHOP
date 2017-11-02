@@ -1,12 +1,9 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 7/21/2017
- * Time: 11:24 AM
+ * Shopper Groups
  */
-class ShopperGroupJ3Page
+class ShopperGroupJ3Page extends AdminJ3Page
 {
 
     //name page
@@ -32,6 +29,8 @@ class ShopperGroupJ3Page
     public static $customerTypeSearch = ['id' => 's2id_autogen2_search'];
 
     public static $shopperGroupPortalYes = ['id' => 'shopper_group_portal1-lbl'];
+
+	public static $shopperGroupPortalNo = ['id' => 'shopper_group_portal0-lbl'];
 
     public static $shippingYes = ['id' => 'default_shipping1-lbl'];
 
@@ -74,9 +73,9 @@ class ShopperGroupJ3Page
 
     public static $nameShopperGroupsFirst = ['xpath' => "//form[@id='adminForm']/div[1]/div/table/tbody/tr[1]/td[3]/a"];
 
-    public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
+//    public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
 
-    public static $pageHead="//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
+//    public static $pageHead="//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
 
 
 

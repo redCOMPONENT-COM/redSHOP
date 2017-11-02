@@ -126,12 +126,10 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         //get state
         $I->click(\ConfigurationManageJ3Page::$statePrice);
         $I->waitForElement(\ConfigurationManageJ3Page::$stateSearchPrice, 5);
-        if($state==null){
-
-        }else{
-	        $I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
-	        $I->waitForElement($userConfigurationPage->returnChoice($state));
-	        $I->click($userConfigurationPage->returnChoice($state));
+        if($state != null){
+            $I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
+            $I->waitForElement($userConfigurationPage->returnChoice($state));
+            $I->click($userConfigurationPage->returnChoice($state));
         }
 
         //get default vat
@@ -149,7 +147,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->pressKey(\ConfigurationManageJ3Page::$vatDefaultBase, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
         //apply vat on discount
-        switch ($vatAfter) {
+        switch ($vatAfter)
+        {
             case 'after':
                 $I->click(\ConfigurationManageJ3Page::$applyDiscountAfter);
                 break;
@@ -162,7 +161,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\ConfigurationManageJ3Page::$vatAfterDiscount, $vatNumber);
 
         //get value calculation based on
-        switch ($calculationBase) {
+        switch ($calculationBase)
+        {
             case 'billing':
                 $I->click(\ConfigurationManageJ3Page::$calculationBaseBilling);
                 break;
@@ -173,7 +173,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 
         //get requi vat yesno
 
-        switch ($requiVAT) {
+        switch ($requiVAT)
+        {
             case 'yes':
                 $I->click(\ConfigurationManageJ3Page::$vatNumberYes);
                 break;
@@ -192,7 +193,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
 		$I->click(\ConfigurationManageJ3Page::$cartCheckout);
 		$userConfiguration = new \ConfigurationManageJ3Page();
-		switch ($addcart) {
+		switch ($addcart)
+        {
 			case 'product':
 				$I->click(\ConfigurationManageJ3Page::$addCartProduct);
 				break;
@@ -200,7 +202,9 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\ConfigurationManageJ3Page::$addCartAttibute);
 				break;
 		}
-		switch ($allowPreOrder) {
+
+		switch ($allowPreOrder)
+        {
 			case 'yes':
 				$I->click(\ConfigurationManageJ3Page::$allowPreOrOderYes);
 				break;
@@ -220,7 +224,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->fillField(\ConfigurationManageJ3Page::$cartTimeOut, $cartTimeOut);
 
-		switch ($enabldAjax) {
+		switch ($enabldAjax)
+        {
 			case 'yes':
 				$I->click(\ConfigurationManageJ3Page::$enableAjaxYes);
 				break;
@@ -229,7 +234,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 		}
 		//choice default cart/checkout item ID
-		if ($defaultCart != null) {
+		if ($defaultCart != null)
+        {
 			$I->click(\ConfigurationManageJ3Page::$defaultCart);
 			$I->waitForElement(\ConfigurationManageJ3Page::$defaultCartSearch, 5);
 			$I->fillField(\ConfigurationManageJ3Page::$defaultCartSearch, $defaultCart);
@@ -244,7 +250,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userConfiguration->returnchoice($buttonCartLead));
 		$I->pressKey(\ConfigurationManageJ3Page::$buttonCartLead, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
-		switch ($onePage) {
+		switch ($onePage)
+        {
 			case 'yes':
 				$I->click(\ConfigurationManageJ3Page::$onePageYes);
 				break;
@@ -261,7 +268,8 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 		}
 
-		switch ($attributeImage) {
+		switch ($attributeImage)
+        {
 			case 'yes':
 				$I->click(\ConfigurationManageJ3Page::$attributeImageInCartYes);
 				break;

@@ -52,7 +52,7 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->wantTo('Search the Product');
         $I->amOnPage(\PriceProductJoomla3Page::$URL);
-        $I->see(\PriceProductJoomla3Page::$namePage, \PriceProductJoomla3Page::$selectorPage);
+        $I->see(\PriceProductJoomla3Page::$namePage, \PriceProductJoomla3Page::$headPage);
         $I->filterListBySearchingProductPrice($productName);
     }
 

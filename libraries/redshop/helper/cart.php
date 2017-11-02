@@ -371,6 +371,8 @@ abstract class RedshopHelperCart
 			$userId = $user->id;
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+
 		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
@@ -401,6 +403,8 @@ abstract class RedshopHelperCart
 
 		foreach ($cartItems as $cartItem)
 		{
+			RedshopHelperUtility::getDispatcher()->trigger('onDatabaseToCart', array(&$cartItem));
+
 			$setCartItem           = true;
 			$quantity              = $cartItem->product_quantity;
 			$calcOutput            = "";
@@ -567,7 +571,7 @@ abstract class RedshopHelperCart
 				{
 					foreach ($fields as $field)
 					{
-						$dataTxt = (isset($attributes[$field->field_name])) ? $attributes[$field->field_name] : '';
+						$dataTxt = (isset($attributes[$field->name])) ? $attributes[$field->name] : '';
 						$text    = strpbrk($dataTxt, '`');
 
 						if ($text)
@@ -580,7 +584,7 @@ abstract class RedshopHelperCart
 							}
 						}
 
-						$cart[$idx][$field->field_name] = $dataTxt;
+						$cart[$idx][$field->name] = $dataTxt;
 					}
 				}
 
