@@ -157,7 +157,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
+	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 	/**
 	 * @var string
 	 */

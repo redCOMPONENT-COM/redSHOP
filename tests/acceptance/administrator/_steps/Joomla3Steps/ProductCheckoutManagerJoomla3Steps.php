@@ -30,7 +30,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function checkOutProductWithBankTransfer( $productName , $categoryName ,$subPrice,$finalPrice)
 	{
-		$I=$this;
+		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;

@@ -121,7 +121,7 @@ class ProductVatCheckoutCest
 		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
 		$this->password = $this->faker->bothify('Password ?##?');
 		$this->email = $this->faker->email;
-		$this->emailMissingUser=$this->faker->email;
+		$this->emailMissingUser = $this->faker->email;
 		$this->emailsave = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
 		$this->group = 'Public';
@@ -138,7 +138,7 @@ class ProductVatCheckoutCest
 		$this->categoryName = 'Testing Category ' . $this->faker->randomNumber();
 		$this->noPage = $this->faker->randomNumber();
 		//create product
-		$this->productName = 'Testing Products' . rand(99, 999);
+		$this->productName = 'Testing Products' . $this->faker->numberBetween(99, 999);
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = '100';
 		$this->minimumPerProduct = '1';
@@ -147,7 +147,7 @@ class ProductVatCheckoutCest
 		$this->discountStart = "12-12-2016";
 		$this->discountEnd = "23-05-2017";
 		//setup VAT
-		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
+		$this->taxRateName          = 'Testing Tax Rates Groups' . $this->faker->numberBetween(1, 199);
 		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
 		$this->taxGroupName         = 'Testing VAT Groups'.$this->faker->randomNumber();
 		$this->taxRateValue         = 1;
@@ -159,16 +159,15 @@ class ProductVatCheckoutCest
 
 		$this->vatCalculation = 'Webshop';
 		$this->vatAfter = 'after';
-		$this->vatNumber =0;
+		$this->vatNumber = 0;
 		$this->calculationBase = 'billing';
 		$this->requiVAT = 'no';
-		$this->select="Select";
+		$this->select = "Select";
 
-		$this->subPrice="DKK 100,00";
-		$this->finalPrice="DKK 200,00";
-
-
+		$this->subPrice = "DKK 100,00";
+		$this->finalPrice = "DKK 200,00";
 	}
+
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -184,9 +183,8 @@ class ProductVatCheckoutCest
 	public function testProductWithVatCheckout(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Setup VAT is groups default');
-		$client=new ConfigurationManageJoomla3Steps($scenario);
+		$client = new ConfigurationManageJoomla3Steps($scenario);
 		$client->setupVAT($this->select, $this->state, $this->select, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
-
 
 		$client->wantTo('Create VAT groups');
 		$client = new TaxGroupSteps($scenario);
@@ -197,9 +195,8 @@ class ProductVatCheckoutCest
 		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName);
 
 		$client->wantTo('Setup VAT is groups default');
-		$client=new ConfigurationManageJoomla3Steps($scenario);
+		$client = new ConfigurationManageJoomla3Steps($scenario);
 		$client->setupVAT($this->countryName, $this->state, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
-
 
 		$client->wantTo('Create category');
 		$client = new CategoryManagerJoomla3Steps($scenario);
@@ -210,7 +207,7 @@ class ProductVatCheckoutCest
 		$client->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$client->wantTo('Create order with product and user');
-		$client= new ProductCheckoutManagerJoomla3Steps($scenario);
+		$client = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$client->checkOutProductWithBankTransfer($this->productName,$this->categoryName,$this->subPrice,$this->finalPrice);
 	}
 
@@ -227,12 +224,10 @@ class ProductVatCheckoutCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 		$I->wantTo('Delete VAT value');
-		$I= new TaxRateSteps($scenario);
+		$I = new TaxRateSteps($scenario);
 		$I->deleteTAXRatesOK($this->taxRateName);
 		$I->wantTo('Delete VAT Groups');
-		$I= new TaxGroupSteps($scenario);
+		$I = new TaxGroupSteps($scenario);
 		$I->deleteVATGroupOK($this->taxGroupName);
-
-
 	}
 }
