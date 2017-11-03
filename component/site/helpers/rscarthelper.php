@@ -4037,7 +4037,7 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$result = RedshopHelperUtility::getDispatcher()->trigger('onCheckQuantityInStock', array(&$data, &$newquantity, &$minQuantity));
 
-		if ($result)
+		if (in_array(true, $result, true))
 		{
 			return $newquantity;
 		}
