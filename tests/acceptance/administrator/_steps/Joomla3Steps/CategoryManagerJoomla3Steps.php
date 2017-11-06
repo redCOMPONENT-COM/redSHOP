@@ -9,7 +9,7 @@
 namespace AcceptanceTester;
 
 use Codeception\Module\WebDriver;
-
+use \CategoryManagerJ3Page as CategoryManagerJ3Page;
 /**
  * Class CategoryManagerJoomla3Steps
  *
@@ -114,7 +114,22 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
 
-
+    /**
+     * @param $name
+     */
+    public function checkReview($name)
+    {
+        $I = $this;
+        $I->amOnPage(CategoryManagerJ3Page::$URL);
+        $I->searchCategory($name);
+        $I->click(\CategoryManagerJ3Page::$checkAll);
+        $I->click(['link' => $name]);
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
+        $I->click(CategoryManagerJ3Page::$buttonReview);
+        $I->switchToNextTab();
+        $I->waitForElement(CategoryManagerJ3Page::$headPageName,30);
+        $I->waitForText($name, 30, CategoryManagerJ3Page::$headPageName);
+    }
     /**
      * @param $categoryName
      * @param $noPage
