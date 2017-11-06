@@ -140,6 +140,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonReview = 'Preview';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonClose = "Close";
 
 // Include url of current page
