@@ -783,7 +783,7 @@ class RedshopHelperMedia
 			}
 
 			// If watermark not exists or disable - display simple thumb
-			if ($enableWatermark < 0
+			if ($enableWatermark <= 0
 				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE'))
 			)
 			{
