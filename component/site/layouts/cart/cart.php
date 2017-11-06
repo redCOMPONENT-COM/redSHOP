@@ -128,16 +128,19 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 <?php endif;
 ?>
 <script type="text/javascript">
-	function deleteCartItem(idx) 
+	function deleteCartItem(idx)
 	{
 		jQuery.ajax({
-	        type: "POST",
-	        data: {idx: idx},
-	        url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem&' . $token . '=1' ; ?>",
-	        success: function(data) {
-	        	data = data.split("`");
-	        	jQuery('#mod_cart_total').html(data[1]);
-	        }
-	    });
+			type: "POST",
+			data: {
+				idx: idx,
+				"<?php echo $token ?>": "1"
+			},
+			url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
+			success: function(data) {
+				data = data.split("`");
+				jQuery('#mod_cart_total').html(data[1]);
+			}
+		});
 	}
 </script>
