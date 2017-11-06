@@ -115,6 +115,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonReview = 'Preview';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonPublish = "Publish";
 
 	/**
