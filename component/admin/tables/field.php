@@ -56,7 +56,7 @@ class RedshopTableField extends RedshopTable
 			->select('COUNT(*) AS cnt')
 			->from($db->qn('#__redshop_fields'))
 			->where($db->qn('name') . ' = ' . $db->quote($this->name))
-			->where($db->qn('id') . ' != ' . $this->id);
+			->where($db->qn('id') . ' != ' . (int) $this->id);
 
 		$db->setQuery($query);
 		$result = $db->loadResult();
@@ -96,7 +96,7 @@ class RedshopTableField extends RedshopTable
 
 		if ($this->type == 0 || $this->type == 1 || $this->type == 2)
 		{
-			$id[] = $this->id;
+			$id[] = (int) $this->id;
 			$this->deleteFieldValues($id, 'field_id');
 		}
 		else
@@ -210,7 +210,7 @@ class RedshopTableField extends RedshopTable
 			}
 		}
 
-		$fieldDataIds = RedshopHelperExtrafields::getFieldValue($id);
+		$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
 
 		if (count($fieldDataIds) > 0)
 		{
