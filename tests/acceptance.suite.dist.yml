@@ -20,15 +20,15 @@ modules:
         - Asserts
     config:
         JoomlaBrowser:
-            url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://thao.intern.redweb.vn'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'firefox'
             window_size: 1024x768
             restart: true
             capabilities:
               unexpectedAlertBehaviour: 'accept'
               elementScrollBehavior: '1'
-            username: 'admin'                      # UserName for the Administrator
-            password: 'admin'                      # Password for the Administrator
+            username: 'thao'                      # UserName for the Administrator
+            password: 'Q@4321'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
             database user: 'root'                  # MySQL Server user ID, usually root
             database password: ''                  # MySQL Server password, usually empty or root
