@@ -201,7 +201,7 @@ class RedshopEntityCategory extends RedshopEntity
 
 		$item = Joomla\Utilities\ArrayHelper::fromObject($item);
 
-		$table->setLocation(isset($item['parent_id']) ? $item['parent_id'] : 0, 'last-child');
+		$table->setLocation(isset($item['parent_id']) ? $item['parent_id'] : RedshopHelperCategory::getRootId(), 'last-child');
 
 		if (!$table->save($item))
 		{
@@ -212,7 +212,7 @@ class RedshopEntityCategory extends RedshopEntity
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
-		static::loadFromTable($table);
+		static::getInstance($this->id)->loadFromTable($table);
 
 		$this->processAfterSaving($table);
 
