@@ -161,4 +161,61 @@ class RedshopEntityCategory extends RedshopEntity
 
 		return $this;
 	}
+
+	/**
+	 * Try to directly save the entity using the associated table
+	 *
+	 * @param   mixed  $item  Object / Array to save. Null = try to store current item
+	 *
+	 * @return  integer  The item id
+	 *
+	 * @since   1.0
+	 */
+	public function save($item = null)
+	{
+		if (!$this->processBeforeSaving($item))
+		{
+			return false;
+		}
+
+		if (null === $item)
+		{
+			$item = $this->getItem();
+		}
+
+		if (!$item)
+		{
+			JLog::add("Nothing to save", JLog::ERROR, 'entity');
+
+			return 0;
+		}
+
+		$table = $this->getTable();
+
+		if (!$table instanceof JTable)
+		{
+			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+
+			return 0;
+		}
+
+		$item = Joomla\Utilities\ArrayHelper::fromObject($item);
+
+		$table->setLocation(isset($item['parent_id']) ? $item['parent_id'] : 0, 'last-child');
+
+		if (!$table->save($item))
+		{
+			JLog::add($table->getError(), JLog::ERROR, 'entity');
+
+			return 0;
+		}
+
+		// Force entity reload / save to cache
+		static::clearInstance($this->id);
+		static::loadFromTable($table);
+
+		$this->processAfterSaving($table);
+
+		return (int) $table->{$table->getKeyName()};
+	}
 }
