@@ -61,7 +61,7 @@ class RedshopEntityField extends RedshopEntity
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_fields_value'))
-			->where($db->qn('field_id') . ' = ' . $this->getId())
+			->where($db->qn('field_id') . ' = ' . (int) $this->getId())
 			->order($db->qn('value_id') . ' ASC');
 
 		$this->fieldValues = $db->setQuery($query)->loadObjectList();
