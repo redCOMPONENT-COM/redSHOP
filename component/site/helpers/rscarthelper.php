@@ -3924,7 +3924,7 @@ class rsCarthelper
 		{
 			$voucher_code = $cart['voucher'][$v]['voucher_code'];
 			unset($cart['voucher'][$v]);
-			$voucher_code = $this->input->get('discount_code', $voucher_code);
+			$voucher_code = $this->input->set('discount_code', $voucher_code);
 			$cart         = RedshopHelperCartDiscount::applyVoucher($cart);
 		}
 
@@ -3939,7 +3939,7 @@ class rsCarthelper
 		{
 			$coupon_code = $cart['coupon'][$c]['coupon_code'];
 			unset($cart['coupon'][$c]);
-			$coupon_code = $this->input->get('discount_code', $coupon_code);
+			$coupon_code = $this->input->set('discount_code', $coupon_code);
 			$cart        = RedshopHelperCartDiscount::applyCoupon($cart);
 		}
 
@@ -4034,6 +4034,14 @@ class rsCarthelper
 
 	public function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
 	{
+		JPluginHelper::importPlugin('redshop_product');
+		$result = RedshopHelperUtility::getDispatcher()->trigger('onCheckQuantityInStock', array(&$data, &$newquantity, &$minQuantity));
+
+		if (in_array(true, $result, true))
+		{
+			return $newquantity;
+		}
+
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$productData      = $this->_producthelper->getProductById($data['product_id']);
