@@ -167,7 +167,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 *
 	 * @param   mixed  $item  Object / Array to save. Null = try to store current item
 	 *
-	 * @return  integer  The item id
+	 * @return  integer|boolean  The item id
 	 *
 	 * @since   1.0
 	 */
@@ -187,7 +187,7 @@ class RedshopEntityCategory extends RedshopEntity
 		{
 			JLog::add("Nothing to save", JLog::ERROR, 'entity');
 
-			return 0;
+			return false;
 		}
 
 		$table = $this->getTable();
@@ -196,7 +196,7 @@ class RedshopEntityCategory extends RedshopEntity
 		{
 			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 
-			return 0;
+			return false;
 		}
 
 		$item = Joomla\Utilities\ArrayHelper::fromObject($item);
@@ -207,7 +207,7 @@ class RedshopEntityCategory extends RedshopEntity
 		{
 			JLog::add($table->getError(), JLog::ERROR, 'entity');
 
-			return 0;
+			return false;
 		}
 
 		// Force entity reload / save to cache
