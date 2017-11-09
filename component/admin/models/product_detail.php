@@ -216,6 +216,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 												? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
 		$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
+		$detail->use_individual_payment_method     = (isset($data['use_individual_payment_method'])) ? $data['use_individual_payment_method'] : 0;
+
 		$this->data                         = $detail;
 
 		return (boolean) $this->data;
@@ -570,6 +572,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				return false;
 			}
+
+			//delete redshop_product_payment_xref 
+			$query = 'DELETE FROM ' . $this->table_prefix . 'product_payment_xref WHERE product_id="' . $prodid . '" ';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
 		}
 
 		$where_cat_discount = '';
@@ -627,6 +640,27 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (count($category_array) > 0)
 		{
 			$this->updateproductdiscount($mass_discount, $row);
+		}
+
+		//insert product_payment
+		$payments = array_unique($data['payment_method']);
+		$countPayment = count($payments);
+
+		// Building product payments relationship
+		for ($j = 0; $j < $countPayment; $j++)
+		{
+			$payment_method = $payments[$j];
+
+			$query = 'INSERT INTO ' . $this->table_prefix . 'product_payment_xref(payment_id,product_id)
+					  VALUES ("' . $payment_method . '","' . $prodid .  '")';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
 		}
 
 		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE FIND_IN_SET('" . $row->manufacturer_id .
@@ -1393,6 +1427,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['quantity'] = $copyquantity;
 				$post['stockroom_id'] = $copystockroom;
 				$post['product_accessory'] = $copyaccessory;
+				$post['use_individual_payment_method'] = $pdata->$use_individual_payment_method;
 			}
 			else
 			{
@@ -1767,6 +1802,19 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function getproductcats()
 	{
 		$query = 'SELECT category_id FROM ' . $this->table_prefix . 'product_category_xref  WHERE product_id="' . $this->id . '" ';
+		$this->_db->setQuery($query);
+
+		return $this->_db->loadColumn();
+	}
+
+	/**
+	 * Function getprductpaymes.
+	 *
+	 * @return array
+	 */
+	public function getproductpayments()
+	{
+		$query = 'SELECT payment_id FROM ' . $this->table_prefix . 'product_payment_xref  WHERE product_id="' . $this->id . '" ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadColumn();

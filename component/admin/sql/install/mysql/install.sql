@@ -1285,6 +1285,19 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Product Category Relation';
 
+-- -----------------------------------------------------
+-- Table `#__redshop_product_payment_xref`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_product_payment_xref` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
+  `payment_id` VARCHAR(255) NOT NULL,
+  `product_id` INT(11) NOT NULL
+  INDEX `ref_payment` (`product_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'redSHOP Product Payment Relation';
+
 
 -- -----------------------------------------------------
 -- Table `#__redshop_product_compare`
