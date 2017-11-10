@@ -12,8 +12,8 @@ class ManageConfigurationAdministratorCest
 		$this->faker = Faker\Factory::create();
 		//setup VAT for system
 
-		$this->country = 'United States';
-		$this->state = 'Alabam';
+		$this->country = 'Viet Nam';
+		$this->state = null;
 		$this->vatDefault = 'Default';
 		$this->vatCalculation = 'Webshop';
 		$this->vatAfter = 'after';

@@ -61,6 +61,28 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 	}
 
+	public function checkoutApplyVATForUser($userName,$password,$productName,$categoryName,$randomProductPrice, $productPriceEndVAT)
+	{
+		$I = $this;
+		$I->doFrontEndLogin($userName, $this->$password);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+
+		$randomProductPrice = 'DDK '. $randomProductPrice.',00';
+		$productPriceEndVAT = 'DDK '.$productPriceEndVAT.',00';
+
+		$I->see($randomProductPrice, \GiftCardCheckoutPage::$priceTotal);
+		$I->see($productPriceEndVAT, \GiftCardCheckoutPage::$priceEnd);
+	}
 	/**
 	 * Function to fill in Details related to Address Information
 	 *
