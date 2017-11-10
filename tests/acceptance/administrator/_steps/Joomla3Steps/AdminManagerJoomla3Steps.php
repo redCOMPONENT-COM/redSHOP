@@ -170,8 +170,9 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
-		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->click(['xpath' => "//input[@value='Search']"]);
+		//$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text], 60);
 	}
 
 	public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter'])
