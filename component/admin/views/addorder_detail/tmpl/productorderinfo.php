@@ -43,7 +43,7 @@ $session->set('order_user_id', $user_id);
 $session->set('shipp_users_info_id', $shipp_users_info_id);
 $session->set('ordertotal', $ordertotal);
 $session->set('ordersubtotal', $ordersubtotal);
-RedshopHelperCartSession::setCart($cart);
+\Redshop\Cart\Session\Helper::setCart($cart);
 
 echo "<div id='paymentblock'>" . $this->loadTemplate('payment') . "</div>";
 echo "<div id='shippingblock'>" . $this->loadTemplate('shipping') . "</div>";

@@ -927,17 +927,10 @@ abstract class RedshopHelperCart
 	 * @return   boolean
 	 *
 	 * @since    2.0.6
+	 * @deprecated  Use \Redshop\Cart\Helper::emptyCart() instead
 	 */
 	public static function emptyCart()
 	{
-		$cart = RedshopHelperCartSession::getCart();
-		unset($cart);
-
-		setcookie("redSHOPcart", "", time() - 3600, "/");
-
-		$cart['idx'] = 0;
-		RedshopHelperCartSession::setCart($cart);
-
-		return RedshopHelperStockroom::deleteCartAfterEmpty();
+		return \Redshop\Cart\Helper::emptyCart();
 	}
 }
