@@ -280,4 +280,280 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
+
+	public function productUnit($volumeUnit, $weightUnit,$noDecimals){
+		$I= $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+
+		$I->click(\ConfigurationManageJ3Page::$volumeUnit);
+		$I->waitForElement(\ConfigurationManageJ3Page::$volumeUnitSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$volumeUnitSearch,$volumeUnit);
+		$I->pressKey(\ConfigurationManageJ3Page::$volumeUnit, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$weightUnit);
+		$I->waitForElement(\ConfigurationManageJ3Page::$weightUnitSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$weightUnitSearch,$weightUnit);
+		$I->pressKey(\ConfigurationManageJ3Page::$weightUnit, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->fillField(\ConfigurationManageJ3Page::$unitDecimal,$noDecimals);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+	public function productLayout($defaultTemplate , $defaultSort,$displayOutOfAttribute){
+		$I= $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+
+		$usePage = new \ConfigurationManageJ3Page();
+
+		$I->click(\ConfigurationManageJ3Page::$productTemplate);
+		$I->waitForElement(\ConfigurationManageJ3Page::$productTemplateSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$productTemplateSearch,$defaultTemplate);
+
+
+		$I->waitForElement($usePage->returnChoice($defaultTemplate),30);
+		$I->pressKey(\ConfigurationManageJ3Page::$productTemplate, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$productSortProduct);
+		$I->waitForElement(\ConfigurationManageJ3Page::$productSortProductSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$productSortProductSearch,$defaultSort);
+		$I->pressKey(\ConfigurationManageJ3Page::$productSortProduct, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		switch ($displayOutOfAttribute){
+			case 'yes':
+				$I->click(\ConfigurationManageJ3Page::$outOfStockAttributeDataYes);
+				break;
+			case 'no':
+				$I->click(\ConfigurationManageJ3Page::$outOfStockAttributeDataNo);
+				break;
+				default;
+				break;
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+
+	public function productImageSetting($showProductImage , $productDetailImage,$attributeProductDetail, $productImageWidth,$productImageHeight,$productImageTwoWidth,$productImageTwoHeight,$productImageThreeWidth,$productImageThreeHeight,$additionalImageWidth,$additionalImageHeight,$additionalImageTwoWidth,$additionalImageTwoHeight,$additionalImageThreeWidth,$additionalImageThreeHeight)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+
+		if ($showProductImage=='no'){
+			$I->click(\ConfigurationManageJ3Page::$productImageLightNo);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$productImageLightYes);
+		}
+
+		if($productDetailImage=='no'){
+			$I->click(\ConfigurationManageJ3Page::$productDetailImageNo);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$productDetailImageYes);
+		}
+
+		if($attributeProductDetail=='no'){
+			$I->click(\ConfigurationManageJ3Page::$attributeProductDetailNo);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$attributeProductDetailYes);
+		}
+
+		$I->fillField(\ConfigurationManageJ3Page::$productImageWidth,$productImageWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$productImageHeight,$productImageHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$productImageTwoWidth,$productImageTwoWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$productImageTwoHeight,$productImageTwoHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$productImageThreeWidth,$productImageThreeWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$productImageThreeHeight,$productImageThreeHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$additionalImageWidth,$additionalImageWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$additionalImageHeight,$additionalImageHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$additionalImageTwoWidth,$additionalImageTwoWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$additionalImageTwoHeight,$additionalImageTwoHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$additionalImageThreeWidth,$additionalImageThreeWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$additionalImageThreeHeight,$additionalImageThreeHeight);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+	public function productWaterProduct($waterMark , $waterMarkProduct,$waterMarkAdditional, $ProductHoverImage,$productHoverImageWeight,$productHoverImageHeight,$enableAdditionHover
+		,$additionHoverImageWidth,$additionHoverImageHeight,$productPreviewHoverImageWidth
+		, $productPreviewHoverImageHeight,$categoryPreviewHoverImageWidth,$categoryPreviewHoverImageHeight,$attributeScrollPreviewHoverImageWidth,$attributeScrollHoverImageHeight,$noAttributeScroll,$nosubAttributeScrool )
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+		if ($waterMark=='yes')
+		{
+			$I->click(\ConfigurationManageJ3Page::$waterMarkYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$waterMarkNo);
+		}
+
+		if ($waterMarkProduct=='yes')
+		{
+			$I->click(\ConfigurationManageJ3Page::$waterMarkProductYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$waterMarkProductNo);
+		}
+
+		if ($waterMarkAdditional=='yes')
+		{
+			$I->click(\ConfigurationManageJ3Page::$waterMarkAdditionalYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$waterMarkAdditionalNo);
+		}
+
+		if ($ProductHoverImage=='yes')
+		{
+			$I->click(\ConfigurationManageJ3Page::$ProductHoverImageYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$ProductHoverImageNo);
+		}
+
+		$I->fillField(\ConfigurationManageJ3Page::$productHoverImageWeight,$productHoverImageWeight);
+		$I->fillField(\ConfigurationManageJ3Page::$productHoverImageHeight,$productHoverImageHeight);
+
+		if ($enableAdditionHover=='yes')
+		{
+			$I->click(\ConfigurationManageJ3Page::$enableAdditionHoverYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$enableAdditionHoverNo);
+		}
+		$I->fillField(\ConfigurationManageJ3Page::$additionHoverImageWidth,$additionHoverImageWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$additionHoverImageHeight,$additionHoverImageHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$productPreviewHoverImageWidth,$productPreviewHoverImageWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$productPreviewHoverImageHeight,$productPreviewHoverImageHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$categoryPreviewHoverImageWidth,$categoryPreviewHoverImageWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$categoryPreviewHoverImageHeight,$categoryPreviewHoverImageHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$attributeScrollPreviewHoverImageWidth,$attributeScrollPreviewHoverImageWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$attributeScrollPreviewHoverImageHeight,$attributeScrollHoverImageHeight);
+
+		$I->fillField(\ConfigurationManageJ3Page::$noAttributeScroll,$noAttributeScroll);
+		$I->fillField(\ConfigurationManageJ3Page::$nosubAttributeScrool,$nosubAttributeScrool);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+	public function productAccessory($enableIndividual, $showAccessory,$defaultAccessory,$maxCharacter,$accessoryEndSuffix,$enterTitle,$TitleSuffix)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+		$I->click(\ConfigurationManageJ3Page::$accessoryTab);
+		if($enableIndividual=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$accessoryYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$accessoryNo);
+		}
+
+		if($showAccessory=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$accessoryInBoxYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$accessoryInBoxNo);
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$accessorySorting);
+		$I->waitForElement(\ConfigurationManageJ3Page::$accessorySortingSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$accessorySortingSearch,$defaultAccessory);
+		$I->pressKey(\ConfigurationManageJ3Page::$accessorySorting, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->fillField(\ConfigurationManageJ3Page::$maxCharacterForRelated,$maxCharacter);
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryDescriptionEnd,$accessoryEndSuffix);
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryCharacterTitle,$enterTitle);
+		$I->fillField(\ConfigurationManageJ3Page::$accessorySuffix,$TitleSuffix);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+
+	}
+
+	public function productAccessoryImage($accessoryThumbnailWidth, $accessoryThumbnailHeight,$accessoryThumbnailTwoHeight,$accessoryThumbnailTwoWidth,$accessoryThumbnailThreeHeight,$accessoryThumbnailThreeWidth)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+		$I->click(\ConfigurationManageJ3Page::$accessoryTab);
+
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryThumbnailWidth,$accessoryThumbnailWidth);
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryThumbnailHeight,$accessoryThumbnailHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryThumbnailTwoHeight,$accessoryThumbnailTwoHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryThumbnailTwoWidth,$accessoryThumbnailTwoWidth);
+
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryThumbnailThreeHeight,$accessoryThumbnailThreeHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$accessoryThumbnailThreeWidth,$accessoryThumbnailThreeWidth);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+	public function relatedProduct($twoWay, $child,$parent,$defaultRelated,$relatedProductDescriptionMax,$relatedDescriptionSuffix,$relatedMaxCharacter,$relatedDescription,$relatedShortMaxCharacter,$relatedTitleMax){
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+		$I->click(\ConfigurationManageJ3Page::$relatedTab);
+
+		if($twoWay=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$twoWayRelatedProductYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$twoWayRelatedProductNo);
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$childProduct);
+		$I->waitForElement(\ConfigurationManageJ3Page::$childProductSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$childProductSearch,$child);
+		$I->pressKey(\ConfigurationManageJ3Page::$childProduct, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		if($parent=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$parentProductYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$parentProductNo);
+		}
+
+
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductDescriptionMax,$relatedProductDescriptionMax);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedDescriptionSuffix,$relatedDescriptionSuffix);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedMaxCharacter,$relatedMaxCharacter);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedDescription,$relatedDescription);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedShortMaxCharacter,$relatedShortMaxCharacter);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedTitleMax,$relatedTitleMax);
+
+		$I->click(\ConfigurationManageJ3Page::$defaultSearchRelated);
+		$I->waitForElement(\ConfigurationManageJ3Page::$defaultSearchRelatedSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$defaultSearchRelatedSearch,$defaultRelated);
+		$I->pressKey(\ConfigurationManageJ3Page::$defaultSearchRelated, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+	public function imageRelatedProduct($relatedProductThumbnailWight,$relatedProductThumbnailHeight,$relatedProductThumbnailTwoWight,$relatedProductThumbnailTwoHeight,$relatedProductThumbnailThreeWight,$relatedProductThumbnailThreeHeight){
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$productTab);
+		$I->click(\ConfigurationManageJ3Page::$relatedTab);
+
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductThumbnailWight,$relatedProductThumbnailWight);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductThumbnailHeight,$relatedProductThumbnailHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductThumbnailTwoWight,$relatedProductThumbnailTwoWight);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductThumbnailTwoHeight,$relatedProductThumbnailTwoHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductThumbnailThreeWight,$relatedProductThumbnailThreeWight);
+		$I->fillField(\ConfigurationManageJ3Page::$relatedProductThumbnailThreeHeight,$relatedProductThumbnailThreeHeight);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
 }
