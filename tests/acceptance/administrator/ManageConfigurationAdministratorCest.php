@@ -37,6 +37,17 @@ class ManageConfigurationAdministratorCest
 		$this->minimunOrder = 0;
 		$this->enableQuation = 'no';
 
+
+
+		//newsletter setup
+		$this->enableNewsletter='yes';
+		$this->confirmation='no';
+		$this->newsletterSender="Codeception testing";
+		$this->mail=$this->faker->email;
+		$this->default="News Letter Demo";
+		$this->noMails=1;
+		$this->pauseBath=1;
+
 	}
 
 
@@ -149,6 +160,13 @@ class ManageConfigurationAdministratorCest
 		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
 		$I->wantTo(' Edit inline is yes ');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+	}
+
+
+	public function newsletter(AcceptanceTester $I,$scenario ){
+		$I->wantTo('setup newsletter at admin');
+		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+		$I->newsletter($this->enableNewsletter,$this->confirmation,$this->newsletterSender,$this->mail,$this->default,$this->noMails,$this->pauseBath);
 	}
 
 }

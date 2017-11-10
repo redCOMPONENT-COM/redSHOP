@@ -124,4 +124,29 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
+
+	// newsletter tab
+
+	public static $newsletterTab="Newsletter";
+
+	public static $enableNewsletterYes=['id'=>'newsletter_enable1-lbl'];
+
+	public static $enableNewsletterNo=['id'=>'newsletter_enable0-lbl'];
+
+	public static $enableConfirmationYes=['id'=>'newsletter_confirmation1-lbl'];
+
+	public static $enableConfirmationNo=['id'=>'newsletter_confirmation0-lbl'];
+
+	public static $newsletterName=['id'=>'news_from_name'];
+
+	public static $newsletterMail=['id'=>'news_mail_from'];
+
+	public static $defaultMail=['id'=>'s2id_default_newsletter'];
+
+	public static $defaultMailSearch=['id'=>'s2id_autogen45_search'];
+
+	public static $NoMail=['id'=>'newsletter_mail_chunk'];
+
+	public static $pauseBetween=['id'=>'newsletter_mail_pause_time'];
+
 }
