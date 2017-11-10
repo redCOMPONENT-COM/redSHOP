@@ -422,10 +422,12 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		//payment method list
 		$lists['payment_methods'] = RedshopHelperPayment::listAll("payment_method[]", $detail->product_id, 0, 10, true);
-	
+		
+		$detail->use_individual_payment_method = isset($detail->use_individual_payment_method) ? $detail->use_individual_payment_method : null;
+		
 		$lists['use_individual_payment_method'] = JHtml::_('select.booleanlist', 'use_individual_payment_method', 'class="inputbox"', $detail->use_individual_payment_method);
 
-
+		
 
 		$lists['manufacturers'] = JHtml::_('select.genericlist', $manufacturers, 'manufacturer_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id
