@@ -1,4 +1,4 @@
-ALTER TABLE `#__redshop_product` ADD `use_individual_payment_method`;
+ALTER TABLE `#__redshop_product` ADD `use_individual_payment_method` TINYINT(4) NOT NULL DEFAULT 0;
 
 -- -----------------------------------------------------
 -- Table `#__redshop_product_payment_xref`

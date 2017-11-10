@@ -344,6 +344,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `product_back_thumb_image` VARCHAR(250) NOT NULL,
   `product_preview_image` VARCHAR(250) NOT NULL,
   `product_preview_back_image` VARCHAR(250) NOT NULL,
+  `use_individual_payment_method` TINYINT(4) NOT NULL DEFAULT 0,
   `preorder` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
   PRIMARY KEY (`product_id`),
