@@ -6,6 +6,7 @@
     "releaseDir"   : "/tests/www/tests/releases-redshop/",
     "basePaths": {
         "plugins" : "./plugins",
-        "modules" : "./modules"
+        "modules" : "./modules",
+        "libraries" : "./libraries"
     }
 }

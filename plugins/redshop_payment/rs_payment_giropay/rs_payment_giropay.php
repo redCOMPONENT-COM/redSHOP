@@ -45,8 +45,8 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			return false;
 		}
 
-		$db            = JFactory::getDbo();
 		$request       = JRequest::get('request');
+
 		$transactionId = $request['order_id'];
 		$gpCode        = $request['gpCode'];
 		$gpHash        = $request['gpHash'];
@@ -57,9 +57,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		$projectId       = $this->params->get('project_id', '');
 		$verify_status   = $this->params->get('verify_status', '');
 		$invalid_status  = $this->params->get('invalid_status', '');
-		$auth_type       = $this->params->get('auth_type', '');
 		$secret_password = $this->params->get("secret_password");
-		$debug_mode      = $this->params->get("debug_mode");
 
 		$values = new stdClass;
 
@@ -73,8 +71,6 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = $message;
-			$values->msg = $message;
 		}
 
 		// Neuen Bestellstatus ermitteln
@@ -82,17 +78,15 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-			$values->log = $message;
-			$values->msg = $message;
 		}
 		else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = $message;
-			$values->msg = $message;
 		}
 
+		$values->log            = $message;
+		$values->msg            = $message;
 		$values->transaction_id = $transactionId;
 		$values->order_id       = $request['order_id'];
 
