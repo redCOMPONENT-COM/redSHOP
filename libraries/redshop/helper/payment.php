@@ -308,22 +308,18 @@ class RedshopHelperPayment
 			foreach ($paymentMethods as $p => $oneMethod)
 				$currentPaymentMethods[] = $oneMethod->name;
 			
-
 		$cart = JFactory::getSession()->get('cart');
-
-		
 
 		$idx = 0;
 
 		if (isset($cart['idx'])) $idx  = $cart['idx'];
-		
-
+	
 		$db = JFactory::getDbo();
 
 		$payment_methods = array();
 		$flag = true;
 		$common_payment_method = $currentPaymentMethods;
-
+		
 		for ($i = 0; $i < $idx; $i++)
 		{				
 			$productId = $cart[$i]['product_id'];
@@ -348,8 +344,9 @@ class RedshopHelperPayment
 				$payments = array_column($payments , 'payment_id');	
 			else
 				$payments = $currentPaymentMethods;
-
-
+			
+			if ( $idx == 1) return $payments;
+			
 			$payment_methods[] = array('product_id'=>$productId, 'payments'=> $payments);
 
 			if ( $i>0 && $flag )
@@ -358,7 +355,7 @@ class RedshopHelperPayment
 				if ( !$common_payment_method ) $flag = false;
 			}
 		}
-
+		
 		//product in cart use these payment method
 		if ( $common_payment_method ){
 			return $common_payment_method;
