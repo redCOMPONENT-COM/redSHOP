@@ -574,7 +574,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			//delete redshop_product_payment_xref 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_payment_xref WHERE product_id="' . $prodid . '" ';
+			$query = $this->_db->getQuery(true);
+			$conditions = array(
+				$this->_db->qn('product_id') . ' = ' . $this->_db->q($prodid)
+			);
+
+			$query->delete($this->_db->qn( $this->table_prefix . 'product_payment_xref'));
+			$query->where($conditions);
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -650,9 +656,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 		for ($j = 0; $j < $countPayment; $j++)
 		{
 			$payment_method = $payments[$j];
+			
+			$query = $this->_db->getQuery(true);
+			$columns = array('payment_id', 'product_id');
+			$values = array($this->_db->q($payment_method), $this->_db->q($prodid));
 
-			$query = 'INSERT INTO ' . $this->table_prefix . 'product_payment_xref(payment_id,product_id)
-					  VALUES ("' . $payment_method . '","' . $prodid .  '")';
+			// Prepare the insert query.
+			$query
+				->insert($this->_db->qn($this->table_prefix . 'product_payment_xref'))
+				->columns($this->_db->qn($columns))
+				->values(implode(',', $values));
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1814,10 +1827,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getproductpayments()
 	{
-		$query = 'SELECT payment_id FROM ' . $this->table_prefix . 'product_payment_xref  WHERE product_id="' . $this->id . '" ';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadColumn();
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+		$query
+			->select($db->qn('a.payment_id'))
+			->from($db->qn($this->table_prefix . 'product_payment_xref','a'))
+			->where($db->qn('a.product_id') . ' = '. $db->q($this->id));
+		$db->setQuery($query);
+		
+		return $db->loadColumn();
 	}
 
 	/**
