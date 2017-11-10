@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5" method="upgrade">
+	<name>MOD_AJAX_MIGRATE_REDSHOP</name>
+	<version>1.0.0</version>
+    <creationDate>August 2015</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_AJAX_MIGRATE_REDSHOP_DESC</description>
+
+	<files>
+		<filename module="mod_ajax_migrate_redshop">mod_ajax_migrate_redshop.php</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_ajax_migrate_redshop.ini</language>
+	</languages>
+</extension>
