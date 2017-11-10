@@ -9,13 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$product      = RedshopHelperProduct::getProductById(14);
-$product      = RedshopHelperProduct::getAllAvailableProductPayment(14);
-
-$rsCartHelper  = rsCarthelper::getInstance();
-$product = $rsCartHelper->getAvaiblePaymentMethod();
-var_dump($product);
-
 JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 $url = JURI::base();
