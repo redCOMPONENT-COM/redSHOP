@@ -120,15 +120,26 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationManageJ3Page::$countrySearchPrice, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$countrySearchPrice, $country);
 		$userConfigurationPage = new \ConfigurationManageJ3Page();
-		$I->waitForElement($userConfigurationPage->returnChoice($country));
-		$I->click($userConfigurationPage->returnChoice($country));
+		if ($country == "Select")
+		{
+			$I->pressKey(\ConfigurationManageJ3Page::$countryPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		}else{
+			$I->waitForElement($userConfigurationPage->returnChoice($country));
+			$I->click($userConfigurationPage->returnChoice($country));
+		}
+
 
 		//get state
-		$I->click(\ConfigurationManageJ3Page::$statePrice);
-		$I->waitForElement(\ConfigurationManageJ3Page::$stateSearchPrice, 5);
-		$I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
-		$I->waitForElement($userConfigurationPage->returnChoice($state));
-		$I->click($userConfigurationPage->returnChoice($state));
+		if ($state != null)
+		{
+			$I->click(\ConfigurationManageJ3Page::$statePrice);
+			$I->waitForElement(\ConfigurationManageJ3Page::$stateSearchPrice, 5);
+			$I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
+			$I->waitForElement($userConfigurationPage->returnChoice($state));
+			$I->click($userConfigurationPage->returnChoice($state));
+		}
+
 
 		//get default vat
 		$I->click(\ConfigurationManageJ3Page::$vatGroup);
