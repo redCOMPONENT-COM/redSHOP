@@ -632,6 +632,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'ST'
 		);
 
+		$lists['allow_quotation']         = JHTML::_('redshopselect.booleanlist', 'allow_quotation', 'class="inputbox" size="1"', $this->config->get('ALLOW_QUOTATION'));
+
 		$order_data           = array();
 		$order_data[0]        = new stdClass;
 		$order_data[0]->value = "c.name ASC";

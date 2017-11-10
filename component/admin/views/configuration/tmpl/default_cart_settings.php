@@ -48,6 +48,14 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
+		'title' => JText::_('COM_REDSHOP_ALLOW_QUOTATION_CART_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_ALLOW_QUOTATION_CART_LBL'),
+		'field' => $this->lists['allow_quotation']
+	)
+);
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
 		'title'  => JText::_('COM_REDSHOP_SHOW_QUOTATION_PRICE_LBL'),
 		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_SHOW_QUOTATION_PRICE'),
 		'field'  => $this->lists['show_quotation_price'],

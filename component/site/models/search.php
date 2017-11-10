@@ -449,7 +449,11 @@ class RedshopModelSearch extends RedshopModel
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id')
 			->where('p.published = 1');
 
-		$layout          = $input->getString('layout', 'default');
+		JPluginHelper::importPlugin('redshop_search');
+		RedshopHelperUtility::getDispatcher()->trigger('searchQuery', array(&$query));
+
+		$layout = JRequest::getVar('layout', 'default');
+
 		$category_helper = new product_category;
 		$manufacture_id  = $input->getInt('manufacture_id', 0);
 		$cat_group       = array();
