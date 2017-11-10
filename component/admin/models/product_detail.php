@@ -1427,7 +1427,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['quantity'] = $copyquantity;
 				$post['stockroom_id'] = $copystockroom;
 				$post['product_accessory'] = $copyaccessory;
-				$post['use_individual_payment_method'] = $pdata->$use_individual_payment_method;
+				$post['use_individual_payment_method'] = $pdata->use_individual_payment_method;
 			}
 			else
 			{
