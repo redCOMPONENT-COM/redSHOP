@@ -35,6 +35,17 @@ class CouponCheckoutProductCest
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
 		$this->discountStart       = "12-12-2016";
 		$this->discountEnd         = "23-05-2017";
+
+		//setup VAT for system
+
+		$this->country = 'United States';
+		$this->state = 'Alabam';
+		$this->vatDefault = 'Default';
+		$this->vatCalculation = 'Webshop';
+		$this->vatAfter = 'after';
+		$this->vatNumber = 0;
+		$this->calculationBase = 'billing';
+		$this->requiVAT = 'no';
 	}
 
 	/**
@@ -52,6 +63,21 @@ class CouponCheckoutProductCest
 		$I->clearAllData();
 	}
 
+	/**
+	 *
+	 * Function setup vat for system
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
+	public function setupVAT(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('setup VAT at admin');
+		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+		$I->wantTo(' Edit inline is yes ');
+		$I->setupVAT($this->country, $this->state, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
+	}
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
