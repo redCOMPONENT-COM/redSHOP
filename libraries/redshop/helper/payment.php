@@ -371,21 +371,15 @@ class RedshopHelperPayment
 			foreach ($paymentMethods as $p => $oneMethod)
 				$currentPaymentMethods[] = $oneMethod->name;
 			
-
 		$cart = JFactory::getSession()->get('cart');
 
 		$idx = 0;
-
 		if (isset($cart['idx'])) $idx  = $cart['idx'];
 		
-
 		$db = JFactory::getDbo();
 
-		
-	
 		$common_payment_method = $currentPaymentMethods;
 		$productHelper = productHelper::getInstance();
-
 		$html = '';
 
 		for ($i = 0; $i < $idx; $i++)
@@ -399,7 +393,6 @@ class RedshopHelperPayment
 			    ->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
 			    ->where($db->qn('b.use_individual_payment_method') . ' = 1');
 		
-
 			if ( $productId )
 			{
 				$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
@@ -413,17 +406,15 @@ class RedshopHelperPayment
 			else
 				$payments = $currentPaymentMethods;
 
-
 			$product = $productHelper->getProductById($productId);
 			$html .=  '<div class="row"><label class="col-xs-5">'.$product->product_name.'</label><div class="col-xs-7">';
 			$tmp = '';
-			foreach ($payments as $p){				
+			foreach ($payments as $p)
+			{				
 				$tmp .=  JText::_('PLG_' . strtoupper($p)).',';
 			}
 			$tmp = rtrim($tmp,",");
 			$html .= $tmp.'</div></div>';
-			
-			
 		}
 
 		return $html;
