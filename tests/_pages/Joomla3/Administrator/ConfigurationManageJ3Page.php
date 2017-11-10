@@ -124,4 +124,61 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
+
+
+
+	//manufacture setting
+	public static $manufactureTab=['xpath'=>'//form[@id=\'adminForm\']/div/div[1]/div/div/ul/li[4]/a'];
+
+	public static $manufactureDefault=['id'=>'s2id_default_manufacturer_template'];
+
+	public static $manufactureDefaultSearch=['id'=>'s2id_autogen20_search'];
+
+	public static $manufactureSorting=['id'=>'s2id_default_manufacturer_ordering_method'];
+
+	public static $manufactureSortingSearch=['id'=>'s2id_autogen21_search'];
+
+	public static $manufactureDefaultSorting=['id'=>'s2id_default_manufacturer_product_ordering_method'];
+
+	public static $manufactureDefaultSortingSearch=['id'=>'s2id_autogen22_search'];
+
+	public static $titleDescription=['id'=>'manufacturer_title_max_chars'];
+
+	public static $titleSuffix=['id'=>'manufacturer_title_end_suffix'];
+
+	public static $enableMailManufactureYes=['id'=>'manufacturer_mail_enable1-lbl'];
+
+	public static $enableMailManufactureNo=['id'=>'manufacturer_mail_enable0-lbl'];
+
+	public static $enableMailSupplierYes=['id'=>'supplier_mail_enable1-lbl'];
+
+	public static $enableMailSupplierNo=['id'=>'supplier_mail_enable0-lbl'];
+
+	//manufacture image setting
+
+	public static $watermarkNo=['id'=>'watermark_manufacturer_image0-lbl'];
+
+	public static $watermarkYes=['id'=>'watermark_manufacturer_image1-lbl'];
+
+	public static $watermarkThumbNo=['id'=>'watermark_manufacturer_thumb_image0-lbl'];
+
+	public static $watermarkThumbYes=['id'=>'watermark_manufacturer_thumb_image1-lbl'];
+
+	public static $manufactureThumbWeight=['id'=>'manufacturer_thumb_width'];
+
+	public static $manufactureThumbHeight=['id'=>'manufacturer_thumb_height'];
+
+	public static $manufactureThumbTwoWeight=['id'=>'manufacturer_product_thumb_width_2'];
+
+	public static $manufactureThumbTwoHeight=['id'=>'manufacturer_product_thumb_height_2'];
+
+	public static $manufactureThumbThreeWeight=['id'=>'manufacturer_product_thumb_width_3'];
+
+	public static $manufactureThumbThreeHeight=['id'=>'manufacturer_product_thumb_height_3'];
+
+	public static $manufactureThumbProductWeight=['id'=>'manufacturer_product_thumb_width'];
+
+	public static $manufactureThumbProductHeight=['id'=>'manufacturer_product_thumb_height'];
+
+
 }

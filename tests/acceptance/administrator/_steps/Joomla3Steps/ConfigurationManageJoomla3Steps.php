@@ -280,4 +280,84 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
+
+	public function manufactureSetting($manufactureDefault,$manufactureSorting,$manufactureDefaultSorting,$titleDescription,$titleSuffix,$enableMailManufacture,$enableMailSupplier){
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$manufactureTab);
+
+		if ($manufactureDefault==""){
+
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$manufactureDefault);
+			$I->waitForElement(\ConfigurationManageJ3Page::$manufactureDefaultSearch,30);
+			$I->fillField(\ConfigurationManageJ3Page::$manufactureDefaultSearch,$manufactureDefault);
+			$I->pressKey(\ConfigurationManageJ3Page::$manufactureDefault, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}
+
+
+		$I->click(\ConfigurationManageJ3Page::$manufactureSorting);
+		$I->waitForElement(\ConfigurationManageJ3Page::$manufactureSortingSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureSortingSearch,$manufactureSorting);
+		$I->pressKey(\ConfigurationManageJ3Page::$manufactureSorting, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+
+		$I->click(\ConfigurationManageJ3Page::$manufactureDefaultSorting);
+		$I->waitForElement(\ConfigurationManageJ3Page::$manufactureDefaultSortingSearch,30);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureDefaultSortingSearch,$manufactureDefaultSorting);
+		$I->pressKey(\ConfigurationManageJ3Page::$manufactureDefaultSorting, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+
+		$I->fillField(\ConfigurationManageJ3Page::$titleDescription,$titleDescription);
+		$I->fillField(\ConfigurationManageJ3Page::$titleSuffix,$titleSuffix);
+
+		if ($enableMailManufacture=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$enableMailManufactureYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$enableMailManufactureNo);
+		}
+
+		if ($enableMailSupplier=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$enableMailSupplierYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$enableMailSupplierNo);
+		}
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
+
+	public function manufactureImage($enableWatermark, $enableWatermarkProduct, $manufactureThumbWeight,$manufactureThumbHeight,$manufactureThumbTwoWeight,$manufactureThumbTwoHeight
+	,$manufactureThumbThreeWeight, $manufactureThumbThreeHeight,$manufactureThumbProductWeight,$manufactureThumbProductHeight){
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$manufactureTab);
+
+		if ($enableWatermark=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$watermarkYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$watermarkNo);
+		}
+
+		if ($enableWatermarkProduct=='yes'){
+			$I->click(\ConfigurationManageJ3Page::$watermarkThumbYes);
+		}else{
+			$I->click(\ConfigurationManageJ3Page::$watermarkThumbNo);
+		}
+
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbWeight,$manufactureThumbWeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbHeight,$manufactureThumbHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbTwoWeight,$manufactureThumbTwoWeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbTwoHeight,$manufactureThumbTwoHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbThreeWeight,$manufactureThumbThreeWeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbThreeHeight,$manufactureThumbThreeHeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbProductWeight,$manufactureThumbProductWeight);
+		$I->fillField(\ConfigurationManageJ3Page::$manufactureThumbProductHeight,$manufactureThumbProductHeight);
+
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+
+	}
+
 }
