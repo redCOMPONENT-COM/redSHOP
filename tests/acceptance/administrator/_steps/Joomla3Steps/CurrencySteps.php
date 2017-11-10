@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class CurrencyManagerJoomla3Steps
+ * Class CurrencySteps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
+class CurrencySteps extends AdminManagerJoomla3Steps
 {
 	/**
 	 * Function to add a new Currency
@@ -28,14 +28,14 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addCurrency($currencyName = 'TestCurrency', $currencyCode = 'CUR')
 	{
 		$I = $this;
-		$I->amOnPage(\CurrencyManagerPage::$URL);
-		$I->click('New');
-		$I->waitForElement(\CurrencyManagerPage::$currencyNameField);
-		$I->fillField(\CurrencyManagerPage::$currencyNameField, $currencyName);
-		$I->fillField(\CurrencyManagerPage::$currencyCodeField, $currencyCode);
-		$I->click('Save & Close');
-		$I->waitForText('Currency Management',60,'h1');
-		$I->see('Currency detail saved', ['id' => 'system-message-container']);
+		$I->amOnPage(\CurrencyPage::$URL);
+		$I->click(\CurrencyPage::$buttonNew);
+		$I->waitForElement(\CurrencyPage::$currencyNameField);
+		$I->fillField(\CurrencyPage::$currencyNameField, $currencyName);
+		$I->fillField(\CurrencyPage::$currencyCodeField, $currencyCode);
+		$I->click(\CurrencyPage::$buttonSaveClose);
+		$I->waitForText(\CurrencyPage::$headPage,60,\CurrencyPage::$headLocators);
+		$I->see(\CurrencyPage::$messageSaveSuccess, \CurrencyPage::$containerMessage);
 		$I->filterListBySearching($currencyName);
 		$I->seeElement(['link' => $currencyName]);
 	}
@@ -51,14 +51,14 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editCurrency($currencyName = 'TestCurrency', $newCurrencyName = 'NewTestCurrency')
 	{
 		$I = $this;
-		$I->amOnPage(\CurrencyManagerPage::$URL);
+		$I->amOnPage(\CurrencyPage::$URL);
 		$I->filterListBySearching($currencyName);
 		$I->click(['link' => $currencyName]);
-		$I->waitForElement(\CurrencyManagerPage::$currencyNameField);
+		$I->waitForElement(\CurrencyPage::$currencyNameField);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
-		$I->fillField(\CurrencyManagerPage::$currencyNameField, $newCurrencyName);
-		$I->click('Save & Close');
-		$I->waitForText('Currency Management',10,'h1');
+		$I->fillField(\CurrencyPage::$currencyNameField, $newCurrencyName);
+		$I->click(\CurrencyPage::$buttonSaveClose);
+		$I->waitForText(\CurrencyPage::$headPage,60,\CurrencyPage::$headLocators);
 		$I->filterListBySearching($newCurrencyName);
 		$I->seeElement(['link' => $newCurrencyName]);
 	}
@@ -72,7 +72,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCurrency($currencyName = 'TestDeletingCurrency')
 	{
-		$this->delete(new \CurrencyManagerPage, $currencyName, \CurrencyManagerPage::$currencyResultRow, \CurrencyManagerPage::$firstResult);
+		$this->delete(new \CurrencyPage, $currencyName, \CurrencyPage::$currencyResultRow, \CurrencyPage::$firstResult);
 	}
 
 	/**
@@ -85,6 +85,6 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCurrency($currencyName = 'TestCurrency', $functionName = 'Search')
 	{
-		$this->search(new \CurrencyManagerPage, $currencyName, \CurrencyManagerPage::$currencyResultRow, $functionName);
+		$this->search(new \CurrencyPage, $currencyName, \CurrencyPage::$currencyResultRow, $functionName);
 	}
 }
