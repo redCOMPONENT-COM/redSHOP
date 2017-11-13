@@ -8,32 +8,7 @@
   ],
   "modules": {
     "frontend": [
-      "redcategoryscroller",
-      "redfeaturedproduct",
-      "redmanufacturer",
-      "redmasscart",
-      "redproducts3d",
-      "redproductscroller",
-      "redproducttab",
-      "redshop_cart",
-      "redshop_categories",
-      "redshop_categories_scroller",
-      "redshop_currencies",
-      "redshop_discount",
-      "redshop_logingreeting",
-      "redshop_megamenu",
-      "redshop_newsletter",
-      "redshop_pricefilter",
-      "redshop_productcompare",
-      "redshop_products",
-      "redshop_products_slideshow",
-      "redshop_promote_free_shipping",
-      "redshop_search",
-      "redshop_shoppergroup_category",
-      "redshop_shoppergroup_product",
-      "redshop_shoppergrouplogo",
-      "redshop_who_bought",
-      "redshop_wishlist"
+      "redshop_cart"
     ]
   },
   "plugins": {
