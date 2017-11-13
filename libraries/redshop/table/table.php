@@ -38,6 +38,7 @@ class RedshopTable extends AbstractTable
 	 * @return  RedshopTable     The table
 	 * @throws  Exception
 	 *
+	 * @throws  InvalidArgumentException
 	 * @since   2.0.6
 	 */
 	public static function getAutoInstance($name, $client = null, array $config = array(), $option = 'auto')

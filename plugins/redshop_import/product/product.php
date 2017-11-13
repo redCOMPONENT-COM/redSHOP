@@ -687,7 +687,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 */
 	public function importProductStock($productId = 0, $data = array())
 	{
-		if (empty($data) || !$productId)
+		if (empty($data) || !$productId || empty($data['accessory_products']))
 		{
 			return;
 		}

@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\CoreEntityCollection;
+
 /**
  * Category Entity
  *
@@ -16,7 +19,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityCategory extends RedshopEntity
+class RedshopEntityCategory extends AbstractEntity
 {
 	/**
 	 * Product count
@@ -33,7 +36,7 @@ class RedshopEntityCategory extends RedshopEntity
 	protected $products;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    CoreEntityCollection
 	 *
 	 * @since  2.0.6
 	 */
@@ -117,7 +120,7 @@ class RedshopEntityCategory extends RedshopEntity
 	/**
 	 * Method for get child categories of current category
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  CoreEntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -145,7 +148,7 @@ class RedshopEntityCategory extends RedshopEntity
 			return $this;
 		}
 
-		$this->childCategories = new RedshopEntitiesCollection;
+		$this->childCategories = new CoreEntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

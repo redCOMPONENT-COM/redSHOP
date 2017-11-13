@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityAccessory extends RedshopEntity
+class RedshopEntityAccessory extends AbstractEntity
 {
 	/**
 	 * Get the associated table

@@ -50,18 +50,18 @@ if ($this->params->get('show_page_heading', 1))
 		if ($this->params->get('page_title') != $pagetitle)
 		{
 			?>
-			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+            <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<?php echo $this->escape($this->params->get('page_title')); ?>
-			</h1>
-		<?php
+            </h1>
+			<?php
 		}
 		else
 		{
-		?>
-			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+			?>
+            <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<?php echo $pagetitle; ?>
-			</h1>
-		<?php
+            </h1>
+			<?php
 		}
 	}
 }
@@ -78,7 +78,7 @@ if ($gid != 0)
 	{
 		$product_img = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, Redshop::getConfig()->get('GIFTCARD_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
 		$linkimage   = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, '', '', Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'), '0');
-		$thum_image = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
+		$thum_image  = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
 		$thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
 		$thum_image .= "</a>";
 
@@ -243,7 +243,11 @@ if ($gid != 0)
 }
 else
 {
-	if (strstr($template, "{giftcard_loop_start}") && strstr($template, "{giftcard_loop_end}"))
+	if (null !== $this->content)
+	{
+		echo $this->content;
+	}
+    elseif (strstr($template, "{giftcard_loop_start}") && strstr($template, "{giftcard_loop_end}"))
 	{
 		$template_d1   = explode("{giftcard_loop_start}", $template);
 		$template_d2   = explode("{giftcard_loop_end}", $template_d1 [1]);
@@ -254,8 +258,8 @@ else
 		for ($i = 0, $in = count($detail); $i < $in; $i++)
 		{
 			$data_add .= $template_desc;
-			$gid  = $detail[$i]->giftcard_id;
-			$link = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
+			$gid       = $detail[$i]->giftcard_id;
+			$link      = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
 
 			if (strstr($data_add, "{giftcard_image}"))
 			{
@@ -298,44 +302,43 @@ else
 		}
 
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
-	}
 
-	echo eval("?>" . $template . "<?php ");
+		echo eval("?>" . $template . "<?php ");
+	}
 }
 ?>
 
 <script type="text/javascript">
-	function validateEmail() {
-		var reciver_email = document.getElementById('reciver_email').value;
+    function validateEmail() {
+        var reciver_email = document.getElementById("reciver_email").value;
 
-		if (document.getElementById('reciver_name').value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_NAME')?>");
-			return false;
-		}
+        if (document.getElementById("reciver_name").value == "") {
+            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_NAME')?>");
+            return false;
+        }
 
-		if (reciver_email == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
-			return false;
-		}
-		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (reciver_email == "") {
+            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+            return false;
+        }
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-		if (reg.test(reciver_email) == false) {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
-			return false;
-		}
+        if (reg.test(reciver_email) == false) {
+            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
+            return false;
+        }
 
-		if (document.getElementById('customer_amount')) {
-			var customer_amount = document.getElementById('customer_amount').value;
+        if (document.getElementById("customer_amount")) {
+            var customer_amount = document.getElementById("customer_amount").value;
 
-			if (customer_amount == '') {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_AMOUNT')?>");
-				return false;
-			} else if (isNaN(customer_amount)) {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_AMOUNT')?>");
-				return false;
-			}
-		}
-		return true;
-	}
+            if (customer_amount == "") {
+                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_AMOUNT')?>");
+                return false;
+            } else if (isNaN(customer_amount)) {
+                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_AMOUNT')?>");
+                return false;
+            }
+        }
+        return true;
+    }
 </script>
-

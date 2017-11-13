@@ -49,7 +49,7 @@ if ('raw' === $format)
 $templateComponent = 'component' === $input->get('tmpl');
 $input->set('tmpl', 'component');
 
-echo JLayoutHelper::render('component.assets');
+echo RedshopLayoutHelper::render('component.assets');
 
 // Do we have to display the sidebar ?
 $displaySidebar = false;
@@ -118,5 +118,5 @@ if ($content instanceof Exception)
         </section>
     </div>
 <?php else : ?>
-	<?php echo JLayoutHelper::render('component.full', $displayData); ?>
+	<?php echo RedshopLayoutHelper::render('component.full', $displayData); ?>
 <?php endif;

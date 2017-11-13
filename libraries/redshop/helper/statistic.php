@@ -90,7 +90,7 @@ abstract class RedshopHelperStatistic
 		$sessionId = JFactory::getSession()->getId();
 		$user      = JFactory::getUser();
 
-		$table = RedshopTable::getInstance('Site_Viewer', 'RedshopTable');
+		$table = RedshopTable::getAdminInstance('Site_Viewer', array('ignore_request' => true), 'com_redshop');
 
 		if ($table->load(array('session_id' => $sessionId)))
 		{
