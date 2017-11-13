@@ -291,18 +291,18 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		if (!$loadedFromAPlugin)
 		{
-			$document->addScript('components/com_redshop/assets/js/fields.js');
+			JHtml::script('com_redshop/admin/fields.min.js', false, true);
 		}
 
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		JHtml::script('com_redshop/json.min.js', false, true);
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
 			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
 		}
 
-		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
+		JHtml::script('com_redshop/admin/attribute_manipulation.min.js', false, true);
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
 		{

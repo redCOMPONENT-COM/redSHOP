@@ -32,8 +32,8 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 		$redhelper    = redhelper::getInstance();
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		JHtml::script('com_redshop/json.min.js', false, true);
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
 
 		$uri = JFactory::getURI();
 

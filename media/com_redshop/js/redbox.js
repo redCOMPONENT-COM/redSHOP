@@ -1,1 +1,446 @@
-var redBOX={presets:{onOpen:function(){},onClose:function(){},onUpdate:function(){},onResize:function(){},onMove:function(){},onShow:function(){},onHide:function(){},size:{x:600,y:450},sizeLoading:{x:200,y:150},marginInner:{x:20,y:20},marginImage:{x:50,y:75},handler:!1,target:null,closable:!0,closeBtn:!0,zIndex:65555,overlayOpacity:.7,classWindow:"",classOverlay:"",overlayFx:{},resizeFx:{},contentFx:{},parse:!1,parseSecure:!1,shadow:!0,overlay:!0,document:null,ajaxOptions:{}},initialize:function(t){return this.options?this:(this.presets=Object.merge(this.presets,t),this.doc=this.presets.document||document,this.options={},this.setOptions(this.presets).build(),this.bound={window:this.reposition.bind(this,[null]),scroll:this.checkTarget.bind(this),close:this.close.bind(this),key:this.onKey.bind(this)},this.isOpen=this.isLoading=!1,this)},build:function(){if(this.overlay=new Element("div",{id:"sbox-overlay","aria-hidden":"true",styles:{zIndex:this.options.zIndex},tabindex:-1}),this.win=new Element("div",{id:"sbox-window",role:"dialog","aria-hidden":"true",styles:{zIndex:this.options.zIndex+2}}),this.options.shadow)if(Browser.chrome||Browser.safari&&Browser.version>=3||Browser.opera&&Browser.version>=10.5||Browser.firefox&&Browser.version>=3.5||Browser.ie&&Browser.version>=9)this.win.addClass("shadow");else if(!Browser.ie6){var t=new Element("div",{class:"sbox-bg-wrap"}).inject(this.win),e=function(t){this.overlay.fireEvent("click",[t])}.bind(this);["n","ne","e","se","s","sw","w","nw"].each(function(i){new Element("div",{class:"sbox-bg sbox-bg-"+i}).inject(t).addEvent("click",e)})}this.content=new Element("div",{id:"sbox-content"}).inject(this.win),this.closeBtn=new Element("a",{id:"sbox-btn-close",href:"#",role:"button"}).inject(this.win),this.closeBtn.setProperty("aria-controls","sbox-window"),this.fx={overlay:new Fx.Tween(this.overlay,Object.merge({property:"opacity",onStart:Events.prototype.clearChain,duration:250,link:"cancel"},this.options.overlayFx)).set(0),win:new Fx.Morph(this.win,Object.merge({onStart:Events.prototype.clearChain,unit:"px",duration:750,transition:Fx.Transitions.Quint.easeOut,link:"cancel",unit:"px"},this.options.resizeFx)),content:new Fx.Tween(this.content,Object.merge({property:"opacity",duration:250,link:"cancel"},this.options.contentFx)).set(0)},document.id(this.doc.body).adopt(this.overlay,this.win)},assign:function(t,e){return(document.id(t)||$$(t)).addEvent("click",function(){return!redBOX.fromElement(this,e)})},open:function(t,e){if(this.initialize(),null!=this.element&&this.trash(),this.element=document.id(t)||!1,this.setOptions(Object.merge(this.presets,e||{})),this.element&&this.options.parse){var i=this.element.getProperty(this.options.parse);i&&(i=JSON.decode(i,this.options.parseSecure))&&this.setOptions(i)}this.url=(this.element?this.element.get("href"):t)||this.options.url||"",this.assignOptions();var s=s||this.options.handler;if(s)return this.setContent(s,this.parsers[s].call(this,!0));var n=!1;return this.parsers.some(function(t,e){var i=t.call(this);return!!i&&(n=this.setContent(e,i),!0)},this)},fromElement:function(t,e){return this.open(t,e)},assignOptions:function(){this.overlay.addClass(this.options.classOverlay),this.win.addClass(this.options.classWindow)},close:function(t){var e="domevent"==typeOf(t);return e&&t.stop(),!this.isOpen||e&&!Function.from(this.options.closable).call(this,t)?this:(this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this)),this.win.setProperty("aria-hidden","true"),this.fireEvent("onClose",[this.content]),this.trash(),this.toggleListeners(),this.isOpen=!1,this)},trash:function(){this.element=this.asset=null,this.content.empty(),this.options={},this.removeEvents().setOptions(this.presets).callChain()},onError:function(){this.asset=null,this.setContent("string",this.options.errorMsg||"An error occurred")},setContent:function(t,e){return!!this.handlers[t]&&(this.content.className="sbox-content-"+t,this.applyTimer=this.applyContent.delay(this.fx.overlay.options.duration,this,this.handlers[t].call(this,e)),this.overlay.retrieve("opacity")?this:(this.toggleOverlay(!0),this.fx.overlay.start(this.options.overlayOpacity),this.reposition()))},applyContent:function(t,e){(this.isOpen||this.applyTimer)&&(this.applyTimer=clearTimeout(this.applyTimer),this.hideContent(),t?(this.isLoading&&this.toggleLoading(!1),this.fireEvent("onUpdate",[this.content],20)):this.toggleLoading(!0),t&&(["string","array"].contains(typeOf(t))?this.content.set("html",t):t!==this.content&&this.content.contains(t)||this.content.adopt(t)),this.callChain(),this.isOpen?this.resize(e):(this.toggleListeners(!0),this.resize(e,!0),this.isOpen=!0,this.win.setProperty("aria-hidden","false"),this.fireEvent("onOpen",[this.content])))},resize:function(t,e){this.showTimer=clearTimeout(this.showTimer||null);var i=this.doc.getSize(),s=this.doc.getScroll();this.size=Object.merge(this.isLoading?this.options.sizeLoading:this.options.size,t);var n=self.getSize();this.size.x==n.x&&(this.size.y=this.size.y-50,this.size.x=this.size.x-20);var o={width:this.size.x,height:this.size.y,left:(s.x+(i.x-this.size.x-this.options.marginInner.x)/2).toInt(),top:(s.y+(i.y-this.size.y-this.options.marginInner.y)/2).toInt()};return this.hideContent(),e?(this.win.setStyles(o),this.showTimer=this.showContent.delay(50,this)):this.fx.win.start(o).chain(this.showContent.bind(this)),this.reposition()},toggleListeners:function(t){var e=t?"addEvent":"removeEvent";this.closeBtn[e]("click",this.bound.close),this.overlay[e]("click",this.bound.close),this.doc[e]("keydown",this.bound.key)[e]("mousewheel",this.bound.scroll),this.doc.getWindow()[e]("resize",this.bound.window)[e]("scroll",this.bound.window)},toggleLoading:function(t){this.isLoading=t,this.win[t?"addClass":"removeClass"]("sbox-loading"),t&&(this.win.setProperty("aria-busy",t),this.fireEvent("onLoading",[this.win]))},toggleOverlay:function(t){if(this.options.overlay){var e=this.doc.getSize().x;this.overlay.set("aria-hidden",t?"false":"true"),this.doc.body[t?"addClass":"removeClass"]("body-overlayed"),t?this.scrollOffset=this.doc.getWindow().getSize().x-e:this.doc.body.setStyle("margin-right","")}},showContent:function(){this.content.get("opacity")&&this.fireEvent("onShow",[this.win]),this.fx.content.start(1)},hideContent:function(){this.content.get("opacity")||this.fireEvent("onHide",[this.win]),this.fx.content.cancel().set(0)},onKey:function(t){switch(t.key){case"esc":this.close(t);case"up":case"down":return!1}},checkTarget:function(t){return t.target!==this.content&&this.content.contains(t.target)},reposition:function(){var t=this.doc.getSize(),e=this.doc.getScroll(),i=this.doc.getScrollSize(),s=this.overlay.getStyles("height"),n=parseInt(s.height);return(0==n||i.y>n&&t.y>=n)&&(this.overlay.setStyles({width:i.x+"px",height:i.y+"px"}),this.win.setStyles({left:(e.x+(t.x-this.win.offsetWidth)/2-this.scrollOffset).toInt()+"px",top:(e.y+(t.y-this.win.offsetHeight)/2).toInt()+"px"})),this.fireEvent("onMove",[this.overlay,this.win])},removeEvents:function(t){return this.$events?(t?this.$events[t]&&(this.$events[t]=null):this.$events=null,this):this},extend:function(t){return Object.append(this,t)},handlers:new Hash,parsers:new Hash};redBOX.extend(new Events(function(){})).extend(new Options(function(){})).extend(new Chain(function(){})),redBOX.parsers.extend({image:function(t){return!(!t&&!/\.(?:jpg|png|gif)$/i.test(this.url))&&this.url},clone:function(t){if(document.id(this.options.target))return document.id(this.options.target);if(this.element&&!this.element.parentNode)return this.element;var e=this.url.match(/#([\w-]+)$/);return e?document.id(e[1]):!!t&&this.element},ajax:function(t){return!!(t||this.url&&!/^(?:javascript|#)/i.test(this.url))&&this.url},iframe:function(t){return!(!t&&!this.url)&&this.url},html:function(t){return t},string:function(t){return!0}}),redBOX.handlers.extend({image:function(t){var e,i=new Image;return this.asset=null,i.onload=i.onabort=i.onerror=function(){if(i.onload=i.onabort=i.onerror=null,!i.width)return void this.onError.delay(10,this);var t=this.doc.getSize();t.x-=this.options.marginImage.x,t.y-=this.options.marginImage.y,e={x:i.width,y:i.height};for(var s=2;s--;)e.x>t.x?(e.y*=t.x/e.x,e.x=t.x):e.y>t.y&&(e.x*=t.y/e.y,e.y=t.y);e.x=e.x.toInt(),e.y=e.y.toInt(),this.asset=document.id(i),i=null,this.asset.width=e.x,this.asset.height=e.y,this.applyContent(this.asset,e)}.bind(this),i.src=t,i&&i.onload&&i.complete&&i.onload(),this.asset?[this.asset,e]:null},clone:function(t){return t?t.clone():this.onError()},adopt:function(t){return t||this.onError()},ajax:function(t){var e=this.options.ajaxOptions||{};this.asset=new Request.HTML(Object.merge({method:"get",evalScripts:!1},this.options.ajaxOptions)).addEvents({onSuccess:function(t){this.applyContent(t),null===e.evalScripts||e.evalScripts||Browser.exec(this.asset.response.javascript),this.fireEvent("onAjax",[t,this.asset]),this.asset=null}.bind(this),onFailure:this.onError.bind(this)}),this.asset.send.delay(10,this.asset,[{url:t}])},iframe:function(t){return this.asset=new Element("iframe",Object.merge({src:t,frameBorder:0,name:this.options.name,width:this.options.size.x,height:this.options.size.y},this.options.iframeOptions)),this.options.iframePreload?(this.asset.addEvent("load",function(){this.applyContent(this.asset.setStyle("display",""))}.bind(this)),this.asset.setStyle("display","none").inject(this.content),!1):this.asset},html:function(t){return this.options.htmldata},string:function(t){return t}}),redBOX.handlers.url=redBOX.handlers.ajax,redBOX.parsers.url=redBOX.parsers.ajax,redBOX.parsers.adopt=redBOX.parsers.clone;
+var redBOX = {
+
+	presets: {
+		onOpen: function(){},
+		onClose: function(){},
+		onUpdate: function(){},
+		onResize: function(){},
+		onMove: function(){},
+		onShow: function(){},
+		onHide: function(){},
+		size: {x: 600, y: 450},
+		sizeLoading: {x: 200, y: 150},
+		marginInner: {x: 20, y: 20},
+		marginImage: {x: 50, y: 75},
+		handler: false,
+		target: null,
+		closable: true,
+		closeBtn: true,
+		zIndex: 65555,
+		overlayOpacity: 0.7,
+		classWindow: '',
+		classOverlay: '',
+		overlayFx: {},
+		resizeFx: {},
+		contentFx: {},
+		parse: false, // 'rel'
+		parseSecure: false,
+		shadow: true,
+		overlay: true,
+		document: null,
+		ajaxOptions: {}
+	},
+
+	initialize: function(presets) {
+		if (this.options) return this;
+
+		this.presets = Object.merge(this.presets, presets);
+		this.doc = this.presets.document || document;
+		this.options = {};
+		this.setOptions(this.presets).build();
+		this.bound = {
+			window: this.reposition.bind(this, [null]),
+			scroll: this.checkTarget.bind(this),
+			close: this.close.bind(this),
+			key: this.onKey.bind(this)
+		};
+		this.isOpen = this.isLoading = false;
+		return this;
+	},
+
+	build: function() {
+		this.overlay = new Element('div', {
+			id: 'sbox-overlay',
+			'aria-hidden': 'true',
+			styles: { zIndex: this.options.zIndex},
+			tabindex: -1
+		});
+		this.win = new Element('div', {
+			id: 'sbox-window',
+			role: 'dialog',
+			'aria-hidden': 'true',
+			styles: {zIndex: this.options.zIndex + 2}
+		});
+		if (this.options.shadow) {
+			if (Browser.chrome
+			|| (Browser.safari && Browser.version >= 3)
+			|| (Browser.opera && Browser.version >= 10.5)
+			|| (Browser.firefox && Browser.version >= 3.5)
+			|| (Browser.ie && Browser.version >= 9)) {
+				this.win.addClass('shadow');
+			} else if (!Browser.ie6) {
+				var shadow = new Element('div', {'class': 'sbox-bg-wrap'}).inject(this.win);
+				var relay = function(e) {
+					this.overlay.fireEvent('click', [e]);
+				}.bind(this);
+				['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'].each(function(dir) {
+					new Element('div', {'class': 'sbox-bg sbox-bg-' + dir}).inject(shadow).addEvent('click', relay);
+				});
+			}
+		}
+		this.content = new Element('div', {id: 'sbox-content'}).inject(this.win);
+		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#', role: 'button'}).inject(this.win);
+		this.closeBtn.setProperty('aria-controls', 'sbox-window');
+		this.fx = {
+			overlay: new Fx.Tween(this.overlay, Object.merge({
+				property: 'opacity',
+				onStart: Events.prototype.clearChain,
+				duration: 250,
+				link: 'cancel'
+			}, this.options.overlayFx)).set(0),
+			win: new Fx.Morph(this.win, Object.merge({
+				onStart: Events.prototype.clearChain,
+				unit: 'px',
+				duration: 750,
+				transition: Fx.Transitions.Quint.easeOut,
+				link: 'cancel',
+				unit: 'px'
+			}, this.options.resizeFx)),
+			content: new Fx.Tween(this.content, Object.merge({
+				property: 'opacity',
+				duration: 250,
+				link: 'cancel'
+			}, this.options.contentFx)).set(0)
+		};
+		document.id(this.doc.body).adopt(this.overlay, this.win);
+	},
+
+	assign: function(to, options) {
+		return (document.id(to) || $$(to)).addEvent('click', function() {
+			return !redBOX.fromElement(this, options);
+		});
+	},
+
+	open: function(subject, options) {
+		this.initialize();
+
+		if (this.element != null) this.trash();
+		this.element = document.id(subject) || false;
+
+		this.setOptions(Object.merge(this.presets, options || {}));
+
+		if (this.element && this.options.parse) {
+			var obj = this.element.getProperty(this.options.parse);
+			if (obj && (obj = JSON.decode(obj, this.options.parseSecure))) this.setOptions(obj);
+		}
+		this.url = ((this.element) ? (this.element.get('href')) : subject) || this.options.url || '';
+
+		this.assignOptions();
+
+		var handler = handler || this.options.handler;
+		if (handler) return this.setContent(handler, this.parsers[handler].call(this, true));
+		var ret = false;
+		return this.parsers.some(function(parser, key) {
+			var content = parser.call(this);
+			if (content) {
+				ret = this.setContent(key, content);
+				return true;
+			}
+			return false;
+		}, this);
+	},
+
+	fromElement: function(from, options) {
+		return this.open(from, options);
+	},
+
+	assignOptions: function() {
+		this.overlay.addClass(this.options.classOverlay);
+		this.win.addClass(this.options.classWindow);
+	},
+
+	close: function(e) {
+		var stoppable = (typeOf(e) == 'domevent');
+		if (stoppable) e.stop();
+		if (!this.isOpen || (stoppable && !Function.from(this.options.closable).call(this, e))) return this;
+		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));
+		this.win.setProperty('aria-hidden', 'true');
+		this.fireEvent('onClose', [this.content]);
+		this.trash();
+		this.toggleListeners();
+		this.isOpen = false;
+		return this;
+	},
+
+	trash: function() {
+		this.element = this.asset = null;
+		this.content.empty();
+		this.options = {};
+		this.removeEvents().setOptions(this.presets).callChain();
+	},
+
+	onError: function() {
+		this.asset = null;
+		this.setContent('string', this.options.errorMsg || 'An error occurred');
+	},
+
+	setContent: function(handler, content) {
+		if (!this.handlers[handler]) return false;
+		this.content.className = 'sbox-content-' + handler;
+		this.applyTimer = this.applyContent.delay(this.fx.overlay.options.duration, this, this.handlers[handler].call(this, content));
+		if (this.overlay.retrieve('opacity')) return this;
+		this.toggleOverlay(true);
+		this.fx.overlay.start(this.options.overlayOpacity);
+		return this.reposition();
+	},
+
+	applyContent: function(content, size) {
+		if (!this.isOpen && !this.applyTimer) return;
+		this.applyTimer = clearTimeout(this.applyTimer);
+		this.hideContent();
+		if (!content) {
+			this.toggleLoading(true);
+		} else {
+			if (this.isLoading) this.toggleLoading(false);
+			this.fireEvent('onUpdate', [this.content], 20);
+		}
+		if (content) {
+			if (['string', 'array'].contains(typeOf(content))) {
+				this.content.set('html', content);
+			} else if (!(content !== this.content && this.content.contains(content))) {
+				this.content.adopt(content);
+			}
+		}
+		this.callChain();
+		if (!this.isOpen) {
+			this.toggleListeners(true);
+			this.resize(size, true);
+			this.isOpen = true;
+			this.win.setProperty('aria-hidden', 'false');
+			this.fireEvent('onOpen', [this.content]);
+		} else {
+			this.resize(size);
+		}
+	},
+
+	resize: function(size, instantly) {
+		this.showTimer = clearTimeout(this.showTimer || null);
+		var box = this.doc.getSize(), scroll = this.doc.getScroll();
+		this.size = Object.merge((this.isLoading) ? this.options.sizeLoading : this.options.size, size);
+		var parentSize = self.getSize();
+		if (this.size.x == parentSize.x) {
+			this.size.y = this.size.y - 50;
+			this.size.x = this.size.x - 20;
+		}
+		var to = {
+			width: this.size.x,
+			height: this.size.y,
+			left: (scroll.x + (box.x - this.size.x - this.options.marginInner.x) / 2).toInt(),
+			top: (scroll.y + (box.y - this.size.y - this.options.marginInner.y) / 2).toInt()
+		};
+		this.hideContent();
+		if (!instantly) {
+			this.fx.win.start(to).chain(this.showContent.bind(this));
+		} else {
+			this.win.setStyles(to);
+			this.showTimer = this.showContent.delay(50, this);
+		}
+		return this.reposition();
+	},
+
+	toggleListeners: function(state) {
+		var fn = (state) ? 'addEvent' : 'removeEvent';
+		this.closeBtn[fn]('click', this.bound.close);
+		this.overlay[fn]('click', this.bound.close);
+		this.doc[fn]('keydown', this.bound.key)[fn]('mousewheel', this.bound.scroll);
+		this.doc.getWindow()[fn]('resize', this.bound.window)[fn]('scroll', this.bound.window);
+	},
+
+	toggleLoading: function(state) {
+		this.isLoading = state;
+		this.win[(state) ? 'addClass' : 'removeClass']('sbox-loading');
+		if (state) {
+			this.win.setProperty('aria-busy', state);
+			this.fireEvent('onLoading', [this.win]);
+		}
+	},
+
+	toggleOverlay: function(state) {
+		if (this.options.overlay) {
+			var full = this.doc.getSize().x;
+			this.overlay.set('aria-hidden', (state) ? 'false' : 'true');
+			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
+			if (state) {
+				this.scrollOffset = this.doc.getWindow().getSize().x - full;
+			} else {
+				this.doc.body.setStyle('margin-right', '');
+			}
+		}
+	},
+
+	showContent: function() {
+		if (this.content.get('opacity')) this.fireEvent('onShow', [this.win]);
+		this.fx.content.start(1);
+	},
+
+	hideContent: function() {
+		if (!this.content.get('opacity')) this.fireEvent('onHide', [this.win]);
+		this.fx.content.cancel().set(0);
+	},
+
+	onKey: function(e) {
+		switch (e.key) {
+			case 'esc': this.close(e);
+			case 'up': case 'down': return false;
+		}
+	},
+
+	checkTarget: function(e) {
+		return e.target !== this.content && this.content.contains(e.target);
+	},
+
+	reposition: function() {
+		var size = this.doc.getSize(), scroll = this.doc.getScroll(), ssize = this.doc.getScrollSize();
+		var over = this.overlay.getStyles('height');
+		var j = parseInt(over.height);
+		if (j == 0 || (ssize.y > j && size.y >= j)) {
+			this.overlay.setStyles({
+				width: ssize.x + 'px',
+				height: ssize.y + 'px'
+			});
+			this.win.setStyles({
+				left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
+				top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
+			});
+		}
+
+		return this.fireEvent('onMove', [this.overlay, this.win]);
+	},
+
+	removeEvents: function(type){
+		if (!this.$events) return this;
+		if (!type) this.$events = null;
+		else if (this.$events[type]) this.$events[type] = null;
+		return this;
+	},
+
+	extend: function(properties) {
+		return Object.append(this, properties);
+	},
+
+	handlers: new Hash(),
+
+	parsers: new Hash()
+};
+
+redBOX.extend(new Events(function(){})).extend(new Options(function(){})).extend(new Chain(function(){}));
+
+redBOX.parsers.extend({
+
+	image: function(preset) {
+		return (preset || (/\.(?:jpg|png|gif)$/i).test(this.url)) ? this.url : false;
+	},
+
+	clone: function(preset) {
+		if (document.id(this.options.target)) return document.id(this.options.target);
+		if (this.element && !this.element.parentNode) return this.element;
+		var bits = this.url.match(/#([\w-]+)$/);
+		return (bits) ? document.id(bits[1]) : (preset ? this.element : false);
+	},
+
+	ajax: function(preset) {
+		return (preset || (this.url && !(/^(?:javascript|#)/i).test(this.url))) ? this.url : false;
+	},
+
+	iframe: function(preset) {
+		return (preset || this.url) ? this.url : false;
+	},
+	html: function(preset) {
+		return preset;
+	},
+	string: function(preset) {
+		return true;
+	}
+});
+
+redBOX.handlers.extend({
+
+	image: function(url) {
+		var size, tmp = new Image();
+		this.asset = null;
+		tmp.onload = tmp.onabort = tmp.onerror = (function() {
+			tmp.onload = tmp.onabort = tmp.onerror = null;
+			if (!tmp.width) {
+				this.onError.delay(10, this);
+				return;
+			}
+			var box = this.doc.getSize();
+			box.x -= this.options.marginImage.x;
+			box.y -= this.options.marginImage.y;
+			size = {x: tmp.width, y: tmp.height};
+			for (var i = 2; i--;) {
+				if (size.x > box.x) {
+					size.y *= box.x / size.x;
+					size.x = box.x;
+				} else if (size.y > box.y) {
+					size.x *= box.y / size.y;
+					size.y = box.y;
+				}
+			}
+			size.x = size.x.toInt();
+			size.y = size.y.toInt();
+			this.asset = document.id(tmp);
+			tmp = null;
+			this.asset.width = size.x;
+			this.asset.height = size.y;
+			this.applyContent(this.asset, size);
+		}).bind(this);
+		tmp.src = url;
+		if (tmp && tmp.onload && tmp.complete) tmp.onload();
+		return (this.asset) ? [this.asset, size] : null;
+	},
+
+	clone: function(el) {
+		if (el) return el.clone();
+		return this.onError();
+	},
+
+	adopt: function(el) {
+		if (el) return el;
+		return this.onError();
+	},
+
+	ajax: function(url) {
+		var options = this.options.ajaxOptions || {};
+		this.asset = new Request.HTML(Object.merge({
+			method: 'get',
+			evalScripts: false
+		}, this.options.ajaxOptions)).addEvents({
+			onSuccess: function(resp) {
+				this.applyContent(resp);
+				if (options.evalScripts !== null && !options.evalScripts) Browser.exec(this.asset.response.javascript);
+				this.fireEvent('onAjax', [resp, this.asset]);
+				this.asset = null;
+			}.bind(this),
+			onFailure: this.onError.bind(this)
+		});
+		this.asset.send.delay(10, this.asset, [{url: url}]);
+	},
+
+	iframe: function(url) {
+		this.asset = new Element('iframe', Object.merge({
+			src: url,
+			frameBorder: 0,
+			width: this.options.size.x,
+			height: this.options.size.y
+		}, this.options.iframeOptions));
+		if (this.options.iframePreload) {
+			this.asset.addEvent('load', function() {
+				this.applyContent(this.asset.setStyle('display', ''));
+			}.bind(this));
+			this.asset.setStyle('display', 'none').inject(this.content);
+			return false;
+		}
+		return this.asset;
+	},
+	html: function(htmldata) {
+		return this.options.htmldata;
+	},
+	string: function(str) {
+		return str;
+	}
+});
+
+redBOX.handlers.url = redBOX.handlers.ajax;
+redBOX.parsers.url = redBOX.parsers.ajax;
+redBOX.parsers.adopt = redBOX.parsers.clone;

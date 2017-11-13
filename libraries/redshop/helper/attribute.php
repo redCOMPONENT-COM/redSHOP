@@ -79,7 +79,7 @@ abstract class RedshopHelperAttribute
 			return $templateContent;
 		}
 
-		JHtml::script('com_redshop/thumbscroller.js', false, true);
+		JHtml::script('com_redshop/thumbscroller.min.js', false, true);
 		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		$preprefix = "";

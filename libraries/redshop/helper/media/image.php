@@ -75,10 +75,10 @@ class RedshopHelperMediaImage
 		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
 		JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
 
-		JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
-		JHtml::script('com_redshop/cropper/cropper.js', false, true);
-		JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
-		JHtml::script('com_redshop/redshop.media.js', false, true);
+		JHtml::script('com_redshop/dropzone.min.js', false, true);
+		JHtml::script('com_redshop/cropper.min.js', false, true);
+		JHtml::script('com_redshop/lightbox.min.js', false, true);
+		JHtml::script('com_redshop/redshop.media.min.js', false, true);
 
 		return true;
 	}

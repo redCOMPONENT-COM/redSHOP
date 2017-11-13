@@ -18,6 +18,8 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
+JHtml::script('com_redshop/redshop.wishlist.min.js', false, true, false, false);
+
 $user = JFactory::getUser();
 $wishlistExist = 'icon icon-heart-2';
 $checkWishlist = RedshopHelperWishlist::checkWishlistExist($productId);

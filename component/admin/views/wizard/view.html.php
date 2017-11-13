@@ -58,7 +58,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 		$document    = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
 		JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
 

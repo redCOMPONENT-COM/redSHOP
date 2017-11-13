@@ -1443,7 +1443,7 @@ class RedshopHelperExtrafields
 	 */
 	public static function listAllUserFields($fieldSection = "", $sectionId = extraField::SECTION_PRODUCT_USERFIELD, $fieldType = '', $uniqueId = '')
 	{
-		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/attribute.min.js', false, true);
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 

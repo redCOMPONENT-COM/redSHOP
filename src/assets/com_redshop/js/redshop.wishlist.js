@@ -1,6 +1,5 @@
 (function($) {
     $(document).ready(function() {
-
         // User
         $('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event) {
             event.preventDefault();

@@ -399,7 +399,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 				if ($is_creditcard)
 				{
-					JHtml::script('com_redshop/credit_card.js', false, true);    ?>
+					JHtml::script('com_redshop/credit_card.min.js', false, true);    ?>
 
 				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>" method="post"
 				      name="adminForm" id="adminForm" enctype="multipart/form-data"

@@ -45,10 +45,10 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/order.js');
-		$document->addScript('components/com_redshop/assets/js/common.js');
+		JHtml::script('com_redshop/json.min.js', false, true);
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
+		JHtml::script('com_redshop/admin/order.min.js', false, true);
+		JHtml::script('com_redshop/admin/common.min.js', false, true);
 
 		$uri          = JUri::getInstance();
 		$lists        = array();

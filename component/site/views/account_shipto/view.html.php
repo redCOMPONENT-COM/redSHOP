@@ -91,9 +91,9 @@ class RedshopViewAccount_Shipto extends RedshopView
 		if ($task == 'addshipping')
 		{
 			JHtml::_('redshopjquery.framework');
-			JHtml::script('com_redshop/jquery.validate.js', false, true);
-			JHtml::script('com_redshop/common.js', false, true);
-			JHtml::script('com_redshop/registration.js', false, true);
+			JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+			JHtml::script('com_redshop/common.min.js', false, true);
+			JHtml::script('com_redshop/registration.min.js', false, true);
 			JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 			$shippingAddresses = $this->get('Data');

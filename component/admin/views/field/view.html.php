@@ -32,8 +32,7 @@ class RedshopViewField extends RedshopViewForm
 	public function beforeDisplay(&$tpl)
 	{
 		$extra_field = extra_field::getInstance();
-		$document    = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/fields.js');
+		JHtml::script('com_redshop/admin/fields.min.js', false, true);
 
 		$model = $this->getModel('field');
 

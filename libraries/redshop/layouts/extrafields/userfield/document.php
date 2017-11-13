@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 JHtml::_('redshopjquery.framework');
-JHtml::script('com_redshop/ajaxupload.js', false, true);
+JHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
 /**
  * $displayData extract

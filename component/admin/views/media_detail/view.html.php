@@ -30,8 +30,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 	{
 		$uri = JFactory::getURI();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/media.js');
+		JHtml::script('com_redshop/admin/media.min.js', false, true);
 
 		$this->setLayout('default');
 

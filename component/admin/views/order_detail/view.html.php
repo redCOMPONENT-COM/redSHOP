@@ -54,10 +54,10 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		RedshopHelperShipping::loadLanguages();
 
 		$layout = $input->getCmd('layout', '');
-		$document->addScript('components/com_redshop/assets/js/order.js');
-		$document->addScript('components/com_redshop/assets/js/common.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/json.js');
+		JHtml::script('com_redshop/admin/order.min.js', false, true);
+		JHtml::script('com_redshop/admin/common.min.js', false, true);
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
+		JHtml::script('com_redshop/json.min.js', false, true);
 
 		$lists = array();
 

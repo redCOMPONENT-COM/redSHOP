@@ -32,7 +32,7 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
 		$this->setLayout('default');
 
 		$lists = array();

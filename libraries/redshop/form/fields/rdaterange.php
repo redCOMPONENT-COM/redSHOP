@@ -53,8 +53,8 @@ class JFormFieldRdaterange extends JFormField
 		$onChange   = (isset($this->element['onChange'])) ? (string) $this->element['onChange'] : '';
 		$phpFormat  = (isset($this->element['phpFormat'])) ? (string) $this->element['phpFormat'] : 'd/m/Y';
 
-		JHtml::script('com_redshop/moment.js', false, true);
-		JHtml::script('com_redshop/daterangepicker.js', false, true);
+		JHtml::script('com_redshop/moment.min.js', false, true);
+		JHtml::script('com_redshop/daterangepicker.min.js', false, true);
 		JHtml::stylesheet('com_redshop/daterangepicker.css', false, true);
 
 		return RedshopLayoutHelper::render(

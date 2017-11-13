@@ -32,8 +32,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 		$id       = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/common.js');
+		JHtml::script('com_redshop/admin/common.min.js', false, true);
 
 		// Load language file of the shipping plugin
 		JFactory::getLanguage()->load(

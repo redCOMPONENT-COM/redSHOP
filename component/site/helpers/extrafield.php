@@ -720,7 +720,7 @@ class extraField
                     case self::TYPE_DOCUMENTS :
 						// File Upload
 						JHtml::_('redshopjquery.framework');
-						JHtml::script('com_redshop/ajaxupload.js', false, true);
+						JHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
 						$ajax = '';
 						$unique = $row_data[$i]->name . '_' . $product_id;

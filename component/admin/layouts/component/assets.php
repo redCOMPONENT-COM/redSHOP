@@ -16,11 +16,11 @@ JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
-
-$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
-$doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/admin/backend.js');
 $doc->addTopStylesheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.css');
+
+JHtml::script('com_redshop/redshop.alert.min.js', false, true);
 
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');

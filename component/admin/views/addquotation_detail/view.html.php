@@ -34,10 +34,10 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 		$document        = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
+		JHtml::script('com_redshop/json.min.js', false, true);
+		JHtml::script('com_redshop/admin/validation.min.js', false, true);
+		JHtml::script('com_redshop/admin/order.min.js', false, true);
+		JHtml::script('com_redshop/admin/common.min.js', false, true);
 		$session = JFactory::getSession();
 		$uri     = JFactory::getURI();
 

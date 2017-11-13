@@ -39,12 +39,12 @@ class RedshopViewCheckout extends RedshopView
 
 		JHtml::script('system/validate.js', true, false);
 		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/jquery.validate.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::script('com_redshop/jquery.metadata.js', false, true);
-		JHtml::script('com_redshop/registration.js', false, true);
+		JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+		JHtml::script('com_redshop/common.min.js', false, true);
+		JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
+		JHtml::script('com_redshop/registration.min.js', false, true);
 		JHtml::stylesheet('com_redshop/validation.css', array(), true);
-		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/redbox.min.js', false, true);
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 

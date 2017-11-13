@@ -2769,7 +2769,7 @@ class productHelper
 		$attribute_table = "";
 		$subproperty     = array();
 
-		JHtml::script('com_redshop/thumbscroller.js', false, true);
+		JHtml::script('com_redshop/thumbscroller.min.js', false, true);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
 
