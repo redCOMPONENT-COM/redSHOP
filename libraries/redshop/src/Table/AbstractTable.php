@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Aesir.Core
- * @subpackage  Controller
+ * @package     RedSHOP
+ * @subpackage  Base
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -58,7 +58,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabase  &$db  A database connector object
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
@@ -141,14 +141,14 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
 				foreach ($this->_tbl_keys AS $key)
 				{
-					$pk[$key] = $this->$key;
+					$pk[$key] = $this->{$key};
 				}
 			}
 			elseif (is_array($pk))
 			{
 				foreach ($this->_tbl_keys AS $key)
 				{
-					$pk[$key] = !empty($pk[$key]) ? $pk[$key] : $this->$key;
+					$pk[$key] = !empty($pk[$key]) ? $pk[$key] : $this->{$key};
 				}
 			}
 		}
@@ -248,9 +248,9 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
 			foreach ($this->_tbl_keys AS $key)
 			{
-				if ($this->$key)
+				if ($this->{$key})
 				{
-					$pk[$key] = $this->$key;
+					$pk[$key] = $this->{$key};
 				}
 				// We don't have a full primary key - return false
 				else

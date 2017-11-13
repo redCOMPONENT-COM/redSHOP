@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+
 /**
  * Field Data Entity
  *
@@ -16,6 +18,6 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityField_Data extends RedshopEntity
+class RedshopEntityField_Data extends AbstractEntity
 {
 }

@@ -110,6 +110,43 @@ class RedshopTableTemplate extends RedshopTable
 	}
 
 	/**
+	 * Called before store(). Overriden to send isNew to plugins.
+	 *
+	 * @param   boolean $updateNulls True to update null values as well.
+	 * @param   boolean $isNew       True if we are adding a new item.
+	 * @param   mixed   $oldItem     null for new items | JTable otherwise
+	 *
+	 * @return  boolean  True on success.
+	 */
+	protected function beforeStore($updateNulls = false, $isNew = false, $oldItem = null)
+	{
+		if (!parent::beforeStore($updateNulls, $isNew, $oldItem))
+		{
+			return false;
+		}
+
+		if ($isNew)
+		{
+			// Auto-enable twig support for new template
+			if (in_array($this->section, RedshopHelperTwig::getSupportedTemplateSections()))
+			{
+				$this->twig_support = 1;
+			}
+
+			return true;
+		}
+
+		$oldItem->template_name = $this->safeTemplateName($oldItem->template_name);
+
+		if ($oldItem->template_name !== $this->template_name || $oldItem->template_section !== $this->template_section)
+		{
+			$this->setOption('oldFile', RedshopHelperTemplate::getTemplateFilePath($oldItem->template_section, $oldItem->template_name, true));
+		}
+
+		return true;
+	}
+
+	/**
 	 * Do the database store.
 	 *
 	 * @param   boolean $updateNulls True to update null values as well.

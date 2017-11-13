@@ -54,7 +54,16 @@
         <mkdir dir="${tmpdir}"/>
     </target>
 
-    <target name="build" depends="prepare">
+    <target name="composer" depends="prepare">
+        <echo msg="Downloading composer dependencies..."/>
+        <echo msg="...'lib_redshop composer dependencies..."/>
+        <composer command="install" composer="${extpath}/composer.phar">
+            <arg value="--working-dir" />
+            <arg path="${extpath}/libraries/redshop" />
+        </composer>
+    </target>
+
+    <target name="build" depends="composer">
         <phing phingfile="${project.basedir}/component_packager.xml" target="autopack"
                haltonfailure="true">
             <property name="package.delete" value="false"/>

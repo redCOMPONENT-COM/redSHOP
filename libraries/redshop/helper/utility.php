@@ -81,8 +81,7 @@ class RedshopHelperUtility
 		$db = JFactory::getDbo();
 
 		return array_map(
-			function ($value) use ($db)
-			{
+			function ($value) use ($db) {
 				return $db->quote($value);
 			},
 			$values
@@ -103,8 +102,7 @@ class RedshopHelperUtility
 		$db = JFactory::getDbo();
 
 		return array_map(
-			function ($value) use ($db)
-			{
+			function ($value) use ($db) {
 				return $db->qn($value);
 			},
 			$values

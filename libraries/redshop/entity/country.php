@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+
 /**
  * Manufacturer Entity
  *
@@ -16,6 +18,6 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.3
  */
-class RedshopEntityCountry extends RedshopEntity
+class RedshopEntityCountry extends AbstractEntity
 {
 }

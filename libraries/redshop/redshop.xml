@@ -16,7 +16,6 @@
     </languages>
     <files>
         <folder>controller</folder>
-        <folder>entities</folder>
         <folder>entity</folder>
         <folder>form</folder>
         <folder>helper</folder>
@@ -28,8 +27,8 @@
         <folder>model</folder>
         <folder>payment</folder>
         <folder>product</folder>
-        <folder>src</folder>
         <folder>shipping</folder>
+        <folder>src</folder>
         <folder>table</folder>
         <folder>tags</folder>
         <folder>toolbar</folder>

@@ -2098,6 +2098,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_template` (
   `payment_methods` VARCHAR(250) NOT NULL DEFAULT '',
   `published` TINYINT(4) NOT NULL DEFAULT 0,
   `shipping_methods` VARCHAR(255) NOT NULL DEFAULT '',
+  `twig_support` TINYINT(1) NOT NULL DEFAULT 0,
+  `twig_enable` TINYINT(1) NOT NULL DEFAULT 0,
   `checked_out` INT(11) NULL DEFAULT NULL,
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` INT(11) NULL DEFAULT NULL,

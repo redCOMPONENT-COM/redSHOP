@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\CoreEntityCollection;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,10 +19,10 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityOrder extends RedshopEntity
+class RedshopEntityOrder extends AbstractEntity
 {
 	/**
-	 * @var   RedshopEntitiesCollection
+	 * @var   CoreEntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -33,7 +36,7 @@ class RedshopEntityOrder extends RedshopEntity
 	protected $payment;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    CoreEntityCollection
 	 *
 	 * @since  2.0.6
 	 */
@@ -75,7 +78,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Method for get order items for this order
 	 *
-	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+	 * @return   CoreEntityCollection   CoreEntityCollection if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -97,7 +100,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Method for get order status log for this order
 	 *
-	 * @return   array   RedshopEntitiesCollection if success. Null otherwise.
+	 * @return   CoreEntityCollection   CoreEntityCollection if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -141,7 +144,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Method for get users of this order
 	 *
-	 * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
+	 * @return   CoreEntityCollection   Collection of users if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -218,7 +221,7 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$this->orderItems = new RedshopEntitiesCollection;
+		$this->orderItems = new CoreEntityCollection;
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -319,7 +322,7 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$this->users = new RedshopEntitiesCollection;
+		$this->users = new CoreEntityCollection;
 
 		$db = JFactory::getDbo();
 

@@ -9,27 +9,99 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+use Redshop\Entity\EntityCollection;
 
-
+/**
+ * Giftcard detail view
+ *
+ * @package     RedSHOP.Site
+ * @subpackage  View
+ * @since       1.6
+ */
 class RedshopViewGiftcard extends RedshopView
 {
+	/**
+	 * @var  mixed
+	 */
+	public $detail;
+
+	/**
+	 * @var  string
+	 */
+	public $template;
+
+	/**
+	 * @var  string
+	 */
+	public $pageheadingtag;
+
+	/**
+	 * @var  Registry
+	 */
+	public $params;
+
+	/**
+	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $content;
+
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise an Error object.
+	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
 		// Request variables
-		$params   = $app->getParams('com_redshop');
+		$params = JComponentHelper::getParams('com_redshop');
 
-		$pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');
+		$giftcardId = JFactory::getApplication()->input->get('gid', 0);
 
-		$model             = $this->getModel('giftcard');
-		$giftcard_template = $model->getGiftcardTemplate();
-		$detail            = $this->get('data');
+		/** @var RedshopModelGiftcard $model */
+		$model            = $this->getModel();
+		$giftcardTemplate = $model->getGiftcardTemplate();
+		$detail           = $this->get('data');
 
-		$this->detail = $detail;
-		$this->template = $giftcard_template;
-		$this->pageheadingtag = $pageheadingtag;
-		$this->params = $params;
+		if (!$giftcardId && isset($giftcardTemplate[0]) && $giftcardTemplate[0]->twig_support && $giftcardTemplate[0]->twig_enable)
+		{
+			/**
+			 * @TODO: Need add default template here.
+			 */
+			$content = $giftcardTemplate[0]->template_desc;
+
+			// Twig process
+			$templateName = 'giftcard-list-' . $giftcardTemplate[0]->template_id . '.html';
+
+			$loader = new Twig_Loader_Array(
+				array(
+					$templateName => $content
+				)
+			);
+
+			$twig = Redshop::getTwig($loader);
+
+			$items = new EntityCollection;
+			$items->loadArray($detail, 'RedshopEntityGiftcard', 'giftcard_id');
+
+			$this->content = $twig->render(
+				$templateName,
+				array(
+					'giftcards' => $items->isEmpty() ? null : $items->toTwigEntities(),
+					'page'      => $_SERVER
+				)
+			);
+		}
+
+		$this->detail         = $detail;
+		$this->template       = $giftcardTemplate;
+		$this->pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');
+		$this->params         = $params;
+
 		parent::display($tpl);
 	}
 }

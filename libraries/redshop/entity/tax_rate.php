@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+
 /**
  * Tax Rate Entity
  *
@@ -16,6 +18,6 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.4
  */
-class RedshopEntityTax_Rate extends RedshopEntity
+class RedshopEntityTax_Rate extends AbstractEntity
 {
 }
