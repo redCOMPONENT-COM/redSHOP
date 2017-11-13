@@ -19,6 +19,15 @@ defined('_JEXEC') or die;
 class RedshopViewSupplier extends RedshopViewForm
 {
 	/**
+	 * Form layout. (box, tab)
+	 *
+	 * @var    string
+	 *
+	 * @since  2.0.6
+	 */
+	protected $formLayout = 'box';
+
+	/**
 	 * Method for get page title.
 	 *
 	 * @return  string

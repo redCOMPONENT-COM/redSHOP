@@ -30,12 +30,10 @@ $class = empty($options['class']) ? "" : " " . $options['class'];
 $rel   = empty($options['rel']) ? "" : " " . $options['rel'];
 ?>
 <?php if (!empty($label) || !empty($input)) : ?>
-    <div class="form-group row-fluid <?php echo $class ?>"<?php echo $rel ?>>
-		<?php if (empty($options['hiddenLabel'])) : ?>
-            <div class="col-md-3"><?php echo $label ?></div>
-            <div class="col-md-9"><?php echo $input ?></div>
-		<?php else: ?>
-            <div class="col-md-12"><?php echo $input ?></div>
-		<?php endif; ?>
+    <div class="form-group <?php echo $class; ?>"<?php echo $rel; ?>>
+	    <?php if (empty($options['hiddenLabel'])) : ?>
+		    <?php echo $displayData['label']; ?>
+	    <?php endif; ?>
+	    <?php echo $displayData['input']; ?>
     </div>
 <?php endif ?>

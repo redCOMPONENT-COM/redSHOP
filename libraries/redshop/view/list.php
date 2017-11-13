@@ -274,13 +274,16 @@ class RedshopViewList extends AbstractView
 
 		foreach ($fields as $field)
 		{
+			$fieldType = (string) $field['type'];
+			$tableHide = (boolean) $field['table-hide'];
+
 			// Skip for spacer
-			if ($field['type'] == 'spacer' || $field['type'] == 'hidden' || !empty($field['table-hide']))
+			if ($fieldType === 'spacer' || $fieldType === 'hidden' || $tableHide)
 			{
 				continue;
 			}
 
-			if ($field['name'] == 'ordering')
+			if ($field['name'] === 'ordering')
 			{
 				$this->hasOrdering = true;
 			}
@@ -328,7 +331,7 @@ class RedshopViewList extends AbstractView
 	public function onRenderColumn($config, $index, $row)
 	{
 		$user             = JFactory::getUser();
-		$isCheckedOut     = !empty($row->checked_out) && $user->id != $row->checked_out;
+		$isCheckedOut     = !empty($row->checked_out) && $user->id !== $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 		$value            = $row->{$config['dataCol']};
 		$primaryKey       = $this->getPrimaryKey();

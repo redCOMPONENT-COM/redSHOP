@@ -29,20 +29,26 @@ $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 
 <?php if (!empty($filters['filter_search'])) : ?>
-	<?php if ($searchButton) : ?>
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<?php echo $filters['filter_search']->input; ?>
-				<input type="submit" class="btn" value="<?php echo JText::_('JSEARCH_FILTER_SUBMIT') ?>" />
-                <input type="button" class="btn reset js-stools-btn-clear" value="<?php echo JText::_('COM_REDSHOP_RESET');?>" />
-			</div>
-		</div>
-		<?php if ($filterButton) : ?>
-			<div class="btn-wrapper hidden-phone">
-				<button type="button" class="btn js-stools-btn-filter btn-large btn-primary">
-					<?php echo JText::_('JSEARCH_TOOLS');?> <span class="caret"></span>
-				</button>
-			</div>
-		<?php endif; ?>
+    <?php if ($searchButton): ?>
+        <div class="col-xs-8 col-sm-7 col-md-8 col-lg-4">
+            <div class="input-group stools-search-group">
+                <?php echo $filters['filter_search']->input ?>
+                <span class="input-group-btn">
+                    <button type="submit" class="lc-button-search btn btn-default" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT') ?>">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
 	<?php endif; ?>
+    <?php if ($filterButton) : ?>
+        <div class="col-xs-4 col-sm-5 col-md-4 stools-filter-buttons">
+            <button type="button" class="btn js-stools-btn-filter btn-default">
+		        <i class="fa fa-filter"></i> <?php echo JText::_('JSEARCH_TOOLS'); ?>
+            </button>
+            <button type="button" class="btn btn-default reset js-stools-btn-clear" title="<?php echo JText::_('COM_REDSHOP_RESET') ?>">
+                <i class="fa fa-close"></i> <?php echo JText::_('COM_REDSHOP_RESET') ?>
+            </button>
+        </div>
+    <?php endif; ?>
 <?php endif;

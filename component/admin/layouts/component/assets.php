@@ -11,12 +11,16 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "100%", "dropdownAutoWidth" => "auto"));
+JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true, 'width' => '100%'));
+// JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
 JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/jquery.min.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/bootstrap.min.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/adminlte.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.validation.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');

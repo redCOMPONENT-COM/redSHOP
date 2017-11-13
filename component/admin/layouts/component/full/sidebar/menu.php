@@ -14,7 +14,7 @@ extract($displayData);
 <ul class="sidebar-menu">
 	<li>
 		<a href="index.php?option=com_redshop">
-			<i class="fa fa-bar-chart"></i>
+			<i class="fa fa-dashboard"></i>
 			<span><?php echo JText::_('COM_REDSHOP_DASHBOARD') ?></span>
 		</a>
 	</li>

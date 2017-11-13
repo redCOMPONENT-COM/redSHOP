@@ -10,24 +10,15 @@
 defined('_JEXEC') or die;
 
 $toolbar = JToolbar::getInstance('toolbar');
-
-$view = JFactory::getApplication()->input->getCmd('view', 'redshop');
-
-$classtoolbar = "";
-
-if ($view == 'redshop')
-{
-	$classtoolbar = ' class="hidden-xs"';
-}
-
 ?>
-
-<div class="component-title">
-	<?php echo JFactory::getApplication()->JComponentTitle; ?>
+<div class="row">
+    <div class="col-xs-12 col-sm-5">
+	    <?php echo JFactory::getApplication()->JComponentTitle; ?>
+    </div>
+    <div class="col-xs-12 col-sm-7">
+        <div class="header-toolbar pull-right">
+			<?php echo $toolbar->render() ?>
+        </div>
+    </div>
 </div>
-
-<div<?php echo $classtoolbar ?>>
-	<?php echo $toolbar->render() ?>
-</div>
-
 <div class="row-fluid message-sys" id="message-sys"></div>

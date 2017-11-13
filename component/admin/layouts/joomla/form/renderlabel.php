@@ -37,7 +37,6 @@ if ($required)
 	<?php echo $position ?> style="font-size: 110%">
     <strong><?php echo $text ?></strong>
     <?php if (!$required) : ?><small class="text-muted">-&nbsp;<?php echo JText::_('COM_REDSHOP_FIELD_OPTIONAL') ?></small><?php endif; ?>
-</label>
 <div class="help-block">
     <small><i><?php echo trim($description) ?></i></small>
 </div>

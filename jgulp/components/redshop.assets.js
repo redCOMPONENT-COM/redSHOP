@@ -63,6 +63,30 @@ gulp.task('scripts:' + baseTask, function () {
         .pipe(gulp.dest(mediaPath + '/js'));
 });
 
+/// Admin Build
+gulp.task('build:' + baseTask, function (cb) {
+    return gulp.src([
+        assetsPath + "/scss/redshop.backend.scss"
+    ])
+        .pipe(changed(mediaPath + "/css"))
+        .pipe(sass())
+        .pipe(gulp.dest(mediaPath + "/css"))
+        .pipe(gulp.dest(config.wwwDir + '/media/' + componentName + '/css/'))
+        .pipe(sass({
+            outputStyle: "compressed",
+            errLogToConsole: true
+        }))
+        .pipe(rename(function (path) {
+            path.basename += '.min';
+        }))
+        .pipe(gulp.dest(mediaPath + "/css"))
+        .pipe(gulp.dest(config.wwwDir + '/media/' + componentName + '/css/'));
+});
+
+gulp.task('watch:' + baseTask + ':build', function(){
+    gulp.watch([assetsPath + "/scss/redshop.backend.scss"], ['build:' + baseTask]);
+});
+
 /// Sass Compiler
 gulp.task('sass:' + baseTask, function () {
     return gulp.src([

@@ -49,7 +49,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				$showOn = " data-showon='" . $showOnData . "'";
 			}
 			?>
-			<div class="js-stools-field-filter"<?php echo $showOn; ?>>
+			<div class="js-stools-field-filter col-xs-12 col-sm-12 col-md-3 col-lg-2"<?php echo $showOn; ?>>
 				<?php echo $field->input; ?>
 			</div>
 		<?php endif; ?>

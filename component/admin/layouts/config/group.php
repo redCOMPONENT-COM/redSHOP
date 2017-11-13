@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 ?>
-<div class="box box-primary">
-    <div class="box-header with-border"><h3 class="text-primary center"><?php echo $title ?></h3></div>
-    <div class="box-body"><?php echo $content ?></div>
+<div class="panel panel-default">
+    <div class="panel-heading with-border"><h3 class="no-margin"><?php echo $title ?></h3></div>
+    <div class="panel-body"><?php echo $content ?></div>
 </div>
