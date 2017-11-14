@@ -259,7 +259,6 @@ class RedshopHelperPayment
 		$paymentMethods = RedshopHelperPayment::info();
 		$totalPaymentMethod = count($paymentMethods);
 
-
 		if ($totalPaymentMethod > 0)
 		{
 			foreach ($paymentMethods as $p => $oneMethod)
