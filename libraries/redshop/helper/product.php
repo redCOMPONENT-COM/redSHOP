@@ -1058,7 +1058,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  array 			List of payment method
 	 *
-	 * @since   2.0.4
+	 * @since   2.0.8-beta
 	 */
 	public static function getAllAvailableProductPayment($productId = 0)
 	{

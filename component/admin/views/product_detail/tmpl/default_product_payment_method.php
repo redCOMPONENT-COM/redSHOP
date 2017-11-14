@@ -8,21 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$remove_format = JHtml::$formatOptions;
-
-// Calculation UNIT.
-$options = array();
-$options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-$options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
-$options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
-$lists['discount_calc_oprand'] = JHtml::_('select.genericlist', $options, 'pdc_oprand[]', 'class="inputbox" size="1" ', 'value', 'text', '+');
-$lists['discount_calc_oprand'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_oprand']);
-$lists['discount_calc_oprand'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_oprand']);
-
-unset($options);
-
 $model = $this->getModel('product_detail');
-$stockrooms = $model->StockRoomList();
 ?>
 
 

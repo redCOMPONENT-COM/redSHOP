@@ -361,60 +361,65 @@ class RedshopHelperPayment
 			return $common_payment_method;
 		}
 	}
-
+	/**
+	 * List common payment methods of products cart in checkout,
+	 *
+	 *
+	 * @param   string  $paymentMethods     All active payment methods
+	 *
+	 * @return String   HTML of <div></div>
+	 *
+	 * @since  
+	 */
 	public static function displayPaymentMethodInCheckOut($paymentMethods=array())
 	{
-		$totalPaymentMethod = count($paymentMethods);
-
 		$currentPaymentMethods = array();
-		if ($totalPaymentMethod > 0)
+		if (count($paymentMethods) > 0)
 			foreach ($paymentMethods as $p => $oneMethod)
 				$currentPaymentMethods[] = $oneMethod->name;
 			
 		$cart = JFactory::getSession()->get('cart');
 
-		$idx = 0;
-		if (isset($cart['idx'])) $idx  = $cart['idx'];
-		
 		$db = JFactory::getDbo();
 
-		$common_payment_method = $currentPaymentMethods;
 		$productHelper = productHelper::getInstance();
 		$html = '';
-
-		for ($i = 0; $i < $idx; $i++)
-		{				
-			$productId = $cart[$i]['product_id'];
-
-			$query = $db->getQuery(true);
-			$query
-			    ->select($db->qn('a.payment_id'))
-			    ->from($db->qn('#__redshop_product_payment_xref','a'))
-			    ->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
-			    ->where($db->qn('b.use_individual_payment_method') . ' = 1');
 		
-			if ( $productId )
-			{
-				$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
+		foreach ( $cart as $index => $product)
+		{			
+			if ( is_array($product) ){
+				$productId = $product['product_id'];
+
+				$query = $db->getQuery(true);
+				$query
+					->select($db->qn('a.payment_id'))
+					->from($db->qn('#__redshop_product_payment_xref','a'))
+					->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
+					->where($db->qn('b.use_individual_payment_method') . ' = 1');
+			
+				if ( $productId )
+				{
+					$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
+				}
+
+				$db->setQuery($query);
+				$payments = $db->loadObjectList();
+
+				if ( $payments )
+					$payments = array_column($payments , 'payment_id');	
+				else
+					$payments = $currentPaymentMethods;
+
+				$product = $productHelper->getProductById($productId);
+				$html .=  '<div class="row"><label class="col-xs-5">'.$product->product_name.'</label><div class="col-xs-7">';
+				$tmp = '';
+				foreach ($payments as $p)
+				{				
+					$tmp .=  JText::_('PLG_' . strtoupper($p)).',';
+				}
+				$tmp = rtrim($tmp,",");
+				$html .= $tmp.'</div></div>';
 			}
-
-			$db->setQuery($query);
-			$payments = $db->loadObjectList();
-
-			if ( $payments )
-				$payments = array_column($payments , 'payment_id');	
-			else
-				$payments = $currentPaymentMethods;
-
-			$product = $productHelper->getProductById($productId);
-			$html .=  '<div class="row"><label class="col-xs-5">'.$product->product_name.'</label><div class="col-xs-7">';
-			$tmp = '';
-			foreach ($payments as $p)
-			{				
-				$tmp .=  JText::_('PLG_' . strtoupper($p)).',';
-			}
-			$tmp = rtrim($tmp,",");
-			$html .= $tmp.'</div></div>';
 		}
 
 		return $html;

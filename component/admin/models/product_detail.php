@@ -573,17 +573,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 				return false;
 			}
 
-			//delete redshop_product_payment_xref 
-			$query = $this->_db->getQuery(true);
-			$conditions = array(
-				$this->_db->qn('product_id') . ' = ' . $this->_db->q($prodid)
-			);
-
-			$query->delete($this->_db->qn( $this->table_prefix . 'product_payment_xref'));
-			$query->where($conditions);
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
+			//Delete redshop_product_payment_xref +
+			$db = $this->_db;
+			$query = $db->getQuery(true)
+					   ->delete($db->qn( '#__redshop_product_payment_xref'))
+					   ->where($db->qn('product_id') . ' = ' . $db->q($prodid));
+			
+			if (!$db->setQuery($query)->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

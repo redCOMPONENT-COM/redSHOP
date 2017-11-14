@@ -3259,20 +3259,18 @@ class rsCarthelper
 		$montharr[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_NOV'));
 		$montharr[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_DEC'));
 
-		
 		$paymentMethods = RedshopHelperPayment::info();
 
-		//get common payment methods of product in this cart
-		$common_payment_methods = RedshopHelperPayment::getPaymentMethodInCheckOut($paymentMethods);
+		//Get common payment methods of product in this cart
+		$commonPaymentMethods = RedshopHelperPayment::getPaymentMethodInCheckOut($paymentMethods);
 
-		if ( $common_payment_methods ){
+		if ( $commonPaymentMethods ){
 			$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 
 			if (strpos($template_desc, "{split_payment}") !== false)
 			{
 				$template_desc = str_replace("{split_payment}", "", $template_desc);
 			}
-
 
 			if (strpos($template_desc, "{payment_loop_start}") !== false && strpos($template_desc, "{payment_loop_end}") !== false)
 			{
@@ -3292,7 +3290,7 @@ class rsCarthelper
 										. '/plugins/redshop_payment/'
 										. $paymentMethod->name . '/' . $paymentMethod->name . '.php';
 
-						if (!file_exists($paymentFilePath))
+						if (!JFile::exists($paymentFilePath))
 						{
 							return false;
 						}
@@ -3321,7 +3319,7 @@ class rsCarthelper
 				{
 					foreach ($paymentMethods as $p => $oneMethod)
 					{
-						if (in_array($oneMethod->name, $common_payment_methods)) { 
+						if (in_array($oneMethod->name, $commonPaymentMethods)) { 
 							$cardinfo        = "";
 							$display_payment = "";
 							$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
@@ -3442,10 +3440,6 @@ class rsCarthelper
 		
 		}
 		
-		
-
-		
-
 		return $template_desc;
 	}
 
@@ -3946,7 +3940,7 @@ class rsCarthelper
 		{
 			$voucher_code = $cart['voucher'][$v]['voucher_code'];
 			unset($cart['voucher'][$v]);
-			$voucher_code = $this->input->get('discount_code', $voucher_code);
+			$voucher_code = $this->input->set('discount_code', $voucher_code);
 			$cart         = RedshopHelperCartDiscount::applyVoucher($cart);
 		}
 
@@ -3961,7 +3955,7 @@ class rsCarthelper
 		{
 			$coupon_code = $cart['coupon'][$c]['coupon_code'];
 			unset($cart['coupon'][$c]);
-			$coupon_code = $this->input->get('discount_code', $coupon_code);
+			$coupon_code = $this->input->set('discount_code', $coupon_code);
 			$cart        = RedshopHelperCartDiscount::applyCoupon($cart);
 		}
 
