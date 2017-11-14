@@ -14,6 +14,10 @@ jimport('joomla.log.log');
 /**
  * Product architecture
  *
+ * @property   integer  $min_order_product_quantity  Min order quantity
+ * @property   integer  $max_order_product_quantity  Max order quantity
+ * @property   string   $product_name                Product name
+ *
  * @package     Redshop.Library
  * @subpackage  Product
  * @since       1.5

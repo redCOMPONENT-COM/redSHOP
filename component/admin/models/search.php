@@ -108,7 +108,7 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function search()
 	{
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$jInput = $app->input;

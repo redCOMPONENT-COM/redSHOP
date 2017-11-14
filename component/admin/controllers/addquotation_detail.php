@@ -9,8 +9,25 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Add quotation detail controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.Addquotation_Detail
+ * @since       2.0.2
+ */
 class RedshopControllerAddquotation_Detail extends RedshopController
 {
+	/**
+	 * @var JDatabaseDriver
+	 */
+	protected $_db;
+
+	/**
+	 * RedshopControllerAddquotation_Detail constructor.
+	 *
+	 * @param array $default
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
@@ -18,15 +35,27 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * Method for apply
+	 *
+	 * @return  void
+	 */
 	public function apply()
 	{
 		$this->save(0, 1);
 	}
 
+	/**
+	 * Method for save
+	 *
+	 * @param   integer  $send
+	 * @param   integer  $apply
+	 *
+	 * @return   boolean
+	 */
 	public function save($send = 0, $apply = 0)
 	{
-		$post               = $this->input->post->getArray();
-		$adminproducthelper = RedshopAdminProduct::getInstance();
+		$post = $this->input->post->getArray();
 
 		$cid                   = $this->input->post->get('cid', array(0), 'array');
 		$post ['quotation_id'] = $cid [0];
@@ -48,10 +77,10 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 			$post['block']        = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = RedshopModel::getInstance('User_detail', 'RedshopModel');
+			$userModel = RedshopModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
-			$user = $usermodel->storeUser($post);
+			$user = $userModel->storeUser($post);
 
 			if (!$user)
 			{
@@ -74,7 +103,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 			}
 		}
 
-		$orderItem          = $adminproducthelper->redesignProductItem($post);
+		$orderItem          = RedshopHelperProduct::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
 		$post['user_info_id'] = $post['users_info_id'];
