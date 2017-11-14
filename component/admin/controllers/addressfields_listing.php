@@ -9,14 +9,30 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerAddressfields_listing extends RedshopController
+/**
+ * Address fields listing controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.6
+ */
+class RedshopControllerAddressFields_Listing extends RedshopController
 {
+	/**
+	 * Method for cancel
+	 *
+	 * @return   void
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * Save order
+	 *
+	 * @return  void
+	 */
 	public function saveorder()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');

@@ -9,10 +9,20 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
-class RedshopControllerAttribute_set_detail extends RedshopController
+/**
+ * Attribute Set Detail controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.6
+ */
+class RedshopControllerAttribute_Set_Detail extends RedshopController
 {
+	/**
+	 * RedshopControllerAttribute_Set_Detail constructor.
+	 *
+	 * @param   array $default
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
@@ -56,6 +66,141 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		}
 	}
 
+	/**
+	 * Method for save attribute
+	 *
+	 * @param $post
+	 * @param $row
+	 *
+	 * @return  void
+	 */
+	public function attribute_save($post, $row)
+	{
+		/** @var RedshopModelAttribute_set_detail $model */
+		$model = $this->getModel('attribute_set_detail');
+
+		$attributesSave    = array();
+		$propertiesSave    = array();
+		$subPropertiesSave = array();
+
+		if (!is_array($post['attribute']))
+		{
+			return;
+		}
+
+		$attribute = array_merge(array(), $post['attribute']);
+
+		$files = $this->input->files->getArray();
+
+		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
+		{
+			$attributesSave['attribute_id']             = $attribute[$a]['id'];
+			$attributesSave['attribute_set_id']         = $row->attribute_set_id;
+			$attributesSave['attribute_name']           = htmlspecialchars($attribute[$a]['name']);
+			$attributesSave['attribute_description']    = $attribute[$a]['attribute_description'];
+			$attributesSave['ordering']                 = $attribute[$a]['ordering'];
+			$attributesSave['attribute_required']       = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
+			$attributesSave['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
+				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
+			$attributesSave['hide_attribute_price']     = ($attribute[$a]['hide_attribute_price'] == 'on'
+				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
+			$attributesSave['attribute_published']      = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+			$attributesSave['display_type']             = $attribute[$a]['display_type'];
+			$attribute_array                            = $model->store_attr($attributesSave);
+			$property                                   = array_merge(array(), $attribute[$a]['property']);
+
+			$propertyImages   = array_keys($attribute[$a]['property']);
+			$tmpPropertyImage = array_merge(array(), $propertyImages);
+
+			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
+			{
+				$propertiesSave['property_id']         = $property[$p]['property_id'];
+				$propertiesSave['attribute_id']        = $attribute_array->attribute_id;
+				$propertiesSave['property_name']       = htmlspecialchars($property[$p]['name']);
+				$propertiesSave['property_price']      = $property[$p]['price'];
+				$propertiesSave['oprand']              = $property[$p]['oprand'];
+				$propertiesSave['property_number']     = $property[$p]['number'];
+				$propertiesSave['property_image']      = $property[$p]['image'];
+				$propertiesSave['ordering']            = $property[$p]['order'];
+				$propertiesSave['setrequire_selected'] = ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
+				$propertiesSave['setmulti_selected']   = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
+				$propertiesSave['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
+				$propertiesSave['setdisplay_type']     = $property[$p]['setdisplay_type'];
+				$propertiesSave['property_published']  = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
+				$propertiesSave['extra_field']         = $property[$p]['extra_field'];
+				$properties                            = $model->store_pro($propertiesSave);
+				$propertyImage                         = $files['attribute_' . $a . '_property_' . $tmpPropertyImage[$p] . '_image'];
+
+				if (empty($property[$p]['mainImage']))
+				{
+					if (!empty($propertyImage['name']))
+					{
+						$propertiesSave['property_image'] = $model->copy_image($propertyImage, 'product_attributes', $properties->property_id);
+						$propertiesSave['property_id']    = $properties->property_id;
+						$properties                       = $model->store_pro($propertiesSave);
+					}
+				}
+
+				if (!empty($property[$p]['mainImage']))
+				{
+					$propertiesSave['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $properties->property_id);
+					$propertiesSave['property_id']    = $properties->property_id;
+					$properties                       = $model->store_pro($propertiesSave);
+				}
+
+				$subProperties    = array_merge(array(), $property[$p]['subproperty']);
+				$subPropertyTitle = $property[$p]['subproperty']['title'];
+				$subpropertyImage = array_keys($property[$p]['subproperty']);
+				unset($subpropertyImage[0]);
+				$tmpimagename = array_merge(array(), $subpropertyImage);
+
+				for ($sp = 0; $sp < count($subProperties) - 1; $sp++)
+				{
+					$subPropertiesSave['subattribute_color_id']     = $subProperties[$sp]['subproperty_id'];
+					$subPropertiesSave['subattribute_color_name']   = $subProperties[$sp]['name'];
+					$subPropertiesSave['subattribute_color_title']  = $subPropertyTitle;
+					$subPropertiesSave['subattribute_color_price']  = $subProperties[$sp]['price'];
+					$subPropertiesSave['oprand']                    = $subProperties[$sp]['oprand'];
+					$subPropertiesSave['subattribute_color_image']  = $subProperties[$sp]['image'];
+					$subPropertiesSave['subattribute_id']           = $properties->property_id;
+					$subPropertiesSave['ordering']                  = $subProperties[$sp]['order'];
+					$subPropertiesSave['subattribute_color_number'] = $subProperties[$sp]['number'];
+					$subPropertiesSave['setdefault_selected']       = ($subProperties[$sp]['chk_propdselected'] == 'on'
+						|| $subProperties[$sp]['chk_propdselected'] == '1') ? '1' : '0';
+					$subPropertiesSave['subattribute_published']    = ($subProperties[$sp]['published'] == 'on'
+						|| $subProperties[$sp]['published'] == '1') ? '1' : '0';
+					$subPropertiesSave['extra_field']               = $subProperties[$sp]['extra_field'];
+					$subproperty_array                              = $model->store_sub($subPropertiesSave);
+					$subproperty_image                              = $files['attribute_' . $a . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image'];
+
+					if (empty($subProperties[$sp]['mainImage']))
+					{
+						if (!empty($subproperty_image['name']))
+						{
+							$subPropertiesSave['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_array->subattribute_color_id);
+							$subPropertiesSave['subattribute_color_id']    = $subproperty_array->subattribute_color_id;
+							$subproperty_array                             = $model->store_sub($subPropertiesSave);
+						}
+					}
+
+					if (!empty($subProperties[$sp]['mainImage']))
+					{
+						$subPropertiesSave['subattribute_color_image'] = $model->copy_image_from_path(
+							$subProperties[$sp]['mainImage'],
+							'subcolor', $subproperty_array->subattribute_color_id
+						);
+
+						$subPropertiesSave['subattribute_color_id'] = $subproperty_array->subattribute_color_id;
+
+						$model->store_sub($subPropertiesSave);
+					}
+				}
+			}
+		}
+
+		return;
+	}
+
 	public function remove()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
@@ -83,130 +228,6 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
-	public function attribute_save($post, $row)
-	{
-		$model = $this->getModel('attribute_set_detail');
-
-		$attribute_save = array();
-		$property_save = array();
-		$subproperty_save = array();
-
-		if (!is_array($post['attribute']))
-		{
-			return;
-		}
-
-		$attribute = array_merge(array(), $post['attribute']);
-
-		$files = $this->input->files->getArray();
-
-		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
-		{
-			$attribute_save['attribute_id'] = $attribute[$a]['id'];
-			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
-			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
-			$attribute_save['attribute_description'] = $attribute[$a]['attribute_description'];
-			$attribute_save['ordering'] = $attribute[$a]['ordering'];
-			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
-				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on'
-				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
-			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
-			$attribute_save['display_type'] = $attribute[$a]['display_type'];
-			$attribute_array = $model->store_attr($attribute_save);
-			$property = array_merge(array(), $attribute[$a]['property']);
-
-			$propertyImage = array_keys($attribute[$a]['property']);
-			$tmpproptyimagename = array_merge(array(), $propertyImage);
-
-			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
-			{
-				$property_save['property_id'] = $property[$p]['property_id'];
-				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
-				$property_save['property_price'] = $property[$p]['price'];
-				$property_save['oprand'] = $property[$p]['oprand'];
-				$property_save['property_number'] = $property[$p]['number'];
-				$property_save['property_image'] = $property[$p]['image'];
-				$property_save['ordering'] = $property[$p]['order'];
-				$property_save['setrequire_selected'] = ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
-				$property_save['setmulti_selected'] = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
-				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
-				$property_save['setdisplay_type'] = $property[$p]['setdisplay_type'];
-				$property_save['property_published'] = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
-				$property_save['extra_field'] = $property[$p]['extra_field'];
-				$property_array = $model->store_pro($property_save);
-				$property_image = $files['attribute_' . $a . '_property_' . $tmpproptyimagename[$p] . '_image'];
-
-				if (empty($property[$p]['mainImage']))
-				{
-					if (!empty($property_image['name']))
-					{
-						$property_save['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_array->property_id);
-						$property_save['property_id'] = $property_array->property_id;
-						$property_array = $model->store_pro($property_save);
-					}
-				}
-
-				if (!empty($property[$p]['mainImage']))
-				{
-					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_array->property_id);
-					$property_save['property_id'] = $property_array->property_id;
-					$property_array = $model->store_pro($property_save);
-				}
-
-				$subproperty = array_merge(array(), $property[$p]['subproperty']);
-				$subproperty_title = $property[$p]['subproperty']['title'];
-				$subpropertyImage = array_keys($property[$p]['subproperty']);
-				unset($subpropertyImage[0]);
-				$tmpimagename = array_merge(array(), $subpropertyImage);
-
-				for ($sp = 0; $sp < count($subproperty) - 1; $sp++)
-				{
-					$subproperty_save['subattribute_color_id'] = $subproperty[$sp]['subproperty_id'];
-					$subproperty_save['subattribute_color_name'] = $subproperty[$sp]['name'];
-					$subproperty_save['subattribute_color_title'] = $subproperty_title;
-					$subproperty_save['subattribute_color_price'] = $subproperty[$sp]['price'];
-					$subproperty_save['oprand'] = $subproperty[$sp]['oprand'];
-					$subproperty_save['subattribute_color_image'] = $subproperty[$sp]['image'];
-					$subproperty_save['subattribute_id'] = $property_array->property_id;
-					$subproperty_save['ordering'] = $subproperty[$sp]['order'];
-					$subproperty_save['subattribute_color_number'] = $subproperty[$sp]['number'];
-					$subproperty_save['setdefault_selected'] = ($subproperty[$sp]['chk_propdselected'] == 'on'
-						|| $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
-					$subproperty_save['subattribute_published'] = ($subproperty[$sp]['published'] == 'on'
-						|| $subproperty[$sp]['published'] == '1') ? '1' : '0';
-					$subproperty_save['extra_field'] = $subproperty[$sp]['extra_field'];
-					$subproperty_array = $model->store_sub($subproperty_save);
-					$subproperty_image = $files['attribute_' . $a . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image'];
-
-					if (empty($subproperty[$sp]['mainImage']))
-					{
-						if (!empty($subproperty_image['name']))
-						{
-							$subproperty_save['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_array->subattribute_color_id);
-							$subproperty_save['subattribute_color_id'] = $subproperty_array->subattribute_color_id;
-							$subproperty_array = $model->store_sub($subproperty_save);
-						}
-					}
-
-					if (!empty($subproperty[$sp]['mainImage']))
-					{
-						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path(
-							$subproperty[$sp]['mainImage'],
-							'subcolor', $subproperty_array->subattribute_color_id
-						);
-						$subproperty_save['subattribute_color_id'] = $subproperty_array->subattribute_color_id;
-						$subproperty_array = $model->store_sub($subproperty_save);
-					}
-				}
-			}
-		}
-
-		return;
-	}
-
 	public function _imageResize($width, $height, $target)
 	{
 		if ($width > $height)
@@ -218,7 +239,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$percentage = ($target / $height);
 		}
 
-		$width = round($width * $percentage);
+		$width  = round($width * $percentage);
 		$height = round($height * $percentage);
 
 		if ($width < 5)
@@ -257,7 +278,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			&& $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
 		)
 		{
-			$msg = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
+			$msg  = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
 			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id']
 				. "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
@@ -266,10 +287,10 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-			<script language="javascript" type="text/javascript">
-				window.parent.SqueezeBox.close();
-			</script>
-		<?php
+            <script language="javascript" type="text/javascript">
+                window.parent.SqueezeBox.close();
+            </script>
+			<?php
 		}
 	}
 
@@ -287,7 +308,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		if ($model->deletesubimage($mediaid))
 		{
-			$msg = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
+			$msg  = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
 			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
 				. $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
@@ -311,10 +332,10 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-		<script language="javascript" type="text/javascript">
-			window.parent.SqueezeBox.close();
-		</script>
-	<?php
+        <script language="javascript" type="text/javascript">
+            window.parent.SqueezeBox.close();
+        </script>
+		<?php
 	}
 
 	public function removepropertyImage()
@@ -372,7 +393,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->copy($cid))

@@ -29,7 +29,7 @@ class RedshopControllerAccess extends RedshopControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$app  = JFactory::getApplication();
 		$data = $app->input->get('jform', array(), 'Array');

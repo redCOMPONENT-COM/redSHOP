@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerCatalog_request extends RedshopController
+/**
+ * Catalog request controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.6
+ */
+class RedshopControllerCatalog_Request extends RedshopController
 {
 	public function cancel()
 	{

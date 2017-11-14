@@ -104,7 +104,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 					$quantity  = $productData->min_order_product_quantity;
 				}
 
-				$currentStock  = RedshopHelperStockroom::getStockroomTotalAmoun($orderItem[$i]->product_id);
+				$currentStock  = RedshopHelperStockroom::getStockroomTotalAmount($orderItem[$i]->product_id);
 				$finalquantity = ($currentStock >= $quantity) ? (int) $quantity : (int) $currentStock;
 
 				if ($finalquantity > 0)
