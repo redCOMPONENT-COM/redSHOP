@@ -51,6 +51,7 @@ DROP TABLE IF EXISTS `#__redshop_product_attribute_price`;
 DROP TABLE IF EXISTS `#__redshop_product_attribute_property`;
 DROP TABLE IF EXISTS `#__redshop_product_attribute_stockroom_xref`;
 DROP TABLE IF EXISTS `#__redshop_product_category_xref`;
+DROP TABLE IF EXISTS `#__redshop_product_payment_xref`;
 DROP TABLE IF EXISTS `#__redshop_product_compare`;
 DROP TABLE IF EXISTS `#__redshop_product_discount_calc`;
 DROP TABLE IF EXISTS `#__redshop_product_discount_calc_extra`;
