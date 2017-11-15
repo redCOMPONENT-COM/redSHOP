@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
+use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 /**
  * Class ManageCategoryAdministratorCest
  *
@@ -32,13 +32,17 @@ class ManageCategoryAdministratorCest
 //     */
     public function createCategory(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test Category Save creation in Administrator');
         $I->doAdministratorLogin();
+        $I->wantTo('Test Category Save creation in Administrator');
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addCategorySave($this->categoryName);
 
+        $I->comment('Check review button');
+        $I->checkReview($this->categoryName);
+
     }
+
 
     public function updateCategorySaveClose(AcceptanceTester $I, $scenario)
     {

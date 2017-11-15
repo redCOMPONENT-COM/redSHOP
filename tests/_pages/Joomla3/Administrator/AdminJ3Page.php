@@ -115,6 +115,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonReview = 'Preview';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonPublish = "Publish";
 
 	/**
@@ -149,8 +154,15 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $URL = '/index.php?option=com_redshop';
-
+	/**
+	 * @var string
+	 */
 	public static $URLLoginAdmin = '/administrator/index.php';
+
+	/**
+	 * @var string
+	 */
+	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
 	/**
 	 * @var string
 	 */
