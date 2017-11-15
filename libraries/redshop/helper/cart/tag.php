@@ -115,7 +115,6 @@ class RedshopHelperCartTag
 		return $template;
 	}
 
-
 	/**
 	 * @param   string  $template      Template
 	 * @param   int     $discount      Discount

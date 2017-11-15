@@ -45,7 +45,7 @@ $user_id = $user->id;
 
 // Get redshop helper
 
-$Itemid = RedshopHelperUtility::getCheckoutItemId();
+$Itemid = RedshopHelperRouter::getCheckoutItemId();
 
 if ($Itemid == 0)
 {

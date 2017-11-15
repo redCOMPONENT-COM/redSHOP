@@ -27,7 +27,7 @@ $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 
 $telesearch = $order_functions->getparameters('rs_telesearch');
-$Itemid     = RedshopHelperUtility::getCheckoutItemId();
+$Itemid     = RedshopHelperRouter::getCheckoutItemId();
 $auth       = $session->get('auth');
 $jinput     = JFactory::getApplication()->input;
 $l               = $jinput->getInt('l', 1);

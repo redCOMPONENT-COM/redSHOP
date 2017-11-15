@@ -42,7 +42,7 @@ class RedshopControllerCart extends RedshopController
 
 		$producthelper = productHelper::getInstance();
 		$rsCartHelper  = rsCarthelper::getInstance();
-		$Itemid        = RedshopHelperUtility::getCartItemId();
+		$Itemid        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session
 		$userfield = $app->input->get('userfield');
@@ -76,7 +76,7 @@ class RedshopControllerCart extends RedshopController
 				else
 				{
 					// @TODO Verify $product variable
-					$prdItemid = RedshopHelperUtility::getItemId($post['product_id'], $product->cat_in_sefurl);
+					$prdItemid = RedshopHelperRouter::getItemId($post['product_id'], $product->cat_in_sefurl);
 				}
 
 				// Directly redirect if error found
@@ -161,7 +161,7 @@ class RedshopControllerCart extends RedshopController
 								}
 								else
 								{
-									$prdItemid = RedshopHelperUtility::getItemId($post['product_id']);
+									$prdItemid = RedshopHelperRouter::getItemId($post['product_id']);
 								}
 
 								$app->redirect(
@@ -336,7 +336,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function coupon()
 	{
-		$Itemid    = RedshopHelperUtility::getCartItemId();
+		$Itemid    = RedshopHelperRouter::getCartItemId();
 
 		// Call coupon method of model to apply coupon
 		$valid = $this->getModel('cart')->coupon();
@@ -376,7 +376,7 @@ class RedshopControllerCart extends RedshopController
 	public function voucher()
 	{
 		$session = JFactory::getSession();
-		$itemId  = RedshopHelperUtility::getCartItemId();
+		$itemId  = RedshopHelperRouter::getCartItemId();
 
 		// Call voucher method of model to apply voucher to cart
 		// if voucher code is valid than apply to cart else raise error
@@ -426,7 +426,7 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::cartFinalCalculation();
 		RedshopHelperCart::addCartToDatabase();
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false);
+		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
 		$this->setRedirect($link);
 	}
 
@@ -446,7 +446,7 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::cartFinalCalculation();
 		RedshopHelperCart::addCartToDatabase();
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false);
+		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
 		$this->setRedirect($link);
 	}
 
@@ -466,7 +466,7 @@ class RedshopControllerCart extends RedshopController
 			RedshopHelperCart::removeCartFromDatabase(0, $user->id, true);
 		}
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false);
+		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
 		$this->setRedirect($link);
 	}
 
@@ -484,7 +484,7 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::cartFinalCalculation();
 		RedshopHelperCart::addCartToDatabase();
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false);
+		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
 		$this->setRedirect($link);
 	}
 

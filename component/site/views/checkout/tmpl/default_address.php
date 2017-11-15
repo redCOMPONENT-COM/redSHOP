@@ -14,7 +14,7 @@ $uri       = JURI::getInstance();
 $url       = $uri->root();
 
 $redhelper = redhelper::getInstance();
-$Itemid    = RedshopHelperUtility::getCheckoutItemId();
+$Itemid    = RedshopHelperRouter::getCheckoutItemId();
 $session   = JFactory::getSession();
 $cart      = $session->get('cart');
 ?>

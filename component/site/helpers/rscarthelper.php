@@ -383,7 +383,7 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$prdItemid  = $this->input->getInt('Itemid');
-		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
+		$Itemid     = RedshopHelperRouter::getCheckoutItemId();
 		$url        = JURI::base(true);
 		$mainview   = $this->input->getCmd('view');
 
@@ -541,7 +541,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$Itemid = RedshopHelperUtility::getItemId($product_id);
+					$Itemid = RedshopHelperRouter::getItemId($product_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
@@ -1014,7 +1014,7 @@ class rsCarthelper
 
 			$itemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
 
-			$Itemid = !empty($itemData) ? $itemData->id : RedshopHelperUtility::getItemId($product_id) ;
+			$Itemid = !empty($itemData) ? $itemData->id : RedshopHelperRouter::getItemId($product_id) ;
 
 			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
 
@@ -1362,7 +1362,7 @@ class rsCarthelper
 
 			if ($mainview == "order_detail")
 			{
-				$Itemid     = RedshopHelperUtility::getCartItemId();
+				$Itemid     = RedshopHelperRouter::getCartItemId();
 				$copytocart = "<a href='" . JRoute::_('index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id=' . $rowitem[$i]->order_item_id . '&Itemid=' . $Itemid, false) . "'>";
 				$copytocart .= "<img src='" . REDSHOP_ADMIN_IMAGES_ABSPATH . "add.jpg' title='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' alt='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' /></a>";
 				$cart_mdata = str_replace("{copy_orderitem}", $copytocart, $cart_mdata);

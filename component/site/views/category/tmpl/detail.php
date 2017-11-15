@@ -57,7 +57,7 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
-$categoryItemId = (int) RedshopHelperUtility::getCategoryItemid($this->catid);
+$categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($this->catid);
 $mainItemid = !$categoryItemId ? $this->itemid : $categoryItemId;
 
 // New tags replacement for category template section
@@ -325,7 +325,7 @@ if (!$slide)
 
 			$data_add = $subcat_template;
 
-			$categoryItemId = RedshopHelperUtility::getCategoryItemid($row->id);
+			$categoryItemId = RedshopHelperRouter::getCategoryItemid($row->id);
 			$mainItemId = !$categoryItemId ? $this->itemid : $categoryItemId;
 
 			$link = JRoute::_(
@@ -626,7 +626,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		}
 		else
 		{
-			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+			$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
 		}
 
 		$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);

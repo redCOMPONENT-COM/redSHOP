@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $redhelper     = redhelper::getInstance();
 $app           = JFactory::getApplication();
-$itemId        = (int) RedshopHelperUtility::getCartItemId();
+$itemId        = (int) RedshopHelperRouter::getCartItemId();
 
 $getNewItemId = true;
 
@@ -30,7 +30,7 @@ if ($itemId != 0)
 
 if ($getNewItemId)
 {
-	$itemId = (int) RedshopHelperUtility::getCategoryItemid();
+	$itemId = (int) RedshopHelperRouter::getCategoryItemid();
 }
 
 $displayButton = JText::_('MOD_REDSHOP_CART_CHECKOUT');
