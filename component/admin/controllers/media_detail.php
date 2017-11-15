@@ -190,9 +190,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			{
 				if ($cid [0] != 0)
 				{
-					$model->delete($cid);
-					$post['bulk']      = 'no';
-					$post ['media_id'] = 0;
+					$post['bulk'] = 'no';
 				}
 
 				// Media Bank Start
@@ -273,7 +271,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 		{
 			if ($cid[0] != 0)
 			{
-				$model->delete($cid);
 				$post['bulk'] = 'no';
 			}
 
