@@ -63,15 +63,15 @@ class RedshopEntityProduct extends RedshopEntity
 		// Merge with assigned categories
 		if ($removeAssigned === false)
 		{
-			$this->categories = array_merge(is_array($this->getCategories()) ? $this->getCategories() : array(), $ids);
+			$categoryIds = array_merge($this->getCategories()->ids(), $ids);
 		}
 		else
 		{
 			// Or just reset it with new ids
-			$this->categories = $ids;
+			$categoryIds = $ids;
 		}
 
-		$this->categories = array_unique($this->categories);
+		$categoryIds = array_unique($categoryIds);
 
 		$db = JFactory::getDbo();
 
@@ -86,12 +86,20 @@ class RedshopEntityProduct extends RedshopEntity
 			->insert($db->qn('#__redshop_product_category_xref'))
 			->columns($db->qn(array('category_id', 'product_id')));
 
-		foreach ($this->categories as $id)
+		foreach ($categoryIds as $id)
 		{
 			$query->values((int) $id . ' , ' . (int) $this->get('product_id'));
 		}
 
-		return $db->setQuery($query)->execute();
+		if (!$db->setQuery($query)->execute())
+		{
+			return false;
+		}
+
+		// Reload new categories for this product
+		$this->loadCategories();
+
+		return true;
 	}
 
 	/**
