@@ -536,16 +536,6 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.product_id IN (' . implode(',', $productIds) . ')');
 		}
 
-		$excludeCategories = $app->input->getString('excludeCategories', '');
-
-		if (!empty($excludeCategories))
-		{
-			$excludeCategories = explode(',', $excludeCategories);
-			JArrayHelper::toInteger($excludeCategories);
-
-			$query->where('pc.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
-		}
-
 		if ($layout == 'productonsale')
 		{
 			$categoryid = $item->params->get('categorytemplate');
@@ -574,11 +564,11 @@ class RedshopModelSearch extends RedshopModel
 				)
 			);
 		}
-		elseif ($layout == 'featuredproduct')
+        elseif ($layout == 'featuredproduct')
 		{
 			$query->where('p.product_special = 1');
 		}
-		elseif ($layout == 'newproduct')
+        elseif ($layout == 'newproduct')
 		{
 			$catid = $item->query['categorytemplate'];
 
@@ -602,7 +592,7 @@ class RedshopModelSearch extends RedshopModel
 				->where('p.expired = 0')
 				->where('p.product_parent_id = 0');
 		}
-		elseif ($layout == 'redfilter')
+        elseif ($layout == 'redfilter')
 		{
 			$query->where('p.expired = 0');
 
@@ -982,7 +972,7 @@ class RedshopModelSearch extends RedshopModel
 			?>
             <div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_RESULT'); ?></div>
 
-			<div class="hrdivider"></div>
+            <div class="hrdivider"></div>
 			<?php
 			foreach ($getredfilter as $typeid => $tag_id)
 			{
@@ -1226,16 +1216,6 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 		}
 
-		$excludeCategories = $app->input->getString('excludeCategories', '');
-
-		if (!empty($excludeCategories))
-		{
-			$excludeCategories = explode(',', $excludeCategories);
-			JArrayHelper::toInteger($excludeCategories);
-
-			$query->where('x.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
-		}
-
 		return $db->setQuery($query, 0, $limit)->loadObjectList();
 	}
 
@@ -1358,6 +1338,8 @@ class RedshopModelSearch extends RedshopModel
 
 			foreach ($customField as $fieldId => $fieldValues)
 			{
+				$fieldValues = array_filter($fieldValues);
+
 				if (empty($fieldValues))
 				{
 					continue;
@@ -1394,12 +1376,12 @@ class RedshopModelSearch extends RedshopModel
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
 			}
-			elseif (!empty($cid) || !empty($categories))
+            elseif (!empty($cid) || !empty($categories))
 			{
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
 		}
-		elseif (!empty($cid) || !empty($categories))
+        elseif (!empty($cid) || !empty($categories))
 		{
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
@@ -1408,7 +1390,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query->where($db->qn("p.manufacturer_id") . " IN (" . implode(',', $manufacturers) . ')');
 		}
-		elseif ($mid)
+        elseif ($mid)
 		{
 			$query->where($db->qn("p.manufacturer_id") . "=" . $db->q((int) $mid));
 		}

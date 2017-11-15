@@ -176,4 +176,137 @@ class RedshopControllerSearch extends RedshopController
 
 		$app->close();
 	}
+
+	/**
+	 * AJAX Task to restricted data
+	 *
+	 * @return  void
+	 */
+	public function restrictedData()
+	{
+		JLoader::register('ModRedshopFilter', JPATH_SITE . '/modules/mod_redshop_filter/helper.php');
+
+		$app    = JFactory::getApplication();
+		$input  = $app->input;
+		$params = json_decode($input->post->getString('params', ''));
+		$pids   = explode(',', $input->post->getString('pids', ''));
+		$form   = urldecode(stripslashes($input->post->get('form', '', 'RAW')));
+		parse_str($form, $formData);
+
+		$cid           = $formData['redform']['cid'];
+		$mid           = $formData['redform']['mid'];
+		$rootCategory  = $params->root_category;
+		$productFields = $params->product_fields;
+
+		if (!empty($cid))
+		{
+			$productList = array();
+
+			foreach ($pids as $key => $product)
+			{
+				$detail = RedshopHelperProduct::getProductById($product);
+				$productList[] = $detail;
+			}
+
+			$manuList    = array();
+			$catList     = array();
+
+			foreach ($productList as $k => $value)
+			{
+				$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+				$catList = array_merge($catList, $tmpCategories);
+
+				if ($value->manufacturer_id && $value->manufacturer_id != $mid)
+				{
+					$manuList[] = $value->manufacturer_id;
+				}
+			}
+
+			$catList       = array_unique($catList);
+			$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
+			$categories    = ModRedshopFilter::getCategories($catList, $rootCategory, $cid);
+			$rangePrice    = ModRedshopFilter::getRange($pids);
+		}
+		elseif (!empty($mid))
+		{
+			$productList = array();
+
+			foreach ($pids as $key => $product)
+			{
+				$detail = RedshopHelperProduct::getProductById($product);
+				$productList[] = $detail;
+			}
+
+			$manuList    = array();
+			$catList     = array();
+
+			foreach ($productList as $k => $value)
+			{
+				$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+				$catList = array_merge($catList, $tmpCategories);
+
+				if ($value->manufacturer_id && $value->manufacturer_id != $mid)
+				{
+					$manuList[] = $value->manufacturer_id;
+				}
+			}
+
+			$manufacturers = array();
+			$pids          = ModRedshopFilter::getProductByManufacturer($mid);
+			$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory);
+			$rangePrice    = ModRedshopFilter::getRange($pids);
+		}
+		elseif ($formData['view'] == 'search')
+		{
+			$productList = array();
+
+			foreach ($pids as $key => $product)
+			{
+				$detail = RedshopHelperProduct::getProductById($product);
+				$productList[] = $detail;
+			}
+
+			$manuList    = array();
+			$catList     = array();
+
+			foreach ($productList as $k => $value)
+			{
+				$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+				$catList = array_merge($catList, $tmpCategories);
+
+				if ($value->manufacturer_id && $value->manufacturer_id != $mid)
+				{
+					$manuList[] = $value->manufacturer_id;
+				}
+			}
+
+			$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
+			$categories    = ModRedshopFilter::getSearchCategories(array_unique($catList));
+			$rangePrice    = ModRedshopFilter::getRange($pids);
+		}
+
+		$customFields = ModRedshopFilter::getCustomFields($pids, $productFields);
+		$rangeMin     = $formData['redform']['filterprice']['min'] ? $formData['redform']['filterprice']['min'] : $rangePrice['min'];
+		$rangeMax     = $formData['redform']['filterprice']['max'] ? $formData['redform']['filterprice']['max'] : $rangePrice['max'];
+
+		echo RedshopLayoutHelper::render(
+			'filter.restricted',
+			array(
+				"params"        => $params,
+				"manufacturers" => $manufacturers,
+				"categories"    => $categories,
+				"rangeMin"      => $rangeMin,
+				"rangeMax"      => $rangeMax,
+				"customFields"  => $customFields,
+				'formData'      => $formData,
+				"productList"   => $productList
+			),
+			'',
+			array(
+				'component' => 'com_redshop'
+			)
+		);
+
+		$app->close();
+	}
 }
