@@ -9,9 +9,40 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewUser_detail extends RedshopViewAdmin
+/**
+ * User Detail view
+ *
+ * @package     Redshop.Site
+ * @subpackage  View
+ * @since       2.0.6
+ */
+class RedshopViewUser_Detail extends RedshopViewAdmin
 {
+	/**
+	 * @var  JEventDispatchers
+	 */
+	public $dispatcher;
+
+	/**
+	 * @var  object
+	 */
+	public $detail;
+
+	/**
+	 * @var  array
+	 */
+	public $lists;
+
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  string
+	 */
+	public $request_url;
+
 	/**
 	 * Do we have to display a sidebar ?
 	 *
@@ -19,12 +50,16 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
 		RedshopHelperJs::init();
-		$userhelper   = rsUserHelper::getInstance();
-		$extra_field  = extra_field::getInstance();
-		$shoppergroup = new shoppergroup;
 
 		JPluginHelper::importPlugin('redshop_product');
 		$this->dispatcher = RedshopHelperUtility::getDispatcher();
@@ -45,7 +80,8 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 		{
 			JToolbarHelper::title(
 				JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
-				. $text . ' ]</small></small>', 'user redshop_user48');
+				. $text . ' ]</small></small>', 'user redshop_user48'
+			);
 		}
 		else
 		{
@@ -72,11 +108,18 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 		$this->detail->user_groups    = RedshopHelperUser::getUserGroups($this->detail->users_info_id);
 		$this->lists['shopper_group'] = RedshopHelperShopper_Group::listAll("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
 
-		$this->lists['tax_exempt']            = JHtml::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $this->detail->tax_exempt);
-		$this->lists['block']                 = JHtml::_('select.booleanlist', 'block', 'class="inputbox"', $this->detail->block);
-		$this->lists['tax_exempt_approved']   = JHtml::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $this->detail->tax_exempt_approved);
-		$this->lists['requesting_tax_exempt'] = JHtml::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $this->detail->requesting_tax_exempt);
-		$this->lists['is_company']            = JHtml::_(
+		$this->lists['tax_exempt'] = JHtml::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $this->detail->tax_exempt);
+		$this->lists['block']      = JHtml::_('select.booleanlist', 'block', 'class="inputbox"', $this->detail->block);
+
+		$this->lists['tax_exempt_approved'] = JHtml::_(
+			'select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $this->detail->tax_exempt_approved
+		);
+
+		$this->lists['requesting_tax_exempt'] = JHtml::_(
+			'select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $this->detail->requesting_tax_exempt
+		);
+
+		$this->lists['is_company'] = JHtml::_(
 			'select.booleanlist',
 			'is_company',
 			'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
@@ -85,21 +128,36 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 			JText::_('COM_REDSHOP_USER_CUSTOMER')
 		);
 
-		$this->lists['sendEmail']               = JHtml::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->detail->sendEmail);
-		$this->lists['extra_field']             = $extra_field->list_all_field(6, $this->detail->users_info_id, "", "notable");
-		$this->lists['customer_field']          = $extra_field->list_all_field(7, $this->detail->users_info_id, "", "notable");
-		$this->lists['company_field']           = $extra_field->list_all_field(8, $this->detail->users_info_id, "", "notable");
-		$this->lists['shipping_customer_field'] = $extra_field->list_all_field(14, $this->detail->users_info_id, "", "notable");
-		$this->lists['shipping_company_field']  = $extra_field->list_all_field(15, $this->detail->users_info_id, "", "notable");
+		$this->lists['sendEmail'] = JHtml::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->detail->sendEmail);
 
-		$countryarray                = RedshopHelperWorld::getCountryList((array) $this->detail);
-		$this->detail->country_code  = $countryarray['country_code'];
-		$this->lists['country_code'] = $countryarray['country_dropdown'];
+		$this->lists['extra_field'] = RedshopHelperExtrafields::listAllField(
+			RedshopHelperExtrafields::SECTION_USER_INFORMATIONS, $this->detail->users_info_id, "", "notable"
+		);
 
-		$statearray                = RedshopHelperWorld::getStateList((array) $this->detail);
-		$this->lists['state_code'] = $statearray['state_dropdown'];
+		$this->lists['customer_field'] = RedshopHelperExtrafields::listAllField(
+			RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, $this->detail->users_info_id, "", "notable"
+		);
 
-		$this->request_url = JFactory::getURI()->toString();
+		$this->lists['company_field'] = RedshopHelperExtrafields::listAllField(
+			RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $this->detail->users_info_id, "", "notable"
+		);
+
+		$this->lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(
+			RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $this->detail->users_info_id, "", "notable"
+		);
+
+		$this->lists['shipping_company_field'] = RedshopHelperExtrafields::listAllField(
+			RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $this->detail->users_info_id, "", "notable"
+		);
+
+		$countries                   = RedshopHelperWorld::getCountryList((array) $this->detail);
+		$this->detail->country_code  = $countries['country_code'];
+		$this->lists['country_code'] = $countries['country_dropdown'];
+
+		$states                    = RedshopHelperWorld::getStateList((array) $this->detail);
+		$this->lists['state_code'] = $states['state_dropdown'];
+
+		$this->request_url = JUri::getInstance()->toString();
 
 		parent::display($tpl);
 	}
