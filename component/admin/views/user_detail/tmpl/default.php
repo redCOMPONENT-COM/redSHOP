@@ -179,6 +179,9 @@ if ($this->pagination->limitstart > 0)
 		echo '<input type="hidden" name="tab5" value="tab5">';
 	}
 
+	// Echo plugin tabs.
+	$this->dispatcher->trigger('onDisplayUserTabs', array($this->detail));
+
 	echo JHtml::_('tabs.end');
 
 	if ($this->shipping)

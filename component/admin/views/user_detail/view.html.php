@@ -26,6 +26,9 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 		$extra_field  = extra_field::getInstance();
 		$shoppergroup = new shoppergroup;
 
+		JPluginHelper::importPlugin('redshop_product');
+		$this->dispatcher = RedshopHelperUtility::getDispatcher();
+
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/json.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
