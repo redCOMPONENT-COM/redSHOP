@@ -1358,6 +1358,8 @@ class RedshopModelSearch extends RedshopModel
 
 			foreach ($customField as $fieldId => $fieldValues)
 			{
+				$fieldValues = array_filter($fieldValues);
+
 				if (empty($fieldValues))
 				{
 					continue;
