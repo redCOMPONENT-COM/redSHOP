@@ -344,6 +344,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `product_back_thumb_image` VARCHAR(250) NOT NULL,
   `product_preview_image` VARCHAR(250) NOT NULL,
   `product_preview_back_image` VARCHAR(250) NOT NULL,
+  `use_individual_payment_method` TINYINT(4) NOT NULL DEFAULT 0,
   `preorder` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
   PRIMARY KEY (`product_id`),
@@ -1284,6 +1285,20 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_category_xref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Product Category Relation';
+
+-- -----------------------------------------------------
+-- Table `#__redshop_product_payment_xref`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_product_payment_xref` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
+  `payment_id` VARCHAR(255) NOT NULL,
+  `product_id` INT(11) NOT NULL,
+  PRIMARY KEY (`payment_id`,`product_id`),
+  INDEX `ref_payment` (`product_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'redSHOP Product Payment Relation';
 
 
 -- -----------------------------------------------------
