@@ -184,7 +184,7 @@ defined('_JEXEC') or die;
         jQuery.ajax({
             type      : "POST",
             url       : "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.findProducts",
-            data      : jQuery("#redproductfinder-form"<?php echo $module->id;?>").serialize(),
+            data      : jQuery("#redproductfinder-form<?php echo $module->id ?>").serialize(),
             beforeSend: function () {
                 jQuery("#wait").css("display", "block");
             },
@@ -199,7 +199,7 @@ defined('_JEXEC') or die;
                 jQuery("#wait").css("display", "none");
                 var pids = jQuery("input[name=\"pids\"]").val();
 				<?php if ($restricted) : ?>
-                restricted(formData, pids, "<?php echo json_encode($params); ?>");
+                restricted(formData, pids, "<?php echo json_encode($params) ?>");
 				<?php endif; ?>
             }
         });
@@ -211,7 +211,7 @@ defined('_JEXEC') or die;
             url    : "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.restrictedData",
             data   : {pids: pids, params: params, form: form},
             success: function (restrictedData) {
-                jQuery("#redproductfinder-form"<?php echo $module->id;?>").html(restrictedData);
+                jQuery("#redproductfinder-form<?php echo $module->id;?>").html(restrictedData);
             }
         });
     }
@@ -228,8 +228,8 @@ defined('_JEXEC') or die;
     }
 
     function clearAll() {
-        jQuery("#redproductfinder-form"<?php echo $module->id;?> input[type="checkbox"]').prop("checked", false);
-        jQuery("#redproductfinder-form"<?php echo $module->id;?> input[type="checkbox"]').each(function () {
+        jQuery("#redproductfinder-form<?php echo $module->id;?> input[type='checkbox']").prop("checked", false);
+        jQuery("#redproductfinder-form<?php echo $module->id;?> input[type='checkbox']").each(function () {
             checkclick(jQuery(this));
         });
         jQuery("input[name=\"redform[filterprice][min]\"]").val("<?php echo $rangeMin;?>");
@@ -248,7 +248,7 @@ defined('_JEXEC') or die;
         var check = [];
 
         function checkList() {
-            jQuery("#redproductfinder-form"<?php echo $module->id;?> #manu #manufacture-list input').on("change", function () {
+            jQuery("#redproductfinder-form<?php echo $module->id;?> #manu #manufacture-list input").on("change", function () {
                 var id = jQuery(this).val();
                 check.push(id);
                 jQuery("input[name=\"check_list\"]").val(JSON.stringify(check));
@@ -289,16 +289,16 @@ defined('_JEXEC') or die;
                 }
             });
 
-            jQuery("#redproductfinder-form"<?php echo $module->id;?> #manu #manufacture-list').html("");
-            jQuery("#redproductfinder-form"<?php echo $module->id;?> #manu #manufacture-list').append(html);
+            jQuery("#redproductfinder-form<?php echo $module->id;?> #manu #manufacture-list").html("");
+            jQuery("#redproductfinder-form<?php echo $module->id;?> #manu #manufacture-list").append(html);
             checkList();
         });
 
-        jQuery("#redproductfinder-form"<?php echo $module->id;?> [type="checkbox"]').each(function () {
+        jQuery("#redproductfinder-form<?php echo $module->id;?> input[type='checkbox']").each(function () {
             checkclick(jQuery(this));
         });
 
-        jQuery("#redproductfinder-form"<?php echo $module->id;?>").html(function () {
+        jQuery("#redproductfinder-form<?php echo $module->id;?>").html(function () {
             jQuery("span.label_alias").click(function (event) {
                 if (jQuery(this).hasClass("active")) {
                     jQuery(this).removeClass("active").next("ul.collapse").removeClass("in");

@@ -51,7 +51,8 @@ function getIncludedExtensions() {
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/freefont-*/**',
     ];
     var includedModules = [
-        "./modules/site/mod_redshop_cart/**"
+        "./modules/site/mod_redshop_cart/**",
+        "./modules/site/mod_redshop_filter/**"
     ];
 
     return included.concat(includedPlugins, includedModules, excluded);
