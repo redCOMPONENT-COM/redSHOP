@@ -2,7 +2,7 @@
 set -ev
 
 if [ "${ACCEPTANCE}" = "false" ]; then
-	mv .travis.gitmodules .gitsubmodules
+	mv .travis.gitmodules .gitmodules
 
 	git submodule update --init --recursive
 
