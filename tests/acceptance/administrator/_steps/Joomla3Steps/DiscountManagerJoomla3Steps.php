@@ -258,7 +258,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 //        $I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->searchDiscount($discountName);
-		$I->wait(3);
 		$I->see($discountName, \DiscountManagerJ3Page::$discountNamePath);
 		$I->click(\DiscountManagerJ3Page::$discountState);
 
@@ -276,12 +275,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->searchDiscount($discountName);
-		$I->wait(3);
 		$I->see($discountName, \DiscountManagerJ3Page::$discountNamePath);
 
 		$I->click(\DiscountManagerJ3Page::$discountCheckBox);
 		$I->click(\DiscountManagerJ3Page::$unpublish);
-		$I->wait(3);
 		$I->waitForText(\DiscountManagerJ3Page::$messageUnpublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
 	}
 
@@ -290,11 +287,9 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->searchDiscount($discountName);
-		$I->wait(3);
 		$I->see($discountName, \DiscountManagerJ3Page::$discountNamePath);
 		$I->click(\DiscountManagerJ3Page::$discountCheckBox);
 		$I->click(\DiscountManagerJ3Page::$publish);
-		$I->wait(3);
 		$I->waitForText(\DiscountManagerJ3Page::$messagePublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
 	}
 
@@ -304,7 +299,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\DiscountManagerJ3Page::$unpublish);
-		$I->wait(3);
 		$I->waitForText(\DiscountManagerJ3Page::$messageUnpublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
 	}
 
@@ -314,7 +308,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\DiscountManagerJ3Page::$publish);
-		$I->wait(3);
 		$I->waitForText(\DiscountManagerJ3Page::$messagePublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
 	}
 
@@ -324,7 +317,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\DiscountManagerJ3Page::$deleteButton);
-		$I->wait(3);
 		$I->waitForText(\DiscountManagerJ3Page::$messageDeleteSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
 	}
 
@@ -333,9 +325,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->click('Reset');
-		$I->wait(5);
 		$I->searchDiscount($discountName);
-		$I->wait(5);
 		$I->see($discountName, \DiscountManagerJ3Page::$discountNamePath);
 		$text = $I->grabAttributeFrom(\DiscountManagerJ3Page::$discountState, 'onclick');
 		if (strpos($text, 'unpublish') > 0) {
