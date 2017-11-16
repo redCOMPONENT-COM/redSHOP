@@ -44,6 +44,14 @@ class RedshopHelperCurrency
 	 */
 	public static function convert($amountA, $currA = '', $currB = '')
 	{
+		JPluginHelper::importPlugin('redshop_product');
+		$result = RedshopHelperUtility::getDispatcher()->trigger('onCheckQuantityInStock', array(&$amountA, $currA, $currB));
+
+		if (in_array(true, $result, true))
+		{
+			return $amountA;
+		}
+
 		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
 		{
 			return CurrencyLayer::getInstance()->convert($amountA, $currA, $currB);
