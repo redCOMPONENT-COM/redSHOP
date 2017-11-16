@@ -620,7 +620,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 else
                                 {
                                     $objhelper = redhelper::getInstance();
-                                    $pItemid   = RedshopHelperUtility::getItemId($productdetail->product_id, $catIdMain);
+                                    $pItemid   = RedshopHelperRouter::getItemId($productdetail->product_id, $catIdMain);
                                 }
 
                                 $productFrontendLink = JUri::root();

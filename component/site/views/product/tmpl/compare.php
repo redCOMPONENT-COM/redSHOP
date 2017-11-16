@@ -116,7 +116,7 @@ if ($total > 0)
 		else
 		{
 			$catidmain = $product->cat_in_sefurl;
-			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+			$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
 		}
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid);

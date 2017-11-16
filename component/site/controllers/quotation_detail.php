@@ -89,7 +89,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		RedshopHelperCartSession::setCart($cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);
-		$Itemid = RedshopHelperUtility::getCheckoutItemId();
+		$Itemid = RedshopHelperRouter::getCheckoutItemId();
 		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
 	}
 }

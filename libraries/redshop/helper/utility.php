@@ -19,20 +19,6 @@ use Behat\Transliterator\Transliterator;
 class RedshopHelperUtility
 {
 	/**
-	 * @var   array
-	 *
-	 * @since  2.0.6
-	 */
-	protected static $menuItems;
-
-	/**
-	 * @var   array
-	 *
-	 * @since  2.0.6
-	 */
-	protected static $menuItemAssociation = array();
-
-	/**
 	 * The dispatcher.
 	 *
 	 * @var  JEventDispatcher
@@ -151,46 +137,6 @@ class RedshopHelperUtility
 	}
 
 	/**
-	 * Build the list representing the menu tree
-	 *
-	 * @param   integer $id       Id of the menu item
-	 * @param   string  $indent   The indentation string
-	 * @param   array   $list     The list to process
-	 * @param   array   &$childs  The children of the current item
-	 * @param   integer $maxLevel The maximum number of levels in the tree
-	 * @param   integer $level    The starting level
-	 * @param   string  $key      The name of primary key.
-	 * @param   string  $nameKey  The name of key for item title.
-	 * @param   string  $spacer   Spacer for sub-item.
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public static function createTree($id, $indent, $list, &$childs, $maxLevel = 9999, $level = 0, $key = 'id', $nameKey = 'title',
-									  $spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
-	{
-		if (empty($childs[$id]) || $level > $maxLevel)
-		{
-			return $list;
-		}
-
-		foreach ($childs[$id] as $item)
-		{
-			$nextId     = $item->{$key};
-			$itemIndent = ($item->parent_id > 0) ? str_repeat($spacer, $level) . $indent : '';
-
-			$list[$nextId]           = $item;
-			$list[$nextId]->treename = $itemIndent . $item->{$nameKey};
-			$list[$nextId]->indent   = $itemIndent;
-			$list[$nextId]->children = count(@$childs[$nextId]);
-			$list                    = static::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
-		}
-
-		return $list;
-	}
-
-	/**
 	 * Convert associative array into attributes.
 	 * Example:
 	 *        array('size' => '50', 'name' => 'myfield')
@@ -301,7 +247,7 @@ class RedshopHelperUtility
 	/**
 	 * Method for get quotation mode.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
@@ -538,35 +484,28 @@ class RedshopHelperUtility
 			case '+':
 				$leftValue += $rightValue;
 				break;
+
 			case '-':
 				$leftValue -= $rightValue;
 				break;
+
 			case '*':
 				$leftValue *= $rightValue;
 				break;
+
 			case '/':
 				$leftValue /= $rightValue;
+				break;
+
+			case '=':
+				$leftValue = $rightValue;
+				break;
+
+			default:
 				break;
 		}
 
 		return $leftValue;
-	}
-
-	/**
-	 * Get Redshop Menu Items
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getRedshopMenuItems()
-	{
-		if (is_null(self::$menuItems))
-		{
-			self::$menuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
-		}
-
-		return self::$menuItems;
 	}
 
 	/**
@@ -650,184 +589,6 @@ class RedshopHelperUtility
 		}
 
 		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
-	 * Check Menu Query
-	 *
-	 * @param   object $oneMenuItem Values current menu item
-	 * @param   array  $queryItems  Name query check
-	 *
-	 * @return  boolean
-	 *
-	 * @since   2.0.6
-	 */
-	public static function checkMenuQuery($oneMenuItem, $queryItems)
-	{
-		if (empty($oneMenuItem) || empty($queryItems))
-		{
-			return false;
-		}
-
-		foreach ($queryItems as $key => $value)
-		{
-			if (!isset($oneMenuItem->query[$key])
-				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
-				|| (!is_array($value) && $oneMenuItem->query[$key] != $value)
-			)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Get RedShop Menu Item
-	 *
-	 * @param   array $queryItems Values query
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getRedShopMenuItem($queryItems)
-	{
-		$serializeItem = md5(serialize($queryItems));
-
-		if (!array_key_exists($serializeItem, self::$menuItemAssociation))
-		{
-			self::$menuItemAssociation[$serializeItem] = false;
-
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
-			{
-				if (self::checkMenuQuery($oneMenuItem, $queryItems))
-				{
-					self::$menuItemAssociation[$serializeItem] = $oneMenuItem->id;
-					break;
-				}
-			}
-		}
-
-		return self::$menuItemAssociation[$serializeItem];
-	}
-
-	/**
-	 * Get Item Id
-	 *
-	 * @param   int $productId  Product Id
-	 * @param   int $categoryId Category Id
-	 *
-	 * @return  mixed
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getItemId($productId = 0, $categoryId = 0)
-	{
-		// Get Itemid from Product detail
-		if ($productId)
-		{
-			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId));
-
-			if ($result)
-			{
-				return $result;
-			}
-		}
-
-		// Get Itemid from Category detail
-		if ($categoryId)
-		{
-			$result = self::getCategoryItemid($categoryId);
-
-			if ($result)
-			{
-				return $result;
-			}
-		}
-
-		$input = JFactory::getApplication()->input;
-
-		if ($input->getCmd('option', '') != 'com_redshop')
-		{
-			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
-
-			if ($result)
-			{
-				return $result;
-			}
-
-			$result = self::getRedShopMenuItem(array('option' => 'com_redshop'));
-
-			if ($result)
-			{
-				return $result;
-			}
-		}
-
-		return $input->getInt('Itemid', 0);
-	}
-
-	/**
-	 * Get Category Itemid
-	 *
-	 * @param   int  $categoryId  Category id
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getCategoryItemid($categoryId = 0)
-	{
-		if (!$categoryId)
-		{
-			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
-
-			if ($result)
-			{
-				return $result;
-			}
-
-			return null;
-		}
-
-		$categories = explode(',', $categoryId);
-
-		if ($categories)
-		{
-			foreach ($categories as $category)
-			{
-				$result = self::getRedShopMenuItem(
-					array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $category)
-				);
-
-				if ($result)
-				{
-					return $result;
-				}
-			}
-		}
-
-		// Get from Parents
-		$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
-
-		if ($categories)
-		{
-			foreach ($categories as $category)
-			{
-				$result = self::getCategoryItemid($category->id);
-
-				if ($result)
-				{
-					return $result;
-				}
-			}
-		}
-
-		return null;
 	}
 
 	/**
@@ -1171,51 +932,6 @@ class RedshopHelperUtility
 		$stateData[1]->text  = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
 
 		return $stateData;
-	}
-
-	/**
-	 * Method for get menu item id of checkout page
-	 *
-	 * @return  integer
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getCheckoutItemId()
-	{
-		$itemId       = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
-		$shopperGroup = RedshopHelperUser::getShopperGroupData();
-
-		if (count($shopperGroup) > 0 && $shopperGroup->shopper_group_cart_checkout_itemid != 0)
-		{
-			$itemId = $shopperGroup->shopper_group_cart_checkout_itemid;
-		}
-
-		if ($itemId == 0)
-		{
-			$itemId = JFactory::getApplication()->input->getInt('Itemid');
-		}
-
-		return $itemId;
-	}
-
-	/**
-	 * Method for get menu item id of cart page
-	 *
-	 * @return  integer
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getCartItemId()
-	{
-		$itemId           = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
-		$shopperGroupData = RedshopHelperUser::getShopperGroupData();
-
-		if (count($shopperGroupData) > 0 && $shopperGroupData->shopper_group_cart_itemid != 0)
-		{
-			$itemId = $shopperGroupData->shopper_group_cart_itemid;
-		}
-
-		return $itemId;
 	}
 
 	/**

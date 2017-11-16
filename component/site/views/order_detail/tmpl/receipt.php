@@ -19,7 +19,7 @@ $order_functions = order_functions::getInstance();
 $app      = JFactory::getApplication();
 $db       = JFactory::getDbo();
 $url      = JURI::base();
-$Itemid   = RedshopHelperUtility::getCheckoutItemId();
+$Itemid   = RedshopHelperRouter::getCheckoutItemId();
 $order_id = $app->input->getInt('oid');
 
 // For barcode
