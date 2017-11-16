@@ -137,7 +137,7 @@ class RedshopHelperMail
 		$message = str_replace($search, $replace, $message);
 		$message = self::imgInMail($message);
 
-		$billingAddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+		$billingAddresses = RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 		$thirdPartyEmail  = $billingAddresses->thirdparty_email;
 		$email            = $billingAddresses->user_email;
 		$fullName         = $billingAddresses->firstname . ' ' . $billingAddresses->lastname;
@@ -147,10 +147,10 @@ class RedshopHelperMail
 			$fullName = $billingAddresses->company_name;
 		}
 
-		$search[]     = "{order_id}";
-		$replace[]    = $row->order_id;
-		$search[]     = "{order_number}";
-		$replace[]    = $row->order_number;
+		$search[]  = "{order_id}";
+		$replace[] = $row->order_id;
+		$search[]  = "{order_number}";
+		$replace[] = $row->order_number;
 
 		$searchSub  = array("{order_id}", '{order_number}', '{shopname}', '{order_date}');
 		$replaceSub = array(
@@ -377,8 +377,7 @@ class RedshopHelperMail
 
 		if (Redshop::getConfig()->get('MANUFACTURER_MAIL_ENABLE'))
 		{
-			$orderItems    = RedshopHelperOrder::getOrderItemDetail($orderId);
-			$productHelper = productHelper::getInstance();
+			$orderItems = RedshopHelperOrder::getOrderItemDetail($orderId);
 
 			if (empty($orderItems))
 			{
@@ -915,7 +914,6 @@ class RedshopHelperMail
 		$cartHelper    = rsCarthelper::getInstance();
 		$productHelper = productHelper::getInstance();
 		$config        = JFactory::getConfig();
-		$extraField    = extraField::getInstance();
 
 		$mailTemplate = $mailTemplate[0];
 		$mailBcc      = array();
