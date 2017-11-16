@@ -1381,7 +1381,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$copyaccessory[$i] = (array) $accessorydata[$i];
 				}
 
-				if (!isset($pdata->use_individual_payment_method)) $pdata->use_individual_payment_method = '';  
+				if (!isset($pdata->use_individual_payment_method))
+				{
+					$pdata->use_individual_payment_method = '';
+				}
 
 				$post['product_parent_id'] = $pdata->product_parent_id;
 				$post['manufacturer_id'] = $pdata->manufacturer_id;

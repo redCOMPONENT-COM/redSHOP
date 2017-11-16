@@ -3261,10 +3261,11 @@ class rsCarthelper
 
 		$paymentMethods = RedshopHelperPayment::info();
 
-		//Get common payment methods of product in this cart
+		// Get common payment methods of product in this cart
 		$commonPaymentMethods = RedshopHelperPayment::getPaymentMethodInCheckOut($paymentMethods);
 
-		if ( $commonPaymentMethods ){
+		if ($commonPaymentMethods)
+		{
 			$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 
 			if (strpos($template_desc, "{split_payment}") !== false)
@@ -3319,7 +3320,8 @@ class rsCarthelper
 				{
 					foreach ($paymentMethods as $p => $oneMethod)
 					{
-						if (in_array($oneMethod->name, $commonPaymentMethods)) { 
+						if (in_array($oneMethod->name, $commonPaymentMethods)) 
+						{ 
 							$cardinfo        = "";
 							$display_payment = "";
 							$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
     <name>COM_REDSHOP</name>
-    <creationDate>October 2017</creationDate>
+    <creationDate>November 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
@@ -93,15 +93,10 @@
 
     <!-- Plugins to install with the component -->
     <plugins>
-        <plugin name="redshop" group="system"/>
-        <plugin name="rs_payment_banktransfer" group="redshop_payment"/>
-        <plugin name="rs_payment_paypal" group="redshop_payment"/>
-        <plugin name="default_shipping" group="redshop_shipping"/>
-        <plugin name="redshop" group="finder"/>
-        <plugin name="alert" group="redshop_alert"/>
-        <plugin name="sh404sefextplugincom_redshop" group="sh404sefextplugins" published="published"/>
-        <plugin name="tcpdf" group="redshop_pdf" published="published"/>
-        <plugin name="redgoogleanalytics" group="system"/>
+        <plugin group="finder" name="redshop"/>
+
+        <plugin group="redshop_alert" name="alert"/>
+
         <!-- Redshop Export plugins -->
         <plugin name="attribute" group="redshop_export" published="published"/>
         <plugin name="category" group="redshop_export" published="published"/>
@@ -114,6 +109,7 @@
         <plugin name="shopper_group_attribute_price" group="redshop_export" published="published"/>
         <plugin name="shopper_group_product_price" group="redshop_export" published="published"/>
         <plugin name="user" group="redshop_export" published="published"/>
+
         <!-- Redshop Import plugins -->
         <plugin group="redshop_import" name="attribute" published="published"/>
         <plugin group="redshop_import" name="category" published="published"/>
@@ -126,5 +122,17 @@
         <plugin group="redshop_import" name="user" published="published"/>
         <plugin group="redshop_import" name="product_stockroom_data" published="published"/>
         <plugin group="redshop_import" name="related_product" published="published"/>
+
+        <plugin group="redshop_payment" name="rs_payment_banktransfer"/>
+        <plugin group="redshop_payment" name="rs_payment_paypal"/>
+
+        <plugin group="redshop_pdf" name="tcpdf" published="published"/>
+
+        <plugin group="redshop_shipping" name="default_shipping"/>
+
+        <plugin group="sh404sefextplugins" name="sh404sefextplugincom_redshop" published="published"/>
+
+        <plugin group="system" name="redshop"/>
+        <plugin group="system" name="redgoogleanalytics"/>
     </plugins>
 </extension>

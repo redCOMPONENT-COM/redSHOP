@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerAttribute_set extends RedshopController
+/**
+ * Attribute Set controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.6
+ */
+class RedshopControllerAttribute_Set extends RedshopController
 {
 	public function cancel()
 	{

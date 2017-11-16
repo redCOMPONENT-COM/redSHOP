@@ -69,7 +69,7 @@ class RedshopControllerWishlist extends RedshopController
 	public function savewishlist()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		/** @var RedshopModelWishlist $model */
 		$model = $this->getModel("wishlist");

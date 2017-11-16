@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
+JLoader::import('joomla.filesystem.folder');
 
 /**
  * Configuration controller

@@ -28,7 +28,7 @@ class RedshopControllerTemplates extends RedshopControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$pks = \Joomla\Utilities\ArrayHelper::toInteger($pks);
