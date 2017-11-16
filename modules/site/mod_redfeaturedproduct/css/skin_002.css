@@ -1,0 +1,131 @@
+.red_product-skin-produkter .red_product-container {
+    border: 0px solid;
+}
+
+.red_product-skin-produkter .red_product-container-horizontal {
+    width: 850px;
+    padding-left: 25px;
+	padding-right: 25px;
+}
+
+.red_product-skin-produkter .red_product-item {
+    width: 195px;
+    height: 132px;
+    padding-left: 10px;
+	padding-right: 10px;
+    padding-top: 12px;
+	padding-bottom: 8px;
+	border: 1px solid #e1e1e4;
+	background: #f0f2f4 repeat-x 1px 0px;		
+}
+
+.red_product-skin-produkter .red_product-item-horizontal {
+    margin-right: 20px;
+    
+}
+
+.red_product-skin-produkter .red_product-item-placeholder {
+    background: #fff;
+    color: #000;    
+}
+
+.red_product-skin-produkter .red_product-item .product-image{	
+	margin-right: 0px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.red_product-skin-produkter .red_product-item .product-shop{
+    float:right;
+	width:80px;
+	
+}
+
+.red_product-skin-produkter .red_product-item  .product-shop h5 {
+    margin-bottom:.4em;
+    font-size:1.2em;
+	font-weight:normal;
+    overflow:hidden;
+  
+}
+
+.red_product-skin-produkter .red_product-item .product-shop h5 a, .red_product-skin-produkter .red_product-item .product-shop h5 a:hover {
+    color:#004128;
+    text-decoration:none;    
+}
+
+.red_product-skin-produkter .red_product-item .listing-item .form-button{
+	margin-top:10px;
+    float:left;    
+}
+
+
+
+/**
+ *  Horizontal Buttons
+ */
+.red_product-skin-produkter .red_product-next-horizontal {
+    position: absolute;
+    top: -20px;
+    width: 25px;
+    height: 150px;
+    cursor: pointer;
+    background: transparent url(../images/next-horizontal.png) no-repeat -50px 0;    
+}
+
+.red_product-skin-produkter .red_product-next-horizontal:hover {
+    background-position: -25px 0;
+}
+
+.red_product-skin-produkter .red_product-next-horizontal:active {
+    background-position: -25px 0;
+}
+
+.red_product-skin-produkter .red_product-next-disabled-horizontal,
+.red_product-skin-produkter .red_product-next-disabled-horizontal:hover,
+.red_product-skin-produkter .red_product-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0 0;
+}
+
+.red_product-skin-produkter .red_product-prev-horizontal {
+    position: absolute;
+    top: -20px;
+    left: 0px;
+    width: 25px;
+    height: 150px;
+    cursor: pointer;
+    background: transparent url(../images/prev-horizontal.png) no-repeat 0 0;
+}
+
+.red_product-skin-produkter .red_product-prev-horizontal:hover {
+    background-position: -25px 0;
+}
+
+.red_product-skin-produkter .red_product-prev-horizontal:active {
+    background-position: -25px 0;
+}
+
+.red_product-skin-produkter .red_product-prev-disabled-horizontal,
+.red_product-skin-produkter .red_product-prev-disabled-horizontal:hover,
+.red_product-skin-produkter .red_product-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: -50px 0;
+}
+.mod_redoldprice{
+	font-size: 11px;
+}
+.mod_redoldprice span{
+    text-decoration:line-through;
+}
+.mod_redmainprice{
+	font-size: 13px;
+}
+.mod_redsavedprice{
+	font-size: 11px;
+}
+.red_product-skin-produkter div.mod_redproducts_title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

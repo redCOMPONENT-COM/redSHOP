@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="plugin" group="redshop_user" method="upgrade">
+    <name>PLG_REDSHOP_USER_JOOMLAMAILER_INTEGRATE</name>
+    <creationDate>December 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2014 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <version>1.0.0</version>
+    <description>PLG_REDSHOP_USER_JOOMLAMAILER_INTEGRATE_DESC</description>
+    <files>
+        <filename plugin="joomlamailer_integrate">joomlamailer_integrate.php</filename>
+        <folder>language</folder>
+    </files>
+    <config>
+        <fields name="params">
+        </fields>
+    </config>
+</extension>

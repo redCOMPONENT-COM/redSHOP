@@ -1,0 +1,8 @@
+{
+  "name": "redcomponent-com/redshop-payment-klarna",
+  "description": "A redSHOP Payment plugin - Klarna",
+  "license": "GPL-2.0+",
+  "require": {
+    "klarna/php-xmlrpc": "^5.0.0"
+  }
+}

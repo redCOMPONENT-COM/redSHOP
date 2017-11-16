@@ -1,0 +1,8 @@
+{
+    "name": "redcomponent-com/redshop-pdf-dompdf",
+    "description": "A redSHOP PDF plugin - domPDF",
+    "license": "GPL-2.0+",
+    "require": {
+        "dompdf/dompdf": "^0.8.0"
+    }
+}

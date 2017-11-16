@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+    <name>PLG_RS_PAYMENT_EWAY</name>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>December 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_RS_PAYMENT_EWAY_DESC</description>
+    <files>
+        <filename plugin="rs_payment_eway">rs_payment_eway.php</filename>
+        <folder>rs_payment_eway</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eway.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eway.sys.ini</language>
+    </languages>
+    <scriptfile>install.php</scriptfile>
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="payment_oprand" type="text" size="10" default="-"
+                       label="PLG_RS_PAYMENT_EWAY_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_EWAY_PAYMENT_OPERAND"/>
+                <field name="payment_price" type="text" size="30" default=""
+                       label="PLG_RS_PAYMENT_EWAY_PAYMENT_PRICE" description="PLG_RS_PAYMENT_EWAY_PAYMENT_PRICE"/>
+                <field name="payment_discount_is_percent" type="radio" default="1"
+                       label="PLG_RS_PAYMENT_EWAY_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_EWAY_DISCOUNT_TYPE">
+                    <option value="1">PLG_RS_PAYMENT_EWAY_DISCOUNT_TYPE_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_EWAY_DISCOUNT_TYPE_TOTAL</option>
+                </field>
+                <field name="debug_mode" type="radio" default="1" label="PLG_RS_PAYMENT_EWAY_DEBUG_MODE"
+                       description="PLG_RS_PAYMENT_EWAY_DEBUG_MODE">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="accepted_credict_card" type="creditcards" default="0"
+                       label="PLG_RS_PAYMENT_EWAY_CREDIT_CARDS" description="PLG_RS_PAYMENT_EWAY_CREDIT_CARDS"/>
+                <field name="eway_customer_id" type="text" default=""
+                       label="PLG_RS_PAYMENT_EWAY_CUSTOMER_ID" description="PLG_RS_PAYMENT_EWAY_CUSTOMER_ID"/>
+                <field name="eway_method_type" type="list" default="REAL-TIME-CVN"
+                       label="PLG_RS_PAYMENT_EWAY_PAYMENT_METHOD_TYPE" description="PLG_RS_PAYMENT_EWAY_PAYMENT_METHOD_TYPE">
+                    <option value="REAL-TIME">PLG_RS_PAYMENT_EWAY_PAYMENT_METHOD_TYPE_HOSTED_PAYMENTS</option>
+                    <option value="REAL-TIME-CVN">PLG_RS_PAYMENT_EWAY_PAYMENT_METHOD_TYPE_MERCHANT</option>
+                    <option value="GEO-IP-ANTI-FRAUD">PLG_RS_PAYMENT_EWAY_PAYMENT_METHOD_TYPE_BEAGLE</option>
+                </field>
+                <field name="eway_live_gateway" type="list" default="0"
+                       label="PLG_RS_PAYMENT_EWAY_LIVE_GATEWAY"
+                       description="PLG_RS_PAYMENT_EWAY_LIVE_GATEWAY_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="eway_live_url" type="text"
+                       default="https://www.eway.com.au/gateway/xmlpayment.asp" label="PLG_RS_PAYMENT_EWAY_LIVE_URL"
+                       description="PLG_RS_PAYMENT_EWAY_LIVE_URL_DESC"/>
+                <field name="eway_testing_url" type="text"
+                       default="https://www.eway.com.au/gateway/xmltest/testpage.asp"
+                       label="PLG_RS_PAYMENT_EWAY_TEST_URL"
+                       description=""/>
+                <field name="eway_cvn_live_url" type="text"
+                       default="https://www.eway.com.au/gateway_cvn/xmlpayment.asp"
+                       label="PLG_RS_PAYMENT_EWAY_MERCHANT_LIVE_URL"
+                       description="PLG_RS_PAYMENT_EWAY_MERCHANT_LIVE_URL_DESC"/>
+                <field name="eway_cvn_testing_url" type="text"
+                       default="https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp"
+                       label="PLG_RS_PAYMENT_EWAY_MERCHANT_TEST_URL" description=""/>
+                <field name="eway_antifraud_live_url" type="text"
+                       default="https://www.eway.com.au/gateway_beagle/xmlbeagle.asp"
+                       label="PLG_RS_PAYMENT_EWAY_BEAGLE_LIVE_URL"
+                       description="PLG_RS_PAYMENT_EWAY_BEAGLE_LIVE_URL_DESC"/>
+                <field name="eway_antifraud_testing_url" type="text"
+                       default="https://www.eway.com.au/gateway_beagle/test/xmlbeagle_test.asp"
+                       label="PLG_RS_PAYMENT_EWAY_BEAGLE_TEST_URL" description=""/>
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field name="verify_status" type="sql"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       key_field="st_value" value_field="st_title" default="C"
+                       label="PLG_RS_PAYMENT_EWAY_VERIFY_STATUS"
+                       description="PLG_RS_PAYMENT_EWAY_VERIFY_STATUS_DESC">
+                </field>
+                <field name="invalid_status" type="sql"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       key_field="st_value" value_field="st_title" default="P"
+                       label="PLG_RS_PAYMENT_EWAY_INVALID_STATUS"
+                       description="PLG_RS_PAYMENT_EWAY_INVALID_STATUS_DESC">
+                </field>
+                <field name="capture_status" type="sql"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       key_field="st_value" value_field="st_title" default="S"
+                       label="PLG_RS_PAYMENT_EWAY_CAPTURED_STATUS" description="PLG_RS_PAYMENT_EWAY_CAPTURED_STATUS_DESC">
+                </field>
+                <field name="private_person" type="radio" default="1"
+                       label="PLG_RS_PAYMENT_EWAY_PRIVATE_PERSON" description="PLG_RS_PAYMENT_EWAY_PRIVATE_PERSON">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_EWAY_BUSINESS"
+                       description="PLG_RS_PAYMENT_EWAY_BUSINESS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="is_creditcard" type="hidden" default="1" value="1"/>
+                <field name="economic_payment_terms_id" type="text" default=""
+                       label="PLG_RS_PAYMENT_EWAY_ECONOMIC_TERM_ID"/>
+                <field name="economic_design_layout" type="text" default=""
+                       label="PLG_RS_PAYMENT_EWAY_ECONOMIC_DESIGN_ID"/>
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
+                       label="PLG_RS_PAYMENT_EWAY_SHOPPER_GROUP" description="PLG_RS_PAYMENT_EWAY_SHOPPER_GROUP"/>
+            </fieldset>
+        </fields>
+    </config>
+
+</extension>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>MOD_REDPRODUCTS3D</name>
+    <version>1.5.0.7</version>
+    <redshop>2.0</redshop>
+    <creationDate>Sep 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Product 3D 360 Module for redSHOP</description>
+    <files>
+        <filename module="mod_redproducts3d">mod_redproducts3d.php</filename>
+        <folder>tmpl</folder>
+        <folder>js</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redproducts3d.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redproducts3d.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
+                       description="COM_REDSHOP_CLASS_SFX_DESC"/>
+                <field name="category" type="redshopcategory" size="10" label="COM_REDSHOP_CATEGORY_LBL"
+                       description="COM_REDSHOP_ENTER_CATEGORY" multiple="true"/>
+                <field name="count" type="text" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
+                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
+                <field name="stageWidth" type="text" size="10" default="600" label="COM_REDSHOP_STAGE_WIDTH"
+                       description="COM_REDSHOP_STAGE_WIDTH"/>
+                <field name="stageHeight" type="text" size="10" default="400" label="COM_REDSHOP_STAGE_HEIGHT"
+                       description="COM_REDSHOP_STAGE_HEIGHT"/>
+                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
+                <field name="radius" type="text" size="10" default="230" label="COM_REDSHOP_RADIUS"
+                       description="COM_REDSHOP_RADIUS"/>
+                <field name="focalBlur" type="text" size="10" default="5" label="COM_REDSHOP_FOCALBLUR"
+                       description="COM_REDSHOP_FOCALBLUR"/>
+                <field name="elevation" type="text" size="10" default="-50" label="COM_REDSHOP_ELEVATION"
+                       description="COM_REDSHOP_ELEVATION"/>
+                <field name="enableImageReflection" type="radio" size="10" label="COM_REDSHOP_IMAGE_REFLECTION"
+                       default="yes" description="COM_REDSHOP_IMAGE_REFLECTION">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="enableimageStroke" type="radio" size="10" label="COM_REDSHOP_IMAGE_STROKE" default="yes"
+                       description="COM_REDSHOP_IMAGE_STROKE">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="enableMouseOverToolTip" type="radio" size="10" label="COM_REDSHOP_MOUSE_OVER_TOOLTIP"
+                       default="yes" description="COM_REDSHOP_MOUSE_OVER_TOOLTIP">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="enableMouseOverEffects" type="radio" size="10" label="COM_REDSHOP_MOUSE_OVER_EFFECTS"
+                       default="yes" description="COM_REDSHOP_MOUSE_OVER_EFFECTS">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

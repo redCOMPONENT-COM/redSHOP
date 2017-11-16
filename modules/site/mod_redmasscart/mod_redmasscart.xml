@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>MOD_REDMASSCART</name>
+	<version>1.5.1</version>
+	<redshop>1.5</redshop>
+	<creationDate>April 2013</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>MOD_REDMASSCART_DESC</description>
+	<files>
+		<filename module="mod_redmasscart">mod_redmasscart.php</filename>
+		<filename module="mod_redmasscart">index.html</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redmasscart.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redmasscart.sys.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redmasscart.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redmasscart.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="moduleclass_sfx" type="text" default=""
+					   label="MOD_REDMASSCART_PARAMMODULECLASSSUFFIX"
+					   description="MOD_REDMASSCART_PARAMMODULECLASSSUFFIX"/>
+				<field name="cartbtntitle" type="text" default="add to cart"
+					   label="MOD_REDMASSCART_PARAMMODCARTBTNTITLE"
+					   description="MOD_REDMASSCART_PARAMMODCARTBTNDESC"/>
+				<field name="chk_quantity" type="radio" default="0"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_REDMASSCART_PARAMMODPRODUCTQUANTITY"
+					   description="MOD_REDMASSCART_PARAMMODPRODUCTQUANTITYDESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="textwidth" type="text" default="150"
+					   label="MOD_REDMASSCART_PARAMMODWOATITLE"
+					   description="MOD_REDMASSCART_PARAMMODWOADESC"/>
+				<field name="textheight" type="text" default="100"
+					   label="MOD_REDMASSCART_PARAMMODHOATITLE"
+					   description="MOD_REDMASSCART_PARAMMODHOADESC"/>
+				<field name="title" type="text" default="Product Number"
+					   label="MOD_REDMASSCART_PARAMMODTITLEOFINPUT"
+					   description="MOD_REDMASSCART_PARAMMODDESCOFINPUT"/>
+				<field name="info" type="textarea" rows="3" cols="40"
+					   default="place product number per line."
+					   label="MOD_REDMASSCART_PARAMMODINSTITLE"
+					   description="MOD_REDMASSCART_PARAMMODINSDESC"/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+						name="layout"
+						type="modulelayout"
+						label="JFIELD_ALT_LAYOUT_LABEL"
+						description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

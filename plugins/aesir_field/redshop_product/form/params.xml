@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields>
+        <field
+            name="default"
+            type="reditem.item"
+            label="COM_REDITEM_FIELD_DEFAULT"
+            description="COM_REDITEM_FIELD_DEFAULT_DESC"
+            class="form-control"
+            multiple="true"
+            >
+            <option value="">LIB_REDITEM_FIELD_OPTION_SELECT</option>
+        </field>
+    </fields>
+    <fields name="params">
+        <field
+                name="multiple"
+                type="reditem.radio"
+                label-class="radio-inline"
+                default="1"
+                label="PLG_AESIR_FIELD_REDSHOP_PRODUCT_CONFIGURATION_MULTIPLE"
+                description="PLG_AESIR_FIELD_REDSHOP_PRODUCT_CONFIGURATION_MULTIPLE_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="addSelectOption"
+                type="reditem.radio"
+                label-class="radio-inline"
+                default="true"
+                showon="multiple:0"
+                label="PLG_AESIR_FIELD_REDSHOP_PRODUCT_FIELD_ADDSELECTOPTION"
+                description="PLG_AESIR_FIELD_REDSHOP_PRODUCT_FIELD_ADDSELECTOPTION_DESC">
+            <option value="true">JYES</option>
+            <option value="false">JNO</option>
+        </field>
+    </fields>
+</form>

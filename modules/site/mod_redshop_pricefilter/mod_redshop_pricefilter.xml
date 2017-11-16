@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>MOD_REDSHOP_PRICEFILTER</name>
+    <version>1.5.2</version>
+    <redshop>1.5.0.6</redshop>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>COM_REDSHOP_REDSHOP_PRICE_FILTER_DESC</description>
+    <files>
+        <filename module="mod_redshop_pricefilter">mod_redshop_pricefilter.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_pricefilter.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_pricefilter.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
+                       description="COM_REDSHOP_CLASS_SFX_DESC"/>
+                <field name="minslider" type="text" size="10" label="COM_REDSHOP_MINIMUM_SLIDER_RANGE"
+                       description="COM_REDSHOP_MINIMUM_SLIDER_RANGE" default="0"/>
+                <field name="maxslider" type="text" size="10" label="COM_REDSHOP_MAXIMUM_SLIDER_RANGE"
+                       description="COM_REDSHOP_MAXIMUM_SLIDER_RANGE" default="5000"/>
+                <field name="category" type="redshopcategory" size="40" label="COM_REDSHOP_CATEGORY"
+                       multiple="true"
+                       description="COM_REDSHOP_ENTER_CATEGORY"/>
+                <field name="count" type="text" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
+                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC" default="5"/>
+                <field name="image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_IMAGE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
+                <field name="show_price" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_PRICE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_readmore" type="radio" default="0" label="COM_REDSHOP_SHOW_READ_MORE"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_READ_MORE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_addtocart" type="radio" default="0" label="COM_REDSHOP_SHOW_ADD_TO_CART"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_discountpricelayout" type="radio" default="1"
+                       class="btn-group btn-group-yesno"
+                       label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT"
+                       description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

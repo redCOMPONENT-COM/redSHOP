@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+	<name>PLG_REDSHOP_PAYMENT_QUICKPAY</name>
+	<version>1.6</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_REDSHOP_PAYMENT_QUICKPAY_DESC</description>
+	<files>
+		<filename plugin="quickpay">quickpay.php</filename>
+		<folder>layouts</folder>
+	</files>
+	<languages>
+			<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_quickpay.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_quickpay.sys.ini</language>
+	</languages>
+	<config addfieldpath="/libraries/redshop/form/fields">
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="merchantId"
+					type="text"
+					default=""
+					required="true"
+					class="input-mini validate-numeric"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_MERCHANT_ID_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_MERCHANT_ID_DESC"
+				/>
+				<field
+					name="privateKey"
+					type="password"
+					default=""
+					required="true"
+					class="input-xlarge"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PRIVATE_KEY_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PRIVATE_KEY_DESC"
+				/>
+				<field type="spacer" name="privateKeySpacer" hr="true" />
+				<field
+					name="agreementId"
+					type="text"
+					default=""
+					required="true"
+					class="input-mini validate-numeric"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_AGREEMENT_ID_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_AGREEMENT_ID_DESC"
+				/>
+				<field
+					name="apiKey"
+					type="password"
+					default=""
+					required="true"
+					class="input-xlarge"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_APIKEY_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_APIKEY_DESC"
+				/>
+				<field type="spacer" name="PaymentWindowKeySpacer" hr="true" />
+				<field
+					name="apiAgreementId"
+					type="text"
+					default=""
+					required="true"
+					class="input-mini validate-numeric"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_API_AGREEMENT_ID_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_API_AGREEMENT_ID_DESC"
+				/>
+				<field
+					name="apiUserKey"
+					type="password"
+					default=""
+					required="true"
+					class="input-xlarge"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_USER_APIKEY_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_USER_APIKEY_DESC"
+				/>
+				<field type="spacer" name="apiKeySpacer" hr="true" />
+				<field
+					name="useOrderId"
+					type="radio"
+					default="1"
+					label="PLG_RS_PAYMENT_QUICKPAY_USE_ORDER_ID_LABEL"
+					description="PLG_RS_PAYMENT_QUICKPAY_USE_ORDER_ID_DESC"
+					class="btn-group"
+				>
+					<option value="1">PLG_RS_PAYMENT_QUICKPAY_ORDER_ID</option>
+					<option value="0">PLG_RS_PAYMENT_QUICKPAY_ORDER_NUMBER</option>
+				</field>
+				<field
+					name="autoCapture"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_AUTOCAPTURE_TYPE"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_AUTOCAPTURE_TYPE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="paymentMethods"
+					type="list"
+					default=""
+					multiple="multiple"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_DESC"
+				>
+					<option value="american-express">American Express</option>
+					<option value="dankort">Dankort</option>
+					<option value="diners">Diners Club</option>
+					<option value="edankort">eDankort</option>
+					<option value="fbg1886">Forbrugsforeningen af 1886</option>
+					<option value="jcb">JCB (3D)</option>
+					<option value="maestro">Maestro debit card 3D (only)</option>
+					<option value="mastercard">Mastercard (3D)</option>
+					<option value="mastercard-debet">Mastercard debet card (3D)</option>
+					<option value="mobilepay">MobilePay Online</option>
+					<option value="visa">Visa</option>
+					<option value="visa-electron">Visa debet (former Visa Electron)</option>
+					<option value="paypal">PayPal</option>
+					<option value="sofort">Sofort</option>
+					<option value="viabill">ViaBill</option>
+					<option value="paii">Paii</option>
+				</field>
+				<field
+					name="paymentMethodsExlude"
+					type="list"
+					default=""
+					multiple="multiple"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_EXCLUDE_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_EXCLUDE_DESC"
+				>
+					<option value="!american-express">American Express</option>
+					<option value="!dankort">Dankort</option>
+					<option value="!diners">Diners Club</option>
+					<option value="!edankort">eDankort</option>
+					<option value="!fbg1886">Forbrugsforeningen af 1886</option>
+					<option value="!jcb">JCB (3D)</option>
+					<option value="!maestro">Maestro debit card 3D (only)</option>
+					<option value="!mastercard">Mastercard (3D)</option>
+					<option value="!mastercard-debet">Mastercard debet card (3D)</option>
+					<option value="!mobilepay">MobilePay Online</option>
+					<option value="!visa">Visa</option>
+					<option value="!visa-electron">Visa debet (former Visa Electron)</option>
+					<option value="!paypal">PayPal</option>
+					<option value="!sofort">Sofort</option>
+					<option value="!viabill">ViaBill</option>
+					<option value="!paii">Paii</option>
+				</field>
+				<field
+					name="refund"
+					type="radio"
+					default="0"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_REFUND_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_REFUND_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="verify_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="C"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_ORDER_STATUS"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_ORDER_STATUS_DESC">
+				</field>
+				<field
+					name="invalid_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="P"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_ORDER_STATUS_FAIL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_ORDER_STATUS_FAIL_DESC"
+				>
+				</field>
+				<field
+					name="cancel_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="P"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_CANCEL_PAYMENT_STATUS"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_CANCEL_PAYMENT_STATUS_DESC">
+				</field>
+				<field
+					name="capture_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="P"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_CAPTURE_PAYMENT_STATUS"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_CAPTURE_PAYMENT_STATUS_DESC">
+				</field>
+				<field
+					name="payment_oprand"
+					type="text"
+					class="input-large"
+					default="-"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENT_OPERAND"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENT_OPERAND_DESC"
+				/>
+				<field
+					name="payment_price"
+					type="text"
+					size="30"
+					default=""
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENT_PRICE"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENT_PRICE_DESC"
+				/>
+				<field
+					name="payment_discount_is_percent"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_DISCOUNT_TYPE"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_DISCOUNT_TYPE_DESC"
+				>
+					<option value="1">PLG_REDSHOP_PAYMENT_QUICKPAY_PERCENTAGE</option>
+					<option value="0">PLG_REDSHOP_PAYMENT_QUICKPAY_TOTAL</option>
+				</field>
+				<field
+					name="private_person"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PRIVATE_PERSON"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PRIVATE_PERSON_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="business"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_BUSINESS_PERSON"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_BUSINESS_PERSON_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="is_creditcard"
+					type="hidden"
+					default="0"
+					value="0"
+				/>
+				<field
+					name="preloader"
+					type="hidden"
+					default="0"
+					value="0"
+				/>
+				<field
+					name="economic_payment_terms_id"
+					type="text"
+					class="input-mini"
+					default=""
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_ECONOMIC_CONDITION_ID"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_ECONOMIC_CONDITION_ID_DESC"
+				/>
+				<field
+					name="economic_design_layout"
+					type="text"
+					class="input-mini"
+					default=""
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_ECONOMIC_LAYOUT_ID"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_ECONOMIC_LAYOUT_ID_DESC"
+				/>
+				<field
+					name="shopper_group_id"
+					type="shoppergrouplist"
+					default="0"
+					multiple="multiple"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_SHOPPER_GROUP"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_SHOPPER_GROUP_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

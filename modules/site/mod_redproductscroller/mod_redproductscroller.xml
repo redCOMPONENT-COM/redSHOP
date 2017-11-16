@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>MOD_REDPRODUCTSCROLLER</name>
+    <version>1.5.2</version>
+    <redshop>2.0</redshop>
+    <creationDate>Sep 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_REDPRODUCTSCROLLER_MODULE_DESC</description>
+    <files>
+        <filename module="mod_redproductscroller">mod_redproductscroller.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="pretext" type="text" default="" label="MOD_REDPRODUCTSCROLLER_PRETEXT_LBL"
+                       description="MOD_REDPRODUCTSCROLLER_PRETEXT"/>
+                <field name="NumberOfProducts" type="text" default="5"
+                       label="MOD_REDPRODUCTSCROLLER_NUMBER_OF_PRODUCT_LBL"
+                       description="MOD_REDPRODUCTSCROLLER_NUMBER_OF_PRODUCT_DESC"/>
+                <field name="thumbwidth" type="text" size="10" label="MOD_REDPRODUCTSCROLLER_THUMB_IMAGE_WIDTH"
+                       description="MOD_REDPRODUCTSCROLLER_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="MOD_REDPRODUCTSCROLLER_THUMB_IMAGE_HEIGHT"
+                       description="MOD_REDPRODUCTSCROLLER_THUMB_IMAGE_HEIGHT" default="100"/>
+                <field name="boxwidth" type="text" size="10" label="MOD_REDPRODUCTSCROLLER_BOX_WIDTH"
+                       description="MOD_REDPRODUCTSCROLLER_BOX_WIDTH" default="100"/>
+                <field name="ScrollSortMethod" type="radio" default="random"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_SORT_METHOD_LBL"
+                       class="btn-group"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_SORT_METHOD_DESC">
+                    <option value="newest">MOD_REDPRODUCTSCROLLER_NEWEST</option>
+                    <option value="oldest">MOD_REDPRODUCTSCROLLER_OLDEST</option>
+                    <option value="random">MOD_REDPRODUCTSCROLLER_RANDOM</option>
+                </field>
+                <field name="show_product_name" type="radio" default="yes"
+                       label="MOD_REDPRODUCTSCROLLER_SHOW_PRODUCT_NAME_LBL"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTSCROLLER_SHOW_PRODUCT_NAME_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="show_discountpricelayout" type="radio" default="1"
+                       label="MOD_REDPRODUCTSCROLLER_SHOW_DISCOUNT_PRICE_LAYOUT"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTSCROLLER_SHOW_DISCOUNT_PRICE_LAYOUT">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_addtocart" type="radio" default="yes"
+                       label="MOD_REDPRODUCTSCROLLER_SHOW_ADD_TO_CART_LBL"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTSCROLLER_SHOW_ADD_TO_CART_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="show_price" type="radio" default="yes"
+                       label="MOD_REDPRODUCTSCROLLER_SHOW_PRICE_LBL"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTSCROLLER_SHOW_PRICE_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="ScrollHeight" type="text" default="125"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_HEIGHT" description="MOD_REDPRODUCTSCROLLER_SCROLL_HEIGHT_DESC"/>
+                <field name="ScrollWidth" type="text" default="150"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_WIDTH" description="MOD_REDPRODUCTSCROLLER_SCROLL_WIDTH_DESC"/>
+                <field name="ScrollBehavior" type="list" default="scroll"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_BEHAVIOR"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_BEHAVIOR_DESC">
+                    <option value="scroll">MOD_REDPRODUCTSCROLLER_SCROLL</option>
+                    <option value="slide">MOD_REDPRODUCTSCROLLER_SLIDE</option>
+                    <option value="alternate">MOD_REDPRODUCTSCROLLER_ALTERNATE</option>
+                </field>
+                <field name="ScrollDirection" type="list" default="up"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_DIRECTION"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_DIRECTION_DESC">
+                    <option value="up">MOD_REDPRODUCTSCROLLER_SCROLL_UP</option>
+                    <option value="down">MOD_REDPRODUCTSCROLLER_SCROLL_DOWN</option>
+                    <option value="left">MOD_REDPRODUCTSCROLLER_SCROLL_LEFT</option>
+                    <option value="right">MOD_REDPRODUCTSCROLLER_SCROLL_RIGHT</option>
+                </field>
+                <field name="ScrollAmount" type="integer" first="1" last="5" step="1" default="1"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_AMOUNT"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_AMOUNT_DESC">
+                </field>
+                <field name="ScrollDelay" type="text" default="80"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_DELAY"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_DELAY_DESC"/>
+                <field name="ScrollAlign" type="list" default="left"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_ALIGN"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_ALIGN_DESC">
+                    <option value="left">MOD_REDPRODUCTSCROLLER_LEFT_ALIGN</option>
+                    <option value="right">MOD_REDPRODUCTSCROLLER_RIGHT_ALIGN</option>
+                    <option value="center">MOD_REDPRODUCTSCROLLER_CENTER_ALIGN</option>
+                    <option value="justify">MOD_REDPRODUCTSCROLLER_JUSTIFY_ALIGN</option>
+                </field>
+                <field name="ScrollSpaceChar" type="text" default="&amp;nbsp;"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_SPACECHAR"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_SPACECHAR_DESC"/>
+                <field name="ScrollSpaceCharTimes" type="integer" first="1" last="10" step="1" default="5"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_SPACECHAR_TIMES"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_SPACECHAR_TIMES_DESC">
+                </field>
+                <field name="ScrollLineChar" type="list" default="&lt;br /&gt;"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_LINECHAR"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_LINECHAR_DESC">
+                    <option value="&lt;br /&gt;">MOD_REDPRODUCTSCROLLER_HTML_BREAK</option>
+                    <option value="&lt;hr /&gt;">MOD_REDPRODUCTSCROLLER_HTML_HORIZONTAL_RULE</option>
+                </field>
+                <field name="ScrollLineCharTimes" type="integer" first="1" last="10" step="1" default="2"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_LINECHAR_TIMES"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_LINECHAR_TIMES_DESC">
+                </field>
+                <field name="ScrollCSSOverride" type="list" default="no"
+                       label="MOD_REDPRODUCTSCROLLER_OVERRIDE_CSS"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTSCROLLER_OVERRIDE_CSS_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="ScrollTextAlign" type="list" default="left"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_ALIGN"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_ALIGN_DESC">
+                    <option value="left">MOD_REDPRODUCTSCROLLER_LEFT_ALIGN</option>
+                    <option value="right">MOD_REDPRODUCTSCROLLER_RIGHT_ALIGN</option>
+                    <option value="center">MOD_REDPRODUCTSCROLLER_CENTER_ALIGN</option>
+                    <option value="justify">MOD_REDPRODUCTSCROLLER_JUSTIFY_ALIGN</option>
+                </field>
+                <field name="ScrollTextWeight" type="list" default="normal"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_WEIGHT" description="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_WEIGHT_DESC">
+                    <option value="normal">MOD_REDPRODUCTSCROLLER_NORMAL</option>
+                    <option value="bold">MOD_REDPRODUCTSCROLLER_BOLD</option>
+                    <option value="bolder">MOD_REDPRODUCTSCROLLER_BOLDER</option>
+                    <option value="lighter">MOD_REDPRODUCTSCROLLER_LIGHTER</option>
+                </field>
+                <field name="ScrollTextSize" type="integer" first="1" last="10" step="1" default="10"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_SIZE"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_SIZE_DESC">
+                </field>
+
+                <field name="ScrollTextColor" type="text" default="#000000"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_COLOR"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_TEXT_COLOR_DESC"/>
+                <field name="ScrollBGColor" type="text" default="transparent"
+                       label="MOD_REDPRODUCTSCROLLER_SCROLL_BACKGROUND_COLOR"
+                       description="MOD_REDPRODUCTSCROLLER_SCROLL_BACKGROUND_COLOR_DESC"/>
+                <field name="moduleclass_sfx" type="text" default=""
+                       label="MOD_REDPRODUCTSCROLLER_CLASS_SUFFIX"
+                       description="MOD_REDPRODUCTSCROLLER_CLASS_SFX_DESC"/>
+                <field name="class_sfx" type="text" default=""
+                       label="MOD_REDPRODUCTSCROLLER_MENU_SFX"
+                       description="MOD_REDPRODUCTSCROLLER_MENU_SFX_DESC"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

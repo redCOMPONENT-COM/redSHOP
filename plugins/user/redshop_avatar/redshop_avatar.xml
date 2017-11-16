@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="user" method="upgrade">
+    <name>PLG_USER_REDSHOP_AVATAR</name>
+    <version>1.0</version>
+    <creationDate>August 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_USER_REDSHOP_AVATAR_DESC</description>
+    <files>
+        <folder>layouts</folder>
+        <folder>profiles</folder>
+        <filename plugin="redshop_avatar">redshop_avatar.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_user_redshop_avatar.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_user_redshop_avatar.sys.ini</language>
+    </languages>
+</extension>

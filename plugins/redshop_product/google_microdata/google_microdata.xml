@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
+    <name>PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA</name>
+    <author>redCOMPONENT.com</author>
+    <version>1.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>May 2017</creationDate>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <description>PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA_DESC</description>
+    <files>
+        <folder>language</folder>
+        <filename plugin="google_microdata">google_microdata.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="type"
+                        type="list"
+                        label="PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA_PARAM_TYPE"
+                        description="PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA_PARAM_TYPE_DESC"
+                        default="json-ld">
+                    <option value="json-ld">PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA_PARAM_TYPE_OPTION_JSON_LD</option>
+                    <option value="microdata">PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA_PARAM_TYPE_OPTION_MICRO_DATA</option>
+                    <option value="rdfa">PLG_REDSHOP_PRODUCT_GOOGLE_MICRODATA_PARAM_TYPE_OPTION_RDFA</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

@@ -1,0 +1,19 @@
+.mod_redoldprice {
+    font-size: 11px;
+}
+
+.mod_redmainprice {
+    font-size: 13px;
+}
+
+.mod_redsavedprice {
+    font-size: 11px;
+}
+
+div.mod_redshop_products_wrapper div.mod_redshop_products_horizontal {
+
+    padding: 5px;
+    float: left;
+    width: 150px;
+    height: 300px;
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
+	<name>PLG_REDSHOP_PRODUCT_INVOICEPDF</name>
+	<author>redCOMPONENT.com</author>
+	<version>1.5.1</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_REDSHOP_PRODUCT_INVOICEPDF_DESC</description>
+	<files>
+		<filename plugin="invoicepdf">invoicepdf.php</filename>
+		<folder>layouts</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_invoicepdf.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_invoicepdf.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params" addfieldpath="libraries/redshop/form/fields">
+			<fieldset name="basic">
+				<field
+					name="shippment_invoice_template"
+					type="redshopeditor"
+					editor="codemirror|none"
+					filter="raw"
+					syntax="php"
+					buttons="no"
+					required="true"
+					basePath="/plugins/redshop_product/invoicepdf/layouts"
+					label="PLG_REDSHOP_PRODUCT_INVOICEPDF_SHIPPMENT_INVOICE_TEMPLATE"
+					description="PLG_REDSHOP_PRODUCT_INVOICEPDF_SHIPPMENT_INVOICE_TEMPLATE_DESC"
+				/>
+			</fieldset>
+			<fieldset name="shippment_invoice_template_hint">
+				<field
+					name="templateTags"
+					type="sample"
+					layoutFile="tags"
+					basePath="/plugins/redshop_product/invoicepdf/layouts"
+				/>
+			</fieldset>
+			<fieldset name="shippment_invoice_template_sample">
+				<field
+					name="sampleTemplate"
+					type="sample"
+					basePath="/plugins/redshop_product/invoicepdf/layouts"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

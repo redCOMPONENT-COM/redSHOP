@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>COM_REDSHOP_REDSHOP_CATEGORY_SCROLLER</name>
+    <version>1.5.2</version>
+    <redshop>2.0</redshop>
+    <creationDate>Sep 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>COM_REDSHOP_REDSHOP_CATEGORY_SCROLLER</description>
+    <files>
+        <filename module="mod_redshop_category_scroller">mod_redshop_category_scroller.php</filename>
+        <filename>index.html</filename>
+        <folder module="mod_redshop_category_scroller">tmpl</folder>
+        <folder module="mod_redshop_category_scroller">css</folder>
+        <folder module="mod_redshop_category_scroller">images</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_category_scroller.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_category_scroller.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="pretext" type="text" default="" label="COM_REDSHOP_PRETEXT_LBL"
+                       description="COM_REDSHOP_PRETEXT"/>
+                <field name="NumberOfProducts" type="text" default="5" label="COM_REDSHOP_NUMBER_OF_PRODUCT_LBL"
+                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
+                <field name="ScrollSortMethod" type="radio" default="random" label="COM_REDSHOP_SCROLL_SORT_METHOD_LBL"
+                       description="COM_REDSHOP_SCROLL_SORT_METHOD_DESC" class="btn-group">
+                    <option value="newest">COM_REDSHOP_NEWEST</option>
+                    <option value="oldest">COM_REDSHOP_OLDEST</option>
+                    <option value="random">COM_REDSHOP_RANDOM</option>
+                    <option value="mostsold">COM_REDSHOP_MOSTSOLD</option>
+                </field>
+                <!-- <field name="defaultCategory" type="categoryscroller" label="DEFAULT_CATEGORY_LBL" description="DEFAULT_CATEGORY_DESC" /> -->
+                <field name="show_product_name" type="radio" default="1" label="COM_REDSHOP_SHOW_PRODUCT_NAME_LBL"
+                       description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC" class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_price" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE_LBL"
+                       description="COM_REDSHOP_SHOW_PRICE_DESC" class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE_LBL"
+                       description="COM_REDSHOP_SHOW_IMAGE_DESC" class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READMORE_LBL"
+                       description="COM_REDSHOP_SHOW_READMORE_DESC" class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART_LBL"
+                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC" class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
+                <field name="scrollerheight" type="text" size="10" label="COM_REDSHOP_SCROLLER_HEIGHT"
+                       description="COM_REDSHOP_SCROLLER_HEIGHT" default="200"/>
+                <field name="scrollerwidth" type="text" size="10" label="COM_REDSHOP_SCROLLER_WIDTH"
+                       description="COM_REDSHOP_SCROLLER_WIDTH" default="800"/>
+
+                <field name="product_title_max_chars" type="text" size="10" label="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS"
+                       description="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS" default="10"/>
+                <field name="product_title_end_suffix" type="text" size="10"
+                       label="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" description="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX"
+                       default="..."/>
+                <field name="show_discountpricelayout" type="radio" default="1"
+                       label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_MODULE_CLASS_SFX"
+                       description="COM_REDSHOP_MODULE_CLASS_SFX_DESC"/>
+                <field name="class_sfx" type="text" default="" label="COM_REDSHOP_MENU_CLASS_SFX"
+                       description="COM_REDSHOP_MENU_CLASS_SFX_DESC"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

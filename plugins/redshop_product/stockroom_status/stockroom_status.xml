@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
+	<name>PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS</name>
+	<author>redCOMPONENT.com</author>
+	<version>1.6</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_DESC</description>
+	<files>
+		<filename plugin="stockroom_status">stockroom_status.php</filename>
+		<filename>index.html</filename>
+		<folder>layouts</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_stockroom_status.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_stockroom_status.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="libraries/redshop/form/fields">
+				<field
+					name="mailSubject"
+					type="text"
+					default="Stockroom Status Mail"
+					required="true"
+					description="PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_MAILSUBJECT_DESC"
+					label="PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_MAILSUBJECT_LBL"
+				/>
+				<field
+					type="text"
+					name="replyTo"
+					default=""
+					label="PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_REPLYTO_LBL"
+					description="PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_REPLYTO_DESC"
+				/>
+				<field
+					type="redshopeditor"
+					name="template"
+					editor="codemirror|none"
+					syntax="php"
+					filter="raw"
+					buttons="no"
+					basePath="/plugins/redshop_product/stockroom_status/layouts"
+					label="PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_TEMPLATE_LBL"
+					description="PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_TEMPLATE_DESC"
+				/>
+			</fieldset>
+			<fieldset name="stockroom_status_sample">
+				<field
+					name="sampleTemplate"
+					type="sample"
+					basePath="/plugins/redshop_product/stockroom_status/layouts"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
