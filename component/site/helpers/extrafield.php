@@ -865,7 +865,7 @@ class extraField
 	 * @param   int     $section_id     Section ID
 	 * @param   string  $field_name     Field name
 	 * @param   string  $template_data  Template content
-	 * @param   int     $categorypage   Category page
+	 * @param   int     $categoryPage   Category page
 	 *
 	 * @return  mixed
 	 *
@@ -873,9 +873,9 @@ class extraField
 	 *
 	 * @deprecated  2.0.6
 	 */
-	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
+	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categoryPage = 0)
 	{
-		return ExtraFields::displayExtraFields($field_section, $section_id, $field_name, $template_data, $categorypage);
+		return ExtraFields::displayExtraFields($field_section, $section_id, $field_name, $template_data, (boolean) $categoryPage);
 	}
 
 	/**

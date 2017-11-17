@@ -154,12 +154,7 @@ class ExtraFields
 		switch ($field->type)
 		{
 			case \RedshopHelperExtrafields::TYPE_TEXT_AREA:
-				$displayValue = \RedshopLayoutHelper::render(
-					'extrafields.display.textarea',
-					array(
-						'data' => $fieldValue->data_txt
-					)
-				);
+				$displayValue = \RedshopLayoutHelper::render('extrafields.display.textarea', array('data' => $fieldValue->data_txt));
 
 				break;
 
