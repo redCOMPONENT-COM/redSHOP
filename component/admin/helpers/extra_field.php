@@ -132,7 +132,7 @@ class extra_field
 	 * @param   string  $field_type     Field type
 	 * @param   string  $unique_id      Unique ID
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */

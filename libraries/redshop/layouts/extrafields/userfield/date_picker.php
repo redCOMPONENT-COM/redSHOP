@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $required         Extra field required
- * @param   string  $uniqueId         Extra field unique Id
- * @param   string  $fieldCheck       Extra field check
+ * @var   array   $displayData   Layout data.
+ * @var   object  $rowData       Extra field data
+ * @var   string  $required      Extra field required
+ * @var   string  $uniqueId      Extra field unique Id
+ * @var   array   $fieldCheck    Extra field check
  */
 extract($displayData);
 ?>

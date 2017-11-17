@@ -17,6 +17,12 @@ jimport('joomla.log.log');
  * @property   integer  $min_order_product_quantity  Min order quantity
  * @property   integer  $max_order_product_quantity  Max order quantity
  * @property   string   $product_name                Product name
+ * @property   string   $product_full_image          File name of product full image
+ * @property   string   $product_s_desc              Product short description
+ * @property   string   $product_desc                Product description
+ * @property   string   $product_number              Product number
+ * @property   integer  $manufacturer_id             Manufacturer ID
+ * @property   integer  $supplier_id                 Supplier ID
  *
  * @package     Redshop.Library
  * @subpackage  Product
