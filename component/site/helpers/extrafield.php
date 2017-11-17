@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\ExtraFields;
+
 defined('_JEXEC') or die;
 
 /**
@@ -267,7 +269,7 @@ class extraField
 	protected static $userFields = array();
 
 	/**
-	 * @var null
+	 * @var  static
 	 */
 	protected static $instance = null;
 
@@ -869,11 +871,11 @@ class extraField
 	 *
 	 * @since   1.6.0
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperExtrafields::extraFieldDisplay instead
+	 * @deprecated  2.0.6
 	 */
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
-		return RedshopHelperExtrafields::extraFieldDisplay($field_section, $section_id, $field_name, $template_data, $categorypage);
+		return ExtraFields::displayExtraFields($field_section, $section_id, $field_name, $template_data, $categorypage);
 	}
 
 	/**

@@ -399,7 +399,7 @@ class RedshopViewSearch extends RedshopView
 
 				if ($extraFieldsForCurrentTemplate)
 				{
-					$data_add = $extraField->extra_field_display(1, $this->search[$i]->product_id, $extraFieldsForCurrentTemplate, $data_add, 1);
+					$data_add = Redshop\Helper\ExtraFields::displayExtraFields(1, $this->search[$i]->product_id, $extraFieldsForCurrentTemplate, $data_add, true);
 				}
 
 				$data_add = str_replace("{product_s_desc}", $pro_s_desc, $data_add);

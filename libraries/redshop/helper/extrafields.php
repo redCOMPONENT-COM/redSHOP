@@ -289,15 +289,6 @@ class RedshopHelperExtrafields
 	protected static $sectionFields = array();
 
 	/**
-	 * Extra field display data
-	 *
-	 * @var   array
-	 *
-	 * @since  2.0.6
-	 */
-	protected static $extraFieldDisplay = array();
-
-	/**
 	 * Get list of fields.
 	 *
 	 * @param   integer $published  Published Status which needs to be get. Default -1 will ignore any status.
@@ -368,9 +359,9 @@ class RedshopHelperExtrafields
 	/**
 	 * Get Section Field Data List
 	 *
-	 * @param   int $fieldId     Field id
-	 * @param   int $section     Section id of the field.
-	 * @param   int $sectionItem Section item id
+	 * @param   integer  $fieldId      Field id
+	 * @param   integer  $section      Section id of the field.
+	 * @param   integer  $sectionItem  Section item id
 	 *
 	 * @return  mixed|null
 	 */
@@ -1839,25 +1830,5 @@ class RedshopHelperExtrafields
 
 		$db->setQuery($query);
 		$db->execute();
-	}
-
-	/**
-	 * Method for render HTML of extra fields
-	 *
-	 * @param   string  $fieldSection    Field section
-	 * @param   integer $sectionId       ID of section
-	 * @param   string  $fieldName       Field name
-	 * @param   string  $templateContent HTML template content
-	 * @param   integer $categoryPage    Category page
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.0.6
-	 *
-	 * @deprecated   __DEPLOY_VERSION__
-	 */
-	public static function extraFieldDisplay($fieldSection = "", $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
-	{
-		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateContent, (boolean) $categoryPage);
 	}
 }

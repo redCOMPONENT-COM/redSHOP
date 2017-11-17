@@ -30,7 +30,7 @@ class ExtraFields
 	/**
 	 * Method for render HTML of extra fields
 	 *
-	 * @param   string   $fieldSection     Field section
+	 * @param   integer  $fieldSection     Field section
 	 * @param   integer  $sectionId        ID of section
 	 * @param   string   $fieldName        Field name
 	 * @param   string   $templateContent  HTML template content
@@ -40,7 +40,7 @@ class ExtraFields
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function displayExtraFields($fieldSection = '', $sectionId = 0, $fieldName = '', $templateContent = '', $categoryPage = false)
+	public static function displayExtraFields($fieldSection = 0, $sectionId = 0, $fieldName = '', $templateContent = '', $categoryPage = false)
 	{
 		$db = \JFactory::getDbo();
 
@@ -194,9 +194,7 @@ class ExtraFields
 				{
 					$displayValue = \RedshopLayoutHelper::render(
 						'extrafields.display.country',
-						array(
-							'data' => (int) $fieldValue->data_txt
-						)
+						array('data' => (int) $fieldValue->data_txt)
 					);
 				}
 

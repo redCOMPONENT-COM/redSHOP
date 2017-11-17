@@ -405,7 +405,7 @@ if (!$slide)
 			 */
 			if ($extraFieldsForCurrentTemplate)
 			{
-				$data_add = $extraField->extra_field_display(2, $row->id, $extraFieldsForCurrentTemplate, $data_add);
+				$data_add = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $data_add);
 			}
 
 			$cat_detail .= $data_add;
@@ -905,7 +905,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		 */
 		if ($extraFieldsForCurrentTemplate && count($loadCategorytemplate) > 0)
 		{
-			$data_add = $extraField->extra_field_display(1, $product->product_id, $extraFieldsForCurrentTemplate, $data_add, 1);
+			$data_add = Redshop\Helper\ExtraFields::displayExtraFields(1, $product->product_id, $extraFieldsForCurrentTemplate, $data_add, true);
 		}
 
 		/************************************

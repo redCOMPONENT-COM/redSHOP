@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\ExtraFields;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
@@ -288,7 +290,7 @@ if ($total > 0)
 				);
 			}
 
-			$template = $field->extra_field_display("1", $product->product_id, $str, $template);
+			$template = ExtraFields::displayExtraFields("1", $product->product_id, $str, $template);
 			$template = str_replace('{addedext_tag}', '{' . $product_tag[$tag] . '}', $template);
 		}
 

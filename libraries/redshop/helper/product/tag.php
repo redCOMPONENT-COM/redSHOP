@@ -45,7 +45,7 @@ class RedshopHelperProductTag
 			return $templateContent;
 		}
 
-		return ExtraFields::displayExtraFields($section, $productId, $fieldName, $templateContent, $categoryPage);
+		return ExtraFields::displayExtraFields($section, $productId, $fieldName, $templateContent, (boolean) $categoryPage);
 	}
 
 	/**

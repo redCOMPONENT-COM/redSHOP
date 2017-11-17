@@ -288,7 +288,7 @@ class rsCarthelper
 				}
 
 				// Additional functionality - more flexible way
-				$shippingdata = $this->_extraFieldFront->extra_field_display($extra_section, $shippingaddresses->users_info_id, "", $shippingdata);
+				$shippingdata = Redshop\Helper\ExtraFields::displayExtraFields($extra_section, $shippingaddresses->users_info_id, "", $shippingdata);
 
 				$shipping_extrafield = $this->_extra_field->list_all_field_display($extra_section, $shippingaddresses->users_info_id, 1);
 			}
@@ -342,12 +342,12 @@ class rsCarthelper
 				if ($shippingaddresses->is_company == 1)
 				{
 					// Additional functionality - more flexible way
-					$data = $this->_extraFieldFront->extra_field_display(15, $shippingaddresses->users_info_id, "", $data);
+					$data = Redshop\Helper\ExtraFields::displayExtraFields(15, $shippingaddresses->users_info_id, "", $data);
 				}
 				else
 				{
 					// Additional functionality - more flexible way
-					$data = $this->_extraFieldFront->extra_field_display(14, $shippingaddresses->users_info_id, "", $data);
+					$data = Redshop\Helper\ExtraFields::displayExtraFields(14, $shippingaddresses->users_info_id, "", $data);
 				}
 			}
 
