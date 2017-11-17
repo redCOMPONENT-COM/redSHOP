@@ -420,6 +420,13 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$lists['categories'] = $categories;
 		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
+		//payment method list
+		$lists['payment_methods'] = RedshopHelperPayment::listAll("payment_method[]", $detail->product_id, 0, 10, true);
+
+		$detail->use_individual_payment_method = isset($detail->use_individual_payment_method) ? $detail->use_individual_payment_method : null;
+
+		$lists['use_individual_payment_method'] = JHtml::_('select.booleanlist', 'use_individual_payment_method', 'class="inputbox"', $detail->use_individual_payment_method);
+
 		$lists['manufacturers'] = JHtml::_('select.genericlist', $manufacturers, 'manufacturer_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id
 		);
@@ -692,6 +699,14 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					($selectedTabPosition == 'calculator') ? true : false,
 					'calculator'
 				);
+
+		$tabMenu->addItem(
+					'#product_payment_method',
+					'COM_REDSHOP_TEMPLATE_PAYMENT_METHOD',
+					($selectedTabPosition == 'product_payment_method') ? true : false,
+					'product_payment_method'
+				);
+
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
 		{

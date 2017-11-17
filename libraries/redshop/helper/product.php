@@ -847,6 +847,31 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Method for get all payment method of this product set in backend
+	 *
+	 * @param   int  $productId  If exist. 
+	 *
+	 * @return  array 			List of payment method
+	 *
+	 * @since   2.0.8-beta
+	 */
+	public static function getAllAvailableProductPayment($productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('payment_id'))
+			->from($db->qn('#__redshop_product_payment_xref'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' = ' . $db->quote($productId));
+		}
+
+		// Set the query and load the result.
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
 	 * Method for get all product number exist in system
 	 *
 	 * @param   int  $productId  If exist. Exclude product number from this product Id from list
