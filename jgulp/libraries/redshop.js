@@ -91,22 +91,25 @@ function getLibraryFiles (callback) {
     }
 
     fs.readFile(extPath + "/" + libraryName + ".xml", function (err, data) {
-        parser.parseString(data, function (err, result) {
-            var folders = result.extension.files.folder;
-            var files   = result.extension.files.filename;
+        if (data !== undefined)
+        {
+            parser.parseString(data, function (err, result) {
+                var folders = result.extension.files.folder;
+                var files   = result.extension.files.filename;
 
-            for (var i = folders.length - 1; i >= 0; i--) {
-                if (folders[i] !== "vendor") {
-                    libraryFiles.push(extPath + "/" + folders[i] + "/**");
+                for (var i = folders.length - 1; i >= 0; i--) {
+                    if (folders[i] !== "vendor") {
+                        libraryFiles.push(extPath + "/" + folders[i] + "/**");
+                    }
                 }
-            }
 
-            for (var i = files.length - 1; i >= 0; i--) {
-                libraryFiles.push(extPath + "/" + files[i]);
-            }
+                for (var i = files.length - 1; i >= 0; i--) {
+                    libraryFiles.push(extPath + "/" + files[i]);
+                }
 
-            return callback(libraryFiles);
-        });
+                return callback(libraryFiles);
+            });
+        }
     });
 }
 

@@ -21,8 +21,12 @@ function pluginRelease(group, name) {
     var destDir = config.releaseDir + '/plugins';
 
     if (!argv.skipVersion) {
-        console.log('./plugins/' + group + '/' + name + '/' + name + '.xml');
         fs.readFile('./plugins/' + group + '/' + name + '/' + name + '.xml', function (err, data) {
+            if (data === undefined)
+            {
+                return false;
+            }
+
             parser.parseString(data, function (err, result) {
                 console.log(err);
 
