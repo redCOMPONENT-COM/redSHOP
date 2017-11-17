@@ -508,8 +508,8 @@ if (strstr($template_desc, "{bookmark}"))
 }
 
 //  Extra field display
-$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
-$template_desc = $producthelper->getExtraSectionTag($extraFieldName, $this->data->product_id, "1", $template_desc);
+$extraFieldName = $extraField->getFieldNamesFromSection(RedshopHelperExtrafields::SECTION_PRODUCT);
+$template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->data->product_id, "1", $template_desc);
 
 // Product thumb image
 if (strstr($template_desc, "{product_thumb_image_3}"))

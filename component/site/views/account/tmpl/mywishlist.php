@@ -109,7 +109,7 @@ if ($mail == 0)
 	}
 
 	$temp_template  = '';
-	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+	$extraFieldName = $extraField->getFieldNamesFromSection(1, 1, 1);
 
 	if (count($MyWishlist) > 0)
 	{

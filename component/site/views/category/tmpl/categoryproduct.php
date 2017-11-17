@@ -112,7 +112,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
+	$extraFieldName = $extraField->getFieldNamesFromSection(2, 1, 1);
 	$data_add       = "";
 
 	for ($i = 0; $i < count($this->detail); $i++)
@@ -207,7 +207,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$template_product = $template_d2 [0];
 
 			$attribute_template = $producthelper->getAttributeTemplate($template_product);
-			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$extraFieldName     = $extraField->getFieldNamesFromSection(1, 1, 1);
 			$product_data       = '';
 			$prddata_add        = "";
 

@@ -868,6 +868,11 @@ class rsCarthelper
 					$cart_mdata = str_replace("{attribute_change}", '', $cart_mdata);
 				}
 
+				// Product extra fields.
+				$cart_mdata  = RedshopHelperProductTag::getExtraSectionTag(
+					extraField::getInstance()->getFieldNamesFromSection(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
+				);
+
 				$cartItem = 'product_id';
 				$cart_mdata = $this->_producthelper->replaceVatinfo($cart_mdata);
 				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
