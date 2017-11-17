@@ -282,7 +282,6 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$unpublishButton);
-        $I->wait(3);
     }
 
     public function changeAllCardPublishButton()

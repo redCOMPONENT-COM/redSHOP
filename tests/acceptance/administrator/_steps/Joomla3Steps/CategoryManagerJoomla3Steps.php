@@ -179,7 +179,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->searchCategory($categoryName);
-        $I->wait(3);
         $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
         $value = $I->grabTextFrom(\CategoryManagerJ3Page::$categoryId);
         $I->click(\CategoryManagerJ3Page::$checkAll);
@@ -208,7 +207,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->searchCategory($categoryName);
-        $I->wait(3);
         $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
         $value = $I->grabTextFrom(\CategoryManagerJ3Page::$categoryId);
         $I->click(\CategoryManagerJ3Page::$checkAll);
@@ -237,7 +235,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->searchCategory($categoryName);
-        $I->wait(3);
         $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
         $I->click(\CategoryManagerJ3Page::$checkAll);
 
@@ -277,7 +274,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->searchCategory($categoryName);
-        $I->wait(3);
         $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
         $text = $I->grabAttributeFrom(\CategoryManagerJ3Page::$categoryStatePath, 'onclick');
 
