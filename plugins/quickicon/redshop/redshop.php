@@ -19,10 +19,10 @@ class PlgQuickiconRedshop extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings.
+	 *                            Recognized key values include 'name', 'group', 'params', 'language'
+	 *                            (this list is not meant to be comprehensive).
 	 *
 	 * @since   1.5
 	 */
@@ -55,7 +55,7 @@ class PlgQuickiconRedshop extends JPlugin
 	{
 		if ($context != $this->params->get('context', 'mod_quickicon'))
 		{
-			return;
+			return array();
 		}
 
 		if (version_compare(JVERSION, '3.0', '>='))
@@ -67,8 +67,8 @@ class PlgQuickiconRedshop extends JPlugin
 					background-image: url(' . JUri::base() . 'components/com_redshop/assets/images/redshopcart16.png);
 					background-size: 14px;
 					background-repeat: no-repeat;
-				}
-			');
+				}'
+			);
 		}
 		else
 		{

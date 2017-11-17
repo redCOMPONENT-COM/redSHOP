@@ -23,8 +23,8 @@ abstract class ModRedshopSearch
 	 */
 	public static function getCategories()
 	{
-		$shopperGroupId = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
-		$shopperGroupData = rsUserHelper::getInstance()->getShopperGroupList($shopperGroupId);
+		$shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
@@ -50,7 +50,7 @@ abstract class ModRedshopSearch
 	public static function getManufacturers()
 	{
 		$shopperGroupId = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
-		$shopperGroupData = rsUserHelper::getInstance()->getShopperGroupList($shopperGroupId);
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('manufacturer_id', 'value'))
@@ -88,7 +88,7 @@ abstract class ModRedshopSearch
 			->select($db->qn('f.title'))
 			->from($db->qn('#__redshop_fields', 'f'))
 			->leftJoin($db->qn('#__redshop_fields_value', 'fv') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fv.field_id'))
-			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')');
+			->where($db->qn('f.name') . ' IN (' . implode(',', RedshopHelperUtility::quote($productFields)) . ')');
 
 		$data   = $db->setQuery($query)->loadObjectList();
 		$result = array();

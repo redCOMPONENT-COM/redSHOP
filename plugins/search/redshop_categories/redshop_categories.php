@@ -11,21 +11,21 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgSearchRedshop_categories extends JPlugin
+/**
+ * redSHOP Search Categories
+ *
+ * @extends JPlugin
+ *
+ * @since   1.0.0
+ */
+class PlgSearchRedshop_Categories extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Auto load language
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var  string
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Determine areas searchable by this plugin.
@@ -77,22 +77,22 @@ class plgSearchRedshop_categories extends JPlugin
 		$searchShortDesc = $this->params->get('searchShortDesc', 1);
 		$searchFullDesc  = $this->params->get('searchFullDesc', 1);
 
-		// Initialiase variables.
+		// Init variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select(
-						array(
-							$db->qn('id'),
-							$db->qn('name', 'title'),
-							$db->qn('short_description'),
-							$db->qn('description', 'text'),
-							'"' . $section . '" AS ' . $db->qn('section'),
-							'"" AS ' . $db->qn('created'),
-							'"2" AS ' . $db->qn('browsernav')
-						)
-					)
-					->from($db->qn('#__redshop_category'))
-					->where($db->qn('published') . ' = 1');
+			->select(
+				array(
+					$db->qn('id'),
+					$db->qn('name', 'title'),
+					$db->qn('short_description'),
+					$db->qn('description', 'text'),
+					'"' . $section . '" AS ' . $db->qn('section'),
+					'"" AS ' . $db->qn('created'),
+					'"2" AS ' . $db->qn('browsernav')
+				)
+			)
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1');
 
 		switch ($phrase)
 		{
@@ -175,13 +175,12 @@ class plgSearchRedshop_categories extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = redhelper::getInstance();
-		$return    = array();
+		$return = array();
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = RedshopHelperUtility::getItemId(0, $row->category_id);
-			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
+			$itemId    = RedshopHelperRouter::getItemId(0, $row->category_id);
+			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $itemId;
 
 			$return[]  = $row;
 		}

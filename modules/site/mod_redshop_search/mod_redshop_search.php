@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
+
+/** @var  Registry  $params  Module params */
 
 require_once dirname(__FILE__) . '/helper.php';
 JLoader::import('redshop.library');
@@ -18,7 +22,7 @@ $input    = $app->input;
 $user     = JFactory::getUser();
 $document = JFactory::getDocument();
 $document->addScriptDeclaration(
-	"var base_url = '" . JURI::root() . "';"
+	"var base_url = '" . JUri::root() . "';"
 );
 
 $enableAjaxsearch       = trim($params->get('enableAjaxsearch', 0));
@@ -37,7 +41,7 @@ $productFields          = $params->get('product_fields', array());
 $showCustomfield        = trim($params->get('showCustomfield', ''));
 $excludeCategories      = implode(',', $params->get('excludeCategories', ''));
 $javaFun                = "";
-$itemId                 = RedshopHelperUtility::getItemId();
+$itemId                 = RedshopHelperRouter::getItemId();
 
 $categoryData     = ModRedshopSearch::getCategories();
 $manufacturerData = ModRedshopSearch::getManufacturers();
@@ -50,8 +54,8 @@ if ($modSearchItemid != "")
 
 if ($enableAjaxsearch)
 {
-	$document->addScript(JURI::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/js/search.js");
-	$document->addStyleSheet(JURI::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/css/search.css");
+	$document->addScript(JUri::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/js/search.js");
+	$document->addStyleSheet(JUri::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/css/search.css");
 	$javaFun = "makeUrl();";
 }
 

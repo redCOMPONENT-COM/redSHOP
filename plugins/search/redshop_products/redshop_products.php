@@ -11,22 +11,21 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgSearchRedshop_products extends JPlugin
+/**
+ * redSHOP Search Products
+ *
+ * @extends JPlugin
+ *
+ * @since   1.0.0
+ */
+class PlgSearchRedshop_Products extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Auto load language
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var  string
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Determine areas searchable by this plugin.
@@ -67,13 +66,14 @@ class plgSearchRedshop_products extends JPlugin
 			}
 		}
 
-		$db      = JFactory::getDbo();
-		$text    = trim($text);
+		$text = trim($text);
 
 		if ($text == '')
 		{
 			return array();
 		}
+
+		$db = JFactory::getDbo();
 
 		$section         = ($this->params->get('showSection')) ? JText::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
 		$searchShortDesc = $this->params->get('searchShortDesc', 0);
@@ -81,31 +81,31 @@ class plgSearchRedshop_products extends JPlugin
 
 		// Prepare Extra Field Query.
 		$extraQuery = $db->getQuery(true)
-						->select('DISTINCT(' . $db->qn('itemid') . ')')
-						->from($db->qn('#__redshop_fields_data'))
-						->where($db->qn('section') . ' = 1');
+			->select('DISTINCT(' . $db->qn('itemid') . ')')
+			->from($db->qn('#__redshop_fields_data'))
+			->where($db->qn('section') . ' = 1');
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
-				->select(
-					array(
-						$db->qn('product_id'),
-						$db->qn('product_name', 'title'),
-						$db->qn('product_number', 'number'),
-						$db->qn('product_s_desc', 'text'),
-						'"' . $section . '" AS ' . $db->qn('section'),
-						'"" AS ' . $db->qn('created'),
-						'"2" AS ' . $db->qn('browsernav'),
-						$db->qn('cat_in_sefurl')
-					)
+			->select(
+				array(
+					$db->qn('product_id'),
+					$db->qn('product_name', 'title'),
+					$db->qn('product_number', 'number'),
+					$db->qn('product_s_desc', 'text'),
+					'"' . $section . '" AS ' . $db->qn('section'),
+					'"" AS ' . $db->qn('created'),
+					'"2" AS ' . $db->qn('browsernav'),
+					$db->qn('cat_in_sefurl')
 				)
-				->from($db->qn('#__redshop_product'));
+			)
+			->from($db->qn('#__redshop_product'));
 
 		// Building Where clause
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->Quote('%' . $db->escape($text, true) . '%', false);
+				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
 				// Also search in Extra Field Data
 				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
@@ -143,7 +143,7 @@ class plgSearchRedshop_products extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->Quote('%' . $db->escape($word, true) . '%', false);
+					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 
 					$ors = array();
 					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
@@ -202,14 +202,11 @@ class plgSearchRedshop_products extends JPlugin
 		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufacturers = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-		$whereaclProduct = "";
-
-		if ($shopper_group_manufactures != "")
+		if (!empty($shopperGroupManufacturers))
 		{
-			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopper_group_manufactures . ')');
+			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopperGroupManufacturers . ')');
 		}
 
 		// Only published products
@@ -227,13 +224,12 @@ class plgSearchRedshop_products extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = redhelper::getInstance();
-		$return    = array();
+		$return = array();
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = RedshopHelperUtility::getItemId($row->product_id, $row->cat_in_sefurl);
-			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $Itemid;
+			$itemId    = RedshopHelperRouter::getItemId($row->product_id, $row->cat_in_sefurl);
+			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $itemId;
 
 			$return[]  = $row;
 		}
