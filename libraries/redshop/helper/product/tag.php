@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\ExtraFields;
+
 defined('_JEXEC') or die;
 
 /**
@@ -43,7 +45,7 @@ class RedshopHelperProductTag
 			return $templateContent;
 		}
 
-		$templateContent = RedshopHelperExtrafields::extraFieldDisplay($section, $productId, $fieldName, $templateContent, $categoryPage);
+		$templateContent = ExtraFields::displayExtraFields($section, $productId, $fieldName, $templateContent, $categoryPage);
 
 		return $templateContent;
 	}

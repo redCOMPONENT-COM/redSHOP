@@ -1,0 +1,300 @@
+<?php
+/**
+ * @package     RedShop
+ * @subpackage  Helper
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+namespace Redshop\Helper;
+
+defined('_JEXEC') or die;
+
+/**
+ * Extra Fields helper
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+class ExtraFields
+{
+	/**
+	 * Extra field display data
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $extraFieldDisplay = array();
+
+	/**
+	 * Method for render HTML of extra fields
+	 *
+	 * @param   string   $fieldSection     Field section
+	 * @param   integer  $sectionId        ID of section
+	 * @param   string   $fieldName        Field name
+	 * @param   string   $templateContent  HTML template content
+	 * @param   boolean  $categoryPage     Category page
+	 *
+	 * @return  string                     HTML content with rendered tag
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function displayExtraFields($fieldSection = '', $sectionId = 0, $fieldName = '', $templateContent = '', $categoryPage = false)
+	{
+		$db = \JFactory::getDbo();
+
+		if (!isset(self::$extraFieldDisplay[$fieldSection]) || !array_key_exists($fieldName, self::$extraFieldDisplay[$fieldSection]))
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where($db->qn('section') . ' = ' . $db->quote($fieldSection));
+
+			if ($fieldName != "")
+			{
+				$query->where($db->qn('name') . ' IN (' . $fieldName . ')');
+			}
+
+			$db->setQuery($query);
+
+			if (!isset(self::$extraFieldDisplay[$fieldSection]))
+			{
+				self::$extraFieldDisplay[$fieldSection] = array();
+			}
+
+			self::$extraFieldDisplay[$fieldSection][$fieldName] = $db->loadObjectList();
+		}
+
+		$rowsData = self::$extraFieldDisplay[$fieldSection][$fieldName];
+
+		foreach ($rowsData as $row)
+		{
+			$dataValue = \RedshopHelperExtrafields::getData($row->id, $fieldSection, $sectionId);
+
+			self::replaceFieldTag($templateContent, $row, $dataValue, $categoryPage);
+		}
+
+		return $templateContent;
+	}
+
+	/**
+	 * Method for replace extra field with {if custom_field}...{custom_field end if} support
+	 *
+	 * @param   string   $templateContent  Template content
+	 * @param   object   $field            Field data.
+	 * @param   mixed    $fieldValue       Field value.
+	 * @param   boolean  $isInCategory     Is template in category page?
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function replaceFieldTag(&$templateContent, $field, $fieldValue, $isInCategory = false)
+	{
+		if (empty($templateContent) || empty($field))
+		{
+			return;
+		}
+
+		$tagLabel = $field->name . "_lbl";
+		$tag      = $field->name;
+
+		if ($isInCategory)
+		{
+			$tagLabel = "producttag:" . $tagLabel;
+			$tag      = "producttag:" . $tag;
+		}
+
+		$ifTagStart = '{if ' . $tag . '}';
+		$ifTagEnd   = '{' . $tag . ' end if}';
+
+		$hasIfTag        = false;
+		$templateIfStart = '';
+		$templateIfEnd   = '';
+		$templateIfMain  = '';
+
+		// Has If tag
+		if (strpos($templateContent, $ifTagStart) !== false && strpos($templateContent, $ifTagEnd) !== false)
+		{
+			// Get template content.
+			$templateStartData = explode($ifTagStart, $templateContent);
+			$templateIfStart   = $templateStartData[0];
+			$templateEndData   = explode($ifTagEnd, $templateStartData[1]);
+			$templateIfEnd     = $templateEndData[1];
+			$templateIfMain    = $templateEndData[0];
+			$hasIfTag          = true;
+
+			unset($templateEndData);
+			unset($templateStartData);
+		}
+
+		if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication()->isSite()))
+		{
+			if ($hasIfTag)
+			{
+				$templateContent = $templateIfStart . $templateIfEnd;
+			}
+			else
+			{
+				$templateContent = str_replace('{' . $tagLabel . '}', '', $templateContent);
+				$templateContent = str_replace('{' . $tag . '}', '', $templateContent);
+			}
+
+			return;
+		}
+
+		if ($hasIfTag)
+		{
+			$templateContent = $templateIfStart . $templateIfMain . $templateIfEnd;
+		}
+
+		$displayValue = '';
+
+		switch ($field->type)
+		{
+			case \RedshopHelperExtrafields::TYPE_TEXT_AREA:
+				$displayValue = \RedshopLayoutHelper::render(
+					'extrafields.display.textarea',
+					array(
+						'data' => $fieldValue->data_txt
+					)
+				);
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
+			case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
+			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
+				$fieldValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
+				$checkData   = explode(",", $fieldValue->data_txt);
+				$htmlData    = array();
+
+				foreach ($fieldValues as $fieldValue)
+				{
+					if (!in_array(urlencode($fieldValue->field_value), $checkData))
+					{
+						continue;
+					}
+
+					$htmlData[] = urldecode($fieldValue->field_value);
+				}
+
+				$displayValue = \RedshopLayoutHelper::render(
+					'extrafields.display.select',
+					array(
+						'data' => $htmlData
+					)
+				);
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_SELECT_COUNTRY_BOX:
+				if ($fieldValue->data_txt != "")
+				{
+					$displayValue = \RedshopLayoutHelper::render(
+						'extrafields.display.country',
+						array(
+							'data' => (int) $fieldValue->data_txt
+						)
+					);
+				}
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_DOCUMENTS:
+				// Support Legacy string.
+				if (preg_match('/\n/', $fieldValue->data_txt))
+				{
+					$documentExplode = explode("\n", $fieldValue->data_txt);
+					$documentValue   = array($documentExplode[0] => $documentExplode[1]);
+				}
+				else
+				{
+					// Support for multiple file upload using JSON for better string handling
+					$documentValue = json_decode($fieldValue->data_txt);
+				}
+
+				if (count($documentValue) > 0)
+				{
+					foreach ($documentValue as $documentTitle => $fileName)
+					{
+						$documentLink    = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $fileName;
+						$absDocumentLink = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $fileName;
+
+						if (!\JFile::exists($absDocumentLink))
+						{
+							continue;
+						}
+
+						$displayValue .= \RedshopLayoutHelper::render(
+							'extrafields.display.document',
+							array(
+								'link'  => $documentLink,
+								'title' => $documentTitle
+							)
+						);
+					}
+				}
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
+			case \RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK:
+				$documentValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
+				$tmpImagesHover = !empty($fieldValue->alt_text) ? explode(',,,,,', $fieldValue->alt_text) : array();
+				$tmpImagesLink  = !empty($fieldValue->image_link) ? explode(',,,,,', $fieldValue->image_link) : array();
+
+				$dataList    = explode(",", $fieldValue->data_txt);
+				$imagesLink  = array();
+				$imagesHover = array();
+
+				foreach ($dataList as $index => $dataItem)
+				{
+					$imagesLink[$dataItem]  = isset($tmpImagesLink[$index]) ? $tmpImagesLink[$index] : '';
+					$imagesHover[$dataItem] = isset($tmpImagesHover[$index]) ? $tmpImagesHover[$index] : '';
+				}
+
+				foreach ($documentValues as $documentValue)
+				{
+					if (!in_array($documentValue->value_id, $dataList))
+					{
+						continue;
+					}
+
+					$fileName     = $documentValue->field_name;
+					$documentLink = REDSHOP_FRONT_IMAGES_ABSPATH . "extrafield/" . $fileName;
+
+					$displayValue .= \RedshopLayoutHelper::render(
+						'extrafields.display.image',
+						array(
+							'link'      => $imagesLink,
+							'hover'     => $imagesHover,
+							'value'     => $documentValue,
+							'imageLink' => $documentLink,
+							'data'      => $field
+						)
+					);
+				}
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_TEXT:
+			case \RedshopHelperExtrafields::TYPE_WYSIWYG:
+			case \RedshopHelperExtrafields::TYPE_DATE_PICKER:
+			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
+			default:
+				$displayValue = \RedshopLayoutHelper::render(
+					'extrafields.display.text',
+					array('data' => $fieldValue->data_txt)
+				);
+
+				break;
+		}
+
+		$displayTitle    = $fieldValue->data_txt != "" ? $fieldValue->title : '';
+		$displayValue    = \RedshopHelperTemplate::parseRedshopPlugin($displayValue);
+		$templateContent = str_replace('{' . $tagLabel . '}', \JText::_($displayTitle), $templateContent);
+		$templateContent = str_replace('{' . $tag . '}', $displayValue, $templateContent);
+	}
+}
