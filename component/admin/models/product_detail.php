@@ -573,12 +573,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 				return false;
 			}
 
-			//Delete redshop_product_payment_xref +
+			// Delete redshop_product_payment_xref
 			$db = $this->_db;
 			$query = $db->getQuery(true)
-					   ->delete($db->qn( '#__redshop_product_payment_xref'))
-					   ->where($db->qn('product_id') . ' = ' . $db->q($prodid));
-			
+				->delete($db->qn('#__redshop_product_payment_xref'))
+				->where($db->qn('product_id') . ' = ' . $db->q($prodid));
+
 			if (!$db->setQuery($query)->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -644,18 +644,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->updateproductdiscount($mass_discount, $row);
 		}
 
-		//insert product_payment
+		// Insert product_payment
 		$payments = array_unique($data['payment_method']);
-		$countPayment = count($payments);
 
 		// Building product payments relationship
-		for ($j = 0; $j < $countPayment; $j++)
+		foreach ($payments as $index => $paymentMethod)
 		{
-			$payment_method = $payments[$j];
-			
 			$query = $this->_db->getQuery(true);
 			$columns = array('payment_id', 'product_id');
-			$values = array($this->_db->q($payment_method), $this->_db->q($prodid));
+			$values = array($this->_db->q($paymentMethod), $this->_db->q($prodid));
 
 			// Prepare the insert query.
 			$query
@@ -1832,11 +1829,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$query = $db->getQuery(true);
 		$query
 			->select($db->qn('a.payment_id'))
-			->from($db->qn($this->table_prefix . 'product_payment_xref','a'))
-			->where($db->qn('a.product_id') . ' = '. $db->q($this->id));
-		$db->setQuery($query);
-		
-		return $db->loadColumn();
+			->from($db->qn($this->table_prefix . 'product_payment_xref', 'a'))
+			->where($db->qn('a.product_id') . ' = ' . $db->q($this->id));
+
+		return $db->setQuery($query)->loadColumn();
 	}
 
 	/**

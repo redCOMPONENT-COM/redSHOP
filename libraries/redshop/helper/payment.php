@@ -198,7 +198,7 @@ class RedshopHelperPayment
 	 *
 	 * @param   string   $name                Name of list
 	 * @param   integer  $productId           Only product to show
-	 * @param   array  	$selectedPayments    Only show selected payments
+	 * @param   array  	 $selectedPayments    Only show selected payments
 	 * @param   integer  $size                Size of dropdown
 	 * @param   boolean  $multiple            Dropdown is multiple or not
 	 * @param   array    $disabledFields      Fields need to be disabled
@@ -206,11 +206,9 @@ class RedshopHelperPayment
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since  2.0.0.3
+	 * @since  2.0.8 beta
 	 */
-	
-	public static function listAll($name, $productId, $selectedPayments = array(), $size = 1, 
-	                               $multiple = false, $disabledFields = array(), $width = 250)
+	public static function listAll($name, $productId, $selectedPayments = array(), $size = 1, $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db    = JFactory::getDbo();
 		$html  = '';
@@ -225,45 +223,41 @@ class RedshopHelperPayment
 
 		$db->setQuery($query);
 		$selectedPayments = $db->loadObjectList();
-		$selectedPayments = array_column($selectedPayments , 'payment_id');	
-		
+		$selectedPayments = array_column($selectedPayments, 'payment_id');
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
 		$html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
-
-
 		$html .= self::listTree($productId, '0', $selectedPayments, $disabledFields);
-
 		$html .= "</select>\n";
-		
 
 		return $html;
 	}
+
 	/**
 	 * List payment into dropdown,
 	 *
 	 *
 	 * @param   string  $productId           Product ID
-	 * @param   array  $selectedPayments    Only show selected payments          
+	 * @param   array   $cid   				 Id
+	 * @param   array   $selectedPayments    Only show selected payments
 	 * @param   array   $disabledFields      Disable fields
 	 * @param   string  $html                Before HTML
 	 *
 	 * @return String   HTML of <option></option>
 	 *
-	 * @since  
+	 * @since  2.0.8 beta
 	 */
-	public static function listTree($productId = "", $cid = '0', $selectedPayments = array(),
-	                                $disabledFields = array(), $html = '')
+	public static function listTree($productId = "", $cid = '0', $selectedPayments = array(), $disabledFields = array(), $html = '')
 	{
-		$paymentMethods = RedshopHelperPayment::info();
+		$paymentMethods = self::info();
+
 		$totalPaymentMethod = count($paymentMethods);
 
 		if ($totalPaymentMethod > 0)
 		{
 			foreach ($paymentMethods as $p => $oneMethod)
 			{
-				
 				$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
 
 				include_once $paymentpath;
@@ -276,62 +270,62 @@ class RedshopHelperPayment
 				if (in_array($oneMethod->name, $selectedPayments))
 				{
 					$selected = "selected=\"selected\"";
-				} 
+				}
 
 				$html .= "<option $selected $disabled value=\"$value\">" . JText::_('PLG_' . strtoupper($oneMethod->name)) . "</option>";
-
 			}
 		}
 
 		return $html;
 	}
 	/**
-	 * List payment into dropdown,
+	 * Get payment method in Checkout,
 	 *
 	 *
-	 * @param   string  $productId           Product ID
-	 * @param   array  $selectedPayments    Only show selected payments          
-	 * @param   array   $disabledFields      Disable fields
-	 * @param   string  $html                Before HTML
+	 * @param   array  $paymentMethods           Array PaymentMethods
 	 *
-	 * @return String   HTML of <option></option>
+	 * @return Array   Common PaymentMethods
 	 *
-	 * @since  
+	 * @since  2.0.8 beta
 	 */
 	public static function getPaymentMethodInCheckOut($paymentMethods=array())
 	{
-		$totalPaymentMethod = count($paymentMethods);
-
 		$currentPaymentMethods = array();
-		if ($totalPaymentMethod > 0)
+
+		if (count($paymentMethods) > 0)
+		{
 			foreach ($paymentMethods as $p => $oneMethod)
+			{
 				$currentPaymentMethods[] = $oneMethod->name;
-			
+			}
+		}
+
 		$cart = JFactory::getSession()->get('cart');
 
 		$idx = 0;
 
-		if (isset($cart['idx'])) $idx  = $cart['idx'];
-	
+		if (isset($cart['idx']))
+		{
+			$idx  = $cart['idx'];
+		}
+
 		$db = JFactory::getDbo();
 
-		$payment_methods = array();
+		$paymentMethods = array();
 		$flag = true;
-		$common_payment_method = $currentPaymentMethods;
-		
+		$commonPaymentMethod = $currentPaymentMethods;
+
 		for ($i = 0; $i < $idx; $i++)
-		{				
+		{
 			$productId = $cart[$i]['product_id'];
 
-			$query = $db->getQuery(true);
-			$query
-			    ->select($db->qn('a.payment_id'))
-			    ->from($db->qn('#__redshop_product_payment_xref','a'))
-			    ->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
-			    ->where($db->qn('b.use_individual_payment_method') . ' = 1');
-		
+			$query = $db->getQuery(true)
+				->select($db->qn('a.payment_id'))
+				->from($db->qn('#__redshop_product_payment_xref', 'a'))
+				->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
+				->where($db->qn('b.use_individual_payment_method') . ' = 1');
 
-			if ( $productId )
+			if ($productId)
 			{
 				$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
 			}
@@ -339,25 +333,37 @@ class RedshopHelperPayment
 			$db->setQuery($query);
 			$payments = $db->loadObjectList();
 
-			if ( $payments )
-				$payments = array_column($payments , 'payment_id');	
-			else
-				$payments = $currentPaymentMethods;
-			
-			if ( $idx == 1) return $payments;
-			
-			$payment_methods[] = array('product_id'=>$productId, 'payments'=> $payments);
-
-			if ( $i>0 && $flag )
+			if ($payments)
 			{
-				$common_payment_method = array_intersect($payment_methods[$i-1]['payments'], $payment_methods[$i]['payments']);
-				if ( !$common_payment_method ) $flag = false;
+				$payments = array_column($payments, 'payment_id');
+			}
+			else
+			{
+				$payments = $currentPaymentMethods;
+			}
+
+			if ($idx == 1)
+			{
+				return $payments;
+			}
+
+			$paymentMethods[] = array('product_id' => $productId, 'payments' => $payments);
+
+			if ($i > 0 && $flag)
+			{
+				$commonPaymentMethod = array_intersect($paymentMethods[$i - 1]['payments'], $paymentMethods[$i]['payments']);
+
+				if (!$commonPaymentMethod)
+				{
+					$flag = false;
+				}
 			}
 		}
-		
-		//product in cart use these payment method
-		if ( $common_payment_method ){
-			return $common_payment_method;
+
+		// Product in cart use these payment method
+		if ($commonPaymentMethod)
+		{
+			return $commonPaymentMethod;
 		}
 	}
 	/**
@@ -366,37 +372,43 @@ class RedshopHelperPayment
 	 *
 	 * @param   string  $paymentMethods     All active payment methods
 	 *
-	 * @return String   HTML of <div></div>
+	 * @return 	String   HTML of <div></div>
 	 *
-	 * @since  
+	 * @since 	2.0.8 beta
 	 */
 	public static function displayPaymentMethodInCheckOut($paymentMethods=array())
 	{
 		$currentPaymentMethods = array();
+
 		if (count($paymentMethods) > 0)
+		{
 			foreach ($paymentMethods as $p => $oneMethod)
+			{
 				$currentPaymentMethods[] = $oneMethod->name;
-			
+			}
+		}
+
 		$cart = JFactory::getSession()->get('cart');
 
 		$db = JFactory::getDbo();
 
 		$productHelper = productHelper::getInstance();
 		$html = '';
-		
-		foreach ( $cart as $index => $product)
-		{			
-			if ( is_array($product) ){
+
+		foreach ($cart as $index => $product)
+		{
+			if (is_array($product))
+			{
 				$productId = $product['product_id'];
 
 				$query = $db->getQuery(true);
 				$query
 					->select($db->qn('a.payment_id'))
-					->from($db->qn('#__redshop_product_payment_xref','a'))
+					->from($db->qn('#__redshop_product_payment_xref', 'a'))
 					->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
 					->where($db->qn('b.use_individual_payment_method') . ' = 1');
-			
-				if ( $productId )
+
+				if ($productId)
 				{
 					$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
 				}
@@ -404,20 +416,26 @@ class RedshopHelperPayment
 				$db->setQuery($query);
 				$payments = $db->loadObjectList();
 
-				if ( $payments )
-					$payments = array_column($payments , 'payment_id');	
+				if ($payments)
+				{
+					$payments = array_column($payments, 'payment_id');
+				}
 				else
+				{
 					$payments = $currentPaymentMethods;
+				}
 
 				$product = $productHelper->getProductById($productId);
-				$html .=  '<div class="row"><label class="col-xs-5">'.$product->product_name.'</label><div class="col-xs-7">';
+				$html .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
 				$tmp = '';
+
 				foreach ($payments as $p)
-				{				
-					$tmp .=  JText::_('PLG_' . strtoupper($p)).',';
+				{
+					$tmp .= JText::_('PLG_' . strtoupper($p)) . ',';
 				}
-				$tmp = rtrim($tmp,",");
-				$html .= $tmp.'</div></div>';
+
+				$tmp = rtrim($tmp, ",");
+				$html .= $tmp . '</div></div>';
 			}
 		}
 

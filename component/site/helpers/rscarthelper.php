@@ -3431,6 +3431,7 @@ class rsCarthelper
 				$template_desc = str_replace("{payment_loop_end}", "", $template_desc);
 				$template_desc = str_replace($template_middle, $payment_display, $template_desc);
 			}
+
 			if (count($paymentMethods) == 1 && $is_creditcard == "0")
 			{
 				$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
