@@ -861,11 +861,11 @@ class extraField
 	/**
 	 * Method for display extra field.
 	 *
-	 * @param   string  $field_section  Field section
-	 * @param   int     $section_id     Section ID
-	 * @param   string  $field_name     Field name
-	 * @param   string  $template_data  Template content
-	 * @param   int     $categoryPage   Category page
+	 * @param   integer  $fieldSection  Field section
+	 * @param   integer  $sectionId     Section ID
+	 * @param   string   $fieldName     Field name
+	 * @param   string   $templateData  Template content
+	 * @param   int      $categoryPage   Category page
 	 *
 	 * @return  mixed
 	 *
@@ -873,9 +873,9 @@ class extraField
 	 *
 	 * @deprecated  2.0.6
 	 */
-	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categoryPage = 0)
+	public function extra_field_display($fieldSection = 0, $sectionId = 0, $fieldName = "", $templateData = "", $categoryPage = 0)
 	{
-		return ExtraFields::displayExtraFields($field_section, $section_id, $field_name, $template_data, (boolean) $categoryPage);
+		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateData, (boolean) $categoryPage);
 	}
 
 	/**
