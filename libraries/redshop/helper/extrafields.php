@@ -1534,7 +1534,7 @@ class RedshopHelperExtrafields
 						$fieldChk = RedshopEntityField::getInstance($rowData[$i]->id)->getFieldValues();
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->name]);
 						$exField .= RedshopLayoutHelper::render(
-							'extrafields.userfield.checkbox',
+							'extrafields.userfield.radio',
 							array(
 									'rowData'    => $rowData[$i],
 									'required'   => $req,
@@ -1577,7 +1577,7 @@ class RedshopHelperExtrafields
 
 					case extraField::TYPE_DOCUMENTS:
 						$exField .= RedshopLayoutHelper::render(
-							'extrafields.userfield.date_picker',
+							'extrafields.userfield.document',
 							array(
 									'rowData'    => $rowData[$i],
 									'required'   => $req,
