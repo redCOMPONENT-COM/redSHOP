@@ -208,16 +208,6 @@ class RedshopModelCheckout extends RedshopModel
 			$shippingaddresses->country_2_code = $d ["shippingaddress"]->country_2_code;
 			$shippingaddresses->state_2_code   = $d ["shippingaddress"]->state_2_code;
 		}
-		else
-		{
-			$shippingaddresses = $billingaddresses;
-			$shippingaddresses->firstname = isset($post['firstname_ST']) ? $post['firstname_ST'] : $billingaddresses->firstname;
-			$shippingaddresses->lastname = isset($post['lastname_ST']) ? $post['lastname_ST'] : $billingaddresses->lastname;
-			$shippingaddresses->address = isset($post['address_ST']) ? $post['address_ST'] : $billingaddresses->address;
-			$shippingaddresses->zipcode = isset($post['zipcode_ST']) ? $post['zipcode_ST'] : $billingaddresses->zipcode;
-			$shippingaddresses->city = isset($post['city_ST']) ? $post['city_ST'] : $billingaddresses->city;
-			$shippingaddresses->country_code = isset($post['country_code_ST']) ? $post['country_code_ST'] : $billingaddresses->country_code;
-		}
 
 		if (isset($billingaddresses))
 		{
@@ -1103,8 +1093,6 @@ class RedshopModelCheckout extends RedshopModel
 		JPluginHelper::importPlugin('redshop_payment');
 		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
 
-		$GLOBALS['shippingaddresses'] = $shippingaddresses;
-
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
 		$userrow->load($billingaddresses->users_info_id);
@@ -1137,6 +1125,14 @@ class RedshopModelCheckout extends RedshopModel
 		if (isset($shippingaddresses->users_info_id))
 		{
 			$userrow->load($shippingaddresses->users_info_id);
+		}
+		elseif(!empty($GLOBALS['shippingaddresses']))
+		{
+			$userrow = $GLOBALS['shippingaddresses'];
+		}
+		else
+		{
+			$userrow->load($billingaddresses->users_info_id);
 		}
 
 		$orderuserrow = $this->getTable('order_user_detail');
