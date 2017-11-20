@@ -124,7 +124,7 @@ $pids = array_filter(array_unique($pids));
 
 if ($enablePrice)
 {
-	JHtml::stylesheet('mod_redshop_filter/jqui.css', false, true);
+	JHtml::stylesheet('mod_redshop_filter/jquery-ui.min.css', false, true);
 	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true);
 }
 
