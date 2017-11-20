@@ -960,8 +960,6 @@ class RedshopControllerProduct extends RedshopController
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
 
-			$downloadname = substr(basename($fpath), 11);
-
 			switch ($tmp_type)
 			{
 				case "pdf":
@@ -1005,7 +1003,7 @@ class RedshopControllerProduct extends RedshopController
 			header('Expires: 0');
 			header("Content-Type: $ctype", false);
 			header('Content-Length: ' . filesize($fpath));
-			header('Content-Disposition: attachment; filename=' . $downloadname);
+			header('Content-Disposition: attachment; filename=' . $fname);
 
 			// Red file using chunksize
 			$this->readfile_chunked($fpath);
