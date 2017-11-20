@@ -3269,7 +3269,7 @@ class rsCarthelper
 		// Get common payment methods of product in this cart
 		$commonPaymentMethods = RedshopHelperPayment::getPaymentMethodInCheckOut($paymentMethods);
 
-		if ($commonPaymentMethods)
+		if (!empty($commonPaymentMethods))
 		{
 			$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 

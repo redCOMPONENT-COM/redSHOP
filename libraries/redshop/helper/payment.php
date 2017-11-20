@@ -206,7 +206,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since  2.1.0 beta
+	 * @since  DEPLOY_VERSION
 	 */
 	public static function listAll($name, $productId, $selectedPayments = array(), $size = 1, $multiple = false, $disabledFields = array(), $width = 250)
 	{
@@ -243,7 +243,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  string   HTML of <option></option>
 	 *
-	 * @since  2.1.0 beta
+	 * @since  DEPLOY_VERSION
 	 */
 	public static function listTree($selectedPayments = array(), $disabledFields = array(), $html = '')
 	{
@@ -295,7 +295,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  array   Common PaymentMethods
 	 *
-	 * @since  2.1.0 beta
+	 * @since  DEPLOY_VERSION
 	 */
 	public static function getPaymentMethodInCheckOut($paymentMethods=array())
 	{
@@ -362,7 +362,7 @@ class RedshopHelperPayment
 			{
 				$commonPaymentMethod = array_intersect($paymentMethods[$i - 1]['payments'], $paymentMethods[$i]['payments']);
 
-				if (!$commonPaymentMethod)
+				if (!empty($commonPaymentMethod))
 				{
 					$flag = false;
 				}
@@ -379,7 +379,7 @@ class RedshopHelperPayment
 	 *
 	 * @return 	string  HTML of <div></div>
 	 *
-	 * @since 	2.1.0 beta
+	 * @since 	DEPLOY_VERSION
 	 */
 	public static function displayPaymentMethodInCheckOut($paymentMethods=array())
 	{
