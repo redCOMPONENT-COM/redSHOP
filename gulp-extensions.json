@@ -8,7 +8,8 @@
   ],
   "modules": {
     "frontend": [
-      "redshop_cart"
+      "redshop_cart",
+      "redshop_filter"
     ]
   },
   "plugins": {
