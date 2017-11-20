@@ -74,26 +74,10 @@ defined('_JEXEC') or die;
         </div>
         <div class="box box-primary">
             <div class="box-body">
-                <div class="form-group">
-	                <?php echo $this->form->getLabel('created_by'); ?>
-					<?php echo $this->form->getInput('created_by'); ?>
-                </div>
-                <div class="form-group">
-	                <?php echo $this->form->getLabel('created_date'); ?>
-					<?php echo $this->form->getInput('created_date'); ?>
-                </div>
-                <div class="form-group">
-                    <label>
-						<?php echo $this->form->getLabel('modified_by'); ?>
-                    </label>
-					<?php echo $this->form->getInput('modified_by'); ?>
-                </div>
-                <div class="form-group">
-                    <label>
-						<?php echo $this->form->getLabel('modified_date'); ?>
-                    </label>
-					<?php echo $this->form->getInput('modified_date'); ?>
-                </div>
+	            <?php echo $this->form->renderField('created_by') ?>
+	            <?php echo $this->form->renderField('created_date') ?>
+	            <?php echo $this->form->renderField('modified_by') ?>
+	            <?php echo $this->form->renderField('modified_date') ?>
             </div>
         </div>
     </div>

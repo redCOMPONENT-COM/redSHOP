@@ -11,17 +11,20 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * ---------------------
- *    $msgList      : (array)    The Multi-Dimentional array having system messages
- *    $showHeading  : (boolean)  An optional variable to show/hide heading text in system message
- *    $allowClose   : (boolean)  An optional variable to allow close system message
+ * @var   array    $displayData  Layout data
+ * @var   array    $msgList      The Multi-Dimentional array having system messages
+ * @var   boolean  $showHeading  An optional variable to show/hide heading text in system message
+ * @var   boolean  $allowClose   An optional variable to allow close system message
+ * @var   boolean  $notSystem    An optional variable to allow close system message
  */
+extract($displayData);
 
-$msgList     = $displayData['msgList'];
-$showHeading = (isset($displayData['showHeading'])) ? $displayData['showHeading'] : true;
-$allowClose  = (isset($displayData['allowClose'])) ? $displayData['allowClose'] : true;
-
+$msgList     = (isset($msgList)) ? $msgList : array();
+$showHeading = (isset($showHeading)) ? (boolean) $showHeading : true;
+$allowClose  = (isset($allowClose)) ? (boolean) $allowClose : true;
+$notSystem   = (isset($notSystem)) ? (boolean) $notSystem : false;
 ?>
-<div id="system-message-container">
+<div id="system-message-container" class="<?php echo ($notSystem === true) ? 'not-system' : '' ?>">
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
             <div id="system-message">

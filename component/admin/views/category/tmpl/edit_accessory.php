@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$productHelper = producthelper::getInstance();
+
+$productHelper = productHelper::getInstance();
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -16,8 +17,22 @@ $productHelper = producthelper::getInstance();
                 <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'); ?></h3>
             </div>
             <div class="box-body">
-				<div class="alert alert-info"><?php echo JText::_('COM_REDSHOP_CATEGORY_ACCESSORY_PRODUCT_INFO') ?></div>
-                <table class="table table-striped">
+				<?php
+				echo RedshopLayoutHelper::render(
+					'system.message',
+					array(
+						'msgList'     => array(
+							'info' => array(
+								JText::_('COM_REDSHOP_CATEGORY_ACCESSORY_PRODUCT_INFO')
+							)
+						),
+						'showHeading' => false,
+						'allowClose'  => false,
+                        'notSystem'   => true
+					)
+				);
+				?>
+                <table class="admintable table table-hover">
                     <tr>
                         <td VALIGN="TOP" class="key" align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/>
                             <br/>

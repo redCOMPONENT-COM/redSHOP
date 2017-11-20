@@ -1,7 +1,7 @@
 (function($) {
     $(document).ready(function() {
         if ($('.message-sys').length) {
-            var messageContainer = $('#system-message-container');
+            var messageContainer = $('#system-message-container:not(.not-system)');
 
             // No messages found. Create an empty div
             if (!messageContainer.length) {
@@ -9,6 +9,7 @@
                     id: "system-message-container"
                 });
             }
+
             $('.message-sys').append(messageContainer);
         }
 

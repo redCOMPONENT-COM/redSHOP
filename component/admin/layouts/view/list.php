@@ -86,7 +86,7 @@ if ($data->hasOrdering)
 		<?php $columns = $data->getColumns(); ?>
         <div class="box">
             <div class="box-body no-padding">
-                <table class="adminlist table table-striped" id="table-<?php echo $viewName ?>">
+                <table class="adminlist table table-hover" id="table-<?php echo $viewName ?>">
                     <thead>
                     <tr>
                         <th width="1">#</th>
@@ -169,12 +169,12 @@ if ($data->hasOrdering)
 							<?php if (!empty($row->checked_out)): ?>
 								<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
 							<?php elseif ($data->canEdit == false): ?>
-                                <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary disabled">
+                                <a href="javascript:void(0)" class="btn btn-sm btn-primary disabled">
                                     <i class="fa fa-edit"></i>
                                 </a>
 							<?php else: ?>
                                 <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&<?php echo $data->getPrimaryKey() ?>=<?php echo $rowId ?>"
-                                        class="btn btn-small btn-sm btn-primary">
+                                        class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit"></i>
                                 </a>
 							<?php endif; ?>
