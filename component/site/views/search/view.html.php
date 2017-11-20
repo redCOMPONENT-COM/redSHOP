@@ -299,7 +299,7 @@ class RedshopViewSearch extends RedshopView
 				$order_by = $orderby_form;
 			}
 
-			$extraFieldName     = $extraField->getFieldNamesFromSection(1, 1, 1);
+			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 

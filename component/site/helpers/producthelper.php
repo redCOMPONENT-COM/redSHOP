@@ -7047,7 +7047,7 @@ class productHelper
 				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
 
 				// Extra field display
-				$extraFieldName = $extra_field->getFieldNamesFromSection(1, 1, 1);
+				$extraFieldName = $extra_field->getSectionFieldNameArray(1, 1, 1);
 
 				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 				{

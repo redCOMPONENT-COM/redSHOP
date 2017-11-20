@@ -921,7 +921,7 @@ class extraField
 	 *
 	 * @return  array            List of field
 	 */
-	public function getFieldNamesFromSection($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldNameArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
 		$fields = RedshopHelperExtrafields::getSectionFieldList($section, $front, $published, $required);
 

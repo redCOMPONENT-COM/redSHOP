@@ -55,7 +55,7 @@ class RedshopLayoutHelper
 	 * @param   string  $tagName      Name tag
 	 * @param   string  $template     Template with current tag
 	 * @param   string  $tagSection   Section tag
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
 	 * @param   string  $basePath     Base path to use when loading layout files
 	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
 	 *

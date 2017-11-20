@@ -1831,4 +1831,24 @@ class RedshopHelperExtrafields
 		$db->setQuery($query);
 		$db->execute();
 	}
+
+	/**
+	 * Method for render HTML of extra fields
+	 *
+	 * @param   string  $fieldSection    Field section
+	 * @param   integer $sectionId       ID of section
+	 * @param   string  $fieldName       Field name
+	 * @param   string  $templateContent HTML template content
+	 * @param   integer $categoryPage    Category page
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.6
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
+	public static function extraFieldDisplay($fieldSection = "", $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
+	{
+		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateContent, (boolean) $categoryPage);
+	}
 }

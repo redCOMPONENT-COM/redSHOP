@@ -116,7 +116,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$extraFieldName = $extraField->getFieldNamesFromSection(2, 1, 1);
+	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$cat_detail     = "";
 	$countCategories = count($this->detail);
 
