@@ -3640,17 +3640,20 @@ class rsCarthelper
 
 		if (isset($cart['idx']))
 		{
-			$idx  = $cart['idx'];
+			$idx = $cart['idx'];
 		}
+
+		$percent = ($value * 100) / $cart['product_subtotal'];
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$product = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
+			$productPriceArray = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
 
 			// If the product is already discount
-			if ($product['product_price_saving'] > 0)
+			if ($productPriceArray['product_price_saving_percentage'] > 0)
 			{
-				$value = $value - ($product['product_price_saving'] * $cart[$i]['quantity']);
+				$amount = $percent * $productPriceArray['product_price'] / 100;
+				$value -= $amount * $cart[$i]['quantity'];
 			}
 		}
 
