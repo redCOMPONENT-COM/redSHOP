@@ -29,7 +29,6 @@ class InstallRedShopCest
 		$I->wantTo('Execute Joomla Installation');
 		$I->installJoomlaRemovingInstallationFolder();
 		$I->doAdministratorLogin();
-		$I->setErrorReportingtoDevelopment();
 	}
 
 	public function disableTemplateFloatingToolbars(AcceptanceTester $I)
