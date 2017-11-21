@@ -2513,6 +2513,17 @@ class productHelper
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
 				}
 
+				$subproperty_scrollerdiv = "<table cellpadding='0' cellspacing='0' border='0'><tr>";
+				$subproperty_scrollerdiv .= "<td><a class='leftButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
+					. ".scrollReverse();\" ></a></td>";
+				$subproperty_scrollerdiv .= "<td><div id=\"isFlowersFrame" . $commonid . "\" name=\"isFlowersFrame"
+					. $commonid
+					. "\" style=\"margin: 0px; padding: 0px;position: relative; overflow: hidden;\"><div id=\"isFlowersImageRow"
+					. $commonid . "\" name=\"isFlowersImageRow" . $commonid
+					. "\" style=\"position: absolute; top: 0px;left: 0px;\">";
+				$subproperty_scrollerdiv .= "<script type=\"text/javascript\">var isFlowers" . $commonid
+					. " = new ImageScroller(\"isFlowersFrame" . $commonid . "\", \"isFlowersImageRow" . $commonid . "\");";
+
 				$subprop_Arry = array();
 
 				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
@@ -2555,6 +2566,15 @@ class productHelper
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
 								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
 								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='". $subproperty[$i]->text . "'></a></div>";
+
+							$subproperty_scrollerdiv .= "isFlowers" . $commonid . ".addThumbnail(\""
+								. $thumbUrl . "\",\"javascript:isFlowers"
+								. $commonid . ".scrollImageCenter('" . $i . "');setSubpropImage('" . $product_id . "','"
+								. $subpropertyid . "','" . $subproperty[$i]->value . "');calculateTotalPrice('"
+								. $product_id . "','" . $relatedprd_id . "');displayAdditionalImage('" . $product_id
+								. "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "','"
+								. $subproperty[$i]->value . "');\",\"\",\"\",\"" . $subpropertyid . "_subpropimg_"
+								. $subproperty[$i]->value . "\",\"" . $borderstyle . "\");";
 
 							$imgAdded++;
 						}
@@ -2609,6 +2629,47 @@ class productHelper
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->stock . '" />';
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
 				}
+
+				if (!$mph_thumb)
+				{
+					$mph_thumb = 50;
+				}
+
+				if (!$mpw_thumb)
+				{
+					$mpw_thumb = 50;
+				}
+
+				$atth = 50;
+				$attw = 50;
+
+				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
+				{
+					$atth = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT');
+				}
+
+				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
+				{
+					$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
+				}
+
+				$subproperty_scrollerdiv .= "
+				isFlowers" . $commonid . ".setThumbnailHeight(" . $atth . ");
+				isFlowers" . $commonid . ".setThumbnailWidth(" . $attw . ");
+				isFlowers" . $commonid . ".setThumbnailPadding(5);
+				isFlowers" . $commonid . ".setScrollType(0);
+				isFlowers" . $commonid . ".enableThumbBorder(false);
+				isFlowers" . $commonid . ".setClickOpenType(1);
+				isFlowers" . $commonid . ".setThumbsShown(" . Redshop::getConfig()->get('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER') . ");
+				isFlowers" . $commonid . ".setNumOfImageToScroll(1);
+				isFlowers" . $commonid . ".renderScroller();
+	      		    </script>";
+				$subproperty_scrollerdiv .= "<div id=\"divsubimgscroll" . $commonid . "\" style=\"display:none\">"
+					. implode("#_#", $subprop_Arry) . "</div>";
+				$subproperty_scrollerdiv .= "</div></div></td>";
+				$subproperty_scrollerdiv .= "<td><a class='rightButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
+					. ".scrollForward();\" ></a></td>";
+				$subproperty_scrollerdiv .= "</tr></table>";
 
 				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
 				{
@@ -2999,15 +3060,15 @@ class productHelper
 			$displayaccessory .= RedshopLayoutHelper::render(
 				'product.product_accessory',
 				array(
-						'accessories' => $attArr,
-						'productId'   => $product_id,
-						'userId'      => $user_id,
-						'checkTag'    => $chktag
-					),
+					'accessories' => $attArr,
+					'productId'   => $product_id,
+					'userId'      => $user_id,
+					'checkTag'    => $chktag
+				),
 				'',
 				array(
-						'component' => 'com_redshop'
-					)
+					'component' => 'com_redshop'
+				)
 			);
 		}
 
@@ -3197,15 +3258,15 @@ class productHelper
 		$displayattribute = RedshopLayoutHelper::render(
 			'product.product_attribute',
 			array(
-					'attributes'       => $attributes,
-					'data'             => $data,
-					'displayAttribute' => $displayAttribute
-				),
+				'attributes'       => $attributes,
+				'data'             => $data,
+				'displayAttribute' => $displayAttribute
+			),
 			'',
 			array(
-					'component' => 'com_redshop',
-					'client'    => 0
-				)
+				'component' => 'com_redshop',
+				'client'    => 0
+			)
 		);
 
 		$productVatOldPrice = 0;
@@ -3384,7 +3445,7 @@ class productHelper
 						{
 							$subPropertyOperand                  = $orderSubpropdata[$sp]->section_oprand;
 							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
-							$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
+								$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
 							);
 							$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
@@ -3422,18 +3483,18 @@ class productHelper
 			$displayattribute = RedshopLayoutHelper::render(
 				'product.order_attribute',
 				array(
-						'orderItemAttdata' => $orderItemAttdata,
-						'data'             => $data,
-						'orderItemId'      => $order_item_id,
-						'isAccessory'      => $is_accessory,
-						'chktag'           => $chktag,
-						'export'           => $export
-					),
+					'orderItemAttdata' => $orderItemAttdata,
+					'data'             => $data,
+					'orderItemId'      => $order_item_id,
+					'isAccessory'      => $is_accessory,
+					'chktag'           => $chktag,
+					'export'           => $export
+				),
 				'',
 				array(
-						'component' => 'com_redshop',
-						'client'    => 0
-					)
+					'component' => 'com_redshop',
+					'client'    => 0
+				)
 			);
 		}
 		else
@@ -3547,18 +3608,18 @@ class productHelper
 		$displayattribute = RedshopLayoutHelper::render(
 			'product.quotation_attribute',
 			array(
-					'itemAttdata'     => $ItemAttdata,
-					'quotationItemId' => $quotation_item_id,
-					'isAccessory'     => $is_accessory,
-					'quotationStatus' => $quotation_status,
-					'parentSectionId' => $parent_section_id,
-					'stock'           => $stock
-				),
+				'itemAttdata'     => $ItemAttdata,
+				'quotationItemId' => $quotation_item_id,
+				'isAccessory'     => $is_accessory,
+				'quotationStatus' => $quotation_status,
+				'parentSectionId' => $parent_section_id,
+				'stock'           => $stock
+			),
 			'',
 			array(
-					'client'    => 0,
-					'component' => 'com_redshop'
-				)
+				'client'    => 0,
+				'component' => 'com_redshop'
+			)
 		);
 
 		return $displayattribute;

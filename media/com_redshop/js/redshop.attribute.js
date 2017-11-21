@@ -50,7 +50,7 @@ redSHOP.collectExtraFields = function(extraField, productId){
             field.name = redSHOP.filterExtraFieldName(extraField.id);
             field.value = jQuery('[id^='+field.name+']:checked').val();
 
-        break;
+            break;
     }
 
     return field;
@@ -87,29 +87,8 @@ window.addEvent('domready', function () {
     var imagehandle = {isenable: true, mainImage: true};
     preloadSlimbox(imagehandle);
     // end
-    jQuery('.redcolorproductimg').click(function (event) {
-        event.preventDefault();
-
-        var productId = jQuery(this).attr('data-productid');
-        var link = jQuery(this).attr('data-href');
-
-        if (link == '' || typeof link == 'undefined') {
-            link = jQuery(this).attr('href');
-        }
-
-        if (productId == '') {
-            return false;
-        }
-
-        link += '&product_id=' + productId;
-
-        redBOX.open(link, {
-            handler: 'iframe',
-            name: 'wishlist-iframe'
-        });
-
-        return true;
-    });
+    var otheroptions = {handler: 'iframe'};
+    redBOX.assign($$(".redcolorproductimg"), otheroptions);
 
     redBOX.assign($$('a.redbox'), {
         parse: 'rel'
@@ -426,7 +405,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
         if(request.readyState != 4 )
         {
             if(document.getElementById('rs_image_loader'))
-            document.getElementById('rs_image_loader').style.display = 'block';
+                document.getElementById('rs_image_loader').style.display = 'block';
         }
 
         if (request.readyState == 4)
@@ -620,7 +599,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
     attributeDoms.each(function(index, attribute) {
 
         var attributeId = attribute.value;
-            commonid    = prefix + productId + '_' + accessoryId + '_' + attributeId;
+        commonid    = prefix + productId + '_' + accessoryId + '_' + attributeId;
 
         attributeIds.push(attributeId);
 
@@ -674,7 +653,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
                 var oprandElementId          = 'property_id_' + commonid + '_oprand',
                     priceElementId           = 'property_id_' + commonid + '_proprice',
                     priceWithoutVatElementId = 'property_id_' + commonid + '_proprice_withoutvat'
-                    priceOldElementId        = 'property_id_' + commonid + '_prooldprice';
+                priceOldElementId        = 'property_id_' + commonid + '_prooldprice';
 
                 old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceOldElementId, properties);
                 price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, properties);
@@ -694,11 +673,11 @@ function collectAttributes(productId, accessoryId, relatedProductId)
                     && isStock && accessoryId == 0)
                 {
                     isStock = checkProductStockRoom(
-                                jQuery('#' + stockElementId).val(),
-                                commonstockid,
-                                preorder,
-                                jQuery('#' + preOrderstockElementId).val()
-                            );
+                        jQuery('#' + stockElementId).val(),
+                        commonstockid,
+                        preorder,
+                        jQuery('#' + preOrderstockElementId).val()
+                    );
                 }
 
                 var subCommonId   = prefix + productId + '_' + accessoryId + '_' + attributeId + '_' + propertyId;
@@ -729,11 +708,11 @@ function collectAttributes(productId, accessoryId, relatedProductId)
                         if (redSHOP.RSConfig._('USE_STOCKROOM') == 1 && jQuery(stockElementId).length && accessoryId == 0)
                         {
                             isStock = checkProductStockRoom(
-                                        jQuery(stockElementId).val(),
-                                        commonstockid,
-                                        preorder,
-                                        jQuery(preorderStockElementId).val()
-                                    );
+                                jQuery(stockElementId).val(),
+                                commonstockid,
+                                preorder,
+                                jQuery(preorderStockElementId).val()
+                            );
                         }
                     });
 
@@ -747,7 +726,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
                         var oprandElementId          = 'subproperty_id_' + subCommonId + '_oprand',
                             priceElementId           = 'subproperty_id_' + subCommonId + '_proprice',
                             priceWithoutVatElementId = 'subproperty_id_' + subCommonId + '_proprice_withoutvat';
-                            priceOldElementId        = 'subproperty_id_' + subCommonId + '_prooldprice';
+                        priceOldElementId        = 'subproperty_id_' + subCommonId + '_prooldprice';
 
                         old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceOldElementId, subProperties);
                         price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, subProperties);
@@ -929,7 +908,7 @@ function checkProductStockRoom(stockAmount, commonstockid, preorder, preorder_st
 function calculateSingleProductPrice(price, oprandElementId, priceElementId, elementArr)
 {
     var setEqual = true;
-        price = parseFloat(price);
+    price = parseFloat(price);
 
     for (var i = 0; i < elementArr.length && elementArr[i] != 0; i++)
     {
@@ -1062,8 +1041,8 @@ function calculateTotalPrice(productId, relatedProductId) {
     if (redSHOP.RSConfig._('SHOW_PRICE') == '1'
         && (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') != '1'
             || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE'))
-            )
         )
+    )
     {
         if (redSHOP.RSConfig._('SHOW_PRICE_WITHOUT_VAT') == '1') {
             jQuery('#produkt_kasse_hoejre_pris_indre' + productId).html(final_price_novat);
@@ -1935,7 +1914,11 @@ function setAddtocartForm(frmCartName, product_id) {
         frm.property_data.value = document.getElementById('property_data').value;
     }
     if (document.getElementById('subproperty_data')) {
-        frm.subproperty_data.value = document.getElementById('subproperty_data').value;
+        subPropertyId = frm.subproperty_data.value;
+
+        if (jQuery('#subproperty_price_table_' + subPropertyId).val() != 1){
+            frm.subproperty_data.value = document.getElementById('subproperty_data').value;
+        }
     }
     if (document.getElementById('accessory_data')) {
         frm.accessory_data.value = document.getElementById('accessory_data').value;
@@ -1962,10 +1945,19 @@ function setAddtocartForm(frmCartName, product_id) {
         frm.requiedProperty.value = document.getElementById('requiedProperty').value;
     }
 
+    subPropertyId = frm.subproperty_data.value;
     var product_quantity = 1;
 
-    if (frm.quantity.value) {
-        product_quantity = frm.quantity.value;
+    if (jQuery('#subproperty_price_table_' + subPropertyId).val() == 1){
+        var quantityEl = 'quantity' + product_id + subPropertyId;
+        if (document.getElementById(quantityEl).value) {
+            product_quantity = document.getElementById(quantityEl).value;
+        }
+    }
+    else{
+        if (document.getElementById('quantity' + product_id).value) {
+            product_quantity = document.getElementById('quantity' + product_id).value;
+        }
     }
 
     if (document.getElementById('hidden_attribute_cartimage' + product_id)) {
@@ -2446,9 +2438,9 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
     }
 
     extraFieldPost = redSHOP.updateAjaxCartExtraFields(
-                        jQuery('[name^="extrafields' + product_id + '"]'),
-                        product_id
-                    ).join('&');
+        jQuery('[name^="extrafields' + product_id + '"]'),
+        product_id
+    ).join('&');
 
     var subscription_data = "";
 
@@ -2605,15 +2597,21 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 }
 
 function displayAddtocartProperty(frmCartName, product_id, attribute_id, property_id) {
-    if (document.getElementById('attribute_data')) {
-        document.getElementById('attribute_data').value = attribute_id;
+    var frm = document.getElementById(frmCartName);
+    subPropertyId = frm.subproperty_data.value;
+
+    if (jQuery('#subproperty_price_table_'+subPropertyId).val() != 1){
+        if (document.getElementById('attribute_data')) {
+            document.getElementById('attribute_data').value = attribute_id;
+        }
+        if (document.getElementById('property_data')) {
+            document.getElementById('property_data').value = property_id;
+        }
+        if (document.getElementById('subproperty_data')) {
+            document.getElementById('subproperty_data').value = "";
+        }
     }
-    if (document.getElementById('property_data')) {
-        document.getElementById('property_data').value = property_id;
-    }
-    if (document.getElementById('subproperty_data')) {
-        document.getElementById('subproperty_data').value = "";
-    }
+
     //set selected attribute,property,subproperty data and total price to Add to cart form
     if (!setAddtocartForm(frmCartName, product_id)) {
         return false;
@@ -2752,9 +2750,9 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
     }
 
     var extraFieldPost = redSHOP.updateAjaxCartExtraFields(
-                        jQuery('[name^="extrafields' + product_id + '"]'),
-                        product_id
-                    ).join('&');
+        jQuery('[name^="extrafields' + product_id + '"]'),
+        product_id
+    ).join('&');
 
     if (jQuery('#hidden_subscription_id').length > 0)
     {
