@@ -48,6 +48,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\OrderManagerPage::$productId);
         $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
         $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
+        $I->waitForText($nameProduct, 30, $userOrderPage->returnSearch($nameProduct));
         $I->click($userOrderPage->returnSearch($nameProduct));
 
         $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
