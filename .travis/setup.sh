@@ -2,7 +2,7 @@
 set -ev
 
 if [ "${ACCEPTANCE}" = "false" ]; then
-	mv .travis.gitmodules .gitmodules
+	git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
 
 	git submodule update --init --recursive
 

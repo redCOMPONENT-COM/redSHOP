@@ -1,3 +1,0 @@
-[submodule ".travis/phpcs"]
-	path = .travis/phpcs
-	url = https://github.com/redCOMPONENT-COM/coding-standards
