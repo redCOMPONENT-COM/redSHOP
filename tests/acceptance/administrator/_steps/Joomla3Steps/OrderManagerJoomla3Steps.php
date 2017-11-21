@@ -65,11 +65,12 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\OrderManagerPage::$URL);
 
         $this->searchOrder($nameUser);
-        $I->click(\OrderManagerPage::$nameUser);
+        $I->waitForElement(['link'=>$nameUser], 30);
+        $I->click(['link' => $nameUser]);
         $userOrderPage = new \OrderManagerPage();
         $I->click(\OrderManagerPage::$statusOrder);
         $I->fillField(\OrderManagerPage::$statusSearch, $status);
-        $I->waitForElement($userOrderPage->returnSearch($status));
+        $I->waitForElement($userOrderPage->returnSearch($status), 30);
         $I->click($userOrderPage->returnSearch($status));
 
         $I->click(\OrderManagerPage::$statusPaymentStatus);
@@ -77,8 +78,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement($userOrderPage->returnSearch($paymentStatus));
         $I->click($userOrderPage->returnSearch($paymentStatus));
         $I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
-
-
         $I->click(\OrderManagerPage::$nameButtonStatus);
     }
 

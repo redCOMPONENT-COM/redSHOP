@@ -48,9 +48,10 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage,['id' => 'system-message-container']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
+		$I->waitForElement(['id'=>'filter'], 30);
 		$I->fillField(['id' => 'filter'], $question);
 		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $productName]);
+		$I->waitForElement(['link' => $productName], 30);
 		$I->seeElement(['link' => $productName]);
 	}
 
@@ -97,8 +98,10 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
+		$I->waitForElement(['id' => 'filter'], 30);
 		$I->fillField(['id' => 'filter'], $question);
 		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(\QuestionManagerJoomla3Page::$selectFirst, 30);
 		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
 
 		if ($state == 'unpublish')
