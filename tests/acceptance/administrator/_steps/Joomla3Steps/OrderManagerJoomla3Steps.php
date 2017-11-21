@@ -28,18 +28,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\OrderManagerPage::$URL);
         $I->click(\OrderManagerPage::$newButton);
-
-        $I->wait(3);
-
+        
         $I->click(\OrderManagerPage::$userId);
         $I->waitForElement(\OrderManagerPage::$userSearch, 30);
         $userOrderPage = new \OrderManagerPage();
         $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
         $I->waitForElement($userOrderPage->returnSearch($nameUser));
-        $I->wait(3);
 
         $I->click($userOrderPage->returnSearch($nameUser));
-        $I->wait(3);
 
         $I->fillField(\OrderManagerPage::$address, $address);
         $I->fillField(\OrderManagerPage::$zipcode, $zipcode);
@@ -47,19 +43,16 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\OrderManagerPage::$phone, $phone);
 
         $I->click(\OrderManagerPage::$applyUser);
-        $I->wait(3);
 
         $I->click(\OrderManagerPage::$productId);
         $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
         $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
-        $I->wait(3);
         $I->click($userOrderPage->returnSearch($nameProduct));
 
         $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
 
 
         $I->click(\OrderManagerPage::$saveButton);
-        $I->wait(3);
 
         $I->see(\OrderManagerPage::$closeButton, \OrderManagerPage::$close);
     }
@@ -71,17 +64,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $this->searchOrder($nameUser);
         $I->click(\OrderManagerPage::$nameUser);
-        $I->wait(3);
         $userOrderPage = new \OrderManagerPage();
         $I->click(\OrderManagerPage::$statusOrder);
         $I->fillField(\OrderManagerPage::$statusSearch, $status);
-        $I->wait(5);
         $I->waitForElement($userOrderPage->returnSearch($status));
         $I->click($userOrderPage->returnSearch($status));
 
         $I->click(\OrderManagerPage::$statusPaymentStatus);
         $I->fillField(\OrderManagerPage::$statusPaymentSearch, $paymentStatus);
-        $I->wait(5);
         $I->waitForElement($userOrderPage->returnSearch($paymentStatus));
         $I->click($userOrderPage->returnSearch($paymentStatus));
         $I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
@@ -108,6 +98,5 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wantTo('Search the User ');
         $I->amOnPage(\OrderManagerPage::$URL);
         $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
-        $I->wait(5);
     }
 }
