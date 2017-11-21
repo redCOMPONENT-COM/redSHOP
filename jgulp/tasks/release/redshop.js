@@ -43,7 +43,6 @@ function getIncludedExtensions() {
         "./plugins/redshop_import/shopper_group_attribute_price/**",
         "./plugins/redshop_import/user/**",
         "./plugins/redshop_import/related_product/**",
-        "./plugins/economic/economic/**",
         "./plugins/quickicon/redshop/**",
         "./plugins/search/redshop_categories/**",
         "./plugins/search/redshop_products/**"

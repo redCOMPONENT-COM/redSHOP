@@ -13,9 +13,6 @@
     ]
   },
   "plugins": {
-    "economic": [
-      "economic",
-    ],
     "finder": [
       "redshop"
     ],

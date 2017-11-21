@@ -94,9 +94,6 @@
 
     <!-- Plugins to install with the component -->
     <plugins>
-        <!-- Economic plugin -->
-        <plugin group="economic" name="economic"/>
-
         <!-- Finder plugin -->
         <plugin group="finder" name="redshop"/>
 
