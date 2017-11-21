@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\ExtraFields;
+
 defined('_JEXEC') or die;
 
 /**
@@ -266,6 +268,9 @@ class extraField
 	 */
 	protected static $userFields = array();
 
+	/**
+	 * @var  static
+	 */
 	protected static $instance = null;
 
 	/**
@@ -856,21 +861,21 @@ class extraField
 	/**
 	 * Method for display extra field.
 	 *
-	 * @param   string  $field_section  Field section
-	 * @param   int     $section_id     Section ID
-	 * @param   string  $field_name     Field name
-	 * @param   string  $template_data  Template content
-	 * @param   int     $categorypage   Category page
+	 * @param   integer  $fieldSection  Field section
+	 * @param   integer  $sectionId     Section ID
+	 * @param   string   $fieldName     Field name
+	 * @param   string   $templateData  Template content
+	 * @param   int      $categoryPage   Category page
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.6.0
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperExtrafields::extraFieldDisplay instead
+	 * @deprecated  2.0.6
 	 */
-	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
+	public function extra_field_display($fieldSection = 0, $sectionId = 0, $fieldName = "", $templateData = "", $categoryPage = 0)
 	{
-		return RedshopHelperExtrafields::extraFieldDisplay($field_section, $section_id, $field_name, $template_data, $categorypage);
+		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateData, (boolean) $categoryPage);
 	}
 
 	/**
