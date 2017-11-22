@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller.Addorder_detail
  * @since       2.0.6
  */
-class RedshopControllerAddorder_detail extends RedshopController
+class RedshopControllerAddorder_Detail extends RedshopController
 {
 	/**
 	 * RedshopControllerAddorder_detail constructor.
@@ -30,43 +30,17 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$this->input->set('hidemainmenu', 1);
 	}
 
-	/**
-	 * Save and pay
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public function savepay()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	/**
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public function save_without_sendmail()
-	{
-		$this->save();
-	}
-
-	/**
-	 * @param   int $apply Apply
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
-
-		$cid                  = $this->input->post->get('cid', array(0), 'array');
-		$post ['order_id']    = $cid [0];
-		$model                = $this->getModel('addorder_detail');
+		$cid  = $this->input->post->get('cid', array(0), 'array');
+		$post['order_id'] = $cid[0];
+		$model = $this->getModel('addorder_detail');
 		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
 		$orderItem          = RedshopHelperProduct::redesignProductItem($post);
@@ -88,10 +62,12 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 
 		// Check product Quantity
-		$stockNote                = '';
+		$stockNote = '';
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
+			$stockroomhelper = rsstockroomhelper::getInstance();
+
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
 				$quantity    = $orderItem[$i]->quantity;
@@ -172,7 +148,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$cartHelper = rsCarthelper::getInstance();
 
-		$subtotal        = $post['order_subtotal'];
+		$subtotal       = $post['order_subtotal'];
 		$updateDiscount = 0;
 
 		if ($post['update_discount'] > 0)
@@ -238,7 +214,12 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
-			$post['order_status'] = empty($post['order_status']) ? 'P' : $post['order_status'];
+			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
+		}
+
+		if ($post['order_payment_status'] == '')
+		{
+			$post['order_payment_status'] = 'Unpaid';
 		}
 
 		if ($row = $model->store($post))

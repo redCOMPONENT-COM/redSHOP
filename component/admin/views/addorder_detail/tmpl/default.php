@@ -131,7 +131,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 			return;
 
 		}
-		if ((pressbutton == 'save')) {
+		if ((pressbutton == 'save') || (pressbutton == 'apply')) {
 			if (form.user_id.value == 0) {
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER');?>");
 				return;
@@ -766,6 +766,18 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD');?></td>
 								<td id="tdShipping">
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+							<tr>
+								<th style="background-color: #cccccc" colspan="2" align="left"><?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL');?></th>
+							</tr>
+							<tr>
+								<td><?php echo JHTML::_('select.booleanlist', 'send_mail_on_order_created', 'class="inputbox"', 0);?></td>
 							</tr>
 						</table>
 					</td>

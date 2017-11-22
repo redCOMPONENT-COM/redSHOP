@@ -10,9 +10,14 @@ defined('_JEXEC') or die;
 
 use Redshop\Economic\Economic;
 
-
-
-class RedshopModelAddorder_detail extends RedshopModel
+/**
+ * Redshop Add Order Model
+ *
+ * @package     Redshop.Backend
+ * @subpackage  Models.Category
+ * @since       2.0.6
+ */
+class RedshopModelAddorder_Detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -258,9 +263,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		if (!$row->check())
+		if ($postdata['order_id'] != 0 && $postdata['order_id'] != null)
 		{
-			return false;
+			if (!$row->check())
+			{
+				return false;
+			}
 		}
 
 		if (!$row->store())
@@ -790,7 +798,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
+		if ($postdata['send_mail_on_order_created'] == 1)
 		{
 			RedshopHelperMail::sendOrderMail($row->order_id);
 		}
