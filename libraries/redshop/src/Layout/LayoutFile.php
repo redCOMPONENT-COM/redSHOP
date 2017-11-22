@@ -68,9 +68,9 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  Object which properties are used inside the layout file to build displayed output
 	 *
-	 * @return  string  The necessary HTML to display the layout
+	 * @return  string               The necessary HTML to display the layout
 	 */
 	public function render($displayData)
 	{
@@ -378,7 +378,7 @@ class LayoutFile extends AbstractLayoutFile
 			$this->addIncludePaths(JPATH_PLUGINS . '/' . $plugin . '/layouts');
 
 			// (4) Plugins template overrides path
-			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/plugins/' . $plugin);
+			$this->addIncludePath(JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts/plugins/' . $plugin);
 		}
 
 		// (5 - highest priority) Received a custom high priority path ?
