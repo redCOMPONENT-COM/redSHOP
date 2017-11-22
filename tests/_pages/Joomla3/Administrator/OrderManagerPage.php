@@ -22,7 +22,7 @@ class OrderManagerPage
 
     public static $userSearch = ".//*[@id='s2id_autogen1_search']";
 
-    public static $address = ['id' => 'address'];
+    public static $address  = "//input[@id='address']";
 
     public static $zipcode = ['id' => 'zipcode'];
 

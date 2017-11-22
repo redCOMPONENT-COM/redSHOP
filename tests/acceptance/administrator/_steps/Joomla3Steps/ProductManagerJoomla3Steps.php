@@ -463,8 +463,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
         $I->click("+ Add Attribute parameter");
         $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
+        $I->waitForElement(['xpath' => '//input[@name="attribute[1][name]"]'], 30);
         $I->fillField(['xpath' => '//input[@name="attribute[1][name]"]'], $nameAttribute);
-        $I->wait(60);
+        $I->waitForElement(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'], 30);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'],$valueAttribute);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][price]"]'],$priceAttribute);
         $I->click("Save");
@@ -476,7 +477,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
@@ -496,7 +496,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
+        $I->waitForElement(['link' => $productName], 30);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -512,7 +512,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
+        $I->waitForElement(['link' => $productName], 30);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -528,7 +528,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
+        $I->waitForElement(['link' => $productName], 30);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -544,7 +544,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
+        $I->waitForElement(['link' => $productName], 30);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -579,7 +579,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $this->selectAccessories($productAccessories);
         $I->click("Save");
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-//        $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
     private function selectRelatedProduct($relatedProduct)
@@ -607,7 +606,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
