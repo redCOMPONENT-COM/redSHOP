@@ -663,7 +663,7 @@ class RedshopHelperUser
 
 		if (!$useBillingAsShipping)
 		{
-			RedshopHelperUser::storeRedshopUserShipping($data);
+			$GLOBALS['shippingaddresses'] = RedshopHelperUser::storeRedshopUserShipping($data);
 		}
 
 		$registerMethod = Redshop::getConfig()->get('REGISTER_METHOD');

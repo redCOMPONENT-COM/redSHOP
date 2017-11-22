@@ -274,7 +274,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(2, $row->id, $extraFieldsForCurrentTemplate, $dataAdd);
+			$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $dataAdd);
 		}
 
 		$catDetail .= $dataAdd;
@@ -555,12 +555,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(
+			$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(
 				1,
 				$product->product_id,
 				$extraFieldsForCurrentTemplate,
 				$dataAdd,
-				1
+				true
 			);
 		}
 
