@@ -172,7 +172,8 @@ class ManageOrderAdministratorCest
     {
         $I->wantTo('Test Order delete by user  in Administrator');
         $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-        $I->deleteOrder($this->firstName);
+        $nameFill  = $this->firstName. $this->lastName;
+        $I->deleteOrder($nameFill);
     }
 
 }
