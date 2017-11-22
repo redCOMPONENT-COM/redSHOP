@@ -157,9 +157,14 @@ class RedshopHelperShopper_Group
 		$query = $db->getQuery(true);
 		$level++;
 
+		$app = JFactory::getApplication();
+        $filterOrder      = $app->getUserStateFromRequest('filter_order', 'filter_order', 'shopper_group_id');
+        $filterOrderDir   = $app->getUserStateFromRequest('filter_order_Dir', 'filter_order_Dir', '');
+
 		$query->select('*')
 			->from($db->qn('#__redshop_shopper_group'))
-			->where($db->qn('parent_id') . ' = ' . (int) $cid);
+			->where($db->qn('parent_id') . ' = ' . (int) $cid)
+			->order($filterOrder . ' ' . $filterOrderDir);
 
 		$db->setQuery($query);
 		$groups = $db->loadObjectList();
@@ -174,10 +179,10 @@ class RedshopHelperShopper_Group
 			{
 				for ($i = 0; $i < $level; $i++)
 				{
-					$html .= "&nbsp;&nbsp;&nbsp;";
+					$html .= "|&nbsp;—&nbsp;";
 				}
 
-				$html .= "&nbsp;" . $group->shopper_group_name;
+				$html .= $group->shopper_group_name;
 			}
 
 			$group->shopper_group_name = $html;
