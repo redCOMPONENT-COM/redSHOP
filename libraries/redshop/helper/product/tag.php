@@ -961,4 +961,132 @@ class RedshopHelperProductTag
 
 		return $return;
 	}
+
+	/**
+	 * Replace Attribute Data
+	 *
+	 * @param   integer  $productId    Product id
+	 * @param   integer  $accessoryId  Accessory id
+	 * @param   array    $attributes   Attribute list
+	 * @param   integer  $userId       User id
+	 * @param   string   $uniqueId     Unique id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
+	{
+		$attributeList = "";
+
+		$prefix = $accessoryId != 0 ? $uniqueId . "acc_" : $uniqueId . "prd_";
+
+		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
+
+		foreach ($attributes as $attribute)
+		{
+			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
+
+			if (empty($attribute->text) || empty($property))
+			{
+				continue;
+			}
+
+			$commonId    = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
+			$hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
+			$propertyId  = 'property_id_' . $commonId;
+
+			foreach ($properties as $property)
+			{
+				$attributesPropertyVat = 0;
+
+				if ($property->property_price > 0)
+				{
+					$propertyOprand = $property->oprand;
+					$propertyPrice  = RedshopHelperProductPrice::formattedPrice($property->property_price);
+
+					// Get product vat to include.
+					$attributesPropertyVat    = RedshopHelperProduct::getProductTax($productId, $property->property_price, $userId);
+					$property->property_price += $attributesPropertyVat;
+
+					$propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
+
+					$property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' ' . $propertyPrice
+						. "excl. vat / "
+						. $propertyPriceWithVat . ")";
+				}
+				else
+				{
+					$property->text = urldecode($property->property_name);
+				}
+
+				$attributeList .= '<input type="hidden" id="'
+					. $propertyId . '_oprand' . $property->value . '" value="' . $property->oprand . '" />';
+				$attributeList .= '<input type="hidden" id="'
+					. $propertyId . '_protax' . $property->value . '" value="' . $attributesPropertyVat . '" />';
+				$attributeList .= '<input type="hidden" id="'
+					. $propertyId . '_proprice' . $property->value . '" value="' . $property->property_price . '" />';
+			}
+
+			$tmpArray = array();
+			$tmpArray[0] = new stdClass;
+			$tmpArray[0]->value = 0;
+			$tmpArray[0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attribute->text);
+
+			$newProperty = array_merge($tmpArray, $properties);
+			$checkList = "";
+
+			if ($attribute->allow_multiple_selection)
+			{
+				foreach ($properties as $property)
+				{
+					if ($attribute->attribute_required == 1)
+					{
+						$required = "required='" . $attribute->attribute_required . "'";
+					}
+					else
+					{
+						$required = "";
+					}
+
+					$checkList .= "<br /><input type='checkbox' value='" . $property->value . "' name='"
+						. $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
+						. $attribute->attribute_name . "' required='" . $required
+						. "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
+						. "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
+				}
+			}
+			else
+			{
+				$checkList = JHtml::_(
+					'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
+					. '"  class="inputbox" size="1" attribute_name="' . $attribute->attribute_name . '" required="'
+					. $attribute->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
+					. $productId . '\',\'' . $accessoryId . '\',\'' . $attribute->attribute_id . '\',\'' . $uniqueId
+					. '\');" ', 'value', 'text', ''
+				);
+			}
+
+			$lists['property_id'] = $checkList;
+
+			$attributeList .= "<input type='hidden' name='" . $hiddenAttId . "[]' value='" . $attribute->value . "' />";
+
+			if ($attribute->attribute_required > 0)
+			{
+				$pos = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attribute->text)
+					. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
+					. urldecode($attribute->text);
+				$attrTitle = $pos;
+			}
+			else
+			{
+				$attrTitle = urldecode($attribute->text);
+			}
+
+			$attributeList .= "<tr><td>" . $attrTitle . " : " . $lists['property_id'] . "</td></tr>";
+			$attributeList .= "<tr><td><div id='property_responce" . $commonId . "' style='display:none;'></td></tr>";
+		}
+
+		return $attributeList;
+	}
 }
