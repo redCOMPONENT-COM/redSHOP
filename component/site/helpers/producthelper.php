@@ -1409,7 +1409,7 @@ class productHelper
 
 		if (count($categorylist) > 0 && $categorylist->parent_id > 0)
 		{
-			$cItemid = RedshopHelperUtility::getCategoryItemid($categorylist->id);
+			$cItemid = RedshopHelperRouter::getCategoryItemid($categorylist->id);
 
 			if ($cItemid != "")
 			{
@@ -1544,7 +1544,7 @@ class productHelper
 
 		if ($isRedshop)
 		{
-			$menuItems = RedshopHelperUtility::getRedshopMenuItems();
+			$menuItems = RedshopHelperRouter::getRedshopMenuItems();
 		}
 		else
 		{
@@ -1553,7 +1553,7 @@ class productHelper
 
 		foreach ($menuItems as $oneMenuItem)
 		{
-			if (!RedshopHelperUtility::checkMenuQuery($oneMenuItem, $values))
+			if (!RedshopHelperRouter::checkMenuQuery($oneMenuItem, $values))
 			{
 				break;
 			}
@@ -6148,26 +6148,7 @@ class productHelper
 	 */
 	public function calOprandPrice($firstPrice, $oprand, $secondPrice)
 	{
-		switch ($oprand)
-		{
-			case "+":
-				return $firstPrice + $secondPrice;
-
-			case "-":
-				return $firstPrice - $secondPrice;
-
-			case "*":
-				return $firstPrice * $secondPrice;
-
-			case "/":
-				return $firstPrice / $secondPrice;
-
-			case "=":
-				return $secondPrice;
-
-			default:
-				return $firstPrice;
-		}
+		return RedshopHelperUtility::setOperandForValues($firstPrice, $oprand, $secondPrice);
 	}
 
 	public function makeCompareProductDiv()
@@ -6568,7 +6549,6 @@ class productHelper
 	 *
 	 * @return: integer
 	 */
-
 	public function getChildProduct($product_id = 0)
 	{
 		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM " . $this->_table_prefix
@@ -6807,7 +6787,7 @@ class productHelper
 			if ($displayLink)
 			{
 				$redhelper = redhelper::getInstance();
-				$catItem   = RedshopHelperUtility::getCategoryItemid($row->id);
+				$catItem   = RedshopHelperRouter::getCategoryItemid($row->id);
 
 				if(!(boolean) $catItem)
 				{
@@ -7084,7 +7064,7 @@ class productHelper
 					else
 					{
 						$catidmain = $related_product[$r]->cat_in_sefurl;
-						$pItemid = RedshopHelperUtility::getItemId($related_product[$r]->product_id, $catidmain);
+						$pItemid = RedshopHelperRouter::getItemId($related_product[$r]->product_id, $catidmain);
 					}
 
 					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);

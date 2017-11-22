@@ -156,7 +156,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		$dataAdd = $subcatTemplate;
 
-		$categoryItemId = RedshopHelperUtility::getCategoryItemid($row->id);
+		$categoryItemId = RedshopHelperRouter::getCategoryItemid($row->id);
 
 		$link = JRoute::_(
 			'index.php?option=com_redshop&view=category&cid='
@@ -274,7 +274,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(2, $row->id, $extraFieldsForCurrentTemplate, $dataAdd);
+			$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $dataAdd);
 		}
 
 		$catDetail .= $dataAdd;
@@ -417,7 +417,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// ProductFinderDatepicker Extra Field Start
 		$dataAdd  = $productHelper->getProductFinderDatepickerValue($templateProduct, $product->product_id, $fieldArray);
 		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperUtility::getItemId($product->product_id, $cid);
+		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
 		$dataAdd = str_replace("{product_price}", $productHelper->getProductFormattedPrice($productPrice), $dataAdd);
 		$dataAdd = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
@@ -555,12 +555,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(
+			$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(
 				1,
 				$product->product_id,
 				$extraFieldsForCurrentTemplate,
 				$dataAdd,
-				1
+				true
 			);
 		}
 

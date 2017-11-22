@@ -90,12 +90,18 @@
     <modules>
         <module name="mod_redshop_cart" client="site"/>
         <module name="mod_redshop_filter" client="site"/>
+        <module name="mod_redshop_search" client="site"/>
     </modules>
 
     <!-- Plugins to install with the component -->
     <plugins>
+        <!-- Finder plugin -->
         <plugin group="finder" name="redshop"/>
 
+        <!-- Quick Icon plugin -->
+        <plugin group="quickicon" name="redshop"/>
+
+        <!-- Alert plugin -->
         <plugin group="redshop_alert" name="alert"/>
 
         <!-- Redshop Export plugins -->
@@ -124,16 +130,25 @@
         <plugin group="redshop_import" name="product_stockroom_data" published="published"/>
         <plugin group="redshop_import" name="related_product" published="published"/>
 
+        <!-- Payments plugins -->
         <plugin group="redshop_payment" name="rs_payment_banktransfer"/>
         <plugin group="redshop_payment" name="rs_payment_paypal"/>
 
+        <!-- PDF library plugins -->
         <plugin group="redshop_pdf" name="tcpdf" published="published"/>
 
+        <!-- Shipping plugins -->
         <plugin group="redshop_shipping" name="default_shipping"/>
 
+        <!-- Joomla Search plugins -->
+        <plugin group="search" name="redshop_categories"/>
+        <plugin group="search" name="redshop_products"/>
+
+        <!-- sh404sef plugins -->
         <plugin group="sh404sefextplugins" name="sh404sefextplugincom_redshop" published="published"/>
 
-        <plugin group="system" name="redshop"/>
+        <!-- System plugins -->
+        <plugin group="system" name="redshop" published="published"/>
         <plugin group="system" name="redgoogleanalytics"/>
     </plugins>
 </extension>

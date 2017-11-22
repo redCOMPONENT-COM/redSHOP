@@ -12,18 +12,19 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $required         Extra field required
- * @param   string  $uniqueId         Extra field unique Id
- * @param   string  $fieldCheck       Extra field check
- * @param   string  $checkData        Extra field check data
+ * @var   array   $displayData   Layout data.
+ * @var   object  $rowData          Extra field data
+ * @var   string  $required         Extra field required
+ * @var   string  $uniqueId         Extra field unique Id
+ * @var   array   $fieldCheck       Extra field check
+ * @var   string  $checkData        Extra field check data
  */
 extract($displayData);
 ?>
 <div class="userfield_input">
-	<select 
-		name="extrafieldname<?php echo $uniqueId; ?>[]" 
-		class="<?php echo $rowData->class; ?>" 
+	<select
+		name="extrafieldname<?php echo $uniqueId; ?>[]"
+		class="<?php echo $rowData->class; ?>"
 		id="<?php echo $rowData->name; ?>"
 		userfieldlbl="<?php echo $rowData->title; ?>"
 		multiple="multiple"

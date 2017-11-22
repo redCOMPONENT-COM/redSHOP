@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$itemId = RedshopHelperUtility::getRedShopMenuItem(
+$itemId = RedshopHelperRouter::getRedShopMenuItem(
 	array(
 		'option' => 'com_redshop',
 		'view'   => 'product',

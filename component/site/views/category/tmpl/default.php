@@ -146,7 +146,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		$data_add = $middletemplate_desc;
 
-		$cItemid = RedshopHelperUtility::getCategoryItemid($row->id);
+		$cItemid = RedshopHelperRouter::getCategoryItemid($row->id);
 
 		if ($cItemid != "")
 		{

@@ -89,11 +89,11 @@ class redhelper
 	 *
 	 * @return array
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperUtility::getRedshopMenuItems instead
+	 * @deprecated  2.0.6
 	 */
 	public function getRedshopMenuItems()
 	{
-		return RedshopHelperUtility::getRedshopMenuItems();
+		return RedshopHelperRouter::getRedshopMenuItems();
 	}
 
 	/**
@@ -189,11 +189,11 @@ class redhelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperUtility::checkMenuQuery instead
+	 * @deprecated  2.0.6  Use RedshopHelperRouter::checkMenuQuery instead
 	 */
 	public function checkMenuQuery($oneMenuItem, $queryItems)
 	{
-		return RedshopHelperUtility::checkMenuQuery($oneMenuItem, $queryItems);
+		return RedshopHelperRouter::checkMenuQuery($oneMenuItem, $queryItems);
 	}
 
 	/**
@@ -203,11 +203,11 @@ class redhelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperUtility::getRedShopMenuItem instead
+	 * @deprecated  2.0.6  Use RedshopHelperRouter::getRedShopMenuItem instead
 	 */
 	public function getRedShopMenuItem($queryItems)
 	{
-		return RedshopHelperUtility::getRedShopMenuItem($queryItems);
+		return RedshopHelperRouter::getRedShopMenuItem($queryItems);
 	}
 
 	/**
@@ -218,11 +218,11 @@ class redhelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperUtility::getItemid instead
+	 * @deprecated  2.0.6  Use RedshopHelperRouter::getItemid instead
 	 */
 	public function getItemid($productId = 0, $categoryId = 0)
 	{
-		return RedshopHelperUtility::getItemId($productId, $categoryId);
+		return RedshopHelperRouter::getItemId($productId, $categoryId);
 	}
 
 	/**
@@ -232,11 +232,11 @@ class redhelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperUtility::getCategoryItemid instead
+	 * @deprecated  2.0.6  Use RedshopHelperRouter::getCategoryItemid instead
 	 */
 	public function getCategoryItemid($categoryId = 0)
 	{
-		return RedshopHelperUtility::getCategoryItemid($categoryId);
+		return RedshopHelperRouter::getCategoryItemid($categoryId);
 	}
 
 	/**
@@ -428,7 +428,7 @@ class redhelper
 	 */
 	public function getCheckoutItemId()
 	{
-		return RedshopHelperUtility::getCheckoutItemId();
+		return RedshopHelperRouter::getCheckoutItemId();
 	}
 
 	/**
@@ -436,11 +436,11 @@ class redhelper
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  2.0.6  Use RedshopHelperUtility::getCartItemId instead
+	 * @deprecated  2.0.6  Use RedshopHelperRouter::getCartItemId instead
 	 */
 	public function getCartItemId()
 	{
-		return RedshopHelperUtility::getCartItemId();
+		return RedshopHelperRouter::getCartItemId();
 	}
 
 	/**

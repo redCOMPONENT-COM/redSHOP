@@ -14,16 +14,17 @@ JHtml::script('com_redshop/ajaxupload.js', false, true);
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $required         Extra field required
- * @param   string  $uniqueId         Extra field unique Id
- * @param   string  $fieldCheck       Extra field check
+ * @var   array   $displayData   Layout data.
+ * @var   object  $rowData       Extra field data
+ * @var   string  $required      Extra field required
+ * @var   string  $uniqueId      Extra field unique Id
+ * @var   array   $fieldCheck    Extra field check
  */
 extract($displayData);
 ?>
 
 <div class="userfield_input">
-	<input 
+	<input
 		type="button"
 		class="<?php echo $rowData->class; ?>"
 		id="file<?php echo $rowData->name . '_' . $uniqueId; ?>"
@@ -38,7 +39,7 @@ extract($displayData);
 		<ol id="ol_<?php echo $rowData->name; ?>"></ol>
 	</p>
 </div>
-<input 
+<input
 	type="hidden"
 	name="extrafieldname<?php echo $uniqueId ?>[]"
 	id="<?php echo $rowData->name . '_' . $uniqueId; ?>"

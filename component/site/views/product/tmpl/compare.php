@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\ExtraFields;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
@@ -116,7 +118,7 @@ if ($total > 0)
 		else
 		{
 			$catidmain = $product->cat_in_sefurl;
-			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+			$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
 		}
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid);
@@ -288,7 +290,7 @@ if ($total > 0)
 				);
 			}
 
-			$template = $field->extra_field_display("1", $product->product_id, $str, $template);
+			$template = ExtraFields::displayExtraFields("1", $product->product_id, $str, $template);
 			$template = str_replace('{addedext_tag}', '{' . $product_tag[$tag] . '}', $template);
 		}
 

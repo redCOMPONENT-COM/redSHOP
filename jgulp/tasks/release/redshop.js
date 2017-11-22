@@ -42,7 +42,10 @@ function getIncludedExtensions() {
         "./plugins/redshop_import/shopper_group_product_price/**",
         "./plugins/redshop_import/shopper_group_attribute_price/**",
         "./plugins/redshop_import/user/**",
-        "./plugins/redshop_import/related_product/**"
+        "./plugins/redshop_import/related_product/**",
+        "./plugins/quickicon/redshop/**",
+        "./plugins/search/redshop_categories/**",
+        "./plugins/search/redshop_products/**"
     ];
     var excluded = [
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
@@ -52,6 +55,7 @@ function getIncludedExtensions() {
     ];
     var includedModules = [
         "./modules/site/mod_redshop_cart/**",
+        "./modules/site/mod_redshop_search/**",
         "./modules/site/mod_redshop_filter/**"
     ];
 

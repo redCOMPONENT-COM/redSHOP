@@ -63,7 +63,7 @@ $calendarFormat = '%d-%m-%Y';
 			});
 		})
 	})(jQuery)
-</script >
+</script>
 <div class="row" >
 	<div class="col-sm-8" >
 		<div class="box box-primary" >

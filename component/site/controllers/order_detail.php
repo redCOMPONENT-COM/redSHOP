@@ -314,7 +314,7 @@ class RedshopControllerOrder_detail extends RedshopController
 				// Do final cart calculations
 				$this->_carthelper->cartFinalCalculation();
 
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false));
 			}
 		}
 		else
@@ -327,7 +327,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 			else
 			{
-				$Itemid = RedshopHelperUtility::getItemId($row['product_id']);
+				$Itemid = RedshopHelperRouter::getItemId($row['product_id']);
 			}
 
 			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
@@ -373,7 +373,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$this->_carthelper->cartFinalCalculation();
 		}
 
-		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false));
 	}
 
 	/**

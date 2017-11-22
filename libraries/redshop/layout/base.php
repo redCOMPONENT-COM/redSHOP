@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 defined('JPATH_BASE') or die;
 
 /**
@@ -22,7 +24,7 @@ class RedshopLayoutBase implements RedshopLayout
 	/**
 	 * Options object
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 */
 	protected $options = null;
 
@@ -43,7 +45,7 @@ class RedshopLayoutBase implements RedshopLayout
 	public function setOptions($options = null)
 	{
 		// Received JRegistry
-		if ($options instanceof JRegistry)
+		if ($options instanceof Registry)
 		{
 			$this->options = $options;
 		}
@@ -51,11 +53,11 @@ class RedshopLayoutBase implements RedshopLayout
 		// Received array
 		elseif (is_array($options))
 		{
-			$this->options = new JRegistry($options);
+			$this->options = new Registry($options);
 		}
 		else
 		{
-			$this->options = new JRegistry;
+			$this->options = new Registry;
 		}
 
 		return $this;
@@ -64,12 +66,12 @@ class RedshopLayoutBase implements RedshopLayout
 	/**
 	 * Get the options
 	 *
-	 * @return  JRegistry  Object with the options
+	 * @return  Registry  Object with the options
 	 */
 	public function getOptions()
 	{
 		// Always return a JRegistry instance
-		if (!($this->options instanceof JRegistry))
+		if (!($this->options instanceof Registry))
 		{
 			$this->resetOptions();
 		}

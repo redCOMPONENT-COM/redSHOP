@@ -149,7 +149,7 @@ class RedshopViewCategory extends RedshopViewForm
 
 			JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$itemId    = (int) RedshopHelperUtility::getCategoryItemid($this->item->id);
+			$itemId    = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
 
 			$link  = JURI::root() . 'index.php?option=com_redshop'
 					. '&view=&view=category&layout=detail'

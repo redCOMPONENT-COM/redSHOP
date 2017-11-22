@@ -288,7 +288,7 @@ class rsCarthelper
 				}
 
 				// Additional functionality - more flexible way
-				$shippingdata = $this->_extraFieldFront->extra_field_display($extra_section, $shippingaddresses->users_info_id, "", $shippingdata);
+				$shippingdata = Redshop\Helper\ExtraFields::displayExtraFields($extra_section, $shippingaddresses->users_info_id, "", $shippingdata);
 
 				$shipping_extrafield = $this->_extra_field->list_all_field_display($extra_section, $shippingaddresses->users_info_id, 1);
 			}
@@ -342,12 +342,12 @@ class rsCarthelper
 				if ($shippingaddresses->is_company == 1)
 				{
 					// Additional functionality - more flexible way
-					$data = $this->_extraFieldFront->extra_field_display(15, $shippingaddresses->users_info_id, "", $data);
+					$data = Redshop\Helper\ExtraFields::displayExtraFields(15, $shippingaddresses->users_info_id, "", $data);
 				}
 				else
 				{
 					// Additional functionality - more flexible way
-					$data = $this->_extraFieldFront->extra_field_display(14, $shippingaddresses->users_info_id, "", $data);
+					$data = Redshop\Helper\ExtraFields::displayExtraFields(14, $shippingaddresses->users_info_id, "", $data);
 				}
 			}
 
@@ -383,7 +383,7 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$prdItemid  = $this->input->getInt('Itemid');
-		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
+		$Itemid     = RedshopHelperRouter::getCheckoutItemId();
 		$url        = JURI::base(true);
 		$mainview   = $this->input->getCmd('view');
 
@@ -541,7 +541,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$Itemid = RedshopHelperUtility::getItemId($product_id);
+					$Itemid = RedshopHelperRouter::getItemId($product_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
@@ -868,6 +868,11 @@ class rsCarthelper
 					$cart_mdata = str_replace("{attribute_change}", '', $cart_mdata);
 				}
 
+				// Product extra fields.
+				$cart_mdata  = RedshopHelperProductTag::getExtraSectionTag(
+					extraField::getInstance()->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
+				);
+
 				$cartItem = 'product_id';
 				$cart_mdata = $this->_producthelper->replaceVatinfo($cart_mdata);
 				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
@@ -1014,7 +1019,7 @@ class rsCarthelper
 
 			$itemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
 
-			$Itemid = !empty($itemData) ? $itemData->id : RedshopHelperUtility::getItemId($product_id) ;
+			$Itemid = !empty($itemData) ? $itemData->id : RedshopHelperRouter::getItemId($product_id) ;
 
 			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
 
@@ -1362,7 +1367,7 @@ class rsCarthelper
 
 			if ($mainview == "order_detail")
 			{
-				$Itemid     = RedshopHelperUtility::getCartItemId();
+				$Itemid     = RedshopHelperRouter::getCartItemId();
 				$copytocart = "<a href='" . JRoute::_('index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id=' . $rowitem[$i]->order_item_id . '&Itemid=' . $Itemid, false) . "'>";
 				$copytocart .= "<img src='" . REDSHOP_ADMIN_IMAGES_ABSPATH . "add.jpg' title='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' alt='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' /></a>";
 				$cart_mdata = str_replace("{copy_orderitem}", $copytocart, $cart_mdata);
@@ -3635,17 +3640,20 @@ class rsCarthelper
 
 		if (isset($cart['idx']))
 		{
-			$idx  = $cart['idx'];
+			$idx = $cart['idx'];
 		}
+
+		$percent = ($value * 100) / $cart['product_subtotal'];
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$product = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
+			$productPriceArray = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
 
 			// If the product is already discount
-			if ($product['product_price_saving'] > 0)
+			if ($productPriceArray['product_price_saving_percentage'] > 0)
 			{
-				$value = $value - ($product['product_price_saving'] * $cart[$i]['quantity']);
+				$amount = $percent * $productPriceArray['product_price'] / 100;
+				$value -= $amount * $cart[$i]['quantity'];
 			}
 		}
 

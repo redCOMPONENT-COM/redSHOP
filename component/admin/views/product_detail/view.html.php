@@ -357,7 +357,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			}
 			else
 			{
-				$pItemid = RedshopHelperUtility::getItemId($detail->product_id, $catidmain);
+				$pItemid = RedshopHelperRouter::getItemId($detail->product_id, $catidmain);
 			}
 
 			$link  = JURI::root();

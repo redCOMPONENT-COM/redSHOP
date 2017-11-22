@@ -2,6 +2,8 @@
 set -ev
 
 if [ "${ACCEPTANCE}" = "false" ]; then
+	git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
+
 	git submodule update --init --recursive
 
 	# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753

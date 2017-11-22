@@ -22,7 +22,14 @@ function pluginRelease(group, name) {
 
     if (!argv.skipVersion) {
         fs.readFile('./plugins/' + group + '/' + name + '/' + name + '.xml', function (err, data) {
+            if (data === undefined)
+            {
+                return false;
+            }
+
             parser.parseString(data, function (err, result) {
+                console.log(err);
+
                 var version = result.extension.version[0];
 
                 // Generate file name

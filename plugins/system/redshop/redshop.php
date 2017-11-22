@@ -62,4 +62,21 @@ class PlgSystemRedSHOP extends JPlugin
 		$doc = new RedshopHelperDocument;
 		$doc->cleanHeader();
 	}
+
+	/**
+	 * onBeforeRender function.
+	 *
+	 * @return void
+	 */
+	public function onAfterInitialise()
+	{
+		// Set product currency
+		$session       = JFactory::getSession();
+		$newCurrencyId = JFactory::getApplication()->input->getInt('product_currency', 0);
+
+		if ($newCurrencyId)
+		{
+			$session->set('product_currency', $newCurrencyId);
+		}
+	}
 }
