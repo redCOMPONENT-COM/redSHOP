@@ -3221,221 +3221,186 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
-	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $eanNumber = 0)
+	/**
+	 * Replace Payment Methods
+	 *
+	 * @param   string   $templateDesc     Template Content
+	 * @param   integer  $paymentMethodId  Payment Method Id
+	 * @param   integer  $isCompany        Is Company?
+	 * @param   integer  $eanNumber        Ean Number
+	 *
+	 * @return  string
+	 *
+	 * @since  2.1.0
+	 */
+	public function replacePaymentTemplate($templateDesc = "", $paymentMethodId = 0, $isCompany = 0, $eanNumber = 0)
 	{
-		$ccdata = $this->_session->get('ccdata');
-
 		$rsUserhelper = rsUserHelper::getInstance();
 		$url          = JURI::base();
 		$user         = JFactory::getUser();
-		$user_id      = $user->id;
+		$userId      = $user->id;
 
-		$cc_list                 = array();
-		$cc_list['VISA']         = new stdClass;
-		$cc_list['VISA']->img    = 'visa.jpg';
+		$templateDesc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $templateDesc);
 
-		$cc_list['MC']           = new stdClass;
-		$cc_list['MC']->img      = 'master.jpg';
-
-		$cc_list['amex']         = new stdClass;
-		$cc_list['amex']->img    = 'blue.jpg';
-
-		$cc_list['maestro']      = new stdClass;
-		$cc_list['maestro']->img = 'mastero.jpg';
-
-		$cc_list['jcb']          = new stdClass;
-		$cc_list['jcb']->img     = 'jcb.jpg';
-
-		$cc_list['diners']       = new stdClass;
-		$cc_list['diners']->img  = 'dinnersclub.jpg';
-
-		$montharr   = array();
-		$montharr[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_MONTH'));
-		$montharr[] = JHTML::_('select.option', '01', JText::_('COM_REDSHOP_JAN'));
-		$montharr[] = JHTML::_('select.option', '02', JText::_('COM_REDSHOP_FEB'));
-		$montharr[] = JHTML::_('select.option', '03', JText::_('COM_REDSHOP_MAR'));
-		$montharr[] = JHTML::_('select.option', '04', JText::_('COM_REDSHOP_APR'));
-		$montharr[] = JHTML::_('select.option', '05', JText::_('COM_REDSHOP_MAY'));
-		$montharr[] = JHTML::_('select.option', '06', JText::_('COM_REDSHOP_JUN'));
-		$montharr[] = JHTML::_('select.option', '07', JText::_('COM_REDSHOP_JUL'));
-		$montharr[] = JHTML::_('select.option', '08', JText::_('COM_REDSHOP_AUG'));
-		$montharr[] = JHTML::_('select.option', '09', JText::_('COM_REDSHOP_SEP'));
-		$montharr[] = JHTML::_('select.option', '10', JText::_('COM_REDSHOP_OCT'));
-		$montharr[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_NOV'));
-		$montharr[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_DEC'));
+		if (strpos($templateDesc, "{split_payment}") !== false)
+		{
+			$templateDesc = str_replace("{split_payment}", "", $templateDesc);
+		}
 
 		$paymentMethods = RedshopHelperPayment::info();
 
-		// Get common payment methods of product in this cart
-		$commonPaymentMethods = RedshopHelperPayment::getPaymentMethodInCheckOut($paymentMethods);
-
-		if (!empty($commonPaymentMethods))
+		if (strpos($templateDesc, "{payment_loop_start}") !== false && strpos($templateDesc, "{payment_loop_end}") !== false)
 		{
-			$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
+			$template1       = explode("{payment_loop_start}", $templateDesc);
+			$template1       = explode("{payment_loop_end}", $template1[1]);
+			$templateMiddle = $template1[0];
+			$shopperGroupId  = RedshopHelperUser::getShopperGroup($userId);
+			$paymentDisplay = "";
+			$flag            = false;
 
-			if (strpos($template_desc, "{split_payment}") !== false)
-			{
-				$template_desc = str_replace("{split_payment}", "", $template_desc);
-			}
+			// Filter payment gateways array for shopperGroups
+			$paymentMethods = array_filter(
+				$paymentMethods,
+				function ($paymentMethod) use ($shopperGroupId)
+				{
+					$paymentFilePath = JPATH_SITE
+									. '/plugins/redshop_payment/'
+									. $paymentMethod->name . '/' . $paymentMethod->name . '.php';
 
-			if (strpos($template_desc, "{payment_loop_start}") !== false && strpos($template_desc, "{payment_loop_end}") !== false)
-			{
-				$template1       = explode("{payment_loop_start}", $template_desc);
-				$template1       = explode("{payment_loop_end}", $template1[1]);
-				$template_middle = $template1[0];
-				$shopperGroupId  = RedshopHelperUser::getShopperGroup($user_id);
-				$payment_display = "";
-				$flag            = false;
-
-				// Filter payment gateways array for shopperGroups
-				$paymentMethods = array_filter(
-					$paymentMethods,
-					function ($paymentMethod) use ($shopperGroupId)
+					if (!file_exists($paymentFilePath))
 					{
-						$paymentFilePath = JPATH_SITE
-										. '/plugins/redshop_payment/'
-										. $paymentMethod->name . '/' . $paymentMethod->name . '.php';
-
-						if (!JFile::exists($paymentFilePath))
-						{
-							return false;
-						}
-
-						$shopperGroups  = $paymentMethod->params->get('shopper_group_id', array());
-
-						if (!is_array($shopperGroups))
-						{
-							$shopperGroups = array($shopperGroups);
-						}
-
-						JArrayHelper::toInteger($shopperGroups);
-
-						if (in_array((int) $shopperGroupId, $shopperGroups) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0]))
-						{
-							return true;
-						}
-
 						return false;
 					}
-				);
 
-				$totalPaymentMethod = count($paymentMethods);
+					$shopperGroups  = $paymentMethod->params->get('shopper_group_id', array());
 
-				if ($totalPaymentMethod > 0)
-				{
-					foreach ($paymentMethods as $p => $oneMethod)
+					if (!is_array($shopperGroups))
 					{
-						if (in_array($oneMethod->name, $commonPaymentMethods))
+						$shopperGroups = array($shopperGroups);
+					}
+
+					JArrayHelper::toInteger($shopperGroups);
+
+					if (in_array((int) $shopperGroupId, $shopperGroups) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0]))
+					{
+						return true;
+					}
+
+					return false;
+				}
+			);
+
+			$totalPaymentMethod = count($paymentMethods);
+
+			if ($totalPaymentMethod > 0)
+			{
+				foreach ($paymentMethods as $p => $oneMethod)
+				{
+					$cardinfo        = "";
+					$displayPayment = "";
+					$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
+
+					include_once $paymentpath;
+
+					$privatePerson = $oneMethod->params->get('private_person', '');
+					$business       = $oneMethod->params->get('business', '');
+					$isCreditcard  = $oneMethod->params->get('is_creditcard', 0);
+
+					$paymentRadioOutput = RedshopLayoutHelper::render(
+						'checkout.payment_radio',
+						array(
+							'oneMethod'       => $oneMethod,
+							'paymentMethodId' => $paymentMethodId,
+							'i'               => $p,
+							'totalPaymentMethod' => $totalPaymentMethod,
+						),
+						'',
+						array(
+							'component' => 'com_redshop'
+						)
+					);
+
+					$isSubscription = false;
+
+					// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+					$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($oneMethod->name);
+
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
+					{
+						if ($isCompany == 0 && $privatePerson == 1)
 						{
-							$cardinfo        = "";
-							$display_payment = "";
-							$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
-
-							include_once $paymentpath;
-
-							$private_person = $oneMethod->params->get('private_person', '');
-							$business       = $oneMethod->params->get('business', '');
-							$is_creditcard  = $oneMethod->params->get('is_creditcard', 0);
-
-							$checked = '';
-							$payment_chcked_class = '';
-
-							if ($payment_method_id === $oneMethod->name || $totalPaymentMethod <= 1)
+							$displayPayment = $paymentRadioOutput;
+							$flag = true;
+						}
+						else
+						{
+							if ($isCompany == 1 && $business == 1 && ($oneMethod->name != 'rs_payment_eantransfer' || ($oneMethod->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 							{
-								$checked = "checked";
-								$payment_chcked_class = "paymentgtwchecked";
-							}
-
-							$payment_radio_output = '<div id="' . $oneMethod->name . '" class="' . $payment_chcked_class . '"><label class="radio" for="' . $oneMethod->name . $p . '"><input  type="radio" name="payment_method_id" id="' . $oneMethod->name . $p . '" value="' . $oneMethod->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" />' . JText::_('PLG_' . strtoupper($oneMethod->name)) . '</label></div>';
-
-							$is_subscription = false;
-
-							// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-							$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($oneMethod->name);
-
-							if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
-							{
-								if ($is_company == 0 && $private_person == 1)
-								{
-									$display_payment = $payment_radio_output;
-									$flag = true;
-								}
-								else
-								{
-									if ($is_company == 1 && $business == 1 && ($oneMethod->name != 'rs_payment_eantransfer' || ($oneMethod->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
-									{
-										$display_payment = $payment_radio_output;
-										$flag = true;
-									}
-								}
-							}
-							elseif ($is_subscription)
-							{
-								$display_payment = '<label class="radio" for="' . $oneMethod->name . $p . '"><input id="' . $oneMethod->name . $p . '" type="radio" name="payment_method_id" value="'
-									. $oneMethod->name . '" '
-									. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
-									. '' . JText::_($oneMethod->name) . '</label><br>';
-								$display_payment .= '<table><tr><td>'
-									. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
-									. '</td><td>' . $this->getSubscriptionPlans()
-									. '<td></tr><table>';
-							}
-							else
-							{
-								$display_payment = $payment_radio_output;
+								$displayPayment = $paymentRadioOutput;
 								$flag = true;
-							}
-
-							if ($is_creditcard)
-							{
-								$cardinfo = '<div id="divcardinfo_' . $oneMethod->name . '">';
-
-								$cart = JFactory::getSession()->get('cart');
-
-								if ($checked != "" && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')  && $cart['total'] > 0)
-								{
-									$cardinfo .= $this->replaceCreditCardInformation($oneMethod->name);
-								}
-
-								$cardinfo .= '</div>';
-							}
-
-							$payment_display .= $template_middle;
-							$payment_display = str_replace("{payment_method_name}", $display_payment, $payment_display);
-							$payment_display = str_replace("{creditcard_information}", $cardinfo, $payment_display);
-
-							if (strpos($payment_display, "{payment_extrafields}") !== false)
-							{
-								$paymentExtraFieldsHtml = '';
-
-								if ($checked != '')
-								{
-									$layoutFile = new JLayoutFile('order.payment.extrafields');
-
-									// Append plugin JLayout path to improve view based on plugin if needed.
-									$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $oneMethod->type . '/' . $oneMethod->name . '/layouts');
-									$paymentExtraFieldsHtml =  $layoutFile->render(array('plugin' => $oneMethod));
-								}
-
-								$payment_display = str_replace(
-									'{payment_extrafields}',
-									'<div class="extrafield_payment">' . $paymentExtraFieldsHtml . '</div>',
-									$payment_display
-								);
 							}
 						}
 					}
+					elseif ($isSubscription)
+					{
+						$displayPayment = '<label class="radio" for="' . $oneMethod->name . $p . '"><input id="' . $oneMethod->name . $p . '" type="radio" name="payment_method_id" value="'
+							. $oneMethod->name . '" '
+							. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
+							. '' . JText::_($oneMethod->name) . '</label><br>';
+						$displayPayment .= '<table><tr><td>'
+							. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
+							. '</td><td>' . $this->getSubscriptionPlans()
+							. '<td></tr><table>';
+					}
+					else
+					{
+						$displayPayment = $paymentRadioOutput;
+						$flag = true;
+					}
+
+					if ($isCreditcard)
+					{
+						$cardinfo = '<div id="divcardinfo_' . $oneMethod->name . '">';
+
+						$cart = JFactory::getSession()->get('cart');
+
+						if ($checked != "" && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')  && $cart['total'] > 0)
+						{
+							$cardinfo .= $this->replaceCreditCardInformation($oneMethod->name);
+						}
+
+						$cardinfo .= '</div>';
+					}
+
+					$paymentDisplay .= $templateMiddle;
+					$paymentDisplay = str_replace("{payment_method_name}", $displayPayment, $paymentDisplay);
+					$paymentDisplay = str_replace("{creditcard_information}", $cardinfo, $paymentDisplay);
+
+					if (strpos($paymentDisplay, "{payment_extrafields}") !== false)
+					{
+						$paymentExtraFieldsHtml = '';
+
+						if ($checked != '')
+						{
+							$layoutFile = new JLayoutFile('order.payment.extrafields');
+
+							// Append plugin JLayout path to improve view based on plugin if needed.
+							$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $oneMethod->type . '/' . $oneMethod->name . '/layouts');
+							$paymentExtraFieldsHtml = $layoutFile->render(array('plugin' => $oneMethod));
+						}
+
+						$paymentDisplay = str_replace(
+							'{payment_extrafields}',
+							'<div class="extrafield_payment">' . $paymentExtraFieldsHtml . '</div>',
+							$paymentDisplay
+						);
+					}
 				}
-
-				$template_desc = str_replace("{payment_loop_start}", "", $template_desc);
-				$template_desc = str_replace("{payment_loop_end}", "", $template_desc);
-				$template_desc = str_replace($template_middle, $payment_display, $template_desc);
 			}
 
-			if (count($paymentMethods) == 1 && $is_creditcard == "0")
-			{
-				$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
-			}
+			$templateDesc = str_replace("{payment_loop_start}", "", $templateDesc);
+			$templateDesc = str_replace("{payment_loop_end}", "", $templateDesc);
+			$templateDesc = str_replace($templateMiddle, $paymentDisplay, $templateDesc);
 		}
 		else{
 			//clear
@@ -3448,7 +3413,12 @@ class rsCarthelper
 
 		}
 
-		return $template_desc;
+		if (count($paymentMethods) == 1 && $isCreditcard == "0")
+		{
+			$templateDesc = "<div style='display:none;'>" . $templateDesc . "</div>";
+		}
+
+		return $templateDesc;
 	}
 
 	public function replaceTermsConditions($template_desc = "", $Itemid = 1)
