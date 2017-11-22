@@ -8,11 +8,15 @@
   ],
   "modules": {
     "frontend": [
-      "redshop_cart"
+      "redshop_cart",
+      "redshop_search"
     ]
   },
   "plugins": {
     "finder": [
+      "redshop"
+    ],
+    "quickicon": [
       "redshop"
     ],
     "redshop_alert": [
@@ -53,6 +57,10 @@
     ],
     "redshop_shipping": [
       "default_shipping"
+    ],
+    "search": [
+      "redshop_categories",
+      "redshop_products"
     ],
     "sh404sefextplugins": [
       "sh404sefextplugincom_redshop"
