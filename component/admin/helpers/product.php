@@ -86,7 +86,7 @@ class RedshopAdminProduct
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
-		return RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
+		return RedshopHelperProductTag::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
 	}
 
 	/**
@@ -145,13 +145,13 @@ class RedshopAdminProduct
 	 *
 	 * @param   array  $post  Data
 	 *
-	 * @return array
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::redesignProductItem($post) instead
 	 */
 	public function redesignProductItem($post = array())
 	{
-		return RedshopHelperProduct::redesignProductItem($post);
+		return Redshop\Order\Helper::redesignProductItem($post);
 	}
 
 	/**

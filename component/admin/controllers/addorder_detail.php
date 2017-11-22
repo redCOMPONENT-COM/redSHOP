@@ -69,7 +69,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$model                = $this->getModel('addorder_detail');
 		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
-		$orderItem          = RedshopHelperProduct::redesignProductItem($post);
+		$orderItem          = Redshop\Order\Helper::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
 		if (empty($orderItem[0]->product_id))
