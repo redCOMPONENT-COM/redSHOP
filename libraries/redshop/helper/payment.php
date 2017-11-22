@@ -196,19 +196,17 @@ class RedshopHelperPayment
 	/**
 	 * List all categories and return HTML format
 	 *
-	 * @param   string   $name                Name of list
-	 * @param   integer  $productId           Only product to show
-	 * @param   array  	 $selectedPayments    Only show selected payments
-	 * @param   integer  $size                Size of dropdown
-	 * @param   boolean  $multiple            Dropdown is multiple or not
-	 * @param   array    $disabledFields      Fields need to be disabled
-	 * @param   integer  $width               Width in pixel
+	 * @param   string   $name       Name of list
+	 * @param   integer  $productId  Only product to show
+	 * @param   integer  $size       Size of dropdown
+	 * @param   boolean  $multiple   Dropdown is multiple or not
+	 * @param   integer  $width      Width in pixel
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since  DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function listAll($name, $productId, $selectedPayments = array(), $size = 1, $multiple = false, $disabledFields = array(), $width = 250)
+	public static function listAll($name, $productId, $size = 1, $multiple = false, $width = 250)
 	{
 		$db    = JFactory::getDbo();
 		$html  = '';
@@ -221,14 +219,13 @@ class RedshopHelperPayment
 			$query->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
 		}
 
-		$db->setQuery($query);
-		$selectedPayments = $db->loadObjectList();
+		$selectedPayments = $db->setQuery($query)->loadObjectList();
 		$selectedPayments = array_column($selectedPayments, 'payment_id');
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
 		$html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
-		$html .= self::listTree($selectedPayments, $disabledFields);
+		$html .= self::listTree($selectedPayments);
 		$html .= "</select>\n";
 
 		return $html;
@@ -237,15 +234,14 @@ class RedshopHelperPayment
 	/**
 	 * List payment into dropdown
 	 *
-	 * @param   array   $selectedPayments    Only show selected payments
-	 * @param   array   $disabledFields      Disable fields
-	 * @param   string  $html                Before HTML
+	 * @param   array   $selectedPayments  Only show selected payments
+	 * @param   string  $html              Before HTML
 	 *
 	 * @return  string   HTML of <option></option>
 	 *
-	 * @since  DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function listTree($selectedPayments = array(), $disabledFields = array(), $html = '')
+	public static function listTree($selectedPayments = array(), $html = '')
 	{
 		$paymentMethods = self::info();
 
@@ -256,9 +252,9 @@ class RedshopHelperPayment
 
 		foreach ($paymentMethods as $p => $oneMethod)
 		{
-			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
+			$paymentPath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
 
-			include_once $paymentpath;
+			include_once $paymentPath;
 
 			$value 	  = $oneMethod->name;
 
@@ -295,7 +291,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  array   Common PaymentMethods
 	 *
-	 * @since  DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getPaymentMethodInCheckOut($paymentMethods=array())
 	{
@@ -377,9 +373,9 @@ class RedshopHelperPayment
 	 *
 	 * @param   array   $paymentMethods     All active payment methods
 	 *
-	 * @return 	string  HTML of <div></div>
+	 * @return  string  HTML of <div></div>
 	 *
-	 * @since 	DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function displayPaymentMethodInCheckOut($paymentMethods=array())
 	{
@@ -394,10 +390,7 @@ class RedshopHelperPayment
 		}
 
 		$cart = RedshopHelperCartSession::getCart();
-
-		$db = JFactory::getDbo();
-
-		$productHelper = productHelper::getInstance();
+		$db   = JFactory::getDbo();
 		$html = '';
 
 		foreach ($cart as $index => $product)
@@ -433,7 +426,7 @@ class RedshopHelperPayment
 				$payments = $currentPaymentMethods;
 			}
 
-			$product = $productHelper->getProductById($productId);
+			$product = RedshopHelperProduct::getProductById($productId);
 			$html .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
 			$tmp = '';
 
