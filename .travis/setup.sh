@@ -36,7 +36,7 @@ else
 	sed -e "s,group = nobody,;group = $USER,g" --in-place $file
 	sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
-	sed -i 's|^upload_max_filesize = 2M|upload_max_filesize = 32M|' ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+	sed -i 's|^upload_max_filesize = 2M|upload_max_filesize = 64M|' ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/default.conf
 	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default.conf
