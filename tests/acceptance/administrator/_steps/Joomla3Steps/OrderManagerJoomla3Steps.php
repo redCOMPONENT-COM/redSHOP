@@ -89,7 +89,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\OrderManagerPage::$URL);
 
         $this->searchOrder($nameUser);
-        $I->checkAllResults();
+        $I->click(\OrderManagerPage::$firstOrderId);
         $I->click(\OrderManagerPage::$deleteButton);
         $I->acceptPopup();
         $I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);

@@ -58,7 +58,9 @@ class OrderManagerPage
 
     public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $nameUser = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[4]/a"];
+    public static $nameUser = ['xpath' => "//tr[@class='row0']/td[4]/a"];
+
+    public static $firstOrderId = ['xpath' =>'//tr[@class=\'row0\']/td[2]/input'];
 
     public static $saveSuccess = "//div[@id='system-message']/div[2]/div/p";
 
