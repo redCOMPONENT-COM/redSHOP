@@ -101,5 +101,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wantTo('Search the User ');
         $I->amOnPage(\OrderManagerPage::$URL);
         $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+        $I->wait(1);
     }
 }
