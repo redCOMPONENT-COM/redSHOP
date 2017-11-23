@@ -14,13 +14,12 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 
 
-//    public function addDiscountPrice ($nameProduct,$price,$discountPrice)
     public function addDiscountPrice($productName, $priceDiscount)
     {
         $I = $this;
         $I->amOnPage(\PriceProductJoomla3Page::$URL);
         $I->searchProduct($productName);
-        $I->wait(5);
+        $I->waitForElement(\PriceProductJoomla3Page::$discount, 30);
         $I->fillField(\PriceProductJoomla3Page::$discount, $priceDiscount);
         $I->click(\PriceProductJoomla3Page::$saveButton);
     }

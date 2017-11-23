@@ -22,7 +22,7 @@ class OrderManagerPage
 
     public static $userSearch = ".//*[@id='s2id_autogen1_search']";
 
-    public static $address = ['id' => 'address'];
+    public static $address  = ['xpath' =>'//input[@id=\'address\']'];
 
     public static $zipcode = ['id' => 'zipcode'];
 
@@ -58,7 +58,9 @@ class OrderManagerPage
 
     public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $nameUser = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[4]/a"];
+    public static $nameUser = ['xpath' => "//tr[@class='row0']/td[4]/a"];
+
+    public static $firstOrderId = ['xpath' =>'//input[@id=\'cb0\']'];
 
     public static $saveSuccess = "//div[@id='system-message']/div[2]/div/p";
 
