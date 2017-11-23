@@ -464,7 +464,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("+ Add Attribute parameter");
         $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
         $I->fillField(['xpath' => '//input[@name="attribute[1][name]"]'], $nameAttribute);
-        $I->wait(60);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'],$valueAttribute);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][price]"]'],$priceAttribute);
         $I->click("Save");
@@ -496,7 +495,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -512,7 +510,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -528,7 +525,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -544,7 +540,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->click("Product Attributes");
@@ -607,7 +602,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
         $I->searchProduct($productName);
-        $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
         $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
