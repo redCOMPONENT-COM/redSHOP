@@ -103,7 +103,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 			}
 		}
 
-		$orderItem          = RedshopHelperProduct::redesignProductItem($post);
+		$orderItem          = Redshop\Order\Helper::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
 		$post['user_info_id'] = $post['users_info_id'];
