@@ -60,7 +60,7 @@ class OrderManagerPage
 
     public static $nameUser = ['xpath' => "//tr[@class='row0']/td[4]/a"];
 
-    public static $firstOrderId = ['xpath' =>'//tr[@class=\'row0\']/td[2]/input'];
+    public static $firstOrderId = ['xpath' =>'//input[@id=\'cb0\']'];
 
     public static $saveSuccess = "//div[@id='system-message']/div[2]/div/p";
 
