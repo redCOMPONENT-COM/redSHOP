@@ -58,7 +58,7 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\MailCenterPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->searchMail($mailName);
-		$client->wait(3);
+		$client->waitForElement(['link'=> $mailName]);
 		$client->click($mailName);
 		$client->waitForElement(\MailCenterPage::$fieldName, 30);
 		$client->fillField(\MailCenterPage::$fieldName, $newMailName);
@@ -80,7 +80,7 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\MailCenterPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->searchMail($name);
-		$client->wait(3);
+		$client->waitForText($name, 30, \MailCenterPage::$resultRow);
 		$client->see($name, \MailCenterPage::$resultRow);
 		$client->checkAllResults();
 		$client->click(\MailCenterPage::$mailTemplateStatePath);
@@ -113,7 +113,7 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\MailCenterPage::$url);
 		$client->searchMail($name);
-		$client->wait(3);
+		$client->waitForText($name, 30, \MailCenterPage::$resultRow);
 		$client->see($name, \MailCenterPage::$resultRow);
 		$text = $client->grabAttributeFrom(\MailCenterPage::$mailTemplateStatePath, 'onclick');
 		echo "Get status text " . $text;

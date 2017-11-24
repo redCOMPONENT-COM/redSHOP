@@ -1063,7 +1063,7 @@ class Economic
 			if ($paymentInfo)
 			{
 				$paymentName = $paymentInfo->payment_method_class;
-				$paymentArr  = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+				$paymentArr  = explode("rs_payment_", $paymentInfo->payment_method_class);
 
 				if (count($paymentArr) > 0)
 				{
