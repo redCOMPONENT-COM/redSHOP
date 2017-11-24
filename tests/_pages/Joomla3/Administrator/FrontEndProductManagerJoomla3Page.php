@@ -20,6 +20,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
+	public static $quotation = "/index.php?option=com_redshop&view=quotation";
+
+	public static $addQuotation = '//input[@name=\'addquotation\']';
+
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
 	public static $productList = "//div[@id='redcatproducts']";
@@ -32,11 +36,15 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $alterOutOfStock="Sorry, This product is out of stock....";
 
+	public static $addQuotationSuccess = 'Quotation detail has been sent successfully';
+
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
 	public static $addressEmail = "#email1";
+	
+	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
 
 	public static $addressFirstName = "//input[@id='firstname']";
 
