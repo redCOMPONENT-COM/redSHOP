@@ -34,7 +34,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $userQuotationPage = new QuotationManagerPage();
         $I->fillField(QuotationManagerPage::$userSearch, $nameUser);
         $I->amOnPage(\QuotationManagerPage::$URL);
-        $I->click(\QuotationManagerPage::$newButton);
+        $I->click(\QuotationManagerPage::$buttonNew);
         $I->click(\QuotationManagerPage::$userId);
         $I->waitForElement(\QuotationManagerPage::$userSearch, 30);
         $I->fillField(\QuotationManagerPage::$userSearch, $nameUser);
