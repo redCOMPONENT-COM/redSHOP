@@ -18,38 +18,24 @@ class CategoryManagerJ3Page extends AdminJ3Page
     // Include url of current page
     public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
 
-    public static $URLNew = 'administrator/index.php?option=com_redshop&view=category&layout=edit';
-
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=category&layout=edit&id=';
-
 
     //page name
     public static $pageManageName = "Category Management";
-
 
     public static $headPageName = ['xpath' => "//h1"];
 
     public static $categoryName = "#jform_name";
 
-//	public static $categoryPage="#"
-
     public static $categoryFilter = ['id' => 'filter_search'];
 
     public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
 
-    public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
-
-    public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[5]";
-
-    public static $categoryId = "//div[@class='table-responsive']/table/tbody/tr/td[9]";
-
-    public static $categoryCheckInRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]";
+    public static $categoryId = "//tbody/tr/td[9]";
 
     public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
     public static $checkAll = "//input[@id='cb0']";
-
-    public static $checkAllCategory = "//input[@onclick='Joomla.checkAll(this)']";
 
     public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
 
@@ -62,8 +48,6 @@ class CategoryManagerJ3Page extends AdminJ3Page
     public static $accessories = "//div[@id='s2id_category_accessory_search']/a";
 
     public static $accessoriesFill = "#s2id_autogen1";
-
-    public static $categoryManagement = "/html/body/div/div/div/section[1]/div[1]/h1";
 
     public static $tabAccessory = ['link' => "Accessories"];
 
