@@ -27,25 +27,25 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\QuotationManagerPage::$URL);
-        $I->click(\QuotationManagerPage::$newButton);
+        $I->click(\QuotationManagerPage::$buttonNew);
         $I->click(\QuotationManagerPage::$userId);
         $I->waitForElement(\QuotationManagerPage::$userSearch, 30);
         $userQuotationPage = new \QuotationManagerPage();
         $I->fillField(\QuotationManagerPage::$userSearch, $nameUser);
-        $I->waitForElement($userQuotationPage->xPathSearch($nameUser), 30);
+	    $I->wait(5);
 
         $I->click($userQuotationPage->xPathSearch($nameUser));
 
         $I->click(\QuotationManagerPage::$productId);
         $I->waitForElement(\QuotationManagerPage::$productsSearch, 30);
         $I->fillField(\QuotationManagerPage::$productsSearch, $nameProduct);
-        $I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 30);
+        $I->wait(5);
         $I->click($userQuotationPage->xPathSearch($nameProduct));
 
         $I->fillField(\QuotationManagerPage::$quanlityFirst, $quantity);
 
 
-        $I->click(\QuotationManagerPage::$saveButton);
+        $I->click(\QuotationManagerPage::$buttonSave);
         $I->see(\QuotationManagerPage::$messageSaveSuccess, \QuotationManagerPage::$selectorSuccess);
     }
 
@@ -56,7 +56,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\QuotationManagerPage::$quotationId);
         $I->waitForElement(\QuotationManagerPage::$quantityp1,30);
         $I->fillField(\QuotationManagerPage::$quantityp1, $newQuantity);
-        $I->click(\QuotationManagerPage::$saveButton);
+        $I->click(\QuotationManagerPage::$buttonSave);
         $I->see(\QuotationManagerPage::$messageSaveSuccess, \QuotationManagerPage::$selectorSuccess);
     }
 
@@ -65,7 +65,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\QuotationManagerPage::$URL);
         $I->checkAllResults();
-        $I->click(\QuotationManagerPage::$deleteButton);
+        $I->click(\QuotationManagerPage::$buttonDelete);
         $I->see(\QuotationManagerPage::$messageDeleteSuccess, \QuotationManagerPage::$selectorSuccess);
     }
 

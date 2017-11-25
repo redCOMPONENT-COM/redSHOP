@@ -16,7 +16,6 @@
 abstract class AdminJ3Page
 {
 
-	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
 	/**
 	 * @var string
 	 */
@@ -55,12 +54,12 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
+	public static $namePath = "//input[@id='name-1-edit-inline']";
 
 	/**
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath =['xpath'=>'//div[@class=\'table-responsive\']/table/tbody/tr/td[6]/a'] ;
 
 	/**
 	 * @var array
@@ -115,11 +114,6 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $buttonReview = 'Preview';
-
-	/**
-	 * @var string
-	 */
 	public static $buttonPublish = "Publish";
 
 	/**
@@ -147,22 +141,19 @@ abstract class AdminJ3Page
 	 */
 	public static $buttonClose = "Close";
 
-// Include url of current page
-// Fontend checkout first name
+	// Include url of current page
+	// Fontend checkout first name
 
 	/**
 	 * @var string
 	 */
 	public static $URL = '/index.php?option=com_redshop';
+
 	/**
 	 * @var string
 	 */
 	public static $URLLoginAdmin = '/administrator/index.php';
 
-	/**
-	 * @var string
-	 */
-	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
 	/**
 	 * @var string
 	 */
@@ -249,26 +240,33 @@ abstract class AdminJ3Page
 	 * @var array
 	 */
 	public static $acceptTerms = ['xpath' => "//input[@id='termscondition']"];
+
 	/**
 	 * @var string
 	 */
-//	public static $priceTotal = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[1]/div";
 
 	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
+
 	//
 	/**
 	 * @var string
 	 */
-//	public static $priceDiscount = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[2]/div";
-
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+
 	/**
 	 * @var array
 	 */
 	public static $priceEnd = ['id' => 'spnTotal'];
 
+	/**
+	 * @var array
+	 */
 	public static $shippingRate=['id'=>'spnShippingrate'];
 
+	/**
+	 * @var array
+	 */
+	public static $idReset=['id'=>'reset'];
 	/**
 	 *
 	 * Function get value

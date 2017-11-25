@@ -148,7 +148,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->executeJS('window.scrollTo(0,0)');
         $I->click(['link' => 'ID']);
         $I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-        $text = $I->grabAttributeFrom(\ManufacturerManagerJoomla3Page::$manufacturerStatePath, 'onclick');
+        $text = $I->grabAttributeFrom(\ManufacturerManagerJoomla3Page::$statePath, 'onclick');
 
         if (strpos($text, 'unpublish') > 0)
         {

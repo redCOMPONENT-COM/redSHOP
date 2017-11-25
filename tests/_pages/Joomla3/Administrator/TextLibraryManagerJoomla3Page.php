@@ -26,10 +26,6 @@ class TextLibraryManagerJoomla3Page
 
 	public static $textResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
-	public static $textLibraryStatePath = "//tbody/tr/td[6]/a";
-
-	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
-
 	public static $firstResult = "//input[@id='cb0']";
 
 	public static $textCreationSuccessMessage = "Text Library Detail Saved";
@@ -43,7 +39,6 @@ class TextLibraryManagerJoomla3Page
 	 */
 	public function section($sectionType)
 	{
-		//input[@id='s2id_autogen1_search']
 		$path = "//div[@id='select2-drop']//ul[@id='select2-results-1']//span[contains(text(),'" . $sectionType . "')]";
 
 		return $path;

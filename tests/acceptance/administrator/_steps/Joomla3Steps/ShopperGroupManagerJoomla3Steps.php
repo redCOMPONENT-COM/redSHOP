@@ -14,7 +14,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
-        $I->click(\ShopperGroupJ3Page::$newButton);
+        $I->click(\ShopperGroupJ3Page::$buttonNew);
         $I->fillField(\ShopperGroupJ3Page::$shopperName, $shopperName);
 
         if($shopperType!=null){
@@ -82,13 +82,13 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         switch ($function){
             case 'save':
-                $I->click(\ShopperGroupJ3Page::$saveButton);
+                $I->click(\ShopperGroupJ3Page::$buttonSave);
                 $I->see(\ShopperGroupJ3Page::$saveSuccess, \ShopperGroupJ3Page::$selectorSuccess);
                 break;
             case 'saveclose':
-                $I->click(\ShopperGroupJ3Page::$saveCloseButton);
+                $I->click(\ShopperGroupJ3Page::$buttonSaveClose);
                 $I->see(\ShopperGroupJ3Page::$saveSuccess, \ShopperGroupJ3Page::$selectorSuccess);
-                $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorNamePage);
+                $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorPageTitle);
                 break;
         }
 
@@ -129,8 +129,8 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $URLEdit = \ShopperGroupJ3Page::$URLEdit . $idShopperGroups;
         $I->amOnPage($URLEdit);
         $I->checkForPhpNoticesOrWarnings($URLEdit);
-        $I->click(\ShopperGroupJ3Page::$closeButton);
-        $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorNamePage);
+        $I->click(\ShopperGroupJ3Page::$buttonClose);
+        $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorPageTitle);
     }
 
     public function editShopperGroups($nameShopperGroups, $idShopperGroups, $nameEdit)
@@ -143,7 +143,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage($URLEdit);
         $I->checkForPhpNoticesOrWarnings($URLEdit);
         $I->fillField(\ShopperGroupJ3Page::$shopperName, $nameEdit);
-        $I->click(\ShopperGroupJ3Page::$saveButton);
+        $I->click(\ShopperGroupJ3Page::$buttonSave);
         $I->see(\ShopperGroupJ3Page::$saveSuccess, \ShopperGroupJ3Page::$selectorSuccess);
     }
 
@@ -153,7 +153,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
         $I->click(\ShopperGroupJ3Page::$shopperFirst);
-        $I->click(\ShopperGroupJ3Page::$deleteButton);
+        $I->click(\ShopperGroupJ3Page::$buttonDelete);
         $I->cancelPopup();
     }
 
@@ -161,9 +161,9 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
-        $I->click(\ShopperGroupJ3Page::$newButton);
+        $I->click(\ShopperGroupJ3Page::$buttonNew);
         $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URLNew);
-        $I->click(\ShopperGroupJ3Page::$saveCloseButton);
+        $I->click(\ShopperGroupJ3Page::$buttonSaveClose);
         $I->acceptPopup();
     }
 
@@ -174,16 +174,16 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkAllResults();
         switch ($status){
             case 'publish':
-                $I->click(\ShopperGroupJ3Page::$publishButton);
+                $I->click(\ShopperGroupJ3Page::$buttonPublish);
                 $I->see(\ShopperGroupJ3Page::$publishSuccess, \ShopperGroupJ3Page::$selectorSuccess);
                 break ;
 
             case 'unpublish':
-                $I->click(\ShopperGroupJ3Page::$unpublishButton);
+                $I->click(\ShopperGroupJ3Page::$buttonUnpublish);
                 $I->see(\ShopperGroupJ3Page::$unpublishSuccess, \ShopperGroupJ3Page::$selectorSuccess);
                 break;
         }
-        $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorNamePage);
+        $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$selectorPageTitle);
     }
 
 
@@ -192,25 +192,25 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         switch ($buttonName){
             case 'edit':
-                $I->click(\ShopperGroupJ3Page::$editButton);
+                $I->click(\ShopperGroupJ3Page::$buttonEdit);
                 $I->acceptPopup();
                 break;
             case 'delete':
-                $I->click(\ShopperGroupJ3Page::$deleteButton);
+                $I->click(\ShopperGroupJ3Page::$buttonDelete);
                 $I->acceptPopup();
                 break;
             case 'unpublish':
-                $I->click(\ShopperGroupJ3Page::$unpublishButton);
+                $I->click(\ShopperGroupJ3Page::$buttonUnpublish);
                 $I->acceptPopup();
                 break;
             case 'publish':
-                $I->click(\ShopperGroupJ3Page::$publishButton);
+                $I->click(\ShopperGroupJ3Page::$buttonPublish);
                 $I->acceptPopup();
                 break;
             case 'cancel':
-                $I->click(\ShopperGroupJ3Page::$newButton);
+                $I->click(\ShopperGroupJ3Page::$buttonNew);
                 $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URLNew);
-                $I->click(\ShopperGroupJ3Page::$cancelButton);
+                $I->click(\ShopperGroupJ3Page::$buttonCancel);
                 break;
         }
         $I->see(\ShopperGroupJ3Page::$namePageManagement, \ShopperGroupJ3Page::$headPage);
@@ -222,7 +222,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
         $I->checkAllResults();
-        $I->click(\ShopperGroupJ3Page::$deleteButton);
+        $I->click(\ShopperGroupJ3Page::$buttonDelete);
         $I->acceptPopup();
 
         $I->waitForElement(\ShopperGroupJ3Page::$selectorSuccess);

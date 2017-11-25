@@ -43,17 +43,13 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $productPrice=['id'=>'product_price'];
 
-    public static $category=['xpath' => "//div[@id='s2id_product_category']//ul/li"];
+    public static $category=['xpath' => "//div[@id='s2id_product_category']"];
 
-    public static $categoryInput=['xpath' => "//div[@id='s2id_product_category']//ul/li//input"];
+    public static $categoryInput=['xpath' => "//input[@id='s2id_autogen4']"];
 
-
-    public static $checkAllProducts="//input[@onclick='Joomla.checkAll(this)']";
 
     //stockroom for product
-	public static $stockroomTab =['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
-//
-//	public static $stockroomTab =['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
+	public static $stockroomTab =['xpath'=>'//ul[@class=\'tabconfig nav nav-pills nav-stacked\']/li[7]'];
 
 	public static $quantityInStock=['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[2]/input[1]'];
 

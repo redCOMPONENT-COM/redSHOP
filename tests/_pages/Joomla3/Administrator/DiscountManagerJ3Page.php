@@ -36,17 +36,15 @@ class DiscountManagerJ3Page extends AdminJ3Page
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
-
 	public static $startDate = "//input[@id='start_date']";
 
 	public static $endDate = "//input[@id='end_date']";
 
-	public static $discountNamePath = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+	public static $discountNamePath = "//tr[@class='row0']/td[3]";
 
-	public static $discountState = "//div[@class='table-responsive']/table/tbody/tr/td[8]/a";
+	public static $discountState = "//tr[@class='row0']/td[8]/a";
 
-	public static $discountCheckBox = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
+	public static $discountCheckBox = "//tr[@class='row0']//td[2]//input";
 
 
 	//selctor

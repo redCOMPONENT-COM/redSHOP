@@ -117,12 +117,14 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 *
 	 * @return string  Result of state
 	 */
-	public function getState($pageClass, $item, $resultRow, $itemStatePath)
+	public function getState($pageClass, $item, $itemStatePath)
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->waitForElement(['link' => $item], 60);
 		$text = $I->grabAttributeFrom($itemStatePath, 'onclick');
+
+		$I->see("text",$text);
 
 		if (strpos($text, 'unpublish') > 0)
 		{

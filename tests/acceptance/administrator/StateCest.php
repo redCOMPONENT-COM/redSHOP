@@ -122,17 +122,14 @@ class StateCest
 	 *
 	 * @depends updateState
 	 */
-	public function deleteState(AcceptanceTester $client, $scenario)
+	public function clearData(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Deletion of State in Administrator');
 		$client->doAdministratorLogin();
 		$client = new StateSteps($scenario);
 		$client->deleteState($this->updatedRandomStateName);
-		/**
-		 * @TODO: Why delete country here?
-		 */
-		/*$client = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
+
+		$client = new CountrySteps($scenario);
 		$client->deleteCountry($this->randomCountryName);
-		$client->searchCountry($this->randomCountryName, 'Delete');*/
 	}
 }

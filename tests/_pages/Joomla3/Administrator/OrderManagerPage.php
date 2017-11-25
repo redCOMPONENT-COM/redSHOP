@@ -17,7 +17,6 @@ class OrderManagerPage
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 
-
     public static $userId = "//div[@id='s2id_user_id']/a";
 
     public static $userSearch = ".//*[@id='s2id_autogen1_search']";
@@ -32,11 +31,9 @@ class OrderManagerPage
 
     public static $close = ['id' => 'toolbar-cancel'];
 
-
     public static $filter = ['id' => 'filter'];
 
     public static $applyUser = ['id' => 'toolbar-apply'];
-
 
     public static $productId = ['id' => 's2id_product1'];
 
@@ -58,7 +55,7 @@ class OrderManagerPage
 
     public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $nameUser = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[4]/a"];
+    public static $nameUser = ['xpath' => "//tr[@class='row0']/td[4]/a"];
 
     public static $saveSuccess = "//div[@id='system-message']/div[2]/div/p";
 

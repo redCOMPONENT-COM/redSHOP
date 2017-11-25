@@ -53,5 +53,5 @@ class MailCenterPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $mailTemplateStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[7]/a";
+	public static $mailTemplateStatePath = "//table[@id='table-mails']/tbody/tr/td[7]/a";
 }

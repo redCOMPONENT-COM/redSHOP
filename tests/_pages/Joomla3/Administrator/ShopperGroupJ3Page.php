@@ -9,7 +9,6 @@ class ShopperGroupJ3Page extends AdminJ3Page
     //name page
     public static $namePageManagement = 'Shopper Group Management';
 
-
     //URL
     public static $URL = '/administrator/index.php?option=com_redshop&view=shopper_group';
 
@@ -65,53 +64,17 @@ class ShopperGroupJ3Page extends AdminJ3Page
 
     public static $categoryFill = ['xpath' => "//div[@id='s2id_shopper_group_categories']//ul/li//input"];
 
-    public static $shopperFirst = " //div[@class='table-responsive']/table/tbody/tr/td[2]/input[@id='cb0']";
+    public static $shopperFirst = "//table[@class='adminlist table table-striped']/tbody/tr[1]/td[2]/input";
 
     public static $shopperFours = " //div[@class='table-responsive']/table/tbody/tr/td[2]/input[@id='cb3']";
 
-    public static $shopperFirstStatus = ['xpath' => "//form[@id='adminForm']/div[1]/div/table/tbody/tr[1]/td[5]/a"];
+    public static $shopperFirstStatus = ['xpath' => "//table[@class='adminlist table table-striped']/tbody/tr[1]/td[5]/a"];
 
-    public static $nameShopperGroupsFirst = ['xpath' => "//form[@id='adminForm']/div[1]/div/table/tbody/tr[1]/td[3]/a"];
-
-//    public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
-
-//    public static $pageHead="//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
-
+    public static $nameShopperGroupsFirst = ['xpath' => "//table[@class='adminlist table table-striped']/tbody/tr[1]/td[3]"];
 
 
     //selector
-
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
-    public static $selectorNameShopper = '.shopper_group_name';
-
-    //button
-
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
-
-    public static $closeButton = 'Close';
+	public static $selectorNameShopper = '.shopper_group_name';
 
     //message
     public static $saveSuccess = 'Shopper Group Detail Saved';
