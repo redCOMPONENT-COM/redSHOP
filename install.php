@@ -41,7 +41,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Method to install the component
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -56,10 +56,12 @@ class Com_RedshopInstallerScript
 	/**
 	 * method to run after an install/update/uninstall method
 	 *
-	 * @param   string  $type    Type of method
-	 * @param   object  $parent  Parent class call this method
+	 * @param   string $type   Type of method
+	 * @param   object $parent Parent class call this method
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function postflight($type, $parent)
 	{
@@ -69,7 +71,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * method to uninstall the component
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -84,7 +86,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Method to update the component
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -98,14 +100,18 @@ class Com_RedshopInstallerScript
 	/**
 	 * method to run before an install/update/uninstall method
 	 *
-	 * @param   object  $type    Type of change (install, update or discover_install)
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $type   Type of change (install, update or discover_install)
+	 * @param   object $parent Class calling this method
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function preflight($type, $parent)
 	{
 		$this->type = $type;
+
+		$this->implementProcedure();
 
 		if ($type == 'update' || $type == 'discover_install')
 		{
@@ -134,7 +140,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package libraries
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -170,7 +176,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package modules
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -204,7 +210,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package libraries
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -272,9 +278,9 @@ class Com_RedshopInstallerScript
 	/**
 	 * Method for enable plugins
 	 *
-	 * @param   string  $extName   Plugin name
-	 * @param   string  $extGroup  Plugin group
-	 * @param   int     $state     State of plugins
+	 * @param   string $extName  Plugin name
+	 * @param   string $extGroup Plugin group
+	 * @param   int    $state    State of plugins
 	 *
 	 * @return mixed
 	 */
@@ -294,7 +300,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package libraries
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -320,7 +326,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package modules
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -347,7 +353,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package plugins
 	 *
-	 * @param   object  $parent  Class calling this method
+	 * @param   object $parent Class calling this method
 	 *
 	 * @return  void
 	 */
@@ -376,10 +382,10 @@ class Com_RedshopInstallerScript
 	/**
 	 * Search a extension in the database
 	 *
-	 * @param   string  $element  Extension technical name/alias
-	 * @param   string  $type     Type of extension (component, file, language, library, module, plugin)
-	 * @param   string  $state    State of the searched extension
-	 * @param   string  $folder   Folder name used mainly in plugins
+	 * @param   string $element Extension technical name/alias
+	 * @param   string $type    Type of extension (component, file, language, library, module, plugin)
+	 * @param   string $state   State of the searched extension
+	 * @param   string $folder  Folder name used mainly in plugins
 	 *
 	 * @return  integer           Extension identifier
 	 */
@@ -405,5 +411,305 @@ class Com_RedshopInstallerScript
 		$db->setQuery($query);
 
 		return $db->loadResult();
+	}
+
+	/**
+	 * Method for implement procedure function for MySQL server only
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function implementProcedure()
+	{
+		$db         = JFactory::getDbo();
+		$procedures = array();
+		$database   = JFactory::getConfig()->get('db');
+		$results    = $db->setQuery('SHOW PROCEDURE STATUS')->loadObjectList();
+
+		foreach ($results as $result)
+		{
+			if ($result->Db != $database)
+			{
+				continue;
+			}
+
+			$procedures[] = $result->Name;
+		}
+
+		if (!in_array('redSHOP_Column_Update', $procedures))
+		{
+			$this->procedureUpdateColumn();
+		}
+
+		if (!in_array('redSHOP_Column_Remove', $procedures))
+		{
+			$this->procedureRemoveColumn();
+		}
+
+		if (!in_array('redSHOP_Index_Remove', $procedures))
+		{
+			$this->procedureIndexRemove();
+		}
+
+		if (!in_array('redSHOP_Index_Add', $procedures))
+		{
+			$this->procedureIndexAdd();
+		}
+
+		if (!in_array('redSHOP_Unique_Index_Add', $procedures))
+		{
+			$this->procedureUniqueIndexAdd();
+		}
+
+		if (!in_array('redSHOP_Fulltext_Index_Add', $procedures))
+		{
+			$this->procedureFulltextIndexAdd();
+		}
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Column_Update"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function procedureUpdateColumn()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Column_Update');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Column_Update") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('columnName') . " VARCHAR(50),
+			IN " . $db->qn('newColumnName') . " VARCHAR(50),
+			IN " . $db->qn('columnDetail') . " VARCHAR(255)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to update / add column to table avoid unexpected errors.') . "
+			BEGIN
+				set @ColOldExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
+				set @ColNewExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=newColumnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
+				IF (@ColOldExist = 0 AND @ColNewExist = 0) THEN
+						/* Both column doesn't exist. Just add column */
+						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD COLUMN `',newColumnName,'` ',columnDetail);
+						prepare DynamicStatement from @StatementToExecute ;
+						execute DynamicStatement ;
+						deallocate prepare DynamicStatement ;
+					ELSEIF (@ColOldExist = 1 AND @ColNewExist = 0)
+					THEN
+						/* Old column exist. New column not exist. Change column */
+						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` CHANGE `',columnName,'` ','`',newColumnName,'` ',columnDetail);
+						prepare DynamicStatement from @StatementToExecute ;
+						execute DynamicStatement ;
+						deallocate prepare DynamicStatement ;
+					ELSEIF (@ColOldExist = 0 AND @ColNewExist = 1)
+					THEN
+						/* Old column not exist. New column exist. Update column */
+						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` CHANGE `',newColumnName,'` ','`',newColumnName,'` ',columnDetail);
+						prepare DynamicStatement from @StatementToExecute ;
+						execute DynamicStatement ;
+						deallocate prepare DynamicStatement ;
+				ELSE
+					/* Old column exist. New column exist. Delete old column and update new column */
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+					
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD COLUMN `',newColumnName,'` ',columnDetail);
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+				END IF;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Column_Remove"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function procedureRemoveColumn()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Column_Remove');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Column_Remove") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('columnName') . " VARCHAR(50)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to remove column to table avoid unexpected errors.') . "
+			BEGIN	
+				IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) = 1)
+				THEN
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+				END IF ;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Index_Remove"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function procedureIndexRemove()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Remove');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Remove") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('indexName') . " VARCHAR(50)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to remove index from table avoid unexpected errors.') . "
+			BEGIN
+				IF ((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND index_name = indexName) = 1)
+				THEN
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP INDEX `',indexName,'`');
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+				END IF ;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Index_Add"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function procedureIndexAdd()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Add');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Add") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('indexName') . " VARCHAR(50),
+			IN " . $db->qn('indexData') . " VARCHAR(255)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to Add index to table avoid unexpected errors..') . "
+			BEGIN
+				CALL redSHOP_Index_Remove(tableName, indexName);
+	
+				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD INDEX `',indexName,'` ',indexData);
+				prepare DynamicStatement from @StatementToExecute ;
+				execute DynamicStatement ;
+				deallocate prepare DynamicStatement ;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Unique_Index_Add"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function procedureUniqueIndexAdd()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Unique_Index_Add');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Unique_Index_Add") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('indexName') . " VARCHAR(50),
+			IN " . $db->qn('indexData') . " VARCHAR(255)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..') . "
+			BEGIN
+				CALL redSHOP_Index_Remove(tableName, indexName);
+	
+				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD UNIQUE INDEX `',indexName,'` ',indexData);
+				prepare DynamicStatement from @StatementToExecute ;
+				execute DynamicStatement ;
+				deallocate prepare DynamicStatement ;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Fulltext_Index_Add"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function procedureFulltextIndexAdd()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Fulltext_Index_Add');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Fulltext_Index_Add") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('indexName') . " VARCHAR(50),
+			IN " . $db->qn('indexData') . " VARCHAR(255)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..') . "
+			BEGIN
+				CALL redSHOP_Index_Remove(tableName, indexName);
+	
+				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD FULLTEXT INDEX `',indexName,'` ',indexData);
+				prepare DynamicStatement from @StatementToExecute ;
+				execute DynamicStatement ;
+				deallocate prepare DynamicStatement ;
+			END";
+
+		$db->setQuery($query)->execute();
 	}
 }
