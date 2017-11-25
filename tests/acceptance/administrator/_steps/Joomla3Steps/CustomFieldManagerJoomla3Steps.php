@@ -34,7 +34,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
         $I->checkForPhpNoticesOrWarnings(\CustomFieldManagerJoomla3Page::$URL);
         $customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
-        $I->click(\CustomFieldManagerJoomla3Page::$newButton);
+        $I->click(\CustomFieldManagerJoomla3Page::$buttonNew);
         $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);
         $I->click(\CustomFieldManagerJoomla3Page::$fieldTypeDropDown);
@@ -70,10 +70,10 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
         $I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
-        $I->click(\CustomFieldManagerJoomla3Page::$editButton);
+        $I->click(\CustomFieldManagerJoomla3Page::$buttonEdit);
         $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
-        $I->click(\CustomFieldManagerJoomla3Page::$saveCloseButton);
+        $I->click(\CustomFieldManagerJoomla3Page::$buttonSaveClose);
         $I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
         $I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
         $I->executeJS('window.scrollTo(0,0)');

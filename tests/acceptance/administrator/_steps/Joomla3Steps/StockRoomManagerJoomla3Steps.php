@@ -29,11 +29,11 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-        $I->click(\StockRoomManagerJoomla3Page::$newButton);
+        $I->click(\StockRoomManagerJoomla3Page::$buttonNew);
         $I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
         $I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $name);
         $I->fillField(\StockRoomManagerJoomla3Page::$minimumStockAmount, $minAmount);
-        $I->click(\StockRoomManagerJoomla3Page::$saveCloseButton);
+        $I->click(\StockRoomManagerJoomla3Page::$buttonSaveClose);
         $I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, \StockRoomManagerJoomla3Page::$selectorSuccess);
     }
 
@@ -53,7 +53,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => $name]);
         $I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
         $I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $newName);
-        $I->click(\StockRoomManagerJoomla3Page::$saveCloseButton);
+        $I->click(\StockRoomManagerJoomla3Page::$buttonSaveClose);
         $I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, \StockRoomManagerJoomla3Page::$selectorSuccess);
         $I->see(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, \StockRoomManagerJoomla3Page::$selectorSuccess);
     }
@@ -66,7 +66,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function changeStockRoomState($name, $state = 'unpublish')
+    public function changeStockRoomState($name, $state)
     {
         $this->changeState(new \StockRoomManagerJoomla3Page, $name, $state, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
     }
@@ -93,9 +93,22 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function getStockRoomState($name)
     {
-        $result = $this->getState(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$stockRoomStatePath);
+	    $I = $this;
+	    $I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
+	    $I->click(\StockRoomManagerJoomla3Page::$idReset);
+	    $I->filterListBySearching($name, $searchField = ['id' => 'filter']);
+	    $I->waitForElement(['link' => $name]);
+	    $I->wait(3);
+	    $text = $I->grabAttributeFrom(\StockRoomManagerJoomla3Page::$stockRoomStatePath, 'onclick');
 
-        return $result;
+	    if (strpos($text, 'unpublish') > 0) {
+		    $result = 'published';
+	    }else{
+		    $result = 'unpublished';
+
+	    }
+
+	    return $result;
     }
 
     /**
