@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use WhichBrowser\Parser;
 
 /**
  * Class Redshop Helper for Payment Methods
@@ -240,15 +241,22 @@ class RedshopHelperPayment
 	 * @return  string   HTML of <option></option>
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	public static function listTree($selectedPayments = array(), $html = '')
 	{
+		self::loadLanguages();
+
 		$paymentMethods = self::info();
 
 		if (empty($paymentMethods))
 		{
 			return $html;
 		}
+
+		$userBrowser = new Parser($_SERVER['HTTP_USER_AGENT']);
+		$isMsIE      = $userBrowser->browser->isFamily('Internet Explorer');
 
 		foreach ($paymentMethods as $p => $oneMethod)
 		{
@@ -271,7 +279,7 @@ class RedshopHelperPayment
 				$disabled = 'disabled="disabled"';
 			}
 
-			if ($disabled != '' && stristr($_SERVER['HTTP_USER_AGENT'], 'msie'))
+			if ($disabled != '' && $isMsIE)
 			{
 				// IE7 suffers from a bug, which makes disabled option fields selectable
 				$html .= "<option $selected value=\"$value\">" . JText::_('PLG_' . strtoupper($oneMethod->name)) . "</option>";
