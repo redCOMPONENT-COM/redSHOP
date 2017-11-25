@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class UserManagerJoomla3Page
+class UserManagerJoomla3Page extends AdminJ3Page
 {
     public static $namePage = "User Management";
 
@@ -43,7 +43,7 @@ class UserManagerJoomla3Page
 
     public static $email = "//input[@id='email']";
 
-    public static $groupRadioButton = "//form[@id='adminForm']/div[1]/dd[1]/div/fieldset/div/table/tbody/tr[6]/td[2]";
+    public static $groupRadioButton = "//table[@class='admintable table']/tbody/tr[6]/td[2]";
 
     public static $shopperGroupDropDown = "//div[@id='s2id_shopper_group_id']/a";
 
@@ -69,7 +69,7 @@ class UserManagerJoomla3Page
 
     public static $emailInvalid = "Please enter a valid email address";
 
-    public static $firstResultRow = "//div[@id='editcell']//table[1]//tbody/tr[1]";
+    public static $firstResultRow = "//table[@class='adminlist table table-striped']/tbody/tr[1]";
 
     public static $selectFirst = "//input[@id='cb0']";
 
@@ -77,37 +77,10 @@ class UserManagerJoomla3Page
 
 
     //button
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $cancelButton = "Cancel";
-
-    public static $closeButton = "Close";
-
     public static $addButton = "Add";
 
-    //selector
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
 
     //selector
-
-
     public static $xPathError = ['xpath' => "//div[@id='system-message']/div/div/p[1]"];
 
     public static $errorUserReady = ['xpath' => "//div[@id='system-message']/div/h4"];

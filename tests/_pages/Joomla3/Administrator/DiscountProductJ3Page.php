@@ -1,7 +1,7 @@
 <?php
 
 
-class DiscountProductJ3Page
+class DiscountProductJ3Page extends AdminJ3Page
 {
     //name page
     public static $namePage = "Product Discount Management";
@@ -28,7 +28,7 @@ class DiscountProductJ3Page
 
     public static $messageSaveDiscountSuccess = "Discount Detail Saved";
 
-    public static $namePageDiscount="Discount Page New";
+    public static $namePageDiscount = "Discount Page New";
 
     //selector
     public static $selectorSuccess = '.alert-success';
@@ -45,29 +45,13 @@ class DiscountProductJ3Page
 
     public static $discountTypeSearch = ['id' => "s2id_autogen2_search"];
 
-    public static $category = ['xpath' => "//div[@id='s2id_category_ids']//ul/li"];
+    public static $category = ['xpath' => "//div[@id='s2id_category_ids']//ul"];
 
-    public static $categoryInput = ['xpath' => "//div[@id='s2id_category_ids']//ul/li//input"];
+    public static $categoryInput = ['id'=>'s2id_autogen3'];
 
-    public static $shopperGroup = ['xpath' => "//div[@id='s2id_shopper_group_id']//ul/li"];
+    public static $shopperGroup = ['xpath' => "//div[@id='s2id_shopper_group_id']"];
 
-    public static $shopperGroupInput = ['xpath' => "//div[@id='s2id_shopper_group_id']//ul/li//input"];
-
-    //Button
-
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
+    public static $shopperGroupInput = ['id' => "s2id_autogen4"];
 
     public function returnType($condition)
     {

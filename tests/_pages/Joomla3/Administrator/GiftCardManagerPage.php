@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class GiftCardManagerPage
+class GiftCardManagerPage extends AdminJ3Page
 {
 
     //name page
@@ -33,70 +33,23 @@ class GiftCardManagerPage
 
     public static $giftCardValidity = "//input[@id='jform_giftcard_validity']";
 
-    public static $giftCardResultRow = "//table[@id='articleList']/tbody/tr[2]";
+    public static $statePathGift = ['xpath'=>"//table[@id='articleList']/tbody/tr[1]//td[2]/div/a"];
+
+    public static $giftCardResultRow = "//table[@id='articleList']/tbody/tr[1]";
 
     public static $firstResult = "//input[@id='cb0']";
 
-    public static $giftCardState = "//table[@id='articleList']/tbody/tr[1]//td[2]//a";
-
-    public static $errorPath = "//div[@id='system-message-container']/div/div";
-
-    public static $getCartStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[2]"];
-
     public static $errorValid = ['xpath' => "//div[@id='system-message-container']/div/div"];
 
-    public static $xpathMessage=['xpath'=>"//div[@id='system-message-container']/div/div/div"];
+    public static $getGiftCard = ['xpath' => "//input[@id='cb0']"];
 
-    public static $getGiftCard = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[1]"];
+    public static $giftCardId = ['xpath' => "//tr[@class='row0']//td[9]"];
 
-    public static $giftCardId =['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]"];
+    public static $messageSuccessUnpublish = "items successfully unpublished";
 
-    //button
-    public static $newButton = "New";
+    public static $messageUnpublishSuccess = "1 item successfully unpublished";
 
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
-
-    public static $closeButton = "Close";
-
-
-    //selector
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
-
-    //message
-    public static $messageSaveSuccess = "Item saved.";
-
-    public static $messageError = "Error";
-
-    public static $messageSuccess = "Message";
-
-//    public static $messageSuccessPublishAll="";
-
-    public static $messageSuccessUnpublish="items successfully unpublished";
-
-    public static $messageUnpublishSuccess="1 item successfully unpublished";
-
-    public static $messagePublishSuccess="1 item successfully published";
+    public static $messagePublishSuccess = "1 item successfully published";
 
     public static $messageDeleteSuccess = "1 item successfully deleted";
 

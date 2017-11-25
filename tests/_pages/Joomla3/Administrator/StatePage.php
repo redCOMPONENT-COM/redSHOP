@@ -66,8 +66,6 @@ class StatePage extends AdminJ3Page
 	{
 		$path = "//span[contains(text(), '" . $countryName . "')]";
 
-		// $path = "//ul[@class='select2-results']/li/div[@class='select2-result-label' ][contains(text(), '" . $countryName . "')]";
-
 		return $path;
 	}
 }

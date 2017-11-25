@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class VoucherManagerPage
+class VoucherManagerPage extends AdminJ3Page
 {
 
     //name pag
@@ -35,15 +35,16 @@ class VoucherManagerPage
 
     public static $voucherCheck = "#cb0";
 
-    public static $voucherResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+    public static $voucherResultRow = "//div[@class='table-responsive']/table/tbody/tr";
 
-    public static $voucherStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[10]/a";
+	public static $voucherStatePath = "//table[@id='table-vouchers']/tbody/tr/td[10]/a";
+
 
     public static $voucherId = "//div[@class='table-responsive']/tbody/tr[1]/td[12]";
 
     public static $voucherSearchField = "#filter_search";
 
-    public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]/a"];
+    public static $xPathStatus = ['xpath' => "//table[@id='table-vouchers']/tbody/tr/td[10]/a"];
 
     public static $xPathInvalid = ['xpath' => "//div[@id='system-message-container']/div/div"];
 
@@ -55,42 +56,10 @@ class VoucherManagerPage
 
 	public static $searchField = ['id' => 'filter_search'];
 
-    //button
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
-
-    public static $closeButton = "Close";
-
     //selector
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
-    public static $headPageName = ['xpath' => "//h1"];
-
+    public static $selectorSuccessHead='.alert alert-success alert-dismissible';
 
     //message
-    public static $messageSaveSuccess = "Item saved.";
-
     public static $messageError = "Error";
 
     public static $messageSuccess = "Message";

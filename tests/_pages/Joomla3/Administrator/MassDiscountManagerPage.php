@@ -23,15 +23,15 @@ class MassDiscountManagerPage
 
     public static $MassDiscountFilter = "#filter_search";
 
-    public static $MassDicountResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+    public static $MassDicountResultRow = "//table[@id='table-mass_discounts']/tbody/tr[1]";
 
-    public static $categoryForm = ['xpath' => "//div[@id='s2id_jform_category_id']//ul/li"];
+    public static $categoryForm = ['xpath' => "//div[@id='s2id_jform_category_id']"];
 
-    public static $categoryFormInput = ['xpath' => "//div[@id='s2id_jform_category_id']//ul/li//input"];
+    public static $categoryFormInput = ['xpath' => "//input[@id='s2id_autogen2']"];
 
-    public static $discountForm = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li"];
+    public static $discountForm = ['xpath' => "//div[@id='s2id_jform_discount_product']"];
 
-    public static $discountFormInput = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li//input"];
+    public static $discountFormInput = ['xpath' => "//input[@id='s2id_autogen1']"];
 
     public static $dateCalender='#jform_start_date_img';
 
