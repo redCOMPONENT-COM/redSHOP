@@ -497,33 +497,35 @@ class Com_RedshopInstallerScript
 				set @ColOldExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
 				set @ColNewExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=newColumnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
 				IF (@ColOldExist = 0 AND @ColNewExist = 0) THEN
-						/* Both column doesn't exist. Just add column */
-						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD COLUMN `',newColumnName,'` ',columnDetail);
-						prepare DynamicStatement from @StatementToExecute ;
-						execute DynamicStatement ;
-						deallocate prepare DynamicStatement ;
-					ELSEIF (@ColOldExist = 1 AND @ColNewExist = 0)
-					THEN
-						/* Old column exist. New column not exist. Change column */
-						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` CHANGE `',columnName,'` ','`',newColumnName,'` ',columnDetail);
-						prepare DynamicStatement from @StatementToExecute ;
-						execute DynamicStatement ;
-						deallocate prepare DynamicStatement ;
-					ELSEIF (@ColOldExist = 0 AND @ColNewExist = 1)
-					THEN
+					/* Both column doesn't exist. Just add column */
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD COLUMN `',newColumnName,'` ',columnDetail);
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+				ELSEIF (@ColOldExist = 1 AND @ColNewExist = 0) THEN
+					/* Old column exist. New column not exist. Change column */
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` CHANGE `',columnName,'` ','`',newColumnName,'` ',columnDetail);
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+				ELSEIF (@ColOldExist = 0 AND @ColNewExist = 1) THEN
 						/* Old column not exist. New column exist. Update column */
 						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` CHANGE `',newColumnName,'` ','`',newColumnName,'` ',columnDetail);
 						prepare DynamicStatement from @StatementToExecute ;
 						execute DynamicStatement ;
 						deallocate prepare DynamicStatement ;
 				ELSE
-					/* Old column exist. New column exist. Delete old column and update new column */
-					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
-					prepare DynamicStatement from @StatementToExecute ;
-					execute DynamicStatement ;
-					deallocate prepare DynamicStatement ;
+					/* Old column exist. New column exist. */
+					IF (columnName <> newColumnName) THEN
+						/* Old column is different with new column and both exist => The old column had to be remove */
+						set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
+						prepare DynamicStatement from @StatementToExecute ;
+						execute DynamicStatement ;
+						deallocate prepare DynamicStatement ;
+					END IF ;
 					
-					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD COLUMN `',newColumnName,'` ',columnDetail);
+					/* Update structure of new column column */
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` CHANGE `',newColumnName,'` ','`',newColumnName,'` ',columnDetail);
 					prepare DynamicStatement from @StatementToExecute ;
 					execute DynamicStatement ;
 					deallocate prepare DynamicStatement ;
