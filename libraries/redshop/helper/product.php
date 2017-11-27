@@ -847,6 +847,31 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Method for get all payment method of this product set in backend
+	 *
+	 * @param   integer  $productId  If exist.
+	 *
+	 * @return  array            List of payment method
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAllAvailableProductPayment($productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('payment_id'))
+			->from($db->qn('#__redshop_product_payment_xref'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' = ' . $db->quote($productId));
+		}
+
+		// Set the query and load the result.
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
 	 * Method for get all product number exist in system
 	 *
 	 * @param   int  $productId  If exist. Exclude product number from this product Id from list
@@ -885,7 +910,7 @@ class RedshopHelperProduct
 	{
 		$db      = JFactory::getDbo();
 		$userArr = JFactory::getSession()->get('rs_user');
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RsUserHelper::getInstance();
 
 		if (empty($userArr))
 		{
@@ -899,7 +924,7 @@ class RedshopHelperProduct
 			$query = $db->getQuery(true)
 				->select('p.*')
 				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftjoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
+				->leftJoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
 				->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
 				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
 				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
