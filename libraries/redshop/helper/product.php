@@ -722,7 +722,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 */
 	public static function redesignProductItem($post = array())
 	{
@@ -853,7 +853,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  array            List of payment method
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAllAvailableProductPayment($productId = 0)
 	{

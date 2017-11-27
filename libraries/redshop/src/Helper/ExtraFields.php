@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Extra Fields helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class ExtraFields
 {
@@ -23,7 +23,7 @@ class ExtraFields
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static $extraFieldDisplay = array();
 
@@ -38,7 +38,7 @@ class ExtraFields
 	 *
 	 * @return  string                     HTML content with rendered tag
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function displayExtraFields($fieldSection = 0, $sectionId = 0, $fieldName = '', $templateContent = '', $categoryPage = false)
 	{
@@ -88,7 +88,7 @@ class ExtraFields
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceFieldTag(&$templateContent, $field, $fieldValue, $isInCategory = false)
 	{
