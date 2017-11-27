@@ -418,7 +418,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function implementProcedure()
 	{
@@ -473,7 +473,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function procedureUpdateColumn()
 	{
@@ -540,7 +540,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function procedureRemoveColumn()
 	{
@@ -576,7 +576,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function procedureIndexRemove()
 	{
@@ -612,7 +612,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function procedureIndexAdd()
 	{
@@ -648,7 +648,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function procedureUniqueIndexAdd()
 	{
@@ -684,7 +684,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function procedureFulltextIndexAdd()
 	{
