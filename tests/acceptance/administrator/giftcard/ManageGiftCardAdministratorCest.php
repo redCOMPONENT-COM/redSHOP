@@ -153,7 +153,6 @@ class ManageGiftCardAdministratorCest
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeCardUnpublishButton($this->cardNameSaveEdit);
-        $I->wait(3);
         $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
     }
 
@@ -180,7 +179,6 @@ class ManageGiftCardAdministratorCest
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeAllCardUnpublishButton();
-        $I->wait(3);
         $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
     }
 
