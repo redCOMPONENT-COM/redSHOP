@@ -1845,7 +1845,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since   2.0.6
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 */
 	public static function extraFieldDisplay($fieldSection = "", $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
 	{
