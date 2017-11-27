@@ -86,7 +86,6 @@ class ManageDiscountAdministratorCest
         $I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
         $I->wantTo('Unpublish Discount ');
         $I->changeDiscountState($this->discountName);
-        $I->wait(3);
         $I->waitForText(\DiscountManagerJ3Page::$messageUnpublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
         $currentState = $I->getDiscountState($this->discountName);
         $I->verifyState('unpublished', $currentState);
