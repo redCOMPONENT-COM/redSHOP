@@ -69,7 +69,7 @@ CALL redSHOP_Column_Update('#__redshop_order_status', 'published', 'published', 
 
 CALL redSHOP_Index_Add('#__redshop_order_status', '#__rs_idx_order_status_published', "(`published` ASC)");
 
-CALL redSHOP_Unique_Index_Add('#__redshop_order_status', '#__rs_idx_order_status_code', "(`order_status_code` ASC)");
+CALL redSHOP_Index_Unique_Add('#__redshop_order_status', '#__rs_idx_order_status_code', "(`order_status_code` ASC)");
 
 CALL redSHOP_Column_Update('#__redshop_order_status', 'checked_out', 'checked_out', "INT(11) NULL DEFAULT NULL");
 CALL redSHOP_Column_Update('#__redshop_order_status', 'checked_out_time', 'checked_out_time', "DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'");

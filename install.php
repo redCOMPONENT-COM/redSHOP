@@ -422,50 +422,12 @@ class Com_RedshopInstallerScript
 	 */
 	protected function implementProcedure()
 	{
-		$db         = JFactory::getDbo();
-		$procedures = array();
-		$database   = JFactory::getConfig()->get('db');
-		$results    = $db->setQuery('SHOW PROCEDURE STATUS')->loadObjectList();
-
-		foreach ($results as $result)
-		{
-			if ($result->Db != $database)
-			{
-				continue;
-			}
-
-			$procedures[] = $result->Name;
-		}
-
-		if (!in_array('redSHOP_Column_Update', $procedures))
-		{
-			$this->procedureUpdateColumn();
-		}
-
-		if (!in_array('redSHOP_Column_Remove', $procedures))
-		{
-			$this->procedureRemoveColumn();
-		}
-
-		if (!in_array('redSHOP_Index_Remove', $procedures))
-		{
-			$this->procedureIndexRemove();
-		}
-
-		if (!in_array('redSHOP_Index_Add', $procedures))
-		{
-			$this->procedureIndexAdd();
-		}
-
-		if (!in_array('redSHOP_Unique_Index_Add', $procedures))
-		{
-			$this->procedureUniqueIndexAdd();
-		}
-
-		if (!in_array('redSHOP_Fulltext_Index_Add', $procedures))
-		{
-			$this->procedureFulltextIndexAdd();
-		}
+		$this->procedureUpdateColumn();
+		$this->procedureRemoveColumn();
+		$this->procedureIndexRemove();
+		$this->procedureIndexAdd();
+		$this->procedureUniqueIndexAdd();
+		$this->procedureFulltextIndexAdd();
 	}
 
 	/**
@@ -494,6 +456,8 @@ class Com_RedshopInstallerScript
 			CONTAINS SQL
 			COMMENT " . $db->quote('Procedure for use in redSHOP to update / add column to table avoid unexpected errors.') . "
 			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET columnDetail = REPLACE(columnDetail, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				set @ColOldExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
 				set @ColNewExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=newColumnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
 				IF (@ColOldExist = 0 AND @ColNewExist = 0) THEN
@@ -558,7 +522,8 @@ class Com_RedshopInstallerScript
 			NOT DETERMINISTIC
 			CONTAINS SQL
 			COMMENT " . $db->quote('Procedure for use in redSHOP to remove column to table avoid unexpected errors.') . "
-			BEGIN	
+			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) = 1)
 				THEN
 					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
@@ -595,6 +560,7 @@ class Com_RedshopInstallerScript
 			CONTAINS SQL
 			COMMENT " . $db->quote('Procedure for use in redSHOP to remove index from table avoid unexpected errors.') . "
 			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				IF ((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND index_name = indexName) = 1)
 				THEN
 					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP INDEX `',indexName,'`');
@@ -632,8 +598,9 @@ class Com_RedshopInstallerScript
 			CONTAINS SQL
 			COMMENT " . $db->quote('Procedure for use in redSHOP to Add index to table avoid unexpected errors..') . "
 			BEGIN
-				CALL redSHOP_Index_Remove(tableName, indexName);
-	
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				CALL redSHOP_Index_Remove(tableName, indexName) ;
 				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD INDEX `',indexName,'` ',indexData);
 				prepare DynamicStatement from @StatementToExecute ;
 				execute DynamicStatement ;
@@ -644,7 +611,7 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Method for implement procedure "redSHOP_Unique_Index_Add"
+	 * Method for implement procedure "redSHOP_Index_Unique_Add"
 	 *
 	 * @return  void
 	 *
@@ -654,11 +621,11 @@ class Com_RedshopInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Unique_Index_Add');
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Unique_Add');
 
 		$db->setQuery($query)->execute();
 
-		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Unique_Index_Add") . "(
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Unique_Add") . "(
 			IN " . $db->qn('tableName') . " VARCHAR(50),
 			IN " . $db->qn('indexName') . " VARCHAR(50),
 			IN " . $db->qn('indexData') . " VARCHAR(255)
@@ -668,8 +635,9 @@ class Com_RedshopInstallerScript
 			CONTAINS SQL
 			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..') . "
 			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				CALL redSHOP_Index_Remove(tableName, indexName);
-	
 				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD UNIQUE INDEX `',indexName,'` ',indexData);
 				prepare DynamicStatement from @StatementToExecute ;
 				execute DynamicStatement ;
@@ -680,7 +648,7 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Method for implement procedure "redSHOP_Fulltext_Index_Add"
+	 * Method for implement procedure "redSHOP_Index_Fulltext_Add"
 	 *
 	 * @return  void
 	 *
@@ -690,11 +658,11 @@ class Com_RedshopInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Fulltext_Index_Add');
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Fulltext_Add');
 
 		$db->setQuery($query)->execute();
 
-		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Fulltext_Index_Add") . "(
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Fulltext_Add") . "(
 			IN " . $db->qn('tableName') . " VARCHAR(50),
 			IN " . $db->qn('indexName') . " VARCHAR(50),
 			IN " . $db->qn('indexData') . " VARCHAR(255)
@@ -704,8 +672,9 @@ class Com_RedshopInstallerScript
 			CONTAINS SQL
 			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..') . "
 			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				CALL redSHOP_Index_Remove(tableName, indexName);
-	
 				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD FULLTEXT INDEX `',indexName,'` ',indexData);
 				prepare DynamicStatement from @StatementToExecute ;
 				execute DynamicStatement ;
