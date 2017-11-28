@@ -3238,8 +3238,7 @@ class rsCarthelper
 	 */
 	public function replacePaymentTemplate($templateDesc = "", $paymentMethodId = 0, $isCompany = 0, $eanNumber = 0)
 	{
-		$user         = JFactory::getUser();
-		$user_id      = $user->id;
+		$userId = JFactory::getUser()->id;
 
 		$paymentMethods = RedshopHelperPayment::info();
 
@@ -3257,12 +3256,12 @@ class rsCarthelper
 
 			if (strpos($templateDesc, "{payment_loop_start}") !== false && strpos($templateDesc, "{payment_loop_end}") !== false)
 			{
-				$template1       = explode("{payment_loop_start}", $templateDesc);
-				$template1       = explode("{payment_loop_end}", $template1[1]);
+				$template1      = explode("{payment_loop_start}", $templateDesc);
+				$template1      = explode("{payment_loop_end}", $template1[1]);
 				$templateMiddle = $template1[0];
-				$shopperGroupId  = RedshopHelperUser::getShopperGroup($user_id);
+				$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
 				$paymentDisplay = "";
-				$flag            = false;
+				$hasCreditCard  = false;
 
 				// Filter payment gateways array for shopperGroups
 				$paymentMethods = array_filter(
@@ -3310,7 +3309,7 @@ class rsCarthelper
 
 							$privatePerson = $oneMethod->params->get('private_person', '');
 							$business      = $oneMethod->params->get('business', '');
-							$isCreditCard  = $oneMethod->params->get('is_creditcard', 0);
+							$isCreditCard  = (boolean) $oneMethod->params->get('is_creditcard', 0);
 							$checked       = $paymentMethodId === $oneMethod->name || $totalPaymentMethod <= 1;
 
 							$paymentRadioOutput = RedshopLayoutHelper::render(
@@ -3338,24 +3337,26 @@ class rsCarthelper
 								if ($isCompany == 0 && $privatePerson == 1)
 								{
 									$displayPayment = $paymentRadioOutput;
-									$flag = true;
 								}
 								else
 								{
-									if ($isCompany == 1 && $business == 1 && ($oneMethod->name != 'rs_payment_eantransfer' || ($oneMethod->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
+									if ($isCompany == 1 && $business == 1 &&
+										($oneMethod->name != 'rs_payment_eantransfer'
+											|| ($oneMethod->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 									{
 										$displayPayment = $paymentRadioOutput;
-										$flag = true;
 									}
 								}
 							}
 							elseif ($isSubscription)
 							{
-								$displayPayment = '<label class="radio" for="' . $oneMethod->name . $index . '"><input id="' . $oneMethod->name . $index . '" type="radio" name="payment_method_id" value="'
+								$displayPayment = '<label class="radio" for="' . $oneMethod->name . $index . '">'
+									. '<input id="' . $oneMethod->name . $index . '" type="radio" name="payment_method_id" value="'
 									. $oneMethod->name . '" '
 									. ($checked ? 'checked="checked"' :  '')
 									. ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
 									. '' . JText::_($oneMethod->name) . '</label><br>';
+
 								$displayPayment .= '<table><tr><td>'
 									. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
 									. '</td><td>' . $this->getSubscriptionPlans()
@@ -3364,7 +3365,6 @@ class rsCarthelper
 							else
 							{
 								$displayPayment = $paymentRadioOutput;
-								$flag = true;
 							}
 
 							if ($isCreditCard)
@@ -3379,6 +3379,8 @@ class rsCarthelper
 								}
 
 								$cardInformation .= '</div>';
+
+								$hasCreditCard = true;
 							}
 
 							$paymentDisplay .= $templateMiddle;
@@ -3411,22 +3413,26 @@ class rsCarthelper
 				$templateDesc = str_replace("{payment_loop_start}", "", $templateDesc);
 				$templateDesc = str_replace("{payment_loop_end}", "", $templateDesc);
 				$templateDesc = str_replace($templateMiddle, $paymentDisplay, $templateDesc);
-			}
 
-			if (count($paymentMethods) == 1 && $isCreditCard == "0")
-			{
-				$templateDesc = "<div style='display:none;'>" . $templateDesc . "</div>";
+				if (count($paymentMethods) == 1 && !$hasCreditCard)
+				{
+					$templateDesc = "<div style='display:none;'>" . $templateDesc . "</div>";
+				}
 			}
 		}
-		else{
+		else
+		{
 			//clear
 			$templateDesc = str_replace("{creditcard_information}", "", $templateDesc);
 			$templateDesc = str_replace("{payment_loop_start}", "", $templateDesc);
 			$templateDesc = str_replace("{payment_loop_end}", "", $templateDesc);
 			//new template
 			$templateDesc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD_CONFLICT'), $templateDesc);
-			$templateDesc = str_replace("{payment_method_name}",  RedshopHelperPayment::displayPaymentMethodInCheckOut($paymentMethods), $templateDesc);
-
+			$templateDesc = str_replace(
+				"{payment_method_name}",
+				RedshopHelperPayment::displayPaymentMethodInCheckOut($paymentMethods),
+				$templateDesc
+			);
 		}
 
 		return $templateDesc;
