@@ -32,26 +32,18 @@ class DiscountManagerJ3Page extends AdminJ3Page
 
 	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
 
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
-
 	public static $selectFirst = "//input[@id='cb0']";
-
-	public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
 
 	public static $startDate = "//input[@id='start_date']";
 
 	public static $endDate = "//input[@id='end_date']";
 
-	public static $discountNamePath = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+	public static $discountState = ['xpath' => '//tr/td[8]/a'];
 
-	public static $discountState = "//div[@class='table-responsive']/table/tbody/tr/td[8]/a";
-
-	public static $discountCheckBox = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
+	public static $discountCheckBox = ['xpath' =>'//tr/td[2]'];
 
 
 	//selctor
-
-	public static $selectorPage = '.page-title';
 
 	public static $discountType = ['id' => "s2id_discount_type"];
 
@@ -69,9 +61,6 @@ class DiscountManagerJ3Page extends AdminJ3Page
 
 	public static $filter = ['id' => 'name_filter'];
 
-	public static $pageManagement = ['xpath' => "//h1"];
-
-
 	//message
 
 	public static $messageSaveSuccess = "Discount Detail Saved";
@@ -83,28 +72,6 @@ class DiscountManagerJ3Page extends AdminJ3Page
 	public static $messageDeleteSuccess = "Discount Detail Deleted Successfully";
 
 
-	//button
-
-	public static $saveCloseButton = "Save & Close";
-
-	public static $saveButton = "Save";
-
-	public static $deleteButton = "Delete";
-
-	public static $newButton = "New";
-
-	public static $saveButon = "Save";
-
-	public static $cancelButton = "Cancel";
-
-	public static $publish = "Publish";
-
-	public static $unpublish = "Unpublish";
-
-	public static $editButton = "Edit";
-
-	public static $resetButton = "Reset";
-
 	/**
 	 * Function to get the path for Discount Type
 	 *
@@ -114,7 +81,7 @@ class DiscountManagerJ3Page extends AdminJ3Page
 	 */
 	public function discountType($discountType)
 	{
-		$path = "//div[@id='discount_type_chzn']/div/ul/li[contains(text(), '" . $discountType . "')]";
+		$path = "//ul/li[contains(text(), '" . $discountType . "')]";
 
 		return $path;
 	}
@@ -128,7 +95,7 @@ class DiscountManagerJ3Page extends AdminJ3Page
 	 */
 	public function shopperGroup($shopperGroup)
 	{
-		$path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $shopperGroup . "')]";
+		$path = "//ul/li[contains(text(), '" . $shopperGroup . "')]";
 
 		return $path;
 	}
@@ -142,8 +109,8 @@ class DiscountManagerJ3Page extends AdminJ3Page
 	 */
 	public function resultChoice($typeChoice)
 	{
-		$path = ['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $typeChoice . "')]"];
 
+		$path = ['xpath' => "//span//..[contains(text(), '" . $typeChoice . "')]"];
 		return $path;
 	}
 

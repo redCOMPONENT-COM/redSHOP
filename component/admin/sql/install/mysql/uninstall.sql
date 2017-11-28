@@ -51,6 +51,7 @@ DROP TABLE IF EXISTS `#__redshop_product_attribute_price`;
 DROP TABLE IF EXISTS `#__redshop_product_attribute_property`;
 DROP TABLE IF EXISTS `#__redshop_product_attribute_stockroom_xref`;
 DROP TABLE IF EXISTS `#__redshop_product_category_xref`;
+DROP TABLE IF EXISTS `#__redshop_product_payment_xref`;
 DROP TABLE IF EXISTS `#__redshop_product_compare`;
 DROP TABLE IF EXISTS `#__redshop_product_discount_calc`;
 DROP TABLE IF EXISTS `#__redshop_product_discount_calc_extra`;
@@ -111,5 +112,12 @@ DROP TABLE IF EXISTS `#__redshop_voucher`;
 DELETE FROM `#__content_types` WHERE `type_alias` = 'com_redshop.product';
 DELETE FROM `#__contentitem_tag_map` WHERE `type_alias` = 'com_redshop.product';
 DELETE FROM `#__ucm_content` WHERE `core_type_alias` = 'com_redshop.product';
+
+DROP PROCEDURE IF EXISTS `redSHOP_Column_Remove`;
+DROP PROCEDURE IF EXISTS `redSHOP_Column_Update`;
+DROP PROCEDURE IF EXISTS `redSHOP_Index_Fulltext_Add`;
+DROP PROCEDURE IF EXISTS `redSHOP_Index_Add`;
+DROP PROCEDURE IF EXISTS `redSHOP_Index_Unique_Add`;
+DROP PROCEDURE IF EXISTS `redSHOP_Index_Remove`;
 
 SET FOREIGN_KEY_CHECKS=1;
