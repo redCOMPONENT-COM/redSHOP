@@ -180,6 +180,8 @@ class RedshopHelperTemplate
 	 * @return  array              Template Array
 	 *
 	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
@@ -214,21 +216,19 @@ class RedshopHelperTemplate
 			$db->setQuery($query);
 
 			self::$templates[$key] = $db->loadObjectList();
-		}
 
-		$templates = self::$templates[$key];
-
-		foreach ($templates as $index => $template)
-		{
-			$userContent = self::readTemplateFile($template->section, $template->file_name);
-
-			if ($userContent !== false)
+			foreach (self::$templates[$key] as $index => $template)
 			{
-				$templates[$index]->template_desc = $userContent;
+				$userContent = self::readTemplateFile($template->section, $template->file_name);
+
+				if ($userContent !== false)
+				{
+					self::$templates[$key][$index]->template_desc = $userContent;
+				}
 			}
 		}
 
-		return $templates;
+		return self::$templates[$key];
 	}
 
 	/**

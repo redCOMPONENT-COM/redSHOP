@@ -2214,7 +2214,7 @@ class productHelper
 		{
 			for ($i = 0, $in = count($attribute_template); $i < $in; $i++)
 			{
-				if (strpos($data_add, "{" . $displayname . ":" . $attribute_template[$i]->template_name . "}") !== false)
+				if (strpos($data_add, "{" . $displayname . ":" . $attribute_template[$i]->name . "}") !== false)
 				{
 					$attribute_template_data = $attribute_template[$i];
 				}
@@ -2260,7 +2260,7 @@ class productHelper
 		{
 			for ($i = 0, $in = count($cart_template); $i < $in; $i++)
 			{
-				if (strpos($data_add, "{form_addtocart:" . $cart_template[$i]->template_name . "}") !== false)
+				if (strpos($data_add, "{form_addtocart:" . $cart_template[$i]->name . "}") !== false)
 				{
 					$cart_template_data = $cart_template[$i];
 
@@ -2296,7 +2296,7 @@ class productHelper
 		{
 			for ($i = 0, $in = count($acc_template); $i < $in; $i++)
 			{
-				if (strpos($data_add, "{accessory_template:" . $acc_template[$i]->template_name . "}") !== false)
+				if (strpos($data_add, "{accessory_template:" . $acc_template[$i]->name . "}") !== false)
 				{
 					$acc_template_data = $acc_template[$i];
 
@@ -2321,7 +2321,7 @@ class productHelper
 
 		for ($i = 0, $in = count($template); $i < $in; $i++)
 		{
-			if (strpos($data_add, "{related_product:" . $template[$i]->template_name . "}") !== false)
+			if (strpos($data_add, "{related_product:" . $template[$i]->name . "}") !== false)
 			{
 				$template_data = $template[$i];
 
@@ -2615,23 +2615,23 @@ class productHelper
 		}
 
 		$redTemplate     = Redtemplate::getInstance();
-		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
+		$productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
 		if (!$this->_ajaxdetail_templatedata)
 		{
 			$ajaxdetail_templatedata         = array();
 			$default_ajaxdetail_templatedata = array();
-			$ajaxdetail_template             = $redTemplate->getTemplate("ajax_cart_detail_box");
+			$ajaxdetail_template             = RedshopHelperTemplate::getTemplate("ajax_cart_detail_box");
 
 			for ($i = 0, $in = count($ajaxdetail_template); $i < $in; $i++)
 			{
-				if (strpos($producttemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->template_name . "}") !== false)
+				if (strpos($productTemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->name . "}") !== false)
 				{
 					$ajaxdetail_templatedata = $ajaxdetail_template[$i];
 					break;
 				}
 
-				if (Redshop::getConfig()->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE') == $ajaxdetail_template[$i]->template_id)
+				if (Redshop::getConfig()->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE') == $ajaxdetail_template[$i]->id)
 				{
 					$default_ajaxdetail_templatedata = $ajaxdetail_template[$i];
 				}
@@ -3240,7 +3240,7 @@ class productHelper
 
 		if ($property_stock <= 0)
 		{
-			$property_data = str_replace("{form_addtocart:$cart_template->template_name}", JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'), $property_data);
+			$property_data = str_replace("{form_addtocart:$cart_template->name}", JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'), $property_data);
 
 			return $property_data;
 		}
@@ -3454,7 +3454,7 @@ class productHelper
 
 		$cartform .= "</form>";
 
-		$property_data = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $property_data);
+		$property_data = str_replace("{form_addtocart:$cart_template->name}", $cartform, $property_data);
 
 		return $property_data;
 	}
@@ -3512,16 +3512,16 @@ class productHelper
 		if (count($cart_template) <= 0 && $data_add != "")
 		{
 			$cart_template                = new stdclass;
-			$cart_template->template_name = "";
+			$cart_template->name = "";
 			$cart_template->template_desc = "";
 		}
 
 		if ($data_add == "" && count($cart_template) <= 0)
 		{
 			$cart_template                = new stdclass;
-			$cart_template->template_name = "notemplate";
+			$cart_template->name = "notemplate";
 			$cart_template->template_desc = "<div>{addtocart_image_aslink}</div>";
-			$data_add                     = "{form_addtocart:$cart_template->template_name}";
+			$data_add                     = "{form_addtocart:$cart_template->name}";
 		}
 
 		$layout = $input->getCmd('layout');
@@ -3572,38 +3572,38 @@ class productHelper
 			// IF PRODUCT CHILD IS EXISTS THEN DONT SHOW PRODUCT ATTRIBUTES
 			if ($isChilds)
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", "", $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->name}", "", $data_add);
 
 				return $data_add;
 			}
 			elseif ($this->isProductDateRange($userfieldArr, $product_id))
 			{
 				// New type custome field - Selection based on selected conditions
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'), $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->name}", JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'), $data_add);
 
 				return $data_add;
 			}
 			elseif ($product->not_for_sale)
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->name}", '', $data_add);
 
 				return $data_add;
 			}
 			elseif (!$taxexempt_addtocart)
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->name}", '', $data_add);
 
 				return $data_add;
 			}
 			elseif (!Redshop::getConfig()->get('SHOW_PRICE'))
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->name}", '', $data_add);
 
 				return $data_add;
 			}
 			elseif ($product->expired == 1)
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'), $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->name}", Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'), $data_add);
 
 				return $data_add;
 			}
@@ -4331,7 +4331,7 @@ class productHelper
 
 			$cartform .= "</form>";
 
-			$data_add = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $data_add);
+			$data_add = str_replace("{form_addtocart:$cart_template->name}", $cartform, $data_add);
 		}
 
 		return $data_add;
@@ -6228,9 +6228,9 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('t.template_id'))
+			->select($db->qn('t.id'))
 			->from($db->qn('#__redshop_template', 't'))
-			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('t.template_id') . ' = ' . $db->qn('c.compare_template_id'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('t.id') . ' = ' . $db->qn('c.compare_template_id'))
 			->where($db->qn('c.id') . ' = ' . $db->q((int) $cid))
 			->where($db->qn('t.published') . ' = 1');
 
@@ -6753,13 +6753,13 @@ class productHelper
 
 				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
 
-				$template_desc = str_replace("{related_product:$related_template->template_name}", $related_template_data, $template_desc);
+				$template_desc = str_replace("{related_product:$related_template->name}", $related_template_data, $template_desc);
 
 				$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 			}
 			else
 			{
-				$template_desc = str_replace("{related_product:$related_template->template_name}", "", $template_desc);
+				$template_desc = str_replace("{related_product:$related_template->name}", "", $template_desc);
 			}
 		}
 

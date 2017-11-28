@@ -134,18 +134,16 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$pagination = $this->get('Pagination');
 
-		/*
-								 * Assign template
-	     */
-		$templates               = $redTemplate->getTemplate('product');
-		$temps                   = array();
-		$temps[0]                = new stdClass;
-		$temps[0]->template_id   = "0";
-		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
-		$templates               = @array_merge($temps, $templates);
+		// Assign template
+		$templates      = RedshopHelperTemplate::getTemplate('product');
+		$temps          = array();
+		$temps[0]       = new stdClass;
+		$temps[0]->id   = "0";
+		$temps[0]->name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
+		$templates      = @array_merge($temps, $templates);
 
-		$lists['product_template'] = JHTML::_('select.genericlist', $templates, 'product_template',
-			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0
+		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
+			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'id', 'name', 0
 		);
 
 		$this->state            = $state;

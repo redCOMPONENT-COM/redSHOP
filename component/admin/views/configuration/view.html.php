@@ -244,7 +244,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['allow_multiple_discount'] = JHtml::_('redshopselect.booleanlist', 'allow_multiple_discount', 'class="form-control" size="1"', $this->config->get('ALLOW_MULTIPLE_DISCOUNT'));
 		$lists['show_product_detail']     = JHtml::_('redshopselect.booleanlist', 'show_product_detail', 'class="form-control" size="1"', $this->config->get('SHOW_PRODUCT_DETAIL'));
 		$lists['compare_template_id']     = JHtml::_('select.genericlist', $compare_template, 'compare_template_id',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('COMPARE_TEMPLATE_ID')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('COMPARE_TEMPLATE_ID')
 		);
 
 		$lists['show_terms_and_conditions']                                                        = JHtml::_('redshopselect.booleanlist', 'show_terms_and_conditions',
@@ -518,19 +518,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		);
 
 		$lists['product_template']              = JHtml::_('select.genericlist', $product_template, 'default_product_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('PRODUCT_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('PRODUCT_TEMPLATE')
 		);
 		$lists['ajax_detail_template']          = JHtml::_('select.genericlist', $ajax_detail_template, 'default_ajax_detailbox_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE')
 		);
 		$lists['category_template']             = JHtml::_('select.genericlist', $category_template, 'default_category_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('CATEGORY_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('CATEGORY_TEMPLATE')
 		);
 		$lists['default_categorylist_template'] = JHtml::_('select.genericlist', $categorylist_template, 'default_categorylist_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('DEFAULT_CATEGORYLIST_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('DEFAULT_CATEGORYLIST_TEMPLATE')
 		);
 		$lists['manufacturer_template']         = JHtml::_('select.genericlist', $manufacturer_template, 'default_manufacturer_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('MANUFACTURER_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('MANUFACTURER_TEMPLATE')
 		);
 		$lists['show_price']                    = JHtml::_('redshopselect.booleanlist', 'show_price', 'class="form-control" size="1"', $this->config->get('SHOW_PRICE_PRE'));
 

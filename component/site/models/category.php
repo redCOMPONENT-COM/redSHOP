@@ -703,7 +703,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 		}
 
-		$this->_template      = $redTemplate->getTemplate($template_section, $selected_template);
+		$this->_template = RedshopHelperTemplate::getTemplate($template_section, $selected_template);
 
 		return $this->_template;
 	}

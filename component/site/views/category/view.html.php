@@ -36,12 +36,13 @@ class RedshopViewCategory extends RedshopView
 	 *
 	 * @see     fetch()
 	 * @since   11.1
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
-		$objhelper     = redhelper::getInstance();
 		$prodhelperobj = productHelper::getInstance();
 
 		// Request variables
@@ -99,7 +100,7 @@ class RedshopViewCategory extends RedshopView
 
 		if (count($maincat) > 0 && $maincat->canonical_url != "")
 		{
-			$main_url  = JURI::root() . $maincat->canonical_url;
+			$main_url  = JUri::root() . $maincat->canonical_url;
 			$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 			$document->addCustomTag($canonical);
 		}
@@ -384,8 +385,8 @@ class RedshopViewCategory extends RedshopView
 				$allCategoryTemplate,
 				'category_template',
 				'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
-				'template_id',
-				'template_name',
+				'id',
+				'name',
 				$categoryTemplateId
 			);
 		}

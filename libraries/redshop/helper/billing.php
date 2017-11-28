@@ -64,15 +64,15 @@ class RedshopHelperBilling
 		if (empty($privateTemplates))
 		{
 			$tmpTemplate                = new stdClass;
-			$tmpTemplate->template_name = 'private_billing_template';
-			$tmpTemplate->template_id   = 0;
+			$tmpTemplate->name = 'private_billing_template';
+			$tmpTemplate->id   = 0;
 
 			$privateTemplates = array($tmpTemplate);
 		}
 
 		foreach ($privateTemplates as $privateTemplate)
 		{
-			if (strpos($templateHtml, "{private_billing_template:" . $privateTemplate->template_name . "}") === false)
+			if (strpos($templateHtml, "{private_billing_template:" . $privateTemplate->name . "}") === false)
 			{
 				continue;
 			}
@@ -88,10 +88,10 @@ class RedshopHelperBilling
 			}
 
 			$html = '<div id="tblprivate_customer">' . $html . '</div>'
-				. '<div id="divPrivateTemplateId" style="display:none;">' . $privateTemplate->template_id . '</div>';
+				. '<div id="divPrivateTemplateId" style="display:none;">' . $privateTemplate->id . '</div>';
 
 			$templateHtml = str_replace(
-				'{private_billing_template:' . $privateTemplate->template_name . '}',
+				'{private_billing_template:' . $privateTemplate->name . '}',
 				$html,
 				$templateHtml
 			);
@@ -107,15 +107,15 @@ class RedshopHelperBilling
 		if (empty($companyTemplates))
 		{
 			$tmpTemplate                = new stdClass;
-			$tmpTemplate->template_name = 'company_billing_template';
-			$tmpTemplate->template_id   = 0;
+			$tmpTemplate->name = 'company_billing_template';
+			$tmpTemplate->id   = 0;
 
 			$companyTemplates = array($tmpTemplate);
 		}
 
 		foreach ($companyTemplates as $companyTemplate)
 		{
-			if (strpos($templateHtml, "{company_billing_template:" . $companyTemplate->template_name . "}") === false)
+			if (strpos($templateHtml, "{company_billing_template:" . $companyTemplate->name . "}") === false)
 			{
 				continue;
 			}
@@ -131,10 +131,10 @@ class RedshopHelperBilling
 			}
 
 			$html = '<div id="tblcompany_customer">' . $html . '</div>'
-				. '<div id="divCompanyTemplateId" style="display:none;">' . $companyTemplate->template_id . '</div>';
+				. '<div id="divCompanyTemplateId" style="display:none;">' . $companyTemplate->id . '</div>';
 
 			$templateHtml = str_replace(
-				'{company_billing_template:' . $companyTemplate->template_name . '}',
+				'{company_billing_template:' . $companyTemplate->name . '}',
 				$html,
 				$templateHtml
 			);

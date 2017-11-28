@@ -127,7 +127,7 @@ class RedshopInstall
 	{
 		// Start template demo content
 		$redTemplate = Redtemplate::getInstance();
-		$q           = "INSERT IGNORE INTO `#__redshop_template` (`template_id`, `template_name`, `template_section`, `template_desc`, `published`) VALUES
+		$q           = "INSERT IGNORE INTO `#__redshop_template` (`id`, `name`, `section`, `template_desc`, `published`) VALUES
 					(8, 'grid', 'category', '" . $redTemplate->getInstallSectionTemplate('grid') . "', 1),
 					(5, 'list', 'category', '" . $redTemplate->getInstallSectionTemplate('list') . "', 1),
 					(26, 'product2', 'product', '" . $redTemplate->getInstallSectionTemplate('product2') . "', 1),
@@ -255,12 +255,12 @@ class RedshopInstall
 			fwrite($fp, $templateContent);
 			fclose($fp);
 
-			if ($template->template_id && $template->template_name != $templateName)
+			if ($template->id && $template->name != $templateName)
 			{
 				$query->clear()
 					->update($db->qn('#__redshop_template'))
-					->set($db->qn('template_name') . ' = ' . $template->template_name)
-					->where($db->qn('template_id') . ' = ' . $template->template_id);
+					->set($db->qn('name') . ' = ' . $template->name)
+					->where($db->qn('id') . ' = ' . $template->id);
 
 				$db->setQuery($query)->execute();
 			}
