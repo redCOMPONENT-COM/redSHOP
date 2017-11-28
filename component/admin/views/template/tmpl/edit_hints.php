@@ -103,7 +103,7 @@ $newShippingTags = array(
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="tags">
 							<?php
-							switch ($this->item->template_section)
+							switch ($this->item->section)
 							{
 								case 'category':
 									echo RedshopHelperTemplate::renderFieldTagHints(
@@ -117,7 +117,7 @@ $newShippingTags = array(
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
 										array(
-											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->template_section),
+											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
 											'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT')
 										)
 									);
@@ -157,7 +157,7 @@ $newShippingTags = array(
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
 										array(
-											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->template_section),
+											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
 											'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_GIFTCARD_HINT')
 										)
 									);
@@ -175,7 +175,7 @@ $newShippingTags = array(
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
 										array(
-											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->template_section),
+											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
 											'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT')
 										)
 									);
@@ -221,7 +221,7 @@ $newShippingTags = array(
 
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									break;
@@ -230,14 +230,14 @@ $newShippingTags = array(
 
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									break;
 								case 'manufacturer_products':
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									$addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
@@ -594,7 +594,7 @@ $newShippingTags = array(
 								default:
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									break;
@@ -603,82 +603,7 @@ $newShippingTags = array(
                         </div>
                         <div role="tabpanel" class="tab-pane" id="default_template">
 							<?php
-							switch ($this->item->template_section)
-							{
-								case 'product_sample':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('catalog_sample', true);
-									break;
-								case 'manufacturer':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('manufacturer_listings', true);
-									break;
-								case 'categoryproduct':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('category_product_template', true);
-									break;
-								case 'giftcard_list':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('giftcard_listing', true);
-									break;
-								case 'quotation_request':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('quotation_request_template', true);
-									break;
-								case 'newsletter':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('newsletter1', true);
-									break;
-								case 'newsletter_product':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('newsletter_products', true);
-									break;
-								case 'related_product':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('related_products', true);
-									break;
-								case 'add_to_cart':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('add_to_cart1', true);
-									break;
-								case 'attribute_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('attributes', true);
-									break;
-								case 'attributewithcart_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('attributes_listing1', true);
-									break;
-								case 'accessory_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('accessory', true);
-									break;
-								case 'wrapper_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('wrapper', true);
-									break;
-								case 'wishlist_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('wishlist_list', true);
-									break;
-								case 'wishlist_mail_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('wishlist_mail', true);
-									break;
-								case 'ask_question_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('ask_question', true);
-									break;
-								case 'account_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('my_account_template', true);
-									break;
-								case 'redshop_payment':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('payment_method', true);
-									break;
-								case 'redshop_shipping':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('shipping_method', true);
-									break;
-								case 'shippingbox':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('shipping_box', true);
-									break;
-								case 'change_cart_attribute':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('change_cart_attribute_template', true);
-									break;
-								case 'product_content_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('product_content', true);
-									break;
-								case 'quotation_cart':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('quotation_cart_template', true);
-									break;
-
-								default:
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate($this->item->template_section, true);
-									break;
-							}
+							$templateContent = RedshopHelperTemplate::getDefaultTemplateContent($this->item->section, true);
 							?>
 							<?php if (!empty($templateContent)): ?>
 								<?php echo $templateContent ?>

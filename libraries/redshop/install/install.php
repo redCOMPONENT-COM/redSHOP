@@ -212,7 +212,7 @@ class RedshopInstall
 			$templateName            = $template->template_name;
 			$template->template_name = strtolower($template->template_name);
 			$template->template_name = str_replace(" ", "_", $template->template_name);
-			$templateFile            = RedshopHelperTemplate::getTemplatefilepath($template->template_section, $template->template_name, true);
+			$templateFile            = RedshopHelperTemplate::getTemplatefilepath($template->template_section, $template->template_name);
 
 			if (!JFile::exists($templateFile))
 			{

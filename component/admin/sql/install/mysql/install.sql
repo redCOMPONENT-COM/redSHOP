@@ -2080,19 +2080,23 @@ COMMENT = 'redSHOP Tax Rates';
 DROP TABLE IF EXISTS `#__redshop_template` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_template` (
-  `template_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `template_name` VARCHAR(250) NOT NULL,
-  `template_section` VARCHAR(250) NOT NULL,
-  `template_desc` LONGTEXT NOT NULL,
-  `order_status` VARCHAR(250) NOT NULL,
-  `payment_methods` VARCHAR(250) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  `shipping_methods` VARCHAR(255) NOT NULL,
-  `checked_out` INT(11) NOT NULL,
-  `checked_out_time` DATETIME NOT NULL,
-  PRIMARY KEY (`template_id`),
-  INDEX `idx_template_section` (`template_section` ASC),
-  INDEX `idx_published` (`published` ASC))
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NOT NULL DEFAULT '',
+  `section` VARCHAR(250) NOT NULL DEFAULT '',
+  `file_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `order_status` VARCHAR(250) NOT NULL DEFAULT '',
+  `payment_methods` VARCHAR(250) NOT NULL DEFAULT '',
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `shipping_methods` VARCHAR(255) NOT NULL DEFAULT '',
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_tmpl_section` (`section` ASC),
+  INDEX `#__rs_tmpl_published` (`published` ASC)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Templates Detail';

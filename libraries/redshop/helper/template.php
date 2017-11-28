@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -177,7 +179,7 @@ class RedshopHelperTemplate
 	 *
 	 * @return  array              Template Array
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
@@ -191,22 +193,22 @@ class RedshopHelperTemplate
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->qn('#__redshop_template'))
-				->where('template_section = ' . $db->quote($section))
-				->where('published = 1')
-				->order('template_id ASC');
+				->where($db->qn('section') . ' = ' . $db->quote($section))
+				->where($db->qn('published') . ' = 1')
+				->order($db->qn('id') . ' ASC');
 
 			if ($templateId != 0)
 			{
 				// Sanitize ids
 				$arrayTid = explode(',', $templateId);
-				JArrayHelper::toInteger($arrayTid);
+				$arrayTid = ArrayHelper::toInteger($arrayTid);
 
-				$query->where('template_id IN (' . implode(',', $arrayTid) . ')');
+				$query->where('id IN (' . implode(',', $arrayTid) . ')');
 			}
 
 			if ($name != '')
 			{
-				$query->where('template_name = ' . $db->quote($name));
+				$query->where('name = ' . $db->quote($name));
 			}
 
 			$db->setQuery($query);
@@ -218,7 +220,7 @@ class RedshopHelperTemplate
 
 		foreach ($templates as $index => $template)
 		{
-			$userContent = self::readTemplateFile($template->template_section, $template->template_name);
+			$userContent = self::readTemplateFile($template->section, $template->file_name);
 
 			if ($userContent !== false)
 			{
@@ -232,17 +234,18 @@ class RedshopHelperTemplate
 	/**
 	 * Method to read Template from file
 	 *
-	 * @param   string  $section  Template Section
-	 * @param   string  $fileName Template File Name
-	 * @param   boolean $isAdmin  Check for administrator call
+	 * @param   string  $section   Template Section
+	 * @param   string  $fileName  Template File Name
 	 *
-	 * @return  string              Template Content
+	 * @return  string             Template Content
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
-	public static function readTemplateFile($section, $fileName, $isAdmin = false)
+	public static function readTemplateFile($section, $fileName)
 	{
-		$filePath = self::getTemplateFilePath($section, $fileName, $isAdmin);
+		$filePath = self::getTemplateFilePath($section, $fileName);
 
 		if (file_exists($filePath))
 		{
@@ -259,7 +262,6 @@ class RedshopHelperTemplate
 	 *
 	 * @param   string   $section   Template Section
 	 * @param   string   $fileName  Template File Name
-	 * @param   boolean  $isAdmin   Check for administrator call
 	 *
 	 * @return  string              Template File Path
 	 *
@@ -267,7 +269,7 @@ class RedshopHelperTemplate
 	 *
 	 * @throws  Exception
 	 */
-	public static function getTemplateFilePath($section, $fileName, $isAdmin = false)
+	public static function getTemplateFilePath($section, $fileName)
 	{
 		return JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $section . '/' . $fileName . '.php');
 	}
@@ -279,97 +281,13 @@ class RedshopHelperTemplate
 	 *
 	 * @return  string            Template Joomla view name
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getTemplateView($section)
 	{
-		$section = strtolower($section);
-		$view    = '';
-
-		switch ($section)
-		{
-			case 'product':
-			case 'related_product':
-			case 'product_sample':
-			case 'accessory_template':
-			case 'attribute_template':
-			case 'attributewithcart_template':
-			case 'review':
-			case 'wrapper_template':
-			case 'compare_product':
-				$view = "product";
-				break;
-
-			case 'categoryproduct':
-			case 'category':
-			case 'frontpage_category':
-				$view = "category";
-				break;
-
-			case 'catalog':
-			case 'catalog_sample':
-				$view = "catalog";
-				break;
-
-			case 'manufacturer':
-			case 'manufacturer_detail':
-			case 'manufacturer_products':
-
-				$view = "manufacturers";
-				break;
-			case 'cart':
-			case 'add_to_cart':
-			case 'ajax_cart_detail_box':
-			case 'ajax_cart_box':
-			case 'empty_cart':
-				$view = "cart";
-				break;
-
-			case 'account_template':
-				$view = "account";
-				break;
-
-			case 'private_billing_template':
-			case 'company_billing_template':
-			case 'billing_template':
-			case 'shipping_template':
-				$view = "registration";
-				break;
-
-			case 'wishlist_template':
-			case 'wishlist_mail_template':
-				$view = "wishlist";
-				break;
-
-			case 'newsletter':
-			case 'newsletter_product':
-				$view = "newsletter";
-				break;
-
-			case 'order_list':
-			case 'order_detail':
-			case 'order_receipt':
-				$view = "orders";
-				break;
-
-			case 'giftcard':
-				$view = "giftcard";
-				break;
-
-			case 'checkout':
-			case 'onestep_checkout':
-				$view = "checkout";
-				break;
-
-			case 'ask_question_template':
-				$view = "ask_question";
-				break;
-
-			default:
-				return false;
-		}
-
-		return $view;
+		return '';
 	}
 
 	/**
@@ -410,6 +328,37 @@ class RedshopHelperTemplate
 		$templateFile = JPATH_SITE . "/components/com_redshop/templates/rsdefaulttemplates/$templateName.php";
 
 		if (!file_exists($templateFile))
+		{
+			return '';
+		}
+
+		$handle   = fopen($templateFile, "r");
+		$contents = fread($handle, filesize($templateFile));
+		fclose($handle);
+
+		if ($setFlag)
+		{
+			return "<pre/>" . htmlspecialchars($contents) . "</pre>";
+		}
+
+		return $contents;
+	}
+
+	/**
+	 * Get default template content of specific template section
+	 *
+	 * @param   string   $section  Template section
+	 * @param   boolean  $setFlag  Set true if you want html special character in template content
+	 *
+	 * @return  string             HTML of template content.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDefaultTemplateContent($section = '', $setFlag = false)
+	{
+		$templateFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $section . '/default.php');
+
+		if (!JFile::exists($templateFile))
 		{
 			return '';
 		}

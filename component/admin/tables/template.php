@@ -26,11 +26,11 @@ class RedshopTableTemplate extends RedshopTable
 	protected $_tableName = 'redshop_template';
 
 	/**
-	 * The table key column. Usually: id
+	 * Temporary variable for store/load template content;
 	 *
 	 * @var  string
 	 */
-	protected $_tableKey = 'template_id';
+	public $templateDesc;
 
 	/**
 	 * Method to load a row from the database by primary key and bind the fields
@@ -40,7 +40,7 @@ class RedshopTableTemplate extends RedshopTable
 	 *                           set the instance property value is used.
 	 * @param   boolean $reset   True to reset the default values before loading the new row.
 	 *
-	 * @return  boolean  True if successful. False if row not found.
+	 * @return  boolean          True if successful. False if row not found.
 	 */
 	protected function doLoad($keys = null, $reset = true)
 	{
@@ -49,10 +49,15 @@ class RedshopTableTemplate extends RedshopTable
 			return false;
 		}
 
-		$templateDesc = $this->template_desc;
+		if ($this->id && !empty($this->file_name))
+		{
+			$file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
 
-		$this->template_desc = RedshopHelperTemplate::readTemplateFile($this->template_section, $this->template_name, true);
-		$this->template_desc = empty($this->template_desc) ? $templateDesc : $this->template_desc;
+			if (JFile::exists($file))
+			{
+				$this->templateDesc = file_get_contents($file);
+			}
+		}
 
 		return true;
 	}
@@ -62,12 +67,12 @@ class RedshopTableTemplate extends RedshopTable
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   mixed $src    An associative array or object to bind to the JTable instance.
-	 * @param   mixed $ignore An optional array or space separated list of properties to ignore while binding.
+	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean         True on success.
 	 *
-	 * @throws  \InvalidArgumentException
+	 * @throws  InvalidArgumentException
 	 */
 	protected function doBind(&$src, $ignore = array())
 	{
@@ -105,44 +110,13 @@ class RedshopTableTemplate extends RedshopTable
 	}
 
 	/**
-	 * Called before store(). Overriden to send isNew to plugins.
-	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
-	 * @param   boolean  $isNew        True if we are adding a new item.
-	 * @param   mixed    $oldItem      null for new items | JTable otherwise
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @throws  Exception
-	 */
-	protected function beforeStore($updateNulls = false, $isNew = false, $oldItem = null)
-	{
-		if (!parent::beforeStore($updateNulls, $isNew, $oldItem))
-		{
-			return false;
-		}
-
-		if ($isNew)
-		{
-			return true;
-		}
-
-		$oldItem->template_name = $this->safeTemplateName($oldItem->template_name);
-
-		if ($oldItem->template_name !== $this->template_name || $oldItem->template_section !== $this->template_section)
-		{
-			$this->setOption('oldFile', RedshopHelperTemplate::getTemplateFilePath($oldItem->template_section, $oldItem->template_name, true));
-		}
-
-		return true;
-	}
-
-	/**
 	 * Do the database store.
 	 *
 	 * @param   boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
 	protected function doStore($updateNulls = false)
 	{
@@ -161,26 +135,37 @@ class RedshopTableTemplate extends RedshopTable
 			$this->order_status = implode(',', $this->order_status);
 		}
 
-		$this->template_name = $this->safeTemplateName($this->template_name);
+		$isNew = !$this->id;
+
+		$this->setOption('content', $this->templateDesc);
+		unset($this->templateDesc);
 
 		if (!parent::doStore($updateNulls))
 		{
 			return false;
 		}
 
+		if ($isNew)
+		{
+			$fileName = $this->generateTemplateFileName($this->id, $this->name);
+
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->qn('#__redshop_template'))
+				->where($db->qn('id') . ' = ' . $this->id)
+				->set($db->qn('file_name') . ' = ' . $db->quote($fileName));
+			$db->setQuery($query)->execute();
+		}
+		else
+		{
+			$fileName = $this->file_name;
+		}
+
 		// Write template file
 		JFile::write(
-			RedshopHelperTemplate::getTemplateFilePath($this->template_section, $this->template_name, true),
-			$this->template_desc
+			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName . '.php'),
+			$this->getOption('content', '')
 		);
-
-		// Delete old file if necessary
-		$oldFile = $this->getOption('oldFile', null);
-
-		if (null !== $oldFile && JFile::exists($oldFile))
-		{
-			JFile::delete($oldFile);
-		}
 
 		return true;
 	}
@@ -194,16 +179,16 @@ class RedshopTableTemplate extends RedshopTable
 	 */
 	protected function doDelete($pk = null)
 	{
-		$templatePath = RedshopHelperTemplate::getTemplateFilePath($this->template_section, $this->template_name, true);
-
 		if (!parent::doDelete($pk))
 		{
 			return false;
 		}
 
+		$templatePath = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
+
 		if (JFile::exists($templatePath))
 		{
-			JFile::delete($templatePath);
+			return JFile::delete($templatePath);
 		}
 
 		return true;
@@ -212,14 +197,15 @@ class RedshopTableTemplate extends RedshopTable
 	/**
 	 * Method for make template name safe
 	 *
-	 * @param   string  $templateName  Template name
+	 * @param   integer  $id    Template ID
+	 * @param   string   $name  Template name
 	 *
 	 * @return  string
 	 *
-	 * @since  2.0.7
+	 * @since   2.0.7
 	 */
-	protected function safeTemplateName($templateName = '')
+	public function generateTemplateFileName($id = 0, $name = '')
 	{
-		return str_replace('-', '_', JFilterOutput::stringURLSafe(strtolower($templateName)));
+		return str_replace('-', '_', JFilterOutput::stringURLSafe($id . ' - ' . strtolower($name)));
 	}
 }
