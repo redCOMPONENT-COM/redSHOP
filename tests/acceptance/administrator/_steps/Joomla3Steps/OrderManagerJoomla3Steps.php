@@ -27,41 +27,38 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\OrderManagerPage::$URL);
-        $I->click(\OrderManagerPage::$newButton);
-
-        $I->wait(3);
-
+        $I->click(\OrderManagerPage::$buttonNew);
         $I->click(\OrderManagerPage::$userId);
         $I->waitForElement(\OrderManagerPage::$userSearch, 30);
         $userOrderPage = new \OrderManagerPage();
         $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
         $I->waitForElement($userOrderPage->returnSearch($nameUser));
-        $I->wait(3);
+        $I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 
         $I->click($userOrderPage->returnSearch($nameUser));
-        $I->wait(3);
-
+        $I->resizeWindow(1920, 1080);
+        $I->waitForElement(\OrderManagerPage::$address, 30);
         $I->fillField(\OrderManagerPage::$address, $address);
         $I->fillField(\OrderManagerPage::$zipcode, $zipcode);
         $I->fillField(\OrderManagerPage::$city, $city);
         $I->fillField(\OrderManagerPage::$phone, $phone);
 
         $I->click(\OrderManagerPage::$applyUser);
-        $I->wait(3);
+        $I->click(\OrderManagerPage::$applyUser);
+        $I->scrollTo(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
 
         $I->click(\OrderManagerPage::$productId);
         $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
         $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
-        $I->wait(3);
+        $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
         $I->click($userOrderPage->returnSearch($nameProduct));
 
         $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
 
 
-        $I->click(\OrderManagerPage::$saveButton);
-        $I->wait(3);
-
-        $I->see(\OrderManagerPage::$closeButton, \OrderManagerPage::$close);
+        $I->click(\OrderManagerPage::$buttonSave);
+        $I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
     }
 
     public function editOrder($nameUser, $status, $paymentStatus, $newQuantity)
@@ -70,19 +67,17 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\OrderManagerPage::$URL);
 
         $this->searchOrder($nameUser);
-        $I->click(\OrderManagerPage::$nameUser);
-        $I->wait(3);
+        $I->click($nameUser);
+        $I->waitForElement(\OrderManagerPage::$statusOrder, 30);
         $userOrderPage = new \OrderManagerPage();
         $I->click(\OrderManagerPage::$statusOrder);
         $I->fillField(\OrderManagerPage::$statusSearch, $status);
-        $I->wait(5);
-        $I->waitForElement($userOrderPage->returnSearch($status));
+        $I->waitForElement($userOrderPage->returnSearch($status), 30);
         $I->click($userOrderPage->returnSearch($status));
 
         $I->click(\OrderManagerPage::$statusPaymentStatus);
         $I->fillField(\OrderManagerPage::$statusPaymentSearch, $paymentStatus);
-        $I->wait(5);
-        $I->waitForElement($userOrderPage->returnSearch($paymentStatus));
+        $I->waitForElement($userOrderPage->returnSearch($paymentStatus), 30);
         $I->click($userOrderPage->returnSearch($paymentStatus));
         $I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
 
@@ -94,10 +89,10 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\OrderManagerPage::$URL);
-
         $this->searchOrder($nameUser);
-        $I->checkAllResults();
-        $I->click(\OrderManagerPage::$deleteButton);
+        $I->waitForElement(\OrderManagerPage::$deleteFirst, 30);
+        $I->click(\OrderManagerPage::$deleteFirst);
+        $I->click(\OrderManagerPage::$buttonDelete);
         $I->acceptPopup();
         $I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
     }
@@ -108,6 +103,5 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wantTo('Search the User ');
         $I->amOnPage(\OrderManagerPage::$URL);
         $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
-        $I->wait(5);
     }
 }

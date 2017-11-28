@@ -157,8 +157,6 @@ class ManageOrderAdministratorCest
         $I->wantTo('Test Order Edit status and payment in Administrator');
         $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
         $I->editOrder($this->firstName, $this->status, $this->paymentStatus,$this->newQuantity);
-//        $I->editOrder("ManageUserAdministratorCest FN j39n Last", $this->status, $this->paymentStatus,$this->newQuantity);
-
     }
 
     /**
@@ -175,7 +173,6 @@ class ManageOrderAdministratorCest
         $I->wantTo('Test Order delete by user  in Administrator');
         $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
         $I->deleteOrder($this->firstName);
-//        $I->deleteOrder("ManageUserAdministratorCest FN j39n Last");
     }
 
 }

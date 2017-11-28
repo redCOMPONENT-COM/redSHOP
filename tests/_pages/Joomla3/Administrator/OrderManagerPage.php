@@ -13,14 +13,14 @@
  *
  * @since  1.4
  */
-class OrderManagerPage
+class OrderManagerPage extends AdminJ3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 
 
     public static $userId = "//div[@id='s2id_user_id']/a";
 
-    public static $userSearch = ".//*[@id='s2id_autogen1_search']";
+    public static $userSearch = "//input[@id='s2id_autogen1_search']";
 
     public static $address = ['id' => 'address'];
 
@@ -58,46 +58,14 @@ class OrderManagerPage
 
     public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $nameUser = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[4]/a"];
-
-    public static $saveSuccess = "//div[@id='system-message']/div[2]/div/p";
-
+    public static $deleteFirst = ['xpath' => '//input[@id=\'cb0\']'];
+    
+    
 
     //button
-
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
-
-    public static $savePay = "Save + Pay";
-
-    public static $closeButton="Close";
+    public static $buttonSavePay = "Save + Pay";
 
     //selector
-
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
-
     public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
 
     public static $messageDeleteSuccess = "Order detail deleted successfully";
