@@ -257,80 +257,19 @@ class RedshopHelperTemplate
 	/**
 	 * Method to get Template file path
 	 *
-	 * @param   string  $section  Template Section
-	 * @param   string  $fileName Template File Name
-	 * @param   boolean $isAdmin  Check for administrator call
+	 * @param   string   $section   Template Section
+	 * @param   string   $fileName  Template File Name
+	 * @param   boolean  $isAdmin   Check for administrator call
 	 *
 	 * @return  string              Template File Path
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getTemplateFilePath($section, $fileName, $isAdmin = false)
 	{
-		$app          = JFactory::getApplication();
-		$fileName     = str_replace(array('/', '\\'), '', $fileName);
-		$section      = str_replace(array('/', '\\'), '', $section);
-		$templateView = self::getTemplateView($section);
-		$layout       = $app->input->getString('layout', '');
-
-		if (!$isAdmin && $section != 'categoryproduct')
-		{
-			$templateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$templateView/$section/$fileName.php";
-		}
-		else
-		{
-			$templateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$fileName.php";
-		}
-
-		if (!file_exists($templateFile))
-		{
-			if ($section == 'categoryproduct' && $layout == 'categoryproduct')
-			{
-				$templateDir = JPATH_SITE . "/components/com_redshop/templates/$section/$fileName.php";
-			}
-
-			if ($templateView && $section != 'categoryproduct')
-			{
-				$templateDir = JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl/$section";
-
-				try
-				{
-					chmod(JPath::clean(JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl"), 0755);
-				}
-				catch (Exception $e)
-				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
-			else
-			{
-				if (!defined('JPATH_REDSHOP_TEMPLATE'))
-				{
-					// Define redSHOP Template Path
-					define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
-				}
-
-				$templateDir = JPATH_REDSHOP_TEMPLATE . '/' . $section;
-
-				try
-				{
-					chmod(JPATH_REDSHOP_TEMPLATE, 0755);
-				}
-				catch (Exception $e)
-				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
-
-			if (!is_dir($templateDir))
-			{
-				JFolder::create($templateDir, 0755);
-			}
-
-			$templateFile = "$templateDir/$fileName.php";
-		}
-
-		return $templateFile;
+		return JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $section . '/' . $fileName . '.php');
 	}
 
 	/**
