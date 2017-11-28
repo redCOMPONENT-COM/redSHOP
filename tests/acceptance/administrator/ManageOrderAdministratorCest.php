@@ -156,7 +156,7 @@ class ManageOrderAdministratorCest
     {
         $I->wantTo('Test Order Edit status and payment in Administrator');
         $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-        $I->editOrder($this->firstName, $this->status, $this->paymentStatus,$this->newQuantity);
+        $I->editOrder($this->firstName.' '.$this->lastName, $this->status, $this->paymentStatus,$this->newQuantity);
     }
 
     /**
