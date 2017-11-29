@@ -24,6 +24,11 @@ class RedshopEntityProduct extends RedshopEntity
 	protected $categories = null;
 
 	/**
+	 * @var   RedshopEntitiesCollection  Collections of related products
+	 */
+	protected $relatedProducts = null;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
@@ -50,6 +55,23 @@ class RedshopEntityProduct extends RedshopEntity
 		}
 
 		return $this->categories;
+	}
+
+	/**
+	 * @param   boolean  $reload  Force reload even it's cached
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   2.1.0
+	 */
+	public function getRelatedProducts($reload = false)
+	{
+		if (null === $this->relatedProducts || $reload === true)
+		{
+			$this->loadRelated();
+		}
+
+		return $this->relatedProducts;
 	}
 
 	/**
@@ -122,7 +144,7 @@ class RedshopEntityProduct extends RedshopEntity
 		$query = $db->getQuery(true)
 			->select($db->qn('category_id'))
 			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->get('product_id'));
+			->where($db->qn('product_id') . ' = ' . (int) $this->getId());
 
 		$results = $db->setQuery($query)->loadColumn();
 
@@ -134,6 +156,39 @@ class RedshopEntityProduct extends RedshopEntity
 		foreach ($results as $categoryId)
 		{
 			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to get related products
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadRelated()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->relatedProducts = new RedshopEntitiesCollection;
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('related_id'))
+			->from($db->quoteName('#__redshop_product_related'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->getId());
+
+		$productIds = $db->setQuery($query)->loadColumn();
+
+		foreach ($productIds as $productId)
+		{
+			$this->relatedProducts->add(RedshopEntityProduct::getInstance($productId));
 		}
 
 		return $this;
