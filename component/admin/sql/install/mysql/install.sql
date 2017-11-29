@@ -344,9 +344,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `product_back_thumb_image` VARCHAR(250) NOT NULL,
   `product_preview_image` VARCHAR(250) NOT NULL,
   `product_preview_back_image` VARCHAR(250) NOT NULL,
-  `use_individual_payment_method` TINYINT(4) NOT NULL DEFAULT 0,
   `preorder` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
+  `use_individual_payment_method` TINYINT(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`product_id`),
   UNIQUE INDEX `idx_product_number` (`product_number` ASC),
   INDEX `idx_manufacturer_id` (`manufacturer_id` ASC),
@@ -1285,20 +1285,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_category_xref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Product Category Relation';
-
--- -----------------------------------------------------
--- Table `#__redshop_product_payment_xref`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_product_payment_xref` ;
-
-CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
-  `payment_id` VARCHAR(255) NOT NULL,
-  `product_id` INT(11) NOT NULL,
-  PRIMARY KEY (`payment_id`,`product_id`),
-  INDEX `ref_payment` (`product_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Product Payment Relation';
 
 
 -- -----------------------------------------------------
@@ -2564,6 +2550,20 @@ CREATE TABLE IF NOT EXISTS `#__redshop_voucher` (
   INDEX `#__rs_voucher_common` (`code` ASC, `published` ASC, `start_date` ASC, `end_date` ASC),
   INDEX `#__rs_voucher_left` (`voucher_left` ASC))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `#__redshop_product_payment_xref`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_product_payment_xref` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
+  `payment_id` VARCHAR(255) NOT NULL DEFAULT '',
+  `product_id` TINYINT(11) NOT NULL,
+  PRIMARY KEY (`product_id`, `payment_id`),
+  INDEX `#__rs_pro_pay_ref_fk1` (`product_id` ASC))
+ENGINE = InnoDB
+COMMENT = 'redSHOP Product Individual payment reference.';
 
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

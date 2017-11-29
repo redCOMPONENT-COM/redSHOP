@@ -205,7 +205,9 @@ class RedshopHelperPayment
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function listAll($name, $productId, $size = 1, $multiple = false, $width = 250)
 	{
@@ -240,7 +242,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  string   HTML of <option></option>
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  Exception
 	 */
@@ -299,7 +301,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  array   Common PaymentMethods
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getPaymentMethodInCheckOut($paymentMethods=array())
 	{
@@ -383,7 +385,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  string  HTML of <div></div>
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function displayPaymentMethodInCheckOut($paymentMethods=array())
 	{
