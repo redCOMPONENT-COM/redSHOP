@@ -174,7 +174,7 @@ class GiftCardCheckoutProductCest
 	{
 		$I = new AcceptanceTester($scenario);
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->editOrder($this->firstName, $this->status, $this->paymentStatus, $this->newQuantity);
+		$I->editOrder($this->firstName.' '.$this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
 	}
 
 	/**
