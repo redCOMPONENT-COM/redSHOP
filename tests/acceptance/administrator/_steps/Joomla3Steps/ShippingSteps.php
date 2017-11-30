@@ -136,6 +136,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
                 break;
         }
 
+        $I->pauseExecution();
     }
 
     public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
