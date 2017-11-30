@@ -6,6 +6,7 @@
  * Date: 29/11/2017
  * Time: 18:04
  */
+use AcceptanceTester\ShippingSteps as ShippingSteps ;
 class CheckoutShippingCest
 {
     public function __construct()
