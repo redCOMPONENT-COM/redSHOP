@@ -411,7 +411,7 @@ class RedshopHelperProductAccessory
 				$accessoryShowPrice  = RedshopHelperProductPrice::formattedPrice($accessoryPrice);
 
 				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-						|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
+					|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 				{
 					$accessoryWrapper = str_replace("{accessory_price}", $accessoryShowPrice, $accessoryWrapper);
 					$accessoryWrapper = str_replace("{accessory_main_price}", $accessoryMainPrice, $accessoryWrapper);
@@ -482,8 +482,11 @@ class RedshopHelperProductAccessory
 					if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 					{
 						$key                = array_search($accessory[$a]->accessory_id, $selectedAccessory);
-						$accqua             = ($accessoryChecked != "" && isset($selectedAccessoryQua[$key]) && $selectedAccessoryQua[$key]) ? $selectedAccessoryQua[$key] : 1;
-						$accessory_quantity = "<input type='text' name='accquantity_" . $prefix . $productId . "[]' id='accquantity_" . $commonId . "' value='" . $accqua . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' onchange='validateInputNumber(this.id);'>";
+						$accqua             = ($accessoryChecked != "" && isset($selectedAccessoryQua[$key]) && $selectedAccessoryQua[$key])
+							? $selectedAccessoryQua[$key] : 1;
+						$accessory_quantity = "<input type='text' name='accquantity_" . $prefix . $productId . "[]' id='accquantity_"
+							. $commonId . "' value='" . $accqua . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'"
+							. " size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' onchange='validateInputNumber(this.id);'>";
 						$accessoryWrapper   = str_replace("{accessory_quantity}", $accessory_quantity, $accessoryWrapper);
 						$accessoryWrapper   = str_replace("{accessory_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $accessoryWrapper);
 					}
@@ -504,9 +507,7 @@ class RedshopHelperProductAccessory
 							$fields[$i]->id, 1, $accessory[$a]->child_product_id
 						);
 
-						if ($fieldValues && $fieldValues->data_txt != ""
-							&& $fields[$i]->show_in_front == 1
-							&& $fields[$i]->published == 1)
+						if ($fieldValues && $fieldValues->data_txt != "" && $fields[$i]->show_in_front == 1 && $fields[$i]->published == 1)
 						{
 							$accessoryWrapper = str_replace('{' . $fields[$i]->name . '}', $fieldValues->data_txt, $accessoryWrapper);
 							$accessoryWrapper = str_replace('{' . $fields[$i]->name . '_lbl}', $fields[$i]->title, $accessoryWrapper);
@@ -522,6 +523,7 @@ class RedshopHelperProductAccessory
 
 			$accessoryWrapper = $accessoryWrapperStart . $accessoryWrapper . $accessoryWrapperEnd;
 		}
+
 		// Attribute ajax change
 		if ($viewAcc == 1)
 		{
@@ -541,10 +543,10 @@ class RedshopHelperProductAccessory
 
 		if (strpos($templateContent, "{selected_accessory_price}") !== false && $isAjax == 0)
 		{
-			$selectedAccessoryPricec = RedshopHelperProductPrice::priceReplacement($productPrices['product_price']);
+			$selectedAccessoryPrice = RedshopHelperProductPrice::priceReplacement($productPrices['product_price']);
 			$templateContent         = str_replace(
 				"{selected_accessory_price}",
-				"<div id='rs_selected_accessory_price' class='rs_selected_accessory_price'>" . $selectedAccessoryPricec . "</div>",
+				"<div id='rs_selected_accessory_price' class='rs_selected_accessory_price'>" . $selectedAccessoryPrice . "</div>",
 				$templateContent
 			);
 		}
