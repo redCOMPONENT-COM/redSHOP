@@ -82,6 +82,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 break;
         }
+        $I->pauseExecution();
 
     }
 

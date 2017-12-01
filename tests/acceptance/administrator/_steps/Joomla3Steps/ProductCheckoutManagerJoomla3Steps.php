@@ -366,7 +366,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->pauseExecution();
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart,10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
@@ -386,12 +385,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton,10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-
-
 //		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($ShippingRate,\FrontEndProductManagerJoomla3Page::$shippingRate);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->pauseExecution();
+		
 	}
 
 
