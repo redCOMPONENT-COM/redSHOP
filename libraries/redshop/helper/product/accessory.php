@@ -34,8 +34,7 @@ class RedshopHelperProductAccessory
 	 */
 	public static function replaceAccessoryData($productId = 0, $relProductId = 0, $accessory = array(), $templateContent, $isChilds = false, $selectedAccessories = array())
 	{
-		$userId        = 0;
-		$redShopConfig = Redconfiguration::getInstance();
+		$userId = 0;
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -75,7 +74,7 @@ class RedshopHelperProductAccessory
 		}
 
 		$accessoryTemplateData = $accessoryTemplate->template_desc;
-		$attributeTemplate     = productHelper::getInstance()->getAttributeTemplate($accessoryTemplateData);
+		$attributeTemplate     = (object) productHelper::getInstance()->getAttributeTemplate($accessoryTemplateData);
 
 		if (empty($accessory))
 		{
@@ -85,6 +84,7 @@ class RedshopHelperProductAccessory
 		}
 
 		$accessoryTemplateData2 = $accessoryTemplateData;
+		$productPrices          = array();
 
 		if (strpos($accessoryTemplateData2, "{if accessory_main}") !== false && strpos($accessoryTemplateData2, "{accessory_main end if}") !== false)
 		{
@@ -96,7 +96,7 @@ class RedshopHelperProductAccessory
 
 			if (strpos($accessoryMiddle, "{accessory_main_short_desc}") !== false)
 			{
-				$accessoryMainShortDesc = $redShopConfig->maxchar(
+				$accessoryMainShortDesc = RedshopHelperUtility::limitText(
 					$product->product_s_desc,
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
@@ -107,7 +107,7 @@ class RedshopHelperProductAccessory
 
 			if (strpos($accessoryMiddle, "{accessory_main_title}") !== false)
 			{
-				$accessoryMainProductName = $redShopConfig->maxchar(
+				$accessoryMainProductName = RedshopHelperUtility::limitText(
 					$product->product_name,
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
@@ -215,7 +215,7 @@ class RedshopHelperProductAccessory
 				$commonId         = $prefix . $productId . '_' . $accessory[$a]->accessory_id;
 				$accessoryWrapper .= "<div id='divaccstatus" . $commonId . "' class='accessorystatus'>" . $accessoryWrapperMiddle . "</div>";
 
-				$accessoryProductName = $redShopConfig->maxchar(
+				$accessoryProductName = RedshopHelperUtility::limitText(
 					$accessory[$a]->product_name,
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
