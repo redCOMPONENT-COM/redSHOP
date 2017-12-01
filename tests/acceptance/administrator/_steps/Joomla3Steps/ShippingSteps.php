@@ -20,6 +20,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
         $I->waitForElement(ShippingPage::$shippingRate, 30);
         $I->click(ShippingPage::$shippingRate);
         $I->click(ShippingPage::$buttonNew);
+        $userPage = new ShippingPage();
         $I->waitForElement(ShippingPage::$shippingName, 30);
         if ($shippingName != "") {
             $I->fillField(ShippingPage::$shippingName, $shippingName);
@@ -98,14 +99,21 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 
         if ($shippingCategory != "") {
             $I->waitForElement(ShippingPage::$shippingCategory, 30);
-            $I->fillField(ShippingPage::$shippingCategory, $shippingCategory);
-            $I->pressKey(ShippingPage::$shippingCategory, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+            $I->waitForElement(ShippingPage::$shippingCategory, 30);
+            $I->click(ShippingPage::$shippingCategory);
+            $I->fillField(ShippingPage::$shippingCategoryInput, $shippingCategory);
+            $I->waitForElement($userPage->returnChoice($shippingCategory),30);
+            $I->click($userPage->returnChoice($shippingCategory));
         }
 
         if ($shippingShopperGroups != "") {
             $I->waitForElement(ShippingPage::$shippingShopperGroups, 30);
-            $I->fillField(ShippingPage::$shippingShopperGroups, $shippingShopperGroups);
-            $I->pressKey(ShippingPage::$shippingShopperGroups, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+            $I->click(ShippingPage::$shippingShopperGroups);
+
+            $I->fillField(ShippingPage::$shippingShopperGroupsInput, $shippingShopperGroups);
+
+            $I->waitForElement($userPage->returnChoice($shippingShopperGroups),30);
+            $I->click($userPage->returnChoice($shippingShopperGroups));
         }
 
         $I->fillField(ShippingPage::$shippingPriority, $shippingPriority);

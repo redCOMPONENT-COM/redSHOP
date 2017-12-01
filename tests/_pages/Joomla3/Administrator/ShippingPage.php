@@ -49,8 +49,12 @@ class ShippingPage extends AdminJ3Page
     public static $shippingRateProduct = ['id' => 's2id_container_product'];
 
     public static $shippingCategory = ['id' => 's2id_shipping_rate_on_category'];
+    
+    public static $shippingCategoryInput = ['xpath' => '//input[@id=\'s2id_autogen4\']'];
 
-    public static $shippingShopperGroups = ['id' => 's2id_shipping_rate_on_shopper_group'];
+    public static $shippingShopperGroups = ['xpath' => '//div[@id=\'s2id_shipping_rate_on_shopper_group\']'];
+
+    public static $shippingShopperGroupsInput = ['xpath' => '//input[@id=\'s2id_autogen5\']'];
 
     public static $shippingPriority = ['id' => 'shipping_rate_priority'];
 

@@ -7,6 +7,11 @@
  * Time: 18:04
  */
 use AcceptanceTester\ShippingSteps as ShippingSteps ;
+use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 class CheckoutShippingCest
 {
     public function __construct()
@@ -27,18 +32,98 @@ class CheckoutShippingCest
         $this->Discount ="DKK 50,00";
         $this->Total="DKK 50,00";
 
-        $this->discountName = 'Discount' . rand(1, 100);
-        $this->amount = 150;
-        $this->discountAmount = 50;
-        $this->startDate = '13-06-2017';
-        $this->endDate = '13-08-2017';
+        //shipping info
+        $this->shippingName = 'TestingShippingRate' . rand(99, 999);
+        $this->shippingNameEdit = $this->shippingName . "edit";
+        $this->shippingNameSaveClose = "TestingSave" . rand(1, 100);
+        $this->shippingRate = rand(1, 100);
+        $this->shippingRateEdit = rand(100, 1000);
+        $this->weightStart = "";
+        $this->weightEnd = "";
+        $this->volumeStart = "";
+        $this->volumeEnd = "";
+        $this->shippingRateLenghtStart = "";
+        $this->shippingRateLegnhtEnd = "";
+        $this->shippingRateWidthStart = "";
+        $this->shippingRateWidthEnd = "";
+        $this->shippingRateHeightStart = "";
+        $this->shippingRateHeightEnd = "";
+        $this->orderTotalStart = "";
+        $this->orderTotalEnd = "";
+        $this->zipCodeStart = "";
+        $this->zipCodeEnd = "";
+        $this->country = "";
+        $this->shippingRateProduct = "";
+        $this->shippingPriority = "";
+        $this->shippingRateFor = "";
+        $this->shippingVATGroups = "";
+        $this->pickup = "pick";
+
+
+        //create shopper groups
+        $this->shopperName = $this->faker->bothify(' Testing shopper ##??');
+        $this->shopperType = null;
+        $this->customerType = 'Company customer';
+        $this->shippingRate = 10;
+        $this->shippingCheckout = $this->faker->numberBetween(1, 100);
+        $this->catalog = 'Yes';
+        $this->showPrice = 'Yes';
+        $this->shipping = 'yes';
+        $this->enableQuotation='no';
+        $this->showVat='no';
+        $this->shopperGroupPortal='no';
+
+        //create user
+        $this->userName = $this->faker->bothify('UserName ?##?');
+        $this->password = 'test';
+        $this->email = $this->faker->email;
         $this->shopperGroup = 'Default Private';
-        $this->discountType = 'Total';
-        $this->discountCondition='Lower';
+        $this->group = 'Administrator';
+        $this->firstName = $this->faker->bothify('FirstName FN ?##?');
+        $this->lastName = 'Last';
+        
 
     }
-    public function preCheckout()
+//
+//    public function deleteData($scenario)
+//    {
+//        $I= new RedshopSteps($scenario);
+//        $I->clearAllData();
+//    }
+
+    public function _before(AcceptanceTester $I)
     {
-        
+        $I->doAdministratorLogin();
+    }
+
+
+    public function preCheckout(AcceptanceTester $I, $scenario)
+    {
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->addCategorySave($this->CategoryName);
+
+        $this->CategoryName = '- '.$this->CategoryName;
+        $I = new ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+
+        $I = new ShopperGroupManagerJoomla3Steps($scenario);
+        $I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType,$this->shopperGroupPortal, $this->CategoryName,$this->shipping,$this->shippingRate, $this->shippingCheckout, $this->catalog,$this->showVat, $this->showPrice, $this->enableQuotation,'save');
+
+        $I->wantTo('Test User creation with save button in Administrator');
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+
+
+        $I->wantTo('Test Discount creation with save and close button in Administrator');
+        $I = new ShippingSteps($scenario);
+        $I->wantTo('Create a Discount');
+        $I->createShippingRateStandard($this->shippingName, $this->shippingRate, $this->weightStart, $this->weightEnd, $this->volumeStart, $this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, $this->shippingRateHeightStart, $this->shippingRateHeightEnd
+            , $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->country, $this->shippingRateProduct, $this->CategoryName,
+            $this->shopperName, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'save');
+//        $I->wantTo('Checkout with discount at total');
+//        $I = new ProductCheckoutManagerJoomla3Steps($scenario);
+//        $I->checkoutWithDiscount($this->ProductName,$this->CategoryName,$this->subtotal,$this->Discount,$this->Total);
+
     }
 }
