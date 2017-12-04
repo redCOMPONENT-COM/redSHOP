@@ -76,6 +76,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TemplatePage::$url);
 		$client->searchTemplate($name);
+		$client->wait(3);
 		$client->see($name, \TemplatePage::$resultRow);
 		$client->click(\TemplatePage::$statePath);
 	}
@@ -107,6 +108,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TemplatePage::$url);
 		$client->searchTemplate($name);
+		$client->wait(3);
 		$client->see($name, \TemplatePage::$resultRow);
 		$text = $client->grabAttributeFrom(\TemplatePage::$statePath, 'onclick');
 		echo "Get status text " . $text;
