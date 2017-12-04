@@ -53,8 +53,8 @@ class CheckoutShippingCest
         $this->shippingRateHeightEnd = "";
         $this->orderTotalStart = "";
         $this->orderTotalEnd = "";
-        $this->zipCodeStart = 0;
-        $this->zipCodeEnd = 10000;
+        $this->zipCodeStart = "";
+        $this->zipCodeEnd = "";
         $this->country = "";
         $this->shippingRateProduct = "";
         $this->shippingPriority = "";
@@ -97,13 +97,15 @@ class CheckoutShippingCest
         $this->groupSecond = 'Administrator';
         $this->firstNameSecond = $this->faker->bothify('FirstNamesecond FN ?##?');
         $this->lastNameSecond = $this->faker->bothify('Lasenamesecond ?##?');
+        $this->shippingRateSecond  =  rand(10, 1000);
+        $this->TotalIncludeShipping = 0;
     }
-
-    public function deleteData($scenario)
-    {
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
-    }
+//
+//    public function deleteData($scenario)
+//    {
+//        $I= new RedshopSteps($scenario);
+//        $I->clearAllData();
+//    }
 
     public function _before(AcceptanceTester $I)
     {
@@ -157,16 +159,24 @@ class CheckoutShippingCest
 //        $I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName ,$this->CategoryNamePlus,'0',$this->TotalOrder);
 //    }
 
-    public function checkoutWithUseNotApplyShipping(AcceptanceTester $I, $scenario)
+    public function checkoutWithUseApplyOtherShipping(AcceptanceTester $I, $scenario)
     {
 
         $I->wantTo('Add other shopper user and do not apply any shipping for this user');
         $I = new UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userNameSecond, $this->passwordSecond, $this->emailSecond, $this->groupSecond, $this->shopperGroupSecond, $this->firstNameSecond, $this->lastNameSecond, 'save');
-        $this->TotalNotIncludeShipping = 'DKK '.$this->randomProductPrice;
+
+        $I ->wantTo('Create other shipping for Private shopper groups');
+        $I = new ShippingSteps($scenario);
+        $I->createShippingRateStandard($this->shippingNameSecond, $this->shippingRateSecond, $this->weightStart, $this->weightEnd, $this->volumeStart, $this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, $this->shippingRateHeightStart, $this->shippingRateHeightEnd
+            , $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->user['country'], $this->shippingRateProduct, $this->CategoryName,
+            $this->shopperGroupSecond, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'save');
+
+        $this->TotalIncludeShipping = $this->randomProductPrice + $this->shippingRateSecond;
+        $this->TotalIncludeShippingShow = 'DKK '.$this->TotalIncludeShipping;
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->wantTo('Test with user do not apply shipping rate');
-        $I->checkoutSpecificShopperGroup($this->userNameSecond,$this->passwordSecond,$this->ProductName ,$this->CategoryNamePlus,'0',$this->TotalNotIncludeShipping);
+        $I->checkoutSpecificShopperGroup($this->userNameSecond,$this->passwordSecond,$this->ProductName ,$this->CategoryNamePlus,$this->shippingRateSecond,$this->TotalIncludeShippingShow);
 
     }
 

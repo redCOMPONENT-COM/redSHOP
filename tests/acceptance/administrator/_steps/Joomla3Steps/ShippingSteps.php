@@ -80,19 +80,16 @@ class ShippingSteps extends AdminManagerJoomla3Steps
         }
         if ($zipCodeStart != "") {
             $I->fillField(ShippingPage::$zipCodeStart, $zipCodeStart);
-            $I->pauseExecution();
         }
         if ($zipCodeEnd != "") {
             $I->fillField(ShippingPage::$zipCodeEnd, $zipCodeEnd);
         }
-
         if ($country != "") {
             $I->waitForElement(ShippingPage::$country, 30);
             $I->click(ShippingPage::$countryField);
             $I->fillField(ShippingPage::$countryField, $country);
             $I->waitForElement($userPage->returnChoice($country),30);
             $I->click($userPage->returnChoice($country));
-//            $I->pressKey(ShippingPage::$country, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
         }
 
         if ($shippingRateProduct != "") {
@@ -147,7 +144,6 @@ class ShippingSteps extends AdminManagerJoomla3Steps
             default:
                 break;
         }
-
     }
 
     public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
