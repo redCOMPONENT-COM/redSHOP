@@ -388,7 +388,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($ShippingRate,\FrontEndProductManagerJoomla3Page::$shippingRate);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
-		
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms,30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 	}
 
 

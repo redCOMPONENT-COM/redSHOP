@@ -46,6 +46,8 @@ class ShippingPage extends AdminJ3Page
 
     public static $country = ['id' => 's2id_shipping_rate_country'];
 
+    public static $countryField = ['id' => 's2id_autogen2'];
+
     public static $shippingRateProduct = ['id' => 's2id_container_product'];
 
     public static $shippingCategory = ['id' => 's2id_shipping_rate_on_category'];
