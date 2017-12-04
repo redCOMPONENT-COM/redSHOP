@@ -390,25 +390,28 @@ class RedshopHelperProductAccessory
 					}
 				}
 
-				$fields = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 1, 1);
+				$fields = RedshopHelperExtrafields::getSectionFieldList(
+					RedshopHelperExtrafields::SECTION_PRODUCT, 1, 1
+				);
 
 				if (count($fields) > 0)
 				{
-					for ($i = 0, $in = count($fields); $i < $in; $i++)
+					foreach ($fields as $field)
 					{
 						$fieldValues = RedshopHelperExtrafields::getSectionFieldDataList(
-							$fields[$i]->id, 1, $accessory[$a]->child_product_id
+							$field->id, 1, $accessory[$a]->child_product_id
 						);
 
-						if ($fieldValues && $fieldValues->data_txt != "" && $fields[$i]->show_in_front == 1 && $fields[$i]->published == 1)
+						if ($fieldValues && $fieldValues->data_txt != ""
+							&& $field->show_in_front == 1 && $field->published == 1)
 						{
-							$accessoryWrapper = str_replace('{' . $fields[$i]->name . '}', $fieldValues->data_txt, $accessoryWrapper);
-							$accessoryWrapper = str_replace('{' . $fields[$i]->name . '_lbl}', $fields[$i]->title, $accessoryWrapper);
+							$accessoryWrapper = str_replace('{' . $field->name . '}', $fieldValues->data_txt, $accessoryWrapper);
+							$accessoryWrapper = str_replace('{' . $field->name . '_lbl}', $field->title, $accessoryWrapper);
 						}
 						else
 						{
-							$accessoryWrapper = str_replace('{' . $fields[$i]->name . '}', "", $accessoryWrapper);
-							$accessoryWrapper = str_replace('{' . $fields[$i]->name . '_lbl}', "", $accessoryWrapper);
+							$accessoryWrapper = str_replace('{' . $field->name . '}', "", $accessoryWrapper);
+							$accessoryWrapper = str_replace('{' . $field->name . '_lbl}', "", $accessoryWrapper);
 						}
 					}
 				}
@@ -418,21 +421,16 @@ class RedshopHelperProductAccessory
 		}
 
 		// Attribute ajax change
-		if ($viewAcc == 1)
+		if ($viewAcc != 1 && Redshop::getConfig()->get('AJAX_CART_BOX') != 0)
 		{
-			$templateContent = str_replace("{accessory_template:" . $accessoryTemplate->template_name . "}", $accessoryWrapper, $templateContent);
+			$accessoryWrapper = '';
 		}
-		else
-		{
-			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 0)
-			{
-				$templateContent = str_replace("{accessory_template:" . $accessoryTemplate->template_name . "}", $accessoryWrapper, $templateContent);
-			}
-			else
-			{
-				$templateContent = str_replace("{accessory_template:" . $accessoryTemplate->template_name . "}", "", $templateContent);
-			}
-		}
+
+		$templateContent = str_replace(
+			"{accessory_template:" . $accessoryTemplate->template_name . "}",
+			$accessoryWrapper,
+			$templateContent
+		);
 
 		$selectedAccessoriesHtml = '';
 
@@ -507,7 +505,8 @@ class RedshopHelperProductAccessory
 	 */
 	public static function replaceMainAccessory(&$accessoryTemplate, $templateContent, $product, $userId)
 	{
-		if (strpos($accessoryTemplate, "{if accessory_main}") === false || strpos($accessoryTemplate, "{accessory_main end if}") === false)
+		if (strpos($accessoryTemplate, "{if accessory_main}") === false
+			|| strpos($accessoryTemplate, "{accessory_main end if}") === false)
 		{
 			return;
 		}
@@ -520,24 +519,28 @@ class RedshopHelperProductAccessory
 
 		if (strpos($accessoryMiddle, "{accessory_main_short_desc}") !== false)
 		{
-			$accessoryMainShortDesc = RedshopHelperUtility::limitText(
-				$product->product_s_desc,
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
+			$accessoryMiddle = str_replace(
+				"{accessory_main_short_desc}",
+				RedshopHelperUtility::limitText(
+					$product->product_s_desc,
+					Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
+					Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
+				),
+				$accessoryMiddle
 			);
-
-			$accessoryMiddle = str_replace("{accessory_main_short_desc}", $accessoryMainShortDesc, $accessoryMiddle);
 		}
 
 		if (strpos($accessoryMiddle, "{accessory_main_title}") !== false)
 		{
-			$accessoryMainProductName = RedshopHelperUtility::limitText(
-				$product->product_name,
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
+			$accessoryMiddle = str_replace(
+				"{accessory_main_title}",
+				RedshopHelperUtility::limitText(
+					$product->product_name,
+					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
+				),
+				$accessoryMiddle
 			);
-
-			$accessoryMiddle = str_replace("{accessory_main_title}", $accessoryMainProductName, $accessoryMiddle);
 		}
 
 		$accessoryProductDetail = "<a href='#' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
