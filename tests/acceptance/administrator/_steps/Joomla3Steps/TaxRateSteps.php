@@ -149,7 +149,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->click($TAXRatesName);
 		$client->waitForElement(\TaxRatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();
@@ -171,7 +170,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click($TAXRatesName);
 		$client->waitForElement(\TaxRatePage::$fieldName, 30);
@@ -185,7 +183,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->click($TAXRatesName);
 		$client->waitForElement(\TaxRatePage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
@@ -199,7 +196,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->acceptPopup();
@@ -211,7 +207,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->cancelPopup();
