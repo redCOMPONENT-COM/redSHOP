@@ -89,6 +89,12 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		$row = $this->getTable();
 
+		if (empty($data['media_alternate_text'])  && $data['media_type'] == 'images')
+		{
+			$sectionItem = $this->getSection($data['section_id'], $data['media_section']);
+			$data['media_alternate_text'] = $sectionItem->name;
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
