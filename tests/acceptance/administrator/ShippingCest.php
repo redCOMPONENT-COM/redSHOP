@@ -46,7 +46,6 @@ class ShippingCest
             , $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->country, $this->shippingRateProduct, $this->shippingCategory,
             $this->shippingShopperGroups, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'save');
 
-        $I->pauseExecution();
         $I->createShippingRateStandard($this->shippingNameSaveClose, $this->shippingRate, $this->weightStart, $this->weightEnd, $this->volumeStart, $this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, $this->shippingRateHeightStart, $this->shippingRateHeightEnd
             , $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->country, $this->shippingRateProduct, $this->shippingCategory,
             $this->shippingShopperGroups, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'saveclose');

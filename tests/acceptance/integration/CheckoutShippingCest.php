@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: nhung
- * Date: 29/11/2017
- * Time: 18:04
- */
 use AcceptanceTester\ShippingSteps as ShippingSteps ;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerJoomla3Steps;
@@ -100,12 +94,12 @@ class CheckoutShippingCest
         $this->shippingRateSecond  =  rand(10, 1000);
         $this->TotalIncludeShipping = 0;
     }
-//
-//    public function deleteData($scenario)
-//    {
-//        $I= new RedshopSteps($scenario);
-//        $I->clearAllData();
-//    }
+
+    public function deleteData($scenario)
+    {
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
 
     public function _before(AcceptanceTester $I)
     {

@@ -66,11 +66,7 @@ class UserManagerJoomla3Page extends AdminJ3Page
     public static $stateDropdownList  =  ['xpath' => '//div[@id=\'s2id_rs_state_state_code\']/a'];
 
     public static $stateField = ['xpath' => '//input[@id=\'s2id_autogen3_search\']'];
-
-
     
-    
-
     public static $userSuccessMessage = 'User detail saved';
 
     public static $saveErrorEmailAlready = "Email already exists ";
