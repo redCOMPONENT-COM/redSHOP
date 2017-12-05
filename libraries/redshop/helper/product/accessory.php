@@ -421,7 +421,7 @@ class RedshopHelperProductAccessory
 		}
 
 		// Attribute ajax change
-		if ($viewAcc != 1 && Redshop::getConfig()->get('AJAX_CART_BOX') != 0)
+		if ($viewAcc != 1 && Redshop::getConfig()->getInt('AJAX_CART_BOX') != 0)
 		{
 			$accessoryWrapper = '';
 		}
