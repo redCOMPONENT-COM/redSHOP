@@ -44,5 +44,5 @@ class TemplatePage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath = "//tr/td[6]/a";
 }

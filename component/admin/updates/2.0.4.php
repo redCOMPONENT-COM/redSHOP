@@ -34,7 +34,8 @@ class RedshopUpdate204 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/tax_group_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/tax_group_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/tax_group_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php',
+			JPATH_SITE . '/libraries/redshop/install/database.php'
 		);
 	}
 
@@ -77,19 +78,6 @@ class RedshopUpdate204 extends RedshopInstallUpdate
 
 			JFile::move($path . $file, $path . $fileName);
 		}
-	}
-
-	/**
-	 * Method for check database structure when update.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function checkDatabase()
-	{
-		$installDatabase = new RedshopInstallDatabase;
-		$installDatabase->install();
 	}
 
 	/**
