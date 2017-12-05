@@ -447,19 +447,19 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$shippingaddress = $shippingaddresses;
 
-			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
-
-			$shippingaddress->state_2_code = $redconfig->getCountryCode2($shippingaddress->state_code);
+			$shippingaddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingaddress->country_code);
+			$shippingaddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingaddress->state_code);
 		}
 
 		if (isset($shippingaddresses))
 		{
-			$d ["shippingaddress"]                 = $shippingaddresses;
-			$d ["shippingaddress"]->country_2_code = $redconfig->getCountryCode2($d ["shippingaddress"]->country_code);
-			$d ["shippingaddress"]->state_2_code   = $redconfig->getCountryCode2($d ["shippingaddress"]->state_code);
+			$d["shippingaddress"] = $shippingaddresses;
 
-			$shippingaddresses->country_2_code = $redconfig->getCountryCode2($d ["shippingaddress"]->country_code);
-			$shippingaddresses->state_2_code   = $redconfig->getCountryCode2($d ["shippingaddress"]->state_code);
+			$d["shippingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($d["shippingaddress"]->country_code);
+			$d["shippingaddress"]->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
+
+			$shippingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($d ["shippingaddress"]->country_code);
+			$shippingaddresses->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
 		}
 
 		if (isset($userbillinginfo))
@@ -468,14 +468,14 @@ class RedshopControllerOrder_detail extends RedshopController
 
 			if (isset($userbillinginfo->country_code))
 			{
-				$d ["billingaddress"]->country_2_code = $redconfig->getCountryCode2($userbillinginfo->country_code);
-				$userbillinginfo->country_2_code      = $redconfig->getCountryCode2($userbillinginfo->country_code);
+				$d ["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($userbillinginfo->country_code);
+				$userbillinginfo->country_2_code      = RedshopHelperWorld::getCountryCode2($userbillinginfo->country_code);
 			}
 
 			if (isset($userbillinginfo->state_code))
 			{
-				$d ["billingaddress"]->state_2_code = $redconfig->getCountryCode2($userbillinginfo->state_code);
-				$userbillinginfo->state_2_code      = $redconfig->getCountryCode2($userbillinginfo->state_code);
+				$d ["billingaddress"]->state_2_code = RedshopHelperWorld::getStateCode2($userbillinginfo->state_code);
+				$userbillinginfo->state_2_code      = RedshopHelperWorld::getStateCode2($userbillinginfo->state_code);
 			}
 		}
 

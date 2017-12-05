@@ -78,7 +78,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			if (isset($billingaddresses->country_code))
 			{
-				$billingaddresses->country_2_code = $redconfig->getCountryCode2($billingaddresses->country_code);
+				$billingaddresses->country_2_code     = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
 				$d ["billingaddress"]->country_2_code = $billingaddresses->country_2_code;
 			}
 
@@ -93,7 +93,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			if (isset($shippingaddresses->country_code))
 			{
-				$shippingaddresses->country_2_code = $redconfig->getCountryCode2($shippingaddresses->country_code);
+				$shippingaddresses->country_2_code     = RedshopHelperWorld::getCountryCode2($shippingaddresses->country_code);
 				$d ["shippingaddress"]->country_2_code = $shippingaddresses->country_2_code;
 			}
 

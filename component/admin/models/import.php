@@ -2420,40 +2420,29 @@ class RedshopModelImport extends RedshopModel
 		}
 	}*/
 
+	/**
+	 * @return  float
+	 */
 	public function getTimeLeft()
 	{
-		if (@function_exists('ini_get'))
-		{
-			$php_max_exec = @ini_get("max_execution_time");
-		}
-		else
-		{
-			$php_max_exec = 10;
-		}
-
-		if (($php_max_exec == "") || ($php_max_exec == 0))
-		{
-			$php_max_exec = 10;
-		}
+		$phpMaxExecution = function_exists('ini_get') ? ini_get("max_execution_time") : 10;
+		$phpMaxExecution = $phpMaxExecution == "" || ($$phpMaxExecution == 0) ? 10 : $phpMaxExecution;
 
 		/*
-		 Decrease $php_max_exec time by 500 msec we need (approx.) to tear down
-		the application, as well as another 500msec added for rounding
-		error purposes. Also make sure this is never gonna be less than 0.*/
-		$php_max_exec = 20;
+		 Decrease $php_max_exec time by 500 ms we need (approx.) to tear down
+		 the application, as well as another 500 ms added for rounding
+		 error purposes. Also make sure this is never gonna be less than 0.
+		*/
+		$phpMaxExecution = $phpMaxExecution < 20 ? 20 : $phpMaxExecution;
 
 		list($usec, $sec) = explode(" ", microtime());
-		$micro_time       = ((float) $usec + (float) $sec);
+
+		$microTime = ((float) $usec + (float) $sec);
 
 		// $start_micro_time = $_SESSION['start_micro_time'];
-		$session          = JFactory::getSession();
-		$start_micro_time = $session->get('start_micro_time');
+		$session        = JFactory::getSession();
+		$startMicroTime = $session->get('start_micro_time');
 
-		$start_micro_time;
-
-		$running_time = $micro_time - $start_micro_time;
-		$retun        = $php_max_exec - $running_time;
-
-		return $retun;
+		return $phpMaxExecution - ($microTime - $startMicroTime);
 	}
 }

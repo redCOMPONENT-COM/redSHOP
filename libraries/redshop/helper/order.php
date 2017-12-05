@@ -2320,16 +2320,16 @@ class RedshopHelperOrder
 
 		if ($userBillingInfo = self::getOrderBillingUserInfo($row->order_id))
 		{
-			$userBillingInfo->country_2_code = $redconfig->getCountryCode2($userBillingInfo->country_code);
-			$userBillingInfo->state_2_code   = $redconfig->getCountryCode2($userBillingInfo->state_code);
+			$userBillingInfo->country_2_code = RedshopHelperWorld::getCountryCode2($userBillingInfo->country_code);
+			$userBillingInfo->state_2_code   = RedshopHelperWorld::getStateCode2($userBillingInfo->state_code);
 		}
 
 		$task = $app->input->getCmd('task');
 
 		if ($shippingAddress = self::getOrderShippingUserInfo($row->order_id))
 		{
-			$shippingAddress->country_2_code = $redconfig->getCountryCode2($shippingAddress->country_code);
-			$shippingAddress->state_2_code   = $redconfig->getCountryCode2($shippingAddress->state_code);
+			$shippingAddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingAddress->country_code);
+			$shippingAddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingAddress->state_code);
 		}
 
 		$values                   = array();
