@@ -74,7 +74,7 @@ class RedshopModelAttribute extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_redshop.edit.attribute.data', array());
 
 		if (empty($data))

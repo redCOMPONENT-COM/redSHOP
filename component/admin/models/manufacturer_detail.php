@@ -35,7 +35,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -43,7 +43,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -71,33 +70,34 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->manufacturer_id = 0;
-			$detail->manufacturer_name = null;
-			$detail->manufacturer_desc = null;
-			$detail->manufacturer_email = null;
-			$detail->manufacturer_url = null;
-			$detail->product_per_page = 0;
-			$detail->template_id = 0;
-			$detail->metakey = null;
-			$detail->metadesc = null;
-			$detail->metalanguage_setting = null;
-			$detail->metarobot_info = null;
-			$detail->pagetitle = null;
-			$detail->pageheading = null;
-			$detail->sef_url = null;
+			$detail                          = new stdClass;
+			$detail->manufacturer_id         = 0;
+			$detail->manufacturer_name       = null;
+			$detail->manufacturer_desc       = null;
+			$detail->manufacturer_email      = null;
+			$detail->manufacturer_url        = null;
+			$detail->product_per_page        = 0;
+			$detail->template_id             = 0;
+			$detail->metakey                 = null;
+			$detail->metadesc                = null;
+			$detail->metalanguage_setting    = null;
+			$detail->metarobot_info          = null;
+			$detail->pagetitle               = null;
+			$detail->pageheading             = null;
+			$detail->sef_url                 = null;
 			$detail->excluding_category_list = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published               = 1;
+			$this->_data                     = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
 	public function store($data)
 	{
-		$order_functions = order_functions::getInstance();
+		$order_functions  = order_functions::getInstance();
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
@@ -171,7 +171,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'manufacturer'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE manufacturer_id IN ( ' . $cids . ' )';
@@ -184,6 +184,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -201,17 +202,17 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 		foreach ($this->_copydata as $cdata)
 		{
-			$post['manufacturer_id'] = 0;
-			$post['manufacturer_name'] = $this->renameToUniqueValue('manufacturer_name', $cdata->manufacturer_name);
-			$post['manufacturer_desc'] = $cdata->manufacturer_desc;
-			$post['manufacturer_email'] = $cdata->manufacturer_email;
-			$post['product_per_page'] = $cdata->product_per_page;
-			$post['template_id'] = $cdata->template_id;
-			$post['metakey'] = $cdata->metakey;
-			$post['metadata'] = $cdata->metadata;
-			$post['metadesc'] = $cdata->metadesc;
+			$post['manufacturer_id']         = 0;
+			$post['manufacturer_name']       = $this->renameToUniqueValue('manufacturer_name', $cdata->manufacturer_name);
+			$post['manufacturer_desc']       = $cdata->manufacturer_desc;
+			$post['manufacturer_email']      = $cdata->manufacturer_email;
+			$post['product_per_page']        = $cdata->product_per_page;
+			$post['template_id']             = $cdata->template_id;
+			$post['metakey']                 = $cdata->metakey;
+			$post['metadata']                = $cdata->metadata;
+			$post['metadesc']                = $cdata->metadesc;
 			$post['excluding_category_list'] = $cdata->excluding_category_list;
-			$post['published'] = $cdata->published;
+			$post['published']               = $cdata->published;
 
 			$this->store($post);
 		}
@@ -240,7 +241,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function saveOrder(&$cid, $order = array())
 	{
-		$db = JFactory::getDbo();
+		$db  = JFactory::getDbo();
 		$row = $this->getTable();
 
 		$total = count($cid);
@@ -262,6 +263,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 				}
 			}
 		}
+
 		$row->reorder();
 
 		return true;
@@ -291,6 +293,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
+
 		if (!$row->move($direction))
 		{
 			$this->setError($this->_db->getErrorMsg());

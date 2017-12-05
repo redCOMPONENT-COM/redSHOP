@@ -24,13 +24,13 @@ class RedshopModelXmlimport_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -132,31 +132,31 @@ class RedshopModelXmlimport_detail extends RedshopModel
 	public function updateFile()
 	{
 		$jinput = JFactory::getApplication()->input;
-		$post = $jinput->post->getArray();
+		$post   = $jinput->post->getArray();
 
 		$xmlimport_url = $this->_data->xmlimport_url;
-		$file = $jinput->files->get('filename_url', '', 'array');
+		$file          = $jinput->files->get('filename_url', '', 'array');
 
 		if (array_key_exists("xmlimport_url", $post) && $post["xmlimport_url"] != "")
 		{
-			$xmlimport_url = $post['xmlimport_url'];
+			$xmlimport_url              = $post['xmlimport_url'];
 			$this->_data->xmlimport_url = $post['xmlimport_url'];
 		}
 		elseif (array_key_exists("name", $file) && $file['name'] != "" && $file['type'] == "text/xml")
 		{
-			$src = $file['tmp_name'];
+			$src      = $file['tmp_name'];
 			$destpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import";
 
 			$filename = JPath::clean($file['name']);
-			$dest = $destpath . '/' . $filename;
+			$dest     = $destpath . '/' . $filename;
 
 			JFile::upload($src, $dest);
 			$xmlimport_url = $dest;
 		}
 
-		elseif ($this->_data->filename != "" && JFile::exists(JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename))
+		elseif ($this->_data->filename != "" && JFile::exists(JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' . $this->_data->filename))
 		{
-			$xmlimport_url = JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename;
+			$xmlimport_url = JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' . $this->_data->filename;
 		}
 
 		return $xmlimport_url;
@@ -168,31 +168,31 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->xmlimport_id = 0;
-			$detail->filename = null;
-			$detail->display_filename = null;
-			$detail->xmlimport_url = null;
-			$detail->section_type = null;
-			$detail->auto_sync = 0;
-			$detail->sync_on_request = 0;
-			$detail->element_name = null;
-			$detail->billing_element_name = null;
-			$detail->shipping_element_name = null;
-			$detail->orderitem_element_name = null;
-			$detail->stock_element_name = null;
+			$detail                             = new stdClass;
+			$detail->xmlimport_id               = 0;
+			$detail->filename                   = null;
+			$detail->display_filename           = null;
+			$detail->xmlimport_url              = null;
+			$detail->section_type               = null;
+			$detail->auto_sync                  = 0;
+			$detail->sync_on_request            = 0;
+			$detail->element_name               = null;
+			$detail->billing_element_name       = null;
+			$detail->shipping_element_name      = null;
+			$detail->orderitem_element_name     = null;
+			$detail->stock_element_name         = null;
 			$detail->prdextrafield_element_name = null;
-			$detail->auto_sync_interval = null;
-			$detail->override_existing = 0;
-			$detail->add_prefix_for_existing = null;
-			$detail->xmlimport_filetag = null;
-			$detail->xmlimport_billingtag = null;
-			$detail->xmlimport_shippingtag = null;
-			$detail->xmlimport_orderitemtag = null;
-			$detail->xmlimport_stocktag = null;
+			$detail->auto_sync_interval         = null;
+			$detail->override_existing          = 0;
+			$detail->add_prefix_for_existing    = null;
+			$detail->xmlimport_filetag          = null;
+			$detail->xmlimport_billingtag       = null;
+			$detail->xmlimport_shippingtag      = null;
+			$detail->xmlimport_orderitemtag     = null;
+			$detail->xmlimport_stocktag         = null;
 			$detail->xmlimport_prdextrafieldtag = null;
-			$detail->published = 0;
-			$this->_data = $detail;
+			$detail->published                  = 0;
+			$this->_data                        = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -209,17 +209,17 @@ class RedshopModelXmlimport_detail extends RedshopModel
 	public function store($data, $import = 0)
 	{
 		$xmlhelper = new xmlHelper;
-		$resarray = array();
+		$resarray  = array();
 
 		if (array_key_exists("xmlfiletag", $data))
 		{
-			$xmlfiletag = $data['xmlfiletag'];
+			$xmlfiletag    = $data['xmlfiletag'];
 			$updatefiletag = (isset($data['updatefiletag'])) ? $data['updatefiletag'] : array();
 
 			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
-				$xmltag = trim($data[$xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data[$xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -230,13 +230,13 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 		if (array_key_exists("xmlbillingtag", $data))
 		{
-			$xmlfiletag = $data['xmlbillingtag'];
+			$xmlfiletag    = $data['xmlbillingtag'];
 			$updatefiletag = (isset($data['updatebillingtag'])) ? $data['updatebillingtag'] : array();
 
 			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
-				$xmltag = trim($data["bill_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["bill_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -247,13 +247,13 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 		if (array_key_exists("xmlshippingtag", $data))
 		{
-			$xmlfiletag = $data['xmlshippingtag'];
+			$xmlfiletag    = $data['xmlshippingtag'];
 			$updatefiletag = (isset($data['updateshippingtag'])) ? $data['updateshippingtag'] : array();
 
 			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
-				$xmltag = trim($data["shipp_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["shipp_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -264,13 +264,13 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 		if (array_key_exists("xmlitemtag", $data))
 		{
-			$xmlfiletag = $data['xmlitemtag'];
+			$xmlfiletag    = $data['xmlitemtag'];
 			$updatefiletag = (isset($data['updateitemtag'])) ? $data['updateitemtag'] : array();
 
 			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
-				$xmltag = trim($data["item_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["item_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -281,13 +281,13 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 		if (array_key_exists("xmlstocktag", $data))
 		{
-			$xmlfiletag = $data['xmlstocktag'];
+			$xmlfiletag    = $data['xmlstocktag'];
 			$updatefiletag = (isset($data['updatestocktag'])) ? $data['updatestocktag'] : array();
 
 			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
-				$xmltag = trim($data["stock_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["stock_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -298,13 +298,13 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 		if (array_key_exists("xmlprdextrafieldtag", $data))
 		{
-			$xmlfiletag = $data['xmlprdextrafieldtag'];
+			$xmlfiletag    = $data['xmlprdextrafieldtag'];
 			$updatefiletag = (isset($data['updateprdexttag'])) ? $data['updateprdexttag'] : array();
 
 			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
-				$xmltag = trim($data["prdext_" . $xmlfiletag[$i]]);
-				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
+				$xmltag     = trim($data["prdext_" . $xmlfiletag[$i]]);
+				$updatetag  = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
@@ -360,8 +360,8 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
-				$result = $xmlhelper->getXMLImportInfo($cid[$i]);
-				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" .$result->filename;
+				$result   = $xmlhelper->getXMLImportInfo($cid[$i]);
+				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" . $result->filename;
 
 				if (JFile::exists($rootpath))
 				{
@@ -441,6 +441,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

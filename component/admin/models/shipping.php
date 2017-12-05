@@ -27,11 +27,11 @@ class RedshopModelShipping extends RedshopModel
 		parent::__construct();
 		$app = JFactory::getApplication();
 
-		$this->_context = 'shipping_id';
+		$this->_context      = 'shipping_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
@@ -40,7 +40,7 @@ class RedshopModelShipping extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -51,7 +51,7 @@ class RedshopModelShipping extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -72,7 +72,7 @@ class RedshopModelShipping extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT s.* FROM #__extensions AS s '
+		$query   = 'SELECT s.* FROM #__extensions AS s '
 			. 'WHERE s.folder="redshop_shipping" '
 			. $orderby;
 
@@ -84,7 +84,7 @@ class RedshopModelShipping extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
@@ -94,7 +94,7 @@ class RedshopModelShipping extends RedshopModel
 
 	public function saveOrder(&$cid)
 	{
-		$db = JFactory::getDbo();
+		$db  = JFactory::getDbo();
 		$row = $this->getTable('shipping_detail');
 
 		$total = count($cid);
@@ -116,6 +116,7 @@ class RedshopModelShipping extends RedshopModel
 				}
 			}
 		}
+
 		$row->reorder();
 
 		return true;

@@ -169,7 +169,7 @@ class RedshopModelImport extends RedshopModel
 		}
 
 		list($susec, $ssec) = explode(" ", microtime());
-		$start_micro_time = ((float) $susec + (float) $ssec);
+		$start_micro_time   = ((float) $susec + (float) $ssec);
 		$session->set('start_micro_time', $start_micro_time);
 
 		while (($data = fgetcsv($handle, 0, $separator, '"')) !== false)
@@ -417,13 +417,12 @@ class RedshopModelImport extends RedshopModel
 															}
 															else
 															{
-																$insert_row_query               = new stdClass();
+																$insert_row_query               = new stdClass;
 																$insert_row_query->quantity     = $mainquaexplode[1];
 																$insert_row_query->stockroom_id = $mainquaexplode[0];
 																$insert_row_query->section      = 'property';
 																$insert_row_query->section_id   = $prop_insert_id;
 																$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert_row_query);
-
 															}
 														}
 													}
@@ -1463,14 +1462,14 @@ class RedshopModelImport extends RedshopModel
 
 			foreach ($data as $product_data)
 			{
-				$product_name     = addslashes($product_data->product_name);
-				$product_s_desc   = $product_data->product_s_desc;
-				$product_number   = $product_data->product_sku;
-				$product_in_stock = $product_data->product_in_stock;
-				$product_desc     = $product_data->product_desc;
-				$product_tax_id   = $product_data->product_tax_id;
+				$product_name                                      = addslashes($product_data->product_name);
+				$product_s_desc                                    = $product_data->product_s_desc;
+				$product_number                                    = $product_data->product_sku;
+				$product_in_stock                                  = $product_data->product_in_stock;
+				$product_desc                                      = $product_data->product_desc;
+				$product_tax_id                                    = $product_data->product_tax_id;
 				$product_data->product_publish == 'Y' ? $published = 1 : $published = 0;
-				$product_full_image = $product_data->product_full_image;
+				$product_full_image                                = $product_data->product_full_image;
 
 				$publish_date           = date('Y-m-d h:i:s', $product_data->publish_date);
 				$update_date            = date('Y-m-d h:i:s', $product_data->update_date);
@@ -1723,7 +1722,7 @@ class RedshopModelImport extends RedshopModel
 			}
 
 			$cat_data->category_publish == 'Y' ? $category_publish = 1 : $category_publish = 0;
-			$products_per_row = $cat_data->products_per_row;
+			$products_per_row                                      = $cat_data->products_per_row;
 
 			if ($cat_data->rdc_catname == null)
 			{
@@ -1923,7 +1922,7 @@ class RedshopModelImport extends RedshopModel
 	}
 
 	/*
-	 * import customer information From VM
+				 * Import customer information From VM
 	 */
 	public function customerInformation()
 	{
@@ -2379,7 +2378,8 @@ class RedshopModelImport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	/*public function importProductExtrafieldData($fieldname, $rawdata, $productId)
+	/*
+	public function importProductExtrafieldData($fieldname, $rawdata, $productId)
 	{
 		$db = JFactory::getDbo();
 		$value = $rawdata[$fieldname];
@@ -2436,13 +2436,14 @@ class RedshopModelImport extends RedshopModel
 			$php_max_exec = 10;
 		}
 
-		/* Decrease $php_max_exec time by 500 msec we need (approx.) to tear down
+		/*
+		 Decrease $php_max_exec time by 500 msec we need (approx.) to tear down
 		the application, as well as another 500msec added for rounding
 		error purposes. Also make sure this is never gonna be less than 0.*/
 		$php_max_exec = 20;
 
 		list($usec, $sec) = explode(" ", microtime());
-		$micro_time = ((float) $usec + (float) $sec);
+		$micro_time       = ((float) $usec + (float) $sec);
 
 		// $start_micro_time = $_SESSION['start_micro_time'];
 		$session          = JFactory::getSession();
