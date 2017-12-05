@@ -363,7 +363,7 @@ if ($mail == 0)
 			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
-			$wishlist_data = $producthelper->replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
+			$wishlist_data = RedshopHelperProductAccessory::replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
 
 			// Product accessory End
 

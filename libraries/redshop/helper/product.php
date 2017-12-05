@@ -983,19 +983,9 @@ class RedshopHelperProduct
 			$userId = $user->id;
 		}
 
-		$productInfor = array();
-
-		if ($productId != 0)
-		{
-			$productInfor = self::getProductById($productId);
-		}
-
-		$productTax = 0;
-
-		if (empty($redshopUser))
-		{
-			$redshopUser = array('rs_is_user_login' => 0);
-		}
+		$productInfor = $productId != 0 ? self::getProductById($productId) : array();
+		$productTax   = 0;
+		$redshopUser  = empty($redshopUser) ? array('rs_is_user_login' => 0) : $redshopUser;
 
 		if ($redshopUser['rs_is_user_login'] == 0 && $userId != 0)
 		{
@@ -1013,33 +1003,33 @@ class RedshopHelperProduct
 			return $productPrice * $taxRate;
 		}
 
-		if ($taxRate)
+		if (!$taxRate)
 		{
-			if ($userId)
-			{
-				$userInformation = RedshopHelperUser::getUserInformation($userId);
-
-				if (null !== ($userInformation))
-				{
-					if ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved)
-					{
-						$productTax = $productTax;
-					}
-					else
-					{
-						$productTax = $productPrice * $taxRate;
-					}
-				}
-				else
-				{
-					$productTax = $productPrice * $taxRate;
-				}
-			}
-			else
-			{
-				$productTax = $productPrice * $taxRate;
-			}
+			return RedshopHelperProductPrice::priceRound($productTax);
 		}
+
+		if (!$userId)
+		{
+			$productTax = $productPrice * $taxRate;
+
+			return RedshopHelperProductPrice::priceRound($productTax);
+		}
+
+		$userInformation = RedshopHelperUser::getUserInformation($userId);
+
+		if (null === $userInformation)
+		{
+			$productTax = $productPrice * $taxRate;
+
+			return RedshopHelperProductPrice::priceRound($productTax);
+		}
+
+		if ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved)
+		{
+			return RedshopHelperProductPrice::priceRound($productTax);
+		}
+
+		$productTax = $productPrice * $taxRate;
 
 		return RedshopHelperProductPrice::priceRound($productTax);
 	}
