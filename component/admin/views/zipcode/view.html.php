@@ -37,10 +37,10 @@ class RedshopViewZipcode extends RedshopViewAdmin
 		$fields     = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->pagination = $pagination;
-		$this->fields = $fields;
-		$this->lists = $lists;
+		$this->user        = JFactory::getUser();
+		$this->pagination  = $pagination;
+		$this->fields      = $fields;
+		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

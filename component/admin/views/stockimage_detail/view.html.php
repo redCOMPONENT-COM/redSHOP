@@ -28,8 +28,8 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
 		$lists = array();
 
 		$detail = $this->get('data');
-		$isNew = ($detail->stock_amount_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$isNew  = ($detail->stock_amount_id < 1);
+		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');
 
 		// Create the toolbar
@@ -43,14 +43,15 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+
 		$model = $this->getModel('stockimage_detail');
 
-		$stock_option = $model->getStockAmountOption();
+		$stock_option   = $model->getStockAmountOption();
 		$stockroom_name = $model->getStockRoomList();
-		$op = array();
-		$op[0] = new stdClass;
-		$op[0]->value = 0;
-		$op[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$op             = array();
+		$op[0]          = new stdClass;
+		$op[0]->value   = 0;
+		$op[0]->text    = JText::_('COM_REDSHOP_SELECT');
 		$stockroom_name = array_merge($op, $stockroom_name);
 
 		$lists['stock_option'] = JHTML::_('select.genericlist', $stock_option, 'stock_option',
@@ -61,8 +62,8 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
 			'class="inputbox" size="1" ', 'value', 'text', $detail->stockroom_id
 		);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

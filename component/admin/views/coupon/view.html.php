@@ -40,22 +40,22 @@ class RedshopViewCoupon extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
+		$uri     = JFactory::getURI();
 		$context = "rating";
 
-		$state = $this->get('State');
+		$state            = $this->get('State');
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'coupon_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$coupons = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$coupons            = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->coupons = $coupons;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->coupons     = $coupons;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 		$this->filter      = $state->get('filter');
 

@@ -25,13 +25,13 @@ class RedshopViewAddressfields_listing extends RedshopViewAdmin
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$fields = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$fields             = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
 		$section_id = $app->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
 
@@ -42,9 +42,9 @@ class RedshopViewAddressfields_listing extends RedshopViewAdmin
 			JHTML::_('select.option', '15', JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'))
 		);
 
-		$option = array(new stdClass);
+		$option           = array(new stdClass);
 		$option[0]->value = "0";
-		$option[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$option[0]->text  = JText::_('COM_REDSHOP_SELECT');
 
 		if (count($sectionlist) > 0)
 		{
@@ -58,10 +58,10 @@ class RedshopViewAddressfields_listing extends RedshopViewAdmin
 			$section_id
 		);
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->fields = $fields;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->fields      = $fields;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

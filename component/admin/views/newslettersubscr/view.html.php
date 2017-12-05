@@ -65,18 +65,18 @@ class RedshopViewNewslettersubscr extends RedshopViewAdmin
 			$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', '');
 		}
 
-		$this->state = $this->get('State');
+		$this->state        = $this->get('State');
 		$lists['order']     = $this->state->get('list.ordering', 'subscription_id');
 		$lists['order_Dir'] = $this->state->get('list.direction');
 
 		$newslettersubscrs = $this->get('Data');
 		$pagination        = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
+		$this->user              = JFactory::getUser();
+		$this->lists             = $lists;
 		$this->newslettersubscrs = $newslettersubscrs;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->pagination        = $pagination;
+		$this->request_url       = $uri->toString();
 
 		parent::display($tpl);
 	}

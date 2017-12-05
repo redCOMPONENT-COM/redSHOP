@@ -30,7 +30,7 @@ class RedshopViewTextlibrary extends RedshopViewAdmin
 
 		$this->state = $this->get('State');
 
-		$optionsection = array();
+		$optionsection   = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_Product'));
 		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_Category'));
@@ -43,8 +43,8 @@ class RedshopViewTextlibrary extends RedshopViewAdmin
 		$lists['order']     = $this->state->get('list.ordering', 'textlibrary_id');
 		$lists['order_Dir'] = $this->state->get('list.direction');
 
-		$textlibrarys       = $this->get('Data');
-		$pagination         = $this->get('Pagination');
+		$textlibrarys = $this->get('Data');
+		$pagination   = $this->get('Pagination');
 
 		$this->user         = JFactory::getUser();
 		$this->lists        = $lists;

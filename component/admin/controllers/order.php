@@ -21,7 +21,7 @@ class RedshopControllerOrder extends RedshopController
 	 */
 	public function printPDF()
 	{
-		$app = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$orderId = $this->input->getInt('id', 0);
 
 		if (!$orderId)
@@ -174,7 +174,7 @@ class RedshopControllerOrder extends RedshopController
 
 			if (JFile::exists($bookinvoicepdf))
 			{
-				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
+				$ecomsg  = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
 				RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
@@ -195,17 +195,17 @@ class RedshopControllerOrder extends RedshopController
 			if ($paymentInfo)
 			{
 				$payment_name = $paymentInfo->payment_method_class;
-				$paymentArr = explode("rs_payment_", $paymentInfo->payment_method_class);
+				$paymentArr   = explode("rs_payment_", $paymentInfo->payment_method_class);
 
 				if (count($paymentArr) > 0)
 				{
 					$payment_name = $paymentArr[1];
 				}
 
-				$economicdata['economic_payment_method'] = $payment_name;
+				$economicdata['economic_payment_method']   = $payment_name;
 				$economicdata['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
-				$economicdata['economic_design_layout'] = $paymentInfo->plugin->params->get('economic_design_layout');
-				$economicdata['economic_is_creditcard'] = $paymentInfo->plugin->params->get('is_creditcard');
+				$economicdata['economic_design_layout']    = $paymentInfo->plugin->params->get('economic_design_layout');
+				$economicdata['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
 			$economic = economic::getInstance();
@@ -237,13 +237,13 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
+		$producthelper  = productHelper::getInstance();
 		$order_function = order_functions::getInstance();
 
-		$model = $this->getModel('order');
-		$data = $model->export_data();
+		$model         = $this->getModel('order');
+		$data          = $model->export_data();
 		$product_count = array();
-		$db = JFactory::getDbo();
+		$db            = JFactory::getDbo();
 
 		$where = "";
 
@@ -339,7 +339,7 @@ class RedshopControllerOrder extends RedshopController
 			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
 		}
 
-		exit ();
+		exit();
 	}
 
 	public function export_data()
@@ -413,8 +413,8 @@ class RedshopControllerOrder extends RedshopController
 			echo $data [$i]->firstname . " " . $data [$i]->lastname . ",";
 			echo $data [$i]->user_email . ",";
 			echo $data [$i]->phone . ",";
-			$user_address = str_replace(",", "<br/>", $data [$i]->address);
-			$user_address = strip_tags($user_address);
+			$user_address          = str_replace(",", "<br/>", $data [$i]->address);
+			$user_address          = strip_tags($user_address);
 			$user_shipping_address = str_replace(",", "<br/>", $shipping_address->address);
 			$user_shipping_address = strip_tags($user_shipping_address);
 
@@ -462,7 +462,7 @@ class RedshopControllerOrder extends RedshopController
 			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $data [$i]->order_total . "\n";
 		}
 
-		exit ();
+		exit();
 	}
 
 	public function generateParcel()
@@ -497,19 +497,19 @@ class RedshopControllerOrder extends RedshopController
 			$download_id = $download_id_arr [$i];
 
 			$product_download_infinite_var = 'product_download_infinite_' . $download_id;
-			$product_download_infinite = $post [$product_download_infinite_var];
+			$product_download_infinite     = $post [$product_download_infinite_var];
 
 			$limit_var = 'limit_' . $download_id;
-			$limit = $post [$limit_var];
+			$limit     = $post [$limit_var];
 
 			$days_var = 'days_' . $download_id;
-			$days = $post [$days_var];
+			$days     = $post [$days_var];
 
 			$clock_var = 'clock_' . $download_id;
-			$clock = $post [$clock_var];
+			$clock     = $post [$clock_var];
 
 			$clock_min_var = 'clock_min_' . $download_id;
-			$clock_min = $post [$clock_min_var];
+			$clock_min     = $post [$clock_min_var];
 
 			$days = (date("H") > $clock && $days == 0) ? 1 : $days;
 

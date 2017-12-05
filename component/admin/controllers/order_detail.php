@@ -96,7 +96,6 @@ class RedshopControllerOrder_detail extends RedshopController
 			$tmpl = $post['tmpl'];
 		}
 
-
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$order_item_id = $this->input->post->get('order_item_id', 0);
@@ -302,12 +301,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		?>
-        <script type="text/javascript">
+		<script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
+			window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
 
-            window.close()
-        </script>
+			window.close()
+		</script>
 		<?php
 		JFactory::getApplication()->close();
 	}
@@ -332,12 +331,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		?>
-        <script type="text/javascript">
+		<script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
+			window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
 
-            window.close()
-        </script>
+			window.close()
+		</script>
 		<?php
 		JFactory::getApplication()->close();
 	}

@@ -23,7 +23,6 @@ class RedshopTableTax_Group extends RedshopTable
 	 *
 	 * @var  string
 	 */
-
 	protected $_tableName = 'redshop_tax_group';
 
 	/**

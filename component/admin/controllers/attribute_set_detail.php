@@ -287,9 +287,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-            <script language="javascript" type="text/javascript">
-                window.parent.SqueezeBox.close();
-            </script>
+			<script language="javascript" type="text/javascript">
+				window.parent.SqueezeBox.close();
+			</script>
 			<?php
 		}
 	}
@@ -332,9 +332,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
+		<script language="javascript" type="text/javascript">
+			window.parent.SqueezeBox.close();
+		</script>
 		<?php
 	}
 
