@@ -997,6 +997,21 @@ class RedshopHelperShipping
 				OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 			}
 		}
+		elseif (empty($userInfo) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
+		{
+			if (!empty($data['post']['anonymous_params']))
+			{
+				$country   = $data['post']['anonymous_params']['country_code'];
+				$state     = $data['post']['anonymous_params']['state_code'];
+				$zip       = $data['post']['anonymous_params']['zip_code'];
+				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? 1 : 0;
+			}
+
+			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+
+			$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
+			OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
+		}
 
 		if (!$isCompany)
 		{
