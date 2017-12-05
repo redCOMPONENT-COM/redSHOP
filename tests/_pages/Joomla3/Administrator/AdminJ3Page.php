@@ -35,6 +35,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $messageError = "Error";
+
+	/**
+	 * @var string
+	 */
 	public static $messageItemSaveSuccess = "Item saved.";
 
 	/**
