@@ -123,6 +123,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		}
 		catch (Exception $exception)
 		{
+			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 		}
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
