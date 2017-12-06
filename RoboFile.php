@@ -240,15 +240,16 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
+			->arg('tests/acceptance/integration/CompareProductsCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--steps')
+			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
+			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
 			->run()
 			->stopOnFail();
 
@@ -518,6 +519,15 @@ class RoboFile extends \Robo\Tasks
 			//  ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CompareProductsCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
 			->run()
 			->stopOnFail();
@@ -531,13 +541,6 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
-			->run()
-			->stopOnFail();
 
 		/*
 		$this->taskCodecept()
