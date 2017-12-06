@@ -2307,14 +2307,12 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInformation($row, $post)
 	{
-		$app       = JFactory::getApplication();
-		$redconfig = Redconfiguration::getInstance();
-
+		$app              = JFactory::getApplication();
 		$pluginParameters = self::getParameters($post['payment_method_class']);
 		$paymentInfo      = $pluginParameters[0];
 		$paymentParams    = new Registry($paymentInfo->params);
 
-		$isCreditcard = $paymentParams->get('is_creditcard', '');
+		$isCreditCard = $paymentParams->get('is_creditcard', '');
 
 		$order = self::getOrderDetails($row->order_id);
 
@@ -2342,7 +2340,7 @@ class RedshopHelperOrder
 		$values['task']           = $task;
 		$values['order']          = $order;
 
-		if ($isCreditcard == 0)
+		if ($isCreditCard == 0)
 		{
 			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
 			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($values['payment_plugin']);

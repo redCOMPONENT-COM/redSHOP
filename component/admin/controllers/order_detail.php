@@ -301,12 +301,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		?>
-		<script type="text/javascript">
+        <script type="text/javascript">
 
-			window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
 
-			window.close()
-		</script>
+            window.close()
+        </script>
 		<?php
 		JFactory::getApplication()->close();
 	}
@@ -331,12 +331,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		?>
-		<script type="text/javascript">
+        <script type="text/javascript">
 
-			window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
 
-			window.close()
-		</script>
+            window.close()
+        </script>
 		<?php
 		JFactory::getApplication()->close();
 	}
@@ -424,69 +424,65 @@ class RedshopControllerOrder_detail extends RedshopController
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
 
-		$redconfig       = Redconfiguration::getInstance();
-		$model           = $this->getModel('order_detail');
-		$order_functions = order_functions::getInstance();
+		/** @var RedshopModelOrder_detail $model */
+		$model = $this->getModel('order_detail');
 
 		$request = $this->input->getArray();
+		$order   = RedshopHelperOrder::getOrderDetails($request['order_id']);
 
-		if ($request['ccinfo'] == 0)
+		// Send the order_id and order payment_id to the payment plugin so it knows which DB record to update upon successful payment
+		$userBilling       = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);
+		$shippingAddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
+
+		if (isset($shippingAddresses))
 		{
-			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']);
+			$shippingAddress = $shippingAddresses;
+
+			$shippingAddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingAddress->country_code);
+			$shippingAddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingAddress->state_code);
 		}
 
-		$order = $order_functions->getOrderDetails($request['order_id']);
-
-		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-
-		$userbillinginfo = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);
-
-		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
-
-		if (isset($shippingaddresses))
+		if (isset($shippingAddresses))
 		{
-			$shippingaddress = $shippingaddresses;
-
-			$shippingaddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingaddress->country_code);
-			$shippingaddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingaddress->state_code);
-		}
-
-		if (isset($shippingaddresses))
-		{
-			$d["shippingaddress"] = $shippingaddresses;
+			$d["shippingaddress"] = $shippingAddresses;
 
 			$d["shippingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($d["shippingaddress"]->country_code);
 			$d["shippingaddress"]->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
 
-			$shippingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($d ["shippingaddress"]->country_code);
-			$shippingaddresses->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
+			$shippingAddresses->country_2_code = RedshopHelperWorld::getCountryCode2($d ["shippingaddress"]->country_code);
+			$shippingAddresses->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
 		}
 
-		if (isset($userbillinginfo))
+		if (isset($userBilling))
 		{
-			$d ["billingaddress"] = $userbillinginfo;
+			$d ["billingaddress"] = $userBilling;
 
-			if (isset($userbillinginfo->country_code))
+			if (isset($userBilling->country_code))
 			{
-				$d ["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($userbillinginfo->country_code);
-				$userbillinginfo->country_2_code      = RedshopHelperWorld::getCountryCode2($userbillinginfo->country_code);
+				$d["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($userBilling->country_code);
+
+				$userBilling->country_2_code = RedshopHelperWorld::getCountryCode2($userBilling->country_code);
 			}
 
-			if (isset($userbillinginfo->state_code))
+			if (isset($userBilling->state_code))
 			{
-				$d ["billingaddress"]->state_2_code = RedshopHelperWorld::getStateCode2($userbillinginfo->state_code);
-				$userbillinginfo->state_2_code      = RedshopHelperWorld::getStateCode2($userbillinginfo->state_code);
+				$d["billingaddress"]->state_2_code = RedshopHelperWorld::getStateCode2($userBilling->state_code);
+
+				$userBilling->state_2_code = RedshopHelperWorld::getStateCode2($userBilling->state_code);
 			}
 		}
 
-		$ccdata['order_payment_name']         = $request['order_payment_name'];
-		$ccdata['creditcard_code']            = $request['creditcard_code'];
-		$ccdata['order_payment_number']       = $request['order_payment_number'];
-		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
-		$ccdata['order_payment_expire_year']  = $request['order_payment_expire_year'];
-		$ccdata['credit_card_code']           = $request['credit_card_code'];
-		$ccdata['selectedCardId']             = $this->input->getString('selectedCard', '');
-		$session->set('ccdata', $ccdata);
+		$creditCardData = array();
+
+		$creditCardData['order_payment_name']         = $request['order_payment_name'];
+		$creditCardData['creditcard_code']            = $request['creditcard_code'];
+		$creditCardData['order_payment_number']       = $request['order_payment_number'];
+		$creditCardData['order_payment_expire_month'] = $request['order_payment_expire_month'];
+		$creditCardData['order_payment_expire_year']  = $request['order_payment_expire_year'];
+		$creditCardData['credit_card_code']           = $request['credit_card_code'];
+		$creditCardData['selectedCardId']             = $this->input->getString('selectedCard', '');
+
+		$session->set('ccdata', $creditCardData);
 
 		$values['order_shipping'] = $order->order_shipping;
 		$values['order_number']   = $request['order_id'];
@@ -513,15 +509,16 @@ class RedshopControllerOrder_detail extends RedshopController
 			$paymentResponse->order_payment_status_code = 'Paid';
 			$paymentResponse->order_id                  = $request['order_id'];
 
-			$order_functions->changeorderstatus($paymentResponse);
+			RedshopHelperOrder::changeOrderStatus($paymentResponse);
 		}
 
 		// Update order payment table with  credit card details
-
 		$model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
-		$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']);
-		$app->redirect($redirect_url, $paymentResponse->message);
+		$app->redirect(
+			JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']),
+			$paymentResponse->message
+		);
 	}
 
 	public function send_invoicemail()

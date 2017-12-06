@@ -142,11 +142,8 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$redconfig       = Redconfiguration::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$helper          = redhelper::getInstance();
-		$shippinghelper  = shipping::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$input            = $app->input;

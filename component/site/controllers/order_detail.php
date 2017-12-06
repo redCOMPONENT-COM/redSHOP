@@ -54,11 +54,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function process_payment()
 	{
 		$app     = JFactory::getApplication();
-		$db      = JFactory::getDbo();
 		$session = JFactory::getSession();
 		$model   = $this->getModel('order_detail');
-
-		$redconfig = Redconfiguration::getInstance();
 
 		$request = $this->input->getArray();
 

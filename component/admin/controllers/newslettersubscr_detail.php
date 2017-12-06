@@ -117,11 +117,17 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 	{
 		$model = $this->getModel('newslettersubscr_detail');
 
-		@ob_end_clean();
+		try
+		{
+			ob_end_clean();
+		}
+		catch (Exception $exception)
+		{
+		}
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
+		header("Content-type: t1ext/csv");
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=NewsletterSbsc.csv');
 
