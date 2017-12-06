@@ -53,7 +53,7 @@
 
             redBOX.open(link, {
                 handler: 'iframe',
-                name: 'wishlistiframe'
+                name: 'wishlist-iframe'
             });
 
             return true;
