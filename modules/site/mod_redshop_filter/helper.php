@@ -19,15 +19,15 @@ abstract class ModRedshopFilter
 	/**
 	 * This function will help get max and min value on list product price
 	 *
-	 * @param   array  $pids  product array list
+	 * @param   array $pids product array list
 	 *
 	 * @return array
 	 */
 	public static function getRange($pids = array())
 	{
-		$max = 0;
-		$min = 0;
-		$producthelper = producthelper::getInstance();
+		$max              = 0;
+		$min              = 0;
+		$producthelper    = producthelper::getInstance();
 		$allProductPrices = array();
 
 		if (!empty($pids))
@@ -35,7 +35,7 @@ abstract class ModRedshopFilter
 			// Get product price
 			foreach ($pids as $k => $id)
 			{
-				$productprices = $producthelper->getProductNetPrice($id);
+				$productprices      = $producthelper->getProductNetPrice($id);
 				$allProductPrices[] = $productprices['product_price'];
 			}
 
@@ -68,7 +68,7 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get child category redshop
 	 *
-	 * @param   int $parentId  category parent id
+	 * @param   int $parentId category parent id
 	 *
 	 * @return  object
 	 */
@@ -79,7 +79,7 @@ abstract class ModRedshopFilter
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn("#__redshop_category"))
@@ -92,7 +92,7 @@ abstract class ModRedshopFilter
 	/**
 	 * Retrieve a list of article
 	 *
-	 * @param   array  $manuList  manufacturer ids
+	 * @param   array $manuList manufacturer ids
 	 *
 	 * @return  mixed
 	 */
@@ -103,7 +103,7 @@ abstract class ModRedshopFilter
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('manufacturer_name'))
 			->select($db->qn('manufacturer_id'))
@@ -121,23 +121,23 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop
 	 *
-	 * @param   array  $catList       category ids
-	 * @param   int    $rootCategory  root category ids
-	 * @param   array  $cid           category id
+	 * @param   array $catList      category ids
+	 * @param   int   $rootCategory root category ids
+	 * @param   array $cid          category id
 	 *
 	 * @return array
 	 */
 	public static function getCategories($catList = array(), $rootCategory = 0, $cid = 0)
 	{
 		$categories = self::getChildCategory($cid);
-		$mainCat = array_merge(array(), array_intersect($categories, $catList));
+		$mainCat    = array_merge(array(), array_intersect($categories, $catList));
 
 		if (empty($mainCat))
 		{
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->select($db->qn('name'))
@@ -155,7 +155,7 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop
 	 *
-	 * @param   array  $catList  category ids
+	 * @param   array $catList category ids
 	 *
 	 * @return array
 	 */
@@ -166,7 +166,7 @@ abstract class ModRedshopFilter
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->select($db->qn('name'))
@@ -179,15 +179,15 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop
 	 *
-	 * @param   array  $pids          product ids
-	 * @param   int    $rootCategory  root category ids
+	 * @param   array $pids         product ids
+	 * @param   int   $rootCategory root category ids
 	 *
 	 * @return array
 	 */
 	public static function getCategorybyPids($pids = array(), $rootCategory = 0)
 	{
-		$data = array();
-		$db = JFactory::getDbo();
+		$data  = array();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		if (empty($pids))
@@ -231,13 +231,13 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products by manufacturer id
 	 *
-	 * @param   int  $mid  manufacturer id
+	 * @param   int $mid manufacturer id
 	 *
 	 * @return  array
 	 */
 	public function getProductByManufacturer($mid)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product'))
@@ -249,7 +249,7 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products by category id
 	 *
-	 * @param   int  $cid  category id
+	 * @param   int $cid category id
 	 *
 	 * @return  array
 	 */
@@ -261,7 +261,7 @@ abstract class ModRedshopFilter
 		}
 
 		$tmpCategories = RedshopHelperCategory::getCategoryTree($cid);
-		$categories = array($cid);
+		$categories    = array($cid);
 
 		if (!empty($tmpCategories))
 		{
@@ -271,12 +271,14 @@ abstract class ModRedshopFilter
 			}
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
-			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('category_id') . ' IN (' . implode(',', $categories) . ')')
-			->group('product_id');
+			->from($db->qn('#__redshop_product_category_xref', 'pc'))
+			->innerJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')')
+			->where($db->qn('p.published') . ' = 1')
+			->group($db->qn('pc.product_id'));
 
 		return $db->setQuery($query)->loadColumn();
 	}
@@ -284,8 +286,8 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products custom fields
 	 *
-	 * @param   array  $pids           Product Ids
-	 * @param   array  $productFields  Product custom fields
+	 * @param   array $pids          Product Ids
+	 * @param   array $productFields Product custom fields
 	 *
 	 * @return  array
 	 */
@@ -296,7 +298,7 @@ abstract class ModRedshopFilter
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('fv.field_value'))
 			->select($db->qn('fv.field_id'))
@@ -306,7 +308,8 @@ abstract class ModRedshopFilter
 			->leftJoin($db->qn('#__redshop_fields_value', 'fv') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fv.field_id'))
 			->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $pids) . ')')
-			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')')
+			->where($db->qn('fd.data_txt') . ' IS NOT NULL')
+			->where($db->qn('f.name') . ' IN (' . implode(',', RedshopHelperUtility::quote($productFields)) . ')')
 			->where('FIND_IN_SET(' . $db->qn('fv.field_value') . ', ' . $db->qn('fd.data_txt') . ')')
 			->where($db->qn('fd.data_txt') . ' != ""')
 			->group($db->qn('fv.field_value'));
@@ -316,7 +319,7 @@ abstract class ModRedshopFilter
 
 		foreach ($data as $key => $value)
 		{
-			$result[$value->field_id]['title'] = $value->title;
+			$result[$value->field_id]['title']                      = $value->title;
 			$result[$value->field_id]['value'][$value->field_value] = $value->field_name;
 		}
 
