@@ -37,7 +37,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -84,18 +84,18 @@ class RedshopModelDiscount_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->discount_id = 0;
+			$detail->discount_id         = 0;
 			$detail->discount_product_id = 0;
-			$detail->name = null;
-			$detail->condition = 0;
-			$detail->shopper_group_id = 0;
-			$detail->amount = 0;
-			$detail->discount_amount = 0;
-			$detail->discount_type = 'no';
-			$detail->category_ids = null;
-			$detail->start_date = time();
-			$detail->end_date = time();
-			$detail->published = 1;
+			$detail->name                = null;
+			$detail->condition           = 0;
+			$detail->shopper_group_id    = 0;
+			$detail->amount              = 0;
+			$detail->discount_amount     = 0;
+			$detail->discount_type       = 'no';
+			$detail->category_ids        = null;
+			$detail->start_date          = time();
+			$detail->end_date            = time();
+			$detail->published           = 1;
 
 			$this->_data = $detail;
 
@@ -224,13 +224,13 @@ class RedshopModelDiscount_detail extends RedshopModel
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('s.shopper_group_id')
-					->from($db->qn('#__redshop_' . $tableName, 'ds'))
-					->leftjoin(
-							$db->qn('#__redshop_shopper_group', 's')
+			->select('s.shopper_group_id')
+			->from($db->qn('#__redshop_' . $tableName, 'ds'))
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
 							. ' ON ' . $db->qn('s.shopper_group_id') . ' = ' . $db->qn('ds.shopper_group_id')
-						)
-					->where($db->qn('ds.' . $fieldName) . ' = ' . (int) $this->_id);
+			)
+			->where($db->qn('ds.' . $fieldName) . ' = ' . (int) $this->_id);
 
 		// Set the query and load the result.
 		$db->setQuery($query);

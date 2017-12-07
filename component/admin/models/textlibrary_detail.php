@@ -33,7 +33,7 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -68,14 +68,14 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail                 = new stdClass;
 			$detail->textlibrary_id = 0;
-			$detail->text_name = null;
-			$detail->text_desc = null;
-			$detail->text_field = null;
-			$detail->section = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->text_name      = null;
+			$detail->text_desc      = null;
+			$detail->text_field     = null;
+			$detail->section        = null;
+			$detail->published      = 1;
+			$this->_data            = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -160,11 +160,11 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['textlibrary_id'] = 0;
-			$post['text_name'] = $this->renameToUniqueValue('text_name', $cdata->text_name, 'dash');
-			$post['text_desc'] = $cdata->text_desc;
-			$post['text_field'] = $cdata->text_field;
-			$post['section'] = $cdata->section;
-			$post['published'] = $cdata->published;
+			$post['text_name']      = $this->renameToUniqueValue('text_name', $cdata->text_name, 'dash');
+			$post['text_desc']      = $cdata->text_desc;
+			$post['text_field']     = $cdata->text_field;
+			$post['section']        = $cdata->section;
+			$post['published']      = $cdata->published;
 
 			$this->store($post);
 		}

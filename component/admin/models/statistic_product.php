@@ -86,13 +86,13 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	/**
 	 * Method to buil query string
 	 *
-	 * @return  String
+	 * @return  string
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
 	public function getListQuery()
 	{
-		$db     = $this->getDbo();
+		$db       = $this->getDbo();
 		$subQuery = $db->getQuery(true)
 			->select('SUM(' . $db->qn('oi.product_final_price') . ') AS ' . $db->qn('total_sale'))
 			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS unit_sold')
@@ -117,7 +117,7 @@ class RedshopModelStatistic_Product extends RedshopModelList
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->leftjoin('(' . $subQuery . ') AS oi ' . ' ON ' . $db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id')
-				)
+			)
 			->group($db->qn('p.product_id'));
 
 		// Filter: Date Range

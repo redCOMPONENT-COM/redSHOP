@@ -56,7 +56,7 @@ class RedshopViewTextlibrary_detail extends RedshopViewAdmin
 		}
 
 		// Section can be added from here
-		$optionsection = array();
+		$optionsection   = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_Product'));
 		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_Category'));
@@ -66,8 +66,8 @@ class RedshopViewTextlibrary_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

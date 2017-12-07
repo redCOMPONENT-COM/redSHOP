@@ -132,20 +132,20 @@ class RedshopControllerStockroom_detail extends RedshopController
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$economic = economic::getInstance();
-			$db = JFactory::getDbo();
-			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
+			$db       = JFactory::getDbo();
+			$incNo    = $cnt;
+			$query    = 'SELECT p.* FROM #__redshop_product AS p '
 				. 'LIMIT ' . $cnt . ', 10 ';
 			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
+			$prd         = $db->loadObjectlist();
+			$totalprd    = count($prd);
 			$responcemsg = '';
 
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
 				$ecoProductNumber = Economic::importStockFromEconomic($prd[$i]);
-				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
+				$responcemsg     .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && isset($ecoProductNumber[0]))
 				{
@@ -163,7 +163,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->getMessage();
 					}
 

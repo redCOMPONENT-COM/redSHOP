@@ -14,7 +14,7 @@ class RedshopViewNewsletter extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$context = 'newsletter_preview';
 
 		$cid = $app->input->post->get('cid', array(0), 'array');
@@ -35,24 +35,24 @@ class RedshopViewNewsletter extends RedshopView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$newsletters = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$newsletters        = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
 		$oprand = $app->input->getCmd('oprand', 'select');
 
-		$optionoprand = array();
-		$optionoprand[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-		$optionoprand[] = JHTML::_('select.option', 'more', JText::_('COM_REDSHOP_GTOREQUEL'));
-		$optionoprand[] = JHTML::_('select.option', 'less', JText::_('COM_REDSHOP_LTOREQUEL'));
-		$optionoprand[] = JHTML::_('select.option', 'equally', JText::_('COM_REDSHOP_EQUAL_SIGN'));
+		$optionoprand    = array();
+		$optionoprand[]  = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
+		$optionoprand[]  = JHTML::_('select.option', 'more', JText::_('COM_REDSHOP_GTOREQUEL'));
+		$optionoprand[]  = JHTML::_('select.option', 'less', JText::_('COM_REDSHOP_LTOREQUEL'));
+		$optionoprand[]  = JHTML::_('select.option', 'equally', JText::_('COM_REDSHOP_EQUAL_SIGN'));
 		$lists['oprand'] = JHTML::_('select.genericlist', $optionoprand, 'oprand', 'class="inputbox" size="1" ', 'value', 'text', $oprand);
 
-		$country_option = array();
+		$country_option   = array();
 		$country_option[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_COUNTRY'));
 
 		$country = $model->getContry();
@@ -67,7 +67,7 @@ class RedshopViewNewsletter extends RedshopView
 
 		$categories = array();
 
-		$categories = $product_category->list_all("product_category[]", 0, '', 10, true, true);
+		$categories          = $product_category->list_all("product_category[]", 0, '', 10, true, true);
 		$lists['categories'] = $categories;
 
 		$product_data = array();
@@ -88,9 +88,9 @@ class RedshopViewNewsletter extends RedshopView
 		);
 
 		$this->subscribers = $subscribers;
-		$this->lists = $lists;
+		$this->lists       = $lists;
 		$this->newsletters = $newsletters;
-		$this->pagination = $pagination;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		$this->setLayout('preview');

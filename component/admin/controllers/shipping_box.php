@@ -25,7 +25,7 @@ class RedshopControllerShipping_box extends RedshopController
 	public function remove()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$tmpl    = '';
 
 		if ($showall)
 		{

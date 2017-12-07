@@ -61,7 +61,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		}
 
 		$model = $this->getModel('shopper_group_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 
 		if ($row)
 		{

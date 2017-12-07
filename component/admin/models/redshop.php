@@ -86,7 +86,6 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-
 		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
 						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, ''),
 						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
@@ -136,7 +135,6 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-
 		$query = "INSERT IGNORE INTO `#__redshop_product_accessory` (`accessory_id`, `product_id`, `child_product_id`, `accessory_price`, `oprand`, `setdefault_selected`, `ordering`, `category_id`) VALUES
 					(21, 1, 12, 0, '-', 0, 0, 0),
 					(32, 2, 3, 0, '-', 0, 0, 0),
@@ -159,14 +157,16 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		/* Get the current columns for redshop category_xref */
+		// Get the current columns for redshop category_xref
+
 		$q = "SHOW INDEX FROM #__redshop_product_category_xref";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the category_parent_id column */
+			// Check if we have the category_parent_id column
+
 			if (!array_key_exists('category_id', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_product_category_xref` ADD UNIQUE (
@@ -196,7 +196,8 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		/*Get the first user_id from #__redshop_users_info table then insert to userid field of demo rating content in #__redshop_product_rating table */
+		// Get the first user_id from #__redshop_users_info table then insert to userid field of demo rating content in #__redshop_product_rating table
+
 		$query = "SELECT user_id FROM `#__redshop_users_info` LIMIT 1";
 		$db->setQuery($query);
 		$first_id = $db->loadResult();
@@ -206,14 +207,16 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		/* Get the current columns for redshop product related */
+		// Get the current columns for redshop product related
+
 		$q = "SHOW INDEX FROM #__redshop_product_related";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the category_parent_id column */
+			// Check if we have the category_parent_id column
+
 			if (!array_key_exists('related_id', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_product_related` ADD UNIQUE (
@@ -229,14 +232,16 @@ class RedshopModelRedshop extends RedshopModel
 					(0, 3),(0, 4),(0, 5),(0, 6),(0, 7),(0, 8),(0, 9),(0, 10),(0, 11),(0, 12),(0, 13),(0, 14),(1, 2),(2, 1),(3, 1),(3, 2)";
 		$db->setQuery($query)->execute();
 
-		/* Get the current columns for redshop product stockroom  */
+		// Get the current columns for redshop product stockroom
+
 		$q = "SHOW INDEX FROM #__redshop_product_stockroom_xref";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the category_parent_id column */
+			// Check if we have the category_parent_id column
+
 			if (!array_key_exists('product_id', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_product_stockroom_xref` ADD UNIQUE (

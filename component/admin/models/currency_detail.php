@@ -32,7 +32,7 @@ class RedshopModelCurrency_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -69,10 +69,10 @@ class RedshopModelCurrency_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->currency_id = 0;
+			$detail->currency_id   = 0;
 			$detail->currency_name = null;
 			$detail->currency_code = null;
-			$this->_data = $detail;
+			$this->_data           = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -126,7 +126,7 @@ class RedshopModelCurrency_detail extends RedshopModel
 			$cid = array($cid);
 		}
 
-		$cid = ArrayHelper::toInteger($cid);
+		$cid      = ArrayHelper::toInteger($cid);
 		$notAllow = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 
 		foreach ($cid as $currencyId)

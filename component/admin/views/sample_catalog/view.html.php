@@ -16,11 +16,11 @@ class RedshopViewSample_catalog extends RedshopViewAdmin
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 		$detail = $this->get('data');
-		$model = $this->getModel('sample_catalog');
+		$model  = $this->getModel('sample_catalog');
 		$sample = $model->getsample($detail->colour_id);
 
-		$this->detail = $detail;
-		$this->sample = $sample;
+		$this->detail      = $detail;
+		$this->sample      = $sample;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

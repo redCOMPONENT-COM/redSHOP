@@ -49,7 +49,8 @@ class RedShopHelperImages
 	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::getImagePath() instead
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-		$height = 50, $proportional = -1)
+		$height = 50, $proportional = -1
+	)
 	{
 		return RedshopHelperMedia::getImagePath($imageName, $dest, $command, $type, $width, $height, $proportional);
 	}
@@ -122,7 +123,8 @@ class RedShopHelperImages
 	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::resizeImage() instead
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-		$deleteOriginal = true, $useLinuxCommands = false)
+		$deleteOriginal = true, $useLinuxCommands = false
+	)
 	{
 		return RedshopHelperMedia::resizeImage($file, $width, $height, $proportional, $output, $deleteOriginal, $useLinuxCommands);
 	}

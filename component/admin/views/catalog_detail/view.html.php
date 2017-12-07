@@ -29,7 +29,6 @@ class RedshopViewCatalog_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_MANAGEMENT_DETAIL'), 'redshop_catalogmanagement48');
 		$document = JFactory::getDocument();
 
@@ -73,8 +72,8 @@ class RedshopViewCatalog_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

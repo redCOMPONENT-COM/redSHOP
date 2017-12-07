@@ -22,7 +22,6 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
 
 		$document = JFactory::getDocument();
@@ -51,7 +50,7 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 
 		if ($layout == 'default')
 		{
-			$isNew = ($detail->sample_id < 1);
+			$isNew      = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
 			if (!is_array($color_data))
@@ -83,8 +82,8 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

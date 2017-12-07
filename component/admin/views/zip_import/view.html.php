@@ -22,7 +22,7 @@ class RedshopViewZip_import extends RedshopViewAdmin
 		}
 		else
 		{
-			$result = $this->get('Data');
+			$result       = $this->get('Data');
 			$this->result = $result;
 		}
 

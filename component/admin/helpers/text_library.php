@@ -16,7 +16,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Text Library
  *
- *  @deprecated  2.0.3  Use RedshopHelperText instead
+ * @deprecated  2.0.3  Use RedshopHelperText instead
  */
 class text_library
 {

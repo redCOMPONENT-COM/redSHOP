@@ -17,7 +17,7 @@ class RedshopControllerUser_detail extends RedshopController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->_table_prefix = '#__redshop_';
-		$this->redhelper = redhelper::getInstance();
+		$this->redhelper     = redhelper::getInstance();
 	}
 
 	public function edit()
@@ -213,28 +213,28 @@ class RedshopControllerUser_detail extends RedshopController
 		RedshopHelperAjax::validateAjaxRequest('get');
 
 		$username = $this->input->getString('username', '');
-		$user_id = $this->input->getInt('user_id', 0);
+		$user_id  = $this->input->getInt('user_id', 0);
 
-		$model = $this->getModel('user_detail');
+		$model                = $this->getModel('user_detail');
 		$usernameAvailability = $model->validate_user($username, $user_id);
 
 		$message = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
-		$type = "success";
+		$type    = "success";
 
 		if ($usernameAvailability > 0)
 		{
 			$message = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
-			$type = "error";
+			$type    = "error";
 		}
 
 		if ($username == "")
 		{
 			$message = JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
-			$type = "error";
+			$type    = "error";
 		}
 
-		$result = array();
-		$result['type'] = $type;
+		$result            = array();
+		$result['type']    = $type;
 		$result['message'] = $message;
 
 		$result = json_encode($result);
