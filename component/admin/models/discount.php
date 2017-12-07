@@ -24,9 +24,9 @@ class RedshopModelDiscount extends RedshopModel
 		// Different context depending on the view
 		if (empty($this->context))
 		{
-			$this->input = JFactory::getApplication()->input;
-			$view = $this->input->getCmd('view', '');
-			$layout = $this->input->getCmd('layout', '');
+			$this->input   = JFactory::getApplication()->input;
+			$view          = $this->input->getCmd('view', '');
+			$layout        = $this->input->getCmd('layout', '');
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
@@ -85,12 +85,12 @@ class RedshopModelDiscount extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$where = "";
-		$orderby = $this->_buildContentOrderBy();
-		$layout = $this->input->getCmd('layout', '');
+		$where           = "";
+		$orderby         = $this->_buildContentOrderBy();
+		$layout          = $this->input->getCmd('layout', '');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
-		$discount_type = $this->getState('discount_type');
-		$name_filter = $this->getState('name_filter');
+		$discount_type   = $this->getState('discount_type');
+		$name_filter     = $this->getState('name_filter');
 
 		if (isset($layout) && $layout == 'product')
 		{
@@ -119,6 +119,7 @@ class RedshopModelDiscount extends RedshopModel
 					. $orderby;
 			}
 		}
+
 		return $query;
 	}
 

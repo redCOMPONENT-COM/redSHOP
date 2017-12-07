@@ -270,7 +270,6 @@ class RedshopModelProduct extends RedshopModel
 
 		if ($where == '' && $search_field != 'pa.property_number')
 		{
-
 			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
 			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
@@ -547,7 +546,7 @@ class RedshopModelProduct extends RedshopModel
 	}
 
 	/*
-	 * save product ordering
+				 * Save product ordering
 	 * @params: $cid - array , $order-array
 	 * $cid= product ids
 	 * $order = product current ordring
@@ -595,7 +594,7 @@ class RedshopModelProduct extends RedshopModel
 	 * @param   array $productIds     Product Id
 	 * @param   array $discountPrices List of discount price.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.4
 	 */
@@ -642,7 +641,7 @@ class RedshopModelProduct extends RedshopModel
 	 * @param   array $productIds Product Id
 	 * @param   array $prices     List of discount price.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.4
 	 */

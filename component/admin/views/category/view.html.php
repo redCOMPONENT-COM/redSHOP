@@ -81,28 +81,28 @@ class RedshopViewCategory extends RedshopViewForm
 
 		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
-					->title('COM_REDSHOP_CATEGORY_INFORMATION')
-					->addItem(
-						'#information',
-						'COM_REDSHOP_CATEGORY_INFORMATION',
-						true,
-						'information'
-					)->addItem(
-						'#seo',
-						'COM_REDSHOP_META_DATA_TAB',
-						false,
-						'seo'
-					)->addItem(
-						'#extrafield',
-						'COM_REDSHOP_FIELDS',
-						false,
-						'extrafield'
-					)->addItem(
-						'#accessory',
-						'COM_REDSHOP_ACCESSORY_PRODUCT',
-						false,
-						'accessory'
-					);
+			->title('COM_REDSHOP_CATEGORY_INFORMATION')
+			->addItem(
+				'#information',
+				'COM_REDSHOP_CATEGORY_INFORMATION',
+				true,
+				'information'
+			)->addItem(
+				'#seo',
+				'COM_REDSHOP_META_DATA_TAB',
+				false,
+				'seo'
+			)->addItem(
+				'#extrafield',
+				'COM_REDSHOP_FIELDS',
+				false,
+				'extrafield'
+			)->addItem(
+				'#accessory',
+				'COM_REDSHOP_ACCESSORY_PRODUCT',
+				false,
+				'accessory'
+			);
 
 		return $tabMenu;
 	}
@@ -118,7 +118,7 @@ class RedshopViewCategory extends RedshopViewForm
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = ($this->item->id < 1);
-		$user       = JFactory::getUser();
+		$user  = JFactory::getUser();
 
 		// Prepare text for title
 		$title = JText::_('COM_REDSHOP_CATEGORY') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
@@ -149,9 +149,9 @@ class RedshopViewCategory extends RedshopViewForm
 
 			JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$itemId    = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
+			$itemId = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
 
-			$link  = JURI::root() . 'index.php?option=com_redshop'
+			$link = JURI::root() . 'index.php?option=com_redshop'
 					. '&view=&view=category&layout=detail'
 					. '&cid=' . $this->item->id
 					. '&Itemid=' . $itemId;

@@ -77,7 +77,6 @@ class RedshopControllerShipping_box_detail extends RedshopController
 	public function cancel()
 	{
 
-
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 }

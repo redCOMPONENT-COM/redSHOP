@@ -77,10 +77,10 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$post = $this->input->post->getArray();
 
-		$post['custom_previous_link'] = $this->input->post->get('custom_previous_link', '', 'raw');
-		$post['custom_next_link'] = $this->input->post->get('custom_next_link', '', 'raw');
-		$post['default_next_suffix'] = $this->input->post->get('default_next_suffix', '', 'raw');
-		$post['default_previous_prefix'] = $this->input->post->get('default_previous_prefix', '', 'raw');
+		$post['custom_previous_link']      = $this->input->post->get('custom_previous_link', '', 'raw');
+		$post['custom_next_link']          = $this->input->post->get('custom_next_link', '', 'raw');
+		$post['default_next_suffix']       = $this->input->post->get('default_next_suffix', '', 'raw');
+		$post['default_previous_prefix']   = $this->input->post->get('default_previous_prefix', '', 'raw');
 		$post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
 
 		// Administrator email notifications ids

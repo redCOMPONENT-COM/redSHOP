@@ -31,7 +31,7 @@ class RedshopViewExport extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		/** @var RedshopModelExport $model */
-		$model = $this->getModel('export');
+		$model         = $this->getModel('export');
 		$this->exports = $model->getExports();
 
 		$document = JFactory::getDocument();

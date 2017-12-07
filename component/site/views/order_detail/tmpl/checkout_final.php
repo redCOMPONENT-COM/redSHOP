@@ -45,7 +45,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			if (isset($billingaddresses->country_code))
 			{
-				$billingaddresses->country_2_code = $configobj->getCountryCode2($billingaddresses->country_code);
+				$billingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
 			}
 
 			if (isset($billingaddresses->state_code))
@@ -60,7 +60,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			if (isset($shippingaddresses->country_code))
 			{
-				$shippingaddresses->country_2_code = $configobj->getCountryCode2($shippingaddresses->country_code);
+				$shippingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($shippingaddresses->country_code);
 			}
 
 			if (isset($shippingaddresses->state_code))

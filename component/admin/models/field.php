@@ -29,7 +29,7 @@ class RedshopModelField extends RedshopModelForm
 	 */
 	public function getExistFieldNames($fieldId = 0)
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('f.name'))
 			->from($db->qn('#__redshop_fields', 'f'));

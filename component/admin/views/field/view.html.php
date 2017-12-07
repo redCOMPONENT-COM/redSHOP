@@ -32,7 +32,7 @@ class RedshopViewField extends RedshopViewForm
 	public function beforeDisplay(&$tpl)
 	{
 		$extra_field = extra_field::getInstance();
-		$document = JFactory::getDocument();
+		$document    = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/fields.js');
 
 		$model = $this->getModel('field');
@@ -51,7 +51,7 @@ class RedshopViewField extends RedshopViewForm
 
 		$field_data = $extra_field->getFieldValue($this->item->id);
 
-		$list = array();
+		$list                = array();
 		$lists['extra_data'] = $field_data;
 
 		$this->lists = $lists;

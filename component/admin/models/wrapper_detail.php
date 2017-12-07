@@ -49,7 +49,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -87,14 +87,14 @@ class RedshopModelWrapper_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->wrapper_id = 0;
-			$detail->product_id = $this->_productid;
-			$detail->category_id = 0;
-			$detail->wrapper_price = 0.00;
-			$detail->wrapper_name = null;
-			$detail->wrapper_image = null;
-			$detail->published = 1;
+			$detail                     = new stdClass;
+			$detail->wrapper_id         = 0;
+			$detail->product_id         = $this->_productid;
+			$detail->category_id        = 0;
+			$detail->wrapper_price      = 0.00;
+			$detail->wrapper_name       = null;
+			$detail->wrapper_image      = null;
+			$detail->published          = 1;
 			$detail->wrapper_use_to_all = 0;
 
 			$this->_data = $detail;
@@ -128,7 +128,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public function getCategoryName($categoryId)
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('name'))
 			->from($db->qn('#__redshop_category'))
@@ -139,7 +139,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public function getCategoryInfo($categoryId = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_category'))
@@ -175,8 +175,8 @@ class RedshopModelWrapper_detail extends RedshopModel
 	public function getMultiselectBox($name, $list, $sellist, $displayid, $displayname, $multiple = false)
 	{
 		$multiple = $multiple ? "multiple='multiple'" : "";
-		$id = str_replace('[]', '', $name);
-		$html = "<select class='inputbox' size='10' " . $multiple . " name='" . $name . "' id='" . $id . "'>";
+		$id       = str_replace('[]', '', $name);
+		$html     = "<select class='inputbox' size='10' " . $multiple . " name='" . $name . "' id='" . $id . "'>";
 
 		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
@@ -218,7 +218,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		{
 			$wrapperimg = RedShopHelperImages::cleanFileName($wrapperfile['name']);
 
-			$src = $wrapperfile['tmp_name'];
+			$src  = $wrapperfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper/' . $wrapperimg;
 
 			if ($data['wrapper_name'] == "")
@@ -233,7 +233,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		if ($row->wrapper_id)
 		{
 			$productobj = productHelper::getInstance();
-			$wrapper = $productobj->getWrapper($row->product_id, $row->wrapper_id);
+			$wrapper    = $productobj->getWrapper($row->product_id, $row->wrapper_id);
 
 			if (count($wrapper) > 0 && $wrapperimg != "")
 			{
@@ -278,7 +278,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'wrapper '
 				. 'WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -290,6 +290,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 

@@ -20,7 +20,6 @@ class RedshopControllerCoupon extends RedshopController
 	public function publish()
 	{
 
-
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -41,7 +40,6 @@ class RedshopControllerCoupon extends RedshopController
 
 	public function unpublish()
 	{
-
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
 

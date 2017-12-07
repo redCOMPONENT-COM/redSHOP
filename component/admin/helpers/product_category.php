@@ -55,7 +55,8 @@ class product_category
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
 	 */
 	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false,
-		$multiple = false, $disabledFields = array(), $width = 250)
+		$multiple = false, $disabledFields = array(), $width = 250
+	)
 	{
 		return RedshopHelperCategory::listAll($name, $category_id, $selected_categories, $size, $toplevel, $multiple, $disabledFields, $width);
 	}
@@ -76,7 +77,8 @@ class product_category
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listTree() instead
 	 */
 	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(),
-		$disabledFields = Array(), $html = '')
+		$disabledFields = Array(), $html = ''
+	)
 	{
 		return RedshopHelperCategory::listTree($category_id, $cid, $level, $selected_categories, $disabledFields, $html);
 	}

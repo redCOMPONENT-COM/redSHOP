@@ -29,9 +29,9 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$extra_field = extra_field::getInstance();
+		$extra_field     = extra_field::getInstance();
 		$order_functions = order_functions::getInstance();
-		$document = JFactory::getDocument();
+		$document        = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
 		$document->addScript('components/com_redshop/assets/js/json.js');
@@ -39,10 +39,10 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
 		$session = JFactory::getSession();
-		$uri = JFactory::getURI();
+		$uri     = JFactory::getURI();
 
-		$lists = array();
-		$model = $this->getModel();
+		$lists   = array();
+		$model   = $this->getModel();
 		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
 
 		if ($user_id != 0)
@@ -54,7 +54,7 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 			$billing = $model->setBilling();
 		}
 
-		$detail = new stdClass;
+		$detail          = new stdClass;
 		$detail->user_id = $user_id;
 
 		$session->set('offlineuser_id', $user_id);
@@ -69,9 +69,9 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
 		JToolBarHelper::cancel();
 
-		$countryarray                  = RedshopHelperWorld::getCountryList((array) $billing);
-		$billing->country_code         = $countryarray['country_code'];
-		$lists['country_code']         = $countryarray['country_dropdown'];
+		$countryarray          = RedshopHelperWorld::getCountryList((array) $billing);
+		$billing->country_code = $countryarray['country_code'];
+		$lists['country_code'] = $countryarray['country_dropdown'];
 
 		$statearray                    = RedshopHelperWorld::getStateList((array) $billing);
 		$lists['state_code']           = $statearray['state_dropdown'];

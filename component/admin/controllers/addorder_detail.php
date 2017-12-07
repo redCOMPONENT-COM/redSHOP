@@ -88,7 +88,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 
 		// Check product Quantity
-		$stockNote                = '';
+		$stockNote = '';
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
@@ -99,9 +99,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 				if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $quantity)
 				{
-					$msg       = $productData->product_name . ' ' . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
+					$msg        = $productData->product_name . ' ' . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
 					$stockNote .= sprintf($msg, $productData->min_order_product_quantity) . "<br/>";
-					$quantity  = $productData->min_order_product_quantity;
+					$quantity   = $productData->min_order_product_quantity;
 				}
 
 				$currentStock  = RedshopHelperStockroom::getStockroomTotalAmount($orderItem[$i]->product_id);
@@ -112,7 +112,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 					if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $finalquantity)
 					{
 						$msg           = $productData->product_name . " " . JText::_('WARNING_MSG_MAXIMUM_QUANTITY') . "<br/>";
-						$stockNote     .= sprintf($msg, $productData->max_order_product_quantity);
+						$stockNote    .= sprintf($msg, $productData->max_order_product_quantity);
 						$finalquantity = $productData->max_order_product_quantity;
 					}
 
@@ -147,7 +147,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (count($orderShipping) > 4)
 		{
 			$post['order_shipping']     = $orderShipping[3];
-			$orderTotal                = $orderTotal + $orderShipping[3];
+			$orderTotal                 = $orderTotal + $orderShipping[3];
 			$post['order_shipping_tax'] = $orderShipping[6];
 		}
 
@@ -172,7 +172,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$cartHelper = rsCarthelper::getInstance();
 
-		$subtotal        = $post['order_subtotal'];
+		$subtotal       = $post['order_subtotal'];
 		$updateDiscount = 0;
 
 		if ($post['update_discount'] > 0)
@@ -225,7 +225,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$paymentMethod                = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $orderTotal);
 		$post['ship_method_id']       = urldecode(urldecode($post['shipping_rate_id']));
-		$orderTotal                  = $paymentMethod[0];
+		$orderTotal                   = $paymentMethod[0];
 		$post['user_info_id']         = $post['users_info_id'];
 		$post['payment_discount']     = $paymentMethod[1];
 		$post['payment_oprand']       = $paymentinfo->payment_oprand;
@@ -238,7 +238,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
-			$post['order_status'] = empty($post['order_status']) ? 'P' : $post['order_status'];
+			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
 		if ($row = $model->store($post))

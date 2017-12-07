@@ -36,8 +36,8 @@ class RedshopViewQuotation extends RedshopViewAdmin
 		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
-		$this->state = $this->get('State');
-		$filter_status    = $this->state->get('filter_status', 0);
+		$this->state   = $this->get('State');
+		$filter_status = $this->state->get('filter_status', 0);
 
 		$lists['order']     = $this->state->get('list.ordering', 'q.quotation_cdate');
 		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
@@ -45,14 +45,14 @@ class RedshopViewQuotation extends RedshopViewAdmin
 		$quotation  = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
-		$optionsection = $quotationHelper->getQuotationStatusList();
+		$optionsection          = $quotationHelper->getQuotationStatusList();
 		$lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_status
 		);
 
-		$this->lists = $lists;
-		$this->quotation = $quotation;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->quotation   = $quotation;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

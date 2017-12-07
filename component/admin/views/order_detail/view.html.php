@@ -72,7 +72,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
 		if ($task == 'ccdetail')
 		{
-			$ccdetail = $model->getccdetail($detail->order_id);
+			$ccdetail       = $model->getccdetail($detail->order_id);
 			$this->ccdetail = $ccdetail;
 			$this->setLayout('ccdetail');
 
@@ -93,19 +93,19 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 			$shipping->country_code = $countryarray['country_code'];
 			$lists['country_code']  = $countryarray['country_dropdown'];
 
-			$statearray             = RedshopHelperWorld::getStateList((array) $shipping);
-			$lists['state_code']    = $statearray['state_dropdown'];
+			$statearray          = RedshopHelperWorld::getStateList((array) $shipping);
+			$lists['state_code'] = $statearray['state_dropdown'];
 
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
-			$showstate = ($statearray['is_states'] <= 0) ? 0 : 1;
+			$showstate   = ($statearray['is_states'] <= 0) ? 0 : 1;
 
-			$isCompany = array();
-			$isCompany[0] = new stdClass;
+			$isCompany           = array();
+			$isCompany[0]        = new stdClass;
 			$isCompany[0]->value = 0;
-			$isCompany[0]->text = JText::_('COM_REDSHOP_USER_CUSTOMER');
-			$isCompany[1] = new stdClass;
+			$isCompany[0]->text  = JText::_('COM_REDSHOP_USER_CUSTOMER');
+			$isCompany[1]        = new stdClass;
 			$isCompany[1]->value = 1;
-			$isCompany[1]->text = JText::_('COM_REDSHOP_USER_COMPANY');
+			$isCompany[1]->text  = JText::_('COM_REDSHOP_USER_COMPANY');
 			$lists['is_company'] = JHTML::_(
 				'select.genericlist',
 				$isCompany,
@@ -116,12 +116,12 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 				$billing->is_company
 			);
 
-			$lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $billing->tax_exempt);
-			$lists['tax_exempt_approved']     = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved);
-			$lists['requesting_tax_exempt']   = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $billing->requesting_tax_exempt);
+			$lists['tax_exempt']            = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $billing->tax_exempt);
+			$lists['tax_exempt_approved']   = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved);
+			$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $billing->requesting_tax_exempt);
 
 			$this->showcountry = $showcountry;
-			$this->showstate = $showstate;
+			$this->showstate   = $showstate;
 		}
 
 		elseif ($layout == "print_order" || $layout == 'productorderinfo' || $layout == 'creditcardpayment')
@@ -167,7 +167,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 			);
 		}
 
-		$tmpl = JFactory::getApplication()->input->get('tmpl', '');
+		$tmpl       = JFactory::getApplication()->input->get('tmpl', '');
 		$appendTmpl = ($tmpl) ? '&tmpl=component' : '';
 
 		RedshopToolbarHelper::link(
@@ -216,13 +216,13 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
 		$lists['order_extra_fields'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_ORDER, $order_id, "", "", "", $billing->user_email);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->billing = $billing;
-		$this->shipping = $shipping;
-		$this->payment_detail = $payment_detail;
+		$this->lists            = $lists;
+		$this->detail           = $detail;
+		$this->billing          = $billing;
+		$this->shipping         = $shipping;
+		$this->payment_detail   = $payment_detail;
 		$this->shipping_rate_id = $detail->ship_method_id;
-		$this->request_url = $uri->toString();
+		$this->request_url      = $uri->toString();
 
 		parent::display($tpl);
 	}

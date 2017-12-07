@@ -48,7 +48,7 @@ class RedshopModelInstall extends RedshopModelList
 	{
 		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
 
-		$files = JFolder::files($updatePath, '.php', false, true);
+		$files    = JFolder::files($updatePath, '.php', false, true);
 		$versions = array();
 
 		foreach ($files as $file)
@@ -62,8 +62,8 @@ class RedshopModelInstall extends RedshopModelList
 			$version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
 
 			/** @var RedshopInstallUpdate $updateClass */
-			$updateClass = new $version->class;
-			$classTasks  = $updateClass->getTasksList();
+			$updateClass    = new $version->class;
+			$classTasks     = $updateClass->getTasksList();
 			$version->tasks = array();
 
 			if (empty($classTasks))
@@ -101,8 +101,8 @@ class RedshopModelInstall extends RedshopModelList
 			return array();
 		}
 
-		$app     = JFactory::getApplication();
-		$version = $app->getUserState('redshop.old_version', null);
+		$app             = JFactory::getApplication();
+		$version         = $app->getUserState('redshop.old_version', null);
 		$specificVersion = $app->input->get('version', null);
 
 		$tasks = array(
