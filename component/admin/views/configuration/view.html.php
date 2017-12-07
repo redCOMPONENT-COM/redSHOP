@@ -40,6 +40,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 
+		/** @var RedshopModelConfiguration $model */
 		$model         = $this->getModel('configuration');
 		$currency_data = $model->getCurrencies();
 
