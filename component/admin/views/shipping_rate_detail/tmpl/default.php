@@ -26,11 +26,15 @@ $productHelper = productHelper::getInstance();
 			return;
 		}
 
-		if (form.shipping_rate_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
-		} else {
-			submitform(pressbutton);
-		}
+        if (form.shipping_rate_name.value == "") {
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
+        } else if(form.shipping_rate_ordertotal_end.value < form.shipping_rate_ordertotal_start.value){
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_END_MUST_MORE', true); ?>");
+        } else if(form.shipping_rate_zip_end.value < form.shipping_rate_zip_start.value){
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END_MUST_MORE', true); ?>");
+        } else {
+            submitform(pressbutton);
+        }
 	}
 </script>
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
