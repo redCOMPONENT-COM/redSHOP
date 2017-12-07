@@ -421,6 +421,7 @@ redBOX.handlers.extend({
 		this.asset = new Element('iframe', Object.merge({
 			src: url,
 			frameBorder: 0,
+			name: this.option.name,
 			width: this.options.size.x,
 			height: this.options.size.y
 		}, this.options.iframeOptions));
