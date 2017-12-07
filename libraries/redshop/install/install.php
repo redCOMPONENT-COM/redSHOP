@@ -136,8 +136,6 @@ class RedshopInstall
 			return true;
 		}
 
-		// Install demo template.
-
 		// Start template demo content
 		$query = "INSERT IGNORE INTO `#__redshop_template` (`id`, `name`, `section`, `published`) VALUES
 			(8, 'grid', 'category', 1),
@@ -202,16 +200,16 @@ class RedshopInstall
 		$db->setQuery($query)->execute();
 
 		$query = $db->getQuery(true)
-			->select('*')
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_template'))
 			->order($db->qn('id'));
-		$templates = $db->setQuery($query)->loadObjectList();
+		$templates = $db->setQuery($query)->loadColumn();
 
-		foreach ($templates as $template)
+		foreach ($templates as $templateId)
 		{
 			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
-			$table->bind((array) $template);
+			$table->load($templateId);
 			$table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section);
 			$table->store();
 		}

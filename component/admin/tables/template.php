@@ -145,11 +145,11 @@ class RedshopTableTemplate extends RedshopTable
 			return false;
 		}
 
-		if ($isNew)
+		if ($isNew || empty($this->file_name))
 		{
 			$fileName = $this->generateTemplateFileName($this->id, $this->name);
 
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->update($db->qn('#__redshop_template'))
 				->where($db->qn('id') . ' = ' . $this->id)
