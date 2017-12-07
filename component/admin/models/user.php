@@ -58,8 +58,8 @@ class RedshopModelUser extends RedshopModel
 	 */
 	protected function populateState($ordering = 'users_info_id', $direction = '')
 	{
-		$filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$spgrp_filter = $this->getUserStateFromRequest($this->context . '.spgrp_filter', 'spgrp_filter', 0);
+		$filter                    = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
+		$spgrp_filter              = $this->getUserStateFromRequest($this->context . '.spgrp_filter', 'spgrp_filter', 0);
 		$tax_exempt_request_filter = $this->getUserStateFromRequest($this->context . '.tax_exempt_request_filter', 'tax_exempt_request_filter', 'select');
 
 		$this->setState('filter', $filter);
@@ -76,8 +76,8 @@ class RedshopModelUser extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
-		$spgrp_filter = $this->getState('spgrp_filter');
+		$filter                    = $this->getState('filter');
+		$spgrp_filter              = $this->getState('spgrp_filter');
 		$tax_exempt_request_filter = $this->getState('tax_exempt_request_filter');
 
 		$where = '';

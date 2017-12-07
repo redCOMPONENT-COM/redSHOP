@@ -16,8 +16,8 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
 	{
 		$context = 'shipping_rate';
 
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
+		$uri = JFactory::getURI();
+		$app = JFactory::getApplication();
 
 		$shippinghelper = shipping::getInstance();
 
@@ -62,13 +62,13 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
 		JToolBarHelper::deleteList();
 		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
-		$this->lists = $lists;
-		$this->shipping_rates = $shipping_rates;
-		$this->shipping = $shipping;
-		$this->pagination = $pagination;
-		$this->is_shipper = $is_shipper;
+		$this->lists            = $lists;
+		$this->shipping_rates   = $shipping_rates;
+		$this->shipping         = $shipping;
+		$this->pagination       = $pagination;
+		$this->is_shipper       = $is_shipper;
 		$this->shipper_location = $shipper_location;
-		$this->request_url = $uri->toString();
+		$this->request_url      = $uri->toString();
 
 		parent::display($tpl);
 	}

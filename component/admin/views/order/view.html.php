@@ -143,14 +143,14 @@ class RedshopViewOrder extends RedshopViewAdmin
 		$filter_status         = $state->get('filter_status');
 		$filter_payment_status = $state->get('filter_payment_status');
 
-		$lists['order']        = $state->get('list.ordering', 'o.order_id');
-		$lists['order_Dir']    = $state->get('list.direction', 'desc');
+		$lists['order']     = $state->get('list.ordering', 'o.order_id');
+		$lists['order_Dir'] = $state->get('list.direction', 'desc');
 
 		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 
-		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
+		$lists['filter_status']         = $order_function->getstatuslist('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 		$lists['filter_payment_status'] = $order_function->getpaymentstatuslist('filter_payment_status', $filter_payment_status,

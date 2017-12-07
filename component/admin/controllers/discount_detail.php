@@ -27,7 +27,6 @@ class RedshopControllerDiscount_detail extends RedshopController
 		if ($layout == 'product')
 		{
 			$this->input->set('layout', 'product');
-
 		}
 		else
 		{
@@ -57,7 +56,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 		$layout = $this->input->getCmd('layout', '');
 
 		$post['category_ids'] = ($post['category_ids']) ? implode(',', $post['category_ids']) : '';
-		$canSave = true;
+		$canSave              = true;
 
 		if (isset($post['shopper_group_id']) === true)
 		{
@@ -81,7 +80,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 			}
 			else
 			{
-				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL');
+				$msg     = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL');
 				$canSave = false;
 			}
 		}
@@ -90,7 +89,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 			$row                      = new stdClass;
 			$row->discount_product_id = $cid[0];
 			$msg                      = JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP');
-			$canSave = false;
+			$canSave                  = false;
 		}
 
 		$msgType = $canSave ? 'message' : 'error';

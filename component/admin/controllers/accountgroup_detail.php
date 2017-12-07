@@ -33,11 +33,11 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$post                     = $this->input->post->getArray();
+		$cid                      = $this->input->post->get('cid', array(0), 'array');
 		$post ['accountgroup_id'] = $cid [0];
-		$model = $this->getModel('accountgroup_detail');
-		$row = $model->store($post);
+		$model                    = $this->getModel('accountgroup_detail');
+		$row                      = $model->store($post);
 
 		if ($row)
 		{

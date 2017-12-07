@@ -94,7 +94,7 @@ class RedshopModelTemplates extends RedshopModelList
 	 */
 	public function getListQuery()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('t.*')

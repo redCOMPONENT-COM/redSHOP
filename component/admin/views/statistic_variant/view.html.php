@@ -55,7 +55,7 @@ class RedshopViewStatistic_Variant extends RedshopViewAdmin
 	 */
 	protected function addToolbar()
 	{
-		$title           = JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT');
+		$title = JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT');
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		JToolBarHelper::title(
 			JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT') . " :: " . $title, 'statistic redshop_statistic48'

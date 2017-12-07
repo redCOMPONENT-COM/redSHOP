@@ -38,8 +38,8 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		// Include extra field class
 
 		$post['shipping_rate_on_product'] = explode(',', $post['container_product']);
-		$post["shipping_location_info"] = $this->input->post->get('shipping_location_info', '', 'raw');
-		$model = $this->getModel('shipping_rate_detail');
+		$post["shipping_location_info"]   = $this->input->post->get('shipping_location_info', '', 'raw');
+		$model                            = $this->getModel('shipping_rate_detail');
 
 		if ($row = $model->store($post))
 		{
@@ -70,7 +70,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$count = count($cid);
 		$model = $this->getModel('shipping_rate_detail');
 
@@ -146,7 +146,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('shipping_rate_detail');
 
 		if ($model->copy($cid))
@@ -163,7 +163,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 	public function GetStateDropdown()
 	{
-		$get = $this->input->get->getArray();
+		$get   = $this->input->get->getArray();
 		$model = $this->getModel('shipping_rate_detail');
 		$model->GetStateDropdown($get);
 		JFactory::getApplication()->close();

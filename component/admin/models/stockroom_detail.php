@@ -33,7 +33,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -209,15 +209,15 @@ class RedshopModelStockroom_detail extends RedshopModel
 
 		foreach ($this->_copydata as $cdata)
 		{
-			$post['stockroom_id'] = 0;
+			$post['stockroom_id']   = 0;
 			$post['stockroom_name'] = $this->renameToUniqueValue('stockroom_name', $cdata->stockroom_name);
 			$post['stockroom_desc'] = $cdata->stockroom_desc;
-			$post['min_del_time'] = $cdata->min_del_time;
-			$post['max_del_time'] = $cdata->max_del_time;
-			$post['delivery_time'] = $cdata->delivery_time;
-			$post['show_in_front'] = $cdata->show_in_front;
-			$post['creation_date'] = time();
-			$post['published'] = $cdata->published;
+			$post['min_del_time']   = $cdata->min_del_time;
+			$post['max_del_time']   = $cdata->max_del_time;
+			$post['delivery_time']  = $cdata->delivery_time;
+			$post['show_in_front']  = $cdata->show_in_front;
+			$post['creation_date']  = time();
+			$post['published']      = $cdata->published;
 			$this->store($post);
 		}
 

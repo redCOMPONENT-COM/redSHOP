@@ -96,8 +96,8 @@ class RedshopModelGiftcards extends RedshopModelList
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_giftcard'));
+			->select('*')
+			->from($db->qn('#__redshop_giftcard'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');

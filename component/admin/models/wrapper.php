@@ -32,10 +32,10 @@ class RedshopModelWrapper extends RedshopModel
 		$this->_context = 'wrapper_id';
 
 		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -47,14 +47,14 @@ class RedshopModelWrapper extends RedshopModel
 	public function setProductId($id)
 	{
 		$this->_productid = $id;
-		$this->_data = null;
+		$this->_data      = null;
 	}
 
 	public function getData()
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -65,7 +65,7 @@ class RedshopModelWrapper extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -96,7 +96,7 @@ class RedshopModelWrapper extends RedshopModel
 
 			$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
 				. "WHERE product_id = " . $this->_productid;
-			$cat = $this->_getList($query);
+			$cat   = $this->_getList($query);
 
 			for ($i = 0, $in = count($cat); $i < $in; $i++)
 			{
@@ -114,7 +114,7 @@ class RedshopModelWrapper extends RedshopModel
 		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w WHERE 1=1 '
 			. $and;
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$query .= ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);

@@ -26,7 +26,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 	/**
 	 * RedshopControllerAddquotation_Detail constructor.
 	 *
-	 * @param array $default
+	 * @param   array $default
 	 */
 	public function __construct($default = array())
 	{

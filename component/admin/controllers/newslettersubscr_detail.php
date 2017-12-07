@@ -29,11 +29,11 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		$userlist = $model->getuserlist();
 
 		// Merging select option in the select box
-		$temps = array();
-		$temps[0] = new stdClass;
+		$temps           = array();
+		$temps[0]        = new stdClass;
 		$temps[0]->value = 0;
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$userlist = array_merge($temps, $userlist);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$userlist        = array_merge($temps, $userlist);
 
 		$this->input->set('userlist', $userlist);
 
@@ -47,18 +47,18 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-		$body = $this->input->post->get('body', '', 'raw');
+		$post         = $this->input->post->getArray();
+		$body         = $this->input->post->get('body', '', 'raw');
 		$post["body"] = $body;
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid                      = $this->input->post->get('cid', array(0), 'array');
 		$post ['subscription_id'] = $cid [0];
-		$model = $this->getModel('newslettersubscr_detail');
-		$userinfo = $model->getUserFromEmail($post['email']);
+		$model                    = $this->getModel('newslettersubscr_detail');
+		$userinfo                 = $model->getUserFromEmail($post['email']);
 
 		if (!empty($userinfo))
 		{
-			$post['email'] = $userinfo->user_email;
+			$post['email']   = $userinfo->user_email;
 			$post['user_id'] = $userinfo->user_id;
 			$post['name']    = $userinfo->firstname . ' ' . $userinfo->lastname;
 		}
@@ -117,11 +117,18 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 	{
 		$model = $this->getModel('newslettersubscr_detail');
 
-		while (@ob_end_clean());
+		try
+		{
+			ob_end_clean();
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+		}
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
+		header("Content-type: t1ext/csv");
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=NewsletterSbsc.csv');
 
@@ -162,10 +169,10 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 	public function export_acy_data()
 	{
 		ob_clean();
-		$model = $this->getModel('newslettersubscr_detail');
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$model          = $this->getModel('newslettersubscr_detail');
+		$cid            = $this->input->post->get('cid', array(), 'array');
 		$order_function = order_functions::getInstance();
-		$data = $model->getnewslettersbsc($cid);
+		$data           = $model->getnewslettersbsc($cid);
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");

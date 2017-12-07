@@ -33,7 +33,7 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 
-		$uri = JFactory::getURI();
+		$uri   = JFactory::getURI();
 		$lists = array();
 
 		if ($layout != 'default')
@@ -41,8 +41,8 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 			$this->setLayout($layout);
 		}
 
-		$detail = $this->get('data');
-		$isNew = ($detail->quotation_id < 1);
+		$detail  = $this->get('data');
+		$isNew   = ($detail->quotation_id < 1);
 		$userarr = $this->get('userdata');
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -61,15 +61,15 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$status = $quotationHelper->getQuotationStatusList();
+		$status                    = $quotationHelper->getQuotationStatusList();
 		$lists['quotation_status'] = JHTML::_('select.genericlist', $status, 'quotation_status',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->quotation_status
 		);
 
-		$this->lists = $lists;
-		$this->quotation = $detail;
+		$this->lists         = $lists;
+		$this->quotation     = $detail;
 		$this->quotationuser = $userarr;
-		$this->request_url = $uri->toString();
+		$this->request_url   = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -11,33 +11,34 @@ defined('_JEXEC') or die;
 class redSHOPWizard
 {
 
-	function initialize(){
+	function initialize()
+	{
 
-		$step 		= JFactory::getApplication()->input->get('step', '');
+		$step = JFactory::getApplication()->input->get('step', '');
 
-		$helper = new redSHOPWizardHelper;
+		$helper   = new redSHOPWizardHelper;
 		$template = new redSHOPWizardTemplate;
 
-		if(!empty($step))
+		if (!empty($step))
 		{
-			$progress 	= $helper->install($step);
-			$html 		= $progress->message;
-			$status		= $progress->status;
-			$nextstep 	= $progress->step;
-			$title 		= $progress->title;
-			$install 	= $progress->install;
-			$substep	= isset($progress->substep) ? $progress->substep : 0 ;
+			$progress = $helper->install($step);
+			$html     = $progress->message;
+			$status   = $progress->status;
+			$nextstep = $progress->step;
+			$title    = $progress->title;
+			$install  = $progress->install;
+			$substep  = isset($progress->substep) ? $progress->substep : 0;
 		}
 		else
 		{
 			$nextstep = 1;
 
-			$html		= $template->getHTML('welcome');
+			$html = $template->getHTML('welcome');
 
-			$status 	= true;
-			$title 		= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
-			$install 	= 1;
-			$substep	= 0;
+			$status  = true;
+			$title   = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+			$install = 1;
+			$substep = 0;
 		}
 
 		$template->setHTML($html, $nextstep, $title, $status, $install, $substep);
@@ -50,36 +51,37 @@ class redSHOPWizardHelper
 
 	function install($step=1)
 	{
-		switch($step)
+		switch ($step)
 		{
 			case 1:
-				//check requirement
+				// Check requirement
 				$status = $this->general(2);
 				break;
 			case 2:
-				//install backend system
+				// Install backend system
 				$status = $this->terms(3);
 				break;
 			case 3:
-				//install backend system
+				// Install backend system
 				$status = $this->user(4);
 				break;
 			case 4:
-				//install ajax system
+				// Install ajax system
 				$status = $this->price(5);
 				break;
 			case 5:
-				//show success message
+				// Show success message
 				$status = $this->finish(0);
 				break;
 			default:
-				$status 			= new stdClass;
-				$status->message	= $this->getErrorMessage(0, '0a');
-				$status->step 		= '-99';
-				$status->title 		= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
-				$status->install 	= 1;
+				$status          = new stdClass;
+				$status->message = $this->getErrorMessage(0, '0a');
+				$status->step    = '-99';
+				$status->title   = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+				$status->install = 1;
 				break;
 		}
+
 		return $status;
 	}
 
@@ -87,95 +89,99 @@ class redSHOPWizardHelper
 	{
 		$template = new redSHOPWizardTemplate;
 
-		$status				= true;
+		$status = true;
 
-		$params = new stdClass;
+		$params       = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass;
-		$drawdata->message	= $template->getHTML('general',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_GENERAL_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass;
+		$drawdata->message = $template->getHTML('general', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_GENERAL_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function terms($step){
+	function terms($step)
+	{
 
 		$template = new redSHOPWizardTemplate;
 
-		$status				= true;
-		$this->pageTitle 	= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+		$status          = true;
+		$this->pageTitle = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
-		$params = new stdClass;
+		$params       = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass;
-		$drawdata->message	= $template->getHTML('terms',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_TERMS_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass;
+		$drawdata->message = $template->getHTML('terms', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_TERMS_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function user($step){
+	function user($step)
+	{
 
 		$template = new redSHOPWizardTemplate;
 
-		$status				= true;
-		$this->pageTitle 	= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+		$status          = true;
+		$this->pageTitle = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
-		$params = new stdClass;
+		$params       = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass;
-		$drawdata->message	= $template->getHTML('user',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_USER_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass;
+		$drawdata->message = $template->getHTML('user', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_USER_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function price($step){
+	function price($step)
+	{
 
 		$template = new redSHOPWizardTemplate;
 
-		$status				= true;
+		$status = true;
 
-		$params = new stdClass;
+		$params       = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass;
-		$drawdata->message	= $template->getHTML('price',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_PRICE_CONFIGURATION_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass;
+		$drawdata->message = $template->getHTML('price', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_PRICE_CONFIGURATION_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
 
-	function finish($step){
+	function finish($step)
+	{
 
 		$template = new redSHOPWizardTemplate;
 
-		$status				= true;
+		$status = true;
 
-		$params = new stdClass;
+		$params       = new stdClass;
 		$params->step = '';
 
-		$drawdata 			= new stdClass;
-		$drawdata->message	= $template->getHTML('finish',$params);
-		$drawdata->status 	= $status;
-		$drawdata->step 	= $step;
-		$drawdata->title 	= JText::_('COM_REDSHOP_REDSHOP_FINISH_WIZARD');
-		$drawdata->install 	= 1;
+		$drawdata          = new stdClass;
+		$drawdata->message = $template->getHTML('finish', $params);
+		$drawdata->status  = $status;
+		$drawdata->step    = $step;
+		$drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_FINISH_WIZARD');
+		$drawdata->install = 1;
 
 		return $drawdata;
 	}
@@ -185,6 +191,7 @@ class redSHOPWizardHelper
 class redSHOPWizardTemplate
 {
 	var $title = null;
+
 	var $controller = null;
 
 	protected $jinput = null;
@@ -193,16 +200,17 @@ class redSHOPWizardTemplate
 	{
 		require_once JPATH_COMPONENT . '/controllers/wizard.php';
 
-		$this->title	= '';
-		$classname  = 'RedshopControllerWizard';
-	   	$this->controller = new $classname( array('default_task' => 'display') );
-		$this->jinput = JFactory::getApplication()->input;
+		$this->title         = '';
+		$classname           = 'RedshopControllerWizard';
+		   $this->controller = new $classname( array('default_task' => 'display') );
+		$this->jinput        = JFactory::getApplication()->input;
 
 	}
 
 	function getHTML($page='', $params='')
 	{
-		$page	= '_'.$page;
+		$page = '_' . $page;
+
 		return $this->$page($params);
 	}
 
@@ -210,12 +218,12 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		$this->jinput->set('layout','welcome');
-	   	$this->jinput->set('params',$params);
-	   	$this->controller->execute( $this->jinput->get('task' ));
+		$this->jinput->set('layout', 'welcome');
+		   $this->jinput->set('params', $params);
+		   $this->controller->execute($this->jinput->get('task'));
 
-	   	# update temp file with config data
-		$this->controller->execute( 'copyTempFile');
+		   // Update temp file with config data
+		$this->controller->execute('copyTempFile');
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -228,10 +236,11 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		$this->jinput->set('layout','general');
-	   	$this->jinput->set('params',$params);
-	   	$this->controller->execute( $this->jinput->get('task' ));
-	   	//$this->controller->redirect();
+		$this->jinput->set('layout', 'general');
+		   $this->jinput->set('params', $params);
+		   $this->controller->execute($this->jinput->get('task'));
+
+		   // $this->controller->redirect();
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -243,9 +252,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		$this->jinput->set('layout','terms');
-	   	$this->jinput->set('params',$params);
-	   	$this->controller->execute( $this->jinput->get('task' ));
+		$this->jinput->set('layout', 'terms');
+		   $this->jinput->set('params', $params);
+		   $this->controller->execute($this->jinput->get('task'));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -257,9 +266,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		$this->jinput->set('layout','user');
-	   	$this->jinput->set('params',$params);
-	   	$this->controller->execute( $this->jinput->get('task' ));
+		$this->jinput->set('layout', 'user');
+		   $this->jinput->set('params', $params);
+		   $this->controller->execute($this->jinput->get('task'));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -271,9 +280,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		$this->jinput->set('layout','price');
-	   	$this->jinput->set('params',$params);
-	   	$this->controller->execute( $this->jinput->get('task' ));
+		$this->jinput->set('layout', 'price');
+		   $this->jinput->set('params', $params);
+		   $this->controller->execute($this->jinput->get('task'));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -285,9 +294,9 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 
-		$this->jinput->set('layout','finish');
-	   	$this->jinput->set('params',$params);
-	   	$this->controller->execute( $this->jinput->get('task' ));
+		$this->jinput->set('layout', 'finish');
+		   $this->jinput->set('params', $params);
+		   $this->controller->execute($this->jinput->get('task'));
 
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -298,7 +307,7 @@ class redSHOPWizardTemplate
 	function setHTML($output, $step, $title, $status, $install= 1, $substep=0)
 	{
 
-		$html 		= '';
+		$html = '';
 
 		$html .= '
 			<script>
@@ -350,35 +359,50 @@ class redSHOPWizardTemplate
 		<aside class="main-sidebar">
 			<section class="sidebar">
 				<ul class="sidebar-menu">
-					<li class="<?php if($activeSteps == 1) echo "active"; ?>">
+					<li class="<?php if ($activeSteps == 1)
+					{
+						echo "active";
+} ?>">
 						<a href="#">
 							<i>1</i>
 							<span><?php echo JText::_('COM_REDSHOP_WIZARD_WELCOME_STEP1');?></span>
 						</a>
 					</li>
 
-					<li class="<?php if($activeSteps == 2) echo "active"; ?>">
+					<li class="<?php if ($activeSteps == 2)
+					{
+						echo "active";
+							   } ?>">
 						<a href="#">
 							<i>2</i>
 							<span><?php echo JText::_('COM_REDSHOP_WIZARD_GENERAL_STEP2');?></span>
 						</a>
 					</li>
 
-					<li class="<?php if($activeSteps == 3) echo "active"; ?>">
+					<li class="<?php if ($activeSteps == 3)
+					{
+						echo "active";
+							   } ?>">
 						<a href="#">
 							<i>3</i>
 							<span><?php echo JText::_('COM_REDSHOP_WIZARD_TERM_STEP3');?></span>
 						</a>
 					</li>
 
-					<li class="<?php if($activeSteps == 4) echo "active"; ?>">
+					<li class="<?php if ($activeSteps == 4)
+					{
+						echo "active";
+							   } ?>">
 						<a href="#">
 							<i>4</i>
 							<span><?php echo JText::_('COM_REDSHOP_WIZARD_USER_STEP3');?></span>
 						</a>
 					</li>
 
-					<li class="<?php if($activeSteps == 5) echo "active"; ?>">
+					<li class="<?php if ($activeSteps == 5)
+					{
+						echo "active";
+							   } ?>">
 						<a href="#">
 							<i>5</i>
 							<span><?php echo JText::_('COM_REDSHOP_WIZARD_FINISH');?></span>
@@ -391,7 +415,8 @@ class redSHOPWizardTemplate
 		<?php
 		 $html = ob_get_contents();
 		 ob_end_clean();
-		 return $html;
+
+		return $html;
 	}
 
 	function setHTMLTitle($title, $step)
@@ -407,7 +432,9 @@ class redSHOPWizardTemplate
 		<nav class="navbar navbar-static-top" role="navigation">
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<?php if($step >2 || $step==0){ ?>
+					<?php if ($step > 2 || $step == 0)
+					{
+	?>
 					<li>
 						<?php $vaule = JText::_('COM_REDSHOP_WIZARD_PREVIOUS_BUTTON'); ?>
 						<a href="#" onclick="submitwizard('pre','<?php echo $step;?>');"><i class="fa fa-backward"></i><?php echo $vaule; ?></a>
@@ -425,8 +452,9 @@ class redSHOPWizardTemplate
 			</div>
 		</nav>
 		<?php
-		$html = ob_get_contents();
+		$html                        = ob_get_contents();
 		ob_end_clean();
+
 		return $html;
 	}
 }

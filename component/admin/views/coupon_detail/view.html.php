@@ -57,8 +57,8 @@ class RedshopViewCoupon_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$lists['free_shipping'] = JHtml::_('redshopselect.booleanlist', 'free_shipping', 'class="inputbox" ', $detail->free_shipping);
-		$percent_or_total = array(
+		$lists['free_shipping']    = JHtml::_('redshopselect.booleanlist', 'free_shipping', 'class="inputbox" ', $detail->free_shipping);
+		$percent_or_total          = array(
 			JHtml::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')),
 			JHtml::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE'))
 		);
@@ -66,7 +66,7 @@ class RedshopViewCoupon_detail extends RedshopViewAdmin
 			'class="inputbox" size="1"', 'value', 'text', $detail->percent_or_total
 		);
 
-		$coupon_type = array(
+		$coupon_type          = array(
 			JHtml::_('select.option', 0, JText::_('COM_REDSHOP_GLOBAL')),
 			JHtml::_('select.option', 1, JText::_('COM_REDSHOP_USER_SPECIFIC'))
 		);
@@ -78,8 +78,8 @@ class RedshopViewCoupon_detail extends RedshopViewAdmin
 
 		$lists['userslist'] = JHtml::_('select.genericlist', $userslist, 'userid', 'class="inputbox" size="1" ', 'value', 'text', $detail->userid);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
