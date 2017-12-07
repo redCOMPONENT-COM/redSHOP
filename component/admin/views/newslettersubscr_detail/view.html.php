@@ -53,16 +53,16 @@ class RedshopViewNewslettersubscr_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$model = $this->getModel('newslettersubscr_detail');
+		$model       = $this->getModel('newslettersubscr_detail');
 		$newsletters = $model->getnewsletters();
 
 		$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->newsletter_id
 		);
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published']   = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

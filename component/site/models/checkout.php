@@ -142,11 +142,8 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$redconfig       = Redconfiguration::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$helper          = redhelper::getInstance();
-		$shippinghelper  = shipping::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$input            = $app->input;
@@ -202,8 +199,8 @@ class RedshopModelCheckout extends RedshopModel
 		if (isset($shippingaddresses))
 		{
 			$d ["shippingaddress"]                 = $shippingaddresses;
-			$d ["shippingaddress"]->country_2_code = $redconfig->getCountryCode2($d ["shippingaddress"]->country_code);
-			$d ["shippingaddress"]->state_2_code   = $redconfig->getStateCode2($d ["shippingaddress"]->state_code);
+			$d ["shippingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($d ["shippingaddress"]->country_code);
+			$d ["shippingaddress"]->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
 
 			$shippingaddresses->country_2_code = $d ["shippingaddress"]->country_2_code;
 			$shippingaddresses->state_2_code   = $d ["shippingaddress"]->state_2_code;
@@ -211,18 +208,18 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (isset($billingaddresses))
 		{
-			$d ["billingaddress"] = $billingaddresses;
+			$d["billingaddress"] = $billingaddresses;
 
 			if (isset($billingaddresses->country_code))
 			{
-				$d ["billingaddress"]->country_2_code = $redconfig->getCountryCode2($billingaddresses->country_code);
-				$billingaddresses->country_2_code     = $d ["billingaddress"]->country_2_code;
+				$d["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
+				$billingaddresses->country_2_code    = $d["billingaddress"]->country_2_code;
 			}
 
 			if (isset($billingaddresses->state_code))
 			{
-				$d ["billingaddress"]->state_2_code = $redconfig->getStateCode2($billingaddresses->state_code);
-				$billingaddresses->state_2_code     = $d ["billingaddress"]->state_2_code;
+				$d["billingaddress"]->state_2_code = RedshopHelperWorld::getStateCode2($billingaddresses->state_code);
+				$billingaddresses->state_2_code    = $d["billingaddress"]->state_2_code;
 			}
 		}
 

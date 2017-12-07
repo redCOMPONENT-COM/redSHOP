@@ -34,8 +34,8 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-		$manufacturer_desc = $this->input->post->get('manufacturer_desc', '', 'raw');
+		$post                      = $this->input->post->getArray();
+		$manufacturer_desc         = $this->input->post->get('manufacturer_desc', '', 'raw');
 		$post["manufacturer_desc"] = $manufacturer_desc;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');

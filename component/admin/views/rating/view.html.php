@@ -30,18 +30,18 @@ class RedshopViewRating extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$this->state = $this->get('State');
+		$this->state        = $this->get('State');
 		$lists['order']     = $this->state->get('list.ordering', 'rating_id');
 		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
 
-		$ratings            = $this->get('Data');
-		$pagination         = $this->get('Pagination');
+		$ratings    = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
-		$this->user         = $user;
-		$this->lists        = $lists;
-		$this->ratings      = $ratings;
-		$this->pagination   = $pagination;
-		$this->request_url  = $uri->toString();
+		$this->user        = $user;
+		$this->lists       = $lists;
+		$this->ratings     = $ratings;
+		$this->pagination  = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

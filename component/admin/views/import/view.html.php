@@ -64,7 +64,7 @@ class RedshopViewImport extends RedshopViewAdmin
 			}
 
 			/** @var RedshopModelImport $model */
-			$model = $this->getModel();
+			$model         = $this->getModel();
 			$this->imports = $model->getImports();
 
 			$document->setTitle(JText::_('COM_REDSHOP_DATA_IMPORT'));

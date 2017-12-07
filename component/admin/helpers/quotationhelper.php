@@ -75,7 +75,7 @@ class quotationHelper
 	 */
 	public function __construct()
 	{
-		$this->_db = JFactory::getDbo();
+		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 

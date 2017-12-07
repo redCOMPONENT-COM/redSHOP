@@ -22,13 +22,13 @@ class RedshopModelStockimage_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -64,14 +64,14 @@ class RedshopModelStockimage_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->stock_amount_id = 0;
-			$detail->stockroom_id = 0;
-			$detail->stock_option = null;
-			$detail->stock_quantity = 0;
-			$detail->stock_amount_image = null;
+			$detail                             = new stdClass;
+			$detail->stock_amount_id            = 0;
+			$detail->stockroom_id               = 0;
+			$detail->stock_option               = null;
+			$detail->stock_quantity             = 0;
+			$detail->stock_amount_image         = null;
 			$detail->stock_amount_image_tooltip = null;
-			$this->_data = $detail;
+			$this->_data                        = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -81,18 +81,18 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$row = $this->getTable('stockimage_detail');
+		$row  = $this->getTable('stockimage_detail');
 		$file = JFactory::getApplication()->input->files->get('stock_amount_image', '', 'array');
 
 		if ($_FILES['stock_amount_image']['name'] != "")
 		{
-			$ext = explode(".", $file['name']);
+			$ext         = explode(".", $file['name']);
 			$filetmpname = substr($file['name'], 0, strlen($file['name']) - strlen($ext[count($ext) - 1]));
 
-			$filename = RedShopHelperImages::cleanFileName($filetmpname . 'jpg');
+			$filename                = RedShopHelperImages::cleanFileName($filetmpname . 'jpg');
 			$row->stock_amount_image = $filename;
 
-			$src = $file['tmp_name'];
+			$src  = $file['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $filename;
 			JFile::upload($src, $dest);
 
@@ -155,7 +155,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 	public function getStockAmountOption($select = 0)
 	{
-		$option = array();
+		$option   = array();
 		$option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
 		$option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));

@@ -31,7 +31,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -66,20 +66,20 @@ class RedshopModelCoupon_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->coupon_id = null;
-			$detail->coupon_code = null;
-			$detail->start_date = 0;
-			$detail->end_date = 0;
+			$detail                   = new stdClass;
+			$detail->coupon_id        = null;
+			$detail->coupon_code      = null;
+			$detail->start_date       = 0;
+			$detail->end_date         = 0;
 			$detail->percent_or_total = null;
-			$detail->free_shipping = 0;
-			$detail->coupon_value = null;
-			$detail->coupon_type = null;
-			$detail->subtotal = null;
-			$detail->userid = null;
-			$detail->coupon_left = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->free_shipping    = 0;
+			$detail->coupon_value     = null;
+			$detail->coupon_type      = null;
+			$detail->subtotal         = null;
+			$detail->userid           = null;
+			$detail->coupon_left      = null;
+			$detail->published        = 1;
+			$this->_data              = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -92,7 +92,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 	 *
 	 * @param   array  $data  Data
 	 *
-	 * @return  bool|object
+	 * @return  boolean|object
 	 *
 	 * @since   2.0.2
 	 */
@@ -200,7 +200,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 			. $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
-		$fullname = '';
+		$fullname        = '';
 
 		if ($this->_username)
 		{
@@ -224,7 +224,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 		$voucherQuery = $db->getQuery(true)
 			->select($db->qn('code'))
 			->from($db->qn('#__redshop_voucher'));
-		$couponQuery = $db->getQuery(true)
+		$couponQuery  = $db->getQuery(true)
 			->select($db->qn('coupon_code', 'code'))
 			->from($db->qn('#__redshop_coupons'));
 		$couponQuery->union($voucherQuery);

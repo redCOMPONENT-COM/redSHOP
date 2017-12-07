@@ -21,7 +21,7 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$cfg = JFactory::getConfig();
+		$cfg   = JFactory::getConfig();
 		$lists = array();
 
 		$model = $this->getModel('attribute_set_detail');
@@ -33,7 +33,8 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 		$document->addScriptDeclaration("
 			var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
-		");
+		"
+		);
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
@@ -69,12 +70,12 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['attributes'] = $attributes;
 
-		$this->model = $model;
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->model       = $model;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

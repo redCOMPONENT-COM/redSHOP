@@ -23,7 +23,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 		$this->input->set('layout', 'default');
 		$this->input->set('hidemainmenu', 1);
 
-		$model = $this->getModel('coupon_detail');
+		$model     = $this->getModel('coupon_detail');
 		$userslist = $model->getuserslist();
 		$this->input->set('userslist', $userslist);
 
