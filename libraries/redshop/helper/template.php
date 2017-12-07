@@ -249,7 +249,7 @@ class RedshopHelperTemplate
 
 		if (file_exists($filePath))
 		{
-			$content = implode("", file($filePath));
+			$content = implode('', file($filePath));
 
 			return $content;
 		}
@@ -332,8 +332,20 @@ class RedshopHelperTemplate
 			return '';
 		}
 
-		$handle   = fopen($templateFile, "r");
+		$handle = fopen($templateFile, "r");
+
+		if ($handle === false)
+		{
+			return '';
+		}
+
 		$contents = fread($handle, filesize($templateFile));
+
+		if ($contents === false)
+		{
+			return '';
+		}
+
 		fclose($handle);
 
 		if ($setFlag)
@@ -372,7 +384,7 @@ class RedshopHelperTemplate
 			return "<pre/>" . htmlspecialchars($contents) . "</pre>";
 		}
 
-		return $contents;
+		return false === $contents ? '' : $contents;
 	}
 
 	/**

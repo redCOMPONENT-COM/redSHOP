@@ -114,8 +114,6 @@ class RedshopUpdate211Beta1 extends RedshopInstallUpdate
 
 		foreach ($oldPaths as $path)
 		{
-			var_dump($path);
-
 			if (JFolder::exists($path))
 			{
 				JFolder::delete($path);

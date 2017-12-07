@@ -2614,7 +2614,6 @@ class productHelper
 			return array();
 		}
 
-		$redTemplate     = Redtemplate::getInstance();
 		$productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
 		if (!$this->_ajaxdetail_templatedata)

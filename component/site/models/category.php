@@ -684,8 +684,6 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function loadCategoryTemplate($category_template = null)
 	{
-		$redTemplate       = Redtemplate::getInstance();
-
 		$selected_template = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$template_section  = "frontpage_category";
 

@@ -65,13 +65,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$context = 'product_id';
 
 		$GLOBALS['productlist'] = array();
-		$redTemplate            = Redtemplate::getInstance();
-		$extra_field            = extra_field::getInstance();
 		$adminproducthelper     = RedshopAdminProduct::getInstance();
 
-		$list_in_products = $extra_field->list_all_field_in_product();
+		$list_in_products = RedshopHelperExtrafields::listAllFieldInProduct();
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
