@@ -98,7 +98,7 @@ class RedshopTableGiftcard extends RedshopTable
 
 		if ($bgImage['name'] != '')
 		{
-			$bgImage['name'] = RedShopHelperImages::cleanFileName($bgImage['name']);
+			$bgImage['name']        = RedShopHelperImages::cleanFileName($bgImage['name']);
 			$this->giftcard_bgimage = $bgImage['name'];
 			JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
 		}

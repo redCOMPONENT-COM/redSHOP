@@ -25,7 +25,7 @@ class RedshopModelMedia extends RedshopModel
 	{
 		parent::__construct($config);
 
-		$jInput = JFactory::getApplication()->input;
+		$jInput         = JFactory::getApplication()->input;
 		$this->context .= '.' . $jInput->getCmd('media_section', 'none') . '.' . $jInput->getInt('section_id', 0);
 	}
 
@@ -81,8 +81,8 @@ class RedshopModelMedia extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
+		$app   = JFactory::getApplication();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('m.*')
 			->from($db->qn('#__redshop_media', 'm'));
@@ -107,7 +107,7 @@ class RedshopModelMedia extends RedshopModel
 		}
 
 		$filterOrderDir = $this->getState('list.direction');
-		$filterOrder = $this->getState('list.ordering');
+		$filterOrder    = $this->getState('list.ordering');
 		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
 		return $query;
@@ -137,7 +137,7 @@ class RedshopModelMedia extends RedshopModel
 	/**
 	 * Build imagelist
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @param   string $listFolder The image directory to display
 	 *
 	 * @since 1.5
 	 */
@@ -190,12 +190,12 @@ class RedshopModelMedia extends RedshopModel
 			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/');
 		}
 
-		$images = array();
+		$images  = array();
 		$folders = array();
-		$docs = array();
+		$docs    = array();
 
 		// Get the list of files and folders from the given folder
-		$fileList = JFolder::files($basePath);
+		$fileList   = JFolder::files($basePath);
 		$folderList = JFolder::folders($basePath);
 
 		// Iterate over the files if they exist
@@ -205,11 +205,11 @@ class RedshopModelMedia extends RedshopModel
 			{
 				if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
-					$tmp = new JObject;
-					$tmp->name = $file;
-					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
+					$tmp                = new JObject;
+					$tmp->name          = $file;
+					$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-					$tmp->size = filesize($tmp->path);
+					$tmp->size          = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
 
@@ -223,33 +223,33 @@ class RedshopModelMedia extends RedshopModel
 						case 'odg':
 						case 'bmp':
 						case 'jpeg':
-							$info = @getimagesize($tmp->path);
-							$tmp->width = @$info[0];
+							$info        = @getimagesize($tmp->path);
+							$tmp->width  = @$info[0];
 							$tmp->height = @$info[1];
-							$tmp->type = @$info[2];
-							$tmp->mime = @$info['mime'];
+							$tmp->type   = @$info[2];
+							$tmp->mime   = @$info['mime'];
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
-								$dimensions = RedshopHelperMedia::imageResize($info[0], $info[1], 60);
-								$tmp->width_60 = $dimensions[0];
+								$dimensions     = RedshopHelperMedia::imageResize($info[0], $info[1], 60);
+								$tmp->width_60  = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
 							else
 							{
-								$tmp->width_60 = $tmp->width;
+								$tmp->width_60  = $tmp->width;
 								$tmp->height_60 = $tmp->height;
 							}
 
 							if (($info[0] > 16) || ($info[1] > 16))
 							{
-								$dimensions = RedshopHelperMedia::imageResize($info[0], $info[1], 16);
-								$tmp->width_16 = $dimensions[0];
+								$dimensions     = RedshopHelperMedia::imageResize($info[0], $info[1], 16);
+								$tmp->width_16  = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
 							else
 							{
-								$tmp->width_16 = $tmp->width;
+								$tmp->width_16  = $tmp->width;
 								$tmp->height_16 = $tmp->height;
 							}
 
@@ -292,13 +292,13 @@ class RedshopModelMedia extends RedshopModel
 		{
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject;
-				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp                = new JObject;
+				$tmp->name          = basename($folder);
+				$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = RedshopHelperMedia::countFiles($tmp->path);
-				$tmp->files = $count[0];
-				$tmp->folders = $count[1];
+				$count              = RedshopHelperMedia::countFiles($tmp->path);
+				$tmp->files         = $count[0];
+				$tmp->folders       = $count[1];
 
 				$folders[] = $tmp;
 			}
@@ -344,7 +344,7 @@ class RedshopModelMedia extends RedshopModel
 			. "WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 		$filename = $this->_db->loadResult();
-		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
+		$path     = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
 
 		if (JFile::exists($path))
 		{
@@ -366,8 +366,8 @@ class RedshopModelMedia extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row = $this->getTable('media_detail');
-		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		$row        = $this->getTable('media_detail');
+		$order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
 		$conditions = array();
 
 		// Update ordering values
@@ -389,7 +389,7 @@ class RedshopModelMedia extends RedshopModel
 
 				// Remember to updateOrder this group
 				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
-				$found = false;
+				$found     = false;
 
 				foreach ($conditions as $cond)
 				{
@@ -422,10 +422,10 @@ class RedshopModelMedia extends RedshopModel
 	 */
 	public function all()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn("#__redshop_media"));
+			->select('*')
+			->from($db->qn("#__redshop_media"));
 
 		$db->setQuery($query);
 
@@ -445,9 +445,9 @@ class RedshopModelMedia extends RedshopModel
 
 		// Check item is existed
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn("#__redshop_media"))
-					->where($db->qn('media_id') . ' = ' . $id);
+			->select('*')
+			->from($db->qn("#__redshop_media"))
+			->where($db->qn('media_id') . ' = ' . $id);
 		$db->setQuery($query);
 		$file = $db->loadObject();
 
@@ -462,8 +462,8 @@ class RedshopModelMedia extends RedshopModel
 		}
 
 		$query = $db->getQuery(true)
-					->delete($db->qn('#__redshop_media'))
-					->where($db->qn('media_id') . ' = ' . $id);
+			->delete($db->qn('#__redshop_media'))
+			->where($db->qn('media_id') . ' = ' . $id);
 		$db->setQuery($query);
 
 		if (!$db->execute())
@@ -485,7 +485,7 @@ class RedshopModelMedia extends RedshopModel
 	 */
 	public function newFile($file)
 	{
-		$db = JFactory::getDbo();
+		$db      = JFactory::getDbo();
 		$fileObj = new stdClass;
 
 		$fileObj->media_name     = $file['media_name'];

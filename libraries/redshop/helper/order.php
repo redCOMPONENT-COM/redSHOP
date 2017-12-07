@@ -2307,29 +2307,27 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInformation($row, $post)
 	{
-		$app       = JFactory::getApplication();
-		$redconfig = Redconfiguration::getInstance();
-
+		$app              = JFactory::getApplication();
 		$pluginParameters = self::getParameters($post['payment_method_class']);
 		$paymentInfo      = $pluginParameters[0];
 		$paymentParams    = new Registry($paymentInfo->params);
 
-		$isCreditcard = $paymentParams->get('is_creditcard', '');
+		$isCreditCard = $paymentParams->get('is_creditcard', '');
 
 		$order = self::getOrderDetails($row->order_id);
 
 		if ($userBillingInfo = self::getOrderBillingUserInfo($row->order_id))
 		{
-			$userBillingInfo->country_2_code = $redconfig->getCountryCode2($userBillingInfo->country_code);
-			$userBillingInfo->state_2_code   = $redconfig->getCountryCode2($userBillingInfo->state_code);
+			$userBillingInfo->country_2_code = RedshopHelperWorld::getCountryCode2($userBillingInfo->country_code);
+			$userBillingInfo->state_2_code   = RedshopHelperWorld::getStateCode2($userBillingInfo->state_code);
 		}
 
 		$task = $app->input->getCmd('task');
 
 		if ($shippingAddress = self::getOrderShippingUserInfo($row->order_id))
 		{
-			$shippingAddress->country_2_code = $redconfig->getCountryCode2($shippingAddress->country_code);
-			$shippingAddress->state_2_code   = $redconfig->getCountryCode2($shippingAddress->state_code);
+			$shippingAddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingAddress->country_code);
+			$shippingAddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingAddress->state_code);
 		}
 
 		$values                   = array();
@@ -2342,7 +2340,7 @@ class RedshopHelperOrder
 		$values['task']           = $task;
 		$values['order']          = $order;
 
-		if ($isCreditcard == 0)
+		if ($isCreditCard == 0)
 		{
 			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
 			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($values['payment_plugin']);

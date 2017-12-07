@@ -95,9 +95,9 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 	protected function populateState($ordering = 'p.product_id', $direction = '')
 	{
 		$stockroom_type = $this->getUserStateFromRequest($this->context . '.stockroom_type', 'stockroom_type', 'product');
-		$search_field = $this->getUserStateFromRequest($this->context . '.search_field', 'search_field', 'product_name');
-		$keyword = $this->getUserStateFromRequest($this->context . '.keyword', 'keyword', '');
-		$category_id = $this->getUserStateFromRequest($this->context . '.category_id', 'category_id', 0);
+		$search_field   = $this->getUserStateFromRequest($this->context . '.search_field', 'search_field', 'product_name');
+		$keyword        = $this->getUserStateFromRequest($this->context . '.keyword', 'keyword', '');
+		$category_id    = $this->getUserStateFromRequest($this->context . '.category_id', 'category_id', 0);
 
 		$this->setState('stockroom_type', $stockroom_type);
 		$this->setState('search_field', $search_field);
@@ -175,9 +175,9 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 		}
 
 		$query->leftjoin(
-				$db->qn('#__redshop_product_category_xref', 'pcx')
+			$db->qn('#__redshop_product_category_xref', 'pcx')
 				. ' ON ' . $db->qn('pcx.product_id') . '=' . $db->qn('p.product_id')
-			);
+		);
 
 		// Build ordering query
 		$filterOrder = $this->getState('list.ordering');
@@ -203,7 +203,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 	 */
 	public function getStockroom()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__redshop_stockroom')
@@ -222,7 +222,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 	 */
 	public function getQuantity($stockroom_type, $sid = '', $pids = array())
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*');
 
@@ -263,16 +263,16 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 	{
 		$product = " AND product_id='" . $pid . "' ";
 		$section = "";
-		$table = "product";
+		$table   = "product";
 
 		if ($stockroom_type != 'product')
 		{
 			$product = " AND section_id='" . $pid . "' ";
 			$section = " AND section = '" . $stockroom_type . "' ";
-			$table = "product_attribute";
+			$table   = "product_attribute";
 		}
 
-		$list = $this->getQuantity($stockroom_type, $sid, $pid);
+		$list  = $this->getQuantity($stockroom_type, $sid, $pid);
 		$query = "";
 
 		if (count($list) > 0)
@@ -349,10 +349,10 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 
 			// For stockroom Notify Email
 
-			$stockroom_data = array();
-			$stockroom_data['section'] = $stockroom_type;
-			$stockroom_data['section_id'] = $pid;
-			$stockroom_data['regular_stock'] = $quantity;
+			$stockroom_data                   = array();
+			$stockroom_data['section']        = $stockroom_type;
+			$stockroom_data['section_id']     = $pid;
+			$stockroom_data['regular_stock']  = $quantity;
 			$stockroom_data['preorder_stock'] = $preorder_stock;
 			JPluginHelper::importPlugin('redshop_product');
 			$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -364,13 +364,13 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 	{
 		$product = " AND product_id='" . $pid . "' ";
 		$section = "";
-		$table = "product";
+		$table   = "product";
 
 		if ($stockroom_type != 'product')
 		{
 			$product = " AND section_id='" . $pid . "' ";
 			$section = " AND section = '" . $stockroom_type . "' ";
-			$table = "product_attribute";
+			$table   = "product_attribute";
 		}
 
 		$query = "UPDATE #__redshop_" . $table . "_stockroom_xref "

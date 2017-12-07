@@ -55,7 +55,7 @@ class RedshopModelStatistic_Quotation extends RedshopModelList
 		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
 		{
 			$query->where($db->qn('quotation_cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-			->where($db->qn('quotation_cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+				->where($db->qn('quotation_cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
 		}
 
 		return $db->setQuery($query)->loadObjectList();
@@ -70,10 +70,10 @@ class RedshopModelStatistic_Quotation extends RedshopModelList
 	 */
 	public function getDateFormat()
 	{
-		$return = "";
+		$return    = "";
 		$startDate = strtotime($this->filterStartDate);
-		$endDate = strtotime($this->filterEndDate);
-		$interval = $endDate - $startDate;
+		$endDate   = strtotime($this->filterEndDate);
+		$interval  = $endDate - $startDate;
 
 		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
 		{

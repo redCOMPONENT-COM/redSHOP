@@ -349,10 +349,10 @@ class RedshopModelNewsletter extends RedshopModel
 
 			if (!empty($product->product_full_image))
 			{
-				$thumbUrl   = RedshopHelperMedia::getImagePath(
+				$thumbUrl    = RedshopHelperMedia::getImagePath(
 					$product->product_full_image, '', 'thumb', 'product', $imgWidth, $imgHeight, $sizeSwapping
 				);
-				$thumbImage = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
+				$thumbImage  = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 					. $product->product_full_image . "' title='' rel=\"lightbox[product7]\">";
 				$thumbImage .= "<img id='main_image' src='" . $thumbUrl . "'>";
 				$thumbImage .= "</a>";
@@ -409,8 +409,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 			// Replacing the tags with the values
 			$message .= str_replace("{username}", $subscriber->username, $content);
-			$message = str_replace("{email}", $subscribeEmail, $message);
-
+			$message  = str_replace("{email}", $subscribeEmail, $message);
 
 			$unSubscribeLink = "<a href='" . $unSubscribeLink . "'>" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>";
 			$message         = str_replace("{unsubscribe_link}", $unSubscribeLink, $message);

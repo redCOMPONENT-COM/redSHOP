@@ -40,7 +40,7 @@ class RedshopModelConfiguration extends RedshopModel
 	/**
 	 * @param $data
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since version
 	 */
@@ -356,15 +356,15 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function newsletterEntry($data)
 	{
-		$db            = JFactory::getDbo();
-		$query         = $db->getQuery(true);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$newsletterId = $data['default_newsletter'];
-		$mailfrom      = $data['news_mail_from'];
-		$mailfromname  = $data['news_from_name'];
-		$to            = $data['newsletter_test_email'];
-		$uri           = JURI::getInstance();
-		$url           = $uri->root();
+		$mailfrom     = $data['news_mail_from'];
+		$mailfromname = $data['news_from_name'];
+		$to           = $data['newsletter_test_email'];
+		$uri          = JURI::getInstance();
+		$url          = $uri->root();
 
 		// Getting newsletter content
 		$newsbody = $this->getnewsletter_content($newsletterId);
@@ -413,7 +413,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 					if ($product->product_full_image)
 					{
-						$thumbUrl   = RedshopHelperMedia::getImagePath(
+						$thumbUrl    = RedshopHelperMedia::getImagePath(
 							$product->product_full_image,
 							'',
 							'thumb',
@@ -422,7 +422,7 @@ class RedshopModelConfiguration extends RedshopModel
 							Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-						$thumbImage = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
+						$thumbImage  = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 							. $product->product_full_image . "' title='' rel=\"lightbox[product7]\">";
 						$thumbImage .= "<img id='main_image' src='" . $thumbUrl . "'>";
 						$thumbImage .= "</a>";
@@ -445,7 +445,7 @@ class RedshopModelConfiguration extends RedshopModel
 		// Replacing the Text library texts
 		$content = RedshopHelperText::replaceTexts($content);
 
-		$data1       = RedshopHelperMail::imgInMail($content);
+		$data1 = RedshopHelperMail::imgInMail($content);
 
 		$to    = trim($to);
 		$today = time();
@@ -463,9 +463,9 @@ class RedshopModelConfiguration extends RedshopModel
 
 		$db->setQuery($query)->execute();
 
-		$content = '<img  src="' . $url . 'index.php?option=com_redshop&view=newsletter&task=tracker&tmpl=component&tracker_id=' . $db->insertid() . '" />';
+		$content  = '<img  src="' . $url . 'index.php?option=com_redshop&view=newsletter&task=tracker&tmpl=component&tracker_id=' . $db->insertid() . '" />';
 		$content .= str_replace("{username}", $name[0], $data1);
-		$content = str_replace("{email}", $to, $content);
+		$content  = str_replace("{email}", $to, $content);
 
 		// Replace tag {unsubscribe_link} for testing mail to empty link, because test mail not have subscribes
 		$content = str_replace("{unsubscribe_link}", "<a href=\"#\">" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>", $content);
@@ -480,12 +480,13 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function getOrderstatus()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array(
 			$db->quoteName('order_status_code', 'value'),
 			$db->quoteName('order_status_name', 'text')
-		));
+			)
+		);
 		$query->from($db->quoteName('#__redshop_order_status'));
 		$query->where($db->quoteName('published') . ' = 1');
 
@@ -555,7 +556,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function resetTemplate()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')->from($db->quoteName('#__redshop_template'));
 

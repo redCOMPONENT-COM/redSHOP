@@ -68,7 +68,7 @@ class RedshopModelQuotation extends RedshopModelList
 	protected function populateState($ordering = 'q.quotation_cdate', $direction = 'desc')
 	{
 		$filter_status = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', 0);
-		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
+		$filter        = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 
 		$this->setState('filter', $filter);
 		$this->setState('filter_status', $filter_status);
@@ -112,7 +112,7 @@ class RedshopModelQuotation extends RedshopModelList
 			return $this->cache[$store];
 		}
 
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				array(
@@ -134,7 +134,7 @@ class RedshopModelQuotation extends RedshopModelList
 			$query->where('q.quotation_status = ' . $db->q($filterStatus));
 		}
 
-		$filterOrder = $this->getState('list.ordering', 'q.quotation_cdate');
+		$filterOrder    = $this->getState('list.ordering', 'q.quotation_cdate');
 		$filterOrderDir = $this->getState('list.direction', 'desc');
 
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
@@ -152,15 +152,15 @@ class RedshopModelQuotation extends RedshopModelList
 		if ($items)
 		{
 			$quotationHelper = quotationHelper::getInstance();
-			$productHelper = productHelper::getInstance();
+			$productHelper   = productHelper::getInstance();
 
 			foreach ($items as $key => $item)
 			{
-				$items[$key]->quotation_status = $quotationHelper->getQuotationStatusName($item->quotation_status);
+				$items[$key]->quotation_status    = $quotationHelper->getQuotationStatusName($item->quotation_status);
 				$items[$key]->product_final_price = $productHelper->getProductFormattedPrice($item->product_final_price);
 
-				$productAttribute = $productHelper->makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
-				$productAttribute = preg_replace('#<[^>]+>#', ' ', $productAttribute);
+				$productAttribute               = $productHelper->makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
+				$productAttribute               = preg_replace('#<[^>]+>#', ' ', $productAttribute);
 				$items[$key]->product_attribute = $productAttribute;
 			}
 		}
@@ -178,7 +178,7 @@ class RedshopModelQuotation extends RedshopModelList
 	 */
 	public function getListQuery()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('q.*')
 			->from($db->qn('#__redshop_quotation', 'q'))
@@ -186,7 +186,7 @@ class RedshopModelQuotation extends RedshopModelList
 			->where('(uf.address_type = ' . $db->q('BT') . ' OR q.user_id = 0)')
 			->group('q.quotation_id');
 
-		$filter = $this->getState('filter');
+		$filter        = $this->getState('filter');
 		$filter_status = $this->getState('filter_status');
 
 		if ($filter)
@@ -199,7 +199,7 @@ class RedshopModelQuotation extends RedshopModelList
 			$query->where('q.quotation_status = ' . $db->q($filter_status));
 		}
 
-		$filterOrder = $this->getState('list.ordering', 'q.quotation_cdate');
+		$filterOrder    = $this->getState('list.ordering', 'q.quotation_cdate');
 		$filterOrderDir = $this->getState('list.direction', 'desc');
 
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));

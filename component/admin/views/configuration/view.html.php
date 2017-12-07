@@ -247,9 +247,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('COMPARE_TEMPLATE_ID')
 		);
 
-		$lists['show_terms_and_conditions'] = JHtml::_('redshopselect.booleanlist', 'show_terms_and_conditions',
+		$lists['show_terms_and_conditions']                                                        = JHtml::_('redshopselect.booleanlist', 'show_terms_and_conditions',
 			'class="form-control" size="1"', $this->config->get('SHOW_TERMS_AND_CONDITIONS'), $yes = JText::_('COM_REDSHOP_SHOW_PER_USER'),
-			$no = JText::_('COM_REDSHOP_SHOW_PER_ORDER')
+			$no                                                                                    = JText::_('COM_REDSHOP_SHOW_PER_ORDER')
 		);
 
 		$lists['rating_review_login_required'] = JHtml::_('redshopselect.booleanlist', 'rating_review_login_required',
@@ -267,46 +267,46 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['newsletter_enable']       = JHtml::_('redshopselect.booleanlist', 'newsletter_enable', 'class="form-control" size="1"', $this->config->get('NEWSLETTER_ENABLE'));
 		$lists['newsletter_confirmation'] = JHtml::_('redshopselect.booleanlist', 'newsletter_confirmation', 'class="form-control" size="1"', $this->config->get('NEWSLETTER_CONFIRMATION'));
 
-		$lists['watermark_category_image']            = JHtml::_('redshopselect.booleanlist', 'watermark_category_image',
+		$lists['watermark_category_image']                         = JHtml::_('redshopselect.booleanlist', 'watermark_category_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_CATEGORY_IMAGE')
 		);
-		$lists['watermark_category_thumb_image']      = JHtml::_('redshopselect.booleanlist', 'watermark_category_thumb_image',
+		$lists['watermark_category_thumb_image']                   = JHtml::_('redshopselect.booleanlist', 'watermark_category_thumb_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_CATEGORY_THUMB_IMAGE')
 		);
-		$lists['watermark_product_image']             = JHtml::_('redshopselect.booleanlist', 'watermark_product_image', 'class="form-control" size="1"', $this->config->get('WATERMARK_PRODUCT_IMAGE'));
-		$lists['watermark_product_thumb_image']       = JHtml::_('redshopselect.booleanlist', 'watermark_product_thumb_image',
+		$lists['watermark_product_image']                          = JHtml::_('redshopselect.booleanlist', 'watermark_product_image', 'class="form-control" size="1"', $this->config->get('WATERMARK_PRODUCT_IMAGE'));
+		$lists['watermark_product_thumb_image']                    = JHtml::_('redshopselect.booleanlist', 'watermark_product_thumb_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_PRODUCT_THUMB_IMAGE')
 		);
-		$lists['watermark_product_additional_image']  = JHtml::_('redshopselect.booleanlist', 'watermark_product_additional_image',
+		$lists['watermark_product_additional_image']               = JHtml::_('redshopselect.booleanlist', 'watermark_product_additional_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE')
 		);
-		$lists['watermark_cart_thumb_image']          = JHtml::_('redshopselect.booleanlist', 'watermark_cart_thumb_image',
+		$lists['watermark_cart_thumb_image']                       = JHtml::_('redshopselect.booleanlist', 'watermark_cart_thumb_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_CART_THUMB_IMAGE')
 		);
-		$lists['watermark_giftcart_image']            = JHtml::_('redshopselect.booleanlist', 'watermark_giftcart_image',
+		$lists['watermark_giftcart_image']                         = JHtml::_('redshopselect.booleanlist', 'watermark_giftcart_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_GIFTCART_IMAGE')
 		);
-		$lists['watermark_giftcart_thumb_image']      = JHtml::_('redshopselect.booleanlist', 'watermark_giftcart_thumb_image',
+		$lists['watermark_giftcart_thumb_image']                   = JHtml::_('redshopselect.booleanlist', 'watermark_giftcart_thumb_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_GIFTCART_THUMB_IMAGE')
 		);
-		$lists['watermark_manufacturer_thumb_image']  = JHtml::_('redshopselect.booleanlist', 'watermark_manufacturer_thumb_image',
+		$lists['watermark_manufacturer_thumb_image']               = JHtml::_('redshopselect.booleanlist', 'watermark_manufacturer_thumb_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_MANUFACTURER_THUMB_IMAGE')
 		);
-		$lists['watermark_manufacturer_image']        = JHtml::_('redshopselect.booleanlist', 'watermark_manufacturer_image',
+		$lists['watermark_manufacturer_image']                     = JHtml::_('redshopselect.booleanlist', 'watermark_manufacturer_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_MANUFACTURER_IMAGE')
 		);
-		$lists['clickatell_enable']                   = JHtml::_('redshopselect.booleanlist', 'clickatell_enable', 'class="form-control" size="1"', $this->config->get('CLICKATELL_ENABLE'));
-		$lists['quotation_mode']                      = JHtml::_('redshopselect.booleanlist', 'default_quotation_mode', 'class="form-control" size="1"',
+		$lists['clickatell_enable']                                = JHtml::_('redshopselect.booleanlist', 'clickatell_enable', 'class="form-control" size="1"', $this->config->get('CLICKATELL_ENABLE'));
+		$lists['quotation_mode']                                   = JHtml::_('redshopselect.booleanlist', 'default_quotation_mode', 'class="form-control" size="1"',
 			$this->config->get('DEFAULT_QUOTATION_MODE_PRE'), $yes = JText::_('COM_REDSHOP_ON'),
-			$no = JText::_('COM_REDSHOP_OFF')
+			$no                                                    = JText::_('COM_REDSHOP_OFF')
 		);
-		$lists['wanttoshowattributeimage']            = JHtml::_('redshopselect.booleanlist', 'wanttoshowattributeimage',
+		$lists['wanttoshowattributeimage']                         = JHtml::_('redshopselect.booleanlist', 'wanttoshowattributeimage',
 			'class="form-control" size="1"', $this->config->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')
 		);
-		$lists['show_quotation_price']                = JHtml::_('redshopselect.booleanlist', 'show_quotation_price',
+		$lists['show_quotation_price']                             = JHtml::_('redshopselect.booleanlist', 'show_quotation_price',
 			'class="form-control" size="1"', $this->config->get('SHOW_QUOTATION_PRICE')
 		);
-		$lists['display_out_of_stock_attribute_data'] = JHtml::_('redshopselect.booleanlist', 'display_out_of_stock_attribute_data',
+		$lists['display_out_of_stock_attribute_data']              = JHtml::_('redshopselect.booleanlist', 'display_out_of_stock_attribute_data',
 			'class="form-control"', $this->config->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA')
 		);
 
@@ -422,15 +422,16 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 						FROM #__redshop_country c
 						LEFT JOIN #__redshop_state s
 						ON c.id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.id, s.state_name");
+						ORDER BY c.id, s.state_name"
+		);
 		$states = $db->loadObjectList();
 
 		// Build the State lists for each Country
 		$script       = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
-		$script       .= "<!--\n";
-		$script       .= "var originalOrder = '1';\n";
-		$script       .= "var originalPos = '$selected_country_code';\n";
-		$script       .= "var states = new Array();	// array in the format [key,value,text]\n";
+		$script      .= "<!--\n";
+		$script      .= "var originalOrder = '1';\n";
+		$script      .= "var originalPos = '$selected_country_code';\n";
+		$script      .= "var states = new Array();	// array in the format [key,value,text]\n";
 		$i            = 0;
 		$prev_country = '';
 
@@ -460,7 +461,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			}
 		}
 
-		$script                     .= "function changeStateList()
+		$script                    .= "function changeStateList()
 					{
 						var selected_country = null;
 						for (var i=0; i<document.adminForm.default_vat_country.length; i++)
@@ -834,9 +835,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'redshopselect.booleanlist', 'inline_editing', 'class="form-control" size="1"', $this->config->get('INLINE_EDITING')
 		);
 
-		$lists['currency_libraries'] = JHtml::_('redshopselect.booleanlist', 'currency_libraries',
+		$lists['currency_libraries']                                                        = JHtml::_('redshopselect.booleanlist', 'currency_libraries',
 			'class="form-control" size="1"', $this->config->get('CURRENCY_LIBRARIES'), $yes = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_LAYER'),
-			$no = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_ECB')
+			$no                                                                             = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_ECB')
 		);
 
 		$current_version      = $model->getcurrentversion();

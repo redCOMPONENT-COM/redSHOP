@@ -39,10 +39,10 @@ class RedshopViewDiscount extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
+		$uri         = JFactory::getURI();
 		$this->state = $this->get('State');
 
-		$optiontype = array();
+		$optiontype   = array();
 		$optiontype[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
 		$optiontype[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PERCENTAGE'));
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_TOTAL'));
@@ -51,28 +51,28 @@ class RedshopViewDiscount extends RedshopViewAdmin
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $this->state->get('discount_type')
 		);
 
-		$lists['order'] = $this->state->get('list.ordering');
+		$lists['order']     = $this->state->get('list.ordering');
 		$lists['order_Dir'] = $this->state->get('list.direction');
-		$discounts = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$discounts          = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
 		$spgrpdis_filter = $this->state->get('spgrpdis_filter');
-		$userhelper = rsUserHelper::getInstance();
-		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
+		$userhelper      = rsUserHelper::getInstance();
+		$shopper_groups  = Redshop\Helper\ShopperGroup::generateList();
 
-		$temps = array();
-		$temps[0] = new stdClass;
-		$temps[0]->value = 0;
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$shopper_groups = array_merge($temps, $shopper_groups);
+		$temps                  = array();
+		$temps[0]               = new stdClass;
+		$temps[0]->value        = 0;
+		$temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
+		$shopper_groups         = array_merge($temps, $shopper_groups);
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrpdis_filter',
 			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrpdis_filter
 		);
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->discounts = $discounts;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->discounts   = $discounts;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
