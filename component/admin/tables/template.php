@@ -55,8 +55,7 @@ class RedshopTableTemplate extends RedshopTable
 
 			if (JFile::exists($file))
 			{
-				$this->templateDesc = file_get_contents($file);
-				$this->templateDesc = false === $this->templateDesc ? '' : $this->templateDesc;
+				$this->templateDesc = (string) file_get_contents($file);
 			}
 		}
 
