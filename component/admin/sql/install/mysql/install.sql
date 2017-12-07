@@ -2096,7 +2096,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_template` (
   `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   INDEX `#__rs_tmpl_section` (`section` ASC),
-  INDEX `#__rs_tmpl_published` (`published` ASC)
+  INDEX `#__rs_tmpl_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Templates Detail';
