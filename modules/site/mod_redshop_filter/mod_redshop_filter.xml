@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_FILTER</name>
-    <version>1.0.0</version>
-    <redshop>2.0.6</redshop>
-    <creationDate>Nov 2016</creationDate>
+    <version>1.0.1</version>
+    <redshop>2.1.0</redshop>
+    <creationDate>December 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
