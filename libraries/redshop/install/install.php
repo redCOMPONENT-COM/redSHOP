@@ -198,6 +198,8 @@ class RedshopInstall
 	 * @return  boolean
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public static function templateFiles()
 	{
@@ -209,10 +211,10 @@ class RedshopInstall
 
 		foreach ($templates as $template)
 		{
-			$templateName            = $template->template_name;
-			$template->template_name = strtolower($template->template_name);
-			$template->template_name = str_replace(" ", "_", $template->template_name);
-			$templateFile            = RedshopHelperTemplate::getTemplatefilepath($template->template_section, $template->template_name);
+			$templateName   = $template->name;
+			$template->name = strtolower($template->name);
+			$template->name = str_replace(" ", "_", $template->name);
+			$templateFile   = RedshopHelperTemplate::getTemplatefilepath($template->section, $template->name);
 
 			if (!JFile::exists($templateFile))
 			{
