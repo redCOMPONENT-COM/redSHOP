@@ -7,6 +7,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationManageJoomla3Steps as ConfigurationManageJoomla3Steps;
 class CheckoutShippingCest
 {
     public function __construct()
@@ -91,8 +92,23 @@ class CheckoutShippingCest
         $this->groupSecond = 'Administrator';
         $this->firstNameSecond = $this->faker->bothify('FirstNamesecond FN ?##?');
         $this->lastNameSecond = $this->faker->bothify('Lasenamesecond ?##?');
-        $this->shippingRateSecond  =  rand(10, 1000);
+        $this->shippingRateSecond  =  rand(1, 100);
         $this->TotalIncludeShipping = 0;
+
+        //setup Cart setting
+        $this->addcart = 'product';
+        $this->allowPreOrder = 'no';
+        $this->cartTimeOut = $this->faker->numberBetween(100, 10000);
+        $this->enabldAjax = 'no';
+        $this->defaultCart = null;
+        $this->buttonCartLead = 'Back to current view';
+        $this->onePage = 'no';
+        $this->showShippingCart = 'yes';
+        $this->attributeImage = 'no';
+        $this->quantityChange = 'no';
+        $this->quantityInCart = 0;
+        $this->minimunOrder = 0;
+        $this->enableQuation = 'yes';
     }
 
     public function deleteData($scenario)
@@ -108,6 +124,11 @@ class CheckoutShippingCest
     
     public function preCheckout(AcceptanceTester $I, $scenario)
     {
+        $I->wantTo(' Enable Quotation at configuration ');
+        $I = new ConfigurationManageJoomla3Steps($scenario);
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+
+
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create first category');
         $I->addCategorySave($this->CategoryName);
@@ -140,7 +161,7 @@ class CheckoutShippingCest
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName ,$this->CategoryNamePlus,$this->shippingRate,$this->TotalShow);
     }
-// this function maybe will be open . We need make decition and change this way of redSHOP
+// this function maybe will be open . We need to change this way of redSHOP
 //    public function updateUserAndCheckout(AcceptanceTester $I, $scenario)
 //    {
 //        $I->wantTo('Update this user above for other country . they should do not get shipping rate');
@@ -153,6 +174,7 @@ class CheckoutShippingCest
 //        $I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName ,$this->CategoryNamePlus,'0',$this->TotalOrder);
 //    }
 
+// This function still not done . When REDSHOP-4793 done. It should be open
     public function checkoutWithUseApplyOtherShipping(AcceptanceTester $I, $scenario)
     {
 
@@ -191,15 +213,17 @@ class CheckoutShippingCest
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->deleteCategory($this->CategoryNamePlus);
 
-        $I->wantTo('Delete the first User');
-        $I = new UserManagerJoomla3Steps($scenario);
-        $I->deleteUser($this->firstName, true);
-
-        $I->wantTo('Delete the second User');
-        $I->deleteUser($this->firstNameSecond);
-
         $I->wantTo('Delete shipping');
         $I = new ShippingSteps($scenario, true);
         $I->deleteShippingRate($this->shippingName);
+
+        $I->wantTo('Delete the first User');
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->deleteUser($this->firstName, false);
+
+        $I->wantTo('Delete the second User');
+        $I->deleteUser($this->firstNameSecond, false);
+
+
     }
 }

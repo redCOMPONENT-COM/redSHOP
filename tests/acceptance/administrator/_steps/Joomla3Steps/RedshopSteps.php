@@ -21,6 +21,7 @@ class RedshopSteps
 		$this->clearAllMassDiscount();
 		$this->clearAllVocher();
 		$this->clearAllDiscountOnProduct();
+		$this->clearAllShippingRate();
 	}
 
 	public function clearAllCategories()
@@ -109,6 +110,16 @@ class RedshopSteps
 		$db= \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_orders'))
+			->where('1');
+
+		$db->setQuery($query)->execute();
+	}
+
+	public function clearAllShippingRate()
+	{
+		$db= \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__redshop_shipping_rate'))
 			->where('1');
 
 		$db->setQuery($query)->execute();
