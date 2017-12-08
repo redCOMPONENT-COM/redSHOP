@@ -27,15 +27,19 @@ class RedshopHelperMediaImage
 	 * @param   string  $mediaSection  Section type to show
 	 * @param   string  $image         URL of featured image
 	 * @param   bool    $showMedia     Show pop-up of media or not.
+	 * @param   bool    $useMediaPath  Use new structure of media folder or not.
 	 *
 	 * @return  string
 	 */
-	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true)
+	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true, $useMediaPath = false)
 	{
 		self::requireDependencies();
 
-		$imgUrl  = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
-		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+		$imgUrl  = $useMediaPath ? JRoute::_('/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image)
+			: JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
+
+		$imgFile = $useMediaPath ?
+			REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $type . '/' . $sectionId . '/' . $image : REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
 		$file = array();
 

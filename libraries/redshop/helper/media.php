@@ -192,29 +192,29 @@ class RedshopHelperMedia
 
 			return implode(DIRECTORY_SEPARATOR, $segments);
 		}
-		else
-		{
-			return $fileName;
-		}
+
+		return $fileName;
 	}
 
 	/**
 	 * Get redSHOP images live thumbnail path
 	 *
-	 * @param   string  $imageName    Image Name
-	 * @param   string  $dest         Image Destination path
-	 * @param   string  $command      Commands like thumb, upload etc...
-	 * @param   string  $type         Thumbnail for types like, product, category, subcolor etc...
-	 * @param   integer $width        Thumbnail Width
-	 * @param   integer $height       Thumbnail Height
-	 * @param   integer $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string   $imageName    Image Name
+	 * @param   string   $dest         Image Destination path
+	 * @param   string   $command      Commands like thumb, upload etc...
+	 * @param   string   $type         Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer  $width        Thumbnail Width
+	 * @param   integer  $height       Thumbnail Height
+	 * @param   integer  $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string   $section      Use on new structure of media folders.
+	 * @param   integer  $sectionId    Use on new structure of media folders. ID of section.
 	 *
 	 * @return  string   Thumbnail Live path
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-	                                    $height = 50, $proportional = -1)
+		$height = 50, $proportional = -1, $section = '', $sectionId = 0)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -246,7 +246,16 @@ class RedshopHelperMedia
 			$height = 50;
 		}
 
-		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
+		// Check section if in new media structure.
+		if (in_array($section, array('manufacturer', 'category')))
+		{
+			$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $section . '/' . $sectionId . '/' . $imageName;
+		}
+		else
+		{
+			$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
+		}
+
 		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
 
 		// Can not generate image
@@ -257,9 +266,14 @@ class RedshopHelperMedia
 
 		// Prevent space in file path
 		$physicalPath = str_replace(' ', '%20', $physicalPath);
-		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
-		return $thumbUrl;
+		// Check section if in new media structure.
+		if (in_array($section, array('manufacturer')))
+		{
+			return REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $section . '/' . $sectionId . '/thumb/' . basename($physicalPath);
+		}
+
+		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 	}
 
 	/**
@@ -974,6 +988,49 @@ class RedshopHelperMedia
 		}
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method for get list of medias
+	 *
+	 * @param   string   $section    Media section (product, category,...)
+	 * @param   integer  $sectionId  Media section ID
+	 * @param   string   $scope      Scope of media
+	 * @param   string   $type       Media type.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMedia($section = '', $sectionId = 0, $scope = '', $type = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_media'));
+
+		if (!empty($section))
+		{
+			$query->where($db->qn('media_section') . ' = ' . $db->quote($section));
+		}
+
+		if (!empty($sectionId))
+		{
+			$query->where($db->qn('section_id') . ' = ' . (int) $sectionId);
+		}
+
+		if (!empty($scope))
+		{
+			$query->where($db->qn('scope') . ' = ' . $db->quote($scope));
+		}
+
+		if (!empty($type))
+		{
+			$query->where($db->qn('media_type') . ' = ' . $db->quote($type));
+		}
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
