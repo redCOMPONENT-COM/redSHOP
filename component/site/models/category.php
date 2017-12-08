@@ -37,6 +37,8 @@ class RedshopModelCategory extends RedshopModel
 
 	public $minmaxArr = array(0, 0);
 
+	public $_total = 0;
+
 	// @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name', 'product_name',
