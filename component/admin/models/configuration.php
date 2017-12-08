@@ -454,8 +454,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$name = explode('@', $to);
 
 		// Insert columns.
-		$columns = array('tracker_id', 'newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date');
-		$values  = array('', (int) $newsletterId, '0', $db->quote($name), 0, 0, $db->quote($today));
+		$columns = array('newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date');
+		$values = array((int) $newsletterId, '0', $db->quote($name[0]), 0, 0, $db->quote($today));
 
 		$query->insert($db->quoteName('#__redshop_newsletter_tracker'))
 			->columns($db->quoteName($columns))
