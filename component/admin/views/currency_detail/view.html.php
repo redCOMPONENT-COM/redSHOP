@@ -34,10 +34,10 @@ class RedshopViewCurrency_detail extends RedshopViewAdmin
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 
-		$lists = array();
+		$lists  = array();
 		$detail = $this->get('data');
-		$isNew = ($detail->currency_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$isNew  = ($detail->currency_id < 1);
+		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		if ($isNew)
 		{
@@ -50,8 +50,8 @@ class RedshopViewCurrency_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_currency') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_currencies_48');
 
-		$this->detail = $detail;
-		$this->lists = $lists;
+		$this->detail      = $detail;
+		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

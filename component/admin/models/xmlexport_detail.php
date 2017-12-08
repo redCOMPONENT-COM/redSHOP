@@ -24,13 +24,13 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -61,30 +61,30 @@ class RedshopModelXmlexport_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->xmlexport_id = 0;
-			$detail->filename = null;
-			$detail->display_filename = null;
-			$detail->parent_name = null;
-			$detail->element_name = null;
-			$detail->section_type = null;
-			$detail->auto_sync = 0;
-			$detail->sync_on_request = 0;
-			$detail->auto_sync_interval = null;
-			$detail->xmlexport_filetag = null;
-			$detail->stock_element_name = null;
-			$detail->xmlexport_stocktag = null;
-			$detail->xmlexport_billingtag = null;
-			$detail->billing_element_name = null;
-			$detail->xmlexport_shippingtag = null;
-			$detail->shipping_element_name = null;
-			$detail->xmlexport_orderitemtag = null;
-			$detail->orderitem_element_name = null;
+			$detail                             = new stdClass;
+			$detail->xmlexport_id               = 0;
+			$detail->filename                   = null;
+			$detail->display_filename           = null;
+			$detail->parent_name                = null;
+			$detail->element_name               = null;
+			$detail->section_type               = null;
+			$detail->auto_sync                  = 0;
+			$detail->sync_on_request            = 0;
+			$detail->auto_sync_interval         = null;
+			$detail->xmlexport_filetag          = null;
+			$detail->stock_element_name         = null;
+			$detail->xmlexport_stocktag         = null;
+			$detail->xmlexport_billingtag       = null;
+			$detail->billing_element_name       = null;
+			$detail->xmlexport_shippingtag      = null;
+			$detail->shipping_element_name      = null;
+			$detail->xmlexport_orderitemtag     = null;
+			$detail->orderitem_element_name     = null;
 			$detail->xmlexport_prdextrafieldtag = null;
 			$detail->prdextrafield_element_name = null;
-			$detail->published = 0;
-			$detail->use_to_all_users = 1;
-			$detail->xmlexport_on_category = null;
+			$detail->published                  = 0;
+			$detail->use_to_all_users           = 1;
+			$detail->xmlexport_on_category      = null;
 
 			$this->_data = $detail;
 
@@ -105,7 +105,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		$xmlhelper = new xmlHelper;
 
 		$data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
-		$row = $this->getTable();
+		$row                           = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -128,7 +128,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 			return false;
 		}
 
-		$xmlexport_ip_id = $data['xmlexport_ip_id'];
+		$xmlexport_ip_id  = $data['xmlexport_ip_id'];
 		$access_ipaddress = $data['access_ipaddress'];
 
 		for ($i = 0, $in = count($xmlexport_ip_id); $i < $in; $i++)
@@ -178,8 +178,8 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
-				$result = $xmlhelper->getXMLExportInfo($cid[$i]);
-				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" .$result->filename;
+				$result   = $xmlhelper->getXMLExportInfo($cid[$i]);
+				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" . $result->filename;
 
 				if (JFile::exists($rootpath))
 				{
@@ -314,7 +314,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
 			->select($db->qn('name', 'text'))

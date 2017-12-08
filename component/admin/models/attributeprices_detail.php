@@ -36,7 +36,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -60,12 +60,12 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 			if ($this->_section == "property")
 			{
 				$field = "ap.property_name ";
-				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
+				$q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
 			}
 			else
 			{
 				$field = "ap.subattribute_color_name AS property_name ";
-				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
+				$q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 			}
 
 			$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' '
@@ -86,17 +86,17 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->price_id = 0;
-			$detail->section_id = $this->_sectionid;
-			$detail->product_price = 0.00;
-			$detail->product_currency = null;
-			$detail->shopper_group_id = 0;
+			$detail                       = new stdClass;
+			$detail->price_id             = 0;
+			$detail->section_id           = $this->_sectionid;
+			$detail->product_price        = 0.00;
+			$detail->product_currency     = null;
+			$detail->shopper_group_id     = 0;
 			$detail->price_quantity_start = 0;
-			$detail->price_quantity_end = 0;
-			$detail->discount_price = 0;
-			$detail->discount_start_date = 0;
-			$detail->discount_end_date = 0;
+			$detail->price_quantity_end   = 0;
+			$detail->discount_price       = 0;
+			$detail->discount_start_date  = 0;
+			$detail->discount_end_date    = 0;
 
 			$this->_data = $detail;
 
@@ -161,7 +161,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price '
 				. 'WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

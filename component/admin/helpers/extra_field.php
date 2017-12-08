@@ -177,7 +177,8 @@ class extra_field
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::rsBooleanList() instead
 	 */
 	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
-		$yes_value = 'Days', $no_value = 'Weeks')
+		$yes_value = 'Days', $no_value = 'Weeks'
+	)
 	{
 		return RedshopHelperExtrafields::rsBooleanList($name, $attribs, $selected, $yes, $no, $id, $yes_value, $no_value);
 	}

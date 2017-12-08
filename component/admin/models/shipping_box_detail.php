@@ -33,7 +33,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -68,15 +68,15 @@ class RedshopModelShipping_box_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->shipping_box_id = 0;
-			$detail->shipping_box_name = null;
-			$detail->shipping_box_length = null;
-			$detail->shipping_box_width = null;
-			$detail->shipping_box_height = null;
+			$detail                        = new stdClass;
+			$detail->shipping_box_id       = 0;
+			$detail->shipping_box_name     = null;
+			$detail->shipping_box_length   = null;
+			$detail->shipping_box_width    = null;
+			$detail->shipping_box_height   = null;
 			$detail->shipping_box_priority = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published             = 1;
+			$this->_data                   = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -129,7 +129,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'shipping_boxes'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE shipping_box_id IN ( ' . $cids . ' )';

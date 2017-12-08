@@ -44,14 +44,14 @@ class RedshopTableMass_Discount extends RedshopTable
 		// Bind: Start Date unix
 		if (isset($src['start_date']) && !empty($src['start_date']) && !is_numeric($src['start_date']))
 		{
-			$date = JFactory::getDate($src['start_date']);
+			$date              = JFactory::getDate($src['start_date']);
 			$src['start_date'] = $date->toUnix();
 		}
 
 		// Bind: End Date unix
 		if (isset($src['end_date']) && !empty($src['end_date']) && !is_numeric($src['end_date']))
 		{
-			$date = JFactory::getDate($src['end_date']);
+			$date            = JFactory::getDate($src['end_date']);
 			$src['end_date'] = $date->toUnix();
 		}
 
@@ -489,7 +489,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		$productIds = ArrayHelper::toInteger($productIds);
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->qn('#__redshop_product'))
 			->set($db->qn('product_on_sale') . ' = 0')
@@ -540,11 +540,11 @@ class RedshopTableMass_Discount extends RedshopTable
 	 */
 	protected function updateProductsBaseDiscountProduct($data, $isNew = false, $oldItem = null)
 	{
-		$db = $this->_db;
-		$query = $db->getQuery(true);
-		$isChangeProduct = false;
+		$db                 = $this->_db;
+		$query              = $db->getQuery(true);
+		$isChangeProduct    = false;
 		$isNewChangeProduct = false;
-		$productHelper = productHelper::getInstance();
+		$productHelper      = productHelper::getInstance();
 
 		$discountProducts    = $isNew ? array() : explode(',', $oldItem->discount_product);
 		$newDiscountProducts = explode(',', $this->discount_product);

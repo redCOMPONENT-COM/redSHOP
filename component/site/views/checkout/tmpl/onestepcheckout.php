@@ -206,7 +206,7 @@ if (!empty($billingaddresses) && $billingaddresses->ean_number != "")
 
 if (strstr($onestep_template_desc, "{edit_billing_address}") && $users_info_id)
 {
-	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&Itemid=' . $Itemid);
+	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $Itemid);
 	$edit_billing          = '<a class="modal btn btn-primary" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
 	$onestep_template_desc = str_replace("{edit_billing_address}", $edit_billing, $onestep_template_desc);
 }

@@ -30,7 +30,7 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);

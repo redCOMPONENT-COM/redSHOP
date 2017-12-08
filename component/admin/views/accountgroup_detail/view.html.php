@@ -26,9 +26,9 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 
-		$lists = array();
+		$lists  = array();
 		$detail = $this->get('data');
-		$isNew = ($detail->accountgroup_id < 1);
+		$isNew  = ($detail->accountgroup_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -45,8 +45,8 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->detail = $detail;
-		$this->lists = $lists;
+		$this->detail      = $detail;
+		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

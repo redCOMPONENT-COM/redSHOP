@@ -58,9 +58,9 @@ class RedshopModelManufacturer extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
+		$filter  = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
-		$where = '';
+		$where   = '';
 
 		if ($filter)
 		{
@@ -88,7 +88,7 @@ class RedshopModelManufacturer extends RedshopModel
 
 	public function saveOrder(&$cid)
 	{
-		$db = JFactory::getDbo();
+		$db  = JFactory::getDbo();
 		$row = $this->getTable('manufacturer_detail');
 
 		$total = count($cid);

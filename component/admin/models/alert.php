@@ -24,8 +24,8 @@ class RedshopModelAlert extends RedshopModel
 		// Different context depending on the view
 		if (empty($this->context))
 		{
-			$input = JFactory::getApplication()->input;
-			$view = $input->getString('view', '');
+			$input         = JFactory::getApplication()->input;
+			$view          = $input->getString('view', '');
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName());
 		}
 
@@ -77,8 +77,8 @@ class RedshopModelAlert extends RedshopModel
 	{
 		$readFilter = $this->getState('read_filter');
 		$nameFilter = $this->getState('name_filter');
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db         = JFactory::getDbo();
+		$query      = $db->getQuery(true)
 			->select('a.*')
 			->from($db->qn('#__redshop_alerts', 'a'));
 
@@ -101,7 +101,7 @@ class RedshopModelAlert extends RedshopModel
 
 	public function countAlert()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->qn('#__redshop_alerts'))
@@ -112,7 +112,7 @@ class RedshopModelAlert extends RedshopModel
 
 	public function getAlert($limit)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_alerts'))

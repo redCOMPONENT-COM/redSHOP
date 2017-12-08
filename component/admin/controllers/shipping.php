@@ -35,9 +35,9 @@ class RedshopControllerShipping extends RedshopController
 			for ($i = 0, $in = count($shipping); $i < $in; $i++)
 			{
 				$shipping_nshortname = (strlen($shipping[$i]->name) > 15) ? substr($shipping[$i]->name, 0, 15) : $shipping[$i]->name;
-				$shipping_number = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;
-				$shipping_name = $shipping[$i]->shipping_rate_name;
-				$shipping_rate = $shipping[$i]->shipping_rate_value;
+				$shipping_number     = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;
+				$shipping_name       = $shipping[$i]->shipping_rate_name;
+				$shipping_rate       = $shipping[$i]->shipping_rate_value;
 
 				if ($shipping[$i]->economic_displayname)
 				{

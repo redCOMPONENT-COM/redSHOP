@@ -28,7 +28,7 @@ class RedshopViewManufacturer extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$uri      = JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT'), 'flag redshop_manufact48');
 		JToolbarHelper::addNew();
@@ -38,7 +38,7 @@ class RedshopViewManufacturer extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$state = $this->get('State');
+		$state            = $this->get('State');
 		$filter_order     = $state->get('list.ordering');
 		$filter_order_Dir = $state->get('list.direction');
 		$this->filter     = $state->get('filter');
@@ -49,11 +49,11 @@ class RedshopViewManufacturer extends RedshopViewAdmin
 		$manufacturer = $this->get('Data');
 		$pagination   = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
+		$this->user         = JFactory::getUser();
+		$this->lists        = $lists;
 		$this->manufacturer = $manufacturer;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->pagination   = $pagination;
+		$this->request_url  = $uri->toString();
 
 		parent::display($tpl);
 	}

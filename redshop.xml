@@ -89,6 +89,7 @@
     <!-- Modules to install with the component -->
     <modules>
         <module name="mod_redshop_cart" client="site"/>
+        <module name="mod_redshop_filter" client="site"/>
         <module name="mod_redshop_search" client="site"/>
     </modules>
 

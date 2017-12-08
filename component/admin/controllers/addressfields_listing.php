@@ -35,7 +35,7 @@ class RedshopControllerAddressFields_Listing extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 		$model = $this->getModel('addressfields_listing');
 
@@ -47,6 +47,7 @@ class RedshopControllerAddressFields_Listing extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}
+
 		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 
@@ -62,9 +63,9 @@ class RedshopControllerAddressFields_Listing extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid              = $this->input->post->get('cid', array(0), 'array');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$up = 1;
+		$up               = 1;
 
 		if (strtolower($filter_order_Dir) == "asc")
 		{
@@ -90,9 +91,9 @@ class RedshopControllerAddressFields_Listing extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid              = $this->input->post->get('cid', array(0), 'array');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$down = -1;
+		$down             = -1;
 
 		if (strtolower($filter_order_Dir) == "asc")
 		{

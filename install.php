@@ -61,6 +61,8 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 *
+	 * @since   2.0.0
+	 *
 	 * @throws  Exception
 	 */
 	public function postflight($type, $parent)
@@ -428,6 +430,8 @@ class Com_RedshopInstallerScript
 		$this->procedureIndexAdd();
 		$this->procedureUniqueIndexAdd();
 		$this->procedureFulltextIndexAdd();
+		$this->procedureConstraintRemove();
+		$this->procedureConstraintUpdate();
 	}
 
 	/**
@@ -561,6 +565,7 @@ class Com_RedshopInstallerScript
 			COMMENT " . $db->quote('Procedure for use in redSHOP to remove index from table avoid unexpected errors.') . "
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				IF ((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND index_name = indexName) = 1)
 				THEN
 					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP INDEX `',indexName,'`');
@@ -599,6 +604,7 @@ class Com_RedshopInstallerScript
 			COMMENT " . $db->quote('Procedure for use in redSHOP to Add index to table avoid unexpected errors..') . "
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				CALL redSHOP_Index_Remove(tableName, indexName) ;
 				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD INDEX `',indexName,'` ',indexData);
@@ -636,6 +642,7 @@ class Com_RedshopInstallerScript
 			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..') . "
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				CALL redSHOP_Index_Remove(tableName, indexName);
 				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD UNIQUE INDEX `',indexName,'` ',indexData);
@@ -673,12 +680,99 @@ class Com_RedshopInstallerScript
 			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..') . "
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				CALL redSHOP_Index_Remove(tableName, indexName);
 				set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD FULLTEXT INDEX `',indexName,'` ',indexData);
 				prepare DynamicStatement from @StatementToExecute ;
 				execute DynamicStatement ;
 				deallocate prepare DynamicStatement ;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Constraint_Remove"
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	protected function procedureConstraintRemove()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Constraint_Remove');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Constraint_Remove") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('refName') . " VARCHAR(50)
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to Add Constraint (Foreign Key) to table avoid unexpected errors..') . "
+			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET refName = REPLACE(refName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				IF ((SELECT COUNT(*) AS constraint_exists FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = DATABASE() and TABLE_NAME = tableName AND CONSTRAINT_NAME = refName AND CONSTRAINT_TYPE = 'FOREIGN KEY') = 1)
+				THEN
+					SET FOREIGN_KEY_CHECKS = 0;
+					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP FOREIGN KEY `',refName,'`');
+					prepare DynamicStatement from @StatementToExecute ;
+					execute DynamicStatement ;
+					deallocate prepare DynamicStatement ;
+					SET FOREIGN_KEY_CHECKS = 1;
+				END IF ;
+			END";
+
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for implement procedure "redSHOP_Constraint_Update"
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	protected function procedureConstraintUpdate()
+	{
+		$db = JFactory::getDbo();
+
+		$query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Constraint_Update');
+
+		$db->setQuery($query)->execute();
+
+		$query = "CREATE PROCEDURE " . $db->qn("redSHOP_Constraint_Update") . "(
+			IN " . $db->qn('tableName') . " VARCHAR(50),
+			IN " . $db->qn('constraintName') . " VARCHAR(50),
+			IN " . $db->qn('columnName') . " VARCHAR(50),
+			IN " . $db->qn('tableRef') . " VARCHAR(50),
+			IN " . $db->qn('columnRef') . " VARCHAR(50),
+			IN " . $db->qn('onUpdateAction') . " ENUM('RESTRICT','CASCADE','SET NULL','NO ACTION'),
+			IN " . $db->qn('onDeleteAction') . " ENUM('RESTRICT','CASCADE','SET NULL','NO ACTION')
+			)
+			LANGUAGE SQL
+			NOT DETERMINISTIC
+			CONTAINS SQL
+			COMMENT " . $db->quote('Procedure for use in redSHOP to Update/Create Constraint (Foreign Key) to table avoid unexpected errors..') . "
+			BEGIN
+				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET constraintName = REPLACE(constraintName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET columnName = REPLACE(columnName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET tableRef = REPLACE(tableRef, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				SET columnRef = REPLACE(columnRef, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
+				CALL redSHOP_Constraint_Remove(tableName, constraintName);
+				SET FOREIGN_KEY_CHECKS = 0;
+				SET @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD CONSTRAINT `',constraintName,'` FOREIGN KEY (`',columnName,'`) REFERENCES `',tableRef,'` (`',columnRef,'`) ON UPDATE ',onUpdateAction,' ON DELETE ',onDeleteAction);
+				prepare DynamicStatement from @StatementToExecute ;
+				execute DynamicStatement ;
+				deallocate prepare DynamicStatement ;
+				SET FOREIGN_KEY_CHECKS = 1;
 			END";
 
 		$db->setQuery($query)->execute();
