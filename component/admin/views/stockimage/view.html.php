@@ -27,7 +27,7 @@ class RedshopViewStockimage extends RedshopViewAdmin
 		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 
-		$state = $this->get('State');
+		$state            = $this->get('State');
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stock_amount_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
@@ -38,9 +38,9 @@ class RedshopViewStockimage extends RedshopViewAdmin
 		$data       = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->data = $data;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->data        = $data;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

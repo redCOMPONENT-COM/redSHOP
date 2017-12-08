@@ -368,7 +368,7 @@ class Redconfiguration
 	 *
 	 * @param   int  $conId  Country 3 code
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperWorld::getCountryId() instead.
 	 */

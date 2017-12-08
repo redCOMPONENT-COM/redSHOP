@@ -39,10 +39,10 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		{
 			$user = JFactory::getUser();
 
-			$data['user_name'] 		= $user->username;
-			$data['user_email']		= $user->email;
-			$data['question_date'] 	= time();
-			$data['parent_id'] 		= 0;
+			$data['user_name']     = $user->username;
+			$data['user_email']    = $user->email;
+			$data['question_date'] = time();
+			$data['parent_id']     = 0;
 		}
 
 		$row = $model->save($data);
@@ -153,7 +153,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function saveorder()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);

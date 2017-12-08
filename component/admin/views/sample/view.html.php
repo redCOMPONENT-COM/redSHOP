@@ -39,9 +39,9 @@ class RedshopViewSample extends RedshopViewAdmin
 		$catalog    = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->catalog = $catalog;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->catalog     = $catalog;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

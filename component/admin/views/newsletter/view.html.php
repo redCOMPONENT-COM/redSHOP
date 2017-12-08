@@ -53,17 +53,17 @@ class RedshopViewNewsletter extends RedshopViewAdmin
 			JToolBarHelper::unpublishList();
 		}
 
-		$this->state = $this->get('State');
+		$this->state        = $this->get('State');
 		$lists['order']     = $this->state->get('list.ordering', 'newsletter_id');
 		$lists['order_Dir'] = $this->state->get('list.direction');
 
 		$newsletters = $this->get('Data');
 		$pagination  = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
 		$this->newsletters = $newsletters;
-		$this->pagination = $pagination;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

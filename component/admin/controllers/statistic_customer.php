@@ -27,8 +27,8 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	 */
 	public function exportCustomer()
 	{
-		$model = $this->getModel();
-		$data  = $model->getItems();
+		$model         = $this->getModel();
+		$data          = $model->getItems();
 		$productHelper = productHelper::getInstance();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");

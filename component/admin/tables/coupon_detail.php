@@ -57,11 +57,11 @@ class Tablecoupon_detail extends JTable
 	/**
 	 * Validate all fields
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  2.0.2
 	 */
-	public function check ()
+	public function check()
 	{
 		if (empty($this->coupon_code))
 		{

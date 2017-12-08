@@ -29,7 +29,7 @@ class RedshopControllerField extends RedshopControllerForm
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$model = $this->getModel('Field');
 
 		echo implode(',', $model->getExistFieldNames($app->input->getInt('field_id', 0)));

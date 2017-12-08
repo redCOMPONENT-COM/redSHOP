@@ -30,7 +30,7 @@ class RedshopControllerStockimage_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid                      = $this->input->post->get('cid', array(0), 'array');
 		$post ['stock_amount_id'] = $cid [0];
 
 		$model = $this->getModel('stockimage_detail');

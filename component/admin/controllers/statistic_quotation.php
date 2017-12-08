@@ -66,6 +66,6 @@ class RedshopControllerStatistic_Quotation extends RedshopControllerAdmin
 			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->quotation_total . "\n";
 		}
 
-		exit ();
+		exit();
 	}
 }

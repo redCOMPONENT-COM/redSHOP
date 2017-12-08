@@ -52,7 +52,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 			for ($i = $post["zipcode"]; $i <= $post["zipcode_to"]; $i++)
 			{
 				$post['zipcode'] = $i;
-				$row = $model->store($post);
+				$row             = $model->store($post);
 			}
 		}
 

@@ -26,13 +26,13 @@ class RedshopModelAddressfields_listing extends RedshopModel
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
-		$this->_context = 'ordering';
+		$app                 = JFactory::getApplication();
+		$this->_context      = 'ordering';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$field_section_drop = $app->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$field_section_drop  = $app->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('section_id', $field_section_drop);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -42,7 +42,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query);
 		}
 
@@ -76,7 +76,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 	public function _buildQuerycount()
 	{
 		$filter = $this->getState('section_id');
-		$where = '';
+		$where  = '';
 
 		if ($filter)
 		{
@@ -98,10 +98,10 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('section_id');
+		$filter  = $this->getState('section_id');
 		$orderby = $this->_buildContentOrderBy();
-		$where = '';
-		$limit = "";
+		$where   = '';
+		$limit   = "";
 
 		if ($this->getState('limit') > 0)
 		{
@@ -130,7 +130,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($filter_order == 'ordering')
@@ -147,8 +147,8 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row = $this->getTable("field");
-		$groupings = array();
+		$row        = $this->getTable("field");
+		$groupings  = array();
 		$conditions = array();
 
 		// Update ordering values
@@ -172,7 +172,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 				// Remember to updateOrder this group
 				$condition = 'section = ' . (int) $row->section;
-				$found = false;
+				$found     = false;
 
 				foreach ($conditions as $cond)
 				{
@@ -182,6 +182,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 						break;
 					}
 				}
+
 				if (!$found)
 				{
 					$conditions[] = array($row->id, $condition);

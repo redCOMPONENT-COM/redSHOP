@@ -943,10 +943,10 @@ $product_number_output = '<span id="product_number_variable' . $this->data->prod
 $template_desc = str_replace("{product_number}", $product_number_output, $template_desc);
 
 // Product accessory Start
-$accessory = $producthelper->getProductAccessory(0, $this->data->product_id);
+$accessory = RedshopHelperAccessory::getProductAccessories(0, $this->data->product_id);
 $totalAccessory = count($accessory);
 
-$template_desc = $producthelper->replaceAccessoryData($this->data->product_id, 0, $accessory, $template_desc, $isChilds);
+$template_desc = RedshopHelperProductAccessory::replaceAccessoryData($this->data->product_id, 0, $accessory, $template_desc, $isChilds);
 
 // Product accessory End
 

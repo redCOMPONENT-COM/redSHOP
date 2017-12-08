@@ -24,17 +24,17 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		$lists = array();
-		$uri = JFactory::getURI();
+		$uri   = JFactory::getURI();
 
 		$model = $this->getModel('stockroom_detail');
 
 		if ($layout == 'importstock')
 		{
-			$stockroom_name = $model->getStockRoomList();
-			$op = array();
-			$op[0]->value = 0;
-			$op[0]->text = JText::_('COM_REDSHOP_SELECT');
-			$stockroom_name = array_merge($op, $stockroom_name);
+			$stockroom_name        = $model->getStockRoomList();
+			$op                    = array();
+			$op[0]->value          = 0;
+			$op[0]->text           = JText::_('COM_REDSHOP_SELECT');
+			$stockroom_name        = array_merge($op, $stockroom_name);
 			$lists['stockroom_id'] = JHTML::_('select.genericlist', $stockroom_name, 'stockroom_id', 'class="inputbox" size="1" ', 'value', 'text');
 
 			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'), 'redshop_stockroom48');
@@ -47,7 +47,7 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 			$detail = $this->get('data');
 
 			$isNew = ($detail->stockroom_id < 1);
-			$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+			$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 			JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');
 
 			// Create the toolbar
@@ -70,8 +70,8 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 
 			$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-			$delivery_time = array();
-			$delivery_time['value'] = "days";
+			$delivery_time           = array();
+			$delivery_time['value']  = "days";
 			$delivery_time['value'] .= "weeks";
 
 			$extra_field = extra_field::getInstance();
@@ -81,7 +81,7 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 			);
 
 			$this->booleanlist = $booleanlist;
-			$this->detail = $detail;
+			$this->detail      = $detail;
 		}
 
 		$this->lists       = $lists;

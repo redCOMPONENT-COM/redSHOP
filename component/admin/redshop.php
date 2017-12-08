@@ -35,11 +35,11 @@ $redHelper = redhelper::getInstance();
 RedshopShippingRate::removeShippingRate();
 $json = JFactory::getApplication()->input->get('json');
 
-$view = JFactory::getApplication()->input->getCmd('view', '');
-$user = JFactory::getUser();
-$userType = array_keys($user->groups);
+$view           = JFactory::getApplication()->input->getCmd('view', '');
+$user           = JFactory::getUser();
+$userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
-$user->gid = $user->groups[$user->usertype];
+$user->gid      = $user->groups[$user->usertype];
 
 if (!$user->authorise('core.manage', 'com_redshop') && !$json)
 {
@@ -97,8 +97,8 @@ if ($command != '' && strpos($command, '.') === false)
 elseif ($command != '' && strpos($command, '.') !== false)
 {
 	$commands = explode('.', $command);
-	$view = $commands[0];
-	$task = $commands[1];
+	$view     = $commands[0];
+	$task     = $commands[1];
 }
 
 // Set the controller page

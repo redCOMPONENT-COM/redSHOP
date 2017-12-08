@@ -140,7 +140,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
- 		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
+		 $post['discount_enddate']  = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
 
 		if ($post['discount_stratdate'])
 		{
@@ -176,7 +176,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->store($post))
@@ -211,7 +210,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-            elseif ($apply == 1)
+			elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -550,7 +549,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
-						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
+						$listsubpropImages     = $model->GetimageInfo($subproperty_id, 'subproperty');
 						$countSubpropertyImage = count($listsubpropImages);
 
 						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
@@ -650,9 +649,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-            <script language="javascript" type="text/javascript">
-                window.parent.SqueezeBox.close();
-            </script>
+			<script language="javascript" type="text/javascript">
+				window.parent.SqueezeBox.close();
+			</script>
 			<?php
 		}
 	}
@@ -706,9 +705,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
+		<script language="javascript" type="text/javascript">
+			window.parent.SqueezeBox.close();
+		</script>
 		<?php
 	}
 
@@ -990,7 +989,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Function DeleteMergeImages.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function DeleteMergeImages()
 	{
