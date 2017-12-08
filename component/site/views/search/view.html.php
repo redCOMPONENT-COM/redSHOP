@@ -317,7 +317,8 @@ class RedshopViewSearch extends RedshopView
 				$data_add = $template_desc;
 
 				// RedSHOP Product Plugin
-				$dispatcher->trigger('onPrepareProduct', array(&$data_add, array(), $this->search[$i]));
+				$params = array();
+				$dispatcher->trigger('onPrepareProduct', array(&$data_add, &$params, $this->search[$i]));
 
 				$thum_image = "";
 				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
