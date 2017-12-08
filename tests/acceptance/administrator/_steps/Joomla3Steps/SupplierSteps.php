@@ -31,7 +31,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\SupplierPage::$buttonNew);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->fillField(\SupplierPage::$fieldName, $supplierName);
@@ -55,7 +54,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\SupplierPage::$buttonNew);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->fillField(\SupplierPage::$fieldName, $supplierName);
@@ -74,7 +72,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\SupplierPage::$buttonNew);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->click(\SupplierPage::$buttonCancel);
@@ -84,7 +81,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\SupplierPage::$buttonNew);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->fillField(\SupplierPage::$fieldEmail, $supplierEmailId);
@@ -97,7 +93,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\SupplierPage::$buttonNew);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->fillField(\SupplierPage::$fieldName, $supplierName);
@@ -119,7 +114,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->searchSupplier($supplierName);
 		$client->click($supplierName);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
@@ -133,7 +127,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->searchSupplier($supplierUpdatedName);
 		$client->click($supplierUpdatedName);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
@@ -147,7 +140,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->searchSupplier($supplierUpdatedName);
 		$client->click($supplierUpdatedName);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
@@ -160,7 +152,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
 		$client->searchSupplier($supplierName);
-		$client->wait(3);
 		$client->see($supplierName, \SupplierPage::$resultRow);
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$statePath);
@@ -171,7 +162,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
 		$client->searchSupplier($supplierName);
-		$client->wait(3);
 		$client->see($supplierName, \SupplierPage::$resultRow);
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$statePath);
@@ -182,7 +172,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
 		$client->searchSupplier($supplierName);
-		$client->wait(3);
 		$client->see($supplierName, \SupplierPage::$resultRow);
 		$text = $client->grabAttributeFrom(\SupplierPage::$statePath, 'onclick');
 		echo "Get status text " . $text;
@@ -205,7 +194,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->searchSupplier($supplierName);
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonDelete);
@@ -216,7 +204,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->searchSupplier($supplierName);
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonDelete);
@@ -260,7 +247,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonPublish);
 		$client->waitForText(\SupplierPage::$messageHead, 30, \SupplierPage::$selectorSuccess);
@@ -279,7 +265,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\SupplierPage::$buttonCheckIn);
 		$client->acceptPopup();
 	}
@@ -288,7 +273,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonCheckIn);
 		$client->waitForText(\SupplierPage::$messageHead, 30, \SupplierPage::$selectorSuccess);
