@@ -21,7 +21,7 @@ class RedshopSteps
 		$this->clearAllMassDiscount();
 		$this->clearAllVocher();
 		$this->clearAllDiscountOnProduct();
-		$this->clearAllShippingRate();
+//		$this->clearAllShippingRate();
 	}
 
 	public function clearAllCategories()

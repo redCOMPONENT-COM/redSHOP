@@ -109,6 +109,9 @@ class CheckoutShippingCest
         $this->quantityInCart = 0;
         $this->minimunOrder = 0;
         $this->enableQuation = 'yes';
+
+        // shipping demo data
+        $this->demoShipping = 'Demo Rate';
     }
 
     public function deleteData($scenario)
@@ -122,6 +125,11 @@ class CheckoutShippingCest
         $I->doAdministratorLogin();
     }
     
+    public function deleteAllShippingRates(ShippingSteps $I)
+    {
+        $I->wantTo('Delete Demo data shiping rate');
+        $I->deleteShippingRate($this->demoShipping);
+    }
     public function preCheckout(AcceptanceTester $I, $scenario)
     {
         $I->wantTo(' Enable Quotation at configuration ');
@@ -223,7 +231,5 @@ class CheckoutShippingCest
 
         $I->wantTo('Delete the second User');
         $I->deleteUser($this->firstNameSecond, false);
-
-
     }
 }
