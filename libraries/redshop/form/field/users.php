@@ -33,7 +33,7 @@ class RedshopFormFieldUsers extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$addressType = isset($this->element['address_type']) ? (int) $this->element['address_type'] : false;
+		$addressType = isset($this->element['address_type']) ? (string) $this->element['address_type'] : false;
 
 		$db = JFactory::getDbo();
 
@@ -50,7 +50,7 @@ class RedshopFormFieldUsers extends JFormFieldList
 			->from($db->qn('#__users', 'u'))
 			->leftJoin($db->qn('#__redshop_users_info', 'ru') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ru.user_id'));
 
-		if ($addressType)
+		if ($addressType !== false)
 		{
 			$query->where($db->qn('ru.address_type') . ' = ' . $db->quote($addressType));
 		}

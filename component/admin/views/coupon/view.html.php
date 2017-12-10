@@ -47,7 +47,7 @@ class RedshopViewCoupon extends RedshopViewForm
 
 		$extraField = '<?xml version="1.0" encoding="utf-8"?>'
 			. '<field label="COM_REDSHOP_COUPON_REMAINING_AMOUNT" name="voucher_products" class="form-control"'
-			. ' type="redshop.coupon_remaining" coupon_id="' . $this->item->id . '" readonly="true"/>';
+			. ' type="redshop.coupon_remaining" coupon_id="' . $this->item->id . '" address_type="BT" readonly="true"/>';
 		$extraField = new SimpleXMLElement($extraField);
 
 		$this->form->setField($extraField, null, true, 'details');

@@ -1978,8 +1978,7 @@ class RedshopModelCheckout extends RedshopModel
 				$transaction_coupon_id = 0;
 				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
 
-				$rowcouponDetail = RedshopTable::getAdminInstance('Coupon');
-				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int) $coupon_volume . " "
+				$sql = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int) $coupon_volume . " "
 					. "WHERE id = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);
 				$this->_db->execute();

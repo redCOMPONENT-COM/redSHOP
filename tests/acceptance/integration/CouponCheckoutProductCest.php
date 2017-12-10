@@ -73,7 +73,7 @@ class CouponCheckoutProductCest
 	private function createCoupon(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Coupon creation in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
 		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
 		$I->searchCoupon($this->couponCode);
@@ -112,7 +112,7 @@ class CouponCheckoutProductCest
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
 		$I->deleteCoupon($this->couponCode);
 		$I->searchCoupon($this->couponCode, 'Delete');

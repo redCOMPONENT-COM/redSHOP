@@ -67,7 +67,7 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn('id'))
+			->select('*')
 			->from($db->qn('#__redshop_coupons'))
 			->order($db->qn('id'));
 
@@ -78,20 +78,20 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 			return;
 		}
 
-		foreach ($coupons as $couponId)
+		foreach ($coupons as $coupon)
 		{
 			$table = RedshopTable::getAdminInstance('Coupon');
 
-			if (!$table->load($couponId))
+			if (!$table->load($coupon->id))
 			{
 				continue;
 			}
 
-			$table->start_date = empty($coupon['start_date_old']) ?
-				'0000-00-00 00:00:00' : JFactory::getDate($coupon['start_date_old'])->format('Y-m-d H:i:s');
+			$table->start_date = empty($coupon->start_date_old) ?
+				'0000-00-00 00:00:00' : JFactory::getDate($coupon->start_date_old)->format('Y-m-d H:i:s');
 
-			$table->end_date = empty($coupon['end_date_old']) ?
-				'0000-00-00 00:00:00' : JFactory::getDate($coupon['end_date_old'])->format('Y-m-d H:i:s');
+			$table->end_date = empty($coupon->end_date_old) ?
+				'0000-00-00 00:00:00' : JFactory::getDate($coupon->end_date_old)->format('Y-m-d H:i:s');
 
 			if (!$table->store())
 			{

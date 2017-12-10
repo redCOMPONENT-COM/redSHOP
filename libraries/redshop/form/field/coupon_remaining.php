@@ -38,9 +38,9 @@ class RedshopFormFieldCoupon_Remaining extends JFormFieldList
 	{
 		$couponId = isset($this->element['coupon_id']) ? (int) $this->element['coupon_id'] : false;
 
-		if ($couponId)
+		if ($couponId !== false)
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->qn('coupon_value'))
 				->from($db->qn('#__redshop_coupons_transaction'))
