@@ -233,6 +233,9 @@ class RedshopHelperCategory
 			$query->where($db->qn('id') . ' = ' . $db->q((int) $categoryId));
 		}
 
+		// Categories nested
+		$query->where($db->qn('level') . ' > 0');
+
 		$db->setQuery($query);
 		$cats = $db->loadObjectList();
 
