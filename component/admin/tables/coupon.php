@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  View
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,23 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
- * View Coupon
+ * Table Coupon
  *
  * @package     RedSHOP.Backend
- * @subpackage  View
+ * @subpackage  Table
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewCoupon extends RedshopViewForm
+class RedshopTableCoupon extends RedshopTable
 {
 	/**
-	 * Method for get page title.
+	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @return  string
-	 *
-	 * @since   2.0.6
+	 * @var  string
 	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_COUPON_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
+	protected $_tableName = 'redshop_coupons';
 }

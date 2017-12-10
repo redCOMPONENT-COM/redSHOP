@@ -164,8 +164,8 @@ class RedshopMenuLeft_Menu
 				return array('DISCOUNT', 'voucher');
 				break;
 
+			case "coupons":
 			case "coupon":
-			case "coupon_detail":
 				return array('DISCOUNT', 'coupon');
 				break;
 
@@ -493,9 +493,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'vouchers') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=coupon',
+				'index.php?option=com_redshop&view=coupons',
 				'COM_REDSHOP_COUPON_LISTING',
-				(self::$view == 'coupon') ? true : false
+				(self::$view == 'coupons') ? true : false
 			)
 			->group('DISCOUNT');
 	}

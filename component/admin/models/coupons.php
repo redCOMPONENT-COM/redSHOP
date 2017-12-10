@@ -30,7 +30,7 @@ class RedshopModelCoupons extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'coupon_id', 'c.coupon_id',
+				'id', 'c.id',
 				'coupon_code', 'c.coupon_code',
 				'percent_or_total', 'c.percent_or_total',
 				'coupon_value', 'c.coupon_value',
@@ -61,7 +61,7 @@ class RedshopModelCoupons extends RedshopModelList
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = 'c.coupon_id', $direction = 'asc')
+	protected function populateState($ordering = 'c.id', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -116,7 +116,7 @@ class RedshopModelCoupons extends RedshopModelList
 		$query = $db->getQuery(true);
 
 		$query->select('c.*')
-			->from($db->qn('#__redshop_voucher', 'c'));
+			->from($db->qn('#__redshop_coupons', 'c'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -131,11 +131,11 @@ class RedshopModelCoupons extends RedshopModelList
 
 		if ($filterType == 'percent')
 		{
-			$query->where($db->qn('percent_or_total') . ' = 1');
+			$query->where($db->qn('c.percent_or_total') . ' = 1');
 		}
 		elseif ($filterType == 'total')
 		{
-			$query->where($db->qn('percent_or_total') . ' = 0');
+			$query->where($db->qn('c.percent_or_total') . ' = 0');
 		}
 
 		// Filter: Coupon type
@@ -163,7 +163,7 @@ class RedshopModelCoupons extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol       = $this->state->get('list.ordering', 'c.coupon_id');
+		$orderCol       = $this->state->get('list.ordering', 'c.id');
 		$orderDirection = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirection));

@@ -9,126 +9,115 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelCoupon extends RedshopModel
+/**
+ * Model Coupon
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopModelCoupon extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
+	 *
+	 * @throws  Exception
+	 */
+	protected function loadFormData()
 	{
-		parent::__construct();
+		// Check the session for previously entered form data.
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.coupon.data', array());
 
-		$app                 = JFactory::getApplication();
-		$this->_context      = 'coupon_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter              = $app->getUserStateFromRequest($this->_context . 'filter_search', 'filter_search', '');
-		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
-	}
-
-	public function getData()
-	{
-		if (empty($this->_data))
+		if (empty($data))
 		{
-			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$data = $this->getItem();
 		}
 
-		return $this->_data;
+		$this->preprocessData('com_redshop.coupon', $data);
+
+		return $data;
 	}
 
-	public function getTotal()
+	/**
+	 * Get remaining coupon amount
+	 *
+	 * @return  mixed
+	 */
+	public function getRemainingCouponAmount()
 	{
-		if (empty($this->_total))
+		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE coupon_id =' . $this->_id;
+		$this->_db->setQuery($query);
+
+		return $this->_db->loadResult();
+	}
+
+	public function getuserslist()
+	{
+		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix
+			. 'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
+		$this->_db->setQuery($query);
+
+		return $this->_db->loadObjectlist();
+	}
+
+	public function getproducts()
+	{
+		$product_id = JFactory::getApplication()->input->get('pid');
+
+		if ($product_id)
 		{
-			$query        = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product WHERE product_id =' . $product_id;
+			$this->_db->setQuery($query);
+
+			return $this->_db->loadObject();
+		}
+	}
+
+	public function getuserfullname2($uid)
+	{
+		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id="
+			. $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
+		$this->_db->setQuery($query);
+		$this->_username = $this->_db->loadObject();
+		$fullname        = '';
+
+		if ($this->_username)
+		{
+			$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
 		}
 
-		return $this->_total;
+		return $fullname;
 	}
 
-	public function getPagination()
+	/**
+	 * Method for check duplicate code on voucher and coupon
+	 *
+	 * @param   string  $discountCode  Discount code.
+	 *
+	 * @return  integer
+	 */
+	public function checkDuplicate($discountCode)
 	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
+		$db = $this->getDbo();
 
-		return $this->_pagination;
-	}
+		$voucherQuery = $db->getQuery(true)
+			->select($db->qn('code'))
+			->from($db->qn('#__redshop_voucher'));
+		$couponQuery  = $db->getQuery(true)
+			->select($db->qn('coupon_code', 'code'))
+			->from($db->qn('#__redshop_coupons'));
+		$couponQuery->union($voucherQuery);
 
-	public function _buildQuery()
-	{
-		$filter = $this->getState('filter');
-		$where  = '';
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('(' . $couponQuery . ') AS ' . $db->qn('data'))
+			->where($db->qn('data.code') . ' = ' . $db->quote($discountCode));
 
-		if ($filter)
-		{
-			if ($filter == "Percentage" || $filter == "percentage")
-			{
-				$percentage = 1;
-			}
-
-			if ($filter == "Total" || $filter == "total")
-			{
-				$percentage = 0;
-			}
-
-			if ($filter == "User Specific" || $filter == "user specific")
-			{
-				$coupon_type = 1;
-			}
-
-			if ($filter == "Global" || $filter == "global")
-			{
-				$coupon_type = 0;
-			}
-
-			$where = " WHERE coupon_code like '%" . $filter . "%' ";
-
-			if (isset($percentage))
-			{
-				$where .= " OR percent_or_total='" . $percentage . "'";
-			}
-
-			if (isset($coupon_type))
-			{
-				$where .= " OR coupon_type='" . $coupon_type . "'";
-			}
-		}
-
-		$orderby = $this->_buildContentOrderBy();
-		$query   = "SELECT distinct(c.coupon_id),c.* FROM " . $this->_table_prefix . "coupons c "
-			. $where
-			. $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'coupon_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return $db->setQuery($query)->loadResult();
 	}
 }
