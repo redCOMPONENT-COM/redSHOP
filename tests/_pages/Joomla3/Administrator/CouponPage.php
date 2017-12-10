@@ -43,12 +43,12 @@ class CouponPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldType = ['id' => 'jform_type'];
+	public static $fieldType = ['name' => 'jform[type]'];
 
 	/**
 	 * @var array
 	 */
-	public static $fieldEffect = ['id' => 'jform_effect'];
+	public static $fieldEffect = ['name' => 'jform[effect]'];
 
 	public static $selectFirst = "//input[@id='cb0']";
 

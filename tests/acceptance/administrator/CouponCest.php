@@ -15,22 +15,26 @@
  *
  * @since    1.4
  */
-class ManageCouponAdministratorCest
+class CouponCest
 {
+	/**
+	 * CouponCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
 		$this->couponCode       = $this->faker->bothify('Coupon Code ?##?');
 		$this->updateCouponCode = 'New ' . $this->couponCode;
-		$this->couponValueIn    = 'Total';
+		$this->couponValueIn    = 0;
 		$this->couponValue      = '100';
-		$this->couponType       = 'Globally';
+		$this->couponType       = 0;
 		$this->couponLeft       = '10';
 	}
 
 	/**
 	 * Function to Test Coupon Creation in Backend
 	 *
+	 * @return  void
 	 */
 	public function createCoupon(AcceptanceTester $I, $scenario)
 	{

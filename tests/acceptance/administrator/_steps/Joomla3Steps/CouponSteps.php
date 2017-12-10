@@ -39,8 +39,8 @@ class CouponSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\CouponPage::$fieldCode, $couponCode);
 		$client->fillField(\CouponPage::$fieldValue, $couponValue);
 		$client->fillField(\CouponPage::$fieldAmountLeft, $couponLeft);
-		$client->chooseOnSelect2(\CouponPage::$fieldType, $couponType);
-		$client->chooseOnSelect2(\CouponPage::$fieldEffect, $couponEffect);
+		$client->chooseRadio(\CouponPage::$fieldType, $couponType);
+		$client->chooseRadio(\CouponPage::$fieldEffect, $couponEffect);
 		$client->click(\CouponPage::$buttonSaveClose);
 		$client->waitForText(\CouponPage::$messageItemSaveSuccess, 60, \CouponPage::$selectorSuccess);
 		$client->see(\CouponPage::$messageItemSaveSuccess, \CouponPage::$selectorSuccess);
@@ -89,13 +89,15 @@ class CouponSteps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Search for a Coupon Code
 	 *
-	 * @param   string  $couponCode    Code of the Coupon for which we are searching
-	 * @param   string  $functionName  Name of the function after which Search is being called
+	 * @param   string  $couponCode  Code of the Coupon for which we are searching
 	 *
-	 * @return void
+	 * @return  void
 	 */
-	public function searchCoupon($couponCode = 'Test Coupon', $functionName = 'Search')
+	public function searchCoupon($couponCode = 'Test Coupon')
 	{
-		$this->search(new \CouponPage, $couponCode, \CouponPage::$firstResultRow, $functionName);
+		$client = $this;
+		$client->amOnPage(\CouponPage::$url);
+		$client->waitForText(\CouponPage::$namePage, 30, \CouponPage::$headPage);
+		$client->filterListBySearching($couponCode);
 	}
 }
