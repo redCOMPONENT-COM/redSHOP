@@ -14,16 +14,16 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Update
  *
- * @since       2.0.7
+ * @since       2.1.0
  */
-class RedshopUpdate211Beta1 extends RedshopInstallUpdate
+class RedshopUpdate210 extends RedshopInstallUpdate
 {
 	/**
 	 * Return list of old files for clean
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.7
+	 * @since   2.1.0
 	 */
 	protected function getOldFiles()
 	{
@@ -35,7 +35,7 @@ class RedshopUpdate211Beta1 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.7
+	 * @since   2.1.0
 	 */
 	protected function getOldFolders()
 	{
@@ -49,7 +49,7 @@ class RedshopUpdate211Beta1 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.7
+	 * @since   2.1.0
 	 */
 	public function migrateTemplateFiles()
 	{
@@ -73,10 +73,10 @@ class RedshopUpdate211Beta1 extends RedshopInstallUpdate
 		foreach ($templates as $template)
 		{
 			// Skip if template already migrate
-			/*if (!empty($template->file_name))
+			if (!empty($template->file_name))
 			{
 				continue;
-			}*/
+			}
 
 			/** @var RedshopTableTemplate $table */
 			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
