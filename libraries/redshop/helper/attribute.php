@@ -35,6 +35,8 @@ abstract class RedshopHelperAttribute
 	 * @return  string                       HTML content with replaced data.
 	 *
 	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent = '',
 		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
