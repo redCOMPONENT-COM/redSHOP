@@ -77,8 +77,8 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 		$template,
 		'category_template',
 		'class="inputbox" size="1" onchange="loadTemplate(this);"',
-		'template_id',
-		'template_name',
+		'id',
+		'name',
 		$templateId
 	);
 
@@ -792,7 +792,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Replace attribute with null value if it exist
 		if (!empty($attributeTemplate))
 		{
-			$templateAttribute = "{attributeTemplate:" . $attributeTemplate->template_name . "}";
+			$templateAttribute = "{attributeTemplate:" . $attributeTemplate->name . "}";
 
 			if (strstr($dataAdd, $templateAttribute))
 			{

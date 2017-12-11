@@ -222,8 +222,8 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function TemplateData()
 	{
-		$query = "SELECT template_id as value,template_name as text FROM " . $this->_table_prefix
-			. "template WHERE template_section ='manufacturer_products' and published=1";
+		$query = "SELECT id as value,name as text FROM " . $this->_table_prefix
+			. "template WHERE section ='manufacturer_products' and published=1";
 		$this->_db->setQuery($query);
 		$this->_templatedata = $this->_db->loadObjectList();
 

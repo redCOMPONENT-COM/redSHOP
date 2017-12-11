@@ -56,12 +56,12 @@ if ($this->params->get('show_page_heading', 1))
 
 // Page title end
 
-$manufacturertemplate = $redTemplate->getTemplate("manufacturer_products", $manufacturer->template_id);
+$manufacturertemplate = $redTemplate->getTemplate("manufacturer_products", $manufacturer->id);
 
 if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
 	$template_desc = $manufacturertemplate[0]->template_desc;
-	$template_id   = $manufacturertemplate[0]->template_id;
+	$template_id   = $manufacturertemplate[0]->id;
 }
 else
 {

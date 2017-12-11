@@ -23,7 +23,7 @@ class RedshopModelTemplate extends RedshopModelForm
 	 *
 	 * @var  array
 	 */
-	protected $copyUniqueColumns = array('template_name');
+	protected $copyUniqueColumns = array('name');
 
 	/**
 	 * The unique columns increment.
@@ -33,11 +33,43 @@ class RedshopModelTemplate extends RedshopModelForm
 	protected $copyIncrement = 'dash';
 
 	/**
+	 * Method to get the record form.
+	 *
+	 * @param   array    $data      Data for the form. [optional]
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
+	 *
+	 * @return  mixed               A JForm object on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		/** @var JForm $form */
+		$form = parent::getForm($data, $loadData);
+
+		if (!$form)
+		{
+			return false;
+		}
+
+		$id = (int) $form->getValue('id');
+
+		if ($id)
+		{
+			$form->setFieldAttribute('section', 'readonly', true);
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
 	protected function loadFormData()
 	{

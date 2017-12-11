@@ -78,7 +78,7 @@ class RedshopHelperProductAccessory
 
 		if (empty($accessory))
 		{
-			$templateContent = str_replace("{accessory_template:" . $accessoryTemplate->template_name . "}", "", $templateContent);
+			$templateContent = str_replace("{accessory_template:" . $accessoryTemplate->name . "}", "", $templateContent);
 
 			return $templateContent;
 		}
@@ -427,7 +427,7 @@ class RedshopHelperProductAccessory
 		}
 
 		$templateContent = str_replace(
-			"{accessory_template:" . $accessoryTemplate->template_name . "}",
+			"{accessory_template:" . $accessoryTemplate->name . "}",
 			$accessoryWrapper,
 			$templateContent
 		);

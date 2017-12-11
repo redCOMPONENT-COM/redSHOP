@@ -51,7 +51,7 @@ $manufacturerdetail_template = $redTemplate->getTemplate("manufacturer_detail");
 if (count($manufacturerdetail_template) > 0 && $manufacturerdetail_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturerdetail_template[0]->template_desc;
-	$template_id   = $manufacturerdetail_template[0]->template_id;
+	$template_id   = $manufacturerdetail_template[0]->id;
 }
 else
 {

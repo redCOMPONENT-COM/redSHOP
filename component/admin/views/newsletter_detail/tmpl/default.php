@@ -83,7 +83,7 @@ $model = $this->getModel('newsletter_detail');
 						{
 							?>
 							<span style="width:10%;">
-					<a href="index.php?option=com_redshop&task=template.edit&template_id=<?php echo $this->detail->template_id ?>" target="_blank">
+					<a href="index.php?option=com_redshop&task=template.edit&id=<?php echo $this->detail->template_id ?>" target="_blank">
 						<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE') ?>
 					</a>
 				</span>

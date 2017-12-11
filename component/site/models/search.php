@@ -111,8 +111,8 @@ class RedshopModelSearch extends RedshopModel
 		$query = $db->getQuery(true)
 			->select('c.template AS category_template, t.*')
 			->from($db->qn('#__redshop_template', 't'))
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON t.template_id = c.template')
-			->where('t.template_section = ' . $db->q('category'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON t.id = c.template')
+			->where('t.section = ' . $db->q('category'))
 			->where('t.published = 1');
 
 		if ($cid != 0)
@@ -122,15 +122,14 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($templateid != 0)
 		{
-			$query->where('t.template_id = ' . (int) $templateid);
+			$query->where('t.id = ' . (int) $templateid);
 		}
 
 		$templateDesc = null;
 
 		if ($template = $db->setQuery($query)->loadObject())
 		{
-			$redTemplate  = Redtemplate::getInstance();
-			$templateDesc = $redTemplate->readtemplateFile($template->template_section, $template->template_name);
+			$templateDesc = RedshopHelperTemplate::readTemplateFile($template->section, $template->file_name);
 		}
 
 		$this->setState('templateDesc', $templateDesc);

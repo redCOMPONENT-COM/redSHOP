@@ -7,8 +7,8 @@
     <description>Translation definition for redSHOP Templates</description>
     <reference>
         <table name="redshop_template">
-            <field type="referenceid" name="template_id" translate="0">ID</field>
-            <field type="titletext" name="template_name" translate="1" >Name</field>
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="name" translate="1" >Name</field>
             <field type="htmltext" name="template_desc" translate="1" ebuttons="readmore,pagebreak">Description</field>
             <field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
             <field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>

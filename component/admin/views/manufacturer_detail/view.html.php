@@ -61,11 +61,11 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 		}
 
 		$optiontemplet   = array();
-		$optiontemplet[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
+		$optiontemplet[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
 		$result = array_merge($optiontemplet, $template_data);
 
-		$lists['template'] = JHTML::_('select.genericlist', $result, 'template_id',
+		$lists['template'] = JHtml::_('select.genericlist', $result, 'template_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->template_id
 		);
 
@@ -75,7 +75,7 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 			$detail->excluding_category_list, 10, false, true
 		);
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published'] = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$field              = extra_field::getInstance();
 
 		$list_field           = $field->list_all_field(10, $detail->manufacturer_id);
