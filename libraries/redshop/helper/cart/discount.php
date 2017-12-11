@@ -59,6 +59,8 @@ class RedshopHelperCartDiscount
 	 * @return  array|bool        Array of cart or boolean value.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function applyCoupon($cartData = array())
 	{
@@ -79,9 +81,9 @@ class RedshopHelperCartDiscount
 
 		if (!empty($coupon))
 		{
-			$discountType = $coupon->percent_or_total;
-			$couponId     = $coupon->coupon_id;
-			$couponType   = $coupon->coupon_type;
+			$discountType = $coupon->type;
+			$couponId     = $coupon->id;
+			$couponType   = $coupon->effect;
 			$couponUser   = $coupon->userid;
 			$userType     = false;
 			$return       = true;
@@ -95,7 +97,7 @@ class RedshopHelperCartDiscount
 				}
 			}
 
-			if ($coupon->coupon_left <= $counter)
+			if ($coupon->amount_left <= $counter)
 			{
 				return false;
 			}
@@ -153,11 +155,11 @@ class RedshopHelperCartDiscount
 					$avgVAT = $subTotal / $cart['product_subtotal_excl_vat'];
 				}
 
-				$couponValue = $avgVAT * $coupon->coupon_value;
+				$couponValue = $avgVAT * $coupon->value;
 			}
 			else
 			{
-				$couponValue = ($subTotal * $coupon->coupon_value) / (100);
+				$couponValue = ($subTotal * $coupon->value) / (100);
 			}
 
 			$key = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
@@ -286,6 +288,8 @@ class RedshopHelperCartDiscount
 	 * @return  array|bool        Array of cart or boolean value.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function applyVoucher($cartData = array())
 	{

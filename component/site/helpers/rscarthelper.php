@@ -3831,7 +3831,7 @@ class rsCarthelper
 	{
 		$db = JFactory::getDbo();
 
-		$today  = time();
+		$today  = JFactory::getDate()->toSql();
 		$cart   = $this->_session->get('cart');
 		$user   = JFactory::getUser();
 		$coupon = array();
@@ -3860,7 +3860,7 @@ class rsCarthelper
 				)
 				->leftjoin(
 					$db->qn('#__redshop_coupons_transaction', 'ct')
-					. ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.coupon_id')
+					. ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.id')
 				)
 				->where($db->qn('ct.coupon_value') . ' > 0')
 				->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($coupon_code))
@@ -3878,9 +3878,9 @@ class rsCarthelper
 
 		if (count($coupon) <= 0)
 		{
-			$query->where($db->qn('c.coupon_code') . ' = ' . $db->quote($coupon_code))
+			$query->where($db->qn('c.code') . ' = ' . $db->quote($coupon_code))
 
-				->where($db->qn('c.coupon_left') . ' > 0')
+				->where($db->qn('c.amount_left') . ' > 0')
 				->where(
 					'('
 						. $db->quote($subtotal) . ' >= ' . $db->qn('c.subtotal')

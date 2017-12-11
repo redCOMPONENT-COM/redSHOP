@@ -31,14 +31,14 @@ class RedshopModelCoupons extends RedshopModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'c.id',
-				'coupon_code', 'c.coupon_code',
-				'percent_or_total', 'c.percent_or_total',
-				'coupon_value', 'c.coupon_value',
+				'code', 'c.code',
+				'type', 'c.type',
+				'value', 'c.value',
 				'start_date', 'c.start_date',
 				'end_date', 'c.end_date',
-				'coupon_type', 'c.coupon_type',
+				'effect', 'c.effect',
 				'userid', 'c.userid',
-				'coupon_left', 'c.coupon_left',
+				'amount_left', 'c.amount_left',
 				'published', 'c.published',
 				'subtotal', 'c.subtotal',
 				'order_id', 'c.order_id',
@@ -123,31 +123,31 @@ class RedshopModelCoupons extends RedshopModelList
 
 		if (!empty($search))
 		{
-			$query->where($db->qn('c.coupon_code') . ' LIKE ' . $db->quote('%' . $search . '%'));
+			$query->where($db->qn('c.code') . ' LIKE ' . $db->quote('%' . $search . '%'));
 		}
 
 		// Filter: type
 		$filterType = $this->getState('filter.type', null);
 
-		if ($filterType == 'percent')
+		if (is_numeric($filterType))
 		{
-			$query->where($db->qn('c.percent_or_total') . ' = 1');
+			$query->where($db->qn('c.type') . ' = ' . $filterType);
 		}
-		elseif ($filterType == 'total')
+		else
 		{
-			$query->where($db->qn('c.percent_or_total') . ' = 0');
+			$query->where($db->qn('c.type') . ' IN (0,1)');
 		}
 
-		// Filter: Coupon type
-		$filterCouponType = $this->getState('filter.coupon_type');
+		// Filter: Effect
+		$filterEffect = $this->getState('filter.effect');
 
-		if (is_numeric($filterCouponType))
+		if (is_numeric($filterEffect))
 		{
-			$query->where($db->qn('c.coupon_type') . ' = ' . (int) $filterCouponType);
+			$query->where($db->qn('c.effect') . ' = ' . (int) $filterEffect);
 		}
-		elseif ($filterCouponType === '')
+		elseif ($filterEffect === '')
 		{
-			$query->where($db->qn('c.coupon_type') . ' IN (0,1)');
+			$query->where($db->qn('c.effect') . ' IN (0,1)');
 		}
 
 		// Filter: Published

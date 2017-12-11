@@ -24,4 +24,54 @@ class RedshopTableCoupon extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_coupons';
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (!parent::doCheck())
+		{
+			return false;
+		}
+
+		$db = $this->getDbo();
+
+		// Check duplicate.
+		$code = $this->get('code');
+
+		$voucherQuery = $db->getQuery(true)
+			->select($db->qn('code'))
+			->from($db->qn('#__redshop_voucher'));
+
+		$couponQuery = $db->getQuery(true)
+			->select($db->qn('code'))
+			->from($db->qn('#__redshop_coupons'));
+
+		if ($this->hasPrimaryKey())
+		{
+			$couponQuery->where($db->qn('id') . ' <> ' . $this->id);
+		}
+
+		$couponQuery->union($voucherQuery);
+
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('(' . $couponQuery . ') AS ' . $db->qn('data'))
+			->where($db->qn('data.code') . ' = ' . $db->quote($code));
+
+		if ($db->setQuery($query)->loadResult())
+		{
+			$this->setError(JText::_('COM_REDSHOP_COUPON_ERROR_CODE_ALREADY_EXIST'));
+
+			return false;
+		}
+
+		return true;
+	}
 }

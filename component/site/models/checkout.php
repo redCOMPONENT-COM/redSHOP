@@ -1221,6 +1221,8 @@ class RedshopModelCheckout extends RedshopModel
 	 * @param   int  $order_id  ID of order.
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function sendGiftCard($order_id)
 	{
@@ -1259,23 +1261,24 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
 			$gift_code         = RedshopHelperOrder::randomGenerateEncryptKey(12);
-			$couponItems       = $this->getTable('coupon_detail');
+			$couponItems       = RedshopTable::getAdminInstance('Coupon');
 
 			if ($giftcardData->customer_amount)
 			{
 				$giftcardData->giftcard_value = $eachorders->product_final_price;
 			}
 
-			$couponItems->coupon_code      = $gift_code;
-			$couponItems->percent_or_total = 0;
-			$couponItems->coupon_value     = $giftcardData->giftcard_value;
-			$couponItems->start_date       = strtotime(date('d M Y'));
-			$couponItems->end_date         = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
-			$couponItems->coupon_type      = 0;
-			$couponItems->userid           = 0;
-			$couponItems->coupon_left      = 1;
-			$couponItems->published        = 1;
-			$couponItems->free_shipping    = $giftcardData->free_shipping;
+			$couponItems->code          = $gift_code;
+			$couponItems->type          = 0;
+			$couponItems->value         = $giftcardData->giftcard_value;
+			$couponItems->start_date    = JFactory::getDate()->toSql();
+			$couponItems->end_date      = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
+			$couponItems->end_date      = JFactory::getDate($couponItems->end_date)->toSql();
+			$couponItems->effect        = 0;
+			$couponItems->userid        = 0;
+			$couponItems->amount_left   = 1;
+			$couponItems->published     = 1;
+			$couponItems->free_shipping = $giftcardData->free_shipping;
 
 			if (!$couponItems->store())
 			{
@@ -1850,26 +1853,30 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$db = JFactory::getDbo();
-		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
-			. "WHERE coupon_id = " . (int) $cart['coupon_id'] . " "
-			. "AND coupon_code = " . $db->quote($cart['coupon_code']) . " LIMIT 0,1";
-		$db->setQuery($query);
-		$row = $db->loadObject();
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true)
+			->select($db->qn(array('value', 'type')))
+			->from($db->qn('#__redshop_coupons'))
+			->where($db->qn('id') . ' = ' . (int) $cart['coupon_id'])
+			->where($db->qn('code') . ' = ' . $db->quote($cart['coupon_code']));
+
+		$row = $db->setQuery($query)->loadObject();
+
+		$couponAmount = 0;
 
 		if (count($row) > 0)
 		{
 			if ($row->percent_or_total == 1)
 			{
-				$coupon_amount = ($cart['product_subtotal'] * $row->coupon_value) / (100);
+				$couponAmount = ($cart['product_subtotal'] * $row->coupon_value) / (100);
 			}
 			else
 			{
-				$coupon_amount = $row->coupon_value;
+				$couponAmount = $row->coupon_value;
 			}
 		}
 
-		return $coupon_amount;
+		return $couponAmount;
 	}
 
 	public function getCategoryNameByProductId($pid)
@@ -1972,8 +1979,8 @@ class RedshopModelCheckout extends RedshopModel
 				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
 
 				$rowcouponDetail = $this->getTable('coupon_detail');
-				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
-					. "WHERE coupon_id  = " . (int) $coupon_id;
+				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int) $coupon_volume . " "
+					. "WHERE id  = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
 

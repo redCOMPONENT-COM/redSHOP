@@ -28,6 +28,10 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 	protected function getOldFiles()
 	{
 		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/coupon_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/views/coupon/tmpl/default.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/coupon_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/coupon_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/addressfields_listing.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php'
 		);
@@ -43,9 +47,62 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 	protected function getOldFolders()
 	{
 		return array(
-			JPATH_SITE . "/components/com_redshop/templates",
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/addressfields_listing'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/addressfields_listing',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/coupon_detail',
+			JPATH_SITE . '/components/com_redshop/templates'
 		);
+	}
+
+	/**
+	 * Method for migrate voucher data to new table
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public function migrateCoupons()
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_coupons'))
+			->order($db->qn('id'));
+
+		$coupons = $db->setQuery($query)->loadColumn();
+
+		if (empty($coupons))
+		{
+			return;
+		}
+
+		foreach ($coupons as $couponId)
+		{
+			$table = RedshopTable::getAdminInstance('Coupon');
+
+			if (!$table->load($couponId))
+			{
+				continue;
+			}
+
+			$table->start_date = empty($coupon['start_date_old']) ?
+				'0000-00-00 00:00:00' : JFactory::getDate($coupon['start_date_old'])->format('Y-m-d H:i:s');
+
+			$table->end_date = empty($coupon['end_date_old']) ?
+				'0000-00-00 00:00:00' : JFactory::getDate($coupon['end_date_old'])->format('Y-m-d H:i:s');
+
+			if (!$table->store())
+			{
+				JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+			}
+		}
+
+		$query = 'CALL redSHOP_Column_Remove(' . $db->quote('#__redshop_coupons') . ',' . $db->quote('start_date_old') . ');';
+		$db->setQuery($query)->execute();
+		$query = 'CALL redSHOP_Column_Remove(' . $db->quote('#__redshop_coupons') . ',' . $db->quote('end_date_old') . ');';
+		$db->setQuery($query)->execute();
 	}
 
 	/**
@@ -132,7 +189,7 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 	 *
 	 * @return  string            Template Joomla view name
 	 *
-	 * @since   2.0.0.3
+	 * @since   2.1.0
 	 */
 	protected function getTemplateView($section)
 	{
@@ -218,7 +275,7 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 				break;
 
 			default:
-				return false;
+				return '';
 		}
 
 		return $view;

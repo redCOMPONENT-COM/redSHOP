@@ -39,6 +39,7 @@
                 default="0.0"
                 filter="float"
                 required="true"
+                table-width="10%"
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
@@ -77,14 +78,15 @@
         </field>
         <field
                 name="userid"
-                type="redshop.user"
+                type="redshop.users"
                 label="COM_REDSHOP_COUPON_USER_SPECIFIC"
                 description="COM_REDSHOP_COUPON_USER_SPECIFIC_DESC"
                 showon="effect:1"
                 class="form-control"
                 default=""
-                table-hide="1"
-        />
+                table-hide="1">
+            <option value="">COM_REDSHOP_COUPON_USER_SPECIFIC_SELECT</option>
+        </field>
         <field
                 name="subtotal"
                 type="redshop.text"
@@ -117,6 +119,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
+                table-width="10%"
         />
         <field
                 name="published"

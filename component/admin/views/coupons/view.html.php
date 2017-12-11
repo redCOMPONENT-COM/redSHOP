@@ -38,36 +38,22 @@ class RedshopViewCoupons extends RedshopViewList
 		switch ($config['dataCol'])
 		{
 			case 'type':
-				if (!$value)
-				{
-					return '<span class="label label-info">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL') . '</span>';
-				}
-				else
-				{
-					return '<span class="label label-primary">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_PERCENTAGE') . '</span>';
-				}
-				break;
+				return !$value ? '<span class="label label-info">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL') . '</span>'
+					: '<span class="label label-success">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_PERCENTAGE') . '</span>';
 
 			case 'effect':
-				if (!$value)
-				{
-					return '<span class="label label-info">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL') . '</span>';
-				}
-				else
-				{
-					return '<span class="label label-primary">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_USER') . '</span>';
-				}
-				break;
+				return !$value ? '<span class="label label-info">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL') . '</span>'
+					: '<span class="label label-success">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_USER') . '</span>';
 
 			case 'value':
 				if (!$isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true)
 				{
-					$display = RedshopHelperProductPrice::formattedPrice($value);
+					$display = !$row->type ? RedshopHelperProductPrice::formattedPrice($value) : $value . '%';
 
 					return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, 'number');
 				}
 
-				return RedshopHelperProductPrice::formattedPrice($value);
+				return !$row->type ? RedshopHelperProductPrice::formattedPrice($value) : $value . '%';
 
 			case 'start_date':
 			case 'end_date':

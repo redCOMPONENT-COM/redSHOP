@@ -195,7 +195,7 @@ class RedshopHelperCatalog
 			->insert($db->qn('#__redshop_coupons'))
 			->columns(
 				$db->qn(
-					array('coupon_code', 'percent_or_total', 'coupon_value', 'start_date', 'end_date', 'coupon_type', 'userid', 'published')
+					array('code', 'type', 'value', 'start_date', 'end_date', 'effect', 'userid', 'published')
 				)
 			)
 			->values(

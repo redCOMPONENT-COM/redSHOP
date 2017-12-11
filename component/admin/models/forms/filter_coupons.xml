@@ -8,6 +8,26 @@
                 placeholder="JSEARCH_FILTER"
                 class="js-enter-submits"
         />
+        <field
+                name="type"
+                type="list"
+                label="COM_REDSHOP_COUPON_TYPE"
+                onchange="this.form.submit();"
+                default="">
+            <option value="">COM_REDSHOP_COUPON_TYPE_OPTION_SELECT</option>
+            <option value="0">COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL</option>
+            <option value="1">COM_REDSHOP_COUPON_TYPE_OPTION_PERCENTAGE</option>
+        </field>
+        <field
+                name="effect"
+                type="list"
+                label="COM_REDSHOP_COUPON_EFFECT"
+                onchange="this.form.submit();"
+                default="">
+            <option value="">COM_REDSHOP_COUPON_EFFECT_OPTION_SELECT</option>
+            <option value="0">COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL</option>
+            <option value="1">COM_REDSHOP_COUPON_EFFECT_OPTION_USER</option>
+        </field>
     </fields>
     <fields name="list">
         <field
