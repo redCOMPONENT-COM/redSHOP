@@ -3827,26 +3827,33 @@ class rsCarthelper
 		return $voucher;
 	}
 
-	public function getcouponData($coupon_code, $subtotal = 0)
+	/**
+	 * @param   string   $couponCode  Coupon code
+	 * @param   integer  $subtotal    Subtotal
+	 *
+	 * @return   array|mixed
+	 */
+	public function getcouponData($couponCode, $subtotal = 0)
 	{
 		$db = JFactory::getDbo();
 
 		$today  = JFactory::getDate()->toSql();
-		$cart   = $this->_session->get('cart');
 		$user   = JFactory::getUser();
 		$coupon = array();
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
-					->select('c.*')
-					->from($db->qn('#__redshop_coupons', 'c'))
-					->where($db->qn('c.published') . ' = 1')
-					->where(
-						'('
-							. $db->qn('c.start_date') . ' <= ' . $db->quote($today)
-							. ' AND ' . $db->qn('c.end_date') . ' >= ' . $db->quote($today)
-						. ')'
-					);
+			->select('c.*')
+			->from($db->qn('#__redshop_coupons', 'c'))
+			->where($db->qn('c.published') . ' = 1')
+			->where(
+			'('
+				. '(' . $db->qn('c.start_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' OR ' . $db->qn('c.start_date') . ' <= ' . $db->quote($today) . ')'
+				. ' AND (' . $db->qn('c.end_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' OR ' . $db->qn('c.end_date') . ' >= ' . $db->quote($today) . ')'
+				. ')'
+			);
 
 		if ($user->id)
 		{
@@ -3863,7 +3870,7 @@ class rsCarthelper
 					. ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.id')
 				)
 				->where($db->qn('ct.coupon_value') . ' > 0')
-				->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($coupon_code))
+				->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($couponCode))
 				->where($db->qn('ct.userid') . ' = ' . (int) $user->id)
 				->order($db->qn('ct.transaction_coupon_id') . ' DESC');
 
@@ -3878,7 +3885,7 @@ class rsCarthelper
 
 		if (count($coupon) <= 0)
 		{
-			$query->where($db->qn('c.code') . ' = ' . $db->quote($coupon_code))
+			$query->where($db->qn('c.code') . ' = ' . $db->quote($couponCode))
 
 				->where($db->qn('c.amount_left') . ' > 0')
 				->where(

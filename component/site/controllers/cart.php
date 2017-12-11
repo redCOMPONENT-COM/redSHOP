@@ -332,15 +332,16 @@ class RedshopControllerCart extends RedshopController
 	/**
 	 * Method to add coupon code in cart for discount
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function coupon()
 	{
-		$Itemid    = RedshopHelperRouter::getCartItemId();
+		$itemId = RedshopHelperRouter::getCartItemId();
 
 		// Call coupon method of model to apply coupon
 		$valid = $this->getModel('cart')->coupon();
-		$cart  = RedshopHelperCartSession::getCart();
+
+		$cart = RedshopHelperCartSession::getCart();
 		$this->modifyCalculation($cart);
 		RedshopHelperCart::cartFinalCalculation(false);
 
@@ -350,7 +351,7 @@ class RedshopControllerCart extends RedshopController
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
@@ -363,7 +364,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 			$this->setRedirect($link, JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID'), 'error');
 		}
 	}
