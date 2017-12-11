@@ -1095,7 +1095,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
+		$dispatcher->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
@@ -1171,6 +1171,15 @@ class RedshopModelCheckout extends RedshopModel
 
 		RedshopHelperStockroom::deleteCartAfterEmpty();
 
+		// Import files for plugin
+		JPluginHelper::importPlugin('redshop_product');
+
+		/*
+		 * We are going trigger this event to update shipping address for GLS / PostNord before generate invoice.
+		 * So shipping address will be updated correctly
+		*/
+		$dispatcher->trigger('onBeforeCreateEconomicInvoice', array(&$cart, &$row));
+
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
@@ -1204,17 +1213,17 @@ class RedshopModelCheckout extends RedshopModel
 		// Send the Order mail before payment
 		if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER') || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $row->order_payment_status == "Paid"))
 		{
-			$this->_redshopMail->sendOrderMail($row->order_id);
+			RedshopHelperMail::sendOrderMail($row->order_id);
 		}
 		elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
-			$this->_redshopMail->sendOrderMail($row->order_id, true);
+			RedshopHelperMail::sendOrderMail($row->order_id, true);
 		}
 
 		if ($row->order_status == "C" && $row->order_payment_status == "Paid")
 		{
-			$this->_order_functions->SendDownload($row->order_id);
+			RedshopHelperOrder::sendDownload($row->order_id);
 		}
 
 		return $row;
