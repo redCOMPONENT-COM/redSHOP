@@ -77,6 +77,5 @@ class CouponCest
 		$I = new AcceptanceTester\CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
 		$I->deleteCoupon($this->updateCouponCode);
-		$I->searchCoupon($this->updateCouponCode, 'Delete');
 	}
 }
