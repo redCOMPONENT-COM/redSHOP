@@ -62,10 +62,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
-		$redTemplate         = Redtemplate::getInstance();
-		$redhelper           = redhelper::getInstance();
+		$this->dispatcher    = RedshopHelperUtility::getDispatcher();
 		$this->producthelper = productHelper::getInstance();
 
 		$this->option = $this->input->getString('option', 'com_redshop');
@@ -211,7 +209,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$html         .= '</div>';
 		$lists['tags'] = $html;
 
-		$templates = $redTemplate->getTemplate("product");
+		$templates = RedshopHelperTemplate::getTemplate("product");
 
 		$manufacturers = $model->getmanufacturers();
 
@@ -235,10 +233,10 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$product_category = new product_category;
 
 		// Merging select option in the select box
-		$temps                   = array();
-		$temps[0]                = new stdClass;
-		$temps[0]->template_id   = "0";
-		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
+		$temps          = array();
+		$temps[0]       = new stdClass;
+		$temps[0]->id   = "0";
+		$temps[0]->name = JText::_('COM_REDSHOP_SELECT');
 
 		if (is_array($templates))
 		{
@@ -397,7 +395,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
 			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ',
-			'template_id', 'template_name', $detail->product_template
+			'id', 'name', $detail->product_template
 		);
 
 		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',

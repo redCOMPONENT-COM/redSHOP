@@ -30,10 +30,9 @@ class RedshopModelTemplates extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'template_id', 't.template_id',
-				'template_name', 't.template_name',
-				'template_desc', 't.template_desc',
-				'template_section', 't.template_section',
+				'id', 't.id',
+				'name', 't.name',
+				'section', 't.section',
 				'published', 't.published'
 			);
 		}
@@ -53,7 +52,7 @@ class RedshopModelTemplates extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 't.template_id', $direction = 'asc')
+	protected function populateState($ordering = 't.id', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -106,7 +105,7 @@ class RedshopModelTemplates extends RedshopModelList
 		if (!empty($search))
 		{
 			$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->qn('t.template_name') . ' LIKE ' . $search);
+			$query->where($db->qn('t.name') . ' LIKE ' . $search);
 		}
 
 		// Filter by search in name.
@@ -114,11 +113,11 @@ class RedshopModelTemplates extends RedshopModelList
 
 		if (!empty($filterSection))
 		{
-			$query->where($db->qn('t.template_section') . ' = ' . $db->q($filterSection));
+			$query->where($db->qn('t.section') . ' = ' . $db->q($filterSection));
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'template_id');
+		$orderCol  = $this->state->get('list.ordering', 'id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

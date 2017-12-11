@@ -74,11 +74,13 @@ class RedshopHelperClickatell
 			->where($db->qn('t.template_section') . ' = ' . $db->quote('clicktell_sms_message'))
 			->where('FIND_IN_SET(' . $db->quote($orderData->order_status) . ', order_status)')
 			->where('FIND_IN_SET(' . $db->quote($paymentMethodId) . ', payment_methods)')
-			->order($db->qn('template_id') . ' DESC');
+			->order($db->qn('id') . ' DESC');
 
 		$paymentMethod = $db->setQuery($query, 0, 1)->loadObject();
 
-		$message = self::replaceMessage($paymentMethod->template_desc, $orderData, $paymentName);
+		$templateDesc = RedshopHelperTemplate::readTemplateFile($paymentMethod->section, $paymentMethod->file_name);
+
+		$message = self::replaceMessage($templateDesc, $orderData, $paymentName);
 
 		if ($message)
 		{
@@ -91,7 +93,7 @@ class RedshopHelperClickatell
 			->where($db->qn('t.template_section') . ' = ' . $db->quote('clicktell_sms_message'))
 			->where('FIND_IN_SET(' . $db->quote($orderData->order_status) . ', order_status)')
 			->where('FIND_IN_SET(' . $db->quote($orderShippingClass) . ', shipping_methods)')
-			->order($db->qn('template_id') . ' DESC');
+			->order($db->qn('id') . ' DESC');
 
 		$shippingMethod = $db->setQuery($query)->loadObject();
 

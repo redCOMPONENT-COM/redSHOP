@@ -61,8 +61,8 @@ class RedshopViewShipping_box_detail extends RedshopViewAdmin
 
 		if ($isNew && (isset($post['shipping_box_name']) && $post['shipping_box_name'] != ""))
 		{
-			$detail->template_name    = $post['template_name'];
-			$detail->template_section = $post['template_section'];
+			$detail->name    = $post['template_name'];
+			$detail->section = $post['template_section'];
 			$template_desc            = $jinput->post->get('template_desc', '', 'raw');
 			$detail->template_desc    = $template_desc;
 			$detail->published        = $post['published'];

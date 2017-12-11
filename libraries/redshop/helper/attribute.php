@@ -35,6 +35,8 @@ abstract class RedshopHelperAttribute
 	 * @return  string                       HTML content with replaced data.
 	 *
 	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent = '',
 		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
@@ -53,7 +55,7 @@ abstract class RedshopHelperAttribute
 
 			if (!empty($attributeTemplate))
 			{
-				$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", "", $templateContent);
+				$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", "", $templateContent);
 			}
 
 			return self::replaceAttributewithCartData(
@@ -68,11 +70,11 @@ abstract class RedshopHelperAttribute
 			return $templateContent;
 		}
 
-		$templateContent = str_replace("{attributewithcart_template:$attributeTemplate->template_name}", "", $templateContent);
+		$templateContent = str_replace("{attributewithcart_template:$attributeTemplate->name}", "", $templateContent);
 
 		if ($isChild || count($attributes) <= 0)
 		{
-			$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", "", $templateContent);
+			$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", "", $templateContent);
 
 			return $templateContent;
 		}
@@ -585,11 +587,11 @@ abstract class RedshopHelperAttribute
 
 			$attribute_table .= "<span id='cart_attribute_box'></span></span>";
 
-			$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", $attribute_table, $templateContent);
+			$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", $attribute_table, $templateContent);
 		}
 		else
 		{
-			$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", "", $templateContent);
+			$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", "", $templateContent);
 		}
 
 		return $templateContent;
@@ -624,7 +626,7 @@ abstract class RedshopHelperAttribute
 
 		if ($isChild || !count($attributes))
 		{
-			return str_replace("{attributewithcart_template:$attributeTemplate->template_name}", "", $templateContent);
+			return str_replace("{attributewithcart_template:$attributeTemplate->name}", "", $templateContent);
 		}
 
 		$layout    = JFactory::getApplication()->input->getCmd('layout', '');
@@ -855,10 +857,10 @@ abstract class RedshopHelperAttribute
 
 			if (count($cart_template) > 0)
 			{
-				$templateContent = str_replace("{form_addtocart:$cart_template->template_name}", "", $templateContent);
+				$templateContent = str_replace("{form_addtocart:$cart_template->name}", "", $templateContent);
 			}
 		}
 
-		return str_replace("{attributewithcart_template:$attributeTemplate->template_name}", $attributeTable, $templateContent);
+		return str_replace("{attributewithcart_template:$attributeTemplate->name}", $attributeTable, $templateContent);
 	}
 }
