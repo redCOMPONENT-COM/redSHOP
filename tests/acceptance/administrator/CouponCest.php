@@ -34,6 +34,9 @@ class CouponCest
 	/**
 	 * Function to Test Coupon Creation in Backend
 	 *
+	 * @param   AcceptanceTester  $I         Acceptance
+	 * @param   string            $scenario  Scenario
+	 *
 	 * @return  void
 	 */
 	public function createCoupon(AcceptanceTester $I, $scenario)
@@ -45,16 +48,19 @@ class CouponCest
 	}
 
 	/**
-	 * Function to Test Coupon Updation in the Administrator
+	 * Function to Test Coupon Update in the Administrator
+	 *
+	 * @param   AcceptanceTester  $I         Acceptance
+	 * @param   string            $scenario  Scenario
 	 *
 	 * @depends createCoupon
+	 *
+	 * @return  void
 	 */
 	public function updateCoupon(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test if Coupon gets updated in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CouponSteps($scenario);
-		$I->wantTo('Update Existing Coupon');
 		$I->editCoupon($this->couponCode, $this->updateCouponCode);
 		$I->searchCoupon($this->updateCouponCode);
 	}

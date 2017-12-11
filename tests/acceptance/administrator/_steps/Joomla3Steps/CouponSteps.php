@@ -5,7 +5,9 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace AcceptanceTester;
+
 /**
  * Class CouponManagerJoomla3Steps
  *
@@ -58,20 +60,17 @@ class CouponSteps extends AdminManagerJoomla3Steps
 	 */
 	public function editCoupon($couponCode = 'Current Code', $newCouponCode = 'Testing New')
 	{
-		$I = $this;
-		$I->amOnPage(\CouponPage::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->see($couponCode, \CouponPage::$firstResultRow);
-		$I->click(\CouponPage::$selectFirst);
-		$I->click('Edit');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Edit View');
-		$I->waitForElement(\CouponPage::$fieldCode, 20);
-		$I->fillField(\CouponPage::$fieldCode, $newCouponCode);
-		$I->click('Save & Close');
-		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->see('Coupon detail saved', '.alert-success');
-		$I->seeElement(['link' => $newCouponCode]);
+		$client = $this;
+		$client->amOnPage(\CouponPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchCoupon($couponCode);
+		$client->click($couponCode);
+		$client->waitForElement(\CouponPage::$fieldCode, 30);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->fillField(\CouponPage::$fieldCode, $newCouponCode);
+		$client->click(\CouponPage::$buttonSaveClose);
+		$client->waitForText(\CouponPage::$messageItemSaveSuccess, 60, \CouponPage::$selectorSuccess);
+		$client->see(\CouponPage::$messageItemSaveSuccess, \CouponPage::$selectorSuccess);
 	}
 
 	/**
@@ -79,11 +78,22 @@ class CouponSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @param   string  $couponCode  Code of the Coupon which is to be Deleted
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function deleteCoupon($couponCode = 'Test Coupon')
 	{
-		$this->delete(new \CouponPage, $couponCode, \CouponPage::$firstResultRow, \CouponPage::$selectFirst);
+		$client = $this;
+		$client->amOnPage(\CouponPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchCountry($couponCode);
+		$client->checkAllResults();
+		$client->click(\CouponPage::$buttonDelete);
+		$client->acceptPopup();
+		$client->waitForText(\CouponPage::$messageItemDeleteSuccess, 60, \CouponPage::$selectorSuccess);
+		$client->see(\CouponPage::$messageItemDeleteSuccess, \CouponPage::$selectorSuccess);
+		$client->fillField(\CouponPage::$searchField, $couponCode);
+		$client->pressKey(\CouponPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$client->dontSee($couponCode, \CouponPage::$resultRow);
 	}
 
 	/**

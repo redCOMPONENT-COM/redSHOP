@@ -63,16 +63,16 @@ class RedshopModelCoupons extends RedshopModelList
 	 */
 	protected function populateState($ordering = 'c.id', $direction = 'asc')
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest((string) $this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type');
+		$type = $this->getUserStateFromRequest((string) $this->context . '.filter.type', 'filter_type');
 		$this->setState('filter.type', $type);
 
-		$couponType = $this->getUserStateFromRequest($this->context . '.filter.coupon_type', 'filter_coupon_type');
+		$couponType = $this->getUserStateFromRequest((string) $this->context . '.filter.coupon_type', 'filter_coupon_type');
 		$this->setState('filter.coupon_type', $couponType);
 
-		$filterPublished = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published');
+		$filterPublished = $this->getUserStateFromRequest((string) $this->context . '.filter.published', 'filter_published');
 		$this->setState('filter.published', $filterPublished);
 
 		// List state information.
