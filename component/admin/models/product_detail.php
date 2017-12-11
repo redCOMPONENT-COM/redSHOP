@@ -542,8 +542,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		$product_id = $row->product_id;
-
 		if (!$data['product_id'])
 		{
 			$prodid = $row->product_id;
@@ -587,30 +585,28 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		$where_cat_discount = '';
+		$catDiscountQuery = $this->_db->getQuery(true);
+		$catDiscountQuery->select('*')->from('#__redshop_mass_discount');
 
-		$categories    = array_unique($data['product_category']);
-		$countCategory = count($categories);
+		$categories = array_unique($data['product_category']);
 
 		// Building product categories relationship
-		for ($j = 0; $j < $countCategory; $j++)
+		foreach ($categories as $index => $category)
 		{
-			$cat = $categories[$j];
-
-			if (array_key_exists($cat, $catorder))
+			if (array_key_exists($category, $catorder))
 			{
-				$ordering = $catorder [$cat];
+				$ordering = $catorder [$category];
 			}
 			else
 			{
-				$queryorder = "SELECT max(ordering)  FROM " . $this->table_prefix . "product_category_xref WHERE  category_id ='" . $cat . "' ";
+				$queryorder = "SELECT max(ordering)  FROM " . $this->table_prefix . "product_category_xref WHERE  category_id ='" . $category . "' ";
 				$this->_db->setQuery($queryorder);
 				$result   = $this->_db->loadResult();
 				$ordering = $result + 1;
 			}
 
 			$query = 'INSERT INTO ' . $this->table_prefix . 'product_category_xref(category_id,product_id,ordering)
-					  VALUES ("' . $cat . '","' . $prodid . '","' . $ordering . '")';
+					  VALUES ("' . $category . '","' . $prodid . '","' . $ordering . '")';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -620,11 +616,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 				return false;
 			}
 
-			$where_cat_discount .= " FIND_IN_SET('" . $cat . "',category_id) ";
-
-			if ((count($categories) - 1) != $j)
+			if ((count($categories) - 1) != $index)
 			{
-				$where_cat_discount .= ' OR ';
+				$catDiscountQuery->where(' FIND_IN_SET(' . (int) $category . ',' . $this->_db->quoteName('category_id') . ')', 'OR');
+			}
+			else
+			{
+				$catDiscountQuery->where(' FIND_IN_SET(' . (int) $category . ',' . $this->_db->quoteName('category_id') . ')');
 			}
 		}
 
@@ -635,8 +633,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$category_array = array_diff($oldcategory, $categories);
 		}
 
-		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY id desc limit 0,1";
-		$this->_db->setQuery($sel);
+		$catDiscountQuery->order($this->_db->quoteName('id') . ' DESC LIMIT 0, 1');
+		$this->_db->setQuery($catDiscountQuery);
 		$mass_discount = $this->_db->loadObject();
 
 		if (count($category_array) > 0)
@@ -2998,7 +2996,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   int  $pid  ID.
 	 * @param   int  $sid  ID.
 	 *
-	 * @return  integer
+	 * @return  int
 	 */
 	public function StockRoomProductQuantity($pid, $sid)
 	{
