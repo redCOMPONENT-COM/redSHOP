@@ -77,7 +77,7 @@ class RedshopHelperCartDiscount
 		$db     = JFactory::getDbo();
 		$return = false;
 
-		$coupon = rsCarthelper::getInstance()->getcouponData($couponCode, $cart['product_subtotal']);
+		$coupon = rsCarthelper::getInstance()->getCouponData($couponCode, $cart['product_subtotal']);
 
 		if (!empty($coupon))
 		{
@@ -323,11 +323,10 @@ class RedshopHelperCartDiscount
 			return false;
 		}
 
-		$return    = true;
-		$type      = $voucher->type;
-		$voucherId = $voucher->id;
-
-		$productId  = $voucher->nproduct;
+		$return     = true;
+		$type       = $voucher->type;
+		$voucherId  = $voucher->id;
+		$productId  = isset($voucher->nproduct) ? $voucher->nproduct : 0;
 		$productArr = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart, $voucher->voucher_left);
 
 		if (empty($productArr['product_ids']))

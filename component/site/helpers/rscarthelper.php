@@ -3735,8 +3735,7 @@ class rsCarthelper
 		$user         = JFactory::getUser();
 		$voucher      = array();
 		$current_time = JFactory::getDate()->toSql();
-
-		$gbvoucher = $this->globalvoucher($voucher_code);
+		$globalVouchers = $this->globalvoucher($voucher_code);
 
 		if ($this->_globalvoucher != 1)
 		{
@@ -3767,12 +3766,12 @@ class rsCarthelper
 					$this->_r_voucher = 1;
 			}
 
-			if ((count($voucher)) <= 0)
+			if (count($voucher) <= 0)
 			{
 				$subQuery = $db->getQuery(true)
 					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
 					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
-					->where('v.id = pv.voucher_id');
+					->where($db->qn('v.id') . ' = ' . $db->qn('pv.voucher_id'));
 
 				$query = $db->getQuery(true)
 					->select(
@@ -3781,20 +3780,21 @@ class rsCarthelper
 							'v.free_ship', 'v.id', 'v.code', 'v.voucher_left')
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
-					->where('v.published = 1')
-					->where('v.code = ' . $db->quote($voucher_code))
-					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = 0 AND v.end_date = 0))')
-					->where('v.voucher_left > 0');
-				$db->setQuery($query);
-				$voucher = $db->loadObject();
+					->where($db->qn('v.published') . ' = 1')
+					->where($db->qn('v.code') . ' = ' . $db->quote($voucher_code))
+					->where('('
+						. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+						. ' AND ' . $db->qn('v.start_date') . ' <= ' . $db->quote($current_time) . ')'
+						. ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+						. ' AND ' . $db->qn('v.end_date') . ' >= ' . $db->quote($current_time) . ')'
+						. ')')
+					->where($db->qn('v.voucher_left') . ' > 0');
+
+				return $db->setQuery($query)->loadObject();
 			}
 		}
-		else
-		{
-			$voucher = $gbvoucher;
-		}
 
-		return $voucher;
+		return $globalVouchers;
 	}
 
 	public function globalvoucher($voucher_code)
@@ -3833,7 +3833,7 @@ class rsCarthelper
 	 *
 	 * @return   array|mixed
 	 */
-	public function getcouponData($couponCode, $subtotal = 0)
+	public function getCouponData($couponCode, $subtotal = 0)
 	{
 		$db = JFactory::getDbo();
 

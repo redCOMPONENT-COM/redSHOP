@@ -57,9 +57,6 @@ class RedshopViewVouchers extends RedshopViewList
 
 				return '<i class="text-danger fa fa-remove"></i>';
 
-			case 'voucher_left':
-				return RedshopHelperProductPrice::formattedPrice($value);
-
 			case 'start_date':
 			case 'end_date':
 				if ($value === '0000-00-00 00:00:00')
