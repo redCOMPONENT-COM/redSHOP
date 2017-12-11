@@ -85,7 +85,7 @@ class CouponSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\CouponPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->searchCountry($couponCode);
+		$client->searchCoupon($couponCode);
 		$client->checkAllResults();
 		$client->click(\CouponPage::$buttonDelete);
 		$client->acceptPopup();
