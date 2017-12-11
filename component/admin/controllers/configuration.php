@@ -242,16 +242,27 @@ class RedshopControllerConfiguration extends RedshopController
 	 * Reset template
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function resetTemplate()
 	{
 		/** @var RedshopModelConfiguration $model */
 		$model = $this->getModel('Configuration');
 
-		$model->resetTemplate();
+		$app = JFactory::getApplication();
 
-		$msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');
-		$this->setRedirect('index.php?option=com_redshop', $msg);
+		try
+		{
+			$model->resetTemplate();
+			$app->enqueueMessage(JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET'), 'success');
+		}
+		catch (Exception $exception)
+		{
+			$app->enqueueMessage($exception->getMessage(), 'error');
+		}
+
+		$this->setRedirect('index.php?option=com_redshop');
 	}
 
 	/**

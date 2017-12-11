@@ -13,6 +13,13 @@ jimport('joomla.filesystem.file');
 
 use Joomla\Registry\Registry;
 
+/**
+ * Class RedshopModelConfiguration
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.0.0
+ */
 class RedshopModelConfiguration extends RedshopModel
 {
 	/**
@@ -38,32 +45,37 @@ class RedshopModelConfiguration extends RedshopModel
 	}
 
 	/**
-	 * @param $data
+	 * Method for save configuration
 	 *
-	 * @return boolean
+	 * @param   array  $data  Array of data.
 	 *
-	 * @since version
+	 * @return  boolean
+	 *
+	 * @since   2.0.0
+	 *
+	 * @throws  Exception
 	 */
 	public function store($data)
 	{
-		$jInput = JFactory::getApplication()->input;
+		$input = JFactory::getApplication()->input;
 
 		$this->fileUpload($data);
 
 		// Product Detail Lightbox close button Image End
 		// Save the HTML tags into the tables
-		$data["welcomepage_introtext"]         = $jInput->getRaw('welcomepage_introtext');
-		$data["category_frontpage_introtext"]  = $jInput->getRaw('category_frontpage_introtext');
-		$data["registration_introtext"]        = $jInput->getRaw('registration_introtext');
-		$data["registration_comp_introtext"]   = $jInput->getRaw('registration_comp_introtext');
-		$data["vat_introtext"]                 = $jInput->getRaw('vat_introtext');
-		$data["welcomepage_introtext"]         = $jInput->getRaw('welcomepage_introtext');
-		$data["product_expire_text"]           = $jInput->getRaw('product_expire_text');
-		$data["cart_reservation_message"]      = $jInput->getRaw('cart_reservation_message');
-		$data["with_vat_text_info"]            = $jInput->getRaw('with_vat_text_info');
-		$data["without_vat_text_info"]         = $jInput->getRaw('without_vat_text_info');
+		$data["welcomepage_introtext"]         = $input->get('welcomepage_introtext', '', 'RAW');
+		$data["category_frontpage_introtext"]  = $input->get('category_frontpage_introtext', '', 'RAW');
+		$data["registration_introtext"]        = $input->get('registration_introtext', '', 'RAW');
+		$data["registration_comp_introtext"]   = $input->get('registration_comp_introtext', '', 'RAW');
+		$data["vat_introtext"]                 = $input->get('vat_introtext', '', 'RAW');
+		$data["welcomepage_introtext"]         = $input->get('welcomepage_introtext', '', 'RAW');
+		$data["product_expire_text"]           = $input->get('product_expire_text', '', 'RAW');
+		$data["cart_reservation_message"]      = $input->get('cart_reservation_message', '', 'RAW');
+		$data["with_vat_text_info"]            = $input->get('with_vat_text_info', '', 'RAW');
+		$data["without_vat_text_info"]         = $input->get('without_vat_text_info', '', 'RAW');
 		$data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
-		$data["show_price_shopper_group_list"] = implode(",", $data['show_price_shopper_group_list']);
+		$data["show_price_shopper_group_list"] = is_array($data['show_price_shopper_group_list']) ?
+			implode(",", $data['show_price_shopper_group_list']) : $data['show_price_shopper_group_list'];
 		$data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
 		$data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
 
@@ -118,6 +130,8 @@ class RedshopModelConfiguration extends RedshopModel
 	 * @return  void
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	private function fileUpload(&$data)
 	{
@@ -238,6 +252,9 @@ class RedshopModelConfiguration extends RedshopModel
 	 * @return    object  An object containing all redshop config data.
 	 *
 	 * @since    1.6
+	 *
+	 *
+	 * @throws   Exception
 	 */
 	public function getData()
 	{
@@ -261,25 +278,28 @@ class RedshopModelConfiguration extends RedshopModel
 	/**
 	 * Get Shop Currency Support
 	 *
-	 * @params: string $currency 	comma separated countries
-	 * @return: array stdClass Array for Shop country
+	 * @param   string  $currency  Separated countries
 	 *
-	 * currency_code as value
-	 * currency_name as text
+	 * @return  array              Array for Shop country
+	 *
+	 * @since   2.0.0
 	 */
-	public function getCurrencies($currency = "")
+	public function getCurrencies($currency = '')
 	{
-		$where = "";
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('currency_code', 'value'))
+			->select($db->qn('currency_name', 'text'))
+			->from($db->qn('#__redshop_currency'))
+			->order($db->qn('currency_name'));
 
 		if ($currency)
 		{
-			$where = " WHERE currency_code IN ('" . $currency . "')";
+			$query->where($db->qn('currency_code') . ' IN (' . $currency . ')');
 		}
 
-		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function getnewsletters()
@@ -320,8 +340,8 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletter_content($newsletter_id)
 	{
-		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM #__redshop_newsletter AS n '
-			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.template_id '
+		$query = 'SELECT n.template_id,n.body,n.subject FROM #__redshop_newsletter AS n '
+			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.id '
 			. 'WHERE n.published=1 '
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 
@@ -457,8 +477,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$columns = array('newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date');
 		$values = array((int) $newsletterId, '0', $db->quote($name[0]), 0, 0, $db->quote($today));
 
-		$query->insert($db->quoteName('#__redshop_newsletter_tracker'))
-			->columns($db->quoteName($columns))
+		$query->insert($db->qn('#__redshop_newsletter_tracker'))
+			->columns($db->qn($columns))
 			->values(implode(',', $values));
 
 		$db->setQuery($query)->execute();
@@ -483,12 +503,12 @@ class RedshopModelConfiguration extends RedshopModel
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array(
-			$db->quoteName('order_status_code', 'value'),
-			$db->quoteName('order_status_name', 'text')
+			$db->qn('order_status_code', 'value'),
+			$db->qn('order_status_name', 'text')
 			)
 		);
-		$query->from($db->quoteName('#__redshop_order_status'));
-		$query->where($db->quoteName('published') . ' = 1');
+		$query->from($db->qn('#__redshop_order_status'));
+		$query->where($db->qn('published') . ' = 1');
 
 		return $db->setQuery($query)->loadObjectList();
 	}
@@ -524,8 +544,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$query = $db->getQuery(true);
 		$query
 			->select('*')
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . ' LIKE ' . $db->quote('%mod_redshop%'));
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' LIKE ' . $db->quote('%mod_redshop%'));
 
 		return $db->setQuery($query)->loadObjectList();
 	}
@@ -544,8 +564,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$query = $db->getQuery(true);
 		$query
 			->select('*')
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($secion));
+			->from($db->qn('#__extensions'))
+			->where($db->qn('folder') . ' = ' . $db->quote($secion));
 
 		return $db->setQuery($query)->loadObjectList();
 	}
@@ -553,30 +573,31 @@ class RedshopModelConfiguration extends RedshopModel
 	/**
 	 * Reset template
 	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function resetTemplate()
 	{
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*')->from($db->quoteName('#__redshop_template'));
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_template'));
 
 		$list = $db->setQuery($query)->loadObjectList();
 
-		for ($i = 0, $in = count($list); $i < $in; $i++)
+		if (empty($list))
 		{
-			$data = $list[$i];
+			return;
+		}
 
-			$data->template_name = strtolower($data->template_name);
-			$data->template_name = str_replace(" ", "_", $data->template_name);
-			$templateFile        = RedshopHelperTemplate::getTemplateFilePath($data->template_section, $data->template_name, true);
+		foreach ($list as $template)
+		{
+			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
-			if (JFile::exists($templateFile))
-			{
-				$template_desc = RedshopHelperTemplate::getInstallSectionTemplate($data->template_name);
-				$fp            = fopen($templateFile, "w");
-				fwrite($fp, $template_desc);
-				fclose($fp);
-			}
+			$table->bind((array) $template);
+			$table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section);
+			$table->store();
 		}
 	}
 }
