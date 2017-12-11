@@ -277,13 +277,13 @@ class RedshopHelperTemplate
 	/**
 	 * Template View selector
 	 *
-	 * @param   string $section Template Section
+	 * @param   string  $section  Template Section
 	 *
 	 * @return  string            Template Joomla view name
 	 *
 	 * @since   2.0.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 */
 	public static function getTemplateView($section)
 	{
@@ -364,7 +364,7 @@ class RedshopHelperTemplate
 	 *
 	 * @return  string             HTML of template content.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getDefaultTemplateContent($section = '', $setFlag = false)
 	{

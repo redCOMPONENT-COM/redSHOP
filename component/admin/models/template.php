@@ -40,7 +40,7 @@ class RedshopModelTemplate extends RedshopModelForm
 	 *
 	 * @return  mixed               A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
