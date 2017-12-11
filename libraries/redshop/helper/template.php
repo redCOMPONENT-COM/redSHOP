@@ -277,7 +277,7 @@ class RedshopHelperTemplate
 	/**
 	 * Template View selector
 	 *
-	 * @param   string $section Template Section
+	 * @param   string  $section  Template Section
 	 *
 	 * @return  string            Template Joomla view name
 	 *
