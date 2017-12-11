@@ -336,9 +336,12 @@ class RedshopModelManufacturers extends RedshopModel
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
-			Joomla\Utilities\ArrayHelper::toInteger($excluding_category_list);
-			$excluding_category_list = implode(',', $excluding_category_list);
-			$query->where($db->qn('c.id') . ' NOT IN (' . $excluding_category_list . ')');
+
+			if (!empty($excluding_category_list))
+			{
+				$excluding_category_list = implode(',', Joomla\Utilities\ArrayHelper::toInteger($excluding_category_list));
+				$query->where($db->qn('c.id') . ' NOT IN (' . $excluding_category_list . ')');
+			}
 		}
 
 		return $db->setQuery($query)->loadObjectlist();
