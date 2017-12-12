@@ -85,7 +85,7 @@ class EntityCollection extends CoreEntityCollection
 	public function sortByProperty($property, $direction = 'asc')
 	{
 		$direction = strtolower($direction);
-		$sorted = [];
+		$sorted    = array();
 
 		foreach ($this->entities as $entity)
 		{
@@ -123,7 +123,7 @@ class EntityCollection extends CoreEntityCollection
 	 */
 	private function searchEntityProperty(EntityInterface $entity, $property)
 	{
-		$properties = explode('.', $property);
+		$properties   = explode('.', $property);
 		$searchObject = $entity->getItem();
 
 		foreach ($properties as $position => $property)
@@ -132,9 +132,7 @@ class EntityCollection extends CoreEntityCollection
 			{
 				if (!property_exists($searchObject, $property))
 				{
-					return 	'';
-
-					continue;
+					return '';
 				}
 
 				return (string) $searchObject->{$property};
@@ -154,6 +152,8 @@ class EntityCollection extends CoreEntityCollection
 
 			$searchObject = (object) $searchObject->{$property};
 		}
+
+		return '';
 	}
 
 	/**

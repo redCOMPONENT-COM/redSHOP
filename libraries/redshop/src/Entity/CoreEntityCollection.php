@@ -69,7 +69,7 @@ class CoreEntityCollection implements \Countable, \Iterator
 	 */
 	public function count()
 	{
-		return count($this->entities);
+		return (int) count($this->entities);
 	}
 
 	/**

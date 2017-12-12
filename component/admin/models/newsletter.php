@@ -443,7 +443,7 @@ class RedshopModelNewsletter extends RedshopModel
 	public function getnewsletterproducts_content()
 	{
 		$query = 'SELECT nt.template_desc FROM #__redshop_template as nt '
-			. 'WHERE nt.template_section="newsletter_product" ';
+			. 'WHERE nt.section="newsletter_product" ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

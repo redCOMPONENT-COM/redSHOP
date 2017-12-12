@@ -32,7 +32,7 @@ class RedshopUpdate208Alpha extends RedshopInstallUpdate
 		$query = $db->getQuery(true)
 			->update('#__redshop_template')
 			->set($db->qn('twig_support') . ' = 1')
-			->where($db->qn('template_section') . ' = ' . $db->q('giftcard_list'));
+			->where($db->qn('section') . ' = ' . $db->q('giftcard_list'));
 		$db->setQuery($query)->execute();
 	}
 }
