@@ -54,6 +54,8 @@ class RedshopViewGiftcard extends RedshopView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed         A string if successful, otherwise an Error object.
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -75,7 +77,7 @@ class RedshopViewGiftcard extends RedshopView
 			$content = $giftcardTemplate[0]->template_desc;
 
 			// Twig process
-			$templateName = 'giftcard-list-' . $giftcardTemplate[0]->template_id . '.html';
+			$templateName = 'giftcard-list-' . $giftcardTemplate[0]->id . '.html';
 
 			$loader = new Twig_Loader_Array(
 				array(

@@ -125,22 +125,17 @@ class RedshopTableTemplate extends RedshopTable
 			return false;
 		}
 
-		if ($isNew)
+		// Auto-enable twig support for new template
+		if ($isNew && in_array($this->section, RedshopHelperTwig::getSupportedTemplateSections()))
 		{
-			// Auto-enable twig support for new template
-			if (in_array($this->section, RedshopHelperTwig::getSupportedTemplateSections()))
-			{
-				$this->twig_support = 1;
-			}
-
-			return true;
+			$this->twig_support = 1;
 		}
 
-		$oldItem->template_name = $this->safeTemplateName($oldItem->template_name);
+		$oldItem->name = $this->safeTemplateName($oldItem->name);
 
-		if ($oldItem->template_name !== $this->template_name || $oldItem->template_section !== $this->template_section)
+		if ($oldItem->name !== $this->name || $oldItem->section !== $this->section)
 		{
-			$this->setOption('oldFile', RedshopHelperTemplate::getTemplateFilePath($oldItem->template_section, $oldItem->template_name, true));
+			$this->setOption('oldFile', RedshopHelperTemplate::getTemplateFilePath($oldItem->section, $oldItem->name, true));
 		}
 
 		return true;
@@ -198,6 +193,8 @@ class RedshopTableTemplate extends RedshopTable
 			$fileName = $this->file_name;
 		}
 
+		$fileName .= $this->twig_enable ? '.twig' : '.php';
+
 		// Write template file
 		JFile::write(
 			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName . '.php'),
@@ -221,7 +218,9 @@ class RedshopTableTemplate extends RedshopTable
 			return false;
 		}
 
-		$templatePath = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
+		$templatePath = JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name;
+		$templatePath = $this->twig_enable ? $templatePath . '.twig' : $templatePath . '.php';
+		$templatePath = JPath::clean($templatePath);
 
 		if (JFile::exists($templatePath))
 		{

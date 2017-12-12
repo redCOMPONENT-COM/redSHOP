@@ -78,19 +78,16 @@ class RedshopModelGiftcard extends RedshopModel
 		return $this->_data;
 	}
 
+	/**
+	 * Method for get template data.
+	 *
+	 * @return  array
+	 *
+	 * @throws  Exception
+	 */
 	public function getGiftcardTemplate()
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (!$this->_id)
-		{
-			$carttemplate = $redTemplate->getTemplate("giftcard_list");
-		}
-		else
-		{
-			$carttemplate = $redTemplate->getTemplate("giftcard");
-		}
-
-		return $carttemplate;
+		return !$this->_id ? RedshopHelperTemplate::getTemplate("giftcard_list")
+			: RedshopHelperTemplate::getTemplate("giftcard");
 	}
 }
