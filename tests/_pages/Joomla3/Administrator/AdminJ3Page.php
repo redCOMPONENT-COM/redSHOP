@@ -140,6 +140,10 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonCopy = 'Copy';
+	/**
+	 * @var string
+	 */
 	public static $buttonReset = "Reset";
 
 	/**
