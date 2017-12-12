@@ -540,7 +540,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   INDEX `#__rs_idx_field_required` (`required` ASC),
   INDEX `#__rs_idx_field_name` (`name` ASC),
   INDEX `#__rs_idx_field_show_in_front` (`show_in_front` ASC),
-  INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC))
+  INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC),
+  INDEX `#__rs_idx_field_common` (`id` ASC, `name` ASC, `published` ASC, `section` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Fields';
@@ -561,11 +562,11 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields_data` (
   `image_link` VARCHAR(255) NOT NULL,
   `user_email` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`data_id`),
-  INDEX `itemid` (`itemid` ASC),
   INDEX `idx_fieldid` (`fieldid` ASC),
   INDEX `idx_itemid` (`itemid` ASC),
   INDEX `idx_section` (`section` ASC),
-  INDEX `#__field_data_common` (`itemid` ASC, `section` ASC))
+  INDEX `#__field_data_common` (`itemid` ASC, `section` ASC),
+  INDEX `#__field_data_common2` USING BTREE (`fieldid` ASC, `itemid` ASC, `data_txt` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Fields Data';
@@ -2580,5 +2581,6 @@ ENGINE = InnoDB
 COMMENT = 'redSHOP Product Individual payment reference.';
 
 
+SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

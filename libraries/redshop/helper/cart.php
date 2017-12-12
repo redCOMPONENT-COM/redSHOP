@@ -19,6 +19,11 @@ use Joomla\Utilities\ArrayHelper;
 abstract class RedshopHelperCart
 {
 	/**
+	 * @var array
+	 */
+	public static $cart = array();
+
+	/**
 	 * Method for remove cart from Database
 	 *
 	 * @param   int  $cartId  ID of cart.
@@ -376,22 +381,27 @@ abstract class RedshopHelperCart
 		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		if (!array_key_exists($userId, self::$cart))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
-		$query->select(
+			$query->select(
 				$db->qn(
 					array(
 						'ci.cart_item_id', 'ci.cart_idx', 'ci.product_id', 'ci.product_quantity',
 						'ci.product_wrapper_id', 'ci.product_subscription_id', 'ci.giftcard_id', 'ci.attribs')
-					)
 				)
-			->from($db->qn('#__redshop_usercart_item', 'ci'))
-			->leftJoin($db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id'))
-			->where($db->qn('c.user_id') . ' = ' . $userId)
-			->order($db->qn('ci.cart_idx'));
+			)
+				->from($db->qn('#__redshop_usercart_item', 'ci'))
+				->leftJoin($db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id'))
+				->where($db->qn('c.user_id') . ' = ' . $userId)
+				->order($db->qn('ci.cart_idx'));
 
-		$cartItems = $db->setQuery($query)->loadObjectList();
+			self::$cart[$userId] = $db->setQuery($query)->loadObjectList();
+		}
+
+		$cartItems = self::$cart[$userId];
 
 		if (empty($cartItems))
 		{
