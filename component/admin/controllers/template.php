@@ -22,6 +22,8 @@ class RedshopControllerTemplate extends RedshopControllerForm
 	 * Method for live render
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function liveRender()
 	{

@@ -97,6 +97,8 @@ class RedshopHelperTwig
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	public static function liveRender($section, $content)
 	{
@@ -105,6 +107,7 @@ class RedshopHelperTwig
 			return '';
 		}
 
+		/** @var RedshopModelGiftcards $model */
 		$model = RedshopModel::getInstance('Giftcards', 'RedshopModel');
 		$model->setState('list.limit', 3);
 		$giftcards = $model->getItems();
@@ -124,7 +127,7 @@ class RedshopHelperTwig
 		return $twig->render(
 			'giftcard-list-demo.html',
 			array(
-				'giftcards' => $items->isEmpty() ? null : $items->toTwigEntities(),
+				'giftcards' => $items->toTwigEntities(),
 				'page'      => $_SERVER
 			)
 		);

@@ -73,7 +73,7 @@ class RedshopHelperClickatell
 		$query->clear()
 			->select('*')
 			->from($db->qn('#__redshop_template', 't'))
-			->where($db->qn('t.template_section') . ' = ' . $db->quote('clicktell_sms_message'))
+			->where($db->qn('t.section') . ' = ' . $db->quote('clicktell_sms_message'))
 			->where('FIND_IN_SET(' . $db->quote($orderData->order_status) . ', order_status)')
 			->where('FIND_IN_SET(' . $db->quote($paymentMethodId) . ', payment_methods)')
 			->order($db->qn('id') . ' DESC');
@@ -92,7 +92,7 @@ class RedshopHelperClickatell
 		$query->clear()
 			->select('*')
 			->from($db->qn('#__redshop_template', 't'))
-			->where($db->qn('t.template_section') . ' = ' . $db->quote('clicktell_sms_message'))
+			->where($db->qn('t.section') . ' = ' . $db->quote('clicktell_sms_message'))
 			->where('FIND_IN_SET(' . $db->quote($orderData->order_status) . ', order_status)')
 			->where('FIND_IN_SET(' . $db->quote($orderShippingClass) . ', shipping_methods)')
 			->order($db->qn('id') . ' DESC');

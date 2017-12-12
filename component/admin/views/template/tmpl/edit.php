@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 
                 $.post('index.php?option=com_redshop&task=template.liveRender',
                     {
-                        "content": Joomla.editors.instances["jform_template_desc"].getValue(),
+                        "content": Joomla.editors.instances["jform_templateDesc"].getValue(),
                         "<?php echo JSession::getFormToken() ?>": 1
                     },
                     function (response) {
