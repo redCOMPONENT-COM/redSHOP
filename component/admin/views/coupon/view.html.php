@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View Coupon
  *
- * @package     RedSHOP.Backend
+ * @package      RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since        2.1.0
  */
 class RedshopViewCoupon extends RedshopViewForm
 {
@@ -23,7 +23,7 @@ class RedshopViewCoupon extends RedshopViewForm
 	 *
 	 * @return  string
 	 *
-	 * @since   2.0.6
+	 * @since   2.1.0
 	 */
 	public function getTitle()
 	{
@@ -37,7 +37,9 @@ class RedshopViewCoupon extends RedshopViewForm
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.6
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -45,12 +47,16 @@ class RedshopViewCoupon extends RedshopViewForm
 		$this->item = $this->model->getItem();
 		$this->form = $this->model->getForm();
 
-		$extraField = '<?xml version="1.0" encoding="utf-8"?>'
-			. '<field label="COM_REDSHOP_COUPON_REMAINING_AMOUNT" name="voucher_products" class="form-control"'
-			. ' type="redshop.coupon_remaining" coupon_id="' . $this->item->id . '" address_type="BT" readonly="true"/>';
-		$extraField = new SimpleXMLElement($extraField);
-
-		$this->form->setField($extraField, null, true, 'details');
+		$this->form->setField(
+			new SimpleXMLElement(
+				'<?xml version="1.0" encoding="utf-8"?>'
+				. '<field label="COM_REDSHOP_COUPON_REMAINING_AMOUNT" name="voucher_products" class="form-control" '
+				. 'type="redshop.coupon_remaining" coupon_id="' . $this->item->id . '" '
+				. 'address_type="BT" readonly="true"/>'
+			),
+			'details',
+			true
+		);
 
 		$this->checkPermission();
 		$this->loadFields();

@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View Coupons
  *
- * @package     RedSHOP.Backend
+ * @package      RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since        2.1.0
  */
 class RedshopViewCoupons extends RedshopViewList
 {
@@ -27,7 +27,7 @@ class RedshopViewCoupons extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -38,11 +38,11 @@ class RedshopViewCoupons extends RedshopViewList
 		switch ($config['dataCol'])
 		{
 			case 'type':
-				return !$value ? '<span class="label label-info">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL') . '</span>'
+				return !$value ? '<span class="label label-primary">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL') . '</span>'
 					: '<span class="label label-success">' . JText::_('COM_REDSHOP_COUPON_TYPE_OPTION_PERCENTAGE') . '</span>';
 
 			case 'effect':
-				return !$value ? '<span class="label label-info">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL') . '</span>'
+				return !$value ? '<span class="label label-primary">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL') . '</span>'
 					: '<span class="label label-success">' . JText::_('COM_REDSHOP_COUPON_EFFECT_OPTION_USER') . '</span>';
 
 			case 'value':

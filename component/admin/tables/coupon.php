@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Table Coupon
  *
- * @package     RedSHOP.Backend
+ * @package      RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since        2.1.0
  */
 class RedshopTableCoupon extends RedshopTable
 {

@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Model Coupon
  *
- * @package     RedSHOP.Backend
+ * @package      RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since        2.1.0
  */
 class RedshopModelCoupon extends RedshopModelForm
 {

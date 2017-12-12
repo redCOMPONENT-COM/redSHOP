@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopModelCoupons extends RedshopModelList
 {
@@ -23,7 +23,7 @@ class RedshopModelCoupons extends RedshopModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function __construct($config = array())
 	{
@@ -59,7 +59,7 @@ class RedshopModelCoupons extends RedshopModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function populateState($ordering = 'c.id', $direction = 'asc')
 	{
@@ -90,7 +90,7 @@ class RedshopModelCoupons extends RedshopModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -108,7 +108,7 @@ class RedshopModelCoupons extends RedshopModelList
 	 *
 	 * @return  JDatabaseQuery  An SQL query
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getListQuery()
 	{

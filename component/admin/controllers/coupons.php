@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Coupons controller
  *
- * @package     RedSHOP.backend
+ * @package      RedSHOP.backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since        2.1.0
  */
 class RedshopControllerCoupons extends RedshopControllerAdmin
 {

@@ -17,6 +17,9 @@
  */
 class CouponCheckoutProductCest
 {
+	/**
+	 * CouponCheckoutProductCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
@@ -40,12 +43,11 @@ class CouponCheckoutProductCest
 	/**
 	 * Test to Verify the Payment Plugin
 	 *
-	 * @param   AcceptanceTester $I        Actor Class Object
-	 * @param   String           $scenario Scenario Variable
+	 * @param   AcceptanceTester  $I         Actor Class Object
+	 * @param   String            $scenario  Scenario Variable
 	 *
 	 * @return void
 	 */
-
 	public function deleteData($scenario)
 	{
 		$I= new RedshopSteps($scenario);
@@ -115,7 +117,6 @@ class CouponCheckoutProductCest
 		$I = new AcceptanceTester\CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
 		$I->deleteCoupon($this->couponCode);
-		$I->searchCoupon($this->couponCode, 'Delete');
 
 		$I->wantTo('Delete product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
