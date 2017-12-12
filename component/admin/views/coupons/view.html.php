@@ -55,6 +55,14 @@ class RedshopViewCoupons extends RedshopViewList
 
 				return !$row->type ? RedshopHelperProductPrice::formattedPrice($value) : $value . '%';
 
+			case 'amount_left':
+				if (!$isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true)
+				{
+					return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $value, $row->id, 'number');
+				}
+
+				return $value;
+
 			case 'start_date':
 			case 'end_date':
 				if ($value === '0000-00-00 00:00:00')

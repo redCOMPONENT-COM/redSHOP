@@ -29,7 +29,6 @@
                 filter="float"
                 table-sortable="1"
                 table-inline="1"
-                table-edit-link="1"
                 table-width="15%"
         />
         <field
@@ -99,6 +98,7 @@
                 filter="integer"
                 table-sortable="1"
                 table-width="10%"
+                table-inline="1"
         />
     </fieldset>
 </form>

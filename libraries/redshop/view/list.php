@@ -303,13 +303,15 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for render 'Published' column
 	 *
-	 * @param   array  $config Row config.
-	 * @param   int    $index  Row index.
-	 * @param   object $row    Row data.
+	 * @param   array    $config  Row config.
+	 * @param   integer  $index   Row index.
+	 * @param   object   $row     Row data.
 	 *
 	 * @return  string
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

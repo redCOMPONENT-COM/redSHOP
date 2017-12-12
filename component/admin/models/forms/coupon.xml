@@ -114,11 +114,10 @@
                 label="COM_REDSHOP_COUPON_LEFT"
                 description="COM_REDSHOP_COUPON_LEFT_DESC"
                 class="form-control"
-                default="0.0"
-                filter="float"
+                default="0"
+                filter="integer"
                 table-sortable="1"
                 table-inline="1"
-                table-edit-link="1"
                 table-width="10%"
         />
         <field

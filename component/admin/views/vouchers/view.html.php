@@ -30,6 +30,8 @@ class RedshopViewVouchers extends RedshopViewList
 	 * @return  string
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -48,6 +50,14 @@ class RedshopViewVouchers extends RedshopViewList
 				}
 
 				return RedshopHelperProductPrice::formattedPrice($value);
+
+			case 'voucher_left':
+				if (!$isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true)
+				{
+					return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $value, $row->id, 'number');
+				}
+
+				return $value;
 
 			case 'free_ship':
 				if ($value)
