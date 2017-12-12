@@ -157,7 +157,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   INDEX `#__rs_idx_category_published` (`published` ASC),
   INDEX `#__rs_idx_left_right` (`lft` ASC, `rgt` ASC),
   INDEX `#__rs_idx_alias` (`alias` ASC),
-  INDEX `#__rs_idx_path` (`path` ASC))
+  INDEX `#__rs_idx_path` (`path` ASC),
+  INDEX `#__rs_idx_category_parent` (`parent_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Category';
@@ -361,7 +362,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC),
   INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC),
   INDEX `#__rs_prod_publish_parent` (`product_parent_id` ASC, `published` ASC),
-  INDEX `#__rs_prod_publish_parent_special` (`product_parent_id` ASC, `published` ASC, `product_special` ASC))
+  INDEX `#__rs_prod_publish_parent_special` (`product_parent_id` ASC, `published` ASC, `product_special` ASC),
+  INDEX `#__prod_pub_exp_parent` (`product_parent_id` ASC, `published` ASC, `expired` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Products';
@@ -562,7 +564,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields_data` (
   INDEX `itemid` (`itemid` ASC),
   INDEX `idx_fieldid` (`fieldid` ASC),
   INDEX `idx_itemid` (`itemid` ASC),
-  INDEX `idx_section` (`section` ASC))
+  INDEX `idx_section` (`section` ASC),
+  INDEX `#__field_data_common` (`itemid` ASC, `section` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Fields Data';
@@ -660,7 +663,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
   `manufacturer_url` VARCHAR(255) NOT NULL,
   `excluding_category_list` TEXT NOT NULL,
   PRIMARY KEY (`manufacturer_id`),
-  INDEX `idx_published` (`published` ASC))
+  INDEX `idx_published` (`published` ASC),
+  INDEX `#__manufacturer_common_idx` (`manufacturer_id` ASC, `manufacturer_name` ASC, `published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Manufacturer';
@@ -1286,7 +1290,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_category_xref` (
   `category_id` INT(11) NOT NULL,
   `product_id` INT(11) NOT NULL,
   `ordering` INT(11) NOT NULL,
-  INDEX `ref_category` (`product_id` ASC))
+  INDEX `ref_category` (`product_id` ASC),
+  INDEX `#__prod_cat_idx1` (`category_id` ASC, `product_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Product Category Relation';

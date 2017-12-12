@@ -316,6 +316,8 @@ class RedshopModelCategory extends RedshopModel
 	 * @param   bool  $isSlider  default variable is false
 	 *
 	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
@@ -591,7 +593,7 @@ class RedshopModelCategory extends RedshopModel
 		$app = JFactory::getApplication();
 		$endlimit   = $this->getState('list.limit');
 		$limitstart = $this->getState('list.start');
-		$layout     = $app->input->getCmd('layout');
+		$layout     = JRequest::getVar('layout');
 		$query      = $this->_buildQuery();
 
 		if ($layout == "categoryproduct")

@@ -43,4 +43,10 @@ CALL redSHOP_Index_Add('#__redshop_coupons', '#__rs_coupon_published', "(`publis
 CALL redSHOP_Index_Add('#__redshop_coupons', '#__rs_coupon_subtotal', "(`subtotal` ASC)");
 CALL redSHOP_Index_Add('#__redshop_coupons', '#__rs_coupon_order_id', "(`order_id` ASC)");
 
+CALL redSHOP_Index_Add('#__redshop_category', '#__rs_idx_category_parent', '(`parent_id` ASC)');
+CALL redSHOP_Index_Add('#__redshop_product', '#__prod_pub_exp_parent', '(`product_parent_id` ASC, `published` ASC, `expired` ASC)');
+CALL redSHOP_Index_Add('#__redshop_fields_data', '#__field_data_common', '(`itemid` ASC, `section` ASC)');
+CALL redSHOP_Index_Add('#__redshop_manufacturer', '#__manufacturer_common_idx', '(`manufacturer_id` ASC, `manufacturer_name` ASC, `published` ASC)');
+CALL redSHOP_Index_Add('#__redshop_product_category_xref', '#__prod_cat_idx1', '(`category_id` ASC, `product_id` ASC)');
+
 SET FOREIGN_KEY_CHECKS = 1;
