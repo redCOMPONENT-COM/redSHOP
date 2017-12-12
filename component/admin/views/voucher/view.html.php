@@ -54,8 +54,9 @@ class RedshopViewVoucher extends RedshopViewForm
 				. 'name="voucher_products" type="redshop.voucher_product" '
 				. 'voucher_id="' . $this->item->id . '" class="form-control"/>'
 			),
-			'details',
-			true
+			null,
+			true,
+			'details'
 		);
 
 		$this->checkPermission();

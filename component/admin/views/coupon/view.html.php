@@ -54,8 +54,9 @@ class RedshopViewCoupon extends RedshopViewForm
 				. 'type="redshop.coupon_remaining" coupon_id="' . $this->item->id . '" '
 				. 'address_type="BT" readonly="true"/>'
 			),
-			'details',
-			true
+			null,
+			true,
+			'details'
 		);
 
 		$this->checkPermission();
