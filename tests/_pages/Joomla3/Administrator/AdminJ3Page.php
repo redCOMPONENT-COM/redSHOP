@@ -290,5 +290,5 @@ abstract class AdminJ3Page
 		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 		return $path;
 	}
-
+	
 }

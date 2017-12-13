@@ -314,10 +314,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 
-	public function checkoutProductWithCouponOrGift($productName, $categoryName, $couponCode)
+	public function checkoutProductWithCouponOrGift($userName,$password,$productName, $categoryName, $couponCode)
 	{
 		$I = $this;
-		$I->doFrontEndLogin();
+		$I->doFrontEndLogin($userName, $password);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
@@ -348,6 +348,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity,"address");
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+		$I->click(\FrontEndProductManagerJoomla3Page::$countryId);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectSecondCountry, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$selectSecondCountry);
+		$I->pauseExecution();
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
