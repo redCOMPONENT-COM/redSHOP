@@ -15,7 +15,7 @@
  */
 class CouponManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=coupons';
 
 	public static $couponCode = "//input[@id='coupon_code']";
 
