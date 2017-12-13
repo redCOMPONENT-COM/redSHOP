@@ -123,7 +123,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		// Check for request forgeries
+		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
@@ -168,7 +168,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function publish()
 	{
-		// Check for request forgeries
+		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
@@ -246,7 +246,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function checkin()
 	{
-		// Check for request forgeries.
+		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
@@ -284,7 +284,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function reorder()
 	{
-		// Check for request forgeries.
+ 		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
@@ -323,7 +323,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		// Check for request forgeries.
+		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
@@ -395,7 +395,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function ajaxInlineEdit()
 	{
-		// Check for request forgeries
+		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
@@ -431,7 +431,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function copy()
 	{
-		// Check for request forgeries
+		/** @scrutinizer ignore-call */
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');

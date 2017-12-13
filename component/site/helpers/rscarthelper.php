@@ -3913,15 +3913,16 @@ class rsCarthelper
 	 *
 	 * @return  mixed
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function modifyDiscount($cart)
 	{
 		$calArr                            = $this->calculation($cart);
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
-		$couponIndex                       = !empty($cart['coupon']) ? count($cart['coupon']) : 0;
-		$voucherIndex                      = !empty($cart['voucher']) ? count($cart['voucher']) : 0;
+
+		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
+		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
 
 		$discountAmount = 0;
 
@@ -3931,7 +3932,7 @@ class rsCarthelper
 
 			if ($discountAmount > 0)
 			{
-				$cart = $this->_session->get('cart');
+				$cart = RedshopHelperCartSession::getCart();
 			}
 		}
 
