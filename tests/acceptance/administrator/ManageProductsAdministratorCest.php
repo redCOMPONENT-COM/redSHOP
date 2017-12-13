@@ -194,9 +194,7 @@ class ManageProductsAdministratorCest
         $I->createMissingCases($this->randomCategoryName, $this->randomProductNumber, $this->randomProductName,$this->randomProductPrice,'number');
     }
     
-
-
-
+    
     public function deleteProductUpdate(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Delete Product Manager in Administrator');

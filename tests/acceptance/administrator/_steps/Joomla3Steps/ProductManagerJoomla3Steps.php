@@ -313,6 +313,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => '//div[@id="s2id_product_sort"]//a']);
         $I->waitForElement(['id' => "s2id_autogen2_search"]);
         $I->fillField(['id' => "s2id_autogen3_search"], $statusSearch);
+        
         $I->waitForElement(['xpath' => "//span[contains(text(), '" . $statusSearch . "')]"], 60);
         $I->click(['xpath' => "//span[contains(text(), '" . $statusSearch . "')]"]);
         $I->waitForElement(\ProductManagerPage::$productFilter, 30);
