@@ -72,6 +72,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $shippingCity = "//input[@id='city_ST']";
 
+	public static $countryId = ['id' => 'rs_country_country_code'];
+	
+	public static $selectSecondCountry = ['xpath' => '//select[@id=\'rs_country_country_code\']/option[2]'];
+
 	public static $shippingCountry = "//select[@id='country_code_ST']";
 
 	public static $shippingState = "//select[@id='state_code_ST']";

@@ -15,6 +15,8 @@
  *
  * @since    1.4
  */
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 class CouponCheckoutProductCest
 {
 	public function __construct()
@@ -35,6 +37,17 @@ class CouponCheckoutProductCest
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
 		$this->discountStart       = "12-12-2016";
 		$this->discountEnd         = "23-05-2017";
+		
+		//user login
+		//create user
+		$this->userName = $this->faker->bothify('UserName ?##?');
+		$this->password = 'test';
+		$this->email = $this->faker->email;
+		$this->shopperGroup = 'Default Private';
+		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
+		$this->lastName = 'Last';
+		$this->shopperName = 'Default Private';
+		$this->group = 'Administrator';
 	}
 
 	/**
@@ -61,9 +74,13 @@ class CouponCheckoutProductCest
 		$this->createCategory($I, $scenario);
 		$this->createProductSave($I, $scenario);
 
+		$I->wantTo('Test User creation with save button in Administrator for checkout');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+
 		//process checkout
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductWithCouponOrGift($this->productName, $this->categoryName, $this->couponCode);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutProductWithCouponOrGift($this->userName, $this->password,$this->productName, $this->categoryName, $this->couponCode);
 	}
 
 	/**
@@ -124,6 +141,9 @@ class CouponCheckoutProductCest
 		$I->wantTo('Delete Category');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-	}
 
+		$I->wantToTest('Delete user');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+	}
 }
