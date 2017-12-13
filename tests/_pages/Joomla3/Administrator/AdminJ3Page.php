@@ -161,6 +161,11 @@ abstract class AdminJ3Page
 	 */
 	public static $buttonClose = "Close";
 
+	/**
+	 * @var string
+	 */
+	public static $buttonSaveCopy = "Save & Copy";
+
 // Include url of current page
 // Fontend checkout first name
 

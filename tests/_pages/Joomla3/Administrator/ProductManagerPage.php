@@ -25,6 +25,10 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $categorySearchField = ['id' => 's2id_autogen2_search'];
     
+    public static $searchStatusId = ['id' => 's2id_product_sort'];
+    
+    public static $searchStatusField = ['id' => 's2id_autogen3_search'];
+    
     public static $namePageXpath = ['xpath' => "//h1"];
 
     public static $productFilter = ['id' => 'keyword'];
@@ -80,5 +84,23 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $buttonProductAttribute = 'Product Attributes';
     
+    
+    //tab 
+     public static $attributeTab = ['xpath' => '//h3[text()=\'Product Attributes\']'];
+    
+    public static $addAttribute = '+ Add Attribute parameter';
+    
+    public static $attributeNameFirst = ['xpath' => '//input[@name="attribute[1][name]"]'];
+    
+    public static $attributeNamePropertyFirst = ['xpath'=>'//input[@name="attribute[1][property][0][name]"]'];
+    
+    public static $attributePricePropertyFirst = ['xpath'=>'//input[@name="attribute[1][property][0][price]"]'];
+    
+    // tab acc
+    public static $accessoryTab = 'Accessory/Related Product';
+    
+    public static $accessoriesValue= ['xpath' => "//h3[text()='Accessories']"];
+    
+    public static $relatedProduct = ['xpath' => "//h3[text()='Related product']"];
     
 }
