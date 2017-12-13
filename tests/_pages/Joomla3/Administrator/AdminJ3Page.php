@@ -105,6 +105,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonSaveNew = "Save & New";
+
+	/**
+	 * @var string
+	 */
 	public static $buttonDelete = "Delete";
 
 	/**

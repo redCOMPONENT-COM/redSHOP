@@ -21,6 +21,9 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
+    public static $categorySearch = ['id' => 's2id_category_id'];
+    
+    public static $categorySearchField = ['id' => 's2id_autogen2_search'];
     
     public static $namePageXpath = ['xpath' => "//h1"];
 
@@ -64,6 +67,10 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $messageDeleteProductSuccess = 'Product deleted successfully';
     
+    public static $messageCopySuccess = 'Product Copied';
+    
+    public static $messageCancel  =  'Product detail editing cancelled';
+    
     // button 
     public static $buttonAssignNewCategory = 'Assign new Category';
     
@@ -72,4 +79,6 @@ class ProductManagerPage extends AdminJ3Page
     public static $buttonDeleteAttribute = 'Delete attribute';
     
     public static $buttonProductAttribute = 'Product Attributes';
+    
+    
 }

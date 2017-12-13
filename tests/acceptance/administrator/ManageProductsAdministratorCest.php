@@ -22,6 +22,7 @@ class ManageProductsAdministratorCest
 
     public function __construct()
     {
+        $this->fake = Faker\Factory::create();
         $this->randomCategoryName = 'TestingCategory' . rand(99, 999);
         $this->ramdoCategoryNameAssign = 'CategoryAssign' . rand(99, 999);
         $this->randomProductName = 'Testing Products' . rand(99, 999);
@@ -34,7 +35,7 @@ class ManageProductsAdministratorCest
         $this->randomProductNumberNew = rand(999, 9999);
         $this->randomProductAttributeNumber = rand(999, 9999);
         $this->randomProductNameAttribute = 'Testing Attribute' . rand(99, 999);
-        $this->randomProductPrice = rand(99, 199);
+        $this->randomProductPrice = rand(9, 19);
         $this->discountPriceThanPrice =100;
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
@@ -48,6 +49,16 @@ class ManageProductsAdministratorCest
         $this->PreorderStock = 2;
         $this->priceProductForThan=10;
 
+        $this->product = array();
+        $this->product['name'] = $this->newProductName;
+        $this->product['number'] = $this->randomProductNumber;
+        $this->product['category'] = $this->randomCategoryName;
+        $this->product['price'] = $this->randomProductPrice;
+        $this->product['discountStart'] = $this->discountStart;
+        $this->product['discountEnd'] = $this->discountEnd;
+        $this->product['discountPrice'] = $this->fake->numberBetween(100,1000);
+        $this->product['maximumQuantity'] = $this->maximumQuantity;
+        $this->product['minimumQuantity'] = $this->minimumQuantity;
     }
 
     /**
@@ -64,16 +75,17 @@ class ManageProductsAdministratorCest
     }
 
 
-    public function checkButton(ProductManagerSteps $I)
-    {
-        $I->checkButton('edit');
-        $I->checkButton('copy');
-        $I->checkButton('delete');
-        $I->checkButton('publish');
-        $I->checkButton('unpublish');
-        $I->checkButton('assignNewCategory');
-        $I->checkButton('removeCategory');
-    }
+
+//    public function checkButton(ProductManagerSteps $I)
+//    {
+//        $I->checkButton('edit');
+//        $I->checkButton('copy');
+//        $I->checkButton('delete');
+//        $I->checkButton('publish');
+//        $I->checkButton('unpublish');
+//        $I->checkButton('assignNewCategory');
+//        $I->checkButton('removeCategory');
+//    }
 
     public function testProductAdministrator(AcceptanceTester $I, $scenario)
     {
@@ -82,26 +94,34 @@ class ManageProductsAdministratorCest
         $I->wantTo('Create a Category');
         $I->addCategorySave($this->randomCategoryName);
     }
-    
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     *
-     */
-    public function createProductSave(ProductManagerSteps $I)
-    {
-        $I->wantTo('Test Product Save Manager in Administrator');
-        $I->wantTo('I Want to add product inside the category');
-        $I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-    }
 
-    public function copyProduct(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Copy Product Save Manager in Administrator');
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to copy product inside the category');
-        $I->copyProduct($this->randomProductName);
-    }
+//    public function createProductQuantityStartThanEnd(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Product Product QuantityStart More Than End Product Number Manager in Administrator');
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+//        $I->checkStartMoreThanEnd($this->product);
+//
+//    }
+//    /**
+//     * @param AcceptanceTester $I
+//     * @param $scenario
+//     *
+//     */
+//    public function createProductSave(ProductManagerSteps $I)
+//    {
+//        $I->wantTo('Test Product Save Manager in Administrator');
+//        $I->wantTo('I Want to add product inside the category');
+//        $I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+//    }
+//
+//    public function copyProduct(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Copy Product Save Manager in Administrator');
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to copy product inside the category');
+//        $I->copyProduct($this->randomProductName);
+//    }
 
     public function checkSelectCategory(AcceptanceTester $I, $scenario)
     {
@@ -175,14 +195,7 @@ class ManageProductsAdministratorCest
     }
     
 
-    public function createProductQuantityStartThanEnd(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Product Product QuantityStart More Than End Product Number Manager in Administrator');
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
-        $I->createProductQuantityStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
-    }
 
     public function deleteProductUpdate(AcceptanceTester $I, $scenario)
     {
@@ -192,21 +205,6 @@ class ManageProductsAdministratorCest
         $I->deleteProduct($this->newProductName);
     }
 
-    public function createDiscountPriceThanPrice(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Product Discount Price More Than Price Missing Product Number Manager in Administrator');
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product Discount Price More Than Price Missing Product Number Manager inside the category');
-        $I->createDiscountPriceThanPrice($this->randomProductName, $this->randomCategoryName, $this->randomProductNumberNew, $this->priceProductForThan, $this->discountPriceThanPrice);
-    }
-
-    public function createProductDayStartThanEnd(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Product Product Day Start More Than End Manager in Administrator');
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
-        $I->createProductDayStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-    }
 
     public function createProductWithAttribute(AcceptanceTester $I, $scenario)
     {
