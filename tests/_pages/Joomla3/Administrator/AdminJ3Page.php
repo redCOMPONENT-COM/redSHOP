@@ -246,6 +246,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $checkoutButton = "//input[@value='Checkout']";
+
+	/**
+	 * @var array
+	 */
+	public static $saveInfoUser = ['xpath'=> '//input[@name=\'submitbtn\']'];
 	/**
 	 * @var array
 	 */
