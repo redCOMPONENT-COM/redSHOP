@@ -15,7 +15,7 @@
  */
 class CouponManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=coupons';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
 
 	public static $couponCode = "//input[@id='coupon_code']";
 
@@ -29,9 +29,8 @@ class CouponManagerJ3Page
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-//	public static $selectValueCoupon = ['xpath' => "//div[@id='editcell']//div[2]/table//tbody/tr[1]//td[3]//a"];
-
 	public static $seclectValueCoupon=['xpath'=>'//td[@class=\'test-redshop-coupon-code\']'];
+	
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 	/**

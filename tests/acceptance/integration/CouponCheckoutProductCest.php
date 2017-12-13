@@ -146,5 +146,4 @@ class CouponCheckoutProductCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 	}
-
 }
