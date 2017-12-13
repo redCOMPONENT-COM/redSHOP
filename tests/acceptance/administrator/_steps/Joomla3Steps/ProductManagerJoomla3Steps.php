@@ -450,8 +450,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(ProductManagerPage::$buttonSaveClose);
         $I->waitForElement(\ProductManagerPage::$productFilter, 30);
     }
-
-
+    
     public function searchProduct($productName)
     {
         $I = $this;
@@ -459,8 +458,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\ProductManagerPage::$URL);
         $I->filterListBySearchingProduct($productName);
     }
-
-
+    
     // The test case for product used stockroom
 	public function createProductInStock($productName,$productNumber,$price,$productCategory,$quantityInStock, $preOrder){
 
@@ -486,6 +484,4 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ProductManagerPage::$buttonSave);
 		$I->waitForText(\ProductManagerPage::$messageSaveSuccess, 30, \ProductManagerPage::$selectorSuccess);
 	}
-
-
 }
