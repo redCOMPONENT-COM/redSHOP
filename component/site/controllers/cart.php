@@ -247,7 +247,6 @@ class RedshopControllerCart extends RedshopController
 		$discountAmount           = 0;
 		$voucherDiscount          = 0;
 		$couponDiscount           = 0;
-		$totaldiscount            = 0;
 
 		if (Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
 		{
@@ -281,7 +280,7 @@ class RedshopControllerCart extends RedshopController
 
 		$tax         = $calArr[5];
 		$discountVAT = 0;
-		$chktag      = $producthelper->taxexempt_addtocart();
+		$chktag      = RedshopHelperCart::taxExemptAddToCart();
 
 		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
 		{

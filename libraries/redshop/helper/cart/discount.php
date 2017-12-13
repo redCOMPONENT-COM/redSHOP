@@ -54,17 +54,18 @@ class RedshopHelperCartDiscount
 	/**
 	 * Method for apply coupon to cart.
 	 *
-	 * @param   array  $cartData  Cart data
+	 * @param   array   $cartData    Cart data
+	 * @param   string  $couponCode  Coupon code for apply
 	 *
-	 * @return  array|bool        Array of cart or boolean value.
+	 * @return  array|bool           Array of cart or boolean value.
 	 *
 	 * @since   2.0.7
 	 *
 	 * @throws  Exception
 	 */
-	public static function applyCoupon($cartData = array())
+	public static function applyCoupon($cartData = array(), $couponCode = '')
 	{
-		$couponCode = JFactory::getApplication()->input->getString('discount_code', '');
+		$couponCode = empty($couponCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $couponCode;
 		$cart       = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
 		if (empty($couponCode))
@@ -202,7 +203,7 @@ class RedshopHelperCartDiscount
 
 			$valueExist = is_array($cart['coupon']) ? rsCarthelper::getInstance()->rs_recursiveArraySearch($cart['coupon'], $couponCode) : 0;
 
-			switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
+			switch (Redshop::getConfig()->getInt('DISCOUNT_TYPE'))
 			{
 				case 4:
 					if ($valueExist)
@@ -216,7 +217,6 @@ class RedshopHelperCartDiscount
 					if ($valueExist && $key)
 					{
 						$return = false;
-
 					}
 
 					break;
@@ -283,17 +283,18 @@ class RedshopHelperCartDiscount
 	/**
 	 * Method for apply voucher to cart.
 	 *
-	 * @param   array  $cartData  Cart data
+	 * @param   array   $cartData     Cart data
+	 * @param   string  $voucherCode  Voucher code
 	 *
-	 * @return  array|bool        Array of cart or boolean value.
+	 * @return  array|bool             Array of cart or boolean value.
 	 *
 	 * @since   2.0.7
 	 *
 	 * @throws  Exception
 	 */
-	public static function applyVoucher($cartData = array())
+	public static function applyVoucher($cartData = array(), $voucherCode = '')
 	{
-		$voucherCode = JFactory::getApplication()->input->getString('discount_code', '');
+		$voucherCode = empty($voucherCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $voucherCode;
 		$cart        = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
 		if (empty($voucherCode))
@@ -342,7 +343,7 @@ class RedshopHelperCartDiscount
 		if ($type != 'Percentage')
 		{
 			$voucher->total *= $productQuantity;
-			$voucherValue   = $voucher->total;
+			$voucherValue    = $voucher->total;
 		}
 		else
 		{

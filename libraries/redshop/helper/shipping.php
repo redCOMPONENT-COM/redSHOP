@@ -269,7 +269,7 @@ class RedshopHelperShipping
 			if ($shippingRate->apply_vat == 1)
 			{
 				$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-				$addVat = $productHelper->taxexempt_addtocart($userId);
+				$addVat = RedshopHelperCart::taxExemptAddToCart($userId);
 
 				if (!empty($result) && $addVat)
 				{
@@ -475,7 +475,7 @@ class RedshopHelperShipping
 				if ($shippingRate->apply_vat == 1)
 				{
 					$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-					$addVat = $productHelper->taxexempt_addtocart($userId);
+					$addVat = RedshopHelperCart::taxExemptAddToCart($userId);
 
 					if (!empty($result) && $addVat)
 					{
@@ -899,7 +899,7 @@ class RedshopHelperShipping
 		}
 
 		$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-		$addVat = $productHelper->taxexempt_addtocart($data['user_id']);
+		$addVat = RedshopHelperCart::taxExemptAddToCart($data['user_id']);
 
 		if (!empty($result) && $addVat && $result->tax_rate > 0)
 		{

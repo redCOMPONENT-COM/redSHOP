@@ -501,6 +501,7 @@ class RedshopHelperConfig
 	{
 		return empty($this->config) ? (int) $default : (int) $this->config->get($name, $default);
 	}
+
 	/**
 	 * Method for get config force string variable of redshop
 	 *
@@ -511,8 +512,23 @@ class RedshopHelperConfig
 	 *
 	 * @since   2.1.0
 	 */
-	public function getString($name = '', $default = 0)
+	public function getString($name = '', $default = '')
 	{
 		return empty($this->config) ? (string) $default : (string) $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for get config force float variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   float   $default  Default data if not found.
+	 *
+	 * @return  float
+	 *
+	 * @since   2.1.0
+	 */
+	public function getFloat($name = '', $default = 0.0)
+	{
+		return empty($this->config) ? (float) $default : (float) $this->config->get($name, $default);
 	}
 }

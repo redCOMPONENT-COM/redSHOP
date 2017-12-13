@@ -275,28 +275,34 @@ class productHelper
 	/**
 	 * Method for replace tags about VAT information
 	 *
-	 * @param   string  $data_add  Template data.
+	 * @param   string  $data  Template data.
 	 *
 	 * @return  string
 	 *
 	 * @deprecated   2.0.6
+	 *
+	 * @see     RedshopHelperTax::replaceVatInformation
 	 */
-	public function replaceVatinfo($data_add)
+	public function replaceVatinfo($data)
 	{
-		return RedshopHelperTax::replaceVatInformation($data_add);
+		return RedshopHelperTax::replaceVatInformation($data);
 	}
 
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer  $user_id              User Information Id - Login user id
-	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
+	 * @param   integer  $userId                 User Information Id - Login user id
+	 * @param   integer  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
 	 *
-	 * @return  boolean  true if VAT applied else false
+	 * @return  boolean                          True if VAT applied else false
+	 *
+	 * @deprecated  2.0.6
+	 *
+	 * @see  RedshopHelperCart::taxExemptAddToCart
 	 */
-	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
+	public function taxexempt_addtocart($userId = 0, $isShowButtonAddToCart = 0)
 	{
-		return RedshopHelperCart::taxExemptAddToCart($user_id, (boolean) $btn_show_addto_cart);
+		return RedshopHelperCart::taxExemptAddToCart($userId, (boolean) $isShowButtonAddToCart);
 	}
 
 	/**
@@ -1217,7 +1223,7 @@ class productHelper
 		}
 		else
 		{
-			return $this->taxexempt_addtocart($user_id);
+			return RedshopHelperCart::taxExemptAddToCart($user_id);
 		}
 
 		return true;
@@ -1259,7 +1265,7 @@ class productHelper
 		}
 		else
 		{
-			return $this->taxexempt_addtocart($userId);
+			return RedshopHelperCart::taxExemptAddToCart($userId);
 		}
 
 		return true;
@@ -3504,7 +3510,7 @@ class productHelper
 			}
 		}
 
-		$taxexempt_addtocart = $this->taxexempt_addtocart($user_id, 1);
+		$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart($user_id, true);
 
 		$cart_template = $this->getAddtoCartTemplate($data_add);
 

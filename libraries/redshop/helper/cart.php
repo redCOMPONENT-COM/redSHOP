@@ -869,8 +869,8 @@ abstract class RedshopHelperCart
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer $userId                User Information Id - Login user id
-	 * @param   boolean $isShowButtonAddToCart Display Add to cart button for tax exemption user
+	 * @param   integer  $userId                 User Information Id - Login user id
+	 * @param   boolean  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
 	 *
 	 * @return  boolean                          True if VAT applied else false
 	 *

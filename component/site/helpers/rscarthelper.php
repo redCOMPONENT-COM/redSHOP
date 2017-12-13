@@ -1906,7 +1906,7 @@ class rsCarthelper
 			$shippingVat = $cart['shipping_vat'];
 		}
 
-		$chktag = $this->_producthelper->taxexempt_addtocart();
+		$chktag = RedshopHelperCart::taxExemptAddToCart();
 
 		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
 		{
@@ -3610,6 +3610,8 @@ class rsCarthelper
 	 * @deprecated   2.0.7
 	 *
 	 * @see  RedshopHelperCartDiscount::applyCoupon()
+	 *
+	 * @throws  Exception
 	 */
 	public function coupon($cartData = array())
 	{
@@ -3625,6 +3627,8 @@ class rsCarthelper
 	 *
 	 * @deprecated   2.0.7
 	 *
+	 * @throws  Exception
+	 *
 	 * @see  RedshopHelperCartDiscount::applyVoucher()
 	 */
 	public function voucher($cartData = array())
@@ -3633,7 +3637,7 @@ class rsCarthelper
 	}
 
 	/**
-	 * Re-calcualate the Voucher/Coupon value when the product is already discount
+	 * Re-calculate the Voucher/Coupon value when the product is already discount
 	 *
 	 * @param   float  $value  Voucher/Coupon value
 	 * @param   array  $cart   Cart array
@@ -3902,35 +3906,30 @@ class rsCarthelper
 		return $coupon;
 	}
 
+	/**
+	 * Method for modify discount
+	 *
+	 * @param   array  $cart  Cart data.
+	 *
+	 * @return  mixed
+	 *
+	 * @throws Exception
+	 */
 	public function modifyDiscount($cart)
 	{
 		$calArr                            = $this->calculation($cart);
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
-		$c_index                           = 0;
-		$v_index                           = 0;
-		$discount_amount                   = 0;
-		$voucherDiscount                   = 0;
-		$couponDiscount                    = 0;
-		$discount_excl_vat                 = 0;
+		$couponIndex                       = !empty($cart['coupon']) ? count($cart['coupon']) : 0;
+		$voucherIndex                      = !empty($cart['voucher']) ? count($cart['voucher']) : 0;
 
-		if (!empty($cart['coupon']))
+		$discountAmount = 0;
+
+		if (Redshop::getConfig()->getBool('DISCOUNT_ENABLE'))
 		{
-			$c_index = count($cart['coupon']);
-		}
+			$discountAmount = $this->_producthelper->getDiscountAmount($cart);
 
-		if (!empty($cart['voucher']))
-		{
-			$v_index = count($cart['voucher']);
-		}
-
-		$totaldiscount = 0;
-
-		if (Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
-		{
-			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
-
-			if ($discount_amount > 0)
+			if ($discountAmount > 0)
 			{
 				$cart = $this->_session->get('cart');
 			}
@@ -3938,92 +3937,90 @@ class rsCarthelper
 
 		if (!isset($cart['quotation_id']) || (isset($cart['quotation_id']) && !$cart['quotation_id']))
 		{
-			$cart['cart_discount'] = $discount_amount;
+			$cart['cart_discount'] = $discountAmount;
 		}
 
-		for ($v = 0; $v < $v_index; $v++)
-		{
-			$voucher_code = $cart['voucher'][$v]['voucher_code'];
-			unset($cart['voucher'][$v]);
-			$voucher_code = $this->input->set('discount_code', $voucher_code);
-			$cart         = RedshopHelperCartDiscount::applyVoucher($cart);
-		}
+		// Calculate voucher discount
+		$voucherDiscount = 0;
 
 		if (array_key_exists('voucher', $cart))
 		{
+			for ($v = 0; $v < $voucherIndex; $v++)
+			{
+				$voucherCode = $cart['voucher'][$v]['voucher_code'];
+
+				unset($cart['voucher'][$v]);
+
+				$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+			}
+
 			$voucherDiscount = $this->calculateDiscount('voucher', $cart['voucher']);
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
 
-		for ($c = 0; $c < $c_index; $c++)
-		{
-			$coupon_code = $cart['coupon'][$c]['coupon_code'];
-			unset($cart['coupon'][$c]);
-			$coupon_code = $this->input->set('discount_code', $coupon_code);
-			$cart        = RedshopHelperCartDiscount::applyCoupon($cart);
-		}
+		// Calculate coupon discount
+		$couponDiscount = 0;
 
 		if (array_key_exists('coupon', $cart))
 		{
+			for ($c = 0; $c < $couponIndex; $c++)
+			{
+				$couponCode = $cart['coupon'][$c]['coupon_code'];
+
+				unset($cart['coupon'][$c]);
+
+				$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+			}
+
 			$couponDiscount = $this->calculateDiscount('coupon', $cart['coupon']);
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
-		$codeDsicount            = $voucherDiscount + $couponDiscount;
-		$totaldiscount           = $cart['cart_discount'] + $codeDsicount;
 
-		$calArr 	 = $this->calculation($cart);
+		$codeDiscount  = $voucherDiscount + $couponDiscount;
+		$totalDiscount = $cart['cart_discount'] + $codeDiscount;
+
+		$calArr      = $this->calculation($cart);
 		$tax         = $calArr[5];
-		$Discountvat = 0;
-		$chktag      = $this->_producthelper->taxexempt_addtocart();
+		$discountVAT = 0;
+		$chktag      = RedshopHelperCart::taxExemptAddToCart();
 
-		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag) && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
+		if (Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag)
+			&& !Redshop::getConfig()->getBool('APPLY_VAT_ON_DISCOUNT'))
 		{
-			$vatData = $this->_producthelper->getVatRates();
+			$vatData = RedshopHelperUser::getVatUserInformation();
 
-			if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+			if (!empty($vatData->tax_rate))
 			{
-				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
-				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+				$productPriceExclVAT = (float) $cart['product_subtotal_excl_vat'];
+				$productVAT          = (float) $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
 
-				if ((int) $productPriceExclVAT > 0)
+				if ($productPriceExclVAT > 0)
 				{
 					$avgVAT      = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-					$Discountvat = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+					$discountVAT = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
 				}
 			}
 		}
 
-		$cart['total'] = $calArr[0] - $totaldiscount;
+		$cart['total'] = $calArr[0] - $totalDiscount;
+		$cart['total'] = $cart['total'] < 0 ? 0 : $cart['total'];
 
-		if ($cart['total'] < 0)
-		{
-			$cart['total'] = 0;
-		}
+		$cart['subtotal'] = $calArr[1] + $calArr[3] - $totalDiscount;
+		$cart['subtotal'] = $cart['subtotal'] < 0 ? 0 : $cart['subtotal'];
 
-		$cart['subtotal'] = $calArr[1] + $calArr[3] - $totaldiscount;
-
-		if ($cart['subtotal'] < 0)
-		{
-			$cart['subtotal'] = 0;
-		}
-
-		$cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totaldiscount - $Discountvat);
-
-		if ($cart['total'] <= 0)
-		{
-			$cart['subtotal_excl_vat'] = 0;
-		}
+		$cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totalDiscount - $discountVAT);
+		$cart['subtotal_excl_vat'] = $cart['total'] <= 0 ? 0 : $cart['subtotal_excl_vat'];
 
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
 		$cart['shipping']                  = $calArr[3];
 		$cart['tax']                       = $tax;
 		$cart['sub_total_vat']             = $tax + $calArr[6];
-		$cart['discount_vat']              = $Discountvat;
+		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
-		$cart['discount_ex_vat']           = $totaldiscount - $Discountvat;
+		$cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
 		$cart['mod_cart_total']            = $this->GetCartModuleCalc($cart);
 
 		$this->_session->set('cart', $cart);
