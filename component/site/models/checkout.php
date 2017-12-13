@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\Economic;
-
-
+use Joomla\Registry\Registry;
 
 /**
  * Class checkoutModelcheckout
@@ -1849,10 +1848,14 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
 	}
 
+	/**
+	 * Method for get coupon price
+	 *
+	 * @return  float
+	 */
 	public function getCouponPrice()
 	{
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
+		$cart    = RedshopHelperCartSession::getCart();
 		$db      = JFactory::getDbo();
 		$query   = $db->getQuery(true)
 			->select($db->qn(array('value', 'type')))
@@ -1862,21 +1865,12 @@ class RedshopModelCheckout extends RedshopModel
 
 		$row = $db->setQuery($query)->loadObject();
 
-		$couponAmount = 0;
-
-		if (count($row) > 0)
+		if (!$row)
 		{
-			if ($row->percent_or_total == 1)
-			{
-				$couponAmount = ($cart['product_subtotal'] * $row->coupon_value) / (100);
-			}
-			else
-			{
-				$couponAmount = $row->coupon_value;
-			}
+			return 0;
 		}
 
-		return $couponAmount;
+		return $row->type == 1 ? (float) (($cart['product_subtotal'] * $row->value) / 100) : (float) $row->value;
 	}
 
 	public function getCategoryNameByProductId($pid)
@@ -2046,16 +2040,14 @@ class RedshopModelCheckout extends RedshopModel
 		$user     = JFactory::getUser();
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
-		$userArr  = $this->_producthelper->getVatUserinfo($user_id);
-		$redHelper = redhelper::getInstance();
 
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
-		$usersess = $session->set('rs_user', $usersess);
+		$session->set('rs_user', $usersess);
 		$cart     = $this->_carthelper->modifyCart($cart, $user_id);
 
 		JPluginHelper::importPlugin('redshop_checkout');
-		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array (&$cart, $post));
+		RedshopHelperUtility::getDispatcher()->trigger('onDisplayShoppingCart', array (&$cart, $post));
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
@@ -2068,15 +2060,15 @@ class RedshopModelCheckout extends RedshopModel
 
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
-        JPluginHelper::importPlugin('redshop_checkout');
+		JPluginHelper::importPlugin('redshop_checkout');
 		RedshopHelperUtility::getDispatcher()->trigger(
 			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id)
 		);
 
-		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];
 
-		$paymentMethod->params               = new JRegistry($paymentMethod->params);
+		$paymentMethod->params       = new Registry($paymentMethod->params);
 		$is_creditcard               = $paymentMethod->params->get('is_creditcard', '');
 		$payment_oprand              = $paymentMethod->params->get('payment_oprand', '');
 		$payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
@@ -2092,20 +2084,20 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
-			$paymentAmount = $cart ['product_subtotal'];
+			$paymentAmount = $cart['product_subtotal'];
 		}
 		else
 		{
-			$paymentAmount = $cart ['total'];
+			$paymentAmount = $cart['total'];
 		}
 
 		$paymentArray   = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
 		$cart['total']  = $paymentArray[0];
 		$payment_amount = $paymentArray[1];
 
-		$subtotal_excl_vat      = $cart ['product_subtotal_excl_vat'];
-		$subtotal               = $cart ['product_subtotal'];
-		$shipping               = $cart ['shipping'];
+		$subtotal_excl_vat      = $cart['product_subtotal_excl_vat'];
+		$subtotal               = $cart['product_subtotal'];
+		$shipping               = $cart['shipping'];
 		$shippingVat            = $cart['shipping_tax'];
 		$tax                    = $cart['tax'];
 
