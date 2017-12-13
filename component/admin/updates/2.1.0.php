@@ -27,7 +27,10 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 	 */
 	protected function getOldFiles()
 	{
-		return array();
+		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/addressfields_listing.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php'
+		);
 	}
 
 	/**
@@ -40,7 +43,8 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 	protected function getOldFolders()
 	{
 		return array(
-			JPATH_SITE . "/components/com_redshop/templates"
+			JPATH_SITE . "/components/com_redshop/templates",
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/addressfields_listing'
 		);
 	}
 
