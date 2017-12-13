@@ -314,9 +314,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 
-	public function checkoutProductWithCouponOrGift($productName, $categoryName, $couponCode)
+	public function checkoutProductWithCouponOrGift($userName,$password,$productName, $categoryName, $couponCode)
 	{
 		$I = $this;
+		$I->doFrontEndLogin($userName, $password);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
@@ -336,6 +337,26 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
 		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity,"address");
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+		
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
+		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
+		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
+		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
+		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+
 	}
 
 	public function checkoutWithDiscount($productName, $categoryName,$subtotal,$Discount,$Total){

@@ -52,9 +52,8 @@ class CouponPage extends AdminJ3Page
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-//	public static $selectValueCoupon = ['xpath' => "//div[@id='editcell']//div[2]/table//tbody/tr[1]//td[3]//a"];
-
 	public static $seclectValueCoupon=['xpath'=>'//td[@class=\'test-redshop-coupon-code\']'];
+	
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 	/**
