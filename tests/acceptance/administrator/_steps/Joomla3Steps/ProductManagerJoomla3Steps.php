@@ -24,8 +24,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $this->searchProduct($nameProduct);
+        $I->filterListBySearchingProduct($nameProduct);
         $I->checkAllResults();
         $I->click(ProductManagerPage::$buttonCopy);
         $I->waitForText(ProductManagerPage::$messageCopySuccess, 60, ProductManagerPage::$selectorSuccess);
@@ -76,8 +75,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click(\ProductManagerPage::$checkAllProducts);
+        $I->checkAllResults();
         $I->click(ProductManagerPage::$buttonUnpublish);
         $I->waitForText(ProductManagerPage::$messageHead, 30, ProductManagerPage::$selectorSuccess);
     }
@@ -87,8 +85,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click(\ProductManagerPage::$checkAllProducts);
+        $I->checkAllResults();
         $I->click(ProductManagerPage::$buttonPublish);
         $I->waitForText(ProductManagerPage::$messageHead, 30, ProductManagerPage::$selectorSuccess);
     }
@@ -135,7 +132,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->acceptPopup();
                 break;
             case 'name':
-                $I->fillField(ProductManagerPage::$namePage,'');
+                $I->fillField(ProductManagerPage::$productName,'');
                 $I->waitForElement(ProductManagerPage::$categoryId, 30);
                 $I->click(ProductManagerPage::$categoryId);
                 $I->fillField(ProductManagerPage::$categoryFile, $category);
@@ -146,19 +143,17 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 break;
             case 'number':
                 $I->fillField(ProductManagerPage::$productNumber, '');
-                $I->fillField(ProductManagerPage::$namePage, $productName);
+                $I->fillField(ProductManagerPage::$productName, $productName);
                 $I->click(ProductManagerPage::$buttonSave);
                 $I->acceptPopup();
                 break;
             default:
                 break;
         }
-
-        $I->waitForElement(ProductManagerPage::$productName, 30);
-        $I->click(ProductManagerPage::$buttonClose);
-        $I->searchProduct($productName);
-        $I->fillField(ProductManagerPage::$searchField, $productName);
-        $I->pressKey(ProductManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->click(ProductManagerPage::$buttonCancel);
+        $I->waitForElement(ProductManagerPage::$productFilter, 30);
+        $I->fillField(ProductManagerPage::$productFilter, $productName);
+        $I->pressKey(ProductManagerPage::$productFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->dontSee($productName);
     }
 
@@ -359,7 +354,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(ProductManagerPage::$buttonProductAttribute);
         $I->waitForElement(ProductManagerPage::$attributeTab, 60);
         $I->click(ProductManagerPage::$addAttribute);
-        $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
         $I->waitForElement(ProductManagerPage::$attributeNameFirst, 30);
         $I->fillField(ProductManagerPage::$attributeNameFirst, $nameAttribute);
         $I->fillField(ProductManagerPage::$attributeNamePropertyFirst,$valueAttribute);
@@ -367,23 +361,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(ProductManagerPage::$buttonSave);
         $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
     }
-
-    public function createProductWithStockRoom($productName, $quantityStock,$PreorderStock)
-    {
-        $I = $this;
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
-        $I->click("Stockroom");
-        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[7]/a');
-        $I->fillField(['xpath'=>'//input[@name="quantity[]"]'],$quantityStock);
-        $I->fillField(['xpath'=>'//input[@name="preorder_stock[]"]'],$PreorderStock);
-        $I->click("Save");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
-    }
+    
 
     public function deleteAttributeValue($productName){
         $I = $this;
@@ -414,9 +392,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
     }
 
-
     //The function for edit product
-
     public function createProductWithAccessories($productName, $category, $productNumber, $price, $productAccessories)
     {
         $I = $this;
@@ -438,26 +414,28 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(ProductManagerPage::$relatedProduct, 60);
         $this->selectAccessories($productAccessories);
         $I->click(ProductManagerPage::$buttonSave);
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
+        $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
     }
 
     private function selectRelatedProduct($relatedProduct)
     {
         $I = $this;
-        $I->click(['xpath' => '//div[@id="s2id_related_product"]//a']);
-        $I->fillField(['id' => "s2id_related_product"], $relatedProduct);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $relatedProduct . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $relatedProduct . "')]"]);
+        $I->click(ProductManagerPage::$relatedProductId);
+        $I->fillField(ProductManagerPage::$relatedProductId, $relatedProduct);
+        $usePage = new ProductManagerPage();
+        $I->waitForElement($usePage->returnChoice($relatedProduct), 60);
+        $I->click($usePage->returnChoice($relatedProduct));
     }
 
     public function selectAccessories($accessoryName)
     {
         $I = $this;
-        $I->click(['xpath' => '//div[@id="s2id_product_accessory_search"]//a']);
-        $I->waitForElement(['id' => "s2id_product_accessory_search"]);
-        $I->fillField(['id' => "s2id_autogen3_search"], $accessoryName);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"]);
+        $I->waitForElement(ProductManagerPage::$accessorySearchID);
+        $I->click(ProductManagerPage::$accessorySearchID);
+        $I->fillField(\ProductManagerPage::$accessSearchField, $accessoryName);
+        $userPage = new ProductManagerPage();
+        $I->waitForElement($userPage->returnChoice($accessoryName), 60);
+        $I->click($userPage->returnChoice($accessoryName));
     }
 
     public function checkEditSave($productName, $productNameEdit)
@@ -468,9 +446,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->searchProduct($productName);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
         $I->fillField(\ProductManagerPage::$productName, $productNameEdit);
-        $I->click("Save & Close");
+        $I->click(ProductManagerPage::$buttonSaveClose);
         $I->waitForElement(\ProductManagerPage::$productFilter, 30);
     }
 
@@ -480,7 +457,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->wantTo('Search the Product');
         $I->amOnPage(\ProductManagerPage::$URL);
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->filterListBySearchingProduct($productName);
     }
 
@@ -502,12 +478,11 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($usePage->returnChoice($productCategory));
 		$I->click($usePage->returnChoice($productCategory));
 
-        $I->pauseExecution();
+
 		$I->click(\ProductManagerPage::$stockroomTab);
 		$I->waitForElement(\ProductManagerPage::$quantityInStock,30);
 		$I->fillField(\ProductManagerPage::$quantityInStock,$quantityInStock);
 		$I->fillField(\ProductManagerPage::$preOrderStock,$preOrder);
-
 		$I->click(\ProductManagerPage::$buttonSave);
 		$I->waitForText(\ProductManagerPage::$messageSaveSuccess, 30, \ProductManagerPage::$selectorSuccess);
 	}

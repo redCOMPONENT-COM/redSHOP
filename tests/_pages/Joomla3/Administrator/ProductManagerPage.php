@@ -55,17 +55,12 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $categoryFile = ['id' => 's2id_autogen4'];
 
-    public static $categoryInput = ['xpath' => "//div[@id='s2id_product_category']//ul/li//input"];
-
-
-    public static $checkAllProducts = "//input[@onclick='Joomla.checkAll(this)']";
-
     //stockroom for product
-	public static $stockroomTab = ['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
-    
-	public static $quantityInStock = ['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[2]/input[1]'];
+    public static $stockroomTab = 'Stockroom';
 
-	public static $preOrderStock = ['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[4]/input[1]'];
+    public static $quantityInStock = ['xpath'=>'//input[@name="quantity[]"]'];
+
+	public static $preOrderStock = ['xpath'=>'//input[@name="preorder_stock[]"]'];
 
 	public static $messageSaveSuccess = "Product details saved";
     
@@ -102,5 +97,13 @@ class ProductManagerPage extends AdminJ3Page
     public static $accessoriesValue= ['xpath' => "//h3[text()='Accessories']"];
     
     public static $relatedProduct = ['xpath' => "//h3[text()='Related product']"];
+    
+    public static $accessorySearchID = ['id' => 's2id_product_accessory_search'];
+    
+    public static $accessSearchField = ['id' => 's2id_autogen3_search'];
+
+    // relate product
+    public static $relatedProductId = ['id' => 's2id_related_product'];
+   
     
 }
