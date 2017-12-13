@@ -45,6 +45,8 @@ class ProductManagerPage extends AdminJ3Page
     public static $productName  =   ['id' => "product_name"];
     
     public static $categoryId = ['id' => "s2id_product_category"];
+    
+    public static $categoryFile = ['id' => 's2id_autogen4'];
 
     public static $categoryInput = ['xpath' => "//div[@id='s2id_product_category']//ul/li//input"];
 
@@ -53,9 +55,7 @@ class ProductManagerPage extends AdminJ3Page
 
     //stockroom for product
 	public static $stockroomTab = ['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
-//
-//	public static $stockroomTab =['xpath'=>'//form[@id=\'adminForm\']/div[1]/div[1]/div/div/ul/li[7]/a'];
-
+    
 	public static $quantityInStock = ['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[2]/input[1]'];
 
 	public static $preOrderStock = ['xpath'=>'//table[@id=\'accessory_table\']/tbody/tr/td[4]/input[1]'];

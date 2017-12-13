@@ -97,8 +97,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText("Message", 30, '.alert-success');
     }
     
-
-
     public function createProductSave($productName, $category, $productNumber, $price, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
     {
         $I = $this;
@@ -110,7 +108,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(ProductManagerPage::$productNumber,$productNumber);
         $I->fillField(ProductManagerPage::$productPrice, $price);
         $I->click(ProductManagerPage::$categoryId);
-        $I->fillField(ProductManagerPage::$categoryId, $category);
+        $I->fillField(ProductManagerPage::$categoryFile, $category);
         $I->waitForElement($usePage->returnChoice($category));
         $I->click($usePage->returnChoice($category));
         $I->fillField(ProductManagerPage::$discountStart, $discountStart);
@@ -144,7 +142,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(ProductManagerPage::$namePage,'');
                 $I->waitForElement(ProductManagerPage::$categoryId, 30);
                 $I->click(ProductManagerPage::$categoryId);
-                $I->fillField(ProductManagerPage::$categoryId, $category);
+                $I->fillField(ProductManagerPage::$categoryFile, $category);
                 $I->waitForElement($usePage->returnChoice($category));
                 $I->click($usePage->returnChoice($category));
                 $I->click(ProductManagerPage::$buttonSave);
@@ -537,11 +535,12 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
 		$I->fillField(\ProductManagerPage::$productPrice, $price);
 		$I->click(\ProductManagerPage::$categoryId);
-		$I->fillField(\ProductManagerPage::$categoryId, $productCategory);
+		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($productCategory));
 		$I->click($usePage->returnChoice($productCategory));
 
+        $I->pauseExecution();
 		$I->click(\ProductManagerPage::$stockroomTab);
 		$I->waitForElement(\ProductManagerPage::$quantityInStock,30);
 		$I->fillField(\ProductManagerPage::$quantityInStock,$quantityInStock);

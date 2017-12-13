@@ -98,7 +98,6 @@ class ManageProductsAdministratorCest
     public function copyProduct(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Copy Product Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to copy product inside the category');
         $I->copyProduct($this->randomProductName);
@@ -108,7 +107,6 @@ class ManageProductsAdministratorCest
     {
 
         $I->wantTo('Test Select Category Product in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to check select category add product inside the category');
         $I->checkSelectCategory($this->randomCategoryName);
@@ -117,7 +115,6 @@ class ManageProductsAdministratorCest
     public function checkStatusSearch(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Select Status Category Product in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to check select category add product inside the category');
         $I->checkSelectStatus($this->statusProducts);
@@ -139,7 +136,6 @@ class ManageProductsAdministratorCest
     public function createProductSaveClose(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Save Close Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSaveClose($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
@@ -148,7 +144,6 @@ class ManageProductsAdministratorCest
     public function updateNameProduct(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test update Name of Product Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to Update name product inside the category');
         $I->checkEditSave($this->randomProductName, $this->newProductName);
@@ -157,7 +152,6 @@ class ManageProductsAdministratorCest
     public function createProductSaveNew(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Save New Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSaveNew($this->randomProductName, $this->randomCategoryName, $this->randomProductNumberNew, $this->randomProductPrice);
@@ -167,7 +161,6 @@ class ManageProductsAdministratorCest
     public function createProductCancel(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Cancel  Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductCancel();
@@ -185,7 +178,6 @@ class ManageProductsAdministratorCest
     public function createProductQuantityStartThanEnd(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Product QuantityStart More Than End Product Number Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
         $I->createProductQuantityStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
@@ -195,7 +187,6 @@ class ManageProductsAdministratorCest
     public function deleteProductUpdate(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Delete Product Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to delete product inside the category');
         $I->deleteProduct($this->newProductName);
@@ -204,7 +195,6 @@ class ManageProductsAdministratorCest
     public function createDiscountPriceThanPrice(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Discount Price More Than Price Missing Product Number Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add Product Discount Price More Than Price Missing Product Number Manager inside the category');
         $I->createDiscountPriceThanPrice($this->randomProductName, $this->randomCategoryName, $this->randomProductNumberNew, $this->priceProductForThan, $this->discountPriceThanPrice);
@@ -213,7 +203,6 @@ class ManageProductsAdministratorCest
     public function createProductDayStartThanEnd(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Product Day Start More Than End Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
         $I->createProductDayStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
@@ -222,7 +211,6 @@ class ManageProductsAdministratorCest
     public function createProductWithAttribute(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test create Product with attribute Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
@@ -232,7 +220,6 @@ class ManageProductsAdministratorCest
     public function deleteAttributeValue(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test delete attribute value DeProduct Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->deleteAttributeValue($this->randomProductNameAttribute);
@@ -241,7 +228,6 @@ class ManageProductsAdministratorCest
     public function deleteAttribute(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Delete Attribute Product Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->deleteAttribute($this->randomProductNameAttribute);
@@ -251,7 +237,6 @@ class ManageProductsAdministratorCest
     public function createProductWithAccessories(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Accessories Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductWithAccessories($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->nameProductAccessories);
@@ -261,12 +246,10 @@ class ManageProductsAdministratorCest
     public function unPublishAllProducts(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Products Unpublish all products in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('Unpublish all products');
         $I->unPublishAllProducts();
         $I->see("Product Management", '.page-title');
-
         $I->wantTo('Publish all products');
         $I->publishAllProducts();
         $I->see("Product Management", '.page-title');
@@ -275,7 +258,6 @@ class ManageProductsAdministratorCest
     public function featureUsedStockRoom(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test used Stockroom is Yes in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
         $I->wantTo('Start stook room ');
         $I->featureUsedStockRoom();
@@ -286,7 +268,6 @@ class ManageProductsAdministratorCest
     public function createProductWithStockRoom(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test create Product with stockroom Save Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product with stockroom ');
         $I->createProductWithStockRoom($this->randomProductName, $this->quantityStock, $this->PreorderStock);
@@ -295,7 +276,6 @@ class ManageProductsAdministratorCest
     public function featureStockRoomNo(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test used Stockroom is No in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
         $I->wantTo('Off stook room ');
         $I->featureOffStockRoom();
