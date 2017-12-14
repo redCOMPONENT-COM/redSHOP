@@ -37,6 +37,8 @@ class RedshopMenuLeft_Menu
 	 * @param   bool $disableMenu True for return list of menu. False for return HTML rendered code.
 	 *
 	 * @return  mixed               Array of menu / HTML code of menu.
+	 *
+	 * @throws  Exception
 	 */
 	public static function render($disableMenu = false)
 	{
@@ -97,20 +99,16 @@ class RedshopMenuLeft_Menu
 			case "product_detail":
 			case "prices":
 				return array('PRODUCT_LISTING', 'product');
-				break;
 
 			case "categories":
 				return array('SHOP', 'categories');
-				break;
 
 			case "manufacturer":
 				return array('PRODUCT_LISTING', 'manufacturer');
-				break;
 
 			case "media":
 			case 'media_detail':
 				return array('SHOP', 'media');
-				break;
 
 			/*
 			 @TODO: Enable this menu when Product Variants ready
@@ -118,7 +116,6 @@ class RedshopMenuLeft_Menu
 			*/
 			case "attribute_detail":
 				return array('PRODUCT_MANAGEMENT', 'attribute');
-				break;
 
 			case "order":
 			case "order_detail":
@@ -126,175 +123,144 @@ class RedshopMenuLeft_Menu
 			case "opsearch":
 			case "barcode":
 				return array('ORDER', 'order');
-				break;
 
 			case "order_status":
 			case "order_statuses":
 				return array('ORDER', 'order_status');
-				break;
 
 			case "quotation":
 			case "addquotation_detail":
 				return array('ORDER', 'quotation');
-				break;
 
 			case "stockroom":
 			case "stockroom_listing":
 			case "stockimage":
 				return array('STOCKROOM', 'stockroom');
-				break;
 
 			case "suppliers":
 			case "supplier":
 				return array('PRODUCT_LISTING', 'suppliers');
+
 			case "discount":
 			case "discount_detail":
 			case "mass_discounts":
 			case "mass_discount":
 				return array('DISCOUNT', 'discount');
-				break;
 
 			case "giftcards":
 			case "giftcard":
 				return array('DISCOUNT', 'giftcards');
-				break;
 
 			case "vouchers":
 			case "voucher":
 				return array('DISCOUNT', 'voucher');
-				break;
 
 			case "coupons":
 			case "coupon":
 				return array('DISCOUNT', 'coupon');
-				break;
 
 			case "mail":
 			case "mails":
 				return array('COMMUNICATION', 'mail');
-				break;
 
 			case "newsletter":
 			case "newsletter_detail":
 			case "newslettersubscr":
 			case 'newslettersubscr_detail':
 				return array('COMMUNICATION', 'newsletter');
-				break;
 
 			case "shipping":
 			case "shipping_detail":
 			case "shipping_rate":
 				return array('SHIPPING', 'shipping_method');
-				break;
 
 			case "shipping_box":
 			case "shipping_box_detail":
 				return array('SHIPPING', 'shipping_box');
-				break;
 
 			case "wrapper":
 			case "wrapper_detail":
 				return array('SHIPPING', 'wrapper');
-				break;
 
 			case "user":
 			case 'user_detail':
 			case "shopper_group":
 			case "shopper_group_detail":
 				return array('USER', 'user');
-				break;
 
 			case "tax_groups":
 			case "tax_group":
 				return array('PRODUCT_LISTING', 'tax_groups');
-				break;
 
 			case "tax_rates":
 			case "tax_rate":
 				return array('PRODUCT_LISTING', 'tax_rate');
-				break;
 
 			case "currency":
 			case "currency_detail":
 				return array('CUSTOMIZATION', 'currency');
-				break;
 
 			case "countries":
 			case "country":
 				return array('CUSTOMIZATION', 'country');
-				break;
 
 			case "states":
 			case "state":
 				return array('CUSTOMIZATION', 'state');
-				break;
 
 			case "zipcode":
 			case "zipcode_detail":
 				return array('CUSTOMIZATION', 'zipcode');
-				break;
 
 			case "importexport":
 			case "import":
 			case "export":
 			case "vmimport":
 				return array('IMPORT_EXPORT', 'importexport');
-				break;
 
 			case "xmlimport":
 			case "xmlexport":
 				return array('IMPORT_EXPORT', 'xmlimportexport');
-				break;
 
 			case "fields":
 			case "field":
 				return array('CUSTOMIZATION', 'fields');
-				break;
 
 			case "template":
 			case "templates":
 				return array('CUSTOMIZATION', 'template');
-				break;
 
 			case "textlibrary":
 			case "textlibrary_detail":
 				return array('CUSTOMIZATION', 'textlibrary');
-				break;
 
 			case "catalog":
 			case "catalog_request":
 				return array('CUSTOMIZATION', 'catalog');
-				break;
 
 			case "sample":
 			case "sample_request":
 				return array('CUSTOMIZATION', 'sample');
-				break;
 
 			case "producttags":
 			case "producttags_detail":
 				return array('CUSTOMIZATION', 'producttags');
-				break;
 
 			case "attribute_set":
 			case "attribute_set_detail":
 				return array('CUSTOMIZATION', 'attribute_set');
-				break;
 
 			case "questions":
 			case "question":
 				return array('CUSTOMER_INPUT', 'question');
-				break;
 
 			case "rating":
 			case "rating_detail":
 				return array('CUSTOMER_INPUT', 'rating');
-				break;
 
 			case "accountgroup":
 			case "accountgroup_detail":
 				return array('ACCOUNTING', 'accountgroup');
-				break;
 
 			case "statistic_customer":
 			case 'statistic':
@@ -306,17 +272,14 @@ class RedshopMenuLeft_Menu
 				 * case "statistic_variant":
 				 */
 				return array('STATISTIC', 'statistic');
-				break;
 
 			case "configuration":
 			case 'update':
 			case "access":
 				return array('CONFIG', 'configuration');
-				break;
 
 			default:
 				return array('', '');
-				break;
 		}
 	}
 

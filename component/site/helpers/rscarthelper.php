@@ -140,63 +140,27 @@ class rsCarthelper
 	/**
 	 * Calculate payment Discount/charges
 	 *
-	 * @param int $total
-	 * @param     $paymentinfo
-	 * @param     $finalAmount
+	 * @param   float   $total        Total
+	 * @param   object  $paymentinfo  Payment information
+	 * @param   float   $finalAmount  Final amount
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 *
+	 * @see RedshopHelperPayment::calculate()
 	 */
-	public function calculatePayment($total = 0, $paymentinfo, $finalAmount)
+	public function calculatePayment($total, $paymentinfo, $finalAmount)
 	{
-		$payment_discount = 0;
-		$payment          = array();
-
-		if ($paymentinfo->payment_discount_is_percent == 0)
-		{
-			$payment_discount = $paymentinfo->payment_price;
-		}
-		else
-		{
-			if ($paymentinfo->payment_price > 0)
-			{
-				$payment_discount = $total * $paymentinfo->payment_price / 100;
-			}
-		}
-
-		if ($payment_discount)
-		{
-			$payment_discount = round($payment_discount, 2);
-		}
-
-		if ($payment_discount > 0)
-		{
-			if ($total < $payment_discount)
-			{
-				$payment_discount = $total;
-			}
-
-			if ($paymentinfo->payment_oprand == '+')
-			{
-				$finalAmount = $finalAmount + $payment_discount;
-			}
-			else
-			{
-				$finalAmount = $finalAmount - $payment_discount;
-			}
-		}
-
-		$payment[0] = $finalAmount;
-		$payment[1] = $payment_discount;
-
-		return $payment;
+		return RedshopHelperPayment::calculate($total, $paymentinfo, $finalAmount);
 	}
 
 	/**
 	 * Method for replace Billing Address
 	 *
-	 * @param  string   $content         Template content
-	 * @param  object   $billingAddress  Billing data
-	 * @param  boolean  $sendMail        Is in send mail?
+	 * @param   string   $content         Template content
+	 * @param   object   $billingAddress  Billing data
+	 * @param   boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  mixed
 	 * @deprecated    2.0.7
@@ -3643,36 +3607,14 @@ class rsCarthelper
 	 * @param   array  $cart   Cart array
 	 *
 	 * @return  float          Voucher/Coupon value
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 *
+	 * @see  RedshopHelperDiscount::calculateAlreadyDiscount()
 	 */
 	public function calcAlreadyDiscount($value, $cart)
 	{
-		$idx = 0;
-
-		if (isset($cart['idx']))
-		{
-			$idx = $cart['idx'];
-		}
-
-		$percent = ($value * 100) / $cart['product_subtotal'];
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			$productPriceArray = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
-
-			// If the product is already discount
-			if ($productPriceArray['product_price_saving_percentage'] > 0)
-			{
-				$amount = $percent * $productPriceArray['product_price'] / 100;
-				$value -= $amount * $cart[$i]['quantity'];
-			}
-		}
-
-		if ($value < 0)
-		{
-			$value = 0;
-		}
-
-		return $value;
+		return RedshopHelperDiscount::calculateAlreadyDiscount($value, $cart);
 	}
 
 	public function rs_multi_array_key_exists($needle, $haystack)
@@ -3714,22 +3656,21 @@ class rsCarthelper
 		return false;
 	}
 
-	public function calculateDiscount($type, $typeArr)
+	/**
+	 * Method for calculate discount.
+	 *
+	 * @param   string  $type   Type of discount
+	 * @param   array   $types  List of type
+	 *
+	 * @return  float
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 *
+	 * @see RedshopHelperDiscount::calculate()
+	 */
+	public function calculateDiscount($type, $types)
 	{
-		$value        = $type == 'voucher' ? 'voucher_value' : 'coupon_value';
-		$codediscount = 0;
-
-		if (!empty($typeArr))
-		{
-			$idx = count($typeArr);
-
-			for ($i = 0; $i < $idx; $i++)
-			{
-				$codediscount += $typeArr[$i][$value];
-			}
-		}
-
-		return $codediscount;
+		return RedshopHelperDiscount::calculate($type, $types);
 	}
 
 	public function getVoucherData($voucher_code, $product_id = 0)
@@ -3801,34 +3742,51 @@ class rsCarthelper
 		return $globalVouchers;
 	}
 
-	public function globalvoucher($voucher_code)
+	public function globalvoucher($voucherCode)
 	{
 		$db = JFactory::getDbo();
 
-		$current_time = JFactory::getDate()->toSql();
-		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "voucher as v on v.id = pv.voucher_id "
-			. " \nWHERE v.published = 1"
-			. " AND v.code=" . $db->quote($voucher_code)
-			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
-			. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
-		$this->_db->setQuery($query);
-		$voucher = $this->_db->loadObject();
+		$currentTime = JFactory::getDate()->toSql();
 
-		if (count($voucher) <= 0)
+		$query = $db->getQuery(true)
+			->select($db->qn('pv.product_id'))
+			->select('v.*')
+			->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
+			->leftJoin($db->qn('#__redshop_voucher', 'v') . ' ON ' . $db->qn('v.id') . ' = ' . $db->qn('pv.voucher_id'))
+			->where($db->qn('v.published') . ' = 1')
+			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
+			->where(
+				'((' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime)
+				. ' AND ' . $db->qn('v.end_date') . ' >= ' .$db->quote($currentTime) . ')'
+				. ' OR (' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' AND ' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate()) . '))'
+			)
+			->where($db->qn('v.voucher_left') . ' > 0');
+
+		$voucher = $this->_db->setQuery($query)->loadObject();
+
+		if ($voucher)
 		{
-			$this->_globalvoucher = 1;
-			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "voucher as v "
-				. "WHERE v.published = 1 "
-				. "AND v.code=" . $db->quote($voucher_code)
-				. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
-				. " OR ( v.start_date =0 AND v.end_date = 0) ) "
-				. "AND v.voucher_left>0 LIMIT 0,1 ";
-			$this->_db->setQuery($query);
-			$voucher = $this->_db->loadObject();
+			return $voucher;
 		}
 
-		return $voucher;
+		$this->_globalvoucher = 1;
+
+		$query->clear()
+			->select('v.*')
+			->select($db->qn('v.amount', 'total'))
+			->from($db->qn('#__redshop_voucher', 'v'))
+			->where($db->qn('v.published') . ' = 1')
+			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
+			->where(
+				'((' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime)
+				. ' AND ' . $db->qn('v.end_date') . ' >= ' .$db->quote($currentTime) . ')'
+				. ' OR (' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' AND ' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate()) . '))'
+			)
+			->where($db->qn('v.voucher_left') . ' > 0');
+
+		return $this->_db->setQuery($query)->loadObject();
 	}
 
 	/**
@@ -3955,7 +3913,7 @@ class rsCarthelper
 				$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
 			}
 
-			$voucherDiscount = $this->calculateDiscount('voucher', $cart['voucher']);
+			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
@@ -3974,7 +3932,7 @@ class rsCarthelper
 				$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
 			}
 
-			$couponDiscount = $this->calculateDiscount('coupon', $cart['coupon']);
+			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
@@ -4403,58 +4361,18 @@ class rsCarthelper
 	/**
 	 * Add GiftCard To Cart
 	 *
-	 * @param   array  &$cartItem  Cart item
-	 * @param   array  $data       User cart data
+	 * @param   array  $cartItem  Cart item
+	 * @param   array  $data      User cart data
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 *
+	 * @see  RedshopHelperDiscount::addGiftCardToCart()
 	 */
 	public function addGiftCardToCart(&$cartItem, $data)
 	{
-		$cartItem['giftcard_id']     = $data['giftcard_id'];
-		$cartItem['reciver_email']   = $data['reciver_email'];
-		$cartItem['reciver_name']    = $data['reciver_name'];
-		$cartItem['customer_amount'] = "";
-
-		if (isset($data['customer_amount']))
-		{
-			$cartItem['customer_amount'] = $data['customer_amount'];
-		}
-
-		$giftcardData = $this->_producthelper->getGiftcardData($data['giftcard_id']);
-
-		if ($giftcardData && $giftcardData->customer_amount)
-		{
-			$giftcard_price = $cartItem['customer_amount'];
-		}
-		else
-		{
-			$giftcard_price = $giftcardData->giftcard_price;
-		}
-
-		$row_data = $this->_extraFieldFront->getSectionFieldList(13);
-
-		for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
-		{
-			$data_txt = (isset($data[$row_data[$r]->name])) ? $data[$row_data[$r]->name] : '';
-			$tmpstr = strpbrk($data_txt, '`');
-
-			if ($tmpstr)
-			{
-				$tmparray = explode('`', $data_txt);
-
-				if (is_array($tmparray))
-				{
-					$data_txt = implode(",", $tmparray);
-				}
-			}
-
-			$cartItem[$row_data[$r]->name] = $data_txt;
-		}
-
-		$cartItem['product_price']          = $giftcard_price;
-		$cartItem['product_price_excl_vat'] = $giftcard_price;
-		$cartItem['product_vat']            = 0;
-		$cartItem['product_id']             = '';
+		RedshopHelperDiscount::addGiftCardToCart($cartItem, $data);
 	}
 
 	public function addProductToCart($data = array())
@@ -4509,7 +4427,7 @@ class rsCarthelper
 					}
 
 					$cart[$g]['quantity'] += $data['quantity'];
-					$this->addGiftCardToCart($cart[$g], $data);
+					RedshopHelperDiscount::addGiftCardToCart($cart[$g], $data);
 				}
 			}
 
@@ -4517,7 +4435,7 @@ class rsCarthelper
 			{
 				$cart[$idx] = array();
 				$cart[$idx]['quantity'] = $data['quantity'];
-				$this->addGiftCardToCart($cart[$idx], $data);
+				RedshopHelperDiscount::addGiftCardToCart($cart[$idx], $data);
 				$cart['idx'] = $idx + 1;
 			}
 		}

@@ -165,7 +165,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 		}
 
-		$reduser = $userhelper->storeRedshopUser($data, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id, 1);
 
 		if ($reduser)
 		{

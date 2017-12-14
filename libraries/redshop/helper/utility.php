@@ -386,7 +386,7 @@ class RedshopHelperUtility
 				}
 				else
 				{
-					$truncate    .= $tag[3];
+					$truncate   .= $tag[3];
 					$totalLength = $contentLength;
 				}
 

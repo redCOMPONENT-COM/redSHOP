@@ -223,7 +223,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$paymentAmount = $orderTotal;
 		}
 
-		$paymentMethod                = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $orderTotal);
+		$paymentMethod                = RedshopHelperPayment::calculate($paymentAmount, $paymentinfo, $orderTotal);
 		$post['ship_method_id']       = urldecode(urldecode($post['shipping_rate_id']));
 		$orderTotal                   = $paymentMethod[0];
 		$post['user_info_id']         = $post['users_info_id'];

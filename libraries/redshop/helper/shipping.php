@@ -1641,7 +1641,7 @@ class RedshopHelperShipping
 			if (!empty($volumesShipping))
 			{
 				$whereShippingVolume .= '( ';
-				$index               = 0;
+				$index                = 0;
 
 				foreach ($volumesShipping as $volumeShipping)
 				{
@@ -1999,6 +1999,8 @@ class RedshopHelperShipping
 	 * @return  string
 	 *
 	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getFreeShippingRate($shippingRateId = 0)
 	{
@@ -2196,6 +2198,8 @@ class RedshopHelperShipping
 	 * @return  string
 	 *
 	 * @since  2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
 	{

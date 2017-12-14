@@ -743,11 +743,13 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for calculate final price of cart.
 	 *
-	 * @param   bool $isModify Is modify cart?
+	 * @param   bool  $isModify  Is modify cart?
 	 *
 	 * @return  array
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function cartFinalCalculation($isModify = true)
 	{

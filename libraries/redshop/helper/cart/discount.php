@@ -185,7 +185,7 @@ class RedshopHelperCartDiscount
 
 			if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
 			{
-				$couponValue = rsCarthelper::getInstance()->calcAlreadyDiscount($couponValue, $cart);
+				$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
 			}
 
 			$couponRemaining = 0;
@@ -367,7 +367,7 @@ class RedshopHelperCartDiscount
 
 		if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
 		{
-			$voucherValue = rsCarthelper::getInstance()->calcAlreadyDiscount($voucherValue, $cart);
+			$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
 		}
 
 		$remainingVoucherDiscount = 0;

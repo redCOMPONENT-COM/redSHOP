@@ -262,14 +262,14 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('voucher', $cart))
 		{
-			$voucherDiscount = $this->_carthelper->calculateDiscount('voucher', $cart['voucher']);
+			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
 
 		if (array_key_exists('coupon', $cart))
 		{
-			$couponDiscount = $this->_carthelper->calculateDiscount('coupon', $cart['coupon']);
+			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;

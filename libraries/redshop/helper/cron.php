@@ -54,10 +54,10 @@ class RedshopHelperCron
 
 		if (Redshop::getConfig()->get('SEND_CATALOG_REMINDER_MAIL'))
 		{
-			self::sendCatalogMail();
+			RedshopHelperCatalog::sendMail();
 		}
 
-		self::sendColorMail();
+		RedshopHelperSample::sendMail();
 
 		// Send subscription renewal mail.
 		self::sendSubscriptionRenewalMail();
@@ -197,7 +197,7 @@ class RedshopHelperCron
 					$body  = str_replace("{coupon_duration}", $validEndDate, $body);
 					$body  = RedshopHelperMail::imgInMail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $mailBcc))
+					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
 						$couponTable              = RedshopTable::getAdminInstance('Coupon');
 						$couponTable->code        = $token;
@@ -249,7 +249,7 @@ class RedshopHelperCron
 					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
 					$body         = RedshopHelperMail::imgInMail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $mailBcc))
+					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
 						$query->clear()
 							->update($db->qn('#__redshop_orders'))
@@ -291,7 +291,7 @@ class RedshopHelperCron
 					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
 					$body         = RedshopHelperMail::imgInMail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $mailBcc))
+					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
 						$query->clear()
 							->update($db->qn('#__redshop_orders'))

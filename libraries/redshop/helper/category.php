@@ -82,14 +82,17 @@ class RedshopHelperCategory
 	 * @param   int  $cid         Current category id
 	 *
 	 * @return   array|mixed
+	 *
+	 * @throws  Exception
 	 */
 	public static function getCategoryListArray($categoryId = null, $cid = null)
 	{
 		global $context;
 
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
+		$app  = JFactory::getApplication();
+		$db   = JFactory::getDbo();
 		$view = $app->input->getCmd('view', '');
+
 		$categoryMainFilter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
 
 		if ($categoryId)
@@ -121,7 +124,7 @@ class RedshopHelperCategory
 
 		if ($view == 'category')
 		{
-			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
+			$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 			$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 			$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 		}
@@ -158,6 +161,7 @@ class RedshopHelperCategory
 			foreach ($cats as $cat)
 			{
 				$cat->name = '- ' . $cat->name;
+
 				static::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->id);
 			}
@@ -177,7 +181,7 @@ class RedshopHelperCategory
 	 */
 	protected static function getCategoryChildListRecursion($key, $cid, $level = 1)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->qn(
@@ -191,7 +195,9 @@ class RedshopHelperCategory
 			->where('parent_id = ' . (int) $cid);
 		$level++;
 
-		if ($cats = $db->setQuery($query)->loadObjectList())
+		$cats = $db->setQuery($query)->loadObjectList();
+
+		if (!empty($cats))
 		{
 			foreach ($cats as $cat)
 			{
@@ -346,6 +352,8 @@ class RedshopHelperCategory
 	 * @return string
 	 *
 	 * @since  2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function buildContentOrderBy()
 	{
@@ -353,7 +361,7 @@ class RedshopHelperCategory
 		global $context;
 		$app = JFactory::getApplication();
 
-		$filterOrder = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
+		$filterOrder    = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 		$filterOrderDir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
 		$orderBy = ' ORDER BY ' . $db->escape($filterOrder . ' ' . $filterOrderDir);
@@ -412,8 +420,8 @@ class RedshopHelperCategory
 
 		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
-			$cat      = $cats[$x];
-			$parentId = $cat->id;
+			$cat                  = $cats[$x];
+			$parentId             = $cat->id;
 			$GLOBALS['catlist'][] = $cat;
 			self::getCategoryTree($parentId);
 		}
@@ -446,7 +454,7 @@ class RedshopHelperCategory
 	 */
 	public static function getRootId()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__redshop_category'))

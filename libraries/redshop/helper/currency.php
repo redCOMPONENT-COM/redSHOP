@@ -25,10 +25,12 @@ class RedshopHelperCurrency
 	 * @return  mixed
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public static function init()
 	{
-		return Currency::getInstance()->init();
+		Currency::getInstance()->init();
 	}
 
 	/**

@@ -124,7 +124,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 		else
 		{
-			$joomlauser = $this->_userhelper->createJoomlaUser($data);
+			$joomlauser = RedshopHelperJoomla::createJoomlaUser($data);
 		}
 
 		if (!$joomlauser)
@@ -132,7 +132,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$reduser = $this->_userhelper->storeRedshopUser($data, $joomlauser->id);
+		$reduser = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id);
 
 		return $reduser;
 	}
@@ -267,7 +267,7 @@ class RedshopModelCheckout extends RedshopModel
 			$paymentAmount = $cart ['product_subtotal'];
 		}
 
-		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
+		$paymentArray  = RedshopHelperPayment::calculate($paymentAmount, $paymentInfo, $cart['total']);
 		$cart['total'] = $paymentArray[0];
 		RedshopHelperCartSession::setCart($cart);
 
@@ -2091,7 +2091,7 @@ class RedshopModelCheckout extends RedshopModel
 			$paymentAmount = $cart['total'];
 		}
 
-		$paymentArray   = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
+		$paymentArray   = RedshopHelperPayment::calculate($paymentAmount, $paymentInfo, $cart['total']);
 		$cart['total']  = $paymentArray[0];
 		$payment_amount = $paymentArray[1];
 

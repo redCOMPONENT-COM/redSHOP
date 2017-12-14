@@ -58,6 +58,8 @@ class RedshopHelperJoomla
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function createJoomlaUser($data, $createUser = false)
 	{
@@ -207,6 +209,8 @@ class RedshopHelperJoomla
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function updateJoomlaUser($data)
 	{

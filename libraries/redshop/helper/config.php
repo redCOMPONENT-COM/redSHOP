@@ -295,6 +295,8 @@ class RedshopHelperConfig
 	 * Load previous configuration
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
 	protected function loadOldConfig()
 	{
@@ -354,7 +356,7 @@ class RedshopHelperConfig
 	 * @param   string  $key    The Javascript config string key.
 	 * @param   string  $value  The Javascript config string value.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   1.5
 	 */
