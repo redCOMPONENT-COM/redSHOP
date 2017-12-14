@@ -247,8 +247,7 @@ class RedshopMenuLeft_Menu
 				break;
 
 			case "fields":
-			case "fields_detail":
-			case "addressfields_listing":
+			case "field":
 				return array('CUSTOMIZATION', 'fields');
 				break;
 
@@ -457,7 +456,6 @@ class RedshopMenuLeft_Menu
 	protected static function setStockroomGroup()
 	{
 		self::setStockroom();
-		self::$menu->group('STOCKROOM');
 	}
 
 	/**
@@ -943,5 +941,7 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'stockroom_detail' && self::$layout == 'importstock') ? true : false
 			);
 		}
+
+		self::$menu->group('STOCKROOM');
 	}
 }
