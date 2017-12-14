@@ -280,4 +280,102 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
+
+	public function priceDiscount($discount = array())
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationManageJ3Page::$URL);
+		$I->click(\ConfigurationManageJ3Page::$price);
+		$userConfiguration = new \ConfigurationManageJ3Page();
+
+		if(isset($discount['enable']))
+		{
+			if ($discount['enable'] == 'yes')
+			{
+				if(isset($discount['allow']))
+				{
+					$I->click(\ConfigurationManageJ3Page::$allowedDiscountId);
+					$I->waitForElement(\ConfigurationManageJ3Page::$allowDiscountSearch, 30);
+					$I->fillField(\ConfigurationManageJ3Page::$allowDiscountSearch, $discount['allow']);
+					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
+					$I->pressKey(\ConfigurationManageJ3Page::$allowedDiscountId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+				}
+
+				if (isset($discount['enableCoupon']))
+				{
+					if ($discount['enableCoupon'] == 'yes')
+					{
+						$I->click(\ConfigurationManageJ3Page::$enableCouponYes);
+					}else{
+						$I->click(\ConfigurationManageJ3Page::$enableCouponNo);
+					}
+				}
+
+				if (isset($discount['couponInfo']))
+				{
+					if ($discount['couponInfo'] == 'yes')
+					{
+						$I->click(\ConfigurationManageJ3Page::$enableCouponInfoYes);
+					}else{
+						$I->click(\ConfigurationManageJ3Page::$enableCouponInfoNo);
+					}
+				}
+
+				if(isset($discount['enableVoucher']))
+				{
+					if ($discount['enableVoucher'] == 'yes')
+					{
+						$I->click(\ConfigurationManageJ3Page::$enableVoucherYes);
+					}else{
+						$I->click(\ConfigurationManageJ3Page::$enableVoucherNo);
+					}
+				}
+
+
+				if(isset($discount['spendTime']))
+				{
+					if ($discount['spendTime'] == 'yes')
+					{
+						$I->click(\ConfigurationManageJ3Page::$spendTimeDiscountYes);
+					}else{
+						$I->click(\ConfigurationManageJ3Page::$spendTimeDiscountNo);
+					}
+				}
+
+				if(isset($discount['applyForProductDiscount']))
+				{
+					if ($discount['applyForProductDiscount'] == 'yes')
+					{
+						$I->click(\ConfigurationManageJ3Page::$applyDiscountForProductAlreadyDiscountYes);
+					}else{
+						$I->click(\ConfigurationManageJ3Page::$applyDiscountForProductAlreadyDiscountNo);
+					}
+				}
+
+				if(isset($discount['calculate']))
+				{
+					if ($discount['calculate'] == 'total')
+					{
+						$I->click(\ConfigurationManageJ3Page::$calculateShippingBasedTotal);
+					}else{
+						$I->click(\ConfigurationManageJ3Page::$calculateShippingBasedSubTotal);
+					}
+				}
+
+				$I->pauseExecution();
+				if(isset($discount['valueOfDiscount']))
+				{
+					$I->click(\ConfigurationManageJ3Page::$valueDiscountCouponId);
+					$I->waitForElement(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, 30);
+					$I->fillField(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
+					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
+					$I->pressKey(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+				}
+			}
+		}
+		$I->click(\ConfigurationManageJ3Page::$buttonSave);
+		$I->pauseExecution();
+		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+	}
+
 }

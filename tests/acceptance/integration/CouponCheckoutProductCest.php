@@ -17,6 +17,8 @@
  */
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationManageJoomla3Steps as ConfigurationManageJoomla3Steps;
 class CouponCheckoutProductCest
 {
 	public function __construct()
@@ -37,6 +39,15 @@ class CouponCheckoutProductCest
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
 		$this->discountStart       = "12-12-2016";
 		$this->discountEnd         = "23-05-2017";
+
+
+		//create voucher
+		$this->randomVoucherCode = $this->faker->bothify('VoucherCheckoutProductCest ?##?');
+		$this->voucherAmount     = 10;
+		$this->voucherCount      = $this->faker->numberBetween(99, 999);
+		$this->startDate         = "21-06-2017";
+		$this->endDate           = "07-07-2017";
+
 		
 		//user login
 		//create user
@@ -48,6 +59,19 @@ class CouponCheckoutProductCest
 		$this->lastName = 'Last';
 		$this->shopperName = 'Default Private';
 		$this->group = 'Administrator';
+		
+		// price discount 
+		$this->discount = array();
+		$this->discount['enable'] = 'yes';
+		$this->discount['allow']= 'Discount/voucher/coupon';
+		$this->discount['enableCoupon']= 'yes';
+		$this->discount['couponInfo'] = 'yes';
+		$this->discount['enableVoucher'] = 'yes';
+		$this->discount['spendTime'] = 'no';
+		$this->discount['applyForProductDiscount'] = 'yes';
+		$this->discount['calculate'] = 'total';
+		$this->discount['valueOfDiscount'] = 'Total';
+		
 	}
 
 	/**
@@ -65,22 +89,30 @@ class CouponCheckoutProductCest
 		$I->clearAllData();
 	}
 
-	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
+//	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
+//	{
+//		$I = new AcceptanceTester($scenario);
+//		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
+//		$I->doAdministratorLogin();
+//		$this->createCoupon($I, $scenario);
+//		$this->createCategory($I, $scenario);
+//		$this->createProductSave($I, $scenario);
+//
+//		$I->wantTo('Test User creation with save button in Administrator for checkout');
+//		$I = new UserManagerJoomla3Steps($scenario);
+//		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+//
+//		//process checkout
+//		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+//		$I->checkoutProductWithCouponOrGift($this->userName, $this->password,$this->productName, $this->categoryName, $this->couponCode);
+//	}
+
+	public function checkWithVoucher(ConfigurationManageJoomla3Steps $I)
 	{
-		$I = new AcceptanceTester($scenario);
-		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 		$I->doAdministratorLogin();
-		$this->createCoupon($I, $scenario);
-		$this->createCategory($I, $scenario);
-		$this->createProductSave($I, $scenario);
-
-		$I->wantTo('Test User creation with save button in Administrator for checkout');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-
-		//process checkout
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductWithCouponOrGift($this->userName, $this->password,$this->productName, $this->categoryName, $this->couponCode);
+		$I->priceDiscount($this->discount);
+//		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
+//		$this->checkoutProductWithVoucherCode($I, $this->productName, $this->randomCategoryName, $this->randomVoucherCode);
 	}
 
 	/**
