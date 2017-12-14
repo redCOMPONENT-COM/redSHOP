@@ -362,7 +362,6 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					}
 				}
 
-				$I->pauseExecution();
 				if(isset($discount['valueOfDiscount']))
 				{
 					$I->click(\ConfigurationManageJ3Page::$valueDiscountCouponId);
@@ -374,7 +373,6 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 			}
 		}
 		$I->click(\ConfigurationManageJ3Page::$buttonSave);
-		$I->pauseExecution();
 		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
 	}
 

@@ -331,7 +331,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->fillField(\GiftCardCheckoutPage::$couponInput, $couponCode);
-		$I->pauseExecution();
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
@@ -386,7 +385,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->wantToTest('Just one kinds of discount will apply');
 					$I->wantToTest('We have voucher discount and coupon discount but We should apply coupon');
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
-					$I->pauseExecution();
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
@@ -429,9 +427,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
 
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
-					$I->pauseExecution();
 					$I->click(\GiftCardCheckoutPage::$couponButton);
-					$I->pauseExecution();
 					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
 //
@@ -520,7 +516,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			}
 		}
 
-		$I->pauseExecution();
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
