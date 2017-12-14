@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Add order detail controller
  *
@@ -16,10 +18,10 @@ defined('_JEXEC') or die;
  * @subpackage  Controller.Addorder_detail
  * @since       2.0.6
  */
-class RedshopControllerAddorder_detail extends RedshopController
+class RedshopControllerAddorder_Detail extends RedshopController
 {
 	/**
-	 * RedshopControllerAddorder_detail constructor.
+	 * RedshopControllerAddorder_Detail constructor.
 	 *
 	 * @param   array $default Default
 	 */
@@ -160,7 +162,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($post['payment_method_class']);
 		$paymentmethod                            = $paymentmethod[0];
-		$paymentparams                            = new JRegistry($paymentmethod->params);
+		$paymentparams                            = new Registry($paymentmethod->params);
 		$paymentinfo                              = new stdclass;
 		$post['economic_payment_terms_id']        = $paymentparams->get('economic_payment_terms_id');
 		$post['economic_design_layout']           = $paymentparams->get('economic_design_layout');
@@ -169,8 +171,6 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
 		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
-
-		$cartHelper = rsCarthelper::getInstance();
 
 		$subtotal       = $post['order_subtotal'];
 		$updateDiscount = 0;

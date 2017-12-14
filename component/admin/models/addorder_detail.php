@@ -157,7 +157,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if ($data['guestuser'] && !$data['user_id'])
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($data);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
 
 			if (!$joomlauser)
 			{
