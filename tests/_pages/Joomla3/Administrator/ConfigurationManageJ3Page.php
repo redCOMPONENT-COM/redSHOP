@@ -163,4 +163,14 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 
 	public static $valueDiscountCouponSearch = ['id' => 's2id_autogen40_search'];
 
+	public static $discountVoucherCoupon = 'Discount/voucher/coupon';
+
+	public static $discountAndVoucherOrCoupon = 'Discount + voucher/coupon';
+
+	public static $discountVoucherSingleCouponSingle = 'Discount + voucher (single) + coupon (single)';
+
+	public static $discountVoucherMultipleCouponMultiple = 'Discount + voucher (multiple) + coupon (multiple)';
+
+
+
 }

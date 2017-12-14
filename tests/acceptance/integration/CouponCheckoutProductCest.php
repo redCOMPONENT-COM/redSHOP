@@ -72,6 +72,23 @@ class CouponCheckoutProductCest
 		$this->discount['calculate'] = 'total';
 		$this->discount['valueOfDiscount'] = 'Total';
 		
+		// at checkout page 
+		$this->applyDiscountCouponCode  = 'couponCode';
+		$this->applyDiscountVoucherCode = 'voucherCode';
+		$this->discount['couponCode']= $this->couponCode;
+		$this->discount['voucherCode'] = $this->randomVoucherCode;
+	
+		$this->orderInfoSecond = array();
+		$this->orderInfoSecond['priceTotal'] = '';
+		$this->orderInfoSecond['priceDiscount'] = '';
+		$this->orderInfoSecond['priceEnd'] = '';
+
+
+		$this->orderInfo = array();
+		$this->orderInfo['priceTotal'] = '';
+		$this->orderInfo['priceDiscount'] = '';
+		$this->orderInfo['priceEnd'] = '';
+		
 	}
 
 	/**
@@ -83,36 +100,56 @@ class CouponCheckoutProductCest
 	 * @return void
 	 */
 
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
-//	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
+//	public function deleteData($scenario)
 //	{
-//		$I = new AcceptanceTester($scenario);
-//		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
-//		$I->doAdministratorLogin();
-//		$this->createCoupon($I, $scenario);
-//		$this->createCategory($I, $scenario);
-//		$this->createProductSave($I, $scenario);
-//
-//		$I->wantTo('Test User creation with save button in Administrator for checkout');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-//
+//		$I= new RedshopSteps($scenario);
+//		$I->clearAllData();
+//	}
+
+	public function testProductsCouponFrontEnd(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	{
+		$I = new AcceptanceTester($scenario);
+		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
+		$I->doAdministratorLogin();
+		$this->createCoupon($I, $scenario);
+		$this->createCategory($I, $scenario);
+		$this->createProductSave($I, $scenario);
+
+		$I->wantTo('Test User creation with save button in Administrator for checkout');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+
+
+		$I->wantToTest('Configuration for voucher/coupon/discount');
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->priceDiscount($this->discount);
+		$I = new VoucherManagerJoomla3Steps($scenario);
+		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
+
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
+
+
+
 //		//process checkout
 //		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 //		$I->checkoutProductWithCouponOrGift($this->userName, $this->password,$this->productName, $this->categoryName, $this->couponCode);
-//	}
+	}
 
-	public function checkWithVoucher(ConfigurationManageJoomla3Steps $I)
+	public function checkWithVoucher(ConfigurationManageJoomla3Steps $I, \Codeception\Scenario $scenario)
 	{
+		$I->wantToTest('Configuration for voucher/coupon/discount');
 		$I->doAdministratorLogin();
 		$I->priceDiscount($this->discount);
-//		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
-//		$this->checkoutProductWithVoucherCode($I, $this->productName, $this->randomCategoryName, $this->randomVoucherCode);
+		$I = new VoucherManagerJoomla3Steps($scenario);
+		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
+
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
+
+		$I->checkoutProductWithCouponOrGift($this->userName, $this->password,$this->productName, $this->categoryName, $this->randomVoucherCode);
 	}
 
 	/**
