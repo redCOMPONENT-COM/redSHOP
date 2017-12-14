@@ -3701,14 +3701,23 @@ class rsCarthelper
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
-					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = "' . $db->getNullDate() . '" AND v.end_date = "' . $db->getNullDate() . '"))')
+					->where(
+						'('
+						. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+						. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($current_time) . ')'
+						. ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+						. ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($current_time) . ')'
+						. ')'
+					)
 					->where('vt.user_id = ' . (int) $user->id)
 					->order('vt.transaction_voucher_id DESC');
-				$db->setQuery($query);
-				$voucher = $db->loadObject();
+
+				$voucher = $db->setQuery($query)->loadObject();
 
 				if (count($voucher) > 0)
+				{
 					$this->_r_voucher = 1;
+				}
 			}
 
 			if (count($voucher) <= 0)
@@ -3729,9 +3738,9 @@ class rsCarthelper
 					->where($db->qn('v.code') . ' = ' . $db->quote($voucher_code))
 					->where('('
 						. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
-						. ' AND ' . $db->qn('v.start_date') . ' <= ' . $db->quote($current_time) . ')'
+						. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($current_time) . ')'
 						. ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
-						. ' AND ' . $db->qn('v.end_date') . ' >= ' . $db->quote($current_time) . ')'
+						. ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($current_time) . ')'
 						. ')')
 					->where($db->qn('v.voucher_left') . ' > 0');
 
@@ -3755,12 +3764,12 @@ class rsCarthelper
 			->leftJoin($db->qn('#__redshop_voucher', 'v') . ' ON ' . $db->qn('v.id') . ' = ' . $db->qn('pv.voucher_id'))
 			->where($db->qn('v.published') . ' = 1')
 			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
-			->where(
-				'((' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime)
-				. ' AND ' . $db->qn('v.end_date') . ' >= ' .$db->quote($currentTime) . ')'
-				. ' OR (' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
-				. ' AND ' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate()) . '))'
-			)
+			->where('('
+				. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
+				. ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
+				. ')')
 			->where($db->qn('v.voucher_left') . ' > 0');
 
 		$voucher = $this->_db->setQuery($query)->loadObject();
@@ -3778,12 +3787,12 @@ class rsCarthelper
 			->from($db->qn('#__redshop_voucher', 'v'))
 			->where($db->qn('v.published') . ' = 1')
 			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
-			->where(
-				'((' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime)
-				. ' AND ' . $db->qn('v.end_date') . ' >= ' .$db->quote($currentTime) . ')'
-				. ' OR (' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
-				. ' AND ' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate()) . '))'
-			)
+			->where('('
+				. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
+				. ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+				. ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
+				. ')')
 			->where($db->qn('v.voucher_left') . ' > 0');
 
 		return $this->_db->setQuery($query)->loadObject();
@@ -4213,6 +4222,8 @@ class rsCarthelper
 	 * @return  array
 	 *
 	 * @deprecated   2.0.3  Use RedshopHelperCart::cartFinalCalculation() instead.
+	 *
+	 * @throws  Exception
 	 */
 	public function cartFinalCalculation($callmodify = true)
 	{
@@ -4275,7 +4286,7 @@ class rsCarthelper
 	 */
 	public function dbtocart($userId = 0)
 	{
-		return RedshopHelperCart::databaseToCart($userId);
+		RedshopHelperCart::databaseToCart($userId);
 	}
 
 	/**
@@ -4378,8 +4389,8 @@ class rsCarthelper
 	public function addProductToCart($data = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
+
 		$dispatcher       = RedshopHelperUtility::getDispatcher();
-		$rsUserhelper     = rsUserHelper::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');
@@ -4846,6 +4857,7 @@ class rsCarthelper
 							$data['quantity'] = $newcartquantity;
 							$data['checkQuantity'] = $newcartquantity;
 
+							/** @var RedshopModelCart $cartModel */
 							$cartModel = RedshopModel::getInstance('cart', 'RedshopModel');
 							$cartModel->update($data);
 
@@ -5002,11 +5014,12 @@ class rsCarthelper
 	 * @param   int    $user_id
 	 *
 	 * @return  array|bool
+	 *
+	 * @throws  Exception
 	 */
 	public function generateAccessoryArray($data, $user_id = 0)
 	{
 		$generateAccessoryCart = array();
-		$accessoryTotalPrice   = 0;
 
 		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 		{
