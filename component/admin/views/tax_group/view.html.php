@@ -29,4 +29,28 @@ class RedshopViewTax_Group extends RedshopViewForm
 	{
 		return JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
+	protected function addToolbar()
+	{
+		$isNew = ($this->item->{$this->getPrimaryKey()} < 1);
+
+		if ($this->canEdit)
+		{
+			JToolbarHelper::apply($this->getInstanceName() . '.apply');
+		}
+
+		if ($this->canEdit || $this->canCreate)
+		{
+			JToolbarHelper::save($this->getInstanceName() . '.save');
+			JToolbarHelper::save2new($this->getInstanceName() . '.save2new');
+		}
+
+		if ($isNew)
+		{
+			JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
+		}
+		else
+		{
+			JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
+	}
 }
