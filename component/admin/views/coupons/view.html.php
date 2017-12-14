@@ -28,6 +28,8 @@ class RedshopViewCoupons extends RedshopViewList
 	 * @return  string
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -54,14 +56,6 @@ class RedshopViewCoupons extends RedshopViewList
 				}
 
 				return !$row->type ? RedshopHelperProductPrice::formattedPrice($value) : $value . '%';
-
-			case 'amount_left':
-				if (!$isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true)
-				{
-					return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $value, $row->id, 'number');
-				}
-
-				return $value;
 
 			case 'start_date':
 			case 'end_date':

@@ -123,8 +123,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -168,8 +167,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function publish()
 	{
-		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -246,8 +244,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function checkin()
 	{
-		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$model  = $this->getModel();
@@ -284,8 +281,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function reorder()
 	{
- 		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
@@ -323,8 +319,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks   = $this->input->post->get('cid', array(), 'array');
@@ -395,8 +390,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function ajaxInlineEdit()
 	{
-		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
 		$editKey  = $this->input->get('id', 0);
@@ -431,8 +425,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function copy()
 	{
-		/** @scrutinizer ignore-call */
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);
