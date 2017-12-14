@@ -238,20 +238,4 @@ class ManageProductsAdministratorCest
         $I->wantTo('Publish all products');
         $I->publishAllProducts();
     }
-
-    public function featureUsedStockRoom(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test used Stockroom is Yes in Administrator');
-        $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
-        $I->wantTo('Start stook room ');
-        $I->featureUsedStockRoom();
-    }
-
-    public function featureStockRoomNo(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test used Stockroom is No in Administrator');
-        $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
-        $I->wantTo('Off stook room ');
-        $I->featureOffStockRoom();
-    }
 }

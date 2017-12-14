@@ -56,7 +56,7 @@ class ProductManagerPage extends AdminJ3Page
     public static $categoryFile = ['id' => 's2id_autogen4'];
 
     //stockroom for product
-    public static $stockroomTab = 'Stockroom';
+    public static $stockroomTab = ['xpath'=> '//a[contains(text(), \'Stockroom\')]'];
 
     public static $quantityInStock = ['xpath'=>'//input[@name="quantity[]"]'];
 
