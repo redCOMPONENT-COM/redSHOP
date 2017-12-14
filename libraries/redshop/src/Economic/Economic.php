@@ -163,8 +163,6 @@ class Economic
 		self::importEconomic();
 		$row = (object) $row;
 
-		$redHelper = \redhelper::getInstance();
-
 		$ecoProductGroupNumber         = new \stdClass;
 		$ecoProductGroupNumber->Number = 1;
 
@@ -734,13 +732,15 @@ class Economic
 			if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 			{
 				$orderItem[$i]->product_item_price_excl_vat -= $displayAttribute;
-				$displayAttribute                           = '';
+
+				$displayAttribute = '';
 			}
 
 			$displayAccessory = self::makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
 
 			$orderItem[$i]->product_item_price_excl_vat -= $displayAccessory;
-			$displayAccessory                           = '';
+
+			$displayAccessory = '';
 
 			if (count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
 			{
@@ -986,11 +986,12 @@ class Economic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$eco       = array();
+
+		$eco = array();
 
 		if (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
-			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
+			$accountGroup = \RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
 			if (count($accountGroup) > 0)
 			{
@@ -1160,8 +1161,8 @@ class Economic
 	/**
 	 * Method to update invoice draft for changing the date in E-conomic
 	 *
-	 * @param   array   $orderDetail     Order detail
-	 * @param   integer $bookInvoiceDate Booking invoice date
+	 * @param   object   $orderDetail      Order detail
+	 * @param   integer  $bookInvoiceDate  Booking invoice date
 	 *
 	 * @return  mixed
 	 *
@@ -1313,7 +1314,7 @@ class Economic
 									$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $orderId . '.pdf';
 									\JFile::write($file, $bookInvoicePdf);
 
-									if (JFile::exists($file))
+									if (\JFile::exists($file))
 									{
 										self::updateBookInvoice($orderId);
 									}
@@ -1450,9 +1451,12 @@ class Economic
 					self::createProductInEconomic($product);
 				}
 
-				$accessoryQuantity = " (" . \JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemData[$i]->product_quantity . ") ";
-				$displayAccessory  .= "\n" . urldecode($orderItemData[$i]->order_acc_item_name)
-					. " (" . ($orderItemData[$i]->order_acc_price + $orderItemData[$i]->order_acc_vat) . ")" . $accessoryQuantity;
+				$accessoryQuantity = " (" . \JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL')
+					. " " . $orderItemData[$i]->product_quantity . ") ";
+
+				$displayAccessory .= "\n" . urldecode($orderItemData[$i]->order_acc_item_name)
+					. " (" . ($orderItemData[$i]->order_acc_price + $orderItemData[$i]->order_acc_vat) . ")"
+					. $accessoryQuantity;
 
 				$setPrice += $orderItemData[$i]->product_acc_item_price;
 
@@ -1466,13 +1470,17 @@ class Economic
 				$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 				$invoiceLineNo           = \RedshopHelperUtility::getDispatcher()->trigger('createInvoiceLine', array($eco));
 
-				$displayAttribute = self::makeAttributeOrder($invoiceNo, $orderItem, 1, $orderItemData[$i]->product_id, $userId);
+				$displayAttribute = self::makeAttributeOrder(
+					$invoiceNo, $orderItem, 1, $orderItemData[$i]->product_id, $userId
+				);
+
 				$displayAccessory .= $displayAttribute;
 
 				if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
 					$orderItemData[$i]->product_acc_item_price -= $displayAttribute;
-					$displayAttribute                          = '';
+
+					$displayAttribute = '';
 				}
 
 				if (count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
@@ -1533,7 +1541,8 @@ class Economic
 				}
 
 				$displayAttribute .= "\n" . urldecode($orderItemAttData[$i]->section_name) . " : ";
-				$orderPropData    = \RedshopHelperOrder::getOrderItemAttributeDetail(
+
+				$orderPropData = \RedshopHelperOrder::getOrderItemAttributeDetail(
 					$orderItem->order_item_id,
 					$isAccessory, "property",
 					$orderItemAttData[$i]->section_id
@@ -1613,7 +1622,8 @@ class Economic
 									$subpropertyPrice = $orderSubPropertyData[$sp]->section_price + $orderSubPropertyData[$sp]->section_vat;
 								}
 
-								$disPrice = " (" . $orderSubPropertyData[$sp]->section_oprand . $productHelper->getProductFormattedPrice($subpropertyPrice) . ")";
+								$disPrice = " (" . $orderSubPropertyData[$sp]->section_oprand
+									. \RedshopHelperProductPrice::formattedPrice($subpropertyPrice) . ")";
 							}
 
 							$displayAttribute .= "\n" . urldecode($orderSubPropertyData[$sp]->section_name) . $disPrice . $virtualNumber;
