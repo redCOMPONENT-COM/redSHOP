@@ -32,11 +32,11 @@ class JFormFieldTemplatecompare extends JFormFieldList
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
-			->select($db->qn('template_id'))
-			->select($db->qn('template_name'))
+			->select($db->qn('id'))
+			->select($db->qn('name'))
 			->from($db->qn('#__redshop_template'))
 			->where($db->qn('published') . ' = 1')
-			->where($db->qn('template_section') . ' = ' . $db->q('compare_product'));
+			->where($db->qn('section') . ' = ' . $db->q('compare_product'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 		$options = array();
@@ -45,7 +45,7 @@ class JFormFieldTemplatecompare extends JFormFieldList
 		{
 			foreach ($items as $item)
 			{
-				$option = JHTML::_('select.option', $item->template_id, $item->template_name);
+				$option = JHTML::_('select.option', $item->id, $item->name);
 				$options[] = $option;
 			}
 		}

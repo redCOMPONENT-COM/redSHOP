@@ -79,6 +79,8 @@ class Currency
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function init()
 	{

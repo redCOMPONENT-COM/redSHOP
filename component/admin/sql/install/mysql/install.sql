@@ -1,7 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
-
 -- -----------------------------------------------------
 -- Table `#__redshop_attribute_set`
 -- -----------------------------------------------------
@@ -189,30 +188,36 @@ COMMENT = 'Country records';
 DROP TABLE IF EXISTS `#__redshop_coupons` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
-  `coupon_id` INT(16) NOT NULL AUTO_INCREMENT,
-  `coupon_code` VARCHAR(32) NOT NULL DEFAULT '',
-  `percent_or_total` TINYINT(4) NOT NULL,
-  `coupon_value` DECIMAL(12,2) NOT NULL DEFAULT '0.00',
-  `start_date` DOUBLE NOT NULL,
-  `end_date` DOUBLE NOT NULL,
-  `coupon_type` TINYINT(4) NOT NULL COMMENT '0 - Global, 1 - User Specific',
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(32) NOT NULL DEFAULT '',
+  `type` TINYINT(4) NOT NULL DEFAULT 0,
+  `value` DECIMAL(12,2) NOT NULL DEFAULT '0.00',
+  `start_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `end_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `effect` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '0 - Global, 1 - User Specific',
   `userid` INT(11) NOT NULL,
-  `coupon_left` INT(11) NOT NULL,
+  `amount_left` INT(11) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `subtotal` INT(11) NOT NULL,
   `order_id` INT(11) NOT NULL,
   `free_shipping` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`coupon_id`),
-  INDEX `idx_coupon_code` (`coupon_code` ASC),
-  INDEX `idx_percent_or_total` (`percent_or_total` ASC),
-  INDEX `idx_start_date` (`start_date` ASC),
-  INDEX `idx_end_date` (`end_date` ASC),
-  INDEX `idx_coupon_type` (`coupon_type` ASC),
-  INDEX `idx_userid` (`userid` ASC),
-  INDEX `idx_coupon_left` (`coupon_left` ASC),
-  INDEX `idx_published` (`published` ASC),
-  INDEX `idx_subtotal` (`subtotal` ASC),
-  INDEX `idx_order_id` (`order_id` ASC))
+  `checked_out` INT(11) NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL,
+  `modified_by` INT(11) NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_coupon_code` (`code` ASC),
+  INDEX `#__rs_coupon_type` (`type` ASC),
+  INDEX `#__rs_coupon_start_date` (`start_date` ASC),
+  INDEX `#__rs_coupon_end_date` (`end_date` ASC),
+  INDEX `#__rs_coupon_effect` (`effect` ASC),
+  INDEX `#__rs_coupon_user_id` (`userid` ASC),
+  INDEX `#__rs_coupon_left` (`amount_left` ASC),
+  INDEX `#__rs_coupon_published` (`published` ASC),
+  INDEX `#__rs_coupon_subtotal` (`subtotal` ASC),
+  INDEX `#__rs_coupon_order_id` (`order_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Coupons';
@@ -2080,19 +2085,23 @@ COMMENT = 'redSHOP Tax Rates';
 DROP TABLE IF EXISTS `#__redshop_template` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_template` (
-  `template_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `template_name` VARCHAR(250) NOT NULL,
-  `template_section` VARCHAR(250) NOT NULL,
-  `template_desc` LONGTEXT NOT NULL,
-  `order_status` VARCHAR(250) NOT NULL,
-  `payment_methods` VARCHAR(250) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  `shipping_methods` VARCHAR(255) NOT NULL,
-  `checked_out` INT(11) NOT NULL,
-  `checked_out_time` DATETIME NOT NULL,
-  PRIMARY KEY (`template_id`),
-  INDEX `idx_template_section` (`template_section` ASC),
-  INDEX `idx_published` (`published` ASC))
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NOT NULL DEFAULT '',
+  `section` VARCHAR(250) NOT NULL DEFAULT '',
+  `file_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `order_status` VARCHAR(250) NOT NULL DEFAULT '',
+  `payment_methods` VARCHAR(250) NOT NULL DEFAULT '',
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `shipping_methods` VARCHAR(255) NOT NULL DEFAULT '',
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_tmpl_section` (`section` ASC),
+  INDEX `#__rs_tmpl_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Templates Detail';

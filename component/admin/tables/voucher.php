@@ -55,7 +55,7 @@ class RedshopTableVoucher extends RedshopTable
 		}
 
 		$couponQuery = $db->getQuery(true)
-			->select($db->qn('coupon_code', 'code'))
+			->select($db->qn('code'))
 			->from($db->qn('#__redshop_coupons'));
 		$couponQuery->union($voucherQuery);
 

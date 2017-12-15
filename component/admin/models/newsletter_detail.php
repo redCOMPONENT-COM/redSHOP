@@ -192,8 +192,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function gettemplates()
 	{
-		$query = 'SELECT template_id AS value,template_name AS text FROM ' . $this->_table_prefix . 'template '
-			. 'WHERE template_section="newsletter" '
+		$query = 'SELECT id AS value,name AS text FROM ' . $this->_table_prefix . 'template '
+			. 'WHERE section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
 

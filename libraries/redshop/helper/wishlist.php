@@ -121,8 +121,8 @@ class RedshopHelperWishlist
 				}
 
 				$wishlistProduct->product_items = array();
-				$wishlistProduct->attributes = array();
-				$wishlistProduct->properties = array();
+				$wishlistProduct->attributes    = array();
+				$wishlistProduct->properties    = array();
 				$wishlistProduct->subAttributes = array();
 
 				foreach ($wishlistProductItems as $key => $wishlistProductItem)
@@ -221,8 +221,8 @@ class RedshopHelperWishlist
 	 */
 	public static function checkWishlistExist($productId = 0)
 	{
-		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
+		$user  = JFactory::getUser();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->qn('#__redshop_wishlist', 'w'))
@@ -304,10 +304,10 @@ class RedshopHelperWishlist
 
 		$db = JFactory::getDbo();
 
-		$wishlist                = new stdClass();
+		$wishlist                = new stdClass;
 		$wishlist->wishlist_name = 'Default';
-		$wishlist->user_id       =$userId;
-		$wishlist->cdate         =$db->quote(time());
+		$wishlist->user_id       = $userId;
+		$wishlist->cdate         = $db->quote(time());
 
 		// Insert the object into the user profile table.
 		if ($db->insertObject('#__redshop_wishlist', $wishlist))

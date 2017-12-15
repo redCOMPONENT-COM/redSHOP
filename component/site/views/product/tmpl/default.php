@@ -571,7 +571,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 {
 	for ($w = 0, $wn = count($wrappertemplate); $w < $wn; $w++)
 	{
-		if (strstr($template_desc, "{wrapper_template:" . $wrappertemplate [$w]->template_name . "}"))
+		if (strstr($template_desc, "{wrapper_template:" . $wrappertemplate [$w]->name . "}"))
 		{
 			$wrappertemplate_data = $wrappertemplate [$w]->template_desc;
 			$wrapper_start        = explode("{product_wrapper_start}", $wrappertemplate_data);
@@ -694,11 +694,11 @@ if (strstr($template_desc, "{wrapper_template:"))
 										$this->data->product_id .
 										"\",0);' id='wrapper_check' />";
 				$wrappertemplate_data = str_replace("{wrapper_add_checkbox}", $wrapper_checkbox, $wrappertemplate_data);
-				$template_desc        = str_replace("{wrapper_template:" . $wrappertemplate [$w]->template_name . "}", $wrappertemplate_data, $template_desc);
+				$template_desc        = str_replace("{wrapper_template:" . $wrappertemplate [$w]->name . "}", $wrappertemplate_data, $template_desc);
 			}
 			else
 			{
-				$template_desc = str_replace("{wrapper_template:" . $wrappertemplate [$w]->template_name . "}", "", $template_desc);
+				$template_desc = str_replace("{wrapper_template:" . $wrappertemplate [$w]->name . "}", "", $template_desc);
 			}
 		}
 	}
@@ -1472,7 +1472,7 @@ $ajaxdetail_templatedata = $producthelper->getAjaxDetailboxTemplate($this->data)
 
 if (count($ajaxdetail_templatedata) > 0)
 {
-	$template_desc = str_replace("{ajaxdetail_template:" . $ajaxdetail_templatedata->template_name . "}", "", $template_desc);
+	$template_desc = str_replace("{ajaxdetail_template:" . $ajaxdetail_templatedata->name . "}", "", $template_desc);
 }
 
 // Checking if user logged in then only enabling review button

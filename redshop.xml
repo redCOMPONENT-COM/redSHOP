@@ -33,7 +33,6 @@
         <folder>helpers</folder>
         <folder>layouts</folder>
         <folder>models</folder>
-        <folder>templates</folder>
         <folder>views</folder>
         <filename>controller.php</filename>
         <filename>index.html</filename>
@@ -51,6 +50,8 @@
         <folder>fonts</folder>
         <folder>images</folder>
         <folder>js</folder>
+        <folder>templates</folder>
+        <folder>translations</folder>
         <filename>index.html</filename>
     </media>
 

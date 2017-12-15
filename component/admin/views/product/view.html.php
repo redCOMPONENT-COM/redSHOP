@@ -65,13 +65,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$context = 'product_id';
 
 		$GLOBALS['productlist'] = array();
-		$redTemplate            = Redtemplate::getInstance();
-		$extra_field            = extra_field::getInstance();
 		$adminproducthelper     = RedshopAdminProduct::getInstance();
 
-		$list_in_products = $extra_field->list_all_field_in_product();
+		$list_in_products = RedshopHelperExtrafields::listAllFieldInProduct();
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
@@ -134,18 +132,16 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$pagination = $this->get('Pagination');
 
-		/*
-								 * Assign template
-	     */
-		$templates               = $redTemplate->getTemplate('product');
-		$temps                   = array();
-		$temps[0]                = new stdClass;
-		$temps[0]->template_id   = "0";
-		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
-		$templates               = @array_merge($temps, $templates);
+		// Assign template
+		$templates      = RedshopHelperTemplate::getTemplate('product');
+		$temps          = array();
+		$temps[0]       = new stdClass;
+		$temps[0]->id   = "0";
+		$temps[0]->name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
+		$templates      = @array_merge($temps, $templates);
 
-		$lists['product_template'] = JHTML::_('select.genericlist', $templates, 'product_template',
-			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0
+		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
+			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'id', 'name', 0
 		);
 
 		$this->state            = $state;

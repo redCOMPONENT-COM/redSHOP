@@ -41,9 +41,9 @@
                         name="template_id"
                         type="sql"
                         label="MOD_REDSHOP_FILTER_TEMPLATE"
-                        query="SELECT template_id, template_name FROM #__redshop_template WHERE published = 1 AND template_section = 'category'"
-                        key_field="template_id"
-                        value_field="template_name"/>
+                        query="SELECT id, name FROM #__redshop_template WHERE published = 1 AND section = 'category'"
+                        key_field="id"
+                        value_field="name"/>
                 <field
                         name="root_category"
                         type="redshopcategory"

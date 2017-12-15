@@ -257,7 +257,7 @@ class RedshopHelperMedia
 
 		// Prevent space in file path
 		$physicalPath = str_replace(' ', '%20', $physicalPath);
-		$thumbUrl = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
+		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
 	}
@@ -450,10 +450,10 @@ class RedshopHelperMedia
 		}
 
 		// Setting defaults and meta
-		$info = getimagesize($file);
+		$info                       = getimagesize($file);
 		list($widthOld, $heightOld) = $info;
-		$horizontalCenter = 0;
-		$verticalCenter   = 0;
+		$horizontalCenter           = 0;
+		$verticalCenter             = 0;
 
 		// Calculating proportionality resize
 		switch ($proportional)
@@ -583,7 +583,6 @@ class RedshopHelperMedia
 
 			case 'return':
 				return $imageResized;
-				break;
 
 			default:
 				break;

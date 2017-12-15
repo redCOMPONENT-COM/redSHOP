@@ -39,9 +39,11 @@ class RedshopViewTemplates extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		if ($config['dataCol'] === 'template_section')
+		if ($config['dataCol'] === 'section')
 		{
-			return RedshopHelperTemplate::getTemplateSections($row->template_section);
+			$return = RedshopHelperTemplate::getTemplateSections($row->section);
+
+			return is_string($return) ? $return : '';
 		}
 
 		return parent::onRenderColumn($config, $index, $row);

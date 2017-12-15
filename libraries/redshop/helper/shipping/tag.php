@@ -121,7 +121,7 @@ class RedshopHelperShippingTag
 			if ($countLocDet > 6)
 			{
 				$arrLocationTime = explode('  ', $arrLocationDetails[6]);
-				$shopLocation    .= '<br>';
+				$shopLocation   .= '<br>';
 
 				for ($t = 0, $tn = count($arrLocationTime); $t < $tn; $t++)
 				{
