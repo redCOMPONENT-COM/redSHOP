@@ -12,7 +12,7 @@
                 "source": {
                     "url": "https://github.com/joomla/joomla-cms.git",
                     "type": "git",
-                    "reference": "3.8.2"
+                    "reference": "3.7.5"
                 }
             }
         }
