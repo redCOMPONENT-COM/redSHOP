@@ -50,8 +50,9 @@
             if (subAttribute.length)
                 link += '&subattribute_id=' + encodeURIComponent($(subAttribute[0]).val());
 
-            SqueezeBox.open(link, {
-                handler: 'iframe'
+            redBOX.open(link, {
+                handler: 'iframe',
+                name: 'wishlist-iframe'
             });
 
             return true;

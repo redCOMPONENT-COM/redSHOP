@@ -1147,7 +1147,7 @@ function getStateList() {
 
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4) {
-			document.getElementById("shipping_rate_state").innerHTML = xmlhttp.responseText;
+			document.getElementById("changestate").innerHTML = xmlhttp.responseText;
 		}
 	}
 
