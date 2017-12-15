@@ -26,6 +26,8 @@ class RedshopHelperBreadcrumb
 	 * @return  void
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function generate($sectionId = 0)
 	{
@@ -41,7 +43,7 @@ class RedshopHelperBreadcrumb
 		$paths     = $pathway->getPathway();
 		$menuPaths = $paths;
 
-		for ($j = 0, $total = count($paths); $j < $total; $j++)
+		foreach ($paths as $j => $path)
 		{
 			unset($paths[$j]);
 		}
@@ -55,6 +57,7 @@ class RedshopHelperBreadcrumb
 				if ($sectionId)
 				{
 					$manufacturerId = $app->input->getInt('manufacturer_id', 0);
+
 					$link = "index.php?option=com_redshop&view=category&layout=detail&cid=" . $sectionId . "&manufacturer_id=" . $manufacturerId;
 					$menu = productHelper::getInstance()->getMenuDetail($link);
 

@@ -276,9 +276,7 @@ else
 			</label>
 		</td>
 		<td>
-			<div id='changestate'>
-				<?php echo $this->lists['shipping_rate_state']; ?>
-			</div>
+            <?php echo $this->lists['shipping_rate_state']; ?>
 		</td>
 	</tr>
 		<tr>

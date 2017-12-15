@@ -13,25 +13,47 @@
  *
  * @since  1.4
  */
-class CouponManagerJ3Page
+class CouponPage extends AdminJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+	/**
+	 * @var string
+	 */
+	public static $namePage = 'Coupon Management';
 
-	public static $couponCode = "//input[@id='coupon_code']";
+	/**
+	 * @var string
+	 */
+	public static $url = '/administrator/index.php?option=com_redshop&view=coupons';
 
-	public static $couponValue = "//input[@id='coupon_value']";
+	/**
+	 * @var array
+	 */
+	public static $fieldCode = ['id' => 'jform_code'];
 
-	public static $couponLeft = "//input[@id='coupon_left']";
+	/**
+	 * @var array
+	 */
+	public static $fieldValue = ['id' => 'jform_value'];
 
-	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
+	/**
+	 * @var array
+	 */
+	public static $fieldAmountLeft = ['id' => 'jform_amount_left'];
 
-	public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
+	/**
+	 * @var array
+	 */
+	public static $fieldType = ['name' => 'jform[type]'];
+
+	/**
+	 * @var array
+	 */
+	public static $fieldEffect = ['name' => 'jform[effect]'];
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-//	public static $selectValueCoupon = ['xpath' => "//div[@id='editcell']//div[2]/table//tbody/tr[1]//td[3]//a"];
-
 	public static $seclectValueCoupon=['xpath'=>'//td[@class=\'test-redshop-coupon-code\']'];
+	
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 	/**

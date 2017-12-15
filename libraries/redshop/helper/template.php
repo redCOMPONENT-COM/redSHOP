@@ -146,8 +146,6 @@ class RedshopHelperTemplate
 
 			if (count($matches) > 0)
 			{
-				$countItems = 0;
-
 				foreach ($matches as $match)
 				{
 					$replace  = '';

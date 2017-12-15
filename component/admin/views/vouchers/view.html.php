@@ -30,6 +30,8 @@ class RedshopViewVouchers extends RedshopViewList
 	 * @return  string
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -56,9 +58,6 @@ class RedshopViewVouchers extends RedshopViewList
 				}
 
 				return '<i class="text-danger fa fa-remove"></i>';
-
-			case 'voucher_left':
-				return RedshopHelperProductPrice::formattedPrice($value);
 
 			case 'start_date':
 			case 'end_date':

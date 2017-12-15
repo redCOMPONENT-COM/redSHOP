@@ -108,7 +108,7 @@ class RedshopHelperSample
 		$body = str_replace("{name}", $sampleRequest->name, $mailBody);
 		$body = RedshopHelperMail::imgInMail($body);
 
-		if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, $mode = 1, null, $mailBcc))
+		if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 		{
 			$db = JFactory::getDbo();
 
@@ -171,7 +171,7 @@ class RedshopHelperSample
 		$body = str_replace("{name}", $sampleRequest->name, $mailBody);
 		$body = RedshopHelperMail::imgInMail($body);
 
-		if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, $mode = 1, null, $mailBcc))
+		if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 		{
 			$db = JFactory::getDbo();
 
@@ -253,7 +253,7 @@ class RedshopHelperSample
 					->insert($db->qn('#__redshop_coupons'))
 					->columns(
 						$db->qn(
-							array('coupon_code', 'percent_or_total', 'coupon_value', 'start_date', 'end_date', 'coupon_type', 'userid', 'published')
+							array('code', 'type', 'value', 'start_date', 'end_date', 'effect', 'userid', 'published')
 						)
 					)
 					->values(
@@ -264,7 +264,7 @@ class RedshopHelperSample
 				$db->setQuery($query)->execute();
 			}
 
-			if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, $mode = 1, null, $mailBcc))
+			if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 			{
 				$query->clear()
 					->update($db->qn('#__redshop_sample_request'))
@@ -318,7 +318,7 @@ class RedshopHelperSample
 			$body = str_replace("{coupon_code}", $couponCode, $body);
 			$body = RedshopHelperMail::imgInMail($body);
 
-			if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, $mode = 1, null, $mailBcc))
+			if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 			{
 				$query->clear()
 					->update($db->qn('#__redshop_sample_request'))

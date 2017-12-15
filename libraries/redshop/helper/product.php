@@ -85,7 +85,7 @@ class RedshopHelperProduct
 	{
 		if (!$userId)
 		{
-			$user = JFactory::getUser();
+			$user   = JFactory::getUser();
 			$userId = $user->id;
 		}
 
@@ -102,7 +102,7 @@ class RedshopHelperProduct
 			// Otheriwise load product info
 			else
 			{
-				$db = JFactory::getDbo();
+				$db    = JFactory::getDbo();
 				$query = self::getMainProductQuery(false, $userId);
 
 				// Select product

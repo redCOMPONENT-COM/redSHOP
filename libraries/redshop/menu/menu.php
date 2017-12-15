@@ -170,8 +170,8 @@ class RedshopMenu
 			}
 		}
 
-		$this->items[$group]['items'] = $this->data;
-		$this->items[$group]['style'] = $style;
+		$this->items[$group]['items']   = $this->data;
+		$this->items[$group]['style']   = $style;
 		$this->items[$group]['disable'] = $isDisable;
 
 		$this->data = array();

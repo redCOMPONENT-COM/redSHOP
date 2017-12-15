@@ -131,7 +131,7 @@ class RedshopHelperMail
 		$discountType   = !$discountType ? JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE') : $discountType;
 		$orderDetailUrl = JUri::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
 
-		$search = array('{discount_type}', '{order_detail_link}');
+		$search  = array('{discount_type}', '{order_detail_link}');
 		$replace = array($discountType, "<a href='" . $orderDetailUrl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>");
 
 		$message = str_replace($search, $replace, $message);
@@ -611,9 +611,11 @@ class RedshopHelperMail
 	/**
 	 * Send registration mail
 	 *
-	 * @param   array &$data registration data
+	 * @param   array  $data  Registration data
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
 	public static function sendRegistrationMail(&$data)
 	{
@@ -700,6 +702,8 @@ class RedshopHelperMail
 	 * @param   string $email       User email
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
 	public static function sendTaxExemptMail($mailSection, $userInfo = array(), $email = "")
 	{
@@ -775,6 +779,8 @@ class RedshopHelperMail
 	 * @param   array $data Mail data
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
 	public static function sendSubscriptionRenewalMail($data = array())
 	{
@@ -1083,7 +1089,7 @@ class RedshopHelperMail
 			}
 
 			$cartMdata = str_replace("{product_quantity}", $productQuantity, $cartMdata);
-			$cart      .= $cartMdata;
+			$cart     .= $cartMdata;
 		}
 
 		// End for
@@ -1117,7 +1123,7 @@ class RedshopHelperMail
 			if (strstr($message, "{quotation_custom_field_list}"))
 			{
 				$billAdd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotation->user_info_id, 1, $quotation->quotation_email);
-				$message = str_replace("{quotation_custom_field_list}", "", $message);
+				$message  = str_replace("{quotation_custom_field_list}", "", $message);
 			}
 			else
 			{
