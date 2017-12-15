@@ -45,8 +45,8 @@ class RedshopFormFieldText extends JFormField
 	/**
 	 * Add an attribute to the input field
 	 *
-	 * @param   string  $name   Name of the attribute
-	 * @param   string  $value  Value for the attribute
+	 * @param   string $name  Name of the attribute
+	 * @param   string $value Value for the attribute
 	 *
 	 * @return  void
 	 */
@@ -63,16 +63,16 @@ class RedshopFormFieldText extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string  The field input markup.
+	 * @return   string   The field input markup.
 	 */
 	protected function getInput()
 	{
 		// Manually handled attributes
-		$this->attribs['id'] = $this->id;
-		$this->attribs['name'] = $this->name;
-		$this->attribs['type'] = 'text';
-		$this->attribs['readonly'] = ($this->element['readonly'] == 'true') ? 'readonly' : null;
-		$this->attribs['disabled'] = ($this->element['disabled'] == 'true') ? 'disabled' : null;
+		$this->attribs['id']          = $this->id;
+		$this->attribs['name']        = $this->name;
+		$this->attribs['type']        = 'text';
+		$this->attribs['readonly']    = ($this->element['readonly'] == 'true') ? 'readonly' : null;
+		$this->attribs['disabled']    = ($this->element['disabled'] == 'true') ? 'disabled' : null;
 		$this->attribs['placeholder'] = $this->element['placeholder'] ? JText::_($this->element['placeholder']) : null;
 
 		if (isset($this->element['filter']) && ($this->element['filter'] == 'float' || $this->element['filter'] == 'integer'))
@@ -80,8 +80,10 @@ class RedshopFormFieldText extends JFormField
 			$this->attribs['type'] = 'number';
 		}
 
+		$elementAttribs = $this->element->attributes();
+
 		// Automatically insert any other attribute inserted
-		if ($elementAttribs = $this->element->attributes())
+		if (!empty($elementAttribs))
 		{
 			foreach ($elementAttribs as $name => $value)
 			{
@@ -99,7 +101,9 @@ class RedshopFormFieldText extends JFormField
 			foreach ($this->value AS $value)
 			{
 				$this->attribs['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-				$html .= '<div class="multiple_input_wrapper"><input ' . RedshopHelperUtility::toAttributes($this->attribs) . ' /></div>';
+
+				$html .= '<div class="multiple_input_wrapper"><input '
+					. RedshopHelperUtility::toAttributes($this->attribs) . ' /></div>';
 			}
 
 			return $html;

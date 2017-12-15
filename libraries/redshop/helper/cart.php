@@ -743,11 +743,13 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for calculate final price of cart.
 	 *
-	 * @param   bool $isModify Is modify cart?
+	 * @param   bool  $isModify  Is modify cart?
 	 *
 	 * @return  array
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function cartFinalCalculation($isModify = true)
 	{
@@ -869,8 +871,8 @@ abstract class RedshopHelperCart
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer $userId                User Information Id - Login user id
-	 * @param   boolean $isShowButtonAddToCart Display Add to cart button for tax exemption user
+	 * @param   integer  $userId                 User Information Id - Login user id
+	 * @param   boolean  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
 	 *
 	 * @return  boolean                          True if VAT applied else false
 	 *

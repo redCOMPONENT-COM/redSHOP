@@ -77,9 +77,10 @@ class RedshopHelperAccess
 			return true;
 		}
 
-		$shopperGroupId = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+		$shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
-		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
+		if (!empty($shopperGroupData))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{

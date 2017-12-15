@@ -241,8 +241,8 @@ class RedshopHelperQuotation
 	 */
 	public static function randomQuotationEncryptKey($pLength = '30')
 	{
-		/* Generated a unique order number */
-		$charList = "abcdefghijklmnopqrstuvwxyz";
+		// Generated a unique order number
+		$charList  = "abcdefghijklmnopqrstuvwxyz";
 		$charList .= "1234567890123456789012345678901234567890123456789012345678901234567890";
 
 		$random = "";
@@ -348,6 +348,8 @@ class RedshopHelperQuotation
 	 * @return  string   HTML to display
 	 *
 	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function displayQuotationUserField($quotationItemId = 0, $sectionId = 12)
 	{

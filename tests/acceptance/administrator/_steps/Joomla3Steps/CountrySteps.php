@@ -72,7 +72,7 @@ class CountrySteps extends AdminManagerJoomla3Steps
 		$client->fillField(\CountryPage::$fieldName, $newCountryName);
 		$client->click(\CountryPage::$buttonSaveClose);
 		$client->waitForText(\CountryPage::$messageItemSaveSuccess, 60, \CountryPage::$selectorSuccess);
-		$client->see(\SupplierPage::$messageItemSaveSuccess, \SupplierPage::$selectorSuccess);
+		$client->see(\CountryPage::$messageItemSaveSuccess, \CountryPage::$selectorSuccess);
 	}
 
 	/**

@@ -222,16 +222,13 @@ class RedshopHelperProductPrice
 		{
 			case 'behind':
 				return $productPrice . $currencySymbol;
-				break;
 
 			case 'none':
 				return $productPrice;
-				break;
 
 			case 'front':
 			default:
 				return $currencySymbol . $productPrice;
-				break;
 		}
 	}
 

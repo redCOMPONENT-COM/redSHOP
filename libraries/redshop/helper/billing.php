@@ -30,7 +30,9 @@ class RedshopHelperBilling
 	 *
 	 * @return  string                    HTML content layout.
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	public static function render($post = array(), $isCompany = 0, $lists, $showShipping = 0, $showNewsletter = 0,
 	                              $createAccount = 1)
@@ -63,7 +65,7 @@ class RedshopHelperBilling
 
 		if (empty($privateTemplates))
 		{
-			$tmpTemplate                = new stdClass;
+			$tmpTemplate       = new stdClass;
 			$tmpTemplate->name = 'private_billing_template';
 			$tmpTemplate->id   = 0;
 
@@ -84,7 +86,7 @@ class RedshopHelperBilling
 				$html = !empty($privateTemplate->template_desc) ?
 					$privateTemplate->template_desc : self::getDefaultPrivateTemplate();
 
-				$html = RsUserHelper::getInstance()->replacePrivateCustomer($html, $post, $lists);
+				$html = self::replacePrivateCustomer($html, $post, $lists);
 			}
 
 			$html = '<div id="tblprivate_customer">' . $html . '</div>'
@@ -106,7 +108,7 @@ class RedshopHelperBilling
 
 		if (empty($companyTemplates))
 		{
-			$tmpTemplate                = new stdClass;
+			$tmpTemplate       = new stdClass;
 			$tmpTemplate->name = 'company_billing_template';
 			$tmpTemplate->id   = 0;
 
@@ -127,7 +129,7 @@ class RedshopHelperBilling
 				$html = !empty($companyTemplate->template_desc) ?
 					$companyTemplate->template_desc : self::getDefaultCompanyTemplate();
 
-				$html = RsUserHelper::getInstance()->replaceCompanyCustomer($html, $post, $lists);
+				$html = self::replaceCompanyCustomer($html, $post, $lists);
 			}
 
 			$html = '<div id="tblcompany_customer">' . $html . '</div>'
@@ -439,7 +441,7 @@ class RedshopHelperBilling
 			$allowCompany = isset($post['is_company']) && 1 != (int) $post['is_company'] ? 'style="display:none;"' : '';
 			$taxExempt    = isset($post["tax_exempt"]) ? $post["tax_exempt"] : '';
 
-			$taxExemptHtml   = JHtml::_(
+			$taxExemptHtml = JHtml::_(
 				'select.booleanlist',
 				'tax_exempt',
 				'class="inputbox" ',

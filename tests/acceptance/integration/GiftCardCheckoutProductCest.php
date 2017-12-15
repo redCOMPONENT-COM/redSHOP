@@ -188,12 +188,12 @@ class GiftCardCheckoutProductCest
 	public function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-		$I->amOnPage(\CouponManagerJ3Page::$URL);
+		$I->amOnPage(\CouponPage::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
-		$I->click(\CouponManagerJ3Page::$selectFirst);
+		$I->click(\CouponPage::$selectFirst);
 		$I->wait(500);
-		$this->couponCode = $I->grabTextFrom(\CouponManagerJ3Page::$selectValueCoupon);
+		$this->couponCode = $I->grabTextFrom(\CouponPage::$selectValueCoupon);
 	}
 
 	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
