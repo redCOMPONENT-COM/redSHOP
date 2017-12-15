@@ -565,8 +565,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields_data` (
   INDEX `idx_fieldid` (`fieldid` ASC),
   INDEX `idx_itemid` (`itemid` ASC),
   INDEX `idx_section` (`section` ASC),
-  INDEX `#__field_data_common` (`itemid` ASC, `section` ASC),
-  INDEX `#__field_data_common2` USING BTREE (`fieldid` ASC, `itemid` ASC, `data_txt` ASC))
+  INDEX `#__field_data_common` (`itemid` ASC, `section` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Fields Data';

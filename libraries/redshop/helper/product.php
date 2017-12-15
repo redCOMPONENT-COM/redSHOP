@@ -365,7 +365,7 @@ class RedshopHelperProduct
 		$query->clear()
 			->select('fd.*')
 			->select($db->qn('f.title'))
-			->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX (' . $db->qn('#__field_data_common') . ')')
+			->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX(' . $db->qn('#__field_data_common') . ')')
 			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
 			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
 			->where($db->qn('fd.section') . ' = 1');

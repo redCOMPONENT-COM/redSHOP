@@ -49,7 +49,6 @@ CALL redSHOP_Index_Add('#__redshop_fields_data', '#__field_data_common', '(`item
 CALL redSHOP_Index_Add('#__redshop_manufacturer', '#__manufacturer_common_idx', '(`manufacturer_id` ASC, `manufacturer_name` ASC, `published` ASC)');
 CALL redSHOP_Index_Add('#__redshop_product_category_xref', '#__prod_cat_idx1', '(`category_id` ASC, `product_id` ASC)');
 CALL redSHOP_Index_Add('#__redshop_fields', '#__rs_idx_field_common', '(`id` ASC, `name` ASC, `published` ASC, `section` ASC)');
-CALL redSHOP_Index_Add('#__redshop_fields_data', '#__field_data_common2', 'USING BTREE (`fieldid` ASC, `itemid` ASC, `data_txt` ASC)');
 CALL redSHOP_Index_Remove('#__redshop_fields_data', 'itemid');
 
 SET FOREIGN_KEY_CHECKS = 1;
