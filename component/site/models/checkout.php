@@ -1332,12 +1332,17 @@ class RedshopModelCheckout extends RedshopModel
 		}
 	}
 
+	/**
+	 * Method for return billing address.
+	 *
+	 * @return  object
+	 */
 	public function billingaddresses()
 	{
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$list    = array();
+		$list    = new stdClass;
 
 		if ($user->id)
 		{

@@ -263,7 +263,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				$debtorHandle = Economic::createUserInEconomic($billingaddresses);
+				Economic::createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
 				{
@@ -384,6 +384,8 @@ class RedshopControllerCheckout extends RedshopController
 		$dispatcher        = RedshopHelperUtility::getDispatcher();
 		$post              = $input->post->getArray();
 		$Itemid            = $input->post->getInt('Itemid', 0);
+
+		/** @var RedshopModelCheckout $model */
 		$model             = $this->getModel('checkout');
 		$session           = JFactory::getSession();
 		$cart              = $session->get('cart');
