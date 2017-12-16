@@ -20,6 +20,8 @@ JLoader::import('joomla.application.component.view');
  */
 class RedshopViewCategory extends RedshopViewForm
 {
+	public
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -29,6 +31,8 @@ class RedshopViewCategory extends RedshopViewForm
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -61,8 +65,6 @@ class RedshopViewCategory extends RedshopViewForm
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors));
-
-			return false;
 		}
 
 		parent::display($tpl);
@@ -74,6 +76,7 @@ class RedshopViewCategory extends RedshopViewForm
 	 * @return  object  Tab menu
 	 *
 	 * @since   1.7
+	 * @throws  Exception
 	 */
 	private function getTabMenu()
 	{

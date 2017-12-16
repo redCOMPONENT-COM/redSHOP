@@ -38,6 +38,10 @@ class RedshopModelCheckout extends RedshopModel
 
 	public $_order_functions = null;
 
+	public $_producthelper = null;
+
+	public $_redshopMail = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -404,6 +408,7 @@ class RedshopModelCheckout extends RedshopModel
 			$ip = $_SERVER['REMOTE_ADDR'];
 		}
 
+		/** @var Tableorder_detail $row */
 		$row = $this->getTable('order_detail');
 
 		if (!$row->bind($post))
@@ -546,7 +551,9 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$is_giftcard = 0;
 			$product_id  = $cart [$i] ['product_id'];
-			$product     = $this->_producthelper->getProductById($product_id);
+			$product     = RedshopHelperProduct::getProductById($product_id);
+
+			/** @var Tableorder_item_detail $rowitem */
 			$rowitem     = $this->getTable('order_item_detail');
 
 			if (!$rowitem->bind($post))
@@ -1031,6 +1038,7 @@ class RedshopModelCheckout extends RedshopModel
 			}
 		}
 
+		/** @var Tableorder_payment $rowpayment */
 		$rowpayment = $this->getTable('order_payment');
 
 		if (!$rowpayment->bind($post))
@@ -1161,13 +1169,11 @@ class RedshopModelCheckout extends RedshopModel
 			}
 		}
 
-		$stockroomhelper->deleteCartAfterEmpty();
+		RedshopHelperStockroom::deleteCartAfterEmpty();
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$economic = economic::getInstance();
-
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
 			$economicdata['economic_design_layout']    = $economic_design_layout;
 			$economicdata['economic_is_creditcard']    = $is_creditcard;
@@ -1182,7 +1188,7 @@ class RedshopModelCheckout extends RedshopModel
 			$economicdata['economic_payment_method'] = $payment_name;
 			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
 
-			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
+			if (Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
@@ -1260,7 +1266,9 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
 			$gift_code         = RedshopHelperOrder::randomGenerateEncryptKey(12);
-			$couponItems       = RedshopTable::getAdminInstance('Coupon');
+
+			/** @var RedshopTableCoupon $couponItems */
+			$couponItems = RedshopTable::getAdminInstance('Coupon');
 
 			if ($giftcardData->customer_amount)
 			{
@@ -1283,7 +1291,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$this->setError($this->_db->getErrorMsg());
 
-				return false;
+				return;
 			}
 
 			$giftcardmail_body = str_replace("{giftcard_code_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_CODE_LBL'), $giftcardmail_body);
