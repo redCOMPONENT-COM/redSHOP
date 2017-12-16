@@ -27,11 +27,13 @@ class RedshopControllerCategory extends RedshopControllerForm
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app     = JFactory::getApplication();
 		$lang    = JFactory::getLanguage();
@@ -263,7 +265,9 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to copy record.
 	 *
-	 * @return  mixed
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function copy()
 	{

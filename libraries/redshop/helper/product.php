@@ -143,7 +143,7 @@ class RedshopHelperProduct
 			->from($db->qn('#__redshop_product', 'p'));
 
 		// Require condition
-		$query->group('p.product_id');
+		$query->group($db->qn('p.product_id'));
 
 		// Select price
 		$query->select(
@@ -365,7 +365,7 @@ class RedshopHelperProduct
 		$query->clear()
 			->select('fd.*')
 			->select($db->qn('f.title'))
-			->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX (idx_itemid)')
+			->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX(' . $db->qn('#__field_data_common') . ')')
 			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
 			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
 			->where($db->qn('fd.section') . ' = 1');
@@ -380,6 +380,7 @@ class RedshopHelperProduct
 		foreach ($extraFields as $extraField)
 		{
 			$key = $extraField->itemid . '.' . $userId;
+
 			static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
 		}
 	}
@@ -785,7 +786,7 @@ class RedshopHelperProduct
 	 */
 	public static function insertProductUserField($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
 	{
-		$db = JFactory::getDbo();
+		$db      = JFactory::getDbo();
 		$columns = array('fieldid', 'data_txt', 'itemid', 'section');
 		$values  = array($db->q((int) $fieldId), $db->q($value), $db->q((int) $orderItemId), $db->q((int) $sectionId));
 
