@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Helper;
 
 
 class RedshopControllerProduct extends RedshopController
@@ -35,7 +35,7 @@ class RedshopControllerProduct extends RedshopController
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
+			$economic = Helper::getInstance();
 			$db       = JFactory::getDbo();
 			$incNo    = $cnt;
 			$query    = 'SELECT p.* FROM #__redshop_product AS p '
@@ -48,7 +48,7 @@ class RedshopControllerProduct extends RedshopController
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
-				$ecoProductNumber = Economic::createProductInEconomic($prd[$i]);
+				$ecoProductNumber = Helper::createProductInEconomic($prd[$i]);
 				$responcemsg     .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
@@ -94,7 +94,7 @@ class RedshopControllerProduct extends RedshopController
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
 		{
-			$economic = economic::getInstance();
+			$economic = Helper::getInstance();
 
 			$db    = JFactory::getDbo();
 			$incNo = $cnt;
@@ -117,7 +117,7 @@ class RedshopControllerProduct extends RedshopController
 				$prdrow                  = new stdClass;
 				$prdrow->product_id      = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber        = Economic::createPropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber        = Helper::createPropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg            .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
@@ -158,7 +158,7 @@ class RedshopControllerProduct extends RedshopController
 				$prdrow                  = new stdClass;
 				$prdrow->product_id      = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber        = Economic::createSubpropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber        = Helper::createSubpropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg            .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " "
 					. $list[$i]->subattribute_color_number . " -> ";
 

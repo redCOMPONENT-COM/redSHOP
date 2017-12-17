@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Helper;
 
 jimport('joomla.filesystem.file');
 
@@ -186,7 +186,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			// Add product to economic
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::createProductInEconomic($row);
+				Helper::createProductInEconomic($row);
 			}
 
 			$field = extra_field::getInstance();
@@ -383,7 +383,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 		{
-			$economic = economic::getInstance();
+			$economic = Helper::getInstance();
 		}
 
 		$model = $this->getModel('product_detail');
@@ -486,7 +486,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
-					Economic::createPropertyInEconomic($row, $property_array);
+					Helper::createPropertyInEconomic($row, $property_array);
 				}
 
 				// Set trigger to save Attribute Property Plugin Data
@@ -568,7 +568,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
-						Economic::createSubpropertyInEconomic($row, $subproperty_array);
+						Helper::createSubpropertyInEconomic($row, $subproperty_array);
 					}
 				}
 			}

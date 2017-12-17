@@ -42,7 +42,7 @@ class RedshopControllerShipping extends RedshopController
 					$shipping_number = $shipping[$i]->economic_displayname;
 				}
 
-				Redshop\Economic\Economic::createShippingRateInEconomic(
+				Redshop\Economic\Helper::createShippingRateInEconomic(
 					$shipping_number, $shipping_name, $shipping_rate,
 					$shipping[$i]->apply_vat
 				);

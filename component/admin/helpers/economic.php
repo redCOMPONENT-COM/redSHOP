@@ -9,7 +9,7 @@
 
 jimport('joomla.filesystem.file');
 
-use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Economic\Helper as RedshopEconomic;
 
 /**
  * Library for Redshop E-conomic.

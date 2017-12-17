@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.0.3
  */
-class Economic
+class Helper
 {
 	/**
 	 * The dispatcher to trigger events
@@ -1507,11 +1507,11 @@ class Economic
 	/**
 	 * Make Attribute Order
 	 *
-	 * @param   string  $invoiceNo       Invoice number
-	 * @param   integer $orderItem       Order Item
-	 * @param   integer $isAccessory     Is accessory
-	 * @param   integer $parentSectionId Parent Section ID
-	 * @param   integer $userId          User ID
+	 * @param   string   $invoiceNo        Invoice number
+	 * @param   array    $orderItem        Order Item
+	 * @param   integer  $isAccessory      Is accessory
+	 * @param   integer  $parentSectionId  Parent Section ID
+	 * @param   integer  $userId           User ID
 	 *
 	 * @return  integer
 	 *
