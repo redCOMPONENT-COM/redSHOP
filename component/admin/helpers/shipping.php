@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Class shipping Helper
  *
- * @deprecated  2.0.0.3
- *
  * @since  2.0.0.3
+ *
+ * @deprecated  2.0.0.3
  */
 class shipping
 {
 	/**
 	 * @var null
 	 */
-	protected static $instance = null;
+	protected static $instance;
 
 	/**
 	 * Returns the shipping object, only creating it
