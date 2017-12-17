@@ -112,6 +112,8 @@ class CheckoutShippingCest
 
         // shipping demo data
         $this->demoShipping = 'Demo Rate';
+        $this->TotalShow = '';
+        $this->TotalIncludeShippingShow = '';
     }
 
     public function deleteData($scenario)
@@ -169,18 +171,6 @@ class CheckoutShippingCest
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName ,$this->CategoryNamePlus,$this->shippingRate,$this->TotalShow);
     }
-// this function maybe will be open . We need to change this way of redSHOP
-//    public function updateUserAndCheckout(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Update this user above for other country . they should do not get shipping rate');
-//        $I = new UserManagerJoomla3Steps($scenario);
-//        $this->user['country'] = 'Viet Nam';
-//        $I->updateBillingInfo($this->firstName, $this->user);
-//        $this->TotalOrder = 'DKK '.$this->randomProductPrice;
-//        $I->wantTo('Checkout with user belong other country  ');
-//        $I = new ProductCheckoutManagerJoomla3Steps($scenario);
-//        $I->checkoutSpecificShopperGroup($this->userName,$this->password,$this->ProductName ,$this->CategoryNamePlus,'0',$this->TotalOrder);
-//    }
 
 // This function still not done . When REDSHOP-4793 done. It should be open
     public function checkoutWithUseApplyOtherShipping(AcceptanceTester $I, $scenario)
