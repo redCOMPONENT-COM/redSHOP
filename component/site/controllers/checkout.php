@@ -533,7 +533,7 @@ class RedshopControllerCheckout extends RedshopController
 				$model->resetcart();
 
 				// Add Plugin support
-				$results = $dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
+				$dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
 
 				JPluginHelper::importPlugin('system');
 				$dispatcher->trigger('afterOrderCreated', array($orderresult));

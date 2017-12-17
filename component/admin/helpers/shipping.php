@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class shipping
 {
 	/**
-	 * @var null
+	 * @var self
 	 */
 	protected static $instance;
 

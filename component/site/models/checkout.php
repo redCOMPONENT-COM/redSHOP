@@ -1275,12 +1275,13 @@ class RedshopModelCheckout extends RedshopModel
 				$giftcardData->giftcard_value = $eachorders->product_final_price;
 			}
 
+			$couponEndDate = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
+
 			$couponItems->code          = $gift_code;
 			$couponItems->type          = 0;
 			$couponItems->value         = $giftcardData->giftcard_value;
 			$couponItems->start_date    = JFactory::getDate()->toSql();
-			$couponItems->end_date      = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
-			$couponItems->end_date      = JFactory::getDate($couponItems->end_date)->toSql();
+			$couponItems->end_date      = $couponEndDate === false ? JFactory::getDbo()->getNullDate() : JFactory::getDate($couponEndDate)->toSql();
 			$couponItems->effect        = 0;
 			$couponItems->userid        = 0;
 			$couponItems->amount_left   = 1;
