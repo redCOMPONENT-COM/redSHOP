@@ -343,8 +343,8 @@ class RedshopHelperProduct
 
 			$accessoryName = RedshopHelperUtility::maxChars(
 				$accessory[$a]->product_name,
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
+				Redshop::getConfig()->getInt('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+				Redshop::getConfig()->getString('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
 			);
 
 			// Get accessory final price with VAT rules
@@ -359,7 +359,7 @@ class RedshopHelperProduct
 				$accessory[$a]->accessory_main_price, 1
 			);
 			$accessoryPriceWithoutVat = $accessoryPriceWithoutvat[0];
-			$accessoryPriceVat = $accessoryPrice - $accessoryPriceWithoutVat;
+			$accessoryPriceVat        = $accessoryPrice - $accessoryPriceWithoutVat;
 
 			$commonid = $productId . '_' . $accessory[$a]->accessory_id . $uniqueId;
 
