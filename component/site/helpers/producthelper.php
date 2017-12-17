@@ -394,6 +394,8 @@ class productHelper
 	 * @return  string                    Formatted Product Price
 	 *
 	 * @deprecated  2.0.7
+	 *
+	 * @see RedshopHelperProductPrice::formattedPrice
 	 */
 	public function getProductFormattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
