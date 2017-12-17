@@ -120,18 +120,14 @@ class CheckoutShippingCest
     {
         $I= new RedshopSteps($scenario);
         $I->clearAllData();
+        $I->clearAllShippingRate();
     }
 
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();
     }
-    
-    public function deleteAllShippingRates(ShippingSteps $I)
-    {
-        $I->wantTo('Delete Demo data shiping rate');
-        $I->deleteShippingRate($this->demoShipping);
-    }
+
     public function preCheckout(AcceptanceTester $I, $scenario)
     {
         $I->wantTo(' Enable Quotation at configuration ');
