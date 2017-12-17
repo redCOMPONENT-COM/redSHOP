@@ -854,9 +854,9 @@ class RedshopHelperShipping
 	/**
 	 * Get shipping rates
 	 *
-	 * @param   string $shippingClass Shipping class
+	 * @param   string  $shippingClass  Shipping class
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -913,11 +913,11 @@ class RedshopHelperShipping
 	/**
 	 * List shipping rates
 	 *
-	 * @param   object $shippingClass Shipping class
-	 * @param   int    $usersInfoId   User info id
-	 * @param   array  &$data         Shipping data
+	 * @param   object   $shippingClass  Shipping class
+	 * @param   integer  $usersInfoId    User info id
+	 * @param   array    $data           Shipping data
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  array                   Shipping Rates
 	 *
 	 * @since   2.0.0.3
 	 *
@@ -1006,7 +1006,7 @@ class RedshopHelperShipping
 				$country   = $data['post']['anonymous_params']['country_code'];
 				$state     = $data['post']['anonymous_params']['state_code'];
 				$zip       = $data['post']['anonymous_params']['zip_code'];
-				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? 1 : 0;
+				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? true : false;
 			}
 
 			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
@@ -1015,7 +1015,7 @@ class RedshopHelperShipping
 			OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 		}
 
-		if (!$isCompany)
+		if ($isCompany === false)
 		{
 			$where = " AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
 		}
@@ -1251,7 +1251,7 @@ class RedshopHelperShipping
 				 *  VAT_BASED_ON = 1 // customer mode
 				 *  VAT_BASED_ON = 2 // EU mode
 				 */
-				if (0 == Redshop::getConfig()->get('VAT_BASED_ON'))
+				if (0 == Redshop::getConfig()->getInt('VAT_BASED_ON'))
 				{
 					$userData->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 					$userData->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
@@ -1413,9 +1413,9 @@ class RedshopHelperShipping
 	 * Only show Higher priority rates (In [1,2,3,4] take 1 as a high priority)
 	 * Rates with same priority will shown as radio button list in checkout
 	 *
-	 * @param   array $shippingRates Array shipping rates
+	 * @param   array  $shippingRates  Array shipping rates
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
@@ -1620,7 +1620,7 @@ class RedshopHelperShipping
 	/**
 	 * Get available shipping boxes according to cart items
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1709,9 +1709,9 @@ class RedshopHelperShipping
 	/**
 	 * Get Shipping rate error
 	 *
-	 * @param   array &$data Shipping rate data
+	 * @param   array  $data  Shipping rate data
 	 *
-	 * @return  string  error text
+	 * @return  string        Error text
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1729,7 +1729,7 @@ class RedshopHelperShipping
 
 				if ($bool)
 				{
-					return true;
+					return '';
 				}
 
 				return JText::_("COM_REDSHOP_PRODUCT_DETAIL_NOT_MATCH");
@@ -1744,7 +1744,7 @@ class RedshopHelperShipping
 	/**
 	 * Check cart dimension is matched
 	 *
-	 * @param   array &$data Cart data
+	 * @param   array  $data  Cart data
 	 *
 	 * @return  boolean
 	 *
