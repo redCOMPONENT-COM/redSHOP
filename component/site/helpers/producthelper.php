@@ -1699,7 +1699,7 @@ class productHelper
 
 	public function getValidityDate($period, $data)
 	{
-		$todate = mktime(0, 0, 0, date('m'), date('d') + $period, (int) date('Y'));
+		$todate = mktime(0, 0, 0, (int) date('m'), (int) date('d') + $period, (int) date('Y'));
 
 		$todate   = RedshopHelperDatetime::convertDateFormat($todate);
 		$fromdate = RedshopHelperDatetime::convertDateFormat(strtotime(date('d M Y')));
