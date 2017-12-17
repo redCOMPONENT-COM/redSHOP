@@ -42,15 +42,21 @@ class ShippingPage extends AdminJ3Page
 
     public static $zipCodeStart = ['id' => 'shipping_rate_zip_start'];
 
-    public static $zipCodeEnd = ['id' => 'shipping_rate_zip_start'];
+    public static $zipCodeEnd = ['id' => 'shipping_rate_zip_end'];
 
     public static $country = ['id' => 's2id_shipping_rate_country'];
+
+    public static $countryField = ['id' => 's2id_autogen2'];
 
     public static $shippingRateProduct = ['id' => 's2id_container_product'];
 
     public static $shippingCategory = ['id' => 's2id_shipping_rate_on_category'];
 
-    public static $shippingShopperGroups = ['id' => 's2id_shipping_rate_on_shopper_group'];
+    public static $shippingShopperGroups = ['xpath' => '//div[@id=\'s2id_shipping_rate_on_shopper_group\']'];
+
+    public static $shippingCategoryInput = ['xpath' => '//input[@id=\'s2id_autogen4\']'];
+    
+    public static $shippingShopperGroupsInput = ['xpath' => '//input[@id=\'s2id_autogen5\']'];
 
     public static $shippingPriority = ['id' => 'shipping_rate_priority'];
 

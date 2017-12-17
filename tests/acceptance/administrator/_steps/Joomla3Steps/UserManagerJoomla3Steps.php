@@ -45,6 +45,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
                 $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
                 $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->waitForElement(\UserManagerJoomla3Page::$groupRadioButton, 30);
                 $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
                 $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
                 $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
@@ -458,5 +459,53 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         } else {
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
+    }
+
+    public function updateBillingInfo($firstName, $user = array())
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($firstName);
+        $usePage = new \UserManagerJoomla3Page();
+        $I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$editButton);
+        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+        $I->waitForElement(\UserManagerJoomla3Page::$firstName);
+        if (isset($user['zipcode']))
+        {
+            $I->fillField(\UserManagerJoomla3Page::$zipcode, $user['zipcode']);
+        }
+        if (isset($user['country']))
+        {
+            $I->waitForElement(\UserManagerJoomla3Page::$countryDropownList, 30);
+            $I->click(\UserManagerJoomla3Page::$countryDropownList);
+            $I->waitForElement(\UserManagerJoomla3Page::$countryField, 30);
+            $I->fillField(\UserManagerJoomla3Page::$countryField, $user['country']);
+            $I->waitForElement($usePage->returnChoice($user['country']), 30);
+            $I->pressKey(\UserManagerJoomla3Page::$countryField, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        }
+        if (isset($user['phone']))
+        {
+            $I->waitForElement(\UserManagerJoomla3Page::$phone, 30);
+            $I->fillField(\UserManagerJoomla3Page::$phone, $user['phone']);
+        }
+
+        if(isset($use['state']))
+        {
+            $I->waitForElement(\UserManagerJoomla3Page::$countryDropownList, 30);
+            $I->click(\UserManagerJoomla3Page::$stateDropdownList);
+            $I->waitForElement(\UserManagerJoomla3Page::$stateField, 30);
+            $I->fillField(\UserManagerJoomla3Page::$stateField, $user['state']);
+            $I->waitForElement($usePage->returnChoice($user['state']), 30);
+            $I->click($usePage->returnChoice($user['state']));
+        }
+        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+        $I->click(\UserManagerJoomla3Page::$saveCloseButton);
+        $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
+        $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
+        $I->click(\UserManagerJoomla3Page::$linkUser);
+        $I->see($firstName);
     }
 }

@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class UserManagerJoomla3Page
+class UserManagerJoomla3Page extends AdminJ3Page
 {
     public static $namePage = "User Management";
 
@@ -58,6 +58,14 @@ class UserManagerJoomla3Page
     public static $zipcode = "//input[@id='zipcode']";
 
     public static $city = "//input[@id='city']";
+
+    public static $countryDropownList = ['xpath' => '//div[@id=\'s2id_rs_country_country_code\']/a'];
+
+    public static $countryField = ['xpath' => '//input[@id=\'s2id_autogen2_search\']'];
+
+    public static $stateDropdownList  =  ['xpath' => '//div[@id=\'s2id_rs_state_state_code\']/a'];
+
+    public static $stateField = ['xpath' => '//input[@id=\'s2id_autogen3_search\']'];
 
     public static $userSuccessMessage = 'User detail saved';
 
