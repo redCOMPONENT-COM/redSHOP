@@ -132,6 +132,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				for ($i = 0, $in = count($cid); $i < $in; $i++)
 				{
+					/** @var Tableorder_detail $orderdata */
 					$orderdata = $this->getTable('order_detail');
 					$orderdata->load($cid[$i]);
 					Helper::deleteInvoiceInEconomic($orderdata);

@@ -208,7 +208,6 @@ class RedshopControllerOrder extends RedshopController
 				$economicdata['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
-			$economic = Helper::getInstance();
 			Helper::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
@@ -516,8 +515,8 @@ class RedshopControllerOrder extends RedshopController
 			$product_download_days_time = (time() + ($days * 24 * 60 * 60));
 
 			$endtime = mktime(
-				$clock, $clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time),
-				date("Y", $product_download_days_time)
+				$clock, $clock_min, 0, (int) date("m", $product_download_days_time), (int) date("d", $product_download_days_time),
+				(int) date("Y", $product_download_days_time)
 			);
 
 			// If download product is set to infinit

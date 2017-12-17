@@ -379,13 +379,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function attribute_save($post, $row)
 	{
-		$economic = null;
-
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
-		{
-			$economic = Helper::getInstance();
-		}
-
+	    /** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$attribute_save   = array();

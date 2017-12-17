@@ -35,7 +35,6 @@ class RedshopControllerProduct extends RedshopController
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = Helper::getInstance();
 			$db       = JFactory::getDbo();
 			$incNo    = $cnt;
 			$query    = 'SELECT p.* FROM #__redshop_product AS p '
@@ -94,8 +93,6 @@ class RedshopControllerProduct extends RedshopController
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
 		{
-			$economic = Helper::getInstance();
-
 			$db    = JFactory::getDbo();
 			$incNo = $cnt;
 			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "

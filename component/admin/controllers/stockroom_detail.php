@@ -131,7 +131,6 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = Helper::getInstance();
 			$db       = JFactory::getDbo();
 			$incNo    = $cnt;
 			$query    = 'SELECT p.* FROM #__redshop_product AS p '
