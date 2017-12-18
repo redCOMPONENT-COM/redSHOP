@@ -1,0 +1,28 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "873e440b47706cdcd9f5aa6f289989d2",
+    "packages": [],
+    "packages-dev": [
+        {
+            "name": "joomla/joomla-cms",
+            "version": "3.7.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla/joomla-cms.git",
+                "reference": "3.7.5"
+            },
+            "type": "library"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
