@@ -10,7 +10,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\QuotationManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationManageJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
-class QuotationFrontendCest
+class QuotationFrontendTestCest
 {
     public function __construct()
     {
