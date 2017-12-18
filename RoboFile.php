@@ -233,7 +233,6 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 		$this->taskCodecept()
-			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/QuotationFrontendTestCest.php')
 			->run()
