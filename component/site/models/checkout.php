@@ -503,7 +503,7 @@ class RedshopModelCheckout extends RedshopModel
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__redshop_orders'))
 			->set($db->quoteName('discount_type') . ' = ' . $db->quote($this->discount_type))
-			->where($db->quote('order_id') . ' = ' . (int) $orderId);
+			->where($db->quoteName('order_id') . ' = ' . (int) $orderId);
 		$db->setQuery($query)->execute();
 
 		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
