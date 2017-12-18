@@ -78,7 +78,7 @@ class CurrencyHelper
 	 *
 	 * @todo    Add numeric code into table #_redshop_currency "redSHOP Currency Detail"
 	 *
-	 * @return  int     Currency Numeric Code
+	 * @return  string         Currency Numeric Code
 	 *
 	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */

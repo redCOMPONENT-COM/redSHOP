@@ -20,14 +20,22 @@ use Redshop\Economic\Economic;
  */
 class RedshopControllerCheckout extends RedshopController
 {
+	/**
+	 * @var  order_functions
+	 */
 	public $_order_functions = null;
 
+	/**
+	 * @var shipping
+	 */
 	public $_shippinghelper = null;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $default  config array
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct($default = array())
 	{
@@ -40,19 +48,22 @@ class RedshopControllerCheckout extends RedshopController
 	/**
 	 *  Method to store user detail when user do checkout.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function checkoutprocess()
 	{
-		$input  = JFactory::getApplication()->input;
-		$post   = $input->post->getArray();
-		$Itemid = $input->get('Itemid');
-		$model  = $this->getModel('checkout');
+		$input = JFactory::getApplication()->input;
+		$post  = $input->post->getArray();
+
+		/** @var RedshopModelCheckout $model */
+		$model = $this->getModel('checkout');
 
 		if ($model->store($post))
 		{
 			$this->setRedirect(
-				JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false)
+				JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $input->get('Itemid'), false)
 			);
 		}
 		else
@@ -67,6 +78,8 @@ class RedshopControllerCheckout extends RedshopController
 	 *  Method for checkout second step.
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function checkoutnext()
 	{
@@ -141,6 +154,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * Update GLS Location
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function updateGLSLocation()
 	{
@@ -180,6 +195,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * Get Shipping Information
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function getShippingInformation()
 	{
@@ -198,10 +215,13 @@ class RedshopControllerCheckout extends RedshopController
 	 *
 	 * @param   string  $users_info_id  not used
 	 *
-	 * @return bool
+	 * @return  integer
+	 *
+	 * @throws  Exception
 	 */
 	public function chkvalidation($users_info_id)
 	{
+		/** @var RedshopModelCheckout $model */
 		$model             = $this->getModel('checkout');
 		$billingaddresses  = $model->billingaddresses();
 		$shippingaddresses = $model->shipaddress($users_info_id);
@@ -257,7 +277,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				$debtorHandle = Economic::createUserInEconomic($billingaddresses);
+				Economic::createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
 				{
@@ -368,6 +388,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * Checkout final step function
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function checkoutfinal()
 	{
@@ -376,6 +398,8 @@ class RedshopControllerCheckout extends RedshopController
 		$dispatcher        = RedshopHelperUtility::getDispatcher();
 		$post              = $input->post->getArray();
 		$Itemid            = $input->post->getInt('Itemid', 0);
+
+		/** @var RedshopModelCheckout $model */
 		$model             = $this->getModel('checkout');
 		$session           = JFactory::getSession();
 		$cart              = $session->get('cart');
@@ -435,8 +459,8 @@ class RedshopControllerCheckout extends RedshopController
 
 				if (empty($users_info_id))
 				{
-					$userDetail = $model->store($post);
-					$users_info_id = $userDetail->users_info_id;
+					$userDetail    = $model->store($post);
+					$users_info_id = $userDetail !== false ? $userDetail->users_info_id : 0;
 				}
 
 				$chk = $this->chkvalidation($users_info_id);
@@ -471,16 +495,15 @@ class RedshopControllerCheckout extends RedshopController
 				}
 			}
 
-			$order_id = $session->get('order_id');
+			$order_id = (int) $session->get('order_id');
 
 			// Import files for plugin
 			JPluginHelper::importPlugin('redshop_product');
 
-			if ($order_id == 0)
+			if ($order_id === 0)
 			{
 				// Add plugin support
-				$results     = $dispatcher->trigger('beforeOrderPlace', array($cart));
-
+				$dispatcher->trigger('beforeOrderPlace', array($cart));
 				$orderresult = $model->orderplace();
 				$order_id    = $orderresult->order_id;
 			}
@@ -510,7 +533,7 @@ class RedshopControllerCheckout extends RedshopController
 				$model->resetcart();
 
 				// Add Plugin support
-				$results = $dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
+				$dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
 
 				JPluginHelper::importPlugin('system');
 				$dispatcher->trigger('afterOrderCreated', array($orderresult));
