@@ -482,7 +482,7 @@ class economic
 	 * @param   integer $parentSectionId Parent Section ID
 	 * @param   integer $userId          User ID
 	 *
-	 * @return  integer
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::makeAttributeOrder() instead
 	 */

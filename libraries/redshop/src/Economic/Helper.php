@@ -140,16 +140,16 @@ class Helper
 	/**
 	 * Create Product Group in E-conomic
 	 *
-	 * @param   array   $row        Data to create
-	 * @param   integer $isShipping Shipping flag
-	 * @param   integer $isDiscount Discount flag
-	 * @param   integer $isVat      VAT flag
+	 * @param   object   $row         Data to create
+	 * @param   integer  $isShipping  Shipping flag
+	 * @param   integer  $isDiscount  Discount flag
+	 * @param   integer  $isVat       VAT flag
 	 *
 	 * @return  null/array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isVat = 0)
+	public static function createProductGroupInEconomic($row = null, $isShipping = 0, $isDiscount = 0, $isVat = 0)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
@@ -606,11 +606,11 @@ class Helper
 
 			if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 			{
-				self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, $orderDetail->user_id);
+				self::createInvoiceLineInEconomicAsProduct((array) $orderItem, $invoiceNo, $orderDetail->user_id);
 			}
 			else
 			{
-				self::createInvoiceLineInEconomic($orderItem, $invoiceNo, $orderDetail->user_id);
+				self::createInvoiceLineInEconomic((array) $orderItem, $invoiceNo, $orderDetail->user_id);
 			}
 
 			self::createInvoiceShippingLineInEconomic($orderDetail->ship_method_id, $invoiceNo);
@@ -1515,7 +1515,7 @@ class Helper
 	 * @param   integer  $parentSectionId  Parent Section ID
 	 * @param   integer  $userId           User ID
 	 *
-	 * @return  integer
+	 * @return  mixed
 	 *
 	 * @since   2.0.3
 	 */

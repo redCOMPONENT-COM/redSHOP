@@ -2687,7 +2687,7 @@ class RedshopHelperOrder
 				Helper::createInvoiceInEconomic($orderId, $economicData);
 			}
 
-			$bookInvoicePdf = Helper::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
+			$bookInvoicePdf = Helper::bookInvoiceInEconomic($orderId, Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT'));
 
 			if (JFile::exists($bookInvoicePdf))
 			{
