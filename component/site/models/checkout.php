@@ -502,7 +502,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__redshop_orders'))
-			->set(array($db->quoteName('discount_type') . ' = ' . $db->quote($this->discount_type)))
+			->set($db->quoteName('discount_type') . ' = ' . $db->quote($this->discount_type))
 			->where($db->quote('order_id') . ' = ' . (int) $orderId);
 		$db->setQuery($query)->execute();
 
