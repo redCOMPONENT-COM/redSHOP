@@ -9,14 +9,14 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~2",
-        "codeception/codeception": "~2",
+        "codeception/codeception": "~2.2",
         "joomla-projects/joomla-browser": "v3.8.0",
         "consolidation/robo": "~1",
         "joomla-projects/joomla-testing-robo": "dev-container-test",
         "joomla-projects/joomla-testing": "dev-container-test",
-        "fzaninotto/faker": "~1",
+        "fzaninotto/faker": "^1.5",
         "cloudinary/cloudinary_php": "^1.7",
-        "knplabs/github-api": "~1",
+        "knplabs/github-api": "1.4.12",
         "joomla-projects/selenium-server-standalone": "v3.7.0",
         "nette/reflection": "~2.4"
     }
