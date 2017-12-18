@@ -447,7 +447,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						$property_save['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_id);
 						$property_save['property_id']    = $property_id;
 						$property_array                  = $model->store_pro($property_save);
-						$this->DeleteMergeImages();
+						$this->deleteMergeImages();
 					}
 				}
 
@@ -456,7 +456,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
 					$property_save['property_id']    = $property_id;
 					$property_array                  = $model->store_pro($property_save);
-					$this->DeleteMergeImages();
+					$this->deleteMergeImages();
 				}
 
 				if (empty($property[$p]['property_id']))
@@ -529,7 +529,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 							$subproperty_save['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_id);
 							$subproperty_save['subattribute_color_id']    = $subproperty_id;
 							$subproperty_array                            = $model->store_sub($subproperty_save);
-							$this->DeleteMergeImages();
+							$this->deleteMergeImages();
 						}
 					}
 
@@ -538,7 +538,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
 						$subproperty_save['subattribute_color_id']    = $subproperty_id;
 						$subproperty_array                            = $model->store_sub($subproperty_save);
-						$this->DeleteMergeImages();
+						$this->deleteMergeImages();
 					}
 
 					if (empty($subproperty[$sp]['subproperty_id']))
@@ -615,9 +615,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function property_more_img()
 	{
-		$uri = JURI::getInstance();
-
-		$url = $uri->root();
+		$uri = JUri::getInstance();
+		$url = $uri::root();
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post     = $this->input->post->getArray();
@@ -627,14 +626,12 @@ class RedshopControllerProduct_Detail extends RedshopController
 		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
-		$filetype = strtolower(JFile::getExt($main_img['name']));
+		$fileType    = strtolower(JFile::getExt($main_img['name']));
+		$fileTypeSub = strtolower(JFile::getExt($sub_img['name'][0]));
 
-		$filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
-
-		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg'
-			&& $main_img['name'] != '' && $filetype_sub != 'png' && $filetype_sub != 'gif'
-			&& $filetype_sub != 'jpeg' && $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
-		)
+		if ($fileType != 'png' && $fileType != 'gif' && $fileType != 'jpeg' && $fileType != 'jpg'
+			&& $main_img['name'] != '' && $fileTypeSub != 'png' && $fileTypeSub != 'gif'
+			&& $fileTypeSub != 'jpeg' && $fileTypeSub != 'jpg' && $sub_img['name'][0] != '')
 		{
 			$msg  = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
 			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
@@ -987,38 +984,39 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 *
 	 * @return boolean
 	 */
-	public function DeleteMergeImages()
+	public function deleteMergeImages()
 	{
-		$dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
+		$path = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
 
-		if (is_dir($dirname))
+		if (!JFolder::exists($path))
+        {
+            return true;
+        }
+
+		$pathHandle = opendir($path);
+
+		if (false === $pathHandle)
+        {
+            return true;
+        }
+
+		while ($file = readdir($pathHandle))
 		{
-			$dir_handle = opendir($dirname);
+			if ($file == '..' || $file == '.' || $file == '' || $file == 'index.html'
+                || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+            {
+                continue;
+            }
 
-			if ($dir_handle)
+			if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
 			{
-				while ($file = readdir($dir_handle))
-				{
-					if ($file != '..' && $file != '.' && $file != '')
-					{
-						if ($file != 'index.html')
-						{
-							if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-							{
-								if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-								{
-									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
-								}
-
-								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
-							}
-						}
-					}
-				}
+				chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
 			}
 
-			closedir($dir_handle);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 		}
+
+		closedir($pathHandle);
 
 		return true;
 	}
