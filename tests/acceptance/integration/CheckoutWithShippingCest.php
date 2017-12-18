@@ -223,14 +223,9 @@ class ProductsCheckoutFrontEndCest
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 
-		$I->wantTo('Delete Order by the first user ');
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder($this->firstName);
-		$I->wantTo('Delete Order by the second user ');
-		$I->deleteOrder($this->firstNameSecond);
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
+		$I->deleteProduct($this->productName);
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->CategoryNamePlus);
