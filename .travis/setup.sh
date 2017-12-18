@@ -70,5 +70,5 @@ else
 
 	npm install
 	mv gulp-config.sample.json gulp-config.json
-	gulp release --skip-version
+	node_modules/.bin/gulp release --skip-version
 fi
