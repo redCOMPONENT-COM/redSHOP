@@ -4463,7 +4463,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * Function copy_image_from_path.
 	 *
 	 * @param   string  $imagePath   imagePath
-	 * @param   int     $section     section
+	 * @param   string  $section     section
 	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string

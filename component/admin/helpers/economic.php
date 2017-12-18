@@ -90,7 +90,7 @@ class economic
 	/**
 	 * Create Product Group in E-conomic
 	 *
-	 * @param   array    $row         Data to create
+	 * @param   object   $row         Data to create
 	 * @param   integer  $isShipping  Shipping flag
 	 * @param   integer  $isDiscount  Discount flag
 	 * @param   integer  $isvat       VAT flag
@@ -99,7 +99,7 @@ class economic
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::createProductGroupInEconomic() instead
 	 */
-	public function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
+	public function createProductGroupInEconomic($row = null, $isShipping = 0, $isDiscount = 0, $isvat = 0)
 	{
 		return RedshopEconomic::createProductGroupInEconomic($row, $isShipping, $isDiscount, $isvat);
 	}

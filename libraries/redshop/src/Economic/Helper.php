@@ -13,6 +13,7 @@ namespace Redshop\Economic;
 
 use function is_array;
 use Joomla\Registry\Registry;
+use stdClass;
 
 defined('_JEXEC') or die;
 
@@ -165,7 +166,6 @@ class Helper
 		{
 			$accountGroup = \RedshopHelperUtility::getEconomicAccountGroup($row->accountgroup_id);
 		}
-
 		elseif (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
 			$accountGroup = \RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
@@ -458,7 +458,7 @@ class Helper
 		$eco['product_desc']   = "";
 		$eco['product_s_desc'] = "";
 
-		$ecoProductGroupNumber = self::createProductGroupInEconomic(array(), 1, 0, $isVat);
+		$ecoProductGroupNumber = self::createProductGroupInEconomic(null, 1, 0, $isVat);
 
 		if (isset($ecoProductGroupNumber[0]->Number))
 		{
@@ -993,7 +993,7 @@ class Helper
 
 			if (count($accountGroup) > 0)
 			{
-				$ecoProductGroupNumber = self::createProductGroupInEconomic(array(), 0, 1, $isVatDiscount);
+				$ecoProductGroupNumber = self::createProductGroupInEconomic(null, 0, 1, $isVatDiscount);
 
 				if (isset($ecoProductGroupNumber[0]->Number))
 				{

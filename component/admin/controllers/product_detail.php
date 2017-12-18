@@ -624,6 +624,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$main_img = $this->input->files->get('property_main_img', null);
 		$sub_img  = $this->input->files->get('property_sub_img', null);
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$filetype = strtolower(JFile::getExt($main_img['name']));
