@@ -3652,8 +3652,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 *  Function deleteProdcutSerialNumbers.
 	 *
-	 * @param   int  $id    ID.
-	 * @param   int  $type  ID.
+	 * @param   int     $id    ID.
+	 * @param   string  $type  ID.
 	 *
 	 * @return  array
 	 */
@@ -4442,9 +4442,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copy_image.
 	 *
-	 * @param   array  $imageArray  imageArray
-	 * @param   int    $section     section
-	 * @param   int    $section_id  section_id
+	 * @param   array   $imageArray  imageArray
+	 * @param   string  $section     section
+	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string
 	 */

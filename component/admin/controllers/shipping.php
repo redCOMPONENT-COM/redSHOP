@@ -16,41 +16,48 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerShipping extends RedshopController
 {
+	/**
+	 * Method for import economic
+	 *
+	 * @return  void
+	 */
 	public function importeconomic()
 	{
-		$db = JFactory::getDbo();
-
 		// Add product to economic
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$query = "SELECT s.*, r.* FROM #__redshop_shipping_rate r "
-				. "LEFT JOIN #__extensions s ON r.shipping_class = s.element "
-				. "WHERE s.enabled=1 and s.folder='redshop_shipping'";
+			$db = JFactory::getDbo();
 
-			$db->setQuery($query);
-			$shipping = $db->loadObjectList();
+			$query = $db->getQuery(true)
+				->select('s.*')
+				->select('r.*')
+				->from($db->qn('#__redshop_shipping_rate', 'r'))
+				->leftJoin($db->qn('#__extensions', 's') . ' ON ' . $db->qn('r.shipping_class') . ' = ' . $db->qn('s.element'))
+				->where($db->qn('s.enabled') . ' = 1')
+				->where($db->qn('s.folder') . ' = ' . $db->quote('redshop_shipping'));
 
-			for ($i = 0, $in = count($shipping); $i < $in; $i++)
+			$shippingList = $db->setQuery($query)->loadObjectList();
+
+			if (!empty($shippingList))
 			{
-				$shipping_nshortname = (strlen($shipping[$i]->name) > 15) ? substr($shipping[$i]->name, 0, 15) : $shipping[$i]->name;
-				$shipping_number     = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;
-				$shipping_name       = $shipping[$i]->shipping_rate_name;
-				$shipping_rate       = $shipping[$i]->shipping_rate_value;
-
-				if ($shipping[$i]->economic_displayname)
+				foreach ($shippingList as $shipping)
 				{
-					$shipping_number = $shipping[$i]->economic_displayname;
-				}
+					$shortName = (strlen($shipping->name) > 15) ? substr($shipping->name, 0, 15) : $shipping->name;
+					$number    = $shortName . ' ' . $shipping->shipping_rate_id;
+					$name      = $shipping->shipping_rate_name;
+					$rate      = $shipping->shipping_rate_value;
 
-				Redshop\Economic\Helper::createShippingRateInEconomic(
-					$shipping_number, $shipping_name, $shipping_rate,
-					$shipping[$i]->apply_vat
-				);
+					if ($shipping->economic_displayname)
+					{
+						$number = $shipping->economic_displayname;
+					}
+
+					Redshop\Economic\Helper::createShippingRateInEconomic($number, $name, $rate, $shipping->apply_vat);
+				}
 			}
 		}
 
-		$msg = JText::_("COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC_SUCCESS");
-		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', JText::_("COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC_SUCCESS"));
 	}
 
 	/**

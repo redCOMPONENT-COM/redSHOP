@@ -11,6 +11,7 @@
 
 namespace Redshop\Economic;
 
+use function is_array;
 use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
@@ -439,7 +440,7 @@ class Helper
 	/**
 	 * Create Shipping rate in economic
 	 *
-	 * @param   integer $shippingNumber Shipping Number
+	 * @param   string  $shippingNumber Shipping Number
 	 * @param   string  $shippingName   Shipping Name
 	 * @param   integer $shippingRate   Shipping Rate
 	 * @param   integer $isVat          VAT flag
@@ -1348,8 +1349,8 @@ class Helper
 			->update($db->qn('#__redshop_orders'))
 			->set($db->qn('invoice_no') . ' = ' . $db->quote($invoiceNo))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 	}
 
 	/**
@@ -1421,7 +1422,7 @@ class Helper
 	 * Make Accessory Order
 	 *
 	 * @param   string  $invoiceNo Invoice number
-	 * @param   array   $orderItem Order item
+	 * @param   object  $orderItem Order item
 	 * @param   integer $userId    User ID
 	 *
 	 * @return  integer
@@ -1436,7 +1437,7 @@ class Helper
 		$eco              = array();
 		$displayAccessory = "";
 		$setPrice         = 0;
-		$orderItem        = (object) $orderItem;
+		$orderItem        = is_array($orderItem) ? (object) $orderItem : $orderItem;
 		$orderItemData    = \RedshopHelperOrder::getOrderItemAccessoryDetail($orderItem->order_item_id);
 
 		if (count($orderItemData) > 0)
@@ -1673,20 +1674,22 @@ class Helper
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$eco       = array();
+
 		$orderItem = (object) $orderItem;
 
-		for ($i = 0, $in = count($orderAttributeItems); $i < $in; $i++)
+		foreach ($orderAttributeItems as $orderAttributeItem)
 		{
-			$eco[$i]['invoiceHandle']    = $invoiceNo;
-			$eco[$i]['order_item_id']    = $orderItem->order_item_id;
-			$eco[$i]['product_number']   = $orderAttributeItems[$i]->virtualNumber;
-			$eco[$i]['product_name']     = $orderAttributeItems[$i]->section_name;
-			$eco[$i]['product_price']    = $orderAttributeItems[$i]->section_price;
-			$eco[$i]['product_quantity'] = $orderItem->product_quantity;
-			$eco[$i]['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
+			$data = array(
+				'invoiceHandle' => $invoiceNo,
+				'order_item_id' => $orderItem->order_item_id,
+				'product_number' => $orderAttributeItem->virtualNumber,
+				'product_name' => $orderAttributeItem->section_name,
+				'product_price' => $orderAttributeItem->section_price,
+				'product_quantity' => $orderItem->product_quantity,
+				'delivery_date' => date("Y-m-d") . "T" . date("h:i:s")
+			);
 
-			\RedshopHelperUtility::getDispatcher()->trigger('createInvoiceLine', array($eco[$i]));
+			\RedshopHelperUtility::getDispatcher()->trigger('createInvoiceLine', array($data));
 		}
 	}
 

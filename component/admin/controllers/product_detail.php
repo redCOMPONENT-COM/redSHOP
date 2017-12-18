@@ -379,19 +379,18 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function attribute_save($post, $row)
 	{
-	    /** @var RedshopModelProduct_Detail $model */
-		$model = $this->getModel('product_detail');
-
-		$attribute_save   = array();
-		$property_save    = array();
-		$subproperty_save = array();
-
 		if (!is_array($post['attribute']))
 		{
 			return;
 		}
 
-		$attribute = array_merge(array(), $post['attribute']);
+		/** @var RedshopModelProduct_Detail $model */
+		$model = $this->getModel('product_detail');
+
+		$attribute_save   = array();
+		$property_save    = array();
+		$subproperty_save = array();
+		$attribute        = array_merge(array(), $post['attribute']);
 
 		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
 		{
@@ -478,7 +477,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 					}
 				}
 
-				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
+				if (false !== $property_array && Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1
+                    && Redshop::getConfig()->getInt('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
 					Helper::createPropertyInEconomic($row, $property_array);
 				}
@@ -560,7 +560,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 						}
 					}
 
-					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
+					if (false !== $subproperty_array && Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1
+                        && Redshop::getConfig()->getInt('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
 						Helper::createSubpropertyInEconomic($row, $subproperty_array);
 					}
