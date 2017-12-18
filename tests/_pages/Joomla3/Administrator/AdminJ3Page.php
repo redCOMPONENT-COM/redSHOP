@@ -105,6 +105,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonSaveNew = "Save & New";
+
+	/**
+	 * @var string
+	 */
 	public static $buttonDelete = "Delete";
 
 	/**
@@ -140,6 +145,10 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonCopy = 'Copy';
+	/**
+	 * @var string
+	 */
 	public static $buttonReset = "Reset";
 
 	/**
@@ -151,6 +160,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonClose = "Close";
+
+	/**
+	 * @var string
+	 */
+	public static $buttonSaveCopy = "Save & Copy";
 
 // Include url of current page
 // Fontend checkout first name

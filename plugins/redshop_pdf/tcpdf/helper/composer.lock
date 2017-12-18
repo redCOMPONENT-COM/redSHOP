@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "047ba1afc6af49c7ae8765a8be484ac4",
+    "content-hash": "d863bb131e3002690facb55696f788d7",
     "packages": [
         {
             "name": "tecnickcom/tcpdf",
-            "version": "dev-master",
+            "version": "6.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
@@ -66,15 +66,13 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2017-04-26 08:14:48"
+            "time": "2017-04-26T08:14:48+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "tecnickcom/tcpdf": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

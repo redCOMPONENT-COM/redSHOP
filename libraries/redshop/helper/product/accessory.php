@@ -105,7 +105,7 @@ class RedshopHelperProductAccessory
 				$accessoryId      = $accessory[$a]->child_product_id;
 				$accessoryProduct = RedshopHelperProduct::getProductById($accessoryId);
 
-				$commonId         = $prefix . $productId . '_' . $accessory[$a]->accessory_id;
+				$commonId          = $prefix . $productId . '_' . $accessory[$a]->accessory_id;
 				$accessoryWrapper .= "<div id='divaccstatus" . $commonId . "' class='accessorystatus'>" . $accessoryWrapperMiddle . "</div>";
 
 				$accessoryProductName = RedshopHelperUtility::limitText(

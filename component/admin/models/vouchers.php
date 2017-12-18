@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Suppliers
+ * Model Vouchers
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model

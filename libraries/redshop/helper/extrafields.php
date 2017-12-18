@@ -450,7 +450,7 @@ class RedshopHelperExtrafields
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 		/** @var RedshopModelFields $model */
-		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
+		$model   = JModelLegacy::getInstance('Fields', 'RedshopModel');
 		$rowData = $model->getFieldsBySection($fieldSection, $fieldName, $front, $checkout);
 
 		$exField = '';
@@ -464,7 +464,7 @@ class RedshopHelperExtrafields
 		{
 			$type            = $rowData[$i]->type;
 			$dataValue       = self::getSectionFieldDataList($rowData[$i]->id, $fieldSection, $sectionId);
-			$exField         .= '<tr>';
+			$exField        .= '<tr>';
 			$extraFieldValue = "";
 			$extraFieldLabel = JText::_($rowData[$i]->title);
 
@@ -483,7 +483,7 @@ class RedshopHelperExtrafields
 			{
 				case extraField::TYPE_TEXT:
 					$textValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField .= RedshopLayoutHelper::render(
+					$exField  .= RedshopLayoutHelper::render(
 						'extrafields.field.text',
 						array(
 								'rowData'         => $rowData[$i],

@@ -33,6 +33,7 @@ $compare_link       = JRoute::_("index.php?option=com_redshop&view=product&layou
 $mytags_link        = JRoute::_("index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $Itemid);
 $wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
 
+/** @var RedshopModelAccount $model */
 $model    = $this->getModel('account');
 $template = $redTemplate->getTemplate("account_template");
 
@@ -205,14 +206,14 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 			for ($i = 0, $in = count($usercoupons); $i < $in; $i++)
 			{
 				$coupon_data .= $coupon_desc;
-				$unused_amount = $model->unused_coupon_amount($user->id, $usercoupons[$i]->coupon_code);
+				$unused_amount = $model->unused_coupon_amount($user->id, $usercoupons[$i]->code);
 				$coupon_data   = str_replace('{coupon_code_lbl}', JText::_('COM_REDSHOP_COUPON_CODE'), $coupon_data);
-				$coupon_data   = str_replace('{coupon_code}', $usercoupons[$i]->coupon_code, $coupon_data);
+				$coupon_data   = str_replace('{coupon_code}', $usercoupons[$i]->code, $coupon_data);
 				$coupon_data   = str_replace('{coupon_value_lbl}', JText::_('COM_REDSHOP_COUPON_VALUE'), $coupon_data);
 				$coupon_data   = str_replace('{unused_coupon_lbl}', JText::_('COM_REDSHOP_UNUSED_COUPON_LBL'), $coupon_data);
 				$coupon_data   = str_replace('{unused_coupon_value}', $unused_amount, $coupon_data);
 
-				$coupon_value = ($usercoupons[$i]->percent_or_total == 0) ? $producthelper->getProductFormattedPrice($usercoupons[$i]->coupon_value) : $usercoupons[$i]->coupon_value . " %";
+				$coupon_value = ($usercoupons[$i]->type == 0) ? RedshopHelperProductPrice::formattedPrice($usercoupons[$i]->coupon_value) : $usercoupons[$i]->value . ' %';
 				$coupon_data  = str_replace('{coupon_value}', $coupon_value, $coupon_data);
 			}
 		}

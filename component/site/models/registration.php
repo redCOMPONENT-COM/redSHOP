@@ -43,7 +43,7 @@ class RedshopModelRegistration extends RedshopModel
 			return false;
 		}
 
-		$joomlauser = $userhelper->createJoomlaUser($data, 1);
+		$joomlauser = RedshopHelperJoomla::createJoomlaUser($data, 1);
 
 		if (!$joomlauser)
 		{

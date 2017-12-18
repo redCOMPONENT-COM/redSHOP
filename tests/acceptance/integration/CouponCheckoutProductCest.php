@@ -21,6 +21,9 @@ use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationManageJoomla3Steps as ConfigurationManageJoomla3Steps;
 class CouponCheckoutProductCest
 {
+	/**
+	 * CouponCheckoutProductCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
@@ -94,12 +97,11 @@ class CouponCheckoutProductCest
 	/**
 	 * Test to Verify the Payment Plugin
 	 *
-	 * @param   AcceptanceTester $I        Actor Class Object
-	 * @param   String           $scenario Scenario Variable
+	 * @param   AcceptanceTester  $I         Actor Class Object
+	 * @param   String            $scenario  Scenario Variable
 	 *
 	 * @return void
 	 */
-
 	public function deleteData($scenario)
 	{
 		$I= new RedshopSteps($scenario);
@@ -161,7 +163,7 @@ class CouponCheckoutProductCest
 	private function createCoupon(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Coupon creation in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
 		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
 		$I->searchCoupon($this->couponCode);
@@ -200,10 +202,9 @@ class CouponCheckoutProductCest
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+		$I = new AcceptanceTester\CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
 		$I->deleteCoupon($this->couponCode);
-		$I->searchCoupon($this->couponCode, 'Delete');
 
 		$I->wantTo('Delete product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);

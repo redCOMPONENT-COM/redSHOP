@@ -57,7 +57,6 @@ class RedshopHelperShipping
 			return $shippingArr;
 		}
 
-		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
@@ -144,7 +143,7 @@ class RedshopHelperShipping
 			for ($i = 0; $i < $idx; $i++)
 			{
 				$productId = (int) $cart[$i]['product_id'];
-				$pWhere    .= 'FIND_IN_SET(' . $productId . ', ' . $db->qn('shipping_rate_on_product') . ')';
+				$pWhere   .= 'FIND_IN_SET(' . $productId . ', ' . $db->qn('shipping_rate_on_product') . ')';
 
 				if ($i != $idx - 1)
 				{
@@ -152,7 +151,7 @@ class RedshopHelperShipping
 				}
 			}
 
-			$pWhere          .= ")";
+			$pWhere         .= ")";
 			$newProductWhere = str_replace("AND (", "OR (", $pWhere);
 			$sql             = ' SELECT ' . ' * '
 				. ' FROM ' . $db->qn('#__redshop_shipping_rate', 'sr')
@@ -269,7 +268,7 @@ class RedshopHelperShipping
 			if ($shippingRate->apply_vat == 1)
 			{
 				$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-				$addVat = $productHelper->taxexempt_addtocart($userId);
+				$addVat = RedshopHelperCart::taxExemptAddToCart($userId);
 
 				if (!empty($result) && $addVat)
 				{
@@ -298,7 +297,6 @@ class RedshopHelperShipping
 	 */
 	public static function getDefaultShippingXmlExport($data)
 	{
-		$productHelper = productHelper::getInstance();
 		$userHelper    = rsUserHelper::getInstance();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
@@ -400,15 +398,15 @@ class RedshopHelperShipping
 					->where($db->qn('product_id') . ' = ' . $db->quote((int) $productId));
 
 				$categoryData = $db->setQuery($query)->loadObjectList();
-				$where        = ' ';
 
 				if ($categoryData)
 				{
 					$where = 'AND ( ';
 
-					for ($c = 0, $cn = count($categoryData); $c < $cn; $c++)
+					foreach ($categoryData as $c => $categoryDatum)
 					{
-						$where .= " FIND_IN_SET(" . $db->quote((int) $categoryData [$c]->category_id) . "," . $db->qn('shipping_rate_on_category') . ") ";
+						$where .= " FIND_IN_SET(" . $db->quote((int) $categoryDatum->category_id) . ","
+							. $db->qn('shipping_rate_on_category') . ") ";
 
 						if ($c != count($categoryData) - 1)
 						{
@@ -416,7 +414,7 @@ class RedshopHelperShipping
 						}
 					}
 
-					$where     .= ")";
+					$where    .= ")";
 					$newCwhere = str_replace("AND (", "OR (", $where);
 					$sql       = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
 									 LEFT JOIN " . $db->qn('#__extensions') . " AS s
@@ -475,7 +473,7 @@ class RedshopHelperShipping
 				if ($shippingRate->apply_vat == 1)
 				{
 					$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-					$addVat = $productHelper->taxexempt_addtocart($userId);
+					$addVat = RedshopHelperCart::taxExemptAddToCart($userId);
 
 					if (!empty($result) && $addVat)
 					{
@@ -500,12 +498,13 @@ class RedshopHelperShipping
 	}
 
 	/**
-	 * Return only one shipping rate on cart page...
-	 * this function is called by ajax
+	 * Return only one shipping rate on cart page. This function is called by ajax
 	 *
 	 * @return  string
 	 *
 	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getShippingRateCalc()
 	{
@@ -528,7 +527,7 @@ class RedshopHelperShipping
 			$orderTotal += ($cart[$i]['product_price'] * $cart[$i]['quantity']);
 
 			$productId = $cart[$i]['product_id'];
-			$pWhere    .= 'FIND_IN_SET(' . $db->quote((int) $productId) . ', ' . $db->qn('shipping_rate_on_product') . ')';
+			$pWhere   .= 'FIND_IN_SET(' . $db->quote((int) $productId) . ', ' . $db->qn('shipping_rate_on_product') . ')';
 
 			if ($i != $idx - 1)
 			{
@@ -548,7 +547,8 @@ class RedshopHelperShipping
 
 				for ($c = 0, $cn = count($categoryData); $c < $cn; $c++)
 				{
-					$cWhere .= " FIND_IN_SET(" . $db->quote((int) $categoryData [$c]->category_id) . ", " . $db->qn('shipping_rate_on_category') . ") ";
+					$cWhere .= " FIND_IN_SET(" . $db->quote((int) $categoryData [$c]->category_id) . ", "
+						. $db->qn('shipping_rate_on_category') . ") ";
 
 					if ($c != count($categoryData) - 1)
 					{
@@ -854,9 +854,9 @@ class RedshopHelperShipping
 	/**
 	 * Get shipping rates
 	 *
-	 * @param   string $shippingClass Shipping class
+	 * @param   string  $shippingClass  Shipping class
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -880,6 +880,8 @@ class RedshopHelperShipping
 	 * @return  float  Shipping Rate
 	 *
 	 * @since   2.0.0.3
+	 *
+	 * @throws  InvalidArgumentException
 	 */
 	public static function applyVatOnShippingRate($shippingRate, $data)
 	{
@@ -890,7 +892,6 @@ class RedshopHelperShipping
 			);
 		}
 
-		$productHelper   = productHelper::getInstance();
 		$shippingRateVat = $shippingRate->shipping_rate_value;
 
 		if ($shippingRate->apply_vat != 1)
@@ -899,7 +900,7 @@ class RedshopHelperShipping
 		}
 
 		$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-		$addVat = $productHelper->taxexempt_addtocart($data['user_id']);
+		$addVat = RedshopHelperCart::taxExemptAddToCart($data['user_id']);
 
 		if (!empty($result) && $addVat && $result->tax_rate > 0)
 		{
@@ -912,19 +913,20 @@ class RedshopHelperShipping
 	/**
 	 * List shipping rates
 	 *
-	 * @param   object $shippingClass Shipping class
-	 * @param   int    $usersInfoId   User info id
-	 * @param   array  &$data         Shipping data
+	 * @param   object   $shippingClass  Shipping class
+	 * @param   integer  $usersInfoId    User info id
+	 * @param   array    $data           Shipping data
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  array                   Shipping Rates
 	 *
 	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function listShippingRates($shippingClass, $usersInfoId, &$data)
 	{
 		$app            = JFactory::getApplication();
 		$isAdmin        = $app->isAdmin();
-		$userHelper     = rsUserHelper::getInstance();
 		$orderSubtotal  = $data['order_subtotal'];
 		$totalDimention = self::getCartItemDimension();
 		$weightTotal    = $totalDimention['totalweight'];
@@ -1004,7 +1006,7 @@ class RedshopHelperShipping
 				$country   = $data['post']['anonymous_params']['country_code'];
 				$state     = $data['post']['anonymous_params']['state_code'];
 				$zip       = $data['post']['anonymous_params']['zip_code'];
-				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? 1 : 0;
+				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? true : false;
 			}
 
 			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
@@ -1013,7 +1015,7 @@ class RedshopHelperShipping
 			OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 		}
 
-		if (!$isCompany)
+		if ($isCompany === false)
 		{
 			$where = " AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
 		}
@@ -1249,7 +1251,7 @@ class RedshopHelperShipping
 				 *  VAT_BASED_ON = 1 // customer mode
 				 *  VAT_BASED_ON = 2 // EU mode
 				 */
-				if (0 == Redshop::getConfig()->get('VAT_BASED_ON'))
+				if (0 == Redshop::getConfig()->getInt('VAT_BASED_ON'))
 				{
 					$userData->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 					$userData->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
@@ -1356,7 +1358,7 @@ class RedshopHelperShipping
 
 				if ($row->tax_rate > 0)
 				{
-					$shippingVat = $result->default_shipping_rate * $row->tax_rate;
+					$shippingVat  = $result->default_shipping_rate * $row->tax_rate;
 					$total       += $shippingVat + $result->default_shipping_rate;
 					$shippingVat .= '<br />';
 				}
@@ -1411,9 +1413,9 @@ class RedshopHelperShipping
 	 * Only show Higher priority rates (In [1,2,3,4] take 1 as a high priority)
 	 * Rates with same priority will shown as radio button list in checkout
 	 *
-	 * @param   array $shippingRates Array shipping rates
+	 * @param   array  $shippingRates  Array shipping rates
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
@@ -1618,7 +1620,7 @@ class RedshopHelperShipping
 	/**
 	 * Get available shipping boxes according to cart items
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1639,7 +1641,7 @@ class RedshopHelperShipping
 			if (!empty($volumesShipping))
 			{
 				$whereShippingVolume .= '( ';
-				$index               = 0;
+				$index                = 0;
 
 				foreach ($volumesShipping as $volumeShipping)
 				{
@@ -1707,9 +1709,9 @@ class RedshopHelperShipping
 	/**
 	 * Get Shipping rate error
 	 *
-	 * @param   array &$data Shipping rate data
+	 * @param   array  $data  Shipping rate data
 	 *
-	 * @return  string  error text
+	 * @return  string        Error text
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1727,7 +1729,7 @@ class RedshopHelperShipping
 
 				if ($bool)
 				{
-					return true;
+					return '';
 				}
 
 				return JText::_("COM_REDSHOP_PRODUCT_DETAIL_NOT_MATCH");
@@ -1742,7 +1744,7 @@ class RedshopHelperShipping
 	/**
 	 * Check cart dimension is matched
 	 *
-	 * @param   array &$data Cart data
+	 * @param   array  $data  Cart data
 	 *
 	 * @return  boolean
 	 *
@@ -1997,6 +1999,8 @@ class RedshopHelperShipping
 	 * @return  string
 	 *
 	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getFreeShippingRate($shippingRateId = 0)
 	{
@@ -2194,6 +2198,8 @@ class RedshopHelperShipping
 	 * @return  string
 	 *
 	 * @since  2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
 	{
