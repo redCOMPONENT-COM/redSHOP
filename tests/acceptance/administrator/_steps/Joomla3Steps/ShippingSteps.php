@@ -96,10 +96,10 @@ class ShippingSteps extends AdminManagerJoomla3Steps
         if (isset($shipping['shippingRateProduct'])) {
             $I->waitForElement(ShippingPage::$shippingRateProduct, 30);
             $I->click(ShippingPage::$shippingRateProduct);
-            $I->pauseExecution();
+            $I->waitForElement(ShippingPage::$fieldShippingRateProduct, 30);
             $I->fillField(ShippingPage::$fieldShippingRateProduct, $shipping['shippingRateProduct']);
-            $I->pauseExecution();
-            $I->pressKey(ShippingPage::$fieldShippingRateProduct, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+            $I->waitForElement($userPage->returnChoice($shipping['shippingRateProduct']), 30);
+            $I->click($userPage->returnChoice($shipping['shippingRateProduct']));
         }
 
         if (isset($shipping['shippingCategory'])) {
@@ -111,6 +111,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
         }
 
         if (isset($shipping['shippingShopperGroups'])) {
+            $I->pauseExecution();
             $I->waitForElement(ShippingPage::$shippingShopperGroups, 30);
             $I->click(ShippingPage::$shippingShopperGroups);
             $I->fillField(ShippingPage::$shippingShopperGroupsInput, $shipping['shippingShopperGroups']);
@@ -130,6 +131,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
         }
 
         if (isset($shipping['shippingVATGroups'])) {
+            $I->pauseExecution();
             $I->click(ShippingPage::$shippingVATGroups);
             $I->seeElement(ShippingPage::$shippingVATGroupsSearh, 30);
             $I->fillField(ShippingPage::$shippingVATGroupsSearh, $shipping['shippingVATGroups']);

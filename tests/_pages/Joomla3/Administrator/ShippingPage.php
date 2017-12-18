@@ -50,7 +50,7 @@ class ShippingPage extends AdminJ3Page
 
     public static $shippingRateProduct = ['id' => 's2id_container_product'];
 
-    public static $fieldShippingRateProduct =['xpath' => '//div[@id=\'s2id_container_product\']/ul'];
+    public static $fieldShippingRateProduct =['id' => 's2id_autogen1'];
 
     public static $shippingCategory = ['id' => 's2id_shipping_rate_on_category'];
 
@@ -64,7 +64,7 @@ class ShippingPage extends AdminJ3Page
 
     public static $shippingRateFor = ['id' => 's2id_company_only'];
 
-    public static $shippingRateForSearch = ['id' => 's2id_autogen6_search'];
+    public static $shippingRateForSearch = ['xpath' => '//input[@id=\'s2id_autogen6_search\']'];
 
     public static $shippingVATGroups = ['id' => 's2id_shipping_tax_group_id'];
 

@@ -126,8 +126,6 @@ class ProductsCheckoutFrontEndCest
 		$this->zipCodeEnd = "";
 		$this->shippingRateProduct = "";
 		$this->shippingPriority = "";
-		$this->shippingRateFor = "";
-		$this->shippingVATGroups = "";
 		$this->pickup = "pick";
 		$this->shipping = array();
 		$this->shipping['name'] = $this->shippingName;
@@ -149,8 +147,6 @@ class ProductsCheckoutFrontEndCest
 		$this->shipping['shippingRateProduct'] = $this->productName;
 		$this->shipping['shippingCategory'] = $this->categoryName;
 		$this->shipping['shippingShopperGroups'] = $this->shopperName;
-		$this->shipping['shippingRateFor'] = $this->shippingRateFor;
-		$this->shipping['shippingVATGroups'] = $this->shippingVATGroups;
 		$this->shipping['shippingPriority'] = $this->shippingPriority;
 		$this->shipping['shippingRate'] = $this->shippingRate;
 		
@@ -171,12 +167,13 @@ class ProductsCheckoutFrontEndCest
 		$this->TotalIncludeShipping = 0;
 	}
 
-//	public function deleteData($scenario)
-//	{
-//		$I= new RedshopSteps($scenario);
-//		$I->clearAllData();
-//		$I->clearAllShippingRate();
-//	}
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+		$I->clearAllShippingRate();
+	}
+
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -184,10 +181,10 @@ class ProductsCheckoutFrontEndCest
 
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
-//		$I->wantTo(' Enable Quotation at configuration ');
-//		$I = new ConfigurationManageJoomla3Steps($scenario);
-//		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
-//		$I->wantTo('Create Category in Administrator');
+		$I->wantTo(' Enable Quotation at configuration ');
+		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+		$I->wantTo('Create Category in Administrator');
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
@@ -223,6 +220,7 @@ class ProductsCheckoutFrontEndCest
 		$I->addUser($this->userNameSecond, $this->passwordSecond, $this->emailSecond, $this->groupSecond, $this->shopperGroupSecond, $this->firstNameSecond, $this->lastNameSecond, 'save');
 		$I ->wantTo('Create other shipping for Private shopper groups');
 		$I = new ShippingSteps($scenario);
+		$this->shipping['shippingShopperGroups'] = $this->shopperGroupSecond;
 		$this->shipping['shippingRate'] = $this->shippingRateSecond;
 		$I->createShippingRateStandard($this->shipping, 'save');
 		$this->TotalIncludeShipping = $this->randomProductPrice + $this->shippingRateSecond;
@@ -249,6 +247,5 @@ class ProductsCheckoutFrontEndCest
 		$I->wantTo('Delete the second User');
 		$I->deleteUser($this->firstNameSecond, false);
 	}
-
 }
 
