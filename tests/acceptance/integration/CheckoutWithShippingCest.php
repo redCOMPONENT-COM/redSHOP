@@ -124,12 +124,35 @@ class ProductsCheckoutFrontEndCest
 		$this->orderTotalEnd = "";
 		$this->zipCodeStart = "";
 		$this->zipCodeEnd = "";
-		$this->country = "";
 		$this->shippingRateProduct = "";
 		$this->shippingPriority = "";
 		$this->shippingRateFor = "";
 		$this->shippingVATGroups = "";
 		$this->pickup = "pick";
+		$this->shipping = array();
+		$this->shipping['name'] = $this->shippingName;
+		$this->shipping['weightEnd'] = $this->weightEnd;
+		$this->shipping['weightStart'] = $this->weightStart;
+		$this->shipping['volumeStart'] = $this->volumeStart;
+		$this->shipping['volumeEnd'] = $this->volumeEnd;
+		$this->shipping['shippingRateLegnhtEnd'] = $this->shippingRateLegnhtEnd;
+		$this->shipping['shippingRateLenghtStart'] = $this->shippingRateLenghtStart;
+		$this->shipping['shippingRateWidthStart'] = $this->shippingRateWidthStart;
+		$this->shipping['shippingRateWidthEnd'] = $this->shippingRateWidthEnd;
+		$this->shipping['shippingRateHeightEnd'] = $this->shippingRateHeightEnd;
+		$this->shipping['shippingRateHeightStart'] = $this->shippingRateHeightStart;
+		$this->shipping['orderTotalStart'] = $this->orderTotalStart;
+		$this->shipping['orderTotalEnd'] = $this->orderTotalEnd;
+		$this->shipping['zipCodeStart'] = $this->zipCodeStart;
+		$this->shipping['zipCodeEnd'] = $this->zipCodeEnd;
+		$this->shipping['country'] = $this->user['country'];
+		$this->shipping['shippingRateProduct'] = $this->productName;
+		$this->shipping['shippingCategory'] = $this->categoryName;
+		$this->shipping['shippingShopperGroups'] = $this->shopperName;
+		$this->shipping['shippingRateFor'] = $this->shippingRateFor;
+		$this->shipping['shippingVATGroups'] = $this->shippingVATGroups;
+		$this->shipping['shippingPriority'] = $this->shippingPriority;
+		$this->shipping['shippingRate'] = $this->shippingRate;
 		
 		//bill
 		$this->Total = '';
@@ -146,18 +169,14 @@ class ProductsCheckoutFrontEndCest
 		$this->lastNameSecond = $this->faker->bothify('Lasenamesecond ?##?');
 		$this->shippingRateSecond  =  rand(1, 100);
 		$this->TotalIncludeShipping = 0;
-		
-
 	}
 
-
-
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-		$I->clearAllShippingRate();
-	}
+//	public function deleteData($scenario)
+//	{
+//		$I= new RedshopSteps($scenario);
+//		$I->clearAllData();
+//		$I->clearAllShippingRate();
+//	}
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -165,12 +184,10 @@ class ProductsCheckoutFrontEndCest
 
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo(' Enable Quotation at configuration ');
-		$I = new ConfigurationManageJoomla3Steps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
-
-
-		$I->wantTo('Create Category in Administrator');
+//		$I->wantTo(' Enable Quotation at configuration ');
+//		$I = new ConfigurationManageJoomla3Steps($scenario);
+//		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+//		$I->wantTo('Create Category in Administrator');
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
@@ -191,11 +208,7 @@ class ProductsCheckoutFrontEndCest
 		$I->wantTo('Test Discount creation with save and close button in Administrator');
 		$I = new ShippingSteps($scenario);
 		$I->wantTo('Create a shipping rate for first category');
-		$I->createShippingRateStandard($this->shippingName, $this->shippingRate, $this->weightStart, $this->weightEnd, $this->volumeStart, 
-			$this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, 
-			$this->shippingRateHeightStart, $this->shippingRateHeightEnd
-			, $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->user['country'], $this->shippingRateProduct, $this->CategoryName,
-			$this->shopperName, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'save');
+		$I->createShippingRateStandard($this->shipping, 'save');
 		$this->Total  = $this->randomProductPrice + $this->shippingRate;
 		$this->TotalShow = 'DKK '.$this->Total;
 		$I->wantTo('Test This user will apply shipping rate');
@@ -210,9 +223,8 @@ class ProductsCheckoutFrontEndCest
 		$I->addUser($this->userNameSecond, $this->passwordSecond, $this->emailSecond, $this->groupSecond, $this->shopperGroupSecond, $this->firstNameSecond, $this->lastNameSecond, 'save');
 		$I ->wantTo('Create other shipping for Private shopper groups');
 		$I = new ShippingSteps($scenario);
-		$I->createShippingRateStandard($this->shippingNameSecond, $this->shippingRateSecond, $this->weightStart, $this->weightEnd, $this->volumeStart, $this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, $this->shippingRateHeightStart, $this->shippingRateHeightEnd
-			, $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->user['country'], $this->shippingRateProduct, $this->CategoryName,
-			$this->shopperGroupSecond, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'save');
+		$this->shipping['shippingRate'] = $this->shippingRateSecond;
+		$I->createShippingRateStandard($this->shipping, 'save');
 		$this->TotalIncludeShipping = $this->randomProductPrice + $this->shippingRateSecond;
 		$this->TotalIncludeShippingShow = 'DKK '.$this->TotalIncludeShipping;
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
@@ -222,7 +234,6 @@ class ProductsCheckoutFrontEndCest
 
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
-
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
