@@ -135,15 +135,14 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationManageJ3Page::$vatSearchGroup, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$vatSearchGroup, $vatDefault);
 		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault));
-		$I->waitForElement($userConfigurationPage->returnChoice($state));
-		$I->click($userConfigurationPage->returnChoice($vatDefault));
+		$I->click(\ConfigurationManageJ3Page::$varFirstResults);
 
 		//get vat base on
 		$I->click(\ConfigurationManageJ3Page::$vatDefaultBase);
 		$I->waitForElement(\ConfigurationManageJ3Page::$vatSearchDefaultBase, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$vatSearchDefaultBase, $vatCalculation);
 		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation));
-		$I->click($userConfigurationPage->returnChoice($vatCalculation));
+		$I->click(\ConfigurationManageJ3Page::$searchDefaultFirstResult);
 
 		//apply vat on discount
 		switch ($vatAfter) {
@@ -240,8 +239,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationManageJ3Page::$buttonCartSearch);
 		$I->fillField(\ConfigurationManageJ3Page::$buttonCartSearch, $buttonCartLead);
 		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead));
-		$I->click($userConfiguration->returnChoice($buttonCartLead));
-//		$I->pressKey(\ConfigurationManageJ3Page::$buttonCartLead, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(\ConfigurationManageJ3Page::$firstCartSearch);
 
 		switch ($onePage) {
 			case 'yes':
