@@ -162,78 +162,82 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 		$this->taskCodecept()
-			->arg('--tap')
+			->arg('--steps')
 			->arg('--debug')
-			->arg('--fail-fast')
+			->arg('--tap')
 			->arg('tests/acceptance/administrator/')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
-			->arg('--tap')
+			->arg('--steps')
 			->arg('--debug')
-			->arg('--fail-fast')
+			->arg('--tap')
 			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
-			->arg('--tap')
+			->arg('--steps')
 			->arg('--debug')
-			->arg('--fail-fast')
+			->arg('--tap')
 			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--steps')
-			->arg('--tap')
 			->arg('--debug')
-			->arg('--fail-fast')
+			->arg('--tap')
 			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
-			->arg('--tap')
+			->arg('--steps')
 			->arg('--debug')
-			->arg('--fail-fast')
+			->arg('--tap')
 			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
 			->run()
 			->stopOnFail();
 
 
 	$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
 			->run()
 			->stopOnFail();
 
 		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
 			->run()
 			->stopOnFail();
@@ -423,8 +427,9 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/administrator/')
 			->run()
 			->stopOnFail();
