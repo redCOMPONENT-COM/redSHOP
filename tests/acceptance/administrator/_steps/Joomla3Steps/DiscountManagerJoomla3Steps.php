@@ -184,7 +184,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\DiscountManagerJ3Page::$searchResults);
 		$I->click(\DiscountManagerJ3Page::$searchShopperId);
-
+		$I->fillField(\DiscountManagerJ3Page::$searchShopperField, $shopperGroup);
 		$userDiscountPage = new \DiscountManagerJ3Page();
 		$I->waitForElement($userDiscountPage->returnChoice($shopperGroup), 30);
 		$I->click($userDiscountPage->returnChoice($shopperGroup));
