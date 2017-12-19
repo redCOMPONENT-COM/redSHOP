@@ -28,7 +28,11 @@ class RedshopUpdate2010 extends RedshopInstallUpdate
 	protected function getOldFiles()
 	{
 		return array(
-			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/discount_detail.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/discount_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/discount_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/discount_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/discount/tmpl/product.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/mass_discount/tmpl/product.php'
 		);
 	}
 
@@ -41,6 +45,8 @@ class RedshopUpdate2010 extends RedshopInstallUpdate
 	 */
 	protected function getOldFolders()
 	{
-		return array();
+		return array(
+			JPATH_SITE . '/components/com_redshop/views/discount_detail'
+		);
 	}
 }
