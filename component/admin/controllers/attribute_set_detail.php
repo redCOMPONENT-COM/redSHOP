@@ -255,41 +255,38 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		return array($width, $height);
 	}
 
+	/**
+	 * Function property_more_img.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function property_more_img()
 	{
-		$uri = JURI::getInstance();
+		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
+		$post     = $this->input->post->getArray();
+		$main_img = $this->input->files->get('property_main_img', null);
+		$sub_img  = $this->input->files->get('property_sub_img', null);
 
-		$url = $uri->root();
-
-		$post = $this->input->post->getArray();
-
-		$main_img = $this->input->files->get('property_main_img', 'array', 'array');
-
-		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
-		$filetype = strtolower(JFile::getExt($main_img['name']));
-
-		$filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
-
-		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != ''
-			&& $filetype_sub != 'png' && $filetype_sub != 'gif' && $filetype_sub != 'jpeg'
-			&& $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
-		)
+		if (!$model->property_more_img($post, $main_img, $sub_img))
 		{
-			$msg  = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id']
-				. "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
-			$this->setRedirect($link, $msg);
+			$uri = JUri::getInstance();
+
+			$link = $uri::root() . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+				. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
+
+			$this->setRedirect($link, JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY"));
 		}
 		else
 		{
-			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-			<script language="javascript" type="text/javascript">
-				window.parent.SqueezeBox.close();
-			</script>
+            <script language="javascript" type="text/javascript">
+                window.parent.SqueezeBox.close();
+            </script>
 			<?php
 		}
 	}
