@@ -6,7 +6,7 @@ install:
   - nvm install 8
   - nvm use 8
 php:
-  - 7.1
+  - 7.0
 addons:
   chrome: stable
 cache:
