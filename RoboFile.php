@@ -416,8 +416,8 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 		$this->taskCodecept()
-			->arg('--steps')
 			->arg('--tap')
+			->arg('--fail-fast')
 			->arg('tests/acceptance/administrator/')
 			->run()
 			->stopOnFail();
