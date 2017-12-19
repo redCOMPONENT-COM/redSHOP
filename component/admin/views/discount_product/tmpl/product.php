@@ -30,36 +30,9 @@ $producthelper = productHelper::getInstance();
 		form.submit();
 	}
 
-	resetfilter = function()
-	{
-		document.getElementById('discount_type').value = 'select';
-		document.getElementById('name_filter').value = '';
-		document.getElementById('spgrpdis_filter').value = 0;
-		document.adminForm.submit();
-	}
-
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterTool">
-			<div class="filterItem">
-				<div class="btn-wrapper input-append">
-					<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
-						 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
-					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
-				</div>
-			</div>
-			<div class="filterItem">
-				<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
-				: <?php echo $this->lists ['shopper_group']; ?>
-			</div>
-			<div class="filterItem">
-				<?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE'); ?>:
-				<?php echo $this->lists['discount_type']; ?>
-			</div>
-		</div>
-
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
@@ -69,14 +42,11 @@ $producthelper = productHelper::getInstance();
 				<th width="5%">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
-				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NAME', 'name', $this->lists['order_Dir'], $this->lists['order']); ?>
-				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_AMOUNT', 'amount', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_AMOUNT', 'amount', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CONDITION', 'condition', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CONDITION', '`condition`', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_DISCOUNT_TYPE', 'discount_type', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -89,7 +59,7 @@ $producthelper = productHelper::getInstance();
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'discount_id', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'discount_product_id', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 
 			</tr>
@@ -100,8 +70,8 @@ $producthelper = productHelper::getInstance();
 			for ($i = 0, $n = count($this->discounts); $i < $n; $i++)
 			{
 				$row = $this->discounts[$i];
-				$row->id = $row->discount_id;
-				$link = JRoute::_('index.php?option=com_redshop&view=discount_detail&task=edit&cid[]=' . $row->discount_id);
+				$row->id = $row->discount_product_id;
+				$link = JRoute::_('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
@@ -114,12 +84,7 @@ $producthelper = productHelper::getInstance();
 					</td>
 					<td align="center">
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_DISCOUNT'); ?>">
-							<?php echo $row->name; ?>
-						</a>
-					</td>
-					<td align="center">
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_DISCOUNT'); ?>">
-							<?php echo $producthelper->getProductFormattedPrice($row->amount);//number_format($row->amount,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR).CURRENCY_SYMBOL; ?></a>
+							<?php echo $producthelper->getProductFormattedPrice($row->amount); ?></a>
 					</td>
 					<td align="center">
 						<?php
@@ -150,7 +115,7 @@ $producthelper = productHelper::getInstance();
 						?>
 					</td>
 					<td align="center"><?php echo $published;?></td>
-					<td align="center"><?php echo $row->discount_id; ?></td>
+					<td align="center"><?php echo $row->discount_product_id; ?></td>
 				</tr>
 				<?php
 				$k = 1 - $k;
@@ -171,6 +136,7 @@ $producthelper = productHelper::getInstance();
 	</div>
 
 	<input type="hidden" name="view" value="discount"/>
+	<input type="hidden" name="layout" value="product"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>

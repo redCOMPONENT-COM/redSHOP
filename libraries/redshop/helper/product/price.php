@@ -68,7 +68,7 @@ class RedshopHelperProductPrice
 			$query = $db->getQuery(true)
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
-				->where('dp.published = 1');
+				->where($db->qn('dp.published') . ' = 1');
 
 			if (!empty($catIds))
 			{
@@ -109,7 +109,7 @@ class RedshopHelperProductPrice
 				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
 
 			// Filter by requested discounts only
-			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
+			$query->where($db->qn('dp.discount_product_id') . ' IN (' . $subQuery . ')');
 
 			self::$productSpecialPrices[$key] = $db->setQuery($query)->loadObjectList();
 		}

@@ -10,27 +10,28 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Discount
+ * Model Discount Product
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       __DEPLOY_VERSION__
  */
-class RedshopModelDiscount extends RedshopModelForm
+class RedshopModelDiscount_Product extends RedshopModelForm
 {
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array $data The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
-		$data['start_date'] = isset($data['start_date']) && !is_numeric($data['start_date']) ? JFactory::getDate($data['start_date'])->toUnix() : 0;
-		$data['end_date']   = isset($data['end_date']) && !is_numeric($data['end_date']) ? JFactory::getDate($data['end_date'])->toUnix() : 0;
+		$data['start_date']   = isset($data['start_date']) && !is_numeric($data['start_date']) ? JFactory::getDate($data['start_date'])->toUnix() : 0;
+		$data['end_date']     = isset($data['end_date']) && !is_numeric($data['end_date']) ? JFactory::getDate($data['end_date'])->toUnix() : 0;
+		$data['category_ids'] = isset($data['category_ids']) && !is_string($data['category_ids']) ? implode(',', $data['category_ids']) : '';
 
 		return parent::save($data);
 	}
@@ -48,14 +49,14 @@ class RedshopModelDiscount extends RedshopModelForm
 	{
 		// Check the session for previously entered form data.
 		$app  = JFactory::getApplication();
-		$data = $app->getUserState('com_redshop.edit.discount.data', array());
+		$data = $app->getUserState('com_redshop.edit.discount_product.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
 		}
 
-		$this->preprocessData('com_redshop.discount', $data);
+		$this->preprocessData('com_redshop.discount_product', $data);
 
 		return $data;
 	}
@@ -63,7 +64,7 @@ class RedshopModelDiscount extends RedshopModelForm
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer $pk The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
@@ -80,9 +81,10 @@ class RedshopModelDiscount extends RedshopModelForm
 
 		$dateFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 
-		$item->shopper_group = RedshopEntityDiscount::getInstance($item->discount_id)->getShopperGroups()->ids();
+		$item->shopper_group = RedshopEntityDiscount_Product::getInstance($item->discount_product_id)->getShopperGroups()->ids();
 		$item->start_date    = JFactory::getDate($item->start_date)->format($dateFormat);
 		$item->end_date      = JFactory::getDate($item->end_date)->format($dateFormat);
+		$item->category_ids  = explode(',', $item->category_ids);
 
 		return $item;
 	}

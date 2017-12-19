@@ -10,32 +10,37 @@
 defined('_JEXEC') or die;
 
 /**
- * Table Discount Product
+ * Table Discount
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
  * @since       __DEPLOY_VERSION__
  */
-class RedshopTableDiscount_Product extends RedshopTable
+class RedshopTableDiscount extends RedshopTable
 {
 	/**
 	 * The table name without the prefix.
 	 *
 	 * @var  string
 	 */
-	protected $_tableName = 'redshop_discount_product';
+	protected $_tableName = 'redshop_discount';
 
 	/**
 	 * The table key column. Usually: id
 	 *
 	 * @var  string
 	 */
-	protected $_tableKey = 'discount_product_id';
+	protected $_tableKey = 'discount_id';
 
 	/**
 	 * @var  integer
 	 */
-	public $discount_product_id;
+	public $discount_id;
+
+	/**
+	 * @var  string
+	 */
+	public $name;
 
 	/**
 	 * @var  integer
@@ -73,14 +78,9 @@ class RedshopTableDiscount_Product extends RedshopTable
 	public $published = 1;
 
 	/**
-	 * @var  string
-	 */
-	public $category_ids = '';
-
-	/**
 	 * Do the database store.
 	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
+	 * @param   boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean
 	 */
@@ -110,8 +110,8 @@ class RedshopTableDiscount_Product extends RedshopTable
 
 		// Clear current reference products.
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_discount_product_shoppers'))
-			->where($db->qn('discount_product_id') . ' = ' . $this->discount_product_id);
+			->delete($db->qn('#__redshop_discount_shoppers'))
+			->where($db->qn('discount_id') . ' = ' . $this->discount_id);
 		$db->setQuery($query)->execute();
 
 		$shopperGroupIds = $this->getOption('shopperGroups', null);
@@ -122,12 +122,12 @@ class RedshopTableDiscount_Product extends RedshopTable
 		}
 
 		$query->clear()
-			->insert($db->qn('#__redshop_discount_product_shoppers'))
-			->columns($db->qn(array('discount_product_id', 'shopper_group_id')));
+			->insert($db->qn('#__redshop_discount_shoppers'))
+			->columns($db->qn(array('discount_id', 'shopper_group_id')));
 
 		foreach ($shopperGroupIds as $shopperGroupId)
 		{
-			$query->values((int) $this->discount_product_id . ',' . (int) $shopperGroupId);
+			$query->values((int) $this->discount_id . ',' . (int) $shopperGroupId);
 		}
 
 		return $db->setQuery($query)->execute();
@@ -170,7 +170,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// If discount type is percent. Make sure discount amount not higher than 100.
 		if ($this->discount_type == 1 && $this->discount_amount > 100)
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_DISCOUNT_PERCENTAGE'));
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_PERCENTAGE'));
 
 			return false;
 		}
@@ -178,7 +178,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// If discount type is percent. Make sure discount amount not higher than 100.
 		if (!empty($this->start_date) && !empty($this->end_date) && $this->start_date >= $this->end_date)
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
 
 			return false;
 		}

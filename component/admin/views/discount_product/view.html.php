@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * View Discount
+ * View Discount Product
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewDiscount extends RedshopViewForm
+class RedshopViewDiscount_Product extends RedshopViewForm
 {
 	/**
 	 * Method for get page title.
@@ -27,6 +27,6 @@ class RedshopViewDiscount extends RedshopViewForm
 	 */
 	public function getTitle()
 	{
-		return JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		return JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
 }
