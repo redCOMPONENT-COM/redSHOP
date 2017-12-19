@@ -17,8 +17,8 @@ class CheckoutSpecificShopperGroupsCest
 		$this->faker = Faker\Factory::create();
 		$this->ProductName = 'ProductName' . rand(100, 999);
 		$this->CategoryName = "CategoryName" . rand(1, 100);
-		$this->minimumPerProduct = 1;
-		$this->minimumQuantity = 1;
+		$this->minimumPerProduct = 0;
+		$this->minimumQuantity = 0;
 		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
 		$this->discountStart = "12-12-2016";
 		$this->discountEnd = "23-05-2017";
