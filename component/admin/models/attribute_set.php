@@ -28,10 +28,10 @@ class RedshopModelAttribute_set extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$this->_context = 'attribute_set_id';
+		$this->_context      = 'attribute_set_id';
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
@@ -43,7 +43,7 @@ class RedshopModelAttribute_set extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -54,7 +54,7 @@ class RedshopModelAttribute_set extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -75,7 +75,7 @@ class RedshopModelAttribute_set extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT distinct(a.attribute_set_id),a.* FROM ' . $this->_table_prefix . 'attribute_set AS a '
+		$query   = 'SELECT distinct(a.attribute_set_id),a.* FROM ' . $this->_table_prefix . 'attribute_set AS a '
 			. 'WHERE 1=1 '
 			. $orderby;
 
@@ -87,7 +87,7 @@ class RedshopModelAttribute_set extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'attribute_set_id');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'attribute_set_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);

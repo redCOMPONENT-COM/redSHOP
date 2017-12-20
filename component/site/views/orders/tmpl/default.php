@@ -24,7 +24,7 @@ $document    = JFactory::getDocument();
 $redTemplate = Redtemplate::getInstance();
 
 $template_id         = $this->params->get('template_id');
-$orderslist_template = $redTemplate->getTemplate("order_list", $template_id);
+$orderslist_template = RedshopHelperTemplate::getTemplate("order_list", $template_id);
 
 if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc != "")
 {

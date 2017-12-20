@@ -34,8 +34,8 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-		$body = $this->input->post->get('body', '', 'raw');
+		$post         = $this->input->post->getArray();
+		$body         = $this->input->post->get('body', '', 'raw');
 		$post["body"] = $body;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
@@ -112,7 +112,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('newsletter_detail');
 
 		if ($model->copy($cid))

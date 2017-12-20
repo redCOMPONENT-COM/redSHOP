@@ -29,7 +29,6 @@
                 filter="float"
                 table-sortable="1"
                 table-inline="1"
-                table-edit-link="1"
                 table-width="15%"
         />
         <field
@@ -72,7 +71,7 @@
                 label-class="radio-inline"
                 default="0"
                 table-sortable="1"
-                table-width="5%">
+                table-width="10%">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
@@ -95,10 +94,11 @@
                 description="COM_REDSHOP_VOUCHER_AMOUNT_LEFT_DESC"
                 placeholder="COM_REDSHOP_VOUCHER_AMOUNT_LEFT"
                 class="form-control"
-                default="0.00"
-                filter="float"
+                default="0"
+                filter="integer"
                 table-sortable="1"
-                table-width="15%"
+                table-width="10%"
+                table-inline="1"
         />
     </fieldset>
 </form>

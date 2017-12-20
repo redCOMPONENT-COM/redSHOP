@@ -31,14 +31,14 @@ class RedshopControllerPrices_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$product_id = $this->input->get('product_id');
+		$product_id           = $this->input->get('product_id');
 		$price_quantity_start = $this->input->get('price_quantity_start');
-		$price_quantity_end = $this->input->get('price_quantity_end');
+		$price_quantity_end   = $this->input->get('price_quantity_end');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
-		$post['cdate'] = time();
+		$post['cdate']            = time();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid               = $this->input->post->get('cid', array(0), 'array');
 		$post ['price_id'] = $cid [0];
 
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
@@ -86,7 +86,7 @@ class RedshopControllerPrices_detail extends RedshopController
 	public function remove()
 	{
 		$product_id = $this->input->get('product_id');
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

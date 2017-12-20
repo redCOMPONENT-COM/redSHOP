@@ -89,7 +89,7 @@ class RedshopViewDiscount_detail extends RedshopViewAdmin
 			$detail->category_ids = array();
 		}
 
-		$product_category = new product_category;
+		$product_category      = new product_category;
 		$lists['category_ids'] = $product_category->list_all("category_ids[]", 0, $detail->category_ids, 10, false, true);
 
 		$discount_condition = array(
@@ -105,8 +105,8 @@ class RedshopViewDiscount_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

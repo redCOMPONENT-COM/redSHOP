@@ -33,7 +33,7 @@ class RedshopModelQuestion extends RedshopModelForm
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query ->select(
@@ -82,14 +82,14 @@ class RedshopModelQuestion extends RedshopModelForm
 		$user = JFactory::getUser();
 
 		// Store Answer
-		$answerData = $data;
-		$answerData['id'] = 0;
-		$answerData['parent_id'] = $data['id']? $data['id']: $this->_db->insertid();
-		$answerData['question']  = '';
-		$answerData['cdate']     = time();
-		$answerData['question']    = $data['answer'];
+		$answerData               = $data;
+		$answerData['id']         = 0;
+		$answerData['parent_id']  = $data['id'] ? $data['id'] : $this->_db->insertid();
+		$answerData['question']   = '';
+		$answerData['cdate']      = time();
+		$answerData['question']   = $data['answer'];
 		$answerData['user_email'] = $user->email;
-		$answerData['user_name'] = $user->name;
+		$answerData['user_name']  = $user->name;
 
 		return $this->save($answerData);
 	}

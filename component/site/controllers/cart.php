@@ -60,7 +60,7 @@ class RedshopControllerCart extends RedshopController
 			// Set Error Message
 			$app->enqueueMessage($errorMessage, 'error');
 
-			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
+			if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1)
 			{
 				echo "`0`" . $errorMessage;
 				die();
@@ -146,7 +146,7 @@ class RedshopControllerCart extends RedshopController
 								$app->enqueueMessage($this->getError(), 'error');
 							}
 
-							if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
+							if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1)
 							{
 								echo "`0`" . $errorMessage;
 								die();
@@ -201,7 +201,7 @@ class RedshopControllerCart extends RedshopController
 
 		if (!$userfield)
 		{
-			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
+			if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
 			{
 				$link = JRoute::_(
 					'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid,
@@ -247,7 +247,6 @@ class RedshopControllerCart extends RedshopController
 		$discountAmount           = 0;
 		$voucherDiscount          = 0;
 		$couponDiscount           = 0;
-		$totaldiscount            = 0;
 
 		if (Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
 		{
@@ -263,14 +262,14 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('voucher', $cart))
 		{
-			$voucherDiscount = $this->_carthelper->calculateDiscount('voucher', $cart['voucher']);
+			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
 
 		if (array_key_exists('coupon', $cart))
 		{
-			$couponDiscount = $this->_carthelper->calculateDiscount('coupon', $cart['coupon']);
+			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
@@ -281,7 +280,7 @@ class RedshopControllerCart extends RedshopController
 
 		$tax         = $calArr[5];
 		$discountVAT = 0;
-		$chktag      = $producthelper->taxexempt_addtocart();
+		$chktag      = RedshopHelperCart::taxExemptAddToCart();
 
 		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
 		{
@@ -332,15 +331,16 @@ class RedshopControllerCart extends RedshopController
 	/**
 	 * Method to add coupon code in cart for discount
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function coupon()
 	{
-		$Itemid    = RedshopHelperRouter::getCartItemId();
+		$itemId = RedshopHelperRouter::getCartItemId();
 
 		// Call coupon method of model to apply coupon
 		$valid = $this->getModel('cart')->coupon();
-		$cart  = RedshopHelperCartSession::getCart();
+
+		$cart = RedshopHelperCartSession::getCart();
 		$this->modifyCalculation($cart);
 		RedshopHelperCart::cartFinalCalculation(false);
 
@@ -350,7 +350,7 @@ class RedshopControllerCart extends RedshopController
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
@@ -363,7 +363,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 			$this->setRedirect($link, JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID'), 'error');
 		}
 	}

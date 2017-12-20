@@ -200,7 +200,7 @@ if (count($ajaxdetal_template) > 0)
 	$accessory      = $producthelper->getProductAccessory(0, $this->data->product_id);
 	$totalAccessory = count($accessory);
 
-	$data_add = $producthelper->replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);
+	$data_add = RedshopHelperProductAccessory::replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);
 
 	// Product accessory End /////////////////////////////////
 

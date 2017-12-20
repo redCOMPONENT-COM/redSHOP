@@ -118,9 +118,9 @@ $templatelist = $redTemplate->getTemplate("redshop_payment");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->name . "}"))
 	{
-		$payment_template      = "{payment_template:" . $templatelist[$i]->template_name . "}";
+		$payment_template      = "{payment_template:" . $templatelist[$i]->name . "}";
 		$payment_template_desc = $templatelist[$i]->template_desc;
 		$onestep_template_desc = str_replace($payment_template, "<div id='divPaymentMethod'>" . $payment_template . "</div>", $onestep_template_desc);
 	}
@@ -130,10 +130,10 @@ $templatelist = $redTemplate->getTemplate("checkout");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->name . "}"))
 	{
-		$cart_template         = "{checkout_template:" . $templatelist[$i]->template_name . "}";
-		$onestep_template_desc = str_replace($cart_template, "<div id='divRedshopCart'>" . $cart_template . "</div><div id='divRedshopCartTemplateId' style='display:none'>" . $templatelist[$i]->template_id . "</div>", $onestep_template_desc);
+		$cart_template         = "{checkout_template:" . $templatelist[$i]->name . "}";
+		$onestep_template_desc = str_replace($cart_template, "<div id='divRedshopCart'>" . $cart_template . "</div><div id='divRedshopCartTemplateId' style='display:none'>" . $templatelist[$i]->id . "</div>", $onestep_template_desc);
 		$onestep_template_desc = str_replace($cart_template, $templatelist[$i]->template_desc, $onestep_template_desc);
 	}
 }
@@ -148,9 +148,9 @@ $templatelist = $redTemplate->getTemplate("shippingbox");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->name . "}"))
 	{
-		$shippingbox_template      = "{shippingbox_template:" . $templatelist[$i]->template_name . "}";
+		$shippingbox_template      = "{shippingbox_template:" . $templatelist[$i]->name . "}";
 		$shippingbox_template_desc = $templatelist[$i]->template_desc;
 	}
 }
@@ -159,12 +159,12 @@ $templatelist = $redTemplate->getTemplate("redshop_shipping");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->name . "}"))
 	{
-		$shipping_template      = "{shipping_template:" . $templatelist[$i]->template_name . "}";
+		$shipping_template      = "{shipping_template:" . $templatelist[$i]->name . "}";
 		$shipping_template_desc = $templatelist[$i]->template_desc;
 
-		$onestep_template_desc  = str_replace($shipping_template, "<div id='divShippingRate'>" . $shipping_template . "</div><div id='divShippingRateTemplateId' style='display:none'>" . $templatelist[$i]->template_id . "</div>", $onestep_template_desc);
+		$onestep_template_desc  = str_replace($shipping_template, "<div id='divShippingRate'>" . $shipping_template . "</div><div id='divShippingRateTemplateId' style='display:none'>" . $templatelist[$i]->id . "</div>", $onestep_template_desc);
 	}
 }
 
@@ -206,7 +206,7 @@ if (!empty($billingaddresses) && $billingaddresses->ean_number != "")
 
 if (strstr($onestep_template_desc, "{edit_billing_address}") && $users_info_id)
 {
-	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&Itemid=' . $Itemid);
+	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $Itemid);
 	$edit_billing          = '<a class="modal btn btn-primary" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
 	$onestep_template_desc = str_replace("{edit_billing_address}", $edit_billing, $onestep_template_desc);
 }

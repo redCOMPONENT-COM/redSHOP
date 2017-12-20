@@ -64,6 +64,8 @@ class RedshopHelperProductTag
 	 * @return  array
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function displayAdditionalImage(
 		$productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0,
@@ -530,8 +532,8 @@ class RedshopHelperProductTag
 				$productAdditionalImageDivStart = '<div class="additional_image"><a href="' . $linkImage . '" title="' . $altText . '" '
 					. 'rel="myallimg">';
 				$productAdditionalImageDivEnd   = "</a></div>";
-				$return                         .= $productAdditionalImageDivStart;
-				$return                         .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
+				$return                        .= $productAdditionalImageDivStart;
+				$return                        .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
 				$productHrefEnd                 = "";
 			}
 			else
@@ -590,8 +592,8 @@ class RedshopHelperProductTag
 					. $imagePath . '\',' . $product->product_id . ');" onmouseout="display_image_add_out(\'' . $imagePathOriginal
 					. '\',' . $product->product_id . ');">';
 				$productAdditionalImageDivEnd   = "</div>";
-				$return                         .= $productAdditionalImageDivStart;
-				$return                         .= '<a href="javascript:void(0)"><img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
+				$return                        .= $productAdditionalImageDivStart;
+				$return                        .= '<a href="javascript:void(0)"><img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
 				$productHrefEnd                 = "</a>";
 			}
 
@@ -694,8 +696,8 @@ class RedshopHelperProductTag
 				$propAdditionImgDivStart = '<div class="additional_image"><a href="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $thumb . '" '
 					. 'title="' . $altText . '" rel="myallimg">';
 				$propAdditionImgDivEnd   = "</a></div>";
-				$return                  .= $propAdditionImgDivStart;
-				$return                  .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
+				$return                 .= $propAdditionImgDivStart;
+				$return                 .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
 				$propHrefEnd             = "";
 			}
 			else
@@ -905,8 +907,8 @@ class RedshopHelperProductTag
 					$useImgSizeSwapping
 				);
 
-				$result  .= $divStart;
-				$result  .= '<a href="javascript:void(0)">'
+				$result .= $divStart;
+				$result .= '<a href="javascript:void(0)">'
 					. '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
 				$hrefEnd = "</a>";
 			}
@@ -922,7 +924,7 @@ class RedshopHelperProductTag
 					$additionalHoverImgHeight,
 					$useImgSizeSwapping
 				);
-				$result   .= '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" class="redImagepreview" />';
+				$result .= '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" class="redImagepreview" />';
 			}
 
 			$result .= $hrefEnd;
@@ -960,5 +962,133 @@ class RedshopHelperProductTag
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Replace Attribute Data
+	 *
+	 * @param   integer  $productId    Product id
+	 * @param   integer  $accessoryId  Accessory id
+	 * @param   array    $attributes   Attribute list
+	 * @param   integer  $userId       User id
+	 * @param   string   $uniqueId     Unique id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
+	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
+	{
+		$attributeList = "";
+
+		$prefix = $accessoryId != 0 ? $uniqueId . "acc_" : $uniqueId . "prd_";
+
+		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
+
+		foreach ($attributes as $attribute)
+		{
+			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
+
+			if (empty($attribute->text) || empty($property))
+			{
+				continue;
+			}
+
+			$commonId    = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
+			$hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
+			$propertyId  = 'property_id_' . $commonId;
+
+			foreach ($properties as $property)
+			{
+				$attributesPropertyVat = 0;
+
+				if ($property->property_price > 0)
+				{
+					$propertyOprand = $property->oprand;
+					$propertyPrice  = RedshopHelperProductPrice::formattedPrice($property->property_price);
+
+					// Get product vat to include.
+					$attributesPropertyVat     = RedshopHelperProduct::getProductTax($productId, $property->property_price, $userId);
+					$property->property_price += $attributesPropertyVat;
+
+					$propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
+
+					$property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' ' . $propertyPrice
+						. "excl. vat / "
+						. $propertyPriceWithVat . ")";
+				}
+				else
+				{
+					$property->text = urldecode($property->property_name);
+				}
+
+				$attributeList .= '<input type="hidden" id="'
+					. $propertyId . '_oprand' . $property->value . '" value="' . $property->oprand . '" />';
+				$attributeList .= '<input type="hidden" id="'
+					. $propertyId . '_protax' . $property->value . '" value="' . $attributesPropertyVat . '" />';
+				$attributeList .= '<input type="hidden" id="'
+					. $propertyId . '_proprice' . $property->value . '" value="' . $property->property_price . '" />';
+			}
+
+			$tmpArray           = array();
+			$tmpArray[0]        = new stdClass;
+			$tmpArray[0]->value = 0;
+			$tmpArray[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attribute->text);
+
+			$newProperty = array_merge($tmpArray, $properties);
+			$checkList   = "";
+
+			if ($attribute->allow_multiple_selection)
+			{
+				foreach ($properties as $property)
+				{
+					if ($attribute->attribute_required == 1)
+					{
+						$required = "required='" . $attribute->attribute_required . "'";
+					}
+					else
+					{
+						$required = "";
+					}
+
+					$checkList .= "<br /><input type='checkbox' value='" . $property->value . "' name='"
+						. $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
+						. $attribute->attribute_name . "' required='" . $required
+						. "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
+						. "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
+				}
+			}
+			else
+			{
+				$checkList = JHtml::_(
+					'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
+					. '"  class="inputbox" size="1" attribute_name="' . $attribute->attribute_name . '" required="'
+					. $attribute->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
+					. $productId . '\',\'' . $accessoryId . '\',\'' . $attribute->attribute_id . '\',\'' . $uniqueId
+					. '\');" ', 'value', 'text', ''
+				);
+			}
+
+			$lists['property_id'] = $checkList;
+
+			$attributeList .= "<input type='hidden' name='" . $hiddenAttId . "[]' value='" . $attribute->value . "' />";
+
+			if ($attribute->attribute_required > 0)
+			{
+				$pos       = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attribute->text)
+					. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
+					. urldecode($attribute->text);
+				$attrTitle = $pos;
+			}
+			else
+			{
+				$attrTitle = urldecode($attribute->text);
+			}
+
+			$attributeList .= "<tr><td>" . $attrTitle . " : " . $lists['property_id'] . "</td></tr>";
+			$attributeList .= "<tr><td><div id='property_responce" . $commonId . "' style='display:none;'></td></tr>";
+		}
+
+		return $attributeList;
 	}
 }

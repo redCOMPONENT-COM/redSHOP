@@ -12,11 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Class shipping Helper
  *
+ * @since  2.0.0.3
+ *
  * @deprecated  2.0.0.3
  */
 class shipping
 {
-	protected static $instance = null;
+	/**
+	 * @var self
+	 */
+	protected static $instance;
 
 	/**
 	 * Returns the shipping object, only creating it
@@ -65,12 +70,13 @@ class shipping
 	}
 
 	/**
-	 * Return only one shipping rate on cart page...
-	 * this function is called by ajax
+	 * Return only one shipping rate on cart page... This function is called by ajax
 	 *
 	 * @return  string
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRateCalc() instead
+	 *
+	 * @throws  Exception
 	 */
 	public function getShippingrate_calc()
 	{
@@ -100,7 +106,7 @@ class shipping
 	 *
 	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
 	 *
-	 * @return  string  Encrypt shipping rate
+	 * @return  array  Encrypt shipping rate
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::decryptShipping($strMessage) instead
 	 */
@@ -156,7 +162,7 @@ class shipping
 	 *
 	 * @param   string  $shippingClass  Shipping class
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRates($shippingClass) instead
 	 */
@@ -183,13 +189,17 @@ class shipping
 	/**
 	 * List shipping rates
 	 *
-	 * @param   object  $shippingClass  Shipping class
-	 * @param   int     $usersInfoId    User info id
-	 * @param   array   &$data          Shipping data
+	 * @param   object   $shippingClass  Shipping class
+	 * @param   integer  $usersInfoId    User info id
+	 * @param   array    $data           Shipping data
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  array                   Shipping Rate
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::listShippingRates($shippingClass, $usersInfoId, &$data) instead
+	 *
+	 * @see RedshopHelperShipping::listShippingRates
+	 *
+	 * @throws  Exception
 	 */
 	public function listshippingrates($shippingClass, $usersInfoId, &$data)
 	{
@@ -284,9 +294,11 @@ class shipping
 	/**
 	 * Get available shipping boxes according to cart items
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingBox() instead
+	 *
+	 * @see RedshopHelperShipping::getShippingBox()
 	 */
 	public function getShippingBox()
 	{
@@ -310,7 +322,7 @@ class shipping
 	/**
 	 * Get Shipping rate error
 	 *
-	 * @param   array  &$data  Shipping rate data
+	 * @param   array  $data  Shipping rate data
 	 *
 	 * @return  string  error text
 	 *
@@ -324,7 +336,7 @@ class shipping
 	/**
 	 * Check cart dimension is matched
 	 *
-	 * @param   array  &$data  Cart data
+	 * @param   array  $data  Cart data
 	 *
 	 * @return  boolean
 	 *
@@ -338,7 +350,7 @@ class shipping
 	/**
 	 * Check user info is matched
 	 *
-	 * @param   array  &$data  Cart data
+	 * @param   array  $data  Cart data
 	 *
 	 * @return  boolean
 	 *
@@ -369,6 +381,8 @@ class shipping
 	 * @return  string
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getFreeShippingRate($shippingRateId) instead
+	 *
+	 * @throws  Exception
 	 */
 	public function getfreeshippingRate($shippingRateId = 0)
 	{

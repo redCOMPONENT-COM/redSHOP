@@ -37,6 +37,8 @@ class RedshopModelCategory extends RedshopModel
 
 	public $minmaxArr = array(0, 0);
 
+	public $_total = 0;
+
 	// @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name', 'product_name',
@@ -314,11 +316,13 @@ class RedshopModelCategory extends RedshopModel
 	 * @param   bool  $isSlider  default variable is false
 	 *
 	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
+		$db      = JFactory::getDbo();
+		$user    = JFactory::getUser();
 		$orderBy = $this->buildProductOrderBy();
 
 		if ($minmax && !(strpos($orderBy, "p.product_price ASC") !== false || strpos($orderBy, "p.product_price DESC") !== false))
@@ -329,18 +333,17 @@ class RedshopModelCategory extends RedshopModel
 		$query = $db->getQuery(true);
 
 		$manufacturerId = $this->getState('manufacturer_id');
-		$endlimit = $this->getState('list.limit');
-		$limitstart = $this->getState('list.start');
-		$sort = "";
+		$endlimit       = $this->getState('list.limit');
+		$limitstart     = $this->getState('list.start');
+		$sort           = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
 		if ($shopperGroupManufactures != "")
 		{
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
-			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopperGroupManufactures = \Joomla\Utilities\ArrayHelper::toInteger($shopperGroupManufactures);
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
 			$query->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
 		}
@@ -362,7 +365,7 @@ class RedshopModelCategory extends RedshopModel
 			->order($orderBy);
 
 		$filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);
-		$categories = array($this->_id);
+		$categories                     = array($this->_id);
 
 		if ($filterIncludeProductFromSubCat === true)
 		{
@@ -379,12 +382,12 @@ class RedshopModelCategory extends RedshopModel
 
 		$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')');
 
-		$finder_condition = $this->getredproductfindertags();
+		$finderCondition = $this->getredproductfindertags();
 
-		if ($finder_condition != '')
+		if ($finderCondition != '')
 		{
-			$finder_condition = str_replace("AND", "", $finder_condition);
-			$query->where($finder_condition);
+			$finderCondition = str_replace("AND", "", $finderCondition);
+			$query->where($finderCondition);
 		}
 
 		$queryCount = clone $query;
@@ -403,7 +406,9 @@ class RedshopModelCategory extends RedshopModel
 
 		$this->_product = array();
 
-		if ($productIds = $db->loadColumn())
+		$productIds = $db->loadColumn();
+
+		if (!empty($productIds))
 		{
 			// Third steep get all product relate info
 			$query->clear()
@@ -421,15 +426,24 @@ class RedshopModelCategory extends RedshopModel
 				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
 				->where('pc.category_id IN (' . implode(',', $categories) . ')');
 
-			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
+			$products = $db->setQuery($query)->loadObjectList('concat_id');
+
+			if (!empty($products))
 			{
 				RedshopHelperProduct::setProduct($products);
 				$this->_product = array_values($products);
 			}
 		}
 
+		if (empty($this->_product))
+		{
+			$this->_total = 0;
+
+			return $this->_product;
+		}
+
 		$priceSort = false;
-		$count = count($this->_product);
+		$count     = count($this->_product);
 
 		if (strpos($orderBy, "p.product_price ASC") !== false)
 		{
@@ -437,8 +451,9 @@ class RedshopModelCategory extends RedshopModel
 
 			for ($i = 0; $i < $count; $i++)
 			{
-				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
-				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
+				$productPrices = RedshopHelperProductPrice::getNetPrice($this->_product[$i]->product_id);
+
+				$this->_product[$i]->productPrice = $productPrices['product_price'];
 			}
 
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
@@ -450,8 +465,9 @@ class RedshopModelCategory extends RedshopModel
 
 			for ($i = 0; $i < $count; $i++)
 			{
-				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
-				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
+				$productPrices = RedshopHelperProductPrice::getNetPrice($this->_product[$i]->product_id);
+
+				$this->_product[$i]->productPrice = $productPrices['product_price'];
 			}
 
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'DESC');
@@ -461,7 +477,7 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$min = 0;
 
-			if (!empty($priceSort))
+			if (!empty($priceSort) && !empty($this->_product))
 			{
 				if ($sort == "DESC")
 				{
@@ -476,10 +492,10 @@ class RedshopModelCategory extends RedshopModel
 			}
 			else
 			{
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[0]->product_id);
-				$min             = $ProductPriceArr['product_price'];
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[count($this->_product) - 1]->product_id);
-				$max             = $ProductPriceArr['product_price'];
+				$productPrices = RedshopHelperProductPrice::getNetPrice($this->_product[0]->product_id);
+				$min           = $productPrices['product_price'];
+				$productPrices = RedshopHelperProductPrice::getNetPrice($this->_product[count($this->_product) - 1]->product_id);
+				$max           = $productPrices['product_price'];
 
 				if ($min >= $max)
 				{
@@ -498,8 +514,9 @@ class RedshopModelCategory extends RedshopModel
 
 			for ($i = 0, $cp = count($this->_product); $i < $cp; $i++)
 			{
-				$ProductPriceArr                 = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
-				$this->_product[$i]->sliderprice = $ProductPriceArr['product_price'];
+				$productPrices = RedshopHelperProductPrice::getNetPrice($this->_product[$i]->product_id);
+
+				$this->_product[$i]->sliderprice = $productPrices['product_price'];
 
 				if ($this->_product[$i]->sliderprice >= $this->minmaxArr[0] && $this->_product[$i]->sliderprice <= $this->minmaxArr[1])
 				{
@@ -684,8 +701,6 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function loadCategoryTemplate($category_template = null)
 	{
-		$redTemplate       = Redtemplate::getInstance();
-
 		$selected_template = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$template_section  = "frontpage_category";
 
@@ -703,7 +718,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 		}
 
-		$this->_template      = $redTemplate->getTemplate($template_section, $selected_template);
+		$this->_template = RedshopHelperTemplate::getTemplate($template_section, $selected_template);
 
 		return $this->_template;
 	}

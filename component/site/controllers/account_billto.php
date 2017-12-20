@@ -22,7 +22,7 @@ class RedshopControllerAccount_billto extends RedshopController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $default  config array.
+	 * @param   array $default config array.
 	 */
 	public function __construct($default = array())
 	{
@@ -57,7 +57,11 @@ class RedshopControllerAccount_billto extends RedshopController
 	/**
 	 * Method to save Billing Address
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 *
+	 * @throws  Exception
 	 */
 	public function save()
 	{
@@ -66,7 +70,8 @@ class RedshopControllerAccount_billto extends RedshopController
 		$user    = JFactory::getUser();
 		$post    = $input->post->getArray();
 		$itemId  = $input->getInt('Itemid', 0);
-		$setExit = $input->getInt('setexit', 1);
+		$setExit = $input->getInt('setexit', 0);
+		$return  = $input->getString('return', '');
 
 		$post['users_info_id'] = $input->post->getInt('cid', 0);
 		$post['id']            = $post['user_id'];
@@ -80,27 +85,27 @@ class RedshopControllerAccount_billto extends RedshopController
 			$post['username'] = $user->username;
 		}
 
-		$model = $this->getModel('account_billto');
+		/** @var RedshopModelAccount_billto $model */
+		$model       = $this->getModel('account_billto');
+		$redshopUser = $model->store($post);
 
-		if ($reduser = $model->store($post))
-		{
-			$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
-		}
-
-		$link = '';
+		$msg = $redshopUser ? JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE')
+			: JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
-
-			if (!isset($setExit) || $setExit != 0)
+			if ($setExit)
 			{
-				$app->redirect('index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return, $msg);
+				$app->redirect(
+					JRoute::_(
+						'index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return,
+						false
+					),
+					$msg
+				);
 			}
+
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 		}
 		else
 		{
@@ -131,9 +136,9 @@ class RedshopControllerAccount_billto extends RedshopController
 			if (!isset($setexit) || $setexit != 0)
 			{
 				?>
-				<script language="javascript">
-					window.parent.location.href = "<?php echo $link ?>";
-				</script>
+                <script language="javascript">
+                    window.parent.location.href = "<?php echo $link ?>";
+                </script>
 				<?php
 				exit;
 			}

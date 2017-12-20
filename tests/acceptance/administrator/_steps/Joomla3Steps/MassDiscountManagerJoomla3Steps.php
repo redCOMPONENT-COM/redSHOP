@@ -20,14 +20,11 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$startDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$saveButton);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
 
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
@@ -60,14 +57,11 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$startDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$saveButton);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
 
 
 //        $I->click(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li"]);
@@ -149,14 +143,11 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$startDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$saveButton);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
 
         $I->click(\MassDiscountManagerPage::$categoryForm);
         $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
@@ -185,14 +176,11 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$startDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$saveButton);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
 
 
 
@@ -224,14 +212,11 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$startDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$saveButton);
-        $I->wait(2);
         $I->click(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
-        $I->wait(2);
 
         $I->click(\MassDiscountManagerPage::$saveButton);
         $I->waitForText(\MassDiscountManagerPage::$saveError, 30, \MassDiscountManagerPage::$selectorError);
@@ -242,7 +227,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->searchMassDiscount($massDiscountName);
-        $I->wait(3);
         $I->click(['link' => $massDiscountName]);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
         $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
@@ -256,7 +240,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->searchMassDiscount($massDiscountName);
-        $I->wait(3);
         $I->click(['link' => $massDiscountName]);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
         $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
@@ -270,7 +253,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->searchMassDiscount($massDiscountName);
-        $I->wait(3);
         $I->click(\MassDiscountManagerPage::$checkFirstItems);
         $I->click(\MassDiscountManagerPage::$editButton);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
@@ -286,7 +268,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->searchMassDiscount($massDiscountName);
-        $I->wait(3);
         $I->click(['link' => $massDiscountName]);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
         $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
@@ -300,7 +281,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->searchMassDiscount($massDiscountName);
-        $I->wait(3);
         $I->click(\MassDiscountManagerPage::$checkFirstItems);
         $I->click(\MassDiscountManagerPage::$deleteButton);
         $I->cancelPopup();
@@ -312,7 +292,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->searchMassDiscount($massDiscountName);
-        $I->wait(3);
         $I->click(\MassDiscountManagerPage::$checkFirstItems);
         $I->click(\MassDiscountManagerPage::$deleteButton);
         $I->acceptPopup();

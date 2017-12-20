@@ -86,7 +86,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 						. '/' . $post['media_section'] . '/thumb/' . $post['media_name'];
 
 					$new_path = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type']
-						. '/' . $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($post['media_name']);
+						. '/' . $post['media_section'] . '/' . RedshopHelperMedia::cleanFileName($post['media_name']);
 
 					copy($old_path, $new_path);
 
@@ -106,17 +106,17 @@ class RedshopControllerMedia_Detail extends RedshopController
 							if ($apply == 1)
 							{
 								$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
-								. $post['section_id'] . '&showbuttons=1&section_name='
-								. $post['section_name'] . '&media_section=' . $post['media_section']
-								. '&cid[]=' . $save->media_id, $msg, 'warning'
-							);
+									. $post['section_id'] . '&showbuttons=1&section_name='
+									. $post['section_name'] . '&media_section=' . $post['media_section']
+									. '&cid[]=' . $save->media_id, $msg, 'warning'
+								);
 							}
 							else
 							{
 								$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
-								. $post['section_id'] . '&showbuttons=1&section_name='
-								. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
-							);
+									. $post['section_id'] . '&showbuttons=1&section_name='
+									. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+								);
 							}
 						}
 
@@ -139,10 +139,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 							if ($apply == 1)
 							{
 								$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
-								. $post['section_id'] . '&showbuttons=1&section_name='
-								. $post['section_name'] . '&media_section=' . $post['media_section']
-								. '&cid[]=' . $save->media_id, $msg, 'warning'
-							);
+									. $post['section_id'] . '&showbuttons=1&section_name='
+									. $post['section_name'] . '&media_section=' . $post['media_section']
+									. '&cid[]=' . $save->media_id, $msg, 'warning'
+								);
 							}
 							else
 							{
@@ -198,7 +198,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				$image_split = explode('/', $post['media_bank_image']);
 
 				// Make the filename unique
-				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
+				$filename = RedshopHelperMedia::cleanFileName($image_split[count($image_split) - 1]);
 
 				// Download product changes
 				if ($post['media_type'] == 'download')
@@ -227,7 +227,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								. $post['section_id'] . '&showbuttons=1&section_name='
 								. $post['section_name'] . '&media_section=' . $post['media_section']
 								. '&cid[]=' . $save->media_id, $msg, 'warning'
-							);
+						);
 					}
 					else
 					{
@@ -260,12 +260,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && $post['hdn_download_file'] == "")
 		{
 			$save = $model->store($post);
-			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+			$msg  = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 					. $post['section_id'] . '&showbuttons=1&section_name='
 					. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
-				);
+			);
 		}
 		else
 		{
@@ -304,7 +304,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					else
 					{
 						// Make the filename unique
-						$filename = RedShopHelperImages::cleanFileName($post['hdn_download_file']);
+						$filename = RedshopHelperMedia::cleanFileName($post['hdn_download_file']);
 
 						$post['media_name'] = $filename;
 
@@ -367,7 +367,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				$image_split = explode('/', $post['media_bank_image']);
 
 				// Make the filename unique
-				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
+				$filename = RedshopHelperMedia::cleanFileName($image_split[count($image_split) - 1]);
 
 				// Download product changes
 				if ($post['media_type'] == 'download')
@@ -395,7 +395,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								. $post['section_id'] . '&showbuttons=1&section_name='
 								. $post['section_name'] . '&media_section=' . $post['media_section']
 								. '&cid[]=' . $save->media_id, $msg, 'warning'
-							);
+						);
 					}
 					else
 					{
@@ -417,7 +417,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 
-
 			// Media Bank End
 			$post ['media_id'] = 0;
 			$directory         = self::writableCell('components/com_redshop/assets');
@@ -427,6 +426,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
 				JFactory::getApplication()->enqueueMessage($msg, 'error');
 			}
+
 			// Starting of Bull upload creation
 			if ($bulkfile['name'] != '')
 			{
@@ -459,12 +459,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 							{
 								$filenewtype            = strtolower(JFile::getExt($newscan[$j]));
 								$btsrc                  = $target . '/' . $scan[$i] . '/' . $newscan[$j];
-								$post['media_name']     = RedShopHelperImages::cleanFileName($newscan[$j]);
+								$post['media_name']     = RedshopHelperMedia::cleanFileName($newscan[$j]);
 								$post['media_mimetype'] = $filenewtype;
 
 								if ($post['media_type'] == 'download')
 								{
-									$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($newscan[$j]);
+									$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($newscan[$j]);
 
 									if ($row = $model->store($post))
 									{
@@ -528,7 +528,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 										if ($row = $model->store($post))
 										{
 											$originaldir = JPATH_ROOT . '/components/com_redshop/assets/' . $row->media_type . '/'
-												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
+												. $row->media_section . '/' . RedshopHelperMedia::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
 											JFile::delete($btsrc);
@@ -589,12 +589,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 						{
 							$filenewtype            = strtolower(JFile::getExt($scan[$i]));
 							$btsrc                  = $target . '/' . $scan[$i];
-							$post['media_name']     = RedShopHelperImages::cleanFileName($scan[$i]);
+							$post['media_name']     = RedshopHelperMedia::cleanFileName($scan[$i]);
 							$post['media_mimetype'] = $filenewtype;
 
 							if ($post['media_type'] == 'download')
 							{
-								$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($scan[$i]);
+								$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($scan[$i]);
 
 								if ($row = $model->store($post))
 								{
@@ -851,14 +851,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 						// Download product changes
 						if ($post['media_type'] == 'download')
 						{
-							$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($file[$i]['name']);
+							$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($file[$i]['name']);
 							$dest               = $post['media_name'];
 						}
 						else
 						{
-							$post['media_name'] = RedShopHelperImages::cleanFileName($file[$i]['name']);
+							$post['media_name'] = RedshopHelperMedia::cleanFileName($file[$i]['name']);
 							$dest               = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/'
-								. $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($file[$i]['name']);
+								. $post['media_section'] . '/' . RedshopHelperMedia::cleanFileName($file[$i]['name']);
 						}
 
 						$post['media_mimetype'] = $file[$i]['type'];
@@ -947,7 +947,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								. $post['section_id'] . '&showbuttons=1&section_name='
 								. $post['section_name'] . '&media_section=' . $post['media_section']
 								. '&cid[]=' . $row->media_id, $msg, 'warning'
-							);
+					);
 				}
 				else
 				{

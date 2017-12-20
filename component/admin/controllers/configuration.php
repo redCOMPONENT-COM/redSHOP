@@ -77,10 +77,10 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$post = $this->input->post->getArray();
 
-		$post['custom_previous_link'] = $this->input->post->get('custom_previous_link', '', 'raw');
-		$post['custom_next_link'] = $this->input->post->get('custom_next_link', '', 'raw');
-		$post['default_next_suffix'] = $this->input->post->get('default_next_suffix', '', 'raw');
-		$post['default_previous_prefix'] = $this->input->post->get('default_previous_prefix', '', 'raw');
+		$post['custom_previous_link']      = $this->input->post->get('custom_previous_link', '', 'raw');
+		$post['custom_next_link']          = $this->input->post->get('custom_next_link', '', 'raw');
+		$post['default_next_suffix']       = $this->input->post->get('default_next_suffix', '', 'raw');
+		$post['default_previous_prefix']   = $this->input->post->get('default_previous_prefix', '', 'raw');
 		$post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
 
 		// Administrator email notifications ids
@@ -242,16 +242,27 @@ class RedshopControllerConfiguration extends RedshopController
 	 * Reset template
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function resetTemplate()
 	{
 		/** @var RedshopModelConfiguration $model */
 		$model = $this->getModel('Configuration');
 
-		$model->resetTemplate();
+		$app = JFactory::getApplication();
 
-		$msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');
-		$this->setRedirect('index.php?option=com_redshop', $msg);
+		try
+		{
+			$model->resetTemplate();
+			$app->enqueueMessage(JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET'), 'success');
+		}
+		catch (Exception $exception)
+		{
+			$app->enqueueMessage($exception->getMessage(), 'error');
+		}
+
+		$this->setRedirect('index.php?option=com_redshop');
 	}
 
 	/**

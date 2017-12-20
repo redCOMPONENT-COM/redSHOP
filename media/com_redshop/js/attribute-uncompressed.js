@@ -1942,9 +1942,11 @@ function setAddtocartForm(frmCartName, product_id) {
     }
 
     var product_quantity = 1;
-    if (document.getElementById('quantity' + product_id).value) {
-        product_quantity = document.getElementById('quantity' + product_id).value;
+
+    if (frm.quantity.value) {
+        product_quantity = frm.quantity.value;
     }
+
     if (document.getElementById('hidden_attribute_cartimage' + product_id)) {
         frm.hidden_attribute_cartimage.value = document.getElementById('hidden_attribute_cartimage' + product_id).value;
     }

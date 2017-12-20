@@ -20,6 +20,8 @@ class RedshopHelperJs
 	 * Init redshop js
 	 *
 	 * @return void
+	 *
+	 * @throws  Exception
 	 */
 	public static function init()
 	{

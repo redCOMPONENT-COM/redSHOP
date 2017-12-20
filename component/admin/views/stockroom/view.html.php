@@ -37,16 +37,16 @@ class RedshopViewStockroom extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$this->state = $this->get('State');
+		$this->state         = $this->get('State');
 		$lists ['order']     = $this->state->get('list.ordering', 'stockroom_id');
 		$lists ['order_Dir'] = $this->state->get('list.direction');
 
 		$stockroom  = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->stockroom = $stockroom;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->stockroom   = $stockroom;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

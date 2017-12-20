@@ -19,11 +19,13 @@ jimport('joomla.filesystem.folder');
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
 // Define redSHOP Constant
-define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+define('JPATH_REDSHOP_MEDIA', JPATH_SITE . '/media/com_redshop');
+define('JPATH_REDSHOP_TEMPLATE', JPATH_REDSHOP_MEDIA . '/templates');
 define('JSYSTEM_IMAGES_PATH', JUri::root() . 'media/system/images/');
 define('REDSHOP_ADMIN_IMAGES_ABSPATH', JUri::root() . 'administrator/components/com_redshop/assets/images/');
 define('REDSHOP_FRONT_IMAGES_ABSPATH', JUri::root() . 'components/com_redshop/assets/images/');
 define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/images/');
+
 // Product
 define('REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT', REDSHOP_FRONT_IMAGES_RELPATH . 'product/');
 define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JUri::root() . 'components/com_redshop/assets/document/');

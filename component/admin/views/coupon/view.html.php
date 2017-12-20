@@ -9,56 +9,57 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewCoupon extends RedshopViewAdmin
+/**
+ * View Coupon
+ *
+ * @package      RedSHOP.Backend
+ * @subpackage  View
+ * @since        2.1.0
+ */
+class RedshopViewCoupon extends RedshopViewForm
 {
 	/**
-	 * The current user.
+	 * Method for get page title.
 	 *
-	 * @var  JUser
+	 * @return  string
+	 *
+	 * @since   2.1.0
 	 */
-	public $user;
+	public function getTitle()
+	{
+		return JText::_('COM_REDSHOP_COUPON_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+	}
 
 	/**
-	 * The request url.
+	 * Method for run before display to initial variables.
 	 *
-	 * @var  string
+	 * @param   string  $tpl  Template name
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
-	public $request_url;
-
-	public function display($tpl = null)
+	public function beforeDisplay(&$tpl)
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		// Get data from the model
+		$this->item = $this->model->getItem();
+		$this->form = $this->model->getForm();
 
-		$document->setTitle(JText::_('COM_REDSHOP_COUPON'));
+		$this->form->setField(
+			new SimpleXMLElement(
+				'<?xml version="1.0" encoding="utf-8"?>'
+				. '<field label="COM_REDSHOP_COUPON_REMAINING_AMOUNT" name="voucher_products" class="form-control" '
+				. 'type="redshop.coupon_remaining" coupon_id="' . $this->item->id . '" '
+				. 'address_type="BT" readonly="true"/>'
+			),
+			null,
+			true,
+			'details'
+		);
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT'), 'redshop_coupon48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$uri = JFactory::getURI();
-		$context = "rating";
-
-		$state = $this->get('State');
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'coupon_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$coupons = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->coupons = $coupons;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
-		$this->filter      = $state->get('filter');
-
-		parent::display($tpl);
+		$this->checkPermission();
+		$this->loadFields();
 	}
 }

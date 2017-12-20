@@ -22,13 +22,13 @@ class RedshopModelNewsletter_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -63,14 +63,14 @@ class RedshopModelNewsletter_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail                = new stdClass;
 			$detail->newsletter_id = 0;
-			$detail->name = null;
-			$detail->subject = null;
-			$detail->body = null;
-			$detail->template_id = 0;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->name          = null;
+			$detail->subject       = null;
+			$detail->body          = null;
+			$detail->template_id   = 0;
+			$detail->published     = 1;
+			$this->_data           = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -158,11 +158,11 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		for ($i = 0, $in = count($copydata); $i < $in; $i++)
 		{
 			$post['newsletter_id'] = 0;
-			$post['name'] = $this->renameToUniqueValue('name', $copydata[$i]->name);
-			$post['subject'] = $copydata[$i]->subject;
-			$post['body'] = $copydata[$i]->body;
-			$post['template_id'] = $copydata[$i]->template_id;
-			$post['published'] = $copydata[$i]->published;
+			$post['name']          = $this->renameToUniqueValue('name', $copydata[$i]->name);
+			$post['subject']       = $copydata[$i]->subject;
+			$post['body']          = $copydata[$i]->body;
+			$post['template_id']   = $copydata[$i]->template_id;
+			$post['published']     = $copydata[$i]->published;
 
 			$row = $this->store($post);
 
@@ -174,15 +174,15 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 			for ($j = 0, $jn = count($subscriberdata); $j < $jn; $j++)
 			{
-				$rowsubscr = $this->getTable('newslettersubscr_detail');
+				$rowsubscr                  = $this->getTable('newslettersubscr_detail');
 				$rowsubscr->subscription_id = 0;
-				$rowsubscr->user_id = $subscriberdata[$j]->user_id;
-				$rowsubscr->date = time();
-				$rowsubscr->newsletter_id = $row->newsletter_id;
-				$rowsubscr->name = $subscriberdata[$j]->name;
-				$rowsubscr->email = $subscriberdata[$j]->email;
-				$rowsubscr->published = $subscriberdata[$j]->published;
-				$rowsubscr->checkout = $subscriberdata[$j]->checkout;
+				$rowsubscr->user_id         = $subscriberdata[$j]->user_id;
+				$rowsubscr->date            = time();
+				$rowsubscr->newsletter_id   = $row->newsletter_id;
+				$rowsubscr->name            = $subscriberdata[$j]->name;
+				$rowsubscr->email           = $subscriberdata[$j]->email;
+				$rowsubscr->published       = $subscriberdata[$j]->published;
+				$rowsubscr->checkout        = $subscriberdata[$j]->checkout;
 				$rowsubscr->store();
 			}
 		}
@@ -192,8 +192,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function gettemplates()
 	{
-		$query = 'SELECT template_id AS value,template_name AS text FROM ' . $this->_table_prefix . 'template '
-			. 'WHERE template_section="newsletter" '
+		$query = 'SELECT id AS value,name AS text FROM ' . $this->_table_prefix . 'template '
+			. 'WHERE section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
 
@@ -234,7 +234,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		$data = $this->getNewsletterList($newsletter_id);
 
 		$return = array();
-		$qs = array();
+		$qs     = array();
 
 		for ($d = 0, $dn = count($data); $d < $dn; $d++)
 		{
@@ -250,17 +250,17 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 			if ($newsletter_id != 0)
 			{
-				$totalread = $this->getReadNewsletter($data[$d]->newsletter_id);
-				$qs[0] = new stdClass;
+				$totalread    = $this->getReadNewsletter($data[$d]->newsletter_id);
+				$qs[0]        = new stdClass;
 				$qs[0]->xdata = JText::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
 				$qs[0]->ydata = $totalresult - $totalread;
-				$qs[1] = new stdClass;
+				$qs[1]        = new stdClass;
 				$qs[1]->xdata = JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
 				$qs[1]->ydata = $totalread;
 			}
 			else
 			{
-				$qs[$d] = new stdClass;
+				$qs[$d]        = new stdClass;
 				$qs[$d]->xdata = $data[$d]->name;
 				$qs[$d]->ydata = $totalresult;
 			}

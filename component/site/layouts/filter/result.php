@@ -77,8 +77,8 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 		$template,
 		'category_template',
 		'class="inputbox" size="1" onchange="loadTemplate(this);"',
-		'template_id',
-		'template_name',
+		'id',
+		'name',
 		$templateId
 	);
 
@@ -545,7 +545,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			}
 		}
 
-		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $templateProduct, 1);
+		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldProduct, $templateProduct, 1);
 
 		/*
 		 * Product loop template extra field
@@ -790,9 +790,9 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		);
 
 		// Replace attribute with null value if it exist
-		if (isset($attributeTemplate))
+		if (!empty($attributeTemplate))
 		{
-			$templateAttribute = "{attributeTemplate:" . $attributeTemplate->template_name . "}";
+			$templateAttribute = "{attributeTemplate:" . $attributeTemplate->name . "}";
 
 			if (strstr($dataAdd, $templateAttribute))
 			{
@@ -874,6 +874,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
 	$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
 	$templateDesc .= '<div id="new-url" style="display: none">' . $displayData['url'] . '</div>';
+	$templateDesc .= '<input type="hidden" name="pids" value="' . implode(',', $products) . '"/>';
 }
 
 // End Replace Products
