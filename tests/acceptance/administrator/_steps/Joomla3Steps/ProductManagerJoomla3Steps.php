@@ -104,8 +104,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
         $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
         $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+        
         $price = str_split($prices);
-
         foreach ($price as $char)
         {
             $I->pressKey(ProductManagerPage::$productPrice, $char);
@@ -122,7 +122,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
         $I->click(ProductManagerPage::$buttonSave);
         $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
-        $I->seeInField(ProductManagerPage::$productPrice, '100.00');
     }
 
 
