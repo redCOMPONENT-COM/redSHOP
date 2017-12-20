@@ -160,12 +160,12 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-//		$this->taskCodecept()
-//			->arg('--steps')
-//			->arg('--tap')
-//			->arg('tests/acceptance/administrator/')
-//			->run()
-//			->stopOnFail();
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('tests/acceptance/administrator/')
+			->run()
+			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--steps')
@@ -423,12 +423,12 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-//		$this->taskCodecept()
-//			->arg('--tap')
-//			->arg('--fail-fast')
-//			->arg('tests/acceptance/administrator/')
-//			->run()
-//			->stopOnFail();
+		$this->taskCodecept()
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/administrator/')
+			->run()
+			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--tap')
