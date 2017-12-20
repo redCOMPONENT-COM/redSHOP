@@ -32,8 +32,8 @@ class DiscountCest
 		$this->startDate         = '13-06-2017';
 		$this->endDate           = '13-08-2017';
 		$this->shopperGroup      = 'Default Private';
-		$this->discountType      = 'Total';
-		$this->discountCondition = 'Lower';
+		$this->discountType      = 0;
+		$this->discountCondition = 1;
 	}
 
 	/**
@@ -41,6 +41,8 @@ class DiscountCest
 	 *
 	 * @param   AcceptanceTester  $I         Acceptance Tester case.
 	 * @param   string            $scenario  Scenario for test.
+	 *
+	 * @return  void
 	 */
 	public function createDiscount(AcceptanceTester $I, $scenario)
 	{
