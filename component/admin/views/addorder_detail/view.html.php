@@ -124,8 +124,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 
 		if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id)
 		{
-			JToolBarHelper::custom('savepay', 'save.png', 'save_f2.png', 'Save + Pay', false);
-			JToolBarHelper::custom('save_without_sendmail', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_SAVE_WITHOUT_SEND_ORDERMAIL_LBL'), false);
+			JToolBarHelper::apply();
 			JToolBarHelper::save();
 		}
 

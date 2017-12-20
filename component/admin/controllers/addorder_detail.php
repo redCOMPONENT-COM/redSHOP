@@ -32,43 +32,17 @@ class RedshopControllerAddorder_Detail extends RedshopController
 		$this->input->set('hidemainmenu', 1);
 	}
 
-	/**
-	 * Save and pay
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public function savepay()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	/**
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public function save_without_sendmail()
-	{
-		$this->save();
-	}
-
-	/**
-	 * @param   int $apply Apply
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
-
-		$cid                  = $this->input->post->get('cid', array(0), 'array');
-		$post ['order_id']    = $cid [0];
-		$model                = $this->getModel('addorder_detail');
+		$cid  = $this->input->post->get('cid', array(0), 'array');
+		$post['order_id'] = $cid[0];
+		$model = $this->getModel('addorder_detail');
 		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
 		$orderItem          = Redshop\Order\Helper::redesignProductItem($post);
@@ -239,6 +213,11 @@ class RedshopControllerAddorder_Detail extends RedshopController
 		{
 			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
 			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
+		}
+
+		if ($post['order_payment_status'] == '')
+		{
+			$post['order_payment_status'] = 'Unpaid';
 		}
 
 		if ($row = $model->store($post))
