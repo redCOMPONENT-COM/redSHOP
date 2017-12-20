@@ -520,7 +520,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->_db->setQuery($query);
 				$result = $this->_db->loadObject();
 
-				if (!empty((array)$result))
+				if (null !== $result)
 				{
 					$media_id = $result->media_id;
 				}
