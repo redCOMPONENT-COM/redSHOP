@@ -90,7 +90,7 @@ class RedshopViewDiscount_Products extends RedshopViewList
 					return '';
 				}
 
-				return JFactory::getDate($value)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d'));
+				return JFactory::getDate($value)->format(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'));
 
 			default:
 				return parent::onRenderColumn($config, $index, $row);

@@ -5,7 +5,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\DiscountManagerJoomla3Steps;
+use AcceptanceTester\DiscountSteps;
 class CheckoutDiscountTotalCest
 {
 	public function __construct()
@@ -71,7 +71,7 @@ class CheckoutDiscountTotalCest
 		$I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I->wantTo('Test Discount creation with save and close button in Administrator');
-		$I = new DiscountManagerJoomla3Steps($scenario);
+		$I = new DiscountSteps($scenario);
 		$I->wantTo('Create a Discount');
 		$I->addDiscount($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType,$this->discountCondition);
 
@@ -98,7 +98,7 @@ class CheckoutDiscountTotalCest
 		$I->deleteCategory($this->CategoryName);
 
 		$I->wantTo('Delete discount total');
-		$I=new DiscountManagerJoomla3Steps($scenario);
+		$I=new DiscountSteps($scenario);
 		$I->deleteDiscount($this->discountName);
 	}
 }

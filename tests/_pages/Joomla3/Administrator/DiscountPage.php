@@ -13,20 +13,32 @@
  *
  * @since  1.4
  */
-class DiscountManagerJ3Page extends AdminJ3Page
+class DiscountPage extends AdminJ3Page
 {
+	/**
+	 * @var string
+	 */
+	public static $namePage = 'Product Discount Management';
 
-	public static $namePageManagement = "Product Discount Management";
+	/**
+	 * @var string
+	 */
+	public static $url = '/administrator/index.php?option=com_redshop&view=discounts';
 
-	public static $URL = '/administrator/index.php?option=com_redshop&view=discount';
+	/**
+	 * @var array
+	 */
+	public static $fieldName = ['id' => 'jform_name'];
 
-	public static $name = "//input[@id='name']";
+	/**
+	 * @var array
+	 */
+	public static $fieldAmount = ['id' => 'jform_amount'];
 
-	public static $amount = "//input[@id='amount']";
-
-	public static $discountSuccessMessage = 'Discount Detail Saved';
-
-	public static $discountAmount = "//input[@id='discount_amount']";
+	/**
+	 * @var array
+	 */
+	public static $fieldDiscountAmount = ['id' => 'jform_discount_amount'];
 
 	public static $discountTypeDropDown = "//div[@id='discount_type_chzn']/a";
 

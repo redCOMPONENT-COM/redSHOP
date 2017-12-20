@@ -31,7 +31,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	{
 		$data['start_date']   = isset($data['start_date']) && !is_numeric($data['start_date']) ? JFactory::getDate($data['start_date'])->toUnix() : 0;
 		$data['end_date']     = isset($data['end_date']) && !is_numeric($data['end_date']) ? JFactory::getDate($data['end_date'])->toUnix() : 0;
-		$data['category_ids'] = isset($data['category_ids']) && !is_string($data['category_ids']) ? implode(',', $data['category_ids']) : '';
+		$data['category_ids'] = isset($data['category_ids']) && is_array($data['category_ids']) ? implode(',', $data['category_ids']) : '';
 
 		return parent::save($data);
 	}
