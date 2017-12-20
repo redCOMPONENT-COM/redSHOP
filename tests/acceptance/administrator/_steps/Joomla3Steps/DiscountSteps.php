@@ -44,7 +44,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->chooseRadio(\DiscountPage::$fieldCondition, $discountCondition);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSaveClose);
-		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$saveSuccess);
+		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
 		$client->searchDiscount($name);
 	}
 
@@ -72,7 +72,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$saveSuccess);
+		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	/*public function addDiscountCancel()
@@ -223,7 +223,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$I->fillField(\DiscountPage::$fieldAmount, $newAmount);
 		$I->click(\DiscountPage::$buttonSaveClose);
-		$I->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
 		$I->click(\DiscountPage::$buttonReset);
 		$I->search($name);
 		$I->see($newVerifyAmount, \DiscountPage::$resultRow);
