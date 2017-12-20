@@ -29,7 +29,7 @@ class RedshopHelperText
 	 */
 	public static function getTextLibraryData($section = null)
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -53,9 +53,10 @@ class RedshopHelperText
 	 */
 	public static function getTextLibraryTagArray()
 	{
-		$result = array();
+		$result   = array();
+		$textData = self::getTextLibraryData();
 
-		if ($textData = self::getTextLibraryData())
+		if (!empty($textData))
 		{
 			foreach ($textData as $oneData)
 			{
@@ -77,7 +78,9 @@ class RedshopHelperText
 	 */
 	public static function replaceTexts($data)
 	{
-		if ($textData = self::getTextLibraryData())
+		$textData = self::getTextLibraryData();
+
+		if (!empty($textData))
 		{
 			foreach ($textData as $oneData)
 			{

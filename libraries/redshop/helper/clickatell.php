@@ -26,6 +26,8 @@ class RedshopHelperClickatell
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public static function clickatellSMS($orderId)
 	{

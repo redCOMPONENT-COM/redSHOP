@@ -50,8 +50,7 @@ class RedshopHelperCartTag
 			return $template;
 		}
 
-		$cart          = RedshopHelperCartSession::getCart();
-		$productHelper = productHelper::getInstance();
+		$cart = RedshopHelperCartSession::getCart();
 
 		if ($amount <= 0)
 		{
@@ -69,8 +68,8 @@ class RedshopHelperCartTag
 		}
 		else
 		{
-			$template = str_replace("{tax}", $productHelper->getProductFormattedPrice($amount, true), $template);
-			$template = str_replace("{order_tax}", $productHelper->getProductFormattedPrice($amount, true), $template);
+			$template = str_replace("{tax}", RedshopHelperProductPrice::formattedPrice($amount, true), $template);
+			$template = str_replace("{order_tax}", RedshopHelperProductPrice::formattedPrice($amount, true), $template);
 		}
 
 		if (strpos($template, '{tax_after_discount}') !== false)
@@ -95,16 +94,16 @@ class RedshopHelperCartTag
 
 				if ($taxAfterDiscount > 0)
 				{
-					$template = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($taxAfterDiscount), $template);
+					$template = str_replace("{tax_after_discount}", RedshopHelperProductPrice::formattedPrice($taxAfterDiscount), $template);
 				}
 				else
 				{
-					$template = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($cart['tax']), $template);
+					$template = str_replace("{tax_after_discount}", RedshopHelperProductPrice::formattedPrice($cart['tax']), $template);
 				}
 			}
 			else
 			{
-				$template = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($cart['tax']), $template);
+				$template = str_replace("{tax_after_discount}", RedshopHelperProductPrice::formattedPrice($cart['tax']), $template);
 			}
 		}
 
@@ -132,7 +131,6 @@ class RedshopHelperCartTag
 			return $template;
 		}
 
-		$productHelper = productHelper::getInstance();
 		$percentage = '';
 
 		if ($discount <= 0)
@@ -152,8 +150,8 @@ class RedshopHelperCartTag
 			}
 			else
 			{
-				$template = str_replace("{discount}", $productHelper->getProductFormattedPrice($discount, true), $template);
-				$template = str_replace("{order_discount}", $productHelper->getProductFormattedPrice($discount, true), $template);
+				$template = str_replace("{discount}", RedshopHelperProductPrice::formattedPrice($discount, true), $template);
+				$template = str_replace("{order_discount}", RedshopHelperProductPrice::formattedPrice($discount, true), $template);
 
 				if (!empty($subTotal) && $subTotal > 0)
 				{

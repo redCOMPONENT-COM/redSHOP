@@ -102,7 +102,7 @@ class RedshopHelperMediaImage
 		$file = array();
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-		$media     = JModelLegacy::getInstance('Media', 'RedshopModel');
+		$media = JModelLegacy::getInstance('Media', 'RedshopModel');
 
 		$listMedia = $media->all();
 		$gallery   = array();
@@ -122,7 +122,7 @@ class RedshopHelperMediaImage
 						$dimension = $dimension[0] . ' x ' . $dimension[1];
 					}
 
-					$tmpImg    = array(
+					$tmpImg = array(
 						'id'        => $lm->media_id,
 						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
 						'name'      => $lm->media_name,
@@ -209,7 +209,7 @@ class RedshopHelperMediaImage
 			return array();
 		}
 
-		$gallery   = array();
+		$gallery = array();
 
 		foreach ($listMedia as $lk => $lm)
 		{
@@ -224,7 +224,7 @@ class RedshopHelperMediaImage
 					$dimension = $dimension[0] . ' x ' . $dimension[1];
 				}
 
-				$tmpImg    = array(
+				$tmpImg = array(
 					'id'        => $lm->media_id,
 					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
 					'name'      => $lm->media_name,

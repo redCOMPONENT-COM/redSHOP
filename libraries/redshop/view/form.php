@@ -94,6 +94,8 @@ class RedshopViewForm extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -111,6 +113,8 @@ class RedshopViewForm extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	protected function checkPermission()
 	{
@@ -149,6 +153,7 @@ class RedshopViewForm extends AbstractView
 		if ($this->canEdit || $this->canCreate)
 		{
 			JToolbarHelper::save($this->getInstanceName() . '.save');
+			JToolbarHelper::save2new($this->getInstanceName() . '.save2new');
 		}
 
 		if ($isNew)
@@ -197,7 +202,8 @@ class RedshopViewForm extends AbstractView
 	protected function prepareFields($group)
 	{
 		$group->fields = array();
-		$fields        = $this->form->getFieldset($group->name);
+
+		$fields = $this->form->getFieldset($group->name);
 
 		if (empty($fields))
 		{
