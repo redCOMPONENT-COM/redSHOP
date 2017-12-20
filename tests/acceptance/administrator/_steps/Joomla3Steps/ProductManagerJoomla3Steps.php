@@ -471,7 +471,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     }
     
     // The test case for product used stockroom
-	public function createProductInStock($productName,$productNumber,$price,$productCategory,$quantityInStock, $preOrder){
+	public function createProductInStock($productName,$productNumber,$prices,$productCategory,$quantityInStock, $preOrder){
 
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
@@ -480,7 +480,17 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
 		$I->fillField(\ProductManagerPage::$productName, $productName);
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-		$I->fillField(\ProductManagerPage::$productPrice, $price);
+
+        $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+        $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+        $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+        $I->pressKey(ProductManagerPage::$productPrice, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+
+        $price = str_split($prices);
+        foreach ($price as $char)
+        {
+            $I->pressKey(ProductManagerPage::$productPrice, $char);
+        }
 		$I->click(\ProductManagerPage::$categoryId);
 		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
