@@ -35,8 +35,10 @@ class RedshopControllerCategory extends RedshopControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app     = JFactory::getApplication();
-		$lang    = JFactory::getLanguage();
+		$app  = JFactory::getApplication();
+		$lang = JFactory::getLanguage();
+
+		/** @var RedshopModelCategory $model */
 		$model   = $this->getModel();
 		$table   = $model->getTable();
 		$data    = $this->input->post->get('jform', array(), 'array');
@@ -273,6 +275,8 @@ class RedshopControllerCategory extends RedshopControllerForm
 	{
 		$input = JFactory::getApplication()->input;
 		$cid   = $input->post->get('cid', array(), 'array');
+
+		/** @var RedshopModelCategory $model */
 		$model = $this->getModel();
 
 		if ($model->copy($cid))

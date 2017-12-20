@@ -23,13 +23,11 @@ class RedshopControllerAlert extends RedshopController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  mixed            The model.
 	 */
 	public function getModel($name = 'Alert_detail', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
