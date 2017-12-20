@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Helper;
 
 
 class RedshopModelOrder_detail extends RedshopModel
@@ -132,9 +132,10 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				for ($i = 0, $in = count($cid); $i < $in; $i++)
 				{
+					/** @var Tableorder_detail $orderdata */
 					$orderdata = $this->getTable('order_detail');
 					$orderdata->load($cid[$i]);
-					Economic::deleteInvoiceInEconomic($orderdata);
+					Helper::deleteInvoiceInEconomic($orderdata);
 				}
 			}
 
@@ -658,7 +659,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::renewInvoiceInEconomic($orderdata);
+				Helper::renewInvoiceInEconomic($orderdata);
 			}
 
 			// Send mail from template
@@ -737,7 +738,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($order->getItem());
+			Helper::renewInvoiceInEconomic($order->getItem());
 		}
 
 		// Send mail from template ********************/
@@ -970,7 +971,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			Helper::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -1048,7 +1049,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			Helper::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -1088,7 +1089,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					// Economic Integration start for invoice generate
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 					{
-						Economic::renewInvoiceInEconomic($orderdata);
+						Helper::renewInvoiceInEconomic($orderdata);
 					}
 				}
 			}

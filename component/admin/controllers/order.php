@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Helper;
 
 
 class RedshopControllerOrder extends RedshopController
@@ -170,7 +170,7 @@ class RedshopControllerOrder extends RedshopController
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
+			$bookinvoicepdf = Helper::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
 			if (JFile::exists($bookinvoicepdf))
 			{
@@ -208,12 +208,11 @@ class RedshopControllerOrder extends RedshopController
 				$economicdata['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
-			$economic = economic::getInstance();
-			Economic::createInvoiceInEconomic($order_id, $economicdata);
+			Helper::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
+				$bookinvoicepdf = Helper::bookInvoiceInEconomic($order_id, 1);
 
 				if (JFile::exists($bookinvoicepdf))
 				{
@@ -516,8 +515,8 @@ class RedshopControllerOrder extends RedshopController
 			$product_download_days_time = (time() + ($days * 24 * 60 * 60));
 
 			$endtime = mktime(
-				$clock, $clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time),
-				date("Y", $product_download_days_time)
+				$clock, $clock_min, 0, (int) date("m", $product_download_days_time), (int) date("d", $product_download_days_time),
+				(int) date("Y", $product_download_days_time)
 			);
 
 			// If download product is set to infinit

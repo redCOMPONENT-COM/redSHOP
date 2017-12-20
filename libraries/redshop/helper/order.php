@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Redshop\Economic\Economic;
+use Redshop\Economic\Helper;
 
 /**
  * Class Redshop Helper for Order
@@ -1172,7 +1172,7 @@ class RedshopHelperOrder
 			// Economic Integration start for invoice generate and book current invoice
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::renewInvoiceInEconomic($order->getItem());
+				Helper::renewInvoiceInEconomic($order->getItem());
 			}
 		}
 	}
@@ -1988,7 +1988,7 @@ class RedshopHelperOrder
 			$db->setQuery($query);
 
 			$maxOrderNumber = $db->loadResult();
-			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
+			$maxInvoice     = Helper::getMaxOrderNumberInEconomic();
 			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
@@ -2684,10 +2684,10 @@ class RedshopHelperOrder
 					}
 				}
 
-				Economic::createInvoiceInEconomic($orderId, $economicData);
+				Helper::createInvoiceInEconomic($orderId, $economicData);
 			}
 
-			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
+			$bookInvoicePdf = Helper::bookInvoiceInEconomic($orderId, Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT'));
 
 			if (JFile::exists($bookInvoicePdf))
 			{

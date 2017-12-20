@@ -2356,110 +2356,112 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function property_more_img.
 	 *
-	 * @param   array  $post      Post.
-	 * @param   array  $main_img  Main img.
-	 * @param   array  $sub_img   Sub img.
+	 * @param   array $post           Post.
+	 * @param   array $mainImage      Main img.
+	 * @param   array $propertyImages Sub img.
 	 *
 	 * @return  mixed
+	 *
+	 * @throws  Exception
 	 */
-	public function property_more_img($post, $main_img, $sub_img)
+	public function property_more_img($post, $mainImage, $propertyImages)
 	{
-		if ($main_img['name'] != '')
+		if (!empty($mainImage) && !empty($mainImage['name']))
 		{
-			$filetype = strtolower(JFile::getExt($main_img['name']));
+			$fileType = strtolower(JFile::getExt($mainImage['name']));
 
-			if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
+			if ($fileType != 'png' && $fileType != 'gif' && $fileType != 'jpeg' && $fileType != 'jpg')
 			{
 				return false;
 			}
 
+			$main_name = RedShopHelperImages::cleanFileName($mainImage['name']);
+			$main_src  = $mainImage['tmp_name'];
+
+			if ($post['fsec'] == 'subproperty')
+			{
+				$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $main_name;
+
+				JFile::upload($main_src, $main_dest);
+
+				$query = "UPDATE " . $this->table_prefix . "product_subattribute_color SET subattribute_color_image = '" . $main_name .
+					"' WHERE subattribute_color_id ='" . $post['section_id'] . "' ";
+				$this->_db->setQuery($query);
+
+				if (!$this->_db->execute())
+				{
+					$this->setError($this->_db->getErrorMsg());
+
+					return false;
+				}
+			}
 			else
 			{
-				$main_name = RedShopHelperImages::cleanFileName($main_img['name']);
-				$main_src  = $main_img['tmp_name'];
+				$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
 
-				if ($post['fsec'] == 'subproperty')
+				JFile::upload($main_src, $main_dest);
+
+				$query = "UPDATE " . $this->table_prefix . "product_attribute_property SET property_main_image = '" . $main_name
+					. "' WHERE property_id ='" . $post['section_id'] . "' ";
+				$this->_db->setQuery($query);
+
+				if (!$this->_db->execute())
 				{
-					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $main_name;
+					$this->setError($this->_db->getErrorMsg());
 
-					JFile::upload($main_src, $main_dest);
-
-					$query = "UPDATE " . $this->table_prefix . "product_subattribute_color SET subattribute_color_image = '" . $main_name .
-						"' WHERE subattribute_color_id ='" . $post['section_id'] . "' ";
-					$this->_db->setQuery($query);
-
-					if (!$this->_db->execute())
-					{
-						$this->setError($this->_db->getErrorMsg());
-
-						return false;
-					}
-				}
-				else
-				{
-					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
-
-					JFile::upload($main_src, $main_dest);
-
-					$query = "UPDATE " . $this->table_prefix . "product_attribute_property SET property_main_image = '" . $main_name
-						. "' WHERE property_id ='" . $post['section_id'] . "' ";
-					$this->_db->setQuery($query);
-
-					if (!$this->_db->execute())
-					{
-						$this->setError($this->_db->getErrorMsg());
-
-						return false;
-					}
+					return false;
 				}
 			}
 		}
 
-		$num = count($sub_img['name']);
-
-		for ($i = 0; $i < $num; $i++)
+		if (empty($propertyImages) || empty($propertyImages['name']))
 		{
-			if ($sub_img['name'][$i] != "")
+			return true;
+		}
+
+		foreach ($propertyImages['name'] as $i => $propertyImage)
+		{
+			if (empty($propertyImages['name'][$i]))
 			{
-				$filetype = strtolower(JFile::getExt($sub_img['name'][$i]));
+				continue;
+			}
 
-				if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
-				{
-					return false;
-				}
+			$fileType = strtolower(JFile::getExt($propertyImages['name'][$i]));
 
-				else
-				{
-					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
+			if ($fileType != 'png' && $fileType != 'gif' && $fileType != 'jpeg' && $fileType != 'jpg')
+			{
+				return false;
+			}
 
-					$sub_src = $sub_img['tmp_name'][$i];
+			$name        = RedshopHelperMedia::cleanFileName($propertyImages['name'][$i]);
+			$source      = $propertyImages['tmp_name'][$i];
+			$type        = $propertyImages['type'][$i];
+			$destination = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $name;
 
-					$sub_type = $sub_img['type'][$i];
+			JFile::upload($source, $destination);
 
-					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $sub_name;
+			/** @var Tablemedia_detail $mediaTable */
+			$mediaTable = $this->getTable('media_detail');
 
-					JFile::upload($sub_src, $sub__dest);
+			$mediaData = array(
+				'media_id'       => 0,
+				'media_name'     => $name,
+				'media_section'  => $post['fsec'],
+				'section_id'     => $post['section_id'],
+				'media_type'     => $post['images'],
+				'media_mimetype' => $type,
+				'published'      => 1
 
-					$mediarow                    = $this->getTable('media_detail');
-					$mediapost                   = array();
-					$mediapost['media_id']       = 0;
-					$mediapost['media_name']     = $sub_name;
-					$mediapost['media_section']  = $post['fsec'];
-					$mediapost['section_id']     = $post['section_id'];
-					$mediapost['media_type']     = "images";
-					$mediapost['media_mimetype'] = $sub_type;
-					$mediapost['published']      = 1;
+			);
 
-					if (!$mediarow->bind($mediapost))
-					{
-						return false;
-					}
+			if (!$mediaTable->bind($mediaData))
+			{
+				return false;
+			}
 
-					if (!$mediarow->store())
-					{
-						return false;
-					}
-				}
+			if (!$mediaTable->store())
+			{
+				return false;
 			}
 		}
 
@@ -3658,8 +3660,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 *  Function deleteProdcutSerialNumbers.
 	 *
-	 * @param   int  $id    ID.
-	 * @param   int  $type  ID.
+	 * @param   int     $id    ID.
+	 * @param   string  $type  ID.
 	 *
 	 * @return  array
 	 */
@@ -4448,9 +4450,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copy_image.
 	 *
-	 * @param   array  $imageArray  imageArray
-	 * @param   int    $section     section
-	 * @param   int    $section_id  section_id
+	 * @param   array   $imageArray  imageArray
+	 * @param   string  $section     section
+	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string
 	 */
@@ -4469,7 +4471,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * Function copy_image_from_path.
 	 *
 	 * @param   string  $imagePath   imagePath
-	 * @param   int     $section     section
+	 * @param   string  $section     section
 	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string

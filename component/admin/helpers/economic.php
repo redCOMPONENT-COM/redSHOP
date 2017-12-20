@@ -9,7 +9,7 @@
 
 jimport('joomla.filesystem.file');
 
-use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Economic\Helper as RedshopEconomic;
 
 /**
  * Library for Redshop E-conomic.
@@ -90,7 +90,7 @@ class economic
 	/**
 	 * Create Product Group in E-conomic
 	 *
-	 * @param   array    $row         Data to create
+	 * @param   object   $row         Data to create
 	 * @param   integer  $isShipping  Shipping flag
 	 * @param   integer  $isDiscount  Discount flag
 	 * @param   integer  $isvat       VAT flag
@@ -99,7 +99,7 @@ class economic
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::createProductGroupInEconomic() instead
 	 */
-	public function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
+	public function createProductGroupInEconomic($row = null, $isShipping = 0, $isDiscount = 0, $isvat = 0)
 	{
 		return RedshopEconomic::createProductGroupInEconomic($row, $isShipping, $isDiscount, $isvat);
 	}
@@ -107,13 +107,15 @@ class economic
 	/**
 	 * Create product in E-conomic
 	 *
-	 * @param   array  $row  Data to create
+	 * @param   object  $row  Data to create
 	 *
-	 * @return  array
+	 * @return  mixed
 	 *
-	 * @deprecated  2.0.3 Use RedshopEconomic::createProductInEconomic() instead
+	 * @deprecated  2.0.3
+	 *
+	 * @see RedshopEconomic::createProductInEconomic()
 	 */
-	public function createProductInEconomic($row = array())
+	public function createProductInEconomic($row = null)
 	{
 		return RedshopEconomic::createProductInEconomic($row);
 	}
@@ -135,14 +137,16 @@ class economic
 	/**
 	 * Create property product in economic
 	 *
-	 * @param   array  $prdrow  Product data
-	 * @param   array  $row     Data property
+	 * @param   object  $prdrow  Product data
+	 * @param   object  $row     Data property
 	 *
-	 * @return  array
+	 * @return  mixed
 	 *
-	 * @deprecated  2.0.3 Use RedshopEconomic::createPropertyInEconomic() instead
+	 * @deprecated  2.0.3
+	 *
+	 * @see RedshopEconomic::createPropertyInEconomic()
 	 */
-	public function createPropertyInEconomic($prdrow = array(), $row = array())
+	public function createPropertyInEconomic($prdrow = null, $row = null)
 	{
 		return RedshopEconomic::createPropertyInEconomic($prdrow, $row);
 	}
@@ -150,14 +154,14 @@ class economic
 	/**
 	 * Create Sub Property in Economic
 	 *
-	 * @param   array  $prdrow  Product info
-	 * @param   array  $row     Data of property
+	 * @param   object  $prdrow  Product info
+	 * @param   object  $row     Data of property
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::createSubpropertyInEconomic() instead
 	 */
-	public function createSubpropertyInEconomic($prdrow = array(), $row = array())
+	public function createSubpropertyInEconomic($prdrow = null, $row = null)
 	{
 		return RedshopEconomic::createSubpropertyInEconomic($prdrow, $row);
 	}
@@ -165,13 +169,13 @@ class economic
 	/**
 	 * Import Stock from Economic
 	 *
-	 * @param   array  $prdrow  Product Info
+	 * @param   object  $prdrow  Product Info
 	 *
-	 * @return  array
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::importStockFromEconomic() instead
 	 */
-	public function importStockFromEconomic($prdrow = array())
+	public function importStockFromEconomic($prdrow = null)
 	{
 		return RedshopEconomic::importStockFromEconomic($prdrow);
 	}
@@ -317,11 +321,13 @@ class economic
 	/**
 	 * Method to create Invoice and send mail in E-conomic
 	 *
-	 * @param   array  $orderdata  Order data
+	 * @param   object  $orderdata  Order data
 	 *
-	 * @return  array
+	 * @return  mixed
 	 *
-	 * @deprecated  2.0.3 Use RedshopEconomic::renewInvoiceInEconomic() instead
+	 * @deprecated  2.0.3
+	 *
+	 * @see RedshopEconomic::renewInvoiceInEconomic()
 	 */
 	public function renewInvoiceInEconomic($orderdata)
 	{
@@ -331,13 +337,13 @@ class economic
 	/**
 	 * Method to delete invoice in E-conomic
 	 *
-	 * @param   array  $orderdata  Order data to delete
+	 * @param   object  $orderdata  Order data to delete
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::deleteInvoiceInEconomic() instead
 	 */
-	public function deleteInvoiceInEconomic($orderdata = array())
+	public function deleteInvoiceInEconomic($orderdata = null)
 	{
 		RedshopEconomic::deleteInvoiceInEconomic($orderdata);
 	}
@@ -345,11 +351,13 @@ class economic
 	/**
 	 * Method to check invoice is draft or booked in E-conomic
 	 *
-	 * @param   array  $orderdetail  Order detail
+	 * @param   object  $orderdetail  Order detail
 	 *
-	 * @return  array
+	 * @return  mixed
 	 *
-	 * @deprecated  2.0.3 Use RedshopEconomic::checkInvoiceDraftorBookInEconomic() instead
+	 * @deprecated  2.0.3
+	 *
+	 * @see RedshopEconomic::checkInvoiceDraftorBookInEconomic()
 	 */
 	public function checkInvoiceDraftorBookInEconomic($orderdetail)
 	{
@@ -359,10 +367,10 @@ class economic
 	/**
 	 * Method to update invoice draft for changing the date in E-conomic
 	 *
-	 * @param   array    $orderdetail      Order detail
+	 * @param   object   $orderdetail      Order detail
 	 * @param   integer  $bookinvoicedate  Booking invoice date
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::updateInvoiceDateInEconomic() instead
 	 */
@@ -390,16 +398,18 @@ class economic
 	/**
 	 * Update invoice number
 	 *
-	 * @param   integer $orderId   Order ID
-	 * @param   integer $invoiceNo Invoice number
+	 * @param   integer  $orderId    Order ID
+	 * @param   integer  $invoiceNo  Invoice number
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  2.0.3 Use RedshopEconomic::updateInvoiceNumber() instead
+	 * @deprecated  2.0.3
+	 *
+	 * @see RedshopEconomic::updateInvoiceNumber()
 	 */
 	public function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
 	{
-		return RedshopEconomic::updateInvoiceNumber($orderId, $invoiceNo);
+		RedshopEconomic::updateInvoiceNumber($orderId, $invoiceNo);
 	}
 
 	/**
@@ -409,11 +419,13 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  2.0.3 Use RedshopEconomic::updateBookInvoice() instead
+	 * @deprecated  2.0.3
+	 *
+	 * @see RedshopEconomic::updateBookInvoice()
 	 */
 	public function updateBookInvoice($orderId = 0)
 	{
-		return RedshopEconomic::updateBookInvoice($orderId);
+		RedshopEconomic::updateBookInvoice($orderId);
 	}
 
 	/**
@@ -428,7 +440,7 @@ class economic
 	 */
 	public function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
 	{
-		return RedshopEconomic::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
+		RedshopEconomic::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
 	}
 
 	/**
@@ -470,7 +482,7 @@ class economic
 	 * @param   integer $parentSectionId Parent Section ID
 	 * @param   integer $userId          User ID
 	 *
-	 * @return  integer
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::makeAttributeOrder() instead
 	 */
@@ -482,9 +494,9 @@ class economic
 	/**
 	 * Create Attribute Invoice Line In Economic
 	 *
-	 * @param   string $invoiceNo           Invoice number
-	 * @param   array  $orderItem           Order Item
-	 * @param   array  $orderAttributeItems Ordere Attribute Item
+	 * @param   string  $invoiceNo            Invoice number
+	 * @param   object  $orderItem            Order Item
+	 * @param   array   $orderAttributeItems  Order Attribute Item
 	 *
 	 * @return  void
 	 *
@@ -492,7 +504,7 @@ class economic
 	 */
 	public function createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems)
 	{
-		return RedshopEconomic::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems);
+		RedshopEconomic::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems);
 	}
 
 	/**

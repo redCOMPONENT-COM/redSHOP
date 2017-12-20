@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Helper;
 
 /**
  * Checkout Controller.
@@ -277,7 +277,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				Economic::createUserInEconomic($billingaddresses);
+				Helper::createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
 				{
