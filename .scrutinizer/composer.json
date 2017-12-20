@@ -1,0 +1,20 @@
+{
+    "description": "This file is only for Scrutinzer dependencies (require are for phpcs, require-dev are for code-base dependencies)",
+    "require-dev": {
+        "joomla/joomla-cms": "3.7.5"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "joomla/joomla-cms",
+                "version": "3.7.5",
+                "source": {
+                    "url": "https://github.com/joomla/joomla-cms.git",
+                    "type": "git",
+                    "reference": "3.7.5"
+                }
+            }
+        }
+    ]
+}

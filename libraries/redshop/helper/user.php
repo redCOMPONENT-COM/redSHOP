@@ -205,7 +205,7 @@ class RedshopHelperUser
 		{
 			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
-			return self::getShopperGroupDataById($shopperGroupId);
+			return RedshopEntityShopper_Group::getInstance($shopperGroupId)->getItem();
 		}
 
 		// In case user is not guest.
@@ -484,6 +484,8 @@ class RedshopHelperUser
 	 * @return  boolean|Tableuser_detail      RedshopTableUser if success. False otherwise.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function storeRedshopUser($data, $userId = 0, $admin = 0)
 	{
@@ -690,7 +692,9 @@ class RedshopHelperUser
 	 *
 	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
 	 *
-	 * @since  2.0.7
+	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function storeRedshopUserShipping($data = array())
 	{

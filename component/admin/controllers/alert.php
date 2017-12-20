@@ -32,13 +32,20 @@ class RedshopControllerAlert extends RedshopController
 		return $model;
 	}
 
+	/**
+	 * Method for remove alert
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function remove()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 500);
 		}
 
 		$model = $this->getModel('alert_detail');
@@ -53,13 +60,20 @@ class RedshopControllerAlert extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
 	}
 
+	/**
+	 * Method for publish
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function publish()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
 		}
 
 		$model = $this->getModel('alert_detail');
@@ -74,13 +88,20 @@ class RedshopControllerAlert extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
 	}
 
+	/**
+	 * Method for unpublish
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function unpublish()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 500);
 		}
 
 		$model = $this->getModel('alert_detail');

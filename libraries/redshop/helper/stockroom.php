@@ -683,7 +683,7 @@ class RedshopHelperStockroom
 						else
 						{
 							$remainingQuantity = $quantity;
-							$quantity          -= $remainingQuantity;
+							$quantity         -= $remainingQuantity;
 						}
 
 						if ($remainingQuantity > 0)

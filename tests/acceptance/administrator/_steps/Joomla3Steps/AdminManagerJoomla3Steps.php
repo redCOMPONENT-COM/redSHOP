@@ -200,4 +200,13 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->fillField($searchField, $text);
 		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
+
+	public function chooseRadio($element, $value)
+	{
+		$I = $this;
+		$element = is_array($element) ? $element : array('id' => $element);
+		$element['value'] = $value;
+		$element['type']  = 'radio';
+		$I->click($element);
+	}
 }
