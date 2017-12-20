@@ -40,6 +40,16 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $fieldDiscountAmount = ['id' => 'jform_discount_amount'];
 
+	/**
+	 * @var array
+	 */
+	public static $fieldDiscountType = ['name' => 'jform[discount_type]'];
+
+	/**
+	 * @var array
+	 */
+	public static $fieldCondition = ['name' => 'jform[condition]'];
+
 	public static $discountTypeDropDown = "//div[@id='discount_type_chzn']/a";
 
 	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
