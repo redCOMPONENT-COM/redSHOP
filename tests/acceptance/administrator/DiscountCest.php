@@ -97,7 +97,7 @@ class DiscountCest
 		$I = new DiscountSteps($scenario);
 		$I->wantTo('Unpublish Discount ');
 		$I->changeDiscountState($this->discountName);
-		$I->waitForText(\DiscountPage::$messageUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
 		$currentState = $I->getDiscountState($this->discountName);
 		$I->verifyState('unpublished', $currentState);
 	}

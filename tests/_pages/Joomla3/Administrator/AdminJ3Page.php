@@ -50,6 +50,16 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $messageItemUnpublishSuccess = "1 item successfully unpublished";
+
+	/**
+	 * @var string
+	 */
+	public static $messageItemPublishSuccess = "1 item successfully published";
+
+	/**
+	 * @var string
+	 */
 	public static $messageUnpublishSuccess = 'successfully unpublished';
 
 	/**
@@ -66,6 +76,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 */
 	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
+
 	/**
 	 * @var string
 	 */
@@ -99,7 +110,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $selectorError=".alert-error";
+	public static $selectorError = ".alert-error";
 
 	/**
 	 * @var string
@@ -165,6 +176,7 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonCopy = 'Copy';
+
 	/**
 	 * @var string
 	 */
@@ -297,10 +309,10 @@ abstract class AdminJ3Page
 	 */
 
 	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
+
 	/**
 	 * @var string
 	 */
-
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
 	/**
 	 * @var array
@@ -320,5 +332,4 @@ abstract class AdminJ3Page
 		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 		return $path;
 	}
-
 }

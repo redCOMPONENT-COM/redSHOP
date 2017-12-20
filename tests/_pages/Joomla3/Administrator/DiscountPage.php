@@ -65,38 +65,9 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $fieldEndDate = ['id' => 'jform_end_date'];
 
-	public static $selectFirst = "//input[@id='cb0']";
-
 	public static $discountState = ['xpath' => '//tr/td[8]/a'];
 
 	public static $discountCheckBox = ['xpath' =>'//tr/td[2]'];
-
-
-	//selctor
-
-	public static $discountType = ['id' => "s2id_discount_type"];
-
-	public static $discountTypeSearch = ['id' => "s2id_autogen2_search"];
-
-	public static $conditionId=['id'=>'s2id_condition'];
-
-	public static $conditionSearch=['id'=>'s2id_autogen1_search'];
-
-	public static $searchResults = ['id' => "select2-results-2"];
-
-	public static $searchShopperId = ['id' => "s2id_shopper_group_id"];
-	
-	public static $searchShopperField = ['id' => 's2id_autogen3'];
-
-	public static $saveSuccess = ['id' => 'system-message-container'];
-
-	public static $filter = ['id' => 'name_filter'];
-
-	public static $messageUnpublishSuccess = "Discount Detail UnPublished Successfully";
-
-	public static $messagePublishSuccess = "Discount Detail Published Successfully";
-
-	public static $messageDeleteSuccess = "Discount Detail Deleted Successfully";
 
 
 	/**

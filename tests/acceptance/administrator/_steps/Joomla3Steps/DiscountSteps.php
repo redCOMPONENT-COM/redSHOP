@@ -44,38 +44,38 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->chooseRadio(\DiscountPage::$fieldCondition, $discountCondition);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSaveClose);
-		$client->waitForText(\DiscountPage::$messageSaveSuccess, 60, \DiscountPage::$saveSuccess);
+		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$saveSuccess);
 		$client->searchDiscount($name);
 	}
 
+	/**
+	 * Function to Save Discount
+	 *
+	 * @param   string $name              Discount name
+	 * @param   string $amount            Discount Amount
+	 * @param   string $discountAmount    Amount on the Discount
+	 * @param   string $shopperGroup      Group for the Shopper
+	 * @param   string $discountType      Type of Discount
+	 *
+	 * @return void
+	 */
 	public function addDiscountSave($name, $amount, $discountAmount, $shopperGroup, $discountType)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings(\DiscountPage::$url);
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->fillField(\DiscountPage::$fieldName, $name);
-		$I->fillField(\DiscountPage::$fieldAmount, $amount);
-		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-
-		$I->click(\DiscountPage::$discountType);
-		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
-		$I->waitForElement(\DiscountPage::$searchResults, 30);
-
-		$I->click(\DiscountPage::$searchResults);
-		$I->click(\DiscountPage::$searchShopperId);
-
-		$userDiscountPage = new \DiscountPage();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
-
-
-		$I->click(\DiscountPage::$buttonSave);
-		$I->waitForText(\DiscountPage::$messageSaveSuccess, 60, \DiscountPage::$saveSuccess);
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldName, $name);
+		$client->fillField(\DiscountPage::$fieldAmount, $amount);
+		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+		$client->click(\DiscountPage::$buttonSave);
+		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
-	public function addDiscountCancel()
+	/*public function addDiscountCancel()
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountPage::$url);
@@ -84,9 +84,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$I->click(\DiscountPage::$buttonCancel);
 		$I->waitForText(\DiscountPage::$namePageManagement, 30, \DiscountPage::$headPage);
-	}
+	}*/
 
-	public function addDiscountStartThanEnd($name, $amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
+	/*public function addDiscountStartThanEnd($name, $amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountPage::$url);
@@ -112,9 +112,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->click(\DiscountPage::$buttonSave);
 		$I->acceptPopup();
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}
+	}*/
 
-	public function addDiscountWithAllFieldsEmpty()
+	/*public function addDiscountWithAllFieldsEmpty()
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountPage::$url);
@@ -124,9 +124,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->click(\DiscountPage::$buttonSave);
 		$I->acceptPopup();
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}
+	}*/
 
-	public function addDiscountMissingName($amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
+	/*public function addDiscountMissingName($amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountPage::$url);
@@ -151,9 +151,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->click(\DiscountPage::$buttonSave);
 		$I->acceptPopup();
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}
+	}*/
 
-	public function addDiscountMissingAmount($name, $amount, $shopperGroup, $discountType, $startDate, $endDate)
+	/*public function addDiscountMissingAmount($name, $amount, $shopperGroup, $discountType, $startDate, $endDate)
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountPage::$url);
@@ -178,9 +178,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->click(\DiscountPage::$buttonSave);
 		$I->acceptPopup();
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}
+	}*/
 
-	public function addDiscountMissingShopperGroups($name, $amount, $discountAmount, $discountType, $startDate, $endDate)
+	/*public function addDiscountMissingShopperGroups($name, $amount, $discountAmount, $discountType, $startDate, $endDate)
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountPage::$url);
@@ -200,7 +200,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->click(\DiscountPage::$buttonSave);
 		$I->acceptPopup();
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}
+	}*/
 
 	/**
 	 * Function to edit an existing Discount
@@ -217,17 +217,16 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$verifyAmount    = \DiscountPage::getCurrencyCode() . $amount . ',00';
 		$newVerifyAmount = \DiscountPage::getCurrencyCode() . $newAmount . ',00';
-		$I->filterListBySearching($name, \DiscountPage::$filter);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForElement(['link' => $verifyAmount]);
-		$I->click(['link' => $verifyAmount]);
+		$I->searchDiscount($name);
+		$I->see($verifyAmount, \DiscountPage::$resultRow);
+		$I->click($name);
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$I->fillField(\DiscountPage::$fieldAmount, $newAmount);
 		$I->click(\DiscountPage::$buttonSaveClose);
-		$I->waitForText(\DiscountPage::$messageSaveSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$saveSuccess);
 		$I->click(\DiscountPage::$buttonReset);
-		$I->filterListBySearching($name, \DiscountPage::$filter);
-		$I->seeElement(['link' => $newVerifyAmount]);
+		$I->search($name);
+		$I->see($newVerifyAmount, \DiscountPage::$resultRow);
 	}
 
 	/**
@@ -240,28 +239,25 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	public function changeDiscountState($discountName)
 	{
 		$I = $this;
-//        $I->amOnPage(\DiscountManagerJ3Page::$URL);
+		$I->amOnPage(\DiscountPage::$url);
 		$I->searchDiscount($discountName);
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountState);
-
 	}
 
 	/**
-	 * Function to Search for a Discount
+	 * Function to Search for a Coupon Code
 	 *
-	 * @param   string $amount       Amount of the Discount
-	 * @param   string $functionName Name of the function After Which search is being Called
+	 * @param   string  $discountCode  Code of the Coupon for which we are searching
 	 *
-	 * @return void
+	 * @return  void
 	 */
-	public function searchDiscount($discountName)
+	public function searchDiscount($discountCode = '')
 	{
-		$I = $this;
-//        $I->wantTo('Search Discount ');
-		$I->amOnPage(\DiscountPage::$url);
-		$I->waitForText(\DiscountPage::$namePageManagement, 30, \DiscountPage::$headPage);
-		$I->filterListBySearchDiscount($discountName);
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->waitForText(\DiscountPage::$namePage, 30, \DiscountPage::$headPage);
+		$client->filterListBySearching($discountCode);
 	}
 
 	/**
@@ -279,7 +275,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountCheckBox);
 		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->waitForText(\DiscountPage::$messageUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
 	public function publishDiscountStateButton($discountName)
@@ -290,7 +286,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountCheckBox);
 		$I->click(\DiscountPage::$buttonPublish);
-		$I->waitForText(\DiscountPage::$messagePublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
 	public function unpublishAllDiscount()
@@ -299,7 +295,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->waitForText(\DiscountPage::$messageUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
 	public function publishAllDiscount()
@@ -308,7 +304,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonPublish);
-		$I->waitForText(\DiscountPage::$messagePublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
 	public function deleteAllDiscount()
@@ -317,7 +313,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonDelete);
-		$I->waitForText(\DiscountPage::$messageDeleteSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
 	public function getDiscountState($discountName)

@@ -29,12 +29,12 @@ class RedshopModelDiscount extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		if (isset($data['start_date']) && !is_numeric($data['start_date']))
+		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
 		{
 			$data['start_date'] = JFactory::getDate($data['start_date'])->toUnix();
 		}
 
-		if (isset($data['end_date']) && !is_numeric($data['end_date']))
+		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
 		{
 			$data['end_date'] = JFactory::getDate($data['end_date'])->toUnix();
 		}
