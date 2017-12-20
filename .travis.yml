@@ -27,8 +27,8 @@ cache:
 
 env:
   matrix:
-      - #ACCEPTANCE=false # this will run phpcs checks etc
-      - #ACCEPTANCE=true # run test
+      #- ACCEPTANCE=false # this will run phpcs checks etc
+      #- ACCEPTANCE=true # run test
       - ACCEPTANCE=acceptance/administrator/Discount # Run discount test only
   global:
     - CLOUD_NAME=redcomponent
