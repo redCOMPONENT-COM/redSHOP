@@ -29,8 +29,15 @@ class RedshopModelDiscount extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		$data['start_date'] = isset($data['start_date']) && !is_numeric($data['start_date']) ? JFactory::getDate($data['start_date'])->toUnix() : 0;
-		$data['end_date']   = isset($data['end_date']) && !is_numeric($data['end_date']) ? JFactory::getDate($data['end_date'])->toUnix() : 0;
+		if (isset($data['start_date']) && !is_numeric($data['start_date']))
+		{
+			$data['start_date'] = JFactory::getDate($data['start_date'])->toUnix();
+		}
+
+		if (isset($data['end_date']) && !is_numeric($data['end_date']))
+		{
+			$data['end_date'] = JFactory::getDate($data['end_date'])->toUnix();
+		}
 
 		return parent::save($data);
 	}
@@ -82,7 +89,7 @@ class RedshopModelDiscount extends RedshopModelForm
 
 		$item->shopper_group = RedshopEntityDiscount::getInstance($item->discount_id)->getShopperGroups()->ids();
 		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
-		$item->end_date      = !empty($item->start_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
+		$item->end_date      = !empty($item->end_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
 
 		return $item;
 	}
