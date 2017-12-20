@@ -50,9 +50,10 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $fieldCondition = ['name' => 'jform[condition]'];
 
-	public static $discountTypeDropDown = "//div[@id='discount_type_chzn']/a";
-
-	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
+	/**
+	 * @var array
+	 */
+	public static $fieldShopperGroup = ['id' => 'jform_shopper_group'];
 
 	public static $selectFirst = "//input[@id='cb0']";
 
@@ -84,10 +85,6 @@ class DiscountPage extends AdminJ3Page
 	public static $saveSuccess = ['id' => 'system-message-container'];
 
 	public static $filter = ['id' => 'name_filter'];
-
-	//message
-
-	public static $messageSaveSuccess = "Discount Detail Saved";
 
 	public static $messageUnpublishSuccess = "Discount Detail UnPublished Successfully";
 

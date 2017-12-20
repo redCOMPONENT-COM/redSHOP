@@ -40,14 +40,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldName, $name);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$client->chooseOnSelect2(\DiscountPage::$fieldDiscountType, $discountType);
-		$client->click(\DiscountPage::$searchShopperId);
-
-		$userDiscountPage = new \DiscountPage();
-		$client->waitForElement($userDiscountPage->resultChoice($shopperGroup), 60);
-		$client->click($userDiscountPage->resultChoice($shopperGroup));
-
+		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->chooseRadio(\DiscountPage::$fieldCondition, $discountCondition);
+		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSaveClose);
 		$client->waitForText(\DiscountPage::$messageSaveSuccess, 60, \DiscountPage::$saveSuccess);
 		$client->searchDiscount($name);
