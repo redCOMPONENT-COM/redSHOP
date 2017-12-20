@@ -55,11 +55,17 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $fieldShopperGroup = ['id' => 'jform_shopper_group'];
 
+	/**
+	 * @var array
+	 */
+	public static $fieldStartDate = ['id' => 'jform_start_date'];
+
+	/**
+	 * @var array
+	 */
+	public static $fieldEndDate = ['id' => 'jform_end_date'];
+
 	public static $selectFirst = "//input[@id='cb0']";
-
-	public static $startDate = "//input[@id='start_date']";
-
-	public static $endDate = "//input[@id='end_date']";
 
 	public static $discountState = ['xpath' => '//tr/td[8]/a'];
 

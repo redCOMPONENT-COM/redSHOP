@@ -81,8 +81,8 @@ class RedshopModelDiscount extends RedshopModelForm
 		$dateFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 
 		$item->shopper_group = RedshopEntityDiscount::getInstance($item->discount_id)->getShopperGroups()->ids();
-		$item->start_date    = JFactory::getDate($item->start_date)->format($dateFormat);
-		$item->end_date      = JFactory::getDate($item->end_date)->format($dateFormat);
+		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
+		$item->end_date      = !empty($item->start_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
 
 		return $item;
 	}

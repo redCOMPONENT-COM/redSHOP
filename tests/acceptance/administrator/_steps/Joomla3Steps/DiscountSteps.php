@@ -96,8 +96,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->fillField(\DiscountPage::$fieldName, $name);
 		$I->fillField(\DiscountPage::$fieldAmount, $amount);
 		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountPage::$startDate, $endDate);
-		$I->fillField(\DiscountPage::$endDate, $startDate);
+		$I->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$I->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$I->click(\DiscountPage::$discountType);
 		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
 		$I->waitForElement(\DiscountPage::$searchResults, 30);
@@ -135,8 +135,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$I->fillField(\DiscountPage::$fieldAmount, $amount);
 		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountPage::$startDate, $startDate);
-		$I->fillField(\DiscountPage::$endDate, $endDate);
+		$I->fillField(\DiscountPage::$fieldStartDate, $startDate);
+		$I->fillField(\DiscountPage::$fieldEndDate, $endDate);
 		$I->click(\DiscountPage::$discountType);
 		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
 		$I->waitForElement(\DiscountPage::$searchResults, 30);
@@ -162,8 +162,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$I->fillField(\DiscountPage::$fieldName, $name);
 		$I->fillField(\DiscountPage::$fieldAmount, $amount);
-		$I->fillField(\DiscountPage::$startDate, $endDate);
-		$I->fillField(\DiscountPage::$endDate, $startDate);
+		$I->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$I->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$I->click(\DiscountPage::$discountType);
 		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
 		$I->waitForElement(\DiscountPage::$searchResults, 30);
@@ -190,8 +190,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->fillField(\DiscountPage::$fieldName, $name);
 		$I->fillField(\DiscountPage::$fieldAmount, $amount);
 		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountPage::$startDate, $endDate);
-		$I->fillField(\DiscountPage::$endDate, $startDate);
+		$I->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$I->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$I->click(\DiscountPage::$discountType);
 		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
 		$I->waitForElement(\DiscountPage::$searchResults, 30);

@@ -88,9 +88,11 @@ class RedshopFormFieldCalendar extends JFormField
 		{
 			case 'maxlength':
 				$value = (int) $value;
+				break;
+
 			case 'format':
 			case 'filter':
-				$this->$name = (string) $value;
+				$this->{$name} = (string) $value;
 				break;
 
 			default:
