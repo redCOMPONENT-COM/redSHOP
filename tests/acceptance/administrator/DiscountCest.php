@@ -55,6 +55,11 @@ class DiscountCest
 	/**
 	 * Function to Test Discount Deletion
 	 *
+	 * @param   AcceptanceTester  $I         Acceptance Tester case.
+	 * @param   string            $scenario  Scenario for test.
+	 *
+	 * @return  void
+	 *
 	 * @depends createDiscount
 	 */
 	public function deleteDiscount(AcceptanceTester $I, $scenario)
@@ -62,8 +67,7 @@ class DiscountCest
 		$I->wantToTest('Deletion of Discount in Administrator');
 		$I->doAdministratorLogin();
 		$I = new DiscountSteps($scenario);
-		$I->deleteDiscount($this->discountName, $this->newAmount);
-		$I->dontSeeElement(['link' => $this->discountName]);
+		$I->deleteDiscount($this->discountName);
 	}
 
 	/**

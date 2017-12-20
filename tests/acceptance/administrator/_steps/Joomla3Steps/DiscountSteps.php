@@ -339,18 +339,23 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * Function to Delete Discount
 	 *
 	 * @param   string $name   Discount name
-	 * @param   String $amount Amount of the Discount which is to be Deleted
 	 *
 	 * @return void
 	 */
 	public function deleteDiscount($name)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->filterListBySearching($name, \DiscountPage::$filter);
-		$I->click(\DiscountPage::$selectFirst);
-		$I->click(\DiscountPage::$buttonDelete);
-		$I->dontSeeElement(['link' => $name]);
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchCoupon($name);
+		$client->checkAllResults();
+		$client->click(\DiscountPage::$buttonDelete);
+		$client->acceptPopup();
+		$client->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$selectorSuccess);
+		$client->see(\DiscountPage::$messageItemDeleteSuccess, \DiscountPage::$selectorSuccess);
+		$client->fillField(\DiscountPage::$searchField, $name);
+		$client->pressKey(\DiscountPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$client->dontSee($name, \DiscountPage::$resultRow);
 	}
 
 	public function checkEditButton()
