@@ -1020,11 +1020,11 @@ class RedshopHelperShipping
 
 				switch ($anonymousUser['billing_type'])
 				{
-					case 'company':
-						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
-						break;
 					case 'private':
 						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
+						break;
+					case 'company':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
 						break;
 					default:
 						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
