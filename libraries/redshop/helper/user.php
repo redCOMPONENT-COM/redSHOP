@@ -449,8 +449,8 @@ class RedshopHelperUser
 			$userInforId = $auth['users_info_id'];
 
 			$userInformation               = new stdClass;
-			$userInformation->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-			$userInformation->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
+			$userInformation->country_code = !empty($userData['vatCountry']) ? $userData['vatCountry'] : Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+			$userInformation->state_code   = !empty($userData['vatState']) ? $userData['vatState'] : Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
 			if ($userInforId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2)
 				&& (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))

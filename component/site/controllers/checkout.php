@@ -639,6 +639,20 @@ class RedshopControllerCheckout extends RedshopController
 			$rs_user['rs_user_info_id'] = $users_info_id;
 			$rs_user = $session->set('rs_user', $rs_user);
 		}
+		elseif (!empty($post['anonymous']))
+		{
+			if (!empty($post['anonymous']['BT']))
+			{
+				$rs_user['vatCountry'] = $post['anonymous']['BT']['country_code'];
+				$rs_user['vatState'] = $post['anonymous']['BT']['state_code'];
+			}
+
+			if (Redshop::getConfig()->get('VAT_BASED_ON') != 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST' && !empty($post['anonymous']['ST']))
+			{
+				$rs_user['vatCountry'] = $post['anonymous']['ST']['country_code_ST'];
+				$rs_user['vatState'] = $post['anonymous']['ST']['state_code_ST'];
+			}
+		}
 
 		$producthelper   = productHelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
