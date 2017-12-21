@@ -91,7 +91,17 @@ class JFormFieldExtraFields extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$this->fieldSection     = isset($this->element['section']) ? (int) $this->element['section'] : 1;
+		$this->fieldSection = 1;
+
+		if (isset($this->element['section']))
+		{
+			$this->fieldSection = (int) $this->element['section'];
+		}
+		elseif (isset($this->element['field_section']))
+		{
+			$this->fieldSection = (int) $this->element['field_section'];
+		}
+
 		$this->fieldType        = isset($this->element['field_type']) ? $this->element['field_type'] : "";
 		$this->fieldShowInFront = isset($this->element['show_in_front']) ? (int) $this->element['show_in_front'] : 1;
 		$this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
