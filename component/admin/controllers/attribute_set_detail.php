@@ -265,9 +265,8 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$post = $this->input->post->getArray();
 
-		$main_img = $this->input->files->get('property_main_img', 'array', 'array');
-
-		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
+		$main_img = (array) $this->input->files->get('property_main_img', array(), 'array');
+		$sub_img  = (array) $this->input->files->get('property_sub_img', array(), 'array');
 
 		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');

@@ -243,7 +243,9 @@ class RedshopControllerAddorder_Detail extends RedshopController
 			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
-		if ($row = $model->store($post))
+		$row = $model->store($post);
+
+		if ($row)
 		{
 			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
 			$type = 'success';
@@ -254,7 +256,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
 			$type = 'error';
 		}
 
-		if ($apply == 1)
+		if ($apply == 1 && false !== $row)
 		{
 			// @TODO Consider about this method name. get should return value instead of "set"
 			RedshopHelperOrder::getPaymentInformation($row, $post);

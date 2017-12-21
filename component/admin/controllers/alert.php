@@ -74,6 +74,7 @@ class RedshopControllerAlert extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
 		}
 
+		/** @var RedshopModelAlert_detail $model */
 		$model = $this->getModel('alert_detail');
 
 		if (!$model->read($cid, 1))

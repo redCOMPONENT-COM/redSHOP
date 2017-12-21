@@ -2583,8 +2583,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function subattr_diff.
 	 *
-	 * @param   int  $subattr_id  ID.
-	 * @param   int  $section_id  ID.
+	 * @param   string  $subattr_id  ID.
+	 * @param   int     $section_id  ID.
 	 *
 	 * @return  array
 	 */
