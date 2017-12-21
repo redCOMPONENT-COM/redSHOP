@@ -221,7 +221,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->see(\DiscountPage::$messageErrorStartDateHigherEndDate, 60, \DiscountPage::$selectorError);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
 	}
 
 	/**
