@@ -1018,15 +1018,17 @@ class RedshopHelperShipping
 					$zip       = $anonymousUser['ST']['zip_code_ST'];
 				}
 
-				$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-				if ($anonymousUser['billing_type'] == 'company')
+				switch ($anonymousUser['billing_type'])
 				{
-					$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
-				}
-				else
-				{
-					$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
+					case 'company':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
+						break;
+					case 'private':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
+						break;
+					default:
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+						break;
 				}
 
 				$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
