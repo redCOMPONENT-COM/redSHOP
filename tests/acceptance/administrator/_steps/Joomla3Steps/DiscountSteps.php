@@ -246,9 +246,9 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to Search for a Coupon Code
+	 * Function to Search for a Discount Code
 	 *
-	 * @param   string  $discountCode  Code of the Coupon for which we are searching
+	 * @param   string  $discountCode  Code of the Discount for which we are searching
 	 *
 	 * @return  void
 	 */
@@ -347,7 +347,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\DiscountPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->searchCoupon($name);
+		$client->searchDiscount($name);
 		$client->checkAllResults();
 		$client->click(\DiscountPage::$buttonDelete);
 		$client->acceptPopup();

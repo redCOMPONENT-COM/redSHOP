@@ -39,35 +39,37 @@ class DiscountCest
 	/**
 	 * Function to Test Discount Creation in Backend
 	 *
-	 * @param   AcceptanceTester  $I         Acceptance Tester case.
-	 * @param   string            $scenario  Scenario for test.
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
 	 */
-	public function createDiscount(AcceptanceTester $I, $scenario)
+	public function createDiscount(AcceptanceTester $client, $scenario)
 	{
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->addDiscount($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition);
-		$I->searchDiscount($this->discountName);
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscount(
+			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition
+		);
+		$client->searchDiscount($this->discountName);
 	}
 
 	/**
 	 * Function to Test Discount Deletion
 	 *
-	 * @param   AcceptanceTester  $I         Acceptance Tester case.
-	 * @param   string            $scenario  Scenario for test.
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
 	 *
 	 * @depends createDiscount
 	 */
-	public function deleteDiscount(AcceptanceTester $I, $scenario)
+	public function deleteDiscount(AcceptanceTester $client, $scenario)
 	{
-		$I->wantToTest('Deletion of Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->deleteDiscount($this->discountName);
+		$client->wantToTest('Deletion of Discount in Administrator');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->deleteDiscount($this->discountName);
 	}
 
 	/**
