@@ -88,7 +88,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(QuotationManagerPage::$URL);
         $I->checkAllResults();
         $I->click(QuotationManagerPage::$buttonDelete);
-        $I->see(QuotationManagerPage::$messageDeleteSuccess, QuotationManagerPage::$selectorSuccess);
+        $I->dontSeeElement(QuotationManagerPage::$quotationId,30);
     }
 
 }
