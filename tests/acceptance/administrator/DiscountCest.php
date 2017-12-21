@@ -20,6 +20,56 @@ use AcceptanceTester\DiscountSteps;
 class DiscountCest
 {
 	/**
+	 * @var \Faker\Generator
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 */
+	public $discountName;
+
+	/**
+	 * @var integer
+	 */
+	public $amount;
+
+	/**
+	 * @var integer
+	 */
+	public $discountAmount;
+
+	/**
+	 * @var integer
+	 */
+	public $newAmount;
+
+	/**
+	 * @var string
+	 */
+	public $startDate;
+
+	/**
+	 * @var string
+	 */
+	public $endDate;
+
+	/**
+	 * @var string
+	 */
+	public $shopperGroup;
+
+	/**
+	 * @var integer
+	 */
+	public $discountType;
+
+	/**
+	 * @var integer
+	 */
+	public $discountCondition;
+
+	/**
 	 * DiscountCest constructor.
 	 */
 	public function __construct()
@@ -75,200 +125,155 @@ class DiscountCest
 	/**
 	 * Function add Discount with save button
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @depends deleteDiscount
+	 *
+	 * @return  void
 	 */
-	public function addDiscountSave(AcceptanceTester $I, $scenario)
+	public function addDiscountSave(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
+		$client->wantTo('Test Discount creation with save button in Administrator');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
 	}
 
 	/**
 	 * Function change state of Discount is Ubpublish
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @depends addDiscountSave
+	 *
+	 * @return void
 	 */
-	public function unpublishChangeDiscountState(AcceptanceTester $I, $scenario)
+	public function changeChangeDiscountState(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('UnPublish Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Unpublish Discount ');
-		$I->changeDiscountState($this->discountName);
-		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
-		$currentState = $I->getDiscountState($this->discountName);
-		$I->verifyState('unpublished', $currentState);
+		$client->wantTo('Test if State of a Discount gets Updated in Administrator');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->changeDiscountState($this->discountName);
+		$client->verifyState('unpublished', $client->getDiscountState($this->discountName));
 	}
 
 	/**
-	 * Function change state of Discount is Publish
+	 * Function test discount with start date higher than end date.
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
-	 * @depends unpublishChangeDiscountState
+	 * @depends changeChangeDiscountState
+	 *
+	 * @return  void
 	 */
-	public function publishChangeDiscountState(AcceptanceTester $I, $scenario)
+	public function addDiscountStartThanEnd(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Publish Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Unpublish Discount ');
-		$I->changeDiscountState($this->discountName);
-		$currentState = $I->getDiscountState($this->discountName);
-		$I->verifyState('published', $currentState);
+		$client->wantTo('Test Discount creation with start date higher than end date.');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountStartThanEnd(
+			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 	}
 
 	/**
-	 * Function change state of Discount is Unpublish when used Unpublish button
+	 * Function test discount with missing name.
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
-	 * @depends publishChangeDiscountState
+	 * @depends addDiscountStartThanEnd
+	 *
+	 * @return  void
 	 */
-	public function unpublishDiscountStateButton(AcceptanceTester $I, $scenario)
+	public function addDiscountMissingName(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('UnPublish Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Unpublish Discount ');
-		$I->unpublishDiscountStateButton($this->discountName);
-		$currentState = $I->getDiscountState($this->discountName);
-		$I->verifyState('unpublished', $currentState);
+		$client->wantTo('Test Discount creation with missing name.');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountMissingName(
+			$this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 	}
 
 	/**
-	 * Function change state of Discount is publish when used publish button
+	 * Function test discount with missing amount.
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
-	 * @depends unpublishDiscountStateButton
+	 * @depends addDiscountMissingName
+	 *
+	 * @return  void
 	 */
-	public function publishDiscountStateButton(AcceptanceTester $I, $scenario)
+	public function addDiscountMissingAmount(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Publish Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Unpublish Discount ');
-		$I->publishDiscountStateButton($this->discountName);
-		$currentState = $I->getDiscountState($this->discountName);
-		$I->verifyState('published', $currentState);
+		$client->wantTo('Test Discount creation with missing amount.');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountMissingAmount(
+			$this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 	}
 
 	/**
-	 * Function unpublish all discount when used publish button
+	 * Function test discount with missing shopper groups.
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester  $client    Acceptance Tester case.
+	 * @param   string            $scenario  Scenario for test.
 	 *
-	 * @depends publishDiscountStateButton
+	 * @depends addDiscountMissingAmount
+	 *
+	 * @return  void
 	 */
-	public function unpublishAllDiscount(AcceptanceTester $I, $scenario)
+	public function addDiscountMissingShopperGroups(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Unpublish All Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Unpublish all Discount ');
-		$I->unpublishAllDiscount();
-		$currentState = $I->getDiscountState($this->discountName);
-		$I->verifyState('unpublished', $currentState);
+		$client->wantTo('Test Discount creation with missing shopper groups.');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountMissingShopperGroups(
+			$this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate
+		);
 	}
 
 	/**
-	 * Function publish all discount when used publish button
+	 * Function test discount with missing all fields.
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester  $client    Acceptance Tester case.
+	 * @param   string            $scenario  Scenario for test.
 	 *
-	 * @depends unpublishAllDiscount
+	 * @depends addDiscountMissingAmount
+	 *
+	 * @return  void
 	 */
-	public function publishAllDiscount(AcceptanceTester $I, $scenario)
+	public function addDiscountWithAllFieldsEmpty(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Publish All Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('publish all Discount ');
-		$I->publishAllDiscount();
-		$currentState = $I->getDiscountState($this->discountName);
-		$I->verifyState('published', $currentState);
-	}
-
-	public function addDiscountCancel(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Create a Discount');
-		$I->addDiscountCancel();
-	}
-
-	public function addDiscountStartThanEnd(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Create a Discount');
-		$I->addDiscountStartThanEnd($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate);
-	}
-
-	public function addDiscountMissingName(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Create a Discount');
-		$I->addDiscountMissingName($this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate);
-	}
-
-	public function addDiscountMissingAmount(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Create a Discount');
-		$I->addDiscountMissingAmount($this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate);
-	}
-
-	public function addDiscountMissingShopperGroups(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Create a Discount');
-		$I->addDiscountMissingShopperGroups($this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate);
-	}
-
-	public function addDiscountWithAllFieldsEmpty(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Discount creation with save button in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Create a Discount');
-		$I->addDiscountWithAllFieldsEmpty();
+		$client->wantTo('Test Discount creation with missing all fields.');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountWithAllFieldsEmpty();
 	}
 
 	/**
 	 * Function to Test Discount Updation in the Administrator
 	 *
+	 * @param   AcceptanceTester  $client    Acceptance Tester case.
+	 * @param   string            $scenario  Scenario for test.
+	 *
 	 * @depends createDiscount
+	 *
+	 * @return void
 	 */
-	public function updateDiscount(AcceptanceTester $I, $scenario)
+	public function updateDiscount(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Test if Discount gets updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Update Existing Discount');
-		$I->editDiscount($this->discountName, $this->amount, $this->newAmount);
+		$client->wantTo('Test if Discount gets updated in Administrator');
+		$client->doAdministratorLogin();
+		$client = new DiscountSteps($scenario);
+		$client->wantTo('Update Existing Discount');
+		$client->editDiscount($this->discountName, $this->amount, $this->newAmount);
 	}
 
 	public function deleteAllDiscount(AcceptanceTester $I, $scenario)

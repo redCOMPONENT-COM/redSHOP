@@ -49,13 +49,28 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * Function to Search for a Discount Code
+	 *
+	 * @param   string $discountCode Code of the Discount for which we are searching
+	 *
+	 * @return  void
+	 */
+	public function searchDiscount($discountCode = '')
+	{
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->waitForText(\DiscountPage::$namePage, 30, \DiscountPage::$headPage);
+		$client->filterListBySearching($discountCode);
+	}
+
+	/**
 	 * Function to Save Discount
 	 *
-	 * @param   string $name              Discount name
-	 * @param   string $amount            Discount Amount
-	 * @param   string $discountAmount    Amount on the Discount
-	 * @param   string $shopperGroup      Group for the Shopper
-	 * @param   string $discountType      Type of Discount
+	 * @param   string $name           Discount name
+	 * @param   string $amount         Discount Amount
+	 * @param   string $discountAmount Amount on the Discount
+	 * @param   string $shopperGroup   Group for the Shopper
+	 * @param   string $discountType   Type of Discount
 	 *
 	 * @return void
 	 */
@@ -75,132 +90,139 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
-	/*public function addDiscountCancel()
+	/**
+	 * Function to Save Discount with missing fields
+	 *
+	 * @return void
+	 */
+	public function addDiscountWithAllFieldsEmpty()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->click(\DiscountPage::$buttonCancel);
-		$I->waitForText(\DiscountPage::$namePageManagement, 30, \DiscountPage::$headPage);
-	}*/
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->click(\DiscountPage::$buttonSave);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+	}
 
-	/*public function addDiscountStartThanEnd($name, $amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
+	/**
+	 * Function to Add a New Discount with fail start date higher than end date
+	 *
+	 * @param   string $amount         Discount Amount
+	 * @param   string $discountAmount Amount on the Discount
+	 * @param   string $shopperGroup   Group for the Shopper
+	 * @param   string $discountType   Type of Discount
+	 * @param   string $startDate      Start date.
+	 * @param   string $endDate        End date.
+	 *
+	 * @return void
+	 */
+	public function addDiscountMissingName($amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->fillField(\DiscountPage::$fieldName, $name);
-		$I->fillField(\DiscountPage::$fieldAmount, $amount);
-		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountPage::$fieldStartDate, $endDate);
-		$I->fillField(\DiscountPage::$fieldEndDate, $startDate);
-		$I->click(\DiscountPage::$discountType);
-		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
-		$I->waitForElement(\DiscountPage::$searchResults, 30);
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldAmount, $amount);
+		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
+		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+		$client->click(\DiscountPage::$buttonSave);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+	}
 
-		$I->click(\DiscountPage::$searchResults);
-		$I->click(\DiscountPage::$searchShopperId);
-
-		$userDiscountPage = new \DiscountPage();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
-
-		$I->click(\DiscountPage::$buttonSave);
-		$I->acceptPopup();
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}*/
-
-	/*public function addDiscountWithAllFieldsEmpty()
+	/**
+	 * Function to Add a New Discount with fail start date higher than end date
+	 *
+	 * @param   string $name         Discount Amount
+	 * @param   string $amount       Amount on the Discount
+	 * @param   string $shopperGroup Group for the Shopper
+	 * @param   string $discountType Type of Discount
+	 * @param   string $startDate    Start date.
+	 * @param   string $endDate      End date.
+	 *
+	 * @return void
+	 */
+	public function addDiscountMissingAmount($name, $amount, $shopperGroup, $discountType, $startDate, $endDate)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->click(\DiscountPage::$buttonSave);
-		$I->acceptPopup();
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}*/
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldName, $name);
+		$client->fillField(\DiscountPage::$fieldAmount, $amount);
+		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
+		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+		$client->click(\DiscountPage::$buttonSave);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+	}
 
-	/*public function addDiscountMissingName($amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
+	/**
+	 * Function to Add a New Discount with fail start date higher than end date
+	 *
+	 * @param   string $name           Discount Amount
+	 * @param   string $amount         Amount on the Discount
+	 * @param   string $discountAmount Discount amount
+	 * @param   string $discountType   Type of Discount
+	 * @param   string $startDate      Start date.
+	 * @param   string $endDate        End date.
+	 *
+	 * @return void
+	 */
+	public function addDiscountMissingShopperGroups($name, $amount, $discountAmount, $discountType, $startDate, $endDate)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->fillField(\DiscountPage::$fieldAmount, $amount);
-		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountPage::$fieldStartDate, $startDate);
-		$I->fillField(\DiscountPage::$fieldEndDate, $endDate);
-		$I->click(\DiscountPage::$discountType);
-		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
-		$I->waitForElement(\DiscountPage::$searchResults, 30);
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldName, $name);
+		$client->fillField(\DiscountPage::$fieldAmount, $amount);
+		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
+		$client->click(\DiscountPage::$buttonSave);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+	}
 
-		$I->click(\DiscountPage::$searchResults);
-		$I->click(\DiscountPage::$searchShopperId);
-
-		$userDiscountPage = new \DiscountPage();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
-
-		$I->click(\DiscountPage::$buttonSave);
-		$I->acceptPopup();
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}*/
-
-	/*public function addDiscountMissingAmount($name, $amount, $shopperGroup, $discountType, $startDate, $endDate)
+	/**
+	 * Function to Add a New Discount with fail start date higher than end date
+	 *
+	 * @param   string $name           Discount name
+	 * @param   string $amount         Discount Amount
+	 * @param   string $discountAmount Amount on the Discount
+	 * @param   string $shopperGroup   Group for the Shopper
+	 * @param   string $discountType   Type of Discount
+	 * @param   string $startDate      Start date.
+	 * @param   string $endDate        End date.
+	 *
+	 * @return void
+	 */
+	public function addDiscountStartThanEnd($name, $amount, $discountAmount, $shopperGroup, $discountType, $startDate, $endDate)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->fillField(\DiscountPage::$fieldName, $name);
-		$I->fillField(\DiscountPage::$fieldAmount, $amount);
-		$I->fillField(\DiscountPage::$fieldStartDate, $endDate);
-		$I->fillField(\DiscountPage::$fieldEndDate, $startDate);
-		$I->click(\DiscountPage::$discountType);
-		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
-		$I->waitForElement(\DiscountPage::$searchResults, 30);
-
-		$I->click(\DiscountPage::$searchResults);
-		$I->click(\DiscountPage::$searchShopperId);
-
-		$userDiscountPage = new \DiscountPage();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
-
-		$I->click(\DiscountPage::$buttonSave);
-		$I->acceptPopup();
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}*/
-
-	/*public function addDiscountMissingShopperGroups($name, $amount, $discountAmount, $discountType, $startDate, $endDate)
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click(\DiscountPage::$buttonNew);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->fillField(\DiscountPage::$fieldName, $name);
-		$I->fillField(\DiscountPage::$fieldAmount, $amount);
-		$I->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountPage::$fieldStartDate, $endDate);
-		$I->fillField(\DiscountPage::$fieldEndDate, $startDate);
-		$I->click(\DiscountPage::$discountType);
-		$I->fillField(\DiscountPage::$discountTypeSearch, $discountType);
-		$I->waitForElement(\DiscountPage::$searchResults, 30);
-		$I->click(\DiscountPage::$searchResults);
-
-		$I->click(\DiscountPage::$buttonSave);
-		$I->acceptPopup();
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-	}*/
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldName, $name);
+		$client->fillField(\DiscountPage::$fieldAmount, $amount);
+		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
+		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
+		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+		$client->click(\DiscountPage::$buttonSave);
+		$client->see(\DiscountPage::$messageErrorStartDateHigherEndDate, 60, \DiscountPage::$selectorError);
+	}
 
 	/**
 	 * Function to edit an existing Discount
@@ -213,20 +235,19 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 */
 	public function editDiscount($name = '', $amount = '100', $newAmount = '1000')
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
 		$verifyAmount    = \DiscountPage::getCurrencyCode() . $amount . ',00';
 		$newVerifyAmount = \DiscountPage::getCurrencyCode() . $newAmount . ',00';
-		$I->searchDiscount($name);
-		$I->see($verifyAmount, \DiscountPage::$resultRow);
-		$I->click($name);
-		$I->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$I->fillField(\DiscountPage::$fieldAmount, $newAmount);
-		$I->click(\DiscountPage::$buttonSaveClose);
-		$I->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
-		$I->click(\DiscountPage::$buttonReset);
-		$I->search($name);
-		$I->see($newVerifyAmount, \DiscountPage::$resultRow);
+		$client->searchDiscount($name);
+		$client->see($verifyAmount, \DiscountPage::$resultRow);
+		$client->click($name);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldAmount, $newAmount);
+		$client->click(\DiscountPage::$buttonSaveClose);
+		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
+		$client->searchDiscount($name);
+		$client->see($newVerifyAmount, \DiscountPage::$resultRow);
 	}
 
 	/**
@@ -238,26 +259,14 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 */
 	public function changeDiscountState($discountName)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->searchDiscount($discountName);
-		$I->see($discountName);
-		$I->click(\DiscountPage::$discountState);
-	}
-
-	/**
-	 * Function to Search for a Discount Code
-	 *
-	 * @param   string  $discountCode  Code of the Discount for which we are searching
-	 *
-	 * @return  void
-	 */
-	public function searchDiscount($discountCode = '')
-	{
 		$client = $this;
 		$client->amOnPage(\DiscountPage::$url);
-		$client->waitForText(\DiscountPage::$namePage, 30, \DiscountPage::$headPage);
-		$client->filterListBySearching($discountCode);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchDiscount($discountName);
+		$client->waitForText($discountName, 30, \DiscountPage::$resultRow);
+		$client->see($discountName);
+		$client->checkAllResults();
+		$client->click(\DiscountPage::$discountStatePath);
 	}
 
 	/**
@@ -316,14 +325,23 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$saveSuccess);
 	}
 
+	/**
+	 * Function to get State of the Discount Name
+	 *
+	 * @param   string $name Name of the Discount Name
+	 *
+	 * @return  string
+	 */
 	public function getDiscountState($discountName)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->click('Reset');
-		$I->searchDiscount($discountName);
-		$I->see($discountName);
-		$text = $I->grabAttributeFrom(\DiscountPage::$discountState, 'onclick');
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->searchDiscount($discountName);
+		$client->waitForText($discountName, 30, \DiscountPage::$resultRow);
+		$client->see($discountName, \DiscountPage::$resultRow);
+		$text = $client->grabAttributeFrom(\DiscountPage::$discountStatePath, 'onclick');
+		echo "Get status text " . $text;
+
 		if (strpos($text, 'unpublish') > 0)
 		{
 			$result = 'published';
@@ -332,13 +350,17 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		{
 			$result = 'unpublished';
 		}
+
+		echo "Status need show" . $result;
+
 		return $result;
+		$client->click(\MailCenterPage::$mailTemplateStatePath);
 	}
 
 	/**
 	 * Function to Delete Discount
 	 *
-	 * @param   string $name   Discount name
+	 * @param   string $name Discount name
 	 *
 	 * @return void
 	 */

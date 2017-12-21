@@ -65,10 +65,17 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $fieldEndDate = ['id' => 'jform_end_date'];
 
-	public static $discountState = ['xpath' => '//tr/td[8]/a'];
+	/**
+	 * @var string
+	 */
+	public static $discountStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[11]/a";
+
+	/**
+	 * @var string
+	 */
+	public static $messageErrorStartDateHigherEndDate = 'Oops! Discount start date is equal or higher than end date.';
 
 	public static $discountCheckBox = ['xpath' =>'//tr/td[2]'];
-
 
 	/**
 	 * Function to get the path for Discount Type
