@@ -394,6 +394,8 @@ class productHelper
 	 * @return  string                    Formatted Product Price
 	 *
 	 * @deprecated  2.0.7
+	 *
+	 * @see RedshopHelperProductPrice::formattedPrice
 	 */
 	public function getProductFormattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
@@ -1697,11 +1699,10 @@ class productHelper
 
 	public function getValidityDate($period, $data)
 	{
-		$todate = mktime(0, 0, 0, date('m'), date('d') + $period, date('Y'));
-		$config = Redconfiguration::getInstance();
+		$todate = mktime(0, 0, 0, (int) date('m'), (int) date('d') + $period, (int) date('Y'));
 
-		$todate   = $config->convertDateFormat($todate);
-		$fromdate = $config->convertDateFormat(strtotime(date('d M Y')));
+		$todate   = RedshopHelperDatetime::convertDateFormat($todate);
+		$fromdate = RedshopHelperDatetime::convertDateFormat(strtotime(date('d M Y')));
 
 		$data = str_replace("{giftcard_validity_from}", JText::_('COM_REDSHOP_FROM') . " " . $fromdate, $data);
 		$data = str_replace("{giftcard_validity_to}", JText::_('COM_REDSHOP_TO') . " " . $todate, $data);
@@ -5442,7 +5443,14 @@ class productHelper
 
 		$product_download_days_time = (time() + ($product_download_days * 24 * 60 * 60));
 
-		$endtime = mktime($product_download_clock, $product_download_clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time), date("Y", $product_download_days_time));
+		$endtime = mktime(
+			$product_download_clock,
+			$product_download_clock_min,
+			0,
+			(int) date("m", $product_download_days_time),
+			(int) date("d", $product_download_days_time),
+			(int) date("Y", $product_download_days_time)
+		);
 
 		// if download product is set to infinit
 		$endtime = ($downloadable_product->product_download_infinite == 1) ? 0 : $endtime;
@@ -6167,31 +6175,34 @@ class productHelper
 					$mainsplit_date_total = preg_split(" ", $data_txt);
 					$mainsplit_date       = preg_split(":", $mainsplit_date_total[0]);
 
-					$dateStart  = mktime(
+					$dateStart = mktime(
 						0,
 						0,
 						0,
-						date('m', $mainsplit_date[0]),
-						date('d', $mainsplit_date[0]),
-						date('Y', $mainsplit_date[0])
+						(int) date('m', $mainsplit_date[0]),
+						(int) date('d', $mainsplit_date[0]),
+						(int) date('Y', $mainsplit_date[0])
 					);
-					$dateEnd    = mktime(
+
+					$dateEnd = mktime(
 						23,
 						59,
 						59,
-						date('m', $mainsplit_date[1]),
-						date('d', $mainsplit_date[1]),
-						date('Y', $mainsplit_date[1])
+						(int) date('m', $mainsplit_date[1]),
+						(int) date('d', $mainsplit_date[1]),
+						(int) date('Y', $mainsplit_date[1])
 					);
+
 					$todayStart = mktime(
 						0,
 						0,
 						0,
-						date('m'),
-						date('d'),
-						date('Y')
+						(int) date('m'),
+						(int) date('d'),
+						(int) date('Y')
 					);
-					$todayEnd   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+
+					$todayEnd = mktime(23, 59, 59, (int) date('m'), (int) date('d'), (int) date('Y'));
 
 					if ($dateStart <= $todayStart && $dateEnd >= $todayEnd)
 					{

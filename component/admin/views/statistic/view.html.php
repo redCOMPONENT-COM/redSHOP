@@ -11,13 +11,34 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 
+/**
+ * The Statistic view
+ *
+ * @package      RedSHOP.Backend
+ * @subpackage  Statistic.View
+ * @since        2.0.6
+ */
 class RedshopViewStatistic extends RedshopViewAdmin
 {
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a Error object.
+	 *
+	 * @throws  Exception
+	 */
 	public function display($tpl = null)
 	{
 		global $context;
 
-		$uri      = JFactory::getURI();
+		$uri      = JUri::getInstance();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -32,20 +53,20 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		$lists  = array();
 		$option = array();
 
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
-		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
-		$option[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
-		$option[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
-		$option[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
+		$option[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
+		$option[] = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
+		$option[] = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
+		$option[] = JHtml::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
+		$option[] = JHtml::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 
-		$type[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'));
-		$type[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD'));
+		$type[] = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'));
+		$type[] = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD'));
 
-		$lists['filteroption'] = JHTML::_('select.genericlist', $option, 'filteroption',
+		$lists['filteroption'] = JHtml::_('select.genericlist', $option, 'filteroption',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $filteroption
 		);
 
-		$lists['typeoption'] = JHTML::_('select.genericlist', $type, 'typeoption',
+		$lists['typeoption'] = JHtml::_('select.genericlist', $type, 'typeoption',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $typeoption
 		);
 
@@ -178,6 +199,8 @@ class RedshopViewStatistic extends RedshopViewAdmin
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
 	protected function addToolbar()
 	{

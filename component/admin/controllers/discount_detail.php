@@ -51,6 +51,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 		$post['start_date'] = strtotime($post['start_date']);
 		$post['end_date']   = strtotime($post['end_date']) + (23 * 59 * 59);
 
+		/** @var RedshopModelDiscount_detail $model */
 		$model = $this->getModel('discount_detail');
 
 		$layout = $this->input->getCmd('layout', '');
