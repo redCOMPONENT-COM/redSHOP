@@ -9,10 +9,7 @@ use ShippingPage;
 class ShippingSteps extends AdminManagerJoomla3Steps
 {
 
-    public function createShippingRateStandard($shippingName, $shippingRate, $weightStart, $weightEnd, $volumeStart, $volumeEnd, $shippingRateLenghtStart,
-                                               $shippingRateLegnhtEnd, $shippingRateWidthStart, $shippingRateWidthEnd, $shippingRateHeightStart, $shippingRateHeightEnd, $orderTotalStart,
-                                               $orderTotalEnd, $zipCodeStart, $zipCodeEnd, $country, $shippingRateProduct, $shippingCategory,
-                                               $shippingShopperGroups, $shippingPriority, $shippingRateFor, $shippingVATGroups, $function)
+    public function createShippingRateStandard($shipping = array(), $function)
     {
         $I = $this;
         $I->amOnPage(ShippingPage::$shippingManagementUrl);
@@ -20,117 +17,135 @@ class ShippingSteps extends AdminManagerJoomla3Steps
         $I->waitForElement(ShippingPage::$shippingRate, 30);
         $I->click(ShippingPage::$shippingRate);
         $I->click(ShippingPage::$buttonNew);
+        $userPage = new ShippingPage();
         $I->waitForElement(ShippingPage::$shippingName, 30);
-        if ($shippingName != "") {
-            $I->fillField(ShippingPage::$shippingName, $shippingName);
+        if (isset($shipping['name'])) {
+            $I->fillField(ShippingPage::$shippingName, $shipping['name']);
         }
-        if ($weightStart != "") {
-            $I->fillField(ShippingPage::$weightStart, $weightStart);
+        if (isset($shipping['weightStart'])) {
+            $I->fillField(ShippingPage::$weightStart, $shipping['weightStart']);
 
         }
 
-        if ($weightEnd != "") {
-            $I->fillField(ShippingPage::$weightEnd, $weightEnd);
+        if (isset($shipping['weightEnd'])) {
+            $I->fillField(ShippingPage::$weightEnd, $shipping['weightEnd']);
         }
 
-        if ($weightStart != "") {
-            $I->fillField(ShippingPage::$weightStart, $weightStart);
-
-        }
-
-        if ($volumeStart != "") {
-            $I->fillField(ShippingPage::$volumeStart, $volumeStart);
+        if (isset($shipping['weightStart'])) {
+            $I->fillField(ShippingPage::$weightStart, $shipping['weightStart']);
 
         }
 
-        if ($volumeEnd != "") {
-            $I->fillField(ShippingPage::$volumeEnd, $volumeEnd);
+        if (isset($shipping['volumeStart'])) {
+            $I->fillField(ShippingPage::$volumeStart, $shipping['volumeStart']);
 
         }
 
-        if ($shippingRateLenghtStart != "") {
-            $I->fillField(ShippingPage::$shippingRateLenghtStart, $shippingRateLenghtStart);
+        if (isset($shipping['volumeEnd'])) {
+            $I->fillField(ShippingPage::$volumeEnd, $shipping['volumeEnd']);
 
         }
-        $I->fillField(ShippingPage::$shippingRateValue, $shippingRate);
 
-        if ($shippingRateLegnhtEnd != "") {
-            $I->fillField(ShippingPage::$shippingRateLegnhtEnd, $shippingRateLegnhtEnd);
-        }
-        if ($shippingRateWidthStart != "") {
-            $I->fillField(ShippingPage::$shippingRateWidthStart, $shippingRateWidthStart);
-        }
+        if (isset($shipping['shippingRateLenghtStart'])) {
+            $I->fillField(ShippingPage::$shippingRateLenghtStart, $shipping['shippingRateLenghtStart']);
 
-        if ($shippingRateWidthEnd != "") {
-            $I->fillField(ShippingPage::$shippingRateWidthEnd, $shippingRateWidthEnd);
         }
+       if (isset($shipping['shippingRate']))
+       {
+           $I->fillField(ShippingPage::$shippingRateValue, $shipping['shippingRate']);
+       }
 
-        if ($shippingRateHeightEnd != "") {
-            $I->fillField(ShippingPage::$shippingRateHeightEnd, $shippingRateHeightEnd);
+        if (isset($shipping['shippingRateLegnhtEnd'])) {
+            $I->fillField(ShippingPage::$shippingRateLegnhtEnd, $shipping['shippingRateLegnhtEnd']);
         }
-        if ($shippingRateHeightStart != "") {
-            $I->fillField(ShippingPage::$shippingRateHeightStart, $shippingRateHeightStart);
-        }
-        if ($orderTotalStart != "") {
-            $I->fillField(ShippingPage::$orderTotalStart, $orderTotalStart);
-        }
-        if ($orderTotalEnd != "") {
-            $I->fillField(ShippingPage::$orderTotalEnd, $orderTotalEnd);
-        }
-        if ($zipCodeStart != "") {
-            $I->fillField(ShippingPage::$zipCodeStart, $zipCodeStart);
-        }
-        if ($zipCodeEnd != "") {
-            $I->fillField(ShippingPage::$zipCodeEnd, $zipCodeEnd);
+        if (isset($shipping['shippingRateWidthStart'])) {
+            $I->fillField(ShippingPage::$shippingRateWidthStart, $shipping['shippingRateWidthStart']);
         }
 
-        if ($country != "") {
+        if (isset($shipping['shippingRateWidthEnd'])) {
+            $I->fillField(ShippingPage::$shippingRateWidthEnd, $shipping['shippingRateWidthEnd']);
+        }
+
+        if (isset($shipping['shippingRateHeightEnd'])) {
+            $I->fillField(ShippingPage::$shippingRateHeightEnd, $shipping['shippingRateHeightEnd']);
+        }
+        if (isset($shipping['shippingRateHeightStart'])) {
+            $I->fillField(ShippingPage::$shippingRateHeightStart, $shipping['shippingRateHeightStart']);
+        }
+        if (isset($shipping['orderTotalStart'])) {
+            $I->fillField(ShippingPage::$orderTotalStart, $shipping['orderTotalStart']);
+        }
+        if (isset($shipping['orderTotalEnd'])) {
+            $I->fillField(ShippingPage::$orderTotalEnd, $shipping['orderTotalEnd']);
+        }
+        if (isset($shipping['zipCodeStart'])) {
+            $I->fillField(ShippingPage::$zipCodeStart, $shipping['zipCodeStart']);
+        }
+        if (isset($shipping['zipCodeEnd'])) {
+            $I->fillField(ShippingPage::$zipCodeEnd, $shipping['zipCodeEnd']);
+        }
+
+        if (isset($shipping['country'])) {
             $I->waitForElement(ShippingPage::$country, 30);
-            $I->fillField(ShippingPage::$country, $country);
-            $I->pressKey(ShippingPage::$country, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+            $I->click(ShippingPage::$countryField);
+            $I->fillField(ShippingPage::$countryField, $shipping['country']);
+            $I->waitForElement($userPage->returnChoice( $shipping['country']),30);
+            $I->click($userPage->returnChoice( $shipping['country']));
         }
 
-        if ($shippingRateProduct != "") {
-            $I->waitForElement(ShippingPage::$country, 30);
-            $I->fillField(ShippingPage::$shippingRateProduct, $shippingRateProduct);
-            $I->pressKey(ShippingPage::$shippingRateProduct, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        if (isset($shipping['shippingRateProduct'])) {
+            $I->waitForElement(ShippingPage::$shippingRateProduct, 30);
+            $I->click(ShippingPage::$shippingRateProduct);
+            $I->waitForElement(ShippingPage::$fieldShippingRateProduct, 30);
+            $I->fillField(ShippingPage::$fieldShippingRateProduct, $shipping['shippingRateProduct']);
+            $I->waitForElement($userPage->returnChoice($shipping['shippingRateProduct']), 30);
+            $I->click($userPage->returnChoice($shipping['shippingRateProduct']));
         }
 
-        if ($shippingCategory != "") {
+        if (isset($shipping['shippingCategory'])) {
             $I->waitForElement(ShippingPage::$shippingCategory, 30);
-            $I->fillField(ShippingPage::$shippingCategory, $shippingCategory);
-            $I->pressKey(ShippingPage::$shippingCategory, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+            $I->click(ShippingPage::$shippingCategory);
+            $I->fillField(ShippingPage::$shippingCategoryInput, $shipping['shippingCategory']);
+            $I->waitForElement($userPage->returnChoice($shipping['shippingCategory']),30);
+            $I->click($userPage->returnChoice($shipping['shippingCategory']));
         }
 
-        if ($shippingShopperGroups != "") {
+        if (isset($shipping['shippingShopperGroups'])) {
+            $I->pauseExecution();
             $I->waitForElement(ShippingPage::$shippingShopperGroups, 30);
-            $I->fillField(ShippingPage::$shippingShopperGroups, $shippingShopperGroups);
-            $I->pressKey(ShippingPage::$shippingShopperGroups, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+            $I->click(ShippingPage::$shippingShopperGroups);
+            $I->fillField(ShippingPage::$shippingShopperGroupsInput, $shipping['shippingShopperGroups']);
+            $I->waitForElement($userPage->returnChoice($shipping['shippingShopperGroups']),30);
+            $I->click($userPage->returnChoice($shipping['shippingShopperGroups']));
         }
 
-        $I->fillField(ShippingPage::$shippingPriority, $shippingPriority);
+        if (isset($shipping['shippingPriority'])) {
+            $I->fillField(ShippingPage::$shippingPriority, $shipping['shippingPriority']);
+        }
 
-        if ($shippingRateFor != "") {
+        if (isset($shipping['shippingRateFor'])) {
             $I->click(ShippingPage::$shippingRateFor);
             $I->seeElement(ShippingPage::$shippingRateForSearch, 30);
-            $I->fillField(ShippingPage::$shippingRateForSearch, $shippingRateFor);
+            $I->fillField(ShippingPage::$shippingRateForSearch, $shipping['shippingRateFor']);
             $I->pressKey(ShippingPage::$shippingRateFor, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
         }
 
-        if ($shippingVATGroups != "") {
+        if (isset($shipping['shippingVATGroups'])) {
+            $I->pauseExecution();
             $I->click(ShippingPage::$shippingVATGroups);
             $I->seeElement(ShippingPage::$shippingVATGroupsSearh, 30);
-            $I->fillField(ShippingPage::$shippingVATGroupsSearh, $shippingVATGroups);
+            $I->fillField(ShippingPage::$shippingVATGroupsSearh, $shipping['shippingVATGroups']);
             $I->pressKey(ShippingPage::$shippingVATGroups, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
         }
 
         switch ($function) {
             case 'save':
                 $I->click(ShippingPage::$buttonSave);
+                $I->seeInField(ShippingPage::$shippingName, $shipping['name']);
                 break;
             case 'saveclose':
                 $I->click(ShippingPage::$buttonSaveClose);
-                $I->seeLink($shippingName);
+                $I->seeLink($shipping['name']);
                 break;
             default:
                 break;
