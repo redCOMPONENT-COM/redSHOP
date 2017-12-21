@@ -74,8 +74,12 @@
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-sm-6">{shipping_with_vat_lbl}:</label>
-                                <div class="col-sm-6">{shipping_excl_vat}</div>
+                                <div class="col-sm-6">{shipping}</div>
                             </div>
+                            <!-- <div class="row">
+                                <label class="col-sm-6">{{shipping_lbl}:</label>
+                                <div class="col-sm-6">{shipping_excl_vat}</div>
+                            </div> -->
                         </div>
 
                         <!-- {if vat}-->
