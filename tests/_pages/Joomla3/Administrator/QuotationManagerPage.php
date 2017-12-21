@@ -20,8 +20,7 @@ class QuotationManagerPage extends AdminJ3Page
     public static $pageManagementName = "User Management";
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=quotation';
-
-
+    
     public static $userId = ['id' => 's2id_user_id'];
 
     public static $userSearch = ['id' => 's2id_autogen1_search'];
