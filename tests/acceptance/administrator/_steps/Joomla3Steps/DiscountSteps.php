@@ -103,7 +103,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountPage::$buttonNew);
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -132,7 +133,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -161,7 +163,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -190,7 +193,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -221,7 +225,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorError);
+		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
+		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
