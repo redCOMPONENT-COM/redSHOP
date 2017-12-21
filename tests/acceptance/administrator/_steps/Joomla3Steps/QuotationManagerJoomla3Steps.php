@@ -41,6 +41,8 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement($userQuotationPage->xPathSearch($nameUser), 30);
         
         $I->click($userQuotationPage->xPathSearch($nameUser));
+
+        $I->scrollTo(['link' => 'New']);
         $I->click(QuotationManagerPage::$productId);
         $I->waitForElement(QuotationManagerPage::$productsSearch, 30);
         $I->fillField(QuotationManagerPage::$productsSearch, $nameProduct);
@@ -58,6 +60,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(QuotationManagerPage::$URL);
         $I->click(QuotationManagerPage::$quotationId);
         $I->waitForElement(QuotationManagerPage::$quantityp1,30);
+        $I->scrollTo(['link' => 'New']);
         $I->fillField(QuotationManagerPage::$quantityp1, $newQuantity);
         $I->click(QuotationManagerPage::$buttonSave);
         $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
