@@ -73,66 +73,66 @@ class ManageQuotationAdministratorCest
         $I->doAdministratorLogin();
     }
 
-//    /**
-//     *
-//     * Function create category for product
-//     * @param AcceptanceTester $I
-//     * @param $scenario
-//     */
-//    public function createCategory(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Create Category in Administrator');
-//        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-//        $I->wantTo('Create a Category');
-//        $I->addCategorySave($this->randomCategoryName);
-//    }
-//
-//    /**
-//     *
-//     * Function create product for quotation
-//     *
-//     * @param AcceptanceTester $I
-//     * @param $scenario
-//     *
-//     * @depends createCategory
-//     */
-//    public function createProductSave(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test Product Save Manager in Administrator');
-//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//        $I->wantTo('I Want to add product inside the category');
-//        $I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-//    }
-//
-//    /**
-//     *
-//     * Function create uer for quotation
-//     *
-//     * @param AcceptanceTester $I
-//     * @param $scenario
-//     */
-//    public function createUser(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test User creation in Administrator');
-//        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-//        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName,'save');
-//        $I->searchUser($this->firstName);
-//    }
-//
-//    /**
-//     *
-//     * Functrion create Quotation
-//     *
-//     * @param AcceptanceTester $I
-//     * @param $scenario
-//     *
-//     * @depends createCategory
-//     *
-//     * @depends createUser
-//     *
-//     * @depends createProductSave
-//     *
-//     */
+    /**
+     *
+     * Function create category for product
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function createCategory(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Create Category in Administrator');
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Category');
+        $I->addCategorySave($this->randomCategoryName);
+    }
+
+    /**
+     *
+     * Function create product for quotation
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends createCategory
+     */
+    public function createProductSave(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Product Save Manager in Administrator');
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+    }
+
+    /**
+     *
+     * Function create uer for quotation
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function createUser(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test User creation in Administrator');
+        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName,'save');
+        $I->searchUser($this->firstName);
+    }
+
+    /**
+     *
+     * Functrion create Quotation
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends createCategory
+     *
+     * @depends createUser
+     *
+     * @depends createProductSave
+     *
+     */
     public function createQuotation(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Quotation creation in Administrator');
