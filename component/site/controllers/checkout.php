@@ -637,7 +637,6 @@ class RedshopControllerCheckout extends RedshopController
 		if ($users_info_id)
 		{
 			$rs_user['rs_user_info_id'] = $users_info_id;
-			$rs_user = $session->set('rs_user', $rs_user);
 		}
 		elseif (!empty($post['anonymous']))
 		{
@@ -653,6 +652,8 @@ class RedshopControllerCheckout extends RedshopController
 				$rs_user['vatState'] = $post['anonymous']['ST']['state_code_ST'];
 			}
 		}
+
+		$rs_user = $session->set('rs_user', $rs_user);
 
 		$producthelper   = productHelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
