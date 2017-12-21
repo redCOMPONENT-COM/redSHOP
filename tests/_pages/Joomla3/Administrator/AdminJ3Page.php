@@ -47,6 +47,9 @@ abstract class AdminJ3Page
 	 */
 	public static $messageItemDeleteSuccess = "1 item successfully deleted";
 
+	/**
+	 * @var array
+	 */
 	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
 	/**
 	 * @var string
