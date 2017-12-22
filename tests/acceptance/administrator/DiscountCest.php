@@ -275,45 +275,4 @@ class DiscountCest
 		$client->wantTo('Update Existing Discount');
 		$client->editDiscount($this->discountName, $this->amount, $this->newAmount);
 	}
-
-	public function deleteAllDiscount(AcceptanceTester $I, $scenario)
-	{
-		$I->wantToTest('Deletion of Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->deleteAllDiscount();
-		$I->dontSeeElement(['link' => $this->discountName]);
-	}
-
-	public function checkEditButton(AcceptanceTester $I, $scenario)
-	{
-		$I->wantToTest('Deletion of Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->checkEditButton();
-	}
-
-	public function checkDeleteButton(AcceptanceTester $I, $scenario)
-	{
-		$I->wantToTest('Deletion of Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->checkDeleteButton();
-	}
-
-	public function checkPublishButton(AcceptanceTester $I, $scenario)
-	{
-		$I->wantToTest('Deletion of Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->checkPublishButton();
-	}
-
-	public function checkUnpublishButton(AcceptanceTester $I, $scenario)
-	{
-		$I->wantToTest('Deletion of Discount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountSteps($scenario);
-		$I->checkUnpublishButton();
-	}
 }

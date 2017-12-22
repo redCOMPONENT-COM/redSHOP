@@ -321,15 +321,6 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
-	public function deleteAllDiscount()
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->checkAllResults();
-		$I->click(\DiscountPage::$buttonDelete);
-		$I->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$selectorSuccess);
-	}
-
 	/**
 	 * Function to get State of the Discount Name
 	 *
@@ -384,43 +375,6 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->pressKey(\DiscountPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($name, \DiscountPage::$resultRow);
 	}
-
-	public function checkEditButton()
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->click(\DiscountPage::$buttonEdit);
-		$I->acceptPopup();
-		$I->see(\DiscountPage::$namePageManagement, \DiscountPage::$selectorPageTitle);
-	}
-
-	public function checkDeleteButton()
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->click(\DiscountPage::$buttonDelete);
-		$I->acceptPopup();
-		$I->see(\DiscountPage::$namePageManagement, \DiscountPage::$selectorPageTitle);
-	}
-
-	public function checkPublishButton()
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->click(\DiscountPage::$buttonPublish);
-		$I->acceptPopup();
-		$I->see(\DiscountPage::$namePageManagement, \DiscountPage::$selectorPageTitle);
-	}
-
-	public function checkUnpublishButton()
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountPage::$url);
-		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->acceptPopup();
-		$I->see(\DiscountPage::$namePageManagement, \DiscountPage::$selectorPageTitle);
-	}
-
 
 	public function resultShopperGroup($shopperGroup)
 	{
