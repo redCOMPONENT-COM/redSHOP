@@ -1188,6 +1188,7 @@ class RedshopModelSearch extends RedshopModel
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
 			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON x.category_id = c.id')
 			->where('p.published = 1')
+			->where('p.expired = 0')
 			->group('p.product_id');
 
 		switch ($search_type)
