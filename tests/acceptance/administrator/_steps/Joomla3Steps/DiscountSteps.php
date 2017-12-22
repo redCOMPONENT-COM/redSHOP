@@ -134,7 +134,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
+		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
+		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
+		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
@@ -226,7 +226,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
+		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
