@@ -83,7 +83,7 @@ $registerTemplate = RedshopLayoutHelper::render(
 	)
 );
 
-$titleRegisterTemplate = ' <?php echo JHtml::_(Redshop::getConfig()->get(\'CHECKOUT_LOGIN_REGISTER_SWITCHER\') . \'.panel\', JText::_(\'COM_REDSHOP_NEW_CUSTOMERS\'), \'registration\') ?>';
+$titleRegisterTemplate =  JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 
 if (!$users_info_id && Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
 {
