@@ -506,6 +506,10 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::addCartToDatabase();
 		RedshopHelperCart::cartFinalCalculation();
 
+		$cart  = JFactory::getSession()->get('cart');
+		$carts = RedshopHelperCart::generateCartOutput($cart);
+
+		echo $carts[0];
 		$app->close();
 	}
 
