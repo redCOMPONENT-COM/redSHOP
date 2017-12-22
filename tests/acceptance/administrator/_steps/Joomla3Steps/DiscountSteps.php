@@ -104,7 +104,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
-		$client->see(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
+		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}
 
 	/**
