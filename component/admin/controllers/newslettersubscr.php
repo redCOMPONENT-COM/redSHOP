@@ -89,6 +89,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		if (!$model->publish($cid, 1))

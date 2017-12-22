@@ -446,6 +446,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->publish($cid, 0))
