@@ -24,6 +24,7 @@ class RedshopControllerBarcode extends RedshopController
 		}
 		else
 		{
+			/** @var RedshopModelBarcode $model */
 			$model   = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
@@ -71,6 +72,7 @@ class RedshopControllerBarcode extends RedshopController
 
 		else
 		{
+			/** @var RedshopModelBarcode $model */
 			$model   = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);

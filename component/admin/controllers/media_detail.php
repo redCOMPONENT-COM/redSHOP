@@ -58,7 +58,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$cid   = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
@@ -980,6 +982,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->delete($cid))
@@ -1025,7 +1028,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 * @param   string   $folder    Folder Name
 	 * @param   integer  $relative  Folder is in relative directory then 1 else 0
 	 *
-	 * @return  boolean             [description]
+	 * @return  integer             [description]
 	 */
 	public function writableCell($folder, $relative = 1)
 	{
@@ -1060,6 +1063,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->saveorder($cid, $order))
@@ -1106,6 +1110,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->orderup())
@@ -1152,6 +1157,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->orderdown())
