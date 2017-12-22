@@ -289,7 +289,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountCheckBox);
 		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function publishDiscountStateButton($discountName)
@@ -300,7 +300,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountCheckBox);
 		$I->click(\DiscountPage::$buttonPublish);
-		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function unpublishAllDiscount()
@@ -309,7 +309,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function publishAllDiscount()
@@ -318,7 +318,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonPublish);
-		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function deleteAllDiscount()
@@ -327,7 +327,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonDelete);
-		$I->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$saveSuccess);
+		$I->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	/**
