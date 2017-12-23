@@ -291,7 +291,6 @@ class DiscountProductCest
 		$client->doAdministratorLogin();
 		$client = new DiscountProductSteps($scenario);
 		$client->checkPublishAll();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
@@ -310,6 +309,5 @@ class DiscountProductCest
 		$client->doAdministratorLogin();
 		$client = new DiscountProductSteps($scenario);
 		$client->checkDeleteAll();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 }
