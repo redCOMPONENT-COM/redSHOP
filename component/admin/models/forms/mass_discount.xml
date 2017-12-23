@@ -21,7 +21,7 @@
         <field
                 name="type"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="0"
                 label="COM_REDSHOP_MASS_DISCOUNT_TYPE"
                 description="COM_REDSHOP_MASS_DISCOUNT_TYPE_DESC"

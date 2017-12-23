@@ -95,7 +95,7 @@
                 type="redshop.radio"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
-                label-class="label-radio"
+                label-class="radio-button"
                 table-sortable="1"
                 table-width="5%">
             <option value="1">JYES</option>

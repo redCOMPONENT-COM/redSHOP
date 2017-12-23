@@ -20,7 +20,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_CUSTOMER_AMOUNT"
                 description="COM_REDSHOP_CUSTOMER_AMOUNT_TOOLTIP"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="0"
                 required="true"
                 >

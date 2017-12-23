@@ -50,7 +50,7 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_QUESTION_PUBLISHED"
                 description="COM_REDSHOP_QUESTION_PUBLISHED_DESC">
