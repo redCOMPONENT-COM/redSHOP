@@ -61,7 +61,7 @@
         <field
                 name="free_shipping"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="label-radio"
                 default="0"
                 label="COM_REDSHOP_GIFTCARD_FREE_SHIPPING"
                 description="COM_REDSHOP_GIFTCARD_FREE_SHIPPING_DESC"
@@ -98,12 +98,13 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="label-radio"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED_DESC"
                 required="true">
-            <option value="1">JPUBLISHED</option>
-            <option value="0">JUNPUBLISHED</option>
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
         </field>
     </fieldset>
     <fieldset name="economic">

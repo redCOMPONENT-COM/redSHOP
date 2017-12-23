@@ -16,21 +16,8 @@ $productHelper = producthelper::getInstance();
                 <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'); ?></h3>
             </div>
             <div class="box-body">
-				<?php
-				echo RedshopLayoutHelper::render(
-					'system.message',
-					array(
-						'msgList'     => array(
-							'info' => array(
-								JText::_('COM_REDSHOP_CATEGORY_ACCESSORY_PRODUCT_INFO')
-							)
-						),
-						'showHeading' => false,
-						'allowClose'  => false
-					)
-				);
-				?>
-                <table class="admintable table">
+				<div class="alert alert-info"><?php echo JText::_('COM_REDSHOP_CATEGORY_ACCESSORY_PRODUCT_INFO') ?></div>
+                <table class="table table-striped">
                     <tr>
                         <td VALIGN="TOP" class="key" align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/>
                             <br/>

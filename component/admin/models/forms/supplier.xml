@@ -37,6 +37,7 @@
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED_DESC"
                 required="true"
                 table-sortable="1"
                 table-width="5%">

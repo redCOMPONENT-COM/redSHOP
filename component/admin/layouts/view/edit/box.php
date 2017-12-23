@@ -25,8 +25,8 @@ $action        = 'index.php?option=com_redshop&task=' . $data->getInstanceName()
 $fieldSetClass = 'col-md-' . (12 / $data->formFieldsetsColumn);
 ?>
 
-<form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform"
-      enctype="multipart/form-data">
+<form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-vertical adminform"
+        enctype="multipart/form-data">
     <div class="row">
 		<?php foreach ($data->fields as $fieldSet): ?>
             <div class="<?php echo $fieldSetClass ?>">

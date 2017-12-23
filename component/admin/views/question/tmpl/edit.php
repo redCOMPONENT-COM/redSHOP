@@ -33,25 +33,32 @@ defined('_JEXEC') or die;
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&task=question.edit&id=' . $this->detail->id) ?>"
-      method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
+      method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
+					<h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
 				</div>
 				<div class="box-body">
 					<?php echo $this->form->renderField('product_id') ?>
-					<div class="form-group">
-						<label class="control-label col-md-2"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?></label>
-                        <div class="col-md-10">
-                            <p><?php echo $this->detail->user_name ?></p>
+					<div class="form-group row-fluid">
+                        <div class="col-md-3">
+                            <label style="font-size: 110%"><strong><?php echo JText::_('COM_REDSHOP_USER_NAME') ?></strong></label>
+                        </div>
+                        <div class="col-md-9">
+                            <?php echo $this->detail->user_name ?>
 						    <?php echo $this->form->getInput('user_name') ?>
                         </div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-md-2"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?></label>
-						<div class="col-md-10"><?php echo $this->detail->user_email ?></div>
+					<div class="form-group row-fluid">
+                        <div class="col-md-3">
+                            <label style="font-size: 110%"><strong><?php echo JText::_('COM_REDSHOP_USER_EMAIL') ?></strong></label>
+                        </div>
+                        <div class="col-md-9">
+                            <?php echo $this->detail->user_email ?>
+							<?php echo $this->form->getInput('user_email') ?>
+                        </div>
 						<?php echo $this->form->getInput('user_email') ?>
 					</div>
 					<?php echo $this->form->renderField('telephone') ?>
@@ -64,7 +71,7 @@ defined('_JEXEC') or die;
 		<div class="col-sm-6">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS') ?></h3>
+					<h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS') ?></h3>
 				</div>
 				<div class="box-body">
 					<?php if (empty($this->answers)): ?>
@@ -118,7 +125,7 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ANSWERS') ?></h3>
+					<h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ANSWERS') ?></h3>
 				</div>
 				<div class="box-body">
 					<?php echo $this->form->renderField('answer') ?>

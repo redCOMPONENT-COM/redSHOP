@@ -19,10 +19,11 @@ defined('_JEXEC') or die;
 				<?php foreach ($this->form->getFieldset('seo') as $field) : ?>
 					<?php if ($field->hidden) : ?>
 						<?php echo $field->input ?>
-					<?php endif; ?>
+                    <?php else: ?>
                     <div class="form-group row-fluid">
-						<?php echo $this->form->renderField($field->fieldname) ?>
+	                    <?php echo $this->form->renderField($field->fieldname) ?>
                     </div>
+					<?php endif; ?>
 				<?php endforeach; ?>
             </div>
         </div>

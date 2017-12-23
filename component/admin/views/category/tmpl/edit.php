@@ -21,19 +21,8 @@ JFactory::getDocument()->addScriptDeclaration('
 	};
 ');
 ?>
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery("select").select2({width: "100%"});
-    });
-</script>
-<form
-        action="index.php?option=com_redshop&task=category.edit&id=<?php echo $this->item->id; ?>"
-        method="post"
-        name="adminForm"
-        id="adminForm"
-        class="form-validate form-horizontal"
-        enctype="multipart/form-data"
->
+<form action="index.php?option=com_redshop&task=category.edit&id=<?php echo $this->item->id ?>" method="post" name="adminForm"
+        id="adminForm" class="form-validate form-vertical" enctype="multipart/form-data">
 	<?php
 	echo RedshopLayoutHelper::render(
 		'component.full.tab.main',
