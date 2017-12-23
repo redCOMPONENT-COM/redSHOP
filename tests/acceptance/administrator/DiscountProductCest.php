@@ -314,7 +314,7 @@ class DiscountProductCest
 	 *
 	 * @return  void
 	 *
-	 * @depends addDiscountProductSaveClose
+	 * @depends addDiscountProductSave
 	 *
 	 */
 	public function checkDeleteAll(AcceptanceTester $client, $scenario)
