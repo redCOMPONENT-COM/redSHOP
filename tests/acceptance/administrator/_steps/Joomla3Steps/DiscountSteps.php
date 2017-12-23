@@ -7,14 +7,15 @@
  */
 
 namespace AcceptanceTester;
+
 /**
- * Class DiscountManagerJoomla3Steps
+ * Class DiscountSteps
  *
  * @package  AcceptanceTester
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    1.4
+ * @since    2.1.0
  */
 class DiscountSteps extends AdminManagerJoomla3Steps
 {

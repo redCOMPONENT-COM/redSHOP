@@ -5,7 +5,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\DiscountProductJoomla3Steps;
+use AcceptanceTester\DiscountProductSteps;
 use AcceptanceTester\ConfigurationManageJoomla3Steps;
 class CheckoutDiscountOnProductCest
 {
@@ -66,9 +66,9 @@ class CheckoutDiscountOnProductCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
-		$I = new DiscountProductJoomla3Steps($scenario);
+		$I = new DiscountProductSteps($scenario);
 		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->CategoryName, $this->groupName);
-		$I->see(\DiscountProductJ3Page::$messageSaveDiscountSuccess, \DiscountProductJ3Page::$selectorSuccess);
+		$I->see(\DiscountProductPage::$messageSaveDiscountSuccess, \DiscountProductPage::$selectorSuccess);
 
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);

@@ -7,7 +7,7 @@
  */
 
 /**
- * Class DiscountManagerJ3Page
+ * Class DiscountPage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
@@ -75,36 +75,16 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $messageErrorStartDateHigherEndDate = 'Oops! Discount start date is equal or higher than end date.';
 
-	public static $discountCheckBox = ['xpath' =>'//tr/td[2]'];
+	/**
+	 * @var array
+	 */
+	public static $discountCheckBox = ['xpath' => '//tr/td[2]'];
 
 	/**
-	 * Function to get the path for Discount Type
-	 *
-	 * @param   String $discountType Type of Discount
-	 *
 	 * @return string
-	 */
-	public function discountType($discountType)
-	{
-		$path = "//ul/li[contains(text(), '" . $discountType . "')]";
-
-		return $path;
-	}
-
-	/**
-	 * Function to get the Path for Shopper Group
 	 *
-	 * @param   String $groupType Type of the Group
-	 *
-	 * @return string
+	 * @since  2.1.0
 	 */
-	public function shopperGroup($shopperGroup)
-	{
-		$path = "//ul/li[contains(text(), '" . $shopperGroup . "')]";
-
-		return $path;
-	}
-
 	public static function getCurrencyCode()
 	{
 		return "DKK ";
