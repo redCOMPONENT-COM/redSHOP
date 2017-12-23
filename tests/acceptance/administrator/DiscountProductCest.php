@@ -109,37 +109,14 @@ class DiscountProductCest
 	}
 
 	/**
-	 * Function create discount on product with save and close button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function addDiscountProductSaveClose(AcceptanceTester $client, $scenario)
-	{
-		$client->doAdministratorLogin();
-		$client = new DiscountProductSteps($scenario);
-		$client->addDiscountProductSaveClose(
-			$this->productPrice,
-			$this->condition,
-			$this->type,
-			$this->discountAmount,
-			$this->startDate,
-			$this->endDate,
-			$this->categoryName,
-			$this->groupName
-		);
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
-	}
-
-	/**
 	 * Function check cancel button
 	 *
 	 * @param   AcceptanceTester $client   Acceptance Tester case.
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends createDiscountSave
 	 */
 	public function addDiscountProductCancelButton(AcceptanceTester $client, $scenario)
 	{
@@ -157,6 +134,8 @@ class DiscountProductCest
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends addDiscountProductCancelButton
 	 */
 	public function addDiscountProductMissingAmountSaveClose(AcceptanceTester $client, $scenario)
 	{
@@ -181,6 +160,8 @@ class DiscountProductCest
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends addDiscountProductMissingAmountSaveClose
 	 */
 	public function addDiscountProductMissingShopperGroupSaveClose(AcceptanceTester $client, $scenario)
 	{
@@ -204,6 +185,8 @@ class DiscountProductCest
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends addDiscountProductMissingShopperGroupSaveClose
 	 */
 	public function addDiscountProductStartMoreThanEnd(AcceptanceTester $client, $scenario)
 	{
@@ -228,6 +211,8 @@ class DiscountProductCest
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends addDiscountProductStartMoreThanEnd
 	 */
 	public function checkDeleteButton(AcceptanceTester $client, $scenario)
 	{
@@ -244,6 +229,8 @@ class DiscountProductCest
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends checkDeleteButton
 	 */
 	public function checkPublishButton(AcceptanceTester $client, $scenario)
 	{
@@ -260,6 +247,8 @@ class DiscountProductCest
 	 * @param   string           $scenario Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @depends checkPublishButton
 	 */
 	public function checkUnpublishButton(AcceptanceTester $client, $scenario)
 	{
@@ -277,7 +266,7 @@ class DiscountProductCest
 	 *
 	 * @return  void
 	 *
-	 * @depends createDiscountSave
+	 * @depends checkUnpublishButton
 	 */
 	public function checkUnpublishAll(AcceptanceTester $client, $scenario)
 	{
@@ -296,7 +285,6 @@ class DiscountProductCest
 	 * @return  void
 	 *
 	 * @depends checkUnpublishAll
-	 *
 	 */
 	public function checkPublishAll(AcceptanceTester $client, $scenario)
 	{
@@ -314,7 +302,7 @@ class DiscountProductCest
 	 *
 	 * @return  void
 	 *
-	 * @depends addDiscountProductSave
+	 * @depends checkPublishAll
 	 *
 	 */
 	public function checkDeleteAll(AcceptanceTester $client, $scenario)

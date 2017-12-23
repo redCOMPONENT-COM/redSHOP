@@ -54,39 +54,6 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to Add a New Discount with save and close button
-	 *
-	 * @param   integer $productPrice   Discount name
-	 * @param   integer $condition      Discount Amount
-	 * @param   integer $type           Type on the Discount
-	 * @param   integer $discountAmount Discount amount
-	 * @param   string  $startDate      Start date
-	 * @param   string  $endDate        End date
-	 * @param   string  $category       Category name
-	 * @param   string  $groupName      Shopper group name
-	 *
-	 * @return void
-	 */
-	public function addDiscountProductSaveClose($productPrice, $condition, $type, $discountAmount, $startDate, $endDate, $category, $groupName)
-	{
-		$client = $this;
-
-		$client->amOnPage(\DiscountProductPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$buttonNew);
-		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
-		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
-		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
-		$client->chooseRadio(\DiscountProductPage::$fieldDiscountType, $type);
-		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
-		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
-		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
-		$client->click(\DiscountProductPage::$buttonSaveClose);
-	}
-
-	/**
 	 * Function to Add a New Discount today
 	 *
 	 * @param   integer $productPrice   Discount name
