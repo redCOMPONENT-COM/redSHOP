@@ -27131,3 +27131,16 @@ body.modal-open {
 .rs-full { display: none; }
 .rs-more { cursor: pointer; }
 .rs-teaser { display: inline-block; }
+
+label.radio-button.active {
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #409740;
+  border-color: #378137 #378137 #204b20;
+}
+
+label.radio-button.active:active,
+label.radio-button.active:hover {
+  background-color: #378137;
+  color: #fff
+}

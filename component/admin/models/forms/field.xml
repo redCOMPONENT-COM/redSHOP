@@ -98,7 +98,7 @@
         <field
                 name="show_in_front"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_SHOW_AT_FRONT"
                 description="COM_REDSHOP_FIELD_SHOW_AT_FRONT_DESC"
@@ -110,7 +110,7 @@
         <field
                 name="display_in_product"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_PRODUCT_LIST"
                 showon="section:1,17"
@@ -121,7 +121,7 @@
         <field
                 name="display_in_checkout"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_CHECKOUT"
                 showon="section:1,17"
@@ -132,7 +132,7 @@
         <field
                 name="required"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_IS_REQUIRED"
                 description="COM_REDSHOP_FIELD_REQUIRED_DESC"
@@ -144,7 +144,7 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED_DESC"
