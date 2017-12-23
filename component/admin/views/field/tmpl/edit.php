@@ -172,7 +172,7 @@ $editor = JEditor::getInstance();
     })(jQuery);
 </script>
 <form action="index.php?option=com_redshop&task=field.edit&id=<?php echo $this->item->id; ?>" method="post"
-      name="adminForm" id="adminForm" enctype="multipart/form-data" class="form-validate form-horizontal adminform">
+      name="adminForm" id="adminForm" enctype="multipart/form-data" class="form-validate form-vertical adminform">
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary">

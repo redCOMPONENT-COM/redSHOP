@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 JPluginHelper::importPlugin('redshop_category');
-JDispatcher::getInstance()->trigger('onRenderCategoryExtraFields', array($this->item->id));
+RedshopHelperUtility::getDispatcher()->trigger('onRenderCategoryExtraFields', array($this->item->id));
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -21,7 +21,7 @@ JDispatcher::getInstance()->trigger('onRenderCategoryExtraFields', array($this->
                     <tr>
                         <td colspan="2">
 							<?php if ($this->extraFields) : ?>
-								<?php echo $this->extraFields; ?>
+								<?php echo $this->extraFields ?>
 							<?php endif; ?>
                         </td>
                     </tr>
