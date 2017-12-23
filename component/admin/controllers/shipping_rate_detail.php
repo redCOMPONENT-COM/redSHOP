@@ -39,7 +39,9 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 		$post['shipping_rate_on_product'] = explode(',', $post['container_product']);
 		$post["shipping_location_info"]   = $this->input->post->get('shipping_location_info', '', 'raw');
-		$model                            = $this->getModel('shipping_rate_detail');
+
+		/** @var RedshopModelShipping_rate_detail $model */
+		$model = $this->getModel('shipping_rate_detail');
 
 		if ($row = $model->store($post))
 		{
@@ -72,6 +74,8 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$count = count($cid);
+
+		/** @var RedshopModelShipping_rate_detail $model */
 		$model = $this->getModel('shipping_rate_detail');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -105,6 +109,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelShipping_rate_detail $model */
 		$model = $this->getModel('shipping_rate_detail');
 
 		if (!$model->publish($cid, 1))
@@ -125,6 +130,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelShipping_rate_detail $model */
 		$model = $this->getModel('shipping_rate_detail');
 
 		if (!$model->publish($cid, 0))
@@ -147,6 +153,8 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$cid   = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelShipping_rate_detail $model */
 		$model = $this->getModel('shipping_rate_detail');
 
 		if ($model->copy($cid))

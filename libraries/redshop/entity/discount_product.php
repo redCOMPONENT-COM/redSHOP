@@ -87,4 +87,42 @@ class RedshopEntityDiscount_Product extends RedshopEntity
 
 		return $this;
 	}
+
+	/**
+	 * Method for load shopper groups associate with this discount
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadShopperGroups()
+	{
+		$this->shopperGroups = new RedshopEntitiesCollection;
+
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('shopper_group_id'))
+			->from($db->qn('#__redshop_discount_product_shoppers'))
+			->where($db->qn('discount_product_id') . ' = ' . $this->getId());
+
+		$result = $db->setQuery($query)->loadColumn();
+
+		if (empty($result))
+		{
+			return $this;
+		}
+
+		foreach ($result as $shopperGroupId)
+		{
+			$this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
+		}
+
+		return $this;
+	}
 }

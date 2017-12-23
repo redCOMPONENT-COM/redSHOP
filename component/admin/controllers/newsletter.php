@@ -155,6 +155,7 @@ class RedshopControllerNewsletter extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if (!$model->publish($cid, 0))
