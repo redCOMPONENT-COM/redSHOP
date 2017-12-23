@@ -58,14 +58,14 @@ class RedshopTableDiscount_Product extends RedshopTable
 	public $discount_type = 0;
 
 	/**
-	 * @var  string
+	 * @var  integer
 	 */
-	public $start_date;
+	public $start_date = 0;
 
 	/**
-	 * @var  string
+	 * @var  integer
 	 */
-	public $end_date;
+	public $end_date = 0;
 
 	/**
 	 * @var  integer

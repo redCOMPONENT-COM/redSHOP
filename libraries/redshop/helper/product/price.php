@@ -308,12 +308,6 @@ class RedshopHelperProductPrice
 				$regPrice = $row->product_price + $priceTax;
 			}
 
-			/**
-			 * @TODO: Need to check here why system force
-			 * $priceTax  = $this->getProductTax($productId, $row->product_price, $userId);
-			 * $reg_price = $row->product_price;
-			 */
-
 			$formattedPrice = self::formattedPrice($regPrice);
 			$productPrice   = $newPrice - $discountAmount;
 			$productPrice   = $productPrice < 0 ? 0 : $productPrice;
@@ -346,7 +340,7 @@ class RedshopHelperProductPrice
 
 		$productPrice = $productPrice < 0 ? 0 : $productPrice;
 
-		if (Redshop::getConfig()->get('SHOW_PRICE'))
+		if (Redshop::getConfig()->getBool('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
 			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
