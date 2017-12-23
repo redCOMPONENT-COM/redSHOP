@@ -61,7 +61,7 @@
         <field
                 name="free_shipping"
                 type="redshop.radio"
-                label-class="label-radio"
+                label-class="radio-button"
                 default="0"
                 label="COM_REDSHOP_GIFTCARD_FREE_SHIPPING"
                 description="COM_REDSHOP_GIFTCARD_FREE_SHIPPING_DESC"
@@ -98,7 +98,7 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="label-radio"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED_DESC"
