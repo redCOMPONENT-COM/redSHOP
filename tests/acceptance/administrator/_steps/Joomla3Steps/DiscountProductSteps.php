@@ -58,12 +58,12 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @param   integer $productPrice   Discount name
 	 * @param   integer $condition      Discount Amount
-	 * @param   integer $type           Amount on the Discount
-	 * @param   integer $discountAmount Group for the Shopper
-	 * @param   string  $startDate      Type of Discount
-	 * @param   string  $endDate        Discount conditions
-	 * @param   string  $category       Discount conditions
-	 * @param   string  $groupName      Discount conditions
+	 * @param   integer $type           Type on the Discount
+	 * @param   integer $discountAmount Discount amount
+	 * @param   string  $startDate      Start date
+	 * @param   string  $endDate        End date
+	 * @param   string  $category       Category name
+	 * @param   string  $groupName      Shopper group name
 	 *
 	 * @return void
 	 */
@@ -86,48 +86,34 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 	}
 
-	public function addDiscountToday($productPrice, $condition, $type, $discountAmount, $nameCate, $groupName)
+	/**
+	 * Function to Add a New Discount today
+	 *
+	 * @param   integer $productPrice   Discount name
+	 * @param   integer $condition      Discount Amount
+	 * @param   integer $type           Type on the Discount
+	 * @param   integer $discountAmount Discount amount
+	 * @param   string  $category       Category name
+	 * @param   string  $groupName      Shopper group name
+	 *
+	 * @return void
+	 */
+	public function addDiscountToday($productPrice, $condition, $type, $discountAmount, $category, $groupName)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$newButton);
-		$I->verifyNotices(false, $this->checkForNotices(), \DiscountProductPage::$namePageDiscount);
-		$I->checkForPhpNoticesOrWarnings();
-		$userDiscountPage = new\DiscountProductPage();
-		$I->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client = $this;
 
-		$I->click(\DiscountProductPage::$fieldCondition);
-		$I->waitForElement(\DiscountProductPage::$conditionSearch);
-		$I->fillField(\DiscountProductPage::$conditionSearch, $condition);
-
-		$I->waitForElement($userDiscountPage->returnType($condition), 60);
-		$I->click($userDiscountPage->returnType($condition));
-
-		$I->click(\DiscountProductPage::$fieldDiscountType);
-		$I->waitForElement(\DiscountProductPage::$discountTypeSearch);
-		$I->fillField(\DiscountProductPage::$discountTypeSearch, $type);
-
-		$I->waitForElement($userDiscountPage->returnType($type), 60);
-		$I->click($userDiscountPage->returnType($type));
-
-
-		$I->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
-		$I->click(\DiscountProductPage::$fieldCategory);
-		$I->fillField(\DiscountProductPage::$categoryInput, $nameCate);
-
-		$I->waitForElement($userDiscountPage->returnType($nameCate), 60);
-		$I->click($userDiscountPage->returnType($nameCate));
-
-
-		$I->click(\DiscountProductPage::$fieldShopperGroup);
-		$I->fillField(\DiscountProductPage::$shopperGroupInput, $groupName);
-
-		$I->waitForElement($userDiscountPage->returnType($groupName), 60);
-		$I->click($userDiscountPage->returnType($groupName));
-
-
-		$I->click(\DiscountProductPage::$saveButton);
-		$I->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountProductPage::$newButton);
+		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
+		$client->chooseRadio(\DiscountProductPage::$fieldDiscountType, $type);
+		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
+		$client->click(\DiscountProductPage::$buttonSave);
+		$client->waitForElement(\DiscountProductPage::$messageItemSaveSuccess, 30, \DiscountProductPage::$selectorSuccess);
 	}
 
 	/**
@@ -144,217 +130,185 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountProductPage::$buttonCancel);
 	}
 
-	public function addDiscountProductMissingAmountSaveClose($productPrice, $condition, $type, $startDate, $endDate, $nameCate, $groupName)
+	/**
+	 * Function to Add a New Discount with save and close button missing amount
+	 *
+	 * @param   integer $productPrice Discount name
+	 * @param   integer $condition    Discount Amount
+	 * @param   integer $type         Type on the Discount
+	 * @param   string  $startDate    Start date
+	 * @param   string  $endDate      End date
+	 * @param   string  $category     Category name
+	 * @param   string  $groupName    Shopper group name
+	 *
+	 * @return void
+	 */
+	public function addDiscountProductMissingAmountSaveClose($productPrice, $condition, $type, $startDate, $endDate, $category, $groupName)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$newButton);
-		$I->verifyNotices(false, $this->checkForNotices(), \DiscountProductPage::$namePageDiscount);
-		$I->checkForPhpNoticesOrWarnings();
-		$userDiscountPage = new\DiscountProductPage();
-		$I->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client = $this;
 
-		$I->click(\DiscountProductPage::$fieldCondition);
-		$I->waitForElement(\DiscountProductPage::$conditionSearch);
-		$I->fillField(\DiscountProductPage::$conditionSearch, $condition);
-		$I->waitForElement($userDiscountPage->returnType($condition), 60);
-		$I->click($userDiscountPage->returnType($condition));
-
-		$I->click(\DiscountProductPage::$fieldDiscountType);
-		$I->waitForElement(\DiscountProductPage::$discountTypeSearch);
-		$I->fillField(\DiscountProductPage::$discountTypeSearch, $type);
-		$I->waitForElement($userDiscountPage->returnType($type), 60);
-		$I->click($userDiscountPage->returnType($type));
-
-		$I->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
-		$I->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-
-		$I->click(\DiscountProductPage::$fieldCategory);
-		$I->fillField(\DiscountProductPage::$categoryInput, $nameCate);
-		$I->waitForElement($userDiscountPage->returnType($nameCate), 60);
-		$I->click($userDiscountPage->returnType($nameCate));
-
-		$I->click(\DiscountProductPage::$fieldShopperGroup);
-		$I->fillField(\DiscountProductPage::$shopperGroupInput, $groupName);
-		$I->waitForElement($userDiscountPage->returnType($groupName), 60);
-		$I->click($userDiscountPage->returnType($groupName));
-
-
-		$I->click(\DiscountProductPage::$saveCloseButton);
-		$I->acceptPopup();
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountProductPage::$newButton);
+		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
+		$client->chooseRadio(\DiscountProductPage::$fieldDiscountType, $type);
+		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
+		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
+		$client->click(\DiscountProductPage::$buttonSaveClose);
+		$client->waitForElement(\DiscountProductPage::$selectorMissing, 30);
+		$client->waitForText(\DiscountProductPage::$messageError, 60, \DiscountProductPage::$selectorMissing);
 	}
 
-	public function addDiscountProductMissingShopperGroupSaveClose($productPrice, $condition, $type, $discountAmount, $startDate, $endDate, $nameCate)
+	/**
+	 * Function to Add a New Discount with save and close button missing amount
+	 *
+	 * @param   integer $productPrice   Discount name
+	 * @param   integer $condition      Discount Amount
+	 * @param   integer $type           Type on the Discount
+	 * @param   integer $discountAmount Amount of discount
+	 * @param   string  $startDate      Start date
+	 * @param   string  $endDate        End date
+	 * @param   string  $category       Category name
+	 *
+	 * @return void
+	 */
+	public function addDiscountProductMissingShopperGroupSaveClose($productPrice, $condition, $type, $discountAmount, $startDate, $endDate, $category)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$newButton);
-		$I->verifyNotices(false, $this->checkForNotices(), \DiscountProductPage::$namePageDiscount);
-		$I->checkForPhpNoticesOrWarnings();
-		$userDiscountPage = new\DiscountProductPage();
-		$I->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client = $this;
 
-		$I->click(\DiscountProductPage::$fieldCondition);
-		$I->waitForElement(\DiscountProductPage::$conditionSearch);
-		$I->fillField(\DiscountProductPage::$conditionSearch, $condition);
-		$I->waitForElement($userDiscountPage->returnType($condition), 60);
-		$I->click($userDiscountPage->returnType($condition));
-
-		$I->click(\DiscountProductPage::$fieldDiscountType);
-		$I->waitForElement(\DiscountProductPage::$discountTypeSearch);
-		$I->fillField(\DiscountProductPage::$discountTypeSearch, $type);
-		$I->waitForElement($userDiscountPage->returnType($type), 60);
-		$I->click($userDiscountPage->returnType($type));
-
-		$I->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
-		$I->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-
-		$I->click(\DiscountProductPage::$fieldCategory);
-		$I->fillField(\DiscountProductPage::$categoryInput, $nameCate);
-		$I->waitForElement($userDiscountPage->returnType($nameCate), 60);
-		$I->click($userDiscountPage->returnType($nameCate));
-
-		$I->click(\DiscountProductPage::$saveCloseButton);
-		$I->acceptPopup();
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountProductPage::$newButton);
+		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
+		$client->chooseRadio(\DiscountProductPage::$fieldDiscountType, $type);
+		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
+		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
+		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->click(\DiscountProductPage::$buttonSaveClose);
+		$client->waitForElement(\DiscountProductPage::$selectorMissing, 30);
+		$client->waitForText(\DiscountProductPage::$messageError, 60, \DiscountProductPage::$selectorMissing);
 	}
 
-	public function addDiscountProductStartMoreThanEnd($productPrice, $condition, $type, $discountAmount, $startDate, $endDate, $nameCate, $groupName)
+	/**
+	 * Function to Add a New Discount with save and close button start date higher than end date.
+	 *
+	 * @param   integer $productPrice   Discount name
+	 * @param   integer $condition      Discount Amount
+	 * @param   integer $type           Type on the Discount
+	 * @param   integer $discountAmount Discount amount
+	 * @param   string  $startDate      Start date
+	 * @param   string  $endDate        End date
+	 * @param   string  $category       Category name
+	 * @param   string  $groupName      Shopper group name
+	 *
+	 * @return void
+	 */
+	public function addDiscountProductStartMoreThanEnd($productPrice, $condition, $type, $discountAmount, $startDate, $endDate, $category, $groupName)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$newButton);
-		$I->verifyNotices(false, $this->checkForNotices(), \DiscountProductPage::$namePageDiscount);
-		$I->checkForPhpNoticesOrWarnings();
-		$userDiscountPage = new\DiscountProductPage();
-		$I->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client = $this;
 
-		$I->click(\DiscountProductPage::$fieldCondition);
-		$I->waitForElement(\DiscountProductPage::$conditionSearch);
-		$I->fillField(\DiscountProductPage::$conditionSearch, $condition);
-		$I->waitForElement($userDiscountPage->returnType($condition), 60);
-		$I->click($userDiscountPage->returnType($condition));
-
-		$I->click(\DiscountProductPage::$fieldDiscountType);
-		$I->waitForElement(\DiscountProductPage::$discountTypeSearch);
-		$I->fillField(\DiscountProductPage::$discountTypeSearch, $type);
-		$I->waitForElement($userDiscountPage->returnType($type), 60);
-		$I->click($userDiscountPage->returnType($type));
-
-		$I->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountProductPage::$fieldStartDate, $endDate);
-		$I->fillField(\DiscountProductPage::$fieldEndDate, $startDate);
-
-		$I->click(\DiscountProductPage::$fieldCategory);
-		$I->fillField(\DiscountProductPage::$categoryInput, $nameCate);
-		$I->waitForElement($userDiscountPage->returnType($nameCate), 60);
-		$I->click($userDiscountPage->returnType($nameCate));
-
-		$I->click(\DiscountProductPage::$fieldShopperGroup);
-		$I->fillField(\DiscountProductPage::$shopperGroupInput, $groupName);
-		$I->waitForElement($userDiscountPage->returnType($groupName), 60);
-		$I->click($userDiscountPage->returnType($groupName));
-
-		$I->click(\DiscountProductPage::$saveCloseButton);
-		$I->acceptPopup();
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountProductPage::$newButton);
+		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
+		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
+		$client->chooseRadio(\DiscountProductPage::$fieldDiscountType, $type);
+		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
+		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
+		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
+		$client->click(\DiscountProductPage::$buttonSaveClose);
+		$client->waitForElement(\DiscountProductPage::$selectorMissing, 30);
+		$client->waitForText(\DiscountProductPage::$messageError, 60, \DiscountProductPage::$selectorMissing);
 	}
 
-	public function addDiscountProductStartString($productPrice, $condition, $type, $discountAmount, $endDate, $nameCate, $groupName)
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$newButton);
-		$I->verifyNotices(false, $this->checkForNotices(), \DiscountProductPage::$namePageDiscount);
-		$I->checkForPhpNoticesOrWarnings();
-		$userDiscountPage = new\DiscountProductPage();
-		$I->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
-
-		$I->click(\DiscountProductPage::$fieldCondition);
-		$I->waitForElement(\DiscountProductPage::$conditionSearch);
-		$I->fillField(\DiscountProductPage::$conditionSearch, $condition);
-		$I->waitForElement($userDiscountPage->returnType($condition), 60);
-		$I->click($userDiscountPage->returnType($condition));
-
-		$I->click(\DiscountProductPage::$fieldDiscountType);
-		$I->waitForElement(\DiscountProductPage::$discountTypeSearch);
-		$I->fillField(\DiscountProductPage::$discountTypeSearch, $type);
-		$I->waitForElement($userDiscountPage->returnType($type), 60);
-		$I->click($userDiscountPage->returnType($type));
-
-		$I->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
-		$I->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-
-		$I->click(\DiscountProductPage::$fieldCategory);
-		$I->fillField(\DiscountProductPage::$categoryInput, $nameCate);
-		$I->waitForElement($userDiscountPage->returnType($nameCate), 60);
-		$I->click($userDiscountPage->returnType($nameCate));
-
-		$I->click(\DiscountProductPage::$fieldShopperGroup);
-		$I->fillField(\DiscountProductPage::$shopperGroupInput, $groupName);
-		$I->waitForElement($userDiscountPage->returnType($groupName), 60);
-		$I->click($userDiscountPage->returnType($groupName));
-
-		$I->fillField(\DiscountProductPage::$fieldStartDate, "string");
-		$I->click(\DiscountProductPage::$saveCloseButton);
-		$I->acceptPopup();
-	}
-
-	public function checkEditButton()
-	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$editButton);
-		$I->acceptPopup();
-	}
-
+	/**
+	 * Method for check delete button
+	 *
+	 * @return  void
+	 */
 	public function checkDeleteButton()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$deleteButton);
-		$I->acceptPopup();
+		$client = $this;
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->click(\DiscountProductPage::$buttonDelete);
+		$client->acceptPopup();
 	}
 
+	/**
+	 * Method for check delete button
+	 *
+	 * @return  void
+	 */
 	public function checkPublishButton()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$publishButton);
-		$I->acceptPopup();
+		$client = $this;
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->click(\DiscountProductPage::$buttonPublish);
+		$client->acceptPopup();
 	}
 
+	/**
+	 * Method for check delete button
+	 *
+	 * @return  void
+	 */
 	public function checkUnpublishButton()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->click(\DiscountProductPage::$unpublishButton);
-		$I->acceptPopup();
+		$client = $this;
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->click(\DiscountProductPage::$buttonUnpublish);
+		$client->acceptPopup();
 	}
 
+	/**
+	 * Method for check delete button
+	 *
+	 * @return  void
+	 */
 	public function checkUnpublishAll()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->checkAllResults();
-		$I->click(\DiscountProductPage::$unpublishButton);
-		$I->see(\DiscountProductPage::$messageUnpublishSuccess, \DiscountProductPage::$selectorSuccess);
+		$client = $this;
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkAllResults();
+		$client->click(\DiscountProductPage::$buttonUnpublish);
+		$client->see(\DiscountProductPage::$messageItemUnpublishSuccess, \DiscountProductPage::$selectorSuccess);
 	}
 
+	/**
+	 * Method for check delete button
+	 *
+	 * @return  void
+	 */
 	public function checkPublishAll()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->checkAllResults();
-		$I->click(\DiscountProductPage::$publishButton);
-		$I->see(\DiscountProductPage::$messagePublishSuccess, \DiscountProductPage::$selectorSuccess);
+		$client = $this;
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkAllResults();
+		$client->click(\DiscountProductPage::$buttonPublish);
+		$client->see(\DiscountProductPage::$messageItemPublishSuccess, \DiscountProductPage::$selectorSuccess);
 	}
 
+	/**
+	 * Method for check delete button
+	 *
+	 * @return  void
+	 */
 	public function checkDeleteAll()
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
-		$I->checkAllResults();
-		$I->click(\DiscountProductPage::$deleteButton);
-		$I->see(\DiscountProductPage::$messageDeleteSuccess, \DiscountProductPage::$selectorSuccess);
+		$client = $this;
+		$client->amOnPage(\DiscountProductPage::$url);
+		$client->checkAllResults();
+		$client->click(\DiscountProductPage::$buttonDelete);
+		$client->see(\DiscountProductPage::$messageItemDeleteSuccess, \DiscountProductPage::$selectorSuccess);
 	}
 }

@@ -130,7 +130,7 @@ class DiscountProductCest
 			$this->categoryName,
 			$this->groupName
 		);
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
@@ -146,187 +146,182 @@ class DiscountProductCest
 		$client->doAdministratorLogin();
 		$client = new DiscountProductSteps($scenario);
 		$client->addDiscountProductCancelButton();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
 	 *
 	 * Function add discount product missing amount
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
+	 * @return  void
 	 */
-	public function addDiscountProductMissingAmountSaveClose(AcceptanceTester $I, $scenario)
+	public function addDiscountProductMissingAmountSaveClose(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Test add discount missing amount in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->addDiscountProductMissingAmountSaveClose($this->productPrice, $this->condition, $this->type, $this->startDate, $this->endDate, $this->categoryName, $this->groupName);
-		$I->see(\DiscountProductPage::$namePageDetail, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->addDiscountProductMissingAmountSaveClose(
+			$this->productPrice,
+			$this->condition,
+			$this->type,
+			$this->startDate,
+			$this->endDate,
+			$this->categoryName,
+			$this->groupName
+		);
 	}
 
 	/**
 	 *
 	 * Function add discount missing shopper groups
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
+	 * @return  void
 	 */
-	public function addDiscountProductMissingShopperGroupSaveClose(AcceptanceTester $I, $scenario)
+	public function addDiscountProductMissingShopperGroupSaveClose(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Test add discount missing shopper groups in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->addDiscountProductMissingShopperGroupSaveClose($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryName);
-		$I->see(\DiscountProductPage::$namePageDetail, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->addDiscountProductMissingShopperGroupSaveClose(
+			$this->productPrice,
+			$this->condition,
+			$this->type,
+			$this->discountAmount,
+			$this->startDate,
+			$this->endDate,
+			$this->categoryName
+		);
 	}
 
 	/**
 	 * Function add discount product have start day more than end day
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
+	 * @return  void
 	 */
-	public function addDiscountProductStartMoreThanEnd(AcceptanceTester $I, $scenario)
+	public function addDiscountProductStartMoreThanEnd(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Test add discount product start more than end  in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->addDiscountProductStartMoreThanEnd($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryName, $this->groupName);
-		$I->see(\DiscountProductPage::$namePageDetail, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->addDiscountProductStartMoreThanEnd(
+			$this->productPrice,
+			$this->condition,
+			$this->type,
+			$this->discountAmount,
+			$this->startDate,
+			$this->endDate,
+			$this->categoryName,
+			$this->groupName
+		);
 	}
 
 	/**
-	 *
-	 * Function check edit button
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 */
-	public function checkEditButton(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('check Edit button  in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkEditButton();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
-	}
-
-	/**
-	 *
 	 * Function check delete button
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
 	 */
-	public function checkDeleteButton(AcceptanceTester $I, $scenario)
+	public function checkDeleteButton(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('heck Delete button   in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkDeleteButton();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->checkDeleteButton();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
-	 *
 	 * Function check publish button
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
 	 */
-	public function checkPublishButton(AcceptanceTester $I, $scenario)
+	public function checkPublishButton(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('check Publish button  in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkPublishButton();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->checkPublishButton();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
-	 *
 	 * Function check unpublish button
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
 	 *
+	 * @return  void
 	 */
-	public function checkUnpublishButton(AcceptanceTester $I, $scenario)
+	public function checkUnpublishButton(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('check Unpublish button  in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkUnpublishButton();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->checkUnpublishButton();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
 	 * Function check unpublish all discount
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
 	 *
 	 * @depends createDiscountSave
-	 *
 	 */
-	public function checkUnpublishAll(AcceptanceTester $I, $scenario)
+	public function checkUnpublishAll(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Unpublish all discount Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkUnpublishAll();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->checkUnpublishAll();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
-	 *
 	 * Function check publish all discount
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
 	 *
 	 * @depends checkUnpublishAll
 	 *
 	 */
-	public function checkPublishAll(AcceptanceTester $I, $scenario)
+	public function checkPublishAll(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Publish all discounts in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkPublishAll();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->checkPublishAll();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
-	 *
 	 * Function delete all discounts
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
 	 *
 	 * @depends addDiscountProductSaveClose
 	 *
 	 */
-	public function checkDeleteAll(AcceptanceTester $I, $scenario)
+	public function checkDeleteAll(AcceptanceTester $client, $scenario)
 	{
-		$I->wantTo('Deleted all discounts in Administrator');
-		$I->doAdministratorLogin();
-		$I = new DiscountProductSteps($scenario);
-		$I->wantTo('Create a Category Save button');
-		$I->checkDeleteAll();
-		$I->see(\DiscountProductPage::$namePage, \DiscountProductPage::$pageTitle);
+		$client->doAdministratorLogin();
+		$client = new DiscountProductSteps($scenario);
+		$client->checkDeleteAll();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
 }

@@ -6,7 +6,14 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\DiscountProductSteps;
-use AcceptanceTester\ConfigurationManageJoomla3Steps;
+
+/**
+ * Class CheckoutDiscountOnProductCest
+ *
+ * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
+ *
+ * @since  1.6.0
+ */
 class CheckoutDiscountOnProductCest
 {
 	public function __construct()
@@ -68,7 +75,6 @@ class CheckoutDiscountOnProductCest
 
 		$I = new DiscountProductSteps($scenario);
 		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->CategoryName, $this->groupName);
-		$I->see(\DiscountProductPage::$messageSaveDiscountSuccess, \DiscountProductPage::$selectorSuccess);
 
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
