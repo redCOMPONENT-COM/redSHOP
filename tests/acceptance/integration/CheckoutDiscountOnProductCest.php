@@ -55,11 +55,13 @@ class CheckoutDiscountOnProductCest
 	 * Step1 : create category
 	 * Step2 : create product have price is 100
 	 * Step3 : Create Mass  and create discount higher 50 and have discount is 50 percentage
-	 * Step4 : Goes on frontend and checkout with this product (when rung configuration we don't show shipping inside cart)
+	 * Step4 : Goes on frontend and checkout with this product (when run configuration we don't show shipping inside cart)
 	 * Step5 : Delete data
 	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param  AcceptanceTester $I
+	 * @param  mixed            $scenario
+	 *
+	 * @return  void
 	 */
 	public function checkoutOnProductPrice(AcceptanceTester $I, $scenario)
 	{
@@ -69,7 +71,17 @@ class CheckoutDiscountOnProductCest
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSave(
+			$this->ProductName,
+			$this->CategoryName,
+			$this->randomProductNumber,
+			$this->randomProductPrice,
+			$this->minimumPerProduct,
+			$this->minimumQuantity,
+			$this->maximumQuantity,
+			$this->discountStart,
+			$this->discountEnd
+		);
 
 		$I = new DiscountProductSteps($scenario);
 		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->CategoryName, $this->groupName);
