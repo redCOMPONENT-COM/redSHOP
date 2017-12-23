@@ -214,8 +214,8 @@ class DiscountProductCest
 			$this->condition,
 			$this->type,
 			$this->discountAmount,
-			$this->startDate,
 			$this->endDate,
+			$this->startDate,
 			$this->categoryName,
 			$this->groupName
 		);

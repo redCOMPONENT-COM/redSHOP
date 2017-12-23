@@ -227,7 +227,7 @@ class RedshopTableDiscount extends RedshopTable
 		}
 
 		$db    = $this->getDbo();
-		$query = $db->getQuery()
+		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_discount_shoppers'))
 			->where($db->qn('discount_id') . ' = ' . $discountId);
 

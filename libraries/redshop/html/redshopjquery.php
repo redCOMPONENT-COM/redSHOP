@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -397,6 +399,8 @@ abstract class JHtmlRedshopjquery
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
+	 *
+	 * @throws  Exception
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
@@ -409,19 +413,14 @@ abstract class JHtmlRedshopjquery
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-		$html = '';
-		$jInput = JFactory::getApplication()->input;
-		$isAjax = false;
-
-		if ($jInput->getCmd('format', 'html') != 'html' || $jInput->getCmd('tmpl', '') == 'component')
-		{
-			$isAjax = true;
-		}
+		$html     = '';
+		$jInput   = JFactory::getApplication()->input;
+		$isAjax   = $jInput->getCmd('format', 'html') != 'html' || $jInput->getCmd('tmpl', '') == 'component';
 
 		if (is_array($attribs))
 		{
 			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs          = ArrayHelper::toString($attribs);
 		}
 
 		if (version_compare(JVERSION, '3.0', '>='))
@@ -472,8 +471,8 @@ abstract class JHtmlRedshopjquery
 			}
 
 			// Hide button using inline styles for readonly/disabled fields
-			$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-			$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+			$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
+			$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
 			return $html . '<div' . $div_class . '>'
 			. '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value, null, null) : '')
