@@ -150,7 +150,7 @@ class RedshopTableDiscount extends RedshopTable
 		if (isset($src['shopper_group']) && !empty($src['shopper_group']))
 		{
 			$shopperGroups = is_string($src['shopper_group']) ? explode(',', $src['shopper_group']) : $src['shopper_group'];
-			$this->setOption('shopperGroups', $shopperGroups);
+			$this->setOption('shopperGroups', array_filter($shopperGroups));
 			unset($src['shopper_group']);
 		}
 
@@ -167,6 +167,22 @@ class RedshopTableDiscount extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		// Check amount
+		if ((float) $this->amount <= 0.0)
+		{
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_AMOUNT_ZERO'));
+
+			return false;
+		}
+
+		// Check discount amount
+		if ((float) $this->discount_amount <= 0.0)
+		{
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_AMOUNT_ZERO'));
+
+			return false;
+		}
+
 		// If discount type is percent. Make sure discount amount not higher than 100.
 		if ($this->discount_type == 1 && $this->discount_amount > 100)
 		{
@@ -183,6 +199,38 @@ class RedshopTableDiscount extends RedshopTable
 			return false;
 		}
 
+		// Check shopper groups
+		if (empty($this->getOption('shopperGroups', array())))
+		{
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_MISSING_SHOPPER_GROUPS'));
+
+			return false;
+		}
+
 		return parent::doCheck();
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	public function doDelete($pk = null)
+	{
+		$discountId = $this->discount_id;
+
+		if (!parent::doDelete($pk))
+		{
+			return false;
+		}
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery()
+			->delete($db->qn('#__redshop_discount_shoppers'))
+			->where($db->qn('discount_id') . ' = ' . $discountId);
+
+		return $db->setQuery($query)->execute();
 	}
 }

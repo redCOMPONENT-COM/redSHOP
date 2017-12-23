@@ -141,7 +141,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
 	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean         True on success.
 	 *
 	 * @throws  Exception
 	 */
@@ -150,7 +150,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		if (isset($src['shopper_group']) && !empty($src['shopper_group']))
 		{
 			$shopperGroups = is_string($src['shopper_group']) ? explode(',', $src['shopper_group']) : $src['shopper_group'];
-			$this->setOption('shopperGroups', $shopperGroups);
+			$this->setOption('shopperGroups', array_filter($shopperGroups));
 			unset($src['shopper_group']);
 		}
 
@@ -167,6 +167,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		// Check amount
 		if ((float) $this->amount <= 0.0)
 		{
 			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_AMOUNT_ZERO'));
@@ -174,6 +175,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 			return false;
 		}
 
+		// Check discount amount
 		if ((float) $this->discount_amount <= 0.0)
 		{
 			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_DISCOUNT_AMOUNT_ZERO'));
@@ -197,6 +199,38 @@ class RedshopTableDiscount_Product extends RedshopTable
 			return false;
 		}
 
+		// Check shopper groups
+		if (empty($this->getOption('shopperGroups', array())))
+		{
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_MISSING_SHOPPER_GROUPS'));
+
+			return false;
+		}
+
 		return parent::doCheck();
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	public function doDelete($pk = null)
+	{
+		$discountProductId = $this->discount_product_id;
+
+		if (!parent::doDelete($pk))
+		{
+			return false;
+		}
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery()
+			->delete($db->qn('#__redshop_discount_product_shoppers'))
+			->where($db->qn('discount_product_id') . ' = ' . $discountProductId);
+
+		return $db->setQuery($query)->execute();
 	}
 }

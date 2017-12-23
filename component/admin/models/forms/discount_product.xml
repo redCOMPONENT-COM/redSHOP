@@ -93,9 +93,8 @@
                 description="COM_REDSHOP_DISCOUNT_PRODUCT_SHOPPER_GROUP_DESC"
                 multiple="true"
                 required="true"
-                table-hide="1">
-            <option value="">COM_REDSHOP_DISCOUNT_SHOPPER_GROUP_OPTION_SELECT</option>
-        </field>
+                table-hide="1"
+        />
         <field
                 name="published"
                 type="redshop.radio"

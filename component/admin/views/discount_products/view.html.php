@@ -85,12 +85,7 @@ class RedshopViewDiscount_Products extends RedshopViewList
 
 			case 'start_date':
 			case 'end_date':
-				if ($value === '0000-00-00 00:00:00')
-				{
-					return '';
-				}
-
-				return JFactory::getDate($value)->format(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'));
+				return $value > 0 ? JFactory::getDate($value)->format(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')) : '';
 
 			default:
 				return parent::onRenderColumn($config, $index, $row);

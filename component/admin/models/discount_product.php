@@ -41,8 +41,6 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 
 		$data['category_ids'] = isset($data['category_ids']) && is_array($data['category_ids']) ? implode(',', $data['category_ids']) : '';
 
-		var_dump('here');
-
 		return parent::save($data);
 	}
 
