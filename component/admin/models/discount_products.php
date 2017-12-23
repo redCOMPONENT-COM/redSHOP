@@ -64,6 +64,12 @@ class RedshopModelDiscount_Products extends RedshopModelList
 		$filterPublished = $this->getUserStateFromRequest((string) $this->context . '.filter.published', 'filter_published');
 		$this->setState('filter.published', $filterPublished);
 
+		$filterShopperGroup = $this->getUserStateFromRequest((string) $this->context . '.filter.shopper_group', 'filter_shopper_group');
+		$this->setState('filter.shopper_group', $filterShopperGroup);
+
+		$filterType = $this->getUserStateFromRequest((string) $this->context . '.filter.type', 'filter_type');
+		$this->setState('filter.type', $filterType);
+
 		// List state information.
 		parent::populateState($ordering, $direction);
 	}
@@ -115,6 +121,27 @@ class RedshopModelDiscount_Products extends RedshopModelList
 		else
 		{
 			$query->where($db->qn('d.published') . ' IN (0,1)');
+		}
+
+		// Filter: Shopper Group
+		$filterShopperGroup = $this->getState('filter.shopper_group', null);
+
+		if ($filterShopperGroup)
+		{
+			$subQuery = $db->getQuery(true)
+				->select('DISTINCT(' . $db->qn('discount_product_id') . ')')
+				->from($db->qn('#__redshop_discount_product_shoppers'))
+				->where($db->qn('shopper_group_id') . ' = ' . (int) $filterShopperGroup);
+
+			$query->where($db->qn('d.discount_product_id') . ' IN (' . $subQuery . ')');
+		}
+
+		// Filter: Type
+		$filterType = $this->getState('filter.type', null);
+
+		if (is_numeric($filterType))
+		{
+			$query->where($db->qn('d.discount_type') . ' = ' . (int) $filterType);
 		}
 
 		// Add the list ordering clause.

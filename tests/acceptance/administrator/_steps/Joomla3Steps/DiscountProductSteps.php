@@ -39,7 +39,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
@@ -73,7 +73,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
@@ -104,7 +104,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
@@ -125,7 +125,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(\DiscountProductPage::$url);
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\DiscountProductPage::$buttonCancel);
 	}
@@ -149,7 +149,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
@@ -182,7 +182,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);
@@ -216,7 +216,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountProductPage::$newButton);
+		$client->click(\DiscountProductPage::$buttonNew);
 		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->chooseRadio(\DiscountProductPage::$fieldCondition, $condition);

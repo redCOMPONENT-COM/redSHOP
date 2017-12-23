@@ -29,9 +29,19 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		$data['start_date']   = isset($data['start_date']) && !is_numeric($data['start_date']) ? JFactory::getDate($data['start_date'])->toUnix() : 0;
-		$data['end_date']     = isset($data['end_date']) && !is_numeric($data['end_date']) ? JFactory::getDate($data['end_date'])->toUnix() : 0;
+		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
+		{
+			$data['start_date'] = JFactory::getDate($data['start_date'])->toUnix();
+		}
+
+		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
+		{
+			$data['end_date'] = JFactory::getDate($data['end_date'])->toUnix();
+		}
+
 		$data['category_ids'] = isset($data['category_ids']) && is_array($data['category_ids']) ? implode(',', $data['category_ids']) : '';
+
+		var_dump('here');
 
 		return parent::save($data);
 	}
@@ -82,8 +92,8 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 		$dateFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 
 		$item->shopper_group = RedshopEntityDiscount_Product::getInstance($item->discount_product_id)->getShopperGroups()->ids();
-		$item->start_date    = JFactory::getDate($item->start_date)->format($dateFormat);
-		$item->end_date      = JFactory::getDate($item->end_date)->format($dateFormat);
+		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
+		$item->end_date      = !empty($item->end_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
 		$item->category_ids  = explode(',', $item->category_ids);
 
 		return $item;

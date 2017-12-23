@@ -12,6 +12,8 @@
                 name="shopper_group"
                 type="shoppergrouplist"
                 label="COM_REDSHOP_DISCOUNT_SHOPPER_GROUP"
+                onchange="this.form.submit();"
+                class="form-control"
                 default="">
             <option value="">COM_REDSHOP_DISCOUNT_SHOPPER_GROUP_OPTION_SELECT</option>
         </field>
@@ -20,10 +22,20 @@
                 type="list"
                 label="COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE"
                 onchange="this.form.submit();"
+                class="form-control"
                 default="">
             <option value="">COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_SELECT</option>
             <option value="0">COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_TOTAL</option>
             <option value="1">COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_PERCENTAGE</option>
+        </field>
+        <field
+                name="published"
+                type="rpublished"
+                onchange="this.form.submit();"
+                label="JOPTION_SELECT_PUBLISHED"
+                class="form-control"
+                statuses="0,1">
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
         </field>
     </fields>
     <fields name="list">
