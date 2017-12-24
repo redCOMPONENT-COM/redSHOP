@@ -139,11 +139,11 @@ class CheckoutDiscountOnProductCest
 	 *
 	 * @return  void
 	 */
-	/*public function deleteData($scenario)
+	public function deleteData($scenario)
 	{
 		$I = new RedshopSteps($scenario);
 		$I->clearAllData();
-	}*/
+	}
 
 	/**
 	 * Method run before test.

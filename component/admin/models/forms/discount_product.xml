@@ -64,6 +64,7 @@
                 description="COM_REDSHOP_DISCOUNT_PRODUCT_START_DATE_DESC"
                 class="form-control"
                 default=""
+                required="true"
                 table-sortable="1"
                 table-width="10%"
         />
@@ -74,6 +75,7 @@
                 description="COM_REDSHOP_DISCOUNT_PRODUCT_END_DATE_DESC"
                 class="form-control"
                 default=""
+                required="true"
                 table-sortable="1"
                 table-width="10%"
         />

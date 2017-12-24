@@ -41,15 +41,16 @@ abstract class RedshopHelperAttribute
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent = '',
 		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
 	{
-		$user_id         = 0;
-		$stockroomHelper = rsstockroomhelper::getInstance();
-		$productHelper   = productHelper::getInstance();
-		$session         = JFactory::getSession();
+		$user_id       = 0;
+		$productHelper = productHelper::getInstance();
+		$session       = JFactory::getSession();
 
-		$chktagArr['chkvat'] = $chktag = $productHelper->getApplyattributeVatOrNot($templateContent);
+		$chktag              = $productHelper->getApplyattributeVatOrNot($templateContent);
+		$chktagArr['chkvat'] = $chktag;
+
 		$session->set('chkvat', $chktagArr);
 
-		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') == 1 && $displayIndCart)
+		if (Redshop::getConfig()->getInt('INDIVIDUAL_ADD_TO_CART_ENABLE') == 1 && $displayIndCart)
 		{
 			$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
 
@@ -65,7 +66,7 @@ abstract class RedshopHelperAttribute
 
 		$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
 
-		if (empty($attributeTemplate))
+		if (empty($attributeTemplate) || $attributeTemplate == new stdClass)
 		{
 			return $templateContent;
 		}

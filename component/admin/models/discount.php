@@ -31,13 +31,16 @@ class RedshopModelDiscount extends RedshopModelForm
 	{
 		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
 		{
-			$data['start_date'] = JFactory::getDate($data['start_date'])->toUnix();
+			$data['start_date'] = JFactory::getDate($data['start_date'] . ' 00:00:00')->toUnix();
 		}
 
 		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
 		{
-			$data['end_date'] = JFactory::getDate($data['end_date'])->toUnix();
+			$data['end_date'] = JFactory::getDate($data['end_date'] . ' 23:59:59')->toUnix();
 		}
+
+		$data['start_date'] = (int) $data['start_date'];
+		$data['end_date']   = (int) $data['end_date'];
 
 		return parent::save($data);
 	}

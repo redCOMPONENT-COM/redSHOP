@@ -191,7 +191,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 			return false;
 		}
 
-		// If discount type is percent. Make sure discount amount not higher than 100.
+		// Make sure start date always lower than end date.
 		if (!empty($this->start_date) && !empty($this->end_date) && $this->start_date >= $this->end_date)
 		{
 			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
