@@ -150,7 +150,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		if (isset($src['shopper_group']) && !empty($src['shopper_group']))
 		{
 			$shopperGroups = is_string($src['shopper_group']) ? explode(',', $src['shopper_group']) : $src['shopper_group'];
-			$this->setOption('shopperGroups', array_filter($shopperGroups));
+			$this->setOption('shopperGroups', array_values(array_filter($shopperGroups)));
 			unset($src['shopper_group']);
 		}
 

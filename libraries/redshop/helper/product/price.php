@@ -59,11 +59,11 @@ class RedshopHelperProductPrice
 
 			// Secure discount ids
 			$discountIds = !empty($discountStringIds) ? ArrayHelper::toInteger(explode(',', $discountStringIds)) : array();
-			$discountIds = array_filter($discountIds);
+			$discountIds = array_values(array_filter($discountIds));
 
 			// Secure category ids
 			$catIds = !empty($categoryProduct) ? ArrayHelper::toInteger(explode(',', $categoryProduct)) : array();
-			$catIds = array_filter($catIds);
+			$catIds = array_values(array_filter($catIds));
 
 			$query = $db->getQuery(true)
 				->select('dp.*')
