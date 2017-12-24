@@ -23,7 +23,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @param   array  $data  The form data.
 	 *
-	 * @return  boolean  True on success, False on error.
+	 * @return  boolean       True on success, False on error.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -89,17 +89,11 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 			return false;
 		}
 
-		$dateFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-
+		$dateFormat          = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 		$item->shopper_group = RedshopEntityDiscount_Product::getInstance($item->discount_product_id)->getShopperGroups()->ids();
-
-		$item->start_date = !empty($item->start_date) ?
-			JFactory::getDate($item->start_date)->format($dateFormat) : JFactory::getDate()->format($dateFormat);
-
-		$item->end_date = !empty($item->end_date) ?
-			JFactory::getDate($item->end_date)->format($dateFormat) : JFactory::getDate()->format($dateFormat);
-
-		$item->category_ids = explode(',', $item->category_ids);
+		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
+		$item->end_date      = !empty($item->end_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
+		$item->category_ids  = explode(',', $item->category_ids);
 
 		return $item;
 	}

@@ -56,8 +56,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Add a New Discount today
 	 *
-	 * @param   integer $productPrice   Discount name
-	 * @param   integer $condition      Discount Amount
+	 * @param   integer $productPrice   Product price
+	 * @param   integer $condition      Discount condition
 	 * @param   integer $type           Type on the Discount
 	 * @param   integer $discountAmount Discount amount
 	 * @param   string  $category       Category name
@@ -79,7 +79,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
-		$client->click(\DiscountProductPage::$buttonSave);
+		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->waitForText(\DiscountProductPage::$messageItemSaveSuccess, 60, \DiscountProductPage::$selectorSuccess);
 	}
 
