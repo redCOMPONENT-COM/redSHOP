@@ -346,7 +346,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity,"address");
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
-		
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
@@ -359,7 +359,19 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	}
 
-	public function checkoutWithDiscount($productName, $categoryName,$subtotal,$Discount,$Total){
+	/**
+	 * Checkout product with discount
+	 *
+	 * @param string $productName
+	 * @param string $categoryName
+	 * @param string $subTotal
+	 * @param string $discount
+	 * @param string $total
+	 *
+	 * @return void
+	 */
+	public function checkoutWithDiscount($productName, $categoryName, $subTotal, $discount, $total)
+	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
@@ -373,9 +385,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
-		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->see($Discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
-		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->see($discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
+		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
 	public function checkoutSpecificShopperGroup($userName,$password,$productName, $categoryName,$ShippingRate,$Total){

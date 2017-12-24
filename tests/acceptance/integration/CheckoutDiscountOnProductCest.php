@@ -17,11 +17,104 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
  */
 class CheckoutDiscountOnProductCest
 {
+	/**
+	 * @var \Faker\Generator
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 */
+	public $productName;
+
+	/**
+	 * @var string
+	 */
+	public $categoryName;
+
+	/**
+	 * @var integer
+	 */
+	public $minimumPerProduct;
+
+	/**
+	 * @var integer
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var integer
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var string
+	 */
+	public $discountStart;
+
+	/**
+	 * @var string
+	 */
+	public $discountEnd;
+
+	/**
+	 * @var integer
+	 */
+	public $randomProductNumber;
+
+	/**
+	 * @var integer
+	 */
+	public $randomProductPrice;
+
+	/**
+	 * @var string
+	 */
+	public $subtotal;
+
+	/**
+	 * @var string
+	 */
+	public $discount;
+
+	/**
+	 * @var string
+	 */
+	public $total;
+
+	/**
+	 * @var integer
+	 */
+	public $productPrice;
+
+	/**
+	 * @var integer
+	 */
+	public $condition;
+
+	/**
+	 * @var integer
+	 */
+	public $type;
+
+	/**
+	 * @var integer
+	 */
+	public $discountAmount;
+
+	/**
+	 * @var string
+	 */
+	public $groupName;
+
+	/**
+	 * CheckoutDiscountOnProductCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
-		$this->ProductName         = 'ProductName' . rand(100, 999);
-		$this->CategoryName        = "CategoryName" . rand(1, 100);
+		$this->productName         = 'ProductName' . rand(100, 999);
+		$this->categoryName        = "CategoryName" . rand(1, 100);
 		$this->minimumPerProduct   = 1;
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = $this->faker->numberBetween(100, 1000);
@@ -30,8 +123,8 @@ class CheckoutDiscountOnProductCest
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
 		$this->subtotal            = "DKK 50,00";
-		$this->Discount            = "";
-		$this->Total               = "DKK 50,00";
+		$this->discount            = "";
+		$this->total               = "DKK 50,00";
 		$this->productPrice        = 50;
 		$this->condition           = 3;
 		$this->type                = 1;
@@ -39,12 +132,26 @@ class CheckoutDiscountOnProductCest
 		$this->groupName           = "Default Private";
 	}
 
+	/**
+	 * Method for clean data.
+	 *
+	 * @param   mixed $scenario Scenario
+	 *
+	 * @return  void
+	 */
 	public function deleteData($scenario)
 	{
 		$I = new RedshopSteps($scenario);
 		$I->clearAllData();
 	}
 
+	/**
+	 * Method run before test.
+	 *
+	 * @param   AcceptanceTester $I
+	 *
+	 * @return  void
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -67,13 +174,13 @@ class CheckoutDiscountOnProductCest
 	{
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave(
-			$this->ProductName,
-			$this->CategoryName,
+			$this->productName,
+			$this->categoryName,
 			$this->randomProductNumber,
 			$this->randomProductPrice,
 			$this->minimumPerProduct,
@@ -84,21 +191,21 @@ class CheckoutDiscountOnProductCest
 		);
 
 		$I = new DiscountProductSteps($scenario);
-		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->CategoryName, $this->groupName);
+		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->categoryName, $this->groupName);
 
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
+		$I->checkoutWithDiscount($this->productName, $this->categoryName, $this->subtotal, $this->discount, $this->total);
 	}
 
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
+		$I->deleteProduct($this->productName);
 
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->CategoryName);
+		$I->deleteCategory($this->categoryName);
 	}
 }
