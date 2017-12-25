@@ -326,15 +326,14 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\CategoryManagerJ3Page::$publishButton);
         $I->acceptPopup();
     }
-
-
+    
     public function publishAllCategory()
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkAllResults();
         $I->click(\CategoryManagerJ3Page::$publishButton);
-        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorSuccess);
+        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorHeading);
     }
 
     public function unpublishWithoutChoice()
@@ -351,7 +350,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkAllResults();
         $I->click(\CategoryManagerJ3Page::$unpublishButton);
-        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorSuccess);
+        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorHeading);
     }
 
     public function checkinWithoutChoice()
@@ -369,6 +368,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkAllResults();
         $I->click(\CategoryManagerJ3Page::$checkInButton);
-        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorSuccess);
+        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorHeading);
     }
 }

@@ -29,7 +29,7 @@ class ManageCategoryAdministratorCest
 
     /*
      * Create category and save button
-//     */
+     */
     public function createCategory(AcceptanceTester $I, $scenario)
     {
         $I->doAdministratorLogin();
@@ -209,7 +209,7 @@ class ManageCategoryAdministratorCest
         $I->wantTo('Test Category Publish all   in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-        $I->wantTo('Publish without a Category');
+        $I->wantTo('Publish all Categories');
         $I->publishAllCategory();
         $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
