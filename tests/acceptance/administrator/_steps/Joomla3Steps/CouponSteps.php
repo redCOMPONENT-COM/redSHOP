@@ -30,7 +30,7 @@ class CouponSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addCoupon($couponCode = 'TestCoupon', $couponType = 0, $couponValue = '100', $couponEffect = 0, $couponLeft = '10')
+	public function addCoupon($couponCode, $couponType, $couponValue, $couponEffect, $couponLeft)
 	{
 		$client = $this;
 		$client->amOnPage(\CouponPage::$url);
