@@ -102,11 +102,11 @@ class CouponCheckoutProductCest
 	 *
 	 * @return void
 	 */
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
+//	public function deleteData($scenario)
+//	{
+//		$I= new RedshopSteps($scenario);
+//		$I->clearAllData();
+//	}
 
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
