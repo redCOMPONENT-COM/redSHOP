@@ -66,11 +66,11 @@ else
     sudo cp -a chromedriver /usr/local/bin
     sudo chmod +x /usr/local/bin/chromedriver
 
-	sh -e /etc/init.d/xvfb start
-	sleep 3
-	sudo apt-get install fluxbox -y --force-yes
-	fluxbox &
-	sleep 3
+	#sh -e /etc/init.d/xvfb start
+	#sleep 3
+	#sudo apt-get install fluxbox -y --force-yes
+	#fluxbox &
+	#sleep 3
 
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	composer global require hirak/prestissimo
