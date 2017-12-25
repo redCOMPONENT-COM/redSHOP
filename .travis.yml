@@ -27,9 +27,8 @@ cache:
 
 env:
   matrix:
-      #- ACCEPTANCE=false # this will run phpcs checks etc
-      #- ACCEPTANCE=true # run test
-      - ACCEPTANCE=acceptance/install/InstallRedShop
+      - ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=true # run test
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
