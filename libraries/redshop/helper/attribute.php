@@ -45,8 +45,10 @@ abstract class RedshopHelperAttribute
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 
-		$chktag              = $productHelper->getApplyattributeVatOrNot($templateContent);
-		$chktagArr['chkvat'] = $chktag;
+		$chktag    = $productHelper->getApplyattributeVatOrNot($templateContent);
+		$chktagArr = array(
+			'chkvat' => $chktag
+		);
 
 		$session->set('chkvat', $chktagArr);
 

@@ -170,7 +170,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// Check amount
 		if ((float) $this->amount <= 0.0)
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_AMOUNT_ZERO'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_AMOUNT_ZERO'));
 
 			return false;
 		}
@@ -178,7 +178,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// Check discount amount
 		if ((float) $this->discount_amount <= 0.0)
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_DISCOUNT_AMOUNT_ZERO'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_DISCOUNT_AMOUNT_ZERO'));
 
 			return false;
 		}
@@ -186,7 +186,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// If discount type is percent. Make sure discount amount not higher than 100.
 		if ($this->discount_type == 1 && $this->discount_amount > 100)
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_DISCOUNT_PERCENTAGE'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_DISCOUNT_PERCENTAGE'));
 
 			return false;
 		}
@@ -194,7 +194,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// Make sure start date always lower than end date.
 		if (!empty($this->start_date) && !empty($this->end_date) && $this->start_date >= $this->end_date)
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
 
 			return false;
 		}
@@ -202,7 +202,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		// Check shopper groups
 		if (empty($this->getOption('shopperGroups', array())))
 		{
-			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_MISSING_SHOPPER_GROUPS'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_MISSING_SHOPPER_GROUPS'));
 
 			return false;
 		}
@@ -213,9 +213,9 @@ class RedshopTableDiscount_Product extends RedshopTable
 	/**
 	 * Delete one or more registers
 	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 * @param   mixed  $pk  Array of ids or ids comma separated
 	 *
-	 * @return  boolean  Deleted successfully?
+	 * @return  boolean            Deleted successfully?
 	 */
 	public function doDelete($pk = null)
 	{
