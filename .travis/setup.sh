@@ -42,12 +42,16 @@ else
 	#sudo a2ensite default.conf
 	#sudo service apache2 restart
 
-	# PHP 7.0
 	sudo apt-get update
 	sudo apt-get install apache2 libapache2-mod-fastcgi
 	# enable php-fpm
 	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+
+	# For PHP 7.0
+	if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
+		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+	fi;
+
 	sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 	sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
@@ -56,6 +60,7 @@ else
 	# configure apache virtual hosts
 	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
 	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+	sudo sed -e "s?%TRAVIS_BUILD_PHP%?$(phpenv version-name)?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo service apache2 restart
 
 
@@ -66,11 +71,11 @@ else
     sudo cp -a chromedriver /usr/local/bin
     sudo chmod +x /usr/local/bin/chromedriver
 
-	sh -e /etc/init.d/xvfb start
-	sleep 3
-	sudo apt-get install fluxbox -y --force-yes
-	fluxbox &
-	sleep 3
+	#sh -e /etc/init.d/xvfb start
+	#sleep 3
+	#sudo apt-get install fluxbox -y --force-yes
+	#fluxbox &
+	#sleep 3
 
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	composer global require hirak/prestissimo
