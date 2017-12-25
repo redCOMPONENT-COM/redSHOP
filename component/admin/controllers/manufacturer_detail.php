@@ -42,6 +42,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 		$post['manufacturer_id'] = $cid[0];
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if ($row = $model->store($post))
@@ -110,6 +111,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if (!$model->delete($cid))
@@ -132,6 +134,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if ($model->copy($cid))

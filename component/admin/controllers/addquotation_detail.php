@@ -59,7 +59,9 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 
 		$cid                   = $this->input->post->get('cid', array(0), 'array');
 		$post ['quotation_id'] = $cid [0];
-		$model                 = $this->getModel('addquotation_detail');
+
+		/** @var RedshopModelAddquotation_detail $model */
+		$model = $this->getModel('addquotation_detail');
 
 		if (!$post['users_info_id'])
 		{
@@ -77,6 +79,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 			$post['block']        = 0;
 
 			// Get Admin order detail Model Object
+			/** @var RedshopModelUser_detail $userModel */
 			$userModel = RedshopModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
@@ -152,7 +155,9 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 
 	public function displayOfflineSubProperty()
 	{
-		$get   = $this->input->get->getArray();
+		$get = $this->input->get->getArray();
+
+		/** @var RedshopModelAddquotation_detail $model */
 		$model = $this->getModel('Addquotation_Detail');
 
 		$productId   = $get['product_id'];

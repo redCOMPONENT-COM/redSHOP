@@ -36,8 +36,9 @@ class RedshopControllerManufacturer extends RedshopController
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
+		/** @var RedshopModelManufacturer $model */
 		$model = $this->getModel('manufacturer');
-		$model->saveorder($cid);
+		$model->saveOrder($cid);
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
@@ -51,6 +52,7 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function orderup()
 	{
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 		$model->move(-1);
 
@@ -66,6 +68,7 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function orderdown()
 	{
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 		$model->move(1);
 
@@ -89,6 +92,7 @@ class RedshopControllerManufacturer extends RedshopController
 		JArrayHelper::toInteger($order);
 
 		// Get the model
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('Manufacturer_Detail', 'RedshopModel');
 
 		// Save the ordering
@@ -112,11 +116,12 @@ class RedshopControllerManufacturer extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if (!$model->publish($cid, 1))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_PUBLISHED_SUCCESSFULLY');
@@ -132,11 +137,12 @@ class RedshopControllerManufacturer extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_UNPUBLISHED_SUCCESSFULLY');

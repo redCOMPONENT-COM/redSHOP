@@ -34,6 +34,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 		$post ['catalog_id'] = $cid [0];
 		$link                = 'index.php?option=com_redshop&view=catalog';
 
+		/** @var RedshopModelCatalog_detail $model */
 		$model = $this->getModel('catalog_detail');
 
 		if ($model->store($post))
@@ -57,6 +58,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelCatalog_detail $model */
 		$model = $this->getModel('catalog_detail');
 
 		if (!$model->delete($cid))
