@@ -42,12 +42,16 @@ else
 	#sudo a2ensite default.conf
 	#sudo service apache2 restart
 
-	# PHP 7.0
 	sudo apt-get update
 	sudo apt-get install apache2 libapache2-mod-fastcgi
 	# enable php-fpm
 	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+
+	# For PHP 7.0
+	if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
+		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+	fi;
+
 	sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 	sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
