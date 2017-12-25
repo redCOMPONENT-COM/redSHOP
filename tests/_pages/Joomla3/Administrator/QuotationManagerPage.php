@@ -39,10 +39,6 @@ class QuotationManagerPage extends AdminJ3Page
 
     public static $quotationStatusSearch = ['id' => 's2id_autogen2_search'];
     
-    
-
-    
-
     public static $quotationId = ['xpath' => '//tr[@class=\'row0\']/td[3]/a'];
 
     public static $quotationStatus = ['xpath' => '//tr[@class=\'row0\']/td[6]'];
