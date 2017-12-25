@@ -388,6 +388,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->pauseExecution();
 	}
 
 	public function checkoutSpecificShopperGroup($userName,$password,$productName, $categoryName,$ShippingRate,$Total){

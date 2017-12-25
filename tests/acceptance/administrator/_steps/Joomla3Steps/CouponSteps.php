@@ -41,8 +41,8 @@ class CouponSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\CouponPage::$fieldCode, $couponCode);
 		$client->fillField(\CouponPage::$fieldValue, $couponValue);
 		$client->fillField(\CouponPage::$fieldAmountLeft, $couponLeft);
-		$client->chooseRadio(\CouponPage::$fieldType, $couponType);
-		$client->chooseRadio(\CouponPage::$fieldEffect, $couponEffect);
+		$client->selectOption(\CouponPage::$fieldType, $couponType);
+		$client->selectOption(\CouponPage::$fieldEffect, $couponEffect);
 		$client->click(\CouponPage::$buttonSaveClose);
 		$client->waitForText(\CouponPage::$messageItemSaveSuccess, 60, \CouponPage::$selectorSuccess);
 		$client->see(\CouponPage::$messageItemSaveSuccess, \CouponPage::$selectorSuccess);

@@ -189,9 +189,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	public function chooseOnSelect2($element, $text)
 	{
 		$I = $this;
-
 		$elementId = is_array($element) ? $element['id'] : $element;
-
 		$I->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
 		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
 		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
@@ -202,14 +200,5 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-	}
-
-	public function chooseRadio($element, $value)
-	{
-		$I = $this;
-		$element = is_array($element) ? $element : array('id' => $element);
-		$element['value'] = $value;
-		$element['type']  = 'radio';
-		$I->click($element);
 	}
 }

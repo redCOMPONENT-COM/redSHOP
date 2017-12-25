@@ -33,12 +33,12 @@ class DiscountProductPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldCondition = ['name' => 'jform[condition]'];
+	public static $fieldCondition = ['id' => 'jform_condition'];
 
 	/**
 	 * @var array
 	 */
-	public static $fieldDiscountType = ['name' => 'jform[discount_type]'];
+	public static $fieldDiscountType = ['id' => 'jform_discount_type'];
 
 	/**
 	 * @var array

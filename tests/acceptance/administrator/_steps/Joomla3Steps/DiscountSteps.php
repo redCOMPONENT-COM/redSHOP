@@ -41,8 +41,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldName, $name);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
-		$client->chooseRadio(\DiscountPage::$fieldCondition, $discountCondition);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->selectOption(\DiscountPage::$fieldCondition, $discountCondition);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSaveClose);
 		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
@@ -85,7 +85,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldName, $name);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
@@ -129,7 +129,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
@@ -159,7 +159,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$client->fillField(\DiscountPage::$fieldName, $name);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
-		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
@@ -190,7 +190,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldName, $name);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->click(\DiscountPage::$buttonSave);
@@ -221,7 +221,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldName, $name);
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-		$client->chooseRadio(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
 		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
 		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
