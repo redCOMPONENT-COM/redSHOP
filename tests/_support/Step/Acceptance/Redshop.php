@@ -20,8 +20,8 @@ class Redshop extends \AcceptanceTester
 	 */
 	public function assertSystemMessageContains($message)
 	{
-		$I = $this;
-		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->waitForText($message, 30, ['id' => 'system-message-container']);
+		$browser = $this;
+		$browser->waitForElement(['id' => 'system-message-container'], 60);
+		$browser->waitForText($message, 30, ['id' => 'system-message-container']);
 	}
 }

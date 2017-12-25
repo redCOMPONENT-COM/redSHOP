@@ -21,8 +21,13 @@ use CategoryManagerJ3Page as CategoryManagerJ3Page;
  */
 class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-
-
+	/**
+	 * Method for save category
+	 *
+	 * @param   string $categoryName Name of category
+	 *
+	 * @return void
+	 */
 	public function addCategorySave($categoryName)
 	{
 		$I = $this;
@@ -41,7 +46,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * Function  to Create a New Category Save and close
 	 *
-	 * @param   String $categoryName Name of the Category
+	 * @param   string $categoryName Name of the Category
 	 *
 	 * @return void
 	 */
@@ -314,6 +319,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->dontSee($categoryName);
 	}
 
+	/**
+	 * Delete all category
+	 */
 	public function deleteAllCategory()
 	{
 		$I = $this;
