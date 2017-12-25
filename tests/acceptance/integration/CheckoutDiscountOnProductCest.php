@@ -131,19 +131,19 @@ class CheckoutDiscountOnProductCest
 		$this->discountAmount      = 50;
 		$this->groupName           = "Default Private";
 	}
-//
-//	/**
-//	 * Method for clean data.
-//	 *
-//	 * @param   mixed $scenario Scenario
-//	 *
-//	 * @return  void
-//	 */
-//	public function deleteData($scenario)
-//	{
-//		$I = new RedshopSteps($scenario);
-//		$I->clearAllData();
-//	}
+
+	/**
+	 * Method for clean data.
+	 *
+	 * @param   mixed $scenario Scenario
+	 *
+	 * @return  void
+	 */
+	public function deleteData($scenario)
+	{
+		$I = new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	/**
 	 * Method run before test.
