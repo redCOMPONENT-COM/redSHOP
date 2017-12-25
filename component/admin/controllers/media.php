@@ -28,7 +28,9 @@ class RedshopControllerMedia extends RedshopController
 		$post      = $this->input->post->getArray();
 		$file      = $this->input->files->get('downloadfile', array(), 'array');
 		$totalFile = count($file['name']);
-		$model     = $this->getModel('media');
+
+		/** @var RedshopModelMedia $model */
+		$model = $this->getModel('media');
 
 		// Default message
 		$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
@@ -107,7 +109,9 @@ class RedshopControllerMedia extends RedshopController
 	{
 		$media_id = $this->input->getInt('media_id');
 		$fileId   = $this->input->getInt('fileId');
-		$model    = $this->getModel('media');
+
+		/** @var RedshopModelMedia $model */
+		$model = $this->getModel('media');
 
 		if ($model->deleteAddtionalFiles($fileId))
 		{
@@ -139,6 +143,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
 
+		/** @var RedshopModelMedia $model */
 		$model = $this->getModel('media');
 
 		if (!$model->saveorder($cid, $order))
@@ -188,6 +193,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (isset($cid[0]) && $cid[0] != 0)
@@ -245,6 +251,7 @@ class RedshopControllerMedia extends RedshopController
 			if ($new)
 			{
 				// Create new media
+				/** @var RedshopModelMedia $model */
 				$model = $this->getModel('media');
 
 				$fileinfo = pathinfo($dest);
@@ -336,7 +343,7 @@ class RedshopControllerMedia extends RedshopController
 			);
 		}
 
-		die;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -360,7 +367,7 @@ class RedshopControllerMedia extends RedshopController
 					)
 				);
 
-				die;
+				JFactory::getApplication()->close();
 			}
 		}
 
@@ -370,7 +377,7 @@ class RedshopControllerMedia extends RedshopController
 			)
 		);
 
-		die;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -391,6 +398,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->publish($cid, 1))

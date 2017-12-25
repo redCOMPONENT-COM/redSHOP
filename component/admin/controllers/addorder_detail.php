@@ -68,6 +68,8 @@ class RedshopControllerAddorder_Detail extends RedshopController
 
 		$cid                  = $this->input->post->get('cid', array(0), 'array');
 		$post ['order_id']    = $cid [0];
+
+		/** @var RedshopModelAddorder_detail $model */
 		$model                = $this->getModel('addorder_detail');
 		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
@@ -241,7 +243,9 @@ class RedshopControllerAddorder_Detail extends RedshopController
 			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
-		if ($row = $model->store($post))
+		$row = $model->store($post);
+
+		if ($row)
 		{
 			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
 			$type = 'success';
@@ -252,7 +256,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
 			$type = 'error';
 		}
 
-		if ($apply == 1)
+		if ($apply == 1 && false !== $row)
 		{
 			// @TODO Consider about this method name. get should return value instead of "set"
 			RedshopHelperOrder::getPaymentInformation($row, $post);
@@ -310,7 +314,9 @@ class RedshopControllerAddorder_Detail extends RedshopController
 		$shippingadd_id = $this->input->getInt('shippingadd_id', 0);
 		$user_id        = $this->input->getInt('user_id', 0);
 		$is_company     = $this->input->getInt('is_company', 0);
-		$model          = $this->getModel('addorder_detail');
+
+		/** @var RedshopModelAddorder_detail $model */
+		$model = $this->getModel('addorder_detail');
 
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 

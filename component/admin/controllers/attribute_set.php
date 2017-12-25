@@ -32,6 +32,7 @@ class RedshopControllerAttribute_Set extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if (!$model->publish($cid, 1))
@@ -52,6 +53,7 @@ class RedshopControllerAttribute_Set extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if (!$model->publish($cid, 0))

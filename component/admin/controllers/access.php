@@ -24,12 +24,14 @@ class RedshopControllerAccess extends RedshopControllerForm
 	 * @param   string  $key     The name of the primary key of the URL variable.
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return  boolean  True if successful, false otherwise.
+	 * @return  boolean          True if successful, false otherwise.
+	 *
+	 * @throws  Exception
 	 */
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app  = JFactory::getApplication();
 		$data = $app->input->get('jform', array(), 'Array');

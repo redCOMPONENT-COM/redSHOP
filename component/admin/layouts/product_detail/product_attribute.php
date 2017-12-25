@@ -255,7 +255,9 @@ if ($data->lists['attributes'])
 						<div class="image">
 							<a class="joom-box"
 							   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=property&fid=' . $keyAttr . $keyProperty . '&layout=thumbs'); ?>"
-							   rel="{handler: 'iframe', size: {x: 900, y: 500}}"></a>
+							   rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+							   	<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH ?>media16.png" alt=""/>
+							</a>
 						</div>
 					</div>
 					<input type="file" value=""
@@ -481,7 +483,7 @@ if ($data->lists['attributes'])
 																		<a class="joom-box"
 																		   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=subproperty&fid=' . $keyAttr . $keySubProp . '&layout=thumbs'); ?>"
 																		   rel="{handler: 'iframe', size: {x: 900, y: 500}}"
-																			></a>
+																			><img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH ?>media16.png" alt=""/></a>
 																	</div>
 																</div>
 																<input type="file" value=""
