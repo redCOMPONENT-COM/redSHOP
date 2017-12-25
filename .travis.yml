@@ -1,6 +1,6 @@
 language: php
 sudo: required
-dist: trusty
+dist: precise
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
