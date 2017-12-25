@@ -244,7 +244,6 @@ class ManageCategoryAdministratorCest
      * @depends ụnpublishWithouChoice
      *
      */
-
     public function unpublishAllCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category Unpublish all categories in Administrator');
