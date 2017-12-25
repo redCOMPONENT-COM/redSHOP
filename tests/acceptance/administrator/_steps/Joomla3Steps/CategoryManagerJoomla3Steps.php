@@ -350,7 +350,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkAllResults();
         $I->click(\CategoryManagerJ3Page::$unpublishButton);
-        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorHeading);
     }
 
     public function checkinWithoutChoice()

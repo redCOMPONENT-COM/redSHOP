@@ -110,6 +110,15 @@ class ManageCategoryAdministratorCest
         $I->addCategorySaveClose($this->categoryName);
     }
 
+    public function deleteCategoryName(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Deletion of Category in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Delete a Category');
+        $I->deleteCategory($this->categoryName);
+    }
+
     /**
      *  Function to create category with Save and New button
      * @param AcceptanceTester $I
@@ -241,8 +250,10 @@ class ManageCategoryAdministratorCest
         $I->wantTo('Test Category Unpublish all categories in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-        $I->wantTo('Unpublish without a Category');
+        $I->wantTo('Unpublish for all Categories');
         $I->unpublishAllCategories();
+        $currentState = $I->getCategoryState($this->categoryName);
+        $I->verifyState('unpublished', $currentState);
         $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
