@@ -4,9 +4,6 @@ language:
 sudo:
   required
 
-dist:
-  trusty
-
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
