@@ -31,12 +31,6 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 
-matrix:
-  include:
-    - php: 7.0
-    - php: 5.6
-      dist: precise
-
 before_script:
   - ./.travis/setup.sh
 
