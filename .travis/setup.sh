@@ -42,13 +42,6 @@ else
 	sudo a2ensite default.conf
 	sudo service apache2 restart
 
-
-   # Get ChromeDriver for headless mode
-    wget "https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip"
-    unzip "chromedriver_linux64.zip"
-    mkdir -p /usr/local/bin
-    sudo cp -a chromedriver /usr/local/bin
-    sudo chmod +x /usr/local/bin/chromedriver
     
 	sh -e /etc/init.d/xvfb start
 	sleep 3
