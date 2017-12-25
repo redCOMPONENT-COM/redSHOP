@@ -56,6 +56,7 @@ else
 	# configure apache virtual hosts
 	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
 	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+	sudo sed -e "s?%TRAVIS_BUILD_PHP%?$(phpenv version-name)?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo service apache2 restart
 
 
