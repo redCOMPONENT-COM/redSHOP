@@ -202,6 +202,7 @@ class RedshopHelperCategory
 			foreach ($cats as $cat)
 			{
 				$cat->name = str_repeat('- ', $level) . $cat->name;
+
 				static::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->id, $level);
 			}
@@ -222,7 +223,9 @@ class RedshopHelperCategory
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function listAll($name, $categoryId, $selectedCategories = array(), $size = 1, $topLevel = false,
 	                               $multiple = false, $disabledFields = array(), $width = 250)
@@ -252,7 +255,7 @@ class RedshopHelperCategory
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html    .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
 		if ($topLevel)
 		{
@@ -267,14 +270,16 @@ class RedshopHelperCategory
 
 	/**
 	 * List children of category into dropdown with level,
-	 * this is a function will be called resursively.
+	 * this is a function will be called recursively.
 	 *
 	 * @param   array   $selectedCategories  Only show selected categories
-	 * @param   array   $disabledFields      Didable fields
+	 * @param   array   $disabledFields      Disable fields
 	 *
-	 * @return String   HTML of <option></option>
+	 * @return  string                       HTML of <option></option>
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function listTree($selectedCategories = array(), $disabledFields = array())
 	{
@@ -299,28 +304,25 @@ class RedshopHelperCategory
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exception)
 		{
-			JError::raiseWarning(500, $e->getMessage());
-		}
-
-		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++)
-		{
-			if ($options[$i]->published == 1)
-			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-			}
-			else
-			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
-			}
+			throw new Exception($exception->getMessage(), 500);
 		}
 
 		$html = "";
 
 		foreach ($options as $key => $option)
 		{
+			// Pad the option text with spaces using depth level as a multiplier.
+			if ($option->published == 1)
+			{
+				$option->text = str_repeat('- ', $option->level) . $option->text;
+			}
+			else
+			{
+				$option->text = str_repeat('- ', $option->level) . '[' . $option->text . ']';
+			}
+
 			$selected = '';
 			$disabled = '';
 
