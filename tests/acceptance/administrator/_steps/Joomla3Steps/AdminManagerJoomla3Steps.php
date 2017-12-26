@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use Step\Acceptance\Redshop;
+
 /**
  * Class AdminManagerJoomla3Steps
  *
@@ -14,7 +17,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class AdminManagerJoomla3Steps extends \AcceptanceTester
+class AdminManagerJoomla3Steps extends Redshop
 {
 	/**
 	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
@@ -199,5 +202,14 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+	}
+
+	public function chooseRadio($element, $value)
+	{
+		$I = $this;
+		$element = is_array($element) ? $element : array('id' => $element);
+		$element['value'] = $value;
+		$element['type']  = 'radio';
+		$I->click($element);
 	}
 }

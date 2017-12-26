@@ -29,7 +29,7 @@ $now = JFactory::getDate();
 		if (form.name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_NAME_MUST_FILLED', true ); ?>");
 		} else if (form.amount.value == "" || form.amount.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_AMOUNT_MUST_FILLED', true ); ?>");
 		} else if (parseDate(form.start_date.value) > parseDate(form.end_date.value)) {
  			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
   		} else if (form.shopper_group_id.value == "") {
@@ -50,6 +50,7 @@ $now = JFactory::getDate();
 					<td width="100" align="right" class="key">
 						<label for="name">
 							<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+                            <span class="star text-danger">*</span>
 						</label>
 					</td>
 					<td>
@@ -62,6 +63,7 @@ $now = JFactory::getDate();
 					<td width="100" align="right" class="key">
 						<label for="name">
 							<?php echo JText::_('COM_REDSHOP_AMOUNT'); ?>:
+                            <span class="star text-danger">*</span>
 						</label>
 					</td>
 					<td>
@@ -135,6 +137,7 @@ $now = JFactory::getDate();
 					<td valign="top" align="right" class="key">
 						<label for="deliverytime">
 							<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?>:
+                            <span class="star text-danger">*</span>
 						</label>
 					</td>
 					<td>

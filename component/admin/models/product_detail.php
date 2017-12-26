@@ -292,6 +292,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			JFile::upload($src, $dest);
 		}
 
+		$query = 'SELECT media_alternate_text FROM ' . $this->table_prefix . 'media
+					  WHERE media_name = "' . $data['old_image'] . '"
+					  AND media_section = "product" AND section_id = "' . $row->product_id . '" ';
+
+		$old_main_image_alternate_text = $this->_db->setQuery($query)->loadResult();
+
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
@@ -512,9 +518,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 					. "WHERE media_name='" . $data['old_image'] . "' "
 					. "AND media_section='product' ";
 				$this->_db->setQuery($query);
-				$result = $this->_db->loadResult();
+				$result = $this->_db->loadObject();
 
-				if ($result > 0)
+				if (null !== $result)
 				{
 					$media_id = $result->media_id;
 				}
@@ -523,7 +529,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$mediapost                         = array();
 				$mediapost['media_id']             = $media_id;
 				$mediapost['media_name']           = $row->product_full_image;
-				$mediapost['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
+				$mediapost['media_alternate_text'] = !empty($old_main_image_alternate_text) ? $old_main_image_alternate_text : preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
 				$mediapost['media_section']        = "product";
 				$mediapost['section_id']           = $row->product_id;
 				$mediapost['media_type']           = "images";
@@ -2577,8 +2583,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function subattr_diff.
 	 *
-	 * @param   int  $subattr_id  ID.
-	 * @param   int  $section_id  ID.
+	 * @param   string  $subattr_id  ID.
+	 * @param   int     $section_id  ID.
 	 *
 	 * @return  array
 	 */

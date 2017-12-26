@@ -45,6 +45,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		$cid               = $this->input->post->get('cid', array(0), 'array');
 		$post ['price_id'] = $cid [0];
 
+		/** @var RedshopModelAttributeprices_detail $model */
 		$model = $this->getModel('attributeprices_detail');
 
 		if ($model->store($post))
@@ -70,11 +71,12 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelAttributeprices_detail $model */
 		$model = $this->getModel('attributeprices_detail');
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');

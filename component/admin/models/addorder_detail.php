@@ -157,7 +157,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if ($data['guestuser'] && !$data['user_id'])
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($data);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
 
 			if (!$joomlauser)
 			{
@@ -165,7 +165,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 		}
 
-		$reduser = $userhelper->storeRedshopUser($data, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id, 1);
 
 		if ($reduser)
 		{
@@ -790,7 +790,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
+		if ($postdata['task'] != "save_without_sendmail")
 		{
 			RedshopHelperMail::sendOrderMail($row->order_id);
 		}

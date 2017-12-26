@@ -85,7 +85,9 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
-	 * @return    void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function saveOrderAjax()
 	{
@@ -116,10 +118,11 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 * Removes an item.
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function delete()
 	{
-		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
@@ -159,10 +162,11 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 * Method to publish a list of items
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function publish()
 	{
-		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
@@ -235,10 +239,11 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 * Check in of one or more records.
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @throws  Exception
 	 */
 	public function checkin()
 	{
-		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
@@ -247,7 +252,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 
 		if ($return === false)
 		{
-			// Checkin failed.
+			// Check in failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 
 			// Set redirect
@@ -257,7 +262,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		}
 		else
 		{
-			// Checkin succeeded.
+			// Check in succeeded.
 			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 
 			// Set redirect
@@ -271,10 +276,11 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 * Changes the order of one or more records.
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @throws  Exception
 	 */
 	public function reorder()
 	{
-		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
@@ -313,7 +319,6 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
@@ -380,10 +385,11 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 * Method to publish a list of items
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function ajaxInlineEdit()
 	{
-		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
@@ -419,7 +425,6 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	public function copy()
 	{
-		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');

@@ -39,8 +39,10 @@ class RedshopControllerCurrency_detail extends RedshopController
 		$post["currency_name"] = $currency_name;
 		$cid                   = $this->input->post->get('cid', array(0), 'array');
 		$post ['currency_id']  = $cid [0];
-		$model                 = $this->getModel('currency_detail');
-		$row                   = $model->store($post);
+
+		/** @var RedshopModelCurrency_detail $model */
+		$model = $this->getModel('currency_detail');
+		$row   = $model->store($post);
 
 		if ($row)
 		{
@@ -77,6 +79,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelCurrency_detail $model */
 		$model = $this->getModel('currency_detail');
 		$msg   = "";
 

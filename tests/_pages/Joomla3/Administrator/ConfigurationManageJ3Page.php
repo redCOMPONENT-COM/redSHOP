@@ -38,10 +38,14 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $vatGroup = ['id' => 's2id_default_vat_group'];
 
 	public static $vatSearchGroup = ['id' => 's2id_autogen37_search'];
+	
+	public static $varFirstResults = ['xpath' => '//ul[@id=\'select2-results-37\']'];
 
 	public static $vatDefaultBase = ['id' => 's2id_vat_based_on'];
 
 	public static $vatSearchDefaultBase = ['id' => 's2id_autogen38_search'];
+
+	public static $searchDefaultFirstResult = ['xpath' => '//ul[@id=\'select2-results-38\']'];
 
 	public static $applyDiscountAfter = ['id' => 'apply_vat_on_discount0-lbl'];
 
@@ -102,6 +106,8 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $buttonCartLead = ['id' => 's2id_addtocart_behaviour'];
 
 	public static $buttonCartSearch = ['id' => 's2id_autogen43_search'];
+	
+	public static $firstCartSearch = ['xpath' => '//ul[@id=\'select2-results-43\']'];
 
 	public static $onePageNo = ['id' => 'onestep_checkout_enable0-lbl'];
 

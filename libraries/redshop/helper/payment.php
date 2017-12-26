@@ -227,9 +227,9 @@ class RedshopHelperPayment
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
-		$html .= self::listTree($selectedPayments);
-		$html .= "</select>\n";
+		$html    .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html    .= self::listTree($selectedPayments);
+		$html    .= "</select>\n";
 
 		return $html;
 	}
@@ -267,7 +267,6 @@ class RedshopHelperPayment
 			include_once $paymentPath;
 
 			$value 	  = $oneMethod->name;
-
 			$disabled = '';
 			$selected = '';
 
@@ -321,13 +320,13 @@ class RedshopHelperPayment
 
 		if (isset($cart['idx']))
 		{
-			$idx  = $cart['idx'];
+			$idx = $cart['idx'];
 		}
 
 		$db = JFactory::getDbo();
 
-		$paymentMethods = array();
-		$flag = true;
+		$paymentMethods      = array();
+		$flag                = true;
 		$commonPaymentMethod = $currentPaymentMethods;
 
 		for ($i = 0; $i < $idx; $i++)
@@ -437,18 +436,55 @@ class RedshopHelperPayment
 			}
 
 			$product = RedshopHelperProduct::getProductById($productId);
-			$html .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
-			$tmp = '';
+			$html   .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
+			$tmp     = '';
 
 			foreach ($payments as $p)
 			{
 				$tmp .= JText::_('PLG_' . strtoupper($p)) . ',';
 			}
 
-			$tmp = rtrim($tmp, ",");
+			$tmp   = rtrim($tmp, ",");
 			$html .= $tmp . '</div></div>';
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Calculate payment Discount/charges
+	 *
+	 * @param   float  $total       Total
+	 * @param   object $payment     Payment information
+	 * @param   float  $finalAmount Final amount
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function calculate($total, $payment, $finalAmount)
+	{
+		$discount = 0;
+
+		if ($payment->payment_discount_is_percent == 0)
+		{
+			$discount = $payment->payment_price;
+		}
+		elseif ($payment->payment_price > 0)
+		{
+			$discount = $total * $payment->payment_price / 100;
+		}
+
+		$discount = $discount ? round($discount, 2) : 0;
+
+		if (!$discount)
+		{
+			return array($finalAmount, 0);
+		}
+
+		$discount    = $total < $discount ? $total : $discount;
+		$finalAmount = $payment->payment_oprand == '+' ? $finalAmount + $discount : $finalAmount - $discount;
+
+		return array($finalAmount, $discount);
 	}
 }

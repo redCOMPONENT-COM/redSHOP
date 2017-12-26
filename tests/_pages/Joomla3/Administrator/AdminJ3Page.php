@@ -50,6 +50,25 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $messageUnpublishSuccess = 'successfully unpublished';
+
+	/**
+	 * @var string
+	 */
+	public static $messagePublishSuccess = 'successfully published';
+
+	/**
+	 * @var string
+	 */
+	public static $messageCheckInSuccess = 'successfully checked in';
+
+	/**
+	 * @var array
+	 */
+	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
+	/**
+	 * @var string
+	 */
 	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
 
 	/**
@@ -105,6 +124,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonSaveNew = "Save & New";
+
+	/**
+	 * @var string
+	 */
 	public static $buttonDelete = "Delete";
 
 	/**
@@ -140,6 +164,10 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonCopy = 'Copy';
+	/**
+	 * @var string
+	 */
 	public static $buttonReset = "Reset";
 
 	/**
@@ -151,6 +179,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonClose = "Close";
+
+	/**
+	 * @var string
+	 */
+	public static $buttonSaveCopy = "Save & Copy";
 
 // Include url of current page
 // Fontend checkout first name
@@ -262,14 +295,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-//	public static $priceTotal = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[1]/div";
 
 	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
-	//
 	/**
 	 * @var string
 	 */
-//	public static $priceDiscount = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[2]/div";
 
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
 	/**
@@ -290,5 +320,5 @@ abstract class AdminJ3Page
 		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 		return $path;
 	}
-	
+
 }

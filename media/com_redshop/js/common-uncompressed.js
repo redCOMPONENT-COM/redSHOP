@@ -783,6 +783,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous_params)
 {
 	var newparam = "";
 	var payment_method_id = "";
+
 	anonymous_params = anonymous_params || {};
 
 	if(objectname=="shipping_rate_id")

@@ -23,22 +23,27 @@ class RedshopControllerAlert extends RedshopController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  mixed            The model.
 	 */
 	public function getModel($name = 'Alert_detail', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
+	/**
+	 * Method for remove alert
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function remove()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 500);
 		}
 
 		$model = $this->getModel('alert_detail');
@@ -53,15 +58,23 @@ class RedshopControllerAlert extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
 	}
 
+	/**
+	 * Method for publish
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function publish()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
 		}
 
+		/** @var RedshopModelAlert_detail $model */
 		$model = $this->getModel('alert_detail');
 
 		if (!$model->read($cid, 1))
@@ -74,13 +87,20 @@ class RedshopControllerAlert extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
 	}
 
+	/**
+	 * Method for unpublish
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function unpublish()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 500);
 		}
 
 		$model = $this->getModel('alert_detail');
