@@ -506,7 +506,7 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::addCartToDatabase();
 		RedshopHelperCart::cartFinalCalculation();
 
-		$cart  = JFactory::getSession()->get('cart');
+		$cart  = RedshopHelperCartSession::getCart();
 		$carts = RedshopHelperCart::generateCartOutput($cart);
 
 		echo $carts[0];
