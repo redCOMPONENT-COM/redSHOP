@@ -335,7 +335,7 @@ class RedshopViewSearch extends RedshopView
 					$pro_s_desc     = $this->search[$i]->product_s_desc;
 					$pro_desc       = $this->search[$i]->product_desc;
 
-					if (!in_array($keyword, $tagarray))
+					if (!empty($keyword) && !in_array($keyword, $tagarray))
 					{
 						$regex      = "/" . $keyword . "(?![^<]*>)/";
 						$pname      = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
