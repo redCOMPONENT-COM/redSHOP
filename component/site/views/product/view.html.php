@@ -83,8 +83,7 @@ class RedshopViewProduct extends RedshopView
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
-		$this->data            = $this->get('data');
-
+		$this->data            = $this->get('Data');
 		$productTemplate       = null;
 
 		$this->itemId = $this->input->getInt('Itemid', null);
