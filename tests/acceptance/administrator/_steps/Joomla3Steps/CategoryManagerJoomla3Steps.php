@@ -373,13 +373,15 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 	}
 
-
+	/**
+	 * Method for test check-in all categories
+	 */
 	public function checkinAllCategories()
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$checkInButton);
-		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageSuccess);
+		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageCheckInSuccess);
 	}
 }
