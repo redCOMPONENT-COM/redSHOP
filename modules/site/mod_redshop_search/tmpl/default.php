@@ -154,7 +154,7 @@ if ($enableAjaxsearch)
 				cache: false,
 				shownoresults: true,
 				callback: function (obj) {
-					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=" . $itemId . "';
+					location.href = obj.link;
 				}
 			});
 		}

@@ -1248,7 +1248,33 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('x.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
 		}
 
-		return $db->setQuery($query, 0, $limit)->loadObjectList();
+		$data = $db->setQuery($query, 0, $limit)->loadObjectList();
+
+		if ($data)
+		{
+			foreach ($data as &$row)
+			{
+				$itemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
+
+				if (count($itemData) > 0)
+				{
+					$pItemid = $itemData->id;
+				}
+				else
+				{
+					$pItemid = RedshopHelperUtility::getItemId($row->id, $category_id);
+				}
+
+				$row->link = JRoute::_(
+					'index.php?option=com_redshop' .
+					'&view=product&pid=' . $row->id .
+					'&cid=' . $category_id .
+					'&Itemid=' . $pItemid
+				);
+			}
+		}
+
+		return $data;
 	}
 
 	/**
