@@ -48,6 +48,21 @@ abstract class AdminJ3Page
 	public static $messageItemDeleteSuccess = "1 item successfully deleted";
 
 	/**
+	 * @var string
+	 */
+	public static $messageUnpublishSuccess = 'successfully unpublished';
+
+	/**
+	 * @var string
+	 */
+	public static $messagePublishSuccess = 'successfully published';
+
+	/**
+	 * @var string
+	 */
+	public static $messageCheckInSuccess = 'successfully checked in';
+
+	/**
 	 * @var array
 	 */
 	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
@@ -305,5 +320,5 @@ abstract class AdminJ3Page
 		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 		return $path;
 	}
-	
+
 }
