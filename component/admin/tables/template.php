@@ -110,6 +110,38 @@ class RedshopTableTemplate extends RedshopTable
 	}
 
 	/**
+	 * Called before store(). Overriden to send isNew to plugins.
+	 *
+	 * @param   boolean $updateNulls True to update null values as well.
+	 * @param   boolean $isNew       True if we are adding a new item.
+	 * @param   mixed   $oldItem     null for new items | JTable otherwise
+	 *
+	 * @return  boolean  True on success.
+	 */
+	protected function beforeStore($updateNulls = false, $isNew = false, $oldItem = null)
+	{
+		if (!parent::beforeStore($updateNulls, $isNew, $oldItem))
+		{
+			return false;
+		}
+
+		// Auto-enable twig support for new template
+		if ($isNew && in_array($this->section, RedshopHelperTwig::getSupportedTemplateSections()))
+		{
+			$this->twig_support = 1;
+		}
+
+		$oldItem->name = $this->safeTemplateName($oldItem->name);
+
+		if ($oldItem->name !== $this->name || $oldItem->section !== $this->section)
+		{
+			$this->setOption('oldFile', RedshopHelperTemplate::getTemplateFilePath($oldItem->section, $oldItem->name, true));
+		}
+
+		return true;
+	}
+
+	/**
 	 * Do the database store.
 	 *
 	 * @param   boolean $updateNulls True to update null values as well.
@@ -161,6 +193,8 @@ class RedshopTableTemplate extends RedshopTable
 			$fileName = $this->file_name;
 		}
 
+		$fileName .= $this->twig_enable ? '.twig' : '.php';
+
 		// Write template file
 		JFile::write(
 			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName . '.php'),
@@ -184,7 +218,9 @@ class RedshopTableTemplate extends RedshopTable
 			return false;
 		}
 
-		$templatePath = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
+		$templatePath = JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name;
+		$templatePath = $this->twig_enable ? $templatePath . '.twig' : $templatePath . '.php';
+		$templatePath = JPath::clean($templatePath);
 
 		if (JFile::exists($templatePath))
 		{

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+
 /**
  * Currency Entity
  *
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityCurrency extends RedshopEntity
+class RedshopEntityCurrency extends AbstractEntity
 {
 	/**
 	 * @var    array

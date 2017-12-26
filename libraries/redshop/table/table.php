@@ -35,7 +35,7 @@ class RedshopTable extends AbstractTable
 	 * @param   array   $config  An optional array of configuration
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
-	 * @return  RedshopTable     The table
+	 * @return  JTable  The table
 	 *
 	 * @throws  InvalidArgumentException
 	 */

@@ -219,6 +219,11 @@
 
                 // enable Save buttons
                 $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", false);
+
+                // Remove delete flag if exist
+                if ($("#adminForm").find("input[name='" + self.$container.data("id") + "_delete" + "']").length > 0) {
+                    $($("#adminForm").find("input[name='" + self.$container.data("id") + "_delete" + "']")[0]).remove();
+                }
             });
 
             /**

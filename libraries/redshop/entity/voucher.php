@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\CoreEntityCollection;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,10 +19,11 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityVoucher extends RedshopEntity
+class RedshopEntityVoucher extends AbstractEntity
 {
 	/**
-	 * @var  RedshopEntitiesCollection
+	 * @var  CoreEntityCollection
+	 *
 	 * @since  2.0.7
 	 */
 	protected $products;
@@ -27,7 +31,7 @@ class RedshopEntityVoucher extends RedshopEntity
 	/**
 	 * Method for get products available with this voucher
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  CoreEntityCollection
 	 *
 	 * @since  2.0.7
 	 */
@@ -50,7 +54,7 @@ class RedshopEntityVoucher extends RedshopEntity
 	 */
 	protected function loadProducts()
 	{
-		$this->products = new RedshopEntitiesCollection;
+		$this->products = new CoreEntityCollection;
 
 		if (!$this->hasId())
 		{

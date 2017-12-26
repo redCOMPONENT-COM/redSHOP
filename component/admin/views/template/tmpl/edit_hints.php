@@ -78,16 +78,24 @@ $newShippingTags = array(
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-tabs">
-                        <li role="presentation" class="active">
-                            <a href="#tags" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS') ?>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#default_template" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_DEFAULT_TEMPLATE_DETAIL') ?>
-                            </a>
-                        </li>
+						<?php if ($this->item->twig_support && $this->item->twig_enable): ?>
+                            <li role="presentation" class="active">
+                                <a href="#twig_template" role="tab" data-toggle="tab">
+									<?php echo JText::_('COM_REDSHOP_TWIG_TEMPLATE_HELP') ?>
+                                </a>
+                            </li>
+						<?php else: ?>
+                            <li role="presentation" class="active">
+                                <a href="#tags" role="tab" data-toggle="tab">
+									<?php echo JText::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS') ?>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#default_template" role="tab" data-toggle="tab">
+									<?php echo JText::_('COM_REDSHOP_DEFAULT_TEMPLATE_DETAIL') ?>
+                                </a>
+                            </li>
+						<?php endif; ?>
 						<?php foreach ($textLibraries as $section => $texts): ?>
 							<?php if (!empty($texts)): ?>
                                 <li role="presentation">
@@ -101,6 +109,15 @@ $newShippingTags = array(
                 </div>
                 <div class="col-md-12">
                     <div class="tab-content">
+						<?php if ($this->item->twig_support && $this->item->twig_enable): ?>
+                            <div class="alert alert-info">
+                                <p><?php echo JText::_('COM_REDSHOP_TEMPLATE_TWIG_SUGGEST') ?></p>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" id="twig_template">
+								<?php echo RedshopHelperTwig::renderTwigHelpBlock('collection', 'giftcards'); ?>
+								<?php echo RedshopHelperTwig::renderTwigHelpBlock('giftcard'); ?>
+                            </div>
+						<?php else: ?>
                         <div role="tabpanel" class="tab-pane active" id="tags">
 							<?php
 							switch ($this->item->section)
@@ -127,7 +144,8 @@ $newShippingTags = array(
 									foreach ($addToCartAvailable as $tag):
 										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
-									echo RedshopLayoutHelper::render('templates.tags_hint',
+									echo RedshopLayoutHelper::render(
+										'templates.tags_hint',
 										array(
 											'tags'   => $tags,
 											'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
@@ -137,7 +155,7 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('related_product');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-                                        $key = 'related_product_lightbox:' . $tag->name . '[:lightboxwidth][:lightboxheight]';
+										$key        = 'related_product_lightbox:' . $tag->name . '[:lightboxwidth][:lightboxheight]';
 										$tags[$key] = JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE") . ': {related_product_lightbox:' . $tag->name . ':600:300}';
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT')));
@@ -625,6 +643,7 @@ $newShippingTags = array(
                                 </div>
 							<?php endif; ?>
 						<?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

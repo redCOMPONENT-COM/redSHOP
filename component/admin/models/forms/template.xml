@@ -67,6 +67,19 @@
                 table-hide="1"
         />
         <field
+                name="twig_enable"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="0"
+                label="COM_REDSHOP_TEMPLATE_TWIG_ENABLE"
+                description="COM_REDSHOP_TEMPLATE_TWIG_ENABLE_DESC"
+                onchange="javascript:twigEnable();"
+                table-hide="1"
+                showon="twig_support:1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
                 name="published"
                 type="redshop.radio"
                 label-class="radio-inline"
@@ -88,6 +101,11 @@
                 rows="50"
                 filter="safehtml"
                 table-hide="1"
+        />
+        <field
+                name="twig_support"
+                type="hidden"
+                readonly="true"
         />
     </fieldset>
 </form>

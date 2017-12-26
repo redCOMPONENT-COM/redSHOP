@@ -18,4 +18,22 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerTemplate extends RedshopControllerForm
 {
+	/**
+	 * Method for live render
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
+	public function liveRender()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$templateSection = $this->input->getString('section', 'giftcard_list');
+		$templateContent = $this->input->get('content', '', 'Raw');
+
+		echo trim(RedshopHelperTwig::liveRender($templateSection, $templateContent));
+
+		JFactory::getApplication()->close();
+	}
 }
