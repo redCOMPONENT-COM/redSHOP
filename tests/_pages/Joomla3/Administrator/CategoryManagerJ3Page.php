@@ -71,6 +71,8 @@ class CategoryManagerJ3Page extends AdminJ3Page
     public static $selectorError = '.alert-danger';
 
     public static $selectorNamePage = '.page-title';
+    
+    public static $selectorHeading = '.alert-heading';
 
 
     //message

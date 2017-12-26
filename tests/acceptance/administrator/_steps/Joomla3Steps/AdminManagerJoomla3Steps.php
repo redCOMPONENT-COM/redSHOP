@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use Step\Acceptance\Redshop;
+
 /**
  * Class AdminManagerJoomla3Steps
  *
@@ -14,7 +17,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class AdminManagerJoomla3Steps extends \AcceptanceTester
+class AdminManagerJoomla3Steps extends Redshop
 {
 	/**
 	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
