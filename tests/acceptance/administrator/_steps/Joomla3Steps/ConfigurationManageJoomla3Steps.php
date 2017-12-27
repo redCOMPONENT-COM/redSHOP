@@ -120,28 +120,28 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationManageJ3Page::$countrySearchPrice, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$countrySearchPrice, $country);
 		$userConfigurationPage = new \ConfigurationManageJ3Page();
-		$I->waitForElement($userConfigurationPage->returnChoice($country));
+		$I->waitForElement($userConfigurationPage->returnChoice($country), 30);
 		$I->click($userConfigurationPage->returnChoice($country));
 
 		//get state
 		$I->click(\ConfigurationManageJ3Page::$statePrice);
 		$I->waitForElement(\ConfigurationManageJ3Page::$stateSearchPrice, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$stateSearchPrice, $state);
-		$I->waitForElement($userConfigurationPage->returnChoice($state));
+		$I->waitForElement($userConfigurationPage->returnChoice($state),30);
 		$I->click($userConfigurationPage->returnChoice($state));
 
 		//get default vat
 		$I->click(\ConfigurationManageJ3Page::$vatGroup);
 		$I->waitForElement(\ConfigurationManageJ3Page::$vatSearchGroup, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$vatSearchGroup, $vatDefault);
-		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault));
+		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault),30);
 		$I->click(\ConfigurationManageJ3Page::$varFirstResults);
 
 		//get vat base on
 		$I->click(\ConfigurationManageJ3Page::$vatDefaultBase);
 		$I->waitForElement(\ConfigurationManageJ3Page::$vatSearchDefaultBase, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$vatSearchDefaultBase, $vatCalculation);
-		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation));
+		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation),30);
 		$I->click(\ConfigurationManageJ3Page::$searchDefaultFirstResult);
 
 		//apply vat on discount
@@ -367,7 +367,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->click(\ConfigurationManageJ3Page::$valueDiscountCouponId);
 					$I->waitForElement(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, 30);
 					$I->fillField(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
-					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
+					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']), 30);
 					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
 				}
 			}
