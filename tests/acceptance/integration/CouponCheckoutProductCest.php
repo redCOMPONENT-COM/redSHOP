@@ -126,6 +126,11 @@ class CouponCheckoutProductCest
 		$I = new ConfigurationManageJoomla3Steps($scenario);
 		$I->priceDiscount($this->discount);
 		$I = new VoucherManagerJoomla3Steps($scenario);
+
+		$this->orderInfo['priceTotal'] = "DKK 24,00";
+		$this->orderInfo['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfo['priceEnd'] =  "DKK 14,00";
+
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);

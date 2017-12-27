@@ -359,7 +359,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 	}
 
-//	public function checkoutProductCouponOrVoucherOrDiscount($userName,$password,$productName, $categoryName, $couponCode, $voucherCode, $dicount, $allowDiscount)
 	public function checkoutProductCouponOrVoucherOrDiscount($userName,$password,$productName, $categoryName, $discount = array(), $orderInfo = array(), $applyDiscount, $orderInfoSecond = array())
 	{
 		$I = $this;
