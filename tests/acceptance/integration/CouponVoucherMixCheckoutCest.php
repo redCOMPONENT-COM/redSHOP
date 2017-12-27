@@ -19,7 +19,6 @@ use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationManageJoomla3Steps as ConfigurationManageJoomla3Steps;
-use AcceptanceTester\CouponSteps as CouponSteps;
 class CouponCheckoutProductCest
 {
 	/**
