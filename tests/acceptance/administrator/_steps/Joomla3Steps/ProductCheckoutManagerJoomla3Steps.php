@@ -460,7 +460,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
 				}
 			}
-
 		}
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
@@ -542,7 +541,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton,10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 
-
 //		$I->see($subtotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($ShippingRate,\FrontEndProductManagerJoomla3Page::$shippingRate);
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
@@ -589,5 +587,4 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$addQuotation);
 		$I->see(\FrontEndProductManagerJoomla3Page::$addQuotationSuccess,\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
 	}
-
 }
