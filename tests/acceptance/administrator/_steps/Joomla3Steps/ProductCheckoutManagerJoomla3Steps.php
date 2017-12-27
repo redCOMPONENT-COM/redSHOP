@@ -430,7 +430,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
-//
+
 //					if (isset($orderInfoSecond))
 //					{
 //						$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
@@ -468,7 +468,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
-
 //					if (isset($orderInfoSecond))
 //					{
 //						$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);

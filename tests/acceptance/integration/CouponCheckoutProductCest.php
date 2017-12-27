@@ -102,11 +102,11 @@ class CouponCheckoutProductCest
 	 *
 	 * @return void
 	 */
-//	public function deleteData($scenario)
-//	{
-//		$I= new RedshopSteps($scenario);
-//		$I->clearAllData();
-//	}
+	public function deleteData($scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
@@ -130,7 +130,6 @@ class CouponCheckoutProductCest
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->doAdministratorLogin();
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
