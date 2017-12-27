@@ -377,7 +377,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if (isset($discount['allow']))
 		{
-			if ($discount['allow'] == ConfigurationManageJ3Page::$discountVoucherCoupon || $discount['allow'] == ConfigurationManageJ3Page::$discountAndVoucherOrCoupon )
+			if ($discount['allow'] == ConfigurationManageJ3Page::$discountVoucherCoupon || $discount['allow'] == ConfigurationManageJ3Page::$discountAndVoucherOrCoupon || $discount['allow'] == ConfigurationManageJ3Page::$discountVoucherSingleCouponSingle)
 			{
 				if ($applyDiscount == 'couponCode')
 				{
