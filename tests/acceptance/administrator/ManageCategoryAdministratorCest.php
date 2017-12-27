@@ -263,7 +263,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category check in without choice  in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Check-in  without a Category');
 		$I->checkinWithoutChoice();
 		$I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
 	}
@@ -276,10 +275,9 @@ class ManageCategoryAdministratorCest
 	 */
 	public function checkinAllCategory(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Category Unpublish all categories in Administrator');
+		$I->wantTo('Administrator > Check-in all categories');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Check-in without a Category');
 		$I->checkinAllCategories();
 		$I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
 	}
@@ -291,10 +289,9 @@ class ManageCategoryAdministratorCest
 	 */
 	public function createCategoryAccessories(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Category creation  Save and Close in Administrator');
+		$I->wantTo('Administrator > Create category with Accessories');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
 		$I->addCategoryAccessories($this->categoryName, $this->noPage, $this->productAccessories);
 	}
 }
