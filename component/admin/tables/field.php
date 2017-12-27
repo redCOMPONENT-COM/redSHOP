@@ -206,7 +206,7 @@ class RedshopTableField extends RedshopTable
 			else
 			{
 				$extraNames = $post->get('extra_name', '', 'raw');
-				$total      = count($extraNames);
+				$total      = count((array)$extraNames);
 			}
 		}
 
