@@ -12331,7 +12331,7 @@ function _init() {
 (function($) {
     $(document).ready(function() {
 
-        /*if ($('.message-sys').length) {
+        if ($('.message-sys').length) {
             var messageContainer = $('#system-message-container');
 
             // No messages found. Create an empty div
@@ -12341,7 +12341,7 @@ function _init() {
                 });
             }
             $('.message-sys').append(messageContainer);
-        }*/
+        }
 
         // We cannot access the body tag so add admin-lte styling classes dynamically
         $('body').addClass('skin-black sidebar-mini');
