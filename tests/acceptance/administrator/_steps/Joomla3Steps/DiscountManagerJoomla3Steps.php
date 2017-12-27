@@ -46,10 +46,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\DiscountManagerJ3Page::$searchResults);
 		$I->click(\DiscountManagerJ3Page::$searchShopperId);
-
 		$userDiscountPage = new \DiscountManagerJ3Page();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 60);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
+		$I->fillField(\DiscountManagerJ3Page::$searchShopperField, $shopperGroup);
+		$I->waitForElement($userDiscountPage->returnChoice($shopperGroup), 60);
+		$I->click($userDiscountPage->returnChoice($shopperGroup));
 
 		$I->click(\DiscountManagerJ3Page::$conditionId);
 		$I->waitForElement(\DiscountManagerJ3Page::$conditionSearch,30);
@@ -80,12 +80,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\DiscountManagerJ3Page::$searchResults);
 		$I->click(\DiscountManagerJ3Page::$searchShopperId);
-
 		$userDiscountPage = new \DiscountManagerJ3Page();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
-
-
+		$I->fillField(\DiscountManagerJ3Page::$searchShopperField, $shopperGroup);
+		$I->waitForElement($userDiscountPage->returnChoice($shopperGroup), 60);
+		$I->click($userDiscountPage->returnChoice($shopperGroup));
 
 		$I->click(\DiscountManagerJ3Page::$buttonSave);
 		$I->waitForText(\DiscountManagerJ3Page::$messageSaveSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
@@ -120,10 +118,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\DiscountManagerJ3Page::$searchResults);
 		$I->click(\DiscountManagerJ3Page::$searchShopperId);
-
 		$userDiscountPage = new \DiscountManagerJ3Page();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
+		$I->fillField(\DiscountManagerJ3Page::$searchShopperField, $shopperGroup);
+		$I->waitForElement($userDiscountPage->returnChoice($shopperGroup), 30);
+		$I->click($userDiscountPage->returnChoice($shopperGroup));
 
 		$I->click(\DiscountManagerJ3Page::$buttonSave);
 		$I->acceptPopup();
@@ -159,10 +157,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\DiscountManagerJ3Page::$searchResults);
 		$I->click(\DiscountManagerJ3Page::$searchShopperId);
-
+		$I->fillField(\DiscountManagerJ3Page::$searchShopperField, $shopperGroup);
 		$userDiscountPage = new \DiscountManagerJ3Page();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
+		$I->waitForElement($userDiscountPage->returnChoice($shopperGroup), 30);
+		$I->click($userDiscountPage->returnChoice($shopperGroup));
 
 		$I->click(\DiscountManagerJ3Page::$buttonSave);
 		$I->acceptPopup();
@@ -186,10 +184,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\DiscountManagerJ3Page::$searchResults);
 		$I->click(\DiscountManagerJ3Page::$searchShopperId);
-
+		$I->fillField(\DiscountManagerJ3Page::$searchShopperField, $shopperGroup);
 		$userDiscountPage = new \DiscountManagerJ3Page();
-		$I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
-		$I->click($userDiscountPage->resultChoice($shopperGroup));
+		$I->waitForElement($userDiscountPage->returnChoice($shopperGroup), 30);
+		$I->click($userDiscountPage->returnChoice($shopperGroup));
 
 		$I->click(\DiscountManagerJ3Page::$buttonSave);
 		$I->acceptPopup();
@@ -323,7 +321,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('Reset');
 		$I->searchDiscount($discountName);
 		$I->see($discountName);
 		$text = $I->grabAttributeFrom(\DiscountManagerJ3Page::$discountState, 'onclick');
@@ -346,7 +343,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function searchDiscount($discountName)
 	{
 		$I = $this;
-//        $I->wantTo('Search Discount ');
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->waitForText(\DiscountManagerJ3Page::$namePageManagement, 30, \DiscountManagerJ3Page::$headPage);
 		$I->filterListBySearchDiscount($discountName);

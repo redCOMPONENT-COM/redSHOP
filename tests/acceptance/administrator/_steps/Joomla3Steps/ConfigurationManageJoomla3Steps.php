@@ -135,14 +135,14 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationManageJ3Page::$vatSearchGroup, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$vatSearchGroup, $vatDefault);
 		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault));
-		$I->pressKey(\ConfigurationManageJ3Page::$vatGroup, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(\ConfigurationManageJ3Page::$varFirstResults);
 
 		//get vat base on
 		$I->click(\ConfigurationManageJ3Page::$vatDefaultBase);
 		$I->waitForElement(\ConfigurationManageJ3Page::$vatSearchDefaultBase, 5);
 		$I->fillField(\ConfigurationManageJ3Page::$vatSearchDefaultBase, $vatCalculation);
 		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation));
-		$I->pressKey(\ConfigurationManageJ3Page::$vatDefaultBase, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(\ConfigurationManageJ3Page::$searchDefaultFirstResult);
 
 		//apply vat on discount
 		switch ($vatAfter) {
@@ -230,16 +230,16 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->click(\ConfigurationManageJ3Page::$defaultCart);
 			$I->waitForElement(\ConfigurationManageJ3Page::$defaultCartSearch, 5);
 			$I->fillField(\ConfigurationManageJ3Page::$defaultCartSearch, $defaultCart);
-			$I->waitForElement($userConfiguration->returnchoice($defaultCart));
-			$I->pressKey(\ConfigurationManageJ3Page::$defaultCart, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			$I->waitForElement($userConfiguration->returnChoice($defaultCart));
+			$I->click($userConfiguration->returnChoice($defaultCart));
 		}
 
 		//Choice add to cart button lead
 		$I->click(\ConfigurationManageJ3Page::$buttonCartLead);
 		$I->waitForElement(\ConfigurationManageJ3Page::$buttonCartSearch);
 		$I->fillField(\ConfigurationManageJ3Page::$buttonCartSearch, $buttonCartLead);
-		$I->waitForElement($userConfiguration->returnchoice($buttonCartLead));
-		$I->pressKey(\ConfigurationManageJ3Page::$buttonCartLead, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead));
+		$I->click(\ConfigurationManageJ3Page::$firstCartSearch);
 
 		switch ($onePage) {
 			case 'yes':
