@@ -50,7 +50,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSave);
-		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
-		$client->waitForText(\DiscountProductPage::$messageItemSaveSuccess, 60, \DiscountProductPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -126,8 +126,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
-		$client->waitForElement(\DiscountProductPage::$selectorMissing, 30);
-		$client->waitForText(\DiscountProductPage::$messageError, 60, \DiscountProductPage::$selectorMissing);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorFieldRequired);
 	}
 
 	/**
@@ -159,8 +158,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
-		$client->waitForElement(\DiscountProductPage::$selectorMissing, 30);
-		$client->waitForText(\DiscountProductPage::$messageError, 60, \DiscountProductPage::$selectorMissing);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorFieldRequired);
 	}
 
 	/**
@@ -194,8 +192,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
-		$client->waitForElement(\DiscountProductPage::$selectorMissing, 30);
-		$client->waitForText(\DiscountProductPage::$messageError, 60, \DiscountProductPage::$selectorMissing);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorStartDateHigherEndDate);
 	}
 
 	/**
@@ -248,7 +245,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkAllResults();
 		$client->click(\DiscountProductPage::$buttonUnpublish);
-		$client->see(\DiscountProductPage::$messageItemUnpublishSuccess, \DiscountProductPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageUnpublishSuccess);
 	}
 
 	/**
@@ -262,7 +259,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkAllResults();
 		$client->click(\DiscountProductPage::$buttonPublish);
-		$client->see(\DiscountProductPage::$messageItemPublishSuccess, \DiscountProductPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messagePublishSuccess);
 	}
 
 	/**
@@ -277,6 +274,6 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\DiscountProductPage::$buttonDelete);
 		$client->acceptpopup();
-		$client->see(\DiscountProductPage::$messageItemDeleteSuccess, \DiscountProductPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemDeleteSuccess);
 	}
 }

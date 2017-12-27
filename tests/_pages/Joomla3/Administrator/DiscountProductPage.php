@@ -64,4 +64,9 @@ class DiscountProductPage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $fieldShopperGroup = ['id' => 'jform_shopper_group'];
+
+	/**
+	 * @var string
+	 */
+	public static $messageErrorStartDateHigherEndDate = 'Oops! Discount start date is equal or higher than end date.';
 }
