@@ -154,7 +154,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->acceptPopup();
 		$client->waitForElement(\TaxGroupPage::$searchField,30);
-		$client->see(\TaxGroupPage::$messageItemDeleteSuccess, \TaxGroupPage::$selectorSuccess);
+		$client->see(\TaxGroupPage::$messageDeleteSuccess, \TaxGroupPage::$selectorSuccess);
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
 		$client->pressKey(\TaxGroupPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($VATGroupsName, \TaxGroupPage::$pathName);

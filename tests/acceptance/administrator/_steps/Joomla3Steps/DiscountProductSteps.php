@@ -274,6 +274,6 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\DiscountProductPage::$buttonDelete);
 		$client->acceptpopup();
-		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemDeleteSuccess);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageDeleteSuccess);
 	}
 }

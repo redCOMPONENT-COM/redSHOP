@@ -48,17 +48,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $messageItemDeleteSuccess = "1 item successfully deleted";
-
-	/**
-	 * @var string
-	 */
-	public static $messageItemUnpublishSuccess = "1 item successfully unpublished";
-
-	/**
-	 * @var string
-	 */
-	public static $messageItemPublishSuccess = "1 item successfully published";
+	public static $messageDeleteSuccess = "1 item successfully deleted";
 
 	/**
 	 * @var string

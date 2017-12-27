@@ -290,7 +290,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountCheckBox);
 		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$selectorSuccess);
+		$I->waitForText(\DiscountPage::$messageUnpublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function publishDiscountStateButton($discountName)
@@ -301,7 +301,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->see($discountName);
 		$I->click(\DiscountPage::$discountCheckBox);
 		$I->click(\DiscountPage::$buttonPublish);
-		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$selectorSuccess);
+		$I->waitForText(\DiscountPage::$messagePublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function unpublishAllDiscount()
@@ -310,7 +310,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonUnpublish);
-		$I->waitForText(\DiscountPage::$messageItemUnpublishSuccess, 60, \DiscountPage::$selectorSuccess);
+		$I->waitForText(\DiscountPage::$messageUnpublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	public function publishAllDiscount()
@@ -319,7 +319,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountPage::$url);
 		$I->checkAllResults();
 		$I->click(\DiscountPage::$buttonPublish);
-		$I->waitForText(\DiscountPage::$messageItemPublishSuccess, 60, \DiscountPage::$selectorSuccess);
+		$I->waitForText(\DiscountPage::$messagePublishSuccess, 60, \DiscountPage::$selectorSuccess);
 	}
 
 	/**
@@ -370,8 +370,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\DiscountPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\DiscountPage::$messageItemDeleteSuccess, 60, \DiscountPage::$selectorSuccess);
-		$client->see(\DiscountPage::$messageItemDeleteSuccess, \DiscountPage::$selectorSuccess);
+		$client->waitForText(\DiscountPage::$messageDeleteSuccess, 60, \DiscountPage::$selectorSuccess);
+		$client->see(\DiscountPage::$messageDeleteSuccess, \DiscountPage::$selectorSuccess);
 		$client->fillField(\DiscountPage::$searchField, $name);
 		$client->pressKey(\DiscountPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($name, \DiscountPage::$resultRow);

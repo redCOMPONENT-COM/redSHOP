@@ -89,8 +89,8 @@ class CouponSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\CouponPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\CouponPage::$messageItemDeleteSuccess, 60, \CouponPage::$selectorSuccess);
-		$client->see(\CouponPage::$messageItemDeleteSuccess, \CouponPage::$selectorSuccess);
+		$client->waitForText(\CouponPage::$messageDeleteSuccess, 60, \CouponPage::$selectorSuccess);
+		$client->see(\CouponPage::$messageDeleteSuccess, \CouponPage::$selectorSuccess);
 		$client->fillField(\CouponPage::$searchField, $couponCode);
 		$client->pressKey(\CouponPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($couponCode, \CouponPage::$resultRow);
