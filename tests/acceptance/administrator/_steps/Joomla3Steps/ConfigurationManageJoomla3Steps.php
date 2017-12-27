@@ -298,7 +298,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElement(\ConfigurationManageJ3Page::$allowDiscountSearch, 30);
 					$I->fillField(\ConfigurationManageJ3Page::$allowDiscountSearch, $discount['allow']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
-					$I->click($userConfiguration->returnChoice($discount['allow']);
+					$I->click($userConfiguration->returnChoice($discount['allow']));
 				}
 
 				if (isset($discount['enableCoupon']))
@@ -368,7 +368,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElement(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, 30);
 					$I->fillField(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
-					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']);
+					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
 				}
 			}
 		}

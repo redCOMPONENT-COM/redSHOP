@@ -447,6 +447,7 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskCodecept()
 			->arg('--tap')
+			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/CouponCheckoutProductCest.php')
 			->run()
