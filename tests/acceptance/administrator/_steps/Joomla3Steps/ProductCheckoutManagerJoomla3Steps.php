@@ -418,7 +418,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
 				}
 			}
-			if($discount['allow'] == ConfigurationManageJ3Page::$discountVoucherMultipleCouponMultiple){
+			else{
 				$I->wantToTest('Just apply discount with one coupon and multi voucher');
 				if (($applyDiscount == 'couponCode'))
 				{
