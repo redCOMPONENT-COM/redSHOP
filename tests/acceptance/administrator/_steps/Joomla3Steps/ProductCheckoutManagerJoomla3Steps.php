@@ -422,10 +422,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->wantToTest('Just apply discount with one coupon and multi voucher');
 				if (($applyDiscount == 'couponCode'))
 				{
-					$I->wantToTest('Apply discount for product and apply couponCode for product');
-					$I->wantToTest('Just one kinds of discount will apply');
-					$I->wantToTest('We have voucher discount and coupon discount but We should apply coupon');
-					$I->wantTo('Add voucher again ');
+					$I->comment('Apply 1 coupon and 2 voucher');
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
@@ -444,8 +441,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
 
 				}else{
-					$I->wantToTest('Apply discount for product and apply couponCode and multi voucher for product');
-					$I->wantToTest('Just one kinds of discount will apply');
+					$I->comment('Apply 1 voucher and 2 coupon');
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
