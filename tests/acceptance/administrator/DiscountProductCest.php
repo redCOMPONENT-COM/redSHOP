@@ -308,6 +308,7 @@ class DiscountProductCest
 	{
 		$client->doAdministratorLogin();
 		$client = new DiscountProductSteps($scenario);
+		$client->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->categoryName, $this->groupName);
 		$client->checkDeleteAll();
 	}
 }
