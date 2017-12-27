@@ -297,7 +297,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->click(\ConfigurationManageJ3Page::$allowedDiscountId);
 					$I->waitForElement(\ConfigurationManageJ3Page::$allowDiscountSearch, 30);
 					$I->fillField(\ConfigurationManageJ3Page::$allowDiscountSearch, $discount['allow']);
-					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
+					$I->waitForElement($userConfiguration->returnChoice($discount['allow']));
 					$I->click($userConfiguration->returnChoice($discount['allow']));
 //					$I->pressKey(\ConfigurationManageJ3Page::$allowedDiscountId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
