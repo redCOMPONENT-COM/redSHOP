@@ -126,7 +126,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
-		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorFieldRequired);
+		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorAmountZero);
 	}
 
 	/**

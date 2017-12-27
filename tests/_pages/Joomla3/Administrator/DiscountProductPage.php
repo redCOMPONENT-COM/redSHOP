@@ -69,4 +69,9 @@ class DiscountProductPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $messageErrorStartDateHigherEndDate = 'Oops! Discount start date is equal or higher than end date.';
+
+	/**
+	 * @var string
+	 */
+	public static $messageErrorAmountZero = 'Oops! Amount must be greater than 0';
 }
