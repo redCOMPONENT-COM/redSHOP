@@ -204,9 +204,16 @@ class CouponCheckoutProductCest
 		$I = new ConfigurationManageJoomla3Steps($scenario);
 		$I->priceDiscount($this->discount);
 		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
+
+		$I->comment('the first time apply discount');
 		$this->orderInfo['priceTotal'] = "DKK 70,00";
-		$this->orderInfo['priceDiscount'] =  "DKK 30,00";
-		$this->orderInfo['priceEnd'] =  "DKK 40,00";
+		$this->orderInfo['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfo['priceEnd'] =  "DKK 60,00";
+
+
+		$this->orderInfoSecond['priceTotal'] = "DKK 70,00";
+		$this->orderInfoSecond['priceDiscount'] =  "DKK 30,00";
+		$this->orderInfoSecond['priceEnd'] =  "DKK 40,00";
 
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->comment('Checkout with voucher (multiple) + coupon (multiple) ');
