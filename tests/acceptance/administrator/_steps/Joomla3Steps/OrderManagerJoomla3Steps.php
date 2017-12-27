@@ -57,7 +57,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 
 		$I->click(\OrderManagerPage::$buttonSave);
-		$I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
+		$I->see(\OrderManagerPage::$buttonCancel, \OrderManagerPage::$close);
 	}
 
 	public function editOrder($nameUser, $status, $paymentStatus, $newQuantity)
