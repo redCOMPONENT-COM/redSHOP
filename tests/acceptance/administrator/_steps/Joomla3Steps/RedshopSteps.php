@@ -113,5 +113,6 @@ class RedshopSteps
 
 		$db->setQuery($query)->execute();
 	}
+	
 
 }
