@@ -65,7 +65,7 @@ abstract class RedshopHelperAttribute
 
 		$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
 
-		if (empty($attributeTemplate))
+		if (empty($attributeTemplate) || $attributeTemplate == new stdClass)
 		{
 			return $templateContent;
 		}
