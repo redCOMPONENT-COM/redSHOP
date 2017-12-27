@@ -73,5 +73,5 @@ class DiscountProductPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $messageErrorAmountZero = 'Oops! Amount must be greater than 0';
+	public static $messageErrorAmountZero = 'Oops! Discount amount must be greater than 0';
 }
