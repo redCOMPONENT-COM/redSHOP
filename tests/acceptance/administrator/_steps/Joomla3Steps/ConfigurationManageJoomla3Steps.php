@@ -298,7 +298,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElement(\ConfigurationManageJ3Page::$allowDiscountSearch, 30);
 					$I->fillField(\ConfigurationManageJ3Page::$allowDiscountSearch, $discount['allow']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
-					$I->pressKey(\ConfigurationManageJ3Page::$allowedDiscountId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+					$I->click($userConfiguration->returnChoice($discount['allow']);
 				}
 
 				if (isset($discount['enableCoupon']))
@@ -368,7 +368,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElement(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, 30);
 					$I->fillField(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
-					$I->pressKey(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']);
 				}
 			}
 		}
