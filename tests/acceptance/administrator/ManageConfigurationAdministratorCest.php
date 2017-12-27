@@ -131,7 +131,6 @@ class ManageConfigurationAdministratorCest
 	{
 		$I->wantTo('setup VAT at admin');
 		$I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
-		$I->wantTo(' Edit inline is yes ');
 		$I->setupVAT($this->country, $this->state, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
 
 	}
@@ -150,5 +149,4 @@ class ManageConfigurationAdministratorCest
 		$I->wantTo(' Edit inline is yes ');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 	}
-
 }

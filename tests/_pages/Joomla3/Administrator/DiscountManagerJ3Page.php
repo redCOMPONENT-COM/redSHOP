@@ -56,6 +56,8 @@ class DiscountManagerJ3Page extends AdminJ3Page
 	public static $searchResults = ['id' => "select2-results-2"];
 
 	public static $searchShopperId = ['id' => "s2id_shopper_group_id"];
+	
+	public static $searchShopperField = ['id' => 's2id_autogen3'];
 
 	public static $saveSuccess = ['id' => 'system-message-container'];
 
@@ -97,20 +99,6 @@ class DiscountManagerJ3Page extends AdminJ3Page
 	{
 		$path = "//ul/li[contains(text(), '" . $shopperGroup . "')]";
 
-		return $path;
-	}
-
-	/**
-	 *
-	 * Function to choie shopper
-	 *
-	 * @param $typeChoice
-	 * @return string
-	 */
-	public function resultChoice($typeChoice)
-	{
-
-		$path = ['xpath' => "//span//..[contains(text(), '" . $typeChoice . "')]"];
 		return $path;
 	}
 

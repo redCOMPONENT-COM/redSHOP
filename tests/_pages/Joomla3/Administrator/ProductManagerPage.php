@@ -47,7 +47,7 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $productNumber = ['id'=>'product_number'];
 
-    public static $productPrice = ['id'=>'product_price'];
+    public static $productPrice =  ['id' => 'product_price'];
 
     public static $productName  =   ['id' => "product_name"];
     
