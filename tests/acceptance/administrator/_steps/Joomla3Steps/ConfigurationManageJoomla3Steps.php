@@ -369,7 +369,6 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->fillField(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']), 30);
 					$I->pressKey(\ConfigurationManageJ3Page::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-//					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
 				}
 			}
 		}
