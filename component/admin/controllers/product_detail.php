@@ -909,7 +909,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function getChildProducts()
 	{
-		RedshopHelperAjax::validateAjaxRequest('GET');
+		\Redshop\Helper\Ajax::validateAjaxRequest('GET');
 
 		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');

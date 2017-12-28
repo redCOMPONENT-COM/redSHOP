@@ -613,7 +613,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function ajaxGetProductTax()
 	{
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$app = JFactory::getApplication();
 
