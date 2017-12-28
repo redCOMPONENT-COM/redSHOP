@@ -21,7 +21,9 @@ abstract class RedshopHelperAjax
 	/**
 	 * Check if we have received an AJAX request for security reasons
 	 *
-	 * @return  boolean
+	 * @deprecated  Use \Redshop\Helper\Ajax::isAjaxRequest()
+	 *
+	 * @return      boolean
 	 */
 	public static function isAjaxRequest()
 	{
@@ -33,6 +35,8 @@ abstract class RedshopHelperAjax
 	 * Verify that an AJAX request has been received
 	 *
 	 * @param   string  $method  Method to validate the ajax request
+	 *
+	 * @deprecated  Use \Redshop\Helper\Ajax::validateAjaxRequest()
 	 *
 	 * @return  void
 	 *

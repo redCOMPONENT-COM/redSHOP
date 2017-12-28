@@ -31,9 +31,9 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 	 */
 	public function onAjaxShipping_Address_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -45,7 +45,7 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 	 */
 	public function onAjaxShipping_Address_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$this->writeData($this->getHeader(), 'w+');
 
@@ -61,7 +61,7 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 	 */
 	public function onAjaxShipping_Address_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);

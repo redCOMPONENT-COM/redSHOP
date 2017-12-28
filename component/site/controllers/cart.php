@@ -497,7 +497,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function ajaxDeleteCartItem()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$app         = JFactory::getApplication();
 		$input       = $app->input;
