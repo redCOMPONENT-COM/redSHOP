@@ -29,7 +29,6 @@ env:
   matrix:
       #- ACCEPTANCE=false # this will run phpcs checks etc
       #- ACCEPTANCE=true # run test
-      - ACCEPTANCE=acceptance/administrator/Country/Country
       - ACCEPTANCE=acceptance/administrator/Coupon/Coupon
   global:
     - CLOUD_NAME=redcomponent
