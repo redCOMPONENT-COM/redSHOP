@@ -8,6 +8,8 @@
 
 namespace Cest;
 
+use Faker\Factory;
+
 /**
  * Class Abstract cest
  *
@@ -54,7 +56,7 @@ class AbstractCest
 	 */
 	public function __construct()
 	{
-		$this->faker           = Faker\Factory::create();
+		$this->faker           = Factory::create();
 		$this->countryName     = $this->faker->bothify('Testing Country ?##?');
 		$this->newCountryName  = 'New ' . $this->countryName;
 		$this->randomTwoCode   = $this->faker->numberBetween(10, 99);
