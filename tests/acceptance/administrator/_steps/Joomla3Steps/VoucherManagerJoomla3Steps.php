@@ -316,7 +316,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$deleteButton);
 		$I->acceptPopup();;
-		$I->assertSystemMessageContains(\VoucherManagerPage::$messageDeleteSuccesse);
+		$I->assertSystemMessageContains(\VoucherManagerPage::$messageDeleteSuccess);
 		$I->dontSeeElement(['link' => $updatedRandomVoucherCode]);
 	}
 
