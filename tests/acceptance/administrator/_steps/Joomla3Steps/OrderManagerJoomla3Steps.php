@@ -55,8 +55,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
 
-
 		$I->click(\OrderManagerPage::$buttonSave);
+		$I->waitForElement(\OrderManagerPage::$close, 30);
 		$I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
 	}
 
