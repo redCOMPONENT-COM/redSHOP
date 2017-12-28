@@ -34,6 +34,7 @@ class RedshopControllerSample_detail extends RedshopController
 		$post ['sample_id'] = $cid [0];
 		$link               = 'index.php?option=com_redshop&view=sample';
 
+		/** @var RedshopModelSample_detail $model */
 		$model = $this->getModel('sample_detail');
 
 		if ($model->store($post))
@@ -57,6 +58,7 @@ class RedshopControllerSample_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelSample_detail $model */
 		$model = $this->getModel('sample_detail');
 
 		if (!$model->delete($cid))
@@ -78,6 +80,7 @@ class RedshopControllerSample_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelSample_detail $model */
 		$model = $this->getModel('sample_detail');
 
 		if (!$model->publish($cid, 1))

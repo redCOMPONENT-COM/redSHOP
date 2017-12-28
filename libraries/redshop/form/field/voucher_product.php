@@ -38,21 +38,50 @@ class RedshopFormFieldVoucher_Product extends JFormFieldList
 	{
 		$voucherId = isset($this->element['voucher_id']) ? (int) $this->element['voucher_id'] : false;
 		$selected  = array();
+		$typeField = ', alert:"voucher"';
 
 		if ($voucherId)
 		{
-			$products = RedshopEntityVoucher::getInstance($voucherId)->getProducts();
+			$products   = RedshopEntityVoucher::getInstance($voucherId)->getProducts();
+			$typeField .= ', voucher_id:' . $voucherId;
 
 			if (!$products->isEmpty())
 			{
 				foreach ($products->getAll() as $product)
 				{
-					$data = new stdClass;
+					$data        = new stdClass;
 					$data->value = $product->get('product_id');
-					$data->text = $product->get('product_name');
+					$data->text  = $product->get('product_name');
 
-					$selected[] = $data;
+					$selected[$product->get('product_id')] = $data;
 				}
+			}
+		}
+
+		if (!empty($this->value))
+		{
+			$values = !$this->multiple ? array($this->value) : $this->value;
+			$db     = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->qn(array('product_id', 'product_name')))
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' IN (' . implode(',', $values) . ')');
+
+			$products = $db->setQuery($query)->loadObjectList();
+
+			foreach ($products as $product)
+			{
+				if (isset($selected[$product->product_id]))
+				{
+					continue;
+				}
+
+				$data        = new stdClass;
+				$data->value = $product->product_id;
+				$data->text  = $product->product_name;
+
+				$selected[$product->product_id] = $data;
 			}
 		}
 
@@ -62,10 +91,10 @@ class RedshopFormFieldVoucher_Product extends JFormFieldList
 			'container_product',
 			array(
 				'select2.ajaxOptions' => array(
-					'typeField' => ', alert:"voucher", voucher_id:' . $voucherId
+					'typeField' => $typeField
 				),
-				'select2.options' => array('multiple' => true),
-				'list.attr' => array('required' => 'required')
+				'select2.options'     => array('multiple' => true),
+				'list.attr'           => array('required' => 'required')
 			)
 		);
 	}

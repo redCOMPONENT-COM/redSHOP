@@ -100,5 +100,14 @@
                 table-width="10%"
                 table-inline="1"
         />
+        <field
+                name="voucher_products"
+                type="redshop.voucher_product"
+                label="COM_REDSHOP_VOUCHER_PRODUCTS"
+                description="COM_REDSHOP_VOUCHER_PRODUCTS_DESC"
+                class="form-control"
+                table-hide="1"
+                multiple="true"
+        />
     </fieldset>
 </form>
