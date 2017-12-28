@@ -66,4 +66,58 @@ class AbstractStep extends \AcceptanceTester
 		$client->click($pageClass::$buttonSave);
 		$client->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
+
+	/**
+	 * Method for edit item.
+	 *
+	 * @param   \AdminJ3Page  $pageClass   Page class
+	 * @param   string        $searchName  Old item search name
+	 * @param   array         $formFields  Array of form fields
+	 * @param   array         $data        Array of data.
+	 *
+	 * @return  void
+	 */
+	public function editItem($pageClass = null, $searchName = '', $formFields = array(), $data = array())
+	{
+		$client = $this;
+		$client->amOnPage($pageClass::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->searchItem($pageClass, $searchName);
+		$client->click($searchName);
+		$client->waitForElement($pageClass::$selectorPageTitle, 30);
+
+		foreach ($formFields as $index => $field)
+		{
+			if (!isset($data[$index]) || empty($data[$index]))
+			{
+				continue;
+			}
+
+			switch ($field['type'])
+			{
+				default:
+					$client->fillField($field['xpath'], $data[$index]);
+					break;
+			}
+		}
+
+		$client->click($pageClass::$buttonSaveClose);
+		$client->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+	}
+
+	/**
+	 * Function to search item
+	 *
+	 * @param   \AdminJ3Page  $pageClass  Page class
+	 * @param   string        $item       Item for search
+	 *
+	 * @return  void
+	 */
+	public function searchItem($pageClass = null, $item = '')
+	{
+		$client = $this;
+		$client->amOnPage($pageClass::$url);
+		$client->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
+		$client->filterListBySearching($item);
+	}
 }

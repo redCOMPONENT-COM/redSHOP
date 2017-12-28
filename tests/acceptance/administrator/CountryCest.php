@@ -20,6 +20,13 @@ use Cest\AbstractCest;
 class CountryCest extends AbstractCest
 {
 	/**
+	 * Name field, which is use for search
+	 *
+	 * @var string
+	 */
+	public $nameField = 'country_name';
+
+	/**
 	 * Method for set new data.
 	 *
 	 * @return  array
@@ -58,6 +65,8 @@ class CountryCest extends AbstractCest
 	 */
 	protected function prepareFormFields()
 	{
+		/* @TODO Need auto-generate by parse from XML file (admin/models/<class>.xml) */
+
 		return array(
 			'country_name'   => array('type' => 'text', 'xpath' => ['id' => 'jform_country_name']),
 			'country_2_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_2_code']),

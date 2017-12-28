@@ -11,7 +11,10 @@ namespace Cest;
 use Codeception\Scenario;
 use Faker\Factory;
 use Faker\Generator;
+use function get_called_class;
 use Step\AbstractStep;
+use function str_replace;
+use function ucfirst;
 
 /**
  * Class Abstract cest
@@ -60,14 +63,22 @@ class AbstractCest
 	public $dataEdit = array();
 
 	/**
+	 * Name field, which is use for search
+	 *
+	 * @var string
+	 */
+	public $nameField = '';
+
+	/**
 	 * CountryCest constructor.
 	 */
 	public function __construct()
 	{
 		$this->faker      = Factory::create();
-		$this->className  = get_class($this);
+		$this->className  = get_called_class();
 		$this->stepClass  = 'AcceptanceTester\\' . str_replace('Cest', 'Steps', $this->className);
 		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
+		$this->className  = ucfirst(str_replace('Cest', '', $this->className));
 		$this->dataNew    = $this->prepareNewData();
 		$this->dataEdit   = $this->prepareEditData();
 		$this->formFields = $this->prepareFormFields();
@@ -116,14 +127,14 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for test button Check-In without choice
+	 * Method for test create item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
 	 */
-	public function testCreateNewItemSave(\AcceptanceTester $tester, Scenario $scenario)
+	public function testCreateItem(\AcceptanceTester $tester, Scenario $scenario)
 	{
 		$tester->wantTo('Administrator > Test create new ' . $this->className . ' item.');
 		$stepClass = $this->stepClass;
@@ -131,5 +142,23 @@ class AbstractCest
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->addNewItem($this->pageClass, $this->formFields, $this->dataNew);
+	}
+
+	/**
+	 * Method for test edit item
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testEditItem(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Administrator > Test edit ' . $this->className . ' item.');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+		$step->editItem($this->pageClass, $this->dataNew[$this->nameField], $this->formFields, $this->dataEdit);
 	}
 }
