@@ -5,7 +5,7 @@ sudo:
   required
 
 dist:
-  trusty
+  precise
 
 install:
   - . $HOME/.nvm/nvm.sh
