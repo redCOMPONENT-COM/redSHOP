@@ -6,9 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace AcceptanceTester;
-
-use AcceptanceTester\Step\AbstractStep;
+use Step\AbstractStep;
 
 /**
  * Class CouponManagerJoomla3Steps
