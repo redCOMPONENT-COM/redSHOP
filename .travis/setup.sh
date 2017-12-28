@@ -64,7 +64,7 @@ else
 
 	# Install bower components
 	cd src/assets/com_redshop
-	bower install
+	../../../node_modules/.bin/bower install
 	cd ../../..
 
 	mv gulp-config.sample.json gulp-config.json
