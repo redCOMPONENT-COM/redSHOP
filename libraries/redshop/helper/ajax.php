@@ -27,8 +27,7 @@ abstract class RedshopHelperAjax
 	 */
 	public static function isAjaxRequest()
 	{
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+		return \Redshop\Helper\Ajax::isAjaxRequest();
 	}
 
 	/**
@@ -44,9 +43,6 @@ abstract class RedshopHelperAjax
 	 */
 	public static function validateAjaxRequest($method = 'post')
 	{
-		if (!JSession::checkToken($method) || !static::isAjaxRequest())
-		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-		}
+		\Redshop\Helper\Ajax::validateAjaxRequest($method);
 	}
 }
