@@ -5,7 +5,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\DiscountManagerJoomla3Steps;
+use AcceptanceTester\DiscountSteps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 class CheckoutSpecificShopperGroupsCest

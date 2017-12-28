@@ -26,6 +26,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 		$success = false;
 
+		/** @var RedshopModelNewslettersubscr $model */
 		$model = $this->getModel('newslettersubscr');
 
 		$filetype = strtolower(JFile::getExt($file['name']));
@@ -89,6 +90,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		if (!$model->publish($cid, 1))
@@ -109,6 +111,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		if (!$model->publish($cid, 0))

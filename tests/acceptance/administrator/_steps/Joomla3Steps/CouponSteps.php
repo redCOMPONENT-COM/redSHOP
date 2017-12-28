@@ -30,7 +30,7 @@ class CouponSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addCoupon($couponCode = 'TestCoupon', $couponType = 0, $couponValue = '100', $couponEffect = 0, $couponLeft = '10')
+	public function addCoupon($couponCode, $couponType, $couponValue, $couponEffect, $couponLeft)
 	{
 		$client = $this;
 		$client->amOnPage(\CouponPage::$url);
@@ -41,8 +41,8 @@ class CouponSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\CouponPage::$fieldCode, $couponCode);
 		$client->fillField(\CouponPage::$fieldValue, $couponValue);
 		$client->fillField(\CouponPage::$fieldAmountLeft, $couponLeft);
-		$client->chooseRadio(\CouponPage::$fieldType, $couponType);
-		$client->chooseRadio(\CouponPage::$fieldEffect, $couponEffect);
+		$client->selectOption(\CouponPage::$fieldType, $couponType);
+		$client->selectOption(\CouponPage::$fieldEffect, $couponEffect);
 		$client->click(\CouponPage::$buttonSaveClose);
 		$client->waitForText(\CouponPage::$messageItemSaveSuccess, 60, \CouponPage::$selectorSuccess);
 		$client->see(\CouponPage::$messageItemSaveSuccess, \CouponPage::$selectorSuccess);
@@ -89,8 +89,8 @@ class CouponSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\CouponPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\CouponPage::$messageItemDeleteSuccess, 60, \CouponPage::$selectorSuccess);
-		$client->see(\CouponPage::$messageItemDeleteSuccess, \CouponPage::$selectorSuccess);
+		$client->waitForText(\CouponPage::$messageDeleteSuccess, 60, \CouponPage::$selectorSuccess);
+		$client->see(\CouponPage::$messageDeleteSuccess, \CouponPage::$selectorSuccess);
 		$client->fillField(\CouponPage::$searchField, $couponCode);
 		$client->pressKey(\CouponPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($couponCode, \CouponPage::$resultRow);
