@@ -10,6 +10,7 @@ namespace Cest;
 
 use Codeception\Scenario;
 use Faker\Factory;
+use Faker\Generator;
 use Step\AbstractStep;
 
 /**
@@ -24,7 +25,7 @@ use Step\AbstractStep;
 class AbstractCest
 {
 	/**
-	 * @var  string
+	 * @var  Generator
 	 */
 	public $faker;
 
@@ -63,13 +64,13 @@ class AbstractCest
 	 */
 	public function __construct()
 	{
-		$this->faker     = Factory::create();
-		$this->className = get_class($this);
-		$this->stepClass = 'AcceptanceTester\\' . str_replace('Cest', 'Steps', $this->className);
-		$this->pageClass = str_replace('Cest', 'Page', $this->className);
-
-		$this->dataNew  = $this->prepareNewData();
-		$this->dataEdit = $this->prepareEditData();
+		$this->faker      = Factory::create();
+		$this->className  = get_class($this);
+		$this->stepClass  = 'AcceptanceTester\\' . str_replace('Cest', 'Steps', $this->className);
+		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
+		$this->dataNew    = $this->prepareNewData();
+		$this->dataEdit   = $this->prepareEditData();
+		$this->formFields = $this->prepareFormFields();
 	}
 
 	/**
@@ -100,6 +101,16 @@ class AbstractCest
 	 * @return  array
 	 */
 	protected function prepareEditData()
+	{
+		return array();
+	}
+
+	/**
+	 * Method for set form fields.
+	 *
+	 * @return  array
+	 */
+	protected function prepareFormFields()
 	{
 		return array();
 	}

@@ -46,7 +46,6 @@ class AbstractStep extends \AcceptanceTester
 		$client->amOnPage($pageClass::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->click($pageClass::$buttonNew);
-		$client->waitForElement($pageClass::$namePage, 30);
 		$client->checkForPhpNoticesOrWarnings();
 
 		foreach ($formFields as $index => $field)
@@ -56,10 +55,10 @@ class AbstractStep extends \AcceptanceTester
 				continue;
 			}
 
-			switch ($field->type)
+			switch ($field['type'])
 			{
 				default:
-					$client->fillField($field->xpath, $data[$index]);
+					$client->fillField($field['xpath'], $data[$index]);
 					break;
 			}
 		}
