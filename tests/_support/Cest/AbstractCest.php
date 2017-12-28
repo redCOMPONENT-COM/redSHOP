@@ -75,7 +75,6 @@ class AbstractCest
 		$this->className  = get_called_class();
 		$this->stepClass  = 'AcceptanceTester\\' . str_replace('Cest', 'Steps', $this->className);
 		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
-		$this->className  = ucfirst(str_replace('Cest', '', $this->className));
 		$this->dataNew    = $this->prepareNewData();
 		$this->dataEdit   = $this->prepareEditData();
 		$this->formFields = $this->prepareFormFields();
@@ -133,7 +132,7 @@ class AbstractCest
 	 */
 	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > ' . $this->className . ' > Test button Delete without choice.');
+		$tester->wantTo('Administrator > Test button Delete without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -157,7 +156,7 @@ class AbstractCest
 	 */
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > ' . $this->className . ' > Test create new item.');
+		$tester->wantTo('Administrator > Test create new item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -175,11 +174,29 @@ class AbstractCest
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > ' . $this->className . ' > Test edit item.');
+		$tester->wantTo('Administrator > Test edit item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->editItem($this->pageClass, $this->dataNew[$this->nameField], $this->formFields, $this->dataEdit);
+	}
+
+	/**
+	 * Method for test delete item
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Administrator > Test delete item.');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+		$step->deleteItem($this->pageClass, $this->dataNew[$this->nameField]);
 	}
 }

@@ -81,6 +81,7 @@ class AbstractStep extends \AcceptanceTester
 	{
 		$client = $this;
 		$client->searchItem($pageClass, $searchName);
+		$client->see($searchName, $pageClass::$resultRow);
 		$client->click($searchName);
 		$client->waitForElement($pageClass::$selectorPageTitle, 30);
 
@@ -118,11 +119,9 @@ class AbstractStep extends \AcceptanceTester
 		$client->amOnPage($pageClass::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
-		$client->filterListBySearching($item);
 		$client->executeJS('window.scrollTo(0,0)');
 		$client->fillField($searchField, $item);
 		$client->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$client->waitForElement(['link' => $item]);
 	}
 
 	/**
@@ -139,5 +138,26 @@ class AbstractStep extends \AcceptanceTester
 		$client->click($pageClass::$buttonDelete);
 		$client->acceptPopup();
 		$client->waitForElement($pageClass::$searchField, 30);
+	}
+
+	/**
+	 * Method for delete item
+	 *
+	 * @param   \AdminJ3Page  $pageClass  Page class
+	 * @param   string        $item       Name of the item
+	 *
+	 * @return void
+	 */
+	public function deleteItem($pageClass = null, $item = '')
+	{
+		$client = $this;
+		$client->searchItem($pageClass, $item);
+		$client->see($item, $pageClass::$resultRow);
+		$client->checkAllResults();
+		$client->click($pageClass::$buttonDelete);
+		$client->acceptPopup();
+		$client->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
+		$client->searchItem($pageClass, $item);
+		$client->dontSee($item, $pageClass::$resultRow);
 	}
 }
