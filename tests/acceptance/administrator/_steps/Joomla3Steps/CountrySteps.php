@@ -106,8 +106,8 @@ class CountrySteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\CountryPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\CountryPage::$messageItemDeleteSuccess, 60, \CountryPage::$selectorSuccess);
-		$client->see(\CountryPage::$messageItemDeleteSuccess, \CountryPage::$selectorSuccess);
+		$client->waitForText(\CountryPage::$messageDeleteSuccess, 60, \CountryPage::$selectorSuccess);
+		$client->see(\CountryPage::$messageDeleteSuccess, \CountryPage::$selectorSuccess);
 		$client->fillField(\CountryPage::$searchField, $countryName);
 		$client->pressKey(\CountryPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($countryName, \CountryPage::$resultRow);

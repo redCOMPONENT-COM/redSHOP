@@ -25,9 +25,9 @@ class CouponCest
 		$this->faker            = Faker\Factory::create();
 		$this->couponCode       = $this->faker->bothify('Coupon Code ?##?');
 		$this->updateCouponCode = 'New ' . $this->couponCode;
-		$this->couponValueIn    = 0;
+		$this->couponValueIn    = 'Total';
 		$this->couponValue      = '100';
-		$this->couponType       = 0;
+		$this->couponType       = 'Global';
 		$this->couponLeft       = '10';
 	}
 

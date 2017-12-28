@@ -84,18 +84,15 @@ class RedshopTableVoucher extends RedshopTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws  \InvalidArgumentException
+	 * @throws  Exception
 	 */
 	protected function doBind(&$src, $ignore = array())
 	{
-		// Check container products
-		$products = $this->getOption('products', null);
-
-		if (is_null($products))
+		if (isset($src['voucher_products']) && !empty($src['voucher_products']))
 		{
-			// Try to get products from input
-			$products = JFactory::getApplication()->input->getString('container_product', '');
-			$this->setOption('products', explode(',', $products));
+			$shopperGroups = is_string($src['voucher_products']) ? explode(',', $src['voucher_products']) : $src['voucher_products'];
+			$this->setOption('products', $shopperGroups);
+			unset($src['shopper_group']);
 		}
 
 		return parent::doBind($src, $ignore);
@@ -115,7 +112,7 @@ class RedshopTableVoucher extends RedshopTable
 			return false;
 		}
 
-		if ($this->getOption('skip.updateProducts', false) === true)
+		if ($this->getOption('skip.updateProducts', false) === true || $this->getOption('inlineMode', false) === true)
 		{
 			return true;
 		}
@@ -148,8 +145,6 @@ class RedshopTableVoucher extends RedshopTable
 		$query->clear()
 			->insert($db->qn('#__redshop_product_voucher_xref'))
 			->columns($db->qn(array('voucher_id', 'product_id')));
-
-		$values = array();
 
 		foreach ($products as $productId)
 		{

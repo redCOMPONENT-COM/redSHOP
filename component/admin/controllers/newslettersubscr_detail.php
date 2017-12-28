@@ -53,8 +53,10 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 		$cid                      = $this->input->post->get('cid', array(0), 'array');
 		$post ['subscription_id'] = $cid [0];
-		$model                    = $this->getModel('newslettersubscr_detail');
-		$userinfo                 = $model->getUserFromEmail($post['email']);
+
+		/** @var RedshopModelNewslettersubscr_detail $model */
+		$model    = $this->getModel('newslettersubscr_detail');
+		$userinfo = $model->getUserFromEmail($post['email']);
 
 		if (!empty($userinfo))
 		{
@@ -96,6 +98,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		if (!$model->delete($cid))

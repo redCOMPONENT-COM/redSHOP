@@ -33,6 +33,8 @@ class RedshopControllerShipping_box_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post  = $this->input->post->getArray();
+
+		/** @var RedshopModelShipping_box_detail $model */
 		$model = $this->getModel('shipping_box_detail');
 		$row   = $model->store($post);
 
@@ -64,6 +66,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelShipping_box_detail $model */
 		$model = $this->getModel('shipping_box_detail');
 
 		if (!$model->delete($cid))

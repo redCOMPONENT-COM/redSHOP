@@ -142,7 +142,9 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'suppliers');
 
 			case "discount":
-			case "discount_detail":
+			case "discounts":
+			case "discount_product":
+			case "discount_products":
 			case "mass_discounts":
 			case "mass_discount":
 				return array('DISCOUNT', 'discount');
@@ -436,14 +438,14 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'mass_discounts') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=discount',
+				'index.php?option=com_redshop&view=discounts',
 				'COM_REDSHOP_DISCOUNT_LISTING',
-				(self::$view == 'discount' && self::$layout == '') ? true : false
+				(self::$view == 'discounts') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=discount&layout=product',
+				'index.php?option=com_redshop&view=discount_products',
 				'COM_REDSHOP_DISCOUNT_PRODUCT_LISTING',
-				(self::$view == 'discount' && self::$layout == 'product') ? true : false
+				(self::$view == 'discount_products') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=giftcards',

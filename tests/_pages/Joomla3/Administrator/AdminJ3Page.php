@@ -15,8 +15,11 @@
  */
 abstract class AdminJ3Page
 {
-
+	/**
+	 * @var array
+	 */
 	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
+
 	/**
 	 * @var string
 	 */
@@ -45,7 +48,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $messageItemDeleteSuccess = "1 item successfully deleted";
+	public static $messageDeleteSuccess = "successfully deleted";
 
 	/**
 	 * @var string
@@ -66,6 +69,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 */
 	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
+
 	/**
 	 * @var string
 	 */
@@ -99,7 +103,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $selectorError=".alert-error";
+	public static $selectorError = ".alert-error";
 
 	/**
 	 * @var string
@@ -165,6 +169,7 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonCopy = 'Copy';
+
 	/**
 	 * @var string
 	 */
@@ -297,10 +302,10 @@ abstract class AdminJ3Page
 	 */
 
 	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
+
 	/**
 	 * @var string
 	 */
-
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
 	/**
 	 * @var array
@@ -310,15 +315,19 @@ abstract class AdminJ3Page
 	public static $shippingRate=['id'=>'spnShippingrate'];
 
 	/**
-	 *
+	 * @var string
+	 */
+	public static $messageErrorFieldRequired = 'Field required';
+
+	/**
 	 * Function get value
-	 * @param $value
+	 *
+	 * @param   string  $value  Value string
+	 *
 	 * @return array
 	 */
 	public static function returnChoice($value)
 	{
-		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
-		return $path;
+		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 	}
-
 }

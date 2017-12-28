@@ -42,6 +42,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 		$post ['newsletter_id'] = $cid [0];
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if ($row = $model->store($post))
@@ -74,6 +75,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		foreach ($cid as $key => $value)

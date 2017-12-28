@@ -233,18 +233,19 @@ class productHelper
 
 			if (empty($userArr))
 			{
-				$userArr = $this->_userhelper->createUserSession($userId);
+				$userArr = RedshopHelperUser::createUserSession($userId);
 			}
 
-			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ? $userArr['rs_user_shopperGroup'] : $this->_userhelper->getShopperGroup($userId);
+			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ?
+				$userArr['rs_user_shopperGroup'] : RedshopHelperUser::getShopperGroup($userId);
+
 			$query = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
 				->where('dps.shopper_group_id =' . (int) $shopperGroupId);
 		}
 
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+		$result = $db->setQuery($query)->loadColumn();
 		self::$productSpecialIds[$userId] = '0';
 
 		if (count($result) > 0)
