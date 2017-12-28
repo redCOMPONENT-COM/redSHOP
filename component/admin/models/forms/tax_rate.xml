@@ -72,7 +72,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_TAX_RATE_EU"
                 description="COM_REDSHOP_TAX_RATE_EU_DESC"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="0"
                 required="true"
                 table-hide="1">

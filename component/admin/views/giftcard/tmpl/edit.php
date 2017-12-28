@@ -34,14 +34,14 @@ JFactory::getDocument()->addScriptDeclaration('
 	method="post"
 	id="adminForm"
 	name="adminForm"
-	class="adminform form-validate form-horizontal"
+	class="adminform form-validate form-vertical"
 	enctype="multipart/form-data">
 
 	<div class="row">
 		<div class="col-md-6">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
+					<h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
 				</div>
 				<div class="box-body">
 					<?php echo $this->form->renderField('giftcard_name') ?>
@@ -56,7 +56,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION')) : ?>
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></h3>
+					<h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></h3>
 				</div>
 				<div class="panel-body">
 					<?php echo $this->form->renderField('accountgroup_id') ?>
@@ -67,14 +67,14 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="col-md-6">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_OTHER_INFORMATION') ?></h3>
+					<h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_OTHER_INFORMATION') ?></h3>
 				</div>
 				<div class="box-body">
 					<?php echo $this->form->renderField('giftcard_bgimage_file') ?>
-					<div class="form-group">
-						<div class="col-md-2">
+					<div class="form-group row-fluid">
+						<div class="col-md-3">
 						</div>
-						<div class="col-md-10">
+						<div class="col-md-9">
 							<?php
 							$value = $this->item->giftcard_bgimage;
 							$giftCardImagePath = RedShopHelperImages::getImagePath(
@@ -94,10 +94,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						</div>
 					</div>
 					<?php echo $this->form->renderField('giftcard_image_file') ?>
-					<div class="form-group">
-						<div class="col-md-2">
+					<div class="form-group row-fluid">
+						<div class="col-md-3">
 						</div>
-						<div class="col-md-10">
+						<div class="col-md-9">
 							<?php
 							$value = $this->item->giftcard_image;
 							$giftCardImagePath = RedShopHelperImages::getImagePath(

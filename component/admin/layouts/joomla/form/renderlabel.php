@@ -12,40 +12,32 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * ---------------------
- *    $text         : (string)  The label text
- *    $description  : (string)  An optional description to use in a tooltip
- *    $for          : (string)  The id of the input this label is for
- *    $required     : (boolean) True if a required field
- *    $classes      : (array)   A list of classes
- *    $position     : (string)  The tooltip position. Bottom for alias
+ *
+ * @var string  $text        The label text
+ * @var string  $description An optional description to use in a tooltip
+ * @var string  $for         The id of the input this label is for
+ * @var boolean $required    True if a required field
+ * @var array   $classes     A list of classes
+ * @var string  $position    The tooltip position. Bottom for alias
  */
 
-$text     = $displayData['text'];
-$desc     = $displayData['description'];
-$for      = $displayData['for'];
-$req      = $displayData['required'];
-$classes  = array_filter((array) $displayData['classes']);
-$position = $displayData['position'];
+extract($displayData);
 
-$id    = $for . '-lbl';
-$title = '';
-
-// If a description is specified, use it to build a tooltip.
-if (!empty($desc))
-{
-	JHtml::_('redshopjquery.popover');
-	$classes[] = 'hasPopover';
-	$title     = ' title="' . trim($text) . '" data-content="' . trim($desc) . '"';
-}
+$classes = array_filter((array) $classes);
+$id      = $for . '-lbl';
+$title   = '';
 
 // If required, there's a class for that.
-if ($req)
+if ($required)
 {
 	$classes[] = 'required';
 }
-
 ?>
-<label id="<?php echo $id ?>" for="<?php echo $for ?>"
-       class="col-md-2 control-label <?php echo implode(' ', $classes) ?>"<?php echo $title ?><?php echo $position ?>>
-	<?php echo $text ?><?php if ($req) : ?><span class="star text-danger">&#160;*</span><?php endif; ?>
+<label id="<?php echo $id ?>" for="<?php echo $for ?>" class="control-label text-right <?php echo implode(' ', $classes) ?>"<?php echo $title ?>
+	<?php echo $position ?> style="font-size: 110%">
+    <strong><?php echo $text ?></strong>
+    <?php if (!$required) : ?><small class="text-muted">-&nbsp;<?php echo JText::_('COM_REDSHOP_FIELD_OPTIONAL') ?></small><?php endif; ?>
 </label>
+<div class="help-block">
+    <small><i><?php echo trim($description) ?></i></small>
+</div>

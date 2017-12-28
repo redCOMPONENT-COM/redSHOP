@@ -34,9 +34,10 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED_DESC"
                 required="true"
                 table-sortable="1"
                 table-width="5%">

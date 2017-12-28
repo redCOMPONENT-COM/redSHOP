@@ -93,15 +93,13 @@
         <field
                 name="published"
                 type="redshop.radio"
-                class="btn-group"
                 default="1"
-                label-class="radio-inline"
                 label="COM_REDSHOP_PUBLISHED"
-                description="COM_REDSHOP_PUBLISHED"
+                label-class="radio-button"
                 table-sortable="1"
                 table-width="5%">
-            <option value="1">JPUBLISHED</option>
-            <option value="0">JUNPUBLISHED</option>
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
         </field>
         <field
                 name="asset_id"

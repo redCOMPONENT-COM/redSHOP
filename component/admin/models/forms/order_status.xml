@@ -34,15 +34,15 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_ORDER_STATUS_PUBLISHED"
                 description="COM_REDSHOP_ORDER_STATUS_PUBLISHED_DESC"
                 required="true"
                 table-sortable="1"
                 table-width="5%">
-            <option value="1">JPUBLISHED</option>
-            <option value="0">JUNPUBLISHED</option>
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
         </field>
     </fieldset>
 </form>

@@ -35,6 +35,7 @@
                 label="COM_REDSHOP_FIELD_TYPE_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_TYPE"
                 table-width="17%"
+                required="true"
         />
         <field
                 name="section"
@@ -43,6 +44,7 @@
                 description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
                 onchange="sectionValidation()"
                 table-width="17%"
+                required="true"
         />
         <field
                 name="class"
@@ -96,9 +98,10 @@
         <field
                 name="show_in_front"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_SHOW_AT_FRONT"
+                description="COM_REDSHOP_FIELD_SHOW_AT_FRONT_DESC"
                 table-hide="1"
                 required="true">
             <option value="1">JYES</option>
@@ -107,7 +110,7 @@
         <field
                 name="display_in_product"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_PRODUCT_LIST"
                 showon="section:1,17"
@@ -118,7 +121,7 @@
         <field
                 name="display_in_checkout"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_CHECKOUT"
                 showon="section:1,17"
@@ -129,9 +132,10 @@
         <field
                 name="required"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_IS_REQUIRED"
+                description="COM_REDSHOP_FIELD_REQUIRED_DESC"
                 table-hide="1"
                 required="true">
             <option value="1">JYES</option>
@@ -140,9 +144,10 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-inline"
+                label-class="radio-button"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED_DESC"
                 required="true"
                 table-sortable="1"
                 table-width="5%">
@@ -153,7 +158,7 @@
                 name="description"
                 type="textarea"
                 label="COM_REDSHOP_DESCRIPTION"
-                description="COM_REDSHOP_DESCRIPTION_DESC"
+                description="COM_REDSHOP_FIELD_DESCRIPTION_DESC"
                 class="form-control"
                 rows="20"
                 table-sortable="1"
