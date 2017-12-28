@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.1.0
  */
-class Response extends JObject
+class Response
 {
 	/**
 	 * @var    array
@@ -77,7 +77,7 @@ class Response extends JObject
 	 */
 	public function toJson()
 	{
-		return json_encode($this->getProperties(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+		return json_encode(get_object_vars($this), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
 	}
 
 	/**

@@ -45,7 +45,7 @@ class Ajax
 	{
 		if (!\JSession::checkToken($method) || !static::isAjaxRequest())
 		{
-			throw new \Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 	}
 }
