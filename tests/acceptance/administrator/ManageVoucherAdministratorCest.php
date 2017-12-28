@@ -182,7 +182,7 @@ class ManageVoucherAdministratorCest
      */
     public function deleteAllVoucher(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->wantTo('delete all vouchers');
         $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
         $I->deleteAllVoucher($this->randomVocherCodeSave);
     }
