@@ -29,6 +29,8 @@ trait CheckIn
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testButton
 	 */
 	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{

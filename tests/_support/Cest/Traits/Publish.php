@@ -29,6 +29,8 @@ trait Publish
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testButton
 	 */
 	public function testButtonPublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -53,6 +55,8 @@ trait Publish
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testButtonPublish
 	 */
 	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
 	{

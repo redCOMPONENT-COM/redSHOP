@@ -123,12 +123,26 @@ class AbstractCest
 	}
 
 	/**
+	 * Method for start test button
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testButton(\AcceptanceTester $tester, Scenario $scenario)
+	{
+	}
+
+	/**
 	 * Method for test button "Delete"
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testButton
 	 */
 	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -147,12 +161,26 @@ class AbstractCest
 	}
 
 	/**
+	 * Method for start test item
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testItem(\AcceptanceTester $tester, Scenario $scenario)
+	{
+	}
+
+	/**
 	 * Method for test create item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testItem
 	 */
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -171,6 +199,8 @@ class AbstractCest
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testItemCreate
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -189,6 +219,8 @@ class AbstractCest
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
+	 *
+	 * @depends testItemEdit
 	 */
 	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
