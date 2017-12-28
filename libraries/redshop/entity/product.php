@@ -234,7 +234,7 @@ class RedshopEntityProduct extends RedshopEntity
 			return true;
 		}
 
-		return $entity->save(
+		return (boolean) $entity->save(
 			array
 			(
 				'fieldid'  => $fieldId,
