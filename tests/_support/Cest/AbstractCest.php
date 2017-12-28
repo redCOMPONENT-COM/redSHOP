@@ -73,7 +73,7 @@ class AbstractCest
 	{
 		$this->faker      = Factory::create();
 		$this->className  = get_called_class();
-		$this->stepClass  = 'AcceptanceTester\\' . str_replace('Cest', 'Steps', $this->className);
+		$this->stepClass  = str_replace('Cest', 'Steps', $this->className);
 		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
 		$this->dataNew    = $this->prepareNewData();
 		$this->dataEdit   = $this->prepareEditData();
