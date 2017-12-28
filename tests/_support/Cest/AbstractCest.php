@@ -123,30 +123,16 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for start test button
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 */
-	public function testButton(\AcceptanceTester $tester, Scenario $scenario)
-	{
-	}
-
-	/**
 	 * Method for test button "Delete"
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
-	 *
-	 * @depends testButton
 	 */
 	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test button Delete without choice.');
+		$tester->wantTo('Administrator > Button > Delete without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -161,30 +147,16 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for start test item
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 */
-	public function testItem(\AcceptanceTester $tester, Scenario $scenario)
-	{
-	}
-
-	/**
 	 * Method for test create item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
-	 *
-	 * @depends testItem
 	 */
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test create new item.');
+		$tester->wantTo('Administrator > Data > Create item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -204,7 +176,7 @@ class AbstractCest
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test edit item.');
+		$tester->wantTo('Administrator > Data > Edit item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -224,7 +196,7 @@ class AbstractCest
 	 */
 	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test delete item.');
+		$tester->wantTo('Administrator > Data > Delete item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */

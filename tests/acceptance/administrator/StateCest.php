@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use AcceptanceTester\CountrySteps;
 use AcceptanceTester\StateSteps;
 use Codeception\Scenario;
 

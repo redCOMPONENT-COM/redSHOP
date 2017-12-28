@@ -26,7 +26,7 @@ trait CheckIn
 	 *
 	 * @return  void
 	 */
-	public function deleteWithoutChoice($pageClass = null)
+	public function checkInWithoutChoice($pageClass = null)
 	{
 		$tester = $this;
 		$tester->amOnPage($pageClass::$url);

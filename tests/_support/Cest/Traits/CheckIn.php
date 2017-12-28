@@ -34,7 +34,7 @@ trait CheckIn
 	 */
 	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test button Check-in without choice.');
+		$tester->wantTo('Administrator > Button > Check-in without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -44,7 +44,7 @@ trait CheckIn
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->deleteWithoutChoice($pageClass);
+		$step->checkInWithoutChoice($pageClass);
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 }
