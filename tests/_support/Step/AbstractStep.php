@@ -80,8 +80,6 @@ class AbstractStep extends \AcceptanceTester
 	public function editItem($pageClass = null, $searchName = '', $formFields = array(), $data = array())
 	{
 		$client = $this;
-		$client->amOnPage($pageClass::$url);
-		$client->checkForPhpNoticesOrWarnings();
 		$client->searchItem($pageClass, $searchName);
 		$client->click($searchName);
 		$client->waitForElement($pageClass::$selectorPageTitle, 30);
@@ -108,16 +106,38 @@ class AbstractStep extends \AcceptanceTester
 	/**
 	 * Function to search item
 	 *
-	 * @param   \AdminJ3Page  $pageClass  Page class
-	 * @param   string        $item       Item for search
+	 * @param   \AdminJ3Page  $pageClass    Page class
+	 * @param   string        $item         Item for search
+	 * @param   array         $searchField  XPath for search field
 	 *
 	 * @return  void
 	 */
-	public function searchItem($pageClass = null, $item = '')
+	public function searchItem($pageClass = null, $item = '',  $searchField = ['id' => 'filter_search'])
 	{
 		$client = $this;
 		$client->amOnPage($pageClass::$url);
+		$client->checkForPhpNoticesOrWarnings();
 		$client->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
 		$client->filterListBySearching($item);
+		$client->executeJS('window.scrollTo(0,0)');
+		$client->fillField($searchField, $item);
+		$client->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$client->waitForElement(['link' => $item]);
+	}
+
+	/**
+	 * Method for click button "Delete" without choice
+	 *
+	 * @param   \AdminJ3Page  $pageClass  Page class
+	 *
+	 * @return  void
+	 */
+	public function deleteWithoutChoice($pageClass = null)
+	{
+		$client = $this;
+		$client->amOnPage($pageClass::$url);
+		$client->click($pageClass::$buttonDelete);
+		$client->acceptPopup();
+		$client->waitForElement($pageClass::$searchField, 30);
 	}
 }

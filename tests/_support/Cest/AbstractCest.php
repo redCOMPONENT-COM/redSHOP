@@ -11,10 +11,7 @@ namespace Cest;
 use Codeception\Scenario;
 use Faker\Factory;
 use Faker\Generator;
-use function get_called_class;
 use Step\AbstractStep;
-use function str_replace;
-use function ucfirst;
 
 /**
  * Class Abstract cest
@@ -127,6 +124,30 @@ class AbstractCest
 	}
 
 	/**
+	 * Method for test button "Delete"
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Administrator > ' . $this->className . ' > Test button Delete without choice.');
+
+		$stepClass = $this->stepClass;
+
+		/** @var \AdminJ3Page $pageClass */
+		$pageClass = $this->pageClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+
+		$step->deleteWithoutChoice($pageClass);
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+	}
+
+	/**
 	 * Method for test create item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
@@ -134,9 +155,9 @@ class AbstractCest
 	 *
 	 * @return  void
 	 */
-	public function testCreateItem(\AcceptanceTester $tester, Scenario $scenario)
+	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test create new ' . $this->className . ' item.');
+		$tester->wantTo('Administrator > ' . $this->className . ' > Test create new item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -152,9 +173,9 @@ class AbstractCest
 	 *
 	 * @return  void
 	 */
-	public function testEditItem(\AcceptanceTester $tester, Scenario $scenario)
+	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test edit ' . $this->className . ' item.');
+		$tester->wantTo('Administrator > ' . $this->className . ' > Test edit item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
