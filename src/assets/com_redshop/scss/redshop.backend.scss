@@ -31,7 +31,7 @@
   }
   .main-header {
     .logo {
-      background: #222d32;
+      background: #fff;
       .logo-lg {
         height: 50px;
         img {
@@ -47,17 +47,25 @@
       }
     }
     .navbar {
-      background: #222d32;
+      background: #fff;
+      .nav {
+        li {
+          a {
+            color: #5d7d8a;
+          }
+        }
+      }
     }
   }
   .content-wrapper {
-    background: #e9e8ed;
+    background: #edf5f8;
     height: 100%;
     .content-header {
-      padding-top: 30px;
-      background: #fff;
+      padding-top: 10px;
+      background: #607d8b;
       h1.page-title {
         margin-top: 10px;
+        color: #fff;
       }
       .header-toolbar {
         margin: $line-height-computed 0;
@@ -167,6 +175,7 @@ i {
 
 .form-group {
   @extend .clearfix;
+  margin-bottom: ceil($padding-base-horizontal * 2.0);
 }
 
 .label {
@@ -294,13 +303,13 @@ i {
 
 .item-form {
   .content-header {
-    border-bottom: 1px solid #d2d6de;
+    border-bottom: 1px solid #d8e3e7;
     margin-bottom: ($grid-gutter-width / 2);
   }
   .item-form-tab {
     .tab-pane {
       .panel {
-        border-color: #ddd;
+        border-color: #d8e3e7;
         border-top: none;
       }
     }
@@ -382,3 +391,26 @@ i {
 .rs-full { display: none; }
 .rs-more { cursor: pointer; }
 .rs-teaser { display: inline-block; }
+
+label.radio-button.active {
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #409740;
+  border-color: #378137 #378137 #204b20;
+}
+
+label.radio-button.active:active,
+label.radio-button.active:hover {
+  background-color: #378137;
+  color: #fff
+}
+
+.panel {
+  &.panel-default {
+    border-color: #d8e3e7;
+    border-bottom-width: 2px;
+    border-radius: unset;
+    box-shadow: none;
+  }
+}
+

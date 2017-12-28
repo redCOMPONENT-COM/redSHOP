@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true, 'width' => '100%'));
-// JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
 JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
 $app = JFactory::getApplication();

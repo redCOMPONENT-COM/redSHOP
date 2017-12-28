@@ -26,13 +26,19 @@ $fieldSetClass = 'col-md-' . (12 / $data->formFieldsetsColumn);
 ?>
 <div class="item-form-box">
     <form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-vertical adminform"
-            enctype="multipart/form-data">
+          enctype="multipart/form-data">
         <div class="row">
 			<?php foreach ($data->fields as $fieldSet): ?>
                 <div class="<?php echo $fieldSetClass ?>">
 					<?php
 					echo RedshopLayoutHelper::render(
-						'config.group', array('title' => JText::_('COM_REDSHOP_' . strtoupper($fieldSet->name)), 'content' => $fieldSet->html))
+						'config.group',
+						array(
+							'title'       => JText::_('COM_REDSHOP_' . strtoupper($fieldSet->name)),
+							'description' => empty($fieldSet->description) ? JText::_('COM_REDSHOP_' . strtoupper($fieldSet->name) . '_DESC') : JText::_($fieldSet->description),
+							'content'     => $fieldSet->html
+						)
+					)
 					?>
                 </div>
 			<?php endforeach; ?>

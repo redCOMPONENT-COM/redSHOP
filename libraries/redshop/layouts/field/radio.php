@@ -36,7 +36,7 @@ $selectName = $readOnly ? '' : $data->name;
 ?>
 <div <?php echo $renderedAttributes; ?>>
 	<?php if (!empty($data->options)) : ?>
-        <div class="btn-group" data-toggle="buttons">
+
 		<?php foreach ($data->options as $i => $option) : ?>
 			<?php
 			// Input field attributes
@@ -52,8 +52,8 @@ $selectName = $readOnly ? '' : $data->name;
 			// Label attributes
 			$labelAttributes = array();
 			$labelAttributes['class'] = !empty($data->element['label-class']) ? (string) $data->element['label-class'] : null;
-			$labelAttributes['class'] .= ' btn btn-default';
-			$labelAttributes['class'] .= (string) $option->value == (string) $data->value ? ' active' : '';
+			// $labelAttributes['class'] .= ' btn btn-default';
+			// $labelAttributes['class'] .= (string) $option->value == (string) $data->value ? ' active' : '';
 			?>
             <label for="<?php echo $data->id . $i ?>" <?php echo RedshopHelperUtility::toAttributes($labelAttributes) ?>>
                 <input
@@ -66,6 +66,6 @@ $selectName = $readOnly ? '' : $data->name;
 	            <?php echo JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $data->name)); ?>
             </label>
 		<?php endforeach; ?>
-        </div>
+
 	<?php endif; ?>
 </div>

@@ -15797,7 +15797,7 @@ table.text-center th {
     .wrapper .main-sidebar ul.sidebar-menu li.treeview ul.treeview-menu > li > a.active {
       color: #dd4b39; }
   .wrapper .main-header .logo {
-    background: #222d32; }
+    background: #fff; }
     .wrapper .main-header .logo .logo-lg {
       height: 50px; }
       .wrapper .main-header .logo .logo-lg img {
@@ -15808,15 +15808,18 @@ table.text-center th {
         margin: 15px auto 0px auto;
         max-height: 20px; }
   .wrapper .main-header .navbar {
-    background: #222d32; }
+    background: #fff; }
+    .wrapper .main-header .navbar .nav li a {
+      color: #5d7d8a; }
   .wrapper .content-wrapper {
-    background: #e9e8ed;
+    background: #edf5f8;
     height: 100%; }
     .wrapper .content-wrapper .content-header {
-      padding-top: 30px;
-      background: #fff; }
+      padding-top: 10px;
+      background: #607d8b; }
       .wrapper .content-wrapper .content-header h1.page-title {
-        margin-top: 10px; }
+        margin-top: 10px;
+        color: #fff; }
       .wrapper .content-wrapper .content-header .header-toolbar {
         margin: 20px 0; }
     .wrapper .content-wrapper .content {
@@ -15854,6 +15857,9 @@ table.text-center th {
   margin: 0;
   padding: 6px 12px; }
 
+.form-group {
+  margin-bottom: 24px; }
+
 .label {
   font-size: 90%; }
 
@@ -15887,11 +15893,11 @@ table.text-center th {
     padding-left: 0; }
 
 .item-form .content-header {
-  border-bottom: 1px solid #d2d6de;
+  border-bottom: 1px solid #d8e3e7;
   margin-bottom: 15px; }
 
 .item-form .item-form-tab .tab-pane .panel {
-  border-color: #ddd;
+  border-color: #d8e3e7;
   border-top: none; }
 
 .redSHOPAdminViewConfiguration .box .box-header h3 {
@@ -15950,3 +15956,20 @@ table.text-center th {
 
 .rs-teaser {
   display: inline-block; }
+
+label.radio-button.active {
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #409740;
+  border-color: #378137 #378137 #204b20; }
+
+label.radio-button.active:active,
+label.radio-button.active:hover {
+  background-color: #378137;
+  color: #fff; }
+
+.panel.panel-default {
+  border-color: #d8e3e7;
+  border-bottom-width: 2px;
+  border-radius: unset;
+  box-shadow: none; }
