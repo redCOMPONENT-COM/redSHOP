@@ -30,7 +30,7 @@ class CouponCheckoutProductCest
 		$this->couponCode          = $this->faker->bothify('CouponCheckoutProductCest ?##?');
 		$this->couponValueIn       = 'Total';
 		$this->couponValue         = '10';
-		$this->couponType          = 'Globally';
+		$this->couponType          = 'Global';
 		$this->couponLeft          = '10';
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
 		$this->noPage              = $this->faker->randomNumber();
