@@ -19,4 +19,42 @@ use Cest\AbstractCest;
  */
 class CountryCest extends AbstractCest
 {
+	/**
+	 * Disable test check-in
+	 *
+	 * @var boolean
+	 */
+	public $testCheckIn = false;
+
+	/**
+	 * Method for set new data.
+	 *
+	 * @return  array
+	 */
+	protected function prepareNewData()
+	{
+		return array(
+			'country_name'   => $this->faker->bothify('Testing Country ?##?'),
+			'country_2_code' => $this->faker->numberBetween(10, 99),
+			'country_3_code' => $this->faker->numberBetween(99, 999),
+			'country_jtext'  => $this->faker->bothify('Country ?##?')
+		);
+	}
+
+	/**
+	 * Method for set new data.
+	 *
+	 * @param   string  $oldName  Old name
+	 *
+	 * @return  array
+	 */
+	protected function prepareEditData($oldName = '')
+	{
+		return array(
+			'country_name'   => 'New ' . (empty($oldName) ? $this->faker->bothify('Testing Country ?##?') : $oldName),
+			'country_2_code' => $this->faker->numberBetween(10, 99),
+			'country_3_code' => $this->faker->numberBetween(99, 999),
+			'country_jtext'  => $this->faker->bothify('Country ?##?')
+		);
+	}
 }

@@ -8,9 +8,9 @@
 
 namespace Cest;
 
-use AcceptanceTester;
-use AcceptanceTester\Scenario;
+use Codeception\Scenario;
 use Faker\Factory;
+use Step\AbstractStep;
 
 /**
  * Class Abstract cest
@@ -29,56 +29,126 @@ class AbstractCest
 	public $faker;
 
 	/**
-	 * @var string
+	 * @var  string
 	 */
-	public $countryName = '';
+	public $className;
 
 	/**
-	 * @var string
+	 * @var  string
 	 */
-	public $newCountryName = '';
+	public $stepClass;
 
 	/**
-	 * @var string
+	 * @var  string
 	 */
-	public $randomTwoCode = '';
+	public $pageClass;
 
 	/**
-	 * @var string
+	 * @var boolean
 	 */
-	public $randomThreeCode = '';
+	public $testCheckIn = true;
 
 	/**
-	 * @var string
+	 * @var array
 	 */
-	public $randomCountry = '';
+	public $formFields = array();
+
+	/**
+	 * @var array
+	 */
+	public $dataNew = array();
+
+	/**
+	 * @var array
+	 */
+	public $dataEdit = array();
 
 	/**
 	 * CountryCest constructor.
 	 */
 	public function __construct()
 	{
-		$this->faker           = Factory::create();
-		$this->countryName     = $this->faker->bothify('Testing Country ?##?');
-		$this->newCountryName  = 'New ' . $this->countryName;
-		$this->randomTwoCode   = $this->faker->numberBetween(10, 99);
-		$this->randomThreeCode = $this->faker->numberBetween(99, 999);
-		$this->randomCountry   = $this->faker->bothify('Country ?##?');
+		$this->faker     = Factory::create();
+		$this->className = get_class($this);
+		$this->stepClass = 'AcceptanceTester\\' . str_replace('Cest', 'Steps', $this->className);
+		$this->pageClass = str_replace('Cest', 'Page', $this->className);
+
+		$this->dataNew  = $this->prepareNewData();
+		$this->dataEdit = $this->prepareEditData();
 	}
 
 	/**
-	 * Function to Test Country Creation in Backend
+	 * Method run before
 	 *
-	 * @param   AcceptanceTester  $client    Acceptance Tester case.
-	 * @param   Scenario          $scenario  Scenario for test.
+	 * @param   \AcceptanceTester $tester Acceptance tester
 	 *
 	 * @return  void
 	 */
-	public function createCountry(AcceptanceTester $client, Scenario $scenario)
+	public function _before(\AcceptanceTester $tester)
 	{
-		$client->wantTo('Test Country creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new \CountryCest($scenario);
-		$client->addCountry($this->countryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
+		$tester->doAdministratorLogin();
+	}
+
+	/**
+	 * Method for set new data.
+	 *
+	 * @return  array
+	 */
+	protected function prepareNewData()
+	{
+		return array();
+	}
+
+	/**
+	 * Method for set new data.
+	 *
+	 * @return  array
+	 */
+	protected function prepareEditData()
+	{
+		return array();
+	}
+
+	/**
+	 * Method for test button Check-In without choice
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testCheckInWithoutChoice(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		if (false !== $this->testCheckIn)
+		{
+			$tester->wantTo('Administrator > Test ' . $this->className . ' check-in without choice.');
+
+			$stepClass = $this->stepClass;
+			$pageClass = $this->pageClass;
+
+			/** @var AbstractStep $step */
+			$step = new $stepClass($scenario);
+
+			$step->checkinWithoutChoice();
+			$step->see($pageClass::$pageManageName, $pageClass::$selectorNamePage);
+		}
+	}
+
+	/**
+	 * Method for test button Check-In without choice
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function testCreateNewItemSave(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Administrator > Test create new ' . $this->className . ' item.');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+		$step->addNewItem($this->pageClass, $this->formFields, $this->dataNew);
 	}
 }
