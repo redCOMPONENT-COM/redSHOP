@@ -20,13 +20,6 @@ use Cest\AbstractCest;
 class CountryCest extends AbstractCest
 {
 	/**
-	 * Disable test check-in
-	 *
-	 * @var boolean
-	 */
-	public $testCheckIn = false;
-
-	/**
 	 * Method for set new data.
 	 *
 	 * @return  array

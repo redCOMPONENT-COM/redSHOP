@@ -8,6 +8,8 @@
 
 namespace AcceptanceTester;
 
+use Step\AbstractStep;
+
 /**
  * Class CountryManagerJoomla3Steps
  *
@@ -17,7 +19,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class CountrySteps extends AdminManagerJoomla3Steps
+class CountrySteps extends AbstractStep
 {
 	/**
 	 * Function to Add a New Country
