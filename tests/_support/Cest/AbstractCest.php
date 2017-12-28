@@ -8,6 +8,8 @@
 
 namespace Cest;
 
+use AcceptanceTester;
+use AcceptanceTester\Scenario;
 use Faker\Factory;
 
 /**
@@ -72,11 +74,11 @@ class AbstractCest
 	 *
 	 * @return  void
 	 */
-	public function createCountry(AcceptanceTester $client, $scenario)
+	public function createCountry(AcceptanceTester $client, Scenario $scenario)
 	{
 		$client->wantTo('Test Country creation in Administrator');
 		$client->doAdministratorLogin();
-		$client = new CountrySteps($scenario);
+		$client = new \CountryCest($scenario);
 		$client->addCountry($this->countryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
 	}
 }
