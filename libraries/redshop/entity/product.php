@@ -125,6 +125,18 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
+	 * Method for check if this product exist in category.
+	 *
+	 * @param   integer  $id  ID of category
+	 *
+	 * @return  boolean
+	 */
+	public function inCategory($id)
+	{
+		return in_array($id, is_array($this->getCategories()->ids()) ? $this->getCategories()->ids() : array());
+	}
+
+	/**
 	 * Method for load child categories
 	 *
 	 * @return  self
@@ -188,9 +200,48 @@ class RedshopEntityProduct extends RedshopEntity
 
 		foreach ($productIds as $productId)
 		{
-			$this->relatedProducts->add(RedshopEntityProduct::getInstance($productId));
+			$this->relatedProducts->add(self::getInstance($productId));
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Assign a product with a custom field
+	 *
+	 * @param   integer  $fieldId  Field id
+	 * @param   string   $value    Field value
+	 *
+	 * @return boolean
+	 */
+	public function assignCustomField($fieldId, $value)
+	{
+		// Try to load this custom field data
+		/** @var RedshopEntityField_Data $entity */
+		$entity = RedshopEntityField_Data::getInstance()->loadItemByArray(
+			array
+			(
+				'fieldid' => $fieldId,
+				'itemid'  => $this->id,
+				// Product section
+				'section' => 1
+			)
+		);
+
+		// This custom field data is not linked with this product than create it
+		if ($entity->hasId())
+		{
+			return true;
+		}
+
+		return $entity->save(
+			array
+			(
+				'fieldid'  => $fieldId,
+				'data_txt' => $value,
+				'itemid'   => $this->id,
+				'section'  => 1
+			)
+		);
 	}
 }
