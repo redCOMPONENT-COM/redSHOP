@@ -39,6 +39,7 @@ class RedshopControllerShipping_box extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelShipping_box_detail $model */
 		$model = $this->getModel('shipping_box_detail');
 
 		if (!$model->delete($cid))
@@ -59,6 +60,7 @@ class RedshopControllerShipping_box extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelShipping_box_detail $model */
 		$model = $this->getModel('shipping_box_detail');
 
 		if (!$model->publish($cid, 1))
@@ -78,6 +80,7 @@ class RedshopControllerShipping_box extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelShipping_box_detail $model */
 		$model = $this->getModel('shipping_box_detail');
 
 		if (!$model->publish($cid, 0))

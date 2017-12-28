@@ -2060,9 +2060,6 @@ class RedshopModelCheckout extends RedshopModel
 		$session->set('rs_user', $usersess);
 		$cart     = $this->_carthelper->modifyCart($cart, $user_id);
 
-		JPluginHelper::importPlugin('redshop_checkout');
-		RedshopHelperUtility::getDispatcher()->trigger('onDisplayShoppingCart', array (&$cart, $post));
-
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
 			$shipArr              = $this->calculateShipping($shipping_rate_id);
@@ -2076,7 +2073,7 @@ class RedshopModelCheckout extends RedshopModel
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_checkout');
 		RedshopHelperUtility::getDispatcher()->trigger(
-			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id)
+			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $post)
 		);
 
 		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);

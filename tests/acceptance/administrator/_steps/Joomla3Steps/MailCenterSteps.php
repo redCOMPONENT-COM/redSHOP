@@ -148,8 +148,8 @@ class MailCenterSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\MailCenterPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\MailCenterPage::$messageItemDeleteSuccess, 60, \MailCenterPage::$selectorSuccess);
-		$client->see(\MailCenterPage::$messageItemDeleteSuccess, \MailCenterPage::$selectorSuccess);
+		$client->waitForText(\MailCenterPage::$messageDeleteSuccess, 60, \MailCenterPage::$selectorSuccess);
+		$client->see(\MailCenterPage::$messageDeleteSuccess, \MailCenterPage::$selectorSuccess);
 		$client->fillField(\MailCenterPage::$searchField, $name);
 		$client->pressKey(\MailCenterPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($name, \MailCenterPage::$resultRow);

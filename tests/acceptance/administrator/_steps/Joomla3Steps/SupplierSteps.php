@@ -207,8 +207,8 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\SupplierPage::$messageItemDeleteSuccess, 60, \SupplierPage::$selectorSuccess);
-		$client->see(\SupplierPage::$messageItemDeleteSuccess, \SupplierPage::$selectorSuccess);
+		$client->waitForText(\SupplierPage::$messageDeleteSuccess, 60, \SupplierPage::$selectorSuccess);
+		$client->see(\SupplierPage::$messageDeleteSuccess, \SupplierPage::$selectorSuccess);
 		$client->fillField(\SupplierPage::$searchField, $supplierName);
 		$client->pressKey(\SupplierPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($supplierName, \SupplierPage::$resultRow);

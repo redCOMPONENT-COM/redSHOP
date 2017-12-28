@@ -337,10 +337,11 @@ class RedshopViewSearch extends RedshopView
 
 					if (!empty($keyword) && !in_array($keyword, $tagarray))
 					{
-						$regex      = "/" . $keyword . "(?![^<]*>)/";
-						$pname      = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
-						$pro_s_desc = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
-						$pro_desc   = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
+						$regex          = "/" . preg_quote($keyword, "/") . "(?![^<]*>)/";
+						$pname          = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
+						$product_number = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $product_number);
+						$pro_s_desc     = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
+						$pro_desc       = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
 					}
 				}
 
