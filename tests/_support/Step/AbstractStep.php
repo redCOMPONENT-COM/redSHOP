@@ -26,9 +26,9 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	public function assertSystemMessageContains($message)
 	{
-		$browser = $this;
-		$browser->waitForElement(['id' => 'system-message-container'], 60);
-		$browser->waitForText($message, 30, ['id' => 'system-message-container']);
+		$tester = $this;
+		$tester->waitForElement(['id' => 'system-message-container'], 60);
+		$tester->waitForText($message, 30, ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -42,29 +42,14 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	public function addNewItem($pageClass = null, $formFields = array(), $data = array())
 	{
-		$client = $this;
-		$client->amOnPage($pageClass::$url);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->click($pageClass::$buttonNew);
-		$client->checkForPhpNoticesOrWarnings();
-
-		foreach ($formFields as $index => $field)
-		{
-			if (!isset($data[$index]) || empty($data[$index]))
-			{
-				continue;
-			}
-
-			switch ($field['type'])
-			{
-				default:
-					$client->fillField($field['xpath'], $data[$index]);
-					break;
-			}
-		}
-
-		$client->click($pageClass::$buttonSave);
-		$client->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+		$tester = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->checkForPhpNoticesOrWarnings();
+		$tester->click($pageClass::$buttonNew);
+		$tester->checkForPhpNoticesOrWarnings();
+		$tester->fillFormData($formFields, $data);
+		$tester->click($pageClass::$buttonSave);
+		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -79,29 +64,15 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	public function editItem($pageClass = null, $searchName = '', $formFields = array(), $data = array())
 	{
-		$client = $this;
-		$client->searchItem($pageClass, $searchName);
-		$client->see($searchName, $pageClass::$resultRow);
-		$client->click($searchName);
-		$client->waitForElement($pageClass::$selectorPageTitle, 30);
-
-		foreach ($formFields as $index => $field)
-		{
-			if (!isset($data[$index]) || empty($data[$index]))
-			{
-				continue;
-			}
-
-			switch ($field['type'])
-			{
-				default:
-					$client->fillField($field['xpath'], $data[$index]);
-					break;
-			}
-		}
-
-		$client->click($pageClass::$buttonSaveClose);
-		$client->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+		$tester = $this;
+		$tester->searchItem($pageClass, $searchName);
+		$tester->see($searchName, $pageClass::$resultRow);
+		$tester->click($searchName);
+		$tester->checkForPhpNoticesOrWarnings();
+		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
+		$tester->fillFormData($formFields, $data);
+		$tester->click($pageClass::$buttonSaveClose);
+		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -115,13 +86,13 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	public function searchItem($pageClass = null, $item = '',  $searchField = ['id' => 'filter_search'])
 	{
-		$client = $this;
-		$client->amOnPage($pageClass::$url);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
-		$client->executeJS('window.scrollTo(0,0)');
-		$client->fillField($searchField, $item);
-		$client->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$tester = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->checkForPhpNoticesOrWarnings();
+		$tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
+		$tester->executeJS('window.scrollTo(0,0)');
+		$tester->fillField($searchField, $item);
+		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
 	/**
@@ -133,11 +104,11 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	public function deleteWithoutChoice($pageClass = null)
 	{
-		$client = $this;
-		$client->amOnPage($pageClass::$url);
-		$client->click($pageClass::$buttonDelete);
-		$client->acceptPopup();
-		$client->waitForElement($pageClass::$searchField, 30);
+		$tester = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->click($pageClass::$buttonDelete);
+		$tester->acceptPopup();
+		$tester->waitForElement($pageClass::$searchField, 30);
 	}
 
 	/**
@@ -150,14 +121,44 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	public function deleteItem($pageClass = null, $item = '')
 	{
-		$client = $this;
-		$client->searchItem($pageClass, $item);
-		$client->see($item, $pageClass::$resultRow);
-		$client->checkAllResults();
-		$client->click($pageClass::$buttonDelete);
-		$client->acceptPopup();
-		$client->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
-		$client->searchItem($pageClass, $item);
-		$client->dontSee($item, $pageClass::$resultRow);
+		$tester = $this;
+		$tester->searchItem($pageClass, $item);
+		$tester->see($item, $pageClass::$resultRow);
+		$tester->checkAllResults();
+		$tester->click($pageClass::$buttonDelete);
+		$tester->acceptPopup();
+		$tester->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
+		$tester->searchItem($pageClass, $item);
+		$tester->dontSee($item, $pageClass::$resultRow);
+	}
+
+	/**
+	 * Method for fill data in form.
+	 *
+	 * @param   array  $formFields  Array of form fields
+	 * @param   array  $data        Array of data.
+	 *
+	 * @return  void
+	 */
+	protected function fillFormData($formFields = array(), $data = array())
+	{
+		foreach ($formFields as $index => $field)
+		{
+			if (!isset($data[$index]) || empty($data[$index]))
+			{
+				continue;
+			}
+
+			switch ($field['type'])
+			{
+				case 'radio':
+					$this->selectOption($field['xpath'], $data[$index]);
+					break;
+
+				default:
+					$this->fillField($field['xpath'], $data[$index]);
+					break;
+			}
+		}
 	}
 }

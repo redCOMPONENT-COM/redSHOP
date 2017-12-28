@@ -6,8 +6,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Cest\AbstractCest;
+
 /**
- * Class ManageCouponAdministratorCest
+ * Class CouponCest
  *
  * @package  AcceptanceTester
  *
@@ -15,67 +17,66 @@
  *
  * @since    1.4
  */
-class CouponCest
+class CouponCest extends AbstractCest
 {
+	use Cest\Traits\CheckIn;
+
 	/**
-	 * CouponCest constructor.
+	 * Name field, which is use for search
+	 *
+	 * @var string
 	 */
-	public function __construct()
+	public $nameField = 'code';
+
+	/**
+	 * Method for set new data.
+	 *
+	 * @return  array
+	 */
+	protected function prepareNewData()
 	{
-		$this->faker            = Faker\Factory::create();
-		$this->couponCode       = $this->faker->bothify('Coupon Code ?##?');
-		$this->updateCouponCode = 'New ' . $this->couponCode;
-		$this->couponValueIn    = 'Total';
-		$this->couponValue      = '100';
-		$this->couponType       = 'Global';
-		$this->couponLeft       = '10';
+		return array(
+			'code'        => $this->faker->bothify('Coupon Code ?##?'),
+			'type'        => 'Total',
+			'value'       => '100',
+			'effect'      => 'Global',
+			'amount_left' => '10'
+		);
 	}
 
 	/**
-	 * Function to Test Coupon Creation in Backend
+	 * Method for set new data.
 	 *
-	 * @param   AcceptanceTester  $I         Acceptance
-	 * @param   string            $scenario  Scenario
+	 * @param   string  $oldName  Old name
 	 *
-	 * @return  void
+	 * @return  array
 	 */
-	public function createCoupon(AcceptanceTester $I, $scenario)
+	protected function prepareEditData()
 	{
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CouponSteps($scenario);
-		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
-		$I->searchCoupon($this->couponCode);
+		return array(
+			'code'        => 'New ' . $this->dataNew['code'],
+			'type'        => 'Total',
+			'value'       => '100',
+			'effect'      => 'Global',
+			'amount_left' => '10'
+		);
 	}
 
 	/**
-	 * Function to Test Coupon Update in the Administrator
+	 * Method for set form fields.
 	 *
-	 * @param   AcceptanceTester  $I         Acceptance
-	 * @param   string            $scenario  Scenario
-	 *
-	 * @depends createCoupon
-	 *
-	 * @return  void
+	 * @return  array
 	 */
-	public function updateCoupon(AcceptanceTester $I, $scenario)
+	protected function prepareFormFields()
 	{
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CouponSteps($scenario);
-		$I->editCoupon($this->couponCode, $this->updateCouponCode);
-		$I->searchCoupon($this->updateCouponCode);
-	}
+		/* @TODO Need auto-generate by parse from XML file (admin/models/<class>.xml) */
 
-	/**
-	 * Function to Test Coupon Deletion
-	 *
-	 * @depends updateCoupon
-	 */
-	public function deleteCoupon(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Deletion of Coupon in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CouponSteps($scenario);
-		$I->wantTo('Delete a Coupon');
-		$I->deleteCoupon($this->updateCouponCode);
+		return array(
+			'code'        => array('type' => 'text', 'xpath' => ['id' => 'jform_code']),
+			'type'        => array('type' => 'radio', 'xpath' => ['id' => 'jform_type']),
+			'value'       => array('type' => 'text', 'xpath' => ['id' => 'jform_value']),
+			'effect'      => array('type' => 'radio', 'xpath' => ['id' => 'jform_effect']),
+			'amount_left' => array('type' => 'text', 'xpath' => ['id' => 'jform_amount_left'])
+		);
 	}
 }

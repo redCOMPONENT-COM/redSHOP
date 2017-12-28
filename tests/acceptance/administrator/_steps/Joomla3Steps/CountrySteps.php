@@ -11,7 +11,7 @@ namespace AcceptanceTester;
 use Step\AbstractStep;
 
 /**
- * Class CountryManagerJoomla3Steps
+ * Class Country Steps
  *
  * @package  AcceptanceTester
  *
@@ -21,26 +21,4 @@ use Step\AbstractStep;
  */
 class CountrySteps extends AbstractStep
 {
-	/**
-	 * Function to Delete a Country
-	 *
-	 * @param   String  $countryName  Name of the Country
-	 *
-	 * @return void
-	 */
-	public function deleteCountry($countryName)
-	{
-		$client = $this;
-		$client->amOnPage(\CountryPage::$url);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->searchCountry($countryName);
-		$client->checkAllResults();
-		$client->click(\CountryPage::$buttonDelete);
-		$client->acceptPopup();
-		$client->waitForText(\CountryPage::$messageDeleteSuccess, 60, \CountryPage::$selectorSuccess);
-		$client->see(\CountryPage::$messageDeleteSuccess, \CountryPage::$selectorSuccess);
-		$client->fillField(\CountryPage::$searchField, $countryName);
-		$client->pressKey(\CountryPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$client->dontSee($countryName, \CountryPage::$resultRow);
-	}
 }

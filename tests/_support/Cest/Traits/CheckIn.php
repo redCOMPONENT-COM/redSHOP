@@ -9,6 +9,7 @@
 namespace Cest\Traits;
 
 use Codeception\Scenario;
+use Step\AbstractStep;
 
 /**
  * Trait class for test with check-in feature
@@ -19,7 +20,7 @@ use Codeception\Scenario;
  *
  * @since    2.0
  */
-class AbstractCest
+trait CheckIn
 {
 	/**
 	 * Method for test button Check-In without choice
@@ -29,17 +30,19 @@ class AbstractCest
 	 *
 	 * @return  void
 	 */
-	public function testCheckInWithoutChoice(\AcceptanceTester $tester, Scenario $scenario)
+	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test ' . $this->className . ' check-in without choice.');
+		$tester->wantTo('Administrator > Test button Check-in without choice.');
 
 		$stepClass = $this->stepClass;
+
+		/** @var \AdminJ3Page $pageClass */
 		$pageClass = $this->pageClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->checkinWithoutChoice();
-		$step->see($pageClass::$pageManageName, $pageClass::$selectorNamePage);
+		$step->deleteWithoutChoice($pageClass);
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 }
