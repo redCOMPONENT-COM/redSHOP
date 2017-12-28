@@ -8,7 +8,7 @@
 
 namespace AcceptanceTester;
 
-use Step\AbstractStep;
+use AcceptanceTester\Step\AbstractStep;
 
 /**
  * Class CouponManagerJoomla3Steps
@@ -21,5 +21,5 @@ use Step\AbstractStep;
  */
 class CouponSteps extends AbstractStep
 {
-	use Step\Traits\CheckIn;
+	use Step\Traits\CheckIn, Step\Traits\Publish;
 }

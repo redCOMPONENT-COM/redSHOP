@@ -19,7 +19,7 @@ use Cest\AbstractCest;
  */
 class CouponCest extends AbstractCest
 {
-	use Cest\Traits\CheckIn;
+	use Cest\Traits\CheckIn, Cest\Traits\Publish;
 
 	/**
 	 * Name field, which is use for search

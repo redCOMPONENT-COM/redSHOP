@@ -8,7 +8,7 @@
 
 namespace AcceptanceTester;
 
-use Step\AbstractStep;
+use AcceptanceTester\Step\AbstractStep;
 
 /**
  * Class Country Steps
