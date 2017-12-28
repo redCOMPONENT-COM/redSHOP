@@ -196,7 +196,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonPublish);
-		$client->waitForText("Message", 30, \TaxGroupPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\TaxGroupPage::$messagePublishSuccess);
 	}
 
 
@@ -214,7 +214,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonUnpublish);
-		$client->waitForText("Message", 30, \TaxGroupPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\TaxGroupPage::$messageUnpublishSuccess);
 	}
 
 	public function searchVATGroup($VATGroupName)
