@@ -12,8 +12,6 @@ use Codeception\Scenario;
 use Faker\Factory;
 use Faker\Generator;
 use Step\AbstractStep;
-use function strtolower;
-use function var_dump;
 
 /**
  * Class Abstract cest
@@ -49,11 +47,6 @@ class AbstractCest
 	/**
 	 * @var array
 	 */
-	public $formFields = array();
-
-	/**
-	 * @var array
-	 */
 	public $dataNew = array();
 
 	/**
@@ -79,7 +72,6 @@ class AbstractCest
 		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
 		$this->dataNew    = $this->prepareNewData();
 		$this->dataEdit   = $this->prepareEditData();
-		$this->formFields = $this->prepareFormFields();
 	}
 
 	/**
@@ -112,41 +104,6 @@ class AbstractCest
 	protected function prepareEditData()
 	{
 		return array();
-	}
-
-	/**
-	 * Method for set form fields.
-	 *
-	 * @return  array
-	 */
-	protected function prepareFormFields()
-	{
-		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Cest', '', $this->className)) . '.xml';
-
-		// Load single form xml file
-		$form = simplexml_load_file($formPath);
-
-		// Get field set data
-		$fields = $form->xpath('(//fieldset[@name="details"]//field | //field[@fieldset="details"])[not(ancestor::field)]');
-
-		if (empty($fields))
-		{
-			return array();
-		}
-
-		$formFields = array();
-
-		foreach ($fields as $field)
-		{
-			$fieldName = (string) $field['name'];
-
-			$formFields[$fieldName] = array(
-				'xpath' => ['id' => 'jform_' . $fieldName],
-				'type'  => (string) $field['type']
-			);
-		}
-
-		return $formFields;
 	}
 
 	/**
@@ -188,7 +145,7 @@ class AbstractCest
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->addNewItem($this->pageClass, $this->formFields, $this->dataNew);
+		$step->addNewItem($this->pageClass, $this->dataNew);
 	}
 
 	/**
@@ -208,7 +165,7 @@ class AbstractCest
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->editItem($this->pageClass, $this->dataNew[$this->nameField], $this->formFields, $this->dataEdit);
+		$step->editItem($this->pageClass, $this->dataNew[$this->nameField], $this->dataEdit);
 	}
 
 	/**

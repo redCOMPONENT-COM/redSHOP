@@ -35,19 +35,18 @@ class AbstractStep extends \AcceptanceTester
 	 * Method for save item.
 	 *
 	 * @param   \AdminJ3Page  $pageClass   Page class
-	 * @param   array         $formFields  Array of form fields
 	 * @param   array         $data        Array of data.
 	 *
 	 * @return  void
 	 */
-	public function addNewItem($pageClass = null, $formFields = array(), $data = array())
+	public function addNewItem($pageClass = null, $data = array())
 	{
 		$tester = $this;
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->click($pageClass::$buttonNew);
 		$tester->checkForPhpNoticesOrWarnings();
-		$tester->fillFormData($formFields, $data);
+		$tester->fillFormData($this->getFormFields(), $data);
 		$tester->click($pageClass::$buttonSave);
 		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
@@ -57,12 +56,11 @@ class AbstractStep extends \AcceptanceTester
 	 *
 	 * @param   \AdminJ3Page  $pageClass   Page class
 	 * @param   string        $searchName  Old item search name
-	 * @param   array         $formFields  Array of form fields
 	 * @param   array         $data        Array of data.
 	 *
 	 * @return  void
 	 */
-	public function editItem($pageClass = null, $searchName = '', $formFields = array(), $data = array())
+	public function editItem($pageClass = null, $searchName = '', $data = array())
 	{
 		$tester = $this;
 		$tester->searchItem($pageClass, $searchName);
@@ -70,7 +68,7 @@ class AbstractStep extends \AcceptanceTester
 		$tester->click($searchName);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
-		$tester->fillFormData($formFields, $data);
+		$tester->fillFormData($this->getFormFields(), $data);
 		$tester->click($pageClass::$buttonSaveClose);
 		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
@@ -161,5 +159,40 @@ class AbstractStep extends \AcceptanceTester
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Method for set form fields.
+	 *
+	 * @return  array
+	 */
+	protected function getFormFields()
+	{
+		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Cest', '', $this->className)) . '.xml';
+
+		// Load single form xml file
+		$form = simplexml_load_file($formPath);
+
+		// Get field set data
+		$fields = $form->xpath('(//fieldset[@name="details"]//field | //field[@fieldset="details"])[not(ancestor::field)]');
+
+		if (empty($fields))
+		{
+			return array();
+		}
+
+		$formFields = array();
+
+		foreach ($fields as $field)
+		{
+			$fieldName = (string) $field['name'];
+
+			$formFields[$fieldName] = array(
+				'xpath' => ['id' => 'jform_' . $fieldName],
+				'type'  => (string) $field['type']
+			);
+		}
+
+		return $formFields;
 	}
 }

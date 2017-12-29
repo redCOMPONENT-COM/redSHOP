@@ -93,12 +93,6 @@ class StateCest
 		$client->addNewItem(
 			'CountryPage',
 			array(
-				'country_name'   => array('type' => 'text', 'xpath' => ['id' => 'jform_country_name']),
-				'country_2_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_2_code']),
-				'country_3_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_3_code']),
-				'country_jtext'  => array('type' => 'text', 'xpath' => ['id' => 'jform_country_jtext'])
-			),
-			array(
 				'country_name'   => $this->randomCountryName,
 				'country_2_code' => $this->randomTwoCode,
 				'country_3_code' => $this->randomThreeCode,
