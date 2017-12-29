@@ -398,11 +398,11 @@ class RedshopHelperUser
 			$userId = $user->id;
 		}
 
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
+		$userData = $session->get('rs_user');
 
 		if ($userId)
 		{
-			$userData        = $session->get('rs_user');
 			$userInformation = self::getUserInformation($userId);
 
 			if ($userData['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')

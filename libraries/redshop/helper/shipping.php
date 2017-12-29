@@ -988,7 +988,7 @@ class RedshopHelperShipping
 			$country   = $userInfo->country_code;
 			$state     = $userInfo->state_code;
 			$zip       = $userInfo->zipcode;
-			$isCompany = $userInfo->is_company;
+			$isCompany = (bool) $userInfo->is_company;
 
 			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
@@ -1005,7 +1005,7 @@ class RedshopHelperShipping
 			{
 				$anonymousUser = $data['post']['anonymous'];
 
-				$isCompany = ($anonymousUser['billing_type'] == 'company') ? 1 : 0;
+				$isCompany = ($anonymousUser['billing_type'] == 'company') ? true : false;
 
 				$country   = $anonymousUser['BT']['country_code'];
 				$state     = $anonymousUser['BT']['state_code'];
