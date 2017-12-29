@@ -1004,8 +1004,7 @@ class RedshopHelperShipping
 			if (!empty($data['post']['anonymous']))
 			{
 				$anonymousUser = $data['post']['anonymous'];
-
-				$isCompany = ($anonymousUser['billing_type'] == 'company') ? true : false;
+				$isCompany = ($anonymousUser['billing_type'] == 'company');
 
 				$country   = $anonymousUser['BT']['country_code'];
 				$state     = $anonymousUser['BT']['state_code'];

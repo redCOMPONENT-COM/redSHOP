@@ -624,6 +624,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * One Step checkout process
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function oneStepCheckoutProcess()
 	{
@@ -646,7 +648,8 @@ class RedshopControllerCheckout extends RedshopController
 				$rs_user['vatState'] = $post['anonymous']['BT']['state_code'];
 			}
 
-			if (Redshop::getConfig()->get('VAT_BASED_ON') != 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST' && !empty($post['anonymous']['ST']))
+			if (Redshop::getConfig()->getInt('VAT_BASED_ON') != 0 && Redshop::getConfig()->getString('CALCULATE_VAT_ON') == 'ST'
+				&& !empty($post['anonymous']['ST']))
 			{
 				$rs_user['vatCountry'] = $post['anonymous']['ST']['country_code_ST'];
 				$rs_user['vatState'] = $post['anonymous']['ST']['state_code_ST'];
@@ -655,13 +658,11 @@ class RedshopControllerCheckout extends RedshopController
 
 		$rs_user = $session->set('rs_user', $rs_user);
 
-		$producthelper   = productHelper::getInstance();
-		$redTemplate     = Redtemplate::getInstance();
-		$carthelper      = rsCarthelper::getInstance();
-		$order_functions = order_functions::getInstance();
+		$carthelper = rsCarthelper::getInstance();
 
-		$model   = $this->getModel('checkout');
-		$user    = JFactory::getUser();
+		/** @var RedshopModelCheckout $model */
+		$model = $this->getModel('checkout');
+		$user  = JFactory::getUser();
 
 		$cart = $session->get('cart');
 		$shipping_box_id  = $post['shipping_box_id'];
@@ -685,7 +686,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($objectname == "users_info_id" || $objectname == "shipping_box_id")
 		{
-			$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
+			$shipping_template = RedshopHelperTemplate::getTemplate("redshop_shipping", $rate_template_id);
 
 			if (count($shipping_template) > 0)
 			{
@@ -707,26 +708,29 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($cart_template_id != 0)
 		{
-			$templatelist = $redTemplate->getTemplate("checkout", $cart_template_id);
+			$templatelist          = RedshopHelperTemplate::getTemplate("checkout", $cart_template_id);
 			$onestep_template_desc = $templatelist[0]->template_desc;
 
-			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code, '', $post);
+			$onestep_template_desc = $model->displayShoppingCart(
+				$onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '',
+				$customer_message, $referral_code, '', $post
+			);
 		}
 
 		$display_shippingrate = '<div id="onestepshiprate">' . $rate_template_desc . '</div>';
 		$display_cart = '<div id="onestepdisplaycart">' . $onestep_template_desc . '</div>';
 
 		$description = $display_shippingrate . $display_cart;
-		$lang = JFactory::getLanguage();
-		$Locale = $lang->getLocale();
+		$lang        = JFactory::getLanguage();
+		$locale      = $lang->getLocale();
 
-		if (in_array('ru', $Locale))
+		if (in_array('ru', $locale))
 		{
-			// Commented because redshop currency symbole has been changed because of ajax response
+			// Commented because redshop currency symbol has been changed because of ajax response
 			$description = html_entity_decode($description, ENT_QUOTES, 'KOI8-R');
 		}
 
-		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
+		$cart_total = RedshopHelperProductPrice::formattedPrice($cart['mod_cart_total']);
 
 		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
 		$app->close();
