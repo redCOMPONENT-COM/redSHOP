@@ -29,12 +29,10 @@ trait Publish
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
-	 *
-	 * @depends testButton
 	 */
 	public function testButtonPublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Button > Publish without choice.');
+		$tester->wantTo('Administrator -> Button -> Publish without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -60,7 +58,7 @@ trait Publish
 	 */
 	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Button > Unpublish without choice.');
+		$tester->wantTo('Administrator -> Button -> Unpublish without choice.');
 
 		$stepClass = $this->stepClass;
 

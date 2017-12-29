@@ -29,12 +29,10 @@ trait CheckIn
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
-	 *
-	 * @depends testButton
 	 */
 	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Button > Check-in without choice.');
+		$tester->wantTo('Administrator -> Button -> Check-in without choice.');
 
 		$stepClass = $this->stepClass;
 

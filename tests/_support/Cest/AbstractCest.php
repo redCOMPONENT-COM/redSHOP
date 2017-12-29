@@ -132,7 +132,7 @@ class AbstractCest
 	 */
 	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Button > Delete without choice.');
+		$tester->wantTo('Administrator -> Button -> Delete without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -156,7 +156,7 @@ class AbstractCest
 	 */
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Data > Create item.');
+		$tester->wantTo('Administrator -> Create item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -176,7 +176,7 @@ class AbstractCest
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Data > Edit item.');
+		$tester->wantTo('Administrator -> Edit item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -196,7 +196,7 @@ class AbstractCest
 	 */
 	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Data > Delete item.');
+		$tester->wantTo('Administrator -> Delete item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
