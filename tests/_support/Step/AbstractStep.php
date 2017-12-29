@@ -168,7 +168,7 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	protected function getFormFields()
 	{
-		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Cest', '', $this->className)) . '.xml';
+		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Step', '', get_called_class())) . '.xml';
 
 		// Load single form xml file
 		$form = simplexml_load_file($formPath);
