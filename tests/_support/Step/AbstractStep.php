@@ -8,6 +8,8 @@
 
 namespace Step;
 
+use Codeception\Scenario;
+
 /**
  * Class Redshop
  *
@@ -17,6 +19,23 @@ namespace Step;
  */
 class AbstractStep extends \AcceptanceTester
 {
+	/**
+	 * @var \AdminJ3Page
+	 */
+	public $pageClass;
+
+	/**
+	 * AbstractStep constructor.
+	 *
+	 * @param   Scenario  $scenario  Scenario
+	 */
+	public function __construct(Scenario $scenario)
+	{
+		parent::__construct($scenario);
+
+		$this->pageClass = ucfirst(str_replace('Steps', '', get_called_class()) . 'Page');
+	}
+
 	/**
 	 * Asserts the system message contains the given message.
 	 *
@@ -34,14 +53,15 @@ class AbstractStep extends \AcceptanceTester
 	/**
 	 * Method for save item.
 	 *
-	 * @param   \AdminJ3Page  $pageClass   Page class
-	 * @param   array         $data        Array of data.
+	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
 	 */
-	public function addNewItem($pageClass = null, $data = array())
+	public function addNewItem($data = array())
 	{
-		$tester = $this;
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->click($pageClass::$buttonNew);
@@ -54,16 +74,17 @@ class AbstractStep extends \AcceptanceTester
 	/**
 	 * Method for edit item.
 	 *
-	 * @param   \AdminJ3Page  $pageClass   Page class
-	 * @param   string        $searchName  Old item search name
-	 * @param   array         $data        Array of data.
+	 * @param   string   $searchName  Old item search name
+	 * @param   array    $data        Array of data.
 	 *
 	 * @return  void
 	 */
-	public function editItem($pageClass = null, $searchName = '', $data = array())
+	public function editItem($searchName = '', $data = array())
 	{
-		$tester = $this;
-		$tester->searchItem($pageClass, $searchName);
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+
+		$tester->searchItem($searchName);
 		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
 		$tester->checkForPhpNoticesOrWarnings();
@@ -76,15 +97,16 @@ class AbstractStep extends \AcceptanceTester
 	/**
 	 * Function to search item
 	 *
-	 * @param   \AdminJ3Page  $pageClass    Page class
-	 * @param   string        $item         Item for search
-	 * @param   array         $searchField  XPath for search field
+	 * @param   string  $item         Item for search
+	 * @param   array   $searchField  XPath for search field
 	 *
 	 * @return  void
 	 */
-	public function searchItem($pageClass = null, $item = '',  $searchField = ['id' => 'filter_search'])
+	public function searchItem($item = '',  $searchField = ['id' => 'filter_search'])
 	{
-		$tester = $this;
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
@@ -96,13 +118,12 @@ class AbstractStep extends \AcceptanceTester
 	/**
 	 * Method for click button "Delete" without choice
 	 *
-	 * @param   \AdminJ3Page  $pageClass  Page class
-	 *
 	 * @return  void
 	 */
-	public function deleteWithoutChoice($pageClass = null)
+	public function deleteWithoutChoice()
 	{
-		$tester = $this;
+		$pageClass = $this->pageClass;
+		$tester    = $this;
 		$tester->amOnPage($pageClass::$url);
 		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
@@ -112,21 +133,21 @@ class AbstractStep extends \AcceptanceTester
 	/**
 	 * Method for delete item
 	 *
-	 * @param   \AdminJ3Page  $pageClass  Page class
-	 * @param   string        $item       Name of the item
+	 * @param   string  $item  Name of the item
 	 *
-	 * @return void
+	 * @return  void
 	 */
-	public function deleteItem($pageClass = null, $item = '')
+	public function deleteItem($item = '')
 	{
-		$tester = $this;
-		$tester->searchItem($pageClass, $item);
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+		$tester->searchItem($item);
 		$tester->see($item, $pageClass::$resultRow);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
 		$tester->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
-		$tester->searchItem($pageClass, $item);
+		$tester->searchItem($item);
 		$tester->dontSee($item, $pageClass::$resultRow);
 	}
 
@@ -168,7 +189,7 @@ class AbstractStep extends \AcceptanceTester
 	 */
 	protected function getFormFields()
 	{
-		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Steps', '', get_called_class())) . '.xml';
+		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Page', '', $this->pageClass)) . '.xml';
 
 		// Load single form xml file
 		$form = simplexml_load_file($formPath);

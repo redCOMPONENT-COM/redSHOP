@@ -91,7 +91,6 @@ class StateCest
 		/** @var CountrySteps $client */
 		$client = new CountrySteps($scenario);
 		$client->addNewItem(
-			'CountryPage',
 			array(
 				'country_name'   => $this->randomCountryName,
 				'country_2_code' => $this->randomTwoCode,

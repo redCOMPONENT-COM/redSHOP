@@ -126,7 +126,7 @@ class AbstractCest
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->deleteWithoutChoice($pageClass);
+		$step->deleteWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 
@@ -145,7 +145,7 @@ class AbstractCest
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->addNewItem($this->pageClass, $this->dataNew);
+		$step->addNewItem($this->dataNew);
 	}
 
 	/**
@@ -165,7 +165,7 @@ class AbstractCest
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->editItem($this->pageClass, $this->dataNew[$this->nameField], $this->dataEdit);
+		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);
 	}
 
 	/**
@@ -185,6 +185,6 @@ class AbstractCest
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->deleteItem($this->pageClass, $this->dataNew[$this->nameField]);
+		$step->deleteItem($this->dataNew[$this->nameField]);
 	}
 }

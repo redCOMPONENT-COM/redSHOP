@@ -97,7 +97,6 @@ class CouponCheckoutProductCest
 		$I = new CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
 		$I->addNewItem(
-			'CouponPage',
 			array(
 				'code'        => $this->couponCode,
 				'type'        => $this->couponValueIn,
@@ -106,7 +105,7 @@ class CouponCheckoutProductCest
 				'amount_left' => $this->couponLeft
 			)
 		);
-		$I->searchItem('CouponPage', $this->couponCode);
+		$I->searchItem($this->couponCode);
 	}
 
 	/**
@@ -142,9 +141,9 @@ class CouponCheckoutProductCest
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponSteps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
-		$I->deleteCoupon($this->couponCode);
+		$I->deleteItem($this->couponCode);
 
 		$I->wantTo('Delete product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
