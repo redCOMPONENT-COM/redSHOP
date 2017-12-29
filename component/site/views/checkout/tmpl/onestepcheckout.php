@@ -236,7 +236,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 		{
 			$shippingaddresses = $model->shippingaddresses();
 
-			if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
+			if ($billingaddresses)
 			{
 				$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
 				$shipp .= '<div class="radio"><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
