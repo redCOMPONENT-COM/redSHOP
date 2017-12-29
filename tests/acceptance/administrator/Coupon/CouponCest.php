@@ -61,22 +61,4 @@ class CouponCest extends AbstractCest
 			'amount_left' => '10'
 		);
 	}
-
-	/**
-	 * Method for set form fields.
-	 *
-	 * @return  array
-	 */
-	protected function prepareFormFields()
-	{
-		/* @TODO Need auto-generate by parse from XML file (admin/models/<class>.xml) */
-
-		return array(
-			'code'        => array('type' => 'text', 'xpath' => ['id' => 'jform_code']),
-			'type'        => array('type' => 'radio', 'xpath' => ['id' => 'jform_type']),
-			'value'       => array('type' => 'text', 'xpath' => ['id' => 'jform_value']),
-			'effect'      => array('type' => 'radio', 'xpath' => ['id' => 'jform_effect']),
-			'amount_left' => array('type' => 'text', 'xpath' => ['id' => 'jform_amount_left'])
-		);
-	}
 }
