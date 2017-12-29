@@ -138,11 +138,11 @@ class AbstractCest
 
 		foreach ($fields as $field)
 		{
-			$fieldName = $field['name'];
+			$fieldName = (string) $field['name'];
 
 			$formFields[$fieldName] = array(
 				'xpath' => ['id' => 'jform_' . $fieldName],
-				'type'  => $field['type']
+				'type'  => (string) $field['type']
 			);
 		}
 
