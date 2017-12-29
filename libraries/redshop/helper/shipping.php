@@ -1243,7 +1243,7 @@ class RedshopHelperShipping
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
+		if (!empty($data) && ((!empty($data['user_id']) && $data['user_id'] > 0) || $data['users_info_id'] > 0))
 		{
 			if ('BT' == Redshop::getConfig()->get('CALCULATE_VAT_ON'))
 			{
