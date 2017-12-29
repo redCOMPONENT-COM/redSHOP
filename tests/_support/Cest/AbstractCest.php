@@ -12,6 +12,7 @@ use Codeception\Scenario;
 use Faker\Factory;
 use Faker\Generator;
 use Step\AbstractStep;
+use function var_dump;
 
 /**
  * Class Abstract cest
@@ -119,6 +120,9 @@ class AbstractCest
 	 */
 	protected function prepareFormFields()
 	{
+		var_dump(__DIR__);
+		exit;
+
 		return array();
 	}
 
