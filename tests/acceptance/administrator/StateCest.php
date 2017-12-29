@@ -87,8 +87,24 @@ class StateCest
 	{
 		$client->wantTo('Test State creation in Administrator');
 		$client->doAdministratorLogin();
+
+		/** @var CountrySteps $client */
 		$client = new CountrySteps($scenario);
-		$client->addCountry($this->randomCountryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
+		$client->addNewItem(
+			'CountryPage',
+			array(
+				'country_name'   => array('type' => 'text', 'xpath' => ['id' => 'jform_country_name']),
+				'country_2_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_2_code']),
+				'country_3_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_3_code']),
+				'country_jtext'  => array('type' => 'text', 'xpath' => ['id' => 'jform_country_jtext'])
+			),
+			array(
+				'country_name'   => $this->randomCountryName,
+				'country_2_code' => $this->randomTwoCode,
+				'country_3_code' => $this->randomThreeCode,
+				'country_jtext'  => $this->randomCountry
+			)
+		);
 		$client = new StateSteps($scenario);
 		$client->addState($this->randomCountryName, $this->randomStateName, $this->randomTwoCode, $this->randomThreeCode);
 	}
