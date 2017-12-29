@@ -15809,16 +15809,27 @@ table.text-center th {
         max-height: 20px; }
   .wrapper .main-header .navbar {
     background: #fff; }
+    .wrapper .main-header .navbar .nav > .active a {
+      color: #fff;
+      background: #5d7d8a; }
     .wrapper .main-header .navbar .nav li a {
       color: #5d7d8a; }
+      .wrapper .main-header .navbar .nav li a:hover {
+        color: #fff;
+        background: #5d7d8a; }
+    .wrapper .main-header .navbar .sidebar-toggle {
+      color: #5d7d8a; }
+      .wrapper .main-header .navbar .sidebar-toggle:hover {
+        background: #5d7d8a;
+        color: #fff; }
   .wrapper .content-wrapper {
     background: #edf5f8;
     height: 100%; }
     .wrapper .content-wrapper .content-header {
-      padding-top: 10px;
+      padding-top: 0px;
       background: #607d8b; }
       .wrapper .content-wrapper .content-header h1.page-title {
-        margin-top: 10px;
+        margin-top: 14px;
         color: #fff; }
       .wrapper .content-wrapper .content-header .header-toolbar {
         margin: 20px 0; }
@@ -15827,7 +15838,7 @@ table.text-center th {
     .wrapper .content-wrapper .js-stools {
       margin-left: -15px !important;
       margin-right: -15px !important;
-      padding: 0 15px 15px 15px;
+      padding: 15px;
       background: #fff;
       width: auto;
       border-bottom: 1px solid #d2d6de; }
@@ -15957,19 +15968,17 @@ table.text-center th {
 .rs-teaser {
   display: inline-block; }
 
-label.radio-button.active {
-  color: #fff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #409740;
-  border-color: #378137 #378137 #204b20; }
-
-label.radio-button.active:active,
-label.radio-button.active:hover {
-  background-color: #378137;
-  color: #fff; }
-
 .panel.panel-default {
   border-color: #d8e3e7;
   border-bottom-width: 2px;
   border-radius: unset;
   box-shadow: none; }
+
+.chzn-container {
+  height: 34px; }
+  .chzn-container a.chzn-single {
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857; }
+    .chzn-container a.chzn-single div b {
+      background-position-y: 7px; }
