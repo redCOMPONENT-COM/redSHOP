@@ -84,7 +84,7 @@ class CategoryManagerJ3Page extends AdminJ3Page
 
     public static $messageDeleteSuccess = "1 item successfully deleted";
 
-    public static $messageErrorDeleteCategoryHasProduct = 'This category contains products, kindly remove those products';
+    public static $messageErrorDeleteCategoryHasChildCategoriesOrProducts = "kindly remove those";
 
     //button
 
