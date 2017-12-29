@@ -12,6 +12,7 @@ use Codeception\Scenario;
 use Faker\Factory;
 use Faker\Generator;
 use Step\AbstractStep;
+use function strtolower;
 use function var_dump;
 
 /**
@@ -120,10 +121,32 @@ class AbstractCest
 	 */
 	protected function prepareFormFields()
 	{
-		var_dump(__DIR__);
-		exit;
+		$formPath = __DIR__ . '/../../../../component/admin/models/forms/' . strtolower(str_replace('Cest', '', $this->className)) . '.xml';
 
-		return array();
+		// Load single form xml file
+		$form = simplexml_load_file($formPath);
+
+		// Get field set data
+		$fields = $form->xpath('(//fieldset[@name="details"]//field | //field[@fieldset="details"])[not(ancestor::field)]');
+
+		if (empty($fields))
+		{
+			return array();
+		}
+
+		$formFields = array();
+
+		foreach ($fields as $field)
+		{
+			$fieldName = $field['name'];
+
+			$formFields[$fieldName] = array(
+				'xpath' => ['id' => 'jform_' . $fieldName],
+				'type'  => $field['type']
+			);
+		}
+
+		return $formFields;
 	}
 
 	/**

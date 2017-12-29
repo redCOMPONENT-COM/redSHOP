@@ -57,21 +57,4 @@ class CountryCest extends AbstractCest
 			'country_jtext'  => $this->faker->bothify('Country ?##?')
 		);
 	}
-
-	/**
-	 * Method for set form fields.
-	 *
-	 * @return  array
-	 */
-	protected function prepareFormFields()
-	{
-		/* @TODO Need auto-generate by parse from XML file (admin/models/<class>.xml) */
-
-		return array(
-			'country_name'   => array('type' => 'text', 'xpath' => ['id' => 'jform_country_name']),
-			'country_2_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_2_code']),
-			'country_3_code' => array('type' => 'text', 'xpath' => ['id' => 'jform_country_3_code']),
-			'country_jtext'  => array('type' => 'text', 'xpath' => ['id' => 'jform_country_jtext'])
-		);
-	}
 }
