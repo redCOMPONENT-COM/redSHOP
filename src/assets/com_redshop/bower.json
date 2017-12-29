@@ -19,9 +19,10 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap" : "bootstrap#3.3.7",
+    "bootstrap": "bootstrap#3.3.7",
     "jquery": "jquery#2.2.4",
     "font-awesome": "font-awesome#4.7.0",
-    "adminLTE": "adminLTE#2.3.11"
+    "adminLTE": "adminLTE#2.3.11",
+    "selectize": "^0.12.4"
   }
 }
