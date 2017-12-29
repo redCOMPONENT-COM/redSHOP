@@ -35,7 +35,7 @@ class text_library
 	/**
 	 * Get data of text library
 	 *
-	 * @return string
+	 * @return array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperText::getTextLibraryTagArray() instead
 	 */
