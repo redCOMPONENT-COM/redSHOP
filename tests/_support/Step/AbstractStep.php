@@ -152,6 +152,7 @@ class AbstractStep extends \AcceptanceTester
 			switch ($field['type'])
 			{
 				case 'radio':
+				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
 
