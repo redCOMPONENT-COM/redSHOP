@@ -1045,7 +1045,7 @@ class RedshopHelperProduct
 	 */
 	public static function setProductAttributes($getAttributeKeys = array(), $userId = 0)
 	{
-		if (!empty($getAttributeKeys))
+		if (empty($getAttributeKeys))
 		{
 			return;
 		}

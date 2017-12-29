@@ -346,7 +346,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$publishButton);
-		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageSuccess);
+		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messagePublishSuccess);
 	}
 
 	public function unpublishWithoutChoice()
@@ -380,6 +380,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$checkInButton);
-		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageSuccess);
+		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageCheckInSuccess);
 	}
 }
