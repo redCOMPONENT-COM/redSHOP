@@ -23,8 +23,8 @@ modules:
     config:
         JoomlaBrowser:
             url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            browser: 'chrome'
-            window_size: 1024x768
+            browser: 'firefox'
+            window_size: 1920x1080
             restart: true
             capabilities:
               chromeOptions:

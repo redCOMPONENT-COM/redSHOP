@@ -16,8 +16,10 @@ php:
   - 5.6
   - 7.0
 
+env:
+  - MOZ_HEADLESS=1
 addons:
-  chrome: stable
+  firefox: '47.0.2'
 
 cache:
   apt: true
