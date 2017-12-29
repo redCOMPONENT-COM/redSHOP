@@ -19,14 +19,62 @@ defined('_JEXEC') or die;
 class RedshopEntityDiscount extends RedshopEntity
 {
 	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
+	 * @var RedshopEntitiesCollection
 	 */
-	public function getTable($name = null)
+	protected $shopperGroups;
+
+	/**
+	 * Method for get shopper groups associate with this discount
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getShopperGroups()
 	{
-		return JTable::getInstance('Discount_Detail', 'Table');
+		if (null === $this->shopperGroups)
+		{
+			$this->loadShopperGroups();
+		}
+
+		return $this->shopperGroups;
+	}
+
+	/**
+	 * Method for load shopper groups associate with this discount
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadShopperGroups()
+	{
+		$this->shopperGroups = new RedshopEntitiesCollection;
+
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('shopper_group_id'))
+			->from($db->qn('#__redshop_discount_shoppers'))
+			->where($db->qn('discount_id') . ' = ' . $this->getId());
+
+		$result = $db->setQuery($query)->loadColumn();
+
+		if (empty($result))
+		{
+			return $this;
+		}
+
+		foreach ($result as $shopperGroupId)
+		{
+			$this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
+		}
+
+		return $this;
 	}
 }

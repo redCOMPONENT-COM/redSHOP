@@ -23,13 +23,11 @@ class RedshopControllerAlert extends RedshopController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  mixed            The model.
 	 */
 	public function getModel($name = 'Alert_detail', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -48,6 +46,7 @@ class RedshopControllerAlert extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 500);
 		}
 
+		/** @var RedshopModelAlert_detail $model */
 		$model = $this->getModel('alert_detail');
 
 		if (!$model->delete($cid))
@@ -76,6 +75,7 @@ class RedshopControllerAlert extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
 		}
 
+		/** @var RedshopModelAlert_detail $model */
 		$model = $this->getModel('alert_detail');
 
 		if (!$model->read($cid, 1))

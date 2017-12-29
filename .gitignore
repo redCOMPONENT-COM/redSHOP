@@ -50,7 +50,6 @@ bower_components/
 # Test related files
 tests/system/servers/configdef.php
 tests/system/webdriver/tests/logs/
-tests/acceptance.suite.yml
 codecept.phar
 tests/*/*Tester.php
 selenium.log

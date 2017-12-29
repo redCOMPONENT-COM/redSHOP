@@ -48,6 +48,7 @@ class RedshopControllerPrices_detail extends RedshopController
 			$post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
 		}
 
+		/** @var RedshopModelPrices_detail $model */
 		$model = $this->getModel('prices_detail');
 
 		if ($price_quantity_start == 0 && $price_quantity_end == 0)
@@ -93,6 +94,7 @@ class RedshopControllerPrices_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelPrices_detail $model */
 		$model = $this->getModel('prices_detail');
 
 		if (!$model->delete($cid))

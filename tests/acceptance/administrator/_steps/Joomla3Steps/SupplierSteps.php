@@ -119,8 +119,7 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->fillField(\SupplierPage::$fieldName, $supplierUpdatedName);
 		$client->click(\SupplierPage::$buttonSaveClose);
-		$client->waitForText(\SupplierPage::$messageItemSaveSuccess, 60, \SupplierPage::$selectorSuccess);
-		$client->see(\SupplierPage::$messageItemSaveSuccess, \SupplierPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\SupplierPage::$messageItemSaveSuccess);
 	}
 
 	public function editSupplierMissingName($supplierUpdatedName)
@@ -130,9 +129,9 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->searchSupplier($supplierUpdatedName);
 		$client->click($supplierUpdatedName);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
-		$client->fillField(\SupplierPage::$fieldName, "");
+		$client->fillField(\SupplierPage::$fieldName, '');
 		$client->click(\SupplierPage::$buttonSave);
-		$client->waitForText(\SupplierPage::$fieldMissing, 60, \SupplierPage::$selectorMissing);
+		$client->assertSystemMessageContains(\SupplierPage::$fieldMissing);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 	}
 
@@ -208,8 +207,8 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\SupplierPage::$messageItemDeleteSuccess, 60, \SupplierPage::$selectorSuccess);
-		$client->see(\SupplierPage::$messageItemDeleteSuccess, \SupplierPage::$selectorSuccess);
+		$client->waitForText(\SupplierPage::$messageDeleteSuccess, 60, \SupplierPage::$selectorSuccess);
+		$client->see(\SupplierPage::$messageDeleteSuccess, \SupplierPage::$selectorSuccess);
 		$client->fillField(\SupplierPage::$searchField, $supplierName);
 		$client->pressKey(\SupplierPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($supplierName, \SupplierPage::$resultRow);
@@ -240,7 +239,7 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->checkForPhpNoticesOrWarnings();
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonUnpublish);
-		$client->waitForText(\SupplierPage::$messageHead, 30, \SupplierPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\SupplierPage::$messageUnpublishSuccess);
 	}
 
 	public function publishAllSupplier()
@@ -249,7 +248,7 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\SupplierPage::$url);
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonPublish);
-		$client->waitForText(\SupplierPage::$messageHead, 30, \SupplierPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\SupplierPage::$messagePublishSuccess);
 	}
 
 	public function checkUnpublishButton()
@@ -275,6 +274,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\SupplierPage::$url);
 		$client->checkAllResults();
 		$client->click(\SupplierPage::$buttonCheckIn);
-		$client->waitForText(\SupplierPage::$messageHead, 30, \SupplierPage::$selectorSuccess);
+		$client->assertSystemMessageContains(\SupplierPage::$messageCheckInSuccess);
 	}
 }

@@ -6,8 +6,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use AcceptanceTester\SupplierSteps;
+
 /**
- * Class SupplierCest
+ * Class SupplierSteps
  *
  * @package  AcceptanceTester
  *
@@ -73,7 +75,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Delete button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->checkDeleteButton();
 	}
 
@@ -88,7 +90,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Publish button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->checkPublishButton();
 	}
 
@@ -103,7 +105,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Unpublish button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->checkUnpublishButton();
 	}
 
@@ -118,7 +120,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test CheckiIn button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->checkCheckinButton();
 	}
 
@@ -133,7 +135,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier Missing Name creation in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->addSupplierSaveMissingName($this->supplierEmail);
 	}
 
@@ -157,7 +159,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier creation with save and close button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->addSupplier($this->supplierName, $this->supplierEmail);
 	}
 
@@ -171,7 +173,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier creation with save in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->addSupplierSave($this->supplierNameSave, $this->supplierEmailSave);
 	}
 
@@ -185,7 +187,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier check cancel button inside in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->checkCancelButton();
 		$client->see(\SupplierPage::$namePage, \SupplierPage::$selectorPageTitle);
 	}
@@ -196,7 +198,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test unpublish all supplier Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->unpublishAllSupplier();
 		$client->see(\SupplierPage::$namePage, \SupplierPage::$selectorPageTitle);
 	}
@@ -207,7 +209,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test publish all supplier Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->publishAllSupplier();
 		$client->see(\SupplierPage::$namePage, \SupplierPage::$selectorPageTitle);
 	}
@@ -217,7 +219,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test check in all supplier Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->checkinSupplier();
 		$client->see(\SupplierPage::$namePage, \SupplierPage::$selectorPageTitle);
 	}
@@ -226,7 +228,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test if update status to unpublish of Supplier gets Updated in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->wantTo(' update status of Supplier');
 		$client->changeSupplierState($this->supplierNameSave, 'unpublish');
 		$currentState = $client->getSupplierState($this->supplierNameSave);
@@ -237,7 +239,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test change publish Supplier gets Updated in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->wantTo(' update status of Supplier');
 		$client->changeSupplierStatePublish($this->supplierNameSave, 'publish');
 		$currentState = $client->getSupplierState($this->supplierNameSave);
@@ -252,7 +254,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier update name  in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->editSupplier($this->supplierName, $this->supplierUpdatedName);
 	}
 
@@ -265,7 +267,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier update missing name in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->editSupplierMissingName($this->supplierUpdatedName);
 	}
 
@@ -274,7 +276,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier check Close button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->editSupplierCheckCloseButton($this->supplierUpdatedName);
 	}
 
@@ -286,7 +288,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier Deletion Then clicks cancel button in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->deleteSupplierCancel($this->supplierUpdatedName);
 		$client->see(\SupplierPage::$namePage, \SupplierPage::$selectorPageTitle);
 
@@ -300,7 +302,7 @@ class SupplierCest
 	{
 		$client->wantTo('Test Supplier Deletion in Administrator');
 		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\SupplierSteps($scenario);
+		$client = new SupplierSteps($scenario);
 		$client->deleteSupplier($this->supplierUpdatedName);
 	}
 }
