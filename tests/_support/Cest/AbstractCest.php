@@ -121,7 +121,7 @@ class AbstractCest
 	 */
 	protected function prepareFormFields()
 	{
-		$formPath = __DIR__ . '/../../../../component/admin/models/forms/' . strtolower(str_replace('Cest', '', $this->className)) . '.xml';
+		$formPath = __DIR__ . '/../../../component/admin/models/forms/' . strtolower(str_replace('Cest', '', $this->className)) . '.xml';
 
 		// Load single form xml file
 		$form = simplexml_load_file($formPath);
