@@ -2133,7 +2133,7 @@ class rsCarthelper
 				$cart_data = str_replace("{order_shipping}", $this->_producthelper->getProductFormattedPrice($shipping, true), $cart_data);
 				$cart_data = str_replace("{shipping_excl_vat}", "<span id='spnShippingrate'>" . $this->_producthelper->getProductFormattedPrice($shipping - $cart['shipping_tax'], true) . "</span>", $cart_data);
 				$cart_data = str_replace("{shipping_lbl}", JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL'), $cart_data);
-				$cart_data = str_replace("{shipping}", $this->_producthelper->getProductFormattedPrice($shipping, true), $cart_data);
+				$cart_data = str_replace("{shipping}", "<span id='spnShippingrate'>" . $this->_producthelper->getProductFormattedPrice($shipping, true) . "</span>", $cart_data);
 				$cart_data = str_replace("{tax_with_shipping_lbl}", JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL'), $cart_data);
 				$cart_data = str_replace("{vat_shipping}", $this->_producthelper->getProductFormattedPrice($shippingVat), $cart_data);
 			}
@@ -2154,7 +2154,7 @@ class rsCarthelper
 			$cart_data = str_replace("{shipping_excl_vat}", "<span id='spnShippingrate'></span>", $cart_data);
 			$cart_data = str_replace("{order_shipping}", "", $cart_data);
 			$cart_data = str_replace("{shipping_lbl}", '', $cart_data);
-			$cart_data = str_replace("{shipping}", '', $cart_data);
+			$cart_data = str_replace("{shipping}", "<span id='spnShippingrate'></span>", $cart_data);
 			$cart_data = str_replace("{subtotal}", "", $cart_data);
 			$cart_data = str_replace("{tax_with_shipping_lbl}", '', $cart_data);
 			$cart_data = str_replace("{vat_shipping}", '', $cart_data);
