@@ -13,7 +13,7 @@ install:
   - nvm use 8
 
 php:
-  #- 5.6
+  - 5.6
   - 7.0
 
 addons:
@@ -27,9 +27,8 @@ cache:
 
 env:
   matrix:
-      #- ACCEPTANCE=false
-      #- ACCEPTANCE=true
-      - ACCEPTANCE=acceptance/administrator/Coupon/Coupon
+      - ACCEPTANCE=false
+      - ACCEPTANCE=true
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
