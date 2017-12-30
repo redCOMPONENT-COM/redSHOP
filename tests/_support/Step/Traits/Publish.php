@@ -50,7 +50,6 @@ trait Publish
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonPublish);
-		$tester->acceptPopup();
 		$tester->assertSystemMessageContains($pageClass::$messagePublishSuccess);
 	}
 
@@ -85,7 +84,6 @@ trait Publish
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonUnpublish);
-		$tester->acceptPopup();
 		$tester->assertSystemMessageContains($pageClass::$messageUnpublishSuccess);
 	}
 
