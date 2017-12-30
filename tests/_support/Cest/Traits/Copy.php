@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nhung
- * Date: 30/12/2017
- * Time: 17:10
+ * Check Copy button without choice
  */
 
 namespace Cest\Traits;
