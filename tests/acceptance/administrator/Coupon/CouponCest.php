@@ -47,8 +47,6 @@ class CouponCest extends AbstractCest
 	/**
 	 * Method for set new data.
 	 *
-	 * @param   string  $oldName  Old name
-	 *
 	 * @return  array
 	 */
 	protected function prepareEditData()

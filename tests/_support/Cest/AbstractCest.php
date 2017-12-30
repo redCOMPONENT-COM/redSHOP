@@ -66,12 +66,12 @@ class AbstractCest
 	 */
 	public function __construct()
 	{
-		$this->faker      = Factory::create();
-		$this->className  = get_called_class();
-		$this->stepClass  = str_replace('Cest', 'Steps', $this->className);
-		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
-		$this->dataNew    = $this->prepareNewData();
-		$this->dataEdit   = $this->prepareEditData();
+		$this->faker     = Factory::create();
+		$this->className = get_called_class();
+		$this->stepClass = str_replace('Cest', 'Steps', $this->className);
+		$this->pageClass = str_replace('Cest', 'Page', $this->className);
+		$this->dataNew   = $this->prepareNewData();
+		$this->dataEdit  = $this->prepareEditData();
 	}
 
 	/**
