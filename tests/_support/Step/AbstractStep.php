@@ -152,6 +152,36 @@ class AbstractStep extends \AcceptanceTester
 	}
 
 	/**
+	 * Method for click button "Copy" without choice
+	 * 
+	 * @return  void
+	 */
+	public function copyWithoutChoice()
+	{
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->click($pageClass::$buttonCopy);
+		$tester->acceptPopup();
+		$tester->waitForElement($pageClass::$searchField, 30);
+	}
+
+	/**
+	 * Method for click "Edit" without choice
+	 *
+	 * @return void
+	 */
+	public function editWithoutChoice()
+	{
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->click($pageClass::$buttonEdit);
+		$tester->acceptPopup();
+		$tester->waitForElement($pageClass::$searchField, 30);
+	}
+
+	/**
 	 * Method for fill data in form.
 	 *
 	 * @param   array  $formFields  Array of form fields
