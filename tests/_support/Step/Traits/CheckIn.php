@@ -50,7 +50,6 @@ trait CheckIn
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonCheckIn);
-		$tester->acceptPopup();
 		$tester->assertSystemMessageContains($pageClass::$messageCheckInSuccess);
 	}
 }
