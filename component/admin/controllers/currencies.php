@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Currency controller
+ * Currencies controller
  *
- * @package      RedSHOP.Backend
+ * @package      RedSHOP.backend
  * @subpackage   Controller
  * @since        2.0.11
  */
-class RedshopControllerCurrency extends RedshopControllerForm
+class RedshopControllerCurrencies extends RedshopControllerAdmin
 {
 }
