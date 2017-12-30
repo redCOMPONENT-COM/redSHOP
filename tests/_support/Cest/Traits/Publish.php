@@ -29,8 +29,6 @@ trait Publish
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
-	 *
-	 * @depends testButtonDelete
 	 */
 	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
 	{

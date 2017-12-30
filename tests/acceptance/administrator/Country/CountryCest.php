@@ -19,6 +19,8 @@ use Cest\AbstractCest;
  */
 class CountryCest extends AbstractCest
 {
+	use Cest\Traits\Delete;
+
 	/**
 	 * Name field, which is use for search
 	 *

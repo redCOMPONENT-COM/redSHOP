@@ -107,30 +107,6 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for test button "Delete"
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 */
-	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Administrator -> Button -> Delete without choice.');
-
-		$stepClass = $this->stepClass;
-
-		/** @var \AdminJ3Page $pageClass */
-		$pageClass = $this->pageClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
-
-		$step->deleteWithoutChoice();
-		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
-	}
-
-	/**
 	 * Method for test create item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
@@ -166,25 +142,5 @@ class AbstractCest
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);
-	}
-
-	/**
-	 * Method for test delete item
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 *
-	 * @depends testItemEdit
-	 */
-	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Administrator -> Delete item.');
-		$stepClass = $this->stepClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
-		$step->deleteItem($this->dataNew[$this->nameField]);
 	}
 }
