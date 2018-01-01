@@ -37,12 +37,14 @@ trait Delete
 		$tester = $this;
 
 		$tester->searchItem($item);
+		$tester->waitForElement($pageClass::$resultRow, 30);
+		$tester->see($item, $pageClass::$resultRow);
 		$tester->see($item, $pageClass::$resultRow);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
 		$tester->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
 		$tester->searchItem($item);
-		$tester->dontSee($item, $pageClass::$resultRow);
+		$tester->dontSee($item);
 	}
 }

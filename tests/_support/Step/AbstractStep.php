@@ -87,6 +87,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester    = $this;
 
 		$tester->searchItem($searchName);
+		$tester->waitForElement($pageClass::$resultRow, 30);
+		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
@@ -114,8 +116,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->executeJS('window.scrollTo(0,0)');
 		$tester->fillField($searchField, $item);
 		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$tester->waitForElement($pageClass::$resultRow, 30);
-		$tester->see($item, $pageClass::$resultRow);
+		
 
 	}
 

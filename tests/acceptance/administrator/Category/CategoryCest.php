@@ -2,7 +2,7 @@
 use Cest\AbstractCest;
 class CategoryCest extends AbstractCest
 {
-    use Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
+    use Cest\Traits\Publish, Cest\Traits\CheckIn, Cest\Traits\Delete;
 
     public $nameField = 'name';
     /**
