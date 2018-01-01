@@ -12,7 +12,7 @@ use Codeception\Scenario;
 use Step\AbstractStep;
 
 /**
- * Trait class for test with check-in feature
+ * Trait class for test with publish feature
  *
  * @package  AcceptanceTester
  *
@@ -20,19 +20,19 @@ use Step\AbstractStep;
  *
  * @since    2.0
  */
-trait CheckIn
+trait Delete
 {
 	/**
-	 * Method for test button Check-In without choice
+	 * Method for test button "Delete"
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
 	 */
-	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
+	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Button > Check-in without choice.');
+		$tester->wantTo('Administrator -> Button -> Delete without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -42,33 +42,28 @@ trait CheckIn
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->checkInWithoutChoice();
+		$step->deleteWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 
 	/**
-	 * Method for test Check-In all results
+	 * Method for test delete item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
 	 *
-	 * @depends testButtonCheckIn
+	 * @depends testButtonDelete
 	 */
-	public function testCheckIn(\AcceptanceTester $tester, Scenario $scenario)
+	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test checkin all results.');
+		$tester->wantTo('Administrator -> Delete item.');
 
 		$stepClass = $this->stepClass;
 
-		/** @var \AdminJ3Page $pageClass */
-		$pageClass = $this->pageClass;
-
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-
-		$step->checkInAllResult();
-		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+		$step->deleteItem($this->dataNew[$this->nameField]);
 	}
 }
