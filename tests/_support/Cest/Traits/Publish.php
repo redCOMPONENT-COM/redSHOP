@@ -23,16 +23,16 @@ use Step\AbstractStep;
 trait Publish
 {
 	/**
-	 * Method for test button publish without choice
+	 * Method for test button Unpublish without choice
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
 	 */
-	public function testButtonPublish(\AcceptanceTester $tester, Scenario $scenario)
+	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Button -> Publish without choice.');
+		$tester->wantTo('Button > Unpublish without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -42,12 +42,64 @@ trait Publish
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->publishWithoutChoice($pageClass);
+		$step->unpublishWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 
 	/**
-	 * Method for test button Unpublish without choice
+	 * Method for test unpublish all results
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testButtonUnpublish
+	 */
+	public function testUnpublishAll(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Administrator > Test Unpublish all results.');
+
+		$stepClass = $this->stepClass;
+
+		/** @var \AdminJ3Page $pageClass */
+		$pageClass = $this->pageClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+
+		$step->unpublishAllResults();
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+	}
+
+	/**
+	 * Method for test button publish without choice
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testUnpublishAll
+	 */
+	public function testButtonPublish(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Button > Publish without choice.');
+
+		$stepClass = $this->stepClass;
+
+		/** @var \AdminJ3Page $pageClass */
+		$pageClass = $this->pageClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+
+		$step->publishWithoutChoice();
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+	}
+
+	/**
+	 * Method for test publish all results
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
@@ -56,9 +108,9 @@ trait Publish
 	 *
 	 * @depends testButtonPublish
 	 */
-	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
+	public function testPublishAll(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Button -> Unpublish without choice.');
+		$tester->wantTo('Administrator > Test publish all results.');
 
 		$stepClass = $this->stepClass;
 
@@ -68,7 +120,7 @@ trait Publish
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->unpublishWithoutChoice($pageClass);
+		$step->publishAllResults();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 }
