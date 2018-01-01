@@ -19,5 +19,5 @@ use Step\AbstractStep;
  */
 class CouponSteps extends AbstractStep
 {
-	use Step\Traits\CheckIn, Step\Traits\Publish;
+	use Step\Traits\CheckIn, Step\Traits\Publish, Step\Traits\Delete;
 }
