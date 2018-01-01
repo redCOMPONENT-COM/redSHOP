@@ -19,6 +19,8 @@ use Cest\AbstractCest;
  */
 class CountryCest extends AbstractCest
 {
+	use Cest\Traits\Delete;
+
 	/**
 	 * Name field, which is use for search
 	 *
@@ -43,8 +45,6 @@ class CountryCest extends AbstractCest
 
 	/**
 	 * Method for set new data.
-	 *
-	 * @param   string  $oldName  Old name
 	 *
 	 * @return  array
 	 */

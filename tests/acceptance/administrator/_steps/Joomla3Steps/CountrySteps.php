@@ -19,4 +19,5 @@ use Step\AbstractStep;
  */
 class CountrySteps extends AbstractStep
 {
+	use Step\Traits\Delete;
 }
