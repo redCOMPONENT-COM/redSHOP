@@ -19,7 +19,7 @@ use Cest\AbstractCest;
  */
 class CurrencyCest extends AbstractCest
 {
-	use Cest\Traits\CheckIn;
+	use Cest\Traits\CheckIn, Cest\Traits\Delete;
 
 	/**
 	 * Name field, which is use for search
@@ -49,8 +49,8 @@ class CurrencyCest extends AbstractCest
 	protected function prepareEditData()
 	{
 		return array(
-			'name'        => 'New ' . $this->dataNew['name'],
-			'code'        => $this->dataNew['code']
+			'name' => 'New ' . $this->dataNew['name'],
+			'code' => $this->dataNew['code']
 		);
 	}
 }

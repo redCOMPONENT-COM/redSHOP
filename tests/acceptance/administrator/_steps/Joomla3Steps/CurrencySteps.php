@@ -19,5 +19,5 @@ use Step\AbstractStep;
  */
 class CurrencySteps extends AbstractStep
 {
-	use Step\Traits\CheckIn;
+	use Step\Traits\CheckIn, Step\Traits\Delete;
 }
