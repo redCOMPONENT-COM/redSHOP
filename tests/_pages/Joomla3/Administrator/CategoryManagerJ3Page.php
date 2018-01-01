@@ -14,7 +14,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class CategoryManagerJ3Page
+class CategoryManagerJ3Page extends AdminJ3Page
 {
 // Include url of current page
     public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
