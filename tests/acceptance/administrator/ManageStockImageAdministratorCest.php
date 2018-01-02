@@ -72,7 +72,6 @@ class ManageStockImageAdministratorCest
 		$I->waitForText('Stock Amount Image saved',60, ['id' => 'system-message-container']);
 		$I->seeElement(['link' => $this->newImageTooltip]);
 		$I->dontSeeElement(['link' => $this->imageTooltip]);
-
 	}
 
 	/**
