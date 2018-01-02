@@ -28,7 +28,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $url;
+	public static $url = 'index.php?option=com_redshop';
 
 	/**
 	 * @var string
@@ -193,10 +193,6 @@ abstract class AdminJ3Page
 // Include url of current page
 // Fontend checkout first name
 
-	/**
-	 * @var string
-	 */
-	public static $URL = '/index.php?option=com_redshop';
 	/**
 	 * @var string
 	 */

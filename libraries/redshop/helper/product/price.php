@@ -98,8 +98,8 @@ class RedshopHelperProductPrice
 				$query->where('dp.discount_product_id IN (' . implode(',', $discountIds) . ')');
 			}
 
-			$query->where($db->qn('dp.start_date') . ' = 0 OR ' . $db->qn('dp.start_date') . ' <= ' . (int) $time)
-				->where($db->qn('dp.end_date') . ' = 0 OR ' . $db->qn('dp.end_date') . ' >= ' . (int) $time)
+			$query->where('(' . $db->qn('dp.start_date') . ' = 0 OR ' . $db->qn('dp.start_date') . ' <= ' . (int) $time . ')')
+				->where('(' . $db->qn('dp.end_date') . ' = 0 OR ' . $db->qn('dp.end_date') . ' >= ' . (int) $time . ')')
 				->order($db->qn('dp.amount') . ' DESC');
 
 			// Get all discount based on current shopper group

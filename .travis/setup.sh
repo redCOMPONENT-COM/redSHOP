@@ -1,19 +1,21 @@
 set -ev
 
 if [ "${ACCEPTANCE}" = "false" ]; then
+	# Only run PHPCS on PHP 7.0
+	if [ "$(phpenv version-name)" = "7.0" ]; then
+		# Get redWEB Coding Standard
+		git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
+		git submodule update --init --recursive
+		cd tests/checkers/phpcs
+		git checkout -b redweb-phpcs-2
+		cd ../../..
 
-	# Get redWEB Coding Standard
-	git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
-	git submodule update --init --recursive
-	cd tests/checkers/phpcs
-	git checkout -b redweb-phpcs-2
-	cd ../../..
-
-	# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
-	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-	composer global require hirak/prestissimo
-	composer install --prefer-dist
-	composer install --working-dir ./libraries/redshop --ansi
+		# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
+		composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+		composer global require hirak/prestissimo
+		composer install --prefer-dist
+		composer install --working-dir ./libraries/redshop --ansi
+	fi
 else
 	sudo apt-get update
 	sudo apt-get install apache2 libapache2-mod-fastcgi

@@ -6,6 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Codeception\Scenario;
+
 /**
  * Class ManageAdministratorNoticesCest
  *
@@ -15,8 +17,16 @@
  *
  * @since    1.4
  */
-class ManageAdministratorNoticesCest
+class AdministratorNoticesCest
 {
+	/**
+	 * @var array
+	 */
+	public $allExtensionPages = array();
+
+	/**
+	 * ManageAdministratorNoticesCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->allExtensionPages = array (
@@ -26,7 +36,9 @@ class ManageAdministratorNoticesCest
 			'Manufacturer Manager' => '/administrator/index.php?option=com_redshop&view=manufacturer',
 			'Media Manager' => '/administrator/index.php?option=com_redshop&view=media',
 			'Order Manager' => '/administrator/index.php?option=com_redshop&view=order',
-			'Discount Manager' => '/administrator/index.php?option=com_redshop&view=discount',
+			'Mass Discounts Management' => '/administrator/index.php?option=com_redshop&view=mass_discounts',
+			'Product Discount Management' => '/administrator/index.php?option=com_redshop&view=discounts',
+			'Product price discounts' => '/administrator/index.php?option=com_redshop&view=discount_products',
 			'Gift Card Manager' => '/administrator/index.php?option=com_redshop&view=giftcards',
 			'Voucher Manager' => '/administrator/index.php?option=com_redshop&view=voucher',
 			'Coupon Manager' => '/administrator/index.php?option=com_redshop&view=coupon',
@@ -49,15 +61,19 @@ class ManageAdministratorNoticesCest
 	/**
 	 * Function to Verify Notices and Errors in Administrator Pages
 	 *
+	 * @param   AcceptanceTester $tester   Tester
+	 * @param   Scenario         $scenario Scenario
+	 *
+	 * @return void
 	 */
-	public function verifyNotices(AcceptanceTester $I, $scenario)
+	public function verifyNotices(AcceptanceTester $tester, $scenario)
 	{
-		$I->wantTo('Test Presence of Notices, Warnings on Administrator Pages');
-		$I->doAdministratorLogin();
+		$tester->wantTo('Test Presence of Notices, Warnings on Administrator Pages');
+		$tester->doAdministratorLogin();
 
 		foreach ($this->allExtensionPages as $pageName => $url)
 		{
-			$I->checkForPhpNoticesOrWarnings($url);
+			$tester->checkForPhpNoticesOrWarnings($url);
 		}
 	}
 }

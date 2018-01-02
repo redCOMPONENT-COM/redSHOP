@@ -15,8 +15,10 @@
  *
  * @since    1.4
  */
-use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+
 class CouponCheckoutProductCest
 {
 	/**
@@ -40,30 +42,30 @@ class CouponCheckoutProductCest
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
 		$this->discountStart       = "12-12-2016";
 		$this->discountEnd         = "23-05-2017";
-		
+
 		//user login
 		//create user
-		$this->userName = $this->faker->bothify('UserName ?##?');
-		$this->password = 'test';
-		$this->email = $this->faker->email;
+		$this->userName     = $this->faker->bothify('UserName ?##?');
+		$this->password     = 'test';
+		$this->email        = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
-		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
-		$this->lastName = 'Last';
-		$this->shopperName = 'Default Private';
-		$this->group = 'Administrator';
+		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
+		$this->lastName     = 'Last';
+		$this->shopperName  = 'Default Private';
+		$this->group        = 'Administrator';
 	}
 
 	/**
 	 * Test to Verify the Payment Plugin
 	 *
-	 * @param   AcceptanceTester  $I         Actor Class Object
-	 * @param   String            $scenario  Scenario Variable
+	 * @param   AcceptanceTester $I        Actor Class Object
+	 * @param   String           $scenario Scenario Variable
 	 *
 	 * @return void
 	 */
 	public function deleteData($scenario)
 	{
-		$I= new RedshopSteps($scenario);
+		$I = new RedshopSteps($scenario);
 		$I->clearAllData();
 	}
 
@@ -82,7 +84,7 @@ class CouponCheckoutProductCest
 
 		//process checkout
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductWithCouponOrGift($this->userName, $this->password,$this->productName, $this->categoryName, $this->couponCode);
+		$I->checkoutProductWithCouponOrGift($this->userName, $this->password, $this->productName, $this->categoryName, $this->couponCode);
 	}
 
 	/**
@@ -92,10 +94,18 @@ class CouponCheckoutProductCest
 	private function createCoupon(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Coupon creation in Administrator');
-		$I = new AcceptanceTester\CouponSteps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
-		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
-		$I->searchCoupon($this->couponCode);
+		$I->addNewItem(
+			array(
+				'code'        => $this->couponCode,
+				'type'        => $this->couponValueIn,
+				'value'       => $this->couponValue,
+				'effect'      => $this->couponType,
+				'amount_left' => $this->couponLeft
+			)
+		);
+		$I->searchItem($this->couponCode);
 	}
 
 	/**
@@ -131,9 +141,9 @@ class CouponCheckoutProductCest
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponSteps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
-		$I->deleteCoupon($this->couponCode);
+		$I->deleteItem($this->couponCode);
 
 		$I->wantTo('Delete product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);

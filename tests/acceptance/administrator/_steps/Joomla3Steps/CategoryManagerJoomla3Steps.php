@@ -329,7 +329,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$deleteButton);
 		$I->acceptPopup();
-		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageError);
+		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageErrorDeleteCategoryHasChildCategoriesOrProducts);
 	}
 
 	public function publishWithoutChoice()
