@@ -15,6 +15,7 @@
  *
  * @since    1.4
  */
+use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
 class InstallRedShopCest
 {
 	/**
@@ -32,7 +33,7 @@ class InstallRedShopCest
 		$I->setErrorReportingtoDevelopment();
 	}
 
-	public function disableTemplateFloatingToolbars(AcceptanceTester $I)
+	public function disableTemplateFloatingToolbars(AdminManagerJoomla3Steps $I)
 	{
 		$I->am('administrator');
 		$I->wantTo('disable the floating template toolbars');
@@ -49,12 +50,13 @@ class InstallRedShopCest
 		$I->click(['link' => 'Advanced']);
 		$I->waitForElement(['css' => "label[data-original-title='Status Module Position']"], 60);
 		$I->executeJS("window.scrollTo(0, document.body.scrollHeight);");
-		$I->selectOptionInChosen('Status Module Position', 'Top');
+		$I->selectOptionInChosenjs('Status Module Position', 'Top');
 		$I->selectOptionInRadioField('Pinned Toolbar', 'No');
 		$I->click('Save & Close');
 		$I->waitForText('Style saved.', 60, ['id' => 'system-message-container']);
 		$I->see('Style saved.', ['id' => 'system-message-container']);
 	}
+
 
 	/**
 	 * Test to Install redSHOP Extension on Joomla
