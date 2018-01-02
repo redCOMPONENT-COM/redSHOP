@@ -998,6 +998,25 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 					SqueezeBox.fromElement(el);
 				});
 			});
+
+			if (objectname == "users_info_id" && users_info_id == 0 && jQuery('#divPaymentMethod')) {
+				jQuery.ajax({
+				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=ajaxReplacePaymentTemplate',
+				type: 'POST',
+				dataType: 'html',
+				data:
+					{
+						is_company: (anonymous.billing_type == "private") ? 0 : 1,
+						eanNumber: (jQuery('#ean_number') && anonymous.billing_type == "company") ? jQuery('#ean_number').val() : 0
+					}
+				})
+				.done(function(response) {
+					jQuery('#divPaymentMethod').html(response);
+				})
+				.fail(function() {
+					console.log("error");
+				});
+			}
 		})
 		.fail(function() {
 			console.warn("onestepCheckoutProcess Error");
