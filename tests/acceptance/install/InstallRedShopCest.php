@@ -18,20 +18,20 @@
 use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
 class InstallRedShopCest
 {
-//	/**
-//	 * Test to Install Joomla
-//	 *
-//	 * @param   AcceptanceTester  $I  Actor Class Object
-//	 *
-//	 * @return void
-//	 */
-//	public function testInstallJoomla(AcceptanceTester $I)
-//	{
-//		$I->wantTo('Execute Joomla Installation');
-//		$I->installJoomlaRemovingInstallationFolder();
-//		$I->doAdministratorLogin();
-//		$I->setErrorReportingtoDevelopment();
-//	}
+	/**
+	 * Test to Install Joomla
+	 *
+	 * @param   AcceptanceTester  $I  Actor Class Object
+	 *
+	 * @return void
+	 */
+	public function testInstallJoomla(AcceptanceTester $I)
+	{
+		$I->wantTo('Execute Joomla Installation');
+		$I->installJoomlaRemovingInstallationFolder();
+		$I->doAdministratorLogin();
+		$I->setErrorReportingtoDevelopment();
+	}
 
 	public function disableTemplateFloatingToolbars(AdminManagerJoomla3Steps $I)
 	{
