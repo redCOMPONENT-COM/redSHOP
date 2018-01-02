@@ -44,7 +44,7 @@ class InstallRedShopCest
 		$I->waitForText('Templates: Styles (Administrator)', 60, ['css' => 'h1']);
 		$I->click(['link' => 'isis - Default']);
 		$I->waitForText('Templates: Edit Style', 60, ['css' => 'h1']);
-		$I->click(['link' => '#attrib-advanced']);
+		$I->click('Advanced');
 		$I->waitForElement(['css' => "label[data-original-title='Status Module Position']"], 60);
 		$I->executeJS("window.scrollTo(0, document.body.scrollHeight);");
 		$I->selectOptionInChosen('Status Module Position', 'Top');
