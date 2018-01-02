@@ -89,7 +89,6 @@ class ManageStockImageAdministratorCest
 		$I->waitForText('Stock Image Management', 60, ['css' => 'h1']);
 		$I->click(['xpath' => "//a[contains(text(), '$this->newImageTooltip')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
 		$I->click('Delete');
-		$I->waitForText('Stock Image detail deleted successfully', 60, ['id' => 'system-message-container']);
 		$I->dontSeeElement(['link' => $this->newImageTooltip]);
 	}
 }
