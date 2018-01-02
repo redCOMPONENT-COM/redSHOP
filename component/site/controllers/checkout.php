@@ -824,11 +824,11 @@ class RedshopControllerCheckout extends RedshopController
 	}
 
 	/**
-	 * Replace payment method template
+	 * Display payment method
 	 *
 	 * @return string
 	 */
-	public function ajaxReplacePaymentTemplate($template_desc = "", $is_company = 0, $eanNumber = 0)
+	public function ajaxDisplayPaymentAnonymous()
 	{
 		$redTemplate  = Redtemplate::getInstance();
 		$redhelper    = redhelper::getInstance();

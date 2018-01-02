@@ -1001,7 +1001,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			if (objectname == "users_info_id" && users_info_id == 0 && jQuery('#divPaymentMethod')) {
 				jQuery.ajax({
-				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=ajaxReplacePaymentTemplate',
+				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=ajaxDisplayPaymentAnonymous',
 				type: 'POST',
 				dataType: 'html',
 				data:
