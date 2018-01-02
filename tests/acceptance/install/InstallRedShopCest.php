@@ -51,7 +51,6 @@ class InstallRedShopCest
 		$I->waitForElement(['css' => "label[data-original-title='Status Module Position']"], 60);
 		$I->executeJS("window.scrollTo(0, document.body.scrollHeight);");
 		$I->selectOptionInChosenjs('Status Module Position', 'Top');
-		$I->pauseExecution();
 		$I->click('.//*[@id=\'jform_params_stickyToolbar\']/label[2]');
 //		$I->selectOptionInRadioField('Pinned Toolbar', 'No');
 		$I->click('Save & Close');
