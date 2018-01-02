@@ -38,7 +38,7 @@ class InstallRedShopCest
 		$I->wantTo('disable the floating template toolbars');
 		$I->doAdministratorLogin();
 		$I->waitForText('Control Panel', 60, ['css' => 'h1']);
-		$I->click(['link' => 'Templates']);
+		$I->amOnPage('/administrator/index.php?option=com_templates&view=styles');
 		$I->waitForText('Templates: Styles', 60, ['css' => 'h1']);
 		$I->selectOptionInChosen('#client_id', 'Administrator');
 		$I->waitForText('Templates: Styles (Administrator)', 60, ['css' => 'h1']);
