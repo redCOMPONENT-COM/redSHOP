@@ -777,6 +777,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 				{
 					$filetype = strtolower(JFile::getExt($file[$i]['name']));
 
+					if (empty($filetype))
+					{
+						continue;
+					}
+
 					if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $filetype != 'zip'
 						&& $filetype != 'mpeg' && $filetype != 'mp4' && $filetype != 'avi' && $filetype != '3gp'
 						&& $filetype != 'swf' && $filetype != 'pdf' && $post['media_type'] != 'download'
