@@ -127,6 +127,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click(\MassDiscountManagerPage::$newButton);
         $I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+        $I->waitForElement(\MassDiscountManagerPage::$valueAmount, 30);
         $I->click(\MassDiscountManagerPage::$saveButton);
         $I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
     }
