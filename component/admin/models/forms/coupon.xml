@@ -23,7 +23,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_COUPON_TYPE"
                 description="COM_REDSHOP_COUPON_TYPE_DESC"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="0"
                 table-sortable="1"
                 table-width="5%">
@@ -69,7 +69,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_COUPON_EFFECT"
                 description="COM_REDSHOP_COUPON_EFFECT_DESC"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="0"
                 table-sortable="1"
                 table-width="5%">
@@ -102,7 +102,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_COUPON_FREE_SHIPPING"
                 description="COM_REDSHOP_COUPON_FREE_SHIPPING_DESC"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="0"
                 table-hide="1">
             <option value="1">JYES</option>
@@ -124,7 +124,7 @@
                 name="published"
                 type="redshop.radio"
                 default="1"
-                label-class="radio-button"
+                label-class="radio-inline"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED"
                 table-sortable="1"

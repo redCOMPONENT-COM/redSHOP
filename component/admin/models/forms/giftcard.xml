@@ -20,7 +20,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_CUSTOMER_AMOUNT"
                 description="COM_REDSHOP_CUSTOMER_AMOUNT_TOOLTIP"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="0"
                 required="true"
                 >
@@ -61,7 +61,7 @@
         <field
                 name="free_shipping"
                 type="redshop.radio"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="0"
                 label="COM_REDSHOP_GIFTCARD_FREE_SHIPPING"
                 description="COM_REDSHOP_GIFTCARD_FREE_SHIPPING_DESC"
@@ -98,7 +98,7 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED_DESC"

@@ -34,7 +34,7 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_ORDER_STATUS_PUBLISHED"
                 description="COM_REDSHOP_ORDER_STATUS_PUBLISHED_DESC"

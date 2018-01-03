@@ -63,7 +63,7 @@
                 type="redshop.radio"
                 label="COM_REDSHOP_STATE_DISPLAY_ABBERVIATION"
                 description="COM_REDSHOP_STATE_DISPLAY_ABBERVIATION_DESC"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="2"
                 required="true"
                 table-sortable="1"

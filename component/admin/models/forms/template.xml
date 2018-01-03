@@ -69,7 +69,7 @@
         <field
                 name="published"
                 type="redshop.radio"
-                label-class="radio-button"
+                label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
                 required="true"
