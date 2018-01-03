@@ -106,6 +106,7 @@ class RedshopModelFields extends RedshopModelList
 		$query = $db->getQuery(true);
 
 		$query->select('f.*')
+			->select($db->quoteName('fg.name', 'groupName'))
 			->from($db->qn('#__redshop_fields', 'f'));
 
 		// Filter by search in name.
@@ -138,6 +139,14 @@ class RedshopModelFields extends RedshopModelList
 		if ($filterFieldSection)
 		{
 			$query->where($db->qn('f.section') . ' = ' . $filterFieldSection);
+		}
+
+		// Filter: Field group
+		$filterFieldGroup = $this->getState('filter.field_group', false);
+
+		if (!empty($filterFieldGroup))
+		{
+			$query->where($db->qn('f.groupId') . ' = ' . (int) $filterFieldGroup);
 		}
 
 		// Add the list ordering clause.
