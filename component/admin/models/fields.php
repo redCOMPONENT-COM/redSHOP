@@ -225,7 +225,8 @@ class RedshopModelFields extends RedshopModelList
 			->select('*')
 			->select($db->quoteName('fg.name', 'groupName'))
 			->from($db->qn('#__redshop_fields', 'f'))
-			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg'))
+			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg')
+				. ' ON ' . $db->quoteName('f.groupId') .' = ' . $db->quoteName('fg.id'))
 			->where($db->qn('f.section') . ' = ' . (int) $section)
 			->where($db->qn('f.published') . '= 1 ');
 

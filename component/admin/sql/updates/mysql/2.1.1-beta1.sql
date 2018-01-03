@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE TABLE `#__redshop_fields_group` (
+CREATE TABLE IF NOT EXISTS `#__redshop_fields_group` (
   `id` int(11) NOT NULL,
   `name` varchar(125) NOT NULL,
   `description` mediumtext NOT NULL,
