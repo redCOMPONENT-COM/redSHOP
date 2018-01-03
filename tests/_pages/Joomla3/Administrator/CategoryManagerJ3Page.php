@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedShop
  * @subpackage  Page Class
@@ -15,7 +16,7 @@
  */
 class CategoryManagerJ3Page extends AdminJ3Page
 {
-    // Include url of current page
+// Include url of current page
     public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
 
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=category&layout=edit&id=';

@@ -117,8 +117,9 @@ class AbstractCest
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
 		$tester->wantTo('Administrator -> Create item.');
-		$stepClass = $this->stepClass;
+		echo $this->className;
 
+		$stepClass = $this->stepClass;
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->addNewItem($this->dataNew);
@@ -137,8 +138,9 @@ class AbstractCest
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
 		$tester->wantTo('Administrator -> Edit item.');
+		echo $this->stepClass;
 		$stepClass = $this->stepClass;
-
+		
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);

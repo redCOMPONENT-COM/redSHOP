@@ -8,6 +8,7 @@
 
 namespace Step;
 
+use AcceptanceTester\AdminManagerJoomla3Steps;
 use Codeception\Scenario;
 
 /**
@@ -17,7 +18,7 @@ use Codeception\Scenario;
  *
  * @since  2.1.0
  */
-class AbstractStep extends \AcceptanceTester
+class AbstractStep extends AdminManagerJoomla3Steps
 {
 	/**
 	 * @var \AdminJ3Page
@@ -71,6 +72,7 @@ class AbstractStep extends \AcceptanceTester
 		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
+
 	/**
 	 * Method for edit item.
 	 *
@@ -85,6 +87,7 @@ class AbstractStep extends \AcceptanceTester
 		$tester    = $this;
 
 		$tester->searchItem($searchName);
+		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
 		$tester->checkForPhpNoticesOrWarnings();
@@ -113,6 +116,8 @@ class AbstractStep extends \AcceptanceTester
 		$tester->executeJS('window.scrollTo(0,0)');
 		$tester->fillField($searchField, $item);
 		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		
+
 	}
 
 	/**
@@ -152,6 +157,9 @@ class AbstractStep extends \AcceptanceTester
 				case 'radio':
 				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
+					break;
+				case 'template':
+					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
 					break;
 
 				default:

@@ -73,7 +73,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+	public static $resultRow = ['xpath' => '//div[@class=\'label-edit-inline\']/a'];
 
 	/**
 	 * @var array
