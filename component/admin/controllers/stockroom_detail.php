@@ -129,13 +129,12 @@ class RedshopControllerStockroom_detail extends RedshopController
 		$totalprd     = 0;
 		$msg          = '';
 
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+		if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = RedshopEconomic::getInstance();
-			$db       = JFactory::getDbo();
-			$incNo    = $cnt;
-			$query    = 'SELECT p.* FROM #__redshop_product AS p '
-				. 'LIMIT ' . $cnt . ', 10 ';
+			$db    = JFactory::getDbo();
+			$incNo = $cnt;
+			$query = 'SELECT p.* FROM #__redshop_product AS p LIMIT ' . $cnt . ', 10 ';
+
 			$db->setQuery($query);
 			$prd         = $db->loadObjectlist();
 			$totalprd    = count($prd);

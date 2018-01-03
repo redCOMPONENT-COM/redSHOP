@@ -208,7 +208,6 @@ class RedshopControllerOrder extends RedshopController
 				$economicdata['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
-			$economic = RedshopEconomic::getInstance();
 			RedshopEconomic::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
