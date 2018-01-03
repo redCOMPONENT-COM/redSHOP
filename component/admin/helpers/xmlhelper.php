@@ -341,9 +341,9 @@ class xmlHelper
 	}
 
 	/**
-	 * @param  integer $xmlexportId
+	 * @param   integer  $xmlexportId
 	 *
-	 * @return string
+	 * @return  string|boolean
 	 */
 	public function writeXMLExportFile($xmlexportId = 0)
 	{
