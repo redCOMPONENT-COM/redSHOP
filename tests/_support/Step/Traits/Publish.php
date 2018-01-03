@@ -32,7 +32,7 @@ trait Publish
 
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
-		$tester->clickToolbarButton('publish');
+		$tester->click($pageClass::$buttonPublish);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
 	}
@@ -51,7 +51,7 @@ trait Publish
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
-		$tester->clickToolbarButton('publish');
+		$tester->click($pageClass::$buttonPublish);
 		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->assertSystemMessageContains($pageClass::$messagePublishSuccess);
 	}
@@ -69,7 +69,7 @@ trait Publish
 
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
-		$tester->clickToolbarButton('unpublish');
+		$tester->click($pageClass::$buttonUnpublish);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
 	}
@@ -88,7 +88,7 @@ trait Publish
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
-		$tester->clickToolbarButton('unpublish');
+		$tester->click($pageClass::$buttonUnpublish);
 		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->assertSystemMessageContains($pageClass::$messageUnpublishSuccess);
 	}

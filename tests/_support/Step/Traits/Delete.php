@@ -39,7 +39,7 @@ trait Delete
 		$tester->searchItem($item);
 		$tester->see($item, $pageClass::$resultRow);
 		$tester->checkAllResults();
-		$tester->clickToolbarButton('empty trash');
+		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->assertSystemMessageContains($pageClass::$messageDeleteSuccess);

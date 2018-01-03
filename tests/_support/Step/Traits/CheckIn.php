@@ -32,7 +32,7 @@ trait CheckIn
 
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
-		$tester->clickToolbarButton('check-in');
+		$tester->click($pageClass::$buttonCheckIn);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
 	}
@@ -51,7 +51,7 @@ trait CheckIn
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
-		$tester->clickToolbarButton('check-in');
+		$tester->click($pageClass::$buttonCheckIn);
 		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->assertSystemMessageContains($pageClass::$messageCheckInSuccess);
 	}
