@@ -2,6 +2,10 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
 -- Table `#__redshop_attribute_set`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_attribute_set` ;
@@ -514,6 +518,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `desc` LONGTEXT NOT NULL,
   `class` VARCHAR(20) NOT NULL,
   `section` VARCHAR(20) NOT NULL,
+  `groupId` INT NULL,
   `maxlength` INT(11) NOT NULL,
   `cols` INT(11) NOT NULL,
   `rows` INT(11) NOT NULL,
@@ -2579,6 +2584,31 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
 ENGINE = InnoDB
 COMMENT = 'redSHOP Product Individual payment reference.';
 
+
+-- -----------------------------------------------------
+-- Table `#__redshop_fields_group`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_fields_group` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_fields_group` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(125) NOT NULL,
+  `description` TEXT NULL,
+  `section` VARCHAR(125) NOT NULL,
+  `created` DATETIME NOT NULL,
+  `created_by` INT NOT NULL,
+  `created_by_alias` VARCHAR(125) NULL,
+  `checked_out` INT NULL,
+  `checked_out_time` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `modified_by` INT NULL,
+  `ordering` INT NULL,
+  `published` TINYINT(4) NOT NULL,
+  `params` TEXT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'Custom fields\'s groups';
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
