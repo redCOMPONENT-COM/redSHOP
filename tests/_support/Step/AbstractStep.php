@@ -47,11 +47,7 @@ class AbstractStep extends \AcceptanceTester
 	{
 		$tester = $this;
 		$tester->waitForElement(['id' => 'system-message-container'], 30);
-
-		// Re-wait this element for avoid fail when JS try to move message inside content body.
-		$tester->waitForElement(['id' => 'system-message-container'], 30);
-
-		$tester->waitForText($message, 30, ['id' => 'system-message-container']);
+		$tester->see($message, 30, ['id' => 'system-message-container']);
 	}
 
 	/**
