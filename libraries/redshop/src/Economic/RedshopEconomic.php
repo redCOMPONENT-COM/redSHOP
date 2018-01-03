@@ -13,6 +13,7 @@ namespace Redshop\Economic;
 
 use Joomla\Registry\Registry;
 use RedshopHelperUtility;
+use stdClass;
 
 defined('_JEXEC') or die;
 
@@ -642,22 +643,20 @@ class RedshopEconomic
 	/**
 	 * Create Product Group in E-conomic
 	 *
-	 * @param   array   $row        Data to create
-	 * @param   integer $isShipping Shipping flag
-	 * @param   integer $isDiscount Discount flag
-	 * @param   integer $isVat      VAT flag
+	 * @param   object   $row         Data to create
+	 * @param   integer  $isShipping  Shipping flag
+	 * @param   integer  $isDiscount  Discount flag
+	 * @param   integer  $isVat       VAT flag
 	 *
 	 * @return  null/array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isVat = 0)
+	public static function createProductGroupInEconomic($row = null, $isShipping = 0, $isDiscount = 0, $isVat = 0)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 		$row = (object) $row;
-
-		$redHelper = \redhelper::getInstance();
 
 		$ecoProductGroupNumber         = new \stdClass;
 		$ecoProductGroupNumber->Number = 1;
@@ -984,14 +983,14 @@ class RedshopEconomic
 	/**
 	 * Create property product in economic
 	 *
-	 * @param   array $productRow Product data
-	 * @param   array $row        Data property
+	 * @param   object  $productRow  Product data
+	 * @param   object  $row         Data property
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function createPropertyInEconomic($productRow = array(), $row = array())
+	public static function createPropertyInEconomic($productRow = null, $row = null)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
@@ -1072,14 +1071,14 @@ class RedshopEconomic
 	/**
 	 * Create Sub Property in Economic
 	 *
-	 * @param   array $productRow Product info
-	 * @param   array $row        Data of property
+	 * @param   object  $productRow  Product info
+	 * @param   object  $row         Data of property
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function createSubpropertyInEconomic($productRow = array(), $row = array())
+	public static function createSubpropertyInEconomic($productRow = null, $row = null)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();

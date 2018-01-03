@@ -465,7 +465,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (empty($property[$p]['property_id']))
 				{
-					$listImages = $model->GetimageInfo($property_id, 'property');
+					$listImages = $model->getImageInfor($property_id, 'property');
 
 					for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 					{
@@ -546,7 +546,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
-						$listsubpropImages     = $model->GetimageInfo($subproperty_id, 'subproperty');
+						$listsubpropImages     = $model->getImageInfor($subproperty_id, 'subproperty');
 						$countSubpropertyImage = count($listsubpropImages);
 
 						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
