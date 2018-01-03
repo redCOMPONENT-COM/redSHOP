@@ -36,9 +36,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
   DEFAULT CHARACTER SET = utf8
   COMMENT = 'Wishlist product item';
 
-CALL redSHOP_Column_Update('#__redshop_supplier', 'COLUMN_HERE', 'NEW_COLUMN_HERE', "COLUMN_DATA");
-CALL redSHOP_Index_Add('#__redshop_supplier', '#__COLUMNHERE', "(`COLUMNHERE` ASC)");
-
 CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_id', 'id', "INT(11) NOT NULL AUTO_INCREMENT");
 CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_name', 'name', "VARCHAR(255) NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_desc', 'description', "TEXT NOT NULL DEFAULT ''");

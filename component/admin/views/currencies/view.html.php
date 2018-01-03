@@ -10,23 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
- * Currency view
+ * Currencies view
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
  * @since       2.0.11
  */
-class RedshopViewCurrency extends RedshopViewForm
+class RedshopViewCurrencies extends RedshopViewList
 {
 	/**
-	 * Method for get page title.
+	 * Disable published feature
 	 *
-	 * @return  string
-	 *
-	 * @since   2.0.11
+	 * @var null
 	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT') . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
+	public $stateColumns = array();
 }
