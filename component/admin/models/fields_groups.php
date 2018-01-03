@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       2.0.3
+ * @since       __DEPLOY_VERSION__
  */
 
 class RedshopModelFields_groups extends RedshopModelList
@@ -90,10 +90,10 @@ class RedshopModelFields_groups extends RedshopModelList
 	protected function getListQuery()
 	{
 		// Initialize variables.
-		$db    = \Joomla\CMS\Factory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__redshop_fields_group'));
+			->from($db->quoteName('#__redshop_fields_group'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -102,7 +102,7 @@ class RedshopModelFields_groups extends RedshopModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('id = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{

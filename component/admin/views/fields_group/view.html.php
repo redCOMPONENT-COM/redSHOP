@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.1.0
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopViewFields_group extends RedshopViewForm
 {
