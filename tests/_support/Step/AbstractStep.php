@@ -131,6 +131,27 @@ class AbstractStep extends \AcceptanceTester
 	}
 
 	/**
+	 * Method for delete item
+	 *
+	 * @param   string  $item  Name of the item
+	 *
+	 * @return  void
+	 */
+	public function deleteItem($item = '')
+	{
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+		$tester->searchItem($item);
+		$tester->see($item, $pageClass::$resultRow);
+		$tester->checkAllResults();
+		$tester->click($pageClass::$buttonDelete);
+		$tester->acceptPopup();
+		$tester->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
+		$tester->searchItem($item);
+		$tester->dontSee($item, $pageClass::$resultRow);
+	}
+
+	/**
 	 * Method for fill data in form.
 	 *
 	 * @param   array  $formFields  Array of form fields
