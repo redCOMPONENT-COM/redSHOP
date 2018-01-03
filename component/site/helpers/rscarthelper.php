@@ -2133,7 +2133,7 @@ class rsCarthelper
 				$cart_data = str_replace("{order_shipping}", $this->_producthelper->getProductFormattedPrice($shipping, true), $cart_data);
 				$cart_data = str_replace("{shipping_excl_vat}", "<span id='spnShippingrate'>" . $this->_producthelper->getProductFormattedPrice($shipping - $cart['shipping_tax'], true) . "</span>", $cart_data);
 				$cart_data = str_replace("{shipping_lbl}", JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL'), $cart_data);
-				$cart_data = str_replace("{shipping}", $this->_producthelper->getProductFormattedPrice($shipping, true), $cart_data);
+				$cart_data = str_replace("{shipping}", "<span id='spnShippingrate'>" . $this->_producthelper->getProductFormattedPrice($shipping, true) . "</span>", $cart_data);
 				$cart_data = str_replace("{tax_with_shipping_lbl}", JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL'), $cart_data);
 				$cart_data = str_replace("{vat_shipping}", $this->_producthelper->getProductFormattedPrice($shippingVat), $cart_data);
 			}
@@ -2154,7 +2154,7 @@ class rsCarthelper
 			$cart_data = str_replace("{shipping_excl_vat}", "<span id='spnShippingrate'></span>", $cart_data);
 			$cart_data = str_replace("{order_shipping}", "", $cart_data);
 			$cart_data = str_replace("{shipping_lbl}", '', $cart_data);
-			$cart_data = str_replace("{shipping}", '', $cart_data);
+			$cart_data = str_replace("{shipping}", "<span id='spnShippingrate'></span>", $cart_data);
 			$cart_data = str_replace("{subtotal}", "", $cart_data);
 			$cart_data = str_replace("{tax_with_shipping_lbl}", '', $cart_data);
 			$cart_data = str_replace("{vat_shipping}", '', $cart_data);
@@ -3102,7 +3102,7 @@ class rsCarthelper
 								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
 							}
 
-							$rate_data = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $rate_data);
+							$rate_data = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'>" . $extrafield_total . "</div>", $rate_data);
 						}
 						else
 						{
@@ -3128,7 +3128,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_gls")
+		elseif ($rateExist == 1 && empty($extrafield_total) && $classname != "default_shipping_gls")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}

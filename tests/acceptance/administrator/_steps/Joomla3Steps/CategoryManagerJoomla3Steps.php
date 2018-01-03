@@ -373,7 +373,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 	}
 
-
+	/**
+	 * Method for test check-in all categories
+	 */
 	public function checkinAllCategories()
 	{
 		$I = $this;
