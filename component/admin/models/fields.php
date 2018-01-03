@@ -107,7 +107,7 @@ class RedshopModelFields extends RedshopModelList
 
 		$query->select('f.*')
 			->select($db->quoteName('fg.name', 'groupName'))
-			->from($db->qn('#__redshop_fields', 'f'))
+			->from($db->quoteName('#__redshop_fields', 'f'))
 			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg')
 			. ' ON ' . $db->quoteName('f.groupId') .' = ' . $db->quoteName('fg.id'));
 		// Filter by search in name.
@@ -222,7 +222,7 @@ class RedshopModelFields extends RedshopModelList
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select('f.*')
 			->select($db->quoteName('fg.name', 'groupName'))
 			->from($db->qn('#__redshop_fields', 'f'))
 			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg')

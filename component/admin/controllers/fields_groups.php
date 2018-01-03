@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       2.1
+ * @since       __DEPLOY_VERSION__
  */
 
 class RedshopControllerFields_groups extends RedshopControllerAdmin

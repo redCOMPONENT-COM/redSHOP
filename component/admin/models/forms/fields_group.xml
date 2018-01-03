@@ -28,7 +28,14 @@
                 onchange="sectionValidation()"
                 table-width="17%"
         />
-        <field name="description" type="editor" label="COM_REDSHOP_FIELDS_GROUP_DESCRIPTION" description="" width="300" filter="safehtml" />
+        <field
+                name="description"
+                type="editor"
+                label="COM_REDSHOP_FIELDS_GROUP_DESCRIPTION"
+                description=""
+                width="300"
+                filter="safehtml"
+        />
         <field
                 name="published"
                 type="redshop.radio"
