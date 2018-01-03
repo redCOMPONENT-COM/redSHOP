@@ -93,7 +93,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm  hasPopover\')]'];
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm  hasPopover\')]'];
 
 	/**
 	 * @var array

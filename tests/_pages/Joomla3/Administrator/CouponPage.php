@@ -29,5 +29,4 @@ class CouponPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $selectFirst = "//input[@id='cb0']";
-	
 }

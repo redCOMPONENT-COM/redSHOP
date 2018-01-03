@@ -24,6 +24,8 @@ trait Publish
 {
 	/**
 	 * Method for test button Unpublish without choice
+	 * 
+	 * Method for test button Unpublish all results and check specific 1 item value
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
@@ -44,6 +46,11 @@ trait Publish
 
 		$step->unpublishWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+
+		$tester->wantTo('Administrator > Test Unpublish all results > check value of one item.');
+		$step->unpublishAllResults($this->dataNew[$this->nameField]);
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+		
 	}
 
 	/**
@@ -58,7 +65,7 @@ trait Publish
 	 */
 	public function testUnpublishAll(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test Unpublish all results.');
+		$tester->wantTo('Administrator > Test Unpublish all results > check value of one item.');
 
 		$stepClass = $this->stepClass;
 
@@ -74,6 +81,8 @@ trait Publish
 
 	/**
 	 *Method for test publish 1 item
+	 * 
+	 * Method for test unpublish 1 item after publish success
 	 *
 	 * @param \AcceptanceTester $tester
 	 * @param Scenario $scenario
@@ -101,6 +110,8 @@ trait Publish
 	}
 	/**
 	 * Method for test button publish without choice
+	 * 
+	 * Method for test button publish all results and check specific 1 item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
@@ -123,33 +134,9 @@ trait Publish
 
 		$step->publishWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
-	}
 
-	/**
-	 * Method for test publish all results
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 *
-	 * @depends testButtonPublish
-	 */
-	public function testPublishAll(\AcceptanceTester $tester, Scenario $scenario)
-	{
 		$tester->wantTo('Administrator > Test publish all results.');
-
-		$stepClass = $this->stepClass;
-
-		/** @var \AdminJ3Page $pageClass */
-		$pageClass = $this->pageClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
-
 		$step->publishAllResults($this->dataNew[$this->nameField]);
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
-
-
 }
