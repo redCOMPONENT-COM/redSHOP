@@ -24,7 +24,7 @@ class RedshopViewFields_group extends RedshopViewForm
 	 *
 	 * @return  string
 	 *
-	 * @since   2.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTitle()
 	{

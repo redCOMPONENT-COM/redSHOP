@@ -25,7 +25,7 @@ class RedshopModelFields_groups extends RedshopModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   2.0.0.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{

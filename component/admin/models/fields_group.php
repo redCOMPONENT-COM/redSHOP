@@ -24,7 +24,7 @@ class RedshopModelFields_group extends RedshopModelForm
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
