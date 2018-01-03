@@ -106,8 +106,10 @@ class RedshopModelFields extends RedshopModelList
 		$query = $db->getQuery(true);
 
 		$query->select('f.*')
-			->from($db->qn('#__redshop_fields', 'f'));
-
+			->select($db->quoteName('fg.name', 'groupName'))
+			->from($db->qn('#__redshop_fields', 'f'))
+			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg')
+			. ' ON ' . $db->quoteName('f.groupId') .' = ' . $db->quoteName('fg.id'));
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
 
@@ -138,6 +140,14 @@ class RedshopModelFields extends RedshopModelList
 		if ($filterFieldSection)
 		{
 			$query->where($db->qn('f.section') . ' = ' . $filterFieldSection);
+		}
+
+		// Filter: Field group
+		$filterFieldGroup = $this->getState('filter.field_group', false);
+
+		if (!empty($filterFieldGroup))
+		{
+			$query->where($db->qn('f.groupId') . ' = ' . (int) $filterFieldGroup);
 		}
 
 		// Add the list ordering clause.
@@ -213,7 +223,9 @@ class RedshopModelFields extends RedshopModelList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
+			->select($db->quoteName('fg.name', 'groupName'))
 			->from($db->qn('#__redshop_fields', 'f'))
+			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg'))
 			->where($db->qn('f.section') . ' = ' . (int) $section)
 			->where($db->qn('f.published') . '= 1 ');
 
