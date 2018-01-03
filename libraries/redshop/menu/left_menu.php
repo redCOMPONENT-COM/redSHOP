@@ -626,6 +626,11 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('custom')
 			->title('COM_REDSHOP_CUSTOMIZATION')
 			->addItem(
+				'index.php?option=com_redshop&view=fields_groups',
+				'COM_REDSHOP_FIELDS_GROUP_MANAGEMENT',
+				(self::$view == 'fields_groups') ? true : false
+			)
+			->addItem(
 				'index.php?option=com_redshop&view=fields',
 				'COM_REDSHOP_FIELDS_LISTING',
 				(self::$view == 'fields') ? true : false
