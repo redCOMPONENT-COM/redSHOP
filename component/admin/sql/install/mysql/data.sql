@@ -249,7 +249,7 @@ INSERT IGNORE INTO `#__redshop_country` (`id`, `country_name`, `country_3_code`,
 INSERT IGNORE INTO `#__redshop_cron` (`id`, `date`, `published`) VALUES
 	(1, '2009-08-12', 1);
 
-INSERT IGNORE INTO `#__redshop_currency` (`currency_id`, `currency_name`, `currency_code`) VALUES
+INSERT IGNORE INTO `#__redshop_currency` (`id`, `name`, `code`) VALUES
 	(1, 'Andorran Peseta', 'ADP'),
 	(2, 'United Arab Emirates Dirham', 'AED'),
 	(3, 'Afghanistan Afghani', 'AFA'),

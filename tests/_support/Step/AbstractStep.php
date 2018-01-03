@@ -46,7 +46,7 @@ class AbstractStep extends \AcceptanceTester
 	public function assertSystemMessageContains($message)
 	{
 		$tester = $this;
-		$tester->waitForElement(['id' => 'system-message-container'], 60);
+		$tester->waitForElement(['id' => 'system-message-container'], 30);
 		$tester->waitForText($message, 30, ['id' => 'system-message-container']);
 	}
 

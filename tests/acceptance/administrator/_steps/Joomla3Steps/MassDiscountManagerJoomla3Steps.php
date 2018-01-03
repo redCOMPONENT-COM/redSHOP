@@ -121,48 +121,40 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //        $I->waitForText(\MassDiscountManagerPage::$messageError, 30, \MassDiscountManagerPage::$selectorError);
 //    }
 
-	public function addMassDiscountMissingAllFields()
-	{
-		$I = $this;
-		$I->amOnPage(\MassDiscountManagerPage::$URL);
-		$I->click(\MassDiscountManagerPage::$newButton);
-		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
-	}
+    public function addMassDiscountMissingAllFields()
+    {
+        $I = $this;
+        $I->amOnPage(\MassDiscountManagerPage::$URL);
+        $I->click(\MassDiscountManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+        $I->click(\MassDiscountManagerPage::$saveButton);
+        $I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
+    }
 
-	public function addMassDiscountMissingName($amountValue, $discountStart, $discountEnd, $nameCategory, $nameProduct)
-	{
-		$I = $this;
-		$I->amOnPage(\MassDiscountManagerPage::$URL);
-		$I->click(\MassDiscountManagerPage::$newButton);
-		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
-		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
+    public function addMassDiscountMissingName($amountValue, $discountStart, $discountEnd, $nameCategory, $nameProduct)
+    {
+        $I = $this;
+        $I->amOnPage(\MassDiscountManagerPage::$URL);
+        $I->click(\MassDiscountManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+        $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 
-		$I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
-		$I->click(\MassDiscountManagerPage::$startDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->click(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
+        $I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
+        $I->click(\MassDiscountManagerPage::$startDateIcon);
+        $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
+        $I->click(\MassDiscountManagerPage::$getToday);
+        $I->click(\MassDiscountManagerPage::$saveButton);
+        $I->click(\MassDiscountManagerPage::$endDateIcon);
+        $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
+        $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
+        $I->click(\MassDiscountManagerPage::$getToday);
 
-		$I->click(\MassDiscountManagerPage::$categoryForm);
-		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
-		$useMassDiscountPage = new \MassDiscountManagerPage();
-		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
-		$I->click($useMassDiscountPage->returnXpath($nameCategory));
-
-
-//        $I->click(\MassDiscountManagerPage::$discountForm);
-//        $I->fillField(\MassDiscountManagerPage::$discountForm, $nameProduct);
-//        $I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
-//        $I->click($useMassDiscountPage->returnXpath($nameProduct));
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
-	}
+        $I->click(\MassDiscountManagerPage::$categoryForm);
+        $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
+        $useMassDiscountPage = new \MassDiscountManagerPage();
+        $I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
+        $I->click($useMassDiscountPage->returnXpath($nameCategory));
+    }
 
 	public function addMassDiscountMissingAmount($massDiscountName, $discountStart, $discountEnd, $nameCategory, $nameProduct)
 	{
