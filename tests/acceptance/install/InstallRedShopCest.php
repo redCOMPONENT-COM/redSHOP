@@ -33,7 +33,7 @@ class InstallRedShopCest
 		$I->setErrorReportingtoDevelopment();
 	}
 
-	public function disableTemplateFloatingToolbars(AdminManagerJoomla3Steps $I)
+	/*public function disableTemplateFloatingToolbars(AdminManagerJoomla3Steps $I)
 	{
 		$I->am('administrator');
 		$I->wantTo('disable the floating template toolbars');
@@ -55,7 +55,7 @@ class InstallRedShopCest
 		$I->click(\AdminJ3Page::$buttonSaveClose);
 		$I->waitForText('Style saved.', 60, ['id' => 'system-message-container']);
 		$I->see('Style saved.', ['id' => 'system-message-container']);
-	}
+	}*/
 
 
 	/**

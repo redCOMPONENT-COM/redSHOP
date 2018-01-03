@@ -7,10 +7,8 @@ sudo:
 dist:
   trusty
 
-install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install 8
-  - nvm use 8
+node_js:
+  - 8
 
 php:
   - 5.6
