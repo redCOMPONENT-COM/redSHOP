@@ -603,14 +603,14 @@ class RedshopHelperMedia
 				imagepng($imageResized, $output, $pngQuality);
 				break;
 			default:
-				@imagedestroy($imageResized);
-				@imagedestroy($image);
+				imagedestroy($imageResized);
+				imagedestroy($image);
 
 				return false;
 		}
 
-		@imagedestroy($imageResized);
-		@imagedestroy($image);
+		imagedestroy($imageResized);
+		imagedestroy($image);
 
 		return true;
 	}
