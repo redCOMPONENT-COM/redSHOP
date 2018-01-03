@@ -68,7 +68,8 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
-		$tester->click($pageClass::$buttonUnpublish);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
+		$tester->clickToolbarButton('unpublish');
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
 	}
@@ -85,8 +86,10 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
-		$tester->click($pageClass::$buttonUnpublish);
+		$tester->clickToolbarButton('unpublish');
+		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->assertSystemMessageContains($pageClass::$messageUnpublishSuccess);
 	}
 

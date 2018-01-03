@@ -32,7 +32,7 @@ trait CheckIn
 	 */
 	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Button > Check-in without choice.');
+		$tester->wantTo('Check button check-in without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -58,7 +58,7 @@ trait CheckIn
 	 */
 	public function testCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test checkin all results.');
+		$tester->wantTo('Test check-in all results.');
 
 		$stepClass = $this->stepClass;
 
