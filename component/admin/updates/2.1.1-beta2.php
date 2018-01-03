@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       __DEPLOY_VERSION__
  */
-class RedshopUpdate208Alpha extends RedshopInstallUpdate
+class RedshopUpdate211Beta2 extends RedshopInstallUpdate
 {
 	/**
 	 * Method for migrate voucher data to new table
