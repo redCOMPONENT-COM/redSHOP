@@ -2597,7 +2597,7 @@ COMMENT = 'redSHOP Product Individual payment reference.';
 DROP TABLE IF EXISTS `#__redshop_fields_group` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_fields_group` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(125) NOT NULL,
   `description` TEXT NULL,
   `section` VARCHAR(125) NOT NULL,
