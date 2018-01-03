@@ -44,4 +44,9 @@ class SupplierPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $fieldEmailInvalid = 'Invalid field:  Supplier Email';
+
+	/**
+	 * @var string
+	 */
+	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
 }

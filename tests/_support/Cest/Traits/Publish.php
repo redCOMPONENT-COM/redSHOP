@@ -68,10 +68,37 @@ trait Publish
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->unpublishAllResults();
+		$step->unpublishAllResults($this->dataNew[$this->nameField]);
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 
+	/**
+	 *Method for test publish 1 item
+	 *
+	 * @param \AcceptanceTester $tester
+	 * @param Scenario $scenario
+	 *
+	 * @depends testUnpublishAll
+	 */
+	public function changeItemStateByStatusButton(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Administrator > Test publish 1 item');
+
+		$stepClass = $this->stepClass;
+
+		/** @var \AdminJ3Page $pageClass */
+		$pageClass = $this->pageClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+
+		$step->changeItemStateByStatusButton($this->dataNew[$this->nameField], 'publish');
+
+		$tester->wantTo('Administrator > Test unpublish 1 item');
+		$step->changeItemStateByStatusButton($this->dataNew[$this->nameField], 'unpublish');
+
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+	}
 	/**
 	 * Method for test button publish without choice
 	 *
@@ -80,7 +107,7 @@ trait Publish
 	 *
 	 * @return  void
 	 *
-	 * @depends testUnpublishAll
+	 * @depends changeItemStateByStatusButton
 	 */
 	public function testButtonPublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -120,7 +147,9 @@ trait Publish
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->publishAllResults();
+		$step->publishAllResults($this->dataNew[$this->nameField]);
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
+
+
 }
