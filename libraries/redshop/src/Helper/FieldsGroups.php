@@ -15,7 +15,7 @@ class FieldsGroups
 {
 	public static function getGroups()
 	{
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('*')
