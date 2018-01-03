@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopControllerOrder extends RedshopController
@@ -170,7 +170,7 @@ class RedshopControllerOrder extends RedshopController
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
+			$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
 			if (JFile::exists($bookinvoicepdf))
 			{
@@ -208,12 +208,12 @@ class RedshopControllerOrder extends RedshopController
 				$economicdata['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
-			$economic = economic::getInstance();
-			Economic::createInvoiceInEconomic($order_id, $economicdata);
+			$economic = RedshopEconomic::getInstance();
+			RedshopEconomic::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 1);
 
 				if (JFile::exists($bookinvoicepdf))
 				{

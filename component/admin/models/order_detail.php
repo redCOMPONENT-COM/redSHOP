@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopModelOrder_detail extends RedshopModel
@@ -134,7 +134,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				{
 					$orderdata = $this->getTable('order_detail');
 					$orderdata->load($cid[$i]);
-					Economic::deleteInvoiceInEconomic($orderdata);
+					RedshopEconomic::deleteInvoiceInEconomic($orderdata);
 				}
 			}
 
@@ -658,7 +658,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::renewInvoiceInEconomic($orderdata);
+				RedshopEconomic::renewInvoiceInEconomic($orderdata);
 			}
 
 			// Send mail from template
@@ -737,7 +737,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($order->getItem());
+			RedshopEconomic::renewInvoiceInEconomic($order->getItem());
 		}
 
 		// Send mail from template ********************/
@@ -970,7 +970,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -1048,7 +1048,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -1088,7 +1088,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					// Economic Integration start for invoice generate
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 					{
-						Economic::renewInvoiceInEconomic($orderdata);
+						RedshopEconomic::renewInvoiceInEconomic($orderdata);
 					}
 				}
 			}
