@@ -988,7 +988,7 @@ class RedshopHelperShipping
 			$country   = $userInfo->country_code;
 			$state     = $userInfo->state_code;
 			$zip       = $userInfo->zipcode;
-			$isCompany = $userInfo->is_company;
+			$isCompany = (bool) $userInfo->is_company;
 
 			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
@@ -1004,8 +1004,7 @@ class RedshopHelperShipping
 			if (!empty($data['post']['anonymous']))
 			{
 				$anonymousUser = $data['post']['anonymous'];
-
-				$isCompany = ($anonymousUser['billing_type'] == 'company') ? 1 : 0;
+				$isCompany = ($anonymousUser['billing_type'] == 'company');
 
 				$country   = $anonymousUser['BT']['country_code'];
 				$state     = $anonymousUser['BT']['state_code'];
@@ -1244,7 +1243,7 @@ class RedshopHelperShipping
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
+		if (!empty($data) && ((!empty($data['user_id']) && $data['user_id'] > 0) || $data['users_info_id'] > 0))
 		{
 			if ('BT' == Redshop::getConfig()->get('CALCULATE_VAT_ON'))
 			{
