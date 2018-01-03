@@ -213,7 +213,10 @@ class RedshopModelFields extends RedshopModelList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
+			->select($db->quoteName('fg.name', 'groupName'))
 			->from($db->qn('#__redshop_fields', 'f'))
+			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg')
+				. ' ON ' . $db->quoteName('f.groupId') .' = ' . $db->quoteName('fg.id'))
 			->where($db->qn('f.section') . ' = ' . (int) $section)
 			->where($db->qn('f.published') . '= 1 ');
 
@@ -234,6 +237,7 @@ class RedshopModelFields extends RedshopModelList
 		}
 
 		$query->order($db->qn('f.ordering'));
+
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
