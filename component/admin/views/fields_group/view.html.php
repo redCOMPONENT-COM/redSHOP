@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 /**
- * View Country
+ * View Field group
  *
  * @package     RedSHOP.Backend
  * @subpackage  View

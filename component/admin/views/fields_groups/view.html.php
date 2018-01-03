@@ -23,7 +23,7 @@ class RedshopViewFields_groups extends RedshopViewList
 	 * Column for render published state.
 	 *
 	 * @var    array
-	 * @since  2.0.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $stateColumns = array();
 
@@ -31,7 +31,7 @@ class RedshopViewFields_groups extends RedshopViewList
 	 * Display check-in button or not.
 	 *
 	 * @var   boolean
-	 * @since  2.0.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $checkIn = false;
 
