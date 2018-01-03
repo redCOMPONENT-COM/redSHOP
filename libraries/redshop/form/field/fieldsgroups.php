@@ -33,7 +33,11 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$groups = \Redshop\Helper\FieldsGroups::getGroups();
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
+
+		/** @var RedshopModelFields_groups $model */
+		$model = JModelLegacy::getInstance('Fields_groups', 'RedshopModel');
+		$groups = $model->getGroups();
 
 		$options[] = JHtml::_('select.option', 0, 'COM_REDSHOP_FIELDS_GROUP_NOGROUP');
 
