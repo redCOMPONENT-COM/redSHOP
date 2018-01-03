@@ -27,8 +27,9 @@ cache:
 
 env:
   matrix:
-      - ACCEPTANCE=false
-      - ACCEPTANCE=true
+      #- ACCEPTANCE=false
+      #- ACCEPTANCE=true
+      - ACCEPTANCE=acceptance/administrator/Coupon/Coupon
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436

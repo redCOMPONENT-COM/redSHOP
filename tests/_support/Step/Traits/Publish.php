@@ -31,7 +31,8 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
-		$tester->click($pageClass::$buttonPublish);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
+		$tester->clickToolbarButton('publish');
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
 	}
@@ -48,8 +49,10 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
-		$tester->click($pageClass::$buttonPublish);
+		$tester->clickToolbarButton('publish');
+		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->assertSystemMessageContains($pageClass::$messagePublishSuccess);
 	}
 
