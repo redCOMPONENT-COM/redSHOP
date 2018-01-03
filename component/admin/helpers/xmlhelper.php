@@ -340,12 +340,15 @@ class xmlHelper
 		$this->_db->execute();
 	}
 
-	public function writeXMLExportFile($xmlexport_id = 0)
+	/**
+	 * @param  integer $xmlexportId
+	 *
+	 * @return string
+	 */
+	public function writeXMLExportFile($xmlexportId = 0)
 	{
-		$config        = Redconfiguration::getInstance();
-		$shipping      = shipping::getInstance();
 		$xmlarray      = array();
-		$xmlexportdata = $this->getXMLExportInfo($xmlexport_id);
+		$xmlexportdata = $this->getXMLExportInfo($xmlexportId);
 
 		if (count($xmlexportdata) <= 0)
 		{
@@ -463,7 +466,7 @@ class xmlHelper
 		}
 
 		// Make the filename unique
-		$filename = RedShopHelperImages::cleanFileName($xmlexportdata->display_filename . '.xml');
+		$filename = RedshopHelperMedia::cleanFileName($xmlexportdata->display_filename . '.xml');
 
 		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
 
@@ -605,10 +608,7 @@ class xmlHelper
 				}
 			}
 
-			if ($section == "order" && $xml_itemdocument == "")
-			{
-			}
-			else
+			if ($section != "order" && !empty($xml_itemdocument))
 			{
 				$xml_document .= "<$xmlexportdata->element_name>";
 
@@ -628,7 +628,7 @@ class xmlHelper
 
 					if ((isset($xmlarray['cdate']) && $prop == $xmlarray['cdate']) || (isset($xmlarray['mdate']) && $prop == $xmlarray['mdate']))
 					{
-						$val = $config->convertDateFormat($val);
+						$val = RedshopHelperDatetime::convertDateFormat((int) $val);
 					}
 
 					if ($prop != "order_id" && $prop != "product_id")
@@ -652,7 +652,7 @@ class xmlHelper
 						elseif ($prop == "charge")
 						{
 							$d['product_id'] = $product_id;
-							$srate           = $shipping->getDefaultShipping_xmlexport($d);
+							$srate           = RedshopHelperShipping::getDefaultShippingXmlExport($d);
 							$val1            = $srate['shipping_rate'];
 							$val             = round($val1);
 						}
@@ -660,7 +660,7 @@ class xmlHelper
 						elseif ($prop == "freight")
 						{
 							$d['product_id'] = $product_id;
-							$srate           = $shipping->getDefaultShipping_xmlexport($d);
+							$srate           = RedshopHelperShipping::getDefaultShippingXmlExport($d);
 							$val1            = $srate['shipping_rate'];
 							$val             = round($val1);
 						}
@@ -721,12 +721,16 @@ class xmlHelper
 		// Data in Variables ready to be written to an XML file
 
 		$fp = fopen($destpath . $filename, 'w');
-		fwrite($fp, $xml_document);
 
-		$this->insertXMLExportlog($xmlexport_id, $filename);
+		if (is_resource($fp))
+		{
+			fwrite($fp, $xml_document);
+		}
+
+		$this->insertXMLExportlog($xmlexportId, $filename);
 
 		// Update new generated exported file in database record
-		$this->updateXMLExportFilename($xmlexport_id, $filename);
+		$this->updateXMLExportFilename($xmlexportId, $filename);
 
 		return $filename;
 	}
@@ -764,7 +768,7 @@ class xmlHelper
 		}
 
 		// Make the filename unique
-		$filename = RedShopHelperImages::cleanFileName($xmlimportdata->display_filename . ".xml");
+		$filename = RedshopHelperMedia::cleanFileName($xmlimportdata->display_filename . ".xml");
 
 		$xml_document  = "<?xml version='1.0' encoding='utf-8'?>";
 		$xml_document .= "<" . $xmlimportdata->element_name . "s>";
@@ -1057,7 +1061,7 @@ class xmlHelper
 		return $result;
 	}
 
-	function importXMLFile($xmlimport_id = 0)
+	public function importXMLFile($xmlimport_id = 0)
 	{
 		$xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
 
@@ -1966,9 +1970,7 @@ class xmlHelper
 			return array();
 		}
 
-		$list     = array();
 		$field    = array();
-		$strfield = "";
 
 		foreach ($xmls AS $key => $value)
 		{
@@ -1997,7 +1999,6 @@ class xmlHelper
 		}
 
 		$db    = JFactory::getDbo();
-		$list  = array();
 		$field = array();
 
 		foreach ($xmls AS $key => $value)
