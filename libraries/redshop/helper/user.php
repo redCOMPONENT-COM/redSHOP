@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Class Redshop Helper Stock Room

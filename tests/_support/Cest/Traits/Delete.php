@@ -32,7 +32,7 @@ trait Delete
 	 */
 	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Button -> Delete without choice.');
+		$tester->wantTo('Check button Delete without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -58,7 +58,7 @@ trait Delete
 	 */
 	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Delete item.');
+		$tester->wantTo('Test delete item.');
 
 		$stepClass = $this->stepClass;
 
