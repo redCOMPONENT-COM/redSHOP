@@ -811,7 +811,7 @@ class RedshopHelperOrder
 
 		if (Redshop::getConfig()->get('SHOW_PRODUCT_DETAIL'))
 		{
-			$contentProducts       = array_unique($contentProducts);
+			$contentProducts       = array_unique(is_array($contentProducts) ? $contentProducts : array());
 			$contentProducts       = implode(",", $contentProducts);
 			$contentProducts       = mb_convert_encoding($contentProducts, "ISO-8859-1", "UTF-8");
 			$contentProductsRemark = substr(mb_convert_encoding($contentProducts, "ISO-8859-1", "UTF-8"), 0, 29);
