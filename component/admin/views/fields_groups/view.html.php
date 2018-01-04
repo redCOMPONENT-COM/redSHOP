@@ -43,7 +43,7 @@ class RedshopViewFields_groups extends RedshopViewList
 		switch ($config['dataCol'])
 		{
 			case 'section':
-				return RedshopHelperTemplate::getFieldSections($row->section);
+				return (string) RedshopHelperTemplate::getFieldSections($row->section);
 		}
 
 		return parent::onRenderColumn($config, $index, $row);
