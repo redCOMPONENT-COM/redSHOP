@@ -2208,6 +2208,8 @@ class rsCarthelper
 	 *
 	 * @return  string
 	 *
+	 * @throws  Exception
+	 *
 	 * @deprecated  __DEPLOY_VERSION__
 	 * @see  Redshop\Order\Template::replaceTemplate
 	 */
