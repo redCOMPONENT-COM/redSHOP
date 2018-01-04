@@ -41,23 +41,6 @@ class RedshopModelFields_groups extends RedshopModelList
 	}
 
 	/**
-	 *
-	 * @return  mixed
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public static function getGroups()
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('*')
-			->from($db->quoteName('#__redshop_fields_group'));
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -67,7 +50,7 @@ class RedshopModelFields_groups extends RedshopModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -89,7 +72,7 @@ class RedshopModelFields_groups extends RedshopModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
