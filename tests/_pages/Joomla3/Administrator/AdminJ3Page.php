@@ -123,6 +123,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorToolBar = '.btn-toolbar';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonSaveClose = "Save & Close";
 
 	/**

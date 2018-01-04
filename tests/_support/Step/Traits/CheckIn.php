@@ -31,6 +31,7 @@ trait CheckIn
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->click($pageClass::$buttonCheckIn);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
@@ -48,6 +49,7 @@ trait CheckIn
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonCheckIn);
 		$tester->dontSeeElement($pageClass::$stateCheckInPathBlock);

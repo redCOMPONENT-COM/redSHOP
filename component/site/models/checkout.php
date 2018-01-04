@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 use Joomla\Registry\Registry;
 
 /**
@@ -1186,13 +1186,13 @@ class RedshopModelCheckout extends RedshopModel
 			}
 
 			$economicdata['economic_payment_method'] = $payment_name;
-			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
 				{

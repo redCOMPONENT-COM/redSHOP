@@ -34,7 +34,7 @@ trait Publish
 	 */
 	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Button > Unpublish without choice.');
+		$tester->wantTo('Check button unpublish without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -65,7 +65,7 @@ trait Publish
 	 */
 	public function testUnpublishAll(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator > Test Unpublish all results > check value of one item.');
+		$tester->wantTo('Test Unpublish all results.');
 
 		$stepClass = $this->stepClass;
 

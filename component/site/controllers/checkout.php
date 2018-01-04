@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Checkout Controller.
@@ -278,7 +278,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				Economic::createUserInEconomic($billingaddresses);
+				RedshopEconomic::createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
 				{

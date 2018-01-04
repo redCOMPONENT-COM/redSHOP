@@ -33,7 +33,8 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/component/com_redshop/models/coupon_detail.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/coupon_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/addressfields_listing.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php',
+			JPATH_LIBRARIES . '/redshop/src/Economic/Economic.php'
 		);
 	}
 

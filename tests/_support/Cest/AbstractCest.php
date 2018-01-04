@@ -116,7 +116,7 @@ class AbstractCest
 	 */
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Create item.');
+		$tester->wantTo('Test create item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -136,7 +136,7 @@ class AbstractCest
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Edit item.');
+		$tester->wantTo('Test Edit item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */

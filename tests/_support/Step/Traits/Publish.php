@@ -31,6 +31,7 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->click($pageClass::$buttonPublish);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
@@ -48,10 +49,10 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonPublish);
 		$tester->assertEquals('published', $tester->getItemState($item));
-//		$tester->assertSystemMessageContains($pageClass::$messagePublishSuccess);
 	}
 
 	/**
@@ -66,6 +67,7 @@ trait Publish
 		$tester    = $this;
 
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->click($pageClass::$buttonUnpublish);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
@@ -81,9 +83,8 @@ trait Publish
 		/** @var \AdminJ3Page $pageClass */
 		$pageClass = $this->pageClass;
 		$tester    = $this;
-		echo $item;
-
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonUnpublish);
 		$tester->assertEquals('unpublished', $tester->getItemState($item));
