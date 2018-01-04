@@ -608,7 +608,7 @@ class xmlHelper
 				}
 			}
 
-			if ($section != "order" && !empty($xml_itemdocument))
+			if ($section != "order" || !empty($xml_itemdocument))
 			{
 				$xml_document .= "<$xmlexportdata->element_name>";
 
