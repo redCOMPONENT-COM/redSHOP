@@ -85,6 +85,7 @@ class AbstractStep extends \AcceptanceTester
 		$tester    = $this;
 
 		$tester->searchItem($searchName);
+		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
 		$tester->checkForPhpNoticesOrWarnings();
