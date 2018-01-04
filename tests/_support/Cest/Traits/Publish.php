@@ -29,7 +29,7 @@ trait Publish
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
-	 */6
+	 */
 	public function testButtonUnpublish(\AcceptanceTester $tester, Scenario $scenario)
 	{
 		$tester->wantTo('Check button unpublish without choice.');
