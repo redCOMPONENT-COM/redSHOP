@@ -52,7 +52,6 @@ trait CheckIn
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonCheckIn);
-		$tester->waitForElement($pageClass::$searchField, 30);
-		$tester->assertSystemMessageContains($pageClass::$messageCheckInSuccess);
+		$tester->dontSeeElement($pageClass::$stateCheckInPathBlock);
 	}
 }
