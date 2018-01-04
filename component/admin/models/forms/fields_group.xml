@@ -25,7 +25,6 @@
                 type="redshop.fieldsection"
                 label="COM_REDSHOP_FIELD_SECTION_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
-                onchange="sectionValidation()"
                 table-width="17%"
         />
         <field
