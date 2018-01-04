@@ -346,7 +346,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$publishButton);
-		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messagePublishSuccess);
 	}
 
 	public function unpublishWithoutChoice()

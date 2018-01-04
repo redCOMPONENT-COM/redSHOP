@@ -23,8 +23,11 @@ use Step\AbstractStep;
 trait Delete
 {
 	/**
-	 * Method for test button "Delete"
 	 *
+	 * Method for test delete button
+	 * 
+	 * Method for test button "Delete" and delete specific item
+	 * 
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
@@ -32,7 +35,7 @@ trait Delete
 	 */
 	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Button -> Delete without choice.');
+		$tester->wantTo('Check button Delete without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -44,26 +47,8 @@ trait Delete
 
 		$step->deleteWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
-	}
 
-	/**
-	 * Method for test delete item
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 *
-	 * @depends testButtonDelete
-	 */
-	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Administrator -> Delete item.');
-
-		$stepClass = $this->stepClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
+		$tester->wantTo('Test delete item.');
 		$step->deleteItem($this->dataNew[$this->nameField]);
 	}
 }
