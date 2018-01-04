@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class MailCenterPage extends AdminJ3Page
+class MailPage extends AdminJ3Page
 {
 	/**
 	 * @var string
