@@ -10,97 +10,106 @@
 defined('_JEXEC') or die;
 
 /**
- * Table Country
+ * Table Fields group
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       2.1
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopTableFields_group extends RedshopTable
 {
 	/**
-	 * @var null
+	 * @var integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $id = null;
 
 	/**
-	 * @var null
+	 * @var string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $name = null;
 
 	/**
-	 * @var null
+	 * @var string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $description = null;
 
 	/**
-	 * @var null
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $section = null;
 
 	/**
-	 * @var null
-	 */
-	public $created = null;
-
-	/**
-	 * @var null
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $created_by = null;
 
 	/**
-	 * @var null
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public $created_by_alias= null;
+	public $created_date = null;
 
 	/**
-	 * @var null
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $checked_out = null;
 
 	/**
-	 * @var null
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $checked_out_time;
 
 	/**
-	 * @var null
+	 * @var   string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public $modified = null;
+	public $modified_date = null;
 
 	/**
-	 * @var null
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $modified_by = null;
 
 	/**
-	 * @var null
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $ordering = null;
 
 	/**
-	 * @var null
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public $state = null;
-
-	/**
-	 * @var null
-	 */
-	public $params = null;
+	public $published = null;
 
 	/**
 	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @var  string
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_tableName = 'redshop_fields_group';
-
-	public function __construct(\JDatabaseDriver $db)
-	{
-		parent::__construct($db);
-
-		$this->setColumnAlias('published', 'state');
-	}
 
 	/**
 	 * Checks that the object is valid and able to be stored.
@@ -124,9 +133,9 @@ class RedshopTableFields_group extends RedshopTable
 			return false;
 		}
 
-		if (empty($this->created))
+		if (empty($this->created_date))
 		{
-			$this->created = JFactory::getDate()->toSql();
+			$this->created_date = JFactory::getDate()->toSql();
 		}
 
 		if (empty($this->created_by))

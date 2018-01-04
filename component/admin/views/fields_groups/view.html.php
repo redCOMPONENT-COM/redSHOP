@@ -20,14 +20,6 @@ defined('_JEXEC') or die;
 class RedshopViewFields_groups extends RedshopViewList
 {
 	/**
-	 * Column for render published state.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $stateColumns = array();
-
-	/**
 	 * Display check-in button or not.
 	 *
 	 * @var   boolean
@@ -44,7 +36,7 @@ class RedshopViewFields_groups extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   2.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

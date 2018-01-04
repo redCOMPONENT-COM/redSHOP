@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_categories
+ * @package     RedSHOP.Library
+ * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -22,7 +22,7 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Fieldsgroups';
 
@@ -30,22 +30,21 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
 	 * Method to get the field input markup for a generic list.
 	 *
 	 * @return  string  The field input markup.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
+		$groups = JModelLegacy::getInstance('Fields_groups', 'RedshopModel')->getItems();
 
-		/** @var RedshopModelFields_groups $model */
-		$model = JModelLegacy::getInstance('Fields_groups', 'RedshopModel');
-		$groups = $model->getGroups();
-
-		$options[] = JHtml::_('select.option', 0, 'COM_REDSHOP_FIELDS_GROUP_NOGROUP');
+		$options[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_FIELDS_GROUP_NOGROUP'));
 
 		if (count($groups) > 0)
 		{
 			foreach ($groups as $group)
 			{
-				$options[] = array('value'=>$group->id,'text'=>$group->name);
+				$options[] = array('value' => $group->id,'text' => $group->name);
 			}
 		}
 
