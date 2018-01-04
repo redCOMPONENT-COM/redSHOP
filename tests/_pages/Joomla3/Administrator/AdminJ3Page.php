@@ -15,8 +15,11 @@
  */
 abstract class AdminJ3Page
 {
-
+	/**
+	 * @var array
+	 */
 	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
+
 	/**
 	 * @var string
 	 */
@@ -25,7 +28,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $url;
+	public static $url = 'index.php?option=com_redshop';
 
 	/**
 	 * @var string
@@ -45,12 +48,32 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $messageItemDeleteSuccess = "1 item successfully deleted";
+	public static $messageDeleteSuccess = "successfully deleted";
 
 	/**
 	 * @var string
 	 */
-	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+	public static $messageUnpublishSuccess = 'successfully unpublished';
+
+	/**
+	 * @var string
+	 */
+	public static $messagePublishSuccess = 'successfully published';
+
+	/**
+	 * @var string
+	 */
+	public static $messageCheckInSuccess = 'successfully checked in';
+
+	/**
+	 * @var array
+	 */
+	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
+
+	/**
+	 * @var string
+	 */
+	public static $resultRow = "//tbody/tr[1]";
 
 	/**
 	 * @var array
@@ -65,7 +88,17 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'hasTooltip\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm  hasPopover\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm\')]'];
 
 	/**
 	 * @var array
@@ -80,7 +113,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $selectorError=".alert-error";
+	public static $selectorError = ".alert-error";
 
 	/**
 	 * @var string
@@ -95,12 +128,22 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorToolBar = '.btn-toolbar';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonSaveClose = "Save & Close";
 
 	/**
 	 * @var string
 	 */
 	public static $buttonSave = "Save";
+
+	/**
+	 * @var string
+	 */
+	public static $buttonSaveNew = "Save & New";
 
 	/**
 	 * @var string
@@ -140,6 +183,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonCopy = 'Copy';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonReset = "Reset";
 
 	/**
@@ -152,13 +200,14 @@ abstract class AdminJ3Page
 	 */
 	public static $buttonClose = "Close";
 
-// Include url of current page
-// Fontend checkout first name
-
 	/**
 	 * @var string
 	 */
-	public static $URL = '/index.php?option=com_redshop';
+	public static $buttonSaveCopy = "Save & Copy";
+
+// Include url of current page
+// Fontend checkout first name
+
 	/**
 	 * @var string
 	 */
@@ -246,6 +295,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $checkoutButton = "//input[@value='Checkout']";
+
+	/**
+	 * @var array
+	 */
+	public static $saveInfoUser = ['xpath'=> '//input[@name=\'submitbtn\']'];
 	/**
 	 * @var array
 	 */
@@ -257,15 +311,12 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-//	public static $priceTotal = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[1]/div";
 
 	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
-	//
+
 	/**
 	 * @var string
 	 */
-//	public static $priceDiscount = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[2]/div";
-
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
 	/**
 	 * @var array
@@ -275,15 +326,19 @@ abstract class AdminJ3Page
 	public static $shippingRate=['id'=>'spnShippingrate'];
 
 	/**
-	 *
+	 * @var string
+	 */
+	public static $messageErrorFieldRequired = 'Field required';
+
+	/**
 	 * Function get value
-	 * @param $value
+	 *
+	 * @param   string  $value  Value string
+	 *
 	 * @return array
 	 */
 	public static function returnChoice($value)
 	{
-		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
-		return $path;
+		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 	}
-
 }

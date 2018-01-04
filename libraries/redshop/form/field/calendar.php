@@ -87,10 +87,12 @@ class RedshopFormFieldCalendar extends JFormField
 		switch ($name)
 		{
 			case 'maxlength':
-				$value = (int) $value;
+				$this->{$name} = (int) $value;
+				break;
+
 			case 'format':
 			case 'filter':
-				$this->$name = (string) $value;
+				$this->{$name} = (string) $value;
 				break;
 
 			default:
@@ -168,7 +170,7 @@ class RedshopFormFieldCalendar extends JFormField
 
 		// Get some system objects.
 		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))

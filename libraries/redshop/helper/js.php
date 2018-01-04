@@ -20,6 +20,8 @@ class RedshopHelperJs
 	 * Init redshop js
 	 *
 	 * @return void
+	 *
+	 * @throws  Exception
 	 */
 	public static function init()
 	{
@@ -42,7 +44,7 @@ class RedshopHelperJs
 
 		if ($session->get('product_currency'))
 		{
-			$currencySymbol  = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('currency_code');
+			$currencySymbol  = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('code');
 			$currencyConvert = round(RedshopHelperCurrency::convert(1), 2);
 		}
 

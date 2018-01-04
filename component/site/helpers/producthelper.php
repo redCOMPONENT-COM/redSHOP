@@ -233,18 +233,19 @@ class productHelper
 
 			if (empty($userArr))
 			{
-				$userArr = $this->_userhelper->createUserSession($userId);
+				$userArr = RedshopHelperUser::createUserSession($userId);
 			}
 
-			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ? $userArr['rs_user_shopperGroup'] : $this->_userhelper->getShopperGroup($userId);
+			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ?
+				$userArr['rs_user_shopperGroup'] : RedshopHelperUser::getShopperGroup($userId);
+
 			$query = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
 				->where('dps.shopper_group_id =' . (int) $shopperGroupId);
 		}
 
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+		$result = $db->setQuery($query)->loadColumn();
 		self::$productSpecialIds[$userId] = '0';
 
 		if (count($result) > 0)
@@ -275,28 +276,34 @@ class productHelper
 	/**
 	 * Method for replace tags about VAT information
 	 *
-	 * @param   string  $data_add  Template data.
+	 * @param   string  $data  Template data.
 	 *
 	 * @return  string
 	 *
 	 * @deprecated   2.0.6
+	 *
+	 * @see     RedshopHelperTax::replaceVatInformation
 	 */
-	public function replaceVatinfo($data_add)
+	public function replaceVatinfo($data)
 	{
-		return RedshopHelperTax::replaceVatInformation($data_add);
+		return RedshopHelperTax::replaceVatInformation($data);
 	}
 
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer  $user_id              User Information Id - Login user id
-	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
+	 * @param   integer  $userId                 User Information Id - Login user id
+	 * @param   integer  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
 	 *
-	 * @return  boolean  true if VAT applied else false
+	 * @return  boolean                          True if VAT applied else false
+	 *
+	 * @deprecated  2.0.6
+	 *
+	 * @see  RedshopHelperCart::taxExemptAddToCart
 	 */
-	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
+	public function taxexempt_addtocart($userId = 0, $isShowButtonAddToCart = 0)
 	{
-		return RedshopHelperCart::taxExemptAddToCart($user_id, (boolean) $btn_show_addto_cart);
+		return RedshopHelperCart::taxExemptAddToCart($userId, (boolean) $isShowButtonAddToCart);
 	}
 
 	/**
@@ -388,6 +395,8 @@ class productHelper
 	 * @return  string                    Formatted Product Price
 	 *
 	 * @deprecated  2.0.7
+	 *
+	 * @see RedshopHelperProductPrice::formattedPrice
 	 */
 	public function getProductFormattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
@@ -1217,7 +1226,7 @@ class productHelper
 		}
 		else
 		{
-			return $this->taxexempt_addtocart($user_id);
+			return RedshopHelperCart::taxExemptAddToCart($user_id);
 		}
 
 		return true;
@@ -1259,7 +1268,7 @@ class productHelper
 		}
 		else
 		{
-			return $this->taxexempt_addtocart($userId);
+			return RedshopHelperCart::taxExemptAddToCart($userId);
 		}
 
 		return true;
@@ -1691,11 +1700,10 @@ class productHelper
 
 	public function getValidityDate($period, $data)
 	{
-		$todate = mktime(0, 0, 0, date('m'), date('d') + $period, date('Y'));
-		$config = Redconfiguration::getInstance();
+		$todate = mktime(0, 0, 0, (int) date('m'), (int) date('d') + $period, (int) date('Y'));
 
-		$todate   = $config->convertDateFormat($todate);
-		$fromdate = $config->convertDateFormat(strtotime(date('d M Y')));
+		$todate   = RedshopHelperDatetime::convertDateFormat($todate);
+		$fromdate = RedshopHelperDatetime::convertDateFormat(strtotime(date('d M Y')));
 
 		$data = str_replace("{giftcard_validity_from}", JText::_('COM_REDSHOP_FROM') . " " . $fromdate, $data);
 		$data = str_replace("{giftcard_validity_to}", JText::_('COM_REDSHOP_TO') . " " . $todate, $data);
@@ -3504,7 +3512,7 @@ class productHelper
 			}
 		}
 
-		$taxexempt_addtocart = $this->taxexempt_addtocart($user_id, 1);
+		$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart($user_id, true);
 
 		$cart_template = $this->getAddtoCartTemplate($data_add);
 
@@ -5436,7 +5444,14 @@ class productHelper
 
 		$product_download_days_time = (time() + ($product_download_days * 24 * 60 * 60));
 
-		$endtime = mktime($product_download_clock, $product_download_clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time), date("Y", $product_download_days_time));
+		$endtime = mktime(
+			$product_download_clock,
+			$product_download_clock_min,
+			0,
+			(int) date("m", $product_download_days_time),
+			(int) date("d", $product_download_days_time),
+			(int) date("Y", $product_download_days_time)
+		);
 
 		// if download product is set to infinit
 		$endtime = ($downloadable_product->product_download_infinite == 1) ? 0 : $endtime;
@@ -6161,31 +6176,34 @@ class productHelper
 					$mainsplit_date_total = preg_split(" ", $data_txt);
 					$mainsplit_date       = preg_split(":", $mainsplit_date_total[0]);
 
-					$dateStart  = mktime(
+					$dateStart = mktime(
 						0,
 						0,
 						0,
-						date('m', $mainsplit_date[0]),
-						date('d', $mainsplit_date[0]),
-						date('Y', $mainsplit_date[0])
+						(int) date('m', $mainsplit_date[0]),
+						(int) date('d', $mainsplit_date[0]),
+						(int) date('Y', $mainsplit_date[0])
 					);
-					$dateEnd    = mktime(
+
+					$dateEnd = mktime(
 						23,
 						59,
 						59,
-						date('m', $mainsplit_date[1]),
-						date('d', $mainsplit_date[1]),
-						date('Y', $mainsplit_date[1])
+						(int) date('m', $mainsplit_date[1]),
+						(int) date('d', $mainsplit_date[1]),
+						(int) date('Y', $mainsplit_date[1])
 					);
+
 					$todayStart = mktime(
 						0,
 						0,
 						0,
-						date('m'),
-						date('d'),
-						date('Y')
+						(int) date('m'),
+						(int) date('d'),
+						(int) date('Y')
 					);
-					$todayEnd   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+
+					$todayEnd = mktime(23, 59, 59, (int) date('m'), (int) date('d'), (int) date('Y'));
 
 					if ($dateStart <= $todayStart && $dateEnd >= $todayEnd)
 					{

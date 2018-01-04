@@ -141,8 +141,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\TemplatePage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\TemplatePage::$messageItemDeleteSuccess, 60, \TemplatePage::$selectorSuccess);
-		$client->see(\TemplatePage::$messageItemDeleteSuccess, \TemplatePage::$selectorSuccess);
+		$client->waitForText(\TemplatePage::$messageDeleteSuccess, 60, \TemplatePage::$selectorSuccess);
+		$client->see(\TemplatePage::$messageDeleteSuccess, \TemplatePage::$selectorSuccess);
 		$client->fillField(\TemplatePage::$searchField, $templateName);
 		$client->pressKey(\TemplatePage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($templateName, \TemplatePage::$resultRow);

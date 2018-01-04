@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 
@@ -157,7 +157,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if ($data['guestuser'] && !$data['user_id'])
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($data);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
 
 			if (!$joomlauser)
 			{
@@ -165,7 +165,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 		}
 
-		$reduser = $userhelper->storeRedshopUser($data, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id, 1);
 
 		if ($reduser)
 		{
@@ -774,6 +774,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
+			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
 			Economic::createInvoiceInEconomic($tableOrderDetail->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
@@ -783,6 +784,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 				$bookinvoicepdf = Economic::bookInvoiceInEconomic($tableOrderDetail->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
@@ -793,7 +795,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// ORDER MAIL SEND
-		if ($postData['task'] != "addorder_detail.save_without_sendmail")
+		if ($postdata['task'] != "save_without_sendmail")
 		{
 			RedshopHelperMail::sendOrderMail($tableOrderDetail->order_id);
 		}

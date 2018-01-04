@@ -102,13 +102,18 @@ abstract class JHtmlRedshopGrid
 		JText::script('COM_REDSHOP_FAIL');
 		JText::script('COM_REDSHOP_DATA_UPDATE_FAIL');
 
-		$html = '<input type="' . $type . '" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
-			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" '
-			. ' data-original-value="' . $value . '" disabled="disabled" style="display: none;" />';
-		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" data-id="' . $id . '" '
-			. 'class="label-edit-inline">' . $display . '</div>';
-
-		return $html;
+		return RedshopLayoutHelper::render(
+			'inline.text',
+			array(
+				'type'    => $type,
+				'name'    => $name,
+				'id'      => $id,
+				'value'   => $value,
+				'display' => $display
+			),
+			null,
+			array('option' => 'com_redshop')
+		);
 	}
 
 	/**

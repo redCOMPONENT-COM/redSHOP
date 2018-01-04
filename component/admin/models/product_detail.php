@@ -292,6 +292,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			JFile::upload($src, $dest);
 		}
 
+		$query = 'SELECT media_alternate_text FROM ' . $this->table_prefix . 'media
+					  WHERE media_name = "' . $data['old_image'] . '"
+					  AND media_section = "product" AND section_id = "' . $row->product_id . '" ';
+
+		$old_main_image_alternate_text = $this->_db->setQuery($query)->loadResult();
+
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
@@ -512,9 +518,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 					. "WHERE media_name='" . $data['old_image'] . "' "
 					. "AND media_section='product' ";
 				$this->_db->setQuery($query);
-				$result = $this->_db->loadResult();
+				$result = $this->_db->loadObject();
 
-				if ($result > 0)
+				if (null !== $result)
 				{
 					$media_id = $result->media_id;
 				}
@@ -523,7 +529,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$mediapost                         = array();
 				$mediapost['media_id']             = $media_id;
 				$mediapost['media_name']           = $row->product_full_image;
-				$mediapost['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
+				$mediapost['media_alternate_text'] = !empty($old_main_image_alternate_text) ? $old_main_image_alternate_text : preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
 				$mediapost['media_section']        = "product";
 				$mediapost['section_id']           = $row->product_id;
 				$mediapost['media_type']           = "images";
@@ -1681,7 +1687,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_save['setdefault_selected'] = $att_property[$prop]->setdefault_selected;
 				$property_array                       = $this->store_pro($property_save);
 				$property_id                          = $property_array->property_id;
-				$listImages                           = $this->GetimageInfo($att_property[$prop]->property_id, 'property');
+				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');
 
 				// Update image names and copy
 				if (!empty($att_property[$prop]->property_image))
@@ -1741,7 +1747,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$this->update_subattr_image($subproperty_id, $new_subattribute_color_image);
 					}
 
-					$listsubpropImages     = $this->GetimageInfo($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
+					$listsubpropImages     = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$countSubPropertyImage = count($listsubpropImages);
 
 					for ($lsi = 0; $lsi < $countSubPropertyImage; $lsi++)
@@ -2577,8 +2583,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function subattr_diff.
 	 *
-	 * @param   int  $subattr_id  ID.
-	 * @param   int  $section_id  ID.
+	 * @param   string  $subattr_id  ID.
+	 * @param   int     $section_id  ID.
 	 *
 	 * @return  array
 	 */
@@ -3652,12 +3658,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 *  Function deleteProdcutSerialNumbers.
 	 *
-	 * @param   int  $id    ID.
-	 * @param   int  $type  ID.
+	 * @param   int     $id    ID.
+	 * @param   string  $type  ID.
 	 *
 	 * @return  array
 	 */
-	public function GetimageInfo($id, $type)
+	public function getImageInfor($id, $type)
 	{
 		$image_media = 'SELECT * FROM ' . $this->table_prefix . 'media
 						WHERE section_id = "' . $id . '"
@@ -3762,7 +3768,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			for ($prop = 0, $countProperty = count($att_property); $prop < $countProperty; $prop++)
 			{
-				$listImages             = $this->GetimageInfo($att_property[$prop]->property_id, 'property');
+				$listImages             = $this->getImageInfor($att_property[$prop]->property_id, 'property');
 				$listStockroomData      = $this->GetStockroomData($att_property[$prop]->property_id, 'property');
 				$listAttributepriceData = $this->GetAttributepriceData($att_property[$prop]->property_id, 'property');
 
@@ -3855,7 +3861,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				for ($subprop = 0; $subprop < $countSuboproperty; $subprop++)
 				{
-					$listsubpropImages         = $this->GetimageInfo($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
+					$listsubpropImages         = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$listSubStockroomData      = $this->GetStockroomData($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$listSubAttributepriceData = $this->GetAttributepriceData($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 
@@ -4442,9 +4448,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copy_image.
 	 *
-	 * @param   array  $imageArray  imageArray
-	 * @param   int    $section     section
-	 * @param   int    $section_id  section_id
+	 * @param   array   $imageArray  imageArray
+	 * @param   string  $section     section
+	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string
 	 */
@@ -4463,7 +4469,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * Function copy_image_from_path.
 	 *
 	 * @param   string  $imagePath   imagePath
-	 * @param   int     $section     section
+	 * @param   string  $section     section
 	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string

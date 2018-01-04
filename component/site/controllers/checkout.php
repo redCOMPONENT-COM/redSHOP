@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Joomla\Utilities\ArrayHelper;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Checkout Controller.
@@ -20,14 +21,22 @@ use Redshop\Economic\Economic;
  */
 class RedshopControllerCheckout extends RedshopController
 {
+	/**
+	 * @var  order_functions
+	 */
 	public $_order_functions = null;
 
+	/**
+	 * @var shipping
+	 */
 	public $_shippinghelper = null;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $default  config array
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct($default = array())
 	{
@@ -40,19 +49,22 @@ class RedshopControllerCheckout extends RedshopController
 	/**
 	 *  Method to store user detail when user do checkout.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function checkoutprocess()
 	{
-		$input  = JFactory::getApplication()->input;
-		$post   = $input->post->getArray();
-		$Itemid = $input->get('Itemid');
-		$model  = $this->getModel('checkout');
+		$input = JFactory::getApplication()->input;
+		$post  = $input->post->getArray();
+
+		/** @var RedshopModelCheckout $model */
+		$model = $this->getModel('checkout');
 
 		if ($model->store($post))
 		{
 			$this->setRedirect(
-				JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false)
+				JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $input->get('Itemid'), false)
 			);
 		}
 		else
@@ -67,6 +79,8 @@ class RedshopControllerCheckout extends RedshopController
 	 *  Method for checkout second step.
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function checkoutnext()
 	{
@@ -141,6 +155,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * Update GLS Location
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function updateGLSLocation()
 	{
@@ -180,6 +196,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * Get Shipping Information
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function getShippingInformation()
 	{
@@ -198,10 +216,13 @@ class RedshopControllerCheckout extends RedshopController
 	 *
 	 * @param   string  $users_info_id  not used
 	 *
-	 * @return bool
+	 * @return  integer
+	 *
+	 * @throws  Exception
 	 */
 	public function chkvalidation($users_info_id)
 	{
+		/** @var RedshopModelCheckout $model */
 		$model             = $this->getModel('checkout');
 		$billingaddresses  = $model->billingaddresses();
 		$shippingaddresses = $model->shipaddress($users_info_id);
@@ -257,7 +278,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				$debtorHandle = Economic::createUserInEconomic($billingaddresses);
+				RedshopEconomic::createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
 				{
@@ -368,6 +389,8 @@ class RedshopControllerCheckout extends RedshopController
 	 * Checkout final step function
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function checkoutfinal()
 	{
@@ -376,6 +399,8 @@ class RedshopControllerCheckout extends RedshopController
 		$dispatcher        = RedshopHelperUtility::getDispatcher();
 		$post              = $input->post->getArray();
 		$Itemid            = $input->post->getInt('Itemid', 0);
+
+		/** @var RedshopModelCheckout $model */
 		$model             = $this->getModel('checkout');
 		$session           = JFactory::getSession();
 		$cart              = $session->get('cart');
@@ -435,8 +460,8 @@ class RedshopControllerCheckout extends RedshopController
 
 				if (empty($users_info_id))
 				{
-					$userDetail = $model->store($post);
-					$users_info_id = $userDetail->users_info_id;
+					$userDetail    = $model->store($post);
+					$users_info_id = $userDetail !== false ? $userDetail->users_info_id : 0;
 				}
 
 				$chk = $this->chkvalidation($users_info_id);
@@ -471,16 +496,15 @@ class RedshopControllerCheckout extends RedshopController
 				}
 			}
 
-			$order_id = $session->get('order_id');
+			$order_id = (int) $session->get('order_id');
 
 			// Import files for plugin
 			JPluginHelper::importPlugin('redshop_product');
 
-			if ($order_id == 0)
+			if ($order_id === 0)
 			{
 				// Add plugin support
-				$results     = $dispatcher->trigger('beforeOrderPlace', array($cart));
-
+				$dispatcher->trigger('beforeOrderPlace', array($cart));
 				$orderresult = $model->orderplace();
 				$order_id    = $orderresult->order_id;
 			}
@@ -510,7 +534,7 @@ class RedshopControllerCheckout extends RedshopController
 				$model->resetcart();
 
 				// Add Plugin support
-				$results = $dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
+				$dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
 
 				JPluginHelper::importPlugin('system');
 				$dispatcher->trigger('afterOrderCreated', array($orderresult));
@@ -601,31 +625,47 @@ class RedshopControllerCheckout extends RedshopController
 	 * One Step checkout process
 	 *
 	 * @return void
+	 *
+	 * @throws Exception
 	 */
 	public function oneStepCheckoutProcess()
 	{
 		$app           = JFactory::getApplication();
 		$input         = $app->input;
 		$session       = JFactory::getSession();
-		$rs_user       = $session->get('rs_user');
+		$redShopUser   = $session->get('rs_user');
 		$post          = $input->post->getArray();
-		$users_info_id = $post['users_info_id'];
+		$usersInfoId   = $post['users_info_id'];
 
-		if ($users_info_id)
+		if ($usersInfoId)
 		{
-			$rs_user['rs_user_info_id'] = $users_info_id;
-			$rs_user = $session->set('rs_user', $rs_user);
+			$redShopUser['rs_user_info_id'] = $usersInfoId;
+		}
+		elseif (!empty($post['anonymous']))
+		{
+			if (!empty($post['anonymous']['BT']))
+			{
+				$redShopUser['vatCountry'] = $post['anonymous']['BT']['country_code'];
+				$redShopUser['vatState']   = $post['anonymous']['BT']['state_code'];
+			}
+
+			if (Redshop::getConfig()->getInt('VAT_BASED_ON') != 0 && Redshop::getConfig()->getString('CALCULATE_VAT_ON') == 'ST'
+				&& !empty($post['anonymous']['ST']))
+			{
+				$redShopUser['vatCountry'] = $post['anonymous']['ST']['country_code_ST'];
+				$redShopUser['vatState']   = $post['anonymous']['ST']['state_code_ST'];
+			}
 		}
 
-		$producthelper   = productHelper::getInstance();
-		$redTemplate     = Redtemplate::getInstance();
-		$carthelper      = rsCarthelper::getInstance();
-		$order_functions = order_functions::getInstance();
+		$session->set('rs_user', $redShopUser);
 
-		$model   = $this->getModel('checkout');
-		$user    = JFactory::getUser();
+		$cartHelper = rsCarthelper::getInstance();
 
-		$cart = $session->get('cart');
+		/** @var RedshopModelCheckout $model */
+		$model = $this->getModel('checkout');
+		$user  = JFactory::getUser();
+
+		$cart             = $session->get('cart');
 		$shipping_box_id  = $post['shipping_box_id'];
 		$shipping_rate_id = $post['shipping_rate_id'];
 		$customer_note    = $post['customer_note'];
@@ -638,25 +678,25 @@ class RedshopControllerCheckout extends RedshopController
 		$total_discount    = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 		$order_subtotal    = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal_excl_vat'];
 		$Itemid            = $post['Itemid'];
-		$objectname        = $post['objectname'];
+		$objectName        = $post['objectname'];
 		$rate_template_id  = $post['rate_template_id'];
 		$cart_template_id  = $post['cart_template_id'];
 
-		$onestep_template_desc = "";
-		$rate_template_desc    = "";
+		$oneStepTemplateHtml = "";
+		$rateTemplateHtml    = "";
 
-		if ($objectname == "users_info_id" || $objectname == "shipping_box_id")
+		if ($objectName == "users_info_id" || $objectName == "shipping_box_id")
 		{
-			$shipping_template = $redTemplate->getTemplate("redshop_shipping", $rate_template_id);
+			$shipping_template = RedshopHelperTemplate::getTemplate("redshop_shipping", $rate_template_id);
 
 			if (count($shipping_template) > 0)
 			{
-				$rate_template_desc = $shipping_template[0]->template_desc;
+				$rateTemplateHtml = $shipping_template[0]->template_desc;
 			}
 
-			$returnarr          = $carthelper->replaceShippingTemplate($rate_template_desc, $shipping_rate_id, $shipping_box_id, $user->id, $users_info_id, $order_total, $order_subtotal, $post);
-			$rate_template_desc = $returnarr['template_desc'];
-			$shipping_rate_id   = $returnarr['shipping_rate_id'];
+			$return           = $cartHelper->replaceShippingTemplate($rateTemplateHtml, $shipping_rate_id, $shipping_box_id, $user->id, $usersInfoId, $order_total, $order_subtotal, $post);
+			$rateTemplateHtml = $return['template_desc'];
+			$shipping_rate_id = $return['shipping_rate_id'];
 		}
 
 		if ($shipping_rate_id != "")
@@ -664,31 +704,34 @@ class RedshopControllerCheckout extends RedshopController
 			$shipArr = $model->calculateShipping($shipping_rate_id);
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
-			$cart = $carthelper->modifyDiscount($cart);
+			$cart = $cartHelper->modifyDiscount($cart);
 		}
 
 		if ($cart_template_id != 0)
 		{
-			$templatelist = $redTemplate->getTemplate("checkout", $cart_template_id);
-			$onestep_template_desc = $templatelist[0]->template_desc;
+			$templatelist          = RedshopHelperTemplate::getTemplate("checkout", $cart_template_id);
+			$oneStepTemplateHtml = $templatelist[0]->template_desc;
 
-			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code, '', $post);
+			$oneStepTemplateHtml = $model->displayShoppingCart(
+				$oneStepTemplateHtml, $usersInfoId, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '',
+				$customer_message, $referral_code, '', $post
+			);
 		}
 
-		$display_shippingrate = '<div id="onestepshiprate">' . $rate_template_desc . '</div>';
-		$display_cart = '<div id="onestepdisplaycart">' . $onestep_template_desc . '</div>';
+		$display_shippingrate = '<div id="onestepshiprate">' . $rateTemplateHtml . '</div>';
+		$display_cart = '<div id="onestepdisplaycart">' . $oneStepTemplateHtml . '</div>';
 
 		$description = $display_shippingrate . $display_cart;
-		$lang = JFactory::getLanguage();
-		$Locale = $lang->getLocale();
+		$lang        = JFactory::getLanguage();
+		$locale      = $lang->getLocale();
 
-		if (in_array('ru', $Locale))
+		if (in_array('ru', $locale))
 		{
-			// Commented because redshop currency symbole has been changed because of ajax response
+			// Commented because redshop currency symbol has been changed because of ajax response
 			$description = html_entity_decode($description, ENT_QUOTES, 'KOI8-R');
 		}
 
-		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
+		$cart_total = RedshopHelperProductPrice::formattedPrice($cart['mod_cart_total']);
 
 		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
 		$app->close();
@@ -779,5 +822,214 @@ class RedshopControllerCheckout extends RedshopController
 			echo $extrafield_total . $extrafield_hidden;
 			$app->close();
 		}
+	}
+
+	/**
+	 * Display payment method
+	 *
+	 * @return  string
+	 *
+	 * @throws  Exception
+	 */
+	public function ajaxDisplayPaymentAnonymous()
+	{
+		$templates = RedshopHelperTemplate::getTemplate("redshop_payment");
+
+		$app  = JFactory::getApplication();
+		$post = $app->input->post->getArray();
+
+		$templateHtml          = !empty($templates) ? $templates[0]->template_desc : '';
+		$paymentMethods        = RedshopHelperUtility::getPlugins('redshop_payment');
+		$selectedPaymentMethod = !empty($paymentMethods) ? $paymentMethods[0]->element : '';
+		$paymentMethodId       = $app->input->getCmd('payment_method_id', $selectedPaymentMethod);
+
+		$isCompany = $post['is_company'];
+		$eanNumber = $post['eanNumber'];
+
+		$templateHtml = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $templateHtml);
+
+		if (strpos($templateHtml, "{split_payment}") !== false)
+		{
+			$templateHtml = str_replace("{split_payment}", "", $templateHtml);
+		}
+
+		$paymentMethods = RedshopHelperPayment::info();
+
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
+
+		$isCreditCard = 0;
+
+		if (strpos($templateHtml, "{payment_loop_start}") !== false && strpos($templateHtml, "{payment_loop_end}") !== false)
+		{
+			$template1       = explode("{payment_loop_start}", $templateHtml);
+			$template1       = explode("{payment_loop_end}", $template1[1]);
+			$template_middle = $template1[0];
+			$payment_display = "";
+			$flag            = false;
+
+			switch ($isCompany)
+			{
+				case '0':
+					$shopperGroupId = Redshop::getConfig()->getInt('SHOPPER_GROUP_DEFAULT_PRIVATE');
+					break;
+
+				case '1':
+					$shopperGroupId = Redshop::getConfig()->getInt('SHOPPER_GROUP_DEFAULT_COMPANY');
+					break;
+
+				default:
+					$shopperGroupId = Redshop::getConfig()->getInt('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+					break;
+			}
+
+			// Filter payment gateways array for shopperGroups
+			$paymentMethods = array_filter(
+				$paymentMethods,
+				function ($paymentMethod) use ($shopperGroupId)
+				{
+					$paymentFilePath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentMethod->name . '/' . $paymentMethod->name . '.php';
+
+					if (!file_exists($paymentFilePath))
+					{
+						return false;
+					}
+
+					$shopperGroups  = $paymentMethod->params->get('shopper_group_id', array());
+
+					if (!is_array($shopperGroups))
+					{
+						$shopperGroups = array($shopperGroups);
+					}
+
+					$shopperGroups = ArrayHelper::toInteger($shopperGroups);
+
+					if (in_array((int) $shopperGroupId, $shopperGroups) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0]))
+					{
+						return true;
+					}
+
+					return false;
+				}
+			);
+
+			$totalPaymentMethod = count($paymentMethods);
+
+			if ($totalPaymentMethod > 0)
+			{
+				foreach ($paymentMethods as $p => $oneMethod)
+				{
+					$cardinfo        = "";
+					$display_payment = "";
+					$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
+
+					include_once $paymentpath;
+
+					$private_person = $oneMethod->params->get('private_person', '');
+					$business       = $oneMethod->params->get('business', '');
+					$isCreditCard  = $oneMethod->params->get('is_creditcard', 0);
+
+					$checked = '';
+					$payment_chcked_class = '';
+
+					if ($paymentMethodId === $oneMethod->name || $totalPaymentMethod <= 1)
+					{
+						$checked = "checked";
+						$payment_chcked_class = "paymentgtwchecked";
+					}
+
+					$payment_radio_output = '<div id="' . $oneMethod->name . '" class="' . $payment_chcked_class . '"><label class="radio" for="' . $oneMethod->name . $p . '"><input  type="radio" name="payment_method_id" id="' . $oneMethod->name . $p . '" value="' . $oneMethod->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" />' . JText::_('PLG_' . strtoupper($oneMethod->name)) . '</label></div>';
+
+					$is_subscription = false;
+
+					// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+					$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($oneMethod->name);
+
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
+					{
+						if ($isCompany == 0 && $private_person == 1)
+						{
+							$display_payment = $payment_radio_output;
+							$flag = true;
+						}
+						else
+						{
+							if ($isCompany == 1 && $business == 1 && ($oneMethod->name != 'rs_payment_eantransfer' || ($oneMethod->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
+							{
+								$display_payment = $payment_radio_output;
+								$flag = true;
+							}
+						}
+					}
+					elseif ($is_subscription)
+					{
+						$display_payment = '<label class="radio" for="' . $oneMethod->name . $p . '"><input id="' . $oneMethod->name . $p . '" type="radio" name="payment_method_id" value="'
+							. $oneMethod->name . '" '
+							. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
+							. '' . JText::_($oneMethod->name) . '</label><br>';
+						$display_payment .= '<table><tr><td>'
+							. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
+							. '</td><td>' . $this->getSubscriptionPlans()
+							. '<td></tr><table>';
+					}
+					else
+					{
+						$display_payment = $payment_radio_output;
+						$flag = true;
+					}
+
+					if ($isCreditCard)
+					{
+						$cardinfo = '<div id="divcardinfo_' . $oneMethod->name . '">';
+
+						$cart = JFactory::getSession()->get('cart');
+
+						if ($checked != "" && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')  && $cart['total'] > 0)
+						{
+							$cardinfo .= $this->replaceCreditCardInformation($oneMethod->name);
+						}
+
+						$cardinfo .= '</div>';
+					}
+
+					$payment_display .= $template_middle;
+					$payment_display = str_replace("{payment_method_name}", $display_payment, $payment_display);
+					$payment_display = str_replace("{creditcard_information}", $cardinfo, $payment_display);
+
+					if (strpos($payment_display, "{payment_extrafields}") !== false)
+					{
+						$paymentExtraFieldsHtml = '';
+
+						if ($checked != '')
+						{
+							$layoutFile = new JLayoutFile('order.payment.extrafields');
+
+							// Append plugin JLayout path to improve view based on plugin if needed.
+							$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $oneMethod->type . '/' . $oneMethod->name . '/layouts');
+							$paymentExtraFieldsHtml =  $layoutFile->render(array('plugin' => $oneMethod));
+						}
+
+						$payment_display = str_replace(
+							'{payment_extrafields}',
+							'<div class="extrafield_payment">' . $paymentExtraFieldsHtml . '</div>',
+							$payment_display
+						);
+					}
+				}
+			}
+
+			$templateHtml = str_replace("{payment_loop_start}", "", $templateHtml);
+			$templateHtml = str_replace("{payment_loop_end}", "", $templateHtml);
+			$templateHtml = str_replace($template_middle, $payment_display, $templateHtml);
+		}
+
+		if (count($paymentMethods) == 1 && $isCreditCard == "0")
+		{
+			$templateHtml = "<div style='display:none;'>" . $templateHtml . "</div>";
+		}
+
+		echo $templateHtml;
+
+		$app->close();
 	}
 }

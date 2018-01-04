@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Add order detail controller
  *
@@ -16,10 +18,10 @@ defined('_JEXEC') or die;
  * @subpackage  Controller.Addorder_detail
  * @since       2.0.6
  */
-class RedshopControllerAddorder_detail extends RedshopController
+class RedshopControllerAddorder_Detail extends RedshopController
 {
 	/**
-	 * RedshopControllerAddorder_detail constructor.
+	 * RedshopControllerAddorder_Detail constructor.
 	 *
 	 * @param   array $default Default
 	 */
@@ -66,6 +68,8 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$cid                  = $this->input->post->get('cid', array(0), 'array');
 		$post ['order_id']    = $cid [0];
+
+		/** @var RedshopModelAddorder_detail $model */
 		$model                = $this->getModel('addorder_detail');
 		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
@@ -160,7 +164,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($post['payment_method_class']);
 		$paymentmethod                            = $paymentmethod[0];
-		$paymentparams                            = new JRegistry($paymentmethod->params);
+		$paymentparams                            = new Registry($paymentmethod->params);
 		$paymentinfo                              = new stdclass;
 		$post['economic_payment_terms_id']        = $paymentparams->get('economic_payment_terms_id');
 		$post['economic_design_layout']           = $paymentparams->get('economic_design_layout');
@@ -169,8 +173,6 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
 		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
-
-		$cartHelper = rsCarthelper::getInstance();
 
 		$subtotal       = $post['order_subtotal'];
 		$updateDiscount = 0;
@@ -223,7 +225,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$paymentAmount = $orderTotal;
 		}
 
-		$paymentMethod                = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $orderTotal);
+		$paymentMethod                = RedshopHelperPayment::calculate($paymentAmount, $paymentinfo, $orderTotal);
 		$post['ship_method_id']       = urldecode(urldecode($post['shipping_rate_id']));
 		$orderTotal                   = $paymentMethod[0];
 		$post['user_info_id']         = $post['users_info_id'];
@@ -241,7 +243,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
-		if ($row = $model->store($post))
+		$row = $model->store($post);
+
+		if ($row)
 		{
 			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
 			$type = 'success';
@@ -252,7 +256,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$type = 'error';
 		}
 
-		if ($apply == 1)
+		if ($apply == 1 && false !== $row)
 		{
 			// @TODO Consider about this method name. get should return value instead of "set"
 			RedshopHelperOrder::getPaymentInformation($row, $post);
@@ -310,7 +314,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$shippingadd_id = $this->input->getInt('shippingadd_id', 0);
 		$user_id        = $this->input->getInt('user_id', 0);
 		$is_company     = $this->input->getInt('is_company', 0);
-		$model          = $this->getModel('addorder_detail');
+
+		/** @var RedshopModelAddorder_detail $model */
+		$model = $this->getModel('addorder_detail');
 
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 

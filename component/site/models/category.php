@@ -316,6 +316,8 @@ class RedshopModelCategory extends RedshopModel
 	 * @param   bool  $isSlider  default variable is false
 	 *
 	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{

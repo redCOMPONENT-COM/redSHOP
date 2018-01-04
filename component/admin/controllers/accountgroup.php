@@ -21,6 +21,7 @@ class RedshopControllerAccountgroup extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelAccountgroup_detail $model */
 		$model = $this->getModel('accountgroup_detail');
 
 		if (!$model->publish($cid, 1))
@@ -32,6 +33,9 @@ class RedshopControllerAccountgroup extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function unpublish()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
@@ -41,6 +45,7 @@ class RedshopControllerAccountgroup extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelAccountgroup_detail $model */
 		$model = $this->getModel('accountgroup_detail');
 
 		if (!$model->publish($cid, 0))

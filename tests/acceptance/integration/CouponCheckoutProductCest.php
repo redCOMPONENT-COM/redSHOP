@@ -15,15 +15,22 @@
  *
  * @since    1.4
  */
+
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+
 class CouponCheckoutProductCest
 {
+	/**
+	 * CouponCheckoutProductCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
 		$this->couponCode          = $this->faker->bothify('CouponCheckoutProductCest ?##?');
 		$this->couponValueIn       = 'Total';
 		$this->couponValue         = '10';
-		$this->couponType          = 'Globally';
+		$this->couponType          = 'Global';
 		$this->couponLeft          = '10';
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
 		$this->noPage              = $this->faker->randomNumber();
@@ -35,6 +42,17 @@ class CouponCheckoutProductCest
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
 		$this->discountStart       = "12-12-2016";
 		$this->discountEnd         = "23-05-2017";
+
+		//user login
+		//create user
+		$this->userName     = $this->faker->bothify('UserName ?##?');
+		$this->password     = 'test';
+		$this->email        = $this->faker->email;
+		$this->shopperGroup = 'Default Private';
+		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
+		$this->lastName     = 'Last';
+		$this->shopperName  = 'Default Private';
+		$this->group        = 'Administrator';
 	}
 
 	/**
@@ -45,10 +63,9 @@ class CouponCheckoutProductCest
 	 *
 	 * @return void
 	 */
-
 	public function deleteData($scenario)
 	{
-		$I= new RedshopSteps($scenario);
+		$I = new RedshopSteps($scenario);
 		$I->clearAllData();
 	}
 
@@ -61,9 +78,13 @@ class CouponCheckoutProductCest
 		$this->createCategory($I, $scenario);
 		$this->createProductSave($I, $scenario);
 
+		$I->wantTo('Test User creation with save button in Administrator for checkout');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+
 		//process checkout
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductWithCouponOrGift($this->productName, $this->categoryName, $this->couponCode);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutProductWithCouponOrGift($this->userName, $this->password, $this->productName, $this->categoryName, $this->couponCode);
 	}
 
 	/**
@@ -73,10 +94,18 @@ class CouponCheckoutProductCest
 	private function createCoupon(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Coupon creation in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
-		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
-		$I->searchCoupon($this->couponCode);
+		$I->addNewItem(
+			array(
+				'code'        => $this->couponCode,
+				'type'        => $this->couponValueIn,
+				'value'       => $this->couponValue,
+				'effect'      => $this->couponType,
+				'amount_left' => $this->couponLeft
+			)
+		);
+		$I->searchItem($this->couponCode);
 	}
 
 	/**
@@ -112,10 +141,9 @@ class CouponCheckoutProductCest
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
-		$I->deleteCoupon($this->couponCode);
-		$I->searchCoupon($this->couponCode, 'Delete');
+		$I->deleteItem($this->couponCode);
 
 		$I->wantTo('Delete product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
@@ -124,6 +152,9 @@ class CouponCheckoutProductCest
 		$I->wantTo('Delete Category');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-	}
 
+		$I->wantToTest('Delete user');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+	}
 }

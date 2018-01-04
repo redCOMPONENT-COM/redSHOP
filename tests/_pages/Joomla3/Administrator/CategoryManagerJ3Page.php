@@ -72,6 +72,8 @@ class CategoryManagerJ3Page extends AdminJ3Page
 
     public static $selectorNamePage = '.page-title';
 
+    public static $selectorHeading = '.alert-heading';
+
 
     //message
     public static $messageSaveSuccess = "Item saved.";
@@ -81,6 +83,8 @@ class CategoryManagerJ3Page extends AdminJ3Page
     public static $messageSuccess = "Message";
 
     public static $messageDeleteSuccess = "1 item successfully deleted";
+
+    public static $messageErrorDeleteCategoryHasChildCategoriesOrProducts = "kindly remove those";
 
     //button
 
