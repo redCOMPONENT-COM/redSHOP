@@ -10,6 +10,7 @@ namespace Step;
 
 use Codeception\Scenario;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+
 /**
  * Class Redshop
  *
@@ -148,21 +149,20 @@ class AbstractStep extends AdminManagerJoomla3Steps
 				continue;
 			}
 
-			switch ($field['type'])
+			switch (strtolower($field['type']))
 			{
 				case 'radio':
 				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
-				case 'Categories':
-					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
-					break;
+
+				case 'redshop.mail_section':
+				case 'categories':
 				case 'template':
-					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
-					break;
 				case 'shoppergrouplist':
-					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
+					$this->chooseOnSelect2($field['xpath'], $data[$index]);
 					break;
+
 				default:
 					$this->fillField($field['xpath'], $data[$index]);
 					break;
@@ -203,5 +203,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		}
 
 		return $formFields;
+	}
+
+	/**
+	 * Method for choose option in select2
+	 *
+	 * @param   mixed   $element  Element xPath
+	 * @param   string  $text     Text of option
+	 *
+	 * @return  void
+	 */
+	public function chooseOnSelect2($element, $text)
+	{
+		$elementId = is_array($element) ? $element['id'] : $element;
+		$this->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
+		$this->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
+		$this->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
 	}
 }

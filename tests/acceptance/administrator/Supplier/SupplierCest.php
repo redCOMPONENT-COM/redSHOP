@@ -6,8 +6,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use AcceptanceTester\SupplierSteps;
 use Cest\AbstractCest;
+use Codeception\Scenario;
+use Step\AbstractStep;
+
 /**
  * Class SupplierSteps
  *
@@ -20,7 +22,6 @@ use Cest\AbstractCest;
 class SupplierCest extends AbstractCest
 {
 	use Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
-
 
 	/**
 	 * Name field, which is use for search
@@ -56,34 +57,35 @@ class SupplierCest extends AbstractCest
 	}
 
 	/**
-	 *
 	 * Function add supplier when missing name
 	 *
-	 * @param AcceptanceTester $client
-	 * @param                  $scenario
+	 * @param   AcceptanceTester  $tester    Tester
+	 * @param   Scenario          $scenario  Scenario
+	 *
+	 * @return  void
 	 */
-	public function addSupplierSaveMissingName(AcceptanceTester $client, $scenario)
+	public function addSupplierSaveMissingName(AcceptanceTester $tester, $scenario)
 	{
-		$client->wantTo('Test Supplier Missing Name creation in Administrator');
+		$tester->wantTo('Test Supplier Missing Name creation in Administrator');
 		$stepClass = $this->stepClass;
-		echo $stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->addSupplierSaveMissingName($this->faker->email);
 	}
-	
+
 	/**
 	 * Method check cancel button at detail page
 	 *
-	 * @param AcceptanceTester $client
-	 * @param $scenario
+	 * @param   AcceptanceTester  $client    Tester
+	 * @param   Scenario          $scenario  Scenario
+	 *
+	 * @return  void
 	 */
 	public function checkCancelButton(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Supplier check Close button in Administrator');
 		$stepClass = $this->stepClass;
-		echo $stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
@@ -93,14 +95,15 @@ class SupplierCest extends AbstractCest
 	/**
 	 * Method check wrong email at page detail
 	 *
-	 * @param AcceptanceTester $client
-	 * @param $scenario
+	 * @param   AcceptanceTester  $client    Tester
+	 * @param   Scenario          $scenario  Scenario
+	 *
+	 * @return  void
 	 */
 	public function addSupplierWrongEmail(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Supplier check Close button in Administrator');
 		$stepClass = $this->stepClass;
-		echo $stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);

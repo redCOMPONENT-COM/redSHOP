@@ -95,7 +95,7 @@ class AbstractCest
 	{
 		return array();
 	}
-	
+
 	/**
 	 * Method for set new data.
 	 *
@@ -123,10 +123,20 @@ class AbstractCest
 		$step = new $stepClass($scenario);
 		$step->addNewItem($this->dataNew);
 	}
-	
-	public function afterCreate(\AcceptanceTester $tester, Scenario $scenario)
+
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreate
+	 */
+	public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		
+		$tester->wantTo('Run after create item test suite');
 	}
 
 	/**
@@ -137,7 +147,7 @@ class AbstractCest
 	 *
 	 * @return  void
 	 *
-	 * @depends testItemCreate
+	 * @depends afterTestItemCreate
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -147,5 +157,20 @@ class AbstractCest
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);
+	}
+
+	/**
+	 * Abstract method for run after complete edit item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemEdit
+	 */
+	public function afterTestItemEdit(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Run after edit item test suite');
 	}
 }
