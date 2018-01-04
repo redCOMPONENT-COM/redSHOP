@@ -23,8 +23,6 @@ use Step\AbstractStep;
 trait Publish
 {
 	/**
-	 * Method for test button Unpublish without choice
-	 * 
 	 * Method for test button Unpublish all results and check specific 1 item value
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
@@ -47,10 +45,9 @@ trait Publish
 		$step->unpublishWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 
-		$tester->wantTo('Administrator > Test Unpublish all results > check value of one item.');
+		$tester->wantTo('Test Unpublish all results > check value of one item.');
 		$step->unpublishAllResults($this->dataNew[$this->nameField]);
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
-		
 	}
 
 	/**
@@ -80,12 +77,12 @@ trait Publish
 	}
 
 	/**
-	 *Method for test publish 1 item
-	 * 
 	 * Method for test unpublish 1 item after publish success
 	 *
-	 * @param \AcceptanceTester $tester
-	 * @param Scenario $scenario
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
 	 *
 	 * @depends testUnpublishAll
 	 */
@@ -108,9 +105,8 @@ trait Publish
 
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
+
 	/**
-	 * Method for test button publish without choice
-	 * 
 	 * Method for test button publish all results and check specific 1 item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
