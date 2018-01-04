@@ -136,6 +136,7 @@ class AbstractCest
 	 */
 	public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
+		$tester->wantTo('Run after create item test suite');
 	}
 
 	/**
@@ -170,5 +171,6 @@ class AbstractCest
 	 */
 	public function afterTestItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
+		$tester->wantTo('Run after edit item test suite');
 	}
 }
