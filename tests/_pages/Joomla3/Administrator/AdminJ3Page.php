@@ -237,6 +237,12 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+
+	/**
+	 * @var string
+	 */
+	public static $fieldName = "Field required: Name";
+
 	/**
 	 * @var string
 	 */
