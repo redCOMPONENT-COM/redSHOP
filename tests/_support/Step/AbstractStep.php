@@ -46,8 +46,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	public function assertSystemMessageContains($message)
 	{
 		$tester = $this;
-		$tester->waitForElement(['id' => 'system-message-container'], 30);
-		$tester->waitForText($message, 30, ['id' => 'system-message-container']);
+		$tester->waitForElement(['id' => 'system-message'], 30);
+		$tester->waitForText($message, 30, ['id' => 'system-message']);
 	}
 
 	/**
