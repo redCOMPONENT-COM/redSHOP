@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class RedshopFormFieldFieldsgroups extends JFormFieldList
 {
