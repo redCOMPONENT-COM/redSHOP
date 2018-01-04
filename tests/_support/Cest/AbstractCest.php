@@ -95,7 +95,7 @@ class AbstractCest
 	{
 		return array();
 	}
-
+	
 	/**
 	 * Method for set new data.
 	 *
@@ -122,6 +122,11 @@ class AbstractCest
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->addNewItem($this->dataNew);
+	}
+	
+	public function afterCreate(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		
 	}
 
 	/**

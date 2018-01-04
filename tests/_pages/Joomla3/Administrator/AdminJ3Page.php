@@ -98,6 +98,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
+	public static $stateCheckInPath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm\')]'];
+
+	/**
+	 * @var array
+	 */
 	public static $headPage = ['xpath' => "//h1"];
 
 	/**

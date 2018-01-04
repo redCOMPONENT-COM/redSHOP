@@ -24,7 +24,9 @@ trait CheckIn
 {
 	/**
 	 * Method for test button Check-In without choice
-	 *
+	 * 
+	 *Method for test Check-In all results
+	 * 
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
@@ -44,34 +46,9 @@ trait CheckIn
 
 		$step->checkInWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
-	}
-
-	/**
-	 * Method for test Check-In all results
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 *
-	 * @depends testButtonCheckIn
-	 */
-	public function testCheckIn(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Test check-in all results.');
-
-		$stepClass = $this->stepClass;
-
-		/** @var \AdminJ3Page $pageClass */
-		$pageClass = $this->pageClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
 
 		$tester->wantTo('Button > Check-in all results.');
-		
 		$step->checkInAllResult();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
-	
 }
