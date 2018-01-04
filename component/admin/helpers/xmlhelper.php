@@ -1870,99 +1870,105 @@ class xmlHelper
 		return $list;
 	}
 
-	public function getOrderList($xmlarray = array())
+	/**
+	 * @param   array    $xmlArray
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrderList($xmlArray = array())
 	{
-		$list     = array();
-		$field    = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
+		if (empty($xmlArray))
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . ", order_id FROM " . $this->_table_prefix . "orders "
-					. "ORDER BY order_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
-			}
+			return array();
 		}
 
-		return $list;
-	}
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-	public function getOrderUserInfoList($xmlarray = array(), $order_id = 0, $addresstype = "BT")
-	{
-		$list     = array();
-		$field    = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
+		foreach ($xmlArray AS $key => $value)
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS '" . $value . "'";
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "order_users_info "
-					. "WHERE address_type=" . $this->_db->quote($addresstype) . " "
-					. "AND order_id=" . (int) $order_id . " "
-					. "ORDER BY order_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
-			}
+			$query->select($db->quoteName($key, $value));
 		}
 
-		return $list;
+		$query->select($db->quoteName('order_id'))
+			->from($db->quoteName('#__orders'))
+			->order($db->quoteName('order_id') . ' ASC');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
-	public function getOrderItemList($xmlarray = array(), $order_id = 0)
+	/**
+	 * @param   array    $xmlArray
+	 * @param   integer  $orderId
+	 * @param   string  $addressType
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrderUserInfoList($xmlArray = array(), $orderId = 0, $addressType = "BT")
 	{
-		$list     = array();
-		$field    = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
+		if (empty($xmlArray))
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "order_item "
-					. "WHERE order_id=" . (int) $order_id . " "
-					. "ORDER BY order_item_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
+			return array();
 		}
 
-		return $list;
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		foreach ($xmlArray AS $key => $value)
+		{
+			$query->select($db->quoteName($key, $value));
+		}
+
+		$query->from($db->quoteName('#__redshop_order_users_info'))
+			->where($db->quoteName('address_type') . ' = ' . $db->quote($addressType))
+			->where($db->quoteName('order_id') . ' = ' . (int) $orderId)
+			->order($db->quoteName('order_id') . ' ASC');
+
+		return $db->setQuery($query)->loadObject();
 	}
 
+	/**
+	 * @param   array    $xmlArray
+	 * @param   integer  $orderId
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrderItemList($xmlArray = array(), $orderId = 0)
+	{
+		if (empty($xmlArray))
+		{
+			return array();
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		foreach ($xmlArray AS $key => $value)
+		{
+			$query->select($db->quoteName($key, $value));
+		}
+
+		$query->from($db->quoteName('#__redshop_order_item'))
+			->where($db->quoteName('order_id') . ' = ' . (int) $orderId)
+			->order($db->quoteName('order_item_id') . ' ASC');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * @param   array    $xmls
+	 * @param   integer  $product_id
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getStockroomList($xmls = array(), $product_id = 0)
 	{
 		if (empty($xmls))
@@ -1970,27 +1976,31 @@ class xmlHelper
 			return array();
 		}
 
-		$field    = array();
+		$db = JFactory::getDbo();
+		$query= $db->getQuery(true);
 
 		foreach ($xmls AS $key => $value)
 		{
-			$field[] = $key . " AS " . $value;
+			$query->select($db->quoteName($key, $value));
 		}
 
-		if (empty($field))
-		{
-			return array();
-		}
+		$query->from($db->quoteName('#__redshop_stockroom', 's'))
+			->join('LEFT', $db->quoteName('#__redshop_product_stockroom_xref', 'sx') . ' ON ' . $db->quoteName('s.stockroom_id') . ' = ' . $db->quoteName('sx.stockroom_id'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $product_id)
+			->order($db->quoteName('s.stockroom_id') . ' ASC');
 
-		$query = "SELECT " . implode(", ", $field) . " FROM " . $this->_table_prefix . "stockroom AS s "
-			. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-			. "WHERE product_id=" . (int) $product_id . " "
-			. "ORDER BY s.stockroom_id ASC ";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
+	/**
+	 * @param   array    $xmls          XML
+	 * @param   integer  $section_id    Section Id
+	 * @param   integer  $fieldsection  Field section
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function getExtraFieldList($xmls = array(), $section_id = 0, $fieldsection = 0)
 	{
 		if (empty($xmls))
@@ -1999,21 +2009,14 @@ class xmlHelper
 		}
 
 		$db    = JFactory::getDbo();
-		$field = array();
+		$query = $db->getQuery(true);
 
 		foreach ($xmls AS $key => $value)
 		{
-			$field[] = $db->qn($key, $value);
+			$query->select($db->quoteName($key, $value));
 		}
 
-		if (empty($field))
-		{
-			return array();
-		}
-
-		$query = $db->getQuery(true)
-			->select($field)
-			->select($db->qn('f.name', 'name'))
+		$query->select($db->qn('f.name', 'name'))
 			->from($db->qn('#__redshop_fields_data', 'fd'))
 			->innerjoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.id')
 			->where($db->qn('fd.itemid') . ' = ' . (int) $section_id)
@@ -2024,17 +2027,30 @@ class xmlHelper
 		return $db->loadObjectList();
 	}
 
+	/**
+	 * @param   string  $src    Source
+	 * @param   string  $dest   Destination
+	 *
+	 * @TODO    Implement standard alone cURL library
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function importRemoteImage($src, $dest)
 	{
 		chmod($dest, 0777);
-		$Channel = curl_init($src);
-		$File    = fopen($dest, "w");
-		curl_setopt($Channel, CURLOPT_FILE, $File);
-		curl_setopt($Channel, CURLOPT_HEADER, 0);
-		curl_setopt($Channel, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($Channel, CURLOPT_SSL_VERIFYHOST, true);
-		curl_exec($Channel);
-		curl_close($Channel);
-		fclose($File);
+		$resource = curl_init($src);
+
+		if ($resource)
+		{
+			$file = fopen($dest, "w");
+			curl_setopt($resource, CURLOPT_FILE, $file);
+			curl_setopt($resource, CURLOPT_HEADER, 0);
+			curl_setopt($resource, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($resource, CURLOPT_SSL_VERIFYHOST, true);
+			curl_exec($resource);
+			curl_close($resource);
+
+			fclose($file);
+		}
 	}
 }
