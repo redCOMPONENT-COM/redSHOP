@@ -25,8 +25,9 @@ cache:
 
 env:
   matrix:
-      - ACCEPTANCE=false
-      - ACCEPTANCE=true
+      #- ACCEPTANCE=false
+      #- ACCEPTANCE=true
+      - ACCEPTANCE=acceptance/administrator/Mail/MailCenter
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
