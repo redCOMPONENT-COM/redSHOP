@@ -27,17 +27,18 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
 	protected $type = 'Fieldsgroups';
 
 	/**
-	 * Method to get the field input markup for a generic list.
+	 * Method to get the field options.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array  The field option objects.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 		$groups = JModelLegacy::getInstance('Fields_groups', 'RedshopModel')->getItems();
 
+		$options = array();
 		$options[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_FIELDS_GROUP_NOGROUP'));
 
 		if (count($groups) > 0)
