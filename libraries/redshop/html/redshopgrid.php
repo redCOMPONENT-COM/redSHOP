@@ -196,19 +196,30 @@ class JHtmlRedshopGrid extends JHtmlJGrid
 			JHtml::_('redshopjquery.popover');
 		}
 
-		$iconClass = $active_class === 'publish' ? 'check-circle' : 'minus-circle';
+		$iconClass = $active_class;
+
+		if ($active_class === 'publish')
+		{
+			$iconClass = 'check-circle';
+		}
+		elseif ($active_class === 'unpublish')
+		{
+			$iconClass = 'minus-circle';
+		}
 
 		if ($enabled)
 		{
+			$buttonClass = 'btn-' . str_replace(' ', '-', strtolower($task));
+
 			// Prepare the class.
 			if ($active_class === 'publish')
 			{
-				$buttonClass = 'btn-publish btn-success';
+				$buttonClass .= ' btn-success';
 			}
 
 			elseif ($active_class === 'unpublish')
 			{
-				$buttonClass = 'btn-unpublish btn-danger';
+				$buttonClass .= ' btn-danger';
 			}
 
 			$buttonClass .= $tip ? ' hasPopover' : '';
