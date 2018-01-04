@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * Class quotationModelquotation
  *
@@ -97,7 +95,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		$res = $this->getUserIdByEmail($user_email);
 
-		if (count($res) > 0)
+		if ($res > 0)
 		{
 			$user_id      = $res->user_id;
 			$user_info_id = $res->users_info_id;
