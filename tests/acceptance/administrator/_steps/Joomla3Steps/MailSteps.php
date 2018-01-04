@@ -17,7 +17,7 @@ use Step\AbstractStep;
  *
  * @since    1.4
  */
-class MailCenterSteps extends AbstractStep
+class MailSteps extends AbstractStep
 {
 	use Step\Traits\Publish, Step\Traits\Delete;
 }

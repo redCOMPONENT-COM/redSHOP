@@ -17,7 +17,7 @@ use Cest\AbstractCest;
  *
  * @since    1.4
  */
-class MailCenterCest extends AbstractCest
+class MailCest extends AbstractCest
 {
 	use Cest\Traits\Publish, Cest\Traits\Delete;
 
