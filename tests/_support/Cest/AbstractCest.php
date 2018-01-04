@@ -130,7 +130,7 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for test edit item
+	 * Abstract method for run after complete create item.
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
@@ -138,6 +138,20 @@ class AbstractCest
 	 * @return  void
 	 *
 	 * @depends testItemCreate
+	 */
+	public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
+	{
+	}
+
+	/**
+	 * Method for test edit item
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends afterTestItemCreate
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
@@ -147,5 +161,19 @@ class AbstractCest
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);
+	}
+
+	/**
+	 * Abstract method for run after complete edit item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemEdit
+	 */
+	public function afterTestItemEdit(\AcceptanceTester $tester, Scenario $scenario)
+	{
 	}
 }
