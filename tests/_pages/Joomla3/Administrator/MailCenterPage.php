@@ -7,7 +7,7 @@
  */
 
 /**
- * Class MailCenterManagerJoomla3Page
+ * Class MailCenterPage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
@@ -26,32 +26,7 @@ class MailCenterPage extends AdminJ3Page
 	public static $url = '/administrator/index.php?option=com_redshop&view=mails';
 
 	/**
-	 * @var array
-	 */
-	public static $fieldName = ['id' => 'jform_mail_name'];
-
-	/**
-	 * @var array
-	 */
-	public static $fieldSubject = ['id' => 'jform_mail_subject'];
-
-	/**
-	 * @var array
-	 */
-	public static $fieldSection = ['id' => 'jform_mail_section'];
-
-	/**
-	 * @var array
-	 */
-	public static $fieldBcc = ['id' => 'jform_mail_bcc'];
-
-	/**
 	 * @var string
 	 */
-	public static $selectFirst = "//input[@id='cb0']";
-
-	/**
-	 * @var string
-	 */
-	public static $mailTemplateStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[7]/a";
+	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[7]/a";
 }
