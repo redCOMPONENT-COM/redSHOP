@@ -183,7 +183,7 @@ class RedshopHelperUser
 	 *
 	 * @param   int  $userId  User id
 	 *
-	 * @return  mixed
+	 * @return  object
 	 */
 	public static function getShopperGroupData($userId = 0)
 	{

@@ -1751,17 +1751,13 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object            Object data if success. False otherwise.
+	 * @return  mixed             Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
 	public static function getBillingAddress($userId = 0)
 	{
-		if ($userId == 0)
-		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
+		$userId = !$userId ? JFactory::getUser()->id : $userId;
 
 		if (!$userId)
 		{
