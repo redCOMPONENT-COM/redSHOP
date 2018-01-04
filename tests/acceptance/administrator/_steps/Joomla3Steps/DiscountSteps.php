@@ -351,7 +351,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		echo "Status need show" . $result;
 
 		return $result;
-		$client->click(\MailCenterPage::$mailTemplateStatePath);
+		$client->click(\MailPage::$mailTemplateStatePath);
 	}
 
 	/**
