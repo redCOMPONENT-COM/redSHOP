@@ -1344,7 +1344,7 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Method for return billing address.
 	 *
-	 * @return  object
+	 * @return  mixed
 	 */
 	public function billingaddresses()
 	{
@@ -1355,12 +1355,12 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($user->id)
 		{
-			$list = $this->_order_functions->getBillingAddress($user->id);
+			$list = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
-			$list = $this->_order_functions->getBillingAddress($uid);
+			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		return $list;
