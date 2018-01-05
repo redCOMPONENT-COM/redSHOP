@@ -1553,8 +1553,11 @@ class RedshopModelImport extends RedshopModel
 					}
 
 					// Copy additional Images
-					$moreimage = "SELECT * FROM #__vm_product_files WHERE file_product_id = '" . $product_data->product_id . "'";
-					$db->setQuery($moreimage);
+					$moreImageQuery = $db->getQuery(true);
+					$moreImageQuery->select('*')
+						->from($db->quoteName('#__vm_product_files'))
+						->where($db->quoteName('file_product_id') . ' = ' . (int) $product_data->product_id);
+					$db->setQuery($moreImageQuery);
 					$product_more_img = $db->loadObjectList();
 
 					foreach ($product_more_img as $more_img)
@@ -1565,7 +1568,7 @@ class RedshopModelImport extends RedshopModel
 
 						if (JFile::exists($src))
 						{
-							@copy($src, $dest);
+							JFile::copy($src, $dest);
 						}
 
 						$rows                       = $this->getTable('media_detail');
