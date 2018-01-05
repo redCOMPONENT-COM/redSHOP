@@ -133,6 +133,27 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 *
+	 * Method for change show list 
+	 *
+	 * @param $value
+	 *
+	 */
+	public function showAllItem($value)
+	{
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$listId, 30);
+		$tester->click($pageClass::$listId);
+		$tester->waitForElement($pageClass::$listSearchId, 30);
+		$tester->fillField($pageClass::$listSearchId, $value);
+		$usePage = new $pageClass();
+		$tester->waitForElement($usePage->returnChoice($value), 30);
+		$tester->click($usePage->returnChoice($value));
+	}
+	
+	/**
 	 * Method for fill data in form.
 	 *
 	 * @param   array  $formFields  Array of form fields

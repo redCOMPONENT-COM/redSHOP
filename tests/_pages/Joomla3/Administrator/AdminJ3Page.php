@@ -86,6 +86,16 @@ abstract class AdminJ3Page
 	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
 	/**
+	 * @var array
+	 */
+	public static $listId = ['id' => 's2id_list_limit'];
+
+	/**
+	 * @var array
+	 */
+	public static $listSearchId = ['id' => 's2id_autogen1_search'];
+
+	/**
 	 * Unpublish button.
 	 *
 	 * @var string
