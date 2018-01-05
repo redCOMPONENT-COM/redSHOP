@@ -24,9 +24,4 @@ class MailPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=mails';
-
-	/**
-	 * @var string
-	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[7]/a";
 }

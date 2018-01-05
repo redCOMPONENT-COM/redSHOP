@@ -36,9 +36,9 @@ class MailCest extends AbstractCest
 	protected function prepareNewData()
 	{
 		return array(
-			'mail_name' => $this->faker->bothify('MailCenterCest ?##?'),
+			'mail_name'    => $this->faker->bothify('MailCenterCest ?##?'),
 			'mail_section' => 'Ask question about product',
-			'mail_bcc' => 'BCC Test' . $this->faker->numberBetween(100, 1000),
+			'mail_bcc'     => 'BCC Test' . $this->faker->numberBetween(100, 1000),
 			'mail_subject' => $this->faker->bothify('MailCenterCest Subject ?##?'),
 		);
 	}
