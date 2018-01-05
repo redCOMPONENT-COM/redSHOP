@@ -20,7 +20,7 @@ if (count($template) == 0)
 }
 
 $template = $template[0]->template_desc;
-$sections = explode(',', '1,12,17');
+$sections = array(RedshopHelperExtrafields::SECTION_PRODUCT, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER);
 
 $html = '';
 
@@ -39,7 +39,6 @@ $this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
                     <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
                 </div>
                 <div class="box-body">
-
 					<?php echo RedshopLayoutHelper::render(
 						'system.message',
 						array(
@@ -51,7 +50,6 @@ $this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
 						)
 					);
 					?>
-
                 </div>
             </div>
         </div>
