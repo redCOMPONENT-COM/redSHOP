@@ -128,7 +128,7 @@ class RedshopTableFields_group extends RedshopTable
 
 		if (empty($this->name))
 		{
-			$this->setError('COM_REDSHOP_TABLE_FIELDS_GROUP_MISSING_NAME');
+			/** @scrutinizer ignore-deprecated */ $this->setError('COM_REDSHOP_TABLE_FIELDS_GROUP_MISSING_NAME');
 
 			return false;
 		}
