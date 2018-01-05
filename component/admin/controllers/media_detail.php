@@ -775,17 +775,15 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 				for ($i = 0; $i < $num; $i++)
 				{
-					$filetype = strtolower(JFile::getExt($file[$i]['name']));
+					$fileType = strtolower(JFile::getExt($file[$i]['name']));
 
-					if (empty($filetype))
+					if (empty($fileType))
 					{
 						continue;
 					}
 
-					if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $filetype != 'zip'
-						&& $filetype != 'mpeg' && $filetype != 'mp4' && $filetype != 'avi' && $filetype != '3gp'
-						&& $filetype != 'swf' && $filetype != 'pdf' && $post['media_type'] != 'download'
-						&& $post['media_type'] != 'document')
+					if (!in_array($fileType, array('png', 'gif', 'jpeg', 'jpg', 'zip', 'mpeg', 'mp4', 'avi', '3gp', 'swf', 'pdf'))
+						&& !in_array($post['media_type'], array('download', 'document')))
 					{
 						$msg = JText::_('COM_REDSHOP_MEDIA_FILE_EXTENSION_WRONG');
 
@@ -833,7 +831,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 						}
 					}
-					elseif ($post['bulk'] == 'no' && $filetype == 'zip' && $post['media_type'] != 'download')
+					elseif ($post['bulk'] == 'no' && $fileType == 'zip' && $post['media_type'] != 'download')
 					{
 						$msg = JText::_('COM_REDSHOP_YOU_HAVE_SELECTED_NO_OPTION');
 
