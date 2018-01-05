@@ -186,25 +186,26 @@ class Template
 		$search[]  = "{discount_denotation}";
 		$replace[] = "*";
 
-		$discountTypes = array();
-		$discounts     = explode('@', $row->discount_type);
-		$discountType  = '';
+		$discounts    = explode('@', $row->discount_type);
+		$discountType = '';
 
-		for ($d = 0, $dn = count($discounts); $d < $dn; $d++)
+		foreach ($discounts as $discount)
 		{
-			if ($discounts[$d])
+			if (empty($discount))
 			{
-				$discountTypes = explode(':', $discounts[$d]);
+				continue;
+			}
 
-				if ($discountTypes[0] == 'c')
-				{
-					$discountType .= \JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $discountTypes[1] . '<br>';
-				}
+			$discountTypes = explode(':', $discount);
 
-				if ($discountTypes[0] == 'v')
-				{
-					$discountType .= \JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $discountTypes[1] . '<br>';
-				}
+			if ($discountTypes[0] == 'c')
+			{
+				$discountType .= \JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $discountTypes[1] . '<br>';
+			}
+
+			if ($discountTypes[0] == 'v')
+			{
+				$discountType .= \JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $discountTypes[1] . '<br>';
 			}
 		}
 
@@ -342,6 +343,7 @@ class Template
 		}
 
 		$orderItems         = \RedshopHelperOrder::getOrderItemDetail($orderId);
+		$orderItems         = $orderItems === false ? array() : $orderItems;
 		$startHtml          = explode('{product_loop_start}', $template);
 		$productHtml        = $startHtml[0];
 		$endHtml            = explode('{product_loop_end}', $startHtml[1]);
@@ -417,7 +419,7 @@ class Template
 		if ($isBankTransferPaymentType)
 		{
 			$paymentParams  = new Registry($paymentMethodDetail->params);
-			$textExtraInfor = $paymentParams->get('txtextra_info', '');
+			$textExtraInfor = (string) $paymentParams->get('txtextra_info', '');
 		}
 
 		$template = str_replace("{payment_extrainfo}", $textExtraInfor, $template);

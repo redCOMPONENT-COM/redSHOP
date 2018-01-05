@@ -2734,7 +2734,6 @@ class RedshopHelperOrder
 			return;
 		}
 
-		$cartHelper    = rsCarthelper::getInstance();
 		$orderDetail   = self::getOrderDetails($orderId);
 		$orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
