@@ -977,9 +977,14 @@ class RedshopHelperMedia
 	}
 
 	/**
+	 * Method for clean up image resource.
+	 *
 	 * @param   resource  $res  Image resource
 	 *
 	 * @return  boolean
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function cleanup($res)
 	{
