@@ -250,7 +250,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$rsCarthelper       = rsCarthelper::getInstance();
 
 		// For barcode generation
-		$postData['barcode'] = $order_functions->barcode_randon_number(12, 0);
+		$postData['barcode'] = null;
 
 		$tableOrderDetail = $this->getTable('order_detail');
 
@@ -603,6 +603,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						}
 
 						$property_id = $propArr[$k]['property_id'];
+
 						/** product property STOCKROOM update start */
 						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
@@ -774,8 +775,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
-			Economic::createInvoiceInEconomic($tableOrderDetail->order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($tableOrderDetail->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
@@ -784,8 +784,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($tableOrderDetail->order_id, $checkOrderStatus);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($tableOrderDetail->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
 				{
@@ -795,7 +794,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "save_without_sendmail")
+		if ($postData['task'] != "save_without_sendmail")
 		{
 			RedshopHelperMail::sendOrderMail($tableOrderDetail->order_id);
 		}
