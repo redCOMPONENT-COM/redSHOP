@@ -702,7 +702,7 @@ class productHelper
 				$imageName,
 				$width,
 				$height,
-				Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')
+				Redshop::getConfig()->getInt('WATERMARK_PRODUCT_THUMB_IMAGE')
 			);
 
 			if ($catProductHover)
@@ -711,7 +711,7 @@ class productHelper
 					$imageName,
 					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'),
 					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'),
-					Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')
+					Redshop::getConfig()->getInt('WATERMARK_PRODUCT_THUMB_IMAGE')
 				);
 
 			if ($linkImageName != "")
@@ -721,7 +721,7 @@ class productHelper
 					$linkImageName,
 					'',
 					'',
-					Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE')
+					Redshop::getConfig()->getInt('WATERMARK_PRODUCT_IMAGE')
 				);
 			}
 			else
@@ -731,7 +731,7 @@ class productHelper
 					$imageName,
 					'',
 					'',
-					Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE')
+					Redshop::getConfig()->getInt('WATERMARK_PRODUCT_IMAGE')
 				);
 			}
 		}
