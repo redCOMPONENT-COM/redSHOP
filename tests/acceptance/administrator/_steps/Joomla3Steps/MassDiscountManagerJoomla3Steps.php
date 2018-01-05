@@ -144,16 +144,8 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$saveButton);
-        $I->click(\MassDiscountManagerPage::$endDateIcon);
-        $I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
-        $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-        $I->click(\MassDiscountManagerPage::$getToday);
-
-        $I->click(\MassDiscountManagerPage::$categoryForm);
-        $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
-        $useMassDiscountPage = new \MassDiscountManagerPage();
-        $I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
-        $I->click($useMassDiscountPage->returnXpath($nameCategory));
+		$I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
+		
     }
 
 	public function addMassDiscountMissingAmount($massDiscountName, $discountStart, $discountEnd, $nameCategory, $nameProduct)
@@ -294,7 +286,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\MassDiscountManagerPage::$checkFirstItems);
 		$I->click(\MassDiscountManagerPage::$deleteButton);
 		$I->acceptPopup();
-		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
+//		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
 		$I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
 		$I->fillField(\MassDiscountManagerPage::$MassDiscountFilter, $massDiscountName);
 		$I->pressKey(\MassDiscountManagerPage::$MassDiscountFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -308,7 +300,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\MassDiscountManagerPage::$deleteButton);
 		$I->acceptPopup();
-		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
+//		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
 		$I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
 		$I->fillField(\MassDiscountManagerPage::$MassDiscountFilter, $massDiscountName);
 		$I->pressKey(\MassDiscountManagerPage::$MassDiscountFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);

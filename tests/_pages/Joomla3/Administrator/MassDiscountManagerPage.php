@@ -1,7 +1,7 @@
 <?php
 
 
-class MassDiscountManagerPage
+class MassDiscountManagerPage extends AdminJ3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=mass_discounts';
 
