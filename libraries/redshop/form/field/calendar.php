@@ -141,24 +141,24 @@ class RedshopFormFieldCalendar extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$format = $this->format;
+		$format = str_replace('%', '', $this->format);
 
 		// Build the attributes array.
 		$attributes = array();
 
-		empty($this->size)      ? null : $attributes['size'] = $this->size;
+		empty($this->size) ? null : $attributes['size'] = $this->size;
 		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
-		empty($this->class)     ? null : $attributes['class'] = $this->class;
-		!$this->readonly        ? null : $attributes['readonly'] = 'readonly';
-		!$this->disabled        ? null : $attributes['disabled'] = 'disabled';
-		empty($this->onchange)  ? null : $attributes['onchange'] = $this->onchange;
-		!strlen($hint)          ? null : $attributes['placeholder'] = $hint;
-		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
-		!$this->autofocus       ? null : $attributes['autofocus'] = '';
+		empty($this->class) ? null : $attributes['class'] = $this->class;
+		!$this->readonly ? null : $attributes['readonly'] = 'readonly';
+		!$this->disabled ? null : $attributes['disabled'] = 'disabled';
+		empty($this->onchange) ? null : $attributes['onchange'] = $this->onchange;
+		!strlen($hint) ? null : $attributes['placeholder'] = $hint;
+		$this->autocomplete ? null : $attributes['autocomplete'] = 'off';
+		!$this->autofocus ? null : $attributes['autofocus'] = '';
 
 		if ($this->required)
 		{
-			$attributes['required'] = '';
+			$attributes['required']      = '';
 			$attributes['aria-required'] = 'true';
 		}
 

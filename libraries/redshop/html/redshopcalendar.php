@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Redshop\Config\App;
 
 /**
  * Utility class for creating HTML Calendar
@@ -23,17 +24,17 @@ abstract class JHtmlRedshopcalendar
 	/**
 	 * Displays a calendar control field
 	 *
-	 * @param   string  $value    The date value
-	 * @param   string  $name     The name of the text field
-	 * @param   string  $id       The id of the text field
-	 * @param   string  $format   The date format
-	 * @param   mixed   $attribs  Additional HTML attributes
+	 * @param   string $value   The date value
+	 * @param   string $name    The name of the text field
+	 * @param   string $id      The id of the text field
+	 * @param   string $format  The date format
+	 * @param   mixed  $attribs Additional HTML attributes
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = '', $attribs = null)
 	{
 		static $done;
 
@@ -44,6 +45,8 @@ abstract class JHtmlRedshopcalendar
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		$format   = empty($format) ? Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d') : $format;
+		$format   = RedshopHelperDatetime::convertPHPToMomentFormat($format);
 
 		if (is_array($attribs))
 		{
@@ -68,39 +71,51 @@ abstract class JHtmlRedshopcalendar
 			$inputvalue = '';
 		}
 
-		// Load the calendar behavior
-		JHtml::_('behavior.calendar');
+		JHtml::script('com_redshop/moment.js', false, true, false, false);
+		JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
+		JHtml::script('com_redshop/jquery.inputmask.js', false, true);
+		JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
 
 		// Only display the triggers once for each control.
 		if (!in_array($id, $done))
 		{
-			$document = JFactory::getDocument();
-			$document
-				->addScriptDeclaration(
-					'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
-				);
+			JFactory::getDocument()->addScriptDeclaration(
+				'(function($){
+					$(document).ready(function(){
+						$("#' . $id . '_wrapper").datetimepicker({
+							collapse: false,
+							sideBySide: true,
+							showTodayButton: false,
+							format: "' . $format . '",
+							showClear: true,
+							allowInputToggle: true,
+							icons: {
+								time: "fa fa-time",
+								date: "fa fa-calendar",
+								up: "fa fa-chevron-up",
+								down: "fa fa-chevron-down",
+								previous: "fa fa-chevron-left",
+								next: "fa fa-chevron-right",
+								today: "fa fa-calendar",
+								clear: "fa fa-trash text-danger",
+								close: "fa fa-remove"
+							}
+						});
+						
+						$("#' . $id . '").inputmask("' . strtolower($format) . '");
+					});
+				})(jQuery);'
+			);
 			$done[] = $id;
 		}
 
 		// Hide button using inline styles for readonly/disabled fields
-		$btn_style = ' style=""';
-		$div_class = ' class="input-append"';
 
-		return '<div' . $div_class . '>'
-			. '<input type="text" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '')
-			. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-			. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
+		return '<div class="input-group" id="' . $id . '_wrapper">'
+			. '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
+			. '<input type="text" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
+			. ' name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+			. '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
 			. '</div>';
 	}
 }
