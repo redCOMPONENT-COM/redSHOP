@@ -236,64 +236,66 @@ class RedshopModelAddorder_detail extends RedshopModel
 		return $reduser;
 	}
 
-	public function store($postdata)
+	/**
+	 * @param   array  $postData Post data
+	 *
+	 * @return JTable|boolean
+	 *
+	 * @throws Exception
+	 */
+	public function store($postData)
 	{
-		$order_functions    = order_functions::getInstance();
 		$producthelper      = productHelper::getInstance();
 		$rsCarthelper       = rsCarthelper::getInstance();
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$stockroomhelper    = rsstockroomhelper::getInstance();
 
 		// For barcode generation
-		$barcode_code = $order_functions->barcode_randon_number(12, 0);
+		$postData['barcode'] = null;
 
-		$postdata['barcode'] = $barcode_code;
+		$tableOrderDetail = $this->getTable('order_detail');
 
-		$row = $this->getTable('order_detail');
-
-		if (!$row->bind($postdata))
+		if (!$tableOrderDetail->bind($postData))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
 
-		if (!$row->check())
+		if (!$tableOrderDetail->check())
 		{
 			return false;
 		}
 
-		if (!$row->store())
+		if (!$tableOrderDetail->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
 
-		$rowOrderStatus                = $this->getTable('order_status_log');
-		$rowOrderStatus->order_id      = $row->order_id;
-		$rowOrderStatus->order_status  = $row->order_status;
-		$rowOrderStatus->date_changed  = time();
-		$rowOrderStatus->customer_note = $row->customer_note;
-		$rowOrderStatus->store();
+		$tableOrderStatusLog                = $this->getTable('order_status_log');
+		$tableOrderStatusLog->order_id      = $tableOrderDetail->order_id;
+		$tableOrderStatusLog->order_status  = $tableOrderDetail->order_status;
+		$tableOrderStatusLog->date_changed  = time();
+		$tableOrderStatusLog->customer_note = $tableOrderDetail->customer_note;
+		$tableOrderStatusLog->store();
 
-		$billingaddresses = $order_functions->getBillingAddress($row->user_id);
+		$billingAddresses = RedshopHelperOrder::getBillingAddress($tableOrderDetail->user_id);
 
-		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
+		if (isset($postData['billisship']) && $postData['billisship'] == 1)
 		{
-			$shippingaddresses = $billingaddresses;
+			$shippingAddresses = $billingAddresses;
 		}
 		else
 		{
 			$key                 = 0;
-			$shippingaddresses   = $order_functions->getShippingAddress($row->user_id);
-			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
+			$shippingAddresses   = RedshopHelperOrder::getShippingAddress($tableOrderDetail->user_id);
+			$shipp_users_info_id = (isset($postData['shipp_users_info_id']) && $postData['shipp_users_info_id'] != 0) ? $postData['shipp_users_info_id'] : 0;
 
 			if ($shipp_users_info_id != 0)
 			{
-				for ($o = 0, $on = count($shippingaddresses); $o < $on; $o++)
+				for ($o = 0, $on = count($shippingAddresses); $o < $on; $o++)
 				{
-					if ($shippingaddresses[$o]->users_info_id == $shipp_users_info_id)
+					if ($shippingAddresses[$o]->users_info_id == $shipp_users_info_id)
 					{
 						$key = $o;
 						break;
@@ -301,13 +303,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 				}
 			}
 
-			$shippingaddresses = $shippingaddresses[$key];
+			$shippingAddresses = $shippingAddresses[$key];
 		}
 
 		// ORDER DELIVERY TIME IS REMAINING
 
-		$user_id = $row->user_id;
-		$item    = $postdata['order_item'];
+		$user_id = $tableOrderDetail->user_id;
+		$item    = $postData['order_item'];
 
 		for ($i = 0, $in = count($item); $i < $in; $i++)
 		{
@@ -347,9 +349,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$product = Redshop::product((int) $product_id);
 
-			$rowitem = $this->getTable('order_item_detail');
+			$tableOrderItemDetail = $this->getTable('order_item_detail');
 
-			if (!$rowitem->bind($postdata))
+			if (!$tableOrderItemDetail->bind($postData))
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -357,47 +359,47 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 
 			// STOCKROOM update
-			$updatestock                          = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
-			$stockroom_id_list                    = $updatestock['stockroom_list'];
-			$stockroom_quantity_list              = $updatestock['stockroom_quantity_list'];
-			$rowitem->stockroom_id                = $stockroom_id_list;
-			$rowitem->stockroom_quantity          = $stockroom_quantity_list;
-			$rowitem->order_item_id               = 0;
-			$rowitem->order_id                    = $row->order_id;
-			$rowitem->user_info_id                = $row->user_info_id;
-			$rowitem->supplier_id                 = $product->manufacturer_id;
-			$rowitem->product_id                  = $product_id;
-			$rowitem->order_item_sku              = $product->product_number;
-			$rowitem->order_item_name             = $product->product_name;
-			$rowitem->product_quantity            = $quantity;
-			$rowitem->product_item_price          = $product_price;
-			$rowitem->product_item_price_excl_vat = $product_excl_price;
-			$rowitem->product_final_price         = $product_price * $quantity;
-			$rowitem->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
-			$rowitem->order_status                = $row->order_status;
-			$rowitem->cdate                       = $row->cdate;
-			$rowitem->mdate                       = $row->cdate;
-			$rowitem->product_attribute           = $product_attribute;
-			$rowitem->product_accessory           = $product_accessory;
-			$rowitem->wrapper_id                  = $item[$i]->wrapper_data;
-			$rowitem->wrapper_price               = $wrapper_price;
-			$rowitem->is_giftcard                 = 0;
+			$updatestock                                       = RedshopHelperStockroom::updateStockroomQuantity($product_id, $quantity);
+			$stockroom_id_list                                 = $updatestock['stockroom_list'];
+			$stockroom_quantity_list                           = $updatestock['stockroom_quantity_list'];
+			$tableOrderItemDetail->stockroom_id                = $stockroom_id_list;
+			$tableOrderItemDetail->stockroom_quantity          = $stockroom_quantity_list;
+			$tableOrderItemDetail->order_item_id               = 0;
+			$tableOrderItemDetail->order_id                    = $tableOrderDetail->order_id;
+			$tableOrderItemDetail->user_info_id                = $tableOrderDetail->user_info_id;
+			$tableOrderItemDetail->supplier_id                 = $product->manufacturer_id;
+			$tableOrderItemDetail->product_id                  = $product_id;
+			$tableOrderItemDetail->order_item_sku              = $product->product_number;
+			$tableOrderItemDetail->order_item_name             = $product->product_name;
+			$tableOrderItemDetail->product_quantity            = $quantity;
+			$tableOrderItemDetail->product_item_price          = $product_price;
+			$tableOrderItemDetail->product_item_price_excl_vat = $product_excl_price;
+			$tableOrderItemDetail->product_final_price         = $product_price * $quantity;
+			$tableOrderItemDetail->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+			$tableOrderItemDetail->order_status                = $tableOrderDetail->order_status;
+			$tableOrderItemDetail->cdate                       = $tableOrderDetail->cdate;
+			$tableOrderItemDetail->mdate                       = $tableOrderDetail->cdate;
+			$tableOrderItemDetail->product_attribute           = $product_attribute;
+			$tableOrderItemDetail->product_accessory           = $product_accessory;
+			$tableOrderItemDetail->wrapper_id                  = $item[$i]->wrapper_data;
+			$tableOrderItemDetail->wrapper_price               = $wrapper_price;
+			$tableOrderItemDetail->is_giftcard                 = 0;
 
 			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
-				$medianame = $producthelper->getProductMediaName($product_id);
+				$mediaName = $producthelper->getProductMediaName($product_id);
 
-				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
+				for ($j = 0, $jn = count($mediaName); $j < $jn; $j++)
 				{
 					$product_serial_number = $producthelper->getProdcutSerialNumber($product_id);
 					$producthelper->insertProductDownload(
-						$product_id, $user_id, $rowitem->order_id,
-						$medianame[$j]->media_name, $product_serial_number->serial_number
+						$product_id, $user_id, $tableOrderItemDetail->order_id,
+						$mediaName[$j]->media_name, $product_serial_number->serial_number
 					);
 				}
 			}
 
-			if (!$rowitem->store())
+			if (!$tableOrderItemDetail->store())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -420,7 +422,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($product_id, $accessory_price, $user_id);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -430,18 +432,18 @@ class RedshopModelAddorder_detail extends RedshopModel
 						$attribute_id         = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem                    = $this->getTable('order_attribute_item');
-						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id     = $rowitem->order_item_id;
-						$rowattitem->section_id        = $attribute_id;
-						$rowattitem->section           = "attribute";
-						$rowattitem->parent_section_id = $accessory_id;
-						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
-						$rowattitem->is_accessory_att  = 1;
+						$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
+						$tableOrderAttributeItem->order_att_item_id = 0;
+						$tableOrderAttributeItem->order_item_id     = $tableOrderItemDetail->order_item_id;
+						$tableOrderAttributeItem->section_id        = $attribute_id;
+						$tableOrderAttributeItem->section           = "attribute";
+						$tableOrderAttributeItem->parent_section_id = $accessory_id;
+						$tableOrderAttributeItem->section_name      = $attchildArr[$j]['attribute_name'];
+						$tableOrderAttributeItem->is_accessory_att  = 1;
 
 						if ($attribute_id > 0)
 						{
-							if (!$rowattitem->store())
+							if (!$tableOrderAttributeItem->store())
 							{
 								$this->setError($this->_db->getErrorMsg());
 
@@ -457,30 +459,30 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProductTax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
 							$property_id          = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " ("
 								. $propArr[$k]['property_oprand']
-								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+								. RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr           = $propArr[$k]['property_childs'];
 
-							$rowattitem                    = $this->getTable('order_attribute_item');
-							$rowattitem->order_att_item_id = 0;
-							$rowattitem->order_item_id     = $rowitem->order_item_id;
-							$rowattitem->section_id        = $property_id;
-							$rowattitem->section           = "property";
-							$rowattitem->parent_section_id = $attribute_id;
-							$rowattitem->section_name      = $propArr[$k]['property_name'];
-							$rowattitem->section_price     = $propArr[$k]['property_price'];
-							$rowattitem->section_vat       = $section_vat;
-							$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
-							$rowattitem->is_accessory_att  = 1;
+							$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
+							$tableOrderAttributeItem->order_att_item_id = 0;
+							$tableOrderAttributeItem->order_item_id     = $tableOrderItemDetail->order_item_id;
+							$tableOrderAttributeItem->section_id        = $property_id;
+							$tableOrderAttributeItem->section           = "property";
+							$tableOrderAttributeItem->parent_section_id = $attribute_id;
+							$tableOrderAttributeItem->section_name      = $propArr[$k]['property_name'];
+							$tableOrderAttributeItem->section_price     = $propArr[$k]['property_price'];
+							$tableOrderAttributeItem->section_vat       = $section_vat;
+							$tableOrderAttributeItem->section_oprand    = $propArr[$k]['property_oprand'];
+							$tableOrderAttributeItem->is_accessory_att  = 1;
 
 							if ($property_id > 0)
 							{
-								if (!$rowattitem->store())
+								if (!$tableOrderAttributeItem->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
 
@@ -494,29 +496,29 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+									$section_vat = RedshopHelperProduct::getProductTax($tableOrderItemDetail->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
 								$subproperty_id       = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
-									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+									. RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem                    = $this->getTable('order_attribute_item');
-								$rowattitem->order_att_item_id = 0;
-								$rowattitem->order_item_id     = $rowitem->order_item_id;
-								$rowattitem->section_id        = $subproperty_id;
-								$rowattitem->section           = "subproperty";
-								$rowattitem->parent_section_id = $property_id;
-								$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
-								$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
-								$rowattitem->section_vat       = $section_vat;
-								$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
-								$rowattitem->is_accessory_att  = 1;
+								$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
+								$tableOrderAttributeItem->order_att_item_id = 0;
+								$tableOrderAttributeItem->order_item_id     = $tableOrderItemDetail->order_item_id;
+								$tableOrderAttributeItem->section_id        = $subproperty_id;
+								$tableOrderAttributeItem->section           = "subproperty";
+								$tableOrderAttributeItem->parent_section_id = $property_id;
+								$tableOrderAttributeItem->section_name      = $subpropArr[$l]['subproperty_name'];
+								$tableOrderAttributeItem->section_price     = $subpropArr[$l]['subproperty_price'];
+								$tableOrderAttributeItem->section_vat       = $section_vat;
+								$tableOrderAttributeItem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
+								$tableOrderAttributeItem->is_accessory_att  = 1;
 
 								if ($subproperty_id > 0)
 								{
-									if (!$rowattitem->store())
+									if (!$tableOrderAttributeItem->store())
 									{
 										$this->setError($this->_db->getErrorMsg());
 
@@ -537,7 +539,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$accProductinfo                      = Redshop::product((int) $accdata->child_product_id);
 					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
-					$rowaccitem->order_item_id           = $rowitem->order_item_id;
+					$rowaccitem->order_item_id           = $tableOrderItemDetail->order_item_id;
 					$rowaccitem->product_id              = $accessory_id;
 					$rowaccitem->order_acc_item_sku      = $accProductinfo->product_number;
 					$rowaccitem->order_acc_item_name     = $accessory_name;
@@ -569,18 +571,18 @@ class RedshopModelAddorder_detail extends RedshopModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem                    = $this->getTable('order_attribute_item');
-					$rowattitem->order_att_item_id = 0;
-					$rowattitem->order_item_id     = $rowitem->order_item_id;
-					$rowattitem->section_id        = $attribute_id;
-					$rowattitem->section           = "attribute";
-					$rowattitem->parent_section_id = $rowitem->product_id;
-					$rowattitem->section_name      = $attArr[$j]['attribute_name'];
-					$rowattitem->is_accessory_att  = 0;
+					$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
+					$tableOrderAttributeItem->order_att_item_id = 0;
+					$tableOrderAttributeItem->order_item_id     = $tableOrderItemDetail->order_item_id;
+					$tableOrderAttributeItem->section_id        = $attribute_id;
+					$tableOrderAttributeItem->section           = "attribute";
+					$tableOrderAttributeItem->parent_section_id = $tableOrderItemDetail->product_id;
+					$tableOrderAttributeItem->section_name      = $attArr[$j]['attribute_name'];
+					$tableOrderAttributeItem->is_accessory_att  = 0;
 
 					if ($attribute_id > 0)
 					{
-						if (!$rowattitem->store())
+						if (!$tableOrderAttributeItem->store())
 						{
 							$this->setError($this->_db->getErrorMsg());
 
@@ -596,28 +598,29 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						if ($propArr[$k]['property_price'] > 0)
 						{
-							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
+							$section_vat = RedshopHelperProduct::getProductTax($tableOrderItemDetail->product_id, $propArr[$k]['property_price'], $user_id);
 						}
 
 						$property_id = $propArr[$k]['property_id'];
-						/** product property STOCKROOM update start */
-						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
 
-						$rowattitem                    = $this->getTable('order_attribute_item');
-						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id     = $rowitem->order_item_id;
-						$rowattitem->section_id        = $property_id;
-						$rowattitem->section           = "property";
-						$rowattitem->parent_section_id = $attribute_id;
-						$rowattitem->section_name      = $propArr[$k]['property_name'];
-						$rowattitem->section_price     = $propArr[$k]['property_price'];
-						$rowattitem->section_vat       = $section_vat;
-						$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
-						$rowattitem->is_accessory_att  = 0;
+						/** product property STOCKROOM update start */
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
+
+						$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
+						$tableOrderAttributeItem->order_att_item_id = 0;
+						$tableOrderAttributeItem->order_item_id     = $tableOrderItemDetail->order_item_id;
+						$tableOrderAttributeItem->section_id        = $property_id;
+						$tableOrderAttributeItem->section           = "property";
+						$tableOrderAttributeItem->parent_section_id = $attribute_id;
+						$tableOrderAttributeItem->section_name      = $propArr[$k]['property_name'];
+						$tableOrderAttributeItem->section_price     = $propArr[$k]['property_price'];
+						$tableOrderAttributeItem->section_vat       = $section_vat;
+						$tableOrderAttributeItem->section_oprand    = $propArr[$k]['property_oprand'];
+						$tableOrderAttributeItem->is_accessory_att  = 0;
 
 						if ($property_id > 0)
 						{
-							if (!$rowattitem->store())
+							if (!$tableOrderAttributeItem->store())
 							{
 								$this->setError($this->_db->getErrorMsg());
 
@@ -633,28 +636,28 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							if ($subpropArr[$l]['subproperty_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
-							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
+							$updatestock = RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-							$rowattitem                    = $this->getTable('order_attribute_item');
-							$rowattitem->order_att_item_id = 0;
-							$rowattitem->order_item_id     = $rowitem->order_item_id;
-							$rowattitem->section_id        = $subproperty_id;
-							$rowattitem->section           = "subproperty";
-							$rowattitem->parent_section_id = $property_id;
-							$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
-							$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
-							$rowattitem->section_vat       = $section_vat;
-							$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
-							$rowattitem->is_accessory_att  = 0;
+							$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
+							$tableOrderAttributeItem->order_att_item_id = 0;
+							$tableOrderAttributeItem->order_item_id     = $tableOrderItemDetail->order_item_id;
+							$tableOrderAttributeItem->section_id        = $subproperty_id;
+							$tableOrderAttributeItem->section           = "subproperty";
+							$tableOrderAttributeItem->parent_section_id = $property_id;
+							$tableOrderAttributeItem->section_name      = $subpropArr[$l]['subproperty_name'];
+							$tableOrderAttributeItem->section_price     = $subpropArr[$l]['subproperty_price'];
+							$tableOrderAttributeItem->section_vat       = $section_vat;
+							$tableOrderAttributeItem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
+							$tableOrderAttributeItem->is_accessory_att  = 0;
 
 							if ($subproperty_id > 0)
 							{
-								if (!$rowattitem->store())
+								if (!$tableOrderAttributeItem->store())
 								{
 									$this->setError($this->_db->getErrorMsg());
 
@@ -674,25 +677,25 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
-					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
+					RedshopHelperProduct::insertProductUserField($userfields_id[$ui], $tableOrderItemDetail->order_item_id, 12, $userfields[$ui]);
 				}
 			}
 		}
 
 		$rowpayment = $this->getTable('order_payment');
 
-		if (!$rowpayment->bind($postdata))
+		if (!$rowpayment->bind($postData))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
 
-		$rowpayment->order_id             = $row->order_id;
-		$rowpayment->payment_method_id    = $postdata['payment_method_class'];
-		$rowpayment->order_payment_amount = $row->order_total;
-		$rowpayment->order_payment_name   = $postdata['order_payment_name'];
-		$rowpayment->payment_method_class = $postdata['payment_method_class'];
+		$rowpayment->order_id             = $tableOrderDetail->order_id;
+		$rowpayment->payment_method_id    = $postData['payment_method_class'];
+		$rowpayment->order_payment_amount = $tableOrderDetail->order_total;
+		$rowpayment->order_payment_name   = $postData['order_payment_name'];
+		$rowpayment->payment_method_class = $postData['payment_method_class'];
 
 		if (!$rowpayment->store())
 		{
@@ -703,7 +706,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
-		$userrow->load($billingaddresses->users_info_id);
+		$userrow->load($billingAddresses->users_info_id);
 		$orderuserrow = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
@@ -713,7 +716,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id     = $row->order_id;
+		$orderuserrow->order_id     = $tableOrderDetail->order_id;
 		$orderuserrow->address_type = 'BT';
 
 		if (!$orderuserrow->store())
@@ -726,9 +729,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// Add shipping Info
 		$userrow = $this->getTable('user_detail');
 
-		if (isset($shippingaddresses->users_info_id))
+		if (isset($shippingAddresses->users_info_id))
 		{
-			$userrow->load($shippingaddresses->users_info_id);
+			$userrow->load($shippingAddresses->users_info_id);
 		}
 
 		$orderuserrow = $this->getTable('order_user_detail');
@@ -740,7 +743,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id     = $row->order_id;
+		$orderuserrow->order_id     = $tableOrderDetail->order_id;
 		$orderuserrow->address_type = 'ST';
 
 		if (!$orderuserrow->store())
@@ -750,19 +753,19 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
+		if ($tableOrderDetail->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			RedshopHelperClickatell::clickatellSMS($row->order_id);
+			RedshopHelperClickatell::clickatellSMS($tableOrderDetail->order_id);
 		}
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
-			$economicdata['economic_design_layout']    = $postdata['economic_design_layout'];
-			$economicdata['economic_is_creditcard']    = $postdata['economic_is_creditcard'];
-			$payment_name                              = $postdata['payment_method_class'];
-			$paymentArr                                = explode("rs_payment_", $postdata['payment_method_class']);
+			$economicdata['economic_payment_terms_id'] = $postData['economic_payment_terms_id'];
+			$economicdata['economic_design_layout']    = $postData['economic_design_layout'];
+			$economicdata['economic_is_creditcard']    = $postData['economic_is_creditcard'];
+			$payment_name                              = $postData['payment_method_class'];
+			$paymentArr                                = explode("rs_payment_", $postData['payment_method_class']);
 
 			if (count($paymentArr) > 0)
 			{
@@ -771,31 +774,31 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($tableOrderDetail->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-				$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($postdata['payment_method_class']);
+				$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($postData['payment_method_class']);
 
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($tableOrderDetail->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					RedshopHelperMail::sendEconomicBookInvoiceMail($tableOrderDetail->order_id, $bookinvoicepdf);
 				}
 			}
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "save_without_sendmail")
+		if ($postData['task'] != "save_without_sendmail")
 		{
-			RedshopHelperMail::sendOrderMail($row->order_id);
+			RedshopHelperMail::sendOrderMail($tableOrderDetail->order_id);
 		}
 
-		return $row;
+		return $tableOrderDetail;
 	}
 
 	public function sendRegistrationMail($post)
