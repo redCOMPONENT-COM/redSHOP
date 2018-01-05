@@ -245,7 +245,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 	 */
 	public function store($postData)
 	{
-		$order_functions    = order_functions::getInstance();
 		$producthelper      = productHelper::getInstance();
 		$rsCarthelper       = rsCarthelper::getInstance();
 
@@ -605,7 +604,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						$property_id = $propArr[$k]['property_id'];
 
 						/** product property STOCKROOM update start */
-						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
 						$tableOrderAttributeItem                    = $this->getTable('order_attribute_item');
 						$tableOrderAttributeItem->order_att_item_id = 0;
