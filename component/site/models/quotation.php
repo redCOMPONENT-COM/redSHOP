@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * Class quotationModelquotation
  *
@@ -35,10 +33,7 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
@@ -48,12 +43,11 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function _loadData()
 	{
-		$order_functions = order_functions::getInstance();
 		$user            = JFactory::getUser();
 
 		if ($user->id)
 		{
-			$this->_data               = $order_functions->getBillingAddress($user->id);
+			$this->_data               = RedshopHelperOrder::getBillingAddress($user->id);
 			$this->_data->user_info_id = $this->_data->users_info_id;
 
 			return true;
@@ -86,9 +80,7 @@ class RedshopModelQuotation extends RedshopModel
 	public function store($data, $post)
 	{
 		$this->_loadData();
-		$quotationHelper = quotationHelper::getInstance();
 		$producthelper   = productHelper::getInstance();
-		$extra_field     = extra_field::getInstance();
 		$user            = JFactory::getUser();
 		$user_id         = 0;
 		$user_info_id    = 0;
@@ -103,15 +95,13 @@ class RedshopModelQuotation extends RedshopModel
 
 		$res = $this->getUserIdByEmail($user_email);
 
-		if (count($res) > 0)
+		if ($res > 0)
 		{
 			$user_id      = $res->user_id;
 			$user_info_id = $res->users_info_id;
 		}
 
-		$list_field = $extra_field->extra_field_save($post, 16, $user_info_id, $user_email);
-
-		$data['quotation_number']    = $quotationHelper->generateQuotationNumber();
+		$data['quotation_number']    = RedshopHelperQuotation::generateQuotationNumber();
 		$data['user_id']             = $user_id;
 		$data['user_info_id']        = $user_info_id;
 		$data['user_email']          = $user_email;
@@ -123,7 +113,7 @@ class RedshopModelQuotation extends RedshopModel
 		$data['quotation_mdate']     = time();
 		$data['quotation_note']      = $data['quotation_note'];
 		$data['quotation_ipaddress'] = $_SERVER ['REMOTE_ADDR'];
-		$data['quotation_encrkey']   = $quotationHelper->randomQuotationEncrkey();
+		$data['quotation_encrkey']   = RedshopHelperQuotation::randomQuotationEncryptKey();
 		$data['quotation_discount']  = (isset($data['discount2'])) ? $data['discount2'] : 0;
 
 		$totalitem      = $data['idx'];
@@ -163,7 +153,7 @@ class RedshopModelQuotation extends RedshopModel
 			}
 			else
 			{
-				$product = $producthelper->getProductById($data[$i]['product_id']);
+				$product = RedshopHelperProduct::getProductById($data[$i]['product_id']);
 
 				$retAttArr      = $producthelper->makeAttributeCart($data[$i]['cart_attribute'], $data[$i]['product_id'], 0, 0, $data[$i]['quantity']);
 				$cart_attribute = $retAttArr[0];
@@ -218,7 +208,7 @@ class RedshopModelQuotation extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $producthelper->getProductTax($rowitem->product_id, $accessory_price);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($rowitem->product_id, $accessory_price);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -252,11 +242,11 @@ class RedshopModelQuotation extends RedshopModel
 
 						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
-							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
+							$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							$property_id = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name'])
 								. " (" . $propArr[$k]['property_oprand']
-								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat)
+								. RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat)
 								. ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
@@ -284,11 +274,11 @@ class RedshopModelQuotation extends RedshopModel
 
 							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
-								$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+								$section_vat    = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
-									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+									. RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
 								$rowattitem                        = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
@@ -322,7 +312,7 @@ class RedshopModelQuotation extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo                    = $producthelper->getProductById($accdata->child_product_id);
+					$accProductinfo                    = RedshopHelperProduct::getProductById($accdata->child_product_id);
 					$rowaccitem                        = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id     = $rowitem->quotation_item_id;
@@ -380,7 +370,7 @@ class RedshopModelQuotation extends RedshopModel
 
 					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
-						$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
+						$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 						$property_id = $propArr[$k]['property_id'];
 
 						$rowattitem                        = $this->getTable('quotation_attribute_item');
@@ -409,7 +399,7 @@ class RedshopModelQuotation extends RedshopModel
 
 						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
-							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+							$section_vat    = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
@@ -438,7 +428,7 @@ class RedshopModelQuotation extends RedshopModel
 				}
 			}
 
-			$quotationHelper->manageQuotationUserfield($data[$i], $rowitem->quotation_item_id, $section);
+			RedshopHelperQuotation::manageQuotationUserField($data[$i], $rowitem->quotation_item_id, $section);
 		}
 
 		return $row;
@@ -447,20 +437,13 @@ class RedshopModelQuotation extends RedshopModel
 	public function usercreate($data)
 	{
 		$app             = JFactory::getApplication();
-		$redshopMail     = redshopMail::getInstance();
-		$order_functions = order_functions::getInstance();
-		$Itemid          = $app->input->get('Itemid');
 
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
-		$pathway   = $app->getPathway();
-		$config    = JFactory::getConfig();
 		$authorize = JFactory::getACL();
-		$document  = JFactory::getDocument();
 
-		$MailFrom = $app->getCfg('mailfrom');
-		$FromName = $app->getCfg('fromname');
-		$SiteName = $app->getCfg('sitename');
+		$MailFrom = $app->get('mailfrom');
+		$FromName = $app->get('fromname');
 
 		$usersConfig = JComponentHelper::getParams('com_users');
 		$usersConfig->set('allowUserRegistration', 1);
@@ -516,7 +499,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		$email = $app->input->get('email');
 
-		$password = $order_functions->random_gen_enc_key(12);
+		$password = RedshopHelperOrder::randomGenerateEncryptKey(12);
 
 		// Disallow control chars in the email
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password);
@@ -608,7 +591,7 @@ class RedshopModelQuotation extends RedshopModel
 		$mailbody .= '</table>';
 		$mailsubject = 'Register';
 		$mailbcc     = null;
-		$mailinfo    = $redshopMail->getMailtemplate(0, "quotation_user_register");
+		$mailinfo    = RedshopHelperMail::getMailTemplate(0, "quotation_user_register");
 
 		if (count($mailinfo) > 0)
 		{
@@ -621,13 +604,11 @@ class RedshopModelQuotation extends RedshopModel
 			}
 		}
 
-		$producthelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
-		$user          = JFactory::getUser();
 
 		$cart['user_id']      = $user_id;
-		$user_data            = $producthelper->getUserInformation($user_id);
+		$user_data            = RedshopHelperUser::getUserInformation($user_id);
 		$cart['user_info_id'] = $user_data->users_info_id;
 		$quotationDetail      = $this->store($cart);
 
@@ -638,7 +619,7 @@ class RedshopModelQuotation extends RedshopModel
 		$mailbody = str_replace('{link}', $link, $mailbody);
 		$mailbody = str_replace('{username}', $name, $mailbody);
 		$mailbody = str_replace('{password}', $name, $mailbody);
-		$mailbody = $redshopMail->imginmail($mailbody);
+		$mailbody = RedshopHelperMail::imgInMail($mailbody);
 
 		JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, null, $mailbcc);
 
@@ -652,24 +633,25 @@ class RedshopModelQuotation extends RedshopModel
 		return;
 	}
 
-	public function sendQuotationMail($quotaion_id)
+	public function sendQuotationMail($quotationId)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$send        = $redshopMail->sendQuotationMail($quotaion_id);
-
-		return $send;
+		return RedshopHelperMail::sendQuotationMail($quotationId);
 	}
 
+	/**
+	 * @param   string  $email  Email
+	 *
+	 * @return  null|stdClass
+	 */
 	public function getUserIdByEmail($email)
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_users_info'))
+			->where($db->quoteName('user_email') . ' = ' . $db->quote($email))
+			->where($db->quoteName('address_type') . ' = ' . $db->quote('BT'));
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "users_info "
-			. "WHERE user_email = " . $db->quote($email) . " "
-			. "AND address_type='BT' ";
-		$this->_db->setQuery($q);
-		$list = $this->_db->loadObject();
-
-		return $list;
+		return $db->setQuery($query)->loadObject();
 	}
 }
