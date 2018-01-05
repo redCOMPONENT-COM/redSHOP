@@ -225,6 +225,7 @@ class RedshopMenuLeft_Menu
 				return array('IMPORT_EXPORT', 'xmlimportexport');
 
 			case "fields":
+			case "fields_groups":
 			case "field":
 				return array('CUSTOMIZATION', 'fields');
 
@@ -629,6 +630,11 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=fields',
 				'COM_REDSHOP_FIELDS_LISTING',
 				(self::$view == 'fields') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=fields_groups',
+				'COM_REDSHOP_FIELDS_GROUP_MANAGEMENT',
+				(self::$view == 'fields_groups') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=templates',

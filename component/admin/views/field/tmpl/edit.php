@@ -182,6 +182,7 @@ $editor = JEditor::getInstance();
                 <div class="box-body">
 					<?php echo $this->form->renderField('type') ?>
 					<?php echo $this->form->renderField('section') ?>
+					<?php echo $this->form->renderField('groupId') ?>
 					<?php echo $this->form->renderField('name') ?>
 					<?php echo $this->form->renderField('title') ?>
 					<?php echo $this->form->renderField('class') ?>
