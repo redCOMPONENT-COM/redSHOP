@@ -648,7 +648,7 @@ class RedshopModelQuotation extends RedshopModel
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
-			->from($db->quoteName('#__users_info'))
+			->from($db->quoteName('#__redshop_users_info'))
 			->where($db->quoteName('user_email') . ' = ' . $db->quote($email))
 			->where($db->quoteName('address_type') . ' = ' . $db->quote('BT'));
 
