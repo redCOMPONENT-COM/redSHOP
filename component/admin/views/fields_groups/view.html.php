@@ -19,13 +19,6 @@ defined('_JEXEC') or die;
 
 class RedshopViewFields_groups extends RedshopViewList
 {
-	/**
-	 * Display check-in button or not.
-	 *
-	 * @var   boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $checkIn = false;
 
 	/**
 	 * Method for render 'Published' column
@@ -40,10 +33,9 @@ class RedshopViewFields_groups extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		switch ($config['dataCol'])
+		if ($config['dataCol'] == 'section')
 		{
-			case 'section':
-				return (string) RedshopHelperTemplate::getFieldSections($row->section);
+			return (string) RedshopHelperTemplate::getFieldSections($row->section);
 		}
 
 		return parent::onRenderColumn($config, $index, $row);
