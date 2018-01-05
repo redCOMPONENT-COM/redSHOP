@@ -419,7 +419,7 @@ class productHelper
 
 	public function getProductparentImage($product_parent_id)
 	{
-		$result = $this->getProductById($product_parent_id);
+		$result = RedshopHelperProduct::getProductById($product_parent_id);
 
 		if ($result->product_full_image == '' && $result->product_parent_id > 0)
 		{
@@ -447,7 +447,7 @@ class productHelper
 	{
 		$thum_image      = '';
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$result          = $this->getProductById($product_id);
+		$result          = RedshopHelperProduct::getProductById($product_id);
 
 		$isStockExists = $stockroomhelper->isStockExists($product_id);
 
@@ -761,7 +761,7 @@ class productHelper
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
 		$redhelper  = redhelper::getInstance();
-		$result     = $this->getProductById($product_id);
+		$result     = RedshopHelperProduct::getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
 		$alt        = " alt='" . $result->product_name . "' ";
@@ -894,7 +894,7 @@ class productHelper
 
 		if (strstr($cartform, "{addtocart_quantity_selectbox}"))
 		{
-			$product = $this->getProductById($product_id);
+			$product = RedshopHelperProduct::getProductById($product_id);
 
 			if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != "" && $product->quantity_selectbox_value == '')
 				|| $product->quantity_selectbox_value != '')
@@ -1093,7 +1093,7 @@ class productHelper
 			$user_id = $user->id;
 		}
 
-		$row    = $this->getProductById($product_id);
+		$row    = RedshopHelperProduct::getProductById($product_id);
 		$result = $this->getProductPrices($product_id, $user_id);
 
 		if (!empty($result))
@@ -1475,7 +1475,7 @@ class productHelper
 			switch ($section)
 			{
 				case 'product':
-					return $this->getProductById($id);
+					return RedshopHelperProduct::getProductById($id);
 					break;
 				case 'category':
 					return RedshopHelperCategory::getCategoryById($id);
@@ -1619,7 +1619,7 @@ class productHelper
 	 */
 	public function getCategoryProduct($productId = 0)
 	{
-		if ($result = $this->getProductById($productId))
+		if ($result = RedshopHelperProduct::getProductById($productId))
 		{
 			if (!empty($result->categories))
 			{
@@ -1784,7 +1784,7 @@ class productHelper
 			$orderItem  = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 			$product_id = $orderItem[0]->product_id;
 
-			$productdetail   = $this->getProductById($product_id);
+			$productdetail   = RedshopHelperProduct::getProductById($product_id);
 			$productTemplate = $redTemplate->getTemplate("product", $productdetail->product_template);
 
 			$returnArr    = $this->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
@@ -1925,7 +1925,7 @@ class productHelper
 		if ($section_id == 12)
 		{
 			$product_id = $cart[$id]['product_id'];
-			$productdetail = $this->getProductById($product_id);
+			$productdetail = RedshopHelperProduct::getProductById($product_id);
 			$temp_name = "product";
 			$temp_id   = $productdetail->product_template;
 			$giftcard  = 0;
@@ -2837,7 +2837,7 @@ class productHelper
 			$product_id = $relatedprd_id;
 		}
 
-		$product         = $this->getProductById($product_id);
+		$product         = RedshopHelperProduct::getProductById($product_id);
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
@@ -3238,7 +3238,7 @@ class productHelper
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$Itemid          = $input->getInt('Itemid');
 
-		$product = $this->getProductById($product_id);
+		$product = RedshopHelperProduct::getProductById($product_id);
 
 		// Process the product plugin for property
 		JPluginHelper::importPlugin('redshop_product');
@@ -3504,7 +3504,7 @@ class productHelper
 		}
 		else
 		{
-			$product = $this->getProductById($product_id);
+			$product = RedshopHelperProduct::getProductById($product_id);
 
 			if(isset($product->preorder))
 			{
@@ -4825,7 +4825,7 @@ class productHelper
 		$orderItemdata     = $order_functions->getOrderItemDetail(0, 0, $order_item_id);
 		$cartAttributes    = array();
 
-		$products = $this->getProductById($orderItemdata[0]->product_id);
+		$products = RedshopHelperProduct::getProductById($orderItemdata[0]->product_id);
 
 		if (count($orderItemdata) > 0 && $is_accessory != 1)
 		{
@@ -5592,7 +5592,7 @@ class productHelper
 	{
 		$finalAvgReviewData = '';
 
-		if ($productData = $this->getProductById($productId))
+		if ($productData = RedshopHelperProduct::getProductById($productId))
 		{
 			$avgRating = 0;
 
@@ -5692,7 +5692,7 @@ class productHelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$product    = $this->getProductById($compare_product[$i]["product_id"]);
+			$product    = RedshopHelperProduct::getProductById($compare_product[$i]["product_id"]);
 			$product_id = $compare_product[$i]["product_id"];
 
 			$category_id = $compare_product[$i]["category_id"];
@@ -6023,7 +6023,7 @@ class productHelper
 
 		if ($productinstock == 0)
 		{
-			$product_detail   = $this->getProductById($product_id);
+			$product_detail   = RedshopHelperProduct::getProductById($product_id);
 			$product_preorder = $product_detail->preorder;
 
 			if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
@@ -6336,7 +6336,7 @@ class productHelper
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
 		$url                 = JURI::base();
-		$product             = $this->getProductById($product_id);
+		$product             = RedshopHelperProduct::getProductById($product_id);
 		$redhelper           = redhelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
@@ -6344,7 +6344,7 @@ class productHelper
 		$mainImageResponse   = '';
 		$productmainimg      = '';
 		$Arrreturn           = array();
-		$product             = $this->getProductById($product_id);
+		$product             = RedshopHelperProduct::getProductById($product_id);
 		$type                = '';
 		$pr_number           = $product->product_number;
 		$attrbimg            = '';
@@ -6892,7 +6892,7 @@ class productHelper
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
 		$stockroomhelper            = rsstockroomhelper::getInstance();
-		$producDetail               = $this->getProductById($product_id);
+		$producDetail               = RedshopHelperProduct::getProductById($product_id);
 		$product_preorder           = trim($producDetail->preorder);
 		$rsltdata                   = array();
 		$rsltdata['preorder']       = 0;
@@ -7012,7 +7012,7 @@ class productHelper
 		if (strstr($data_add, "{product_availability_date}"))
 		{
 			$redshopconfig = Redconfiguration::getInstance();
-			$product       = $this->getProductById($product_id);
+			$product       = RedshopHelperProduct::getProductById($product_id);
 
 			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $stockStatusArray['preorder'])
 			{
