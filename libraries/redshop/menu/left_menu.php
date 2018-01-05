@@ -225,6 +225,7 @@ class RedshopMenuLeft_Menu
 				return array('IMPORT_EXPORT', 'xmlimportexport');
 
 			case "fields":
+			case "fields_groups":
 			case "field":
 				return array('CUSTOMIZATION', 'fields');
 
