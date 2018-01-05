@@ -902,7 +902,7 @@ class RedshopHelperExtrafields
 					}
 					else
 					{
-						$exField .= '<td valign="top">&nbsp; ' . JHtml::tooltip($customField->desc, $customField->name, 'tooltip.png', '', '', false) . '</td>';
+						$exField .= '<td valign="top">&nbsp; ' . JHtml::tooltip($customField->desc, $customField->name, 'tooltip.png', '', '') . '</td>';
 					}
 				}
 
