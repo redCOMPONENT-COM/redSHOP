@@ -214,12 +214,12 @@ class JHtmlRedshopGrid extends JHtmlJGrid
 			// Prepare the class.
 			if ($active_class === 'publish')
 			{
-				$buttonClass .= ' btn-success';
+				$buttonClass .= ' btn-success btn-state-item';
 			}
 
 			elseif ($active_class === 'unpublish')
 			{
-				$buttonClass .= ' btn-danger';
+				$buttonClass .= ' btn-danger btn-state-item';
 			}
 
 			$buttonClass .= $tip ? ' hasPopover' : '';

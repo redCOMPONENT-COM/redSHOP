@@ -90,7 +90,7 @@ abstract class AdminJ3Page
 	 *
 	 * @var string
 	 */
-	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-unpublish\')]'];
+	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
 
 	/**
 	 * @var array
