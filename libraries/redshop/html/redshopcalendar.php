@@ -35,9 +35,7 @@ abstract class JHtmlRedshopcalendar
 	 */
 	public static function calendar($value, $name, $id, $format = '', $attribs = null)
 	{
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-		$format   = empty($format) ? Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d') : $format;
+		$format = empty($format) ? Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d') : $format;
 
 		if (is_array($attribs))
 		{
@@ -49,7 +47,7 @@ abstract class JHtmlRedshopcalendar
 
 		JHtml::_('bootstrap.tooltip');
 
-		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
+		// Format value when not null date ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if (!empty($value) && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
@@ -62,10 +60,10 @@ abstract class JHtmlRedshopcalendar
 			$inputvalue = '';
 		}
 
-		JHtml::script('com_redshop/moment.js', false, true, false, false);
-		JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
-		JHtml::script('com_redshop/jquery.inputmask.js', false, true);
-		JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/moment.js', false, true, false, false);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/jquery.inputmask.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
 
 		$momentValue = false;
 
@@ -106,7 +104,6 @@ abstract class JHtmlRedshopcalendar
 		);
 
 		// Hide button using inline styles for readonly/disabled fields
-
 		return '<div class="input-group" id="' . $id . '_wrapper">'
 			. '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
 			. '<input type="text" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'

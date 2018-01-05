@@ -89,7 +89,6 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 			return false;
 		}
 
-		$dateFormat          = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 		$item->shopper_group = RedshopEntityDiscount_Product::getInstance($item->discount_product_id)->getShopperGroups()->ids();
 		$item->category_ids  = explode(',', $item->category_ids);
 
