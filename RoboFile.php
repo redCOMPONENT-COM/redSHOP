@@ -55,6 +55,89 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Get (optional) configuration from an external file
+	 *
+	 * @return \stdClass|null
+	 */
+	public function getConfiguration()
+	{
+		$configurationFile = __DIR__ . '/tests/RoboFile.ini';
+
+		if (!file_exists($configurationFile))
+		{
+			$this->say("No local configuration file");
+
+			return null;
+		}
+
+		$configuration = parse_ini_file($configurationFile);
+
+		if ($configuration === false)
+		{
+			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
+
+			return null;
+		}
+
+		return json_decode(json_encode($configuration));
+	}
+
+	/**
+	 * Get the correct CMS root path
+	 *
+	 * @return string
+	 */
+	private function getCmsPath()
+	{
+		if (empty($this->configuration->cmsPath))
+		{
+			return 'tests/joomla-cms3';
+		}
+
+		if (!file_exists(dirname($this->configuration->cmsPath)))
+		{
+			$this->say('Cms path written in local configuration does not exists or is not readable');
+
+			return 'tests/joomla-cms3';
+		}
+
+		return $this->configuration->cmsPath;
+	}
+
+	/**
+	 * Get the executable extension according to Operating System
+	 *
+	 * @return  string
+	 */
+	private function getExecutableExtension()
+	{
+		if ($this->isWindows())
+		{
+			// Check whether git.exe or git as command should be used, as on windows both are possible
+			if (!$this->_exec('git.exe --version')->getMessage())
+			{
+				return '';
+			}
+			else
+			{
+				return '.exe';
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Check if local OS is Windows
+	 *
+	 * @return  boolean
+	 */
+	private function isWindows()
+	{
+		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+	}
+
+	/**
 	 * Sends Codeception errors to Slack
 	 *
 	 * @param   string $slackChannel            The Slack Channel ID
@@ -82,57 +165,6 @@ class RoboFile extends \Robo\Tasks
 			->run();
 
 		return $result;
-	}
-
-	/**
-	 * Downloads and prepares a Joomla CMS site for testing
-	 *
-	 * @param   int $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
-	 *
-	 * @return mixed
-	 */
-	public function prepareSiteForSystemTests($useHtaccess = 0)
-	{
-		// Caching cloned installations locally
-		if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24))
-		{
-			if (file_exists('tests/cache'))
-			{
-				$this->taskDeleteDir('tests/cache')->run();
-			}
-
-			$this->_exec($this->buildGitCloneCommand());
-		}
-
-		// Get Joomla Clean Testing sites
-		if (is_dir($this->cmsPath))
-		{
-			try
-			{
-				$this->taskDeleteDir($this->cmsPath)->run();
-			}
-			catch (Exception $e)
-			{
-				// Sorry, we tried :(
-				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually. ');
-				exit(1);
-			}
-		}
-
-		$this->_copyDir('tests/cache', $this->cmsPath);
-
-		// Optionally change owner to fix permissions issues
-		if (!empty($this->configuration->localUser) && !$this->isWindows())
-		{
-			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
-		}
-
-		// Optionally uses Joomla default htaccess file
-		if ($useHtaccess == 1)
-		{
-			$this->_copy($this->cmsPath . '/htaccess.txt', $this->cmsPath . '/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /' . $this->cmsPath . '/,g" --in-place ' . $this->cmsPath . '/.htaccess');
-		}
 	}
 
 	public function runTestsJenkins()
@@ -215,7 +247,7 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 
-	$this->taskCodecept()
+		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--tap')
 			->arg('--fail-fast')
@@ -238,8 +270,6 @@ class RoboFile extends \Robo\Tasks
 			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
 			->run()
 			->stopOnFail();
-
-
 
 		/*
 		$this->taskCodecept()
@@ -272,6 +302,30 @@ class RoboFile extends \Robo\Tasks
 		 */
 
 		$this->killSelenium();
+	}
+
+	/**
+	 * Downloads Composer
+	 *
+	 * @return void
+	 */
+	private function getComposer()
+	{
+		// Make sure we have Composer
+		if (!file_exists('./composer.phar'))
+		{
+			$this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
+		}
+	}
+
+	/**
+	 * Stops Selenium Standalone Server
+	 *
+	 * @return void
+	 */
+	public function killSelenium()
+	{
+		$this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
 	}
 
 	/**
@@ -384,6 +438,18 @@ class RoboFile extends \Robo\Tasks
 		{
 			$this->killSelenium();
 		}
+	}
+
+	/**
+	 * Runs Selenium Standalone Server
+	 *
+	 * @param   string $path Optional path to selenium standalone server
+	 *
+	 * @return void
+	 */
+	public function runSelenium($path = null)
+	{
+		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
 	}
 
 	/**
@@ -532,6 +598,79 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Downloads and prepares a Joomla CMS site for testing
+	 *
+	 * @param   int $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
+	 *
+	 * @return mixed
+	 */
+	public function prepareSiteForSystemTests($useHtaccess = 0)
+	{
+		// Caching cloned installations locally
+		if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24))
+		{
+			if (file_exists('tests/cache'))
+			{
+				$this->taskDeleteDir('tests/cache')->run();
+			}
+
+			$this->_exec($this->buildGitCloneCommand());
+		}
+
+		// Get Joomla Clean Testing sites
+		if (is_dir($this->cmsPath))
+		{
+			try
+			{
+				$this->taskDeleteDir($this->cmsPath)->run();
+			}
+			catch (Exception $e)
+			{
+				// Sorry, we tried :(
+				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually. ');
+				exit(1);
+			}
+		}
+
+		$this->_copyDir('tests/cache', $this->cmsPath);
+
+		// Optionally change owner to fix permissions issues
+		if (!empty($this->configuration->localUser) && !$this->isWindows())
+		{
+			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
+		}
+
+		// Optionally uses Joomla default htaccess file
+		if ($useHtaccess == 1)
+		{
+			$this->_copy($this->cmsPath . '/htaccess.txt', $this->cmsPath . '/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /' . $this->cmsPath . '/,g" --in-place ' . $this->cmsPath . '/.htaccess');
+		}
+	}
+
+	/**
+	 * Build correct git clone command according to local configuration and OS
+	 *
+	 * @return string
+	 */
+	private function buildGitCloneCommand()
+	{
+		$branch = empty($this->configuration->branch) ? 'staging' : $this->configuration->branch;
+
+		return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
+	}
+
+	/**
+	 * Looks for Travis Webserver
+	 *
+	 * @return  void
+	 */
+	public function checkTravisWebserver()
+	{
+		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
+	}
+
+	/**
 	 * Method for run specific scenario
 	 *
 	 * @param   string $testCase  Scenario case.
@@ -592,42 +731,6 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 		$this->killSelenium();
-	}
-
-	/**
-	 * Stops Selenium Standalone Server
-	 *
-	 * @return void
-	 */
-	public function killSelenium()
-	{
-		$this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
-	}
-
-	/**
-	 * Downloads Composer
-	 *
-	 * @return void
-	 */
-	private function getComposer()
-	{
-		// Make sure we have Composer
-		if (!file_exists('./composer.phar'))
-		{
-			$this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
-		}
-	}
-
-	/**
-	 * Runs Selenium Standalone Server
-	 *
-	 * @param   string $path Optional path to selenium standalone server
-	 *
-	 * @return void
-	 */
-	public function runSelenium($path = null)
-	{
-		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
 	}
 
 	public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $githubToken, $repoOwner, $repo, $pull)
@@ -715,111 +818,5 @@ class RoboFile extends \Robo\Tasks
 
 		$this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOP.git tests/develop');
 		$this->say('Downloaded Develop Branch for Update test');
-	}
-
-	/**
-	 * Check if local OS is Windows
-	 *
-	 * @return  boolean
-	 */
-	private function isWindows()
-	{
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-	}
-
-	/**
-	 * Get the correct CMS root path
-	 *
-	 * @return string
-	 */
-	private function getCmsPath()
-	{
-		if (empty($this->configuration->cmsPath))
-		{
-			return 'tests/joomla-cms3';
-		}
-
-		if (!file_exists(dirname($this->configuration->cmsPath)))
-		{
-			$this->say('Cms path written in local configuration does not exists or is not readable');
-
-			return 'tests/joomla-cms3';
-		}
-
-		return $this->configuration->cmsPath;
-	}
-
-	/**
-	 * Get the executable extension according to Operating System
-	 *
-	 * @return  string
-	 */
-	private function getExecutableExtension()
-	{
-		if ($this->isWindows())
-		{
-			// Check whether git.exe or git as command should be used, as on windows both are possible
-			if (!$this->_exec('git.exe --version')->getMessage())
-			{
-				return '';
-			}
-			else
-			{
-				return '.exe';
-			}
-		}
-
-		return '';
-	}
-
-	/**
-	 * Get (optional) configuration from an external file
-	 *
-	 * @return \stdClass|null
-	 */
-	public function getConfiguration()
-	{
-		$configurationFile = __DIR__ . '/tests/RoboFile.ini';
-
-		if (!file_exists($configurationFile))
-		{
-			$this->say("No local configuration file");
-
-			return null;
-		}
-
-		$configuration = parse_ini_file($configurationFile);
-
-		if ($configuration === false)
-		{
-			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
-
-			return null;
-		}
-
-		return json_decode(json_encode($configuration));
-	}
-
-	/**
-	 * Build correct git clone command according to local configuration and OS
-	 *
-	 * @return string
-	 */
-	private function buildGitCloneCommand()
-	{
-		$branch = empty($this->configuration->branch) ? 'staging' : $this->configuration->branch;
-
-		return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
-	}
-
-	
-	/**
-	 * Looks for Travis Webserver
-	 *
-	 * @return  void
-	 */
-	public function checkTravisWebserver()
-	{
-		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
 	}
 }
