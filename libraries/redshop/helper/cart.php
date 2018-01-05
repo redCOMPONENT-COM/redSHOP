@@ -764,7 +764,7 @@ abstract class RedshopHelperCart
 	public static function cartFinalCalculation($isModify = true)
 	{
 		$ajax = JFactory::getApplication()->input->get('ajax_cart_box');
-		$cart = JFactory::getSession()->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		if ($isModify === true)
 		{
