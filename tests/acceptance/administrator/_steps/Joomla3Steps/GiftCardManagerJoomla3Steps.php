@@ -262,7 +262,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->filterListBySearching($cardName);
         $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$buttonUnpublish);
-        $I->waitForText(\GiftCardManagerPage::$messageUnpublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+//        $I->waitForText(\GiftCardManagerPage::$messageUnpublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
     }
 
     public function changeCardPublishButton($cardName)
@@ -272,7 +272,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->filterListBySearching($cardName);
         $I->checkAllResults();
         $I->click(\GiftCardManagerPage::$buttonPublish);
-        $I->waitForText(\GiftCardManagerPage::$messagePublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+//        $I->waitForText(\GiftCardManagerPage::$messagePublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
     }
 
 
