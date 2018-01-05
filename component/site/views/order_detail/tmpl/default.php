@@ -154,6 +154,6 @@ if (strstr($orderslist_template, "{order_status_payment_only}"))
 
 $message = str_replace($search, $replace, $orderslist_template);
 
-$message = $redTemplate->parseredSHOPplugin($message);
-$message = $carthelper->replaceOrderTemplate($OrdersDetail, $message);
+$message = RedshopHelperTemplate::parseRedshopPlugin($message);
+$message = Redshop\Order\Template::replaceTemplate($OrdersDetail, $message);
 echo eval("?>" . $message . "<?php ");
