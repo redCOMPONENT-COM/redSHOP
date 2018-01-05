@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Order\Template;
+
 defined('_JEXEC') or die;
 
 /**
@@ -65,7 +67,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		ob_start();
 
-		$pdfTemplate = $cartHelper->replaceOrderTemplate($detail, $pdfTemplate);
+		$pdfTemplate = Template::replaceTemplate($detail, $pdfTemplate);
 
 		$pdfTemplate = str_replace("{order_id_lbl}", JText::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
 		$pdfTemplate = str_replace("{order_id}", $detail->order_id, $pdfTemplate);
