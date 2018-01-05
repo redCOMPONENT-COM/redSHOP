@@ -445,17 +445,21 @@ class productHelper
 	 */
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0, $preselectedresult = array())
 	{
-		$thum_image      = '';
-		$stockroomhelper = rsstockroomhelper::getInstance();
-		$result          = $this->getProductById($product_id);
+		$thumbImage      = '';
+		$product         = RedshopHelperProduct::getProductById($product_id);
 
-		$isStockExists = $stockroomhelper->isStockExists($product_id);
+		if (!$product)
+		{
+			return $thumbImage;
+		}
+
+		$isStockExists = RedshopHelperStockroom::isStockExists($product_id);
 
 		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 
-		if ($result->product_full_image == '' && $result->product_parent_id > 0)
+		if ($product->product_full_image == '' && $product->product_parent_id > 0)
 		{
-			$result = $this->getProductparentImage($result->product_parent_id);
+			$product = $this->getProductparentImage($product->product_parent_id);
 		}
 
 		$cat_product_hover = false;
@@ -465,13 +469,13 @@ class productHelper
 			$cat_product_hover = true;
 		}
 
-		$product_image = $result->product_full_image;
+		$product_image = $product->product_full_image;
 
 		if ($Product_detail_is_light != 2)
 		{
-			if ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
+			if ($product->product_thumb_image && file_exists($middlepath . $product->product_thumb_image))
 			{
-				$product_image = $result->product_thumb_image;
+				$product_image = $product->product_thumb_image;
 			}
 		}
 
@@ -479,20 +483,20 @@ class productHelper
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		// Trigger to change product image.
-		$dispatcher->trigger('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
+		$dispatcher->trigger('changeProductImage', array(&$thumbImage, $product, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
 
-		if (!empty($thum_image))
+		if (!empty($thumbImage))
 		{
-			return $thum_image;
+			return $thumbImage;
 		}
 
 		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
 		{
 			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
 			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE'),
+				$thumbImage = $this->replaceProductImage(
+					$product,
+					Redshop::getConfig()->getString('PRODUCT_OUTOFSTOCK_IMAGE'),
 					"",
 					$link,
 					$width,
@@ -505,13 +509,13 @@ class productHelper
 			}
 			elseif ($product_image && file_exists($middlepath . $product_image))
 			{
-				if ($result->product_full_image && file_exists($middlepath . $result->product_full_image)
-					&& ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image)))
+				if ($product->product_full_image && file_exists($middlepath . $product->product_full_image)
+					&& ($product->product_thumb_image && file_exists($middlepath . $product->product_thumb_image)))
 				{
-					$thum_image = $this->replaceProductImage(
-						$result,
+					$thumbImage = $this->replaceProductImage(
+						$product,
 						$product_image,
-						$result->product_thumb_image,
+						$product->product_thumb_image,
 						$link,
 						$width,
 						$height,
@@ -521,10 +525,10 @@ class productHelper
 						$suffixid
 					);
 				}
-				elseif ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
+				elseif ($product->product_thumb_image && file_exists($middlepath . $product->product_thumb_image))
 				{
-					$thum_image = $this->replaceProductImage(
-						$result,
+					$thumbImage = $this->replaceProductImage(
+						$product,
 						$product_image,
 						"",
 						$link,
@@ -536,10 +540,10 @@ class productHelper
 						$suffixid
 					);
 				}
-				elseif ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
+				elseif ($product->product_full_image && file_exists($middlepath . $product->product_full_image))
 				{
-					$thum_image = $this->replaceProductImage(
-						$result,
+					$thumbImage = $this->replaceProductImage(
+						$product,
 						$product_image,
 						"",
 						$link,
@@ -554,8 +558,8 @@ class productHelper
 			}
 			else
 			{
-				$thum_image = $this->replaceProductImage(
-					$result,
+				$thumbImage = $this->replaceProductImage(
+					$product,
 					"",
 					"",
 					$link,
@@ -570,13 +574,13 @@ class productHelper
 		}
 		elseif ($product_image && file_exists($middlepath . $product_image))
 		{
-			if ($result->product_full_image && file_exists($middlepath . $result->product_full_image)
-				&& ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image)))
+			if ($product->product_full_image && file_exists($middlepath . $product->product_full_image)
+				&& ($product->product_thumb_image && file_exists($middlepath . $product->product_thumb_image)))
 			{
-				$thum_image = $this->replaceProductImage(
-					$result,
+				$thumbImage = $this->replaceProductImage(
+					$product,
 					$product_image,
-					$result->product_thumb_image,
+					$product->product_thumb_image,
 					$link,
 					$width,
 					$height,
@@ -586,10 +590,10 @@ class productHelper
 					$suffixid
 				);
 			}
-			elseif ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
+			elseif ($product->product_thumb_image && file_exists($middlepath . $product->product_thumb_image))
 			{
-				$thum_image = $this->replaceProductImage(
-					$result,
+				$thumbImage = $this->replaceProductImage(
+					$product,
 					$product_image,
 					"",
 					$link,
@@ -601,10 +605,10 @@ class productHelper
 					$suffixid
 				);
 			}
-			elseif ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
+			elseif ($product->product_full_image && file_exists($middlepath . $product->product_full_image))
 			{
-				$thum_image = $this->replaceProductImage(
-					$result,
+				$thumbImage = $this->replaceProductImage(
+					$product,
 					$product_image,
 					"",
 					$link,
@@ -621,8 +625,8 @@ class productHelper
 		{
 			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
-				$thum_image = $this->replaceProductImage(
-					$result,
+				$thumbImage = $this->replaceProductImage(
+					$product,
 					Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 					"",
 					$link,
@@ -636,7 +640,7 @@ class productHelper
 			}
 		}
 
-		return $thum_image;
+		return $thumbImage;
 	}
 
 	/**
