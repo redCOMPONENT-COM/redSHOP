@@ -289,14 +289,14 @@ class RedshopModelConfiguration extends RedshopModel
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn('currency_code', 'value'))
-			->select($db->qn('currency_name', 'text'))
+			->select($db->qn('code', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_currency'))
-			->order($db->qn('currency_name'));
+			->order($db->qn('name'));
 
 		if ($currency)
 		{
-			$query->where($db->qn('currency_code') . ' IN (' . $currency . ')');
+			$query->where($db->qn('code') . ' IN (' . $currency . ')');
 		}
 
 		return $db->setQuery($query)->loadObjectList();

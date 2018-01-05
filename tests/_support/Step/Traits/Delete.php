@@ -41,7 +41,7 @@ trait Delete
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
-		$tester->assertSystemMessageContains($pageClass::$messageDeleteSuccess);
+		$tester->waitForElement($pageClass::$searchField, 30);
 		$tester->searchItem($item);
 		$tester->dontSee($item, $pageClass::$resultRow);
 	}

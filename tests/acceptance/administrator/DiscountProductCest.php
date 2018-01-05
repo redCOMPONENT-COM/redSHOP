@@ -223,77 +223,6 @@ class DiscountProductCest
 	}
 
 	/**
-	 * Function check publish button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends checkDeleteButton
-	 */
-	public function checkPublishButton(AcceptanceTester $client, $scenario)
-	{
-		$client->doAdministratorLogin();
-		$client = new DiscountProductSteps($scenario);
-		$client->checkPublishButton();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
-	}
-
-	/**
-	 * Function check unpublish button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends checkPublishButton
-	 */
-	public function checkUnpublishButton(AcceptanceTester $client, $scenario)
-	{
-		$client->doAdministratorLogin();
-		$client = new DiscountProductSteps($scenario);
-		$client->checkUnpublishButton();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
-	}
-
-	/**
-	 * Function check unpublish all discount
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends checkUnpublishButton
-	 */
-	public function checkUnpublishAll(AcceptanceTester $client, $scenario)
-	{
-		$client->doAdministratorLogin();
-		$client = new DiscountProductSteps($scenario);
-		$client->checkUnpublishAll();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
-	}
-
-	/**
-	 * Function check publish all discount
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends checkUnpublishAll
-	 */
-	public function checkPublishAll(AcceptanceTester $client, $scenario)
-	{
-		$client->doAdministratorLogin();
-		$client = new DiscountProductSteps($scenario);
-		$client->checkPublishAll();
-	}
-
-	/**
 	 * Function delete all discounts
 	 *
 	 * @param   AcceptanceTester $client   Acceptance Tester case.
@@ -301,7 +230,7 @@ class DiscountProductCest
 	 *
 	 * @return  void
 	 *
-	 * @depends checkPublishAll
+	 * @depends checkDeleteButton
 	 *
 	 */
 	public function checkDeleteAll(AcceptanceTester $client, $scenario)

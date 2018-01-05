@@ -57,10 +57,10 @@ class RedshopModelWizard extends RedshopModelConfiguration
 
 		if ($currency)
 		{
-			$where = " WHERE currency_code IN ('" . $currency . "')";
+			$where = " WHERE code IN ('" . $currency . "')";
 		}
 
-		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
+		$query = 'SELECT code as value, name as text FROM #__redshop_currency' . $where . ' ORDER BY name ASC';
 		$db->setQuery($query);
 
 		return $db->loadObjectlist();

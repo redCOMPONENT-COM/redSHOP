@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Redshop\Order\Template;
 
 /**
  * Class Redshop Helper for Mail
@@ -105,7 +106,7 @@ class RedshopHelperMail
 		// Order mail output should reflect the checkout process"
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
-		$message = $cartHelper->replaceOrderTemplate($row, $message, true);
+		$message = Template::replaceTemplate($row, $message, true);
 
 		$discounts    = array_filter(explode('@', $row->discount_type));
 		$discountType = '';
@@ -303,7 +304,6 @@ class RedshopHelperMail
 			return false;
 		}
 
-		$cartHelper    = rsCarthelper::getInstance();
 		$productHelper = productHelper::getInstance();
 		$config        = JFactory::getConfig();
 		$mailBcc       = array();
@@ -322,7 +322,7 @@ class RedshopHelperMail
 		$order            = $order->getItem();
 		$paymentMethod    = RedshopHelperOrder::getPaymentMethodInfo($orderPayment->payment_method_class);
 		$paymentMethod    = $paymentMethod[0];
-		$message          = $cartHelper->replaceOrderTemplate($order, $message, true);
+		$message          = Template::replaceTemplate($order, $message, true);
 
 		// Set order payment method name
 		$search = array('{shopname}', '{payment_lbl}', '{payment_method}', '{special_discount}', '{special_discount_amount}',
@@ -434,7 +434,6 @@ class RedshopHelperMail
 	 */
 	public static function replaceInvoiceMailTemplate($orderId, $html, $subject = null)
 	{
-		$cartHelper   = rsCarthelper::getInstance();
 		$redConfig    = Redconfiguration::getInstance();
 		$row          = RedshopHelperOrder::getOrderDetails($orderId);
 		$discounts    = array_filter(explode('@', $row->discount_type));
@@ -486,10 +485,10 @@ class RedshopHelperMail
 
 		$html = str_replace($search, $replace, $html);
 		$html = self::imgInMail($html);
-		$html = $cartHelper->replaceOrderTemplate($row, $html, true);
+		$html = Template::replaceTemplate($row, $html, true);
 		$html = str_replace("{firstname}", $billingAddresses->firstname, $html);
 		$html = str_replace("{lastname}", $billingAddresses->lastname, $html);
-		$html = $cartHelper->replaceOrderTemplate($row, $html, true);
+		$html = Template::replaceTemplate($row, $html, true);
 
 		$object          = new stdClass;
 		$object->subject = $subject;
