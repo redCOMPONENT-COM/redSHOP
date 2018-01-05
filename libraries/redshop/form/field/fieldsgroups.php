@@ -47,7 +47,7 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
 		$options = array();
 		$options[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_FIELDS_GROUP_NOGROUP'));
 
-		if (count($groups) > 0)
+		if ($groups)
 		{
 			foreach ($groups as $group)
 			{
