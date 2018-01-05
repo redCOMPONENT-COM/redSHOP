@@ -7067,7 +7067,7 @@ class productHelper
 	 * @param   integer  $orderId
 	 * @param   integer  $sectionId
 	 *
-	 * @return boolean|mixed|void
+	 * @return  false|mixed|void
 	 */
 	public function insertPaymentShippingField($cart = array(), $orderId = 0, $sectionId = 18)
 	{
