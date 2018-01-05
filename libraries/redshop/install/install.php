@@ -24,6 +24,11 @@ class RedshopInstall
 	const REDSHOP_INSTALL_STATE_NAME = 'redshop.install.tasks';
 
 	/**
+	 * @var array
+	 */
+	public static $tasks = null;
+
+	/**
 	 * Get list of available tasks for clean install
 	 *
 	 * @return  array|mixed
@@ -268,5 +273,86 @@ class RedshopInstall
 
 		// Try to load distinct if no config found.
 		Redshop::getConfig()->loadDist();
+	}
+
+	/**
+	 * Method for get specific available version of installation.
+	 *
+	 * @param   string  $version  Version specific.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUpdateTasks($version = null)
+	{
+		if (null === $version)
+		{
+			return array();
+		}
+
+		$tasks = self::loadUpdateTasks();
+
+		if (empty($tasks) || !isset($tasks[$version]))
+		{
+			return array();
+		}
+
+		return $tasks[$version];
+	}
+
+	/**
+	 * Method for get all available version of installation.
+	 *
+	 * @return  array  List of update tasks.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function loadUpdateTasks()
+	{
+		if (null !== self::$tasks)
+		{
+			return self::$tasks;
+		}
+
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+
+		$files    = JFolder::files($updatePath, '.php', false, true);
+		$versions = array();
+
+		foreach ($files as $file)
+		{
+			$version = new stdClass;
+
+			$version->version = JFile::stripExt(basename($file));
+
+			require_once $file;
+
+			$version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
+			$version->path  = $file;
+
+			/** @var RedshopInstallUpdate $updateClass */
+			$updateClass    = new $version->class;
+			$classTasks     = $updateClass->getTasksList();
+			$version->tasks = array();
+
+			if (empty($classTasks))
+			{
+				continue;
+			}
+
+			foreach ($classTasks as $classTask)
+			{
+				$version->tasks[] = array('text' => JText::_($classTask->name), 'func' => $version->class . '.' . $classTask->func);
+			}
+
+			$versions[$version->version] = $version;
+		}
+
+		arsort($versions);
+
+		self::$tasks = $versions;
+
+		return self::$tasks;
 	}
 }
