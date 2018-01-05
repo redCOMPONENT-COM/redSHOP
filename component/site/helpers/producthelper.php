@@ -7087,7 +7087,7 @@ class productHelper
 		{
 			$userFields = '';
 
-			if (isset($cart['extrafields_values'] && isset($cart['extrafields_values'][$fieldList->name])))
+			if (isset($cart['extrafields_values']))
 			{
 				$userFields = $cart['extrafields_values'][$fieldList->name];
 			}
