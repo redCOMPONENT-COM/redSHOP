@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopControllerStockroom_detail extends RedshopController
@@ -129,13 +129,12 @@ class RedshopControllerStockroom_detail extends RedshopController
 		$totalprd     = 0;
 		$msg          = '';
 
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+		if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
-			$db       = JFactory::getDbo();
-			$incNo    = $cnt;
-			$query    = 'SELECT p.* FROM #__redshop_product AS p '
-				. 'LIMIT ' . $cnt . ', 10 ';
+			$db    = JFactory::getDbo();
+			$incNo = $cnt;
+			$query = 'SELECT p.* FROM #__redshop_product AS p LIMIT ' . $cnt . ', 10 ';
+
 			$db->setQuery($query);
 			$prd         = $db->loadObjectlist();
 			$totalprd    = count($prd);
@@ -144,7 +143,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
-				$ecoProductNumber = Economic::importStockFromEconomic($prd[$i]);
+				$ecoProductNumber = RedshopEconomic::importStockFromEconomic($prd[$i]);
 				$responcemsg     .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && isset($ecoProductNumber[0]))

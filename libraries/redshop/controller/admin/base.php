@@ -391,6 +391,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	public function ajaxInlineEdit()
 	{
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$app = JFactory::getApplication();
 
 		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
 		$editKey  = $this->input->get('id', 0);
@@ -398,29 +399,34 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		if (empty($editData) || empty($editData[$editKey]))
 		{
 			echo 0;
+
+			$app->close();
 		}
 
 		$editData = $editData[$editKey];
 
 		/** @var RedshopTable $table */
-		$table  = $this->getModel()->getTable();
-		$result = true;
+		$table = $this->getModel()->getTable();
 
 		if (!$table->load($editKey) || !$table->bind($editData) || !$table->check())
 		{
-			$result = false;
+			echo 0;
+
+			$app->close();
 		}
 
 		$table->setOption('inlineMode', true);
 
 		if (!$table->store())
 		{
-			$result = false;
+			echo 0;
+
+			$app->close();
 		}
 
-		echo (int) $result;
+		echo 1;
 
-		JFactory::getApplication()->close();
+		$app->close();
 	}
 
 	/**

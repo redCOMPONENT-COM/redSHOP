@@ -75,9 +75,8 @@ jQuery(document).ready(function() {
 	showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 
 	// Validate data inputs of anonymous user to reload correct data in Onestep checkout process
-	jQuery('body').on('blur', '#divOnestepCheckout input[name=zipcode]', handleAjaxOnestep);
-	jQuery('body').on('change', '#divOnestepCheckout select[name=country_code]', handleAjaxOnestep);
-	jQuery('body').on('change', '#divOnestepCheckout select[name=state_code]', handleAjaxOnestep);
+	jQuery('body').on('blur', '#divOnestepCheckout input[name^="zipcode"]', handleAjaxOnestep);
+	jQuery('body').on('change', '#divOnestepCheckout select[name^="country_code"], #divOnestepCheckout select[name^="state_code"]', handleAjaxOnestep);
 });
 
 function validateInputNumber(objid)
@@ -519,6 +518,8 @@ function billingIsShipping(obj)
 			document.getElementById('divShipping').style.display='';
 		}
 	}
+
+	handleAjaxOnestep({});
 }
 
 function createUserAccount(obj)
@@ -730,10 +731,20 @@ function handleAjaxOnestep(event) {
 	var zip_code = jQuery('#divOnestepCheckout input[name=zipcode]').val();
 	var country_code = jQuery('#divOnestepCheckout select[name=country_code]').val();
 	var state_code = jQuery('#divOnestepCheckout select[name=state_code]').val();
+	var bill_is_ship = 1;
 
-	var anonymous_params = {billing_type: billing_type, zip_code: zip_code, country_code: country_code, state_code: state_code};
+	var anonymous = {billing_type: billing_type, BT:{zip_code: zip_code, country_code: country_code, state_code: state_code}};
 
-	onestepCheckoutProcess('users_info_id', '', anonymous_params);
+	if(!jQuery('#billisship').is(':checked')) {
+		bill_is_ship = 0;
+		zip_code_ST = jQuery('#divOnestepCheckout input[name=zipcode_ST]').val();
+		country_code_ST = jQuery('#divOnestepCheckout select[name=country_code_ST]').val();
+		state_code_ST = jQuery('#divOnestepCheckout select[name=state_code_ST]').val();
+		anonymous.ST = {zip_code_ST: zip_code_ST, country_code_ST: country_code_ST, state_code_ST: state_code_ST};
+	}
+
+	anonymous.bill_is_ship = bill_is_ship;
+	onestepCheckoutProcess('users_info_id', '', anonymous);
 }
 
 function updateGLSLocation(zipcode)
@@ -779,12 +790,12 @@ function displaytextarea(obj)
 		}
 	}
 }
-function onestepCheckoutProcess(objectname, classname, anonymous_params)
+function onestepCheckoutProcess(objectname, classname, anonymous)
 {
 	var newparam = "";
 	var payment_method_id = "";
 
-	anonymous_params = anonymous_params || {};
+	anonymous = anonymous || {};
 
 	if(objectname=="shipping_rate_id")
 	{
@@ -937,7 +948,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous_params)
 			objectname	: objectname,
 			Itemid	: Itemid,
 			sid	: Math.random(),
-			anonymous_params: anonymous_params
+			anonymous: anonymous
 		};
 
 		jQuery(redSHOP).trigger("onBeforeOneStepCheckoutProcess", [postParams]);
@@ -987,6 +998,25 @@ function onestepCheckoutProcess(objectname, classname, anonymous_params)
 					SqueezeBox.fromElement(el);
 				});
 			});
+
+			if (objectname == "users_info_id" && users_info_id == 0 && jQuery('#divPaymentMethod')) {
+				jQuery.ajax({
+				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=ajaxDisplayPaymentAnonymous',
+				type: 'POST',
+				dataType: 'html',
+				data:
+					{
+						is_company: (anonymous.billing_type == "private") ? 0 : 1,
+						eanNumber: (jQuery('#ean_number') && anonymous.billing_type == "company") ? jQuery('#ean_number').val() : 0
+					}
+				})
+				.done(function(response) {
+					jQuery('#divPaymentMethod').html(response);
+				})
+				.fail(function() {
+					console.log("error");
+				});
+			}
 		})
 		.fail(function() {
 			console.warn("onestepCheckoutProcess Error");
