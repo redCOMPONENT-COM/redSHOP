@@ -90,17 +90,17 @@ abstract class AdminJ3Page
 	 *
 	 * @var string
 	 */
-	public static $statePath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'btn-unpublish\')]'];
+	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-unpublish\')]'];
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-checkin\')]'];
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(@class, \'btn-checkin\')]'];
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'btn-edit-item\')]'];
+	public static $stateCheckInPath = ['xpath' => '//a[contains(@class, \'btn-edit-item\')]'];
 
 	/**
 	 * @var array
