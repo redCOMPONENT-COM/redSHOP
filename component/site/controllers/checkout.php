@@ -223,8 +223,14 @@ class RedshopControllerCheckout extends RedshopController
 	public function chkvalidation($users_info_id)
 	{
 		/** @var RedshopModelCheckout $model */
-		$model             = $this->getModel('checkout');
-		$billingaddresses  = $model->billingaddresses();
+		$model            = $this->getModel('checkout');
+		$billingaddresses = $model->billingaddresses();
+
+		if (false === $billingaddresses)
+		{
+			return 0;
+		}
+
 		$shippingaddresses = $model->shipaddress($users_info_id);
 		$extra_field       = extra_field::getInstance();
 		$extrafield_name   = '';
@@ -327,7 +333,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($billingaddresses->is_company == 1)
 		{
-			$extrafield_name = $extra_field->chk_extrafieldValidation(8, $billingaddresses->users_info_id);
+			$extrafield_name = RedshopHelperExtrafields::CheckExtraFieldValidation(8, $billingaddresses->users_info_id);
 
 			if (!empty($extrafield_name))
 			{
@@ -340,7 +346,7 @@ class RedshopControllerCheckout extends RedshopController
 		}
 		else
 		{
-			$extrafield_name = $extra_field->chk_extrafieldValidation(7, $billingaddresses->users_info_id);
+			$extrafield_name = RedshopHelperExtrafields::CheckExtraFieldValidation(7, $billingaddresses->users_info_id);
 
 			if (!empty($extrafield_name))
 			{

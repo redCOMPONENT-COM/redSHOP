@@ -79,23 +79,17 @@ class RedshopHelperCartShipping
 				. $db->qn('shipping_rate_on_shopper_group') . ' = "") ';
 		}
 
-		$whereCountry = '(FIND_IN_SET(' . $db->quote($country) . ', ' . $db->qn('shipping_rate_country') . ') OR '
+		$whereCountry = '(FIND_IN_SET(' . (string) $db->quote($country) . ', ' . $db->qn('shipping_rate_country') . ') OR '
 			. $db->qn('shipping_rate_country') . ' = ' . $db->quote(0) . ' OR ' . $db->qn('shipping_rate_country') . ' = "")';
 
 		if ($state)
 		{
-			$whereState = ' AND (FIND_IN_SET(' . $db->quote($state) . ', ' . $db->qn('shipping_rate_state') . ') OR '
+			$whereState = ' AND (FIND_IN_SET(' . (string) $db->quote($state) . ', ' . $db->qn('shipping_rate_state') . ') OR '
 				. $db->qn('shipping_rate_state') . ' = ' . $db->quote(0) . ' OR ' . $db->qn('shipping_rate_state') . ' = "")';
 		}
 
-		if (!$isCompany)
-		{
-			$isWhere = ' AND (' . $db->qn('company_only') . ' = 2 OR ' . $db->qn('company_only') . ' = 0) ';
-		}
-		else
-		{
-			$isWhere = ' AND (' . $db->qn('company_only') . ' = 1 OR ' . $db->qn('company_only') . ' = 0) ';
-		}
+		$companyOnly = !$isCompany ? 2 : 1;
+		$isWhere     = ' AND (' . $db->qn('company_only') . ' = ' . $companyOnly . ' OR ' . $db->qn('company_only') . ' = 0) ';
 
 		$shippingRate = self::getShippingRateFirst(
 			$volume, $weightTotal, $orderSubtotal, $whereCountry, $isWhere, $whereState, $whereShopper

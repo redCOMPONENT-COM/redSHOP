@@ -1344,7 +1344,7 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Method for return billing address.
 	 *
-	 * @return  mixed
+	 * @return  object|false
 	 */
 	public function billingaddresses()
 	{
