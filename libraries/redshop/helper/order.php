@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Order\Template;
 
 /**
  * Class Redshop Helper for Order
@@ -148,7 +149,6 @@ class RedshopHelperOrder
 	public static function generateInvoiceNumber($orderId)
 	{
 		$db    = JFactory::getDbo();
-
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
@@ -181,7 +181,6 @@ class RedshopHelperOrder
 			$db->setQuery($query);
 
 			$maxInvoiceNo   = $db->loadResult();
-
 			$firstInvoiceNo = (int) Redshop::getConfig()->get('FIRST_INVOICE_NUMBER');
 
 			// It will apply only for the first number ideally!
@@ -598,7 +597,7 @@ class RedshopHelperOrder
 	 */
 	public static function getOrderStatusTitle($orderStatusCode)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('order_status_name'))
 			->from($db->qn('#__redshop_order_status'))
@@ -2487,7 +2486,7 @@ class RedshopHelperOrder
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($orderDetail, $mailData, true);
+			$mailData = Template::replaceTemplate($orderDetail, $mailData, true);
 
 			$arrDiscount     = explode('@', $orderDetail->discount_type);
 			$discountType    = '';
@@ -2735,7 +2734,6 @@ class RedshopHelperOrder
 			return;
 		}
 
-		$cartHelper    = rsCarthelper::getInstance();
 		$orderDetail   = self::getOrderDetails($orderId);
 		$orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
@@ -2782,7 +2780,7 @@ class RedshopHelperOrder
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
+		$message = Template::replaceTemplate($orderDetail, $message, true);
 
 		JPluginHelper::importPlugin('redshop_pdf');
 		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));

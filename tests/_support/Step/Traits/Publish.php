@@ -128,7 +128,7 @@ trait Publish
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->waitForText($item, 30, $pageClass::$resultRow);
 		$tester->click($pageClass::$statePath);
-		
+
 		switch ($function)
 		{
 			case 'publish':
