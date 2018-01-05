@@ -42,7 +42,7 @@ trait Publish
 	 *
 	 * @return  void
 	 */
-	public function publishAllResults()
+	public function publishAllResults($item)
 	{
 		/** @var \AdminJ3Page $pageClass */
 		$pageClass = $this->pageClass;
@@ -52,8 +52,7 @@ trait Publish
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonPublish);
-		$tester->waitForElement($pageClass::$searchField, 30);
-		$tester->assertSystemMessageContains($pageClass::$messagePublishSuccess);
+		$tester->assertEquals('published', $tester->getItemState($item));
 	}
 
 	/**
@@ -79,18 +78,16 @@ trait Publish
 	 *
 	 * @return  void
 	 */
-	public function unpublishAllResults()
+	public function unpublishAllResults($item)
 	{
 		/** @var \AdminJ3Page $pageClass */
 		$pageClass = $this->pageClass;
 		$tester    = $this;
-
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonUnpublish);
-		$tester->waitForElement($pageClass::$searchField, 30);
-		$tester->assertSystemMessageContains($pageClass::$messageUnpublishSuccess);
+		$tester->assertEquals('unpublished', $tester->getItemState($item));
 	}
 
 	/**
@@ -116,18 +113,32 @@ trait Publish
 	/**
 	 * Method for change item state by click on "Status" button in table row.
 	 *
-	 * @param   string  $item  Item name
+	 * @param   string  $item      Item name
+	 * @param   string  $function  Publish state
 	 *
 	 * @return  void
 	 */
-	protected function changeItemStateByStatusButton($item)
+	public function changeItemStateByStatusButton($item, $function = 'publish')
 	{
 		/** @var \AdminJ3Page $pageClass */
 		$pageClass = $this->pageClass;
 		$tester    = $this;
 
 		$tester->searchItem($item);
-		$tester->see($item, $pageClass::$resultRow);
+		$tester->waitForElement($pageClass::$resultRow, 30);
+		$tester->waitForText($item, 30, $pageClass::$resultRow);
 		$tester->click($pageClass::$statePath);
+		
+		switch ($function)
+		{
+			case 'publish':
+				$tester->verifyState('published', $tester->getItemState($item));
+				break;
+			case 'unpublish':
+				$tester->verifyState('unpublished', $tester->getItemState($item));
+				break;
+			default:
+				break;
+		}
 	}
 }

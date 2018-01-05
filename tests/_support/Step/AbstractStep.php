@@ -9,7 +9,7 @@
 namespace Step;
 
 use Codeception\Scenario;
-
+use AcceptanceTester\AdminManagerJoomla3Steps;
 /**
  * Class Redshop
  *
@@ -17,7 +17,7 @@ use Codeception\Scenario;
  *
  * @since  2.1.0
  */
-class AbstractStep extends \AcceptanceTester
+class AbstractStep extends AdminManagerJoomla3Steps
 {
 	/**
 	 * @var \AdminJ3Page
@@ -85,6 +85,7 @@ class AbstractStep extends \AcceptanceTester
 		$tester    = $this;
 
 		$tester->searchItem($searchName);
+		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
 		$tester->checkForPhpNoticesOrWarnings();
@@ -153,7 +154,15 @@ class AbstractStep extends \AcceptanceTester
 				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
-
+				case 'Categories':
+					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
+					break;
+				case 'template':
+					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
+					break;
+				case 'shoppergrouplist':
+					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
+					break;
 				default:
 					$this->fillField($field['xpath'], $data[$index]);
 					break;

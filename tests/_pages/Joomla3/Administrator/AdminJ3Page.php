@@ -73,7 +73,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+	public static $resultRow = "//tbody/tr[1]";
 
 	/**
 	 * @var array
@@ -88,7 +88,17 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'hasTooltip\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm  hasPopover\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm\')]'];
 
 	/**
 	 * @var array
@@ -227,6 +237,12 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+
+	/**
+	 * @var string
+	 */
+	public static $fieldName = "Field required: Name";
+
 	/**
 	 * @var string
 	 */
