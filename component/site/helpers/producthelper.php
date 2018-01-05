@@ -2926,7 +2926,7 @@ class productHelper
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
 								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
-								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "'></a></div>";
+								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='". $subproperty[$i]->text . "'></a></div>";
 
 							$imgAdded++;
 						}
