@@ -133,16 +133,6 @@ class RedshopTableFields_group extends RedshopTable
 			return false;
 		}
 
-		if (empty($this->created_date))
-		{
-			$this->created_date = JFactory::getDate()->toSql();
-		}
-
-		if (empty($this->created_by))
-		{
-			$this->created_by = JFactory::getUser()->id;
-		}
-
 		return true;
 	}
 }
