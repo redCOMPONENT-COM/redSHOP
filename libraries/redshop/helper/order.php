@@ -724,11 +724,11 @@ class RedshopHelperOrder
 	public static function generateParcel($orderId)
 	{
 		$db                        = JFactory::getDbo();
-		$orderDetail               = self::getOrderDetails($orderId);
+		$orderDetail               = RedshopEntityOrder::getInstance($orderId)->getItem();
 		$productHelper             = productHelper::getInstance();
 		$orderProducts             = self::getOrderItemDetail($orderId);
-		$billingInfo               = self::getOrderBillingUserInfo($orderId);
-		$shippingInfo              = self::getOrderShippingUserInfo($orderId);
+		$billingInfo               = RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
+		$shippingInfo              = RedshopEntityOrder::getInstance($orderId)->getShipping()->getItem();
 		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
@@ -758,40 +758,43 @@ class RedshopHelperOrder
 		$contentProducts = array();
 		$qty             = 0;
 
-		for ($c = 0, $cn = count($orderProducts); $c < $cn; $c++)
+		if ($orderProducts)
 		{
-			$qty += $orderProducts [$c]->product_quantity;
-			$contentProducts[] = $orderProducts[$c]->order_item_name;
-
-			// Product Weight
-			$query = $db->getQuery(true)
-						->select($db->qn('weight'))
-						->from($db->qn('#__redshop_product'))
-						->where($db->qn('product_id') . ' = ' . (int) $orderProducts [$c]->product_id);
-			$db->setQuery($query);
-			$weight = $db->loadResult();
-
-			// Accessory Weight
-			$orderAccItemData = self::getOrderItemAccessoryDetail($orderProducts[$c]->order_item_id);
-			$accWeight = 0;
-
-			if (count($orderAccItemData) > 0)
+			for ($c = 0, $cn = count($orderProducts); $c < $cn; $c++)
 			{
-				for ($a = 0, $an = count($orderAccItemData); $a < $an; $a++)
-				{
-					$accessoryQuantity = $orderAccItemData[$a]->product_quantity;
-					$query = $db->getQuery(true)
-								->select($db->qn('weight'))
-								->from($db->qn('#__redshop_product'))
-								->where($db->qn('product_id') . ' = ' . (int) $orderAccItemData[$a]->product_id);
-					$db->setQuery($query);
-					$accessoryWeight = $db->loadResult();
-					$accWeight += ($accessoryWeight * $accessoryQuantity);
-				}
-			}
+				$qty += $orderProducts [$c]->product_quantity;
+				$contentProducts[] = $orderProducts[$c]->order_item_name;
 
-			// Total weight
-			$totalWeight += (($weight * $orderProducts [$c]->product_quantity) + $accWeight);
+				// Product Weight
+				$query = $db->getQuery(true)
+					->select($db->qn('weight'))
+					->from($db->qn('#__redshop_product'))
+					->where($db->qn('product_id') . ' = ' . (int) $orderProducts [$c]->product_id);
+				$db->setQuery($query);
+				$weight = $db->loadResult();
+
+				// Accessory Weight
+				$orderAccItemData = self::getOrderItemAccessoryDetail($orderProducts[$c]->order_item_id);
+				$accWeight = 0;
+
+				if (count($orderAccItemData) > 0)
+				{
+					for ($a = 0, $an = count($orderAccItemData); $a < $an; $a++)
+					{
+						$accessoryQuantity = $orderAccItemData[$a]->product_quantity;
+						$query = $db->getQuery(true)
+							->select($db->qn('weight'))
+							->from($db->qn('#__redshop_product'))
+							->where($db->qn('product_id') . ' = ' . (int) $orderAccItemData[$a]->product_id);
+						$db->setQuery($query);
+						$accessoryWeight = $db->loadResult();
+						$accWeight += ($accessoryWeight * $accessoryQuantity);
+					}
+				}
+
+				// Total weight
+				$totalWeight += (($weight * $orderProducts [$c]->product_quantity) + $accWeight);
+			}
 		}
 
 		$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
@@ -802,17 +805,13 @@ class RedshopHelperOrder
 			$totalWeight = $totalWeight * $unitRatio;
 		}
 
+		$contentProducts       = " ";
+
 		if (Redshop::getConfig()->get('SHOW_PRODUCT_DETAIL'))
 		{
-			$contentProducts       = array_unique($contentProducts);
+			$contentProducts       = array_unique(is_array($contentProducts) ? $contentProducts : array());
 			$contentProducts       = implode(",", $contentProducts);
 			$contentProducts       = mb_convert_encoding($contentProducts, "ISO-8859-1", "UTF-8");
-			$contentProductsRemark = substr(mb_convert_encoding($contentProducts, "ISO-8859-1", "UTF-8"), 0, 29);
-		}
-		else
-		{
-			$contentProducts       = " ";
-			$contentProductsRemark = " ";
 		}
 
 		$filter    = JFilterInput::getInstance();
@@ -937,7 +936,7 @@ class RedshopHelperOrder
 			$response = curl_exec($ch);
 			curl_close($ch);
 
-			$xmlResponse = JFactory::getXML($response, false);
+			$xmlResponse = simplexml_load_string($response);
 
 			if (empty($xmlResponse) || !empty($error))
 			{
