@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class RedshopModelSend_Friend extends RedshopModel
 {
 	/**
-	 * @var null
+	 * @var integer
 	 */
 	public $_id = null;
 
@@ -34,7 +34,7 @@ class RedshopModelSend_Friend extends RedshopModel
 	public $_product = null;
 
 	/**
-	 * @var null
+	 * @var string
 	 */
 	public $_table_prefix = null;
 
@@ -117,8 +117,8 @@ class RedshopModelSend_Friend extends RedshopModel
 		$mailBody    = RedshopHelperMail::imgInMail($mailBody);
 
 		$config   = JFactory::getConfig();
-		$from     = $config->get('mailfrom');
-		$fromName = $config->get('fromname');
+		$from     = (string) $config->get('mailfrom');
+		$fromName = (string) $config->get('fromname');
 
 		$subject = str_replace("{product_name}", $product->product_name, $subject);
 		$subject = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $subject);
