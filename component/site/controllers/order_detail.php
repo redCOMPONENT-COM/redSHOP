@@ -385,11 +385,11 @@ class RedshopControllerOrder_detail extends RedshopController
 		$order_id  = $this->input->getInt('order_id');
 
 		$order       = RedshopHelperOrder::getOrderDetails($order_id);
-		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
+		$paymentInfo = array(RedshopHelperOrder::getPaymentInfo($order_id));
 
-		if (count($paymentInfo) > 0)
+		if (!empty($paymentInfo))
 		{
-			$paymentmethod = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+			$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 
 			if (count($paymentmethod) > 0)
 			{
