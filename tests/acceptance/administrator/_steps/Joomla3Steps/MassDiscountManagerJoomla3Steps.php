@@ -126,6 +126,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 
 		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, date('Y-m-d'));
+		$I->click(\MassDiscountManagerPage::$saveButton);
 		$I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
 	}
 
