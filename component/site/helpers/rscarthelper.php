@@ -694,6 +694,8 @@ class rsCarthelper
 							$product_attribute_value_price = "";
 							$product_attribute_name        = $temp_tpi[$tpi]['attribute_name'];
 
+							$productAttributeCalculatedPrice = '';
+
 							if (count($temp_tpi[$tpi]['attribute_childs']) > 0)
 							{
 								$product_attribute_value = ": " . $temp_tpi[$tpi]['attribute_childs'][0]['property_name'];
