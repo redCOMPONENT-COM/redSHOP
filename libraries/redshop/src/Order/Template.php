@@ -61,10 +61,7 @@ class Template
 			- ($row->order_discount - $row->order_discount_vat);
 		$subTotalVAT     = $row->order_tax + $row->order_shipping_tax;
 
-		if (!isset($row->voucher_discount))
-		{
-			$row->voucher_discount = 0;
-		}
+		$row->voucher_discount = (!isset($row->voucher_discount)) ? 0 : $row->voucher_discount;
 
 		$totalDiscount    = $row->coupon_discount + $row->order_discount + $row->special_discount + $row->tax_after_discount + $row->voucher_discount;
 		$totalForDiscount = !\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') ? $subTotalExcludeVAT : $row->order_subtotal;
@@ -183,8 +180,6 @@ class Template
 		$replace[] = \RedshopHelperProductPrice::formattedPrice($subTotalVAT);
 		$search[]  = "{order_id}";
 		$replace[] = $orderId;
-		$search[]  = "{discount_denotation}";
-		$replace[] = "*";
 
 		$discounts    = explode('@', $row->discount_type);
 		$discountType = '';
@@ -226,6 +221,33 @@ class Template
 		$replace[] = $row->customer_message;
 		$search[]  = "{referral_code}";
 		$replace[] = $row->referral_code;
+
+		// Replace
+		self::replaceOrderLabel($template, $search, $replace);
+
+		$billingAddresses  = $orderEntity->getBilling()->getItem();
+		$shippingAddresses = $orderEntity->getShipping()->getItem();
+
+		$search [] = "{requisition_number}";
+		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
+
+		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
+		$template = \rsCarthelper::getInstance()->replaceShippingAddress($template, $shippingAddresses, $sendMail);
+
+		$template = self::replaceOrderStatusLog($template, $row->order_id);
+
+		$message = str_replace($search, $replace, $template);
+		$message = \RedshopHelperPayment::replaceConditionTag($message, $row->payment_discount, 0, $row->payment_oprand);
+		$message = \RedshopHelperCartTag::replaceDiscount($message, $row->order_discount, $totalForDiscount);
+		$message = \RedshopHelperCartTag::replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);
+
+		return $message;
+	}
+
+	protected static function replaceOrderLabel($template, &$search, &$replace)
+	{
+		$search[]  = "{discount_denotation}";
+		$replace[] = "*";
 
 		if (\JFactory::getApplication()->input->get('order_delivery'))
 		{
@@ -281,24 +303,25 @@ class Template
 			$replace[] = \JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
 		}
 
-		$billingAddresses  = $orderEntity->getBilling()->getItem();
-		$shippingAddresses = $orderEntity->getShipping()->getItem();
-
-		$search [] = "{requisition_number}";
-		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
-
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = \JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 
 		$search [] = "{product_attribute_calculated_price}";
 		$replace[] = "";
-
-		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
-		$template = \rsCarthelper::getInstance()->replaceShippingAddress($template, $shippingAddresses, $sendMail);
-
+	}
+	/**
+	 * @param   string   $template  Template
+	 * @param   integer  $orderId   Order ID
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function replaceOrderStatusLog($template, $orderId)
+	{
 		if (strpos($template, '{order_status_log}') !== false)
 		{
-			$orderStatusLogs = \RedshopEntityOrder::getInstance($row->order_id)->getStatusLog();
+			$orderStatusLogs = \RedshopEntityOrder::getInstance((int) $orderId)->getStatusLog();
 
 			$logLayout = \RedshopLayoutHelper::render(
 				'order.status_log',
@@ -315,12 +338,7 @@ class Template
 			$template = str_replace('{order_status_log}', $logLayout, $template);
 		}
 
-		$message = str_replace($search, $replace, $template);
-		$message = \RedshopHelperPayment::replaceConditionTag($message, $row->payment_discount, 0, $row->payment_oprand);
-		$message = \RedshopHelperCartTag::replaceDiscount($message, $row->order_discount, $totalForDiscount);
-		$message = \RedshopHelperCartTag::replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);
-
-		return $message;
+		return $template;
 	}
 
 	/**
