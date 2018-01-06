@@ -723,12 +723,10 @@ class rsCarthelper
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 								}
 
-								$product_attribute_value_price = RedshopHelperProductPrice::formattedPrice($product_attribute_value_price);
+								$product_attribute_value_price = RedshopHelperProductPrice::formattedPrice((double) $product_attribute_value_price);
 							}
 
-							$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice(
-								$productAttributeCalculatedPrice
-							);
+							$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice((double) $productAttributeCalculatedPrice);
 							$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
 
 							$data_add_pro = $templateattibute_middle;
@@ -973,7 +971,7 @@ class rsCarthelper
 
 		$wrapper_name = "";
 
-		$OrdersDetail = RedshopHelperOrder::getOrderDetails($rowitem[0]->order_id);
+		$OrdersDetail = RedshopEntityOrder::getInstance((int) $rowitem[0]->order_id)->getItem();
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
@@ -2559,7 +2557,7 @@ class rsCarthelper
 								$checked      = '';
 								$data        .= $template_rate_middle;
 
-								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . RedshopHelperProductPrice::formattedPrice(trim($rate[$i]->rate)) . " )" : "";
+								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . RedshopHelperProductPrice::formattedPrice((double) trim($rate[$i]->rate)) . " )" : "";
 
 								if ((isset($rate[$i]->checked) && $rate[$i]->checked) || $rateExist == 0)
 								{
@@ -3571,8 +3569,6 @@ class rsCarthelper
 		{
 			return $newquantity;
 		}
-
-		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$productData      = RedshopHelperProduct::getProductById($data['product_id']);
 		$product_preorder = $productData->preorder;
