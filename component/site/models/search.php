@@ -1056,23 +1056,24 @@ class RedshopModelSearch extends RedshopModel
 	{
 		// For session
 		$session      = JSession::getInstance('none', array());
-		$getredfilter = $session->get('redfilter');
+		$getRedFilter = $session->get('redfilter');
 		$db           = JFactory::getDbo();
 		$productids   = "";
+		$products     = array();
 
-		if (count($getredfilter) > 0 && $all == 1)
+		if (count($getRedFilter) > 0 && $all == 1)
 		{
 			$type_id = array();
 			$tag_id  = array();
 			$k       = 0;
 
-			foreach ($getredfilter as $typeid => $tags)
+			foreach ($getRedFilter as $typeid => $tags)
 			{
 				$type_id[] = $typeid;
 				$tags      = explode(".", $tags);
 				$tag_id[]  = $tags[0];
 
-				if (count($getredfilter) - 1 == $k)
+				if (count($getRedFilter) - 1 == $k)
 				{
 					$lasttypeid = $typeid;
 					$lasttagid  = $tags[0];
@@ -1087,7 +1088,6 @@ class RedshopModelSearch extends RedshopModel
 				. "AND rat.tag_id = " . $db->quote($lasttagid) . " ";
 			$db->setQuery($query);
 			$product  = $db->loadObjectList();
-			$products = array();
 
 			for ($i = 0, $in = count($product); $i < $in; $i++)
 			{

@@ -199,11 +199,11 @@ class RedshopHelperProductPrice
 
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$currencySymbol = " " . $currencySymbol;
+				$currencySymbol = " " . (string) $currencySymbol;
 			}
 			else
 			{
-				$currencySymbol = $currencySymbol . " ";
+				$currencySymbol = (string) $currencySymbol . " ";
 			}
 		}
 
