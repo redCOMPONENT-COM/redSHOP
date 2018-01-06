@@ -781,17 +781,20 @@ class RedshopHelperExtrafields
 
 					if ($dataValue->image_link)
 					{
-						$tmpImageLink = @explode(',,,,,', $dataValue->image_link);
+						$tmpImageLink = explode(',,,,,', $dataValue->image_link);
 					}
 
 					$chkData    = explode(",", $dataValue->data_txt);
 					$imageLink  = array();
 					$imageHover = array();
 
-					for ($ch = 0; $ch < count($chkData); $ch++)
+					if ($chkData !== false)
 					{
-						$imageLink[$chkData[$ch]]  = $tmpImageLink[$ch];
-						$imageHover[$chkData[$ch]] = $tmpImageHover[$ch];
+						foreach ($chkData as $index => $aChkData)
+						{
+							$imageLink[$aChkData]  = $tmpImageLink[$index];
+							$imageHover[$aChkData] = $tmpImageHover[$index];
+						}
 					}
 
 					$exField .= RedshopLayoutHelper::render(
@@ -1012,11 +1015,11 @@ class RedshopHelperExtrafields
 				{
 					$dataTxt = strtotime($data[$rowData[$i]->name]) . ":" . strtotime($data[$rowData[$i]->name . "_expiry"]) . " ";
 
-					if (count($data[$rowData[$i]->name . "_extra_name"]) > 0)
+					if (!empty($data[$rowData[$i]->name . "_extra_name"]))
 					{
-						for ($r = 0; $r < count($data[$rowData[$i]->name . "_extra_name"]); $r++)
+						foreach ($data[$rowData[$i]->name . "_extra_name"] as $aData)
 						{
-							$dataTxt .= strtotime($data[$rowData[$i]->name . "_extra_name"][$r]) . ":";
+							$dataTxt .= strtotime($aData) . ":";
 						}
 					}
 				}
@@ -1041,10 +1044,10 @@ class RedshopHelperExtrafields
 					$imageHover      = array();
 					$imageLink       = array();
 
-					for ($fi = 0; $fi < count($fieldValueArray); $fi++)
+					foreach ($fieldValueArray as $index => $fieldValue)
 					{
-						$imageHover[$fi] = $data['image_hover' . $fieldValueArray[$fi]];
-						$imageLink[$fi]  = $data['image_link' . $fieldValueArray[$fi]];
+						$imageHover[$index] = $data['image_hover' . $fieldValue];
+						$imageLink[$index]  = $data['image_link' . $fieldValue];
 					}
 
 					$strImageHover = implode(',,,,,', $imageHover);
