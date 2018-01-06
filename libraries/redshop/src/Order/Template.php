@@ -244,6 +244,17 @@ class Template
 		return $message;
 	}
 
+	/**
+	 * Replace general string & label in order template
+	 *
+	 * @param   string  $template  Template
+	 * @param   array   $search    Array of search
+	 * @param   array   $replace   Array of replace
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected static function replaceOrderLabel($template, &$search, &$replace)
 	{
 		$search[]  = "{discount_denotation}";
