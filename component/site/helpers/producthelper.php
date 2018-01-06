@@ -1916,7 +1916,6 @@ class productHelper
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField  = extraField::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
@@ -2008,7 +2007,6 @@ class productHelper
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField      = extraField::getInstance();
 		$order_functions = order_functions::getInstance();
 		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
@@ -4570,12 +4568,10 @@ class productHelper
 	{
 		if (empty($this->_cartTemplateData))
 		{
-			$redTemplate = Redtemplate::getInstance();
-
 			if (!Redshop::getConfig()->get('USE_AS_CATALOG') || Redshop::getConfig()->get('USE_AS_CATALOG'))
-				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
+				$this->_cartTemplateData = RedshopHelperTemplate::getTemplate("cart");
 			else
-				$this->_cartTemplateData = $redTemplate->getTemplate("catalogue_cart");
+				$this->_cartTemplateData = RedshopHelperTemplate::getTemplate("catalogue_cart");
 		}
 
 		return $this->_cartTemplateData;
