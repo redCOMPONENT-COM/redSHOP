@@ -309,7 +309,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			if ($redirect)
 			{
 				// Do final cart calculations
-				RedshopHelperCart::cartFinalCalculation;
+				RedshopHelperCart::cartFinalCalculation();
 
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false));
 			}
