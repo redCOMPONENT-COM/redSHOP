@@ -7052,53 +7052,80 @@ class productHelper
 		return RedshopHelperStockroom::isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
 	}
 
-	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
+	/**
+	 * @param   array    $cart
+	 * @param   integer  $orderId
+	 * @param   integer  $sectionId
+	 *
+	 * @return  false|mixed|void
+	 */
+	public function insertPaymentShippingField($cart = array(), $orderId = 0, $sectionId = 18)
 	{
-		$db = JFactory::getDbo();
+		$fieldsList = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1);
 
-		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
-
-		for ($i = 0, $in = count($row_data); $i < $in; $i++)
+		if (empty($fieldsList))
 		{
-			$user_fields = $cart['extrafields_values'][$row_data[$i]->name];
+			return;
+		}
 
-			if (trim($user_fields) != '')
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->insert($db->quoteName('#__redshop_fields_data'))
+			->columns($db->quoteName(array('fieldid', 'data_txt', 'itemid', 'section')));
+
+		foreach ($fieldsList as $fieldList)
+		{
+			$userFields = '';
+
+			if (isset($cart['extrafields_values']))
 			{
-				$sql = "INSERT INTO #__redshop_fields_data "
-					. "(fieldid,data_txt,itemid,section) "
-					. "value ('" . (int) $row_data[$i]->id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
-					. "," . $db->quote($section_id) . ")";
-				$this->_db->setQuery($sql);
-				$this->_db->execute();
+				$userFields = $cart['extrafields_values'][$fieldList->name];
+			}
+
+			if (!empty(trim($userFields)))
+			{
+				$values = array(
+					(int) $fieldList->id,
+					$db->quote(addslashes($userFields)),
+					(int) $orderId,
+					$db->quote($sectionId)
+				);
+				$query->values(implode(',', $values));
 			}
 		}
 
-		return;
+		return $db->setQuery($query)->execute();
 	}
 
-	public function getPaymentandShippingExtrafields($order, $section_id)
+	/**
+	 * @param   object   $order      Order object
+	 * @param   integer  $sectionId  Section Id
+	 *
+	 * @return  string
+	 */
+	public function getPaymentandShippingExtrafields($order, $sectionId)
 	{
-		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
+		$fieldsList = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1);
 		$resultArr  = array();
 
-		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
+		foreach ($fieldsList as $field)
 		{
-			$main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $order->order_id);
+			$result = RedshopHelperExtrafields::getData($field->id, $sectionId, $order->order_id);
 
-			if (!is_null($main_result) && $main_result->data_txt != "" && $row_data[$j]->show_in_front == 1)
+			if (!is_null($result) && $result->data_txt != "" && $field->show_in_front == 1)
 			{
-				$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
+				$resultArr[] = $result->title . " : " . $result->data_txt;
 			}
 		}
 
-		$resultstr = "";
+		$return = "";
 
-		if (count($resultArr) > 0)
+		if (!empty($resultArr))
 		{
-			$resultstr = implode("<br/>", $resultArr);
+			$return = implode("<br/>", $resultArr);
 		}
 
-		return $resultstr;
+		return $return;
 	}
 
 	/**
@@ -7128,13 +7155,12 @@ class productHelper
 
 		$idx = (int) ($compareProducts['idx']);
 
-		for ($i = 0; $i < $idx; $i++)
+		foreach ($compareProducts[$idx] as $compareProduct)
 		{
-			if ($compareProducts[$i]["product_id"] == $productId)
+			if ($compareProduct["product_id"] == $productId)
 			{
 				return 'checked';
 			}
-
 		}
 
 		return '';
@@ -7149,12 +7175,11 @@ class productHelper
 	 */
 	public function getProductMinMaxPrice($productId)
 	{
-		$attributes = $this->getProductAttribute($productId);
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($productId);
 		$propertyIds = array();
 		$subPropertyIds = array();
 		$propertyPriceList = array();
 		$subPropertyPriceList = array();
-
 
 		foreach ($attributes as $key => $attribute)
 		{
