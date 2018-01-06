@@ -44,7 +44,7 @@ class RedshopHelperJs
 
 		if ($session->get('product_currency'))
 		{
-			$currencySymbol  = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('code');
+			$currencySymbol  = RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
 			$currencyConvert = round(RedshopHelperCurrency::convert(1), 2);
 		}
 

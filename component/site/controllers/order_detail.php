@@ -61,7 +61,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$request = $this->input->getArray();
 
 		// Get Order Detail
-		$order = RedshopHelperOrder::getOrderDetails($request['order_id']);
+		$order = RedshopEntityOrder::getInstance((int) $request['order_id'])->getItem();
 
 		// Get Billing and Shipping Info
 		$billingaddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
@@ -381,48 +381,54 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function payment()
 	{
-		$Itemid    = $this->input->getInt('Itemid');
-		$order_id  = $this->input->getInt('order_id');
+		$itemId   = $this->input->getInt('Itemid');
+		$orderId = $this->input->getInt('order_id');
 
-		$order       = RedshopHelperOrder::getOrderDetails($order_id);
-		$paymentInfo = array(RedshopHelperOrder::getPaymentInfo($order_id));
+		$order       = RedshopEntityOrder::getInstance($orderId)->getItem();
+		$paymentInfo = RedshopEntityOrder::getInstance($orderId);
 
-		if (!empty($paymentInfo))
+		if ($paymentInfo !== null)
 		{
-			$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+			$paymentInfo = $paymentInfo->getItem();
+		}
 
-			if (count($paymentmethod) > 0)
+		if ($paymentInfo)
+		{
+			$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo->payment_method_class);
+
+			if (!empty($paymentMethod))
 			{
-				$paymentparams = new JRegistry($paymentmethod[0]->params);
-				$is_creditcard = $paymentparams->get('is_creditcard', 0);
+				$paymentParams = new JRegistry($paymentMethod[0]->params);
+				$isCreditcard = $paymentParams->get('is_creditcard', 0);
 
-				if ($is_creditcard)
+				if ($isCreditcard)
 				{
-					JHtml::script('com_redshop/credit_card.js', false, true);    ?>
+					JHtml::script('com_redshop/credit_card.js', false, true); ?>
 
-				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>" method="post"
-				      name="adminForm" id="adminForm" enctype="multipart/form-data"
-				      onsubmit="return CheckCardNumber(this);">
-					<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo[0]->payment_method_class); ?>
-					<div>
-						<input type="hidden" name="option" value="com_redshop"/>
-						<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-						<input type="hidden" name="task" value="process_payment" />
-						<input type="hidden" name="view" value="order_detail"/>
-						<input type="submit" name="submit" class="greenbutton btn btn-primary"
-						       value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
-						<input type="hidden" name="ccinfo" value="1"/>
-						<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
-						<input type="hidden" name="order_id" value="<?php echo $order->order_id; ?>"/>
-						<input type="hidden" name="payment_method_id"
-						       value="<?php echo $paymentInfo[0]->payment_method_class; ?>"/>
-					</div>
-					</form>
-				<?php
+                    <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>"
+                          method="post"
+                          name="adminForm" id="adminForm" enctype="multipart/form-data"
+                          onsubmit="return CheckCardNumber(this);">
+						<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
+                        <div>
+                            <input type="hidden" name="option" value="com_redshop"/>
+                            <input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>
+                            <input type="hidden" name="task" value="process_payment"/>
+                            <input type="hidden" name="view" value="order_detail"/>
+                            <input type="submit" name="submit" class="greenbutton btn btn-primary"
+                                   value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
+                            <input type="hidden" name="ccinfo" value="1"/>
+                            <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
+                            <input type="hidden" name="order_id" value="<?php echo $order->order_id; ?>"/>
+                            <input type="hidden" name="payment_method_id"
+                                   value="<?php echo $paymentInfo->payment_method_class; ?>"/>
+                        </div>
+                    </form>
+					<?php
 				}
 				else
 				{
-					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&Itemid=' . $itemId;
 					$this->setRedirect($link);
 				}
 			}
