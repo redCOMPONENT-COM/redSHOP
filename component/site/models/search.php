@@ -96,12 +96,12 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
 		{
-			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
-			$module_params = new Registry($module->params);
+			$module       = JModuleHelper::getModule('redPRODUCTFILTER');
+			$moduleParams = new Registry($module->params);
 
-			if ($module_params->get('filtertemplate') != "")
+			if ($moduleParams->get('filtertemplate') != "")
 			{
-				$templateid = $module_params->get('filtertemplate');
+				$templateid = $moduleParams->get('filtertemplate');
 			}
 		}
 
@@ -137,8 +137,8 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($module = JModuleHelper::getModule('redshop_search'))
 		{
-			$module_params  = new Registry($module->params);
-			$perpageproduct = $module_params->get('productperpage', 5);
+			$moduleParams   = new Registry($module->params);
+			$perpageproduct = $moduleParams->get('productperpage', 5);
 		}
 		else
 		{
@@ -476,7 +476,7 @@ class RedshopModelSearch extends RedshopModel
 				}
 			}
 
-			JArrayHelper::toInteger($cat_group);
+			Joomla\Utilities\ArrayHelper::toInteger($cat_group);
 
 			if ($cat_group)
 			{
@@ -502,7 +502,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			// Sanitize ids
 			$manufacturerIds = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($manufacturerIds);
+			Joomla\Utilities\ArrayHelper::toInteger($manufacturerIds);
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
@@ -619,7 +619,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$productIds = explode(',', $products);
-				JArrayHelper::toInteger($productIds);
+				Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
 				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
 			}
@@ -688,7 +688,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$catIds = explode(',', $cat_group);
-				JArrayHelper::toInteger($catIds);
+				Joomla\Utilities\ArrayHelper::toInteger($catIds);
 
 				$query->where('pc.category_id IN (' . $cat_group . ')');
 			}
@@ -707,8 +707,7 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function getRedFilterProduct($remove = 0)
 	{
-		// Get seeion filter data
-
+		// Get session filter data
 		$session = JSession::getInstance('none', array());
 
 		// Get filter types and tags
@@ -716,18 +715,12 @@ class RedshopModelSearch extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$type_id_main = explode('.', $app->input->get('tagid'));
-
 		// Initialise variables
 		$lstproduct_id = array();
-		$lasttypeid    = 0;
-		$lasttagid     = 0;
-		$productid     = 0;
 		$products      = "";
 
 		if (count($getredfilter) != 0)
 		{
-			$main_sal_sp   = array();
 			$main_sal_type = array();
 			$main_sal_tag  = array();
 
@@ -735,14 +728,16 @@ class RedshopModelSearch extends RedshopModel
 			{
 				$main_sal_sp = explode(",", $app->input->get('main_sel'));
 
-				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++)
+				foreach ($main_sal_sp as $sel)
 				{
-					if ($main_sal_sp[$f] != "")
+					if (empty($sel))
 					{
-						$main_typeid     = explode(".", $main_sal_sp[$f]);
-						$main_sal_type[] = $main_typeid[1];
-						$main_sal_tag[]  = $main_typeid[0];
+						continue;
 					}
+
+					$main_typeid     = explode(".", $main_sal_sp[$f]);
+					$main_sal_type[] = $main_typeid[1];
+					$main_sal_tag[]  = $main_typeid[0];
 				}
 			}
 
@@ -860,9 +855,6 @@ class RedshopModelSearch extends RedshopModel
 						$k++;
 					}
 
-					$typeids = implode(",", $type_id);
-					$tagids  = implode(",", $tag_id);
-
 					$query = "SELECT ra.product_id FROM `#__redproductfinder_association_tag` as rat
 					LEFT JOIN #__redproductfinder_associations as ra ON rat.`association_id` = ra.id
 					WHERE  rat.`type_id` = " . $db->quote($lasttypeid) . " ";
@@ -878,7 +870,7 @@ class RedshopModelSearch extends RedshopModel
 						$products[] = $product[$i]->product_id;
 					}
 
-					JArrayHelper::toInteger($products);
+					Joomla\Utilities\ArrayHelper::toInteger($products);
 					$productids = implode(",", $products);
 				}
 
@@ -893,7 +885,7 @@ class RedshopModelSearch extends RedshopModel
 				{
 					// Sanitize ids
 					$productIds = explode(',', $productids);
-					JArrayHelper::toInteger($productIds);
+					Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
 					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
 				}
@@ -1090,9 +1082,6 @@ class RedshopModelSearch extends RedshopModel
 				$k++;
 			}
 
-			$typeids = implode(",", $type_id);
-			$tagids  = implode(",", $tag_id);
-
 			$query = "SELECT ra.product_id FROM #__redproductfinder_association_tag AS rat "
 				. "LEFT JOIN #__redproductfinder_associations AS ra ON rat.association_id = ra.id "
 				. "WHERE rat.type_id = " . $db->quote($lasttypeid) . " "
@@ -1118,7 +1107,7 @@ class RedshopModelSearch extends RedshopModel
 		if ($productids != "")
 		{
 			// Sanitize ids
-			JArrayHelper::toInteger($products);
+			Joomla\Utilities\ArrayHelper::toInteger($products);
 
 			$q .= " AND ra.product_id IN (" . implode(",", $products) . ") ";
 		}
@@ -1153,7 +1142,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		// Sanitize ids
-		JArrayHelper::toInteger($mids);
+		Joomla\Utilities\ArrayHelper::toInteger($mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
 			. "WHERE manufacturer_id IN ('" . implode(",", $mids) . "')";
@@ -1438,7 +1427,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+		JEventDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
 
 		return $query;
 	}
@@ -1456,8 +1445,7 @@ class RedshopModelSearch extends RedshopModel
 		$limit      = $this->getState('list.limit');
 		$templateId = $this->getState('template_id');
 
-		$redTemplate  = Redtemplate::getInstance();
-		$templateArr  = $redTemplate->getTemplate("category", $templateId);
+		$templateArr  = RedshopHelperTemplate::getTemplate("category", $templateId);
 		$templateDesc = $templateArr[0]->template_desc;
 
 		if ($templateDesc)
