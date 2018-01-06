@@ -766,7 +766,7 @@ abstract class AbstractEntity implements EntityInterface
 		if (null === $name)
 		{
 			$class = get_class($this);
-			$name = strstr($class, 'Entity');
+			$name  = strstr($class, 'Entity');
 		}
 
 		$name = str_replace('Entity', '', $name);
@@ -923,7 +923,31 @@ abstract class AbstractEntity implements EntityInterface
 			return $this;
 		}
 
-		if (($table = $this->getTable()) && $table->load(array($key => ($key === $this->tableKey ? $this->id : $keyValue))))
+		$table = $this->getTable();
+
+		if (false !== $table && $table->load(array($key => ($key === $this->tableKey ? $this->id : $keyValue))))
+		{
+			$this->loadFromTable($table);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param   array  $data  Data
+	 *
+	 * @return  self
+	 */
+	public function loadItemByArray($data)
+	{
+		$table = $this->getTable();
+
+		if (false === $table)
+		{
+			return $this;
+		}
+
+		if ($table->load($data))
 		{
 			$this->loadFromTable($table);
 		}
@@ -954,7 +978,7 @@ abstract class AbstractEntity implements EntityInterface
 
 		if (!$item)
 		{
-			\JLog::add("Nothing to save", JLog::ERROR, 'entity');
+			\JLog::add("Nothing to save", \JLog::ERROR, 'entity');
 
 			return 0;
 		}
@@ -963,14 +987,14 @@ abstract class AbstractEntity implements EntityInterface
 
 		if (!$table instanceof \JTable)
 		{
-			\JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+			\JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", \JLog::ERROR, 'entity');
 
 			return 0;
 		}
 
 		if (!$table->save((array) $item))
 		{
-			\JLog::add($table->getError(), JLog::ERROR, 'entity');
+			\JLog::add($table->getError(), \JLog::ERROR, 'entity');
 
 			return 0;
 		}
@@ -999,7 +1023,7 @@ abstract class AbstractEntity implements EntityInterface
 		}
 
 		$class = get_called_class();
-		$id = $this->getId();
+		$id    = $this->getId();
 
 		unset(static::$instances[$class][$id]);
 
@@ -1021,7 +1045,7 @@ abstract class AbstractEntity implements EntityInterface
 	/**
 	 * Process data after saving.
 	 *
-	 * @param   JTable  $table  JTable instance data.
+	 * @param   \JTable  $table  JTable instance data.
 	 *
 	 * @return  boolean
 	 */

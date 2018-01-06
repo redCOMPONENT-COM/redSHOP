@@ -25,7 +25,7 @@ class RedshopEntityAccount_Group extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tableaccountgroup_detail
 	 */
 	public function getTable($name = null)
 	{

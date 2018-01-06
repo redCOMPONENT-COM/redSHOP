@@ -25,7 +25,7 @@ class RedshopEntityQuotation_Item_Attribute extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tablequotation_attribute_item
 	 */
 	public function getTable($name = null)
 	{

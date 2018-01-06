@@ -25,7 +25,7 @@ class RedshopEntityOrder_Item_Accessory extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tableorder_acc_item
 	 */
 	public function getTable($name = null)
 	{

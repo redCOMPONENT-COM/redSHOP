@@ -8,7 +8,7 @@
  */
 
 use Redshop\Entity\AbstractEntity;
-use Redshop\Entity\CoreEntityCollection;
+use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
 
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 class RedshopEntityOrder_Item extends AbstractEntity
 {
 	/**
-	 * @var   CoreEntityCollection
+	 * @var   EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -33,7 +33,7 @@ class RedshopEntityOrder_Item extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tableorder_item_detail
 	 */
 	public function getTable($name = null)
 	{
@@ -43,7 +43,7 @@ class RedshopEntityOrder_Item extends AbstractEntity
 	/**
 	 * Method for get accessory items for this order item
 	 *
-	 * @return   CoreEntityCollection   CoreEntityCollection if success. Null otherwise.
+	 * @return   EntityCollection   CoreEntityCollection if success. Null otherwise.
 	 *
 	 * @since    2.0.6
 	 */
@@ -76,13 +76,14 @@ class RedshopEntityOrder_Item extends AbstractEntity
 			return $this;
 		}
 
-		$this->accessoryItems = new CoreEntityCollection;
+		$this->accessoryItems = new EntityCollection;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_acc_item'))
 			->where($db->qn('order_item_id') . ' = ' . $this->getId());
+
 		$items = $db->setQuery($query)->loadObjectList();
 
 		if (empty($items))

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Entity\AbstractEntity;
-use Redshop\Entity\CoreEntityCollection;
+use Redshop\Entity\EntityCollection;
 
 /**
  * Category Entity
@@ -36,14 +36,14 @@ class RedshopEntityCategory extends AbstractEntity
 	protected $products;
 
 	/**
-	 * @var    CoreEntityCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.0.6
 	 */
 	protected $childCategories;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.1.0
 	 */
@@ -120,7 +120,7 @@ class RedshopEntityCategory extends AbstractEntity
 	/**
 	 * Method for get child categories of current category
 	 *
-	 * @return  CoreEntityCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -148,7 +148,7 @@ class RedshopEntityCategory extends AbstractEntity
 			return $this;
 		}
 
-		$this->childCategories = new CoreEntityCollection;
+		$this->childCategories = new EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -258,7 +258,7 @@ class RedshopEntityCategory extends AbstractEntity
 		/** @var RedshopTableCategory $table */
 		$table = $this->getTable();
 
-		if (!$table instanceof JTable)
+		if (!$table instanceof RedshopTableCategory)
 		{
 			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 

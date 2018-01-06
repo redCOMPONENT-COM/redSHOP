@@ -276,7 +276,7 @@ class CoreEntityCollection implements \Countable, \Iterator
 
 		foreach ($this->entities as $id => $entity)
 		{
-			$fields[$id] = $entity->getItem()->$fieldName;
+			$fields[$id] = $entity->getItem()->{$fieldName};
 		}
 
 		return $fields;

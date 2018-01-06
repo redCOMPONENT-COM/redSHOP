@@ -228,6 +228,7 @@ class RedshopEntityOrder extends AbstractEntity
 			->select('*')
 			->from($db->qn('#__redshop_order_item'))
 			->where($db->qn('order_id') . ' = ' . $this->getId());
+
 		$orderItems = $db->setQuery($query)->loadObjectList();
 
 		if (empty($orderItems))
@@ -324,14 +325,14 @@ class RedshopEntityOrder extends AbstractEntity
 			return $this;
 		}
 
-		$this->users = new CoreEntityCollection;
+		$this->users = new EntityCollection;
 
-		$db = JFactory::getDbo();
-
-		$query   = $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_users_info'))
 			->where($db->qn('order_id') . ' = ' . (int) $this->getId());
+
 		$results = $db->setQuery($query)->loadObjectList();
 
 		if (empty($results))

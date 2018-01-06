@@ -25,7 +25,7 @@ class RedshopEntityOrder_Status_Log extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tableorder_status_log
 	 */
 	public function getTable($name = null)
 	{

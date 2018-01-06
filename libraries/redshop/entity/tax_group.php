@@ -8,7 +8,7 @@
  */
 
 use Redshop\Entity\AbstractEntity;
-use Redshop\Entity\CoreEntityCollection;
+use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
 
@@ -24,7 +24,7 @@ class RedshopEntityTax_Group extends AbstractEntity
 	/**
 	 * List of tax rates belong to this tax group
 	 *
-	 * @var    CoreEntityCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.0.4
 	 */
@@ -33,7 +33,7 @@ class RedshopEntityTax_Group extends AbstractEntity
 	/**
 	 * Method for get all associated tax rates
 	 *
-	 * @return  CoreEntityCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.0.4
 	 */
@@ -56,8 +56,7 @@ class RedshopEntityTax_Group extends AbstractEntity
 	 */
 	protected function loadTaxRates()
 	{
-		/** @var CoreEntityCollection taxRates */
-		$this->taxRates = new CoreEntityCollection;
+		$this->taxRates = new EntityCollection;
 
 		if (!$this->hasId())
 		{

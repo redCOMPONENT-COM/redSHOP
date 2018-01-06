@@ -25,7 +25,7 @@ class RedshopEntityShipping extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tableshipping_detail
 	 */
 	public function getTable($name = null)
 	{

@@ -8,6 +8,7 @@
  */
 
 use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
 
@@ -21,14 +22,14 @@ defined('_JEXEC') or die;
 class RedshopEntityDiscount extends AbstractEntity
 {
 	/**
-	 * @var RedshopEntitiesCollection
+	 * @var EntityCollection
 	 */
 	protected $shopperGroups;
 
 	/**
 	 * Method for get shopper groups associate with this discount
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -51,7 +52,7 @@ class RedshopEntityDiscount extends AbstractEntity
 	 */
 	protected function loadShopperGroups()
 	{
-		$this->shopperGroups = new RedshopEntitiesCollection;
+		$this->shopperGroups = new EntityCollection;
 
 		if (!$this->hasId())
 		{

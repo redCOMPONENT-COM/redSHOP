@@ -25,7 +25,7 @@ class RedshopEntityCoupon_Transaction extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Tabletransaction_coupon_detail
 	 */
 	public function getTable($name = null)
 	{

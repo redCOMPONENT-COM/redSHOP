@@ -19,6 +19,36 @@ defined('_JEXEC') or die;
 class RedshopUpdate211Beta2 extends RedshopInstallUpdate
 {
 	/**
+	 * Return list of old files for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getOldFiles()
+	{
+		return array(
+			JPATH_LIBRARIES . '/redshop/entity/base.php',
+			JPATH_LIBRARIES . '/redshop/entity/entity.php'
+		);
+	}
+
+	/**
+	 * Return list of old folders for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getOldFolders()
+	{
+		return array(
+			JPATH_LIBRARIES . '/redshop/entities'
+		);
+	}
+
+
+	/**
 	 * Method for migrate voucher data to new table
 	 *
 	 * @return  void

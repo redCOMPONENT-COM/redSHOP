@@ -8,7 +8,7 @@
  */
 
 use Redshop\Entity\AbstractEntity;
-use Redshop\Entity\CoreEntityCollection;
+use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
 
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 class RedshopEntityVoucher extends AbstractEntity
 {
 	/**
-	 * @var  CoreEntityCollection
+	 * @var  EntityCollection
 	 *
 	 * @since  2.0.7
 	 */
@@ -31,7 +31,7 @@ class RedshopEntityVoucher extends AbstractEntity
 	/**
 	 * Method for get products available with this voucher
 	 *
-	 * @return  CoreEntityCollection
+	 * @return  EntityCollection
 	 *
 	 * @since  2.0.7
 	 */
@@ -54,18 +54,19 @@ class RedshopEntityVoucher extends AbstractEntity
 	 */
 	protected function loadProducts()
 	{
-		$this->products = new CoreEntityCollection;
+		$this->products = new EntityCollection;
 
 		if (!$this->hasId())
 		{
 			return $this;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product_voucher_xref'))
 			->where($db->qn('voucher_id') . ' = ' . $this->getId());
+
 		$result = $db->setQuery($query)->loadColumn();
 
 		if (empty($result))

@@ -8,6 +8,7 @@
  */
 
 use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
 
@@ -21,12 +22,12 @@ defined('_JEXEC') or die;
 class RedshopEntityProduct extends AbstractEntity
 {
 	/**
-	 * @var   RedshopEntitiesCollection  Collections of categories
+	 * @var   EntityCollection  Collections of categories
 	 */
 	protected $categories = null;
 
 	/**
-	 * @var   RedshopEntitiesCollection  Collections of related products
+	 * @var   EntityCollection  Collections of related products
 	 */
 	protected $relatedProducts = null;
 
@@ -57,7 +58,7 @@ class RedshopEntityProduct extends AbstractEntity
 	/**
 	 * @param   boolean  $reload  Force reload even it's cached
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -74,7 +75,7 @@ class RedshopEntityProduct extends AbstractEntity
 	/**
 	 * @param   boolean  $reload  Force reload even it's cached
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -185,7 +186,7 @@ class RedshopEntityProduct extends AbstractEntity
 			return $this;
 		}
 
-		$this->categories = new RedshopEntitiesCollection;
+		$this->categories = new EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -222,7 +223,7 @@ class RedshopEntityProduct extends AbstractEntity
 			return $this;
 		}
 
-		$this->relatedProducts = new RedshopEntitiesCollection;
+		$this->relatedProducts = new EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
