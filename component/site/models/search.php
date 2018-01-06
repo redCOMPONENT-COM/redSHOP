@@ -709,11 +709,10 @@ class RedshopModelSearch extends RedshopModel
 	{
 		// Get session filter data
 		$session = JSession::getInstance('none', array());
+		$app = JFactory::getApplication();
 
 		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
-
-		$app = JFactory::getApplication();
 
 		// Initialise variables
 		$lstproduct_id = array();
@@ -735,7 +734,7 @@ class RedshopModelSearch extends RedshopModel
 						continue;
 					}
 
-					$main_typeid     = explode(".", $main_sal_sp[$f]);
+					$main_typeid     = explode(".", $sel);
 					$main_sal_type[] = $main_typeid[1];
 					$main_sal_tag[]  = $main_typeid[0];
 				}
