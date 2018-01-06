@@ -1413,6 +1413,7 @@ class RedshopModelImport extends RedshopModel
 	public function check_vm()
 	{
 		$db = JFactory::getDbo();
+		$input = JFactory::getApplication()->input;
 
 		// Check Virtual Mart Is Install or Not
 		$query_check = "SELECT extension_id FROM #__extensions WHERE `element` = 'com_virtuemart' ";
@@ -1434,12 +1435,12 @@ class RedshopModelImport extends RedshopModel
 			$orders_total       = $this->Orders_insert();
 			$manufacturer_total = $this->Manufacturer_insert();
 
-			JRequest::setVar('product_total', $product_total);
-			JRequest::setVar('shopper_total', $shopper_total);
-			JRequest::setVar('customer_total', $customer_total);
-			JRequest::setVar('orders_total', $orders_total);
-			JRequest::setVar('status_total', $status_total);
-			JRequest::setVar('manufacturer_total', $manufacturer_total);
+			$input->set('product_total', $product_total);
+			$input->set('shopper_total', $shopper_total);
+			$input->set('customer_total', $customer_total);
+			$input->set('orders_total', $orders_total);
+			$input->set('status_total', $status_total);
+			$input->set('manufacturer_total', $manufacturer_total);
 
 			return true;
 		}
@@ -1674,16 +1675,17 @@ class RedshopModelImport extends RedshopModel
 			$this->related_product_sync($vmproarr, $redproarr);
 			$category_total = $this->Category_sync($product_array);
 
-			JRequest::setVar('category_total', $category_total);
+			$input = JFactory::getApplication()->input;
+			$input->set('category_total', $category_total);
 
 			if (isset($inserted))
 			{
-				JRequest::setVar('product_inserted', count($inserted));
+				$input->set('product_inserted', count($inserted));
 			}
 
 			if (isset($updated))
 			{
-				JRequest::setVar('product_updated', count($updated));
+				$input->set('product_updated', count($updated));
 			}
 
 			return count($product_array);

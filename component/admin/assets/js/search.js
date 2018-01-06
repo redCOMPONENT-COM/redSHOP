@@ -278,7 +278,8 @@ _b.AutoSuggest.prototype.setSuggestions = function(req, input) {
             } else {
                 this.aSug.push({
                     'id': jsondata.results[i].id,
-                    'value': val
+                    'value': val,
+                    'link': jsondata.results[i].link
                 });
             }
         }
