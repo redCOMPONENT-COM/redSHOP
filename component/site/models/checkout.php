@@ -2198,12 +2198,7 @@ class RedshopModelCheckout extends RedshopModel
 		// CalculatePayment
 		$template_desc = RedshopHelperPayment::replaceConditionTag($template_desc, $payment_amount, 0, $payment_oprand);
 
-		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-		{
-			$shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
-			$shippinPrice        = RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
-		}
-		else
+		if (empty($shipping_rate_id) || !Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$template_desc = str_replace("{shipping_lbl}", '', $template_desc);
 			$template_desc = str_replace("{tax_with_shipping_lbl}", '', $template_desc);
