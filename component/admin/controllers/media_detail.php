@@ -215,6 +215,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 
 				$row = $model->store($post);
+				$msg = null;
 
 				// Image Upload
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
@@ -228,7 +229,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name='
 								. $post['section_name'] . '&media_section=' . $post['media_section']
-								. '&cid[]=' . $save->media_id, $msg, 'warning'
+								. '&cid[]=' . $row->media_id, $msg, 'warning'
 						);
 					}
 					else
@@ -261,7 +262,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && $post['hdn_download_file'] == "")
 		{
-			$save = $model->store($post);
+			$model->store($post);
 			$msg  = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
