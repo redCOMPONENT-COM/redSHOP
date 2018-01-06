@@ -1254,7 +1254,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			foreach ($data as &$row)
 			{
-				$itemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
+				$itemData  = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
 
 				if (count($itemData) > 0)
 				{
@@ -1262,7 +1262,7 @@ class RedshopModelSearch extends RedshopModel
 				}
 				else
 				{
-					$pItemid = RedshopHelperUtility::getItemId($row->id, $category_id);
+					$pItemid = RedshopHelperRouter::getItemId($row->id, $category_id);
 				}
 
 				$row->link = JRoute::_(
