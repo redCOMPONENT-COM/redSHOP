@@ -1920,7 +1920,7 @@ class productHelper
 		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		if ($section_id == 12)
 		{
@@ -1977,16 +1977,15 @@ class productHelper
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = extraField::getInstance();
 		$cart       = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
-		$row_data   = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		$resultArr = array();
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $product_id);
+			$main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
@@ -2015,13 +2014,13 @@ class productHelper
 
 		$product_id = $orderItem[0]->product_id;
 
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		$resultArr = array();
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $product_id);
+			$main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
@@ -2046,8 +2045,7 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
-		$row_data   = $extraField->getSectionFieldList($section_id, 1);
+		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
@@ -6506,13 +6504,11 @@ class productHelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = extraField::getInstance();
-
 		if (count($fieldArray) > 0)
 		{
 			for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 			{
-				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->id, 17, $productid);
+				$fieldValueArray = RedshopHelperExtrafields::getData($fieldArray[$i]->id, 17, $productid);
 
 				if ($fieldValueArray->data_txt != ""
 					&& $fieldArray[$i]->show_in_front == 1
@@ -7066,8 +7062,7 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
-		$row_data   = $extraField->getSectionFieldList($section_id, 1);
+		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
@@ -7089,13 +7084,12 @@ class productHelper
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = extraField::getInstance();
-		$row_data   = $extraField->getSectionFieldList($section_id, 1);
+		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $order->order_id);
+			$main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $order->order_id);
 
 			if (!is_null($main_result) && $main_result->data_txt != "" && $row_data[$j]->show_in_front == 1)
 			{
