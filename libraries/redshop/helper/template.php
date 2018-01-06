@@ -359,14 +359,16 @@ class RedshopHelperTemplate
 	 *
 	 * @param   string   $section  Template section
 	 * @param   boolean  $setFlag  Set true if you want html special character in template content
+	 * @param   boolean  $twig     Is that Twig enable for template
 	 *
 	 * @return  string             HTML of template content.
 	 *
 	 * @since   2.1.0
 	 */
-	public static function getDefaultTemplateContent($section = '', $setFlag = false)
+	public static function getDefaultTemplateContent($section = '', $setFlag = false, $twig = false)
 	{
-		$templateFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $section . '/default.php');
+		$templateFile = $twig ? 'default.twig' : 'default.php';
+		$templateFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $section . '/' . $templateFile);
 
 		if (!JFile::exists($templateFile))
 		{

@@ -71,7 +71,9 @@ class RedshopTableTemplate extends RedshopTable
 
 		if ($this->id && !empty($this->file_name))
 		{
-			$file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
+			$fileName = $this->twig_enable ? $this->file_name . '.twig' : $this->file_name . '.php';
+
+			$file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName);
 
 			if (JFile::exists($file))
 			{
@@ -151,13 +153,6 @@ class RedshopTableTemplate extends RedshopTable
 			$this->twig_support = 1;
 		}
 
-		$oldItem->name = $this->safeTemplateName($oldItem->name);
-
-		if ($oldItem->name !== $this->name || $oldItem->section !== $this->section)
-		{
-			$this->setOption('oldFile', RedshopHelperTemplate::getTemplateFilePath($oldItem->section, $oldItem->name, true));
-		}
-
 		return true;
 	}
 
@@ -217,7 +212,7 @@ class RedshopTableTemplate extends RedshopTable
 
 		// Write template file
 		JFile::write(
-			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName . '.php'),
+			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName),
 			$this->getOption('content', '')
 		);
 

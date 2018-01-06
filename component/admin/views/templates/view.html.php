@@ -43,7 +43,7 @@ class RedshopViewTemplates extends RedshopViewList
 		{
 			$content = RedshopHelperTemplate::getTemplateSections($row->section);
 
-			if (in_array($row->template_section, RedshopHelperTwig::getSupportedTemplateSections()))
+			if (in_array($row->section, RedshopHelperTwig::getSupportedTemplateSections()))
 			{
 				$content .= '&nbsp;&nbsp;<span class="badge label-success">Twig</span>';
 			}

@@ -593,10 +593,11 @@ class RedshopModelConfiguration extends RedshopModel
 
 		foreach ($list as $template)
 		{
+			/** @var RedshopTableTemplate $table */
 			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
 			$table->bind((array) $template);
-			$table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section);
+			$table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section, false, (boolean) $table->twig_enable);
 			$table->store();
 		}
 	}
