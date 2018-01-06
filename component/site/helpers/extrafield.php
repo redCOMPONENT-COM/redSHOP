@@ -293,7 +293,7 @@ class extraField
 
 	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
-		$row_data = $this->getSectionFieldList($field_section, 1);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($field_section, 1);
 
 		$fieldHtml = '';
 
@@ -301,7 +301,7 @@ class extraField
 		{
 			$type = $row_data[$i]->type;
 
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->id, $field_section, $section_id);
+			$data_value = RedshopHelperExtrafields::getData($row_data[$i]->id, $field_section, $section_id);
 
 			if (!empty($data_value) && count($data_value) <= 0)
 			{
@@ -811,7 +811,7 @@ class extraField
 						break;
 
                     case self::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
-						$field_chk = $this->getSectionFieldDataList($row_data[$i]->id, 12, $product_id);
+						$field_chk = RedshopHelperExtrafields::getData($row_data[$i]->id, 12, $product_id);
 
 						if (count($field_chk) > 0)
 						{
