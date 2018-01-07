@@ -390,13 +390,13 @@ class RedshopHelperCategory
 	/**
 	 * Get category tree
 	 *
-	 * @param   string  $cid  Category ID
+	 * @param   integer  $cid  Category ID
 	 *
 	 * @return  array
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function getCategoryTree($cid = '0')
+	public static function getCategoryTree($cid = 0)
 	{
 		if (!isset($GLOBALS['catlist']))
 		{
