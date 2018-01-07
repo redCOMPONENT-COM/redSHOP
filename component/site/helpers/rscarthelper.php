@@ -1077,13 +1077,13 @@ class rsCarthelper
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 						{
 							$attribute_image_path = RedshopHelperMedia::getImagePath(
-														Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
+														Redshop::getConfig()->getString('PRODUCT_DEFAULT_IMAGE'),
 														'',
 														'thumb',
 														'product',
-														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+														Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+														Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+														Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
