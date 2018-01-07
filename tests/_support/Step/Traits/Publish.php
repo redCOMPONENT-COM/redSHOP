@@ -50,6 +50,7 @@ trait Publish
 
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
+		$tester->showAllItem('500');
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonPublish);
 		$tester->assertEquals('published', $tester->getItemState($item));
@@ -85,6 +86,7 @@ trait Publish
 		$tester    = $this;
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
+		$tester->showAllItem('500');
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonUnpublish);
 		$tester->assertEquals('unpublished', $tester->getItemState($item));

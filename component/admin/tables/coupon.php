@@ -135,6 +135,16 @@ class RedshopTableCoupon extends RedshopTable
 			return false;
 		}
 
+		if (empty($this->code))
+		{
+			return false;
+		}
+
+		if (empty($this->value))
+		{
+			return false;
+		}
+
 		$db = $this->getDbo();
 
 		// Check duplicate.
