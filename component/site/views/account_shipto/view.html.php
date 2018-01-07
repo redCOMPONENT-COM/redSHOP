@@ -105,8 +105,8 @@ class RedshopViewAccount_Shipto extends RedshopView
 				return;
 			}
 
-			$lists['shipping_customer_field'] = $extraField->list_all_field(14, $shippingAddresses->users_info_id);
-			$lists['shipping_company_field']  = $extraField->list_all_field(15, $shippingAddresses->users_info_id);
+			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, $shippingAddresses->users_info_id);
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, $shippingAddresses->users_info_id);
 
 			$this->setLayout('form');
 		}

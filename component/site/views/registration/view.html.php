@@ -77,12 +77,12 @@ class RedshopViewRegistration extends RedshopView
 		if ($lists['is_company'])
 		{
 			// Field_section 8 : Company Address
-			$lists['extra_field_company'] = $field->list_all_field(8);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8);
 		}
 		else
 		{
 			// Field_section 7 : Customer Registration
-			$lists['extra_field_user']    = $field->list_all_field(7);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7);
 		}
 
 		$this->lists = $lists;

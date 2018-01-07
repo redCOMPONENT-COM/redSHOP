@@ -99,12 +99,12 @@ else
 
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
-		$billing .= $extraField->list_all_field(16, $detail->user_info_id, "", "tbl");
+		$billing .= Redshop\Fields\SiteHelper::renderFields(16, $detail->user_info_id, "", "tbl");
 		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
 	}
 	else
 	{
-		$template_desc = $extraField->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
+		$template_desc = Redshop\Fields\SiteHelper::renderFields(16, $detail->user_info_id, "", "", $template_desc);
 	}
 
 	$billing .= '</div>';

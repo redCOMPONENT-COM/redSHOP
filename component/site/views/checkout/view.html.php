@@ -168,16 +168,16 @@ class RedshopViewCheckout extends RedshopView
 			if ($lists['is_company'])
 			{
 				// Field_section Company
-				$lists['extra_field_company'] = $field->list_all_field(8);
+				$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8);
 			}
 			else
 			{
 				// Field_section Customer
-				$lists['extra_field_user'] = $field->list_all_field(7);
+				$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7);
 			}
 
-			$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
-			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, 0, 'billingRequired valid');
+			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, 0, 'billingRequired valid');
 		}
 
 		if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
