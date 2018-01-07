@@ -460,9 +460,9 @@ class RedshopModelSearch extends RedshopModel
 		$catGroup        = array();
 		$customField     = $input->get('custom_field', array(), 'array');
 
-		if ($category_id = $input->get('category_id', 0))
+		if ($categoryId = $input->get('category_id', 0))
 		{
-			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
+			$cat = RedshopHelperCategory::getCategoryListArray(0, $categoryId);
 
 			for ($j = 0, $countCat = count($cat); $j < $countCat; $j++)
 			{
@@ -470,7 +470,7 @@ class RedshopModelSearch extends RedshopModel
 
 				if ($j == count($cat) - 1)
 				{
-					$catGroup[$j + 1] = $category_id;
+					$catGroup[$j + 1] = $categoryId;
 				}
 			}
 
@@ -482,7 +482,7 @@ class RedshopModelSearch extends RedshopModel
 			}
 			else
 			{
-				$catGroup = $category_id;
+				$catGroup = $categoryId;
 			}
 		}
 
@@ -499,8 +499,7 @@ class RedshopModelSearch extends RedshopModel
 		if ($shopper_group_manufactures != "")
 		{
 			// Sanitize ids
-			$manufacturerIds = explode(',', $shopper_group_manufactures);
-			$manufacturerIds = Joomla\Utilities\ArrayHelper::toInteger($manufacturerIds);
+			$manufacturerIds = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $shopper_group_manufactures));
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
@@ -537,8 +536,7 @@ class RedshopModelSearch extends RedshopModel
 		if ($aclProducts != "")
 		{
 			// Sanitize ids
-			$productIds = explode(',', $aclProducts);
-			$productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+			$productIds = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $aclProducts));
 
 			$query->where('p.product_id IN (' . implode(',', $productIds) . ')');
 		}
@@ -547,8 +545,7 @@ class RedshopModelSearch extends RedshopModel
 
 		if (!empty($excludeCategories))
 		{
-			$excludeCategories = explode(',', $excludeCategories);
-			$excludeCategories = Joomla\Utilities\ArrayHelper::toInteger($excludeCategories);
+			$excludeCategories = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $excludeCategories));
 			$query->where('pc.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
 		}
 
@@ -616,8 +613,7 @@ class RedshopModelSearch extends RedshopModel
 			if ($products = $this->getRedFilterProduct())
 			{
 				// Sanitize ids
-				$productIds = explode(',', $products);
-				$productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+				$productIds = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $products));
 
 				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
 			}
@@ -682,11 +678,10 @@ class RedshopModelSearch extends RedshopModel
 
 			$query->where('p.expired = 0');
 
-			if ($category_id != 0)
+			if ($categoryId != 0)
 			{
 				// Sanitize ids
-				$catIds = explode(',', $catGroup);
-				$catIds = Joomla\Utilities\ArrayHelper::toInteger($catIds);
+				$catGroup = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $catGroup));
 
 				$query->where('pc.category_id IN (' . $catGroup . ')');
 			}
@@ -867,8 +862,7 @@ class RedshopModelSearch extends RedshopModel
 						$products[] = $product[$i]->product_id;
 					}
 
-					ArrayHelper::toInteger($products);
-					$productids = implode(",", $products);
+					$productids = implode(",", Joomla\Utilities\ArrayHelper::toInteger($products));
 				}
 
 				$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
@@ -881,8 +875,7 @@ class RedshopModelSearch extends RedshopModel
 				if ($productids != "")
 				{
 					// Sanitize ids
-					$productIds = explode(',', $productids);
-					$productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+					$productIds = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $productids));
 
 					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
 				}
@@ -1226,8 +1219,7 @@ class RedshopModelSearch extends RedshopModel
 
 		if (!empty($excludeCategories))
 		{
-			$excludeCategories = explode(',', $excludeCategories);
-			$excludeCategories = Joomla\Utilities\ArrayHelper::toInteger($excludeCategories);
+			$excludeCategories = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $excludeCategories));
 
 			$query->where('x.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
 		}
