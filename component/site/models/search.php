@@ -1153,9 +1153,9 @@ class RedshopModelSearch extends RedshopModel
 	/**
 	 * Get ajax Data
 	 *
-	 * @return mixed
+	 * @return  array|null
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function getajaxData()
 	{
@@ -1166,10 +1166,10 @@ class RedshopModelSearch extends RedshopModel
 		$app            = JFactory::getApplication();
 		$keyword        = $app->input->getString('keyword', '');
 		$search_type    = $app->input->getCmd('search_type', '');
-		$db             = JFactory::getDbo();
 		$category_id    = $app->input->getInt('category_id', 0);
 		$manufacture_id = $app->input->getInt('manufacture_id', 0);
 
+		$db             = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('p.product_id AS id, p.product_name AS value')
 			->from($db->qn('#__redshop_product', 'p'))
@@ -1181,19 +1181,17 @@ class RedshopModelSearch extends RedshopModel
 
 		switch ($search_type)
 		{
-			case 'product_name';
-				$query->where($this->getSearchCondition('p.product_name', $keyword));
+			case 'product_name':
+			case 'product_number':
+				$query->where($this->getSearchCondition('p.' . $search_type, $keyword));
 				break;
-			case 'product_number';
-				$query->where($this->getSearchCondition('p.product_number', $keyword));
-				break;
-			case 'name_number';
+			case 'name_number':
 				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
 				break;
-			case 'product_desc';
+			case 'product_desc':
 				$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
 				break;
-			case 'name_desc';
+			case 'name_desc':
 				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_s_desc', 'p.product_desc'), $keyword));
 				break;
 			case 'virtual_product_num':
@@ -1242,7 +1240,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			foreach ($data as &$row)
 			{
-				$itemData  = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
+				$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
 
 				if (count($itemData) > 0)
 				{
