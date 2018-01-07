@@ -10,6 +10,7 @@ namespace Step;
 
 use Codeception\Scenario;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+
 /**
  * Class Redshop
  *
@@ -132,6 +133,27 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 *
+	 * Method for change show list 
+	 *
+	 * @param $value
+	 *
+	 */
+	public function showAllItem($value)
+	{
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$listId, 30);
+		$tester->click($pageClass::$listId);
+		$tester->waitForElement($pageClass::$listSearchId, 30);
+		$tester->fillField($pageClass::$listSearchId, $value);
+		$usePage = new $pageClass();
+		$tester->waitForElement($usePage->returnChoice($value), 30);
+		$tester->click($usePage->returnChoice($value));
+	}
+	
+	/**
 	 * Method for fill data in form.
 	 *
 	 * @param   array  $formFields  Array of form fields
@@ -148,21 +170,20 @@ class AbstractStep extends AdminManagerJoomla3Steps
 				continue;
 			}
 
-			switch ($field['type'])
+			switch (strtolower($field['type']))
 			{
 				case 'radio':
 				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
-				case 'Categories':
-					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
-					break;
+
+				case 'redshop.mail_section':
+				case 'categories':
 				case 'template':
-					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
-					break;
 				case 'shoppergrouplist':
-					$this->chooseOnSelect2($field['xpath'],  $data[$index]);
+					$this->chooseOnSelect2($field['xpath'], $data[$index]);
 					break;
+
 				default:
 					$this->fillField($field['xpath'], $data[$index]);
 					break;
@@ -203,5 +224,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		}
 
 		return $formFields;
+	}
+
+	/**
+	 * Method for choose option in select2
+	 *
+	 * @param   mixed   $element  Element xPath
+	 * @param   string  $text     Text of option
+	 *
+	 * @return  void
+	 */
+	public function chooseOnSelect2($element, $text)
+	{
+		$elementId = is_array($element) ? $element['id'] : $element;
+		$this->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
+		$this->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
+		$this->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
 	}
 }

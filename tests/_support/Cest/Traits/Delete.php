@@ -25,9 +25,7 @@ trait Delete
 	/**
 	 *
 	 * Method for test delete button
-	 * 
-	 * Method for test button "Delete" and delete specific item
-	 * 
+	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
