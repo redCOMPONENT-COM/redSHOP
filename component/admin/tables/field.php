@@ -206,26 +206,30 @@ class RedshopTableField extends RedshopTable
 			else
 			{
 				$extraNames = $post->get('extra_name', '', 'raw');
-				$total      = count($extraNames);
+				$total      = count((array)$extraNames);
 			}
 		}
 
-		$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
-
-		if (count($fieldDataIds) > 0)
+		// Do not reset values if we are ordering
+		if ($app->input->get('task') != 'fields.saveOrderAjax')
 		{
-			$fid = array();
+			$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
 
-			foreach ($fieldDataIds as $fieldDataId)
+			if (count($fieldDataIds) > 0)
 			{
-				$fid[] = $fieldDataId->value_id;
-			}
+				$fid = array();
 
-			$delFieldIds = array_diff($fid, $valueIds);
+				foreach ($fieldDataIds as $fieldDataId)
+				{
+					$fid[] = $fieldDataId->value_id;
+				}
 
-			if (count($delFieldIds) > 0)
-			{
-				$this->deleteFieldValues($delFieldIds, 'value_id');
+				$delFieldIds = array_diff($fid, $valueIds);
+
+				if (count($delFieldIds) > 0)
+				{
+					$this->deleteFieldValues($delFieldIds, 'value_id');
+				}
 			}
 		}
 

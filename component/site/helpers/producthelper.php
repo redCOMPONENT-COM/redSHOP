@@ -1916,11 +1916,10 @@ class productHelper
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField  = extraField::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		if ($section_id == 12)
 		{
@@ -1977,16 +1976,15 @@ class productHelper
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = extraField::getInstance();
 		$cart       = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
-		$row_data   = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		$resultArr = array();
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $product_id);
+			$main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
@@ -2009,19 +2007,18 @@ class productHelper
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField      = extraField::getInstance();
 		$order_functions = order_functions::getInstance();
 		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
 		$product_id = $orderItem[0]->product_id;
 
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		$resultArr = array();
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $product_id);
+			$main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
@@ -2046,8 +2043,7 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
-		$row_data   = $extraField->getSectionFieldList($section_id, 1);
+		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
@@ -4572,12 +4568,10 @@ class productHelper
 	{
 		if (empty($this->_cartTemplateData))
 		{
-			$redTemplate = Redtemplate::getInstance();
-
 			if (!Redshop::getConfig()->get('USE_AS_CATALOG') || Redshop::getConfig()->get('USE_AS_CATALOG'))
-				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
+				$this->_cartTemplateData = RedshopHelperTemplate::getTemplate("cart");
 			else
-				$this->_cartTemplateData = $redTemplate->getTemplate("catalogue_cart");
+				$this->_cartTemplateData = RedshopHelperTemplate::getTemplate("catalogue_cart");
 		}
 
 		return $this->_cartTemplateData;
@@ -6506,13 +6500,11 @@ class productHelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = extraField::getInstance();
-
 		if (count($fieldArray) > 0)
 		{
 			for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 			{
-				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->id, 17, $productid);
+				$fieldValueArray = RedshopHelperExtrafields::getData($fieldArray[$i]->id, 17, $productid);
 
 				if ($fieldValueArray->data_txt != ""
 					&& $fieldArray[$i]->show_in_front == 1
@@ -6546,9 +6538,7 @@ class productHelper
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
 		$extra_field      = extraField::getInstance();
-		$config           = Redconfiguration::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
-		$redhelper        = redhelper::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
@@ -6629,16 +6619,16 @@ class productHelper
 					if (strpos($related_template_data, "{relproduct_link}") !== false)
 					{
 						$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>"
-							. $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'))
+							. RedshopHelperUtility::maxChars($related_product [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'))
 							. "</a>";
 					}
 					else
 					{
-						$rpname = $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'));
+						$rpname = RedshopHelperUtility::maxChars($related_product [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'));
 					}
 
-					$rpdesc       = $config->maxchar($related_product [$r]->product_desc, Redshop::getConfig()->get('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_DESC_END_SUFFIX'));
-					$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
+					$rpdesc       = RedshopHelperUtility::maxChars($related_product [$r]->product_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_DESC_END_SUFFIX'));
+					$rp_shortdesc = RedshopHelperUtility::maxChars($related_product [$r]->product_s_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
 
 					$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
 
