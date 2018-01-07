@@ -686,7 +686,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$catIds = explode(',', $catGroup);
-				$catIds = ArrayHelper::toInteger($catIds);
+				$catIds = Joomla\Utilities\ArrayHelper::toInteger($catIds);
 
 				$query->where('pc.category_id IN (' . $catGroup . ')');
 			}
