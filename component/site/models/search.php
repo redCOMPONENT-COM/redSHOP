@@ -8,7 +8,7 @@
  */
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
+use ArrayHelper;
 
 defined('_JEXEC') or die;
 
@@ -457,9 +457,8 @@ class RedshopModelSearch extends RedshopModel
 			->where('p.published = 1');
 
 		$layout          = $input->getString('layout', 'default');
-		$category_helper = new product_category;
 		$manufacture_id  = $input->getInt('manufacture_id', 0);
-		$cat_group       = array();
+		$catGroup        = array();
 		$customField     = $input->get('custom_field', array(), 'array');
 
 		if ($category_id = $input->get('category_id', 0))
@@ -468,23 +467,23 @@ class RedshopModelSearch extends RedshopModel
 
 			for ($j = 0, $countCat = count($cat); $j < $countCat; $j++)
 			{
-				$cat_group[$j] = $cat[$j]->category_id;
+				$catGroup[$j] = $cat[$j]->category_id;
 
 				if ($j == count($cat) - 1)
 				{
-					$cat_group[$j + 1] = $category_id;
+					$catGroup[$j + 1] = $category_id;
 				}
 			}
 
-			Joomla\Utilities\ArrayHelper::toInteger($cat_group);
+			ArrayHelper::toInteger($catGroup);
 
-			if ($cat_group)
+			if ($catGroup)
 			{
-				$cat_group = join(',', $cat_group);
+				$catGroup = join(',', $catGroup);
 			}
 			else
 			{
-				$cat_group = $category_id;
+				$catGroup = $category_id;
 			}
 		}
 
@@ -502,7 +501,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			// Sanitize ids
 			$manufacturerIds = explode(',', $shopper_group_manufactures);
-			Joomla\Utilities\ArrayHelper::toInteger($manufacturerIds);
+			ArrayHelper::toInteger($manufacturerIds);
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
@@ -560,7 +559,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($categoryid)
 			{
-				$cat_main       = $category_helper->getCategoryTree($categoryid);
+				$cat_main       = RedshopHelperCategory::getCategoryTree($categoryid);
 				$cat_group_main = array();
 
 				for ($j = 0, $countCatMain = count($cat_main); $j < $countCatMain; $j++)
@@ -619,7 +618,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$productIds = explode(',', $products);
-				Joomla\Utilities\ArrayHelper::toInteger($productIds);
+				ArrayHelper::toInteger($productIds);
 
 				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
 			}
@@ -687,10 +686,10 @@ class RedshopModelSearch extends RedshopModel
 			if ($category_id != 0)
 			{
 				// Sanitize ids
-				$catIds = explode(',', $cat_group);
-				Joomla\Utilities\ArrayHelper::toInteger($catIds);
+				$catIds = explode(',', $catGroup);
+				ArrayHelper::toInteger($catIds);
 
-				$query->where('pc.category_id IN (' . $cat_group . ')');
+				$query->where('pc.category_id IN (' . $catGroup . ')');
 			}
 
 			if ($manufacture_id != 0)
@@ -869,7 +868,7 @@ class RedshopModelSearch extends RedshopModel
 						$products[] = $product[$i]->product_id;
 					}
 
-					Joomla\Utilities\ArrayHelper::toInteger($products);
+					ArrayHelper::toInteger($products);
 					$productids = implode(",", $products);
 				}
 
@@ -884,7 +883,7 @@ class RedshopModelSearch extends RedshopModel
 				{
 					// Sanitize ids
 					$productIds = explode(',', $productids);
-					Joomla\Utilities\ArrayHelper::toInteger($productIds);
+					ArrayHelper::toInteger($productIds);
 
 					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
 				}
@@ -1106,7 +1105,7 @@ class RedshopModelSearch extends RedshopModel
 		if ($productids != "")
 		{
 			// Sanitize ids
-			Joomla\Utilities\ArrayHelper::toInteger($products);
+			ArrayHelper::toInteger($products);
 
 			$q .= " AND ra.product_id IN (" . implode(",", $products) . ") ";
 		}
@@ -1141,7 +1140,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		// Sanitize ids
-		Joomla\Utilities\ArrayHelper::toInteger($mids);
+		ArrayHelper::toInteger($mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
 			. "WHERE manufacturer_id IN ('" . implode(",", $mids) . "')";
@@ -1450,7 +1449,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		JPluginHelper::importPlugin('redshop_product');
-		JEventDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+		RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, $pk));
 
 		return $query;
 	}
