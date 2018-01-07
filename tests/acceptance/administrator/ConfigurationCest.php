@@ -5,7 +5,7 @@
  * Configuration function
  *
  */
-class Configuration
+class ConfigurationCest
 {
 	public function __construct()
 	{
