@@ -297,7 +297,6 @@ class RedshopHelperShipping
 	 */
 	public static function getDefaultShippingXmlExport($data)
 	{
-		$userHelper    = rsUserHelper::getInstance();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
 		$userId        = $user->id;
@@ -1853,7 +1852,6 @@ class RedshopHelperShipping
 			return false;
 		}
 
-		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
 		$country      = $userInfo->country_code;
@@ -2026,7 +2024,6 @@ class RedshopHelperShipping
 		$input         = JFactory::getApplication()->input;
 		$usersInfoId   = $input->getInt('users_info_id', 0);
 		$productHelper = productHelper::getInstance();
-		$userHelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);
 		$db            = JFactory::getDbo();
@@ -2039,7 +2036,6 @@ class RedshopHelperShipping
 		}
 
 		$orderSubtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$orderFunctions = order_functions::getInstance();
 		$user           = JFactory::getUser();
 		$userId         = $user->id;
 
@@ -2066,7 +2062,7 @@ class RedshopHelperShipping
 			{
 				$userInfo = self::getShippingAddress($usersInfoId);
 			}
-			elseif ($userInfo = $orderFunctions->getShippingAddress($userId))
+			elseif ($userInfo = RedshopHelperOrder::getShippingAddress($userId))
 			{
 				$userInfo = $userInfo[0];
 			}
