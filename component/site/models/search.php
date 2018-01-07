@@ -478,7 +478,7 @@ class RedshopModelSearch extends RedshopModel
 
 			$cat_group = ArrayHelper::toInteger($cat_group);
 
-			if ($cat_group)
+			if (!empty($cat_group))
 			{
 				$cat_group = join(',', $cat_group);
 			}
@@ -687,8 +687,8 @@ class RedshopModelSearch extends RedshopModel
 			if ($category_id != 0)
 			{
 				// Sanitize ids
-				$catIds = explode(',', $cat_group);
-				$catIds = ArrayHelper::toInteger($catIds);
+				$cat_group = explode(',', $cat_group);
+				$cat_group = ArrayHelper::toInteger($cat_group);
 
 				$query->where('pc.category_id IN (' . $cat_group . ')');
 			}
@@ -1067,7 +1067,7 @@ class RedshopModelSearch extends RedshopModel
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
 		$db           = JFactory::getDbo();
-		$productids   = "";
+		$products     = array();
 
 		if (count($getredfilter) > 0 && $all == 1)
 		{
@@ -1098,8 +1098,7 @@ class RedshopModelSearch extends RedshopModel
 				. "WHERE rat.type_id = " . $db->quote($lasttypeid) . " "
 				. "AND rat.tag_id = " . $db->quote($lasttagid) . " ";
 			$db->setQuery($query);
-			$product  = $db->loadObjectList();
-			$products = array();
+			$product = $db->loadObjectList();
 
 			for ($i = 0, $in = count($product); $i < $in; $i++)
 			{
@@ -1115,7 +1114,7 @@ class RedshopModelSearch extends RedshopModel
 			. "WHERE j.tag_id = t.id "
 			. "AND j.type_id = " . (int) $id . " ";
 
-		if ($productids != "")
+		if (!empty($products))
 		{
 			// Sanitize ids
 			$products = ArrayHelper::toInteger($products);

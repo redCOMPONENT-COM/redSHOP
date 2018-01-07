@@ -92,13 +92,13 @@ class RedshopModelShipping extends RedshopModel
 		return $orderby;
 	}
 
-	public function saveOrder(&$cid)
+	public function saveOrder(&$cid, $order = array())
 	{
 		$db  = JFactory::getDbo();
 		$row = $this->getTable('shipping_detail');
 
 		$total = count($cid);
-		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		$order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
 		$order = Joomla\Utilities\ArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values

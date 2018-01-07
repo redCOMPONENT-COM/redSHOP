@@ -12,7 +12,7 @@ use Joomla\Utilities\ArrayHelper;
 defined('_JEXEC') or die;
 
 
-class RedshopControllerManufacturer extends RedshopController
+class RedshopControllerManufacturer extends RedshopControllerForm
 {
 	/**
 	 * Method for cancel
@@ -29,6 +29,7 @@ class RedshopControllerManufacturer extends RedshopController
 	 *
 	 * @access public
 	 * @return void
+	 * @throws Exception
 	 */
 	public function saveorder()
 	{
@@ -40,7 +41,7 @@ class RedshopControllerManufacturer extends RedshopController
 
 		/** @var RedshopModelManufacturer $model */
 		$model = $this->getModel('manufacturer');
-		$model->saveOrder($cid);
+		$model->saveOrder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
