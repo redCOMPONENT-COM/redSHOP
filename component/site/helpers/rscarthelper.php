@@ -430,9 +430,9 @@ class rsCarthelper
 					'',
 					'thumb',
 					'giftcard',
-					Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-					Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+					Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+					Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+					Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 				);
 
 				$giftcard_image = "&nbsp;";
@@ -721,9 +721,7 @@ class rsCarthelper
 								$product_attribute_value_price = RedshopHelperProductPrice::formattedPrice($product_attribute_value_price);
 							}
 
-							$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice(
-								$productAttributeCalculatedPrice
-							);
+							$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice((double) $productAttributeCalculatedPrice);
 							$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
 
 							$data_add_pro = $templateattibute_middle;
@@ -968,7 +966,7 @@ class rsCarthelper
 
 		$wrapper_name = "";
 
-		$OrdersDetail = RedshopHelperOrder::getOrderDetails($rowitem[0]->order_id);
+		$OrdersDetail = RedshopEntityOrder::getInstance($rowitem[0]->order_id)->getItem();
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
@@ -1011,9 +1009,9 @@ class rsCarthelper
 											'',
 											'thumb',
 											'orderMergeImages',
-											Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-											Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+											Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+											Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+											Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 										);
 				$attrib_img = '<img src="' . $attribute_image_path . '">';
 			}
@@ -1026,9 +1024,9 @@ class rsCarthelper
 												'',
 												'thumb',
 												'product_attributes',
-												Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-												Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+												Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+												Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+												Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 											);
 					$attrib_img = '<img src="' . $attribute_image_path . '">';
 				}
@@ -2553,7 +2551,7 @@ class rsCarthelper
 								$checked      = '';
 								$data        .= $template_rate_middle;
 
-								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . RedshopHelperProductPrice::formattedPrice(trim($rate[$i]->rate)) . " )" : "";
+								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . RedshopHelperProductPrice::formattedPrice((double) trim($rate[$i]->rate)) . " )" : "";
 
 								if ((isset($rate[$i]->checked) && $rate[$i]->checked) || $rateExist == 0)
 								{
@@ -3928,7 +3926,6 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 
 		$dispatcher       = RedshopHelperUtility::getDispatcher();
-		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');
 		$data['quantity'] = round($data['quantity']);
@@ -4839,9 +4836,7 @@ class rsCarthelper
 
 									for ($isp = 0; $isp < $countSubproperty; $isp++)
 									{
-										$subproperty_price = 0;
 										$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($subSubPropertyData[$isp]);
-
 										$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subSubPropertyData[$isp], $data['quantity'], 'subproperty', $user_id);
 										$subproperty_price = $subproperty[0]->subattribute_color_price;
 										
