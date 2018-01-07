@@ -1576,7 +1576,6 @@ class RedshopHelperShipping
 	 */
 	public static function getCartItemDimension()
 	{
-		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);

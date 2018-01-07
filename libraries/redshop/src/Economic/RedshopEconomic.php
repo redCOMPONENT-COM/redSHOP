@@ -905,7 +905,7 @@ class RedshopEconomic
 							$propertyPrice = $orderPropData[$p]->section_price + $orderPropData[$p]->section_vat;
 						}
 
-						$disPrice = " (" . $orderPropData[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($propertyPrice) . ")";
+						$disPrice = " (" . $orderPropData[$p]->section_oprand . \RedshopHelperProductPrice::formattedPrice($propertyPrice) . ")";
 					}
 
 					$displayAttribute .= urldecode($orderPropData[$p]->section_name) . $disPrice . $virtualNumber;
