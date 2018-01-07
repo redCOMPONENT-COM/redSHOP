@@ -23,10 +23,8 @@ use Step\AbstractStep;
 trait CheckIn
 {
 	/**
-	 * Method for test button Check-In without choice
-	 * 
-	 *Method for test Check-In all results
-	 * 
+	 * Method for test Check-In all results
+	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
@@ -47,7 +45,7 @@ trait CheckIn
 		$step->checkInWithoutChoice();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 
-		$tester->wantTo('Button > Check-in all results.');
+		$tester->wantTo('Test Check-in all results.');
 		$step->checkInAllResult();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
