@@ -496,7 +496,7 @@ class rsCarthelper
 
 				$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
 				$Itemid = RedshopHelperRouter::getItemId($product_id);
-				
+
 				if (!empty($ItemData))
 				{
 					$Itemid = $ItemData->id;
@@ -686,6 +686,8 @@ class rsCarthelper
 							$product_attribute_value_price = "";
 							$product_attribute_name        = $temp_tpi[$tpi]['attribute_name'];
 
+							$productAttributeCalculatedPrice = '';
+
 							if (count($temp_tpi[$tpi]['attribute_childs']) > 0)
 							{
 								$product_attribute_value = ": " . $temp_tpi[$tpi]['attribute_childs'][0]['property_name'];
@@ -715,7 +717,7 @@ class rsCarthelper
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 								}
 
-								$product_attribute_value_price = RedshopHelperProductPrice::formattedPrice($product_attribute_value_price);
+								$product_attribute_value_price = RedshopHelperProductPrice::formattedPrice((double) $product_attribute_value_price);
 							}
 
 							$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice((double) $productAttributeCalculatedPrice);
@@ -961,7 +963,7 @@ class rsCarthelper
 
 		$wrapper_name = "";
 
-		$OrdersDetail = RedshopEntityOrder::getInstance($rowitem[0]->order_id)->getItem();
+		$OrdersDetail = RedshopEntityOrder::getInstance((int) $rowitem[0]->order_id)->getItem();
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
@@ -3536,7 +3538,7 @@ class rsCarthelper
 		{
 			if ($wrapper[0]->wrapper_price > 0)
 			{
-				$wrapper_vat = $this->_producthelper->getProducttax($cartArr['product_id'], $wrapper[0]->wrapper_price);
+				$wrapper_vat = RedshopHelperProduct::getProductTax($cartArr['product_id'], $wrapper[0]->wrapper_price);
 			}
 
 			$wrapper_price = $wrapper[0]->wrapper_price;
@@ -3558,8 +3560,6 @@ class rsCarthelper
 			return $newquantity;
 		}
 
-		$stockroomhelper = rsstockroomhelper::getInstance();
-
 		$productData      = RedshopHelperProduct::getProductById($data['product_id']);
 		$product_preorder = $productData->preorder;
 
@@ -3577,16 +3577,16 @@ class rsCarthelper
 
 			if (($product_preorder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "no") || ($product_preorder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
-				$productStock = $stockroomhelper->getStockroomTotalAmount($data['product_id']);
+				$productStock = RedshopHelperStockroom::getStockroomTotalAmount($data['product_id']);
 			}
 
 			if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes") || ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
-				$productStock  = $stockroomhelper->getStockroomTotalAmount($data['product_id']);
-				$productStock += $stockroomhelper->getPreorderStockroomTotalAmount($data['product_id']);
+				$productStock  = RedshopHelperStockroom::getStockroomTotalAmount($data['product_id']);
+				$productStock += RedshopHelperStockroom::getPreorderStockroomTotalAmount($data['product_id']);
 			}
 
-			$ownProductReserveStock = $stockroomhelper->getCurrentUserReservedStock($data['product_id']);
+			$ownProductReserveStock = RedshopHelperStockroom::getCurrentUserReservedStock($data['product_id']);
 			$attArr = $data['cart_attribute'];
 
 			if (count($attArr) <= 0)
@@ -3620,7 +3620,7 @@ class rsCarthelper
 					$productReservedQuantity = $newquantity;
 				}
 
-				$stockroomhelper->addReservedStock($data['product_id'], $productReservedQuantity, 'product');
+				RedshopHelperStockroom::addReservedStock($data['product_id'], $productReservedQuantity, 'product');
 			}
 			else
 			{
@@ -3633,18 +3633,18 @@ class rsCarthelper
 						// Get subproperties from add to cart tray.
 						$subpropArr = $propArr[$k]['property_childs'];
 						$totalSubProperty = count($subpropArr);
-						$ownReservePropertyStock = $stockroomhelper->getCurrentUserReservedStock($propArr[$k]['property_id'], 'property');
+						$ownReservePropertyStock = RedshopHelperStockroom::getCurrentUserReservedStock($propArr[$k]['property_id'], 'property');
 						$property_stock = 0;
 
 						if (($product_preorder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "no") || ($product_preorder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 						{
-							$property_stock = $stockroomhelper->getStockroomTotalAmount($propArr[$k]['property_id'], "property");
+							$property_stock = RedshopHelperStockroom::getStockroomTotalAmount($propArr[$k]['property_id'], "property");
 						}
 
 						if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes") || ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 						{
-							$property_stock = $stockroomhelper->getStockroomTotalAmount($propArr[$k]['property_id'], "property");
-							$property_stock += $stockroomhelper->getPreorderStockroomTotalAmount($propArr[$k]['property_id'], "property");
+							$property_stock = RedshopHelperStockroom::getStockroomTotalAmount($propArr[$k]['property_id'], "property");
+							$property_stock += RedshopHelperStockroom::getPreorderStockroomTotalAmount($propArr[$k]['property_id'], "property");
 						}
 
 						// Get Property stock only when SubProperty is not in cart
@@ -3678,8 +3678,8 @@ class rsCarthelper
 								$newProductQuantity = $ownProductReserveStock + $newquantity;
 							}
 
-							$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $propertyReservedQuantity, "property");
-							$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity, 'product');
+							RedshopHelperStockroom::addReservedStock($propArr[$k]['property_id'], $propertyReservedQuantity, "property");
+							RedshopHelperStockroom::addReservedStock($data['product_id'], $newProductQuantity, 'product');
 						}
 						else
 						{
@@ -3690,16 +3690,16 @@ class rsCarthelper
 
 								if (($product_preorder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "no") || ($product_preorder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 								{
-									$subproperty_stock = $stockroomhelper->getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+									$subproperty_stock = RedshopHelperStockroom::getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
 								}
 
 								if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes") || ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 								{
-									$subproperty_stock = $stockroomhelper->getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
-									$subproperty_stock += $stockroomhelper->getPreorderStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+									$subproperty_stock = RedshopHelperStockroom::getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+									$subproperty_stock += RedshopHelperStockroom::getPreorderStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
 								}
 
-								$ownSubPropReserveStock = $stockroomhelper->getCurrentUserReservedStock($subpropArr[$l]['subproperty_id'], "subproperty");
+								$ownSubPropReserveStock = RedshopHelperStockroom::getCurrentUserReservedStock($subpropArr[$l]['subproperty_id'], "subproperty");
 
 								if ($subproperty_stock >= 0)
 								{
@@ -3731,9 +3731,9 @@ class rsCarthelper
 									$newProductQuantity = $ownProductReserveStock + $newquantity;
 								}
 
-								$stockroomhelper->addReservedStock($subpropArr[$l]['subproperty_id'], $subPropertyReservedQuantity, 'subproperty');
-								$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $newPropertyQuantity, 'property');
-								$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity, 'product');
+								RedshopHelperStockroom::addReservedStock($subpropArr[$l]['subproperty_id'], $subPropertyReservedQuantity, 'subproperty');
+								RedshopHelperStockroom::addReservedStock($propArr[$k]['property_id'], $newPropertyQuantity, 'property');
+								RedshopHelperStockroom::addReservedStock($data['product_id'], $newProductQuantity, 'product');
 							}
 						}
 					}
@@ -3852,7 +3852,7 @@ class rsCarthelper
 			$generateAccessoryCart[$i]['accessory_name']   = $accessory[0]->product_name;
 			$generateAccessoryCart[$i]['accessory_oprand'] = $accessory[0]->oprand;
 			$generateAccessoryCart[$i]['accessory_price']  = $accessory_price;
-			$generateAccessoryCart[$i]['accessory_childs'] = $this->generateAttributeFromCart($cart_item_id, 1, $cartItemdata[$i]->product_id, $quantity);
+			$generateAccessoryCart[$i]['accessory_childs'] = RedshopHelperCart::generateAttributeFromCart($cart_item_id, 1, $cartItemdata[$i]->product_id, $quantity);
 		}
 
 		return $generateAccessoryCart;
@@ -4152,7 +4152,7 @@ class rsCarthelper
 
 					if ($subscription_price)
 					{
-						$subscription_vat = $this->_producthelper->getProductTax($data['product_id'], $subscription_price);
+						$subscription_vat = RedshopHelperProduct::getProductTax($data['product_id'], $subscription_price);
 					}
 
 					$product_vat_price += $subscription_vat;
@@ -4834,7 +4834,7 @@ class rsCarthelper
 										$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($subSubPropertyData[$isp]);
 										$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subSubPropertyData[$isp], $data['quantity'], 'subproperty', $user_id);
 										$subproperty_price = $subproperty[0]->subattribute_color_price;
-										
+
 										if (!empty($pricelist))
 										{
 											$subproperty_price = $pricelist->product_price;
