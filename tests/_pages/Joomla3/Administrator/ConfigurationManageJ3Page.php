@@ -3,7 +3,7 @@
 /**
  *
  */
-class ConfigurationManageJ3Page extends AdminJ3Page
+class ConfigurationPage extends AdminJ3Page
 {
 	//nam page
 	public static $namePage = "Configuration";
@@ -38,7 +38,7 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $vatGroup = ['id' => 's2id_default_vat_group'];
 
 	public static $vatSearchGroup = ['id' => 's2id_autogen37_search'];
-	
+
 	public static $varFirstResults = ['xpath' => '//ul[@id=\'select2-results-37\']'];
 
 	public static $vatDefaultBase = ['id' => 's2id_vat_based_on'];
@@ -106,7 +106,7 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $buttonCartLead = ['id' => 's2id_addtocart_behaviour'];
 
 	public static $buttonCartSearch = ['id' => 's2id_autogen43_search'];
-	
+
 	public static $firstCartSearch = ['xpath' => '//ul[@id=\'select2-results-43\']'];
 
 	public static $onePageNo = ['id' => 'onestep_checkout_enable0-lbl'];
@@ -130,4 +130,6 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
+
+	public static $messageSaveSuccess = 'Configuration Saved';
 }

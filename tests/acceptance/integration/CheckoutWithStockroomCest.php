@@ -6,7 +6,7 @@ c<?php
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationManageJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps;
 class CheckoutWithStockroomCest
 {
 	public function __construct()
@@ -54,10 +54,10 @@ class CheckoutWithStockroomCest
 	public function checkProductInsideStockRoom(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test used Stockroom  in Administrator');
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Start stockroom ');
 		$I->featureUsedStockRoom();
-		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 
 		$I->wantTo('create category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -83,7 +83,7 @@ class CheckoutWithStockroomCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->randomCategoryName);
 
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Stop stockroom ');
 		$I->featureOffStockRoom();
 	}
