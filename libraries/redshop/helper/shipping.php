@@ -323,7 +323,7 @@ class RedshopHelperShipping
 			$state     = $userInfo->state_code;
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userId);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -1886,7 +1886,7 @@ class RedshopHelperShipping
 				. " )";
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -2077,7 +2077,7 @@ class RedshopHelperShipping
 			$country      = $userInfo->country_code;
 			$state        = $userInfo->state_code;
 			$isCompany    = $userInfo->is_company;
-			$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 			$zip          = $userInfo->zipcode;
 		}
 
