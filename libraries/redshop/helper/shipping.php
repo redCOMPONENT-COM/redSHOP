@@ -1600,17 +1600,17 @@ class RedshopHelperShipping
 
 			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
-				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
+				foreach ($cart[$i]['cart_accessory'] as $index => $cartAccessory)
 				{
-					$accId  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
+					$accId  = $cartAccessory['accessory_id'];
 					$accQty = 1;
 
-					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
+					if (isset($cartAccessory['accessory_quantity']))
 					{
-						$accQty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+						$accQty = $cartAccessory['accessory_quantity'];
 					}
 
-					if ($accData = $productHelper->getProductById($accId))
+					if ($accData = RedshopHelperProduct::getProductById($accId))
 					{
 						$accWeight += ($accData->weight * $accQty);
 					}

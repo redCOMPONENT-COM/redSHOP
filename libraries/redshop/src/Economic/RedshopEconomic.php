@@ -905,7 +905,7 @@ class RedshopEconomic
 							$propertyPrice = $orderPropData[$p]->section_price + $orderPropData[$p]->section_vat;
 						}
 
-						$disPrice = " (" . $orderPropData[$p]->section_oprand . $productHelper->getProductFormattedPrice($propertyPrice) . ")";
+						$disPrice = " (" . $orderPropData[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($propertyPrice) . ")";
 					}
 
 					$displayAttribute .= urldecode($orderPropData[$p]->section_name) . $disPrice . $virtualNumber;
@@ -925,9 +925,9 @@ class RedshopEconomic
 
 					if (count($orderSubPropertyData) > 0)
 					{
-						for ($sp = 0; $sp < count($orderSubPropertyData); $sp++)
+						foreach ($orderSubPropertyData as $aData)
 						{
-							$subproperty   = \RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubPropertyData[$sp]->section_id);
+							$subproperty   = \RedshopHelperProduct_Attribute::getAttributeSubProperties($aData->section_id);
 							$virtualNumber = "";
 
 							if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
@@ -936,7 +936,7 @@ class RedshopEconomic
 
 								if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 								{
-									$orderSubPropertyData[$sp]->virtualNumber = $subproperty[0]->subattribute_color_number;
+									$aData->virtualNumber = $subproperty[0]->subattribute_color_number;
 									self::createSubpropertyInEconomic($product, $subproperty[0]);
 								}
 							}
@@ -945,21 +945,21 @@ class RedshopEconomic
 
 							if (!$hideAttributePrice)
 							{
-								$subpropertyPrice = $orderSubPropertyData[$sp]->section_price;
+								$subpropertyPrice = $aData->section_price;
 
 								if (!empty($checkShowVAT))
 								{
-									$subpropertyPrice = $orderSubPropertyData[$sp]->section_price + $orderSubPropertyData[$sp]->section_vat;
+									$subpropertyPrice = $aData->section_price + $aData->section_vat;
 								}
 
-								$disPrice = " (" . $orderSubPropertyData[$sp]->section_oprand . $productHelper->getProductFormattedPrice($subpropertyPrice) . ")";
+								$disPrice = " (" . $aData->section_oprand . RedshopHelperProductPrice::formattedPrice($subpropertyPrice) . ")";
 							}
 
-							$displayAttribute .= "\n" . urldecode($orderSubPropertyData[$sp]->section_name) . $disPrice . $virtualNumber;
+							$displayAttribute .= "\n" . urldecode($aData->section_name) . $disPrice . $virtualNumber;
 
 							if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 							{
-								$setPrice += $orderSubPropertyData[$sp]->section_price;
+								$setPrice += $aData->section_price;
 							}
 						}
 

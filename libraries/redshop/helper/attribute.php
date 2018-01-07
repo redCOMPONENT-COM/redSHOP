@@ -567,10 +567,10 @@ abstract class RedshopHelperAttribute
 
 					$displaySubproperty = "";
 
-					for ($selp = 0; $selp < count($defaultPropertyId); $selp++)
+					foreach ($defaultPropertyId as $aDefaultPropertyId)
 					{
 						$displaySubproperty .= $productHelper->replaceSubPropertyData(
-							$productId, $accessoryId, $relatedProductId, $attributes[$a]->attribute_id, $defaultPropertyId[$selp], $subpropertydata,
+							$productId, $accessoryId, $relatedProductId, $attributes[$a]->attribute_id, $aDefaultPropertyId, $subpropertydata,
 							$layout, $selectSubproperty
 						);
 					}
