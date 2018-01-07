@@ -2664,7 +2664,7 @@ class rsCarthelper
 		}
 
 		JPluginHelper::importPlugin('redshop_checkout');
-		JEventDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
+		RedshopHelperUtility::getDispatcher()->trigger('onRenderShippingMethod', array(&$template_desc));
 
 		$returnarr = array("template_desc" => $template_desc, "shipping_rate_id" => $shipping_rate_id);
 
@@ -3070,8 +3070,7 @@ class rsCarthelper
 		$product_price          = 0;
 		$product_price_excl_vat = 0;
 		$quantity               = 0;
-		$product_idArr          = explode(',', $product_id);
-		Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
+		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $product_id));
 
 		for ($v = 0; $v < $idx; $v++)
 		{
@@ -4721,7 +4720,7 @@ class rsCarthelper
 			// Secure productsIds
 			if ($productsIds = explode(',', $product_id))
 			{
-				Joomla\Utilities\ArrayHelper::toInteger($productsIds);
+				$productsIds = ArrayHelper::toInteger($productsIds);
 
 				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
 			}
@@ -4747,7 +4746,7 @@ class rsCarthelper
 			// Secure notAttributeId
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
-				Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
+				$notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
 
 				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 			}
