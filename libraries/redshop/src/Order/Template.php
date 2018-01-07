@@ -259,13 +259,16 @@ class Template
 	{
 		$search[]  = "{discount_denotation}";
 		$replace[] = "*";
-		$search[]  = "{delivery_time_lbl}";
-		$replace[] = " ";
 
 		if (\JFactory::getApplication()->input->get('order_delivery'))
 		{
 			$search[]  = "{delivery_time_lbl}";
 			$replace[] = \JText::_('COM_REDSHOP_DELIVERY_TIME');
+		}
+		else
+		{
+			$search[]  = "{delivery_time_lbl}";
+			$replace[] = " ";
 		}
 
 		$search[]  = "{delivery_time}";
