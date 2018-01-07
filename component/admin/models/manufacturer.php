@@ -93,7 +93,7 @@ class RedshopModelManufacturer extends RedshopModel
 
 		$total = count($cid);
 		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
-		JArrayHelper::toInteger($order, array(0));
+		$order = Joomla\Utilities\ArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values
 		for ($i = 0; $i < $total; $i++)

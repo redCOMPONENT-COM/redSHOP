@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -135,8 +137,8 @@ class RedshopControllerMedia extends RedshopController
 		$cid          = $this->input->post->get('cid', array(), 'array');
 		$order        = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

@@ -476,7 +476,7 @@ class RedshopModelSearch extends RedshopModel
 				}
 			}
 
-			JArrayHelper::toInteger($cat_group);
+			$cat_group = ArrayHelper::toInteger($cat_group);
 
 			if ($cat_group)
 			{
@@ -502,7 +502,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			// Sanitize ids
 			$manufacturerIds = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($manufacturerIds);
+			$manufacturerIds = ArrayHelper::toInteger($manufacturerIds);
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
@@ -619,7 +619,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$productIds = explode(',', $products);
-				JArrayHelper::toInteger($productIds);
+				$productIds = ArrayHelper::toInteger($productIds);
 
 				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
 			}
@@ -688,7 +688,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$catIds = explode(',', $cat_group);
-				JArrayHelper::toInteger($catIds);
+				$catIds = ArrayHelper::toInteger($catIds);
 
 				$query->where('pc.category_id IN (' . $cat_group . ')');
 			}
@@ -878,7 +878,7 @@ class RedshopModelSearch extends RedshopModel
 						$products[] = $product[$i]->product_id;
 					}
 
-					JArrayHelper::toInteger($products);
+					$products   = ArrayHelper::toInteger($products);
 					$productids = implode(",", $products);
 				}
 
@@ -893,7 +893,7 @@ class RedshopModelSearch extends RedshopModel
 				{
 					// Sanitize ids
 					$productIds = explode(',', $productids);
-					JArrayHelper::toInteger($productIds);
+					$productIds = ArrayHelper::toInteger($productIds);
 
 					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
 				}
@@ -1118,7 +1118,7 @@ class RedshopModelSearch extends RedshopModel
 		if ($productids != "")
 		{
 			// Sanitize ids
-			JArrayHelper::toInteger($products);
+			$products = ArrayHelper::toInteger($products);
 
 			$q .= " AND ra.product_id IN (" . implode(",", $products) . ") ";
 		}
@@ -1153,7 +1153,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		// Sanitize ids
-		JArrayHelper::toInteger($mids);
+		$mids = ArrayHelper::toInteger($mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
 			. "WHERE manufacturer_id IN ('" . implode(",", $mids) . "')";
