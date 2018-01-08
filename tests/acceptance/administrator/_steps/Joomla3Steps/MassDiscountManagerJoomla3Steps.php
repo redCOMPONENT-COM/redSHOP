@@ -15,26 +15,9 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\MassDiscountManagerPage::$newButton);
 		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
 
-
-		$I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
-		$I->click(\MassDiscountManagerPage::$startDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->click(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-
 		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 
-
-////        $I->click(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li"]);
-////        $I->fillField(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li//input"], $nameManufacture);
-////        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-////        $I->click(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-//
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();
@@ -53,32 +36,11 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 
-		$I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
-		$I->click(\MassDiscountManagerPage::$startDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->click(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-
-
-//        $I->click(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li"]);
-//        $I->fillField(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li//input"], $nameManufacture);
-//        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-//        $I->click(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();
 		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
 		$I->click($useMassDiscountPage->returnXpath($nameCategory));
-
-//        $I->click(\MassDiscountManagerPage::$discountForm);
-//        $I->fillField(\MassDiscountManagerPage::$discountForm, $nameProduct);
-//        $I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
-//        $I->click($useMassDiscountPage->returnXpath($nameProduct));
 
 		$I->click(\MassDiscountManagerPage::$saveCloseButton);
 		$I->waitForText(\MassDiscountManagerPage::$saveOneSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
@@ -139,10 +101,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 
-        $I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
-        $I->click(\MassDiscountManagerPage::$startDateIcon);
-        $I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-        $I->click(\MassDiscountManagerPage::$getToday);
         $I->click(\MassDiscountManagerPage::$saveButton);
 		$I->waitForText(\MassDiscountManagerPage::$fieldName, 30, \MassDiscountManagerPage::$selectorError);
 		
@@ -156,27 +114,12 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
 		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
 
-		$I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
-		$I->click(\MassDiscountManagerPage::$startDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->click(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-
-
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();
 		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
 		$I->click($useMassDiscountPage->returnXpath($nameCategory));
 
-//        $I->click(\MassDiscountManagerPage::$discountForm);
-//        $I->fillField(\MassDiscountManagerPage::$discountForm, $nameProduct);
-//        $I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
-//        $I->click($useMassDiscountPage->returnXpath($nameProduct));
 		$I->click(\MassDiscountManagerPage::$saveButton);
 
 		$I->waitForText(\MassDiscountManagerPage::$messageError, 30, \MassDiscountManagerPage::$selectorError);
@@ -190,16 +133,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
 		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
-
-		$I->waitForElement(\MassDiscountManagerPage::$startDateIcon, 30);
-		$I->click(\MassDiscountManagerPage::$startDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->click(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$endDateIcon);
-		$I->waitForElementVisible(\MassDiscountManagerPage::$getToday);
-		$I->click(\MassDiscountManagerPage::$getToday);
 
 		$I->click(\MassDiscountManagerPage::$saveButton);
 		$I->waitForText(\MassDiscountManagerPage::$saveError, 30, \MassDiscountManagerPage::$selectorError);
@@ -286,7 +219,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\MassDiscountManagerPage::$checkFirstItems);
 		$I->click(\MassDiscountManagerPage::$deleteButton);
 		$I->acceptPopup();
-//		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
 		$I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
 		$I->fillField(\MassDiscountManagerPage::$MassDiscountFilter, $massDiscountName);
 		$I->pressKey(\MassDiscountManagerPage::$MassDiscountFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
