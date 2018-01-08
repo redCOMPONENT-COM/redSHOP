@@ -185,6 +185,16 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+	
+	public function removeValue($xpath)
+	{
+		$I = $this;
+		$I->click($xpath);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+	}
 
 	public function chooseOnSelect2($element, $text)
 	{
