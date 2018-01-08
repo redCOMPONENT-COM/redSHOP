@@ -293,7 +293,7 @@ class extraField
 
 	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
-		$row_data = $this->getSectionFieldList($field_section, 1);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($field_section, 1);
 
 		$fieldHtml = '';
 
@@ -301,7 +301,7 @@ class extraField
 		{
 			$type = $row_data[$i]->type;
 
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->id, $field_section, $section_id);
+			$data_value = RedshopHelperExtrafields::getData($row_data[$i]->id, $field_section, $section_id);
 
 			if (!empty($data_value) && count($data_value) <= 0)
 			{
@@ -359,7 +359,7 @@ class extraField
 
 				case self::TYPE_CHECK_BOX:
 
-					$field_chk = $this->getFieldValue($row_data[$i]->id);
+					$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 					$chk_data  = @explode(",", $data_value->data_txt);
 
 					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
@@ -383,7 +383,7 @@ class extraField
 
 					$inputField = JHTML::_(
 						'select.radiolist',
-						$this->getFieldValue($row_data[$i]->id),
+						RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues(),
 						$row_data[$i]->name,
 						array(
 							'class' => $row_data[$i]->class
@@ -395,7 +395,7 @@ class extraField
 					break;
                 case self::TYPE_SELECT_BOX_SINGLE:
 
-					$field_chk = $this->getFieldValue($row_data[$i]->id);
+					$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 					$chk_data  = @explode(",", $data_value->data_txt);
 
 					$inputField = '<select class="' . $row_data[$i]->class . ' ' . $class . '"    name="' . $row_data[$i]->name . '"   id="' . $row_data[$i]->name . '">';
@@ -417,7 +417,7 @@ class extraField
 
                 case self::TYPE_SELECT_BOX_MULTIPLE:
 
-					$field_chk = $this->getFieldValue($row_data[$i]->id);
+					$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 					$chk_data  = @explode(",", $data_value->data_txt);
 
 					$inputField = '<select class="' . $row_data[$i]->class . ' ' . $class . '"   multiple size=10 name="' . $row_data[$i]->name . '[]">';
@@ -637,7 +637,7 @@ class extraField
 
 					case self::TYPE_CHECK_BOX:
 
-						$field_chk = $this->getFieldValue($row_data[$i]->id);
+						$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->name]);
 
 						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
@@ -655,7 +655,7 @@ class extraField
 
 					case self::TYPE_RADIO_BUTTON:
 
-						$field_chk = $this->getFieldValue($row_data[$i]->id);
+						$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->name]);
 
 						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
@@ -673,7 +673,7 @@ class extraField
 
 					case self::TYPE_SELECT_BOX_SINGLE:
 
-						$field_chk = $this->getFieldValue($row_data[$i]->id);
+						$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->name]);
 						$ex_field .= '<div class="userfield_input"><select name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->name . '" userfieldlbl="' . $row_data[$i]->title . '">';
 						$ex_field .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
@@ -698,7 +698,7 @@ class extraField
 
 					case self::TYPE_SELECT_BOX_MULTIPLE:
 
-						$field_chk = $this->getFieldValue($row_data[$i]->id);
+						$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->name . '" userfieldlbl="' . $row_data[$i]->title . '">';
 
@@ -772,7 +772,7 @@ class extraField
 
 					case self::TYPE_IMAGE_SELECT:
 
-						$field_chk = $this->getFieldValue($row_data[$i]->id);
+						$field_chk = RedshopEntityField::getInstance($row_data[$i]->id)->getFieldValues();
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->name]);
 						$ex_field .= '<table><tr>';
 
@@ -827,7 +827,7 @@ class extraField
 						break;
 
                     case self::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
-						$field_chk = $this->getSectionFieldDataList($row_data[$i]->id, 12, $product_id);
+						$field_chk = RedshopHelperExtrafields::getData($row_data[$i]->id, 12, $product_id);
 
 						if (count($field_chk) > 0)
 						{
