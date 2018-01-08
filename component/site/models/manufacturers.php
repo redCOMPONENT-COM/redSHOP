@@ -297,7 +297,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 		if ($cid)
 		{
-			$tmpCategories = RedshopHelperCategory::getCategoryTree($cid);
+			$tmpCategories = RedshopHelperCategory::getCategoryTree((int) $cid);
 			$categoriesIds = array($cid);
 
 			if (!empty($tmpCategories))

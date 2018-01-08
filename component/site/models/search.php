@@ -476,9 +476,9 @@ class RedshopModelSearch extends RedshopModel
 
 			$catGroup = Joomla\Utilities\ArrayHelper::toInteger($catGroup);
 
-			if ($catGroup)
+			if (!empty($catGroup))
 			{
-				$catGroup = join(',', $catGroup);
+				$catGroup = implode(',', $catGroup);
 			}
 			else
 			{
@@ -680,9 +680,6 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($categoryId != 0)
 			{
-				// Sanitize ids
-				$catGroup = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $catGroup));
-
 				$query->where('pc.category_id IN (' . $catGroup . ')');
 			}
 
