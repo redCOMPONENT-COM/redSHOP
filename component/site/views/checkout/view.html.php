@@ -14,15 +14,13 @@ class RedshopViewCheckout extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$model     = $this->getModel('checkout');
-		$Itemid    = $app->input->getInt('Itemid');
-		$user      = JFactory::getUser();
-		$redhelper = redhelper::getInstance();
-		$field     = extraField::getInstance();
-		$session   = JFactory::getSession();
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel('checkout');
+		$Itemid  = $app->input->getInt('Itemid');
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 
-		$language          = JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();

@@ -37,8 +37,6 @@ class RedshopViewRegistration extends RedshopView
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 
-		$field                        = extraField::getInstance();
-
 		$jInput = JFactory::getApplication()->input;
 		$openToStretcher = 0;
 		$isCompany = $jInput->getInt('is_company', 0);

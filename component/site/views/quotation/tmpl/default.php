@@ -99,7 +99,7 @@ else
 
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
-		$billing .= Redshop\Fields\SiteHelper::renderFields(16, $detail->user_info_id, "", "tbl");
+		$billing      .= Redshop\Fields\SiteHelper::renderFields(16, $detail->user_info_id, "tbl");
 		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
 	}
 	else

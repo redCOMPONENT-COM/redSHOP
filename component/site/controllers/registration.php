@@ -110,12 +110,11 @@ class RedshopControllerRegistration extends RedshopController
 	 * getCompanyOrCustomer
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function getCompanyOrCustomer()
 	{
 		$app        = JFactory::getApplication();
-		$extraField = extraField::getInstance();
-
 		$get        = $app->input->get->getArray();
 		$templateId = $get['template_id'];
 		$isCompany  = $get['is_company'];

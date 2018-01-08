@@ -179,7 +179,8 @@ class extraField
 
 				switch ($type)
 				{
-                    case RedshopHelperExtrafields::TYPE_TEXT:
+					default:
+					case RedshopHelperExtrafields::TYPE_TEXT:
 
 						$onkeyup = '';
 
@@ -285,7 +286,7 @@ class extraField
 						$ex_field .= '</select></div>';
 						break;
 
-                    case RedshopHelperExtrafields::TYPE_DOCUMENTS :
+					case RedshopHelperExtrafields::TYPE_DOCUMENTS:
 						// File Upload
 						JHtml::_('redshopjquery.framework');
 						JHtml::script('com_redshop/ajaxupload.js', false, true);
@@ -394,7 +395,7 @@ class extraField
 							. '</div>';
 						break;
 
-                    case RedshopHelperExtrafields::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
+					case RedshopHelperExtrafields::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
 						$field_chk = $this->getSectionFieldDataList($row_data[$i]->id, 12, $product_id);
 
 						if (count($field_chk) > 0)

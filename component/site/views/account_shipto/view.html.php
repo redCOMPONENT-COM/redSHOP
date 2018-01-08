@@ -57,15 +57,10 @@ class RedshopViewAccount_Shipto extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
+		$app            = JFactory::getApplication();
 		$orderFunctions = order_functions::getInstance();
-
-		// Extra_field;
-		$extraField = extraField::getInstance();
-
-		$task = $app->input->getCmd('task');
-		$user = JFactory::getUser();
+		$task           = $app->input->getCmd('task');
+		$user           = JFactory::getUser();
 
 		// Preform security checks
 		$session        = JFactory::getSession();
