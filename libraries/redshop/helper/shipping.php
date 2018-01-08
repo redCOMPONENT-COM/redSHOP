@@ -297,7 +297,6 @@ class RedshopHelperShipping
 	 */
 	public static function getDefaultShippingXmlExport($data)
 	{
-		$userHelper    = rsUserHelper::getInstance();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
 		$userId        = $user->id;
@@ -323,7 +322,7 @@ class RedshopHelperShipping
 			$state     = $userInfo->state_code;
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userId);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -1576,7 +1575,6 @@ class RedshopHelperShipping
 	 */
 	public static function getCartItemDimension()
 	{
-		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1600,17 +1598,17 @@ class RedshopHelperShipping
 
 			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
-				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
+				foreach ($cart[$i]['cart_accessory'] as $index => $cartAccessory)
 				{
-					$accId  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
+					$accId  = $cartAccessory['accessory_id'];
 					$accQty = 1;
 
-					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
+					if (isset($cartAccessory['accessory_quantity']))
 					{
-						$accQty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+						$accQty = $cartAccessory['accessory_quantity'];
 					}
 
-					if ($accData = $productHelper->getProductById($accId))
+					if ($accData = RedshopHelperProduct::getProductById($accId))
 					{
 						$accWeight += ($accData->weight * $accQty);
 					}
@@ -1854,7 +1852,6 @@ class RedshopHelperShipping
 			return false;
 		}
 
-		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
 		$country      = $userInfo->country_code;
@@ -1887,7 +1884,7 @@ class RedshopHelperShipping
 				. " )";
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -2027,7 +2024,6 @@ class RedshopHelperShipping
 		$input         = JFactory::getApplication()->input;
 		$usersInfoId   = $input->getInt('users_info_id', 0);
 		$productHelper = productHelper::getInstance();
-		$userHelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);
 		$db            = JFactory::getDbo();
@@ -2040,7 +2036,6 @@ class RedshopHelperShipping
 		}
 
 		$orderSubtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$orderFunctions = order_functions::getInstance();
 		$user           = JFactory::getUser();
 		$userId         = $user->id;
 
@@ -2067,7 +2062,7 @@ class RedshopHelperShipping
 			{
 				$userInfo = self::getShippingAddress($usersInfoId);
 			}
-			elseif ($userInfo = $orderFunctions->getShippingAddress($userId))
+			elseif ($userInfo = RedshopHelperOrder::getShippingAddress($userId))
 			{
 				$userInfo = $userInfo[0];
 			}
@@ -2078,7 +2073,7 @@ class RedshopHelperShipping
 			$country      = $userInfo->country_code;
 			$state        = $userInfo->state_code;
 			$isCompany    = $userInfo->is_company;
-			$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 			$zip          = $userInfo->zipcode;
 		}
 
