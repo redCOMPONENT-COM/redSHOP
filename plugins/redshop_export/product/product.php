@@ -252,13 +252,13 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		if (!empty($categories))
 		{
-			ArrayHelper::toInteger($categories);
+			$categories = ArrayHelper::toInteger($categories);
 			$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')');
 		}
 
 		if (!empty($manufacturers))
 		{
-			ArrayHelper::toInteger($manufacturers);
+			$manufacturers = ArrayHelper::toInteger($manufacturers);
 			$query->where($db->qn('p.manufacturer_id') . ' IN (' . implode(',', $manufacturers) . ')');
 		}
 

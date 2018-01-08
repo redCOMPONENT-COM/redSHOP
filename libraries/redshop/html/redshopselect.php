@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JHtmlSelect', JPATH_PLATFORM . '/joomla/html/html/select.php');
@@ -258,7 +260,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			JHtml::_('redshopjquery.select2', '#' . $id, $options['select2.options']);
 		}
 
-		JArrayHelper::toInteger($value);
+		$value = ArrayHelper::toInteger($value);
 		$value = implode(',', $value);
 
 		if ($value == 0)
@@ -397,7 +399,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			JHtml::_('redshopjquery.select2', '#' . $id, $options['select2.options']);
 		}
 
-		JArrayHelper::toInteger($value);
+		$value = ArrayHelper::toInteger($value);
 		$value = implode(',', $value);
 
 		if ($value == 0)
