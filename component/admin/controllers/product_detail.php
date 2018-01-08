@@ -992,34 +992,39 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
 
-		if (is_dir($dirname))
+		if (!is_dir($dirname))
 		{
-			$dir_handle = opendir($dirname);
+			return true;
+		}
 
-			if ($dir_handle)
+		$dirHandle = opendir($dirname);
+
+		if ($dirHandle === false)
+		{
+			return true;
+		}
+
+		while ($file = readdir($dirHandle))
+		{
+			if ($file == '..' || $file == '.' || $file == '' || $file == 'index.html')
 			{
-				while ($file = readdir($dir_handle))
-				{
-					if ($file != '..' && $file != '.' && $file != '')
-					{
-						if ($file != 'index.html')
-						{
-							if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-							{
-								if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-								{
-									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
-								}
-
-								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
-							}
-						}
-					}
-				}
+				continue;
 			}
 
-			closedir($dir_handle);
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+			{
+				continue;
+			}
+
+			if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+			{
+				chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
+			}
+
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 		}
+
+		closedir($dirHandle);
 
 		return true;
 	}

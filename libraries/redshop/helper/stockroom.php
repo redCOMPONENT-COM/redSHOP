@@ -132,17 +132,16 @@ class RedshopHelperStockroom
 	public static function isAttributeStockExists($productId)
 	{
 		$isStockExists = false;
-		$productHelper = productHelper::getInstance();
-		$property      = $productHelper->getAttibuteProperty(0, 0, $productId);
+		$properties      = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
 
-		for ($attJ = 0; $attJ < count($property); $attJ++)
+		foreach ($properties as $property)
 		{
 			$isSubpropertyStock = false;
-			$subProperty        = $productHelper->getAttibuteSubProperty(0, $property[$attJ]->property_id);
+			$subProperties      = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
 
-			for ($subJ = 0; $subJ < count($subProperty); $subJ++)
+			foreach ($subProperties as $subProperty)
 			{
-				$isSubpropertyStock = self::isStockExists($subProperty[$subJ]->subattribute_color_id, 'subproperty');
+				$isSubpropertyStock = self::isStockExists($subProperty->subattribute_color_id, 'subproperty');
 
 				if ($isSubpropertyStock)
 				{
@@ -158,7 +157,7 @@ class RedshopHelperStockroom
 			}
 			else
 			{
-				$isPropertystock = self::isStockExists($property[$attJ]->property_id, "property");
+				$isPropertystock = self::isStockExists($property->property_id, "property");
 
 				if ($isPropertystock)
 				{
@@ -211,18 +210,17 @@ class RedshopHelperStockroom
 	 */
 	public static function isAttributePreorderStockExists($productId)
 	{
-		$productHelper         = productHelper::getInstance();
-		$property              = $productHelper->getAttibuteProperty(0, 0, $productId);
+		$properties              = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
 		$isPreorderStockExists = false;
 
-		for ($attJ = 0; $attJ < count($property); $attJ++)
+		foreach ($properties as $property)
 		{
 			$isSubpropertyStock = false;
-			$subProperty        = $productHelper->getAttibuteSubProperty(0, $property[$attJ]->property_id);
+			$subProperties      = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
 
-			for ($subJ = 0; $subJ < count($subProperty); $subJ++)
+			foreach ($subProperties as $subProperty)
 			{
-				$isSubpropertyStock = self::isPreorderStockExists($subProperty[$subJ]->subattribute_color_id, 'subproperty');
+				$isSubpropertyStock = self::isPreorderStockExists($subProperty->subattribute_color_id, 'subproperty');
 
 				if ($isSubpropertyStock)
 				{
@@ -238,7 +236,7 @@ class RedshopHelperStockroom
 			}
 			else
 			{
-				$isPropertystock = self::isPreorderStockExists($property[$attJ]->property_id, "property");
+				$isPropertystock = self::isPreorderStockExists($property->property_id, "property");
 
 				if ($isPropertystock)
 				{
@@ -1230,22 +1228,20 @@ class RedshopHelperStockroom
 	 */
 	public static function getFinalStockofProduct($productId, $totalAtt)
 	{
-		$productHelper = productHelper::getInstance();
-
 		$isStockExists = self::isStockExists($productId);
 
 		if ($totalAtt > 0 && !$isStockExists)
 		{
-			$property = $productHelper->getAttibuteProperty(0, 0, $productId);
+			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
 
-			for ($attJ = 0; $attJ < count($property); $attJ++)
+			foreach ($properties as $property)
 			{
 				$isSubpropertyStock = false;
-				$subProperty        = $productHelper->getAttibuteSubProperty(0, $property[$attJ]->property_id);
+				$subProperties      = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
 
-				for ($subJ = 0; $subJ < count($subProperty); $subJ++)
+				foreach ($subProperties as $property)
 				{
-					$isSubpropertyStock = self::isStockExists($subProperty[$subJ]->subattribute_color_id, 'subproperty');
+					$isSubpropertyStock = self::isStockExists($property->subattribute_color_id, 'subproperty');
 
 					if ($isSubpropertyStock)
 					{
@@ -1260,7 +1256,7 @@ class RedshopHelperStockroom
 				}
 				else
 				{
-					$isPropertystock = self::isStockExists($property[$attJ]->property_id, "property");
+					$isPropertystock = self::isStockExists($property->property_id, "property");
 
 					if ($isPropertystock)
 					{
@@ -1290,16 +1286,16 @@ class RedshopHelperStockroom
 
 		if ($totalAtt > 0 && !$isStockExists)
 		{
-			$property = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
+			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
 
-			for ($attJ = 0; $attJ < count($property); $attJ++)
+			foreach ($properties as $property)
 			{
 				$isSubpropertyStock = false;
-				$subProperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property[$attJ]->property_id);
+				$subProperties      = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
 
-				for ($subJ = 0; $subJ < count($subProperty); $subJ++)
+				foreach ($subProperties as $subProperty)
 				{
-					$isSubpropertyStock = self::isPreorderStockExists($subProperty[$subJ]->subattribute_color_id, 'subproperty');
+					$isSubpropertyStock = self::isPreorderStockExists($subProperty->subattribute_color_id, 'subproperty');
 
 					if ($isSubpropertyStock)
 					{
@@ -1314,7 +1310,7 @@ class RedshopHelperStockroom
 				}
 				else
 				{
-					$isPropertystock = self::isPreorderStockExists($property[$attJ]->property_id, "property");
+					$isPropertystock = self::isPreorderStockExists($property->property_id, "property");
 
 					if ($isPropertystock)
 					{

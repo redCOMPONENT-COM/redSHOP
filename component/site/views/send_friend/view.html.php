@@ -9,34 +9,30 @@
 
 defined('_JEXEC') or die;
 
-
-
-class RedshopViewSend_friend extends RedshopView
+/**
+ * Send Friend View
+ *
+ * @package     RedShop.Component
+ * @subpackage  View
+ *
+ * @since       1.0
+ */
+class RedshopViewSend_Friend extends RedshopView
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   1.0.0
+	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
-		// Request variables
-		$id     = $app->input->getInt('id');
-		$Itemid = $app->input->getInt('Itemid');
-		$pid    = $app->input->getInt('pid');
-
-		$params = $app->getParams('com_redshop');
-
-		$pathway  = $app->getPathway();
-
 		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
-		$data = $this->get('data');
 
-		$template = $this->get('template');
-
-		// Next/Prev navigation end
-
-		$this->data = $data;
-		$this->template = $template;
-
-		$this->params = $params;
 		parent::display($tpl);
 	}
 }

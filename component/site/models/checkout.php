@@ -2050,7 +2050,7 @@ class RedshopModelCheckout extends RedshopModel
 	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post = array())
 	{
 		$session  = JFactory::getSession();
-		$cart     = $session->get('cart');
+		$cart     = RedshopHelperCartSession::getCart();
 		$user     = JFactory::getUser();
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
@@ -2278,7 +2278,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = $this->_carthelper->replaceLabel($template_desc);
 		$template_desc = str_replace("{print}", '', $template_desc);
 
-		RedshopHelperCartSession::setCart($cart);
+		RedshopHelperCartSession::setCart((array) $cart);
 
 		return $template_desc;
 	}
