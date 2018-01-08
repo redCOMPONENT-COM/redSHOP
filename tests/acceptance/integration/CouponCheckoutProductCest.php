@@ -40,8 +40,8 @@ class CouponCheckoutProductCest
 		$this->minimumPerProduct   = '1';
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
-		$this->discountStart       = "12-12-2016";
-		$this->discountEnd         = "23-05-2017";
+		$this->discountStart       = "2016-12-12";
+		$this->discountEnd         = "2017-05-23";
 
 		//user login
 		//create user

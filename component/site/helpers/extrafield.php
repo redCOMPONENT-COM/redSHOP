@@ -452,7 +452,7 @@ class extraField
 						$size = $row_data[$i]->size;
 					}
 
-					$inputField = JHTML::_('redshopjquery.calendar', $date, $row_data[$i]->name, $row_data[$i]->name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
+					$inputField = JHTML::_('redshopcalendar.calendar', $date, $row_data[$i]->name, $row_data[$i]->name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
 					break;
 			}
 
@@ -807,7 +807,23 @@ class extraField
 							$ajax = 'ajax';
 						}
 
-						$ex_field .= '<div class="userfield_input">' . JHTML::_('calendar', $text_value, 'extrafields' . $product_id . '[]', $ajax . $row_data[$i]->name . '_' . $product_id, $format = '%d-%m-%Y', array('class' => $row_data[$i]->class, 'size' => $row_data[$i]->size, 'maxlength' => $row_data[$i]->maxlength, 'required' => $req, 'userfieldlbl' => $row_data[$i]->title, 'errormsg' => '')) . '</div>';
+						$ex_field .= '<div class="userfield_input">'
+							. JHtml::_(
+								'redshopcalendar.calendar',
+								$text_value,
+								'extrafields' . $product_id . '[]',
+								$ajax . $row_data[$i]->name . '_' . $product_id,
+								null,
+								array(
+									'class' => $row_data[$i]->class,
+									'size' => $row_data[$i]->size,
+									'maxlength' => $row_data[$i]->maxlength,
+									'required' => $req,
+									'userfieldlbl' => $row_data[$i]->title,
+									'errormsg' => ''
+								)
+							)
+							. '</div>';
 						break;
 
                     case self::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
