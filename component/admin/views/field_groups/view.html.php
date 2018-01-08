@@ -16,9 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-
-class RedshopViewFields_groups extends RedshopViewList
+class RedshopViewField_Groups extends RedshopViewList
 {
+	/**
+	 * Display duplicate button or not.
+	 *
+	 * @var   boolean
+	 * @since  2.0.7
+	 */
+	protected $enableDuplicate = true;
 
 	/**
 	 * Method for render 'Published' column
@@ -28,6 +34,7 @@ class RedshopViewFields_groups extends RedshopViewList
 	 * @param   object  $row     Row data.
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

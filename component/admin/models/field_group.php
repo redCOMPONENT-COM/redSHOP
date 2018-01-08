@@ -10,33 +10,41 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Fields group
+ * Model Field group
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       __DEPLOY_VERSION__
  */
 
-class RedshopModelFields_group extends RedshopModelForm
+class RedshopModelField_Group extends RedshopModelForm
 {
+	/**
+	 * The unique columns.
+	 *
+	 * @var  array
+	 */
+	protected $copyUniqueColumns = array('name');
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 * @throws  Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_redshop.edit.fields_group.data', array());
+		$data = JFactory::getApplication()->getUserState('com_redshop.edit.field_group.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
 		}
 
-		$this->preprocessData('com_redshop.fields_group', $data);
+		$this->preprocessData('com_redshop.field_group', $data);
 
 		return $data;
 	}

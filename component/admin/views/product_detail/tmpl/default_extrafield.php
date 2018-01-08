@@ -8,11 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-$db          = JFactory::getDBO();
-$templateId  = $this->detail->product_template;
-$product_id  = $this->detail->product_id;
-$redTemplate = Redtemplate::getInstance();
-$template    = RedshopHelperTemplate::getTemplate("product", $templateId);
+$templateId = $this->detail->product_template;
+$template   = RedshopHelperTemplate::getTemplate("product", $templateId);
 
 if (count($template) == 0)
 {
@@ -20,16 +17,20 @@ if (count($template) == 0)
 }
 
 $template = $template[0]->template_desc;
-$sections = array(RedshopHelperExtrafields::SECTION_PRODUCT, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER);
+$sections = array(
+	RedshopHelperExtrafields::SECTION_PRODUCT,
+	RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
+	RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER
+);
 
 $html = '';
 
 foreach ($sections as $section)
 {
-	$html .= RedshopHelperExtrafields::listAllField($section, 0, '');
+	$html .= RedshopHelperExtrafields::listAllField($section, $this->detail->product_id, '');
 }
 
-$this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
+$this->dispatcher->trigger('onRenderExtraFields', array($this->detail->product_id, &$html));
 ?>
 <?php if (empty($html)): ?>
     <div class="row">
@@ -60,4 +61,4 @@ $this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
 			<?php echo $html; ?>
         </div>
     </div>
-<?php endif; ?>
+<?php endif;

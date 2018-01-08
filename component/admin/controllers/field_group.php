@@ -16,6 +16,6 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerFields_group extends RedshopControllerForm
+class RedshopControllerField_Group extends RedshopControllerForm
 {
 }

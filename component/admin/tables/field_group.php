@@ -10,14 +10,23 @@
 defined('_JEXEC') or die;
 
 /**
- * Table Fields group
+ * Table Field group
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
  * @since       __DEPLOY_VERSION__
  */
-class RedshopTableFields_group extends RedshopTable
+class RedshopTableField_Group extends RedshopTable
 {
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_tableName = 'redshop_fields_group';
+
 	/**
 	 * @var integer
 	 *
@@ -103,15 +112,6 @@ class RedshopTableFields_group extends RedshopTable
 	public $published = null;
 
 	/**
-	 * The table name without the prefix. Ex: cursos_courses
-	 *
-	 * @var    string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $_tableName = 'redshop_fields_group';
-
-	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -128,7 +128,14 @@ class RedshopTableFields_group extends RedshopTable
 
 		if (empty($this->name))
 		{
-			/** @scrutinizer ignore-deprecated */ $this->setError('COM_REDSHOP_TABLE_FIELDS_GROUP_MISSING_NAME');
+			/** @scrutinizer ignore-deprecated */ $this->setError('COM_REDSHOP_FIELD_GROUP_ERROR_MISSING_NAME');
+
+			return false;
+		}
+
+		if (empty($this->section))
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError('COM_REDSHOP_FIELD_GROUP_ERROR_MISSING_SECTION');
 
 			return false;
 		}

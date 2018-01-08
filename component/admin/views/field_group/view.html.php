@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewFields_group extends RedshopViewForm
+class RedshopViewField_Group extends RedshopViewForm
 {
 	/**
 	 * Method for get page title.
@@ -28,6 +28,6 @@ class RedshopViewFields_group extends RedshopViewForm
 	 */
 	public function getTitle()
 	{
-		return JText::_('COM_REDSHOP_FIELDS_GROUP_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		return JText::_('COM_REDSHOP_FIELD_GROUP_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
 }

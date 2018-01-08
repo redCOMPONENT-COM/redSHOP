@@ -444,7 +444,8 @@ class RedshopHelperExtrafields
 	 *
 	 * @since   2.0.3
 	 */
-	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '', $front = 0, $checkout = 0)
+	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '',
+	                                    $front = 0, $checkout = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -460,34 +461,53 @@ class RedshopHelperExtrafields
 		}
 
 		// Grouping
-		$customFieldsGrouped = array();
+		$customFieldsGrouped = array(0 => array());
 
 		foreach ($customFields as $customField)
 		{
-			$customFieldsGrouped[$customField->groupName][] = $customField;
+			if (empty($customField->groupName))
+			{
+				$customFieldsGrouped[0][] = $customField;
+			}
+			else
+			{
+				$customFieldsGrouped[$customField->groupName][] = $customField;
+			}
 		}
 
-		$active  = 'customfield-group-' . JFilterOutput::stringURLSafe(key($customFieldsGrouped));
-		$setName = 'customfields-section-' . $fieldSection . '-pane';
-		$exField = '<div class="row"><div class="col-sm-12">';
+		if (empty($customFieldsGrouped[0]))
+		{
+			unset($customFieldsGrouped[0]);
+		}
+
+		$active   = key($customFieldsGrouped);
+		$active   = !$active ? JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP') : $active;
+		$active   = 'customfield-group-' . JFilterOutput::stringURLSafe($active);
+		$setName  = 'customfields-section-' . $fieldSection . '-pane';
+		$exField  = '<div class="row"><div class="col-sm-12">';
 		$exField .= JHtml::_('bootstrap.startTabSet', $setName, array('active' => $active));
 
 		foreach ($customFieldsGrouped as $groupName => $customFieldGroup)
 		{
-			$exField .= JHtml::_('bootstrap.addTab', $setName, 'customfield-group-' . JFilterOutput::stringURLSafe($groupName), $groupName);
-			$exField .= '<table class="admintable" border="0" >';
+			if (empty($customFieldGroup))
+			{
+				continue;
+			}
+
+			$tabName  = !$groupName ? JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP') : $groupName;
+			$exField .= JHtml::_('bootstrap.addTab', $setName, 'customfield-group-' . JFilterOutput::stringURLSafe($tabName), $tabName);
+			$exField .= '<table class="table table-striped">';
 
 			foreach ($customFieldGroup as $customField)
 			{
 				$type            = $customField->type;
 				$dataValue       = self::getSectionFieldDataList($customField->id, $fieldSection, $sectionId);
-				$exField         .= '<tr>';
+				$exField        .= '<tr>';
 				$extraFieldValue = "";
 				$extraFieldLabel = JText::_($customField->title);
-
-				$required = '';
-				$reqlbl   = ' reqlbl="" ';
-				$errormsg = ' errormsg="" ';
+				$required        = '';
+				$reqlbl          = ' reqlbl="" ';
+				$errormsg        = ' errormsg="" ';
 
 				if ($fieldSection == self::SECTION_QUOTATION && $customField->required == 1)
 				{
@@ -500,7 +520,7 @@ class RedshopHelperExtrafields
 				{
 					case self::TYPE_TEXT:
 						$textValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-						$exField   .= RedshopLayoutHelper::render(
+						$exField  .= RedshopLayoutHelper::render(
 							'extrafields.field.text',
 							array(
 								'rowData'         => $customField,

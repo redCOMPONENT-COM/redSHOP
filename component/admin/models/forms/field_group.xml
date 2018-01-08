@@ -9,9 +9,9 @@
                 id="name"
                 name="name"
                 type="redshop.text"
-                label="COM_REDSHOP_FIELDS_GROUP_NAME"
-                description="COM_REDSHOP_FIELDS_GROUP_NAME_DESCRIPTION"
-                placeholder="COM_REDSHOP_FIELDS_GROUP_NAME_DESCRIPTION"
+                label="COM_REDSHOP_FIELD_GROUP_NAME"
+                description="COM_REDSHOP_FIELD_GROUP_NAME_DESCRIPTION"
+                placeholder="COM_REDSHOP_FIELD_GROUP_NAME_DESCRIPTION"
                 size="30"
                 class="form-control"
                 default=""
@@ -26,14 +26,17 @@
                 label="COM_REDSHOP_FIELD_SECTION_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
                 table-width="17%"
+                required="true"
         />
         <field
                 name="description"
-                type="editor"
-                label="COM_REDSHOP_FIELDS_GROUP_DESCRIPTION"
-                description=""
+                type="textarea"
+                class="form-control"
+                label="COM_REDSHOP_FIELD_GROUP_DESCRIPTION"
+                description="COM_REDSHOP_FIELD_GROUP_DESCRIPTION_DESC"
                 width="300"
                 filter="safehtml"
+                table-width="20%"
         />
         <field
                 name="published"

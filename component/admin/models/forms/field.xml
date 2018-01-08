@@ -48,7 +48,7 @@
                 name="groupId"
                 type="redshop.fieldsgroups"
                 label="COM_REDSHOP_FIELD_GROUP_HEADER"
-                description="COM_REDSHOP_TOOLTIP_FIELD_GROUP"
+                description="COM_REDSHOP_FIELD_GROUP_HEADER_DESC"
                 table-width="17%"
         />
         <field

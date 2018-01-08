@@ -10,14 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Fields groups
+ * Model Field groups
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       __DEPLOY_VERSION__
  */
-
-class RedshopModelFields_groups extends RedshopModelList
+class RedshopModelField_Groups extends RedshopModelList
 {
 	/**
 	 * Constructor.
@@ -45,8 +44,8 @@ class RedshopModelFields_groups extends RedshopModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -56,6 +55,9 @@ class RedshopModelFields_groups extends RedshopModelList
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
+
+		$section = $this->getUserStateFromRequest($this->context . '.filter.section', 'filter_section');
+		$this->setState('filter.section', $section);
 
 		// List state information.
 		parent::populateState('name', 'asc');
@@ -68,7 +70,7 @@ class RedshopModelFields_groups extends RedshopModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -78,6 +80,7 @@ class RedshopModelFields_groups extends RedshopModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.section');
 
 		return parent::getStoreId($id);
 	}
@@ -109,6 +112,14 @@ class RedshopModelFields_groups extends RedshopModelList
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where($db->qn('name') . ' LIKE ' . $search);
 			}
+		}
+
+		// Filter by search in name.
+		$section = (int) $this->getState('filter.section');
+
+		if ($section)
+		{
+			$query->where($db->qn('section') . ' = ' . $section);
 		}
 
 		// Add the list ordering clause.
