@@ -166,7 +166,7 @@ class SiteHelper
 					$size = $field->size > 0 ? $field->size : 20;
 
 					$inputField = \JHtml::_(
-						'redshopjquery.calendar',
+						'redshopcalendar.calendar',
 						$date,
 						$field->name,
 						$field->name,
