@@ -721,24 +721,21 @@ abstract class RedshopHelperCart
 					$cartItemId, $isAccessory, "subproperty", $cartProperties[$p]->section_id
 				);
 
-				for ($sp = 0; $sp < count($cartSubProperties); $sp++)
+				foreach ($cartSubProperties as $index => $cartSubProperty)
 				{
-					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperties[$sp]->section_id);
-					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
+					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperty->section_id);
+					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperty->section_id, $quantity, 'subproperty');
+					$subPropertyPrice = $subProperty[0]->subattribute_color_price;
 
-					if (count($price) > 0)
+					if (!empty($price))
 					{
 						$subPropertyPrice = $price->product_price;
 					}
-					else
-					{
-						$subPropertyPrice = $subProperty[0]->subattribute_color_price;
-					}
 
-					$generateSubProperties[$sp]['subproperty_id']     = $cartSubProperties[$sp]->section_id;
-					$generateSubProperties[$sp]['subproperty_name']   = $subProperty[0]->text;
-					$generateSubProperties[$sp]['subproperty_oprand'] = $subProperty[0]->oprand;
-					$generateSubProperties[$sp]['subproperty_price']  = $subPropertyPrice;
+					$generateSubProperties[$index]['subproperty_id']     = $cartSubProperty->section_id;
+					$generateSubProperties[$index]['subproperty_name']   = $subProperty[0]->text;
+					$generateSubProperties[$index]['subproperty_oprand'] = $subProperty[0]->oprand;
+					$generateSubProperties[$index]['subproperty_price']  = $subPropertyPrice;
 				}
 
 				$generateProperties[$p]['property_childs'] = $generateSubProperties;
