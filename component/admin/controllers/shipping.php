@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -66,11 +68,13 @@ class RedshopControllerShipping extends RedshopController
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
+		/** @var RedshopModelShipping $model */
 		$model = $this->getModel('shipping');
-		$model->saveorder($cid, $order);
+
+		$model->saveOrder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);

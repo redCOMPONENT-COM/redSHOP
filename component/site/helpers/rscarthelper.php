@@ -3083,7 +3083,7 @@ class rsCarthelper
 		$quantity               = 0;
 		$flag                   = false;
 		$product_idArr          = explode(',', $product_id);
-		JArrayHelper::toInteger($product_idArr);
+		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
 
 		for ($v = 0; $v < $idx; $v++)
 		{
@@ -4735,7 +4735,7 @@ class rsCarthelper
 			// Secure productsIds
 			if ($productsIds = explode(',', $product_id))
 			{
-				Joomla\Utilities\ArrayHelper::toInteger($productsIds);
+				$productsIds = Joomla\Utilities\ArrayHelper::toInteger($productsIds);
 
 				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
 			}
@@ -4761,7 +4761,7 @@ class rsCarthelper
 			// Secure notAttributeId
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
-				Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
+				$notAttributeIds = Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
 
 				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 			}
