@@ -40,18 +40,19 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
 		/**
 		 * @var  $model  RedshopModelField_Groups
 		 */
-		$model = JModelList::getInstance('Fields_groups', 'RedshopModel');
-		$model->setState('list.start', 0);
+		$model = JModelList::getInstance('Field_Groups', 'RedshopModel');
+		$model->setState('list.limit', 99);
 		$groups = $model->getItems();
 
-		$options = array();
-		$options[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP'));
+		$options = array(
+			JHtml::_('select.option', 0, JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP'))
+		);
 
 		if ($groups)
 		{
 			foreach ($groups as $group)
 			{
-				$options[] = array('value' => $group->id,'text' => $group->name);
+				$options[] = array('value' => $group->id, 'text' => $group->name);
 			}
 		}
 
