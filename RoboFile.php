@@ -160,35 +160,35 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('tests/acceptance/administrator/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
-			->run()
-			->stopOnFail();
+//		$this->taskCodecept()
+//			->arg('--steps')
+//			->arg('--tap')
+//			->arg('tests/acceptance/administrator/')
+//			->run()
+//			->stopOnFail();
+//
+//		$this->taskCodecept()
+//			->arg('--steps')
+//			->arg('--tap')
+//			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+//			->run()
+//			->stopOnFail();
+//
+//		$this->taskCodecept()
+//			->arg('--steps')
+//			->arg('--tap')
+//			->arg('--fail-fast')
+//			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
+//			->run()
+//			->stopOnFail();
+//
+//		$this->taskCodecept()
+//			->arg('--steps')
+//			->arg('--tap')
+//			->arg('--fail-fast')
+//			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
+//			->run()
+//			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--tap')
@@ -422,27 +422,27 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/administrator/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
-			->run()
-			->stopOnFail();
-
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
-			->run()
-			->stopOnFail();
+//		$this->taskCodecept()
+//			->arg('--tap')
+//			->arg('--fail-fast')
+//			->arg('tests/acceptance/administrator/')
+//			->run()
+//			->stopOnFail();
+//
+//		$this->taskCodecept()
+//			->arg('--tap')
+//			->arg('--fail-fast')
+//			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+//			->run()
+//			->stopOnFail();
+//
+//
+//		$this->taskCodecept()
+//			->arg('--tap')
+//			->arg('--fail-fast')
+//			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
+//			->run()
+//			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--tap')
