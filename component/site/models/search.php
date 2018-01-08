@@ -690,7 +690,7 @@ class RedshopModelSearch extends RedshopModel
 				$cat_group = explode(',', $cat_group);
 				$cat_group = ArrayHelper::toInteger($cat_group);
 
-				$query->where('pc.category_id IN (' . $cat_group . ')');
+				$query->where('pc.category_id IN (' . implode(',', $cat_group) . ')');
 			}
 
 			if ($manufacture_id != 0)
