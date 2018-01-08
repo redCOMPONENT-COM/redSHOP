@@ -669,16 +669,16 @@ class RedshopHelperProduct
 
 		$productUserFields = "<table>";
 
-		for ($ui = 0; $ui < count($returnArr[1]); $ui++)
+		foreach ($returnArr[1] as $index => $return)
 		{
 			$resultArr = RedshopHelperExtrafields::listAllUserFields(
-				$returnArr[1][$ui], RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, "", $commonId
+				$return, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, "", $commonId
 			);
 			$hiddenArr = RedshopHelperExtrafields::listAllUserFields(
-				$returnArr[1][$ui], RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, "hidden", $commonId
+				$return, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, "hidden", $commonId
 			);
 
-			if ($resultArr[0] != "")
+			if (!empty($resultArr[0]))
 			{
 				$productUserFields .= "<tr><td>" . $resultArr[0] . "</td><td>" . $resultArr[1] . $hiddenArr[1] . "</td></tr>";
 			}
@@ -1045,7 +1045,7 @@ class RedshopHelperProduct
 	 */
 	public static function setProductAttributes($getAttributeKeys = array(), $userId = 0)
 	{
-		if (!empty($getAttributeKeys))
+		if (empty($getAttributeKeys))
 		{
 			return;
 		}

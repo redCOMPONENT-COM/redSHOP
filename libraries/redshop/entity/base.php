@@ -764,7 +764,7 @@ abstract class RedshopEntityBase
 		if (null === $name)
 		{
 			$class = get_class($this);
-			$name = strstr($class, 'Entity');
+			$name  = strstr($class, 'Entity');
 		}
 
 		$name = str_replace('Entity', '', $name);
@@ -921,7 +921,31 @@ abstract class RedshopEntityBase
 			return $this;
 		}
 
-		if (($table = $this->getTable()) && $table->load(array($key => ($key === $this->tableKey ? $this->id : $keyValue))))
+		$table = $this->getTable();
+
+		if (false !== $table && $table->load(array($key => ($key === $this->tableKey ? $this->id : $keyValue))))
+		{
+			$this->loadFromTable($table);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param   array  $data  Data
+	 *
+	 * @return  self
+	 */
+	public function loadItemByArray($data)
+	{
+		$table = $this->getTable();
+
+		if (false === $table)
+		{
+			return $this;
+		}
+
+		if ($table->load($data))
 		{
 			$this->loadFromTable($table);
 		}
@@ -997,7 +1021,7 @@ abstract class RedshopEntityBase
 		}
 
 		$class = get_called_class();
-		$id = $this->getId();
+		$id    = $this->getId();
 
 		unset(static::$instances[$class][$id]);
 

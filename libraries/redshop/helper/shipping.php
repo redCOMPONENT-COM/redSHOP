@@ -297,7 +297,6 @@ class RedshopHelperShipping
 	 */
 	public static function getDefaultShippingXmlExport($data)
 	{
-		$userHelper    = rsUserHelper::getInstance();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
 		$userId        = $user->id;
@@ -323,7 +322,7 @@ class RedshopHelperShipping
 			$state     = $userInfo->state_code;
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userId);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -988,7 +987,7 @@ class RedshopHelperShipping
 			$country   = $userInfo->country_code;
 			$state     = $userInfo->state_code;
 			$zip       = $userInfo->zipcode;
-			$isCompany = $userInfo->is_company;
+			$isCompany = (bool) $userInfo->is_company;
 
 			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
@@ -1001,18 +1000,38 @@ class RedshopHelperShipping
 		}
 		elseif (empty($userInfo) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
-			if (!empty($data['post']['anonymous_params']))
+			if (!empty($data['post']['anonymous']))
 			{
-				$country   = $data['post']['anonymous_params']['country_code'];
-				$state     = $data['post']['anonymous_params']['state_code'];
-				$zip       = $data['post']['anonymous_params']['zip_code'];
-				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? true : false;
+				$anonymousUser = $data['post']['anonymous'];
+				$isCompany = ($anonymousUser['billing_type'] == 'company');
+
+				$country   = $anonymousUser['BT']['country_code'];
+				$state     = $anonymousUser['BT']['state_code'];
+				$zip       = $anonymousUser['BT']['zip_code'];
+
+				if ($anonymousUser['bill_is_ship'] == 0)
+				{
+					$country   = $anonymousUser['ST']['country_code_ST'];
+					$state     = $anonymousUser['ST']['state_code_ST'];
+					$zip       = $anonymousUser['ST']['zip_code_ST'];
+				}
+
+				switch ($anonymousUser['billing_type'])
+				{
+					case 'private':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
+						break;
+					case 'company':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
+						break;
+					default:
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+						break;
+				}
+
+				$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
+				OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 			}
-
-			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-			$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
-			OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 		}
 
 		if ($isCompany === false)
@@ -1223,7 +1242,7 @@ class RedshopHelperShipping
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
+		if (!empty($data) && ((!empty($data['user_id']) && $data['user_id'] > 0) || $data['users_info_id'] > 0))
 		{
 			if ('BT' == Redshop::getConfig()->get('CALCULATE_VAT_ON'))
 			{
@@ -1556,7 +1575,6 @@ class RedshopHelperShipping
 	 */
 	public static function getCartItemDimension()
 	{
-		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1580,17 +1598,17 @@ class RedshopHelperShipping
 
 			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
-				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
+				foreach ($cart[$i]['cart_accessory'] as $index => $cartAccessory)
 				{
-					$accId  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
+					$accId  = $cartAccessory['accessory_id'];
 					$accQty = 1;
 
-					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
+					if (isset($cartAccessory['accessory_quantity']))
 					{
-						$accQty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+						$accQty = $cartAccessory['accessory_quantity'];
 					}
 
-					if ($accData = $productHelper->getProductById($accId))
+					if ($accData = RedshopHelperProduct::getProductById($accId))
 					{
 						$accWeight += ($accData->weight * $accQty);
 					}
@@ -1834,7 +1852,6 @@ class RedshopHelperShipping
 			return false;
 		}
 
-		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
 		$country      = $userInfo->country_code;
@@ -1867,7 +1884,7 @@ class RedshopHelperShipping
 				. " )";
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -2007,7 +2024,6 @@ class RedshopHelperShipping
 		$input         = JFactory::getApplication()->input;
 		$usersInfoId   = $input->getInt('users_info_id', 0);
 		$productHelper = productHelper::getInstance();
-		$userHelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);
 		$db            = JFactory::getDbo();
@@ -2020,7 +2036,6 @@ class RedshopHelperShipping
 		}
 
 		$orderSubtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$orderFunctions = order_functions::getInstance();
 		$user           = JFactory::getUser();
 		$userId         = $user->id;
 
@@ -2047,7 +2062,7 @@ class RedshopHelperShipping
 			{
 				$userInfo = self::getShippingAddress($usersInfoId);
 			}
-			elseif ($userInfo = $orderFunctions->getShippingAddress($userId))
+			elseif ($userInfo = RedshopHelperOrder::getShippingAddress($userId))
 			{
 				$userInfo = $userInfo[0];
 			}
@@ -2058,7 +2073,7 @@ class RedshopHelperShipping
 			$country      = $userInfo->country_code;
 			$state        = $userInfo->state_code;
 			$isCompany    = $userInfo->is_company;
-			$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 			$zip          = $userInfo->zipcode;
 		}
 

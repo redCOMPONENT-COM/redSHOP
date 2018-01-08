@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 
@@ -771,7 +771,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
@@ -780,7 +780,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
 				{

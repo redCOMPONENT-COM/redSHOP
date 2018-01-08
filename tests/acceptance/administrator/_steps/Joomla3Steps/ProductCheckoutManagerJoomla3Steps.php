@@ -16,7 +16,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-use \ConfigurationManageJ3Page as ConfigurationManageJ3Page;
+use \ConfigurationPage as ConfigurationPage;
 class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
@@ -329,13 +329,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
-
+		$I->see($productName);
 		if (isset($discount['allow']))
 		{
-			if ($discount['allow'] == ConfigurationManageJ3Page::$discountVoucherCoupon 
-				|| $discount['allow'] == ConfigurationManageJ3Page::$discountAndVoucherOrCoupon 
-				|| $discount['allow'] == ConfigurationManageJ3Page::$discountVoucherSingleCouponSingle)
+			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon 
+				|| $discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon 
+				|| $discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle)
 			{
 				if ($applyDiscount == 'couponCode')
 				{

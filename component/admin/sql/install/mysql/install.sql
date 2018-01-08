@@ -270,11 +270,17 @@ COMMENT = 'redSHOP Cron Job';
 DROP TABLE IF EXISTS `#__redshop_currency` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_currency` (
-  `currency_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `currency_name` VARCHAR(64) NULL DEFAULT NULL,
-  `currency_code` CHAR(3) NULL DEFAULT NULL,
-  PRIMARY KEY (`currency_id`),
-  INDEX `idx_currency_code` (`currency_code` ASC))
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(64) NULL DEFAULT NULL,
+  `code` CHAR(3) NULL DEFAULT NULL,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__rs_cur_code` (`code` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Currency Detail';

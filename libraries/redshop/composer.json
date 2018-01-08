@@ -4,12 +4,12 @@
   "license"    : "GPL-2.0+",
   "require"    : {
     "php": ">=5.6",
-    "doctrine/annotations": "1.4.*",
-    "doctrine/inflector": "^1.1",
-    "behat/transliterator": "^1.2",
-    "setasign/fpdf": "^1.8.1",
-    "setasign/fpdi": "^1.6.2",
-    "whichbrowser/parser": "^2.0.26"
+    "doctrine/annotations": "1.4.0",
+    "doctrine/inflector": "1.1.0",
+    "behat/transliterator": "1.2.0",
+    "setasign/fpdf": "1.8.1",
+    "setasign/fpdi": "1.6.2",
+    "whichbrowser/parser": "2.0.30"
   },
   "autoload": {
     "psr-4": {

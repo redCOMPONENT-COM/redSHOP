@@ -3,10 +3,12 @@ c<?php
  * Checkout product with stockroom
  *
  */
+
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationManageJoomla3Steps;
+
 class CheckoutWithStockroomCest
 {
 	public function __construct()
@@ -17,14 +19,14 @@ class CheckoutWithStockroomCest
 		$this->randomCategoryName = $this->faker->bothify('TestingCategory ?##');
 
 		//create product
-		$this->productName         = 'Testing Products' . rand(99, 999);
-		$this->productNumber = rand(999, 9999);
-		$this->productPrice  = 24;
-		$this->quantityInStock=1;
-		$this->preOrder=0;
+		$this->productName     = 'Testing Products' . rand(99, 999);
+		$this->productNumber   = rand(999, 9999);
+		$this->productPrice    = 24;
+		$this->quantityInStock = 1;
+		$this->preOrder        = 0;
 
-		$this->subtotal="DKK 24,00";
-		$this->Total="DKK 24,00";
+		$this->subtotal = "DKK 24,00";
+		$this->Total    = "DKK 24,00";
 	}
 
 	/**
@@ -42,7 +44,7 @@ class CheckoutWithStockroomCest
 
 	public function deleteData($scenario)
 	{
-		$I= new RedshopSteps($scenario);
+		$I = new RedshopSteps($scenario);
 		$I->clearAllData();
 	}
 
@@ -54,10 +56,10 @@ class CheckoutWithStockroomCest
 	public function checkProductInsideStockRoom(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test used Stockroom  in Administrator');
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Start stockroom ');
 		$I->featureUsedStockRoom();
-		$I->see(\ConfigurationManageJ3Page::$namePage, \ConfigurationManageJ3Page::$selectorPageTitle);
+		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 
 		$I->wantTo('create category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -65,11 +67,11 @@ class CheckoutWithStockroomCest
 
 		$I->wantTo('create product with stockroom in Administrator');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductInStock($this->productName,$this->productNumber,$this->productPrice,$this->randomCategoryName,$this->quantityInStock, $this->preOrder);
+		$I->createProductInStock($this->productName, $this->productNumber, $this->productPrice, $this->randomCategoryName, $this->quantityInStock, $this->preOrder);
 
 		$I->wantTo('create product with stockroom in Administrator');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkProductInsideStockRoom($this->productName, $this->randomCategoryName,$this->subtotal,$this->Total);
+		$I->checkProductInsideStockRoom($this->productName, $this->randomCategoryName, $this->subtotal, $this->Total);
 
 	}
 
@@ -83,7 +85,7 @@ class CheckoutWithStockroomCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->randomCategoryName);
 
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Stop stockroom ');
 		$I->featureOffStockRoom();
 	}

@@ -15,11 +15,12 @@
  *
  * @since    1.4
  */
+use Step\AbstractStep;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationManageJoomla3Steps as ConfigurationManageJoomla3Steps;
-class CouponCheckoutProductCest
+use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+class CouponCheckoutMixCheckoutCest
 {
 	/**
 	 * CouponCheckoutProductCest constructor.
@@ -27,11 +28,12 @@ class CouponCheckoutProductCest
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
-		$this->couponCode          = $this->faker->bothify('CouponCheckoutProductCest ?##?');
-		$this->couponValueIn       = 'Total';
-		$this->couponValue         = '10';
-		$this->couponType          = 'Global';
-		$this->couponLeft          = '10';
+		$this->dataCoupon = array();
+		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
+		$this->dataCoupon['type']        = 'Total';
+		$this->dataCoupon['value']       = '100';
+		$this->dataCoupon['effect']      = 'Global';
+		$this->dataCoupon['amount_left'] = '10';
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
 		$this->noPage              = $this->faker->randomNumber();
 		$this->productName         = 'Testing Products' . rand(99, 999);
@@ -78,7 +80,7 @@ class CouponCheckoutProductCest
 		// at checkout page
 		$this->applyDiscountCouponCode  = 'couponCode';
 		$this->applyDiscountVoucherCode = 'voucherCode';
-		$this->discount['couponCode']= $this->couponCode;
+		$this->discount['couponCode']= $this->dataCoupon['code'] ;
 		$this->discount['voucherCode'] = $this->randomVoucherCode;
 
 		$this->orderInfoSecond = array();
@@ -91,6 +93,8 @@ class CouponCheckoutProductCest
 		$this->orderInfo['priceTotal'] = '';
 		$this->orderInfo['priceDiscount'] = '';
 		$this->orderInfo['priceEnd'] = '';
+
+
 
 	}
 
@@ -123,7 +127,7 @@ class CouponCheckoutProductCest
 
 
 		$I->wantToTest('Configuration for voucher/coupon/discount');
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
 		$I = new VoucherManagerJoomla3Steps($scenario);
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
@@ -144,7 +148,7 @@ class CouponCheckoutProductCest
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, null);
 	}
 
-	public function checkWithVoucher(ConfigurationManageJoomla3Steps $I, \Codeception\Scenario $scenario)
+	public function checkWithVoucher(ConfigurationSteps $I, \Codeception\Scenario $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I = new UserManagerJoomla3Steps($scenario);
@@ -172,7 +176,7 @@ class CouponCheckoutProductCest
 
 		$this->discount['allow'] = 'Discount + voucher (single) + coupon (single)';
 		$I->comment('I want to setup checkout with apply single coupon and voucher');
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
 		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
 		$this->orderInfoSecond['priceTotal'] = "DKK 70,00";
@@ -200,7 +204,7 @@ class CouponCheckoutProductCest
 
 		$this->discount['allow'] = 'Discount + voucher (multiple) + coupon (multiple)';
 		$I->comment('I want to setup checkout with apply single coupon and voucher');
-		$I = new ConfigurationManageJoomla3Steps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
 		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
 
@@ -234,10 +238,9 @@ class CouponCheckoutProductCest
 	private function createCoupon(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Coupon creation in Administrator');
-		$I = new AcceptanceTester\CouponSteps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
-		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
-		$I->searchCoupon($this->couponCode);
+		$I->addNewItem($this->dataCoupon);
 	}
 
 	/**
@@ -265,7 +268,7 @@ class CouponCheckoutProductCest
 		$I->wantTo('Test Product Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 	}
 
 	public function clearUp(AcceptanceTester $I, $scenario)
@@ -273,9 +276,9 @@ class CouponCheckoutProductCest
 		$I->doAdministratorLogin();
 
 		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponSteps($scenario);
+		$I = new CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');
-		$I->deleteCoupon($this->couponCode);
+		$I->deleteItem($this->dataCoupon['code']);
 
 		$I->wantTo('Delete product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
