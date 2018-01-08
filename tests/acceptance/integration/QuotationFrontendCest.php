@@ -8,7 +8,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\QuotationManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationManageJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 class QuotationFrontendCest
 {
@@ -97,7 +97,7 @@ class QuotationFrontendCest
         $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
         $I->wantTo(' Enable Quotation at configuration ');
-        $I = new ConfigurationManageJoomla3Steps($scenario);
+        $I = new ConfigurationSteps($scenario);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 
         $I->wantTo('Create Quotation at frontend ');
