@@ -81,7 +81,7 @@ $editor = JEditor::getInstance();
             var $fieldGroup = $("#jform_groupId");
 
             $.ajax({
-                url   : "index.php?option=com_redshop&task=fields_groups.ajaxGetFieldsGroup",
+                url   : "index.php?option=com_redshop&task=field_groups.ajaxGetFieldsGroup",
                 method: "POST",
                 data  : {
                     "<?php echo JSession::getFormToken() ?>": 1,
