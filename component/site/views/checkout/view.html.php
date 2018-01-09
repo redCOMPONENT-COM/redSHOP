@@ -35,14 +35,14 @@ class RedshopViewCheckout extends RedshopView
 			$language->load($extension, $base_dir);
 		}
 
-		JHtml::script('system/validate.js', true, false);
+		/** @scrutinizer ignore-deprecated */JHtml::script('system/validate.js', true, false);
 		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/jquery.validate.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::script('com_redshop/jquery.metadata.js', false, true);
-		JHtml::script('com_redshop/registration.js', false, true);
-		JHtml::stylesheet('com_redshop/validation.css', array(), true);
-		JHtml::script('com_redshop/redbox.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/common.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/registration.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/validation.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redbox.js', false, true);
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 
