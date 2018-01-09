@@ -1566,7 +1566,7 @@ class RedshopModelImport extends RedshopModel
 
 						if (JFile::exists($src))
 						{
-							@copy($src, $dest);
+							JFile::copy($src, $dest);
 						}
 
 						$rows                       = $this->getTable('media_detail');
@@ -1942,9 +1942,9 @@ class RedshopModelImport extends RedshopModel
 		{
 			if ($data[$i]->address_type == "BT")
 			{
-				$redshopUser = $order_functions->getBillingAddress($data[$i]->user_id);
+				$redshopUser = RedshopHelperOrder::getBillingAddress($data[$i]->user_id);
 
-				if (count($redshopUser) > 0)
+				if ($redshopUser)
 				{
 					$redUserId = $redshopUser->users_info_id;
 					$row       = $this->getTable('user_detail');
