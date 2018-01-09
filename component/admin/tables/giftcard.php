@@ -142,11 +142,6 @@ class RedshopTableGiftcard extends RedshopTable
 			return false;
 		}
 
-		if (empty($this->customer_amount))
-		{
-			return false;
-		}
-
 		if (empty($this->giftcard_price))
 		{
 			return false;
