@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\Utility;
+
 defined('_JEXEC') or die;
 
 
@@ -23,28 +25,30 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 	 * Method to send Ask Question Mail.
 	 *
 	 * @return bool
+	 * @throws Exception
 	 */
 	public function submit()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		$app         = JFactory::getApplication();
-		$data        = $app->input->post->get('jform', array(), 'array');
-		$model       = $this->getModel('ask_question');
-		$productId   = $app->input->getInt('pid', 0);
-		$Itemid      = $app->input->getInt('Itemid', 0);
-		$ask         = $app->input->getInt('ask', 0);
-		$category_id = $app->input->getInt('category_id', 0);
-		$userHelper  = rsUserHelper::getInstance();
+		$app        = JFactory::getApplication();
+		$data       = $app->input->post->get('jform', array(), 'array');
+		$productId  = $app->input->getInt('pid', 0);
+		$itemId     = $app->input->getInt('Itemid', 0);
+		$ask        = $app->input->getInt('ask', 0);
+		$categoryId = $app->input->getInt('category_id', 0);
+
+		/** @var RedshopModelAsk_Question $model */
+		$model = $this->getModel('ask_question');
 
 		if ($ask)
 		{
-			$link = 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $categoryId . '&Itemid=' . $itemId;
 		}
 		else
 		{
-			$link = 'index.php?option=com_redshop&view=ask_question&pid=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=ask_question&pid=' . $productId . '&tmpl=component&Itemid=' . $itemId;
 		}
 
 		// Validate the posted data.
@@ -52,7 +56,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 
 		if (!$form)
 		{
-			JError::raiseError(500, $model->getError());
+			/** @scrutinizer ignore-deprecated */ JError::raiseError(500, $model->getError());
 			$this->setRedirect($link);
 
 			return false;
@@ -65,15 +69,14 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		if (JFactory::getUser()->guest)
 		{
 			// Check exists captcha tag in question template form
-			$redTemplate = Redtemplate::getInstance();
-			$template = $redTemplate->getTemplate('ask_question_template');
+			$template = RedshopHelperTemplate::getTemplate('ask_question_template');
 
-			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}') && !$userHelper->checkCaptcha($data, false))
+			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}') && Utility::checkCaptcha($data, false))
 			{
-					$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
-					$this->setRedirect($link);
+				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
+				$this->setRedirect($link);
 
-					return false;
+				return false;
 			}
 		}
 
@@ -84,23 +87,27 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 			// Get the validation messages.
 			$errors = $model->getErrors();
 
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			foreach ($errors as $index => $error)
 			{
-				if ($errors[$i] instanceof Exception)
+				if ($error instanceof Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$app->enqueueMessage($error->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$app->enqueueMessage($error, 'warning');
+				}
+
+				if ($index > 2)
+				{
+					break;
 				}
 			}
 		}
 		else
 		{
 			$data['product_id'] = $productId;
-			$data['Itemid'] = $Itemid;
+			$data['Itemid']     = $itemId;
 
 			if ($model->sendMailForAskQuestion($data))
 			{

@@ -83,7 +83,7 @@ if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc
 	$template_middle = $template_edata[0];
 }
 
-$extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
+$extraFieldName     = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
 $replace_middledata = '';
 
 if ($this->detail && $template_middle != "")

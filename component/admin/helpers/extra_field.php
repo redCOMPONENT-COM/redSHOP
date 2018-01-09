@@ -46,11 +46,11 @@ class extra_field
 	 *
 	 * @param   integer  $section  Section product
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllFieldInProduct() instead
 	 */
-	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
+	public function list_all_field_in_product($section = RedshopHelperExtrafields::SECTION_PRODUCT)
 	{
 		return RedshopHelperExtrafields::listAllFieldInProduct($section);
 	}
@@ -127,18 +127,18 @@ class extra_field
 	/**
 	 * List all user fields
 	 *
-	 * @param   string  $field_section  Field Section
-	 * @param   int     $section_id     Section ID
-	 * @param   string  $field_type     Field type
-	 * @param   string  $unique_id      Unique ID
+	 * @param   string $fieldSection Field Section
+	 * @param   int    $sectionId    Section ID
+	 * @param   string $fieldType    Field type
+	 * @param   string $uniqueId     Unique ID
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */
-	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id = '')
+	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $fieldType = '', $uniqueId = '')
 	{
-		return RedshopHelperExtrafields::listAllUserFields($field_section, $section_id, $field_type, $unique_id);
+		return RedshopHelperExtrafields::listAllUserFields($fieldSection, $sectionId, $fieldType, $uniqueId);
 	}
 
 	/**
@@ -200,14 +200,14 @@ class extra_field
 	/**
 	 * Get Section Field List
 	 *
-	 * @param   string   $section  [description]
+	 * @param   integer  $section  [description]
 	 * @param   integer  $front    [description]
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getSectionFieldList() instead
 	 */
-	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
+	public function getSectionFieldList($section = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $front = 1)
 	{
 		return RedshopHelperExtrafields::getSectionFieldList($section, $front);
 	}

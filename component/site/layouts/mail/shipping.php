@@ -13,7 +13,8 @@ extract($displayData);
 
 $order_functions = order_functions::getInstance();
 $extra_field = extra_field::getInstance();
-$extra_section = ($shippingaddresses->is_company == 1) ? extraField::SECTION_COMPANY_SHIPPING_ADDRESS : extraField::SECTION_PRIVATE_SHIPPING_ADDRESS;
+$extra_section = ($shippingaddresses->is_company == 1) ?
+    RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
 ?>
 
 <table border="0">

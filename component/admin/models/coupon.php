@@ -19,6 +19,32 @@ defined('_JEXEC') or die;
 class RedshopModelCoupon extends RedshopModelForm
 {
 	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array $data The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($data)
+	{
+		if (!empty($data['start_date']))
+		{
+			$data['start_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['start_date']);
+			$data['start_date'] = $data['start_date']->format('Y-m-d H:i:s');
+		}
+
+		if (!empty($data['end_date']))
+		{
+			$data['end_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['end_date']);
+			$data['end_date'] = $data['end_date']->format('Y-m-d H:i:s');
+		}
+
+		return parent::save($data);
+	}
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
@@ -58,7 +84,7 @@ class RedshopModelCoupon extends RedshopModelForm
 			->select($db->qn('code'))
 			->from($db->qn('#__redshop_voucher'));
 
-		$couponQuery  = $db->getQuery(true)
+		$couponQuery = $db->getQuery(true)
 			->select($db->qn('code'))
 			->from($db->qn('#__redshop_coupons'));
 

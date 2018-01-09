@@ -134,8 +134,8 @@ class ManagerMassDiscountAdministratorCest
 		$this->minimumPerProduct            = $this->faker->numberBetween(1, 3);
 		$this->minimumQuantity              = $this->faker->numberBetween(10, 100);
 		$this->maximumQuantity              = $this->faker->numberBetween(100, 1000);
-		$this->discountStart                = "12-12-2016";
-		$this->discountEnd                  = "23-05-2017";
+		$this->discountStart                = "2016-12-12";
+		$this->discountEnd                  = "2017-05-23";
 		$this->randomProductNumber          = $this->faker->numberBetween(999, 9999);
 		$this->randomProductNumberNew       = $this->faker->numberBetween(999, 9999);
 		$this->randomProductAttributeNumber = $this->faker->numberBetween(999, 9999);
@@ -150,9 +150,9 @@ class ManagerMassDiscountAdministratorCest
 		$this->priceAttribute               = $this->faker->numberBetween(1, 30);
 		$this->nameProductAccessories       = "redFORM";
 		$this->nameRelatedProduct           = "redITEM";
-		$this->quantityStock                = $this->faker->numberBetween(10, 100);;
-		$this->PreorderStock = $this->faker->numberBetween(10, 100);;
-		$this->priceProductForThan = $this->faker->numberBetween(10, 100);;
+		$this->quantityStock                = $this->faker->numberBetween(10, 100);
+		$this->PreorderStock                = $this->faker->numberBetween(10, 100);
+		$this->priceProductForThan          = $this->faker->numberBetween(10, 100);
 	}
 
 	/**
