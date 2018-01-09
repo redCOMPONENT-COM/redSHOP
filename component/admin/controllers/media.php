@@ -359,6 +359,9 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!empty($id))
 		{
+			/**
+			 * @var  $model  RedshopModelMedia  Media model
+			 */
 			$model = $this->getModel('media');
 
 			if ($model->deleteFile($id))
