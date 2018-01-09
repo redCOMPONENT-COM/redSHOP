@@ -35,6 +35,26 @@ class RedshopTableState extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->country_id))
+		{
+			return false;
+		}
+
+		if (empty($this->state_name))
+		{
+			return false;
+		}
+
+		if (empty($this->state_3_code))
+		{
+			return false;
+		}
+
+		if (empty($this->state_2_code))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;
