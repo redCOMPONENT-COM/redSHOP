@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/helper.php';
 JLoader::import('redshop.library');
-JHtml::script('modules/mod_redshop_search/js/search.js');
+JHtml::script('modules/mod_redshop_search/js/search.min.js');
 
 $app      = JFactory::getApplication();
 $input    = $app->input;
