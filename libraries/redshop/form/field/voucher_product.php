@@ -88,7 +88,7 @@ class RedshopFormFieldVoucher_Product extends JFormFieldList
 		return JHtml::_(
 			'redshopselect.search',
 			$selected,
-			'container_product',
+			'jform[' . $this->fieldname . ']',
 			array(
 				'select2.ajaxOptions' => array(
 					'typeField' => $typeField

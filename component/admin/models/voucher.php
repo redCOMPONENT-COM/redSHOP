@@ -32,13 +32,15 @@ class RedshopModelVoucher extends RedshopModelForm
 		if (!empty($data['start_date']))
 		{
 			$data['start_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['start_date']);
-			$data['start_date'] = $data['start_date']->format('Y-m-d H:i:s');
+			$data['start_date'] = JFactory::getDate($data['start_date']->format('Y-m-d') . ' 00:00:00');
+			$data['start_date'] = $data['start_date']->toSql();
 		}
 
 		if (!empty($data['end_date']))
 		{
 			$data['end_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['end_date']);
-			$data['end_date'] = $data['end_date']->format('Y-m-d H:i:s');
+			$data['end_date'] = JFactory::getDate($data['end_date']->format('Y-m-d') . ' 23:59:59');
+			$data['end_date'] = $data['end_date']->toSql();
 		}
 
 		return parent::save($data);
