@@ -56,7 +56,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 
 		if (!$form)
 		{
-			JError::raiseError(500, /** @scrutinizer ignore-deprecated */ $model->getError());
+			/** @scrutinizer ignore-deprecated */ JError::raiseError(500, $model->getError());
 			$this->setRedirect($link);
 
 			return false;
