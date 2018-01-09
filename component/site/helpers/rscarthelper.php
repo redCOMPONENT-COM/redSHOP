@@ -3935,7 +3935,7 @@ class rsCarthelper
 		$dispatcher       = RedshopHelperUtility::getDispatcher();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
-		$cart             = $this->_session->get('cart');
+		$cart             = RedshopHelperCartSession::getCart();
 		$data['quantity'] = round($data['quantity']);
 
 		if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))

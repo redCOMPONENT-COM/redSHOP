@@ -58,38 +58,36 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function checkout()
 	{
+		$post  = $this->input->post->getArray();
+		$encr  = $this->input->get('encr');
 
-		$Itemid = $this->input->get('Itemid');
-		$post   = $this->input->post->getArray();
-		$encr   = $this->input->get('encr');
+		/** @var RedshopModelQuotation_detail $model */
+		$model = $this->getModel('quotation_detail');
+		$cart  = array('idx' => 0);
 
-		$quotationHelper = quotationHelper::getInstance();
-		$model           = $this->getModel('quotation_detail');
-		$session         = JFactory::getSession();
-		$redhelper       = redhelper::getInstance();
-
-		$cart = array();
-		$cart['idx'] = 0;
 		RedshopHelperCartSession::setCart($cart);
 
-		$quotationProducts = $quotationHelper->getQuotationProduct($post['quotation_id']);
+		$quotationProducts = RedshopHelperQuotation::getQuotationProduct($post['quotation_id']);
 
-		for ($q = 0, $qn = count($quotationProducts); $q < $qn; $q++)
+		foreach ($quotationProducts as $quotationProduct)
 		{
-			$model->addtocart($quotationProducts[$q]);
+			$model->addtocart($quotationProduct);
 		}
 
-		$cart = $session->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
-		$quotationDetail = $quotationHelper->getQuotationDetail($post['quotation_id']);
+		$quotationDetail       = RedshopHelperQuotation::getQuotationDetail($post['quotation_id']);
 		$cart['customer_note'] = $quotationDetail->quotation_note;
 		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;
 		$cart['quotation']     = 1;
+
 		RedshopHelperCartSession::setCart($cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);
+
 		$Itemid = RedshopHelperRouter::getCheckoutItemId();
-		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
+
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid, false));
 	}
 }

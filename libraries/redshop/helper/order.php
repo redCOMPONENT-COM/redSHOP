@@ -2428,11 +2428,9 @@ class RedshopHelperOrder
 	 */
 	public static function changeOrderStatusMail($orderId, $newStatus, $orderComment = '')
 	{
-		$app = JFactory::getApplication();
-
-		$config          = Redconfiguration::getInstance();
-		$cartHelper      = rsCarthelper::getInstance();
-		$redshopMail     = redshopMail::getInstance();
+		$app         = JFactory::getApplication();
+		$cartHelper  = rsCarthelper::getInstance();
+		$redshopMail = redshopMail::getInstance();
 
 		// Changes to parse all tags same as order mail end
 		$userDetail = self::getOrderBillingUserInfo($orderId);
@@ -2545,7 +2543,7 @@ class RedshopHelperOrder
 			$replace[] = $orderDetail->order_number;
 
 			$search[]  = "{order_date}";
-			$replace[] = $config->convertDateFormat($orderDetail->cdate);
+			$replace[] = RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
 
 			$search[]  = "{customer_note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_COMMENT');

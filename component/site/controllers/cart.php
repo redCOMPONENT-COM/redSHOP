@@ -238,8 +238,16 @@ class RedshopControllerCart extends RedshopController
 		$this->setRedirect($link);
 	}
 
+	/**
+	 * Method for modify cart price
+	 *
+	 * @param   array  $cart  Cart data.
+	 *
+	 * @return mixed
+	 */
 	public function modifyCalculation($cart)
 	{
+		$cart                     = !is_array($cart) ? (array) $cart : $cart;
 		$producthelper            = productHelper::getInstance();
 		$calArr                   = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];

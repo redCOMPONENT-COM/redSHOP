@@ -88,16 +88,15 @@ class RedshopControllerCheckout extends RedshopController
 		$input   = $app->input;
 		$session = JFactory::getSession();
 		$post    = $input->post->getArray();
-		$user    = JFactory::getUser();
-		$cart    = $session->get('cart');
+		$cart    = RedshopHelperCartSession::getCart();
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
 		{
 			if (count($post['extrafields0']) > 0 && count($post['extrafields']) > 0)
 			{
-				for ($r = 0, $countExtrafield = count($post['extrafieldstra']); $r < $countExtrafield; $r++)
+				foreach ($post['extrafields'] as $index => $extrafield)
 				{
-					$post['extrafields_values'][$post['extrafields'][$r]] = $post['extrafields0'][$r];
+					$post['extrafields_values'][$extrafield] = $post['extrafields0'][$index];
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];

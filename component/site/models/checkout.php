@@ -46,7 +46,6 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$session             = JFactory::getSession();
 
 		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
@@ -56,7 +55,7 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_redshopMail     = redshopMail::getInstance();
 
 		$user = JFactory::getUser();
-		$cart = $session->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		if (!empty($cart))
 		{
@@ -110,7 +109,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		RedshopHelperCartSession::setCart($cart);
-		$this->_carthelper->carttodb();
+		RedshopHelperCart::addCartToDatabase();
 	}
 
 	public function store($data)
@@ -1344,7 +1343,7 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Method for return billing address.
 	 *
-	 * @return  object|false
+	 * @return  mixed
 	 */
 	public function billingaddresses()
 	{
