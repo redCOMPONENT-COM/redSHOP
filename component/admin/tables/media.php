@@ -31,4 +31,44 @@ class RedshopTableMedia extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableKey = 'media_id';
+
+	/**
+	 * @var string
+	 */
+	public $media_name = '';
+
+	/**
+	 * @var string
+	 */
+	public $media_alternate_text = '';
+
+	/**
+	 * @var string
+	 */
+	public $media_section = '';
+
+	/**
+	 * @var integer
+	 */
+	public $section_id = '';
+
+	/**
+	 * @var string
+	 */
+	public $media_type = '';
+
+	/**
+	 * @var string
+	 */
+	public $media_mimetype = '';
+
+	/**
+	 * @var integer
+	 */
+	public $published = '';
+
+	/**
+	 * @var integer
+	 */
+	public $ordering = '';
 }

@@ -12,42 +12,89 @@ defined('_JEXEC') or die;
 /**
  * Update class
  *
- * @package     Redshob.Update
+ * @package   Redshob.Update
  *
- * @since       2.0.12
+ * @since     2.0.12
  */
 class RedshopUpdate2012 extends RedshopInstallUpdate
 {
 	/**
-	 * Return list of old files for clean
+	 * Method for migrate manufacturer images.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
-	 * @since   2.0.11
+	 * @since   2.0.12
 	 */
-	protected function getOldFiles()
+	public function migrateManufacturerImages()
 	{
-		return array(
-			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/textlibrary.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/textlibrary_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/models/textlibrary.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/models/textlibrary_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/textlibrary_detail.php'
-		);
-	}
+		$db = JFactory::getDbo();
 
-	/**
-	 * Return list of old folders for clean
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.11
-	 */
-	protected function getOldFolders()
-	{
-		return array(
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/textlibrary',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/textlibrary_detail'
-		);
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_media'))
+			->where($db->qn('media_section') . ' = ' . $db->quote('manufacturer'))
+			->order($db->qn('section_id'));
+
+		$medias = $db->setQuery($query)->loadObjectList();
+
+		if (empty($medias))
+		{
+			return;
+		}
+
+		$newBasePath = REDSHOP_MEDIA_IMAGE_RELPATH . '/manufacturer';
+		$oldBasePath = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer';
+
+		foreach ($medias as $media)
+		{
+			$table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
+
+			$table->bind((array) $media);
+
+			// In case this media don't have media file. Delete this.
+			if (empty($table->media_name))
+			{
+				$table->delete();
+
+				continue;
+			}
+
+			// Prepare target folder.
+			$path = $newBasePath . '/' . $table->section_id;
+
+			if (!JFolder::exists($path))
+			{
+				JFolder::create($path);
+			}
+
+			// Copy index.html to this folder.
+			if (!JFile::exists($path . '/index.html'))
+			{
+				JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . '/index.html', $path . '/index.html');
+			}
+
+			// Check old image exist.
+			$oldImagePath = $oldBasePath . '/' . $table->media_name;
+
+			if (!JFile::exists($oldImagePath))
+			{
+				continue;
+			}
+
+			// Generate new image using MD5
+			$newFileName = md5(basename($table->media_name)) . '.' . JFile::getExt($table->media_name);
+
+			if (!JFile::copy($oldImagePath, $path . '/' . $newFileName))
+			{
+				continue;
+			}
+
+			// Update media data with new file name.
+			$table->media_name = $newFileName;
+			$table->store();
+		}
+
+		// Remove old folders
+		JFolder::delete($oldBasePath);
 	}
 }
