@@ -1872,7 +1872,7 @@ class RedshopHelperShipping
 
 		if ($country)
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote($country) . ", " . $db->qn('shipping_rate_country') . " ) OR "
+			$whereCountry = "AND (FIND_IN_SET(" . (string) $db->quote($country) . ", " . $db->qn('shipping_rate_country') . " ) OR "
 				. $db->qn('shipping_rate_country') . " = " . $db->quote(0) . " OR "
 				. $db->qn('shipping_rate_country') . " = '') ";
 		}
@@ -1896,7 +1896,7 @@ class RedshopHelperShipping
 
 		if ($state)
 		{
-			$whereState = "AND (FIND_IN_SET(" . $db->quote($state) . ", " . $db->qn('shipping_rate_state') . " ) OR "
+			$whereState = "AND (FIND_IN_SET(" . (string) $db->quote($state) . ", " . $db->qn('shipping_rate_state') . " ) OR "
 				. $db->qn('shipping_rate_state') . " = " . $db->quote(0) . " OR "
 				. $db->qn('shipping_rate_state') . " = '') ";
 		}

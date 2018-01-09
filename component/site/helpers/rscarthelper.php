@@ -838,7 +838,7 @@ class rsCarthelper
 
 				// Product extra fields.
 				$cart_mdata  = RedshopHelperProductTag::getExtraSectionTag(
-					extraField::getInstance()->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
+					Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
 				);
 
 				$cartItem = 'product_id';
