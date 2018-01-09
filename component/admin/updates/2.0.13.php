@@ -14,16 +14,16 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Update
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.13
  */
-class RedshopUpdate208Alpha2 extends RedshopInstallUpdate
+class RedshopUpdate2013 extends RedshopInstallUpdate
 {
 	/**
 	 * Method for migrate category images.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.13
 	 */
 	public function migrateCategoryImages()
 	{
@@ -93,7 +93,7 @@ class RedshopUpdate208Alpha2 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.13
 	 */
 	private function storeMedia($category, $fileName, $scope, $oldBasePath, $newBasePath)
 	{
