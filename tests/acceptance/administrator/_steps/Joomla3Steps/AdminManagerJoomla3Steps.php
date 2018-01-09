@@ -186,7 +186,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElement(['link' => $text]);
 	}
 	
-	public function removeValue($xpath)
+	public function addValueForField($xpath, $prices)
 	{
 		$I = $this;
 		$I->click($xpath);
@@ -194,6 +194,13 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+
+		$price = str_split($prices);
+		foreach ($price as $char)
+		{
+			$I->pressKey($xpath, $char);
+		}
 	}
 
 	public function chooseOnSelect2($element, $text)

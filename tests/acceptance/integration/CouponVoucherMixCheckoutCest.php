@@ -31,7 +31,7 @@ class CouponCheckoutMixCheckoutCest
 		$this->dataCoupon = array();
 		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
 		$this->dataCoupon['type']        = 'Total';
-		$this->dataCoupon['value']       = '100';
+		$this->dataCoupon['value']       = '10';
 		$this->dataCoupon['effect']      = 'Global';
 		$this->dataCoupon['amount_left'] = '10';
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
@@ -94,8 +94,6 @@ class CouponCheckoutMixCheckoutCest
 		$this->orderInfo['priceDiscount'] = '';
 		$this->orderInfo['priceEnd'] = '';
 
-
-
 	}
 
 	/**
@@ -137,14 +135,14 @@ class CouponCheckoutMixCheckoutCest
 		$this->orderInfo['priceEnd'] =  "DKK 60,00";
 
 		$I->comment('Configuration for voucher/coupon/discount');
-		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
+		$I->wantToTest('Checkout with coupon first and input voucher but still get value of voucher ');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->comment('Checkout with voucher even you input coupon but still get value of voucher ');
+		$I->comment('Checkout with voucher first then input coupon but still get value of voucher ');
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, null);
 	}
 
@@ -175,7 +173,7 @@ class CouponCheckoutMixCheckoutCest
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 
 		$this->discount['allow'] = 'Discount + voucher (single) + coupon (single)';
-		$I->comment('I want to setup checkout with apply single coupon and voucher');
+		$I->wantToTest('I want to setup checkout with apply single coupon and voucher');
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
 		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
@@ -189,7 +187,7 @@ class CouponCheckoutMixCheckoutCest
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->comment('Checkout with voucher even you input coupon but still get value of voucher ');
+		$I->wantToTest('I want to setup checkout with apply single voucher and coupon');
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond);
 	}
 
@@ -203,10 +201,9 @@ class CouponCheckoutMixCheckoutCest
 
 
 		$this->discount['allow'] = 'Discount + voucher (multiple) + coupon (multiple)';
-		$I->comment('I want to setup checkout with apply single coupon and voucher');
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
-		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
+		$I->wantToTest('I want to setup checkout with apply multiple voucher and coupon');
 
 		$I->comment('the first time apply discount');
 		$this->orderInfo['priceTotal'] = "DKK 70,00";
@@ -274,7 +271,6 @@ class CouponCheckoutMixCheckoutCest
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-
 		$I->wantTo('Deletion of Coupon in Administrator');
 		$I = new CouponSteps($scenario);
 		$I->wantTo('Delete a Coupon');

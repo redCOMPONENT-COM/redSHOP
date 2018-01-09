@@ -135,6 +135,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorMessage = '.alert-message';
+
+	/**
+	 * @var string
+	 */
 	public static $selectorPageTitle = '.page-title';
 
 	/**

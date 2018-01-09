@@ -101,13 +101,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->waitForElement(ProductManagerPage::$productPrice, 30);
-		$I->removeValue(ProductManagerPage::$productPrice);
-
-		$price = str_split($prices);
-		foreach ($price as $char)
-		{
-			$I->pressKey(ProductManagerPage::$productPrice, $char);
-		}
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -265,9 +259,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-
-		$I->removeValue(ProductManagerPage::$productPrice);
-		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -470,13 +462,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
 		$I->fillField(\ProductManagerPage::$productName, $productName);
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-		$I->removeValue(ProductManagerPage::$productPrice);
-
-		$price = str_split($prices);
-		foreach ($price as $char)
-		{
-			$I->pressKey(ProductManagerPage::$productPrice, $char);
-		}
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
 		$I->click(\ProductManagerPage::$categoryId);
 		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
