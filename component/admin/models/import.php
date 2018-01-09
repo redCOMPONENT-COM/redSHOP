@@ -1923,43 +1923,46 @@ class RedshopModelImport extends RedshopModel
 		return $k;
 	}
 
-	/*
-				 * Import customer information From VM
+	/**
+	 * Import customer information From VM
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	public function customerInformation()
 	{
 		$db = JFactory::getDbo();
-
-		$order_functions = order_functions::getInstance();
 		$query           = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
 			. "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
-		$db->setQuery($query);
-		$data = $db->loadObjectList();
+		$data = $db->setQuery($query)->loadObjectList();
 
 		$k = 0;
 
-		for ($i = 0, $in = count($data); $i < $in; $i++)
+		foreach ($data as $aData)
 		{
-			if ($data[$i]->address_type == "BT")
+			if ($aData->address_type == "BT")
 			{
-				$redshopUser = RedshopHelperOrder::getBillingAddress($data[$i]->user_id);
+				$redshopUser = RedshopHelperOrder::getBillingAddress($aData->user_id);
 
 				if ($redshopUser)
 				{
 					$redUserId = $redshopUser->users_info_id;
 					$row       = $this->getTable('user_detail');
 					$row->load($redUserId);
-					$row->user_email       = $data[$i]->user_email;
-					$row->shopper_group_id = $data[$i]->shopper_group_id;
-					$row->firstname        = $data[$i]->first_name;
-					$row->lastname         = $data[$i]->last_name;
-					$row->company_name     = $data[$i]->company;
-					$row->address          = $data[$i]->address_1;
-					$row->city             = $data[$i]->city;
-					$row->country_code     = $data[$i]->country;
-					$row->state_code       = $data[$i]->state;
-					$row->zipcode          = $data[$i]->zip;
-					$row->phone            = $data[$i]->phone_1;
+					$row->user_email       = $aData->user_email;
+					$row->shopper_group_id = $aData->shopper_group_id;
+					$row->firstname        = $aData->first_name;
+					$row->lastname         = $aData->last_name;
+					$row->company_name     = $aData->company;
+					$row->address          = $aData->address_1;
+					$row->city             = $aData->city;
+					$row->country_code     = $aData->country;
+					$row->state_code       = $aData->state;
+					$row->zipcode          = $aData->zip;
+					$row->phone            = $aData->phone_1;
 
 					if ($row->store())
 					{
@@ -1970,19 +1973,19 @@ class RedshopModelImport extends RedshopModel
 				{
 					$rows = $this->getTable('user_detail');
 					$rows->load();
-					$rows->user_id          = $data[$i]->user_id;
-					$rows->user_email       = $data[$i]->user_email;
-					$rows->shopper_group_id = $data[$i]->shopper_group_id;
-					$rows->firstname        = $data[$i]->first_name;
-					$rows->address_type     = $data[$i]->address_type;
-					$rows->lastname         = $data[$i]->last_name;
-					$rows->company_name     = $data[$i]->company;
-					$rows->address          = $data[$i]->address_1;
-					$rows->city             = $data[$i]->city;
-					$rows->country_code     = $data[$i]->country;
-					$rows->state_code       = $data[$i]->state;
-					$rows->zipcode          = $data[$i]->zip;
-					$rows->phone            = $data[$i]->phone_1;
+					$rows->user_id          = $aData->user_id;
+					$rows->user_email       = $aData->user_email;
+					$rows->shopper_group_id = $aData->shopper_group_id;
+					$rows->firstname        = $aData->first_name;
+					$rows->address_type     = $aData->address_type;
+					$rows->lastname         = $aData->last_name;
+					$rows->company_name     = $aData->company;
+					$rows->address          = $aData->address_1;
+					$rows->city             = $aData->city;
+					$rows->country_code     = $aData->country;
+					$rows->state_code       = $aData->state;
+					$rows->zipcode          = $aData->zip;
+					$rows->phone            = $aData->phone_1;
 
 					if ($rows->store())
 					{
@@ -1994,19 +1997,19 @@ class RedshopModelImport extends RedshopModel
 			{
 				$rows = $this->getTable('user_detail');
 				$rows->load();
-				$rows->user_id          = $data[$i]->user_id;
-				$rows->user_email       = $data[$i]->user_email;
-				$rows->shopper_group_id = $data[$i]->shopper_group_id;
-				$rows->firstname        = $data[$i]->first_name;
-				$rows->address_type     = $data[$i]->address_type;
-				$rows->lastname         = $data[$i]->last_name;
-				$rows->company_name     = $data[$i]->company;
-				$rows->address          = $data[$i]->address_1;
-				$rows->city             = $data[$i]->city;
-				$rows->country_code     = $data[$i]->country;
-				$rows->state_code       = $data[$i]->state;
-				$rows->zipcode          = $data[$i]->zip;
-				$rows->phone            = $data[$i]->phone_1;
+				$rows->user_id          = $aData->user_id;
+				$rows->user_email       = $aData->user_email;
+				$rows->shopper_group_id = $aData->shopper_group_id;
+				$rows->firstname        = $aData->first_name;
+				$rows->address_type     = $aData->address_type;
+				$rows->lastname         = $aData->last_name;
+				$rows->company_name     = $aData->company;
+				$rows->address          = $aData->address_1;
+				$rows->city             = $aData->city;
+				$rows->country_code     = $aData->country;
+				$rows->state_code       = $aData->state;
+				$rows->zipcode          = $aData->zip;
+				$rows->phone            = $aData->phone_1;
 
 				if ($rows->store())
 				{
@@ -2021,7 +2024,6 @@ class RedshopModelImport extends RedshopModel
 	public function Orders_insert()
 	{
 		$db            = JFactory::getDbo();
-		$producthelper = productHelper::getInstance();
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
 				FROM (
@@ -2041,7 +2043,7 @@ class RedshopModelImport extends RedshopModel
 		{
 			if ($data[$i]->rdo_order_number == null)
 			{
-				$order_number = $order_functions->generateOrderNumber();
+				$order_number = RedshopHelperOrder::generateOrderNumber();
 
 				$reduser = $this->getTable('order_detail');
 				$reduser->set('order_id', 0);
