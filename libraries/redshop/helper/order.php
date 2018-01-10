@@ -443,13 +443,13 @@ class RedshopHelperOrder
 			return self::$orderExtraFieldData[$key];
 		}
 
-		$privateSection = extraField::SECTION_PRIVATE_BILLING_ADDRESS;
-		$companySection = extraField::SECTION_COMPANY_BILLING_ADDRESS;
+		$privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
+		$companySection = RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
 
 		if ('shipping' == $section)
 		{
-			$privateSection = extraField::SECTION_PRIVATE_SHIPPING_ADDRESS;
-			$companySection = extraField::SECTION_COMPANY_SHIPPING_ADDRESS;
+			$privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
+			$companySection = RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS;
 		}
 
 		$db    = JFactory::getDbo();

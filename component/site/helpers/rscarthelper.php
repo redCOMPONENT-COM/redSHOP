@@ -830,7 +830,7 @@ class rsCarthelper
 
 				// Product extra fields.
 				$cart_mdata  = RedshopHelperProductTag::getExtraSectionTag(
-					extraField::getInstance()->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
+					Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
 				);
 
 				$cartItem = 'product_id';
@@ -3070,7 +3070,9 @@ class rsCarthelper
 		$product_price          = 0;
 		$product_price_excl_vat = 0;
 		$quantity               = 0;
-		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $product_id));
+		$flag                   = false;
+		$product_idArr          = explode(',', $product_id);
+		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
 
 		for ($v = 0; $v < $idx; $v++)
 		{
@@ -4720,7 +4722,7 @@ class rsCarthelper
 			// Secure productsIds
 			if ($productsIds = explode(',', $product_id))
 			{
-				$productsIds = ArrayHelper::toInteger($productsIds);
+				$productsIds = Joomla\Utilities\ArrayHelper::toInteger($productsIds);
 
 				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
 			}
@@ -4746,7 +4748,7 @@ class rsCarthelper
 			// Secure notAttributeId
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
-				$notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
+				$notAttributeIds = Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
 
 				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 			}

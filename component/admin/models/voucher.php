@@ -19,6 +19,32 @@ defined('_JEXEC') or die;
 class RedshopModelVoucher extends RedshopModelForm
 {
 	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array $data The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($data)
+	{
+		if (!empty($data['start_date']))
+		{
+			$data['start_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['start_date']);
+			$data['start_date'] = $data['start_date']->format('Y-m-d H:i:s');
+		}
+
+		if (!empty($data['end_date']))
+		{
+			$data['end_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['end_date']);
+			$data['end_date'] = $data['end_date']->format('Y-m-d H:i:s');
+		}
+
+		return parent::save($data);
+	}
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
@@ -62,6 +88,8 @@ class RedshopModelVoucher extends RedshopModelForm
 		}
 
 		$item->voucher_products = RedshopEntityVoucher::getInstance($item->id)->getProducts()->ids();
+		$item->start_date       = $item->start_date != JFactory::getDbo()->getNullDate() ? JFactory::getDate($item->start_date)->toUnix() : null;
+		$item->end_date         = $item->end_date != JFactory::getDbo()->getNullDate() ? JFactory::getDate($item->end_date)->toUnix() : null;
 
 		return $item;
 	}

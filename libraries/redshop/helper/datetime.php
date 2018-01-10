@@ -176,4 +176,58 @@ class RedshopHelperDatetime
 
 		return $option;
 	}
+
+	/**
+	 * Method for convert PHP date format to MomentJS date format.
+	 *
+	 * @param   string $format PHP date format
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function convertPHPToMomentFormat($format)
+	{
+		$replacements = [
+			'd' => 'DD',
+			'D' => 'ddd',
+			'j' => 'D',
+			'l' => 'dddd',
+			'N' => 'E',
+			'S' => 'o',
+			'w' => 'e',
+			'z' => 'DDD',
+			'W' => 'W',
+			'F' => 'MMMM',
+			'm' => 'MM',
+			'M' => 'MMM',
+			'n' => 'M',
+			't' => '', // No equivalent
+			'L' => '', // No equivalent
+			'o' => 'YYYY',
+			'Y' => 'YYYY',
+			'y' => 'YY',
+			'a' => 'a',
+			'A' => 'A',
+			'B' => '', // No equivalent
+			'g' => 'h',
+			'G' => 'H',
+			'h' => 'hh',
+			'H' => 'HH',
+			'i' => 'mm',
+			's' => 'ss',
+			'u' => 'SSS',
+			'e' => 'zz', // Deprecated since version 1.6.0 of moment.js
+			'I' => '', // No equivalent
+			'O' => '', // No equivalent
+			'P' => '', // No equivalent
+			'T' => '', // No equivalent
+			'Z' => '', // No equivalent
+			'c' => '', // No equivalent
+			'r' => '', // No equivalent
+			'U' => 'X',
+		];
+
+		return strtr($format, $replacements);
+	}
 }

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
 
 jimport('joomla.filesystem.file');
@@ -806,8 +807,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
 		$model = $this->getModel('product_detail');
 		$model->saveorder($cid, $order);

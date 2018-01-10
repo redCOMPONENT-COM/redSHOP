@@ -476,9 +476,9 @@ class RedshopModelSearch extends RedshopModel
 				}
 			}
 
-			JArrayHelper::toInteger($cat_group);
+			$cat_group = ArrayHelper::toInteger($cat_group);
 
-			if ($cat_group)
+			if (!empty($cat_group))
 			{
 				$cat_group = join(',', $cat_group);
 			}
@@ -502,7 +502,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			// Sanitize ids
 			$manufacturerIds = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($manufacturerIds);
+			$manufacturerIds = ArrayHelper::toInteger($manufacturerIds);
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
@@ -619,7 +619,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				// Sanitize ids
 				$productIds = explode(',', $products);
-				JArrayHelper::toInteger($productIds);
+				$productIds = ArrayHelper::toInteger($productIds);
 
 				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
 			}
@@ -687,10 +687,10 @@ class RedshopModelSearch extends RedshopModel
 			if ($category_id != 0)
 			{
 				// Sanitize ids
-				$catIds = explode(',', $cat_group);
-				JArrayHelper::toInteger($catIds);
+				$cat_group = explode(',', $cat_group);
+				$cat_group = ArrayHelper::toInteger($cat_group);
 
-				$query->where('pc.category_id IN (' . $cat_group . ')');
+				$query->where('pc.category_id IN (' . implode(',', $cat_group) . ')');
 			}
 
 			if ($manufacture_id != 0)
@@ -878,7 +878,7 @@ class RedshopModelSearch extends RedshopModel
 						$products[] = $product[$i]->product_id;
 					}
 
-					JArrayHelper::toInteger($products);
+					$products   = ArrayHelper::toInteger($products);
 					$productids = implode(",", $products);
 				}
 
@@ -893,7 +893,7 @@ class RedshopModelSearch extends RedshopModel
 				{
 					// Sanitize ids
 					$productIds = explode(',', $productids);
-					JArrayHelper::toInteger($productIds);
+					$productIds = ArrayHelper::toInteger($productIds);
 
 					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
 				}
@@ -1067,7 +1067,7 @@ class RedshopModelSearch extends RedshopModel
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
 		$db           = JFactory::getDbo();
-		$productids   = "";
+		$products     = array();
 
 		if (count($getredfilter) > 0 && $all == 1)
 		{
@@ -1098,8 +1098,7 @@ class RedshopModelSearch extends RedshopModel
 				. "WHERE rat.type_id = " . $db->quote($lasttypeid) . " "
 				. "AND rat.tag_id = " . $db->quote($lasttagid) . " ";
 			$db->setQuery($query);
-			$product  = $db->loadObjectList();
-			$products = array();
+			$product = $db->loadObjectList();
 
 			for ($i = 0, $in = count($product); $i < $in; $i++)
 			{
@@ -1115,10 +1114,10 @@ class RedshopModelSearch extends RedshopModel
 			. "WHERE j.tag_id = t.id "
 			. "AND j.type_id = " . (int) $id . " ";
 
-		if ($productids != "")
+		if (!empty($products))
 		{
 			// Sanitize ids
-			JArrayHelper::toInteger($products);
+			$products = ArrayHelper::toInteger($products);
 
 			$q .= " AND ra.product_id IN (" . implode(",", $products) . ") ";
 		}
@@ -1153,7 +1152,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		// Sanitize ids
-		JArrayHelper::toInteger($mids);
+		$mids = ArrayHelper::toInteger($mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
 			. "WHERE manufacturer_id IN ('" . implode(",", $mids) . "')";

@@ -37,7 +37,7 @@ class RedshopFormFieldCalendar extends JFormField
 	/**
 	 * The format of date and time.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  3.2
 	 */
 	protected $format;
@@ -45,7 +45,7 @@ class RedshopFormFieldCalendar extends JFormField
 	/**
 	 * The filter.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  3.2
 	 */
 	protected $filter;
@@ -66,7 +66,7 @@ class RedshopFormFieldCalendar extends JFormField
 			case 'maxlength':
 			case 'format':
 			case 'filter':
-				return $this->$name;
+				return $this->{$name};
 		}
 
 		return parent::__get($name);
@@ -121,8 +121,9 @@ class RedshopFormFieldCalendar extends JFormField
 		if ($return)
 		{
 			$this->maxlength = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
-			$this->format    = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
-			$this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
+			$this->format    = (string) $this->element['format'] ? (string) $this->element['format']
+				: Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
+			$this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : null;
 		}
 
 		return $return;
@@ -146,26 +147,26 @@ class RedshopFormFieldCalendar extends JFormField
 		// Build the attributes array.
 		$attributes = array();
 
-		empty($this->size)      ? null : $attributes['size'] = $this->size;
+		empty($this->size) ? null : $attributes['size'] = $this->size;
 		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
-		empty($this->class)     ? null : $attributes['class'] = $this->class;
-		!$this->readonly        ? null : $attributes['readonly'] = 'readonly';
-		!$this->disabled        ? null : $attributes['disabled'] = 'disabled';
-		empty($this->onchange)  ? null : $attributes['onchange'] = $this->onchange;
-		!strlen($hint)          ? null : $attributes['placeholder'] = $hint;
-		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
-		!$this->autofocus       ? null : $attributes['autofocus'] = '';
+		empty($this->class) ? null : $attributes['class'] = $this->class;
+		!$this->readonly ? null : $attributes['readonly'] = 'readonly';
+		!$this->disabled ? null : $attributes['disabled'] = 'disabled';
+		empty($this->onchange) ? null : $attributes['onchange'] = $this->onchange;
+		!strlen($hint) ? null : $attributes['placeholder'] = $hint;
+		$this->autocomplete ? null : $attributes['autocomplete'] = 'off';
+		!$this->autofocus ? null : $attributes['autofocus'] = '';
 
 		if ($this->required)
 		{
-			$attributes['required'] = '';
+			$attributes['required']      = '';
 			$attributes['aria-required'] = 'true';
 		}
 
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
-			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
+			$this->value = JFactory::getDate()->toUnix();
 		}
 
 		// Get some system objects.
@@ -173,36 +174,32 @@ class RedshopFormFieldCalendar extends JFormField
 		$user   = JFactory::getUser();
 
 		// If a known filter is given use it.
-		switch (strtoupper($this->filter))
+		if (strtoupper($this->filter) == 'SERVER_UTC')
 		{
-			case 'SERVER_UTC':
-				// Convert a date to UTC based on the server timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($config->get('offset')));
+			// Convert a date to UTC based on the server timezone.
+			if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+			{
+				// Get a date object based on the correct timezone.
+				$date = JFactory::getDate($this->value, 'UTC');
+				$date->setTimezone(new DateTimeZone($config->get('offset')));
 
-					// Transform the date string.
-					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
+				// Transform the date string.
+				$this->value = $date->format($format, true, false);
+			}
+		}
+		else
+		{
+			// Convert a date to UTC based on the user timezone.
+			if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+			{
+				// Get a date object based on the correct timezone.
+				$date = JFactory::getDate($this->value, 'UTC');
 
-				break;
+				$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
-			case 'USER_UTC':
-				// Convert a date to UTC based on the user timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
-
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
-
-					// Transform the date string.
-					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
-
-				break;
+				// Transform the date string.
+				$this->value = $date->format($format, true, false);
+			}
 		}
 
 		// Including fallback code for HTML5 non supported browsers.

@@ -57,15 +57,10 @@ class RedshopViewAccount_Shipto extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
+		$app            = JFactory::getApplication();
 		$orderFunctions = order_functions::getInstance();
-
-		// Extra_field;
-		$extraField = extraField::getInstance();
-
-		$task = $app->input->getCmd('task');
-		$user = JFactory::getUser();
+		$task           = $app->input->getCmd('task');
+		$user           = JFactory::getUser();
 
 		// Preform security checks
 		$session        = JFactory::getSession();
@@ -105,8 +100,8 @@ class RedshopViewAccount_Shipto extends RedshopView
 				return;
 			}
 
-			$lists['shipping_customer_field'] = $extraField->list_all_field(14, $shippingAddresses->users_info_id);
-			$lists['shipping_company_field']  = $extraField->list_all_field(15, $shippingAddresses->users_info_id);
+			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, $shippingAddresses->users_info_id);
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, $shippingAddresses->users_info_id);
 
 			$this->setLayout('form');
 		}
