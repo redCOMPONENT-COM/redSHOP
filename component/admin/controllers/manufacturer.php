@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 
-class RedshopControllerManufacturer extends RedshopController
+class RedshopControllerManufacturer extends RedshopControllerForm
 {
 	/**
 	 * Method for cancel
@@ -27,18 +29,19 @@ class RedshopControllerManufacturer extends RedshopController
 	 *
 	 * @access public
 	 * @return void
+	 * @throws Exception
 	 */
 	public function saveorder()
 	{
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
 		/** @var RedshopModelManufacturer $model */
 		$model = $this->getModel('manufacturer');
-		$model->saveOrder($cid);
+		$model->saveOrder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
@@ -88,8 +91,8 @@ class RedshopControllerManufacturer extends RedshopController
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+		$pks   = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
 		// Get the model
 		/** @var RedshopModelManufacturer_detail $model */

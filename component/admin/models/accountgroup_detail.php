@@ -113,7 +113,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 		if (count($cid))
 		{
 			// Sanitise ids
-			JArrayHelper::toInteger($cid);
+			$cid  = Joomla\Utilities\ArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'economic_accountgroup '
@@ -136,7 +136,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 		if (count($cid))
 		{
 			// Sanitise ids
-			JArrayHelper::toInteger($cid);
+			$cid  = Joomla\Utilities\ArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
 			$query = 'UPDATE ' . $this->_table_prefix . 'economic_accountgroup'
