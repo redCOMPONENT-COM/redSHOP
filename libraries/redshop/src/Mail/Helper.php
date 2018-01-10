@@ -94,4 +94,50 @@ class Helper
 
 		return $isSend;
 	}
+
+	/**
+	 * Use absolute paths instead of relative ones when linking images
+	 *
+	 * @param   string  $message  Text message
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function useImage($message)
+	{
+		if (empty($message))
+		{
+			return '';
+		}
+
+		$url    = \JUri::root();
+		$images = array();
+
+		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $message, $matches);
+
+		foreach ($matches[0] as $match)
+		{
+			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
+			$image    = array_combine($m[1], $m[2]);
+			$images[] = $image['src'];
+		}
+
+		$images = array_unique($images);
+
+		if (empty($images))
+		{
+			return $message;
+		}
+
+		foreach ($images as $change)
+		{
+			if (strpos($change, 'http') === false)
+			{
+				$message = str_replace($change, $url . $change, $message);
+			}
+		}
+
+		return $message;
+	}
 }
