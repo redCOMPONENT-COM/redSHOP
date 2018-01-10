@@ -30,10 +30,10 @@ function getHTTPObject() {
  * @param mid
  */
 function loadProducts(tid, mid) {
-
+	/** global: base_url */
 	if (typeof base_url === 'undefined')
 	{
-		return;
+		base_url = '';
 	}
 
 	request = getHTTPObject();
