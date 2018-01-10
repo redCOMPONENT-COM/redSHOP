@@ -141,7 +141,7 @@ class extraField
 				$textValue = $myWish;
 			}
 
-			if ($cart && isset($cart[$idx][$data->name]))
+			if (!empty($cart) && isset($cart[$idx][$data->name]))
 			{
 				$textValue = $cart[$idx][$data->name];
 
@@ -356,7 +356,6 @@ class extraField
 					case RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
 
 						$fieldCheck = RedshopEntityField::getInstance($data->id)->getFieldValues();
-						$checkData  = explode(",", $cart[$idx][$data->name]);
 						$exField    .= '<table><tr>';
 
 						foreach ($fieldCheck as $aFieldCheck)
@@ -420,27 +419,27 @@ class extraField
 
 							$dateStart  = mktime(
 								0, 0, 0,
-								date('m', $mainSplitDate[0]),
-								date('d', $mainSplitDate[0]),
-								date('Y', $mainSplitDate[0])
+								(int) date('m', $mainSplitDate[0]),
+								(int) date('d', $mainSplitDate[0]),
+								(int) date('Y', $mainSplitDate[0])
 							);
 							$dateEnd    = mktime(
 								23, 59, 59,
-								date('m', $mainSplitDate[1]),
-								date('d', $mainSplitDate[1]),
-								date('Y', $mainSplitDate[1])
+								(int) date('m', $mainSplitDate[1]),
+								(int) date('d', $mainSplitDate[1]),
+								(int) date('Y', $mainSplitDate[1])
 							);
 							$todayStart = mktime(
 								0, 0, 0,
-								date('m'),
-								date('d'),
-								date('Y')
+								(int) date('m'),
+								(int) date('d'),
+								(int) date('Y')
 							);
 							$todayEnd   = mktime(
 								23, 59, 59,
-								date('m'),
-								date('d'),
-								date('Y')
+								(int) date('m'),
+								(int) date('d'),
+								(int) date('Y')
 							);
 
 							if ($dateStart <= $todayStart && $dateEnd >= $todayEnd)
@@ -449,11 +448,11 @@ class extraField
 								$exField .= '' . $asterisk . $data->title . ' : <select name="extrafields' . $productId . '[]" id="' . $data->name . '" userfieldlbl="' . $data->title . '" ' . $req . ' >';
 								$exField .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
-								for ($c = 0, $cn = count($mainSplitDateExtra); $c < $cn; $c++)
+								foreach ($mainSplitDateExtra as $aMainSplitDateExtra)
 								{
-									if ($mainSplitDateExtra[$c] != "")
+									if ($aMainSplitDateExtra != "")
 									{
-										$exField .= '<option value="' . date("d-m-Y", $mainSplitDateExtra[$c]) . '"  >' . date("d-m-Y", $mainSplitDateExtra[$c]) . '</option>';
+										$exField .= '<option value="' . date("d-m-Y", $aMainSplitDateExtra) . '"  >' . date("d-m-Y", $aMainSplitDateExtra) . '</option>';
 									}
 								}
 
