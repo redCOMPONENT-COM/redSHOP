@@ -110,12 +110,11 @@ class RedshopControllerRegistration extends RedshopController
 	 * getCompanyOrCustomer
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function getCompanyOrCustomer()
 	{
 		$app        = JFactory::getApplication();
-		$extraField = extraField::getInstance();
-
 		$get        = $app->input->get->getArray();
 		$templateId = $get['template_id'];
 		$isCompany  = $get['is_company'];
@@ -123,7 +122,7 @@ class RedshopControllerRegistration extends RedshopController
 
 		if ($isCompany == 1)
 		{
-			$lists['extra_field_company'] = $extraField->list_all_field(8);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8);
 			$template                     = RedshopHelperTemplate::getTemplate("company_billing_template", $templateId);
 
 			if (count($template) > 0 && $template[0]->template_desc != "")
@@ -139,7 +138,7 @@ class RedshopControllerRegistration extends RedshopController
 		}
 		else
 		{
-			$lists['extra_field_user'] = $extraField->list_all_field(7);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7);
 			$template                  = RedshopHelperTemplate::getTemplate("private_billing_template", $templateId);
 
 			if (count($template) > 0 && $template[0]->template_desc != "")

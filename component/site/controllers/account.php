@@ -21,11 +21,13 @@ class RedshopControllerAccount extends RedshopController
 	/**
 	 * Method to edit created Tag
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function editTag()
 	{
-		$app   = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		/** @var RedshopModelAccount $model */
 		$model = $this->getModel('account');
@@ -48,6 +50,7 @@ class RedshopControllerAccount extends RedshopController
 	 * Method to send created wishlist
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function sendWishlist()
 	{
@@ -93,10 +96,11 @@ class RedshopControllerAccount extends RedshopController
 	 * Method to subscribe newsletter
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function newsletterSubscribe()
 	{
-		RedshopHelperNewsletter::subscribe(0, array(), 1);
+		RedshopHelperNewsletter::subscribe(0, array(), true);
 
 		$itemId = JFactory::getApplication()->input->getInt('Itemid');
 		$this->setRedirect(
@@ -109,6 +113,7 @@ class RedshopControllerAccount extends RedshopController
 	 *  Method to unsubscribe newsletter
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function newsletterUnsubscribe()
 	{

@@ -249,15 +249,15 @@ function displayProducts($rows)
 		$pw_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		$wishlist_data1 = $template[0]->template_desc;
 
-		$mlink                  = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
-		$mail_link              = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
-		$wishlist_data1         = str_replace('{mail_link}', $mail_link, $wishlist_data1);
-		$template_d1            = explode("{product_loop_start}", $wishlist_data1);
-		$template_d2            = explode("{product_loop_end}", $template_d1[1]);
-		$temp_template          = '';
-		$extraFieldName         = $extraField->getSectionFieldNameArray(1, 1, 1);
-		$mainid                 = '';
-		$totattid               = '';
+		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
+		$mail_link      = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
+		$wishlist_data1 = str_replace('{mail_link}', $mail_link, $wishlist_data1);
+		$template_d1    = explode("{product_loop_start}", $wishlist_data1);
+		$template_d2    = explode("{product_loop_end}", $template_d1[1]);
+		$temp_template  = '';
+		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+		$mainid = '';
+		$totattid = '';
 		$totcount_no_user_field = '';
 
 		foreach ($rows as $row)
