@@ -58,7 +58,7 @@ class Helper
 			return false;
 		}
 
-		$mail = JFactory::getMailer();
+		$mail = \JFactory::getMailer();
 		$mail->setSender(array($from, $fromName));
 		$mail->setSubject($subject);
 		$mail->setBody($body);
