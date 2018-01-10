@@ -2194,7 +2194,7 @@ class RedshopHelperOrder
 
 		$mailData = $productStart . $pMiddle . $productEnd;
 		$mailBody = $mailData;
-		$mailBody = RedshopHelperMail::imgInMail($mailBody);
+		$mailBody = \Redshop\Mail\Helper::useImage($mailBody);
 		$mailSubject = str_replace("{order_number}", $orderDetail->order_number, $mailSubject);
 
 		if ($mailBody && $userEmail != "")

@@ -223,11 +223,11 @@ class redshopMail
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperMail::imgInMail($message) instead
+	 * @deprecated  2.0.0.3  Use \Redshop\Mail\Helper::useImage($message) instead
 	 */
 	public function imginmail($message)
 	{
-		return RedshopHelperMail::imgInMail($message);
+		return \Redshop\Mail\Helper::useImage($message);
 	}
 
 	/**
