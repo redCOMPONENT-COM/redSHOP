@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
-
 class RedshopViewXmlexport_detail extends RedshopViewAdmin
 {
 	/**
@@ -18,6 +16,53 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 	 * @var  boolean
 	 */
 	protected $displaySidebar = false;
+
+	/**
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $lists       = array();
+
+	/**
+	 * @var object
+	 */
+	public $detail      = null;
+
+	/**
+	 * @var array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $columns     = null;
+
+	/**
+	 * @var array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $colvalue    = array();
+
+	/**
+	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $childname   = '';
+
+	/**
+	 * @var array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $iparray     = null;
+
+	/**
+	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $request_url = null;
 
 	public function display($tpl = null)
 	{
@@ -32,18 +77,22 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
 		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
-		$uri                  = JFactory::getURI();
-		$lists                = array();
-		$colvalue             = array();
-		$model                = $this->getModel();
-		$detail               = $this->get('data');
-		$parentsection        = $jinput->get('parentsection', '');
-		$detail->section_type = $jinput->get('section_type', $detail->section_type);
-		$isNew                = ($detail->xmlexport_id < 1);
-		$text                 = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$model                      = $this->getModel();
+		$this->detail               = $this->get('data');
+		$parentsection              = $jinput->get('parentsection', '');
+		$this->detail->section_type = $jinput->get('section_type', $this->detail->section_type);
+		$isNew                      = ($this->detail->xmlexport_id < 1);
+		$text                       = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_export48');
-		JToolBarHelper::custom('xmlexport', 'redshop_export32.png', JText::_('COM_REDSHOP_XML_EXPORT'), JText::_('COM_REDSHOP_XML_EXPORT'), false, false);
+		JToolBarHelper::title(
+			JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>',
+			'redshop_export48'
+		);
+		JToolBarHelper::custom(
+			'xmlexport', 'redshop_export32.png',
+			JText::_('COM_REDSHOP_XML_EXPORT'),
+			JText::_('COM_REDSHOP_XML_EXPORT'), false
+		);
 		JToolBarHelper::save();
 
 		if ($isNew)
@@ -55,12 +104,11 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$section_typelist   = $xmlhelper->getSectionTypeList();
-		$auto_sync_interval = $xmlhelper->getSynchIntervalList();
-		$columns            = $xmlhelper->getSectionColumnList($detail->section_type, $parentsection);
-		$iparray            = $xmlhelper->getXMLExportIpAddress($detail->xmlexport_id);
+		$sectionTypeList    = $xmlhelper->getSectionTypeList();
+		$autoSyncInterval = $xmlhelper->getSynchIntervalList();
+		$this->columns      = $xmlhelper->getSectionColumnList($this->detail->section_type, $parentsection);
+		$this->iparray      = $xmlhelper->getXMLExportIpAddress($this->detail->xmlexport_id);
 		$dbfield            = "";
-		$dbchildname        = "";
 
 		switch ($parentsection)
 		{
@@ -68,85 +116,85 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 			case "productdetail":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->element_name      = $childelement[$parentsection][0];
-					$detail->xmlexport_filetag = $childelement[$parentsection][1];
+					$this->detail->element_name      = $childelement[$parentsection][0];
+					$this->detail->xmlexport_filetag = $childelement[$parentsection][1];
 				}
 
-				$dbfield     = $detail->xmlexport_filetag;
-				$dbchildname = $detail->element_name;
+				$dbfield         = $this->detail->xmlexport_filetag;
+				$this->childname = $this->detail->element_name;
 				break;
 			case "stockdetail":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->stock_element_name = $childelement[$parentsection][0];
-					$detail->xmlexport_stocktag = $childelement[$parentsection][1];
+					$this->detail->stock_element_name = $childelement[$parentsection][0];
+					$this->detail->xmlexport_stocktag = $childelement[$parentsection][1];
 				}
 
-				$dbfield     = $detail->xmlexport_stocktag;
-				$dbchildname = $detail->stock_element_name;
+				$dbfield         = $this->detail->xmlexport_stocktag;
+				$this->childname = $this->detail->stock_element_name;
 				break;
 			case "billingdetail":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->billing_element_name = $childelement[$parentsection][0];
-					$detail->xmlexport_billingtag = $childelement[$parentsection][1];
+					$this->detail->billing_element_name = $childelement[$parentsection][0];
+					$this->detail->xmlexport_billingtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield     = $detail->xmlexport_billingtag;
-				$dbchildname = $detail->billing_element_name;
+				$dbfield         = $this->detail->xmlexport_billingtag;
+				$this->childname = $this->detail->billing_element_name;
 				break;
 			case "shippingdetail":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->shipping_element_name = $childelement[$parentsection][0];
-					$detail->xmlexport_shippingtag = $childelement[$parentsection][1];
+					$this->detail->shipping_element_name = $childelement[$parentsection][0];
+					$this->detail->xmlexport_shippingtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield     = $detail->xmlexport_shippingtag;
-				$dbchildname = $detail->shipping_element_name;
+				$dbfield         = $this->detail->xmlexport_shippingtag;
+				$this->childname = $this->detail->shipping_element_name;
 				break;
 			case "orderitem":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->orderitem_element_name = $childelement[$parentsection][0];
-					$detail->xmlexport_orderitemtag = $childelement[$parentsection][1];
+					$this->detail->orderitem_element_name = $childelement[$parentsection][0];
+					$this->detail->xmlexport_orderitemtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield     = $detail->xmlexport_orderitemtag;
-				$dbchildname = $detail->orderitem_element_name;
+				$dbfield         = $this->detail->xmlexport_orderitemtag;
+				$this->childname = $this->detail->orderitem_element_name;
 				break;
 			case "prdextrafield":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->prdextrafield_element_name = $childelement[$parentsection][0];
-					$detail->xmlexport_prdextrafieldtag = $childelement[$parentsection][1];
+					$this->detail->prdextrafield_element_name = $childelement[$parentsection][0];
+					$this->detail->xmlexport_prdextrafieldtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield     = $detail->xmlexport_prdextrafieldtag;
-				$dbchildname = $detail->prdextrafield_element_name;
+				$dbfield         = $this->detail->xmlexport_prdextrafieldtag;
+				$this->childname = $this->detail->prdextrafield_element_name;
 				break;
 		}
 
-		for ($i = 0, $in = count($columns); $i < $in; $i++)
+		foreach ($this->columns as $column)
 		{
-			$tmpVal     = $xmlhelper->getXMLFileTag($columns[$i]->Field, $dbfield);
-			$colvalue[] = $tmpVal[0];
+			$tmpVal           = $xmlhelper->getXMLFileTag($column->Field, $dbfield);
+			$this->colvalue[] = $tmpVal[0];
 		}
 
-		$lists['auto_sync']             = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
-		$lists['sync_on_request']       = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $detail->sync_on_request);
-		$lists['section_type']          = JHTML::_('select.genericlist', $section_typelist, 'section_type',
-			'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $detail->section_type
+		$this->lists['auto_sync']             = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $this->detail->auto_sync);
+		$this->lists['sync_on_request']       = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $this->detail->sync_on_request);
+		$this->lists['section_type']          = JHTML::_('select.genericlist', $sectionTypeList, 'section_type',
+			'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $this->detail->section_type
 		);
-		$lists['auto_sync_interval']    = JHTML::_('select.genericlist', $auto_sync_interval, 'auto_sync_interval',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->auto_sync_interval
+		$this->lists['auto_sync_interval']    = JHTML::_('select.genericlist', $autoSyncInterval, 'auto_sync_interval',
+			'class="inputbox" size="1" ', 'value', 'text', $this->detail->auto_sync_interval
 		);
-		$lists['published']             = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
-		$lists['use_to_all_users']      = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
-		$categoryData                   = $model->getCategoryList();
-		$detail->xmlexport_on_category  = explode(',', $detail->xmlexport_on_category);
-		$lists['xmlexport_on_category'] = JHTML::_('select.genericlist', $categoryData, 'xmlexport_on_category[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->xmlexport_on_category
+		$this->lists['published']             = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $this->detail->published);
+		$this->lists['use_to_all_users']      = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $this->detail->use_to_all_users);
+		$categoryData                         = $model->getCategoryList();
+		$this->detail->xmlexport_on_category  = explode(',', $this->detail->xmlexport_on_category);
+		$this->lists['xmlexport_on_category'] = JHTML::_('select.genericlist', $categoryData, 'xmlexport_on_category[]',
+			'class="inputbox" multiple="multiple" ', 'value', 'text', $this->detail->xmlexport_on_category
 		);
 
 		if ($layout != "")
@@ -158,13 +206,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 			$this->setlayout("default");
 		}
 
-		$this->lists       = $lists;
-		$this->detail      = $detail;
-		$this->columns     = $columns;
-		$this->colvalue    = $colvalue;
-		$this->childname   = $dbchildname;
-		$this->iparray     = $iparray;
-		$this->request_url = $uri->toString();
+		$this->request_url = JUri::getInstance()->toString();
 
 		parent::display($tpl);
 	}
