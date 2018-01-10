@@ -95,8 +95,6 @@ class RedshopHelperMail
 			return false;
 		}
 
-		$cartHelper = rsCarthelper::getInstance();
-
 		$message = $mailInfo[0]->mail_body;
 		$subject = $mailInfo[0]->mail_subject;
 
@@ -199,14 +197,14 @@ class RedshopHelperMail
 			}
 
 			if (!empty($thirdPartyEmail)
-				&& !self::sendEmail($from, $fromName, $thirdPartyEmail, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
+				&& !\Redshop\Mail\Helper::sendEmail($from, $fromName, $thirdPartyEmail, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
 				return false;
 			}
 
-			if (!self::sendEmail($from, $fromName, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
+			if (!\Redshop\Mail\Helper::sendEmail($from, $fromName, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
@@ -259,7 +257,7 @@ class RedshopHelperMail
 
 				if (!empty($manufacturer)
 					&& !empty($manufacturer->manufacturer_email)
-					&& !self::sendEmail(
+					&& !\Redshop\Mail\Helper::sendEmail(
 						$from, $fromName, $manufacturer->manufacturer_email, $subject, $body, true, null, null, null, $mailSection, func_get_args()
 					))
 				{
@@ -273,7 +271,7 @@ class RedshopHelperMail
 
 				if (!empty($supplier)
 					&& !empty($supplier->supplier_email)
-					&& !self::sendEmail(
+					&& !\Redshop\Mail\Helper::sendEmail(
 						$from, $fromName, $supplier->supplier_email, $subject, $body, true, null, null, null, $mailSection, func_get_args()
 					))
 				{
@@ -369,7 +367,7 @@ class RedshopHelperMail
 
 			$bcc = array_merge($bcc, $mailBcc);
 
-			if (!self::sendEmail($from, $fromName, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
+			if (!\Redshop\Mail\Helper::sendEmail($from, $fromName, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
@@ -397,7 +395,7 @@ class RedshopHelperMail
 
 				if (!empty($manufacturer)
 					&& !empty($manufacturer->manufacturer_email)
-					&& !self::sendEmail(
+					&& !\Redshop\Mail\Helper::sendEmail(
 						$from, $fromName, $manufacturer->manufacturer_email, $subject, $body, true, null, null, null, $mailSection, func_get_args()
 					))
 				{
@@ -580,7 +578,7 @@ class RedshopHelperMail
 			&& $email != ""
 		)
 		{
-			if (!self::sendEmail(
+			if (!\Redshop\Mail\Helper::sendEmail(
 				$from, $fromName, $email, $subject, $mailBody, true, null, $mailBcc, $invoiceAttachment, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
@@ -595,7 +593,7 @@ class RedshopHelperMail
 		{
 			$sendTo = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
-			if (!self::sendEmail(
+			if (!\Redshop\Mail\Helper::sendEmail(
 				$from, $fromName, $sendTo, $subject, $mailBody, true, null, $mailBcc, $invoiceAttachment, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
@@ -681,7 +679,7 @@ class RedshopHelperMail
 			}
 
 			$bcc = array_merge($bcc, $mailBcc);
-			self::sendEmail($mailFrom, $fromName, $data['email'], $mailSubject, $mailBody, true, null, $bcc, null, $mailSection, func_get_args());
+			\Redshop\Mail\Helper::sendEmail($mailFrom, $fromName, $data['email'], $mailSubject, $mailBody, true, null, $bcc, null, $mailSection, func_get_args());
 		}
 
 		// Tax exempt waiting approval mail
@@ -766,7 +764,7 @@ class RedshopHelperMail
 
 		if ($email != "")
 		{
-			self::sendEmail($mailFrom, $fromName, $email, $mailSubject, $mailData, true, null, $mailBcc, null, $mailSection, func_get_args());
+			\Redshop\Mail\Helper::sendEmail($mailFrom, $fromName, $email, $mailSubject, $mailData, true, null, $mailBcc, null, $mailSection, func_get_args());
 		}
 
 		return true;
@@ -850,7 +848,7 @@ class RedshopHelperMail
 		$mailData    = self::imgInMail($mailData);
 		$mailSubject = str_replace($search, $replace, $mailSubject);
 
-		return self::sendEmail($mailFrom, $fromName, $userEmail, $mailSubject, $mailData, true, null, $mailBcc, null, $mailSection, func_get_args());
+		return \Redshop\Mail\Helper::sendEmail($mailFrom, $fromName, $userEmail, $mailSubject, $mailData, true, null, $mailBcc, null, $mailSection, func_get_args());
 	}
 
 	/**
@@ -1237,7 +1235,7 @@ class RedshopHelperMail
 
 			$bcc = array_merge($bcc, $mailBcc);
 
-			if (!self::sendEmail($from, $fromname, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
+			if (!\Redshop\Mail\Helper::sendEmail($from, $fromname, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('ERROR_SENDING_QUOTATION_MAIL'));
 			}
@@ -1311,7 +1309,7 @@ class RedshopHelperMail
 		// Send the e-mail
 		if ($email != "")
 		{
-			if (!self::sendEmail($from, $fromName, $email, $subject, $message, 1, null, $mailBcc, null, $mailSection, func_get_args()))
+			if (!\Redshop\Mail\Helper::sendEmail($from, $fromName, $email, $subject, $message, 1, null, $mailBcc, null, $mailSection, func_get_args()))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
@@ -1358,7 +1356,7 @@ class RedshopHelperMail
 		// Send the e-mail
 		if ($email != "")
 		{
-			self::sendEmail($from, $fromName, $email, $subject, $message, 1, null, $mailBcc, null, $mailSection, func_get_args());
+			\Redshop\Mail\Helper::sendEmail($from, $fromName, $email, $subject, $message, 1, null, $mailBcc, null, $mailSection, func_get_args());
 		}
 
 		return true;
@@ -1446,7 +1444,7 @@ class RedshopHelperMail
 		$subject    = str_replace("{product_name}", $product->product_name, $subject);
 		$dataAdd    = self::imgInMail($dataAdd);
 
-		if ($email && self::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args()))
+		if ($email && \Redshop\Mail\Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args()))
 		{
 			return true;
 		}
@@ -1522,13 +1520,13 @@ class RedshopHelperMail
 
 		if ($userBillingInfo->user_email != "")
 		{
-			self::sendEmail($from, $fromName, $userBillingInfo->user_email, $subject, $dataAdd, 1, null, $mailBcc, $attachment, $mailSection, func_get_args());
+			\Redshop\Mail\Helper::sendEmail($from, $fromName, $userBillingInfo->user_email, $subject, $dataAdd, 1, null, $mailBcc, $attachment, $mailSection, func_get_args());
 		}
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			$sendTo = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
-			self::sendEmail($from, $fromName, $sendTo, $subject, $dataAdd, 1, null, $mailBcc, $attachment, $mailSection, func_get_args());
+			\Redshop\Mail\Helper::sendEmail($from, $fromName, $sendTo, $subject, $dataAdd, 1, null, $mailBcc, $attachment, $mailSection, func_get_args());
 		}
 
 		return true;
@@ -1584,7 +1582,7 @@ class RedshopHelperMail
 		$dataAdd = self::imgInMail($dataAdd);
 		$sendto  = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
-		return self::sendEmail($from, $fromName, $sendto, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args());
+		return \Redshop\Mail\Helper::sendEmail($from, $fromName, $sendto, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args());
 	}
 
 	/**
@@ -1638,7 +1636,7 @@ class RedshopHelperMail
 		$dataAdd = str_replace("{name}", $catalog->name, $dataAdd);
 		$dataAdd = self::imgInMail($dataAdd);
 
-		return self::sendEmail($from, $fromName, $catalog->email, $subject, $dataAdd, 1, null, $mailBcc, $attachment, $mailSection, func_get_args());
+		return \Redshop\Mail\Helper::sendEmail($from, $fromName, $catalog->email, $subject, $dataAdd, 1, null, $mailBcc, $attachment, $mailSection, func_get_args());
 	}
 
 	/**
@@ -1657,60 +1655,11 @@ class RedshopHelperMail
 	 * @param   array   $argList     Function arguments
 	 *
 	 * @return  boolean          True on success. False otherwise.
+	 *
+	 * @deprecated  Use \Redshop\Mail\Helper::sendEmail instead
 	 */
 	public static function sendEmail($from, $fromName, $receiver, $subject, $body, $isHtml = true, $mailCC = null, $mailBCC = null, $attachment = null, $mailSection = '', $argList = array())
 	{
-		if (empty($receiver) || empty($subject) || empty($body))
-		{
-			return false;
-		}
-
-		if (empty($from) || empty($fromName))
-		{
-			$config   = JFactory::getConfig();
-			$from     = $config->get('mailfrom', '');
-			$fromName = $config->get('fromname', '');
-		}
-
-		if (empty($from) || empty($fromName))
-		{
-			return false;
-		}
-
-		$mail = JFactory::getMailer();
-		$mail->setSender(array($from, $fromName));
-		$mail->setSubject($subject);
-		$mail->setBody($body);
-		$mail->addRecipient($receiver);
-
-		if (!empty($mailCC))
-		{
-			$mail->addCc($mailCC);
-		}
-
-		if (!empty($mailBCC))
-		{
-			$mail->addBcc($mailBCC);
-		}
-
-		$mail->isHtml((boolean) $isHtml);
-
-		if (!empty($attachment))
-		{
-			$mail->addAttachment($attachment);
-		}
-
-		JPluginHelper::importPlugin('redshop_mail');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
-		// Process the product plugin before send mail
-		$dispatcher->trigger('beforeRedshopSendMail', array(&$mail, $mailSection, $argList));
-
-		$isSend = $mail->Send();
-
-		// Process the product plugin after send mail
-		$dispatcher->trigger('afterRedshopSendMail', array(&$mail, $mailSection, $argList, $isSend));
-
-		return $isSend;
+		return \Redshop\Mail\Helper::sendEmail($from, $fromName, $receiver, $subject, $body, $isHtml, $mailCC, $mailBCC, $attachment, $mailSection, $argList);
 	}
 }
