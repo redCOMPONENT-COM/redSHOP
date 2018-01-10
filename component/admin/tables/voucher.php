@@ -68,7 +68,7 @@ class RedshopTableVoucher extends RedshopTable
 	/**
 	 * @var  integer
 	 */
-	public $published = 0;
+	public $published;
 
 	/**
 	 * Checks that the object is valid and able to be stored.
