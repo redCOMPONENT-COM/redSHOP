@@ -17,8 +17,8 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-$extraSections = ($billingaddresses->is_company == 1) ? extraField::SECTION_COMPANY_BILLING_ADDRESS : extraField::SECTION_PRIVATE_BILLING_ADDRESS;
-
+$extraSections = ($billingaddresses->is_company == 1) ?
+    RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
 ?>
 
 <div class="redshop-billingaddresses">

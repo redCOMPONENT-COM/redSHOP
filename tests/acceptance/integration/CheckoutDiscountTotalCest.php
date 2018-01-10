@@ -28,8 +28,8 @@ class CheckoutDiscountTotalCest
 		$this->minimumPerProduct   = 1;
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = $this->faker->numberBetween(100, 1000);
-		$this->discountStart       = "12-12-2016";
-		$this->discountEnd         = "23-05-2017";
+		$this->discountStart       = "2016-12-12";
+		$this->discountEnd         = "2017-05-23";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
 
@@ -40,8 +40,8 @@ class CheckoutDiscountTotalCest
 		$this->discountName      = 'Discount' . rand(1, 100);
 		$this->amount            = 150;
 		$this->discountAmount    = 50;
-		$this->startDate         = '13-06-2017';
-		$this->endDate           = '13-08-2017';
+		$this->startDate         = '2017-06-13';
+		$this->endDate           = '2017-08-13';
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 'Total';
 		$this->discountCondition = 'Lower';

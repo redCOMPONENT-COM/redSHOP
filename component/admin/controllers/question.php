@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -156,9 +158,12 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
+
+		/** @var RedshopModelQuestion $model */
 		$model = $this->getModel('Question');
+
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

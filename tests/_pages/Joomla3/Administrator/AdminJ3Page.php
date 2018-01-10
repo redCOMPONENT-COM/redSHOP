@@ -86,19 +86,31 @@ abstract class AdminJ3Page
 	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
 	/**
+	 * @var array
+	 */
+	public static $listId = ['id' => 's2id_list_limit'];
+
+	/**
+	 * @var array
+	 */
+	public static $listSearchId = ['id' => 's2id_autogen1_search'];
+
+	/**
+	 * Unpublish button.
+	 *
 	 * @var string
 	 */
-	public static $statePath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'hasTooltip\')]'];
+	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm  hasPopover\')]'];
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(@class, \'btn-checkin\')]'];
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPath = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \' btn-sm\')]'];
+	public static $stateCheckInPath = ['xpath' => '//a[contains(@class, \'btn-edit-item\')]'];
 
 	/**
 	 * @var array

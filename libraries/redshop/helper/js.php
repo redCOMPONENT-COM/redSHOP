@@ -88,7 +88,7 @@ class RedshopHelperJs
 		);
 
 		// Current Shopper Group - Show price with VAT config
-		$shopperGroupData = RedshopHelperUser::getShopperGroupDataById(RedshopHelperUser::getShopperGroup(JFactory::getUser()->id));
+		$shopperGroupData = RedshopEntityShopper_Group::getInstance(RedshopHelperUser::getShopperGroup(JFactory::getUser()->id))->getItem();
 
 		$dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ? (int) $shopperGroupData->show_price_without_vat : 0;
 
