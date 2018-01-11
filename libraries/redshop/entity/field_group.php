@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopEntityField_Group extends RedshopEntity
 {

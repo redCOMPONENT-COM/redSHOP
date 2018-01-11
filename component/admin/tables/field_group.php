@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopTableField_Group extends RedshopTable
 {
@@ -23,91 +23,91 @@ class RedshopTableField_Group extends RedshopTable
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $_tableName = 'redshop_fields_group';
 
 	/**
 	 * @var integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public $id = null;
 
 	/**
 	 * @var string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public $name = null;
 
 	/**
 	 * @var string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public $description = null;
 
 	/**
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $section = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $created_by = null;
 
 	/**
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $created_date = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $checked_out = null;
 
 	/**
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $checked_out_time;
 
 	/**
 	 * @var   string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $modified_date = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $modified_by = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $ordering = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $published = null;
 

@@ -5,7 +5,7 @@
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 
 defined('_JEXEC') or die;
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopViewField_Group extends RedshopViewForm
 {
@@ -24,7 +24,7 @@ class RedshopViewField_Group extends RedshopViewForm
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getTitle()
 	{

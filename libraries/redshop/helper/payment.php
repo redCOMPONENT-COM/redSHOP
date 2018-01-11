@@ -460,7 +460,7 @@ class RedshopHelperPayment
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculate($total, $payment, $finalAmount)
 	{

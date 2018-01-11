@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopModelField_Groups extends RedshopModelList
 {
@@ -24,7 +24,7 @@ class RedshopModelField_Groups extends RedshopModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function __construct($config = array())
 	{
@@ -49,7 +49,7 @@ class RedshopModelField_Groups extends RedshopModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -74,7 +74,7 @@ class RedshopModelField_Groups extends RedshopModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function getStoreId($id = '')
 	{
