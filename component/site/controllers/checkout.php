@@ -241,7 +241,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -249,7 +249,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -260,7 +260,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -269,7 +269,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -277,7 +277,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -285,12 +285,12 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				RedshopEconomic::createUserInEconomic($billingaddresses);
 
-				if (JError::isError(JError::getError()))
+				if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 				{
 					$return = 1;
-					$error  = JError::getError();
+					$error  = /** @scrutinizer ignore-deprecated */ JError::getError();
 					$msg    = $error->getMessage();
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return $return;
 				}
@@ -301,7 +301,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -309,7 +309,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_SELECT_COUNTRY');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -317,7 +317,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -325,7 +325,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -338,7 +338,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -351,7 +351,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -367,7 +367,7 @@ class RedshopControllerCheckout extends RedshopController
 				{
 					$return = 2;
 					$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return $return;
 				}
@@ -380,7 +380,7 @@ class RedshopControllerCheckout extends RedshopController
 				{
 					$return = 2;
 					$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return $return;
 				}

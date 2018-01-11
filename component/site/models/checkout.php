@@ -59,19 +59,14 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!empty($cart))
 		{
-			if (!$cart)
-			{
-				$cart        = array();
-				$cart['idx'] = 0;
-			}
-			elseif (isset($cart['idx']) === false)
+			if (isset($cart['idx']) === false)
 			{
 				$cart['idx'] = 0;
 			}
 		}
 
-		$noOFGIFTCARD = 0;
-		$idx = 0;
+		$noOfGiftcard = 0;
+		$idx          = 0;
 
 		if (isset($cart['idx']))
 		{
@@ -84,7 +79,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				if (!is_null($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'] != 0)
 				{
-					$noOFGIFTCARD++;
+					$noOfGiftcard++;
 				}
 			}
 		}
@@ -94,7 +89,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['free_shipping'] = 0;
 		}
 
-		if ($noOFGIFTCARD == $idx)
+		if ($noOfGiftcard == $idx)
 		{
 			$cart['free_shipping'] = 1;
 		}
