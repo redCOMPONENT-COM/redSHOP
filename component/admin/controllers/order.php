@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
 
-
 class RedshopControllerOrder extends RedshopController
 {
 	/**
@@ -95,7 +94,7 @@ class RedshopControllerOrder extends RedshopController
 	/**
 	 * Update all Order Status using AJAX
 	 *
-	 * @param   boolean $isPacsoft If true then Pacsoft lable will be created else not
+	 * @param   boolean  $isPacsoft  If true then Pacsoft lable will be created else not
 	 *
 	 * @return  void
 	 */
@@ -307,25 +306,28 @@ class RedshopControllerOrder extends RedshopController
 
 			$noItems = RedshopHelperOrder::getOrderItemDetail($aData->order_id);
 
-			foreach ($noItems as $noItem)
+			if ($noItems)
 			{
-				echo str_replace(",", " ", utf8_decode($noItem->order_item_name)) . " ,";
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItem->product_final_price . ",";
+				foreach ($noItems as $noItem)
+				{
+					echo str_replace(",", " ", utf8_decode($noItem->order_item_name)) . " ,";
+					echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItem->product_final_price . ",";
 
-				$product_attribute = $productHelper->makeAttributeOrder($noItem->order_item_id, 0, $noItem->product_id, 0, 1);
-				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
+					$product_attribute = $productHelper->makeAttributeOrder($noItem->order_item_id, 0, $noItem->product_id, 0, 1);
+					$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
 
-				echo trim(utf8_decode($product_attribute)) . " ,";
+					echo trim(utf8_decode($product_attribute)) . " ,";
+				}
+
+				$temp = $noProducts - count($noItems);
+
+				if ($temp >= 0)
+				{
+					echo str_repeat(' ,', $temp * 3);
+				}
+
+				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $aData->order_total . "\n";
 			}
-
-			$temp = $noProducts - count($noItems);
-
-			if ($temp >= 0)
-			{
-				echo str_repeat(' ,', $temp * 3);
-			}
-
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $aData->order_total . "\n";
 		}
 
 		JFactory::getApplication()->close();
