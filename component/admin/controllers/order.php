@@ -235,15 +235,7 @@ class RedshopControllerOrder extends RedshopController
 		$model        = $this->getModel('order');
 		$data         = $model->export_data();
 		$productCount = array();
-		$db           = JFactory::getDbo();
-		$query        = $db->getQuery(true);
-
-		$query->select($db->quoteName('order_id'))
-			->select('COUNT (' . $db->quoteName('order_item_id', 'noproduct') . ') ')
-			->from($db->quoteName('#__redshop_order_item'))
-			->group($db->quoteName('order_id'));
-
-		$noProducts = $db->setQuery($query)->loadObjectList();
+		$noProducts = $this->getNoProducts();
 
 		\Redshop\Environment\Respond\Helper::download('Order.csv');
 
@@ -358,7 +350,7 @@ class RedshopControllerOrder extends RedshopController
 		$data    = $model->export_data($cid);
 		$orderId = implode(',', $cid);
 
-		$noProducts = $this->getNoProducst($orderId);
+		$noProducts = $this->getNoProducts($orderId);
 
 		\Redshop\Environment\Respond\Helper::download('Order.csv');
 
@@ -522,7 +514,7 @@ class RedshopControllerOrder extends RedshopController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getNoProducst($orderId = '')
+	protected function getNoProducts($orderId = '')
 	{
 		$db            = JFactory::getDbo();
 		$query         = $db->getQuery(true);
