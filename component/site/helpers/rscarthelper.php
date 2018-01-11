@@ -1853,7 +1853,7 @@ class rsCarthelper
 				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
 				$d['order_subtotal'] = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
-				$shippingArr         = $this->_shippinghelper->getDefaultShipping($d);
+				$shippingArr         = RedshopHelperCartShipping::getDefault($d);
 				$shipping            = $shippingArr['shipping_rate'];
 				$shippingVat         = $shippingArr['shipping_vat'];
 			}
@@ -3935,10 +3935,10 @@ class rsCarthelper
 		$dispatcher       = RedshopHelperUtility::getDispatcher();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
-		$cart             = $this->_session->get('cart');
+		$cart             = RedshopHelperCartSession::getCart();
 		$data['quantity'] = round($data['quantity']);
 
-		if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
+		if (!empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
@@ -3955,33 +3955,36 @@ class rsCarthelper
 
 			for ($g = 0; $g < $idx; $g++)
 			{
-				if ($cart[$g]['giftcard_id'] == $data['giftcard_id'] && $cart[$g]['reciver_email'] == $data['reciver_email'] && $cart[$g]['reciver_name'] == $data['reciver_name'])
+				if (empty($cart[$g]) || !is_array($cart[$g]) || $cart[$g]['giftcard_id'] != $data['giftcard_id']
+					|| $cart[$g]['reciver_email'] != $data['reciver_email'] || $cart[$g]['reciver_name'] != $data['reciver_name'])
 				{
-					$sameGiftCard = true;
+					continue;
+				}
 
-					// Product userfield
-					if (!empty($row_data))
+				$sameGiftCard = true;
+
+				// Product userfield
+				if (!empty($row_data))
+				{
+					for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
 					{
-						for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
-						{
-							$produser_field = $row_data[$r]->name;
+						$produser_field = $row_data[$r]->name;
 
-							if (isset($cart[$g][$produser_field]) && $data[$produser_field] != $cart[$g][$produser_field])
-							{
-								$sameGiftCard = false;
-								break;
-							}
+						if (isset($cart[$g][$produser_field]) && $data[$produser_field] != $cart[$g][$produser_field])
+						{
+							$sameGiftCard = false;
+							break;
 						}
 					}
-
-					if (!$sameGiftCard)
-					{
-						continue;
-					}
-
-					$cart[$g]['quantity'] += $data['quantity'];
-					RedshopHelperDiscount::addGiftCardToCart($cart[$g], $data);
 				}
+
+				if (!$sameGiftCard)
+				{
+					continue;
+				}
+
+				$cart[$g]['quantity'] += $data['quantity'];
+				RedshopHelperDiscount::addGiftCardToCart($cart[$g], $data);
 			}
 
 			if (!$sameGiftCard)

@@ -238,8 +238,16 @@ class RedshopControllerCart extends RedshopController
 		$this->setRedirect($link);
 	}
 
+	/**
+	 * Method for modify cart price
+	 *
+	 * @param   array  $cart  Cart data.
+	 *
+	 * @return mixed
+	 */
 	public function modifyCalculation($cart)
 	{
+		$cart                     = !is_array($cart) ? (array) $cart : $cart;
 		$producthelper            = productHelper::getInstance();
 		$calArr                   = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
@@ -375,14 +383,13 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function voucher()
 	{
-		$session = JFactory::getSession();
-		$itemId  = RedshopHelperRouter::getCartItemId();
+		$itemId = RedshopHelperRouter::getCartItemId();
 
 		// Call voucher method of model to apply voucher to cart
 		// if voucher code is valid than apply to cart else raise error
 		if ($this->getModel('cart')->voucher())
 		{
-			$cart = $session->get('cart');
+			$cart = RedshopHelperCartSession::getCart();
 			$this->modifyCalculation($cart);
 			RedshopHelperCart::cartFinalCalculation(false);
 

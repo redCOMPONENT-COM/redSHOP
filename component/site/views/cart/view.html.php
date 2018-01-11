@@ -16,16 +16,8 @@ class RedshopViewCart extends RedshopView
 
 		// Request variables
 		$redTemplate = Redtemplate::getInstance();
-		$user        = JFactory::getUser();
-
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$layout  = $app->input->getCmd('layout');
-
-		if (!$cart)
-		{
-			$cart = array();
-		}
+		$cart        = RedshopHelperCartSession::getCart();
+		$layout      = $app->input->getCmd('layout');
 
 		$Itemid = $app->input->getInt('Itemid');
 

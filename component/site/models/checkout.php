@@ -46,7 +46,6 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$session             = JFactory::getSession();
 
 		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
@@ -56,23 +55,18 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_redshopMail     = redshopMail::getInstance();
 
 		$user = JFactory::getUser();
-		$cart = $session->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		if (!empty($cart))
 		{
-			if (!$cart)
-			{
-				$cart        = array();
-				$cart['idx'] = 0;
-			}
-			elseif (isset($cart['idx']) === false)
+			if (isset($cart['idx']) === false)
 			{
 				$cart['idx'] = 0;
 			}
 		}
 
-		$noOFGIFTCARD = 0;
-		$idx = 0;
+		$noOfGiftcard = 0;
+		$idx          = 0;
 
 		if (isset($cart['idx']))
 		{
@@ -85,7 +79,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				if (!is_null($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'] != 0)
 				{
-					$noOFGIFTCARD++;
+					$noOfGiftcard++;
 				}
 			}
 		}
@@ -95,7 +89,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['free_shipping'] = 0;
 		}
 
-		if ($noOFGIFTCARD == $idx)
+		if ($noOfGiftcard == $idx)
 		{
 			$cart['free_shipping'] = 1;
 		}
@@ -110,7 +104,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		RedshopHelperCartSession::setCart($cart);
-		$this->_carthelper->carttodb();
+		RedshopHelperCart::addCartToDatabase();
 	}
 
 	public function store($data)
@@ -1344,7 +1338,7 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Method for return billing address.
 	 *
-	 * @return  object
+	 * @return  mixed
 	 */
 	public function billingaddresses()
 	{
@@ -1355,12 +1349,12 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($user->id)
 		{
-			$list = $this->_order_functions->getBillingAddress($user->id);
+			$list = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
-			$list = $this->_order_functions->getBillingAddress($uid);
+			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		return $list;

@@ -97,26 +97,24 @@ class RedshopModelOrder_detail extends RedshopModel
 	/**
 	 * Get Billing Addresses
 	 *
-	 * @return  object
+	 * @return  mixed
 	 */
 	public function billingaddresses()
 	{
-		$app = JFactory::getApplication();
-		$order_functions = order_functions::getInstance();
-		$user            = JFactory::getUser();
-		$session         = JFactory::getSession();
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 
 		$auth = $session->get('auth');
 		$list = array();
 
 		if ($user->id)
 		{
-			$list = $order_functions->getBillingAddress($user->id);
+			$list = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
-			$list = $order_functions->getBillingAddress($uid);
+			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		return $list;

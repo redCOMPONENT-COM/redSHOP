@@ -44,16 +44,12 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function addtocart($data = array())
 	{
-		$app     = JFactory::getApplication();
-		$Itemid  = $app->input->get("Itemid");
-		$session = JFactory::getSession();
-		$db      = JFactory::getDbo();
-
+		$app             = JFactory::getApplication();
 		$carthelper      = rsCarthelper::getInstance();
 		$producthelper   = productHelper::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 
-		$cart = $session->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		$idx = (int) ($cart['idx']);
 
@@ -209,16 +205,16 @@ class RedshopModelQuotation_detail extends RedshopModel
 		RedshopHelperCartSession::setCart($cart);
 	}
 
-	public function modifyQuotation($user_id = 0)
+	public function modifyQuotation($userId = 0)
 	{
-		$session    = JFactory::getSession();
 		$carthelper = rsCarthelper::getInstance();
-		$cart       = $session->get('cart');
+		$cart       = RedshopHelperCartSession::getCart();
 
-		$cart = $carthelper->modifyCart($cart, $user_id);
+		$cart = $carthelper->modifyCart($cart, $userId);
 
 		RedshopHelperCartSession::setCart($cart);
-		$carthelper->cartFinalCalculation(false);
+
+		RedshopHelperCart::cartFinalCalculation(false);
 	}
 
 	/**

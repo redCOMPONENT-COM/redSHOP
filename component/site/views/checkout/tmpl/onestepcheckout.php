@@ -31,8 +31,8 @@ $document        = JFactory::getDocument();
 
 // Get redshop helper
 $Itemid = $redhelper->getCheckoutItemid();
-$model = $this->getModel('checkout');
-$cart = $session->get('cart');
+$model  = $this->getModel('checkout');
+$cart   = RedshopHelperCartSession::getCart();
 
 JHtml::script('com_redshop/credit_card.js', false, true);
 

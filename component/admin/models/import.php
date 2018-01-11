@@ -1930,7 +1930,6 @@ class RedshopModelImport extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
-		$order_functions = order_functions::getInstance();
 		$query           = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
 			. "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
 		$db->setQuery($query);
@@ -1942,9 +1941,9 @@ class RedshopModelImport extends RedshopModel
 		{
 			if ($data[$i]->address_type == "BT")
 			{
-				$redshopUser = $order_functions->getBillingAddress($data[$i]->user_id);
+				$redshopUser = RedshopHelperOrder::getBillingAddress($data[$i]->user_id);
 
-				if (count($redshopUser) > 0)
+				if (!empty($redshopUser))
 				{
 					$redUserId = $redshopUser->users_info_id;
 					$row       = $this->getTable('user_detail');
@@ -1968,6 +1967,7 @@ class RedshopModelImport extends RedshopModel
 				}
 				else
 				{
+					/** @var Tableuser_detail $rows */
 					$rows = $this->getTable('user_detail');
 					$rows->load();
 					$rows->user_id          = $data[$i]->user_id;
@@ -1992,6 +1992,7 @@ class RedshopModelImport extends RedshopModel
 			}
 			else
 			{
+				/** @var Tableuser_detail $rows */
 				$rows = $this->getTable('user_detail');
 				$rows->load();
 				$rows->user_id          = $data[$i]->user_id;

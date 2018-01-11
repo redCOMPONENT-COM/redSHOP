@@ -797,8 +797,8 @@ class RedshopHelperMail
 
 		$mailTemplate = $mailTemplate[0];
 		$data         = (object) $data;
-		$mailFrom     = $app->get('mailfrom');
-		$fromName     = $app->get('fromname');
+		$mailFrom     = (string) $app->get('mailfrom');
+		$fromName     = (string) $app->get('fromname');
 		$mailBcc      = null;
 
 		$mailData    = $mailTemplate->mail_body;
@@ -838,9 +838,9 @@ class RedshopHelperMail
 		$replace[] = $firstName;
 		$replace[] = $lastName;
 		$replace[] = $product->product_name;
-		$replace[] = $redConfig->convertDateFormat($data->end_date);
+		$replace[] = RedshopHelperDatetime::convertDateFormat($data->end_date);
 		$replace[] = $productSubscription->subscription_period . " " . $productSubscription->period_type;
-		$replace[] = $productHelper->getProductFormattedPrice($productSubscription->subscription_price);
+		$replace[] = RedshopHelperProductPrice::formattedPrice($productSubscription->subscription_price);
 
 		$producturl = JUri::root() . 'index.php?option=com_redshop&view=product&pid=' . $data->product_id;
 
