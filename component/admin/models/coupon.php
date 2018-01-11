@@ -25,7 +25,7 @@ class RedshopModelCoupon extends RedshopModelForm
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function save($data)
 	{

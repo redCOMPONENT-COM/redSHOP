@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 
 class RedshopModelField_Group extends RedshopModelForm
@@ -32,7 +32,7 @@ class RedshopModelField_Group extends RedshopModelForm
 	 * @return  mixed  The data for the form.
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function loadFormData()
 	{

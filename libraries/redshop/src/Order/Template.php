@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * Order helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Template
 {
@@ -31,7 +31,7 @@ class Template
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceTemplate($row, $template, $sendMail = false)
 	{
@@ -333,7 +333,7 @@ class Template
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function replaceProducts(&$template, &$subTotalExcludeVAT, $orderId = 0, $sendMail = false)
 	{
@@ -364,7 +364,7 @@ class Template
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replacePayment(&$template, $orderEntity)
 	{
@@ -474,7 +474,7 @@ class Template
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceShipping(&$template, $orderEntity)
 	{
@@ -515,7 +515,7 @@ class Template
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceDownloadProducts(&$template, $orderId)
 	{
