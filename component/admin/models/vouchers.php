@@ -119,7 +119,7 @@ class RedshopModelVouchers extends RedshopModelList
 			else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where($db->qn('code') . ' LIKE ' . $search);
+				$query->where($db->qn('v.code') . ' LIKE ' . $search);
 			}
 		}
 
@@ -128,7 +128,7 @@ class RedshopModelVouchers extends RedshopModelList
 
 		if (!empty($filterType))
 		{
-			$query->where($db->qn('type') . ' = ' . $db->quote($filterType));
+			$query->where($db->qn('v.type') . ' = ' . $db->quote($filterType));
 		}
 
 		// Filter: type
@@ -136,15 +136,15 @@ class RedshopModelVouchers extends RedshopModelList
 
 		if (is_numeric($filterFreeShip))
 		{
-			$query->where($db->qn('free_ship') . ' = ' . (int) $filterFreeShip);
+			$query->where($db->qn('v.free_ship') . ' = ' . (int) $filterFreeShip);
 		}
 		elseif ($filterFreeShip === '')
 		{
-			$query->where($db->qn('free_ship') . ' IN (0,1)');
+			$query->where($db->qn('v.free_ship') . ' IN (0,1)');
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'id');
+		$orderCol  = $this->state->get('list.ordering', 'v.id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
