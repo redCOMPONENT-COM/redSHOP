@@ -984,7 +984,7 @@ class RedshopHelperMedia
 	 * @return  boolean
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function cleanup($res)
 	{

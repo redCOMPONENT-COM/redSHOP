@@ -55,7 +55,7 @@ class extraField
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see  Redshop\Fields\SiteHelper::renderFields
 	 */
@@ -73,7 +73,7 @@ class extraField
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Helper\ExtraFields::displayUserDocuments
 	 */
 	public function displayUserDocuments($productId, $extraFieldValues, $ajaxFlag = '')
@@ -507,7 +507,7 @@ class extraField
 	 *
 	 * @return  array            List of field
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see     Redshop\Helper\ExtraFields::getSectionFieldNames
 	 */

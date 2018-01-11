@@ -26,6 +26,31 @@ class RedshopTableField extends RedshopTable
 	protected $_tableName = 'redshop_fields';
 
 	/**
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * @var integer
+	 */
+	public $type;
+
+	/**
+	 * @var integer
+	 */
+	public $groupId;
+
+	/**
+	 * @var integer
+	 */
+	public $ordering;
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -86,9 +111,15 @@ class RedshopTableField extends RedshopTable
 	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 */
 	protected function doStore($updateNulls = false)
 	{
+		if (!$this->groupId)
+		{
+			$this->groupId = null;
+		}
+
 		if (!parent::doStore($updateNulls))
 		{
 			return false;
@@ -178,6 +209,7 @@ class RedshopTableField extends RedshopTable
 	 * @param   int  $id  Id of field.
 	 *
 	 * @return  boolean   True if successful, false if an error occurs.
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -198,15 +230,15 @@ class RedshopTableField extends RedshopTable
 			$extraValues = $post->getString('extra_value', '');
 			$valueIds    = $post->get('value_id', array(), 'array');
 
-			if ($this->type == 11 || $this->type == 13)
+			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
-				$extraNames = JRequest::getVar('extra_name_file', '', 'files', 'array');
+				$extraNames = JFactory::getApplication()->input->files->get('extra_name_file', array(), 'array');
 				$total      = count($extraNames['name']);
 			}
 			else
 			{
 				$extraNames = $post->get('extra_name', '', 'raw');
-				$total      = count((array)$extraNames);
+				$total      = count((array) $extraNames);
 			}
 		}
 
@@ -235,9 +267,10 @@ class RedshopTableField extends RedshopTable
 
 		for ($j = 0; $j < $total; $j++)
 		{
-			$set = "";
+			$filename = $extraNames[$j];
+			$set      = " field_name='" . $filename . "', ";
 
-			if ($this->type == 11 || $this->type == 13)
+			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
 				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
 				{
@@ -250,11 +283,6 @@ class RedshopTableField extends RedshopTable
 
 					$set = " field_name='" . $filename . "', ";
 				}
-			}
-			else
-			{
-				$filename = $extraNames[$j];
-				$set      = " field_name='" . $filename . "', ";
 			}
 
 			if ($valueIds[$j] == "")

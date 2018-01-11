@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 
 class RedshopViewDiscount_Products extends RedshopViewList
@@ -23,7 +23,7 @@ class RedshopViewDiscount_Products extends RedshopViewList
 	 * Display check-in button or not.
 	 *
 	 * @var   boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $checkIn = false;
 
@@ -36,7 +36,7 @@ class RedshopViewDiscount_Products extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  Exception
 	 */
