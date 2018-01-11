@@ -45,6 +45,13 @@
                 table-width="17%"
         />
         <field
+                name="groupId"
+                type="redshop.fieldsgroups"
+                label="COM_REDSHOP_FIELD_GROUP_HEADER"
+                description="COM_REDSHOP_FIELD_GROUP_HEADER_DESC"
+                table-width="17%"
+        />
+        <field
                 name="class"
                 type="redshop.text"
                 label="COM_REDSHOP_CLASS"

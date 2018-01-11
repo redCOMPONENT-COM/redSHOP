@@ -228,6 +228,10 @@ class RedshopMenuLeft_Menu
 			case "field":
 				return array('CUSTOMIZATION', 'fields');
 
+			case "field_groups":
+			case "field_group":
+				return array('CUSTOMIZATION', 'field_group');
+
 			case "template":
 			case "templates":
 				return array('CUSTOMIZATION', 'template');
@@ -629,6 +633,11 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=fields',
 				'COM_REDSHOP_FIELDS_LISTING',
 				(self::$view == 'fields') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=field_groups',
+				'COM_REDSHOP_FIELD_GROUP_MANAGEMENT',
+				(self::$view == 'field_groups') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=templates',
