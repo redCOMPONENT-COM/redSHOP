@@ -246,7 +246,7 @@ class RedshopControllerOrder extends RedshopController
 
 		$noProducts = $db->setQuery($query)->loadObjectList();
 
-		\Redshop\Environment\Helper\Respond::download('Order.csv');
+		\Redshop\Environment\Respond\Helper::download('Order.csv');
 
 		foreach ($data as $index => $aData)
 		{
@@ -371,7 +371,7 @@ class RedshopControllerOrder extends RedshopController
 
 		$noProducts = $db->setQuery($query)->loadObjectList();
 
-		\Redshop\Environment\Helper\Respond::download('Order.csv');
+		\Redshop\Environment\Respond\Helper::download('Order.csv');
 
 		foreach ($data as $index => $aData)
 		{

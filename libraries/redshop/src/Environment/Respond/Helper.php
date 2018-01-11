@@ -9,7 +9,7 @@
  * @since       2.0.3
  */
 
-namespace Redshop\Environment\Helper;
+namespace Redshop\Environment\Respond;
 
 defined('_JEXEC') or die;
 
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since       __DEPLOY_VERSION__
  */
-class Respond
+class Helper
 {
 	/**
 	 * @param   string  $fileName  Filename
