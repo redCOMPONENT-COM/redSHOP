@@ -352,32 +352,19 @@ class RedshopControllerOrder extends RedshopController
 
 		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel('order');
-		$db            = JFactory::getDbo();
-		$query         = $db->getQuery(true);
-
 		$productCount = array();
 
 		$cid     = $this->input->get('cid', array(0), 'array');
 		$data    = $model->export_data($cid);
 		$orderId = implode(',', $cid);
 
-		if ($orderId != 0)
-		{
-			$query->where($db->quoteName('order_id') . ' IN (' . $orderId . ')');
-		}
-
-		$query->select($db->quoteName('order_id'))
-			->select('COUNT (' . $db->quoteName('order_item_id', 'noproduct') . ') ')
-			->from($db->quoteName('#__redshop_order_item'))
-			->group($db->quoteName('order_id'));
-
-		$noProducts = $db->setQuery($query)->loadObjectList();
+		$noProducts = $this->getNoProducst($orderId);
 
 		\Redshop\Environment\Respond\Helper::download('Order.csv');
 
 		foreach ($data as $index => $aData)
 		{
-			$productCount [] = $noProducts [$index]->noproduct;
+			$productCount[] = $noProducts [$index]->noproduct;
 		}
 
 		$noProducts = max($productCount);
@@ -422,20 +409,23 @@ class RedshopControllerOrder extends RedshopController
 			echo RedshopHelperOrder::getOrderStatusTitle($aData->order_status) . ",";
 			echo date('d-m-Y H:i', $aData->cdate) . ",";
 
-			$no_items = RedshopHelperOrder::getOrderItemDetail($aData->order_id);
+			$noItems = RedshopHelperOrder::getOrderItemDetail($aData->order_id);
 
-			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
+			if ($noItems)
 			{
-				echo $no_items [$it]->order_item_name . ",";
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
+				foreach ($noItems as $noItem)
+				{
+					echo $noItem->order_item_name . ",";
+					echo Redshop::getConfig()->getString('REDCURRENCY_SYMBOL') . $noItem->product_final_price . ",";
 
-				$product_attribute = $productHelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags($product_attribute->product_attribute);
+					$product_attribute = $productHelper->makeAttributeOrder($noItem->order_item_id, 0, $noItem->product_id, 0, 1);
+					$product_attribute = strip_tags($product_attribute->product_attribute);
 
-				echo trim($product_attribute) . ",";
+					echo trim($product_attribute) . ",";
+				}
 			}
 
-			$temp = $noProducts - count($no_items);
+			$temp = $noProducts - count($noItems);
 			echo str_repeat(',', $temp * 3);
 
 			if ($aData->order_shipping != "")
@@ -523,5 +513,30 @@ class RedshopControllerOrder extends RedshopController
 		$cid   = $this->input->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
+	}
+
+	/**
+	 * @param   string  $orderId  Order Id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getNoProducst($orderId = '')
+	{
+		$db            = JFactory::getDbo();
+		$query         = $db->getQuery(true);
+
+		if (!empty($orderId))
+		{
+			$query->where($db->quoteName('order_id') . ' IN (' . $orderId . ')');
+		}
+
+		$query->select($db->quoteName('order_id'))
+			->select('COUNT (' . $db->quoteName('order_item_id', 'noproduct') . ') ')
+			->from($db->quoteName('#__redshop_order_item'))
+			->group($db->quoteName('order_id'));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
