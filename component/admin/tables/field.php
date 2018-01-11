@@ -46,6 +46,11 @@ class RedshopTableField extends RedshopTable
 	public $groupId;
 
 	/**
+	 * @var integer
+	 */
+	public $ordering;
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -225,9 +230,9 @@ class RedshopTableField extends RedshopTable
 			$extraValues = $post->getString('extra_value', '');
 			$valueIds    = $post->get('value_id', array(), 'array');
 
-			if ($this->type == 11 || $this->type == 13)
+			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
-				$extraNames = JFactory::getApplication()->input->get('extra_name_file', '', 'files', 'array');
+				$extraNames = JFactory::getApplication()->input->files->get('extra_name_file', array(), 'array');
 				$total      = count($extraNames['name']);
 			}
 			else
@@ -262,9 +267,10 @@ class RedshopTableField extends RedshopTable
 
 		for ($j = 0; $j < $total; $j++)
 		{
-			$set = "";
+			$filename = $extraNames[$j];
+			$set      = " field_name='" . $filename . "', ";
 
-			if ($this->type == 11 || $this->type == 13)
+			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
 				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
 				{
@@ -277,11 +283,6 @@ class RedshopTableField extends RedshopTable
 
 					$set = " field_name='" . $filename . "', ";
 				}
-			}
-			else
-			{
-				$filename = $extraNames[$j];
-				$set      = " field_name='" . $filename . "', ";
 			}
 
 			if ($valueIds[$j] == "")
