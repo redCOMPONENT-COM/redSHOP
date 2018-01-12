@@ -243,7 +243,9 @@ class RedshopTableField extends RedshopTable
 		}
 
 		// Do not reset values if we are ordering
-		if ($app->input->get('task') != 'fields.saveOrderAjax')
+		$task = $app->input->get('task');
+
+		if ($task != 'fields.saveOrderAjax' || $task != 'saveOrderAjax')
 		{
 			$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
 
