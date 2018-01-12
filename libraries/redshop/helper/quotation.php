@@ -78,14 +78,14 @@ class RedshopHelperQuotation
 	/**
 	 * Get quotation product
 	 *
-	 * @param   integer $quotationId     Quotation ID
-	 * @param   integer $quotationItemId Quotation Item ID
+	 * @param   mixed    $quotationId      List of Quotation ID
+	 * @param   integer  $quotationItemId  Quotation Item ID
 	 *
 	 * @return  array
 	 *
 	 * @since  2.0.3
 	 */
-	public static function getQuotationProduct($quotationId = 0, $quotationItemId = 0)
+	public static function getQuotationProduct($quotationId, $quotationItemId = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -94,10 +94,11 @@ class RedshopHelperQuotation
 			->from($db->qn('#__redshop_quotation_item', 'q'))
 			->where('1 = 1');
 
-		if ($quotationId != 0)
+		if (!empty($quotationId))
 		{
 			// Sanitize ids
-			$quotationId = explode(',', $quotationId);
+			$quotationId = is_string($quotationId) ? explode(',', $quotationId) : $quotationId;
+			$quotationId = !is_array($quotationId) ? array($quotationId) : $quotationId;
 			$quotationId = ArrayHelper::toInteger($quotationId);
 
 			$query->where($db->qn('q.quotation_id') . " IN (" . implode(',', $quotationId) . ")");

@@ -213,7 +213,7 @@ class RedshopControllerCheckout extends RedshopController
 	/**
 	 * Check validation
 	 *
-	 * @param   string  $users_info_id  not used
+	 * @param   integer   $users_info_id  not used
 	 *
 	 * @return  integer
 	 *
@@ -224,7 +224,6 @@ class RedshopControllerCheckout extends RedshopController
 		/** @var RedshopModelCheckout $model */
 		$model            = $this->getModel('checkout');
 		$billingaddresses = $model->billingaddresses();
-		$extra_field      = extra_field::getInstance();
 		$return           = 0;
 
 		if (!$billingaddresses->is_company)
