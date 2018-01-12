@@ -333,7 +333,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function searchVoucherCode($voucherCode)
 	{
 		$I = $this;
-		$I->wantTo('Search voucher code');
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->waitForText(\VoucherManagerPage::$namePageManagement, 30, \VoucherManagerPage::$headPageName);
 		$I->filterListBySearching($voucherCode);

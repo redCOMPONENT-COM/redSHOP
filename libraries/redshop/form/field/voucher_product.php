@@ -60,7 +60,7 @@ class RedshopFormFieldVoucher_Product extends JFormFieldList
 
 		if (!empty($this->value))
 		{
-			$values = !$this->multiple ? array($this->value) : $this->value;
+			$values = !$this->multiple || !is_array($this->value) ? array($this->value) : $this->value;
 			$db     = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
