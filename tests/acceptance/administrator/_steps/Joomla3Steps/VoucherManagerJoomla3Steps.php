@@ -159,8 +159,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click(\VoucherManagerPage::$saveCloseButton);
-		$I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
-		$I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
+		$I->assertSystemMessageContains(\VoucherManagerPage::$messageSaveSuccess);
 		$I->seeElement(['link' => $voucherNewCode]);
 	}
 
@@ -175,7 +174,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\VoucherManagerPage::$voucherCode, "");
 		$I->click(\VoucherManagerPage::$saveCloseButton);
-		$I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$selectorError);
+		$I->assertSystemMessageContains(\VoucherManagerPage::$invalidCode);
 	}
 
 	public function checkCloseButton($voucherCode)
@@ -334,7 +333,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function searchVoucherCode($voucherCode)
 	{
 		$I = $this;
-		$I->wantTo('Search voucher code');
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->waitForText(\VoucherManagerPage::$namePageManagement, 30, \VoucherManagerPage::$headPageName);
 		$I->filterListBySearching($voucherCode);

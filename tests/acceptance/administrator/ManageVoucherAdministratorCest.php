@@ -61,14 +61,14 @@ class ManageVoucherAdministratorCest
 
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Voucher creation in Administrator');
+		$I->wantTo('Create category for use in Voucher test');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->randomCategoryName);
 	}
 
 	public function createProduct(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Voucher creation in Administrator');
+		$I->wantTo('Create product for use in Voucher test');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->createProductSave($this->productName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 	}

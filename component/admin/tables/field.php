@@ -60,6 +60,16 @@ class RedshopTableField extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->name))
+		{
+			return false;
+		}
+
+		if (empty($this->title))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;
