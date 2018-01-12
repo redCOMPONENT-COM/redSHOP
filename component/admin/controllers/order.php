@@ -415,10 +415,10 @@ class RedshopControllerOrder extends RedshopController
 
 					echo trim($product_attribute) . ",";
 				}
-			}
 
-			$temp = $noProducts - count($noItems);
-			echo str_repeat(',', $temp * 3);
+				$temp = $noProducts - count($noItems);
+				echo str_repeat(',', $temp * 3);
+			}
 
 			if ($aData->order_shipping != "")
 			{
@@ -429,8 +429,8 @@ class RedshopControllerOrder extends RedshopController
 				$shippingcost = 0;
 			}
 
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $shippingcost . ",";
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $aData->order_total . "\n";
+			echo Redshop::getConfig()->getString('REDCURRENCY_SYMBOL') . $shippingcost . ",";
+			echo Redshop::getConfig()->getString('REDCURRENCY_SYMBOL') . $aData->order_total . "\n";
 		}
 
 		JFactory::getApplication()->close();
