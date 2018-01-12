@@ -301,6 +301,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function modifyCalculation($cart)
 	{
+		$cart                     = !is_array($cart) ? (array) $cart : $cart;
 		$productHelper            = productHelper::getInstance();
 		$calArr                   = $this->cartHelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
@@ -396,8 +397,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function voucher()
 	{
-		$session = JFactory::getSession();
-		$itemId  = RedshopHelperRouter::getCartItemId();
+		$itemId = RedshopHelperRouter::getCartItemId();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -405,13 +405,13 @@ class RedshopControllerCart extends RedshopController
 		// Call voucher method of model to apply voucher to cart if f voucher code is valid than apply to cart else raise error
 		if ($model->voucher())
 		{
-			$cart = $session->get('cart');
+			$cart = RedshopHelperCartSession::getCart();
 			$this->modifyCalculation($cart);
 			RedshopHelperCart::cartFinalCalculation(false);
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
 
-			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			if (Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
 			}
