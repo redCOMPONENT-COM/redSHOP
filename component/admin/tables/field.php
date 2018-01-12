@@ -96,7 +96,7 @@ class RedshopTableField extends RedshopTable
 		if (!$this->id)
 		{
 			$query = $db->getQuery(true)
-				->select('COUNT(*)+1')
+				->select('COUNT(*) + 1')
 				->from($db->qn('#__redshop_fields'));
 
 			$this->ordering = (int) $db->setQuery($query)->loadResult();
@@ -125,7 +125,7 @@ class RedshopTableField extends RedshopTable
 			return false;
 		}
 
-		if ($this->type == 0 || $this->type == 1 || $this->type == 2)
+		if ($this->type == 0 || $this->type == RedshopHelperExtrafields::TYPE_TEXT || $this->type == RedshopHelperExtrafields::TYPE_TEXT_AREA)
 		{
 			$id[] = (int) $this->id;
 			$this->deleteFieldValues($id, 'field_id');
@@ -245,7 +245,7 @@ class RedshopTableField extends RedshopTable
 		// Do not reset values if we are ordering
 		$task = $app->input->get('task');
 
-		if ($task != 'fields.saveOrderAjax' || $task != 'saveOrderAjax')
+		if ($task != 'fields.saveOrderAjax' && $task != 'saveOrderAjax')
 		{
 			$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
 
