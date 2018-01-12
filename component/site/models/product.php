@@ -217,8 +217,6 @@ class RedshopModelProduct extends RedshopModel
 			return false;
 		}
 
-		$producthelper = productHelper::getInstance();
-		$redshopMail   = redshopMail::getInstance();
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -232,7 +230,7 @@ class RedshopModelProduct extends RedshopModel
 		$username   = $data['username'];
 		$product_id = $data['product_id'];
 
-		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
+		$mailbody = RedshopHelperMail::getMailTemplate(0, "review_mail");
 
 		$data_add = $message;
 
@@ -247,7 +245,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
-		$product = $producthelper->getProductById($product_id);
+		$product = RedshopHelperProduct::getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
@@ -256,7 +254,7 @@ class RedshopModelProduct extends RedshopModel
 		$data_add    = str_replace("{title}", $message, $data_add);
 		$data_add    = str_replace("{comment}", $comment, $data_add);
 		$data_add    = str_replace("{username}", $username, $data_add);
-		$data_add    = $redshopMail->imginmail($data_add);
+		$data_add    = \Redshop\Mail\Helper::useImage($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{

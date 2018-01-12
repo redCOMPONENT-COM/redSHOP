@@ -121,7 +121,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		$redshopMail = redshopMail::getInstance();
 		$mailbcc = null;
 		$subject = "";
-		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
+		$mailbody = RedshopHelperMail::getMailTemplate(0, "review_mail");
 		$data_add = $data['title'];
 
 		if (count($mailbody) > 0)
@@ -142,7 +142,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		$data_add = str_replace("{title}", $data['title'], $data_add);
 		$data_add = str_replace("{comment}", $data['comment'], $data_add);
 		$data_add = str_replace("{username}", $data['username'], $data_add);
-		$data_add = $redshopMail->imginmail($data_add);
+		$data_add = \Redshop\Mail\Helper::useImage($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{
