@@ -1041,7 +1041,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function setProductAttributes($getAttributeKeys = array(), $userId = 0)
 	{
@@ -1123,7 +1123,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function setProductExtraFields($getExtraFieldKeys = array(), $userId = 0)
 	{

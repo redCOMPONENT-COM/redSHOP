@@ -146,7 +146,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see RedshopHelperPayment::calculate()
 	 */
@@ -2200,7 +2200,7 @@ class rsCarthelper
 	 *
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see  Redshop\Order\Template::replaceTemplate
 	 */
 	public function replaceOrderTemplate($row, $ReceiptTemplate, $sendMail = false)
@@ -3140,7 +3140,7 @@ class rsCarthelper
 	 *
 	 * @return  float          Voucher/Coupon value
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see  RedshopHelperDiscount::calculateAlreadyDiscount()
 	 */
@@ -3196,7 +3196,7 @@ class rsCarthelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see RedshopHelperDiscount::calculate()
 	 */
@@ -3907,7 +3907,7 @@ class rsCarthelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see  RedshopHelperDiscount::addGiftCardToCart()
 	 */

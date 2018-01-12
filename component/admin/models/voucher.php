@@ -25,7 +25,7 @@ class RedshopModelVoucher extends RedshopModelForm
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function save($data)
 	{
@@ -76,7 +76,7 @@ class RedshopModelVoucher extends RedshopModelForm
 	 *
 	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getItem($pk = null)
 	{
