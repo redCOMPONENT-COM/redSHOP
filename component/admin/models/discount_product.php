@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopModelDiscount_Product extends RedshopModelForm
 {
@@ -25,7 +25,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @return  boolean       True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function save($data)
 	{
@@ -51,7 +51,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  Exception
 	 */
@@ -78,7 +78,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getItem($pk = null)
 	{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Fields - Site helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class SiteHelper
 {
@@ -27,7 +27,7 @@ class SiteHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function renderFields($fieldSection = 0, $sectionId = 0, $uniqueClass = '')
 	{

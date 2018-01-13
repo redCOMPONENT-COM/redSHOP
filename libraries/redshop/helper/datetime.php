@@ -184,7 +184,7 @@ class RedshopHelperDatetime
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function convertPHPToMomentFormat($format)
 	{

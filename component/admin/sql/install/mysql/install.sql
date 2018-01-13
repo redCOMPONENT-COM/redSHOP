@@ -508,6 +508,32 @@ COMMENT = 'redSHOP Economic Account Group';
 
 
 -- -----------------------------------------------------
+-- Table `#__redshop_fields_group`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_fields_group` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_fields_group` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(125) NOT NULL,
+  `description` VARCHAR(1024) NOT NULL DEFAULT '',
+  `section` VARCHAR(20) NOT NULL,
+  `ordering` INT(11) NOT NULL DEFAULT 0,
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_feld_group_idx1` (`section` ASC),
+  INDEX `#__rs_feld_group_idx2` (`published` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'Custom fields groups';
+
+
+-- -----------------------------------------------------
 -- Table `#__redshop_fields`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_fields` ;
@@ -520,6 +546,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `desc` LONGTEXT NOT NULL,
   `class` VARCHAR(20) NOT NULL,
   `section` VARCHAR(20) NOT NULL,
+  `groupId` INT(11) NULL DEFAULT NULL,
   `maxlength` INT(11) NOT NULL,
   `cols` INT(11) NOT NULL,
   `rows` INT(11) NOT NULL,
@@ -547,7 +574,13 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   INDEX `#__rs_idx_field_name` (`name` ASC),
   INDEX `#__rs_idx_field_show_in_front` (`show_in_front` ASC),
   INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC),
-  INDEX `#__rs_idx_field_common` (`id` ASC, `name` ASC, `published` ASC, `section` ASC))
+  INDEX `#__rs_idx_field_common` (`id` ASC, `name` ASC, `published` ASC, `section` ASC),
+  INDEX `#__rs_field_fk1` (`groupId` ASC),
+  CONSTRAINT `#__rs_field_fk1`
+    FOREIGN KEY (`groupId`)
+    REFERENCES `#__redshop_fields_group` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Fields';
