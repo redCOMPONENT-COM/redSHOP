@@ -302,7 +302,7 @@ class ExtraFields
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function displayUserDocuments($productId, $extraFieldValues, $ajaxFlag = '')
 	{
@@ -350,7 +350,7 @@ class ExtraFields
 	 *
 	 * @return  array                List of field
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getSectionFieldNames($section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $front = 1,
 		$published = 1, $required = 0)

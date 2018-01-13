@@ -43,6 +43,16 @@ class RedshopTableOrder_Status extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->order_status_name))
+		{
+			return false;
+		}
+
+		if (empty($this->order_status_code))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;

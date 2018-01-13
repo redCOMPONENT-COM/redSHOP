@@ -287,7 +287,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			$attribs = ' class="searchSelect2"';
 		}
 
-		return '<input type="hidden" name="' . $id . '" id="' . $id . '" value="' . $value . '"' . $attribs . ' />';
+		return '<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . $value . '"' . $attribs . ' />';
 	}
 
 	/**

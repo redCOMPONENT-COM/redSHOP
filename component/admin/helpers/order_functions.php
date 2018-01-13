@@ -371,7 +371,7 @@ class order_functions
 	 *
 	 * @param   integer $userId User ID
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getBillingAddress() instead
 	 */
