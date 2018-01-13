@@ -627,8 +627,8 @@ class RedshopHelperMail
 
 		$mailTemplate = $mailTemplate[0];
 		$mainPassword = $app->input->post->getString('password1');
-		$mailFrom     = $app->get('mailfrom');
-		$fromName     = $app->get('fromname');
+		$mailFrom     = (string) $app->get('mailfrom');
+		$fromName     = (string) $app->get('fromname');
 
 		// Time for the email magic so get ready to sprinkle the magic dust...
 		$mailBcc = array();
@@ -709,8 +709,8 @@ class RedshopHelperMail
 		}
 
 		$app          = JFactory::getApplication();
-		$mailFrom     = $app->get('mailfrom');
-		$fromName     = $app->get('fromname');
+		$mailFrom     = (string) $app->get('mailfrom');
+		$fromName     = (string) $app->get('fromname');
 		$mailBcc      = null;
 		$mailData     = $mailSection;
 		$mailSubject  = $mailSection;

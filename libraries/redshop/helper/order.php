@@ -2115,12 +2115,11 @@ class RedshopHelperOrder
 	 */
 	public static function sendDownload($orderId = 0)
 	{
-		$config = Redconfiguration::getInstance();
 		$app    = JFactory::getApplication();
 
 		// Getting the order status changed template from mail center end
-		$mailFrom = $app->get('mailfrom');
-		$fromName = $app->get('fromname');
+		$mailFrom = (string) $app->get('mailfrom');
+		$fromName = (string) $app->get('fromname');
 
 		$mailData    = "";
 		$mailSubject = "";

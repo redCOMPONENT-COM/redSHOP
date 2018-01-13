@@ -118,7 +118,6 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			return false;
 		}
 
-		$redshopMail = redshopMail::getInstance();
 		$mailbcc = null;
 		$subject = "";
 		$mailbody = RedshopHelperMail::getMailTemplate(0, "review_mail");
