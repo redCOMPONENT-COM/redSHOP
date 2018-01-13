@@ -44,4 +44,22 @@ class RedshopTableTax_Group extends RedshopTable
 
 		return parent::doDelete($pk);
 	}
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (empty($this->name))
+		{
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }

@@ -167,6 +167,11 @@ class RedshopTableDiscount extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->name))
+		{
+			return false;
+		}
+
 		// Check amount
 		if ((float) $this->amount <= 0.0)
 		{

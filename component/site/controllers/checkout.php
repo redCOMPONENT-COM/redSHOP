@@ -88,8 +88,7 @@ class RedshopControllerCheckout extends RedshopController
 		$input   = $app->input;
 		$session = JFactory::getSession();
 		$post    = $input->post->getArray();
-		$user    = JFactory::getUser();
-		$cart    = $session->get('cart');
+		$cart    = RedshopHelperCartSession::getCart();
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
 		{
@@ -214,7 +213,7 @@ class RedshopControllerCheckout extends RedshopController
 	/**
 	 * Check validation
 	 *
-	 * @param   string  $users_info_id  not used
+	 * @param   integer   $users_info_id  not used
 	 *
 	 * @return  integer
 	 *
@@ -223,12 +222,9 @@ class RedshopControllerCheckout extends RedshopController
 	public function chkvalidation($users_info_id)
 	{
 		/** @var RedshopModelCheckout $model */
-		$model             = $this->getModel('checkout');
-		$billingaddresses  = $model->billingaddresses();
-		$shippingaddresses = $model->shipaddress($users_info_id);
-		$extra_field       = extra_field::getInstance();
-		$extrafield_name   = '';
-		$return            = 0;
+		$model            = $this->getModel('checkout');
+		$billingaddresses = $model->billingaddresses();
+		$return           = 0;
 
 		if (!$billingaddresses->is_company)
 		{
@@ -236,7 +232,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -244,7 +240,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -255,7 +251,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -264,7 +260,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -272,7 +268,7 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$return = 1;
 				$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -280,12 +276,12 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				RedshopEconomic::createUserInEconomic($billingaddresses);
 
-				if (JError::isError(JError::getError()))
+				if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 				{
 					$return = 1;
-					$error  = JError::getError();
+					$error  = /** @scrutinizer ignore-deprecated */ JError::getError();
 					$msg    = $error->getMessage();
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return $return;
 				}
@@ -296,7 +292,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -304,7 +300,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_SELECT_COUNTRY');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -312,7 +308,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
@@ -320,33 +316,37 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE');
-			JError::raiseWarning('', $msg);
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 			return $return;
 		}
 
 		if ($billingaddresses->is_company == 1)
 		{
-			$extrafield_name = $extra_field->chk_extrafieldValidation(8, $billingaddresses->users_info_id);
+			$extrafield_name = RedshopHelperExtrafields::CheckExtraFieldValidation(
+				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $billingaddresses->users_info_id
+			);
 
 			if (!empty($extrafield_name))
 			{
 				$return = 1;
 				$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
 		}
 		else
 		{
-			$extrafield_name = $extra_field->chk_extrafieldValidation(7, $billingaddresses->users_info_id);
+			$extrafield_name = RedshopHelperExtrafields::CheckExtraFieldValidation(
+				RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, $billingaddresses->users_info_id
+			);
 
 			if (!empty($extrafield_name))
 			{
 				$return = 1;
 				$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-				JError::raiseWarning('', $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 				return $return;
 			}
@@ -356,26 +356,30 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			if ($billingaddresses->is_company == 1)
 			{
-				$extrafield_name = $extra_field->chk_extrafieldValidation(15, $users_info_id);
+				$extrafield_name = RedshopHelperExtrafields::CheckExtraFieldValidation(
+					RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $users_info_id
+				);
 
 				if (!empty($extrafield_name))
 				{
 					$return = 2;
 					$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return $return;
 				}
 			}
 			else
 			{
-				$extrafield_name = $extra_field->chk_extrafieldValidation(14, $users_info_id);
+				$extrafield_name = RedshopHelperExtrafields::CheckExtraFieldValidation(
+					RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $users_info_id
+				);
 
 				if (!empty($extrafield_name))
 				{
 					$return = 2;
 					$msg    = $extrafield_name . JText::_('COM_REDSHOP_IS_REQUIRED');
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return $return;
 				}

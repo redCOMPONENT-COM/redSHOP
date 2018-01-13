@@ -83,6 +83,16 @@ class RedshopTableCurrency extends RedshopTable
 			return false;
 		}
 
+		if (empty($this->name))
+		{
+			return false;
+		}
+
+		if (empty($this->code))
+		{
+			return false;
+		}
+
 		$db = $this->getDbo();
 
 		// Check duplicate.
