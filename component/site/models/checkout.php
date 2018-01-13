@@ -1265,7 +1265,7 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmailsub   = str_replace('{giftcard_price}', $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
-			$gift_code         = RedshopHelperOrder::randomGenerateEncryptKey(12);
+			$gift_code         = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
 
 			/** @var RedshopTableCoupon $couponItems */
 			$couponItems = RedshopTable::getAdminInstance('Coupon');
