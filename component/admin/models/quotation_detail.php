@@ -769,7 +769,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$producthelper  = productHelper::getInstance();
 		$db             = $this->getDbo();
 		$orderNumber    = $orderFunctions->generateOrderNumber();
-		$encrKey        = $orderFunctions->random_gen_enc_key(35);
+		$encrKey        = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
 
 		$row                          = $this->getTable('order_detail');
 		$row->user_id                 = (int) $data['user_id'];
