@@ -151,10 +151,17 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		// Use entity instead query directly. Do reset for make sure
-		$orderInfo = RedshopEntityOrder::getInstance($orderId)->getItem();
+		$orderEntity = RedshopEntityOrder::getInstance($orderId);
+
+		if (!$orderEntity->isValid())
+		{
+			return false;
+		}
+
+		$orderInfo = $orderEntity->getItem();
 
 		// Don't generate invoice number for free orders if disabled from config
-		if ($orderInfo->order_total <= 0 && !(boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER'))
+		if ($orderInfo->order_total <= 0 && !Redshop::getConfig()->getBool('INVOICE_NUMBER_FOR_FREE_ORDER'))
 		{
 			return false;
 		}
