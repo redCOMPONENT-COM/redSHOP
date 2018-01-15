@@ -132,7 +132,7 @@ class RedshopHelperDiscount
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function addGiftCardToCart(&$cartItem, $data)
 	{
@@ -183,7 +183,7 @@ class RedshopHelperDiscount
 	 *
 	 * @return  float          Voucher/Coupon value
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculateAlreadyDiscount($value, $cart)
 	{
@@ -219,7 +219,7 @@ class RedshopHelperDiscount
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculate($type, $types)
 	{

@@ -992,7 +992,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderData = $this->getTable('order_detail');
 		$orderData->load($this->_id);
 
-		$orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id);
+		$orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id, 0, 0, true);
 		$orderItemId = isset($data['order_item_id']) ? $data['order_item_id'] : 0;
 
 		if (!$orderData->special_discount)
@@ -1024,7 +1024,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				$orderSubTotal      += $orderItem->product_item_price * $orderItem->product_quantity;
 			}
 
-			$orderDetailTax[] = (float) $orderItem->product_final_price - (float) $orderItem->product_item_price_excl_vat;
+			$orderDetailTax[] = ((float) $orderItem->product_item_price - (float) $orderItem->product_item_price_excl_vat) * $orderItem->product_quantity;
 		}
 
 		if (!empty($orderDetailTax))
