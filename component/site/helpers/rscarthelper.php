@@ -146,7 +146,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see RedshopHelperPayment::calculate()
 	 */
@@ -1853,7 +1853,7 @@ class rsCarthelper
 				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
 				$d['order_subtotal'] = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
-				$shippingArr         = $this->_shippinghelper->getDefaultShipping($d);
+				$shippingArr         = RedshopHelperCartShipping::getDefault($d);
 				$shipping            = $shippingArr['shipping_rate'];
 				$shippingVat         = $shippingArr['shipping_vat'];
 			}
@@ -2210,7 +2210,7 @@ class rsCarthelper
 	 *
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see  Redshop\Order\Template::replaceTemplate
 	 */
 	public function replaceOrderTemplate($row, $ReceiptTemplate, $sendMail = false)
@@ -3152,7 +3152,7 @@ class rsCarthelper
 	 *
 	 * @return  float          Voucher/Coupon value
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see  RedshopHelperDiscount::calculateAlreadyDiscount()
 	 */
@@ -3208,7 +3208,7 @@ class rsCarthelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see RedshopHelperDiscount::calculate()
 	 */
@@ -3919,7 +3919,7 @@ class rsCarthelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 *
 	 * @see  RedshopHelperDiscount::addGiftCardToCart()
 	 */
