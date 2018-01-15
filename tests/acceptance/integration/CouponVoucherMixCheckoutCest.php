@@ -110,6 +110,12 @@ class CouponCheckoutMixCheckoutCest
 		$I->clearAllData();
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param \Codeception\Scenario $scenario
+	 * 
+	 * The method check for voucher/coupon/discount
+	 */
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
@@ -146,25 +152,12 @@ class CouponCheckoutMixCheckoutCest
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, null);
 	}
 
-	public function checkWithVoucher(ConfigurationSteps $I, \Codeception\Scenario $scenario)
-	{
-		$I->doAdministratorLogin();
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-
-		$I->comment('Configuration for voucher/coupon/discount');
-		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null);
-		$I->comment('Checkout with voucher even you input coupon but still get value of voucher ');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, null);
-	}
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @param \Codeception\Scenario $scenario
+	 * 
+	 * The method check for Discount + voucher (single) + coupon (single
+	 */
 	public function checkWithSignVoucherCoupon(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I->doAdministratorLogin();
@@ -191,15 +184,19 @@ class CouponCheckoutMixCheckoutCest
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond);
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @param \Codeception\Scenario $scenario
+	 * 
+	 * The method check for Discount + voucher (multiple) + coupon (multiple)
+	 */
 	public function checkWithSignVoucherCouponMulti(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-
-
+		
 		$this->discount['allow'] = 'Discount + voucher (multiple) + coupon (multiple)';
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);

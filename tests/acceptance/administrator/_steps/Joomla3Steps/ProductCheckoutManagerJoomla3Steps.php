@@ -353,8 +353,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 
-					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorMessage);
-					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorMessage);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorMessage);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorMessage);
 				}
 				if ($applyDiscount == 'voucherCode')
 				{
@@ -371,8 +371,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
 					$I->click(\GiftCardCheckoutPage::$couponButton);
-					$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorMessage);
-					$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorMessage);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorMessage);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorMessage);
 				}
 			}
 			else{
@@ -391,11 +391,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 
-					$I->pauseExecution();
 					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 					$I->click(\GiftCardCheckoutPage::$couponButton);
 
-					$I->pauseExecution();
 					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
 					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
 
