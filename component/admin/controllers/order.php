@@ -183,7 +183,21 @@ class RedshopControllerOrder extends RedshopController
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$orderId      = $this->input->getInt('order_id');
-			$paymentInfo  = RedshopEntityOrder::getInstance($orderId)->getItem();
+			$orderEntity  = RedshopEntityOrder::getInstance($orderId);
+
+			if (!$orderEntity->isValid())
+			{
+				return false;
+			}
+
+			$paymentInfo  = $orderEntity->getPayment();
+
+			if (!$paymentInfo->isValid())
+			{
+				return false;
+			}
+
+			$paymentInfo = $paymentInfo->getItem();
 			$economicData = array();
 
 			if ($paymentInfo)
