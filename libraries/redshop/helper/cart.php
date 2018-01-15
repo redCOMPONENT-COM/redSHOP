@@ -798,29 +798,14 @@ abstract class RedshopHelperCart
 		$return           = array();
 		$totalQuantity    = 0;
 		$idx              = $cart['idx'];
-		$showWithVAT      = 0;
-		$html             = 'simple';
-		$showShippingLine = 0;
 		$cartParams       = \Redshop\Cart\Module::getParams();
-
-		if (array_key_exists('cart_output', $cartParams))
-		{
-			$html = $cartParams['cart_output'];
-		}
-
-		if (array_key_exists('show_shipping_line', $cartParams))
-		{
-			$showShippingLine = $cartParams['show_shipping_line'];
-		}
+		$html             = (string) $cartParams->get('cart_output', 'simple');
+		$showShippingLine = (int) $cartParams->get('show_shipping_line', 0);
+		$showWithVAT      = (int) $cartParams->get('show_with_vat', 0);
 
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$totalQuantity += $cart[$i]['quantity'];
-
-			if (array_key_exists('show_with_vat', $cartParams))
-			{
-				$showWithVAT = $cartParams['show_with_vat'];
-			}
 		}
 
 		// Load cart module language

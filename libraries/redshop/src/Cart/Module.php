@@ -9,6 +9,8 @@
 
 namespace Redshop\Cart;
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 /**
@@ -33,9 +35,9 @@ class Module
 		$cart = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
 
 		$cartParams       = self::getParams();
-		$showWithShipping = array_key_exists('show_with_shipping', $cartParams) ? (boolean) $cartParams['show_with_shipping'] : true;
-		$showWithDiscount = array_key_exists('show_with_discount', $cartParams) ? (boolean) $cartParams['show_with_discount'] : true;
-		$showWithVat      = array_key_exists('show_with_vat', $cartParams) ? (boolean) $cartParams['show_with_vat'] : true;
+		$showWithShipping = (boolean) $cartParams->get('show_with_shipping', true);
+		$showWithDiscount = (boolean) $cartParams->get('show_with_discount', true);
+		$showWithVat      = (boolean) $cartParams->get('show_with_vat', true);
 		$total            = !$showWithVat ? $cart['product_subtotal_excl_vat'] : $cart['product_subtotal'];
 		$shipping         = $cart['shipping'];
 		$discountTotal    = $cart['coupon_discount'] + $cart['voucher_discount'] + $cart['cart_discount'];
@@ -70,7 +72,7 @@ class Module
 	/**
 	 * Method for get parameters of module cart
 	 *
-	 * @return  array
+	 * @return  Registry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -86,37 +88,6 @@ class Module
 
 		$params = $db->setQuery($query)->loadResult();
 
-		if (empty($params))
-		{
-			return array();
-		}
-
-		$params = substr($params, 1);
-		$params = substr_replace($params, " ", -1);
-		$params = str_replace('"', ' ', $params);
-		$params = explode(",", $params);
-
-		$cartParams = array();
-
-		foreach ($params as $param)
-		{
-			$param = explode(':', $param);
-
-			if (empty($param))
-			{
-				continue;
-			}
-
-			if (strpos($param[0], 'cart_output') !== false
-				|| strpos($param[0], 'show_with_shipping') !== false
-				|| strpos($param[0], 'show_with_discount') !== false
-				|| strpos($param[0], 'show_with_vat') !== false
-				|| strpos($param[0], 'show_shipping_line') !== false)
-			{
-				$cartParams[trim($param[0])] = trim($param[1]);
-			}
-		}
-
-		return $cartParams;
+		return new Registry($params);
 	}
 }
