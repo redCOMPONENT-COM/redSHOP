@@ -3280,7 +3280,7 @@ class rsCarthelper
 		$codeDiscount  = $voucherDiscount + $couponDiscount;
 		$totalDiscount = $cart['cart_discount'] + $codeDiscount;
 
-		$calArr      = \Redshop\Cart\Helper::calculation($cart);
+		$calArr      = \Redshop\Cart\Helper::calculation((array) $cart);
 		$tax         = $calArr[5];
 		$discountVAT = 0;
 		$chktag      = RedshopHelperCart::taxExemptAddToCart();
@@ -3320,7 +3320,7 @@ class rsCarthelper
 		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
-		$cart['mod_cart_total']            = Redshop\Cart\Module::calculate($cart);
+		$cart['mod_cart_total']            = Redshop\Cart\Module::calculate((array) $cart);
 
 		$this->_session->set('cart', $cart);
 

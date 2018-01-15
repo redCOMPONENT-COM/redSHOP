@@ -32,37 +32,14 @@ class Module
 	{
 		$cart = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
 
-		$cartParamArr     = self::getParams();
-		$showWithShipping = true;
-		$showWithDiscount = true;
-		$showWithVat      = true;
-
-		if (array_key_exists('show_with_shipping', $cartParamArr))
-		{
-			$showWithShipping = (boolean) $cartParamArr['show_with_shipping'];
-		}
-
-		if (array_key_exists('show_with_discount', $cartParamArr))
-		{
-			$showWithDiscount = (boolean) $cartParamArr['show_with_discount'];
-		}
-
-		if (array_key_exists('show_with_vat', $cartParamArr))
-		{
-			$showWithVat = (boolean) $cartParamArr['show_with_vat'];
-		}
-
-		if (!$showWithVat)
-		{
-			$total = $cart['product_subtotal_excl_vat'];
-		}
-		else
-		{
-			$total = $cart['product_subtotal'];
-		}
-
-		$shipping      = $cart['shipping'];
-		$discountTotal = $cart['coupon_discount'] + $cart['voucher_discount'] + $cart['cart_discount'];
+		$cartParams       = self::getParams();
+		$showWithShipping = array_key_exists('show_with_shipping', $cartParams) ? (boolean) $cartParams['show_with_shipping'] : true;
+		$showWithDiscount = array_key_exists('show_with_discount', $cartParams) ? (boolean) $cartParams['show_with_discount'] : true;
+		$showWithVat      = array_key_exists('show_with_vat', $cartParams) ? (boolean) $cartParams['show_with_vat'] : true;
+		$total            = !$showWithVat ? $cart['product_subtotal_excl_vat'] : $cart['product_subtotal'];
+		$shipping         = $cart['shipping'];
+		$discountTotal    = $cart['coupon_discount'] + $cart['voucher_discount'] + $cart['cart_discount'];
+		$modCartTotal     = $total;
 
 		if ($showWithShipping && $showWithDiscount)
 		{
@@ -76,25 +53,16 @@ class Module
 		{
 			$modCartTotal = $total + $shipping;
 		}
-		else
-		{
-			$modCartTotal = $total;
-		}
 
 		$layout = \JFactory::getApplication()->input->getCmd('layout');
 		$view   = \JFactory::getApplication()->input->getCmd('view');
 
-		if (array_key_exists('payment_amount', $cart) && $view == 'checkout' && $layout != 'default')
+		if (!array_key_exists('payment_amount', $cart) || $view != 'checkout' || $layout == 'default')
 		{
-			if ($cart['payment_oprand'] == '+')
-			{
-				$modCartTotal += $cart['payment_amount'];
-			}
-			else
-			{
-				$modCartTotal -= $cart['payment_amount'];
-			}
+			return $modCartTotal;
 		}
+
+		$modCartTotal = $cart['payment_oprand'] == '+' ? $modCartTotal + $cart['payment_amount'] : $modCartTotal - $cart['payment_amount'];
 
 		return $modCartTotal;
 	}
