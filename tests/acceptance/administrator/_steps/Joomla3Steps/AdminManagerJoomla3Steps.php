@@ -185,6 +185,23 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+	
+	public function addValueForField($xpath, $prices)
+	{
+		$I = $this;
+		$I->click($xpath);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+
+		$price = str_split($prices);
+		foreach ($price as $char)
+		{
+			$I->pressKey($xpath, $char);
+		}
+	}
 
 	public function chooseOnSelect2($element, $text)
 	{
