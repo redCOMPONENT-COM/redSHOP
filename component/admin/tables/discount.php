@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopTableDiscount extends RedshopTable
 {
@@ -167,6 +167,11 @@ class RedshopTableDiscount extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->name))
+		{
+			return false;
+		}
+
 		// Check amount
 		if ((float) $this->amount <= 0.0)
 		{

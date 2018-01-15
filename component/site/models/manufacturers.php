@@ -115,7 +115,7 @@ class RedshopModelManufacturers extends RedshopModel
 		if ($shopper_group_manufactures != "")
 		{
 			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopper_group_manufactures);
+			$shopper_group_manufactures = Joomla\Utilities\ArrayHelper::toInteger($shopper_group_manufactures);
 			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
 			$and .= " AND mn.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
 		}

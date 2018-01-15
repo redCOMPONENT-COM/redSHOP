@@ -267,7 +267,7 @@ class RedshopHelperCartDiscount
 				RedshopHelperCartSession::setCart($cart);
 			}
 		}
-		elseif (Redshop::getConfig()->get('VOUCHERS_ENABLE'))
+		elseif (Redshop::getConfig()->getBool('VOUCHERS_ENABLE') === true)
 		{
 			$return = self::applyVoucher();
 		}

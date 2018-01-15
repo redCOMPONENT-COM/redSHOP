@@ -19,61 +19,62 @@ class GiftCardCheckoutProductCest
 {
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
-		$this->userName = $this->faker->bothify('UserNameCheckoutProductCest ?##?');
-		$this->password = 'test';
-		$this->email = $this->faker->email;
-		$this->shopperGroup = 'Default Private';
-		$this->group = 'Administrator';
-		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->lastName = 'Last';
+		$this->faker           = Faker\Factory::create();
+		$this->userName        = $this->faker->bothify('UserNameCheckoutProductCest ?##?');
+		$this->password        = 'test';
+		$this->email           = $this->faker->email;
+		$this->shopperGroup    = 'Default Private';
+		$this->group           = 'Administrator';
+		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName        = 'Last';
 		$this->userInformation = array(
-			"email" => $this->email,
-			"firstName" => "Tester",
-			"lastName" => "User",
-			"address" => "Some Place in the World",
+			"email"      => $this->email,
+			"firstName"  => "Tester",
+			"lastName"   => "User",
+			"address"    => "Some Place in the World",
 			"postalCode" => "23456",
-			"city" => "Bangalore",
-			"phone" => "8787878787"
+			"city"       => "Bangalore",
+			"phone"      => "8787878787"
 		);
-		$this->randomCardName = $this->faker->bothify('ManageGiftCardAdministratorCest Card ?##?');
-		$this->cardPrice = '10';
-		$this->cardValue = '10';
-		$this->cardValidity = $this->faker->numberBetween(2, 10);
-		$this->couponCode = null;
+		$this->randomCardName  = $this->faker->bothify('ManageGiftCardAdministratorCest Card ?##?');
+		$this->cardPrice       = '10';
+		$this->cardValue       = '10';
+		$this->cardValidity    = $this->faker->numberBetween(2, 10);
+		$this->couponCode      = null;
 
 		//create category
 		$this->categoryName = 'Testing Category ' . $this->faker->randomNumber();
-		$this->noPage = $this->faker->randomNumber();
+		$this->noPage       = $this->faker->randomNumber();
 
 		//create product
-		$this->productName = 'Testing Products' . rand(99, 999);
+		$this->productName         = 'Testing Products' . rand(99, 999);
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = '24';
-		$this->minimumPerProduct = '1';
-		$this->minimumQuantity = 1;
-		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
-		$this->discountStart = "12-12-2016";
-		$this->discountEnd = "23-05-2017";
+		$this->randomProductPrice  = '24';
+		$this->minimumPerProduct   = '1';
+		$this->minimumQuantity     = 1;
+		$this->maximumQuantity     = $this->faker->numberBetween(11, 100);
+		$this->discountStart       = "2016-12-12";
+		$this->discountEnd         = "2017-05-23";
 
 		//Order change
-		$this->status = "Confirmed";
+		$this->status        = "Confirmed";
 		$this->paymentStatus = "Paid";
-		$this->newQuantity = '1';
+		$this->newQuantity   = '1';
 		//information checkout
 		$this->checkoutAccountInformation = array(
-			"accessId" => "62qpC9xN9nN4",
-			"transactionId" => "97sRY6pGTea3E48d",
-			"password" => "Pull416!t",
+			"accessId"        => "62qpC9xN9nN4",
+			"transactionId"   => "97sRY6pGTea3E48d",
+			"password"        => "Pull416!t",
 			"debitCardNumber" => "4012888818888",
-			"cvv" => "1234",
+			"cvv"             => "1234",
 			"cardExpiryMonth" => '2',
-			"cardExpiryYear" => '2016',
+			"cardExpiryYear"  => '2016',
 			"shippingAddress" => "some place on earth",
-			"customerName" => 'Testing Customer'
+			"customerName"    => 'Testing Customer'
 		);
 
 	}
+
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -101,7 +102,7 @@ class GiftCardCheckoutProductCest
 	 * Create category
 	 *
 	 * @param AcceptanceTester $I
-	 * @param $scenario
+	 * @param                  $scenario
 	 */
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
@@ -113,7 +114,7 @@ class GiftCardCheckoutProductCest
 
 	/**
 	 * @param AcceptanceTester $I
-	 * @param $scenario
+	 * @param                  $scenario
 	 *
 	 */
 	public function createProductSave(AcceptanceTester $I, $scenario)
@@ -151,8 +152,8 @@ class GiftCardCheckoutProductCest
 	/**
 	 * Test to Verify the Gift Card Checkout
 	 *
-	 * @param   AcceptanceTester $I Actor Class Object
-	 * @param   String $scenario Scenario Variable
+	 * @param   AcceptanceTester $I        Actor Class Object
+	 * @param   String           $scenario Scenario Variable
 	 *
 	 * @return void
 	 */
@@ -165,53 +166,14 @@ class GiftCardCheckoutProductCest
 	}
 
 	/**
-	 * Change status of order to paid for get coupon
-	 *
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 */
-	public function changeStatusOrder(AcceptanceTester $I, $scenario)
-	{
-		$I = new AcceptanceTester($scenario);
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->editOrder($this->firstName.' '.$this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
-	}
-
-	/**
-	 * Function to Fetch the Coupon Code Generated by Gift Card
-	 *
-	 * @param   AcceptanceTester $I Actor Class Object
-	 * @param   String $scenario Scenario Variable
-	 *
-	 * @return String
-	 */
-	public function fetchCouponCode(AcceptanceTester $I, $scenario)
-	{
-		$I = new AcceptanceTester($scenario);
-		$I->amOnPage(\CouponPage::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->click(\CouponPage::$selectFirst);
-		$I->wait(500);
-		$this->couponCode = $I->grabTextFrom(\CouponPage::$selectValueCoupon);
-	}
-
-	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
-	{
-		$I = new AcceptanceTester($scenario);
-		$this->checkoutProductWithCouponCode($I, $this->productName, $this->categoryName, $this->couponCode);
-		$this->deleteGiftCard($I, $scenario);
-	}
-
-	/**
 	 * Function to Test Checkout Process of a Gift Card using the Authorize Payment Plugin
 	 *
-	 * @param   AcceptanceTester $I Actor Class Object
-	 * @param   String $scenario Scenario Variable
-	 * @param   Array $addressDetail Address Detail
-	 * @param   Array $shipmentDetail Shipping Address Detail
-	 * @param   Array $checkoutAccountDetail 2Checkout Account Detail
-	 * @param   string $giftCardName Name of the Gift Card which needs to be purchased
+	 * @param   AcceptanceTester $I                     Actor Class Object
+	 * @param   String           $scenario              Scenario Variable
+	 * @param   Array            $addressDetail         Address Detail
+	 * @param   Array            $shipmentDetail        Shipping Address Detail
+	 * @param   Array            $checkoutAccountDetail 2Checkout Account Detail
+	 * @param   string           $giftCardName          Name of the Gift Card which needs to be purchased
 	 *
 	 * @return void
 	 */
@@ -256,15 +218,54 @@ class GiftCardCheckoutProductCest
 	}
 
 	/**
+	 * Change status of order to paid for get coupon
+	 *
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 */
+	public function changeStatusOrder(AcceptanceTester $I, $scenario)
+	{
+		$I = new AcceptanceTester($scenario);
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
+	}
+
+	/**
+	 * Function to Fetch the Coupon Code Generated by Gift Card
+	 *
+	 * @param   AcceptanceTester $I        Actor Class Object
+	 * @param   String           $scenario Scenario Variable
+	 *
+	 * @return String
+	 */
+	public function fetchCouponCode(AcceptanceTester $I, $scenario)
+	{
+		$I = new AcceptanceTester($scenario);
+		$I->amOnPage(\CouponPage::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(['link' => 'ID']);
+		$I->click(\CouponPage::$selectFirst);
+		$I->wait(500);
+		$this->couponCode = $I->grabTextFrom(\CouponPage::$selectValueCoupon);
+	}
+
+	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
+	{
+		$I = new AcceptanceTester($scenario);
+		$this->checkoutProductWithCouponCode($I, $this->productName, $this->categoryName, $this->couponCode);
+		$this->deleteGiftCard($I, $scenario);
+	}
+
+	/**
 	 * Function to Test Checkout Process of a Product using the Coupon Code
 	 *
-	 * @param   AcceptanceTester $I Actor Class Object
-	 * @param   String $scenario Scenario Variable
-	 * @param   Array $addressDetail Address Detail
-	 * @param   Array $shipmentDetail Shipping Address Detail
-	 * @param   string $productName Name of the Product
-	 * @param   string $categoryName Name of the Category
-	 * @param   string $couponCode Code for the Coupon
+	 * @param   AcceptanceTester $I              Actor Class Object
+	 * @param   String           $scenario       Scenario Variable
+	 * @param   Array            $addressDetail  Address Detail
+	 * @param   Array            $shipmentDetail Shipping Address Detail
+	 * @param   string           $productName    Name of the Product
+	 * @param   string           $categoryName   Name of the Category
+	 * @param   string           $couponCode     Code for the Coupon
 	 *
 	 * @return void
 	 */

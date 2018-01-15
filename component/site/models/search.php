@@ -8,6 +8,7 @@
  */
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') or die;
 
@@ -499,7 +500,8 @@ class RedshopModelSearch extends RedshopModel
 		if ($shopper_group_manufactures != "")
 		{
 			// Sanitize ids
-			$manufacturerIds = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $shopper_group_manufactures));
+			$manufacturerIds = explode(',', $shopper_group_manufactures);
+			$manufacturerIds = ArrayHelper::toInteger($manufacturerIds);
 
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
@@ -1091,7 +1093,7 @@ class RedshopModelSearch extends RedshopModel
 			. "WHERE j.tag_id = t.id "
 			. "AND j.type_id = " . (int) $id . " ";
 
-		if ($productids != "")
+		if (!empty($products))
 		{
 			// Sanitize ids
 			$products = Joomla\Utilities\ArrayHelper::toInteger($products);

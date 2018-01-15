@@ -3,7 +3,7 @@
 /**
  *
  */
-class ConfigurationManageJ3Page extends AdminJ3Page
+class ConfigurationPage extends AdminJ3Page
 {
 	//nam page
 	public static $namePage = "Configuration";
@@ -38,7 +38,7 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $vatGroup = ['id' => 's2id_default_vat_group'];
 
 	public static $vatSearchGroup = ['id' => 's2id_autogen37_search'];
-	
+
 	public static $varFirstResults = ['xpath' => '//ul[@id=\'select2-results-37\']'];
 
 	public static $vatDefaultBase = ['id' => 's2id_vat_based_on'];
@@ -106,7 +106,7 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $buttonCartLead = ['id' => 's2id_addtocart_behaviour'];
 
 	public static $buttonCartSearch = ['id' => 's2id_autogen43_search'];
-	
+
 	public static $firstCartSearch = ['xpath' => '//ul[@id=\'select2-results-43\']'];
 
 	public static $onePageNo = ['id' => 'onestep_checkout_enable0-lbl'];
@@ -130,4 +130,52 @@ class ConfigurationManageJ3Page extends AdminJ3Page
 	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
+
+	// price tab and discount
+
+	public static $enableDiscountNo = ['id' => 'discount_enable0-lbl'];
+
+	public static $enableDiscountYes = ['id' => 'discount_enable1-lbl'];
+
+	public static $allowedDiscountId = ['id' => 's2id_discount_type'];
+
+	public static $allowDiscountSearch = ['id' => 's2id_autogen39_search'];
+
+	public static $enableCouponYes = ['id' => 'coupons_enable1-lbl'];
+
+	public static $enableCouponNo = ['id' => 'coupons_enable0-lbl'];
+
+	public static $enableCouponInfoYes = ['id' => 'couponinfo1-lbl'];
+
+	public static $enableCouponInfoNo = ['id' => 'couponinfo0-lbl'];
+
+	public static $enableVoucherYes = ['id' => 'vouchers_enable1-lbl'];
+
+	public static $enableVoucherNo = ['id' => 'vouchers_enable0-lbl'];
+
+	public static $spendTimeDiscountYes = ['id' => 'special_discount_mail_send1-lbl'];
+
+	public static $spendTimeDiscountNo = ['id' => 'special_discount_mail_send0-lbl'];
+
+	public static $applyDiscountForProductAlreadyDiscountYes = ['id' => 'apply_voucher_coupon_already_discount1-lbl'];
+
+	public static $applyDiscountForProductAlreadyDiscountNo = ['id' => 'apply_voucher_coupon_already_discount0-lbl'];
+
+	public static $calculateShippingBasedTotal = ['id' => 'shipping_aftertotal-lbl'];
+
+	public static $calculateShippingBasedSubTotal = ['id' => 'shipping_aftersubtotal-lbl'];
+
+	public static $valueDiscountCouponId = ['id' => 's2id_discoupon_percent_or_total'];
+
+	public static $valueDiscountCouponSearch = ['id' => 's2id_autogen40_search'];
+
+	public static $discountVoucherCoupon = 'Discount/voucher/coupon';
+
+	public static $discountAndVoucherOrCoupon = 'Discount + voucher/coupon';
+
+	public static $discountVoucherSingleCouponSingle = 'Discount + voucher (single) + coupon (single)';
+
+	public static $discountVoucherMultipleCouponMultiple = 'Discount + voucher (multiple) + coupon (multiple)';
+
+	public static $messageSaveSuccess = 'Configuration Saved';
 }

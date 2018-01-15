@@ -109,7 +109,7 @@ if ($mail == 0)
 	}
 
 	$temp_template  = '';
-	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 
 	if (count($MyWishlist) > 0)
 	{

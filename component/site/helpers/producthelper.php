@@ -1644,7 +1644,7 @@ class productHelper
 		{
 			// Sanitize groups
 			$shopGroupsIds = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopGroupsIds);
+			$shopGroupsIds = Joomla\Utilities\ArrayHelper::toInteger($shopGroupsIds);
 
 			$and .= " AND p.manufacturer_id IN (" . implode(',', $shopGroupsIds) . ") ";
 		}
@@ -2358,7 +2358,7 @@ class productHelper
 		{
 			// Sanitize ids
 			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
+			$productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
 			if (RedshopHelperUtility::isRedProductFinder())
 			{
@@ -2408,7 +2408,7 @@ class productHelper
 				}
 
 				// Sanitize ids
-				JArrayHelper::toInteger($relatedArr);
+				$relatedArr = Joomla\Utilities\ArrayHelper::toInteger($relatedArr);
 				$relatedArr = array_unique($relatedArr);
 
 				$query = "SELECT " . $product_id . " AS mainproduct_id,p.* "
@@ -5162,7 +5162,7 @@ class productHelper
 
 		// Sanitize ids
 		$catIds = explode(',', $category_ids);
-		JArrayHelper::toInteger($catIds);
+		$catIds = Joomla\Utilities\ArrayHelper::toInteger($catIds);
 
 		$query = "SELECT product_id
 						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . implode(',', $catIds) . ")";
@@ -6563,7 +6563,7 @@ class productHelper
 				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
 
 				// Extra field display
-				$extraFieldName = $extra_field->getSectionFieldNameArray(1, 1, 1);
+				$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 
 				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 				{

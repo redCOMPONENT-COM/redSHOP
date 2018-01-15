@@ -197,7 +197,7 @@ class RedshopHelperProductPrice
 			$currencySymbol  = !$currencySymbol ?
 				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
 
-			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
+			if (Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
 				$currencySymbol = " " . (string) $currencySymbol;
 			}

@@ -68,6 +68,10 @@ class RedshopViewFields extends RedshopViewList
 		{
 			return RedshopHelperTemplate::getFieldSections($row->section);
 		}
+		elseif ($config['dataCol'] == 'groupId')
+		{
+			return $row->groupName;
+		}
 
 		return parent::onRenderColumn($config, $index, $row);
 	}

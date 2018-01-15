@@ -443,13 +443,13 @@ class RedshopHelperOrder
 			return self::$orderExtraFieldData[$key];
 		}
 
-		$privateSection = extraField::SECTION_PRIVATE_BILLING_ADDRESS;
-		$companySection = extraField::SECTION_COMPANY_BILLING_ADDRESS;
+		$privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
+		$companySection = RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
 
 		if ('shipping' == $section)
 		{
-			$privateSection = extraField::SECTION_PRIVATE_SHIPPING_ADDRESS;
-			$companySection = extraField::SECTION_COMPANY_SHIPPING_ADDRESS;
+			$privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
+			$companySection = RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS;
 		}
 
 		$db    = JFactory::getDbo();
@@ -1600,7 +1600,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0)
+	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0, $force = false)
 	{
 		// Make sure at least one options has been pass.
 		if (empty($orderId) && !$productId && !$orderItemId)
@@ -1610,7 +1610,7 @@ class RedshopHelperOrder
 
 		$key = $orderId . '_' . $productId . '_' . $orderItemId;
 
-		if (!array_key_exists($key, self::$orderItems))
+		if (!array_key_exists($key, self::$orderItems) || $force)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)

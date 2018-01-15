@@ -254,7 +254,7 @@ function display_products($rows)
 		$template_d1    = explode("{product_loop_start}", $wishlist_data1);
 		$template_d2    = explode("{product_loop_end}", $template_d1[1]);
 		$temp_template  = '';
-		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 		$mainid = '';
 		$totattid = '';
 		$totcount_no_user_field = '';

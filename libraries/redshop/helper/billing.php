@@ -30,7 +30,7 @@ class RedshopHelperBilling
 	 *
 	 * @return  string                    HTML content layout.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  Exception
 	 */

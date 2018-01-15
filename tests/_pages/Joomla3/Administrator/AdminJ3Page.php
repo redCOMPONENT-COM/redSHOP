@@ -135,6 +135,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorMessage = '.alert-message';
+
+	/**
+	 * @var string
+	 */
 	public static $selectorPageTitle = '.page-title';
 
 	/**
@@ -249,6 +254,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+
+	/**
+	 * @var array
+	 */
+	public static $productFirst = ['xpath' => '//div[@class=\'product_name\']/a'];
 
 	/**
 	 * @var string

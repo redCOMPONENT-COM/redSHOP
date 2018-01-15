@@ -55,8 +55,8 @@ $dispatcher         = RedshopHelperUtility::getDispatcher();
 $params             = $app->getParams('com_redshop');
 $itemId             = $input->get('Itemid', 0, "int");
 $fieldArray         = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
-$extraFieldProduct  = $extraField->getSectionFieldNameArray(1, 1, 1);
-$extraFieldCategory = $extraField->getSectionFieldNameArray(2, 1, 1);
+$extraFieldProduct  = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+$extraFieldCategory = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
