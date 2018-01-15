@@ -801,7 +801,7 @@ abstract class RedshopHelperCart
 		$showWithVAT      = 0;
 		$html             = 'simple';
 		$showShippingLine = 0;
-		$cartParams       = rsCarthelper::getInstance()->GetCartParameters();
+		$cartParams       = \Redshop\Cart\Module::getParams();
 
 		if (array_key_exists('cart_output', $cartParams))
 		{

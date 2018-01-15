@@ -28,8 +28,6 @@ class rsCarthelper
 
 	public $_producthelper = null;
 
-	public $_show_with_vat = 0;
-
 	public $_shippinghelper = null;
 
 	public $_globalvoucher = 0;
@@ -1768,233 +1766,41 @@ class rsCarthelper
 		return $data;
 	}
 
-   /**
-   * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
-   * final price may vary, depending on if the discount affects "the price+VAT"
-   * or just "the price". This CONSTANT will define if the discounts needs to
-   * be applied BEFORE or AFTER the VAT is applied to the product price.
-   */
-	public function calculation($cart, $shipping = 0, $user_id = 0)
+	/**
+	* APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
+	* final price may vary, depending on if the discount affects "the price+VAT"
+	* or just "the price". This CONSTANT will define if the discounts needs to
+	* be applied BEFORE or AFTER the VAT is applied to the product price.
+	*
+	* @param   array     $cart      Cart data
+	* @param   integer   $shipping  Cart data
+	* @param   integer   $userId    Current user ID
+	*
+	* @return  array
+	* @throws  \Exception
+	*
+	* @deprecated    __DEPLOY_VERSION__
+	 * @see \Redshop\Cart\Helper::calculation()
+	 */
+	public function calculation($cart, $shipping = 0, $userId = 0)
 	{
-		$Idx               = $cart['idx'];
-		$total             = 0;
-		$vat               = 0;
-		$subtotal          = 0;
-		$subtotal_excl_vat = 0;
-		$shipping          = 0;
-		$discount          = 0;
-		$user_info_id      = 0;
-		$total_discount    = 0;
-		$discountVAT       = 0;
-		$redArray          = array();
-
-		for ($i = 0; $i < $Idx; $i++)
-		{
-			$quantity          = $cart[$i]['quantity'];
-			$subtotal          += $quantity * $cart[$i]['product_price'];
-			$subtotal_excl_vat += $quantity * $cart[$i]['product_price_excl_vat'];
-			$vat               += $quantity * $cart[$i]['product_vat'];
-		}
-
-		$tmparr             = array();
-		$tmparr['subtotal'] = $subtotal;
-
-		$tmparr['tax'] = $vat;
-		$shippingVat   = 0;
-
-		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
-		if (Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-		{
-			if (!$user_id)
-			{
-				$user          = JFactory::getUser();
-				$user_id       = $user->id;
-				$shippingArray = $this->_order_functions->getShippingAddress($user_id);
-
-				if (!empty($shippingArray[0]))
-				{
-					$user_info_id = $shippingArray[0]->users_info_id;
-				}
-			}
-
-			$noOFGIFTCARD = 0;
-
-			for ($i = 0; $i < $Idx; $i++)
-			{
-				if (isset($cart [$i] ['giftcard_id']) === true)
-				{
-					if (!is_null($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'] != 0)
-					{
-						$noOFGIFTCARD++;
-					}
-				}
-			}
-
-			if ($noOFGIFTCARD == $Idx)
-			{
-				$cart['free_shipping'] = 1;
-			}
-			elseif (!isset($cart['free_shipping']) || $cart['free_shipping'] != 1)
-			{
-				$cart['free_shipping'] = 0;
-			}
-
-			if (isset($cart ['free_shipping']) && $cart ['free_shipping'] > 0)
-			{
-				$shipping = 0;
-			}
-			else
-			{
-				if (!isset($cart['voucher_discount']))
-				{
-					$cart['coupon_discount'] = 0;
-				}
-
-				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
-				$d['order_subtotal'] = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $subtotal - $total_discount : $subtotal;
-				$d['users_info_id']  = $user_info_id;
-				$shippingArr         = RedshopHelperCartShipping::getDefault($d);
-				$shipping            = $shippingArr['shipping_rate'];
-				$shippingVat         = $shippingArr['shipping_vat'];
-			}
-		}
-
-		$view = $this->input->getCmd('view');
-
-		if (key_exists('shipping', $cart) && $view != 'cart')
-		{
-			$shipping = $cart['shipping'];
-
-			if (!isset($cart['shipping_vat']))
-			{
-				$cart['shipping_vat'] = 0;
-			}
-
-			$shippingVat = $cart['shipping_vat'];
-		}
-
-		$chktag = RedshopHelperCart::taxExemptAddToCart();
-
-		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
-		{
-			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
-			{
-				$discountVAT = $cart['discount_tax'];
-				$subtotal    = $subtotal - $cart['discount_tax'];
-			}
-			else
-			{
-				$vatData = $this->_producthelper->getVatRates();
-
-				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
-				{
-					$discountVAT = 0;
-
-					if ((int) $subtotal_excl_vat > 0)
-					{
-						$avgVAT      = (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
-						$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
-					}
-				}
-			}
-
-			$vat = $vat - $discountVAT;
-		}
-
-		$total      = $subtotal + $shipping;
-		$redArray[] = $total;
-		$redArray[] = $subtotal;
-		$redArray[] = $subtotal_excl_vat;
-		$redArray[] = $shipping;
-
-		if (isset($cart['discount']) === false)
-		{
-			$cart['discount'] = 0;
-		}
-
-		$redArray[] = $cart['discount'];
-
-		$redArray[] = $vat;
-		$redArray[] = $shippingVat;
-
-		return $redArray;
+		return \Redshop\Cart\Helper::calculation($cart, $userId);
 	}
 
+	/**
+	 * Get cart module calculate
+	 *
+	 * @param   array  $redArray  Cart data
+	 *
+	 * @return  float
+	 * @throws  Exception
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 * @see \Redshop\Cart\Module::calculate()
+	 */
 	public function GetCartModuleCalc($redArray)
 	{
-		$cartParamArr       = array();
-		$cartParamArr       = $this->GetCartParameters();
-		$cart_output        = 0;
-		$show_with_shipping = 1;
-		$show_with_discount = 1;
-		$show_with_vat      = 1;
-
-		if (array_key_exists('cart_output', $cartParamArr))
-		{
-			$cart_output = $cartParamArr['cart_output'];
-		}
-
-		if (array_key_exists('show_with_shipping', $cartParamArr))
-		{
-			$show_with_shipping = $cartParamArr['show_with_shipping'];
-		}
-
-		if (array_key_exists('show_with_discount', $cartParamArr))
-		{
-			$show_with_discount = $cartParamArr['show_with_discount'];
-		}
-
-		if (array_key_exists('show_with_vat', $cartParamArr))
-		{
-			$show_with_vat = $cartParamArr['show_with_vat'];
-		}
-
-		if (!$show_with_vat)
-		{
-			$total = $redArray['product_subtotal_excl_vat'];
-		}
-		else
-		{
-			$total = $redArray['product_subtotal'];
-		}
-
-		$shipping       = $redArray['shipping'];
-		$discount_total = $redArray['coupon_discount'] + $redArray['voucher_discount'] + $redArray['cart_discount'];
-
-		if ($show_with_shipping == 1 && $show_with_discount == 1)
-		{
-			$mod_cart_total = $total + $shipping - $discount_total;
-		}
-		elseif ($show_with_shipping == 0 && $show_with_discount == 1)
-		{
-			$mod_cart_total = $total - $discount_total;
-		}
-		elseif ($show_with_shipping == 1 && $show_with_discount == 0)
-		{
-			$mod_cart_total = $total + $shipping;
-		}
-		else
-		{
-			$mod_cart_total = $total;
-		}
-
-		$this->_show_with_vat = $show_with_vat;
-		$layout               = $this->input->getCmd('layout');
-		$view                 = $this->input->getCmd('view');
-
-		if (array_key_exists('payment_amount', $redArray) && $view == 'checkout' && $layout != 'default')
-		{
-			if ($redArray['payment_oprand'] == '+')
-			{
-				$mod_cart_total += $redArray['payment_amount'];
-			}
-			else
-			{
-				$mod_cart_total -= $redArray['payment_amount'];
-			}
-		}
-
-		return $mod_cart_total;
+		return Redshop\Cart\Module::calculate($redArray);
 	}
 
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
@@ -2232,36 +2038,17 @@ class rsCarthelper
 		return RedshopHelperCart::generateCartOutput($cart);
 	}
 
+	/**
+	 * Method for get parameters of module cart
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see \Redshop\Cart\Module::getParams()
+	 */
 	public function GetCartParameters()
 	{
-		$sel = 'SELECT params  from #__modules where module = "mod_redshop_cart" and published =1';
-		$this->_db->setQuery($sel);
-		$params = $this->_db->loadResult();
-
-		$cartparamArr = array();
-		$params       = substr($params, 1);
-		$params       = substr_replace($params, " ", -1);
-		$params       = str_replace('"', ' ', $params);
-		$allparams    = explode(",", $params);
-
-		for ($i = 0, $in = count($allparams); $i < $in; $i++)
-		{
-			$cart_param = explode(':', $allparams[$i]);
-
-			if (!empty($cart_param))
-			{
-				if (strpos($cart_param[0], 'cart_output') !== false
-					|| strpos($cart_param[0], 'show_with_shipping') !== false
-					|| strpos($cart_param[0], 'show_with_discount') !== false
-					|| strpos($cart_param[0], 'show_with_vat') !== false
-					|| strpos($cart_param[0], 'show_shipping_line') !== false)
-				{
-					$cartparamArr[trim($cart_param[0])] = trim($cart_param[1]);
-				}
-			}
-		}
-
-		return $cartparamArr;
+		return \Redshop\Cart\Module::getParams();
 	}
 
 	public function modifyCart($cartArr, $user_id)
@@ -3428,7 +3215,7 @@ class rsCarthelper
 	 */
 	public function modifyDiscount($cart)
 	{
-		$calArr                            = $this->calculation($cart);
+		$calArr                            = \Redshop\Cart\Helper::calculation($cart);
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
 
@@ -3493,7 +3280,7 @@ class rsCarthelper
 		$codeDiscount  = $voucherDiscount + $couponDiscount;
 		$totalDiscount = $cart['cart_discount'] + $codeDiscount;
 
-		$calArr      = $this->calculation($cart);
+		$calArr      = \Redshop\Cart\Helper::calculation($cart);
 		$tax         = $calArr[5];
 		$discountVAT = 0;
 		$chktag      = RedshopHelperCart::taxExemptAddToCart();
@@ -3533,7 +3320,7 @@ class rsCarthelper
 		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
-		$cart['mod_cart_total']            = $this->GetCartModuleCalc($cart);
+		$cart['mod_cart_total']            = Redshop\Cart\Module::calculate($cart);
 
 		$this->_session->set('cart', $cart);
 
