@@ -44,10 +44,10 @@ class Helper
 		$vat           = 0;
 		$subTotal      = 0;
 		$subTotalNoVAT = 0;
-		$shipping      = 0;
-		$usersInfoId   = 0;
 		$totalDiscount = 0;
 		$discountVAT   = 0;
+		$shippingVat   = 0;
+		$shipping      = 0;
 
 		for ($i = 0; $i < $index; $i++)
 		{
@@ -58,73 +58,14 @@ class Helper
 		}
 
 		/* @TODO: Need to check why this variable still exist.
-		$tmparr = array(
-			'subtotal' => $subTotal,
-			'tax'      => $vat
-		);
-		*/
+		 * $tmparr = array(
+		 * 'subtotal' => $subTotal,
+		 * 'tax'      => $vat
+		 * );
+		 */
 
-		$shippingVat = 0;
-
-		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
-		if (\Redshop::getConfig()->getBool('SHOW_SHIPPING_IN_CART') && \Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
-		{
-			if (!$userId)
-			{
-				$user            = \JFactory::getUser();
-				$userId          = $user->id;
-				$shippingAddress = \RedshopHelperOrder::getShippingAddress($userId);
-
-				if (!empty($shippingAddress) && !empty($shippingAddress[0]))
-				{
-					$usersInfoId = $shippingAddress[0]->users_info_id;
-				}
-			}
-
-			$numberOfGiftCards = 0;
-
-			for ($i = 0; $i < $index; $i++)
-			{
-				if (isset($cart[$i]['giftcard_id']) === true && !empty($cart[$i]['giftcard_id']))
-				{
-					$numberOfGiftCards++;
-				}
-			}
-
-			if ($numberOfGiftCards == $index)
-			{
-				$cart['free_shipping'] = 1;
-			}
-			elseif (!isset($cart['free_shipping']) || $cart['free_shipping'] != 1)
-			{
-				$cart['free_shipping'] = 0;
-			}
-
-			if (isset($cart['free_shipping']) && $cart['free_shipping'] > 0)
-			{
-				$shipping = 0;
-			}
-			else
-			{
-				if (!isset($cart['voucher_discount']))
-				{
-					$cart['coupon_discount'] = 0;
-				}
-
-				$totalDiscount  = $cart['cart_discount'];
-				$totalDiscount += isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0.0;
-				$totalDiscount += isset($cart['coupon_discount']) ? $cart['coupon_discount'] : 0.0;
-
-				$shippingData = array(
-					'order_subtotal' => \Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ? $subTotal - $totalDiscount : $subTotal,
-					'users_info_id'  => $usersInfoId
-				);
-
-				$defaultShipping = \RedshopHelperCartShipping::getDefault($shippingData);
-				$shipping        = $defaultShipping['shipping_rate'];
-				$shippingVat     = $defaultShipping['shipping_vat'];
-			}
-		}
+		// Calculate shipping.
+		self::calculateShipping($shipping, $shippingVat, $cart, $subTotal, $userId);
 
 		$view = \JFactory::getApplication()->input->getCmd('view');
 
@@ -172,7 +113,6 @@ class Helper
 		$total  = $subTotal + $shipping;
 		$result = array($total, $subTotal, $subTotalNoVAT, $shipping);
 
-
 		if (isset($cart['discount']) === false)
 		{
 			$cart['discount'] = 0;
@@ -183,5 +123,84 @@ class Helper
 		$result[] = $shippingVat;
 
 		return $result;
+	}
+
+	/**
+	 * @param   float   $shipping    Shipping rate
+	 * @param   float   $shippingVat Shipping VAT
+	 * @param   array   $cart        Cart data
+	 * @param   float   $subTotal    Sub total
+	 * @param   integer $userId      User ID
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function calculateShipping(&$shipping, &$shippingVat, &$cart, $subTotal = 0.0, $userId = 0)
+	{
+		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
+		if (!\Redshop::getConfig()->getBool('SHOW_SHIPPING_IN_CART') || !\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
+		{
+			return;
+		}
+
+		$index       = $cart['idx'];
+		$usersInfoId = 0;
+
+		if (!$userId)
+		{
+			$user            = \JFactory::getUser();
+			$userId          = $user->id;
+			$shippingAddress = \RedshopHelperOrder::getShippingAddress($userId);
+
+			if (!empty($shippingAddress) && !empty($shippingAddress[0]))
+			{
+				$usersInfoId = $shippingAddress[0]->users_info_id;
+			}
+		}
+
+		$numberOfGiftCards = 0;
+
+		for ($i = 0; $i < $index; $i++)
+		{
+			if (isset($cart[$i]['giftcard_id']) === true && !empty($cart[$i]['giftcard_id']))
+			{
+				$numberOfGiftCards++;
+			}
+		}
+
+		if ($numberOfGiftCards == $index)
+		{
+			$cart['free_shipping'] = 1;
+		}
+		elseif (!isset($cart['free_shipping']) || $cart['free_shipping'] != 1)
+		{
+			$cart['free_shipping'] = 0;
+		}
+
+		if (isset($cart['free_shipping']) && $cart['free_shipping'] > 0)
+		{
+			$shipping = 0;
+
+			return;
+		}
+
+		if (!isset($cart['voucher_discount']))
+		{
+			$cart['coupon_discount'] = 0;
+		}
+
+		$totalDiscount  = $cart['cart_discount'];
+		$totalDiscount += isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0.0;
+		$totalDiscount += isset($cart['coupon_discount']) ? $cart['coupon_discount'] : 0.0;
+
+		$shippingData = array(
+			'order_subtotal' => \Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ? $subTotal - $totalDiscount : $subTotal,
+			'users_info_id'  => $usersInfoId
+		);
+
+		$defaultShipping = \RedshopHelperCartShipping::getDefault($shippingData);
+		$shipping        = $defaultShipping['shipping_rate'];
+		$shippingVat     = $defaultShipping['shipping_vat'];
 	}
 }
