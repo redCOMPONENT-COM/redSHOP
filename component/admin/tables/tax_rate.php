@@ -35,6 +35,16 @@ class RedshopTableTax_Rate extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->name))
+		{
+			return false;
+		}
+
+		if (empty($this->tax_group_id))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;

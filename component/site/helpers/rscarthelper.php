@@ -1843,7 +1843,7 @@ class rsCarthelper
 				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
 				$d['order_subtotal'] = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
-				$shippingArr         = $this->_shippinghelper->getDefaultShipping($d);
+				$shippingArr         = RedshopHelperCartShipping::getDefault($d);
 				$shipping            = $shippingArr['shipping_rate'];
 				$shippingVat         = $shippingArr['shipping_vat'];
 			}

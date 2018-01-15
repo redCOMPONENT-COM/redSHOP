@@ -48,11 +48,13 @@ class shipping
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getDefaultShipping($d) instead
+	 * @deprecated  2.0.0.3
+	 *
+	 * @see RedshopHelperCartShipping::getDefault
 	 */
 	public function getDefaultShipping($data)
 	{
-		return RedshopHelperShipping::getDefaultShipping($data);
+		return RedshopHelperCartShipping::getDefault($data);
 	}
 
 	/**
