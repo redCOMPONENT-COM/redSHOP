@@ -58,6 +58,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/common.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
+		JHtml::script('com_redshop/ajaxupload.js', false, true);
 
 		$lists = array();
 

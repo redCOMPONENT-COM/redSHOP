@@ -32,6 +32,7 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/order.js');
 		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
+		JHtml::script('com_redshop/ajaxupload.js', false, true);
 
 		$uri   = JFactory::getURI();
 		$lists = array();

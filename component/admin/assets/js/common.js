@@ -609,6 +609,12 @@ function displayProductDetailInfo(unique_id, newprice) {
 
 			// load calendar setup
 			calendarDefaultLoad();
+
+			// trigger ajaxUpload function
+			var parser = new DOMParser();
+		    var doc = parser.parseFromString(xmlhttp.responseText, "text/html");
+		    var elem = doc.querySelectorAll("script[id^='inner-ajax-script']")[0];
+		    eval(elem.innerHTML);
 		}
 	}
 	xmlhttp.open("GET", url, true);

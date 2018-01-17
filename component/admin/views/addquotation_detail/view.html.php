@@ -38,6 +38,7 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
+		JHtml::script('com_redshop/ajaxupload.js', false, true);
 		$session = JFactory::getSession();
 		$uri     = JFactory::getURI();
 
