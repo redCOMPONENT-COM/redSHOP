@@ -301,7 +301,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
-		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_full_image'] != null)
+		if (isset($data['image_delete']) || !empty($file['name']) || $data['product_full_image'] != null)
 		{
 			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image']);
 
@@ -345,7 +345,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if ($file['name'] != "")
+		if (!empty($file['name']))
 		{
 			$filename                = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
@@ -525,23 +525,26 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$media_id = $result->media_id;
 				}
 
-				$mediarow                          = $this->getTable('media_detail');
-				$mediapost                         = array();
-				$mediapost['media_id']             = $media_id;
-				$mediapost['media_name']           = $row->product_full_image;
-				$mediapost['media_alternate_text'] = !empty($old_main_image_alternate_text) ? $old_main_image_alternate_text : preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
-				$mediapost['media_section']        = "product";
-				$mediapost['section_id']           = $row->product_id;
-				$mediapost['media_type']           = "images";
-				$mediapost['media_mimetype']       = $file['type'];
-				$mediapost['published']            = 1;
+				/** @var Tablemedia_detail $mediaTable */
+				$mediaTable = $this->getTable('media_detail');
+				$mediaData  = array(
+					'media_id'             => $media_id,
+					'media_name'           => $row->product_full_image,
+					'media_alternate_text' => !empty($old_main_image_alternate_text) ?
+						$old_main_image_alternate_text : preg_replace('#\.[^/.]+$#', '', $row->product_name),
+					'media_section'        => 'product',
+					'section_id'           => $row->product_id,
+					'media_type'           => 'images',
+					'media_mimetype'       => !empty($file['type']) ? $file['type'] : '',
+					'published'            => 1
+				);
 
-				if (!$mediarow->bind($mediapost))
+				if (!$mediaTable->bind($mediaData))
 				{
 					return false;
 				}
 
-				if (!$mediarow->store())
+				if (!$mediaTable->store())
 				{
 					return false;
 				}
