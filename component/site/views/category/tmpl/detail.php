@@ -649,10 +649,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		if (empty($specificLink))
 		{
+			$productCatId = !empty($product->categories) && is_array($product->categories) ? $product->categories[0] : $this->catid;
+
 			$link = JRoute::_(
 				'index.php?option=' . $this->option .
 				'&view=product&pid=' . $product->product_id .
-				'&cid=' . $this->catid .
+				'&cid=' . $productCatId .
 				'&Itemid=' . $pItemid
 			);
 		}
