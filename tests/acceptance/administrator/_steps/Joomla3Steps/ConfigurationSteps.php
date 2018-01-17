@@ -307,4 +307,100 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
+	
+	public function priceDiscount($discount = array())
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$I->click(\ConfigurationPage::$price);
+		$userConfiguration = new \ConfigurationPage();
+
+		if(isset($discount['enable']))
+		{
+			if ($discount['enable'] == 'yes')
+			{
+				if(isset($discount['allow']))
+				{
+					$I->click(\ConfigurationPage::$allowedDiscountId);
+					$I->waitForElement(\ConfigurationPage::$allowDiscountSearch, 30);
+					$I->fillField(\ConfigurationPage::$allowDiscountSearch, $discount['allow']);
+					$I->waitForElement($userConfiguration->returnChoice($discount['allow']));
+					$I->pressKey(\ConfigurationPage::$allowDiscountSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+				}
+
+				if (isset($discount['enableCoupon']))
+				{
+					if ($discount['enableCoupon'] == 'yes')
+					{
+						$I->click(\ConfigurationPage::$enableCouponYes);
+					}else{
+						$I->click(\ConfigurationPage::$enableCouponNo);
+					}
+				}
+
+				if (isset($discount['couponInfo']))
+				{
+					if ($discount['couponInfo'] == 'yes')
+					{
+						$I->click(\ConfigurationPage::$enableCouponInfoYes);
+					}else{
+						$I->click(\ConfigurationPage::$enableCouponInfoNo);
+					}
+				}
+
+				if(isset($discount['enableVoucher']))
+				{
+					if ($discount['enableVoucher'] == 'yes')
+					{
+						$I->click(\ConfigurationPage::$enableVoucherYes);
+					}else{
+						$I->click(\ConfigurationPage::$enableVoucherNo);
+					}
+				}
+
+
+				if(isset($discount['spendTime']))
+				{
+					if ($discount['spendTime'] == 'yes')
+					{
+						$I->click(\ConfigurationPage::$spendTimeDiscountYes);
+					}else{
+						$I->click(\ConfigurationPage::$spendTimeDiscountNo);
+					}
+				}
+
+				if(isset($discount['applyForProductDiscount']))
+				{
+					if ($discount['applyForProductDiscount'] == 'yes')
+					{
+						$I->click(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountYes);
+					}else{
+						$I->click(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountNo);
+					}
+				}
+
+				if(isset($discount['calculate']))
+				{
+					if ($discount['calculate'] == 'total')
+					{
+						$I->click(\ConfigurationPage::$calculateShippingBasedTotal);
+					}else{
+						$I->click(\ConfigurationPage::$calculateShippingBasedSubTotal);
+					}
+				}
+
+				if(isset($discount['valueOfDiscount']))
+				{
+					$I->click(\ConfigurationPage::$valueDiscountCouponId);
+					$I->waitForElement(\ConfigurationPage::$valueDiscountCouponSearch, 30);
+					$I->fillField(\ConfigurationPage::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
+					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
+//					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
+					$I->pressKey(\ConfigurationPage::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+				}
+			}
+		}
+		$I->click(\ConfigurationPage::$buttonSave);
+		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
+	}
 }
