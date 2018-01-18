@@ -556,4 +556,36 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$addQuotation);
 		$I->see(\FrontEndProductManagerJoomla3Page::$addQuotationSuccess,\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
 	}
+
+	public function comparesProducts($categoryName, $productFirst, $productSecond)
+	{
+		$I = $this;
+		$usePage = new \FrontEndProductManagerJoomla3Page();
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productFirst),30);
+		$I->click($productFrontEndManagerPage->product($productFirst));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
+		$I->waitForElement($usePage->productName($productFirst), 30);
+
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productSecond),30);
+		$I->click($productFrontEndManagerPage->product($productSecond));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
+		$I->waitForElement($usePage->productName($productFirst), 30);
+		$I->waitForElement($usePage->productName($productSecond), 30);
+	}
 }
