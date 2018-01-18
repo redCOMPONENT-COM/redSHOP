@@ -51,6 +51,7 @@ $http_referer = JFactory::getApplication()->input->server->getString('HTTP_REFER
 <?php if (strpos($http_referer, 'administrator') !== false
 		&& (strpos($http_referer, 'view=order_detail') !== false
 			|| strpos($http_referer, 'view=addorder_detail') !== false
+			|| strpos($http_referer, 'view=quotation') !== false
 			|| strpos($http_referer, 'view=quotation_detail') !== false
 			|| strpos($http_referer, 'view=addquotation_detail') !== false)
 		): ?>
