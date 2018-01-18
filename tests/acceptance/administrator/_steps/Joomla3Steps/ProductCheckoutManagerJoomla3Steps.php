@@ -560,6 +560,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function comparesProducts($categoryName, $productFirst, $productSecond)
 	{
 		$I = $this;
+		$usePage = new \FrontEndProductManagerJoomla3Page();
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
@@ -571,6 +572,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
+		$I->waitForElement($usePage->productName($productFirst), 30);
 
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
@@ -583,7 +585,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
-		$usePage = new \FrontEndProductManagerJoomla3Page();
 		$I->waitForElement($usePage->productName($productFirst), 30);
 		$I->waitForElement($usePage->productName($productSecond), 30);
 	}
