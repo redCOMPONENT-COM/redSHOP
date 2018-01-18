@@ -61,9 +61,9 @@ class RedshopModelFields extends RedshopModelList
 	protected function getStoreId($id = '')
 	{
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.type');
-		$id .= ':' . $this->getState('filter.section');
-		$id .= ':' . $this->getState('filter.group');
+		$id .= ':' . $this->getState('filter.field_type');
+		$id .= ':' . $this->getState('filter.field_section');
+		$id .= ':' . $this->getState('filter.field_group');
 
 		return parent::getStoreId($id);
 	}
