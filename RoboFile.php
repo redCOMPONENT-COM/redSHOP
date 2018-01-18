@@ -272,6 +272,12 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 
+		$this->taskCodecept()
+			->debug()
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CompareProductsCest.php')
+			->run()
+			->stopOnFail();
 
 		/*
 		$this->taskCodecept()
@@ -564,6 +570,13 @@ class RoboFile extends \Robo\Tasks
 		$this->taskCodecept()
 			->arg('--fail-fast')
 			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->debug()
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CompareProductsCest.php')
 			->run()
 			->stopOnFail();
 
