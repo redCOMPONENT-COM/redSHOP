@@ -5571,7 +5571,6 @@ class productHelper
 	/**
 	 * Function which will return product tag array form  given template
 	 *
-	 * @param   integer  $templateId  Template ID
 	 * @param   integer  $section     Section field
 	 * @param   string   $html        Template HTML
 	 *
@@ -5580,7 +5579,7 @@ class productHelper
 	 * @deprecated   __DEPLOY_VERSION__
 	 * @see Redshop\Helper\Utility::getProductTags()
 	 */
-	public function product_tag($templateId, $section, $html)
+	public function product_tag($section, $html)
 	{
 		return Utility::getProductTags($section, $html);
 	}

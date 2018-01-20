@@ -49,7 +49,7 @@ class Utility
 		{
 			if ($displayWarning)
 			{
-				\JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
 			}
 
 			return false;

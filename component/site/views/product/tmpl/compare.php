@@ -28,7 +28,7 @@ if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
 		'compare_product',
-		$producthelper->getCategoryCompareTemplate($compareCategoryId)
+		Redshop\Product\Compare::getCategoryCompareTemplate($compareCategoryId)
 	);
 }
 else

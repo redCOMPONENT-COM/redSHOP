@@ -35,7 +35,7 @@ $idx = isset($compareProducts) ? (int) $compareProducts['idx'] : 0;
 		<?php endfor; ?>
     </ul>
     <div id='totalCompareProduct' style='display:none;'><?php echo $idx ?></div>
-<?php if ($excludeData == false): ?>
+<?php if ($excludeData === false): ?>
     <table border="0" cellpadding="5" cellspacing="0" width="100%">
 		<?php for ($i = 0; $i < $idx; $i++): ?>
 			<?php
