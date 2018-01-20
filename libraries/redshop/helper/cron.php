@@ -195,7 +195,7 @@ class RedshopHelperCron
 					$token = substr($token, 0, 10);
 					$body  = str_replace("{coupon_code}", $token, $body);
 					$body  = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body  = RedshopHelperMail::imgInMail($body);
+					$body  = \Redshop\Mail\Helper::useImage($body);
 
 					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
@@ -247,7 +247,7 @@ class RedshopHelperCron
 					$validEndDate = RedshopHelperDatetime::convertDateFormat($couponEndDate);
 					$body         = str_replace("{coupon_code}", $couponCode, $body);
 					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body         = RedshopHelperMail::imgInMail($body);
+					$body         = \Redshop\Mail\Helper::useImage($body);
 
 					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
@@ -289,7 +289,7 @@ class RedshopHelperCron
 					$validEndDate = RedshopHelperDatetime::convertDateFormat($couponEndDate);
 					$body         = str_replace("{coupon_code}", $couponCode, $body);
 					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body         = RedshopHelperMail::imgInMail($body);
+					$body         = \Redshop\Mail\Helper::useImage($body);
 
 					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{

@@ -2115,12 +2115,11 @@ class RedshopHelperOrder
 	 */
 	public static function sendDownload($orderId = 0)
 	{
-		$config = Redconfiguration::getInstance();
 		$app    = JFactory::getApplication();
 
 		// Getting the order status changed template from mail center end
-		$mailFrom = $app->get('mailfrom');
-		$fromName = $app->get('fromname');
+		$mailFrom = (string) $app->get('mailfrom');
+		$fromName = (string) $app->get('fromname');
 
 		$mailData    = "";
 		$mailSubject = "";
@@ -2157,7 +2156,7 @@ class RedshopHelperOrder
 		$mailData = str_replace("{fullname}", $userFullname, $mailData);
 		$mailData = str_replace("{order_id}", $orderDetail->order_id, $mailData);
 		$mailData = str_replace("{order_number}", $orderDetail->order_number, $mailData);
-		$mailData = str_replace("{order_date}", $config->convertDateFormat($orderDetail->cdate), $mailData);
+		$mailData = str_replace("{order_date}", RedshopHelperDatetime::convertDateFormat($orderDetail->cdate), $mailData);
 
 		$productStart  = "";
 		$productEnd    = "";
@@ -2194,7 +2193,7 @@ class RedshopHelperOrder
 
 		$mailData = $productStart . $pMiddle . $productEnd;
 		$mailBody = $mailData;
-		$mailBody = RedshopHelperMail::imgInMail($mailBody);
+		$mailBody = \Redshop\Mail\Helper::useImage($mailBody);
 		$mailSubject = str_replace("{order_number}", $orderDetail->order_number, $mailSubject);
 
 		if ($mailBody && $userEmail != "")
@@ -2433,10 +2432,7 @@ class RedshopHelperOrder
 	public static function changeOrderStatusMail($orderId, $newStatus, $orderComment = '')
 	{
 		$app = JFactory::getApplication();
-
-		$config          = Redconfiguration::getInstance();
 		$cartHelper      = rsCarthelper::getInstance();
-		$redshopMail     = redshopMail::getInstance();
 
 		// Changes to parse all tags same as order mail end
 		$userDetail = self::getOrderBillingUserInfo($orderId);
@@ -2549,7 +2545,7 @@ class RedshopHelperOrder
 			$replace[] = $orderDetail->order_number;
 
 			$search[]  = "{order_date}";
-			$replace[] = $config->convertDateFormat($orderDetail->cdate);
+			$replace[] = RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
 
 			$search[]  = "{customer_note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_COMMENT');
@@ -2609,7 +2605,7 @@ class RedshopHelperOrder
 			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailBody = str_replace($search, $replace, $mailData);
-			$mailBody = $redshopMail->imginmail($mailBody);
+			$mailBody = \Redshop\Mail\Helper::useImage($mailBody);
 			$mailSubject = str_replace($search, $replace, $mailSubject);
 
 			if ('' != $userDetail->thirdparty_email && $mailBody)

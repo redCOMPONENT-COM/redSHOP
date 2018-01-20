@@ -369,7 +369,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		// Replacing the Text library texts
 		$content = RedshopHelperText::replaceTexts($content);
-		$content = RedshopHelperMail::imgInMail($content);
+		$content = \Redshop\Mail\Helper::useImage($content);
 
 		$subscribers = array();
 		$db          = JFactory::getDbo();

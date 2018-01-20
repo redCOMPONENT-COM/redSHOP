@@ -426,7 +426,6 @@ class RedshopModelAccount extends RedshopModel
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = redshopMail::getInstance();
 
 		$wishlist_id = JFactory::getApplication()->input->getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -464,7 +463,7 @@ class RedshopModelAccount extends RedshopModel
 		$MyWishlist    = $this->_getList($query);
 		$data          = "";
 		$mailbcc       = null;
-		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
+		$wishlist_body = RedshopHelperMail::getMailTemplate(0, "mywishlist_mail");
 		$data_add = '';
 
 		if (count($wishlist_body) > 0)
@@ -572,7 +571,7 @@ class RedshopModelAccount extends RedshopModel
 			}
 		}
 
-		$data_add = $redshopMail->imginmail($data_add);
+		$data_add = \Redshop\Mail\Helper::useImage($data_add);
 
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 		{

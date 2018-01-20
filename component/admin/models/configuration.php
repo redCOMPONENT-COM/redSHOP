@@ -465,7 +465,7 @@ class RedshopModelConfiguration extends RedshopModel
 		// Replacing the Text library texts
 		$content = RedshopHelperText::replaceTexts($content);
 
-		$data1 = RedshopHelperMail::imgInMail($content);
+		$data1 = \Redshop\Mail\Helper::useImage($content);
 
 		$to    = trim($to);
 		$today = time();

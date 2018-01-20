@@ -1333,7 +1333,7 @@ class RedshopModelCheckout extends RedshopModel
 			$from                = $config->get('mailfrom');
 			$fromname            = $config->get('fromname');
 			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
-			$giftcardmail_body = RedshopHelperMail::imgInMail($giftcardmail_body);
+			$giftcardmail_body = \Redshop\Mail\Helper::useImage($giftcardmail_body);
 
 			JFactory::getMailer()->sendMail(
 				$from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment
