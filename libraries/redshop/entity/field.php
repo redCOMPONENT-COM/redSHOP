@@ -56,7 +56,7 @@ class RedshopEntityField extends RedshopEntity
 			return null;
 		}
 
-		return RedshopEntityField_Group::getInstance($this->get('groupId'));
+		return RedshopEntityField_Group::getInstance((int) $this->get('groupId'));
 	}
 
 	/**
