@@ -19,11 +19,11 @@ class ManageTextLibraryAdministratorCest
 {
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
-		$this->name = $this->faker->bothify('ManageTextLibraryAdministratorCest ?##?');
-		$this->newName = 'Updated' . $this->name;
+		$this->faker       = Faker\Factory::create();
+		$this->name        = $this->faker->bothify('ManageTextLibraryAdministratorCest ?##?');
+		$this->newName     = 'Updated' . $this->name;
 		$this->description = $this->faker->bothify('ManageTextLibraryAdministratorCest Description ?##?');
-		$this->section = 'Product';
+		$this->section     = 'Product';
 	}
 
 	/**

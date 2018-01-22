@@ -29,7 +29,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function createText($textTagName = 'Testing Text Name', $textTagDescription = 'Testing Description', $textTagSection = 'Product')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=texts');
 		$textLibraryManagerPage = new \TextLibraryManagerJoomla3Page;
 		$verifyName = '{' . $textTagName . '}';
 		$I->verifyNotices(false, $this->checkForNotices(), 'Text Library  Manager Page');
@@ -62,7 +62,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editText($textTagName = 'Testing Text', $newTextTagName = 'Updating Testing')
 	{
 		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=texts');
 		$I->executeJS('window.scrollTo(0,0)');
 		$verifyName = '{' . $textTagName . '}';
 		$newVerifyName = '{' . $newTextTagName . '}';
@@ -113,7 +113,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$verifyName = '{' . $textTagName . '}';
- 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
+ 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=texts');
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
 		$I->fillField(['id' => 'filter'], $textTagName);
@@ -143,7 +143,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$verifyName = '{' . $textTagName . '}';
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=texts');
 		$I->waitForText('Text Library Management', 60, ['css' => 'h1']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');

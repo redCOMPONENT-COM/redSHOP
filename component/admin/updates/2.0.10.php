@@ -47,7 +47,7 @@ class RedshopUpdate2010 extends RedshopInstallUpdate
 	protected function getOldFolders()
 	{
 		return array(
-			JPATH_SITE . '/components/com_redshop/views/discount_detail'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/discount_detail'
 		);
 	}
 }

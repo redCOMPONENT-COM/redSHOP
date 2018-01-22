@@ -52,7 +52,7 @@ class AdministratorNoticesCest
 			'State Manager' => '/administrator/index.php?option=com_redshop&view=states',
 			'Custom Field Manager' => '/administrator/index.php?option=com_redshop&view=fields',
 			'Template Manager' => '/administrator/index.php?option=com_redshop&view=template',
-			'Text Library Manager' => '/administrator/index.php?option=com_redshop&view=textlibrary',
+			'Text Library' => '/administrator/index.php?option=com_redshop&view=texts',
 			'Question Manager' => '/administrator/index.php?option=com_redshop&view=question',
 			'Rating Manager' => '/administrator/index.php?option=com_redshop&view=rating'
 		);

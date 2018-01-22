@@ -14,9 +14,9 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Update
  *
- * @since       2.0.11
+ * @since       2.0.12
  */
-class RedshopUpdate2011 extends RedshopInstallUpdate
+class RedshopUpdate2012 extends RedshopInstallUpdate
 {
 	/**
 	 * Return list of old files for clean
@@ -28,10 +28,11 @@ class RedshopUpdate2011 extends RedshopInstallUpdate
 	protected function getOldFiles()
 	{
 		return array(
-			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/currency_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/models/currency_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/currency_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/currency/tmpl/default.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/textlibrary.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/textlibrary_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/textlibrary.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/textlibrary_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/textlibrary_detail.php'
 		);
 	}
 
@@ -45,7 +46,8 @@ class RedshopUpdate2011 extends RedshopInstallUpdate
 	protected function getOldFolders()
 	{
 		return array(
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/currency_detail'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/textlibrary',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/textlibrary_detail'
 		);
 	}
 }

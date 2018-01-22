@@ -16,7 +16,7 @@
 class TextLibraryManagerJoomla3Page
 {
 	// Include url of current page
-	public static $URL = '/administrator/index.php?option=com_redshop&view=textlibrary';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=texts';
 
 	public static $textTagName = "#text_name";
 
