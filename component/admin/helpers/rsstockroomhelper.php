@@ -149,7 +149,7 @@ class rsstockroomhelper
 	 * @param   string  $section      Section
 	 * @param   int     $stockroomId  Stockroom id
 	 *
-	 * @return int|mixed
+	 * @return integer|mixed
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockAmountwithReserve($sectionId, $section, $stockroomId) instead
 	 */

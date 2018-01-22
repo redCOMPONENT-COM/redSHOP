@@ -46,6 +46,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 		$msg   = '';
 
@@ -210,6 +211,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if (!$model->delete($cid))
@@ -263,10 +265,10 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$post = $this->input->post->getArray();
 
-		$main_img = $this->input->files->get('property_main_img', 'array', 'array');
+		$main_img = (array) $this->input->files->get('property_main_img', array(), 'array');
+		$sub_img  = (array) $this->input->files->get('property_sub_img', array(), 'array');
 
-		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$filetype = strtolower(JFile::getExt($main_img['name']));
@@ -287,9 +289,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-            <script language="javascript" type="text/javascript">
-                window.parent.SqueezeBox.close();
-            </script>
+			<script language="javascript" type="text/javascript">
+				window.parent.SqueezeBox.close();
+			</script>
 			<?php
 		}
 	}
@@ -304,6 +306,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		$section_id = $this->input->get('section_id');
 		$cid        = $this->input->get('cid');
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($model->deletesubimage($mediaid))
@@ -319,6 +322,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$subattr_id = implode("','", $post['subattribute_color_id']);
@@ -332,9 +336,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
+		<script language="javascript" type="text/javascript">
+			window.parent.SqueezeBox.close();
+		</script>
 		<?php
 	}
 
@@ -344,6 +348,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$pid = $get['pid'];
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->removepropertyImage($pid))
@@ -374,6 +379,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->SaveAttributeStockroom($post))

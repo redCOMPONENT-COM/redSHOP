@@ -25,7 +25,7 @@ class RedshopControllerWizard extends RedshopController
 		jimport('joomla.filesystem.file');
 
 		$this->_temp_file_dist = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.dist.php';
-		$this->_temp_file = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.php';
+		$this->_temp_file      = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.php';
 
 		JFile::copy($this->_temp_file_dist, $this->_temp_file);
 	}
@@ -36,12 +36,12 @@ class RedshopControllerWizard extends RedshopController
 	public function save()
 	{
 		// Get temporary saved config via wizard
-		$session = JFactory::getSession();
+		$session      = JFactory::getSession();
 		$wizardConfig = $session->get('redshop.wizard');
 
 		// Get submit data
 		$post = $this->input->post->getArray();
-		$go = $post['go'];
+		$go   = $post['go'];
 
 		$substep = $post['substep'];
 
@@ -49,7 +49,7 @@ class RedshopControllerWizard extends RedshopController
 		{
 			$country_list = $this->input->get('country_list');
 
-			$i = 0;
+			$i                = 0;
 			$country_listCode = '';
 
 			if ($country_list)
@@ -90,7 +90,7 @@ class RedshopControllerWizard extends RedshopController
 		if ($post['VATREMOVE'] == 1)
 		{
 			$tax_rate_id = $post['VATTAX_RATE_ID'];
-			$vatlink = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
+			$vatlink     = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
 
 			$this->setRedirect($vatlink);
 		}
@@ -125,7 +125,7 @@ class RedshopControllerWizard extends RedshopController
 
 		// Convert array to JRegistry before saving
 		$configHelper = Redshop::getConfig();
-		$config = new Registry;
+		$config       = new Registry;
 		$config->loadArray($session->get('redshop.wizard'));
 
 		if ($configHelper->save($config))
@@ -140,7 +140,7 @@ class RedshopControllerWizard extends RedshopController
 		else
 		{
 			$substep = 4;
-			$msg .= JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
+			$msg    .= JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
 
 			$link = 'index.php?option=com_redshop&step=' . $substep;
 		}

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -48,7 +50,7 @@ class RedshopModelProduct extends RedshopModel
 		$GLOBALS['childproductlist'] = array();
 
 		$this->setId((int) $pid);
-		$this->_catid = (int) $this->input->get('cid', 0);
+		$this->_catid = $this->input->getInt('cid', 0);
 	}
 
 	public function setId($id)
@@ -57,13 +59,29 @@ class RedshopModelProduct extends RedshopModel
 		$this->_data = null;
 	}
 
+	public function getData()
+	{
+		if (empty($this->_data))
+		{
+			$this->_db->setQuery($this->_buildQuery(), 0, 1);
+			$this->_data = $this->_db->loadObject();
+		}
+
+		if (is_object($this->_data))
+		{
+			$this->_data->product_s_desc = RedshopHelperTemplate::parseRedshopPlugin($this->_data->product_s_desc);
+			$this->_data->product_desc   = RedshopHelperTemplate::parseRedshopPlugin($this->_data->product_desc);
+		}
+
+		return $this->_data;
+	}
+
 	public function _buildQuery()
 	{
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('p.*')
 			->select($db->qn('c.id', 'category_id'))
@@ -72,17 +90,18 @@ class RedshopModelProduct extends RedshopModel
 			->select($db->qn('c.category_back_full_image'))
 			->select($db->qn('m.manufacturer_name'))
 			->select($db->qn('pcx.ordering'))
+			->select($db->qn('ppx.payment_id'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
 			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
-			->where($db->qn('p.product_id') . ' = ' . $db->q((int) $this->_id))
-			->setLimit(0, 1);
+			->leftjoin($db->qn('#__redshop_product_payment_xref', 'ppx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('ppx.product_id'))
+			->where($db->qn('p.product_id') . ' = ' . $db->q((int) $this->_id));
 
 		if (!empty($shopperGroupManufactures))
 		{
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
-			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopperGroupManufactures = ArrayHelper::toInteger($shopperGroupManufactures);
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
 			$query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
@@ -94,26 +113,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		return $query;
-	}
-
-	public function getData()
-	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (empty ($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-		}
-
-		if (is_object($this->_data))
-		{
-			$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
-			$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
-		}
-
-		return $this->_data;
 	}
 
 	public function getProductTemplate()
@@ -132,9 +131,9 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * get next or previous product using ordering.
 	 *
-	 * @param   int  $product_id   current product id
-	 * @param   int  $category_id  current product category id
-	 * @param   int  $dirn         to indicate next or previous product
+	 * @param   int $product_id  current product id
+	 * @param   int $category_id current product category id
+	 * @param   int $dirn        to indicate next or previous product
 	 *
 	 * @return mixed
 	 */
@@ -257,7 +256,7 @@ class RedshopModelProduct extends RedshopModel
 		$data_add    = str_replace("{title}", $message, $data_add);
 		$data_add    = str_replace("{comment}", $comment, $data_add);
 		$data_add    = str_replace("{username}", $username, $data_add);
-		$data_add = $redshopMail->imginmail($data_add);
+		$data_add    = $redshopMail->imginmail($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{
@@ -343,7 +342,7 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Method for store wishlist in session.
 	 *
-	 * @param   array  $data  List of data.
+	 * @param   array $data List of data.
 	 *
 	 * @return  bool          True on success. False otherwise.
 	 */
@@ -370,9 +369,9 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		ob_clean();
-		$extraField = extraField::getInstance();
-		$section    = 12;
-		$row_data   = $extraField->getSectionFieldList($section);
+		$extraField      = extraField::getInstance();
+		$section         = 12;
+		$row_data        = $extraField->getSectionFieldList($section);
 		$wishlistSession = $session->get('wishlist');
 
 		if (!empty($wishlistData) && !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
@@ -380,14 +379,14 @@ class RedshopModelProduct extends RedshopModel
 			$wishlistSession[$data['product_id']] = null;
 		}
 
-		$wishlist = new stdClass;
+		$wishlist             = new stdClass;
 		$wishlist->product_id = $data['product_id'];
 		$wishlist->comment    = isset($data ['comment']) ? $data ['comment'] : "";
 		$wishlist->cdate      = $data['cdate'];
 
 		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 		{
-			$field = "productuserfield_" . $k;
+			$field              = "productuserfield_" . $k;
 			$wishlist->{$field} = $data['productuserfield_' . $k];
 		}
 
@@ -408,7 +407,7 @@ class RedshopModelProduct extends RedshopModel
 
 		foreach ($attributes as $index => $attribute)
 		{
-			$item = new stdClass;
+			$item               = new stdClass;
 			$item->attribute_id = $attribute;
 
 			if (isset($properties[$index]))
@@ -481,13 +480,13 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Get Download product info
 	 *
-	 * @param   string  $downloadId  Download id
+	 * @param   string $downloadId Download id
 	 *
 	 * @return mixed
 	 */
 	public function downloadProduct($downloadId)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_product_download', 'pd'))

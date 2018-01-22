@@ -34,7 +34,7 @@ $cart_data = $this->data [0]->template_desc;
 
 // Process the product plugin before cart template replace tag
 JPluginHelper::importPlugin('redshop_product');
-$results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
+$results = $dispatcher->trigger('onStartCartTemplateReplace', array(&$cart_data, &$cart));
 
 // End
 

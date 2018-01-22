@@ -9,7 +9,7 @@
 
 jimport('joomla.filesystem.file');
 
-use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Library for Redshop E-conomic.
@@ -308,7 +308,8 @@ class economic
 	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceDiscountLineInEconomic() instead
 	 */
 	public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0,
-		$isVatDiscount = 0)
+		$isVatDiscount = 0
+	)
 	{
 		RedshopEconomic::createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, $isPaymentDiscount, $isVatDiscount);
 	}
@@ -361,7 +362,7 @@ class economic
 	 * @param   array    $orderdetail      Order detail
 	 * @param   integer  $bookinvoicedate  Booking invoice date
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::updateInvoiceDateInEconomic() instead
 	 */
@@ -398,7 +399,7 @@ class economic
 	 */
 	public function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
 	{
-		return RedshopEconomic::updateInvoiceNumber($orderId, $invoiceNo);
+		RedshopEconomic::updateInvoiceNumber($orderId, $invoiceNo);
 	}
 
 	/**
@@ -412,7 +413,7 @@ class economic
 	 */
 	public function updateBookInvoice($orderId = 0)
 	{
-		return RedshopEconomic::updateBookInvoice($orderId);
+		RedshopEconomic::updateBookInvoice($orderId);
 	}
 
 	/**
@@ -427,7 +428,7 @@ class economic
 	 */
 	public function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
 	{
-		return RedshopEconomic::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
+		RedshopEconomic::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
 	}
 
 	/**
@@ -491,7 +492,7 @@ class economic
 	 */
 	public function createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems)
 	{
-		return RedshopEconomic::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems);
+		RedshopEconomic::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems);
 	}
 
 	/**

@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use Step\Acceptance\Redshop;
+
 /**
  * Class AdminManagerJoomla3Steps
  *
@@ -14,7 +17,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class AdminManagerJoomla3Steps extends \AcceptanceTester
+class AdminManagerJoomla3Steps extends Redshop
 {
 	/**
 	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
@@ -182,13 +185,28 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+	
+	public function addValueForField($xpath, $prices)
+	{
+		$I = $this;
+		$I->click($xpath);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+
+		$price = str_split($prices);
+		foreach ($price as $char)
+		{
+			$I->pressKey($xpath, $char);
+		}
+	}
 
 	public function chooseOnSelect2($element, $text)
 	{
 		$I = $this;
-
 		$elementId = is_array($element) ? $element['id'] : $element;
-
 		$I->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
 		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
 		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
@@ -199,5 +217,28 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+	}
+
+	public function selectOptionInChosenjs($label, $option)
+	{
+		$I = $this;
+
+		$I->waitForJS("return jQuery(\"label:contains('$label')\");");
+		$selectID = $I->executeJS("return jQuery(\"label:contains('$label')\").attr(\"for\");");
+
+		$option = trim($option);
+
+		$I->waitForJS(
+			"jQuery('#$selectID option').filter(function(){ return this.text.trim() === \"$option\" }).prop('selected', true); return true;",
+			30
+		);
+		$I->waitForJS(
+			"jQuery('#$selectID').trigger('liszt:updated').trigger('chosen:updated'); return true;",
+			30
+		);
+		$I->waitForJS(
+			"jQuery('#$selectID').trigger('change'); return true;",
+			30
+		);
 	}
 }

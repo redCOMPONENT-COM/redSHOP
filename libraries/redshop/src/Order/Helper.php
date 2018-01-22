@@ -57,4 +57,116 @@ class Helper
 
 		return $accessoryHtml;
 	}
+
+	/**
+	 * Redesign product item
+	 *
+	 * @param   array  $post  Data
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function redesignProductItem($post = array())
+	{
+		if (empty($post))
+		{
+			return array();
+		}
+
+		$orderItem = array();
+		$i = -1;
+
+		foreach ($post as $key => $value)
+		{
+			if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10)
+			{
+				$i++;
+
+				if (!isset($orderItem[$i]))
+				{
+					$orderItem[$i] = new \stdClass;
+				}
+
+				$orderItem[$i]->product_id = $value;
+			}
+
+			if (!strcmp("attribute_dataproduct", substr($key, 0, 21)))
+			{
+				$orderItem[$i]->attribute_data = $value;
+			}
+
+			if (!strcmp("property_dataproduct", substr($key, 0, 20)))
+			{
+				$orderItem[$i]->property_data = $value;
+			}
+
+			if (!strcmp("subproperty_dataproduct", substr($key, 0, 23)))
+			{
+				$orderItem[$i]->subproperty_data = $value;
+			}
+
+			if (!strcmp("accessory_dataproduct", substr($key, 0, 21)))
+			{
+				$orderItem[$i]->accessory_data = $value;
+			}
+
+			if (!strcmp("acc_attribute_dataproduct", substr($key, 0, 25)))
+			{
+				$orderItem[$i]->acc_attribute_data = $value;
+			}
+
+			if (!strcmp("acc_property_dataproduct", substr($key, 0, 24)))
+			{
+				$orderItem[$i]->acc_property_data = $value;
+			}
+
+			if (!strcmp("acc_subproperty_dataproduct", substr($key, 0, 27)))
+			{
+				$orderItem[$i]->acc_subproperty_data = $value;
+			}
+
+			if (!strcmp("extrafieldId", substr($key, 0, 12)))
+			{
+				$orderItem[$i]->extrafieldId = $value;
+			}
+
+			if (!strcmp("extrafieldname", substr($key, 0, 14)))
+			{
+				$orderItem[$i]->extrafieldname = $value;
+			}
+
+			if (!strcmp("wrapper_dataproduct", substr($key, 0, 19)))
+			{
+				$orderItem[$i]->wrapper_data = $value;
+			}
+
+			if (!strcmp("quantityproduct", substr($key, 0, 15)))
+			{
+				$orderItem[$i]->quantity = $value;
+			}
+
+			if (!strcmp("prdexclpriceproduct", substr($key, 0, 19)))
+			{
+				$orderItem[$i]->prdexclprice = $value;
+			}
+
+			if (!strcmp("taxpriceproduct", substr($key, 0, 15)))
+			{
+				$orderItem[$i]->taxprice = $value;
+			}
+
+			if (!strcmp("productpriceproduct", substr($key, 0, 19)))
+			{
+				$orderItem[$i]->productprice = $value;
+			}
+
+			if (!strcmp("requiedAttributeproduct", substr($key, 0, 23)))
+			{
+				$orderItem[$i]->requiedAttributeproduct = $value;
+			}
+		}
+
+		return $orderItem;
+	}
 }

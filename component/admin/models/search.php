@@ -109,11 +109,11 @@ class RedshopModelSearch extends RedshopModel
 	public function search()
 	{
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
+		$db     = JFactory::getDbo();
+		$app    = JFactory::getApplication();
 		$jInput = $app->input;
 		$search = ' LIKE ' . $db->quote('%' . $jInput->getString('input', '') . '%');
-		$query = $db->getQuery(true);
+		$query  = $db->getQuery(true);
 
 		if ($jInput->getCmd('media_section', '') != '')
 		{
@@ -265,7 +265,8 @@ class RedshopModelSearch extends RedshopModel
 				->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
 				->where('(' . $db->qn('u.username') . $search
 					. ' OR ' . $db->qn('uf.firstname') . $search
-					. ' OR ' . $db->qn('uf.lastname') . $search . ')')
+					. ' OR ' . $db->qn('uf.lastname') . $search . ')'
+				)
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'));
 		}
 		elseif ($jInput->getInt('plgcustomview', 0) == 1)
@@ -286,7 +287,8 @@ class RedshopModelSearch extends RedshopModel
 					->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
 					->where('(' . $db->qn('u.username') . $search
 						. ' OR ' . $db->qn('uf.firstname') . $search
-						. ' OR ' . $db->qn('uf.lastname') . $search . ')')
+						. ' OR ' . $db->qn('uf.lastname') . $search . ')'
+					)
 					->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
 					->where($db->qn('uf.is_company') . ' = 0');
 			}
@@ -303,7 +305,8 @@ class RedshopModelSearch extends RedshopModel
 					->from($db->qn('#__redshop_users_info', 'uf'))
 					->leftJoin($db->qn('#__users', 'u') . ' ON uf.user_id = u.id')
 					->where('(' . $db->qn('u.username') . $search
-						. ' OR ' . $db->qn('uf.company_name') . $search . ')')
+						. ' OR ' . $db->qn('uf.company_name') . $search . ')'
+					)
 					->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
 					->where($db->qn('uf.is_company') . ' = 1');
 			}
@@ -332,7 +335,8 @@ class RedshopModelSearch extends RedshopModel
 				->from($db->qn('#__redshop_product', 'p'))
 				->where($db->qn('p.product_id') . ' != ' . $jInput->getInt('product_id', 0))
 				->where('(' . $db->qn('p.product_name') . $search
-					. ' OR ' . $db->qn('p.product_number') . $search . ')');
+					. ' OR ' . $db->qn('p.product_number') . $search . ')'
+				);
 		}
 		elseif ($jInput->getInt('parent', 0) == 1)
 		{
@@ -364,14 +368,15 @@ class RedshopModelSearch extends RedshopModel
 				->from($db->qn('#__redshop_product', 'p'))
 				->where($db->qn('p.published') . ' = 1')
 				->where('(' . $db->qn('p.product_name') . $search
-					. ' OR ' . $db->qn('p.product_number') . $search . ')');
+					. ' OR ' . $db->qn('p.product_number') . $search . ')'
+				);
 		}
 		else
 		{
 			if ($accessoryList = $jInput->getString('accessoryList', ''))
 			{
 				$accessoryList = explode(',', $accessoryList);
-				JArrayHelper::toInteger($accessoryList);
+				$accessoryList = Joomla\Utilities\ArrayHelper::toInteger($accessoryList);
 				$query->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
 			}
 
@@ -392,7 +397,8 @@ class RedshopModelSearch extends RedshopModel
 			)
 				->from($db->qn('#__redshop_product', 'p'))
 				->where('(' . $db->qn('p.product_name') . $search
-					. ' OR ' . $db->qn('p.product_number') . $search . ')');
+					. ' OR ' . $db->qn('p.product_number') . $search . ')'
+				);
 		}
 
 		$json = new stdClass;
@@ -401,7 +407,7 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($json->total != 0)
 		{
-			$limit = $jInput->getInt('limit', 10);
+			$limit      = $jInput->getInt('limit', 10);
 			$limitStart = ($jInput->getInt('page', 1) - 1) * $limit;
 			$db->setQuery($query, $limitStart, $limit);
 			$json->result = $db->loadObjectList();
@@ -416,7 +422,7 @@ class RedshopModelSearch extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -429,7 +435,7 @@ class RedshopModelSearch extends RedshopModel
 			return $this->_data;
 		}
 
-		$query = $this->_buildQuery();
+		$query       = $this->_buildQuery();
 		$this->_data = $this->_getList($query);
 
 		return $this->_data;
@@ -473,7 +479,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($this->_productdata)
 			{
-				$pid = @implode(",", $pid);
+				$pid   = @implode(",", $pid);
 				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
 			}
 			else
@@ -491,7 +497,7 @@ class RedshopModelSearch extends RedshopModel
 				. 'WHERE a.state = 1 '
 				. 'AND a.title LIKE "' . $this->_search . '%"';
 			$this->_db->setQuery($query);
-			$rows = $this->_db->loadObjectList();
+			$rows    = $this->_db->loadObjectList();
 			$article = array();
 
 			for ($j = 0, $jn = count($rows); $j < $jn; $j++)
@@ -513,14 +519,14 @@ class RedshopModelSearch extends RedshopModel
 					foreach ($r as $value)
 					{
 						$article[$i]->value = $value->text;
-						$article[$i]->id = $value->value;
+						$article[$i]->id    = $value->value;
 						$i++;
 					}
 				}
 				else
 				{
 					$article[$j]->value = $rows[$j]->text;
-					$article[$j]->id = $rows[$j]->value;
+					$article[$j]->id    = $rows[$j]->value;
 				}
 			}
 
@@ -528,7 +534,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 		elseif ($this->_user == 1)
 		{
-			$query = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
+			$query  = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
 			$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
 			$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
 				$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
@@ -537,7 +543,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			if ($this->_iscompany == 0)
 			{
-				$query = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
+				$query  = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
 				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
 				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
 					$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
@@ -546,7 +552,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($this->_iscompany == 1)
 			{
-				$query = "SELECT u.id as id,concat(uf.company_name,' (', u.username,')') as value , u.email as volume ";
+				$query  = "SELECT u.id as id,concat(uf.company_name,' (', u.username,')') as value , u.email as volume ";
 				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
 				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.company_name like '" .
 					$this->_search . "%') and (uf.address_type like 'BT') ";
@@ -579,9 +585,9 @@ class RedshopModelSearch extends RedshopModel
 					. "FROM " . $this->_table_prefix . "product_related "
 					. "WHERE product_id='" . $this->_product_id . "' ";
 				$this->_db->setQuery($query);
-				$related = $this->_db->loadColumn();
+				$related                  = $this->_db->loadColumn();
 				$related[count($related)] = $this->_product_id;
-				$relatedid = implode(", ", $related);
+				$relatedid                = implode(", ", $related);
 
 				$and = "AND p.product_id NOT IN (" . $relatedid . ") ";
 			}

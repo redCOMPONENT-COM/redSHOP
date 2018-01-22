@@ -2,35 +2,36 @@
 /**
  * Checkout with mass discount
  */
+
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\MassDiscountManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
 
 class MassDiscountCheckoutCest
 {
 	public function __construct()
 	{
 
-		$this->faker = Faker\Factory::create();
-		$this->ProductName = 'ProductName' . rand(100, 999);
-		$this->MassDiscountName = 'MassDiscount' . rand(10, 100);
-		$this->MassDiscountNameSave = 'MassDiscountSave' . rand(10, 1000);
-		$this->MassDiscountNameEdit = 'Edit' . $this->MassDiscountName;
-		$this->CategoryName = "CategoryName" . rand(1, 100);
-		$this->ManufactureName = "ManufactureName" . rand(1, 10);
+		$this->faker                  = Faker\Factory::create();
+		$this->ProductName            = 'ProductName' . rand(100, 999);
+		$this->MassDiscountName       = 'MassDiscount' . rand(10, 100);
+		$this->MassDiscountNameSave   = 'MassDiscountSave' . rand(10, 1000);
+		$this->MassDiscountNameEdit   = 'Edit' . $this->MassDiscountName;
+		$this->CategoryName           = "CategoryName" . rand(1, 100);
+		$this->ManufactureName        = "ManufactureName" . rand(1, 10);
 		$this->MassDiscountAmoutTotal = 90;
-		$this->MassDiscountPercent = 0.3;
-		$this->minimumPerProduct = 1;
-		$this->minimumQuantity = 1;
-		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
-		$this->discountStart = "12-12-2016";
-		$this->discountEnd = "23-05-2017";
-		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = 100;
+		$this->MassDiscountPercent    = 0.3;
+		$this->minimumPerProduct      = 1;
+		$this->minimumQuantity        = 1;
+		$this->maximumQuantity        = $this->faker->numberBetween(100, 1000);
+		$this->discountStart          = '';
+		$this->discountEnd            = '';
+		$this->randomProductNumber    = $this->faker->numberBetween(999, 9999);
+		$this->randomProductPrice     = 100;
 
-		$this->subtotal="DKK 10,00";
-		$this->Discount ="";
-		$this->Total="DKK 10,00";
+		$this->subtotal = "DKK 10,00";
+		$this->Discount = "";
+		$this->Total    = "DKK 10,00";
 	}
 
 
@@ -65,7 +66,7 @@ class MassDiscountCheckoutCest
 		$I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
 
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDiscount($this->ProductName,$this->CategoryName,$this->subtotal,$this->Discount,$this->Total);
+		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
 	}
 
 

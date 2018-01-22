@@ -252,7 +252,7 @@ if (!$slide)
 
 	$template_desc = str_replace($ctag, $cat_main_thumb, $template_desc);
 
-	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 	$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $this->catid, "2", $template_desc, 0);
 
 	if (strpos($template_desc, "{compare_product_div}") !== false)
@@ -461,7 +461,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 	$attribute_template = $producthelper->getAttributeTemplate($template_product);
 
-	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 	$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
 	$product_data   = '';
 	list($template_userfield, $userfieldArr) = $producthelper->getProductUserfieldFromTemplate($template_product);
@@ -649,10 +649,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		if (empty($specificLink))
 		{
+			$productCatId = !empty($product->categories) && is_array($product->categories) ? $product->categories[0] : $this->catid;
+
 			$link = JRoute::_(
 				'index.php?option=' . $this->option .
 				'&view=product&pid=' . $product->product_id .
-				'&cid=' . $this->catid .
+				'&cid=' . $productCatId .
 				'&Itemid=' . $pItemid
 			);
 		}
@@ -990,7 +992,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		);
 
 		//  Extra field display
-		$extraFieldName = $extraField->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT);
+		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT);
 		$data_add       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
 
 		$productAvailabilityDate = strstr($data_add, "{product_availability_date}");

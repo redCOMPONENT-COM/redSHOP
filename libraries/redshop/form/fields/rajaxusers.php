@@ -12,18 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Ajax Users Form Field
  *
- * @package     RedSHOP.Libraries
+ * @package      RedSHOP.Libraries
  * @subpackage  FormField
- * @since       2.0.0.4
+ * @since        2.0.0.4
  */
-
 class JFormFieldRAjaxUsers extends JFormField
 {
 	/**
 	 * Element name
 	 *
-	 * @access    Public
-	 * @var        string
+	 * @var       string
 	 */
 	public $type = 'RAjaxUsers';
 
@@ -36,11 +34,11 @@ class JFormFieldRAjaxUsers extends JFormField
 	 */
 	protected function getInput()
 	{
-		return JHTML::_('redshopselect.jFormSearch', $this->value, 'userid',
-					array(
-						'select2.ajaxOptions' => array('typeField' => ', user:1'),
-						'select2.options' => array('placeholder' => JText::_('COM_REDSHOP_USER'))
-					)
-				);
+		return JHtml::_('redshopselect.jFormSearch', $this->value, 'userid',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', user:1'),
+				'select2.options'     => array('placeholder' => JText::_('COM_REDSHOP_USER'))
+			)
+		);
 	}
 }

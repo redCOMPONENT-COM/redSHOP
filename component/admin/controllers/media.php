@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -28,7 +30,9 @@ class RedshopControllerMedia extends RedshopController
 		$post      = $this->input->post->getArray();
 		$file      = $this->input->files->get('downloadfile', array(), 'array');
 		$totalFile = count($file['name']);
-		$model     = $this->getModel('media');
+
+		/** @var RedshopModelMedia $model */
+		$model = $this->getModel('media');
 
 		// Default message
 		$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
@@ -107,7 +111,9 @@ class RedshopControllerMedia extends RedshopController
 	{
 		$media_id = $this->input->getInt('media_id');
 		$fileId   = $this->input->getInt('fileId');
-		$model    = $this->getModel('media');
+
+		/** @var RedshopModelMedia $model */
+		$model = $this->getModel('media');
 
 		if ($model->deleteAddtionalFiles($fileId))
 		{
@@ -131,14 +137,15 @@ class RedshopControllerMedia extends RedshopController
 		$cid          = $this->input->post->get('cid', array(), 'array');
 		$order        = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
 
+		/** @var RedshopModelMedia $model */
 		$model = $this->getModel('media');
 
 		if (!$model->saveorder($cid, $order))
@@ -155,12 +162,12 @@ class RedshopControllerMedia extends RedshopController
 				. '&media_section=' . $mediaSection, $msg
 			);
 		}
-        elseif (null !== $this->input->post->get('set', null) && $mediaSection == 'manufacturer')
+		elseif (null !== $this->input->post->get('set', null) && $mediaSection == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -188,6 +195,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (isset($cid[0]) && $cid[0] != 0)
@@ -204,13 +212,13 @@ class RedshopControllerMedia extends RedshopController
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$app->enqueueMessage($msg);
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -245,6 +253,7 @@ class RedshopControllerMedia extends RedshopController
 			if ($new)
 			{
 				// Create new media
+				/** @var RedshopModelMedia $model */
 				$model = $this->getModel('media');
 
 				$fileinfo = pathinfo($dest);
@@ -336,7 +345,7 @@ class RedshopControllerMedia extends RedshopController
 			);
 		}
 
-		die;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -360,7 +369,7 @@ class RedshopControllerMedia extends RedshopController
 					)
 				);
 
-				die;
+				JFactory::getApplication()->close();
 			}
 		}
 
@@ -370,7 +379,7 @@ class RedshopControllerMedia extends RedshopController
 			)
 		);
 
-		die;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -391,6 +400,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->publish($cid, 1))
@@ -407,12 +417,12 @@ class RedshopControllerMedia extends RedshopController
 			);
 		}
 
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
@@ -438,6 +448,7 @@ class RedshopControllerMedia extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
 		if (!$model->publish($cid, 0))
@@ -453,12 +464,12 @@ class RedshopControllerMedia extends RedshopController
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{

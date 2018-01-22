@@ -20,11 +20,19 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
+	public static $quotation = "/index.php?option=com_redshop&view=quotation";
+
+	public static $addQuotation = '//input[@name=\'addquotation\']';
+
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
 	public static $productList = "//div[@id='redcatproducts']";
 
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
+	
+	public static $addToCompare = ['xpath' => '//label[@class=\'checkbox\']'];
+
+	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
 
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
@@ -32,11 +40,15 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $alterOutOfStock="Sorry, This product is out of stock....";
 
+	public static $addQuotationSuccess = 'Quotation detail has been sent successfully';
+
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
 	public static $addressEmail = "#email1";
+	
+	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
 
 	public static $addressFirstName = "//input[@id='firstname']";
 
@@ -63,6 +75,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $shippingPostalCode = "//input[@id='zipcode_ST']";
 
 	public static $shippingCity = "//input[@id='city_ST']";
+
+	public static $countryId = ['id' => 'rs_country_country_code'];
+	
+	public static $selectSecondCountry = ['xpath' => '//select[@id=\'rs_country_country_code\']/option[2]'];
 
 	public static $shippingCountry = "//select[@id='country_code_ST']";
 
@@ -121,6 +137,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public function finalCheckout($productName)
 	{
 		$path = "//div/a[text()='" . $productName . "']";
+
+		return $path;
+	}
+
+	/**
+	 * @param $productName
+	 * @return string
+	 */
+	public function productName($productName)
+	{
+		$path = "//div[text()='" . $productName . "']";
 
 		return $path;
 	}

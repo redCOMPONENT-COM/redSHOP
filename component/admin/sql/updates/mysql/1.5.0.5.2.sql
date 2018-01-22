@@ -148,8 +148,7 @@ ALTER TABLE `#__redshop_product_price` DEFAULT CHARACTER SET utf8 COLLATE utf8_g
 
 ALTER TABLE `#__redshop_product_subattribute_color` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-ALTER TABLE `#__redshop_product_voucher` CHANGE `voucher_type` `voucher_type` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
-
-ALTER TABLE `#__redshop_stockroom` CHANGE `stockroom_desc` `stockroom_desc` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+CALL redSHOP_Column_Update('#__redshop_product_voucher', 'voucher_type', 'voucher_type', "VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+CALL redSHOP_Column_Update('#__redshop_stockroom', 'stockroom_desc', 'stockroom_desc', "LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 
 DROP TABLE IF EXISTS `#__redshop_shipping_method`;

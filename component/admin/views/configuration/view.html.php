@@ -40,6 +40,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 
+		/** @var RedshopModelConfiguration $model */
 		$model         = $this->getModel('configuration');
 		$currency_data = $model->getCurrencies();
 
@@ -65,10 +66,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$newsletters = $model->getnewsletters();
 
-		$templatesel                   = array();
-		$templatesel[0]                = new stdClass;
-		$templatesel[0]->template_id   = 0;
-		$templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
+		$templates          = array();
+		$templates[0]       = new stdClass;
+		$templates[0]->id   = 0;
+		$templates[0]->name = JText::_('COM_REDSHOP_SELECT');
 
 		$product_template      = RedshopHelperTemplate::getTemplate("product");
 		$compare_template      = RedshopHelperTemplate::getTemplate("compare_product");
@@ -77,12 +78,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$manufacturer_template = RedshopHelperTemplate::getTemplate("manufacturer_products");
 		$ajax_detail_template  = RedshopHelperTemplate::getTemplate("ajax_cart_detail_box");
 
-		$product_template      = array_merge($templatesel, $product_template);
-		$compare_template      = array_merge($templatesel, $compare_template);
-		$category_template     = array_merge($templatesel, $category_template);
-		$categorylist_template = array_merge($templatesel, $categorylist_template);
-		$manufacturer_template = array_merge($templatesel, $manufacturer_template);
-		$ajax_detail_template  = array_merge($templatesel, $ajax_detail_template);
+		$product_template      = array_merge($templates, $product_template);
+		$compare_template      = array_merge($templates, $compare_template);
+		$category_template     = array_merge($templates, $category_template);
+		$categorylist_template = array_merge($templates, $categorylist_template);
+		$manufacturer_template = array_merge($templates, $manufacturer_template);
+		$ajax_detail_template  = array_merge($templates, $ajax_detail_template);
 
 		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
 
@@ -108,12 +109,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1"', $this->config->get('WEBPACK_ENABLE_EMAIL_TRACK')
 		);
 
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code AS value,country_name AS text,country_jtext FROM #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
-		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__redshop_stockroom ORDER BY stockroom_name ASC";
+		$q = "SELECT  stockroom_id AS value,stockroom_name AS text FROM #__redshop_stockroom ORDER BY stockroom_name ASC";
 		$db->setQuery($q);
 		$stockroom = $db->loadObjectList();
 
@@ -244,7 +245,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['allow_multiple_discount'] = JHtml::_('redshopselect.booleanlist', 'allow_multiple_discount', 'class="form-control" size="1"', $this->config->get('ALLOW_MULTIPLE_DISCOUNT'));
 		$lists['show_product_detail']     = JHtml::_('redshopselect.booleanlist', 'show_product_detail', 'class="form-control" size="1"', $this->config->get('SHOW_PRODUCT_DETAIL'));
 		$lists['compare_template_id']     = JHtml::_('select.genericlist', $compare_template, 'compare_template_id',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('COMPARE_TEMPLATE_ID')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('COMPARE_TEMPLATE_ID')
 		);
 
 		$lists['show_terms_and_conditions'] = JHtml::_('redshopselect.booleanlist', 'show_terms_and_conditions',
@@ -422,7 +423,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 						FROM #__redshop_country c
 						LEFT JOIN #__redshop_state s
 						ON c.id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.id, s.state_name");
+						ORDER BY c.id, s.state_name"
+		);
 		$states = $db->loadObjectList();
 
 		// Build the State lists for each Country
@@ -517,19 +519,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		);
 
 		$lists['product_template']              = JHtml::_('select.genericlist', $product_template, 'default_product_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('PRODUCT_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('PRODUCT_TEMPLATE')
 		);
 		$lists['ajax_detail_template']          = JHtml::_('select.genericlist', $ajax_detail_template, 'default_ajax_detailbox_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE')
 		);
 		$lists['category_template']             = JHtml::_('select.genericlist', $category_template, 'default_category_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('CATEGORY_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('CATEGORY_TEMPLATE')
 		);
 		$lists['default_categorylist_template'] = JHtml::_('select.genericlist', $categorylist_template, 'default_categorylist_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('DEFAULT_CATEGORYLIST_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('DEFAULT_CATEGORYLIST_TEMPLATE')
 		);
 		$lists['manufacturer_template']         = JHtml::_('select.genericlist', $manufacturer_template, 'default_manufacturer_template',
-			'class="form-control" size="1" ', 'template_id', 'template_name', $this->config->get('MANUFACTURER_TEMPLATE')
+			'class="form-control" size="1" ', 'id', 'name', $this->config->get('MANUFACTURER_TEMPLATE')
 		);
 		$lists['show_price']                    = JHtml::_('redshopselect.booleanlist', 'show_price', 'class="form-control" size="1"', $this->config->get('SHOW_PRICE_PRE'));
 

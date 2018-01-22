@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 
-class RedshopControllerManufacturer extends RedshopController
+class RedshopControllerManufacturer extends RedshopControllerForm
 {
 	/**
 	 * Method for cancel
@@ -27,17 +29,19 @@ class RedshopControllerManufacturer extends RedshopController
 	 *
 	 * @access public
 	 * @return void
+	 * @throws Exception
 	 */
 	public function saveorder()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
+		/** @var RedshopModelManufacturer $model */
 		$model = $this->getModel('manufacturer');
-		$model->saveorder($cid);
+		$model->saveOrder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
@@ -51,6 +55,7 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function orderup()
 	{
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 		$model->move(-1);
 
@@ -66,6 +71,7 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function orderdown()
 	{
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 		$model->move(1);
 
@@ -85,10 +91,11 @@ class RedshopControllerManufacturer extends RedshopController
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+		$pks   = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
 		// Get the model
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('Manufacturer_Detail', 'RedshopModel');
 
 		// Save the ordering
@@ -112,11 +119,12 @@ class RedshopControllerManufacturer extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if (!$model->publish($cid, 1))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_PUBLISHED_SUCCESSFULLY');
@@ -132,11 +140,12 @@ class RedshopControllerManufacturer extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_UNPUBLISHED_SUCCESSFULLY');

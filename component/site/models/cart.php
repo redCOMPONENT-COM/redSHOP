@@ -59,12 +59,11 @@ class RedshopModelCart extends RedshopModel
 		$this->_userhelper    = rsUserHelper::getInstance();
 		$this->_objshipping   = shipping::getInstance();
 		$user                 = JFactory::getUser();
-		$session              = JFactory::getSession();
 
 		// Remove expired products from cart
 		$this->emptyExpiredCartProducts();
 
-		$cart = $session->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		if (!empty($cart))
 		{
@@ -75,7 +74,7 @@ class RedshopModelCart extends RedshopModel
 			}
 
 			$user_id        = $user->id;
-			$usersess       = $session->get('rs_user');
+			$usersess       = JFactory::getSession()->get('rs_user');
 			$shopperGroupId = RedshopHelperUser::getShopperGroup($user_id);
 
 			if (array_key_exists('user_shopper_group_id', $cart))
@@ -99,7 +98,7 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
-			RedshopHelperCartSession::setCart($cart);
+			RedshopHelperCartSession::setCart((array) $cart);
 		}
 	}
 
@@ -818,7 +817,7 @@ class RedshopModelCart extends RedshopModel
 						{
 							$accSubpropertyCart = array();
 							$property_price     = 0;
-							$property           = RedshopHelperProduct_Attribute::getProductAttribute($acc_property_data[$ip]);
+							$property           = RedshopHelperProduct_Attribute::getAttributeProperties($acc_property_data[$ip]);
 							$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($acc_property_data[$ip], $cart[$idx]['quantity'], 'property');
 
 							if (count($pricelist) > 0)

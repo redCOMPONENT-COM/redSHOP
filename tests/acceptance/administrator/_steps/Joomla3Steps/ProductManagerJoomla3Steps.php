@@ -7,6 +7,7 @@
  */
 
 namespace AcceptanceTester;
+
 /**
  * Class ProductManagerJoomla3Steps
  *
@@ -16,643 +17,476 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
+use ProductManagerPage as ProductManagerPage;
+
 class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-    /**
-     * Function to add a Product
-     *
-     * @return void
-     */
-    public function addProduct()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Product Manager Page');
-        $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'Product Manager New');
-        $I->click('Cancel');
-    }
+	public function copyProduct($nameProduct)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->filterListBySearchingProduct($nameProduct);
+		$I->checkAllResults();
+		$I->click(ProductManagerPage::$buttonCopy);
+		$I->waitForText(ProductManagerPage::$messageCopySuccess, 60, ProductManagerPage::$selectorSuccess);
+	}
+
+	public function checkButton($name)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$namePageXpath);
+
+		switch ($name)
+		{
+			case 'edit':
+				$I->click(ProductManagerPage::$buttonEdit);
+				$I->acceptPopup();
+				break;
+			case 'copy':
+				$I->click(ProductManagerPage::$buttonCopy);
+				$I->acceptPopup();
+				break;
+			case 'delete':
+				$I->click(ProductManagerPage::$buttonDelete);
+				$I->acceptPopup();
+				break;
+			case 'publish':
+				$I->click(ProductManagerPage::$buttonPublish);
+				$I->acceptPopup();
+				break;
+			case 'unpublish':
+				$I->click(ProductManagerPage::$buttonUnpublish);
+				$I->acceptPopup();
+				break;
+			case 'assignNewCategory':
+				$I->click(ProductManagerPage::$buttonAssignNewCategory);
+				$I->acceptPopup();
+				break;
+			case 'removeCategory':
+				$I->click(ProductManagerPage::$buttonRemoveCategory);
+				$I->acceptPopup();
+				break;
+			default:
+				break;
+		}
+		$I->waitForElement(\ProductManagerPage::$productFilter, 30);
+	}
+
+	public function unPublishAllProducts()
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkAllResults();
+		$I->click(ProductManagerPage::$buttonUnpublish);
+		$I->waitForText(ProductManagerPage::$messageHead, 30, ProductManagerPage::$selectorSuccess);
+	}
 
 
-    public function checkEditButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Edit");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+	public function publishAllProducts()
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkAllResults();
+		$I->click(ProductManagerPage::$buttonPublish);
+		$I->waitForText(ProductManagerPage::$messageHead, 30, ProductManagerPage::$selectorSuccess);
+	}
 
-    public function checkCopyButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Copy");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
-
-    public function copyProduct($nameProduct)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $this->searchProduct($nameProduct);
-        $I->checkAllResults();
-        $I->click("Copy");
-        $I->waitForText("Product Copied", 60, '.alert-success');
-        $I->see("Product Copied", '.alert-success');
-    }
-
-    public function checkDeleteButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Delete");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+	public function createProductSave($productName, $category, $productNumber, $prices, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->waitForElement(ProductManagerPage::$productPrice, 30);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
+		$I->fillField(ProductManagerPage::$discountStart, $discountStart);
+		$I->fillField(ProductManagerPage::$discountEnd, $discountEnd);
+		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
+		$I->fillField(ProductManagerPage::$minimumQuantity, $minimumQuantity);
+		$I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->pauseExecution();
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
 
-    public function checkPublishButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Publish");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+	public function createMissingCases($category, $productNumber, $productName, $price, $function)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$usePage = new ProductManagerPage();
 
-    public function publishAllProducts()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click(\ProductManagerPage::$checkAllProducts);
-        $I->click("Publish");
-        $I->waitForText("Message", 30, '.alert-success');
-    }
+		switch ($function)
+		{
+			case 'category':
+				$I->fillField(ProductManagerPage::$productName, $productName);
+				$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+				$I->fillField(ProductManagerPage::$productPrice, $price);
+				$I->click(ProductManagerPage::$buttonSave);
+				$I->acceptPopup();
+				break;
+			case 'name':
+				$I->fillField(ProductManagerPage::$productName, '');
+				$I->waitForElement(ProductManagerPage::$categoryId, 30);
+				$I->click(ProductManagerPage::$categoryId);
+				$I->fillField(ProductManagerPage::$categoryFile, $category);
+				$I->waitForElement($usePage->returnChoice($category));
+				$I->click($usePage->returnChoice($category));
+				$I->click(ProductManagerPage::$buttonSave);
+				$I->acceptPopup();
+				break;
+			case 'number':
+				$I->fillField(ProductManagerPage::$productNumber, '');
+				$I->fillField(ProductManagerPage::$productName, $productName);
+				$I->click(ProductManagerPage::$buttonSave);
+				$I->acceptPopup();
+				break;
+			default:
+				break;
+		}
+		$I->click(ProductManagerPage::$buttonCancel);
+		$I->waitForElement(ProductManagerPage::$productFilter, 30);
+		$I->fillField(ProductManagerPage::$productFilter, $productName);
+		$I->pressKey(ProductManagerPage::$productFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->dontSee($productName);
+	}
 
-    public function checkUnpublishButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Unpublish");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+	public function checkStartMoreThanEnd($product = array())
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
 
-    public function unPublishAllProducts()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click(\ProductManagerPage::$checkAllProducts);
-        $I->click("Unpublish");
-        $I->waitForText("Message", 30, '.alert-success');
-    }
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $product['name']);
+		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
+		$I->fillField(ProductManagerPage::$productPrice, $product['price']);
+		$usePage = new ProductManagerPage();
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $product['category']);
+		$I->waitForElement($usePage->returnChoice($product['category']));
+		$I->click($usePage->returnChoice($product['category']));
 
-    public function checkAssignNewCategoryButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Assign new Category");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+		$I->wantToTest('check discount start date before discount end ');
+		if (isset($product['discountStart']))
+		{
+			$I->fillField(ProductManagerPage::$discountStart, $product['discountEnd']);
+		}
 
-    public function checkRemoveCategoryButton()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("Remove Category");
-        $I->acceptPopup();
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+		if (isset($product['discountEnd']))
+		{
+			$I->fillField(ProductManagerPage::$discountEnd, $product['discountStart']);
+		}
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->acceptPopup();
 
+		$I->fillField(ProductManagerPage::$discountStart, 0);
+		$I->fillField(ProductManagerPage::$discountEnd, 0);
 
-    public function createProductSave($productName, $productCategory, $productNumber, $price, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->fillField(\ProductManagerPage::$discountStart, $discountStart);
-        $I->fillField(\ProductManagerPage::$discountEnd, $discountEnd);
-        $I->fillField(\ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
-        $I->fillField(\ProductManagerPage::$minimumQuantity, $minimumQuantity);
-        $I->fillField(\ProductManagerPage::$maximumQuantity, $maximumQuantity);
-        $I->click("Save");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-    }
+		$I->wantTo('create Product Quantity Start More Than Quantity End');
 
-    public function createProductMissingName($productCategory, $productNumber, $price)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Save");
-        $I->acceptPopup();
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
+		if (isset($product['minimumQuantity']))
+		{
+			$I->fillField(ProductManagerPage::$minimumQuantity, $product['maximumQuantity']);
+		}
 
-    public function createProductMissingProductNumber($productName, $productCategory, $price)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Save");
-        $I->acceptPopup();
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
+		if (isset($product['maximumQuantity']))
+		{
+			$I->fillField(ProductManagerPage::$maximumQuantity, $product['minimumQuantity']);
+		}
 
-    public function createPrductMissingCategory($productName, $productNumber, $price)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click("Save");
-        $I->acceptPopup();
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->acceptPopup();
 
-    public function createProductQuantityStartThanEnd($productName, $productCategory, $productNumber, $price, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->fillField(\ProductManagerPage::$discountStart, $discountStart);
-        $I->fillField(\ProductManagerPage::$discountEnd, $discountEnd);
-        $I->fillField(\ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
-        $I->fillField(\ProductManagerPage::$minimumQuantity, $maximumQuantity);
-        $I->fillField(\ProductManagerPage::$maximumQuantity, $minimumQuantity);
-        $I->click("Save");
-        $I->acceptPopup();
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
+		$I->fillField(ProductManagerPage::$minimumQuantity, 0);
+		$I->fillField(ProductManagerPage::$maximumQuantity, 0);
 
-    public function createDiscountPriceThanPrice($productName, $productCategory, $productNumber, $price, $discountPrice)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->fillField(\ProductManagerPage::$discountPrice, $discountPrice);
-        $I->click("Save");
-        $I->acceptPopup();
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
-
-    public function createProductDayStartThanEnd($productName, $productCategory, $productNumber, $price, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->fillField(\ProductManagerPage::$discountStart, $discountEnd);
-        $I->fillField(\ProductManagerPage::$discountEnd, $discountStart);
-        $I->fillField(\ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
-        $I->fillField(\ProductManagerPage::$minimumQuantity, $minimumQuantity);
-        $I->fillField(\ProductManagerPage::$maximumQuantity, $maximumQuantity);
-        $I->click("Save");
-        $I->acceptPopup();
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
+		$I->wantToTest('create Discount Price More Than Price');
+		if (isset($product['discountPrice']))
+		{
+			$I->fillField(\ProductManagerPage::$discountPrice, $product['discountPrice']);
+		}
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->acceptPopup();
+		$I->seeInField(ProductManagerPage::$productName, $product['name']);
 
 
-    public function deleteProductCancel($productName)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $this->searchProduct($productName);
-        $I->checkAllResults();
-        $I->click("Delete");
-        $I->cancelPopup();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+	}
 
-    }
+	public function deleteProduct($productName)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$this->searchProduct($productName);
+		$I->checkAllResults();
+		$I->click(ProductManagerPage::$buttonDelete);
 
-    public function deleteProduct($productName)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $this->searchProduct($productName);
-        $I->checkAllResults();
-        $I->click("Delete");
-        $I->acceptPopup();
-        $I->waitForText("Product deleted successfully", 60, '.alert-success');
-        $I->see("Product deleted successfully", '.alert-success');
-        $I->dontSee($productName);
-    }
+		$I->wantTo('Test with delete product but then cancel');
+		$I->cancelPopup();
 
+		$I->wantTo('Test with delete product then accept');
+		$I->click(ProductManagerPage::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
+		$I->dontSee($productName);
+	}
 
-    public function createProductSaveClose($productName, $productCategory, $productNumber, $price)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Save & Close");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
-    }
+	public function searchProduct($productName)
+	{
+		$I = $this;
+		$I->wantTo('Search the Product');
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->filterListBySearchingProduct($productName);
+	}
 
-    public function createProductSaveNew($productName, $productCategory, $productNumber, $price)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Save & New");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->waitForElement(['id' => "product_name"], 30);
-    }
+	public function createProductSaveClose($productName, $category, $productNumber, $price)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonSaveClose);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
+	public function createProductSaveNew($productName, $category, $productNumber, $price)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonSaveNew);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+	}
 
-    public function createProductCancel()
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click("Cancel");
-        $I->waitForText('Product detail editing cancelled', 30, ['class' => 'alert-success']);
-        $I->see('Product detail editing cancelled', ['class' => 'alert-success']);
-    }
+	public function createProductCancel()
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->click(ProductManagerPage::$buttonCancel);
+		$I->waitForText(ProductManagerPage::$messageCancel, 30, ProductManagerPage::$selectorSuccess);
+	}
 
+	public function checkSelectCategory($category)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$categorySearch);
+		$I->waitForElement(ProductManagerPage::$categorySearchField);
+		$I->fillField(ProductManagerPage::$categorySearchField, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
+		$I->waitForElement(\ProductManagerPage::$productFilter, 30);
+	}
 
-    public function checkSelectCategory($categoryName)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click(['xpath' => '//div[@id="s2id_category_id"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $categoryName);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $categoryName . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $categoryName . "')]"]);
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+	public function checkSelectStatus($statusSearch)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$searchStatusId);
+		$I->waitForElement(ProductManagerPage::$searchStatusField);
+		$I->fillField(ProductManagerPage::$searchStatusField, $statusSearch);
 
+		$usePage = new \ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($statusSearch), 60);
+		$I->click($usePage->returnChoice($statusSearch));
+		$I->waitForElement(\ProductManagerPage::$productFilter, 30);
+	}
 
-    public function checkSelectStatus($statusSearch)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click(['xpath' => '//div[@id="s2id_product_sort"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen3_search"], $statusSearch);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $statusSearch . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $statusSearch . "')]"]);
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
+	public function createProductSaveCopy($productName, $category, $productNumber, $price)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
 
+		$I->click(ProductManagerPage::$buttonSaveCopy);
+		$I->waitForText(ProductManagerPage::$messageCopySuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
-    public function createProductSaveCopy($productName, $productCategory, $productNumber, $price)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Save & Copy");
-        $I->waitForText('Product Copied', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
-    }
-
-    public function createProductWithAttribute($productName, $productCategory, $productNumber, $price, $nameAttribute,$valueAttribute,$priceAttribute)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Product Attributes");
-        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
-        $I->click("+ Add Attribute parameter");
-        $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
-        $I->fillField(['xpath' => '//input[@name="attribute[1][name]"]'], $nameAttribute);
-        $I->wait(60);
-        $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'],$valueAttribute);
-        $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][price]"]'],$priceAttribute);
-        $I->click("Save");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
-    }
-
-    public function createProductWithStockRoom($productName, $quantityStock,$PreorderStock)
-    {
-        $I = $this;
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
-        $I->click("Stockroom");
-        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[7]/a');
-        $I->fillField(['xpath'=>'//input[@name="quantity[]"]'],$quantityStock);
-        $I->fillField(['xpath'=>'//input[@name="preorder_stock[]"]'],$PreorderStock);
-        $I->click("Save");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
-    }
+	public function createProductWithAttribute($productName, $category, $productNumber, $price, $nameAttribute, $valueAttribute, $priceAttribute)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
 
 
-    public function cancelDeleteAttributeValue($productName){
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->click("Product Attributes");
-        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
-        $I->click("Delete");
-        $I->cancelPopup();
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+		$I->click(ProductManagerPage::$addAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeNameFirst, 30);
+		$I->fillField(ProductManagerPage::$attributeNameFirst, $nameAttribute);
+		$I->fillField(ProductManagerPage::$attributeNamePropertyFirst, $valueAttribute);
+		$I->fillField(ProductManagerPage::$attributePricePropertyFirst, $priceAttribute);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
-    }
+	public function deleteAttributeValue($productName)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->searchProduct($productName);
+		$I->click(['link' => $productName]);
+		$I->waitForElement(\ProductManagerPage::$productName, 30);
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+		$I->click(ProductManagerPage::$buttonDelete);
+		$I->cancelPopup();
+		$I->click(ProductManagerPage::$buttonDelete);
+		$I->acceptPopup();
+	}
 
-    public function deleteAttributeValue($productName){
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->click("Product Attributes");
-        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
-        $I->click("Delete");
-        $I->acceptPopup();
+	//The function for edit product
 
-    }
+	public function deleteAttribute($productName)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->searchProduct($productName);
+		$I->click(['link' => $productName]);
+		$I->waitForElement(\ProductManagerPage::$productName, 30);
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+		$I->click(ProductManagerPage::$buttonDeleteAttribute);
+		$I->cancelPopup();
+		$I->click(ProductManagerPage::$buttonDeleteAttribute);
+		$I->acceptPopup();
 
-    public function cancelDeleteAttribute($productName){
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->click("Product Attributes");
-        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
-        $I->click("Delete attribute");
-        $I->cancelPopup();
+	}
 
-    }
-
-    public function deleteAttribute($productName){
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->click("Product Attributes");
-        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
-        $I->click("Delete attribute");
-        $I->acceptPopup();
-
-    }
+	public function createProductWithAccessories($productName, $category, $productNumber, $price, $productAccessories)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
 
 
-    //The function for edit product
+		$I->click(ProductManagerPage::$accessoryTab);
+		$I->waitForElement(ProductManagerPage::$accessoriesValue, 60);
+		$I->waitForElement(ProductManagerPage::$relatedProduct, 60);
+		$this->selectAccessories($productAccessories);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
-    public function createProductWithAccessories($productName, $productCategory, $productNumber, $price, $productAccessories)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->click("New");
-        $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => "product_name"], $productName);
-        $I->fillField(['id' => "product_number"], $productNumber);
-        $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-        $I->click("Accessory/Related Product");
-        $I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
-        $I->waitForElement(['xpath' => "//h3[text()='Related product']"], 60);
-        $this->selectAccessories($productAccessories);
-        $I->click("Save");
-        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-//        $I->see('Product details saved', ['class' => 'alert-success']);
-    }
+	public function selectAccessories($accessoryName)
+	{
+		$I = $this;
+		$I->waitForElement(ProductManagerPage::$accessorySearchID);
+		$I->click(ProductManagerPage::$accessorySearchID);
+		$I->fillField(\ProductManagerPage::$accessSearchField, $accessoryName);
+		$userPage = new ProductManagerPage();
+		$I->waitForElement($userPage->returnChoice($accessoryName), 60);
+		$I->click($userPage->returnChoice($accessoryName));
+	}
 
-    private function selectRelatedProduct($relatedProduct)
-    {
-        $I = $this;
-        $I->click(['xpath' => '//div[@id="s2id_related_product"]//a']);
-        $I->fillField(['id' => "s2id_related_product"], $relatedProduct);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $relatedProduct . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $relatedProduct . "')]"]);
-    }
+	public function checkEditSave($productName, $productNameEdit)
+	{
 
-    public function selectAccessories($accessoryName)
-    {
-        $I = $this;
-        $I->click(['xpath' => '//div[@id="s2id_product_accessory_search"]//a']);
-        $I->waitForElement(['id' => "s2id_product_accessory_search"]);
-        $I->fillField(['id' => "s2id_autogen3_search"], $accessoryName);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"]);
-    }
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->searchProduct($productName);
+		$I->click(['link' => $productName]);
+		$I->waitForElement(\ProductManagerPage::$productName, 30);
+		$I->fillField(\ProductManagerPage::$productName, $productNameEdit);
+		$I->click(ProductManagerPage::$buttonSaveClose);
+		$I->waitForElement(\ProductManagerPage::$productFilter, 30);
+	}
 
-    public function checkEditSave($productName, $productNameEdit)
-    {
-
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['link' => $productName]);
-        $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
-        $I->fillField(\ProductManagerPage::$productName, $productNameEdit);
-        $I->click("Save & Close");
-        $I->waitForElement(\ProductManagerPage::$productFilter, 30);
-    }
-
-
-    public function searchProduct($productName)
-    {
-        $I = $this;
-        $I->wantTo('Search the Product');
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-        $I->filterListBySearchingProduct($productName);
-    }
-
-
-    // The test case for product used stockroom
-	public function createProductInStock($productName,$productNumber,$price,$productCategory,$quantityInStock, $preOrder){
+	public function createProductInStock($productName, $productNumber, $prices, $productCategory, $quantityInStock, $preOrder)
+	{
 
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->waitForText(\ProductManagerPage::$namePage, 30, \ProductManagerPage::$headPage);
 		$I->click(\ProductManagerPage::$buttonNew);
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
-		$I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
 		$I->fillField(\ProductManagerPage::$productName, $productName);
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-		$I->fillField(\ProductManagerPage::$productPrice, $price);
-		$I->click(\ProductManagerPage::$category);
-		$I->fillField(\ProductManagerPage::$categoryInput, $productCategory);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
+		$I->click(\ProductManagerPage::$categoryId);
+		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($productCategory));
 		$I->click($usePage->returnChoice($productCategory));
 
-		$I->click(\ProductManagerPage::$stockroomTab);
-		$I->waitForElement(\ProductManagerPage::$quantityInStock,30);
-		$I->fillField(\ProductManagerPage::$quantityInStock,$quantityInStock);
-		$I->fillField(\ProductManagerPage::$preOrderStock,$preOrder);
 
+		$I->click(\ProductManagerPage::$stockroomTab);
+		$I->waitForElement(\ProductManagerPage::$quantityInStock, 30);
+		$I->fillField(\ProductManagerPage::$quantityInStock, $quantityInStock);
+		$I->fillField(\ProductManagerPage::$preOrderStock, $preOrder);
 		$I->click(\ProductManagerPage::$buttonSave);
 		$I->waitForText(\ProductManagerPage::$messageSaveSuccess, 30, \ProductManagerPage::$selectorSuccess);
 	}
 
+	// The test case for product used stockroom
 
+	private function selectRelatedProduct($relatedProduct)
+	{
+		$I = $this;
+		$I->click(ProductManagerPage::$relatedProductId);
+		$I->fillField(ProductManagerPage::$relatedProductId, $relatedProduct);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($relatedProduct), 60);
+		$I->click($usePage->returnChoice($relatedProduct));
+	}
 }

@@ -9,8 +9,6 @@
 
 namespace Redshop\Currency;
 
-use RedshopEntityCurrency;
-
 defined('_JEXEC') or die;
 
 /**
@@ -79,6 +77,8 @@ class Currency
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function init()
 	{
@@ -150,7 +150,7 @@ class Currency
 			{
 			}
 
-			if (!$contents)
+			if ($contents === false)
 			{
 				$app->enqueueMessage("ERROR_RESOLVING_HOST");
 			}
@@ -171,7 +171,7 @@ class Currency
 			}
 		}
 
-		if (!$contents)
+		if ($contents === false)
 		{
 			$this->convertedCurrencies = array();
 
@@ -212,6 +212,8 @@ class Currency
 	 * @return  array
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function getConvertedCurrencies()
 	{
@@ -233,6 +235,8 @@ class Currency
 	 * @return  float             Converted amount
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function convert($amount, $sourceCurrency = '', $targetCurrency = '')
 	{
@@ -245,7 +249,7 @@ class Currency
 
 		if (!$targetCurrency)
 		{
-			$targetCurrency = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('currency_code');
+			$targetCurrency = \RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
 		}
 
 		// Make sure data is correct format.
@@ -279,9 +283,9 @@ class Currency
 	 *
 	 * @param   string  $code  Currency Code
 	 *
-	 * @TODO    Add numeric code into table #_redshop_currency "redSHOP Currency Detail"
+	 * @TODO    Add numeric code into table #__redshop_currency "redSHOP Currency Detail"
 	 *
-	 * @return  int     Currency Numeric Code
+	 * @return  string         Currency Numeric Code
 	 *
 	 * @since   2.0.6
 	 */

@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 class Tableattribute_set_detail extends JTable
 {
 	public $attribute_set_id = null;
+
 	public $attribute_set_name = 0;
+
 	public $published = null;
 
 	public function __construct(&$db)

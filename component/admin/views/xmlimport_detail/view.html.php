@@ -26,33 +26,33 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
 		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
-		$uri                   = JFactory::getURI();
-		$columns               = array();
-		$lists                 = array();
-		$updateshippingtag     = array();
-		$resultarray           = array();
-		$xmlfiletag            = array();
-		$xmlbillingtag         = array();
-		$xmlshippingtag        = array();
-		$xmlitemtag            = array();
-		$xmlstocktag           = array();
-		$xmlprdextrafieldtag   = array();
-		$updatefiletag         = array();
-		$updatebillingtag      = array();
-		$updateprdexttag       = array();
-		$updateitemtag         = array();
-		$updatestocktag        = array();
-		$model                 = $this->getModel();
+		$uri                 = JFactory::getURI();
+		$columns             = array();
+		$lists               = array();
+		$updateshippingtag   = array();
+		$resultarray         = array();
+		$xmlfiletag          = array();
+		$xmlbillingtag       = array();
+		$xmlshippingtag      = array();
+		$xmlitemtag          = array();
+		$xmlstocktag         = array();
+		$xmlprdextrafieldtag = array();
+		$updatefiletag       = array();
+		$updatebillingtag    = array();
+		$updateprdexttag     = array();
+		$updateitemtag       = array();
+		$updatestocktag      = array();
+		$model               = $this->getModel();
 
-		$detail                = $this->get('data');
-		$detail->section_type  = JFactory::getApplication()->input->get('section_type', $detail->section_type);
+		$detail               = $this->get('data');
+		$detail->section_type = JFactory::getApplication()->input->get('section_type', $detail->section_type);
 
-		$xmlimport_url         = $model->updateFile();
+		$xmlimport_url = $model->updateFile();
 
 		$detail->xmlimport_url = $model->getXMLImporturl();
 
-		$isNew                 = ($detail->xmlimport_id < 1);
-		$text                  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$isNew = ($detail->xmlimport_id < 1);
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_import48');
 		JToolBarHelper::custom('xmlimport', 'redshop_import_import32.png', JText::_('COM_REDSHOP_XML_IMPORT'),
@@ -76,8 +76,8 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 		$lists['auto_sync_interval'] = JHTML::_('select.genericlist', $auto_sync_interval,
 			'auto_sync_interval', 'class="inputbox" size="1" ', 'value', 'text', $detail->auto_sync_interval
 		);
-		$lists['override_existing'] = JHTML::_('select.booleanlist', 'override_existing', 'class="inputbox" size="1"', $detail->override_existing);
-		$lists['xmlpublished']      = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
+		$lists['override_existing']  = JHTML::_('select.booleanlist', 'override_existing', 'class="inputbox" size="1"', $detail->override_existing);
+		$lists['xmlpublished']       = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
 
 		if ($xmlimport_url != "")
 		{
@@ -101,13 +101,13 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 
 			for ($i = 0, $in = count($columns); $i < $in; $i++)
 			{
-				$cols[$i] = new stdClass();
+				$cols[$i]        = new stdClass;
 				$cols[$i]->value = $columns[$i]->Field;
 				$cols[$i]->text  = $columns[$i]->Field;
 			}
 
 			$op           = array();
-			$op[0]        = new stdClass();
+			$op[0]        = new stdClass;
 			$op[0]->value = '';
 			$op[0]->text  = JText::_('COM_REDSHOP_SELECT');
 			$columns      = array_merge($op, $cols);
@@ -126,7 +126,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 
 				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
-					$cols[$i] = new stdClass();
+					$cols[$i]        = new stdClass;
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}
@@ -150,7 +150,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 
 				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
-					$cols[$i] = new stdClass();
+					$cols[$i]        = new stdClass;
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}
@@ -174,7 +174,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 
 				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
-					$cols[$i] = new stdClass();
+					$cols[$i]        = new stdClass;
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}

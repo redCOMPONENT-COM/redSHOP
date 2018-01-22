@@ -59,16 +59,16 @@ class RedshopHelperProductPrice
 
 			// Secure discount ids
 			$discountIds = !empty($discountStringIds) ? ArrayHelper::toInteger(explode(',', $discountStringIds)) : array();
-			$discountIds = array_filter($discountIds);
+			$discountIds = array_values(array_filter($discountIds));
 
 			// Secure category ids
 			$catIds = !empty($categoryProduct) ? ArrayHelper::toInteger(explode(',', $categoryProduct)) : array();
-			$catIds = array_filter($catIds);
+			$catIds = array_values(array_filter($catIds));
 
 			$query = $db->getQuery(true)
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
-				->where('dp.published = 1');
+				->where($db->qn('dp.published') . ' = 1');
 
 			if (!empty($catIds))
 			{
@@ -98,9 +98,9 @@ class RedshopHelperProductPrice
 				$query->where('dp.discount_product_id IN (' . implode(',', $discountIds) . ')');
 			}
 
-			$query->where('dp.start_date <= ' . (int) $time)
-				->where('dp.end_date >= ' . (int) $time)
-				->order('dp.amount DESC');
+			$query->where('(' . $db->qn('dp.start_date') . ' = 0 OR ' . $db->qn('dp.start_date') . ' <= ' . (int) $time . ')')
+				->where('(' . $db->qn('dp.end_date') . ' = 0 OR ' . $db->qn('dp.end_date') . ' >= ' . (int) $time . ')')
+				->order($db->qn('dp.amount') . ' DESC');
 
 			// Get all discount based on current shopper group
 			$subQuery = $db->getQuery(true)
@@ -109,7 +109,7 @@ class RedshopHelperProductPrice
 				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
 
 			// Filter by requested discounts only
-			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
+			$query->where($db->qn('dp.discount_product_id') . ' IN (' . $subQuery . ')');
 
 			self::$productSpecialPrices[$key] = $db->setQuery($query)->loadObjectList();
 		}
@@ -195,9 +195,9 @@ class RedshopHelperProductPrice
 			$productCurrency = $session->get('product_currency');
 			$currencySymbol  = (int) $productCurrency;
 			$currencySymbol  = !$currencySymbol ?
-				$productCurrency : RedshopEntityCurrency::getInstance($productCurrency)->get('currency_code');
+				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
 
-			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
+			if (Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
 				$currencySymbol = " " . $currencySymbol;
 			}
@@ -222,16 +222,13 @@ class RedshopHelperProductPrice
 		{
 			case 'behind':
 				return $productPrice . $currencySymbol;
-				break;
 
 			case 'none':
 				return $productPrice;
-				break;
 
 			case 'front':
 			default:
 				return $currencySymbol . $productPrice;
-				break;
 		}
 	}
 
@@ -311,12 +308,6 @@ class RedshopHelperProductPrice
 				$regPrice = $row->product_price + $priceTax;
 			}
 
-			/**
-			 * @TODO: Need to check here why system force
-			 * $priceTax  = $this->getProductTax($productId, $row->product_price, $userId);
-			 * $reg_price = $row->product_price;
-			 */
-
 			$formattedPrice = self::formattedPrice($regPrice);
 			$productPrice   = $newPrice - $discountAmount;
 			$productPrice   = $productPrice < 0 ? 0 : $productPrice;
@@ -349,7 +340,7 @@ class RedshopHelperProductPrice
 
 		$productPrice = $productPrice < 0 ? 0 : $productPrice;
 
-		if (Redshop::getConfig()->get('SHOW_PRICE'))
+		if (Redshop::getConfig()->getBool('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
 			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);

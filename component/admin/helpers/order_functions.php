@@ -369,15 +369,15 @@ class order_functions
 	/**
 	 * Get billing address
 	 *
-	 * @param   integer  $user_id  User ID
+	 * @param   integer $userId User ID
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getBillingAddress() instead
 	 */
-	public function getBillingAddress($user_id = 0)
+	public function getBillingAddress($userId = 0)
 	{
-		return RedshopHelperOrder::getBillingAddress($user_id);
+		return RedshopHelperOrder::getBillingAddress($userId);
 	}
 
 	/**

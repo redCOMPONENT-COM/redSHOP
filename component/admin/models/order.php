@@ -60,8 +60,8 @@ class RedshopModelOrder extends RedshopModel
 		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
 		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
-		$filter_from_date     = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
-		$filter_to_date       = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
+		$filter_from_date      = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
+		$filter_to_date        = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
 
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
@@ -75,16 +75,16 @@ class RedshopModelOrder extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$app                   = JFactory::getApplication();
-		$db                    = JFactory::getDbo();
-		$query                 = $db->getQuery(true);
+		$app   = JFactory::getApplication();
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$filter                = $this->getState('filter');
 		$filter_by             = $this->getState('filter_by');
 		$filter_status         = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
-		$filter_from_date     = $this->getState('filter_from_date');
-		$filter_to_date       = $this->getState('filter_to_date');
+		$filter_from_date      = $this->getState('filter_from_date');
+		$filter_to_date        = $this->getState('filter_to_date');
 
 		if ($filter_from_date)
 		{
@@ -156,7 +156,7 @@ class RedshopModelOrder extends RedshopModel
 		}
 
 		$query->select(
-				array(
+			array(
 					'o.*',
 					$db->qn('uf.lastname'),
 					$db->qn('uf.firstname'),
@@ -166,7 +166,7 @@ class RedshopModelOrder extends RedshopModel
 					$db->qn('uf.ean_number'),
 					$db->qn('os.order_status_name')
 				)
-			)
+		)
 			->from($db->qn('#__redshop_orders', 'o'))
 			->leftjoin(
 				$db->qn('#__redshop_order_users_info', 'uf')
@@ -177,7 +177,7 @@ class RedshopModelOrder extends RedshopModel
 			->group($db->qn('o.order_id'));
 
 		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
+		$filter_order     = $this->getState('list.ordering');
 		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 
 		return $query;
@@ -185,7 +185,7 @@ class RedshopModelOrder extends RedshopModel
 
 	public function export_data($cid)
 	{
-		$where = array();
+		$where    = array();
 		$order_id = implode(',', $cid);
 
 		$where[] = " 1=1";
@@ -195,7 +195,7 @@ class RedshopModelOrder extends RedshopModel
 			$where[] = " o.order_id IN (" . $order_id . ")";
 		}
 
-		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
+		$where   = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = " order by o.order_id DESC";
 
 		$query = 'SELECT distinct(o.cdate),o.*,ouf.* FROM #__redshop_orders AS o '
@@ -253,17 +253,17 @@ class RedshopModelOrder extends RedshopModel
 
 				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * (float)$orderproducts[$c]->product_quantity);
+					$weight       = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
 				}
 
-				$parceltype = 'A';
+				$parceltype      = 'A';
 				$shopDetails_arr = explode("|", $ordersInfo[$i]->shop_id);
 
 				$userphoneArr = explode("###", $ordersInfo[$i]->shop_id);
 
 				$shopDetails_temparr = explode("###", $shopDetails_arr[7]);
-				$shopDetails_arr[7] = $shopDetails_temparr[0];
+				$shopDetails_arr[7]  = $shopDetails_temparr[0];
 
 				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
 
@@ -271,7 +271,7 @@ class RedshopModelOrder extends RedshopModel
 					$ordersInfo[$i]->order_number,
 					$shopDetails_arr[1],
 					$shopDetails_arr[2],
-					'Pakkeshop: '	. $shopDetails_arr[0],
+					'Pakkeshop: ' . $shopDetails_arr[0],
 					$shopDetails_arr[3],
 					$shopDetails_arr[7],
 					'008',
@@ -344,7 +344,7 @@ class RedshopModelOrder extends RedshopModel
 
 				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$weight       = (float) $this->getProductWeight($orderproducts[$c]->product_id);
 					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
 				}
 
@@ -410,13 +410,13 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getOrdersDetail($orderIds)
 	{
-		JArrayHelper::toInteger($orderIds);
+		$orderIds = Joomla\Utilities\ArrayHelper::toInteger($orderIds);
 
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_orders'));
+			->select('*')
+			->from($db->qn('#__redshop_orders'));
 
 		if ($orderIds[0] != 0)
 		{

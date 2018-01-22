@@ -386,7 +386,7 @@ class RedshopHelperUtility
 				}
 				else
 				{
-					$truncate    .= $tag[3];
+					$truncate   .= $tag[3];
 					$totalLength = $contentLength;
 				}
 
@@ -980,7 +980,7 @@ class RedshopHelperUtility
 	 */
 	public static function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('ea.*')
 			->select($db->qn('ea.accountgroup_id', 'value'))

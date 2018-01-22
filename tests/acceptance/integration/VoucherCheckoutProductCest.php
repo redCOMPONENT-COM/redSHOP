@@ -100,8 +100,8 @@ class VoucherCheckoutProductCest
 		$this->randomVoucherCode = $this->faker->bothify('VoucherCheckoutProductCest ?##?');
 		$this->voucherAmount     = 10;
 		$this->voucherCount      = $this->faker->numberBetween(99, 999);
-		$this->startDate         = "21-06-2017";
-		$this->endDate           = "07-07-2017";
+		$this->startDate         = "2017-06-21";
+		$this->endDate           = "2017-07-07";
 
 		//create category
 		$this->randomCategoryName = $this->faker->bothify('TestingCategory ?##');
@@ -111,8 +111,8 @@ class VoucherCheckoutProductCest
 		$this->minimumPerProduct   = 1;
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = 5;
-		$this->discountStart       = "12-12-2016";
-		$this->discountEnd         = "23-05-2017";
+		$this->discountStart       = "2016-12-12";
+		$this->discountEnd         = "2017-05-23";
 		$this->randomProductNumber = rand(999, 9999);
 		$this->randomProductPrice  = 24;
 	}

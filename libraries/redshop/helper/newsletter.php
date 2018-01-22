@@ -28,7 +28,9 @@ class RedshopHelperNewsletter
 	 *
 	 * @return  boolean             True on success. False otherwise.
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function subscribe($userId = 0, $data = array(), $sendMail = false, $isNew = null)
 	{

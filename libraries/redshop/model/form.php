@@ -53,7 +53,7 @@ class RedshopModelForm extends JModelAdmin
 	 *
 	 * @param   array  $config  Configuration array
 	 *
-	 * @throws  RuntimeException
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -112,7 +112,7 @@ class RedshopModelForm extends JModelAdmin
 	 *
 	 * @return  RedshopModelForm  The model
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  Exception
 	 */
 	public static function getAutoInstance($name, $client = null, array $config = array(), $option = 'auto')
 	{
@@ -122,7 +122,7 @@ class RedshopModelForm extends JModelAdmin
 		}
 
 		$componentName = ucfirst(strtolower(substr($option, 4)));
-		$prefix = $componentName . 'Model';
+		$prefix        = $componentName . 'Model';
 
 		if (is_null($client))
 		{
@@ -170,6 +170,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @param   string  $option  Component name, use for call model from modules
 	 *
 	 * @return  RedshopModelForm  Model instance
+	 *
+	 * @throws  Exception
 	 */
 	public static function getAdminInstance($name, array $config = array(), $option = 'auto')
 	{
@@ -184,6 +186,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @param   string  $option  Component name, use for call model from modules
 	 *
 	 * @return  RedshopModelForm  Model instance
+	 *
+	 * @throws  Exception
 	 */
 	public static function getFrontInstance($name, array $config = array(), $option = 'auto')
 	{
@@ -227,6 +231,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @param   array   $config  Configuration array
 	 *
 	 * @return  JTable
+	 *
+	 * @throws  Exception
 	 */
 	public function getTable($name = null, $prefix = 'RedshopTable', $config = array())
 	{
@@ -250,6 +256,8 @@ class RedshopModelForm extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array  The default data is an empty array.
+	 *
+	 * @throws  Exception
 	 */
 	protected function loadFormData()
 	{
@@ -281,7 +289,7 @@ class RedshopModelForm extends JModelAdmin
 	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
-		$data = $form->filter($data);
+		$data   = $form->filter($data);
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
@@ -332,6 +340,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @return  string  Unique field value
 	 *
 	 * @since   1.5
+	 *
+	 * @throws  Exception
 	 */
 	protected function renameToUniqueValue($fieldName, $fieldValue, $style = 'default', $tableName = '')
 	{

@@ -36,7 +36,7 @@ if ($post["user_id"] < 0)
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
 		setTimeout(function(){
-			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $itemId); ?>';
+			window.parent.location.href = '<?php echo JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false); ?>';
 		}, 3000);
 	<?php endif; ?>
 	function cancelForm(frm) {

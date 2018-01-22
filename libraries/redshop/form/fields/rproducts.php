@@ -69,6 +69,12 @@ class JFormFieldRproducts extends JFormFieldList
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
+		// Process value
+		if (!empty($this->value) && $this->multiple && !is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
+
 		return JHTML::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 	}
 }

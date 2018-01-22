@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Redshop\Order\Template;
+
 defined('_JEXEC') or die;
 
 $carthelper = rsCarthelper::getInstance();
@@ -28,6 +31,6 @@ $print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRIN
 	. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='" . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
 
 $message = str_replace("{print}", $print_tag, $ordersprint_template);
-$message = $carthelper->replaceOrderTemplate($OrdersDetail, $message, true);
+$message = Template::replaceTemplate($OrdersDetail, $message, true);
 echo eval("?>" . $message . "<?php ");
 ?>

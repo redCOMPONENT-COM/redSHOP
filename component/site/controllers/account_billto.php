@@ -22,11 +22,12 @@ class RedshopControllerAccount_billto extends RedshopController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $default  config array.
+	 * @param   array $default config array.
 	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
+
 		$this->registerTask('add', 'edit');
 		$this->registerTask('', 'edit');
 		$this->registerTask('display', 'edit');
@@ -35,13 +36,14 @@ class RedshopControllerAccount_billto extends RedshopController
 	/**
 	 * Method to edit billing Address
 	 *
-	 * @return  boolean  True if the ID is in the edit list.
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function edit()
 	{
-		$user                        = JFactory::getUser();
-		$order_functions             = order_functions::getInstance();
-		$billingaddresses            = $order_functions->getBillingAddress($user->id);
+		$user             = JFactory::getUser();
+		$billingaddresses = RedshopHelperOrder::getBillingAddress($user->id);
+
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
 		$task = JFactory::getApplication()->input->get('submit', 'post');
@@ -57,7 +59,11 @@ class RedshopControllerAccount_billto extends RedshopController
 	/**
 	 * Method to save Billing Address
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 *
+	 * @throws  Exception
 	 */
 	public function save()
 	{
@@ -66,7 +72,8 @@ class RedshopControllerAccount_billto extends RedshopController
 		$user    = JFactory::getUser();
 		$post    = $input->post->getArray();
 		$itemId  = $input->getInt('Itemid', 0);
-		$setExit = $input->getInt('setexit', 1);
+		$setExit = $input->getInt('setexit', 0);
+		$return  = $input->getString('return', '');
 
 		$post['users_info_id'] = $input->post->getInt('cid', 0);
 		$post['id']            = $post['user_id'];
@@ -80,27 +87,27 @@ class RedshopControllerAccount_billto extends RedshopController
 			$post['username'] = $user->username;
 		}
 
-		$model = $this->getModel('account_billto');
+		/** @var RedshopModelAccount_billto $model */
+		$model       = $this->getModel('account_billto');
+		$redshopUser = $model->store($post);
 
-		if ($reduser = $model->store($post))
-		{
-			$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
-		}
-
-		$link = '';
+		$msg = $redshopUser ? JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE')
+			: JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
-
-			if (!isset($setExit) || $setExit != 0)
+			if ($setExit)
 			{
-				$app->redirect('index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return, $msg);
+				$app->redirect(
+					JRoute::_(
+						'index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return,
+						false
+					),
+					$msg
+				);
 			}
+
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 		}
 		else
 		{
@@ -114,33 +121,33 @@ class RedshopControllerAccount_billto extends RedshopController
 	 * Method called when user pressed cancel button
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	function cancel()
 	{
 		$input   = JFactory::getApplication()->input;
-		$Itemid  = $input->get('Itemid');
+		$itemId  = $input->get('Itemid');
 		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
 		$return  = $input->get('return');
 		$setexit = $input->getInt('setexit', 1);
-		$link    = '';
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
 				?>
-				<script language="javascript">
-					window.parent.location.href = "<?php echo $link ?>";
-				</script>
+                <script language="javascript">
+                    window.parent.location.href = "<?php echo $link ?>";
+                </script>
 				<?php
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 		else
 		{
-			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $itemId;
 		}
 
 		$this->setRedirect($link, $msg);

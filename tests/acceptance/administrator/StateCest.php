@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use AcceptanceTester\CountrySteps;
 use AcceptanceTester\StateSteps;
 use Codeception\Scenario;
 
@@ -88,8 +87,17 @@ class StateCest
 	{
 		$client->wantTo('Test State creation in Administrator');
 		$client->doAdministratorLogin();
+
+		/** @var CountrySteps $client */
 		$client = new CountrySteps($scenario);
-		$client->addCountry($this->randomCountryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
+		$client->addNewItem(
+			array(
+				'country_name'   => $this->randomCountryName,
+				'country_2_code' => $this->randomTwoCode,
+				'country_3_code' => $this->randomThreeCode,
+				'country_jtext'  => $this->randomCountry
+			)
+		);
 		$client = new StateSteps($scenario);
 		$client->addState($this->randomCountryName, $this->randomStateName, $this->randomTwoCode, $this->randomThreeCode);
 	}

@@ -46,7 +46,7 @@ class RedshopModelTextlibrary extends RedshopModel
 	protected function populateState($ordering = 'textlibrary_id', $direction = '')
 	{
 		$section = $this->getUserStateFromRequest($this->context . '.section', 'section', 0);
-		$filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
+		$filter  = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$this->setState('section', $section);
 		$this->setState('filter', $filter);
 
@@ -58,7 +58,7 @@ class RedshopModelTextlibrary extends RedshopModel
 		$where = "";
 
 		$section = $this->getState('section');
-		$filter = $this->getState('filter');
+		$filter  = $this->getState('filter');
 
 		if ($filter)
 		{

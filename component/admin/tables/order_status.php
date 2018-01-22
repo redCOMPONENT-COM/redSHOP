@@ -43,13 +43,23 @@ class RedshopTableOrder_Status extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->order_status_name))
+		{
+			return false;
+		}
+
+		if (empty($this->order_status_code))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;
 		}
 
 		// Check status code.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(' . $db->qn('order_status_code') . ') AS ' . $db->qn('count'))
 			->from($db->qn('#__' . $this->_tableName))
@@ -79,7 +89,7 @@ class RedshopTableOrder_Status extends RedshopTable
 	 */
 	protected function doDelete($pk = null)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->qn(['s.order_status_id', 's.order_status_code']))

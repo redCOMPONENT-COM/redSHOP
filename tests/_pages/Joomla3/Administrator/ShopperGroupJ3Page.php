@@ -13,8 +13,6 @@ class ShopperGroupJ3Page extends AdminJ3Page
     //URL
     public static $URL = '/administrator/index.php?option=com_redshop&view=shopper_group';
 
-    public static $URLNew = '/administrator/index.php?option=com_redshop&view=shopper_group_detail&layout=edit';
-
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=';
 
     //Id
@@ -63,55 +61,17 @@ class ShopperGroupJ3Page extends AdminJ3Page
 
     public static $categoryFiled = ['id' => 's2id_shopper_group_categories'];
 
-    public static $categoryFill = ['xpath' => "//div[@id='s2id_shopper_group_categories']//ul/li//input"];
+//    public static $categoryFill = ['xpath' => "//div[@id='s2id_shopper_group_categories']//ul/li//input"];
+    
+    public static  $categoryFill = ['xpath'=>"//input[@id='s2id_autogen3']"];
 
-    public static $shopperFirst = " //div[@class='table-responsive']/table/tbody/tr/td[2]/input[@id='cb0']";
+    public static $shopperFirst = " //input[@id='cb0']";
 
-    public static $shopperFours = " //div[@class='table-responsive']/table/tbody/tr/td[2]/input[@id='cb3']";
+    public static $shopperFours = "//input[@id='cb3']";
 
-    public static $shopperFirstStatus = ['xpath' => "//form[@id='adminForm']/div[1]/div/table/tbody/tr[1]/td[5]/a"];
+    public static $shopperFirstStatus = ['xpath' => "//tr[1]/td[5]/a"];
 
-    public static $nameShopperGroupsFirst = ['xpath' => "//form[@id='adminForm']/div[1]/div/table/tbody/tr[1]/td[3]/a"];
-
-//    public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
-
-//    public static $pageHead="//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
-
-
-
-    //selector
-
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
-    public static $selectorNameShopper = '.shopper_group_name';
-
-    //button
-
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
-
-    public static $closeButton = 'Close';
+    public static $nameShopperGroupsFirst = ['xpath' => "//tr[1]/td[3]/a"];
 
     //message
     public static $saveSuccess = 'Shopper Group Detail Saved';

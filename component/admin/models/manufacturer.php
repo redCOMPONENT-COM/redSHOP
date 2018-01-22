@@ -58,9 +58,9 @@ class RedshopModelManufacturer extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
+		$filter  = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
-		$where = '';
+		$where   = '';
 
 		if ($filter)
 		{
@@ -86,14 +86,14 @@ class RedshopModelManufacturer extends RedshopModel
 		return $database->loadResult();
 	}
 
-	public function saveOrder(&$cid)
+	public function saveOrder(&$cid, $order = array())
 	{
-		$db = JFactory::getDbo();
+		$db  = JFactory::getDbo();
 		$row = $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
-		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
-		JArrayHelper::toInteger($order, array(0));
+		$order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
+		$order = Joomla\Utilities\ArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values
 		for ($i = 0; $i < $total; $i++)

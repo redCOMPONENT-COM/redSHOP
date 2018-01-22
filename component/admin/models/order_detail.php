@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopModelOrder_detail extends RedshopModel
@@ -134,7 +134,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				{
 					$orderdata = $this->getTable('order_detail');
 					$orderdata->load($cid[$i]);
-					Economic::deleteInvoiceInEconomic($orderdata);
+					RedshopEconomic::deleteInvoiceInEconomic($orderdata);
 				}
 			}
 
@@ -159,7 +159,6 @@ class RedshopModelOrder_detail extends RedshopModel
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
 				$this->_db->execute();
-
 
 				$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
@@ -186,6 +185,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 				return false;
 			}
+
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_payment WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -275,6 +275,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderdata->load($this->_id);
 
 		$item = $data['order_item'];
+
 		// Get product Info
 
 		// Set Order Item Info
@@ -318,7 +319,6 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			$product = Redshop::product((int) $product_id);
-
 
 			$updatestock             = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
 			$stockroom_id_list       = $updatestock['stockroom_list'];
@@ -392,7 +392,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$attribute_id        = $attchildArr[$j]['attribute_id'];
+						$attribute_id         = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
@@ -425,10 +425,10 @@ class RedshopModelOrder_detail extends RedshopModel
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
-							$property_id         = $propArr[$k]['property_id'];
+							$property_id          = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
-							$subpropArr          = $propArr[$k]['property_childs'];
+							$subpropArr           = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -461,7 +461,7 @@ class RedshopModelOrder_detail extends RedshopModel
 									$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
-								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
+								$subproperty_id       = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " ("
 									. $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
@@ -658,7 +658,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::renewInvoiceInEconomic($orderdata);
+				RedshopEconomic::renewInvoiceInEconomic($orderdata);
 			}
 
 			// Send mail from template
@@ -737,7 +737,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($order->getItem());
+			RedshopEconomic::renewInvoiceInEconomic($order->getItem());
 		}
 
 		// Send mail from template ********************/
@@ -851,6 +851,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				return false;
 			}
+
 			$tmpArr['special_discount'] = $orderdata->special_discount;
 			$this->special_discount($tmpArr, true);
 		}
@@ -928,19 +929,10 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$subtotal = 0;
 
-		/**
-		 * @TODO: Need to check or remove since $order_item_id is undefined.
-		 *
-		 * Ref: https://github.com/redCOMPONENT-COM/redSHOP/blame/1c299b5133723afd92418b7185a2ece0d023ce68/component/admin/models/order_detail.php#L847
-		 *
-		 */
-		/*for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
 		{
-			if ($order_item_id != $orderItems[$i]->order_item_id)
-			{
-				$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
-			}
-		}*/
+			$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+		}
 
 		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount;
 
@@ -948,11 +940,13 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			$update_discount = $subtotal;
 		}
+
 		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $update_discount != "0.00" && $orderData->order_tax && !empty($update_discount))
 		{
 			$Discountvat     = (Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $update_discount);
 			$update_discount = $update_discount + $Discountvat;
 		}
+
 		if (abs($data['update_discount']) == 0)
 		{
 			$order_total = ($subtotal + $orderData->order_shipping) - ($orderData->special_discount_amount);
@@ -972,10 +966,11 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
+
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -997,7 +992,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderData = $this->getTable('order_detail');
 		$orderData->load($this->_id);
 
-		$orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id);
+		$orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id, 0, 0, true);
 		$orderItemId = isset($data['order_item_id']) ? $data['order_item_id'] : 0;
 
 		if (!$orderData->special_discount)
@@ -1029,7 +1024,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				$orderSubTotal      += $orderItem->product_item_price * $orderItem->product_quantity;
 			}
 
-			$orderDetailTax[] = (float) $orderItem->product_final_price - (float) $orderItem->product_item_price_excl_vat;
+			$orderDetailTax[] = ((float) $orderItem->product_item_price - (float) $orderItem->product_item_price_excl_vat) * $orderItem->product_quantity;
 		}
 
 		if (!empty($orderDetailTax))
@@ -1037,14 +1032,14 @@ class RedshopModelOrder_detail extends RedshopModel
 			$orderTax = array_sum($orderDetailTax);
 		}
 
-		$discountPrice                         = ($orderSubTotal * $specialDiscount) / 100;
-		$orderData->special_discount         = $specialDiscount;
+		$discountPrice                      = ($orderSubTotal * $specialDiscount) / 100;
+		$orderData->special_discount        = $specialDiscount;
 		$orderData->special_discount_amount = $discountPrice;
 
 		$orderData->order_total    = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
 		$orderData->order_subtotal = $orderSubTotal;
 		$orderData->order_tax      = $orderTax;
-		$orderData->mdate           = time();
+		$orderData->mdate          = time();
 
 		if (!$orderData->store())
 		{
@@ -1053,7 +1048,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -1093,7 +1088,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					// Economic Integration start for invoice generate
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 					{
-						Economic::renewInvoiceInEconomic($orderdata);
+						RedshopEconomic::renewInvoiceInEconomic($orderdata);
 					}
 				}
 			}

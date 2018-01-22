@@ -22,6 +22,8 @@ abstract class RedshopHelperStatistic
 	 * @return  bool  True on success. False otherwise.
 	 *
 	 * @since  2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function recordPage()
 	{
@@ -66,7 +68,7 @@ abstract class RedshopHelperStatistic
 			return true;
 		}
 
-		$table->id = null;
+		$table->id           = null;
 		$table->session_id   = $sessionId;
 		$table->user_id      = $user->id;
 		$table->section      = $section;
@@ -95,9 +97,9 @@ abstract class RedshopHelperStatistic
 			return true;
 		}
 
-		$table->id = null;
-		$table->user_id = $user->id;
-		$table->session_id = $sessionId;
+		$table->id           = null;
+		$table->user_id      = $user->id;
+		$table->session_id   = $sessionId;
 		$table->created_date = JFactory::getDate()->toUnix();
 
 		return $table->store();

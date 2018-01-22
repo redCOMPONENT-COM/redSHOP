@@ -23,6 +23,11 @@ jimport('joomla.log.log');
  * @property   string   $product_number              Product number
  * @property   integer  $manufacturer_id             Manufacturer ID
  * @property   integer  $supplier_id                 Supplier ID
+ * @property   float    $weight                      Product weight
+ * @property   double   $product_volume              Product volume
+ * @property   float    $product_length              Product length
+ * @property   float    $product_width               Product Width
+ * @property   float    $product_height              Product height
  *
  * @package     Redshop.Library
  * @subpackage  Product

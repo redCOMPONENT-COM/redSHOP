@@ -36,6 +36,8 @@ class RedshopHelperRouter
 	 * @return  array
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function getRedshopMenuItems()
 	{
@@ -86,6 +88,8 @@ class RedshopHelperRouter
 	 * @return  mixed
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function getRedShopMenuItem($queryItems)
 	{
@@ -174,6 +178,8 @@ class RedshopHelperRouter
 	 * @return  mixed
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function getCategoryItemid($categoryId = 0)
 	{
@@ -231,6 +237,8 @@ class RedshopHelperRouter
 	 * @return  integer
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function getCheckoutItemId()
 	{

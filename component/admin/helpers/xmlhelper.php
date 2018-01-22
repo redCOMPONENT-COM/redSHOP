@@ -14,21 +14,24 @@ JHTML::_('behavior.tooltip');
 class xmlHelper
 {
 	public $_db = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db = JFactory::getDbo();
+		$this->_db           = JFactory::getDbo();
 	}
 
 	public function getSectionTypeList()
 	{
-		$section = array();
+		$section   = array();
 		$section[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
 		$section[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
 		$section[] = JHTML::_('select.option', 'order', JText::_('COM_REDSHOP_ORDER'));
+
 		return $section;
 	}
 
@@ -51,7 +54,7 @@ class xmlHelper
 
 	public function getSynchIntervalList()
 	{
-		$section = array();
+		$section   = array();
 		$section[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$section[] = JHTML::_('select.option', 24, JText::_('COM_REDSHOP_24_HOURS'));
 		$section[] = JHTML::_('select.option', 12, JText::_('COM_REDSHOP_12_HOURS'));
@@ -82,9 +85,10 @@ class xmlHelper
 
 	public function getSectionColumnList($section = "", $childSection = "")
 	{
-		$cols = array();
+		$cols   = array();
 		$catcol = array();
-		$table = "";
+		$table  = "";
+
 		switch ($section)
 		{
 			case 'product':
@@ -93,10 +97,11 @@ class xmlHelper
 				switch ($childSection)
 				{
 					case "stockdetail":
-						$table = "stockroom"; //"product_stockroom_xref";
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "product_stockroom_xref";
+						$table = "stockroom"; // "product_stockroom_xref";
+						$q     = "SHOW COLUMNS FROM " . $this->_table_prefix . "product_stockroom_xref";
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
+
 						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
 							if ($cat[$i]->Field == "quantity")
@@ -106,10 +111,11 @@ class xmlHelper
 						}
 						break;
 					case "prdextrafield":
-						$table = ""; //"fields_data";
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "fields_data";
+						$table = ""; // "fields_data";
+						$q     = "SHOW COLUMNS FROM " . $this->_table_prefix . "fields_data";
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
+
 						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
 							if ($cat[$i]->Field != "user_email" && $cat[$i]->Field != "section")
@@ -120,7 +126,7 @@ class xmlHelper
 						break;
 					default:
 						$table = "product";
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "category";
+						$q     = "SHOW COLUMNS FROM " . $this->_table_prefix . "category";
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
 
@@ -134,35 +140,34 @@ class xmlHelper
 							{
 								$catcol[] = $cat[$i];
 							}
-							elseif ($cat[$i]->Field == "category_template") //Start Code for display product_url
+							elseif ($cat[$i]->Field == "category_template") // Start Code for display product_url
 							{
 								$cat[$i]->Field = "link";
-								$catcol[] = $cat[$i];
+								$catcol[]       = $cat[$i];
 							}
 
-							elseif ($cat[$i]->Field == "category_thumb_image") //Start Code for display delivertime
+							elseif ($cat[$i]->Field == "category_thumb_image") // Start Code for display delivertime
 							{
 								$cat[$i]->Field = "delivertime";
-								$catcol[] = $cat[$i];
+								$catcol[]       = $cat[$i];
 							}
 
-							elseif ($cat[$i]->Field == "category_full_image") //Start Code for display pickup
+							elseif ($cat[$i]->Field == "category_full_image") // Start Code for display pickup
 							{
 								$cat[$i]->Field = "pickup";
-								$catcol[] = $cat[$i];
+								$catcol[]       = $cat[$i];
 							}
 
-							elseif ($cat[$i]->Field == "category_back_full_image") //Start Code for display charges
+							elseif ($cat[$i]->Field == "category_back_full_image") // Start Code for display charges
 							{
 								$cat[$i]->Field = "charge";
-								$catcol[] = $cat[$i];
+								$catcol[]       = $cat[$i];
 							}
-							elseif ($cat[$i]->Field == "category_pdate") //Start Code for display freight
+							elseif ($cat[$i]->Field == "category_pdate") // Start Code for display freight
 							{
 								$cat[$i]->Field = "freight";
-								$catcol[] = $cat[$i];
+								$catcol[]       = $cat[$i];
 							}
-
 						}
 
 						// Start Code for display manufacturer name field
@@ -183,6 +188,7 @@ class xmlHelper
 				break;
 			case 'order':
 				$table = "orders";
+
 				switch ($childSection)
 				{
 					case "orderdetail":
@@ -334,12 +340,15 @@ class xmlHelper
 		$this->_db->execute();
 	}
 
-	public function writeXMLExportFile($xmlexport_id = 0)
+	/**
+	 * @param   integer  $xmlexportId
+	 *
+	 * @return  string|boolean
+	 */
+	public function writeXMLExportFile($xmlexportId = 0)
 	{
-		$config   = Redconfiguration::getInstance();
-		$shipping = shipping::getInstance();
-		$xmlarray = array();
-		$xmlexportdata = $this->getXMLExportInfo($xmlexport_id);
+		$xmlarray      = array();
+		$xmlexportdata = $this->getXMLExportInfo($xmlexportId);
 
 		if (count($xmlexportdata) <= 0)
 		{
@@ -347,8 +356,8 @@ class xmlHelper
 		}
 
 		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/export/";
-		$section = $xmlexportdata->section_type;
-		$columns = $this->getSectionColumnList($section, "orderdetail");
+		$section  = $xmlexportdata->section_type;
+		$columns  = $this->getSectionColumnList($section, "orderdetail");
 
 		for ($i = 0, $in = count($columns); $i < $in; $i++)
 		{
@@ -456,8 +465,8 @@ class xmlHelper
 				return false;
 		}
 
-		//Make the filename unique
-		$filename = RedShopHelperImages::cleanFileName($xmlexportdata->display_filename . '.xml');
+		// Make the filename unique
+		$filename = RedshopHelperMedia::cleanFileName($xmlexportdata->display_filename . '.xml');
 
 		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
 
@@ -477,10 +486,10 @@ class xmlHelper
 				$product_id = $datalist[$i]['product_id'];
 			}
 
-			$xml_billingdocument = "";
+			$xml_billingdocument  = "";
 			$xml_shippingdocument = "";
-			$xml_itemdocument = "";
-			$xml_stockdocument = "";
+			$xml_itemdocument     = "";
+			$xml_stockdocument    = "";
 			$xml_prdextradocument = "";
 
 			if (count($xmlbilling) > 0)
@@ -493,7 +502,7 @@ class xmlHelper
 
 					while (list($prop, $val) = each($billinglist))
 					{
-						$val = html_entity_decode($val);
+						$val                  = html_entity_decode($val);
 						$xml_billingdocument .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 
@@ -511,7 +520,7 @@ class xmlHelper
 
 					while (list($prop, $val) = each($shippinglist))
 					{
-						$val = html_entity_decode($val);
+						$val                   = html_entity_decode($val);
 						$xml_shippingdocument .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 
@@ -533,7 +542,7 @@ class xmlHelper
 
 						while (list($prop, $val) = each($orderItemlist[$j]))
 						{
-							$val = html_entity_decode($val);
+							$val               = html_entity_decode($val);
 							$xml_itemdocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
@@ -558,7 +567,7 @@ class xmlHelper
 
 						while (list($prop, $val) = each($stocklist[$j]))
 						{
-							$val = html_entity_decode($val);
+							$val                = html_entity_decode($val);
 							$xml_stockdocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
@@ -588,7 +597,7 @@ class xmlHelper
 								continue;
 							}
 
-							$val = html_entity_decode($val);
+							$val                   = html_entity_decode($val);
 							$xml_prdextradocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
@@ -599,10 +608,7 @@ class xmlHelper
 				}
 			}
 
-			if ($section == "order" && $xml_itemdocument == "")
-			{
-			}
-			else
+			if ($section != "order" || !empty($xml_itemdocument))
 			{
 				$xml_document .= "<$xmlexportdata->element_name>";
 
@@ -622,7 +628,7 @@ class xmlHelper
 
 					if ((isset($xmlarray['cdate']) && $prop == $xmlarray['cdate']) || (isset($xmlarray['mdate']) && $prop == $xmlarray['mdate']))
 					{
-						$val = $config->convertDateFormat($val);
+						$val = RedshopHelperDatetime::convertDateFormat((int) $val);
 					}
 
 					if ($prop != "order_id" && $prop != "product_id")
@@ -646,17 +652,17 @@ class xmlHelper
 						elseif ($prop == "charge")
 						{
 							$d['product_id'] = $product_id;
-							$srate = $shipping->getDefaultShipping_xmlexport($d);
-							$val1 = $srate['shipping_rate'];
-							$val = round($val1);
+							$srate           = RedshopHelperShipping::getDefaultShippingXmlExport($d);
+							$val1            = $srate['shipping_rate'];
+							$val             = round($val1);
 						}
 
 						elseif ($prop == "freight")
 						{
 							$d['product_id'] = $product_id;
-							$srate = $shipping->getDefaultShipping_xmlexport($d);
-							$val1 = $srate['shipping_rate'];
-							$val = round($val1);
+							$srate           = RedshopHelperShipping::getDefaultShippingXmlExport($d);
+							$val1            = $srate['shipping_rate'];
+							$val             = round($val1);
 						}
 
 						elseif ($prop == "delivertime")
@@ -712,25 +718,31 @@ class xmlHelper
 
 		$xml_document .= "</" . $xmlexportdata->parent_name . ">";
 
-		/* Data in Variables ready to be written to an XML file */
-		$fp = fopen($destpath . $filename, 'w');
-		fwrite($fp, $xml_document);
+		// Data in Variables ready to be written to an XML file
 
-		$this->insertXMLExportlog($xmlexport_id, $filename);
+		$fp = fopen($destpath . $filename, 'w');
+
+		if (is_resource($fp))
+		{
+			fwrite($fp, $xml_document);
+		}
+
+		$this->insertXMLExportlog($xmlexportId, $filename);
+
 		// Update new generated exported file in database record
-		$this->updateXMLExportFilename($xmlexport_id, $filename);
+		$this->updateXMLExportFilename($xmlexportId, $filename);
 
 		return $filename;
 	}
 
 	public function writeXMLImportFile($xmlimport_id = 0, $tmlxmlimport_url = "")
 	{
-		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
+		$destpath      = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 		$xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
 
 		if (count($xmlimportdata) <= 0)
 		{
-			return false; //Import record not exists
+			return false; // Import record not exists
 		}
 
 		if ($tmlxmlimport_url == "" && $xmlimportdata->filename == "")
@@ -748,17 +760,17 @@ class xmlHelper
 		}
 
 		$filedetail = $this->readXMLImportFile($xmlimportdata->xmlimport_url, $xmlimportdata);
-		$datalist = $filedetail['xmlarray'];
+		$datalist   = $filedetail['xmlarray'];
 
 		if (count($datalist) <= 0)
 		{
-			return false; //no data In imported xmlfile.So no need to write import file.
+			return false; // No data In imported xmlfile.So no need to write import file.
 		}
 
-		//Make the filename unique
-		$filename = RedShopHelperImages::cleanFileName($xmlimportdata->display_filename . ".xml");
+		// Make the filename unique
+		$filename = RedshopHelperMedia::cleanFileName($xmlimportdata->display_filename . ".xml");
 
-		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
+		$xml_document  = "<?xml version='1.0' encoding='utf-8'?>";
 		$xml_document .= "<" . $xmlimportdata->element_name . "s>";
 
 		for ($i = 0, $in = count($datalist); $i < $in; $i++)
@@ -777,12 +789,12 @@ class xmlHelper
 
 						for ($j = 0, $jn = count($subdatalist); $j < $jn; $j++)
 						{
-							$childelement = substr($prop, 0, -1);
+							$childelement  = substr($prop, 0, -1);
 							$xml_document .= "<" . $childelement . ">";
 
 							while (list($subprop, $subval) = each($subdatalist[$j]))
 							{
-								$subval = html_entity_decode($subval);
+								$subval        = html_entity_decode($subval);
 								$xml_document .= "<$subprop><![CDATA[$subval]]></$subprop>";
 							}
 
@@ -798,7 +810,7 @@ class xmlHelper
 
 						while (list($subprop, $subval) = each($subdatalist))
 						{
-							$subval = html_entity_decode($subval);
+							$subval        = html_entity_decode($subval);
 							$xml_document .= "<$subprop><![CDATA[$subval]]></$subprop>";
 						}
 
@@ -807,7 +819,7 @@ class xmlHelper
 				}
 				else
 				{
-					$val = html_entity_decode($val);
+					$val           = html_entity_decode($val);
 					$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
 				}
 			}
@@ -817,7 +829,8 @@ class xmlHelper
 
 		$xml_document .= "</" . $xmlimportdata->element_name . "s>";
 
-		/* Data in Variables ready to be written to an XML file */
+		// Data in Variables ready to be written to an XML file
+
 		$fp = fopen($destpath . $filename, 'w');
 		fwrite($fp, $xml_document);
 
@@ -829,32 +842,32 @@ class xmlHelper
 
 	public function readXMLImportFile($file = "", $data = array(), $isImport = 0)
 	{
-		$resultarray = array();
-		$resultsectionarray = array();
-		$resultbillingarray = array();
-		$resulshippingtarray = array();
+		$resultarray          = array();
+		$resultsectionarray   = array();
+		$resultbillingarray   = array();
+		$resulshippingtarray  = array();
 		$resultorderitemarray = array();
-		$resultstockarray = array();
-		$resultprdextarray = array();
+		$resultstockarray     = array();
+		$resultprdextarray    = array();
 
-		$xmlFileArray = array();
-		$xmlBillingArray = array();
-		$xmlShippingArray = array();
+		$xmlFileArray      = array();
+		$xmlBillingArray   = array();
+		$xmlShippingArray  = array();
 		$xmlOrderitemArray = array();
-		$xmlStockArray = array();
-		$xmlPrdextArray = array();
+		$xmlStockArray     = array();
+		$xmlPrdextArray    = array();
 
 		if ($isImport)
 		{
-			$xmlFileArray = $this->explodeXMLFileString($data->xmlimport_filetag);
-			$xmlBillingArray = $this->explodeXMLFileString($data->xmlimport_billingtag);
-			$xmlShippingArray = $this->explodeXMLFileString($data->xmlimport_shippingtag);
+			$xmlFileArray      = $this->explodeXMLFileString($data->xmlimport_filetag);
+			$xmlBillingArray   = $this->explodeXMLFileString($data->xmlimport_billingtag);
+			$xmlShippingArray  = $this->explodeXMLFileString($data->xmlimport_shippingtag);
 			$xmlOrderitemArray = $this->explodeXMLFileString($data->xmlimport_orderitemtag);
-			$xmlStockArray = $this->explodeXMLFileString($data->xmlimport_stocktag);
-			$xmlPrdextArray = $this->explodeXMLFileString($data->xmlimport_prdextrafieldtag);
+			$xmlStockArray     = $this->explodeXMLFileString($data->xmlimport_stocktag);
+			$xmlPrdextArray    = $this->explodeXMLFileString($data->xmlimport_prdextrafieldtag);
 		}
 
-		$content = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA);
+		$content     = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA);
 		$mainelement = "";
 
 		foreach ($content as $key => $val)
@@ -870,19 +883,19 @@ class xmlHelper
 			foreach ($content->$mainelement AS $mainelementval)
 			{
 				$row = array();
-				$j = 0;
+				$j   = 0;
 
 				foreach ($mainelementval AS $mainkey => $mainvalue) // Main element Array Start
 				{
 					if (count($mainvalue->children()) > 0)
 					{
-						$subrow = array();
+						$subrow     = array();
 						$subelement = "";
 
 						if (strtolower($mainkey) == strtolower($data->billing_element_name)) // Billing element Array Start
 						{
 							$subelement = $data->billing_element_name;
-							$l = 0;
+							$l          = 0;
 
 							foreach ($mainvalue->children() AS $subkey => $subvalue)
 							{
@@ -904,7 +917,7 @@ class xmlHelper
 						elseif (strtolower($mainkey) == strtolower($data->shipping_element_name)) // Shipping element Array Start
 						{
 							$subelement = $data->shipping_element_name;
-							$l = 0;
+							$l          = 0;
 
 							foreach ($mainvalue->children() AS $subkey => $subvalue)
 							{
@@ -927,7 +940,7 @@ class xmlHelper
 							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->stock_element_name)) // Stock element Array Start
 						{
 							$subelement = $data->stock_element_name;
-							$l = 0;
+							$l          = 0;
 
 							foreach ($mainvalue->children() AS $subelementval)
 							{
@@ -956,7 +969,7 @@ class xmlHelper
 							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->prdextrafield_element_name)) // Product Extra field element Array Start
 						{
 							$subelement = $data->prdextrafield_element_name;
-							$l = 0;
+							$l          = 0;
 
 							foreach ($mainvalue->children() AS $subelementval)
 							{
@@ -984,7 +997,7 @@ class xmlHelper
 						elseif (strtolower($mainkey) == strtolower($data->orderitem_element_name) || strtolower(substr($mainkey, 0, -1)) == strtolower($data->orderitem_element_name)) // Order item element Array Start
 						{
 							$subelement = $data->orderitem_element_name;
-							$l = 0;
+							$l          = 0;
 
 							foreach ($mainvalue->children() AS $subelementval)
 							{
@@ -1037,24 +1050,24 @@ class xmlHelper
 			}
 		}
 
-		$result['xmlarray'] = $resultarray;
-		$result['xmlsectionarray'] = $resultsectionarray;
-		$result['xmlbillingarray'] = $resultbillingarray;
-		$result['xmlshippingarray'] = $resulshippingtarray;
+		$result['xmlarray']          = $resultarray;
+		$result['xmlsectionarray']   = $resultsectionarray;
+		$result['xmlbillingarray']   = $resultbillingarray;
+		$result['xmlshippingarray']  = $resulshippingtarray;
 		$result['xmlorderitemarray'] = $resultorderitemarray;
-		$result['xmlstockarray'] = $resultstockarray;
-		$result['xmlprdextarray'] = $resultprdextarray;
+		$result['xmlstockarray']     = $resultstockarray;
+		$result['xmlprdextarray']    = $resultprdextarray;
 
 		return $result;
 	}
 
-	function importXMLFile($xmlimport_id = 0)
+	public function importXMLFile($xmlimport_id = 0)
 	{
 		$xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
 
 		if (count($xmlimportdata) <= 0)
 		{
-			return false; //Import record not exists
+			return false; // Import record not exists
 		}
 
 		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
@@ -1065,11 +1078,11 @@ class xmlHelper
 		}
 
 		$filedetail = $this->readXMLImportFile($destpath . $xmlimportdata->filename, $xmlimportdata, 1);
-		$datalist = $filedetail['xmlarray'];
+		$datalist   = $filedetail['xmlarray'];
 
 		if (count($datalist) <= 0)
 		{
-			return false; //no data In imported xmlfile.So no need to write import file.
+			return false; // No data In imported xmlfile.So no need to write import file.
 		}
 
 		switch ($xmlimportdata->section_type)
@@ -1078,22 +1091,22 @@ class xmlHelper
 				for ($i = 0, $in = count($datalist); $i < $in; $i++)
 				{
 					$oldproduct_number = $datalist[$i]['product_number'];
-					$update = false;
+					$update            = false;
 
 					if (array_key_exists('product_number', $datalist[$i]) && $datalist[$i]['product_number'] != "")
 					{
 						if ($this->getProductExist($datalist[$i]['product_number']))
 						{
-							$update = true;
+							$update                         = true;
 							$datalist[$i]['product_number'] = $xmlimportdata->add_prefix_for_existing . $datalist[$i]['product_number'];
 						}
 					}
 
 					if (array_key_exists('product_full_image', $datalist[$i]) && $datalist[$i]['product_full_image'] != "")
 					{
-						$src = $datalist[$i]['product_full_image'];
+						$src      = $datalist[$i]['product_full_image'];
 						$filename = basename($src);
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
+						$dest     = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
 
 						$this->importRemoteImage($src, $dest);
 						$datalist[$i]['product_full_image'] = $filename;
@@ -1101,9 +1114,9 @@ class xmlHelper
 
 					if (array_key_exists('product_thumb_image', $datalist[$i]) && $datalist[$i]['product_thumb_image'] != "")
 					{
-						$src = $datalist[$i]['product_thumb_image'];
+						$src      = $datalist[$i]['product_thumb_image'];
 						$filename = basename($src);
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/thumb/" . $filename;
+						$dest     = REDSHOP_FRONT_IMAGES_RELPATH . "product/thumb/" . $filename;
 
 						$this->importRemoteImage($src, $dest);
 						$datalist[$i]['product_thumb_image'] = $filename;
@@ -1254,7 +1267,7 @@ class xmlHelper
 						if (count($prdarray) > 0)
 						{
 							$upstring = implode(", ", $prdarray);
-							$query = "UPDATE " . $this->_table_prefix . "product "
+							$query    = "UPDATE " . $this->_table_prefix . "product "
 								. "SET $upstring "
 								. "WHERE product_number=" . $this->_db->quote($oldproduct_number) . " ";
 							$this->_db->setQuery($query);
@@ -1315,7 +1328,7 @@ class xmlHelper
 						{
 							$prdkeysarray = array();
 							$prdvalsarray = array();
-							$catarray = array();
+							$catarray     = array();
 
 							while (list($key, $value) = each($datalist[$i]))
 							{
@@ -1338,7 +1351,7 @@ class xmlHelper
 								$fieldstring = implode(", ", $prdkeysarray);
 								$valuestring = implode("', '", $prdvalsarray);
 								$valuestring = "'" . $valuestring . "'";
-								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product "
+								$query       = "INSERT IGNORE INTO " . $this->_table_prefix . "product "
 									. "($fieldstring) VALUES ($valuestring)";
 								$this->_db->setQuery($query);
 								$this->_db->execute();
@@ -1423,7 +1436,7 @@ class xmlHelper
 													{
 														$fieldstring .= ",itemid,section";
 														$valuestring .= "," . (int) $product_id . ", '1' ";
-														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
+														$query        = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
 															. "($fieldstring) VALUES ($valuestring)";
 														$this->_db->setQuery($query);
 														$this->_db->execute();
@@ -1490,13 +1503,13 @@ class xmlHelper
 				for ($i = 0, $in = count($datalist); $i < $in; $i++)
 				{
 					$oldorder_number = $datalist[$i]['order_number'];
-					$update = false;
+					$update          = false;
 
 					if (array_key_exists('order_number', $datalist[$i]) && $datalist[$i]['order_number'] != "")
 					{
 						if ($this->getOrderExist($datalist[$i]['order_number']))
 						{
-							$update = true;
+							$update                       = true;
 							$datalist[$i]['order_number'] = $xmlimportdata->add_prefix_for_existing . $datalist[$i]['order_number'];
 						}
 					}
@@ -1505,7 +1518,7 @@ class xmlHelper
 					if ($xmlimportdata->override_existing && $update)
 					{
 						$datalist[$i]['order_number'] = $oldorder_number;
-						$ordarray = array();
+						$ordarray                     = array();
 
 						while (list($key, $value) = each($datalist[$i]))
 						{
@@ -1597,7 +1610,7 @@ class xmlHelper
 						if (count($ordarray) > 0)
 						{
 							$upstring = implode(", ", $ordarray);
-							$query = "UPDATE " . $this->_table_prefix . "orders "
+							$query    = "UPDATE " . $this->_table_prefix . "orders "
 								. "SET $upstring "
 								. "WHERE order_number=" . $this->_db->quote($oldorder_number) . " ";
 							$this->_db->setQuery($query);
@@ -1625,7 +1638,7 @@ class xmlHelper
 								$fieldstring = implode(", ", $ordkeysarray);
 								$valuestring = implode("', '", $ordvalsarray);
 								$valuestring = "'" . $valuestring . "'";
-								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "orders "
+								$query       = "INSERT IGNORE INTO " . $this->_table_prefix . "orders "
 									. "($fieldstring) VALUES ($valuestring)";
 								$this->_db->setQuery($query);
 								$this->_db->execute();
@@ -1776,8 +1789,8 @@ class xmlHelper
 
 	public function getProductList($xmlarray = array(), $xmlExport = array())
 	{
-		$list = array();
-		$field = array();
+		$list     = array();
+		$field    = array();
 		$strfield = "";
 
 		if (count($xmlarray) > 0)
@@ -1794,32 +1807,32 @@ class xmlHelper
 					or (p.discount_stratdate <= UNIX_TIMESTAMP() and p.discount_enddate>=UNIX_TIMESTAMP())), p.discount_price, p."
 						. $key . ") AS " . $value;
 				}
-				elseif ($key == "manufacturer_name") //Start Code for display manufacture name
+				elseif ($key == "manufacturer_name") // Start Code for display manufacture name
 				{
 					$field[] = "m." . $key . " AS " . $value;
 				}
 
-				elseif ($key == "link") //Start Code for display product_url
+				elseif ($key == "link") // Start Code for display product_url
 				{
 					$field[] = "m.manufacturer_email AS link ";
 				}
 
-				elseif ($key == "delivertime") //Start Code for display delivertime
+				elseif ($key == "delivertime") // Start Code for display delivertime
 				{
 					$field[] = "s.max_del_time AS delivertime ";
 				}
 
-				elseif ($key == "pickup") //Start Code for display pickup
+				elseif ($key == "pickup") // Start Code for display pickup
 				{
 					$field[] = "m.manufacturer_email AS pickup ";
 				}
 
-				elseif ($key == "charge") //Start Code for display charges
+				elseif ($key == "charge") // Start Code for display charges
 				{
 					$field[] = "m.manufacturer_email AS charge ";
 				}
 
-				elseif ($key == "freight") //Start Code for display freight
+				elseif ($key == "freight") // Start Code for display freight
 				{
 					$field[] = "m.manufacturer_email AS freight ";
 				}
@@ -1859,8 +1872,8 @@ class xmlHelper
 
 	public function getOrderList($xmlarray = array())
 	{
-		$list = array();
-		$field = array();
+		$list     = array();
+		$field    = array();
 		$strfield = "";
 
 		if (count($xmlarray) > 0)
@@ -1889,8 +1902,8 @@ class xmlHelper
 
 	public function getOrderUserInfoList($xmlarray = array(), $order_id = 0, $addresstype = "BT")
 	{
-		$list = array();
-		$field = array();
+		$list     = array();
+		$field    = array();
 		$strfield = "";
 
 		if (count($xmlarray) > 0)
@@ -1921,8 +1934,8 @@ class xmlHelper
 
 	public function getOrderItemList($xmlarray = array(), $order_id = 0)
 	{
-		$list = array();
-		$field = array();
+		$list     = array();
+		$field    = array();
 		$strfield = "";
 
 		if (count($xmlarray) > 0)
@@ -1957,9 +1970,7 @@ class xmlHelper
 			return array();
 		}
 
-		$list = array();
-		$field = array();
-		$strfield = "";
+		$field    = array();
 
 		foreach ($xmls AS $key => $value)
 		{
@@ -1987,9 +1998,8 @@ class xmlHelper
 			return array();
 		}
 
-		$db       = JFactory::getDbo();
-		$list     = array();
-		$field    = array();
+		$db    = JFactory::getDbo();
+		$field = array();
 
 		foreach ($xmls AS $key => $value)
 		{
@@ -2018,7 +2028,7 @@ class xmlHelper
 	{
 		chmod($dest, 0777);
 		$Channel = curl_init($src);
-		$File = fopen($dest, "w");
+		$File    = fopen($dest, "w");
 		curl_setopt($Channel, CURLOPT_FILE, $File);
 		curl_setopt($Channel, CURLOPT_HEADER, 0);
 		curl_setopt($Channel, CURLOPT_SSL_VERIFYPEER, false);
