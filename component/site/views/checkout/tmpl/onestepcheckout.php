@@ -20,6 +20,9 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
 
+$session = JFactory::getSession();
+$auth       = $session->get('auth');
+
 $carthelper      = rsCarthelper::getInstance();
 $producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
@@ -65,6 +68,25 @@ if (!empty($billingaddresses) && $users_info_id == 0)
 }
 
 $loginTemplate = "";
+
+$jinput     = JFactory::getApplication()->input;
+
+$registerTemplate = RedshopLayoutHelper::render(
+	'checkout.register',
+	array(
+		'Itemid' => RedshopHelperRouter::getCheckoutItemId(),
+		'lists' => $this->lists,
+		'userhelper' => rsUserHelper::getInstance(),
+		'post' => $jinput->post->getArray(),
+		'isCompany' => $this->lists['is_company']
+	),
+	'',
+	array(
+		'component' => 'com_redshop'
+	)
+);
+
+$titleRegisterTemplate =  JHtml::_(Redshop::getConfig()->getString('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 
 if (!$users_info_id && Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
 {
@@ -293,7 +315,17 @@ else
 
 $onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid);
 
-$onestep_template_desc = $loginTemplate . '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
+{
+	$onestep_template_desc = '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+}
+else
+{
+	echo '<div class="signInPaneDiv">';
+	echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.start', 'signInPane');
+	echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
+	$onestep_template_desc = $loginTemplate . '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $titleRegisterTemplate . $registerTemplate . '</div>' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+}
 
 $onestep_template_desc = $redTemplate->parseredSHOPplugin($onestep_template_desc);
 echo eval("?>" . $onestep_template_desc . "<?php ");?>

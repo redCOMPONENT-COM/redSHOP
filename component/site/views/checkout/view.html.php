@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 
 class RedshopViewCheckout extends RedshopView
 {
+	/**
+	 * @var  array
+	 */
+	public $lists;
+
 	public function display($tpl = null)
 	{
 		$app     = JFactory::getApplication();
