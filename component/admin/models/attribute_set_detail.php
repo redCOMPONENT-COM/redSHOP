@@ -1245,6 +1245,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function copy_image_from_path($imagePath, $section, $section_id)
 	{
+		if (strpos($imagePath, "components/com_redshop/assets/images/") !== -1)
+		{
+			$imagePath = str_replace("components/com_redshop/assets/images/", "", $imagePath);
+		}
+
 		$src            = JPATH_ROOT . '/' . $imagePath;
 		$imgname        = RedShopHelperImages::cleanFileName($imagePath);
 		$property_image = $section_id . '_' . JFile::getName($imgname);
