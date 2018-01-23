@@ -66,9 +66,17 @@ class RedshopControllerLogin extends RedshopController
 
 		if ($mywishlist == 1)
 		{
-			$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
-			$this->setRedirect($wishreturn);
+			$error = $model->setlogin($username, $password);
 
+			if ($error == true)
+			{
+				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+			}
+			else
+			{
+				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=login&wishlist=1&Itemid=' . $Itemid, false);
+			}
+			$this->setRedirect($wishreturn);
 		}
 		else
 		{
