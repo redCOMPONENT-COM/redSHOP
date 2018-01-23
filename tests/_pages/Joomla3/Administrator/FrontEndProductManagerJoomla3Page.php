@@ -46,19 +46,19 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
-	public static $addressEmail = "#email1";
+	public static $addressEmail = ['xpath' => '//input[@id=\'email1\']'];
 	
 	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
 
-	public static $addressFirstName = "//input[@id='firstname']";
+	public static $addressFirstName = ['xpath' => './/*[@id=\'firstname\']'];
 
-	public static $addressLastName = "//input[@id='lastname']";
+	public static $addressLastName = ['xpath' => './/*[@id=\'lastname\']'];
 
-	public static $addressAddress = "//input[@id='address']";
+	public static $addressAddress = ['xpath' => '//input[@id=\'address\']'];
 
-	public static $addressPostalCode = "//input[@id='zipcode']";
+	public static $addressPostalCode = ['xpath' => '//input[@id=\'zipcode\']'];
 
-	public static $addressCity = "//input[@id='city']";
+	public static $addressCity = ['xpath' => '//input[@id=\'city\']'];
 
 	public static $addressCountry = "//select[@id='country_code']";
 
@@ -97,6 +97,31 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
 	public static $orderReceipt = "Order Receipt";
+
+	/**
+	 * @var array
+	 */
+	public static $radioCompany = ['xpath' => '//input[@billing_type=\'company\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $radioPrivate = ['xpath' => '//input[@billing_type=\'private\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyName = ['xpath' => '//input[@id=\'company_name\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idBusinessNumber = ['xpath' => '//input[@id=\'vat_number\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idEanNumber = ['xpath' => '//input[@id=\'ean_number\']'];
 
 
 	/**
