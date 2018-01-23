@@ -704,7 +704,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$dataAdd = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $dataAdd);
 
 		// Replace compare product button
-		$dataAdd = $productHelper->replaceCompareProductsButton($product->product_id, $catid, $dataAdd);
+		$dataAdd = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $catid, $dataAdd);
 
 		if (strstr($dataAdd, "{stockroom_detail}"))
 		{

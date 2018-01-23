@@ -261,7 +261,7 @@ if (!$slide)
 
 		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != "")
 		{
-			$comparediv           = $producthelper->makeCompareProductDiv();
+			$comparediv           = Redshop\Product\Compare::generateCompareProduct();
 			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
 			$compare_product_div = '<a href="' . $compareUrl . '">' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
 			$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
@@ -922,7 +922,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $producthelper->replaceWishlistButton($product->product_id, $data_add);
 
 		// Replace compare product button
-		$data_add = $producthelper->replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
+		$data_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
 
 		$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
 

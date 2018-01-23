@@ -28,7 +28,7 @@ if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
 		'compare_product',
-		$producthelper->getCategoryCompareTemplate($compareCategoryId)
+		Redshop\Product\Compare::getCategoryCompareTemplate($compareCategoryId)
 	);
 }
 else
@@ -86,7 +86,7 @@ if ($total > 0)
 
 	if (count($compareTemplate) > 0)
 	{
-		$product_tag = $producthelper->product_tag($compareTemplate[0]->template_id, "1", $template);
+		$product_tag = Redshop\Helper\Utility::getProductTags(1, $template);
 	}
 
 	$i = 0;
