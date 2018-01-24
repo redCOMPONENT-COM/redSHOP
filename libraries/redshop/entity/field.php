@@ -43,6 +43,23 @@ class RedshopEntityField extends RedshopEntity
 	}
 
 	/**
+	 * Method for get group of this field
+	 *
+	 * @return  null|RedshopEntityField_Group
+	 *
+	 * @since   2.1.0
+	 */
+	public function getGroup()
+	{
+		if (!$this->hasId() || $this->get('groupId') === null)
+		{
+			return null;
+		}
+
+		return RedshopEntityField_Group::getInstance((int) $this->get('groupId'));
+	}
+
+	/**
 	 * Method for load field values
 	 *
 	 * @return  self
