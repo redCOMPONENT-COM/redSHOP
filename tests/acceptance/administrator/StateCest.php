@@ -88,8 +88,8 @@ class StateCest
 		$client->wantTo('Test State creation in Administrator');
 		$client->doAdministratorLogin();
 
-		/** @var CountrySteps $client */
-		$client = new CountrySteps($scenario);
+		/** @var TextLibrarySteps $client */
+		$client = new TextLibrarySteps($scenario);
 		$client->addNewItem(
 			array(
 				'country_name'   => $this->randomCountryName,
