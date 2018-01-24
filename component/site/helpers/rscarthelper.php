@@ -2614,7 +2614,9 @@ class rsCarthelper
 										'paymentMethodId'    => $paymentMethodId,
 										'index'              => $index,
 										'totalPaymentMethod' => $totalPaymentMethod,
-										'checked'            => $checked
+										'checked'            => $checked,
+										'isCompany'          => $isCompany,
+										'eanNumber'          => $eanNumber
 									),
 								'',
 								array(
