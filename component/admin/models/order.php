@@ -371,8 +371,8 @@ class RedshopModelOrder extends RedshopModel
 			}
 
 			$orderProducts   = RedshopHelperOrder::getOrderItemDetail($order->order_id);
-			$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
-			$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($order->order_id);
+			$shippingDetails = RedshopEntityOrder::getInstance($order->order_id)->getShipping();
+			$billingDetails  = RedshopEntityOrder::getInstance($order->order_id)->getBilling();
 			$totalWeight     = 0;
 
 			foreach ($orderProducts as $orderProduct)
@@ -383,12 +383,16 @@ class RedshopModelOrder extends RedshopModel
 
 			// Initialize row
 			$row            = array($order->order_number);
-			$extraFieldData = RedshopHelperExtrafields::getSectionFieldList(19, 1);
+			$extraFieldData = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_SHIPPING_GATEWAY, 1);
 			$extraInfo      = array();
 
 			foreach ($extraFieldData as $extraFieldDatum)
 			{
-				$extraFieldResult = RedshopHelperExtrafields::getData($extraFieldDatum->field_id, 19, $order->order_id);
+				$extraFieldResult = RedshopHelperExtrafields::getData(
+					$extraFieldDatum->field_id,
+					RedshopHelperExtrafields::SECTION_SHIPPING_GATEWAY,
+					$order->order_id
+				);
 
 				if ($extraFieldResult->data_txt != "" && $extraFieldDatum->field_show_in_front == 1)
 				{
