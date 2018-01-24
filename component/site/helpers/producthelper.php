@@ -3531,22 +3531,29 @@ class productHelper
 			}
 
 			// Get stock for Product
-
-			$isStockExists         = $stockroomhelper->isStockExists($product_id);
+			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
 			if ($totalatt > 0 && !$isStockExists)
 			{
-				$property = $this->getAttibuteProperty(0, 0, $product_id);
+				$properties  = $this->getAttibuteProperty(0, 0, $product_id);
+				$propertyIds = array();
 
-				for ($att_j = 0, $countProperty = count($property); $att_j < $countProperty; $att_j++)
+				foreach ($properties as $property)
 				{
 					$isSubpropertyStock = false;
-					$sub_property       = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+					$subProperties      = $this->getAttibuteSubProperty(0, $property->property_id);
 
-					for ($sub_j = 0, $countSubproperty = count($sub_property); $sub_j < $countSubproperty; $sub_j++)
+					if (!empty($subProperties))
 					{
+						$subPropertyIds = array();
+
+						foreach ($subProperties as $subProperty)
+						{
+							$subPropertyIds[] = $subProperty->subattribute_color_id;
+						}
+
 						$isSubpropertyStock = $stockroomhelper->isStockExists(
-							$sub_property[$sub_j]->subattribute_color_id,
+							implode(',', $subPropertyIds),
 							'subproperty'
 						);
 
@@ -3559,18 +3566,21 @@ class productHelper
 
 					if ($isSubpropertyStock)
 					{
+						$isStockExists = $isSubpropertyStock;
+
 						break;
 					}
 					else
 					{
-						$isPropertystock = $stockroomhelper->isStockExists($property[$att_j]->property_id, "property");
-
-						if ($isPropertystock)
-						{
-							$isStockExists = $isPropertystock;
-							break;
-						}
+						$propertyIds[] = $property->property_id;
 					}
+				}
+
+				if (!$isStockExists)
+				{
+					$isStockExists = (boolean) $stockroomhelper->isStockExists(
+						implode(',', $propertyIds), 'property'
+					);
 				}
 			}
 
