@@ -105,29 +105,24 @@ class RedshopHelperStockroom
 	/**
 	 * Check is stock exists
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   integer  $sectionId    Section id
+	 * @param   string   $section      Section
+	 * @param   integer  $stockroomId  Stockroom id
 	 *
-	 * @return mixed
+	 * @return  boolean                True if exist. False otherwise.
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function isStockExists($sectionId = 0, $section = "product", $stockroomId = 0)
 	{
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if (!Redshop::getConfig()->getBool('USE_STOCKROOM'))
 		{
-			$stock = self::getStockAmountwithReserve($sectionId, $section, $stockroomId);
-
-			if ($stock > 0)
-			{
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 
-		return true;
+		$stock = self::getStockAmountwithReserve($sectionId, $section, $stockroomId);
+
+		return $stock > 0;
 	}
 
 	/**
@@ -399,10 +394,7 @@ class RedshopHelperStockroom
 				$quantity = self::$stockReserve[$key];
 			}
 
-			if ($quantity < 0)
-			{
-				$quantity = 0;
-			}
+			$quantity = $quantity < 0 ? 0 : $quantity;
 		}
 
 		if ($quantity == null)
@@ -416,15 +408,15 @@ class RedshopHelperStockroom
 	/**
 	 * Get pre-order stockroom amount with reserve
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   integer  $sectionId    Section id
+	 * @param   string   $section      Section
+	 * @param   integer  $stockroomId  Stockroom id
 	 *
-	 * @return mixed
+	 * @return  integer
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function getPreorderStockAmountwithReserve($sectionId = 0, $section = "product", $stockroomId = 0)
+	public static function getPreorderStockAmountWithReserve($sectionId = 0, $section = "product", $stockroomId = 0)
 	{
 		if (Redshop::getConfig()->get('USE_STOCKTOOM') != 1)
 		{

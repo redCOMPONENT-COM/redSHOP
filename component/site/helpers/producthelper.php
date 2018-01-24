@@ -3531,7 +3531,7 @@ class productHelper
 			}
 
 			// Get stock for Product
-			$isStockExists = $stockroomhelper->isStockExists($product_id);
+			$isStockExists = RedshopHelperStockroom::isStockExists($product_id);
 
 			if ($totalatt > 0 && !$isStockExists)
 			{
