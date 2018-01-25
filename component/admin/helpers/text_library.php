@@ -16,7 +16,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Text Library
  *
- *  @deprecated  2.0.3  Use RedshopHelperText instead
+ * @deprecated  2.0.3  Use RedshopHelperText instead
  */
 class text_library
 {
@@ -35,7 +35,7 @@ class text_library
 	/**
 	 * Get data of text library
 	 *
-	 * @return string
+	 * @return array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperText::getTextLibraryTagArray() instead
 	 */

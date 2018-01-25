@@ -20,13 +20,13 @@ class RedshopHelperCartSession
 	/**
 	 * Get cart from session
 	 *
-	 * @return   boolean|array
+	 * @return   array
 	 *
 	 * @since    2.0.7
 	 */
 	public static function getCart()
 	{
-		return JFactory::getSession()->get('cart', array());
+		return (array) JFactory::getSession()->get('cart', array());
 	}
 
 	/**

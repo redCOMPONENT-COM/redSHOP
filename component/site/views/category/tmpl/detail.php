@@ -252,7 +252,7 @@ if (!$slide)
 
 	$template_desc = str_replace($ctag, $cat_main_thumb, $template_desc);
 
-	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 	$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $this->catid, "2", $template_desc, 0);
 
 	if (strpos($template_desc, "{compare_product_div}") !== false)
@@ -261,7 +261,7 @@ if (!$slide)
 
 		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != "")
 		{
-			$comparediv           = $producthelper->makeCompareProductDiv();
+			$comparediv           = Redshop\Product\Compare::generateCompareProduct();
 			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
 			$compare_product_div = '<a href="' . $compareUrl . '">' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
 			$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
@@ -461,7 +461,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 	$attribute_template = $producthelper->getAttributeTemplate($template_product);
 
-	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 	$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
 	$product_data   = '';
 	list($template_userfield, $userfieldArr) = $producthelper->getProductUserfieldFromTemplate($template_product);
@@ -649,10 +649,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		if (empty($specificLink))
 		{
+			$productCatId = !empty($product->categories) && is_array($product->categories) ? $product->categories[0] : $this->catid;
+
 			$link = JRoute::_(
 				'index.php?option=' . $this->option .
 				'&view=product&pid=' . $product->product_id .
-				'&cid=' . $this->catid .
+				'&cid=' . $productCatId .
 				'&Itemid=' . $pItemid
 			);
 		}
@@ -920,7 +922,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $producthelper->replaceWishlistButton($product->product_id, $data_add);
 
 		// Replace compare product button
-		$data_add = $producthelper->replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
+		$data_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
 
 		$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
 
@@ -990,7 +992,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		);
 
 		//  Extra field display
-		$extraFieldName = $extraField->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT);
+		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT);
 		$data_add       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
 
 		$productAvailabilityDate = strstr($data_add, "{product_availability_date}");

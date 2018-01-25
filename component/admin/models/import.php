@@ -169,7 +169,7 @@ class RedshopModelImport extends RedshopModel
 		}
 
 		list($susec, $ssec) = explode(" ", microtime());
-		$start_micro_time = ((float) $susec + (float) $ssec);
+		$start_micro_time   = ((float) $susec + (float) $ssec);
 		$session->set('start_micro_time', $start_micro_time);
 
 		while (($data = fgetcsv($handle, 0, $separator, '"')) !== false)
@@ -417,13 +417,12 @@ class RedshopModelImport extends RedshopModel
 															}
 															else
 															{
-																$insert_row_query               = new stdClass();
+																$insert_row_query               = new stdClass;
 																$insert_row_query->quantity     = $mainquaexplode[1];
 																$insert_row_query->stockroom_id = $mainquaexplode[0];
 																$insert_row_query->section      = 'property';
 																$insert_row_query->section_id   = $prop_insert_id;
 																$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert_row_query);
-
 															}
 														}
 													}
@@ -1414,6 +1413,7 @@ class RedshopModelImport extends RedshopModel
 	public function check_vm()
 	{
 		$db = JFactory::getDbo();
+		$input = JFactory::getApplication()->input;
 
 		// Check Virtual Mart Is Install or Not
 		$query_check = "SELECT extension_id FROM #__extensions WHERE `element` = 'com_virtuemart' ";
@@ -1435,12 +1435,12 @@ class RedshopModelImport extends RedshopModel
 			$orders_total       = $this->Orders_insert();
 			$manufacturer_total = $this->Manufacturer_insert();
 
-			JRequest::setVar('product_total', $product_total);
-			JRequest::setVar('shopper_total', $shopper_total);
-			JRequest::setVar('customer_total', $customer_total);
-			JRequest::setVar('orders_total', $orders_total);
-			JRequest::setVar('status_total', $status_total);
-			JRequest::setVar('manufacturer_total', $manufacturer_total);
+			$input->set('product_total', $product_total);
+			$input->set('shopper_total', $shopper_total);
+			$input->set('customer_total', $customer_total);
+			$input->set('orders_total', $orders_total);
+			$input->set('status_total', $status_total);
+			$input->set('manufacturer_total', $manufacturer_total);
 
 			return true;
 		}
@@ -1463,14 +1463,14 @@ class RedshopModelImport extends RedshopModel
 
 			foreach ($data as $product_data)
 			{
-				$product_name     = addslashes($product_data->product_name);
-				$product_s_desc   = $product_data->product_s_desc;
-				$product_number   = $product_data->product_sku;
-				$product_in_stock = $product_data->product_in_stock;
-				$product_desc     = $product_data->product_desc;
-				$product_tax_id   = $product_data->product_tax_id;
+				$product_name                                      = addslashes($product_data->product_name);
+				$product_s_desc                                    = $product_data->product_s_desc;
+				$product_number                                    = $product_data->product_sku;
+				$product_in_stock                                  = $product_data->product_in_stock;
+				$product_desc                                      = $product_data->product_desc;
+				$product_tax_id                                    = $product_data->product_tax_id;
 				$product_data->product_publish == 'Y' ? $published = 1 : $published = 0;
-				$product_full_image = $product_data->product_full_image;
+				$product_full_image                                = $product_data->product_full_image;
 
 				$publish_date           = date('Y-m-d h:i:s', $product_data->publish_date);
 				$update_date            = date('Y-m-d h:i:s', $product_data->update_date);
@@ -1566,7 +1566,7 @@ class RedshopModelImport extends RedshopModel
 
 						if (JFile::exists($src))
 						{
-							@copy($src, $dest);
+							JFile::copy($src, $dest);
 						}
 
 						$rows                       = $this->getTable('media_detail');
@@ -1675,16 +1675,17 @@ class RedshopModelImport extends RedshopModel
 			$this->related_product_sync($vmproarr, $redproarr);
 			$category_total = $this->Category_sync($product_array);
 
-			JRequest::setVar('category_total', $category_total);
+			$input = JFactory::getApplication()->input;
+			$input->set('category_total', $category_total);
 
 			if (isset($inserted))
 			{
-				JRequest::setVar('product_inserted', count($inserted));
+				$input->set('product_inserted', count($inserted));
 			}
 
 			if (isset($updated))
 			{
-				JRequest::setVar('product_updated', count($updated));
+				$input->set('product_updated', count($updated));
 			}
 
 			return count($product_array);
@@ -1723,7 +1724,7 @@ class RedshopModelImport extends RedshopModel
 			}
 
 			$cat_data->category_publish == 'Y' ? $category_publish = 1 : $category_publish = 0;
-			$products_per_row = $cat_data->products_per_row;
+			$products_per_row                                      = $cat_data->products_per_row;
 
 			if ($cat_data->rdc_catname == null)
 			{
@@ -1922,43 +1923,46 @@ class RedshopModelImport extends RedshopModel
 		return $k;
 	}
 
-	/*
-	 * import customer information From VM
+	/**
+	 * Import customer information From VM
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	public function customerInformation()
 	{
 		$db = JFactory::getDbo();
-
-		$order_functions = order_functions::getInstance();
 		$query           = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
 			. "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
-		$db->setQuery($query);
-		$data = $db->loadObjectList();
+		$data = $db->setQuery($query)->loadObjectList();
 
 		$k = 0;
 
-		for ($i = 0, $in = count($data); $i < $in; $i++)
+		foreach ($data as $aData)
 		{
-			if ($data[$i]->address_type == "BT")
+			if ($aData->address_type == "BT")
 			{
-				$redshopUser = $order_functions->getBillingAddress($data[$i]->user_id);
+				$redshopUser = RedshopHelperOrder::getBillingAddress($aData->user_id);
 
-				if (count($redshopUser) > 0)
+				if ($redshopUser)
 				{
 					$redUserId = $redshopUser->users_info_id;
 					$row       = $this->getTable('user_detail');
 					$row->load($redUserId);
-					$row->user_email       = $data[$i]->user_email;
-					$row->shopper_group_id = $data[$i]->shopper_group_id;
-					$row->firstname        = $data[$i]->first_name;
-					$row->lastname         = $data[$i]->last_name;
-					$row->company_name     = $data[$i]->company;
-					$row->address          = $data[$i]->address_1;
-					$row->city             = $data[$i]->city;
-					$row->country_code     = $data[$i]->country;
-					$row->state_code       = $data[$i]->state;
-					$row->zipcode          = $data[$i]->zip;
-					$row->phone            = $data[$i]->phone_1;
+					$row->user_email       = $aData->user_email;
+					$row->shopper_group_id = $aData->shopper_group_id;
+					$row->firstname        = $aData->first_name;
+					$row->lastname         = $aData->last_name;
+					$row->company_name     = $aData->company;
+					$row->address          = $aData->address_1;
+					$row->city             = $aData->city;
+					$row->country_code     = $aData->country;
+					$row->state_code       = $aData->state;
+					$row->zipcode          = $aData->zip;
+					$row->phone            = $aData->phone_1;
 
 					if ($row->store())
 					{
@@ -1969,19 +1973,19 @@ class RedshopModelImport extends RedshopModel
 				{
 					$rows = $this->getTable('user_detail');
 					$rows->load();
-					$rows->user_id          = $data[$i]->user_id;
-					$rows->user_email       = $data[$i]->user_email;
-					$rows->shopper_group_id = $data[$i]->shopper_group_id;
-					$rows->firstname        = $data[$i]->first_name;
-					$rows->address_type     = $data[$i]->address_type;
-					$rows->lastname         = $data[$i]->last_name;
-					$rows->company_name     = $data[$i]->company;
-					$rows->address          = $data[$i]->address_1;
-					$rows->city             = $data[$i]->city;
-					$rows->country_code     = $data[$i]->country;
-					$rows->state_code       = $data[$i]->state;
-					$rows->zipcode          = $data[$i]->zip;
-					$rows->phone            = $data[$i]->phone_1;
+					$rows->user_id          = $aData->user_id;
+					$rows->user_email       = $aData->user_email;
+					$rows->shopper_group_id = $aData->shopper_group_id;
+					$rows->firstname        = $aData->first_name;
+					$rows->address_type     = $aData->address_type;
+					$rows->lastname         = $aData->last_name;
+					$rows->company_name     = $aData->company;
+					$rows->address          = $aData->address_1;
+					$rows->city             = $aData->city;
+					$rows->country_code     = $aData->country;
+					$rows->state_code       = $aData->state;
+					$rows->zipcode          = $aData->zip;
+					$rows->phone            = $aData->phone_1;
 
 					if ($rows->store())
 					{
@@ -1993,19 +1997,19 @@ class RedshopModelImport extends RedshopModel
 			{
 				$rows = $this->getTable('user_detail');
 				$rows->load();
-				$rows->user_id          = $data[$i]->user_id;
-				$rows->user_email       = $data[$i]->user_email;
-				$rows->shopper_group_id = $data[$i]->shopper_group_id;
-				$rows->firstname        = $data[$i]->first_name;
-				$rows->address_type     = $data[$i]->address_type;
-				$rows->lastname         = $data[$i]->last_name;
-				$rows->company_name     = $data[$i]->company;
-				$rows->address          = $data[$i]->address_1;
-				$rows->city             = $data[$i]->city;
-				$rows->country_code     = $data[$i]->country;
-				$rows->state_code       = $data[$i]->state;
-				$rows->zipcode          = $data[$i]->zip;
-				$rows->phone            = $data[$i]->phone_1;
+				$rows->user_id          = $aData->user_id;
+				$rows->user_email       = $aData->user_email;
+				$rows->shopper_group_id = $aData->shopper_group_id;
+				$rows->firstname        = $aData->first_name;
+				$rows->address_type     = $aData->address_type;
+				$rows->lastname         = $aData->last_name;
+				$rows->company_name     = $aData->company;
+				$rows->address          = $aData->address_1;
+				$rows->city             = $aData->city;
+				$rows->country_code     = $aData->country;
+				$rows->state_code       = $aData->state;
+				$rows->zipcode          = $aData->zip;
+				$rows->phone            = $aData->phone_1;
 
 				if ($rows->store())
 				{
@@ -2020,7 +2024,6 @@ class RedshopModelImport extends RedshopModel
 	public function Orders_insert()
 	{
 		$db            = JFactory::getDbo();
-		$producthelper = productHelper::getInstance();
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
 				FROM (
@@ -2040,7 +2043,7 @@ class RedshopModelImport extends RedshopModel
 		{
 			if ($data[$i]->rdo_order_number == null)
 			{
-				$order_number = $order_functions->generateOrderNumber();
+				$order_number = RedshopHelperOrder::generateOrderNumber();
 
 				$reduser = $this->getTable('order_detail');
 				$reduser->set('order_id', 0);
@@ -2379,7 +2382,8 @@ class RedshopModelImport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	/*public function importProductExtrafieldData($fieldname, $rawdata, $productId)
+	/*
+	public function importProductExtrafieldData($fieldname, $rawdata, $productId)
 	{
 		$db = JFactory::getDbo();
 		$value = $rawdata[$fieldname];
@@ -2420,39 +2424,29 @@ class RedshopModelImport extends RedshopModel
 		}
 	}*/
 
+	/**
+	 * @return  float
+	 */
 	public function getTimeLeft()
 	{
-		if (@function_exists('ini_get'))
-		{
-			$php_max_exec = @ini_get("max_execution_time");
-		}
-		else
-		{
-			$php_max_exec = 10;
-		}
+		$phpMaxExecution = function_exists('ini_get') ? ini_get("max_execution_time") : 10;
+		$phpMaxExecution = $phpMaxExecution == "" || ($$phpMaxExecution == 0) ? 10 : $phpMaxExecution;
 
-		if (($php_max_exec == "") || ($php_max_exec == 0))
-		{
-			$php_max_exec = 10;
-		}
-
-		/* Decrease $php_max_exec time by 500 msec we need (approx.) to tear down
-		the application, as well as another 500msec added for rounding
-		error purposes. Also make sure this is never gonna be less than 0.*/
-		$php_max_exec = 20;
+		/*
+		 Decrease $php_max_exec time by 500 ms we need (approx.) to tear down
+		 the application, as well as another 500 ms added for rounding
+		 error purposes. Also make sure this is never gonna be less than 0.
+		*/
+		$phpMaxExecution = $phpMaxExecution < 20 ? 20 : $phpMaxExecution;
 
 		list($usec, $sec) = explode(" ", microtime());
-		$micro_time = ((float) $usec + (float) $sec);
+
+		$microTime = ((float) $usec + (float) $sec);
 
 		// $start_micro_time = $_SESSION['start_micro_time'];
-		$session          = JFactory::getSession();
-		$start_micro_time = $session->get('start_micro_time');
+		$session        = JFactory::getSession();
+		$startMicroTime = $session->get('start_micro_time');
 
-		$start_micro_time;
-
-		$running_time = $micro_time - $start_micro_time;
-		$retun        = $php_max_exec - $running_time;
-
-		return $retun;
+		return $phpMaxExecution - ($microTime - $startMicroTime);
 	}
 }

@@ -57,12 +57,12 @@ class RedshopViewShipping_box_detail extends RedshopViewAdmin
 
 		// TEMPLATE MOVE DB TO FILE
 		$jinput = JFactory::getApplication()->input;
-		$post = $jinput->post->getArray();
+		$post   = $jinput->post->getArray();
 
 		if ($isNew && (isset($post['shipping_box_name']) && $post['shipping_box_name'] != ""))
 		{
-			$detail->template_name    = $post['template_name'];
-			$detail->template_section = $post['template_section'];
+			$detail->name    = $post['template_name'];
+			$detail->section = $post['template_section'];
 			$template_desc            = $jinput->post->get('template_desc', '', 'raw');
 			$detail->template_desc    = $template_desc;
 			$detail->published        = $post['published'];
@@ -71,8 +71,8 @@ class RedshopViewShipping_box_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

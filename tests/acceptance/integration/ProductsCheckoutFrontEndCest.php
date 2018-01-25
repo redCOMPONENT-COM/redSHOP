@@ -33,8 +33,8 @@ class ProductsCheckoutFrontEndCest
 		$this->minimumPerProduct            = 2;
 		$this->minimumQuantity              = 3;
 		$this->maximumQuantity              = 5;
-		$this->discountStart                = "12-12-2016";
-		$this->discountEnd                  = "23-05-2017";
+		$this->discountStart                = "2016-12-12";
+		$this->discountEnd                  = "2017-05-23";
 		$this->randomProductNumber          = rand(999, 9999);
 		$this->randomProductNumberNew       = rand(999, 9999);
 		$this->randomProductAttributeNumber = rand(999, 9999);

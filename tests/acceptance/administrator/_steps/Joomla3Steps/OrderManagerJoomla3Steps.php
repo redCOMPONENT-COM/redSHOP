@@ -18,96 +18,88 @@ namespace AcceptanceTester;
  */
 class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-    /**
-     * Function to Add a new Order
-     *
-     * @return void
-     */
-    public function addOrder($nameUser, $address, $zipcode, $city, $phone, $nameProduct, $quantity)
-    {
-        $I = $this;
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->click(\OrderManagerPage::$newButton);
+	/**
+	 * Function to Add a new Order
+	 *
+	 * @return void
+	 */
+	public function addOrder($nameUser, $address, $zipcode, $city, $phone, $nameProduct, $quantity)
+	{
+		$I = $this;
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->click(\OrderManagerPage::$buttonNew);
+		$I->click(\OrderManagerPage::$userId);
+		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
+		$userOrderPage = new \OrderManagerPage();
+		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
+		$I->waitForElement($userOrderPage->returnSearch($nameUser));
+		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 
-        $I->wait(3);
+		$I->click($userOrderPage->returnSearch($nameUser));
+		$I->resizeWindow(1920, 1080);
+		$I->waitForElement(\OrderManagerPage::$address, 30);
+		$I->fillField(\OrderManagerPage::$address, $address);
+		$I->fillField(\OrderManagerPage::$zipcode, $zipcode);
+		$I->fillField(\OrderManagerPage::$city, $city);
+		$I->fillField(\OrderManagerPage::$phone, $phone);
 
-        $I->click(\OrderManagerPage::$userId);
-        $I->waitForElement(\OrderManagerPage::$userSearch, 30);
-        $userOrderPage = new \OrderManagerPage();
-        $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-        $I->waitForElement($userOrderPage->returnSearch($nameUser));
-        $I->wait(3);
+		$I->click(\OrderManagerPage::$applyUser);
+		$I->scrollTo(\OrderManagerPage::$productId);
+		$I->waitForElement(\OrderManagerPage::$productId, 30);
 
-        $I->click($userOrderPage->returnSearch($nameUser));
-        $I->wait(3);
+		$I->click(\OrderManagerPage::$productId);
+		$I->waitForElement(\OrderManagerPage::$productsSearch, 30);
+		$I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
+		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
+		$I->click($userOrderPage->returnSearch($nameProduct));
 
-        $I->fillField(\OrderManagerPage::$address, $address);
-        $I->fillField(\OrderManagerPage::$zipcode, $zipcode);
-        $I->fillField(\OrderManagerPage::$city, $city);
-        $I->fillField(\OrderManagerPage::$phone, $phone);
+		$I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
 
-        $I->click(\OrderManagerPage::$applyUser);
-        $I->wait(3);
+		$I->click(\OrderManagerPage::$buttonSave);
+		$I->waitForElement(\OrderManagerPage::$close, 30);
+		$I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
+	}
 
-        $I->click(\OrderManagerPage::$productId);
-        $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
-        $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
-        $I->wait(3);
-        $I->click($userOrderPage->returnSearch($nameProduct));
+	public function editOrder($nameUser, $status, $paymentStatus, $newQuantity)
+	{
+		$I = $this;
+		$I->amOnPage(\OrderManagerPage::$URL);
 
-        $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
+		$this->searchOrder($nameUser);
+		$I->waitForElement(\OrderManagerPage::$nameXpath, 30);
+		$I->click(\OrderManagerPage::$nameXpath);
+		$I->waitForElement(\OrderManagerPage::$statusOrder, 30);
+		$userOrderPage = new \OrderManagerPage();
+		$I->click(\OrderManagerPage::$statusOrder);
+		$I->fillField(\OrderManagerPage::$statusSearch, $status);
+		$I->waitForElement($userOrderPage->returnSearch($status), 30);
+		$I->click($userOrderPage->returnSearch($status));
 
+		$I->click(\OrderManagerPage::$statusPaymentStatus);
+		$I->fillField(\OrderManagerPage::$statusPaymentSearch, $paymentStatus);
+		$I->waitForElement($userOrderPage->returnSearch($paymentStatus), 30);
+		$I->click($userOrderPage->returnSearch($paymentStatus));
+		$I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
+		$I->click(\OrderManagerPage::$nameButtonStatus);
+	}
 
-        $I->click(\OrderManagerPage::$saveButton);
-        $I->wait(3);
+	public function searchOrder($name)
+	{
+		$I = $this;
+		$I->wantTo('Search the User ');
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+	}
 
-        $I->see(\OrderManagerPage::$closeButton, \OrderManagerPage::$close);
-    }
-
-    public function editOrder($nameUser, $status, $paymentStatus, $newQuantity)
-    {
-        $I = $this;
-        $I->amOnPage(\OrderManagerPage::$URL);
-
-        $this->searchOrder($nameUser);
-        $I->click(\OrderManagerPage::$nameUser);
-        $I->wait(3);
-        $userOrderPage = new \OrderManagerPage();
-        $I->click(\OrderManagerPage::$statusOrder);
-        $I->fillField(\OrderManagerPage::$statusSearch, $status);
-        $I->wait(5);
-        $I->waitForElement($userOrderPage->returnSearch($status));
-        $I->click($userOrderPage->returnSearch($status));
-
-        $I->click(\OrderManagerPage::$statusPaymentStatus);
-        $I->fillField(\OrderManagerPage::$statusPaymentSearch, $paymentStatus);
-        $I->wait(5);
-        $I->waitForElement($userOrderPage->returnSearch($paymentStatus));
-        $I->click($userOrderPage->returnSearch($paymentStatus));
-        $I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
-
-
-        $I->click(\OrderManagerPage::$nameButtonStatus);
-    }
-
-    public function deleteOrder($nameUser)
-    {
-        $I = $this;
-        $I->amOnPage(\OrderManagerPage::$URL);
-
-        $this->searchOrder($nameUser);
-        $I->checkAllResults();
-        $I->click(\OrderManagerPage::$deleteButton);
-        $I->acceptPopup();
-        $I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
-    }
-
-    public function searchOrder($name)
-    {
-        $I = $this;
-        $I->wantTo('Search the User ');
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
-        $I->wait(5);
-    }
+	public function deleteOrder($nameUser)
+	{
+		$I = $this;
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$this->searchOrder($nameUser);
+		$I->waitForElement(\OrderManagerPage::$deleteFirst, 30);
+		$I->click(\OrderManagerPage::$deleteFirst);
+		$I->click(\OrderManagerPage::$buttonDelete);
+		$I->acceptPopup();
+//		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
+	}
 }

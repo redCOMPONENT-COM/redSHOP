@@ -26,11 +26,15 @@ $productHelper = productHelper::getInstance();
 			return;
 		}
 
-		if (form.shipping_rate_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
-		} else {
-			submitform(pressbutton);
-		}
+        if (form.shipping_rate_name.value == "") {
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
+        } else if(form.shipping_rate_ordertotal_end.value < form.shipping_rate_ordertotal_start.value){
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_END_MUST_MORE', true); ?>");
+        } else if(form.shipping_rate_zip_end.value < form.shipping_rate_zip_start.value){
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END_MUST_MORE', true); ?>");
+        } else {
+            submitform(pressbutton);
+        }
 	}
 </script>
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -95,7 +99,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_weight_start" id="shipping_rate_weight_start"
+			<input class="text_area" type="number" step="any" name="shipping_rate_weight_start" id="shipping_rate_weight_start"
 			       size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_weight_start); ?>"/>
 		</td>
@@ -107,7 +111,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_weight_end" id="shipping_rate_weight_end" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_weight_end" id="shipping_rate_weight_end" size="32"
 			       maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_weight_end); ?>"/>
 		</td>
@@ -119,7 +123,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_volume_start" id="shipping_rate_volume_start"
+			<input class="text_area" type="number" step="any" name="shipping_rate_volume_start" id="shipping_rate_volume_start"
 			       size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_volume_start); ?>"/>
 		</td>
@@ -131,7 +135,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_volume_end" id="shipping_rate_volume_end" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_volume_end" id="shipping_rate_volume_end" size="32"
 			       maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_volume_end); ?>"/>
 		</td>
@@ -143,7 +147,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_length_start" id="shipping_rate_length_start"
+			<input class="text_area" type="number" step="any" name="shipping_rate_length_start" id="shipping_rate_length_start"
 			       size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_length_start); ?>"/>
 		</td>
@@ -155,7 +159,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_length_end" id="shipping_rate_length_end" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_length_end" id="shipping_rate_length_end" size="32"
 			       maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_length_end); ?>"/>
 		</td>
@@ -167,7 +171,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_width_start" id="shipping_rate_width_start"
+			<input class="text_area" type="number" step="any" name="shipping_rate_width_start" id="shipping_rate_width_start"
 			       size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_width_start); ?>"/>
 		</td>
@@ -179,7 +183,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_width_end" id="shipping_rate_width_end" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_width_end" id="shipping_rate_width_end" size="32"
 			       maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_width_end); ?>"/>
 		</td>
@@ -191,7 +195,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_height_start" id="shipping_rate_height_start"
+			<input class="text_area" type="number" step="any" name="shipping_rate_height_start" id="shipping_rate_height_start"
 			       size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_height_start); ?>"/>
 		</td>
@@ -203,7 +207,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_height_end" id="shipping_rate_height_end" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_height_end" id="shipping_rate_height_end" size="32"
 			       maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_height_end); ?>"/>
 		</td>
@@ -215,7 +219,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_ordertotal_start"
+			<input class="text_area" type="number" step="any" name="shipping_rate_ordertotal_start"
 			       id="shipping_rate_ordertotal_start" size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_start); ?>"/>
 		</td>
@@ -228,7 +232,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_ordertotal_end" id="shipping_rate_ordertotal_end"
+			<input class="text_area" type="number" step="any" name="shipping_rate_ordertotal_end" id="shipping_rate_ordertotal_end"
 			       size="32" maxlength="250"
 			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_end); ?>"/>
 		</td>
@@ -240,7 +244,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_zip_start" id="shipping_rate_zip_start" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_zip_start" id="shipping_rate_zip_start" size="32"
 			       maxlength="250" value="<?php echo $this->detail->shipping_rate_zip_start; ?>"/>
 		</td>
 	</tr>
@@ -251,7 +255,7 @@ else
 			</label>
 		</td>
 		<td>
-			<input class="text_area" type="text" name="shipping_rate_zip_end" id="shipping_rate_zip_end" size="32"
+			<input class="text_area" type="number" step="any" name="shipping_rate_zip_end" id="shipping_rate_zip_end" size="32"
 			       maxlength="250" value="<?php echo $this->detail->shipping_rate_zip_end; ?>"/>
 		</td>
 	</tr>
@@ -272,9 +276,7 @@ else
 			</label>
 		</td>
 		<td>
-			<div id='changestate'>
-				<?php echo $this->lists['shipping_rate_state']; ?>
-			</div>
+            <?php echo $this->lists['shipping_rate_state']; ?>
 		</td>
 	</tr>
 		<tr>

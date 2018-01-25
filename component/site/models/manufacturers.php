@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.pagination');
+
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -114,7 +115,7 @@ class RedshopModelManufacturers extends RedshopModel
 		if ($shopper_group_manufactures != "")
 		{
 			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopper_group_manufactures);
+			$shopper_group_manufactures = Joomla\Utilities\ArrayHelper::toInteger($shopper_group_manufactures);
 			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
 			$and .= " AND mn.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
 		}
@@ -245,16 +246,20 @@ class RedshopModelManufacturers extends RedshopModel
 		return $this->products;
 	}
 
+	/**
+	 * @param   string  $template_data  Template content
+	 *
+	 * @return  JDatabaseQuery
+	 */
 	public function _buildProductQuery($template_data = '')
 	{
 		$filterBy = JFactory::getApplication()->input->get('filter_by', 0);
 		$orderBy  = $this->_buildProductOrderBy($template_data);
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('p.*')
 			->select($db->qn('c.id'))
@@ -282,13 +287,35 @@ class RedshopModelManufacturers extends RedshopModel
 			$query->where($db->qn('c.id') . ' = ' . $db->q((int) $filterBy));
 		}
 
+		// Filter cids by menu configuration
+		$app        = JFactory::getApplication();
+		$menu       = $app->getMenu();
+		$active     = $menu->getActive();
+		$itemId     = $active->id;
+		$menuParams = $menu->getParams($itemId);
+		$cid        = $menuParams->get('cid');
+
+		if ($cid)
+		{
+			$tmpCategories = RedshopHelperCategory::getCategoryTree($cid);
+			$categoriesIds = array($cid);
+
+			if (!empty($tmpCategories))
+			{
+				foreach ($tmpCategories as $child)
+				{
+					$categoriesIds[] = $child->id;
+				}
+			}
+			$query->where($db->qn('c.id') . ' IN ( ' . implode(',', $categoriesIds) . ' )');
+		}
+
 		return $query;
 	}
 
 	public function getmanufacturercategory($mid, $tblobj)
 	{
-		$order_functions  = order_functions::getInstance();
-		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+		$plg_manufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
 		$db = $this->_db;
 
 		$query = $db->getQuery(true)
@@ -309,9 +336,12 @@ class RedshopModelManufacturers extends RedshopModel
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
-			JArrayHelper::toInteger($excluding_category_list);
-			$excluding_category_list = implode(',', $excluding_category_list);
-			$query->where($db->qn('c.id') . ' NOT IN (' . $excluding_category_list . ')');
+
+			if (!empty($excluding_category_list))
+			{
+				$excluding_category_list = implode(',', Joomla\Utilities\ArrayHelper::toInteger($excluding_category_list));
+				$query->where($db->qn('c.id') . ' NOT IN (' . $excluding_category_list . ')');
+			}
 		}
 
 		return $db->setQuery($query)->loadObjectlist();

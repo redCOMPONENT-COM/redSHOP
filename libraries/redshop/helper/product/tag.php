@@ -64,6 +64,8 @@ class RedshopHelperProductTag
 	 * @return  array
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public static function displayAdditionalImage(
 		$productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0,
@@ -530,8 +532,8 @@ class RedshopHelperProductTag
 				$productAdditionalImageDivStart = '<div class="additional_image"><a href="' . $linkImage . '" title="' . $altText . '" '
 					. 'rel="myallimg">';
 				$productAdditionalImageDivEnd   = "</a></div>";
-				$return                         .= $productAdditionalImageDivStart;
-				$return                         .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
+				$return                        .= $productAdditionalImageDivStart;
+				$return                        .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
 				$productHrefEnd                 = "";
 			}
 			else
@@ -590,8 +592,8 @@ class RedshopHelperProductTag
 					. $imagePath . '\',' . $product->product_id . ');" onmouseout="display_image_add_out(\'' . $imagePathOriginal
 					. '\',' . $product->product_id . ');">';
 				$productAdditionalImageDivEnd   = "</div>";
-				$return                         .= $productAdditionalImageDivStart;
-				$return                         .= '<a href="javascript:void(0)"><img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
+				$return                        .= $productAdditionalImageDivStart;
+				$return                        .= '<a href="javascript:void(0)"><img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
 				$productHrefEnd                 = "</a>";
 			}
 
@@ -694,8 +696,8 @@ class RedshopHelperProductTag
 				$propAdditionImgDivStart = '<div class="additional_image"><a href="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $thumb . '" '
 					. 'title="' . $altText . '" rel="myallimg">';
 				$propAdditionImgDivEnd   = "</a></div>";
-				$return                  .= $propAdditionImgDivStart;
-				$return                  .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
+				$return                 .= $propAdditionImgDivStart;
+				$return                 .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
 				$propHrefEnd             = "";
 			}
 			else
@@ -905,8 +907,8 @@ class RedshopHelperProductTag
 					$useImgSizeSwapping
 				);
 
-				$result  .= $divStart;
-				$result  .= '<a href="javascript:void(0)">'
+				$result .= $divStart;
+				$result .= '<a href="javascript:void(0)">'
 					. '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
 				$hrefEnd = "</a>";
 			}
@@ -922,7 +924,7 @@ class RedshopHelperProductTag
 					$additionalHoverImgHeight,
 					$useImgSizeSwapping
 				);
-				$result   .= '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" class="redImagepreview" />';
+				$result .= '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" class="redImagepreview" />';
 			}
 
 			$result .= $hrefEnd;
@@ -973,7 +975,7 @@ class RedshopHelperProductTag
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
@@ -987,7 +989,7 @@ class RedshopHelperProductTag
 		{
 			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
 
-			if (empty($attribute->text) || empty($property))
+			if (empty($attribute->text) || empty($properties))
 			{
 				continue;
 			}
@@ -1006,7 +1008,7 @@ class RedshopHelperProductTag
 					$propertyPrice  = RedshopHelperProductPrice::formattedPrice($property->property_price);
 
 					// Get product vat to include.
-					$attributesPropertyVat    = RedshopHelperProduct::getProductTax($productId, $property->property_price, $userId);
+					$attributesPropertyVat     = RedshopHelperProduct::getProductTax($productId, $property->property_price, $userId);
 					$property->property_price += $attributesPropertyVat;
 
 					$propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
@@ -1028,13 +1030,13 @@ class RedshopHelperProductTag
 					. $propertyId . '_proprice' . $property->value . '" value="' . $property->property_price . '" />';
 			}
 
-			$tmpArray = array();
-			$tmpArray[0] = new stdClass;
+			$tmpArray           = array();
+			$tmpArray[0]        = new stdClass;
 			$tmpArray[0]->value = 0;
-			$tmpArray[0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attribute->text);
+			$tmpArray[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attribute->text);
 
 			$newProperty = array_merge($tmpArray, $properties);
-			$checkList = "";
+			$checkList   = "";
 
 			if ($attribute->allow_multiple_selection)
 			{
@@ -1073,7 +1075,7 @@ class RedshopHelperProductTag
 
 			if ($attribute->attribute_required > 0)
 			{
-				$pos = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attribute->text)
+				$pos       = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attribute->text)
 					. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
 					. urldecode($attribute->text);
 				$attrTitle = $pos;

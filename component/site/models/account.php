@@ -71,11 +71,10 @@ class RedshopModelAccount extends RedshopModel
 			->from('#__redshop_coupons')
 			->where('published = 1')
 			->where('userid = ' . (int) $uid)
-			->where('end_date >= ' . time())
-			->where('coupon_left > 0');
-		$db->setQuery($query);
+			->where('end_date >= ' . JFactory::getDate()->toSql())
+			->where($db->qn('amount_left') . ' > 0');
 
-		return $db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function getMyDetail()

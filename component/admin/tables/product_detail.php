@@ -40,9 +40,9 @@ class TableProduct_Detail extends JTable
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('product_id')
-					->from($db->qn('#__redshop_product'))
-					->where($db->qn('product_number') . ' = ' . $db->q($this->product_number));
+			->select('product_id')
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_number') . ' = ' . $db->q($this->product_number));
 
 		// Set the query and load the result.
 		$db->setQuery($query);

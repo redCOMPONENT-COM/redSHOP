@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$token = JSession::getFormToken();
 $productHelper = productHelper::getInstance();
 $cartHelper = rsCarthelper::getInstance();
 $cart = $displayData['cart'];
@@ -127,20 +126,3 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 	<?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
 <?php endif;
 ?>
-<script type="text/javascript">
-	function deleteCartItem(idx)
-	{
-		jQuery.ajax({
-			type: "POST",
-			data: {
-				idx: idx,
-				"<?php echo $token ?>": "1"
-			},
-			url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
-			success: function(data) {
-				data = data.split("`");
-				jQuery('#mod_cart_total').html(data[1]);
-			}
-		});
-	}
-</script>

@@ -33,7 +33,6 @@
         <folder>helpers</folder>
         <folder>layouts</folder>
         <folder>models</folder>
-        <folder>templates</folder>
         <folder>views</folder>
         <filename>controller.php</filename>
         <filename>index.html</filename>
@@ -51,6 +50,8 @@
         <folder>fonts</folder>
         <folder>images</folder>
         <folder>js</folder>
+        <folder>templates</folder>
+        <folder>translations</folder>
         <filename>index.html</filename>
     </media>
 
@@ -89,6 +90,7 @@
     <!-- Modules to install with the component -->
     <modules>
         <module name="mod_redshop_cart" client="site"/>
+        <module name="mod_redshop_filter" client="site"/>
         <module name="mod_redshop_search" client="site"/>
     </modules>
 

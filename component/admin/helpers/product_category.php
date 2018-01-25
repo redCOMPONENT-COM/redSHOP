@@ -55,7 +55,8 @@ class product_category
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
 	 */
 	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false,
-		$multiple = false, $disabledFields = array(), $width = 250)
+		$multiple = false, $disabledFields = array(), $width = 250
+	)
 	{
 		return RedshopHelperCategory::listAll($name, $category_id, $selected_categories, $size, $toplevel, $multiple, $disabledFields, $width);
 	}
@@ -64,21 +65,22 @@ class product_category
 	 * List children of category into dropdown with level,
 	 * this is a function will be called resursively.
 	 *
-	 * @param   string  $category_id          Exclude this category ID
-	 * @param   string  $cid                  Parent category ID
-	 * @param   string  $level                Default is 0
-	 * @param   array   $selected_categories  Only show selected categories
-	 * @param   array   $disabledFields       Didable fields
-	 * @param   string  $html                 Before HTML
+	 * @param   string $categoryId         Exclude this category ID
+	 * @param   string $cid                Parent category ID
+	 * @param   string $level              Default is 0
+	 * @param   array  $selectedCategories Only show selected categories
+	 * @param   array  $disabledFields     Didable fields
+	 * @param   string $html               Before HTML
 	 *
-	 * @return String   HTML of <option></option>
+	 * @return  string   HTML of <option></option>
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listTree() instead
+	 *
+	 * @throws  Exception
 	 */
-	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(),
-		$disabledFields = Array(), $html = '')
+	public function list_tree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = Array(), $disabledFields = Array(), $html = '')
 	{
-		return RedshopHelperCategory::listTree($category_id, $cid, $level, $selected_categories, $disabledFields, $html);
+		return RedshopHelperCategory::listTree($selectedCategories, $disabledFields);
 	}
 
 	/**

@@ -51,7 +51,7 @@ $manufacturerdetail_template = $redTemplate->getTemplate("manufacturer_detail");
 if (count($manufacturerdetail_template) > 0 && $manufacturerdetail_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturerdetail_template[0]->template_desc;
-	$template_id   = $manufacturerdetail_template[0]->template_id;
+	$template_id   = $manufacturerdetail_template[0]->id;
 }
 else
 {
@@ -169,9 +169,9 @@ if (strstr($template_desc, "{manufacturer_url}"))
 }
 
 // Extra field display
-$extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
-$template_desc = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);
-$template_desc = str_replace("{manufacturer_description}", $row->manufacturer_desc, $template_desc);
+$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
+$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);
+$template_desc  = str_replace("{manufacturer_description}", $row->manufacturer_desc, $template_desc);
 
 if (strstr($template_desc, "{manufacturer_extra_fields}"))
 {

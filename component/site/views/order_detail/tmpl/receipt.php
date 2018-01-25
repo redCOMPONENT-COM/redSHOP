@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Order\Template;
+
 defined('_JEXEC') or die;
 
 $carthelper      = rsCarthelper::getInstance();
@@ -87,7 +89,7 @@ $ReceiptTemplate = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODU
 $ReceiptTemplate = str_replace("{price_lbl}", JText::_('COM_REDSHOP_PRICE_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'), $ReceiptTemplate);
-$ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
+$ReceiptTemplate = Template::replaceTemplate($order, $ReceiptTemplate);
 
 // Added new tag
 /**

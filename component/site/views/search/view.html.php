@@ -299,9 +299,9 @@ class RedshopViewSearch extends RedshopView
 				$order_by = $orderby_form;
 			}
 
-			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
-			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
+			$attribute_template            = $producthelper->getAttributeTemplate($template_desc);
 
 			$total_product = $model->getTotal();
 			$endlimit = $model->getState('list.limit');
@@ -317,7 +317,8 @@ class RedshopViewSearch extends RedshopView
 				$data_add = $template_desc;
 
 				// RedSHOP Product Plugin
-				$dispatcher->trigger('onPrepareProduct', array(&$data_add, array(), $this->search[$i]));
+				$params = array();
+				$dispatcher->trigger('onPrepareProduct', array(&$data_add, &$params, $this->search[$i]));
 
 				$thum_image = "";
 				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
@@ -334,12 +335,13 @@ class RedshopViewSearch extends RedshopView
 					$pro_s_desc     = $this->search[$i]->product_s_desc;
 					$pro_desc       = $this->search[$i]->product_desc;
 
-					if (!in_array($keyword, $tagarray))
+					if (!empty($keyword) && !in_array($keyword, $tagarray))
 					{
-						$regex      = "/" . $keyword . "(?![^<]*>)/";
-						$pname      = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
-						$pro_s_desc = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
-						$pro_desc   = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
+						$regex          = "/" . preg_quote($keyword, "/") . "(?![^<]*>)/";
+						$pname          = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
+						$product_number = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $product_number);
+						$pro_s_desc     = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
+						$pro_desc       = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
 					}
 				}
 
@@ -652,7 +654,7 @@ class RedshopViewSearch extends RedshopView
 				$data_add = $producthelper->replaceWishlistButton($this->search[$i]->product_id, $data_add);
 
 				// Replace compare product button
-				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
+				$data_add = Redshop\Product\Compare::replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
 				// Checking for child products
 				if ($this->search[$i]->count_child_products > 0)

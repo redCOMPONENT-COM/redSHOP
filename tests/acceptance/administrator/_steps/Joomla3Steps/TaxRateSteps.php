@@ -106,7 +106,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->checkForPhpNoticesOrWarnings();
 		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
 		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
-
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
 		$client->click(\TaxRatePage::$buttonSave);
 		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
@@ -149,7 +148,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->click($TAXRatesName);
 		$client->waitForElement(\TaxRatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();
@@ -171,7 +169,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click($TAXRatesName);
 		$client->waitForElement(\TaxRatePage::$fieldName, 30);
@@ -185,7 +182,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->click($TAXRatesName);
 		$client->waitForElement(\TaxRatePage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
@@ -199,11 +195,10 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->acceptPopup();
-		$client->see(\TaxRatePage::$messageSuccess, \TaxRatePage::$selectorSuccess);
+		$client->see(\TaxRatePage::$messageHead, \TaxRatePage::$selectorSuccess);
 	}
 
 	public function deleteTAXRatesCancel($TAXRatesName)
@@ -211,7 +206,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchTAXRates($TAXRatesName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->cancelPopup();

@@ -29,7 +29,7 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 
-		$uri = JFactory::getURI();
+		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
 
 		$document->addScript('components/com_redshop/assets/js/validation.js');
@@ -60,32 +60,31 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$optiontemplet = array();
-		$optiontemplet[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
+		$optiontemplet   = array();
+		$optiontemplet[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
 		$result = array_merge($optiontemplet, $template_data);
 
-		$lists['template'] = JHTML::_('select.genericlist', $result, 'template_id',
+		$lists['template'] = JHtml::_('select.genericlist', $result, 'template_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->template_id
 		);
 
-		$detail->excluding_category_list = explode(',', $detail->excluding_category_list);
-		$product_category = new product_category;
+		$detail->excluding_category_list  = explode(',', $detail->excluding_category_list);
+		$product_category                 = new product_category;
 		$lists['excluding_category_list'] = $product_category->list_all("excluding_category_list[]", 0,
 			$detail->excluding_category_list, 10, false, true
 		);
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$field = extra_field::getInstance();
+		$lists['published'] = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$field              = extra_field::getInstance();
 
-		$list_field = $field->list_all_field(10, $detail->manufacturer_id);
+		$list_field           = $field->list_all_field(10, $detail->manufacturer_id);
 		$lists['extra_field'] = $list_field;
 
-
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
-		$this->tabmenu = $this->getTabMenu();
+		$this->tabmenu     = $this->getTabMenu();
 
 		parent::display($tpl);
 	}
@@ -103,23 +102,23 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 
 		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
-					->title('COM_REDSHOP_DETAILS')
-					->addItem(
-						'#information',
-						'COM_REDSHOP_DETAILS',
-						true,
-						'information'
-					)->addItem(
-						'#seo',
-						'COM_REDSHOP_META_DATA_TAB',
-						false,
-						'seo'
-					)->addItem(
-						'#extrafield',
-						'COM_REDSHOP_FIELDS',
-						false,
-						'extrafield'
-					);
+			->title('COM_REDSHOP_DETAILS')
+			->addItem(
+				'#information',
+				'COM_REDSHOP_DETAILS',
+				true,
+				'information'
+			)->addItem(
+				'#seo',
+				'COM_REDSHOP_META_DATA_TAB',
+				false,
+				'seo'
+			)->addItem(
+				'#extrafield',
+				'COM_REDSHOP_FIELDS',
+				false,
+				'extrafield'
+			);
 
 		return $tabMenu;
 	}

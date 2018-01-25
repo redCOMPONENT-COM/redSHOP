@@ -36,10 +36,12 @@ class RedshopHelperProductDownload
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn(
-				array(
-					'product_download', 'product_download_days', 'product_download_limit', 'product_download_clock',
-					'product_download_clock_min', 'product_download_infinite')
+			->select(
+				$db->qn(
+					array(
+						'product_download', 'product_download_days', 'product_download_limit', 'product_download_clock',
+						'product_download_clock_min', 'product_download_infinite'
+					)
 				)
 			)
 			->from($db->qn('#__redshop_product'))

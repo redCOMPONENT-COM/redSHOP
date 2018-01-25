@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Add order detail controller
  *
@@ -16,10 +18,10 @@ defined('_JEXEC') or die;
  * @subpackage  Controller.Addorder_detail
  * @since       2.0.6
  */
-class RedshopControllerAddorder_detail extends RedshopController
+class RedshopControllerAddorder_Detail extends RedshopController
 {
 	/**
-	 * RedshopControllerAddorder_detail constructor.
+	 * RedshopControllerAddorder_Detail constructor.
 	 *
 	 * @param   array $default Default
 	 */
@@ -66,6 +68,8 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$cid                  = $this->input->post->get('cid', array(0), 'array');
 		$post ['order_id']    = $cid [0];
+
+		/** @var RedshopModelAddorder_detail $model */
 		$model                = $this->getModel('addorder_detail');
 		$post['order_number'] = RedshopHelperOrder::generateOrderNumber();
 
@@ -88,7 +92,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 
 		// Check product Quantity
-		$stockNote                = '';
+		$stockNote = '';
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
@@ -99,9 +103,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 				if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $quantity)
 				{
-					$msg       = $productData->product_name . ' ' . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
+					$msg        = $productData->product_name . ' ' . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
 					$stockNote .= sprintf($msg, $productData->min_order_product_quantity) . "<br/>";
-					$quantity  = $productData->min_order_product_quantity;
+					$quantity   = $productData->min_order_product_quantity;
 				}
 
 				$currentStock  = RedshopHelperStockroom::getStockroomTotalAmount($orderItem[$i]->product_id);
@@ -112,7 +116,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 					if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $finalquantity)
 					{
 						$msg           = $productData->product_name . " " . JText::_('WARNING_MSG_MAXIMUM_QUANTITY') . "<br/>";
-						$stockNote     .= sprintf($msg, $productData->max_order_product_quantity);
+						$stockNote    .= sprintf($msg, $productData->max_order_product_quantity);
 						$finalquantity = $productData->max_order_product_quantity;
 					}
 
@@ -147,7 +151,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (count($orderShipping) > 4)
 		{
 			$post['order_shipping']     = $orderShipping[3];
-			$orderTotal                = $orderTotal + $orderShipping[3];
+			$orderTotal                 = $orderTotal + $orderShipping[3];
 			$post['order_shipping_tax'] = $orderShipping[6];
 		}
 
@@ -160,7 +164,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($post['payment_method_class']);
 		$paymentmethod                            = $paymentmethod[0];
-		$paymentparams                            = new JRegistry($paymentmethod->params);
+		$paymentparams                            = new Registry($paymentmethod->params);
 		$paymentinfo                              = new stdclass;
 		$post['economic_payment_terms_id']        = $paymentparams->get('economic_payment_terms_id');
 		$post['economic_design_layout']           = $paymentparams->get('economic_design_layout');
@@ -170,9 +174,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
 
-		$cartHelper = rsCarthelper::getInstance();
-
-		$subtotal        = $post['order_subtotal'];
+		$subtotal       = $post['order_subtotal'];
 		$updateDiscount = 0;
 
 		if ($post['update_discount'] > 0)
@@ -223,9 +225,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$paymentAmount = $orderTotal;
 		}
 
-		$paymentMethod                = $cartHelper->calculatePayment($paymentAmount, $paymentinfo, $orderTotal);
+		$paymentMethod                = RedshopHelperPayment::calculate($paymentAmount, $paymentinfo, $orderTotal);
 		$post['ship_method_id']       = urldecode(urldecode($post['shipping_rate_id']));
-		$orderTotal                  = $paymentMethod[0];
+		$orderTotal                   = $paymentMethod[0];
 		$post['user_info_id']         = $post['users_info_id'];
 		$post['payment_discount']     = $paymentMethod[1];
 		$post['payment_oprand']       = $paymentinfo->payment_oprand;
@@ -238,10 +240,12 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
-			$post['order_status'] = empty($post['order_status']) ? 'P' : $post['order_status'];
+			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
-		if ($row = $model->store($post))
+		$row = $model->store($post);
+
+		if ($row)
 		{
 			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
 			$type = 'success';
@@ -252,7 +256,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$type = 'error';
 		}
 
-		if ($apply == 1)
+		if ($apply == 1 && false !== $row)
 		{
 			// @TODO Consider about this method name. get should return value instead of "set"
 			RedshopHelperOrder::getPaymentInformation($row, $post);
@@ -310,7 +314,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$shippingadd_id = $this->input->getInt('shippingadd_id', 0);
 		$user_id        = $this->input->getInt('user_id', 0);
 		$is_company     = $this->input->getInt('is_company', 0);
-		$model          = $this->getModel('addorder_detail');
+
+		/** @var RedshopModelAddorder_detail $model */
+		$model = $this->getModel('addorder_detail');
 
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 

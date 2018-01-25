@@ -35,15 +35,15 @@ class RedshopViewAttributeprices extends RedshopViewAdmin
 		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
 		$limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$total = $this->get('Total');
-		$data = $this->get('Data');
+		$total      = $this->get('Total');
+		$data       = $this->get('Data');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->user = JFactory::getUser();
-		$this->data = $data;
-		$this->section_id = $section_id;
-		$this->section = $section;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->data        = $data;
+		$this->section_id  = $section_id;
+		$this->section     = $section;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

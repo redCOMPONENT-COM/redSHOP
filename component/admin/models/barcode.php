@@ -31,7 +31,7 @@ class RedshopModelBarcode extends RedshopModel
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
+		$app                 = JFactory::getApplication();
 		$this->_table_prefix = '#__redshop_';
 	}
 
@@ -88,7 +88,7 @@ class RedshopModelBarcode extends RedshopModel
 	{
 
 		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+		$userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
 		$this->_db->setQuery($userquery);
 
 		return $this->_db->loadObject();

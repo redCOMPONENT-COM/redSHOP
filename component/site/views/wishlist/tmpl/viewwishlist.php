@@ -254,7 +254,7 @@ function display_products($rows)
 		$template_d1    = explode("{product_loop_start}", $wishlist_data1);
 		$template_d2    = explode("{product_loop_end}", $template_d1[1]);
 		$temp_template  = '';
-		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 		$mainid = '';
 		$totattid = '';
 		$totcount_no_user_field = '';
@@ -568,7 +568,7 @@ function display_products($rows)
 			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
-			$wishlist_data = $producthelper->replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
+			$wishlist_data = RedshopHelperProductAccessory::replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
 
 			/////////////////////////////////// Product accessory End /////////////////////////////////
 

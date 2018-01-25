@@ -82,14 +82,17 @@ class RedshopHelperCategory
 	 * @param   int  $cid         Current category id
 	 *
 	 * @return   array|mixed
+	 *
+	 * @throws  Exception
 	 */
 	public static function getCategoryListArray($categoryId = null, $cid = null)
 	{
 		global $context;
 
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
+		$app  = JFactory::getApplication();
+		$db   = JFactory::getDbo();
 		$view = $app->input->getCmd('view', '');
+
 		$categoryMainFilter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
 
 		if ($categoryId)
@@ -121,7 +124,7 @@ class RedshopHelperCategory
 
 		if ($view == 'category')
 		{
-			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
+			$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 			$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 			$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 		}
@@ -158,6 +161,7 @@ class RedshopHelperCategory
 			foreach ($cats as $cat)
 			{
 				$cat->name = '- ' . $cat->name;
+
 				static::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->id);
 			}
@@ -177,7 +181,7 @@ class RedshopHelperCategory
 	 */
 	protected static function getCategoryChildListRecursion($key, $cid, $level = 1)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->qn(
@@ -191,11 +195,14 @@ class RedshopHelperCategory
 			->where('parent_id = ' . (int) $cid);
 		$level++;
 
-		if ($cats = $db->setQuery($query)->loadObjectList())
+		$cats = $db->setQuery($query)->loadObjectList();
+
+		if (!empty($cats))
 		{
 			foreach ($cats as $cat)
 			{
 				$cat->name = str_repeat('- ', $level) . $cat->name;
+
 				static::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->id, $level);
 			}
@@ -216,7 +223,9 @@ class RedshopHelperCategory
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function listAll($name, $categoryId, $selectedCategories = array(), $size = 1, $topLevel = false,
 	                               $multiple = false, $disabledFields = array(), $width = 250)
@@ -233,6 +242,9 @@ class RedshopHelperCategory
 			$query->where($db->qn('id') . ' = ' . $db->q((int) $categoryId));
 		}
 
+		// Categories nested
+		$query->where($db->qn('level') . ' > 0');
+
 		$db->setQuery($query);
 		$cats = $db->loadObjectList();
 
@@ -243,14 +255,14 @@ class RedshopHelperCategory
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html    .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
 		if ($topLevel)
 		{
 			$html .= "<option value=\"0\"> -Top- </option>\n";
 		}
 
-		$html .= self::listTree($categoryId, '0', '0', $selectedCategories, $disabledFields);
+		$html .= self::listTree($selectedCategories, $disabledFields);
 		$html .= "</select>\n";
 
 		return $html;
@@ -258,80 +270,73 @@ class RedshopHelperCategory
 
 	/**
 	 * List children of category into dropdown with level,
-	 * this is a function will be called resursively.
+	 * this is a function will be called recursively.
 	 *
-	 * @param   string  $categoryId          Exclude this category ID
-	 * @param   string  $cid                 Parent category ID
-	 * @param   string  $level               Default is 0
 	 * @param   array   $selectedCategories  Only show selected categories
-	 * @param   array   $disabledFields      Didable fields
-	 * @param   string  $html                Before HTML
+	 * @param   array   $disabledFields      Disable fields
 	 *
-	 * @return String   HTML of <option></option>
+	 * @return  string                       HTML of <option></option>
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
-	public static function listTree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = array(),
-	                                $disabledFields = array(), $html = '')
+	public static function listTree($selectedCategories = array(), $disabledFields = array())
 	{
 		$db = JFactory::getDbo();
-		$level++;
 
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name')))
-			->from($db->qn('#__redshop_category'))
-			->where($db->qn('id') . ' != ' . $db->q((int) $categoryId))
-			->where($db->qn('level') . ' > 0')
-			->order($db->qn('name') . ' ASC');
+			->select('DISTINCT a.id AS value, a.name AS text, a.level, a.published, a.lft');
 
-		if ($cid > 0)
+		$subQuery = $db->getQuery(true)
+			->select('id, name, level, published, parent_id, lft, rgt')
+			->from('#__redshop_category');
+
+		$query->from('(' . (string) $subQuery . ') AS a')
+			->join('LEFT', $db->qn('#__redshop_category') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->where($db->qn('a.level') . ' > 0');
+		$query->order('a.lft ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		try
 		{
-			$query->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid));
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $exception)
+		{
+			throw new Exception($exception->getMessage(), 500);
 		}
 
-		$db->setQuery($query);
-		$cats = $db->loadObjectList();
+		$html = "";
 
-		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
+		foreach ($options as $key => $option)
 		{
-			$cat = $cats[$x];
-			$childId = $cat->id;
-
-			if ($childId != $cid)
+			// Pad the option text with spaces using depth level as a multiplier.
+			if ($option->published == 1)
 			{
-				$selected = ($childId == $categoryId) ? "selected=\"selected\"" : "";
-
-				if ($selected == "" && @$selectedCategories[$childId] == "1")
-				{
-					$selected = "selected=\"selected\"";
-				}
-
-				if (is_array($selectedCategories))
-				{
-					if (in_array($childId, $selectedCategories))
-					{
-						$selected = "selected=\"selected\"";
-					}
-				}
-
-				$disabled = '';
-
-				if (in_array($childId, $disabledFields))
-				{
-					$disabled = 'disabled="disabled"';
-				}
-
-				if ($disabled != '' && stristr($_SERVER['HTTP_USER_AGENT'], 'msie'))
-				{
-					// IE7 suffers from a bug, which makes disabled option fields selectable
-				}
-				else
-				{
-					$html .= "<option $selected $disabled value=\"$childId\">" . str_repeat('- ', $level) . $cat->name . "</option>";
-				}
+				$option->text = str_repeat('- ', $option->level) . $option->text;
+			}
+			else
+			{
+				$option->text = str_repeat('- ', $option->level) . '[' . $option->text . ']';
 			}
 
-			$html .= self::listTree($categoryId, $childId, $level, $selectedCategories, $disabledFields);
+			$selected = '';
+			$disabled = '';
+
+			if (in_array($option->value, $selectedCategories))
+			{
+				$selected = ' selected="selected" ';
+			}
+
+			if (in_array($option->value, $disabledFields))
+			{
+				$disabled = ' disabled="disabled" ';
+			}
+
+			$html .= '<option ' . $selected . $disabled . ' value="' . $option->value . '">' . $option->text . '</option>';
 		}
 
 		return $html;
@@ -343,6 +348,8 @@ class RedshopHelperCategory
 	 * @return string
 	 *
 	 * @since  2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function buildContentOrderBy()
 	{
@@ -350,7 +357,7 @@ class RedshopHelperCategory
 		global $context;
 		$app = JFactory::getApplication();
 
-		$filterOrder = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
+		$filterOrder    = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 		$filterOrderDir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
 		$orderBy = ' ORDER BY ' . $db->escape($filterOrder . ' ' . $filterOrderDir);
@@ -409,8 +416,8 @@ class RedshopHelperCategory
 
 		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
-			$cat      = $cats[$x];
-			$parentId = $cat->id;
+			$cat                  = $cats[$x];
+			$parentId             = $cat->id;
 			$GLOBALS['catlist'][] = $cat;
 			self::getCategoryTree($parentId);
 		}
@@ -443,7 +450,7 @@ class RedshopHelperCategory
 	 */
 	public static function getRootId()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__redshop_category'))

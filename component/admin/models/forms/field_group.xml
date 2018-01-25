@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                />
+        <field
+                id="name"
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_FIELD_GROUP_NAME"
+                description="COM_REDSHOP_FIELD_GROUP_NAME_DESCRIPTION"
+                placeholder="COM_REDSHOP_FIELD_GROUP_NAME_DESCRIPTION"
+                size="30"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+                />
+        <field
+                name="section"
+                type="redshop.fieldsection"
+                label="COM_REDSHOP_FIELD_SECTION_HEADER"
+                description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
+                table-width="17%"
+                required="true"
+        />
+        <field
+                name="description"
+                type="textarea"
+                class="form-control"
+                label="COM_REDSHOP_FIELD_GROUP_DESCRIPTION"
+                description="COM_REDSHOP_FIELD_GROUP_DESCRIPTION_DESC"
+                width="300"
+                filter="safehtml"
+                table-width="20%"
+        />
+        <field
+                name="published"
+                type="redshop.radio"
+                class="btn-group"
+                default="1"
+                label-class="radio-inline"
+                label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+    </fieldset>
+</form>

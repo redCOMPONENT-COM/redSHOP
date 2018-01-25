@@ -103,7 +103,8 @@ class RedshopModelWishlist extends RedshopModel
 				return array();
 			}
 
-			JArrayHelper::toInteger($productIds);
+			$productIds = ArrayHelper::toInteger($productIds);
+
 			$query = $db->getQuery(true)
 				->select('DISTINCT *')
 				->from($db->qn('#__redshop_product'))

@@ -27,20 +27,24 @@ class RedshopControllerCategory extends RedshopControllerForm
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app   = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
-		$model = $this->getModel();
-		$table = $model->getTable();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$app  = JFactory::getApplication();
+		$lang = JFactory::getLanguage();
+
+		/** @var RedshopModelCategory $model */
+		$model   = $this->getModel();
+		$table   = $model->getTable();
+		$data    = $this->input->post->get('jform', array(), 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
-		$task = $this->getTask();
+		$task    = $this->getTask();
 
 		$data['old_image']                = $this->input->post->getString('old_image');
 		$data['image_delete']             = $this->input->post->getString('image_delete');
@@ -103,9 +107,9 @@ class RedshopControllerCategory extends RedshopControllerForm
 			}
 
 			// Reset the ID, the multilingual associations and then treat the request as for Apply.
-			$data[$key] = 0;
+			$data[$key]           = 0;
 			$data['associations'] = array();
-			$task = 'apply';
+			$task                 = 'apply';
 		}
 
 		// Access check.
@@ -263,12 +267,16 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to copy record.
 	 *
-	 * @return  mixed
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function copy()
 	{
 		$input = JFactory::getApplication()->input;
 		$cid   = $input->post->get('cid', array(), 'array');
+
+		/** @var RedshopModelCategory $model */
 		$model = $this->getModel();
 
 		if ($model->copy($cid))

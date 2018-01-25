@@ -20,6 +20,9 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
 
+$session = JFactory::getSession();
+$auth       = $session->get('auth');
+
 $carthelper      = rsCarthelper::getInstance();
 $producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
@@ -65,6 +68,25 @@ if (!empty($billingaddresses) && $users_info_id == 0)
 }
 
 $loginTemplate = "";
+
+$jinput     = JFactory::getApplication()->input;
+
+$registerTemplate = RedshopLayoutHelper::render(
+	'checkout.register',
+	array(
+		'Itemid' => RedshopHelperRouter::getCheckoutItemId(),
+		'lists' => $this->lists,
+		'userhelper' => rsUserHelper::getInstance(),
+		'post' => $jinput->post->getArray(),
+		'isCompany' => $this->lists['is_company']
+	),
+	'',
+	array(
+		'component' => 'com_redshop'
+	)
+);
+
+$titleRegisterTemplate =  JHtml::_(Redshop::getConfig()->getString('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 
 if (!$users_info_id && Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
 {
@@ -118,9 +140,9 @@ $templatelist = $redTemplate->getTemplate("redshop_payment");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->name . "}"))
 	{
-		$payment_template      = "{payment_template:" . $templatelist[$i]->template_name . "}";
+		$payment_template      = "{payment_template:" . $templatelist[$i]->name . "}";
 		$payment_template_desc = $templatelist[$i]->template_desc;
 		$onestep_template_desc = str_replace($payment_template, "<div id='divPaymentMethod'>" . $payment_template . "</div>", $onestep_template_desc);
 	}
@@ -130,10 +152,10 @@ $templatelist = $redTemplate->getTemplate("checkout");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->name . "}"))
 	{
-		$cart_template         = "{checkout_template:" . $templatelist[$i]->template_name . "}";
-		$onestep_template_desc = str_replace($cart_template, "<div id='divRedshopCart'>" . $cart_template . "</div><div id='divRedshopCartTemplateId' style='display:none'>" . $templatelist[$i]->template_id . "</div>", $onestep_template_desc);
+		$cart_template         = "{checkout_template:" . $templatelist[$i]->name . "}";
+		$onestep_template_desc = str_replace($cart_template, "<div id='divRedshopCart'>" . $cart_template . "</div><div id='divRedshopCartTemplateId' style='display:none'>" . $templatelist[$i]->id . "</div>", $onestep_template_desc);
 		$onestep_template_desc = str_replace($cart_template, $templatelist[$i]->template_desc, $onestep_template_desc);
 	}
 }
@@ -148,9 +170,9 @@ $templatelist = $redTemplate->getTemplate("shippingbox");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->name . "}"))
 	{
-		$shippingbox_template      = "{shippingbox_template:" . $templatelist[$i]->template_name . "}";
+		$shippingbox_template      = "{shippingbox_template:" . $templatelist[$i]->name . "}";
 		$shippingbox_template_desc = $templatelist[$i]->template_desc;
 	}
 }
@@ -159,12 +181,12 @@ $templatelist = $redTemplate->getTemplate("redshop_shipping");
 
 for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
-	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->template_name . "}"))
+	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->name . "}"))
 	{
-		$shipping_template      = "{shipping_template:" . $templatelist[$i]->template_name . "}";
+		$shipping_template      = "{shipping_template:" . $templatelist[$i]->name . "}";
 		$shipping_template_desc = $templatelist[$i]->template_desc;
 
-		$onestep_template_desc  = str_replace($shipping_template, "<div id='divShippingRate'>" . $shipping_template . "</div><div id='divShippingRateTemplateId' style='display:none'>" . $templatelist[$i]->template_id . "</div>", $onestep_template_desc);
+		$onestep_template_desc  = str_replace($shipping_template, "<div id='divShippingRate'>" . $shipping_template . "</div><div id='divShippingRateTemplateId' style='display:none'>" . $templatelist[$i]->id . "</div>", $onestep_template_desc);
 	}
 }
 
@@ -206,7 +228,7 @@ if (!empty($billingaddresses) && $billingaddresses->ean_number != "")
 
 if (strstr($onestep_template_desc, "{edit_billing_address}") && $users_info_id)
 {
-	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&Itemid=' . $Itemid);
+	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $Itemid);
 	$edit_billing          = '<a class="modal btn btn-primary" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
 	$onestep_template_desc = str_replace("{edit_billing_address}", $edit_billing, $onestep_template_desc);
 }
@@ -236,7 +258,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 		{
 			$shippingaddresses = $model->shippingaddresses();
 
-			if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
+			if ($billingaddresses)
 			{
 				$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
 				$shipp .= '<div class="radio"><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
@@ -281,12 +303,29 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 JPluginHelper::importPlugin('redshop_checkout');
 JDispatcher::getInstance()->trigger('onRenderInvoiceOnstepCheckout', array (&$onestep_template_desc));
 
-$payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $isCompany, $ean_number);
-$onestep_template_desc = str_replace($payment_template, $payment_template_desc, $onestep_template_desc);
+if ($users_info_id && !empty($billingaddresses))
+{
+	$payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $isCompany, $ean_number);
+	$onestep_template_desc = str_replace($payment_template, $payment_template_desc, $onestep_template_desc);
+}
+else
+{
+	$onestep_template_desc = str_replace($payment_template, "", $onestep_template_desc);
+}
 
 $onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid);
 
-$onestep_template_desc = $loginTemplate . '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
+{
+	$onestep_template_desc = '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+}
+else
+{
+	echo '<div class="signInPaneDiv">';
+	echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.start', 'signInPane');
+	echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
+	$onestep_template_desc = $loginTemplate . '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $titleRegisterTemplate . $registerTemplate . '</div>' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+}
 
 $onestep_template_desc = $redTemplate->parseredSHOPplugin($onestep_template_desc);
 echo eval("?>" . $onestep_template_desc . "<?php ");?>

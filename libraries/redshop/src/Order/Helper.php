@@ -65,7 +65,7 @@ class Helper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function redesignProductItem($post = array())
 	{

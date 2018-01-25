@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Extra Fields helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class ExtraFields
 {
@@ -23,7 +23,7 @@ class ExtraFields
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static $extraFieldDisplay = array();
 
@@ -37,8 +37,9 @@ class ExtraFields
 	 * @param   boolean  $categoryPage     Category page
 	 *
 	 * @return  string                     HTML content with rendered tag
+	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function displayExtraFields($fieldSection = 0, $sectionId = 0, $fieldName = '', $templateContent = '', $categoryPage = false)
 	{
@@ -87,8 +88,9 @@ class ExtraFields
 	 * @param   boolean  $isInCategory     Is template in category page?
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceFieldTag(&$templateContent, $field, $fieldValue, $isInCategory = false)
 	{
@@ -289,5 +291,84 @@ class ExtraFields
 		$displayValue    = \RedshopHelperTemplate::parseRedshopPlugin($displayValue);
 		$templateContent = str_replace('{' . $tagLabel . '}', \JText::_($displayTitle), $templateContent);
 		$templateContent = str_replace('{' . $tag . '}', $displayValue, $templateContent);
+	}
+
+	/**
+	 * Display User Documents
+	 *
+	 * @param   int     $productId         Product id
+	 * @param   object  $extraFieldValues  Extra field name
+	 * @param   string  $ajaxFlag          Ajax flag
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 */
+	public static function displayUserDocuments($productId, $extraFieldValues, $ajaxFlag = '')
+	{
+		$session       = \JFactory::getSession();
+		$userDocuments = $session->get('userDocument', array());
+		$html          = array('<ol id="ol_' . $extraFieldValues->name . '_' . $productId . '">');
+		$fileNames     = array();
+
+		if (isset($userDocuments[$productId]))
+		{
+			foreach ($userDocuments[$productId] as $id => $userDocument)
+			{
+				$fileNames[] = $userDocument['fileName'];
+				$sendData    = array(
+					'id'         => $id,
+					'product_id' => $productId,
+					'uniqueOl'   => $ajaxFlag . $extraFieldValues->name . '_' . $productId,
+					'fieldName'  => $extraFieldValues->name,
+					'ajaxFlag'   => $ajaxFlag,
+					'fileName'   => $userDocument['fileName'],
+					'action'     => \JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload'
+				);
+
+				$html[] = '<li id="uploadNameSpan' . $id . '"><span>' . $userDocument['fileName'] . '</span>&nbsp;'
+					. '<a href="javascript:removeAjaxUpload(' . htmlspecialchars(json_encode($sendData)) . ');">'
+					. \JText::_('COM_REDSHOP_DELETE') . '</a></li>';
+			}
+		}
+
+		$html[] = '</ol>';
+		$html[] = '<input type="hidden" name="extrafields' . $productId . '[]" id="' . $ajaxFlag . $extraFieldValues->name . '_' . $productId . '" '
+			. ($extraFieldValues->required ? ' required="required"' : '') . ' userfieldlbl="' . $extraFieldValues->title
+			. '" value="' . implode(',', $fileNames) . '" />';
+
+		return implode('', $html);
+	}
+
+	/**
+	 * Method for get section field names.
+	 *
+	 * @param   integer  $section    Section ID
+	 * @param   integer  $front      Is show on front?
+	 * @param   integer  $published  Is published?
+	 * @param   integer  $required   Is required?
+	 *
+	 * @return  array                List of field
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getSectionFieldNames($section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $front = 1,
+		$published = 1, $required = 0)
+	{
+		$fields = \RedshopHelperExtrafields::getSectionFieldList($section, $front, $published, $required);
+
+		if (empty($fields))
+		{
+			return array();
+		}
+
+		$result = array();
+
+		foreach ($fields as $field)
+		{
+			$result[] = $field->name;
+		}
+
+		return $result;
 	}
 }

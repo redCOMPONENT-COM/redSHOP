@@ -131,8 +131,8 @@ class RedshopHelperMedia
 	 */
 	public static function countFiles($dir)
 	{
-		$total_file = 0;
-		$total_dir  = 0;
+		$totalFile = 0;
+		$totalDir  = 0;
 
 		if (is_dir($dir))
 		{
@@ -144,19 +144,19 @@ class RedshopHelperMedia
 					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
 				)
 				{
-					$total_file++;
+					$totalFile++;
 				}
 
 				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
-					$total_dir++;
+					$totalDir++;
 				}
 			}
 
 			$d->close();
 		}
 
-		return array($total_file, $total_dir);
+		return array($totalFile, $totalDir);
 	}
 
 	/**
@@ -257,7 +257,7 @@ class RedshopHelperMedia
 
 		// Prevent space in file path
 		$physicalPath = str_replace(' ', '%20', $physicalPath);
-		$thumbUrl = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
+		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
 	}
@@ -450,10 +450,10 @@ class RedshopHelperMedia
 		}
 
 		// Setting defaults and meta
-		$info = getimagesize($file);
+		$info                       = getimagesize($file);
 		list($widthOld, $heightOld) = $info;
-		$horizontalCenter = 0;
-		$verticalCenter   = 0;
+		$horizontalCenter           = 0;
+		$verticalCenter             = 0;
 
 		// Calculating proportionality resize
 		switch ($proportional)
@@ -583,7 +583,6 @@ class RedshopHelperMedia
 
 			case 'return':
 				return $imageResized;
-				break;
 
 			default:
 				break;
@@ -604,14 +603,14 @@ class RedshopHelperMedia
 				imagepng($imageResized, $output, $pngQuality);
 				break;
 			default:
-				@imagedestroy($imageResized);
-				@imagedestroy($image);
+				self::cleanup($imageResized);
+				self::cleanup($image);
 
 				return false;
 		}
 
-		@imagedestroy($imageResized);
-		@imagedestroy($image);
+		self::cleanup($imageResized);
+		self::cleanup($image);
 
 		return true;
 	}
@@ -975,5 +974,34 @@ class RedshopHelperMedia
 		}
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method for clean up image resource.
+	 *
+	 * @param   resource  $res  Image resource
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	protected static function cleanup($res)
+	{
+		if (!is_resource($res))
+		{
+			return false;
+		}
+
+		try
+		{
+			return imagedestroy($res);
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'warning');
+
+			return false;
+		}
 	}
 }

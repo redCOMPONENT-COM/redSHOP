@@ -60,7 +60,7 @@ $producthelper = productHelper::getInstance();?>
 					$productArr = $producthelper->getProductNetPrice($row->product_id);
 					$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
-					$taxexempt_addtocart = $producthelper->taxexempt_addtocart();
+					$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart();
 
 					if (!$row->not_for_sale && $show_price && $taxexempt_addtocart)
 					{

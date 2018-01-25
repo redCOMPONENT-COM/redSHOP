@@ -53,11 +53,11 @@ class RedshopViewShipping_box extends RedshopViewAdmin
 		$shipping_box = $this->get('Data');
 		$pagination   = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
+		$this->user         = JFactory::getUser();
+		$this->lists        = $lists;
 		$this->shipping_box = $shipping_box;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->pagination   = $pagination;
+		$this->request_url  = $uri->toString();
 
 		parent::display($tpl);
 	}

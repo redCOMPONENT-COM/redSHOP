@@ -38,7 +38,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 		$lists = array();
 
 		$detail = $this->get('data');
-		$isNew = ($detail->media_id < 1);
+		$isNew  = ($detail->media_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -61,7 +61,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 		$media_section = $jinput->get('media_section');
 		$showbuttons   = $jinput->get('showbuttons');
 
-		$optiontype = array();
+		$optiontype   = array();
 		$optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_IMAGE'));
 		$optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_VIDEO'));
 		$optiontype[] = JHTML::_('select.option', 'document', JText::_('COM_REDSHOP_DOCUMENT'));
@@ -72,14 +72,14 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 			$optiontype[] = JHTML::_('select.option', 'download', JText::_('COM_REDSHOP_Download'));
 		}
 
-		$optionsection = array();
+		$optionsection   = array();
 		$optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
 		$optionsection[] = JHTML::_('select.option', 'property', JText::_('COM_REDSHOP_PROPERTY'));
 		$optionsection[] = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
 		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_CATEGORY'));
 		$optionsection[] = JHTML::_('select.option', 'catalog', JText::_('COM_REDSHOP_CATALOG'));
 
-		$optionbulk = array();
+		$optionbulk   = array();
 		$optionbulk[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionbulk[] = JHTML::_('select.option', 'yes', JText::_('COM_REDSHOP_YES_ZIP_UPLOAD'));
 		$optionbulk[] = JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_NO_ZIP_UPLOAD'));
@@ -92,10 +92,10 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 		if ($media_section == 'catalog')
 		{
-			$detail->media_type = 'document';
+			$detail->media_type    = 'document';
 			$detail->media_section = $media_section;
-			$detail->section_name = $section_name;
-			$detail->section_id = $section_id;
+			$detail->section_name  = $section_name;
+			$detail->section_id    = $section_id;
 		}
 
 		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type', 'class="inputbox" size="1" ', 'value', 'text', $detail->media_type, '0');
@@ -108,7 +108,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 		}
 		else
 		{
-			$defaultMedia = ($showbuttons) ? $media_section : $detail->media_section;
+			$defaultMedia     = ($showbuttons) ? $media_section : $detail->media_section;
 			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'disable_media_section',
 				' disabled="disabled" ',
 				'value', 'text', $defaultMedia
@@ -120,8 +120,8 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 			'value', 'text', 'no'
 		);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

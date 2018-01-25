@@ -52,9 +52,9 @@ class RedshopModelStockroom extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
+		$filter  = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
-		$where = '';
+		$where   = '';
 
 		if ($filter)
 		{

@@ -22,7 +22,7 @@ class RedshopViewUser extends RedshopViewAdmin
 
 		$userhelper = rsUserHelper::getInstance();
 
-		$this->state = $this->get('State');
+		$this->state               = $this->get('State');
 		$sync                      = JFactory::getApplication()->input->get('sync');
 		$spgrp_filter              = $this->state->get('spgrp_filter');
 		$tax_exempt_request_filter = $this->state->get('tax_exempt_request_filter');
@@ -30,7 +30,7 @@ class RedshopViewUser extends RedshopViewAdmin
 		if ($sync)
 		{
 			$this->setLayout('user_sync');
-			$sync_user = $userhelper->userSynchronization();
+			$sync_user       = $userhelper->userSynchronization();
 			$this->sync_user = $sync_user;
 		}
 		else
@@ -45,16 +45,16 @@ class RedshopViewUser extends RedshopViewAdmin
 		$lists ['order']     = $this->state->get('list.ordering', 'users_info_id');
 		$lists ['order_Dir'] = $this->state->get('list.direction');
 
-		$user                = $this->get('Data');
-		$pagination          = $this->get('Pagination');
+		$user       = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
-		$shopper_groups      = Redshop\Helper\ShopperGroup::generateList();
+		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
 
-		$temps               = array();
-		$temps[0]            = new stdClass;
-		$temps[0]->value     = 0;
-		$temps[0]->text      = JText::_('COM_REDSHOP_SELECT');
-		$shopper_groups      = array_merge($temps, $shopper_groups);
+		$temps           = array();
+		$temps[0]        = new stdClass;
+		$temps[0]->value = 0;
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$shopper_groups  = array_merge($temps, $shopper_groups);
 
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrp_filter',
 			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrp_filter

@@ -21,7 +21,7 @@ class TableBarcode extends JTable
 	/**
 	 * Primary Key
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	public $log_id = null;
 

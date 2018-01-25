@@ -108,11 +108,13 @@ class Redtemplate
 	 *
 	 * @return  string              Template Content
 	 *
+	 * @throws  Exception
+	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperTemplate::readtemplateFile($section, $fileName, $isAdmin) instead
 	 */
 	public function readtemplateFile($section, $fileName, $isAdmin = false)
 	{
-		return RedshopHelperTemplate::readTemplateFile($section, $fileName, $isAdmin);
+		return (string) RedshopHelperTemplate::readTemplateFile($section, $fileName);
 	}
 
 	/**
@@ -124,11 +126,13 @@ class Redtemplate
 	 *
 	 * @return  string              Template File Path
 	 *
+	 * @throws  Exception
+	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperTemplate::getTemplatefilepath($section, $fileName, $isAdmin) instead
 	 */
 	public function getTemplatefilepath($section, $fileName, $isAdmin = false)
 	{
-		return RedshopHelperTemplate::getTemplateFilePath($section, $fileName, $isAdmin);
+		return RedshopHelperTemplate::getTemplateFilePath($section, $fileName);
 	}
 
 	/**
@@ -142,7 +146,7 @@ class Redtemplate
 	 */
 	public function getTemplateView($section)
 	{
-		return RedshopHelperTemplate::getTemplateView($section);
+		return '';
 	}
 
 	/**
