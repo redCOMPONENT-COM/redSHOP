@@ -37,7 +37,8 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  mixed         A string if successful, otherwise an Error object.
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -49,7 +50,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript('components/com_redshop/assets/js/common.js');
-		JHtml::script('com_redshop/ajaxupload.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/ajaxupload.js', false, true);
 
 		$uri          = JUri::getInstance();
 		$lists        = array();
