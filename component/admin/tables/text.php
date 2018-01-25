@@ -19,11 +19,34 @@ defined('_JEXEC') or die;
 class RedshopTableText extends RedshopTable
 {
 	/**
-	 * The table name without the prefix. Ex: cursos_courses
-	 *
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_textlibrary';
+
+	/**
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * @var string
+	 */
+	public $desc;
+
+	/**
+	 * @var string
+	 */
+	public $section = 'product';
+
+	/**
+	 * @var  integer
+	 */
+	public $published = 1;
+
+	/**
+	 * @var  string
+	 */
+	public $content;
 
 	/**
 	 * Checks that the object is valid and able to be stored.
@@ -36,6 +59,11 @@ class RedshopTableText extends RedshopTable
 	protected function doCheck()
 	{
 		if (empty($this->name))
+		{
+			return false;
+		}
+
+		if (empty($this->section))
 		{
 			return false;
 		}
