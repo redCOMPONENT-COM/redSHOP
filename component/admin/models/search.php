@@ -376,7 +376,7 @@ class RedshopModelSearch extends RedshopModel
 			if ($accessoryList = $jInput->getString('accessoryList', ''))
 			{
 				$accessoryList = explode(',', $accessoryList);
-				JArrayHelper::toInteger($accessoryList);
+				$accessoryList = Joomla\Utilities\ArrayHelper::toInteger($accessoryList);
 				$query->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
 			}
 

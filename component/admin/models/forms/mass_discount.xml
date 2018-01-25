@@ -51,9 +51,9 @@
                 description="COM_REDSHOP_MASS_DISCOUNT_START_DATE_DESC"
                 class="form-control"
                 default=""
-                readonly="true"
                 table-sortable="1"
                 table-width="10%"
+                required="true"
                 />
         <field
                 name="end_date"
@@ -62,9 +62,9 @@
                 description="COM_REDSHOP_MASS_DISCOUNT_END_DATE_DESC"
                 class="form-control"
                 default=""
-                readonly="true"
                 table-sortable="1"
                 table-width="10%"
+                required="true"
                 />
         <field
                 name="discount_product"

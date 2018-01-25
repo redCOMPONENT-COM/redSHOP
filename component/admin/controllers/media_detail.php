@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -215,6 +217,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 
 				$row = $model->store($post);
+				$msg = null;
 
 				// Image Upload
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
@@ -228,7 +231,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name='
 								. $post['section_name'] . '&media_section=' . $post['media_section']
-								. '&cid[]=' . $save->media_id, $msg, 'warning'
+								. '&cid[]=' . $row->media_id, $msg, 'warning'
 						);
 					}
 					else
@@ -261,7 +264,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && $post['hdn_download_file'] == "")
 		{
-			$save = $model->store($post);
+			$model->store($post);
 			$msg  = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
@@ -775,12 +778,15 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 				for ($i = 0; $i < $num; $i++)
 				{
-					$filetype = strtolower(JFile::getExt($file[$i]['name']));
+					$fileType = strtolower(JFile::getExt($file[$i]['name']));
 
-					if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $filetype != 'zip'
-						&& $filetype != 'mpeg' && $filetype != 'mp4' && $filetype != 'avi' && $filetype != '3gp'
-						&& $filetype != 'swf' && $filetype != 'pdf' && $post['media_type'] != 'download'
-						&& $post['media_type'] != 'document')
+					if (empty($fileType))
+					{
+						continue;
+					}
+
+					if (!in_array($fileType, array('png', 'gif', 'jpeg', 'jpg', 'zip', 'mpeg', 'mp4', 'avi', '3gp', 'swf', 'pdf'))
+						&& !in_array($post['media_type'], array('download', 'document')))
 					{
 						$msg = JText::_('COM_REDSHOP_MEDIA_FILE_EXTENSION_WRONG');
 
@@ -828,7 +834,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 						}
 					}
-					elseif ($post['bulk'] == 'no' && $filetype == 'zip' && $post['media_type'] != 'download')
+					elseif ($post['bulk'] == 'no' && $fileType == 'zip' && $post['media_type'] != 'download')
 					{
 						$msg = JText::_('COM_REDSHOP_YOU_HAVE_SELECTED_NO_OPTION');
 
@@ -1055,8 +1061,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$media_section = $this->input->get('media_section');
 		$cid           = $this->input->post->get('cid', array(), 'array');
 		$order         = $this->input->post->get('order', array(), 'array');
-		Joomla\Utilities\ArrayHelper::toInteger($cid);
-		Joomla\Utilities\ArrayHelper::toInteger($order);
+		$cid           = ArrayHelper::toInteger($cid);
+		$order         = ArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

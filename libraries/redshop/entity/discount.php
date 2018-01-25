@@ -28,7 +28,7 @@ class RedshopEntityDiscount extends RedshopEntity
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getShopperGroups()
 	{
@@ -45,7 +45,7 @@ class RedshopEntityDiscount extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function loadShopperGroups()
 	{

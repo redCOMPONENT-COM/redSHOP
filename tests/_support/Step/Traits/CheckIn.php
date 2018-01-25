@@ -22,16 +22,36 @@ trait CheckIn
 	/**
 	 * Method for click button "Check-in" without choice
 	 *
-	 * @param   \AdminJ3Page  $pageClass  Page class
-	 *
 	 * @return  void
 	 */
-	public function checkInWithoutChoice($pageClass = null)
+	public function checkInWithoutChoice()
 	{
-		$tester = $this;
+		/** @var \AdminJ3Page $pageClass */
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+
 		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
 		$tester->click($pageClass::$buttonCheckIn);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
+	}
+
+	/**
+	 * Method for test check-in all results
+	 *
+	 * @return  void
+	 */
+	public function checkInAllResult()
+	{
+		/** @var \AdminJ3Page $pageClass */
+		$pageClass = $this->pageClass;
+		$tester    = $this;
+
+		$tester->amOnPage($pageClass::$url);
+		$tester->waitForElement($pageClass::$selectorToolBar, 30);
+		$tester->checkAllResults();
+		$tester->click($pageClass::$buttonCheckIn);
+		$tester->dontSeeElement($pageClass::$stateCheckInPathBlock);
 	}
 }

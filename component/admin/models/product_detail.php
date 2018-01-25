@@ -301,7 +301,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
-		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_full_image'] != null)
+		if (isset($data['image_delete']) || !empty($file['name']) || $data['product_full_image'] != null)
 		{
 			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image']);
 
@@ -345,7 +345,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if ($file['name'] != "")
+		if (!empty($file['name']))
 		{
 			$filename                = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
@@ -525,23 +525,26 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$media_id = $result->media_id;
 				}
 
-				$mediarow                          = $this->getTable('media_detail');
-				$mediapost                         = array();
-				$mediapost['media_id']             = $media_id;
-				$mediapost['media_name']           = $row->product_full_image;
-				$mediapost['media_alternate_text'] = !empty($old_main_image_alternate_text) ? $old_main_image_alternate_text : preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
-				$mediapost['media_section']        = "product";
-				$mediapost['section_id']           = $row->product_id;
-				$mediapost['media_type']           = "images";
-				$mediapost['media_mimetype']       = $file['type'];
-				$mediapost['published']            = 1;
+				/** @var Tablemedia_detail $mediaTable */
+				$mediaTable = $this->getTable('media_detail');
+				$mediaData  = array(
+					'media_id'             => $media_id,
+					'media_name'           => $row->product_full_image,
+					'media_alternate_text' => !empty($old_main_image_alternate_text) ?
+						$old_main_image_alternate_text : preg_replace('#\.[^/.]+$#', '', $row->product_name),
+					'media_section'        => 'product',
+					'section_id'           => $row->product_id,
+					'media_type'           => 'images',
+					'media_mimetype'       => !empty($file['type']) ? $file['type'] : '',
+					'published'            => 1
+				);
 
-				if (!$mediarow->bind($mediapost))
+				if (!$mediaTable->bind($mediaData))
 				{
 					return false;
 				}
 
-				if (!$mediarow->store())
+				if (!$mediaTable->store())
 				{
 					return false;
 				}
@@ -1687,7 +1690,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_save['setdefault_selected'] = $att_property[$prop]->setdefault_selected;
 				$property_array                       = $this->store_pro($property_save);
 				$property_id                          = $property_array->property_id;
-				$listImages                           = $this->GetimageInfo($att_property[$prop]->property_id, 'property');
+				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');
 
 				// Update image names and copy
 				if (!empty($att_property[$prop]->property_image))
@@ -1747,7 +1750,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$this->update_subattr_image($subproperty_id, $new_subattribute_color_image);
 					}
 
-					$listsubpropImages     = $this->GetimageInfo($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
+					$listsubpropImages     = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$countSubPropertyImage = count($listsubpropImages);
 
 					for ($lsi = 0; $lsi < $countSubPropertyImage; $lsi++)
@@ -3658,12 +3661,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 *  Function deleteProdcutSerialNumbers.
 	 *
-	 * @param   int  $id    ID.
-	 * @param   int  $type  ID.
+	 * @param   int     $id    ID.
+	 * @param   string  $type  ID.
 	 *
 	 * @return  array
 	 */
-	public function GetimageInfo($id, $type)
+	public function getImageInfor($id, $type)
 	{
 		$image_media = 'SELECT * FROM ' . $this->table_prefix . 'media
 						WHERE section_id = "' . $id . '"
@@ -3768,7 +3771,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			for ($prop = 0, $countProperty = count($att_property); $prop < $countProperty; $prop++)
 			{
-				$listImages             = $this->GetimageInfo($att_property[$prop]->property_id, 'property');
+				$listImages             = $this->getImageInfor($att_property[$prop]->property_id, 'property');
 				$listStockroomData      = $this->GetStockroomData($att_property[$prop]->property_id, 'property');
 				$listAttributepriceData = $this->GetAttributepriceData($att_property[$prop]->property_id, 'property');
 
@@ -3861,7 +3864,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				for ($subprop = 0; $subprop < $countSuboproperty; $subprop++)
 				{
-					$listsubpropImages         = $this->GetimageInfo($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
+					$listsubpropImages         = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$listSubStockroomData      = $this->GetStockroomData($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$listSubAttributepriceData = $this->GetAttributepriceData($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 
@@ -4448,9 +4451,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copy_image.
 	 *
-	 * @param   array  $imageArray  imageArray
-	 * @param   int    $section     section
-	 * @param   int    $section_id  section_id
+	 * @param   array   $imageArray  imageArray
+	 * @param   string  $section     section
+	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string
 	 */
@@ -4469,7 +4472,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * Function copy_image_from_path.
 	 *
 	 * @param   string  $imagePath   imagePath
-	 * @param   int     $section     section
+	 * @param   string  $section     section
 	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string

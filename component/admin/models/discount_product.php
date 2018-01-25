@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopModelDiscount_Product extends RedshopModelForm
 {
@@ -25,18 +25,18 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @return  boolean       True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function save($data)
 	{
 		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
 		{
-			$data['start_date'] = JFactory::getDate($data['start_date'] . ' 00:00:00')->toUnix();
+			$data['start_date'] = JFactory::getDate($data['start_date'])->toUnix();
 		}
 
 		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
 		{
-			$data['end_date'] = JFactory::getDate($data['end_date'] . ' 23:59:59')->toUnix();
+			$data['end_date'] = JFactory::getDate($data['end_date'])->toUnix();
 		}
 
 		$data['start_date']   = (int) $data['start_date'];
@@ -51,7 +51,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  Exception
 	 */
@@ -78,7 +78,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 	 *
 	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getItem($pk = null)
 	{
@@ -89,10 +89,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
 			return false;
 		}
 
-		$dateFormat          = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 		$item->shopper_group = RedshopEntityDiscount_Product::getInstance($item->discount_product_id)->getShopperGroups()->ids();
-		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
-		$item->end_date      = !empty($item->end_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
 		$item->category_ids  = explode(',', $item->category_ids);
 
 		return $item;

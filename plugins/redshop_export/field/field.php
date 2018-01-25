@@ -26,6 +26,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  string
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 *
 	 * @TODO: Need to load XML File instead
 	 */
@@ -42,6 +43,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  integer
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 */
 	public function onAjaxField_Start()
 	{
@@ -58,6 +60,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  integer
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 */
 	public function onAjaxField_Export()
 	{
@@ -76,6 +79,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  void
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 */
 	public function onAjaxField_Complete()
 	{
@@ -209,12 +213,46 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 */
 	protected function getTotal()
 	{
-		$db = $this->db;
-		$query = $this->getQuery();
+		$db       = $this->db;
+		$query    = $this->getQuery();
 		$newQuery = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('(' . $query . ') AS ' . $db->qn('field_union'));
 
 		return (int) $this->db->setQuery($newQuery)->loadResult();
+	}
+
+	/**
+	 * Method for do some stuff for data return. (Like image path,...)
+	 *
+	 * @param   array  $data  Array of data.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.1
+	 */
+	protected function processData(&$data)
+	{
+		if (empty($data))
+		{
+			return;
+		}
+
+		foreach ($data as $index => $item)
+		{
+			$item = (array) $item;
+
+			foreach ($item as $column => $value)
+			{
+				if (!in_array($column, array('desc', 'data_txt', 'field_value')))
+				{
+					continue;
+				}
+
+				$item[$column] = str_replace(array("\n", "\r"), "", $value);
+			}
+
+			$data[$index] = $item;
+		}
 	}
 }

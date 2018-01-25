@@ -73,7 +73,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+	public static $resultRow = "//tbody/tr[1]";
 
 	/**
 	 * @var array
@@ -86,9 +86,31 @@ abstract class AdminJ3Page
 	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
 	/**
+	 * @var array
+	 */
+	public static $listId = ['id' => 's2id_list_limit'];
+
+	/**
+	 * @var array
+	 */
+	public static $listSearchId = ['id' => 's2id_autogen1_search'];
+
+	/**
+	 * Unpublish button.
+	 *
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(@class, \'btn-checkin\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPath = ['xpath' => '//a[contains(@class, \'btn-edit-item\')]'];
 
 	/**
 	 * @var array
@@ -113,7 +135,22 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorMessage = '.alert-message';
+
+	/**
+	 * @var string
+	 */
 	public static $selectorPageTitle = '.page-title';
+
+	/**
+	 * @var string
+	 */
+	public static $selectorHeading = '.alert-heading';
+	
+	/**
+	 * @var string
+	 */
+	public static $selectorToolBar = '.btn-toolbar';
 
 	/**
 	 * @var string
@@ -222,6 +259,17 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+
+	/**
+	 * @var array
+	 */
+	public static $productFirst = ['xpath' => '//div[@class=\'product_name\']/a'];
+
+	/**
+	 * @var string
+	 */
+	public static $fieldName = "Field required: Name";
+
 	/**
 	 * @var string
 	 */

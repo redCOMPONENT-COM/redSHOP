@@ -23,7 +23,7 @@ use Step\AbstractStep;
 trait CheckIn
 {
 	/**
-	 * Method for test button Check-In without choice
+	 * Method for test Check-In all results
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
@@ -32,7 +32,7 @@ trait CheckIn
 	 */
 	public function testButtonCheckIn(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Button -> Check-in without choice.');
+		$tester->wantTo('Check button check-in without choice.');
 
 		$stepClass = $this->stepClass;
 
@@ -42,7 +42,11 @@ trait CheckIn
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 
-		$step->checkInWithoutChoice($pageClass);
+		$step->checkInWithoutChoice();
+		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
+
+		$tester->wantTo('Test Check-in all results.');
+		$step->checkInAllResult();
 		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
 	}
 }

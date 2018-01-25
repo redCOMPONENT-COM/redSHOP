@@ -22,9 +22,7 @@ class RedshopViewAccount_billto extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		$app         = JFactory::getApplication();
-		$extra_field = extraField::getInstance();
-
+		$app    = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
 
 		$billingaddresses = $GLOBALS['billingaddresses'];
@@ -64,11 +62,11 @@ class RedshopViewAccount_billto extends RedshopView
 
 		if ($billingaddresses->is_company)
 		{
-			$lists['extra_field_company'] = $extra_field->list_all_field(8, $billingaddresses->users_info_id);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8, $billingaddresses->users_info_id);
 		}
 		else
 		{
-			$lists['extra_field_user'] = $extra_field->list_all_field(7, $billingaddresses->users_info_id);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7, $billingaddresses->users_info_id);
 		}
 
 		$this->request_url = $uri->toString();

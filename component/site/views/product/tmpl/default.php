@@ -508,7 +508,7 @@ if (strstr($template_desc, "{bookmark}"))
 }
 
 //  Extra field display
-$extraFieldName = $extraField->getSectionFieldNameArray(RedshopHelperExtrafields::SECTION_PRODUCT);
+$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT);
 $template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->data->product_id, "1", $template_desc);
 
 // Product thumb image
@@ -1465,7 +1465,7 @@ $template_desc = str_replace("{ajaxwishlist_icon}", '', $template_desc);
 $template_desc = $producthelper->replaceWishlistButton($this->data->product_id, $template_desc);
 
 // Replace compare product button
-$template_desc = $producthelper->replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
+$template_desc = Redshop\Product\Compare::replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
 
 // Ajax detail box template
 $ajaxdetail_templatedata = $producthelper->getAjaxDetailboxTemplate($this->data);

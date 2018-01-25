@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopModelOrder_detail extends RedshopModel
@@ -134,7 +134,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				{
 					$orderdata = $this->getTable('order_detail');
 					$orderdata->load($cid[$i]);
-					Economic::deleteInvoiceInEconomic($orderdata);
+					RedshopEconomic::deleteInvoiceInEconomic($orderdata);
 				}
 			}
 
@@ -658,7 +658,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::renewInvoiceInEconomic($orderdata);
+				RedshopEconomic::renewInvoiceInEconomic($orderdata);
 			}
 
 			// Send mail from template
@@ -737,7 +737,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($order->getItem());
+			RedshopEconomic::renewInvoiceInEconomic($order->getItem());
 		}
 
 		// Send mail from template ********************/
@@ -970,7 +970,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -992,7 +992,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderData = $this->getTable('order_detail');
 		$orderData->load($this->_id);
 
-		$orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id);
+		$orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id, 0, 0, true);
 		$orderItemId = isset($data['order_item_id']) ? $data['order_item_id'] : 0;
 
 		if (!$orderData->special_discount)
@@ -1024,7 +1024,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				$orderSubTotal      += $orderItem->product_item_price * $orderItem->product_quantity;
 			}
 
-			$orderDetailTax[] = (float) $orderItem->product_final_price - (float) $orderItem->product_item_price_excl_vat;
+			$orderDetailTax[] = ((float) $orderItem->product_item_price - (float) $orderItem->product_item_price_excl_vat) * $orderItem->product_quantity;
 		}
 
 		if (!empty($orderDetailTax))
@@ -1048,7 +1048,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			Economic::renewInvoiceInEconomic($orderData);
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
 		}
 
 		// Send mail from template
@@ -1088,7 +1088,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					// Economic Integration start for invoice generate
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 					{
-						Economic::renewInvoiceInEconomic($orderdata);
+						RedshopEconomic::renewInvoiceInEconomic($orderdata);
 					}
 				}
 			}

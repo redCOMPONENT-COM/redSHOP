@@ -198,9 +198,9 @@ class RedshopMenuLeft_Menu
 			case "tax_rate":
 				return array('PRODUCT_LISTING', 'tax_rate');
 
+			case "currencies":
 			case "currency":
-			case "currency_detail":
-				return array('CUSTOMIZATION', 'currency');
+				return array('CUSTOMIZATION', 'currencies');
 
 			case "countries":
 			case "country":
@@ -227,6 +227,10 @@ class RedshopMenuLeft_Menu
 			case "fields":
 			case "field":
 				return array('CUSTOMIZATION', 'fields');
+
+			case "field_groups":
+			case "field_group":
+				return array('CUSTOMIZATION', 'field_group');
 
 			case "template":
 			case "templates":
@@ -631,6 +635,11 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'fields') ? true : false
 			)
 			->addItem(
+				'index.php?option=com_redshop&view=field_groups',
+				'COM_REDSHOP_FIELD_GROUP_MANAGEMENT',
+				(self::$view == 'field_groups') ? true : false
+			)
+			->addItem(
 				'index.php?option=com_redshop&view=templates',
 				'COM_REDSHOP_TEMPLATE_LISTING',
 				(self::$view == 'templates') ? true : false
@@ -666,9 +675,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'attribute_set') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=currency',
+				'index.php?option=com_redshop&view=currencies',
 				'COM_REDSHOP_CURRENCY_LISTING',
-				(self::$view == 'currency') ? true : false
+				(self::$view == 'currencies') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=countries',

@@ -66,12 +66,12 @@ class AbstractCest
 	 */
 	public function __construct()
 	{
-		$this->faker      = Factory::create();
-		$this->className  = get_called_class();
-		$this->stepClass  = str_replace('Cest', 'Steps', $this->className);
-		$this->pageClass  = str_replace('Cest', 'Page', $this->className);
-		$this->dataNew    = $this->prepareNewData();
-		$this->dataEdit   = $this->prepareEditData();
+		$this->faker     = Factory::create();
+		$this->className = get_called_class();
+		$this->stepClass = str_replace('Cest', 'Steps', $this->className);
+		$this->pageClass = str_replace('Cest', 'Page', $this->className);
+		$this->dataNew   = $this->prepareNewData();
+		$this->dataEdit  = $this->prepareEditData();
 	}
 
 	/**
@@ -107,30 +107,6 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for test button "Delete"
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 */
-	public function testButtonDelete(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Administrator -> Button -> Delete without choice.');
-
-		$stepClass = $this->stepClass;
-
-		/** @var \AdminJ3Page $pageClass */
-		$pageClass = $this->pageClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
-
-		$step->deleteWithoutChoice();
-		$step->see($pageClass::$namePage, $pageClass::$selectorPageTitle);
-	}
-
-	/**
 	 * Method for test create item
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
@@ -140,12 +116,27 @@ class AbstractCest
 	 */
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Create item.');
+		$tester->wantTo('Test create item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
 		$step->addNewItem($this->dataNew);
+	}
+
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreate
+	 */
+	public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Run after create item test suite');
 	}
 
 	/**
@@ -156,11 +147,11 @@ class AbstractCest
 	 *
 	 * @return  void
 	 *
-	 * @depends testItemCreate
+	 * @depends afterTestItemCreate
 	 */
 	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Edit item.');
+		$tester->wantTo('Test Edit item.');
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
@@ -169,7 +160,7 @@ class AbstractCest
 	}
 
 	/**
-	 * Method for test delete item
+	 * Abstract method for run after complete edit item.
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
@@ -178,13 +169,8 @@ class AbstractCest
 	 *
 	 * @depends testItemEdit
 	 */
-	public function testItemDelete(\AcceptanceTester $tester, Scenario $scenario)
+	public function afterTestItemEdit(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Administrator -> Delete item.');
-		$stepClass = $this->stepClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
-		$step->deleteItem($this->dataNew[$this->nameField]);
+		$tester->wantTo('Run after edit item test suite');
 	}
 }

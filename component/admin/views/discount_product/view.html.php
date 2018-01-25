@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopViewDiscount_Product extends RedshopViewForm
 {
@@ -23,7 +23,7 @@ class RedshopViewDiscount_Product extends RedshopViewForm
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getTitle()
 	{

@@ -29,6 +29,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $productList = "//div[@id='redcatproducts']";
 
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
+	
+	public static $addToCompare = ['xpath' => '//label[@class=\'checkbox\']'];
+
+	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
 
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
@@ -133,6 +137,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public function finalCheckout($productName)
 	{
 		$path = "//div/a[text()='" . $productName . "']";
+
+		return $path;
+	}
+
+	/**
+	 * @param $productName
+	 * @return string
+	 */
+	public function productName($productName)
+	{
+		$path = "//div[text()='" . $productName . "']";
 
 		return $path;
 	}

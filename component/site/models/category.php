@@ -317,7 +317,7 @@ class RedshopModelCategory extends RedshopModel
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
@@ -900,7 +900,7 @@ class RedshopModelCategory extends RedshopModel
 						if (!empty($rs))
 						{
 							// Sanitise ids
-							JArrayHelper::toInteger($rs);
+							$rs = Joomla\Utilities\ArrayHelper::toInteger($rs);
 
 							$finder_products = implode("','", $rs);
 						}

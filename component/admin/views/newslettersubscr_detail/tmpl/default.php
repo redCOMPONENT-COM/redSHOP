@@ -77,12 +77,21 @@ $model = $this->getModel('newslettersubscr_detail');
 					</td>
 					<td>
 						<?php
-						if ($this->detail->date)
+						if ($this->detail->date):
 							$datee = date("d-m-Y", $this->detail->date);
-						else
+						else:
 							$datee = null;
+						endif;
 
-						echo JHTML::_('calendar', $datee, 'date', 'date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '25', 'maxlength' => '19')); ?>
+						echo JHtml::_(
+							'redshopcalendar.calendar',
+							$datee,
+							'date',
+							'date',
+							null,
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+						);
+						?>
 					</td>
 				</tr>
 				<tr>

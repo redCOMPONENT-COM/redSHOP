@@ -55,8 +55,8 @@ $dispatcher         = RedshopHelperUtility::getDispatcher();
 $params             = $app->getParams('com_redshop');
 $itemId             = $input->get('Itemid', 0, "int");
 $fieldArray         = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
-$extraFieldProduct  = $extraField->getSectionFieldNameArray(1, 1, 1);
-$extraFieldCategory = $extraField->getSectionFieldNameArray(2, 1, 1);
+$extraFieldProduct  = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+$extraFieldCategory = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
@@ -704,7 +704,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$dataAdd = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $dataAdd);
 
 		// Replace compare product button
-		$dataAdd = $productHelper->replaceCompareProductsButton($product->product_id, $catid, $dataAdd);
+		$dataAdd = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $catid, $dataAdd);
 
 		if (strstr($dataAdd, "{stockroom_detail}"))
 		{

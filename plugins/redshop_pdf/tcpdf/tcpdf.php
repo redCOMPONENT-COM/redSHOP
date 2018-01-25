@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Order\Template;
+
 defined('JPATH_BASE') or die;
 
 // Load redSHOP library
@@ -128,7 +130,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 			$message = str_replace("{print}", $printTag, $message);
 			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
-			$message = $cartHelper->replaceOrderTemplate($ordersDetail, $message, true);
+			$message = Template::replaceTemplate($ordersDetail, $message, true);
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
 		}
