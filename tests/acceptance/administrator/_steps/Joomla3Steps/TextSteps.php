@@ -17,7 +17,7 @@ use Step\AbstractStep;
  *
  * @since    1.4
  */
-class TextLibrarySteps extends AbstractStep
+class TextSteps extends AbstractStep
 {
 	use Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
 }

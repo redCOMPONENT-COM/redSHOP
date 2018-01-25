@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class TextLibraryPage extends AdminJ3Page
+class TextPage extends AdminJ3Page
 {
 	/**
 	 * @var string

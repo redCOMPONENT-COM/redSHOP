@@ -11,7 +11,7 @@ use Codeception\Scenario;
 use Step\AbstractStep;
 
 /**
- * Class TextLibraryCest
+ * Class TextCest
  *
  * @package  AcceptanceTester
  *
@@ -19,7 +19,7 @@ use Step\AbstractStep;
  *
  * @since    1.4
  */
-class TextLibraryCest extends AbstractCest
+class TextCest extends AbstractCest
 {
 	use Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
 
