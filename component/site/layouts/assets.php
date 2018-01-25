@@ -15,6 +15,7 @@ JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHtml::script('com_redshop/redbox.js', false, true);
+JHtml::script('com_redshop/bootstrap.js', false, true);
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;

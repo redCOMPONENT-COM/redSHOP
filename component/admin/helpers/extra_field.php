@@ -11,16 +11,19 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
 
 /**
  * Redshop Helper for Extra Fields
  *
+ * @since   1.6.0
  * @deprecated  2.0.3  Use RedshopHelperExtrafields instead
  */
 class extra_field
 {
+	/**
+	 * @var null
+	 */
 	protected static $instance = null;
 
 	/**

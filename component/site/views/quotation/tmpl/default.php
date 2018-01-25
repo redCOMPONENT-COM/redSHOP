@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 $redTemplate = Redtemplate::getInstance();
 $carthelper  = rsCarthelper::getInstance();
 $app         = JFactory::getApplication();

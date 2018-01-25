@@ -17,8 +17,7 @@ $extraField       = extraField::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 $app              = JFactory::getApplication();
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $url              = JURI::base();
 $user             = JFactory::getUser();

@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
-JHtml::_('behavior.tooltip');
 
 $editor = JFactory::getEditor();
 $uri    = JURI::getInstance();
