@@ -63,11 +63,6 @@ class RedshopTableText extends RedshopTable
 			return false;
 		}
 
-		if (empty($this->section))
-		{
-			return false;
-		}
-
 		return parent::doCheck();
 	}
 }
