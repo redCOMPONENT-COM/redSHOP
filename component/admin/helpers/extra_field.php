@@ -22,7 +22,7 @@ jimport('joomla.filesystem.file');
 class extra_field
 {
 	/**
-	 * @var null
+	 * @var self
 	 */
 	protected static $instance = null;
 
