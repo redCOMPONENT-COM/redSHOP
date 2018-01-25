@@ -30,6 +30,8 @@ else
 
 	sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+	sed -i 's|^upload_max_filesize = 2M|upload_max_filesize = 64M|' ~/.phpenv/versions/$phpversionname/etc/php.ini
+    sed -i 's|^post_max_size = 8M|post_max_size = 64M|' ~/.phpenv/versions/$phpversionname/etc/php.ini
 	sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
 	sudo chown -R travis:travis /var/lib/apache2/fastcgi
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
