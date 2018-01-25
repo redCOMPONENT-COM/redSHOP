@@ -1751,7 +1751,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object            Object data if success. False otherwise.
+	 * @return  mixed             Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
