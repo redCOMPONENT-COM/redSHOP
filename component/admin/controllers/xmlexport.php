@@ -26,6 +26,7 @@ class RedshopControllerXmlexport extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 1))
