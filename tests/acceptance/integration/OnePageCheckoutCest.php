@@ -26,11 +26,11 @@ class OnePageCheckoutCest
     public function __construct()
     {
         $this->faker = Faker\Factory::create();
-//        $this->ProductName = 'ProductName' . rand(100, 999);
-        $this-> ProductName= 'redCARPENTER';
-//        $this->CategoryName = "CategoryName" . rand(1, 100);
+        $this->ProductName = 'ProductName' . rand(100, 999);
+//        $this-> ProductName= 'redCARPENTER';
+        $this->CategoryName = "CategoryName" . rand(1, 100);
         
-        $this-> CategoryName= 'Templates';
+//        $this-> CategoryName= 'Templates';
         $this->ManufactureName = "ManufactureName" . rand(1, 10);
         $this->MassDiscountAmoutTotal = 90;
         $this->MassDiscountPercent = 0.3;
@@ -123,13 +123,13 @@ class OnePageCheckoutCest
 //        $I = new ConfigurationSteps($scenario);
 //        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 
-//        $I->wantTo('Create Category in Administrator');
-//        $I = new CategoryManagerJoomla3Steps($scenario);
-//        $I->addCategorySave($this->CategoryName);
+        $I->wantTo('Create Category in Administrator');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->addCategorySave($this->CategoryName);
 
-//        $I = new ProductManagerJoomla3Steps($scenario);
-//        $I->wantTo('I Want to add product inside the category');
-//        $I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
+        $I = new ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);

@@ -617,21 +617,16 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyName, $customerInformation['companyName']);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-			$I->pauseExecution();
 
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
-			$I->pauseExecution();
-			
+
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-			$I->pauseExecution();
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
-			$I->pauseExecution();
 			$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-			$I->acceptPopup();
 		}else{
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
