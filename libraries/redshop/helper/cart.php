@@ -813,10 +813,11 @@ abstract class RedshopHelperCart
 		$lang->load('mod_redshop_cart', JPATH_SITE);
 
 		$basePath = '';
+		$activeTemplate = JFactory::getApplication()->getTemplate();
 
-		if (JFile::exists(JPATH_ROOT . '/templates/' . JFactory::getApplication()->getTemplate() . '/html/layouts/cart/cart.php'))
+		if (JFile::exists(JPATH_ROOT . '/templates/' . $activeTemplate . '/html/layouts/cart/cart.php'))
 		{
-			$basePath = 'templates/redcomponent/html/layouts/';
+			$basePath = 'templates/' . $activeTemplate . '/html/layouts/';
 		}
 
 		$return[] = RedshopLayoutHelper::render(
