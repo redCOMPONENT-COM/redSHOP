@@ -7,8 +7,6 @@
  */
 
 use Cest\AbstractCest;
-use Codeception\Scenario;
-use Step\AbstractStep;
 
 /**
  * Class TextCest
