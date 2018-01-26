@@ -409,11 +409,11 @@ class RedshopModelOrder extends RedshopModel
 				'',
 				'A',
 				'A',
-				$billingDetails->firstname . ' ' . $billingDetails->lastname,
+				$billingDetails->get('firstname') . ' ' . $billingDetails->get('lastname'),
 				$order->customer_note,
 				Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
-				$billingDetails->user_email,
-				$shippingDetails->phone
+				$billingDetails->get('user_email'),
+				$shippingDetails->get('phone')
 			);
 
 			$row = array_merge($row, $extraInfo, $rowAppend);
