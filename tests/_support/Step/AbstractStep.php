@@ -52,13 +52,13 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Method for save item.
+	 * Method for save item with save , save & close, save & new
 	 *
 	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
 	 */
-	public function addNewItem($data = array())
+	public function addNewItem($data = array(), $function)
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
@@ -68,7 +68,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->click($pageClass::$buttonNew);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->fillFormData($this->getFormFields(), $data);
-		$tester->click($pageClass::$buttonSave);
+		
+		switch ($function)
+		{
+			case 'save':
+				$tester->click($pageClass::$buttonSave);
+				break;
+			case 'save&close':
+				$tester->click($pageClass::$buttonSaveClose);
+				break;
+			case 'save&new':
+				$tester->click($pageClass::$buttonSaveNew);
+				break;
+			default:
+				break;
+		}
 		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
@@ -80,7 +94,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 *
 	 * @return  void
 	 */
-	public function editItem($searchName = '', $data = array())
+	public function editItem($searchName = '', $data = array(), $function)
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
@@ -92,7 +106,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
 		$tester->fillFormData($this->getFormFields(), $data);
-		$tester->click($pageClass::$buttonSaveClose);
+		
+		switch ($function)
+		{
+			case 'save':
+				$tester->click($pageClass::$buttonSave);
+				break;
+			case 'save&close':
+				$tester->click($pageClass::$buttonSaveClose);
+				break;
+			case 'save&new':
+				$tester->click($pageClass::$buttonSaveNew);
+				break;
+			default:
+				break;
+		}
 		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 

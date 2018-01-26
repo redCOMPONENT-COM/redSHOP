@@ -103,6 +103,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addCategoryChild($categoryName, $noPage)
 	{
 		$I = $this;
+		$I->pauseExecution();
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->click(\CategoryManagerJ3Page::$newButton);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
@@ -111,6 +112,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
 		$I->click(\CategoryManagerJ3Page::$template);
 		$I->click(\CategoryManagerJ3Page::$choiceTemplate);
+		$I->pauseExecution();
 		$I->click(\CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 	}

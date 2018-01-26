@@ -1,9 +1,9 @@
 <?php
 use  \Cest\AbstractCest;
-
+use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 class CategoryCest extends AbstractCest
 {
-    use  Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
+//    use  Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
 
     /**
      * Name field, which is use for search
@@ -11,6 +11,7 @@ class CategoryCest extends AbstractCest
      * @var string
      */
     public $nameField = 'name';
+
 
     /**
      * Method for set new data.
@@ -38,9 +39,61 @@ class CategoryCest extends AbstractCest
      *
      * @depends testItemCreate
      */
-    public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
+    public function deleteDataSave(\AcceptanceTester $tester,  $scenario)
+    {
+        $tester->wantTo('Run after create item with save button ');
+        $tester = new CategorySteps($scenario);
+        $tester->deleteItem('New' . $this->dataNew['name']);
+
+    }
+
+    /**
+     * Abstract method for run after complete create item.
+     *
+     * @param   \AcceptanceTester  $tester    Tester
+     * @param   Scenario           $scenario  Scenario
+     *
+     * @return  void
+     *
+     * @depends testItemCreateSaveClose
+     */
+    public function deleteDataSaveClose(\AcceptanceTester $tester,  $scenario)
+    {
+        $tester->wantTo('Run after create item with save button ');
+        $tester = new CategorySteps($scenario);
+        $tester->deleteItem('New' . $this->dataNew['name']);
+
+    }
+
+
+    /**
+     * Abstract method for run after complete create item.
+     *
+     * @param   \AcceptanceTester  $tester    Tester
+     * @param   Scenario           $scenario  Scenario
+     *
+     * @return  void
+     *
+     * @depends testItemCreateSaveNew
+     */
+    public function afterTestItemCreate(\AcceptanceTester $tester,  $scenario)
     {
         $tester->wantTo('Run after create category test suite');
+        $tester = new CategorySteps($scenario);
+        $nameCategoryChild = $this->faker->bothify('CategiryChild ?##? ');
+        $productName  = $this->faker->bothify('ProductCategory ?##?');
+        $productNumber = $this->faker->numberBetween(1,10000);
+        $price = $this->faker->numberBetween(1,100);
+
+        $tester->addCategoryChild($this->dataNew['name'], $nameCategoryChild, 3);
+        $tester->deleteItem($nameCategoryChild);
+        
+        $tester   = new ProductManagerSteps($scenario);
+        $tester->createProductSaveClose($productName, $this->dataNew['name'], $productNumber, $price);
+//        $tester->deleteItem($this->dataNew['name']);
+        $tester = new CategorySteps($scenario);
+        $tester->addCategoryAccessories($this->dataNew['name'], 4, $productName);
+        
     }
 
     /**
