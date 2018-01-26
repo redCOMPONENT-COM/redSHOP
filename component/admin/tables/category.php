@@ -114,4 +114,46 @@ class RedshopTableCategory extends RedshopTableNested
 		// Force do not delete child categories
 		return parent::doDelete($pk, false);
 	}
+
+	/**
+	 * Do the database store.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doStore($updateNulls = false)
+	{
+		if (!parent::doStore($updateNulls))
+		{
+			return false;
+		}
+
+		// Prepare target folder.
+		$mediaPath = REDSHOP_MEDIA_IMAGE_RELPATH . '/category/' . $this->id;
+
+		if (!JFolder::exists($mediaPath))
+		{
+			JFolder::create($mediaPath);
+		}
+
+		/** @var RedshopModelCategory $model */
+		$model = RedshopModel::getInstance('Category', 'RedshopModel');
+		$media = $this->getOption('media', array());
+
+		var_dump($media);exit;
+
+		if (!empty($media['category_full_image']))
+		{
+			$model->storeMedia($this, JPATH_ROOT . '/' . $media['category_full_image'], 'full');
+		}
+
+		if (!empty($media['category_back_full_image']))
+		{
+			$model->storeMedia($this, JPATH_ROOT . '/' . $media['category_back_full_image'], 'back');
+		}
+
+		return true;
+	}
 }

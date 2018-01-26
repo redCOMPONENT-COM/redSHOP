@@ -70,6 +70,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   2.0.6
+	 * @throws  Exception
 	 */
 	protected function loadFormData()
 	{
@@ -107,8 +108,7 @@ class RedshopModelCategory extends RedshopModelForm
 			return $item;
 		}
 
-		$item->template = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
-
+		$item->template          = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
 		$item->products_per_page = 5;
 
 		return $item;
@@ -120,6 +120,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 * @param   integer $item The object category values.
 	 *
 	 * @return  mixed           Object on success, false on failure.
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -150,14 +151,15 @@ class RedshopModelCategory extends RedshopModelForm
 	 * @param   array $data The object category data.
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
 	public function save($data)
 	{
-		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_category');
-		$db  = $this->getDbo();
+
+		/** @var RedshopTableCategory $row */
 		$row = $this->getTable();
 		$pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 
@@ -180,7 +182,7 @@ class RedshopModelCategory extends RedshopModelForm
 			return false;
 		}
 
-		if (isset($data['image_delete']))
+		/*if (isset($data['image_delete']))
 		{
 			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
 			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
@@ -201,7 +203,6 @@ class RedshopModelCategory extends RedshopModelForm
 			$db->setQuery($query)->execute();
 		}
 
-		// Category full images
 		if (empty($data['category_full_image']))
 		{
 			// Dropzone support.
@@ -215,7 +216,7 @@ class RedshopModelCategory extends RedshopModelForm
 				$row->category_thumb_image = $fileName;
 
 				$src  = JPATH_ROOT . '/' . $categoryFullImage;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
+				$dest = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $fileName;
 
 				JFile::move($src, $dest);
 			}
@@ -292,7 +293,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 				$row->category_back_full_image = '';
 			}
-		}
+		}*/
 
 		// Check the data.
 		if (!$row->check())
@@ -302,12 +303,20 @@ class RedshopModelCategory extends RedshopModelForm
 			return false;
 		}
 
+		// Media store
+		$dropzoneMedia = JFactory::getApplication()->input->get('dropzone', array(), 'ARRAY');
+
+		if (!empty($dropzoneMedia))
+		{
+			$row->setOption('media', $dropzoneMedia);
+		}
+
 		if (!$row->store())
 		{
 			return false;
 		}
 
-		$dispatcher->trigger('onAfterCategorySave', array(&$row));
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterCategorySave', array(&$row));
 
 		if (isset($row->id))
 		{
@@ -412,8 +421,9 @@ class RedshopModelCategory extends RedshopModelForm
 	 * @param   integer $categoryId ID of category
 	 *
 	 * @since   2.0.6
+	 * @throws  Exception
 	 *
-	 * @return  void
+	 * @return  boolean
 	 */
 	public function productAccessoriesStore($categoryId)
 	{
@@ -497,5 +507,59 @@ class RedshopModelCategory extends RedshopModelForm
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method for store media
+	 *
+	 * @param   object  $category  Category data
+	 * @param   string  $file      File name
+	 * @param   string  $scope     Scope of media.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function storeMedia($category, $file, $scope)
+	{
+		/** @var RedshopTableMedia $table */
+		$table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
+
+		// Generate new image using MD5
+		$newFileName = md5(basename($file)) . '.' . JFile::getExt($file);
+
+		if (!$table->load(
+			array(
+				'media_name'    => basename($file) . '.' . JFile::getExt($file),
+				'media_section' => 'category',
+				'section_id'    => $category->id,
+				'media_type'    => 'images'
+			)
+		))
+		{
+			$table->section_id    = $category->id;
+			$table->media_section = 'category';
+			$table->media_type    = 'images';
+		}
+
+		$table->media_alternate_text = $category->name;
+		$table->published            = 1;
+		$table->ordering             = 0;
+		$table->scope                = $scope;
+
+		// Check old image exist.
+		if (!JFile::exists($file))
+		{
+			return;
+		}
+
+		if (!JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . '/category/' . $category->id . '/' . $newFileName))
+		{
+			return;
+		}
+
+		// Update media data with new file name.
+		$table->media_name = $newFileName;
+		$table->store();
 	}
 }

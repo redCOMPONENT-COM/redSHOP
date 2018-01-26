@@ -61,7 +61,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 				$mediaTable->delete();
 			}
 			// If there are new image.
-			elseif (!empty($post['manufacturer_image']))
+			elseif (!empty($post['dropzone']['manufacturer_image']))
 			{
 				// Try to load media associate with this manufacturer
 				if ($mediaTable->load(array('section_id' => $row->manufacturer_id, 'media_section' => 'manufacturer')))
@@ -81,8 +81,11 @@ class RedshopControllerManufacturer_detail extends RedshopController
 				$mediaTable->set('published', 1);
 
 				// Copy new image for this media
-				$fileName = basename($post['manufacturer_image']);
-				copy(JPATH_ROOT . '/' . $post['manufacturer_image'], REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $fileName);
+				$fileName = md5(basename($post['dropzone']['manufacturer_image'])) . '.' . JFile::getExt($post['dropzone']['manufacturer_image']);
+				JFile::copy(
+					JPATH_ROOT . '/' . $post['dropzone']['manufacturer_image'],
+					REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $fileName
+				);
 				$mediaTable->set('media_name', $fileName);
 				$mediaTable->store();
 			}

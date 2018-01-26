@@ -51,6 +51,7 @@ class product_category
 	 * @param   integer  $width                Width in pixel
 	 *
 	 * @return  string   HTML of dropdown
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
 	 */

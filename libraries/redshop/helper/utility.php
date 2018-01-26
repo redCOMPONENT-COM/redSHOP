@@ -197,7 +197,7 @@ class RedshopHelperUtility
 	{
 		$user           = JFactory::getUser();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroups  = ShopperGroup::generateList($shopperGroupId);
+		$shopperGroups  = \Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroups))
 		{

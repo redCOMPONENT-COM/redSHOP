@@ -220,7 +220,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		return true;
 	}
 
-	public function TemplateData()
+	public function templateData()
 	{
 		$query = "SELECT id as value,name as text FROM " . $this->_table_prefix
 			. "template WHERE section ='manufacturer_products' and published=1";
