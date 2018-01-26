@@ -212,6 +212,10 @@ class RedshopRouter extends JComponentRouterBase
 						$segments[] = $wishlistId;
 					}
 				}
+				elseif (!empty($layout))
+				{
+					$segments[] = $layout;
+				}
 
 				break;
 
