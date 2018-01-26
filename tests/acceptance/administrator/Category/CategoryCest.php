@@ -85,15 +85,14 @@ class CategoryCest extends AbstractCest
         $productNumber = $this->faker->numberBetween(1,10000);
         $price = $this->faker->numberBetween(1,100);
 
-        $tester->addCategoryChild($this->dataNew['name'], $nameCategoryChild, 3);
+        $tester->addCategoryChild('New' . $this->dataNew['name'], $nameCategoryChild, 3);
         $tester->deleteItem($nameCategoryChild);
         
         $tester   = new ProductManagerSteps($scenario);
-        $tester->createProductSaveClose($productName, $this->dataNew['name'], $productNumber, $price);
+        $tester->createProductSaveClose($productName, 'New' . $this->dataNew['name'], $productNumber, $price);
 //        $tester->deleteItem($this->dataNew['name']);
         $tester = new CategorySteps($scenario);
         $tester->addCategoryAccessories($this->dataNew['name'], 4, $productName);
-        
     }
 
     /**

@@ -28,6 +28,7 @@ class CategorySteps extends AbstractStep
         $I->click(CategoryPage::$template);
         $I->click(CategoryPage::$choiceTemplate);
         $I->click(CategoryPage::$buttonSave);
+        $I->pauseExecution();
         $categoryParent = '- '. $categoryParent;
         $I->see($categoryParent);
     }
@@ -47,7 +48,9 @@ class CategorySteps extends AbstractStep
         $I->waitForElement(CategoryPage::$getAccessory, 60);
         $this->selectAccessories($productAccessories);
         $I->click(CategoryPage::$buttonSave);
-        $I->waitForElement(CategoryPage::$categoryFilter, 30);
+        $I->pauseExecution();
+        $I->click(CategoryPage::$tabAccessory);
+        $I->see($productAccessories);
     }
 
     // That is the function for udpate category
