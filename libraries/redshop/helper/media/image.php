@@ -21,13 +21,13 @@ class RedshopHelperMediaImage
 	/**
 	 * Render Drag n Drop template in site
 	 *
-	 * @param   string  $id            ID of media input name
-	 * @param   string  $type          Type of item want to show gallery
-	 * @param   string  $sectionId     Section ID to show
-	 * @param   string  $mediaSection  Section type to show
-	 * @param   string  $image         URL of featured image
-	 * @param   bool    $showMedia     Show pop-up of media or not.
-	 * @param   bool    $useMediaPath  Use new structure of media folder or not.
+	 * @param   string   $id            ID of media input name
+	 * @param   string   $type          Type of item want to show gallery
+	 * @param   string   $sectionId     Section ID to show
+	 * @param   string   $mediaSection  Section type to show
+	 * @param   string   $image         URL of featured image
+	 * @param   boolean  $showMedia     Show pop-up of media or not.
+	 * @param   boolean  $useMediaPath  Use new structure of media folder or not.
 	 *
 	 * @return  string
 	 */
@@ -35,11 +35,12 @@ class RedshopHelperMediaImage
 	{
 		self::requireDependencies();
 
-		$imgUrl  = $useMediaPath ? JRoute::_('/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image)
-			: JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
+		$imgUrl = $useMediaPath ? '/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image
+			: '/components/com_redshop/assets/images/' . $type . '/' . $image;
+		$imgUrl = JRoute::_($imgUrl);
 
-		$imgFile = $useMediaPath ?
-			REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $type . '/' . $sectionId . '/' . $image : REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+		$imgFile = $useMediaPath ? REDSHOP_MEDIA_IMAGE_RELPATH . $type . '/' . $sectionId . '/' . $image
+			: REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
 		$file = array();
 
@@ -90,11 +91,11 @@ class RedshopHelperMediaImage
 	/**
 	 * Render gallery pop-up for media
 	 *
-	 * @param   string  $id            ID of media input name
-	 * @param   string  $type          Type of item want to show gallery
-	 * @param   string  $sectionId     Section ID to show
-	 * @param   string  $mediaSection  Section type to show
-	 * @param   string  $image         URL of featured image
+	 * @param   string $id           ID of media input name
+	 * @param   string $type         Type of item want to show gallery
+	 * @param   string $sectionId    Section ID to show
+	 * @param   string $mediaSection Section type to show
+	 * @param   string $image        URL of featured image
 	 *
 	 * @return  void
 	 */
@@ -177,7 +178,7 @@ class RedshopHelperMediaImage
 	/**
 	 * Show file size in KB, MB, GB...
 	 *
-	 * @param   integer  $bytes  Volume of item
+	 * @param   integer $bytes Volume of item
 	 *
 	 * @return  string
 	 */
@@ -196,7 +197,7 @@ class RedshopHelperMediaImage
 	/**
 	 * Method for get all media files of redSHOP
 	 *
-	 * @param   string  $selectedImage  Selected file.
+	 * @param   string $selectedImage Selected file.
 	 *
 	 * @return  array                   List of media files.
 	 *
@@ -258,7 +259,7 @@ class RedshopHelperMediaImage
 	/**
 	 * Method for get MIME Type of specific file.
 	 *
-	 * @param   string  $path  Path of file.
+	 * @param   string $path Path of file.
 	 *
 	 * @return  mixed          Mime type of file.
 	 *

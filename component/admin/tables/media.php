@@ -71,4 +71,9 @@ class RedshopTableMedia extends RedshopTable
 	 * @var integer
 	 */
 	public $ordering = '';
+
+	/**
+	 * @var string
+	 */
+	public $scope = '';
 }

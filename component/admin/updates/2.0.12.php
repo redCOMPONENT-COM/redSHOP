@@ -47,6 +47,7 @@ class RedshopUpdate2012 extends RedshopInstallUpdate
 
 		foreach ($medias as $media)
 		{
+			/** @var RedshopTableMedia $table */
 			$table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
 
 			$table->bind((array) $media);

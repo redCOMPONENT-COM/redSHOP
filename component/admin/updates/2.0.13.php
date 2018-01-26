@@ -103,7 +103,14 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
 		// Generate new image using MD5
 		$newFileName = md5(basename($fileName)) . '.' . JFile::getExt($fileName);
 
-		if (!$table->load(array('media_name' => $fileName, 'media_section' => 'category', 'section_id' => $category->id, 'media_type' => 'images')))
+		if (!$table->load(
+			array(
+				'media_name'    => $fileName,
+				'media_section' => 'category',
+				'section_id'    => $category->id,
+				'media_type'    => 'images'
+			)
+		))
 		{
 			$table->section_id    = $category->id;
 			$table->media_section = 'category';
