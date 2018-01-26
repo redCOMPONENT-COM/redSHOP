@@ -840,7 +840,12 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$productId = $this->input->getInt('product_id', 0);
-		$name      = $this->input->getCmd('mname', '') . '_' . $productId;
+		$name       = $this->input->getCmd('mname', '');
+
+		if (!empty($productId))
+		{
+			$name = $name . '_' . $productId;
+		}
 
 		if ($this->input->files)
 		{

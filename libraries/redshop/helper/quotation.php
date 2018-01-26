@@ -310,9 +310,9 @@ class RedshopHelperQuotation
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->insert($db->qn('#__redshop_quotation_fields_data', 'qfd'))
-			->columns($db->qn(array('qfd.fieldid', 'qfd.data_txt', 'qfd.quotation_item_id', 'qfd.section')))
-			->values(implode(',', array((int) $fieldId, $db->quote($value), (int) $quotationItemId, (int) $db->quote($sectionId))));
+		$query->insert($db->qn('#__redshop_quotation_fields_data'))
+			->columns($db->qn(array('fieldid', 'data_txt', 'quotation_item_id', 'section')))
+			->values(implode(',', array($db->quote((int) $fieldId), $db->quote($value), $db->quote((int) $quotationItemId), $db->quote((int) $sectionId))));
 
 		$db->setQuery($query)->execute();
 	}

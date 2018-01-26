@@ -233,8 +233,8 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			$jinput = JFactory::getApplication()->input;
 
 			// Store userfields
-			$userfields    = $jinput->get('extrafields' . $product_id);
-			$userfields_id = $jinput->get('extrafields_id_' . $product_id);
+			$userfields = $jinput->getSring('extrafieldname' . $product_id . 'product1');
+			$userfields_id = $jinput->getInt('extrafieldId' . $product_id . 'product1');
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
