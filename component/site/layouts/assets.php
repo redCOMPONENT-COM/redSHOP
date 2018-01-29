@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('redshopjquery.framework');
+JHtml::_('behavior.framework', true);
 JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
 
 /** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/attribute.js', false, true);
@@ -22,7 +23,7 @@ $doc = new RedshopHelperDocument;
 
 $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.css');
 
-if (Redshop::getConfig()->get('LOAD_REDSHOP_STYLE'))
+if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true))
 {
 	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/style.css');
 }
