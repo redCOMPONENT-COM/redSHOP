@@ -812,6 +812,14 @@ abstract class RedshopHelperCart
 		$lang = JFactory::getLanguage();
 		$lang->load('mod_redshop_cart', JPATH_SITE);
 
+		$basePath = '';
+		$activeTemplate = JFactory::getApplication()->getTemplate();
+
+		if (JFile::exists(JPATH_ROOT . '/templates/' . $activeTemplate . '/html/layouts/cart/cart.php'))
+		{
+			$basePath = 'templates/' . $activeTemplate . '/html/layouts/';
+		}
+
 		$return[] = RedshopLayoutHelper::render(
 			'cart.cart',
 			array(
@@ -821,7 +829,7 @@ abstract class RedshopHelperCart
 				'showWithVat'      => $showWithVAT,
 				'showShippingLine' => $showShippingLine
 			),
-			'',
+			$basePath,
 			array('option' => 'com_redshop')
 		);
 
