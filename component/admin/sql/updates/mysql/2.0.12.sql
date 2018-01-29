@@ -20,5 +20,9 @@ CALL redSHOP_Column_Update('#__redshop_textlibrary', 'modified_date', 'modified_
 
 CALL redSHOP_Index_Add('#__redshop_textlibrary', '#__rs_text_tag_section', '(`section` ASC)');
 CALL redSHOP_Index_Add('#__redshop_textlibrary', '#__rs_text_tag_published', '(`published` ASC)');
+-- Table `#__redshop_media`
+-- ------------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_media', 'scope', 'scope', 'VARCHAR(100) NOT NULL DEFAULT ""');
+CALL redSHOP_Index_Add('#__redshop_media', '#__rs_idx_media_scope', '(`scope` ASC)');
 
 SET FOREIGN_KEY_CHECKS = 1;

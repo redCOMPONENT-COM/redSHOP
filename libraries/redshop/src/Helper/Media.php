@@ -9,10 +9,6 @@
 
 namespace Redshop\Helper;
 
-use const REDSHOP_FRONT_IMAGES_RELPATH;
-use const REDSHOP_MEDIA_IMAGE_ABSPATH;
-use const REDSHOP_MEDIA_IMAGE_RELPATH;
-
 defined('_JEXEC') or die;
 
 /**
@@ -33,6 +29,7 @@ class Media
 	 * @param   integer  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -44,7 +41,7 @@ class Media
 		try
 		{
 			// If main image not exists - display noimage
-			if (!\JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $pathMainImage))
+			if (!\JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage))
 			{
 				$pathMainImage = 'noimage.jpg';
 
@@ -63,17 +60,17 @@ class Media
 				|| ((int) $thumbWidth == 0 && (int) $thumbHeight != 0)
 			)
 			{
-				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $pathMainImage);
+				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage);
 			}
 
 			$imageNameWithPrefix = \JFile::stripExt($imageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
 				. \JFile::stripExt(basename(\Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . \JFile::getExt($imageName);
 
-			$destinationFile = REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
+			$destinationFile = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
 
 			if (\JFile::exists($destinationFile))
 			{
-				return REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
+				return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
 			}
 
 			$filePath = JPATH_SITE . '/components/com_redshop/assets/images/product/' . \Redshop::getConfig()->get('WATERMARK_IMAGE');
@@ -82,7 +79,7 @@ class Media
 
 			ob_start();
 			\RedshopHelperMedia::resizeImage(
-				REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $pathMainImage,
+				REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage,
 				$thumbWidth,
 				$thumbHeight,
 				\Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
@@ -106,7 +103,7 @@ class Media
 					$dest = imagecreatefromjpeg($destinationFile);
 					$src  = imagecreatefromgif($watermark);
 
-					list($width, $height) = getimagesize($destinationFile);
+					list($width, $height)                   = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
@@ -188,10 +185,10 @@ class Media
 			}
 			else
 			{
-				$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $pathMainImage;
+				$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage;
 				$fileName = \RedshopHelperMedia::generateImages($filePath, '', $thumbWidth, $thumbHeight, 'thumb');
 				$fileInfo = pathinfo($fileName);
-				$fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $section . '/' . $sectionId . '/thumb/' . $fileInfo['basename'];
+				$fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $fileInfo['basename'];
 			}
 
 			return $fileName;

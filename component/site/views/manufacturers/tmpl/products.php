@@ -19,27 +19,24 @@ $app              = JFactory::getApplication();
 
 JHTML::_('behavior.modal');
 
-$url              = JURI::base();
-$user             = JFactory::getUser();
-$model            = $this->getModel('manufacturers');
-$Itemid           = $app->input->getInt('Itemid');
-$print            = $app->input->getInt('print');
-$order_by_select  = $app->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
-$filter_by_select = $app->input->getString('filter_by', 0);
+$url            = JUri::base();
+$user           = JFactory::getUser();
+$model          = $this->getModel('manufacturers');
+$itemId         = $app->input->getInt('Itemid');
+$print          = $app->input->getInt('print');
+$orderBySelect  = $app->input->getString('order_by', Redshop::getConfig()->getString('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
+$filterBySelect = $app->input->getString('filter_by', 0);
 
 $document     = JFactory::getDocument();
 $manufacturer = $this->detail[0];
 $limit        = $model->getProductLimit();
 $router       = $app->getRouter();
-$uri          = new JURI('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
 // Page Title
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
-
-if ($this->params->get('show_page_heading', 1))
-{
-	?>
-	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+?>
+<?php if ($this->params->get('show_page_heading', 1)): ?>
+    <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php
 		if ($this->params->get('page_title') != $pagetitle)
 		{
@@ -48,14 +45,14 @@ if ($this->params->get('show_page_heading', 1))
 		else
 		{
 			echo $pagetitle;
-		}    ?>
-	</h1>
-<?php
-}
+		} ?>
+    </h1>
+<?php endif; ?>
 
+<?php
 // Page title end
 
-$manufacturertemplate = $redTemplate->getTemplate("manufacturer_products", $manufacturer->id);
+$manufacturertemplate = RedshopHelperTemplate::getTemplate("manufacturer_products", $manufacturer->manufacturer_id);
 
 if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
@@ -74,7 +71,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->manufacturer_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
+	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->manufacturer_id . "&print=1&tmpl=component&Itemid=" . $itemId;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
@@ -100,13 +97,11 @@ $prod_thumb_image = "";
 
 $manufacturer_products = $model->getManufacturerProducts($template_desc);
 
-//print_r($manufacturer_products);
-
 $cname = '';
 
 if ($template_middle != "")
 {
-	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT, 1, 1);
 
 	for ($i = 0, $in = count($manufacturer_products); $i < $in; $i++)
 	{
@@ -201,13 +196,13 @@ if ($template_middle != "")
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_2');
 			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_2');
 		}
-		elseif (strstr($cart_mdata, '{product_thumb_image_3}'))
+        elseif (strstr($cart_mdata, '{product_thumb_image_3}'))
 		{
 			$tag     = '{product_thumb_image_3}';
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_3');
 			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_3');
 		}
-		elseif (strstr($cart_mdata, '{product_thumb_image_1}'))
+        elseif (strstr($cart_mdata, '{product_thumb_image_1}'))
 		{
 			$tag     = '{product_thumb_image_1}';
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT');
@@ -263,41 +258,52 @@ $template_desc = $template_start . $cart_mdata . $template_end;
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
-	$mw_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
-	$thum_image  = "";
-	$media_image = $producthelper->getAdditionMediaImage($manufacturer->manufacturer_id, "manufacturer");
-	$m           = 0;
+	$thumbImage = '';
+	$media      = RedshopEntityManufacturer::getInstance($manufacturer->manufacturer_id)->getMedia();
 
-//	for($m=0; $m<count($media_image); $m++)
-//	{
-
-	if (count($media_image)
-		&& $media_image[$m]->media_name
-		&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+	if ($media->isValid() && !empty($media->get('media_name'))
+		&& JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->manufacturer_id . '/' . $media->get('media_name')))
 	{
-		$wimg      = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
-		$linkimage = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
+		$thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+		$thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 
-		$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $manufacturer->manufacturer_id);
-
-		if (!$altText)
+		if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 		{
-			$altText = $manufacturer->manufacturer_name;
+			$imagePath = RedshopHelperMedia::watermark(
+				'manufacturer',
+				$media->get('media_name'),
+				$thumbWidth,
+				$thumbHeight,
+				Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+			);
+		}
+		else
+		{
+			$imagePath = RedshopHelperMedia::getImagePath(
+				$media->get('media_name'),
+				'',
+				'thumb',
+				'manufacturer',
+				$thumbWidth,
+				$thumbHeight,
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
+				'manufacturer',
+				$manufacturer->manufacturer_id
+			);
 		}
 
-		$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . $linkimage . "'   rel=\"{handler: 'image', size: {}}\">
-				<img alt='" . $altText . "' title='" . $altText . "' src='" . $wimg . "'></a>";
+		$altText = $media->get('media_alternate_text', $manufacturer->manufacturer_name);
+
+		$thumbImage = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->manufacturer_id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
+				<img alt='" . $altText . "' title='" . $altText . "' src='" . $imagePath . "'></a>";
 	}
 
-//	}
-
-	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
+	$template_desc = str_replace("{manufacturer_image}", $thumbImage, $template_desc);
 }
 
-$manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
+$manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $itemId);
 
-$manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
+$manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $itemId);
 
 $template_desc = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $template_desc);
 
@@ -322,8 +328,8 @@ if (strstr($template_desc, '{filter_by}'))
 
 if (strstr($template_desc, '{order_by}'))
 {
-	$orderby_form = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'];
-	$orderby_form .= "<input type='hidden' name='filter_by' value='" . $app->input->getString('filter_by', 0) . "' /></form>";
+	$orderby_form  = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'];
+	$orderby_form  .= "<input type='hidden' name='filter_by' value='" . $app->input->getString('filter_by', 0) . "' /></form>";
 	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
 }
 

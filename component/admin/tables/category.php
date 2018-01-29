@@ -131,7 +131,7 @@ class RedshopTableCategory extends RedshopTableNested
 		}
 
 		// Prepare target folder.
-		$mediaPath = REDSHOP_MEDIA_IMAGE_RELPATH . '/category/' . $this->id;
+		$mediaPath = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id;
 
 		if (!JFolder::exists($mediaPath))
 		{
@@ -142,16 +142,14 @@ class RedshopTableCategory extends RedshopTableNested
 		$model = RedshopModel::getInstance('Category', 'RedshopModel');
 		$media = $this->getOption('media', array());
 
-		var_dump($media);exit;
-
 		if (!empty($media['category_full_image']))
 		{
-			$model->storeMedia($this, JPATH_ROOT . '/' . $media['category_full_image'], 'full');
+			$model->storeMedia($this, $media['category_full_image'], 'full');
 		}
 
 		if (!empty($media['category_back_full_image']))
 		{
-			$model->storeMedia($this, JPATH_ROOT . '/' . $media['category_back_full_image'], 'back');
+			$model->storeMedia($this, $media['category_back_full_image'], 'back');
 		}
 
 		return true;

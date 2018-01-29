@@ -48,7 +48,7 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
 			return;
 		}
 
-		$newBasePath = REDSHOP_MEDIA_IMAGE_RELPATH . '/category';
+		$newBasePath = REDSHOP_MEDIA_IMAGE_RELPATH . 'category';
 		$oldBasePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category';
 
 		foreach ($medias as $media)
@@ -64,7 +64,7 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
 			// Copy index.html to this folder.
 			if (!JFile::exists($path . '/index.html'))
 			{
-				JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . '/index.html', $path . '/index.html');
+				JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . 'index.html', $path . '/index.html');
 			}
 
 			if (!empty($media->category_full_image))

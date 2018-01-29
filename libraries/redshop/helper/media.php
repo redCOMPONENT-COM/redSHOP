@@ -210,6 +210,7 @@ class RedshopHelperMedia
 	 * @param   integer  $sectionId    Use on new structure of media folders. ID of section.
 	 *
 	 * @return  string   Thumbnail Live path
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
@@ -229,27 +230,15 @@ class RedshopHelperMedia
 		}
 
 		// Set Default Width
-		if ((int) $width <= 0)
-		{
-			$width = 0;
-		}
+		$width = $width <= 0 ? 50 : $width;
 
 		// Set Default Height
-		if ((int) $height <= 0)
-		{
-			$height = 0;
-		}
-
-		if (0 === $width && 0 === $height)
-		{
-			$width  = 50;
-			$height = 50;
-		}
+		$height = $height <= 0 ? 50 : $height;
 
 		// Check section if in new media structure.
 		if (in_array($section, array('manufacturer', 'category')))
 		{
-			$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . '/' . $section . '/' . $sectionId . '/' . $imageName;
+			$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
 		}
 		else
 		{
@@ -268,9 +257,9 @@ class RedshopHelperMedia
 		$physicalPath = str_replace(' ', '%20', $physicalPath);
 
 		// Check section if in new media structure.
-		if (in_array($section, array('manufacturer')))
+		if (in_array($section, array('manufacturer', 'category')))
 		{
-			return REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $section . '/' . $sectionId . '/thumb/' . basename($physicalPath);
+			return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . basename($physicalPath);
 		}
 
 		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
@@ -287,6 +276,7 @@ class RedshopHelperMedia
 	 * @param   integer $proportional Try to make image proportionally
 	 *
 	 * @return  string   Return destination of new thumbnail
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
@@ -316,7 +306,7 @@ class RedshopHelperMedia
 				// IMAGETYPE_PNG
 			case '3':
 
-				// This method should be expanded to be useable for other purposes not just making thumbs
+				// This method should be expanded to be usable for other purposes not just making thumbs
 				// But for now it just makes thumbs and proceed to the else part
 				if ($command != 'thumb')
 				{
@@ -328,6 +318,7 @@ class RedshopHelperMedia
 								return false;
 							}
 							break;
+
 						case 'upload':
 						default:
 							if (!JFile::upload($filePath, $dest))
@@ -368,6 +359,7 @@ class RedshopHelperMedia
 	 * @param   integer $proportional Try to make image proportionally
 	 *
 	 * @return  string   Return destination path
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
@@ -446,11 +438,12 @@ class RedshopHelperMedia
 	 * @param   boolean $useLinuxCommands Default is false use @unlink(), if true use 'rm' instead
 	 *
 	 * @return  mixed    If $output is set by 'return': Return new file path, else return boolean
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-	                                   $deleteOriginal = true, $useLinuxCommands = false)
+		$deleteOriginal = true, $useLinuxCommands = false)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -767,13 +760,14 @@ class RedshopHelperMedia
 	/**
 	 *  Generate thumb image with watermark
 	 *
-	 * @param   string  $section         Image section
-	 * @param   string  $imageName       Image name
-	 * @param   string  $thumbWidth      Thumb width
-	 * @param   string  $thumbHeight     Thumb height
-	 * @param   integer $enableWatermark Enable watermark
+	 * @param   string   $section          Image section
+	 * @param   string   $imageName        Image name
+	 * @param   string   $thumbWidth       Thumb width
+	 * @param   string   $thumbHeight      Thumb height
+	 * @param   integer  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -852,7 +846,7 @@ class RedshopHelperMedia
 					$dest = imagecreatefromjpeg($destinationFile);
 					$src  = imagecreatefromgif($watermark);
 
-					list($width, $height) = getimagesize($destinationFile);
+					list($width, $height)                   = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
@@ -958,7 +952,7 @@ class RedshopHelperMedia
 	 */
 	public static function getAlternativeText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
 	{
-		if ($mediaSection == 'product' && $mediaType = 'images')
+		if ($mediaSection == 'product' && $mediaType == 'images')
 		{
 			$productData = RedshopHelperProduct::getProductById($sectionId);
 

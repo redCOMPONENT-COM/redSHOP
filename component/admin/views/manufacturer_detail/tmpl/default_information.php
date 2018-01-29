@@ -10,9 +10,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
 
-$editor           = JFactory::getEditor();
-$order_functions  = order_functions::getInstance();
-$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+$editor          = JFactory::getEditor();
+$plgManufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
 
 ?>
 
@@ -29,7 +28,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
                         <span class="star text-danger"> *</span>:
                     </label>
                     <input class="text_area" type="text" name="manufacturer_name" id="manufacturer_name" size="32"
-                           maxlength="250" value="<?php echo $this->detail->manufacturer_name; ?>"/>
+                           maxlength="250" value="<?php echo $this->detail->manufacturer_name ?>"/>
                 </div>
 
                 <div class="form-group">
@@ -63,7 +62,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
                            maxlength="250" value="<?php echo $this->detail->product_per_page; ?>"/>
                 </div>
 
-				<?php if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled): ?>
+				<?php if (count($plgManufacturer) > 0 && $plgManufacturer[0]->enabled): ?>
                     <div class="form-group">
                         <label>
 							<?php echo JText::_('COM_REDSHOP_EXCLUDING_CATEGORY_LIST'); ?>:
@@ -94,25 +93,11 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
                 <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_IMAGE'); ?></h3>
             </div>
             <div class="box-body">
-				<?php
-				$model     = $this->getModel('manufacturer_detail');
-				$media     = $model->getMediaId($this->detail->manufacturer_id);
-				$mediaId   = 0;
-				$mediaName = '';
-				$mediaText = '';
-
-				if ($media)
-				{
-					$mediaId   = $media->media_id;
-					$mediaName = $media->media_name;
-					$mediaText = $media->media_alternate_text;
-				}
-
-				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media_detail&cid[]=' . $mediaId . '&section_id=' . $this->detail->manufacturer_id . '&showbuttons=1&media_section=manufacturer&section_name=' . $this->detail->manufacturer_name);
-				?>
+				<?php $media = RedshopEntityManufacturer::getInstance($this->detail->manufacturer_id)->getMedia(); ?>
                 <div class="form-group">
-                    <label class="label"><?php echo JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT') ?></label>
-                    <input type="text" class="form-control" value="<?php echo $mediaText ?>" name="media_alternate_text"
+                    <label><?php echo JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT') ?></label>
+                    <input type="text" class="form-control" name="media_alternate_text"
+                           value="<?php echo $media->get('media_alternate_text') ?>"
                            placeholder="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT') ?>"/>
                 </div>
 				<?php echo RedshopHelperMediaImage::render(
@@ -120,9 +105,10 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 					'manufacturer',
 					$this->detail->manufacturer_id,
 					'manufacturer',
-					$mediaName,
+					$media->get('media_name'),
 					false,
-                    true
+					true,
+					$media->get('media_id')
 				); ?>
             </div>
         </div>

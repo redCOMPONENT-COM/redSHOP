@@ -28,10 +28,11 @@ class RedshopHelperMediaImage
 	 * @param   string   $image         URL of featured image
 	 * @param   boolean  $showMedia     Show pop-up of media or not.
 	 * @param   boolean  $useMediaPath  Use new structure of media folder or not.
+	 * @param   integer  $mediaId       Media ID
 	 *
 	 * @return  string
 	 */
-	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true, $useMediaPath = false)
+	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true, $useMediaPath = false, $mediaId = 0)
 	{
 		self::requireDependencies();
 
@@ -62,7 +63,8 @@ class RedshopHelperMediaImage
 				'sectionId'    => $sectionId,
 				'mediaSection' => $mediaSection,
 				'file'         => $file,
-				'showMedia'    => $showMedia
+				'showMedia'    => $showMedia,
+				'mediaId'      => $mediaId
 			)
 		);
 	}

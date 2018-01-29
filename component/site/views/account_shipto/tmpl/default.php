@@ -20,19 +20,19 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
 		setTimeout(function(){
-			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $Itemid); ?>';
+			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $itemId); ?>';
 		}, 3000);
 
 	<?php endif; ?>
 </script>
 <?php if ($this->params->get('show_page_heading', 1)): ?>
-	<?php if ($this->params->get('page_title') != $pagetitle): ?>
+	<?php if ($this->params->get('page_title') != $pageTitle): ?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<?php echo $this->escape(JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL')); ?>
 		</h1>
 	<?php else: ?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo $pagetitle; ?></h1>
+			<?php echo $pageTitle; ?></h1>
 	<?php endif; ?>
 <?php endif; ?>
 <fieldset class="adminform">
