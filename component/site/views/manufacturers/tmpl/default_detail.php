@@ -20,7 +20,8 @@ $redTemplate = Redtemplate::getInstance();
 
 $document = JFactory::getDocument();
 
-$model = $this->getModel('manufacturers');
+/** @var RedshopModelManufacturers $model */
+$model                  = $this->getModel('manufacturers');
 $manufacturers_template = $model->getManufacturertemplate("manufacturer");
 
 for ($i = 0; $i < count($this->detail); $i++)
@@ -34,7 +35,7 @@ for ($i = 0; $i < count($this->detail); $i++)
 		$manufacturers_data = str_replace("{manufacturer_description}", $this->detail[$i]->manufacturer_desc, $manufacturers_data);
 		echo "<div style='float:left;'>";
 
-		$manufacturers_data = $redTemplate->parseredSHOPplugin($manufacturers_data);
+		$manufacturers_data = RedshopHelperTemplate::parseRedshopPlugin($manufacturers_data);
 		echo eval("?>" . $manufacturers_data . "<?php ");
 		echo "</div>";
 	}
@@ -43,16 +44,16 @@ for ($i = 0; $i < count($this->detail); $i++)
 ?>
 <!--Display Pagination start -->
 <table cellpadding="0" cellspacing="0" align="center">
-	<tr>
-		<td valign="top" align="center">
+    <tr>
+        <td valign="top" align="center">
 			<?php echo $this->pagination->getPagesLinks(); ?>
-			<br/><br/>
-		</td>
-	</tr>
-	<tr>
-		<td valign="top" align="center">
+            <br/><br/>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" align="center">
 			<?php echo $this->pagination->getPagesCounter(); ?>
-		</td>
-	</tr>
+        </td>
+    </tr>
 </table>
 <!--Display Pagination End -->

@@ -230,15 +230,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		return $this->_templatedata;
 	}
 
-	public function getMediaId($mid)
-	{
-		$query = 'SELECT media_id,media_name,media_alternate_text FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
-	}
-
 	public function saveOrder(&$cid, $order = array())
 	{
 		$db  = JFactory::getDbo();

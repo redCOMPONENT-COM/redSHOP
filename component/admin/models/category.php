@@ -513,53 +513,79 @@ class RedshopModelCategory extends RedshopModelForm
 	 * Method for store media
 	 *
 	 * @param   object  $category  Category data
-	 * @param   string  $file      File name
+	 * @param   array   $data      File name
 	 * @param   string  $scope     Scope of media.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function storeMedia($category, $file, $scope)
+	public function storeMedia($category, $data, $scope)
 	{
+		if (empty($data))
+		{
+			return;
+		}
+
 		/** @var RedshopTableMedia $table */
 		$table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
 
-		// Generate new image using MD5
-		$newFileName = md5(basename($file)) . '.' . JFile::getExt($file);
-
-		if (!$table->load(
-			array(
-				'media_name'    => basename($file) . '.' . JFile::getExt($file),
-				'media_section' => 'category',
-				'section_id'    => $category->id,
-				'media_type'    => 'images'
-			)
-		))
+		foreach ($data as $key => $file)
 		{
-			$table->section_id    = $category->id;
-			$table->media_section = 'category';
-			$table->media_type    = 'images';
+			if (strpos($key, 'media-') !== false)
+			{
+				$table->load(str_replace('media-', '', $key));
+
+				// Delete old image.
+				$oldMediaFile = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/'
+					. $category->id . '/' . $table->media_name
+				);
+
+				if (JFile::exists($oldMediaFile))
+				{
+					JFile::delete($oldMediaFile);
+				}
+
+				if (empty($file))
+				{
+					$table->delete();
+
+					continue;
+				}
+			}
+			else
+			{
+				$table->set('section_id', $category->id);
+				$table->set('media_section', 'category');
+				$table->set('ordering', 0);
+				$table->set('scope', $scope);
+				$table->set('media_type', 'images');
+				$table->set('published', 1);
+				$table->set('media_alternate_text', $category->name);
+			}
+
+			$file = JPath::clean(JPATH_ROOT . '/' . $file);
+
+			// Check old image exist.
+			if (!JFile::exists($file))
+			{
+				continue;
+			}
+
+			// Generate new image using MD5
+			$newFileName = md5(basename($category->name)) . '.' . JFile::getExt($file);
+
+			if (!JFile::move(
+				$file,
+				JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/' . $newFileName)
+			))
+			{
+				continue;
+			}
+
+			// Update media data with new file name.
+			$table->media_name = $newFileName;
+			$table->store();
 		}
-
-		$table->media_alternate_text = $category->name;
-		$table->published            = 1;
-		$table->ordering             = 0;
-		$table->scope                = $scope;
-
-		// Check old image exist.
-		if (!JFile::exists($file))
-		{
-			return;
-		}
-
-		if (!JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . '/category/' . $category->id . '/' . $newFileName))
-		{
-			return;
-		}
-
-		// Update media data with new file name.
-		$table->media_name = $newFileName;
-		$table->store();
 	}
 }

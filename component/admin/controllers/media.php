@@ -250,7 +250,7 @@ class RedshopControllerMedia extends RedshopController
 
 		// Image Upload
 		$src     = $file['tmp_name'];
-		$tempDir = REDSHOP_MEDIA_IMAGE_RELPATH . '/tmp/';
+		$tempDir = REDSHOP_MEDIA_IMAGE_RELPATH . 'tmp/';
 		JFolder::create($tempDir, 0755);
 		$dest = $tempDir . $filename;
 		JFile::upload($src, $dest);

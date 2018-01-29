@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * =======================
- * @var  array   $displayData   List of data.
- * @var  string  $id            DOM ID
- * @var  string  $type          Type of section (Ex: product)
- * @var  string  $sectionId     Section ID (Ex: Product ID if $type is product)
- * @var  string  $mediaSection  Section media (Ex: product)
- * @var  array   $file          File data as array
- * @var  bool    $showMedia     Show pop-up for select image from media or not
- * @var  string  $maxFileSize   Max file size to upload
+ * @var  array    $displayData   List of data.
+ * @var  string   $id            DOM ID
+ * @var  integer  $mediaId       Media ID
+ * @var  string   $type          Type of section (Ex: product)
+ * @var  string   $sectionId     Section ID (Ex: Product ID if $type is product)
+ * @var  string   $mediaSection  Section media (Ex: product)
+ * @var  array    $file          File data as array
+ * @var  bool     $showMedia     Show pop-up for select image from media or not
+ * @var  string   $maxFileSize   Max file size to upload
  */
 extract($displayData);
 
@@ -27,6 +28,8 @@ $maxFileSize = !empty($maxFileSize) ? $maxFileSize : Redshop::getConfig()->get('
 
 JText::script('COM_REDSHOP_UPLOAD_FILE_TOO_BIG');
 JText::script('COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID');
+
+$dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . ']' : 'dropzone[' . $id . '][]';
 ?>
 
 <div id="<?php echo $id ?>-wrapper" data-id="<?php echo $id ?>">
@@ -61,7 +64,7 @@ JText::script('COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID');
             </div>
 		<?php endif; ?>
     </div>
-    <input type="hidden" name="dropzone[<?php echo $id ?>]" class="redshop-media-img-select"/>
+    <input type="hidden" name="<?php echo $dropzoneMedia ?>" class="redshop-media-img-select"/>
     <!-- End Dropzone Container -->
 
     <!-- Dropzone Template -->

@@ -42,7 +42,7 @@ class RedshopUpdate2012 extends RedshopInstallUpdate
 			return;
 		}
 
-		$newBasePath = REDSHOP_MEDIA_IMAGE_RELPATH . '/manufacturer';
+		$newBasePath = REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer';
 		$oldBasePath = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer';
 
 		foreach ($medias as $media)
@@ -71,7 +71,7 @@ class RedshopUpdate2012 extends RedshopInstallUpdate
 			// Copy index.html to this folder.
 			if (!JFile::exists($path . '/index.html'))
 			{
-				JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . '/index.html', $path . '/index.html');
+				JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . 'index.html', $path . '/index.html');
 			}
 
 			// Check old image exist.

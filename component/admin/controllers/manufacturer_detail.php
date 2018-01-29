@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-
 class RedshopControllerManufacturer_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -32,62 +31,94 @@ class RedshopControllerManufacturer_detail extends RedshopController
 		$this->save(1);
 	}
 
+	/**
+	 * Method for save manufacturer
+	 *
+	 * @param   integer $apply Apply or not.
+	 *
+	 * @throws  Exception
+	 *
+	 * @return void
+	 */
 	public function save($apply = 0)
 	{
 		$post                      = $this->input->post->getArray();
-		$manufacturer_desc         = $this->input->post->get('manufacturer_desc', '', 'raw');
-		$post["manufacturer_desc"] = $manufacturer_desc;
-
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		$post['manufacturer_id'] = $cid[0];
+		$post["manufacturer_desc"] = $this->input->post->get('manufacturer_desc', '', 'raw');
+		$cid                       = $this->input->post->get('cid', array(0), 'array');
+		$post['manufacturer_id']   = $cid[0];
 
 		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
+		$row   = $model->store($post);
 
-		if ($row = $model->store($post))
+		if ($row)
 		{
 			RedshopHelperExtrafields::extraFieldSave($post, "10", $row->manufacturer_id);
-
 			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 
 			// Working on media files of this manufacturer
-			$mediaTable = JTable::getInstance('Media_detail', 'Table');
+			$dropzone = isset($post['dropzone']) && !empty($post['dropzone']['manufacturer_image'])
+				? $post['dropzone']['manufacturer_image'] : null;
 
-			// If force to delete media image of manufacturer. Delete this media.
-			if (isset($post['manufacturer_image_delete'])
-				&& $mediaTable->load(array('section_id' => $row->manufacturer_id, 'media_section' => 'manufacturer')))
+			if (!empty($dropzone))
 			{
-				$mediaTable->delete();
-			}
-			// If there are new image.
-			elseif (!empty($post['dropzone']['manufacturer_image']))
-			{
-				// Try to load media associate with this manufacturer
-				if ($mediaTable->load(array('section_id' => $row->manufacturer_id, 'media_section' => 'manufacturer')))
+				foreach ($dropzone as $key => $value)
 				{
-					// Delete old image.
-					$oldMediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $mediaTable->media_name;
-					JFile::delete($oldMediaFile);
-				}
-				else
-				{
-					$mediaTable->set('section_id', $row->manufacturer_id);
-					$mediaTable->set('media_section', 'manufacturer');
+					/** @var RedshopTableMedia $mediaTable */
+					$mediaTable = JTable::getInstance('Media', 'RedshopTable');
+
+					if (strpos($key, 'media-') !== false)
+					{
+						$mediaTable->load(str_replace('media-', '', $key));
+
+						// Delete old image.
+						$oldMediaFile = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/'
+							. $row->manufacturer_id . '/' . $mediaTable->media_name
+						);
+
+						if (JFile::exists($oldMediaFile))
+						{
+							JFile::delete($oldMediaFile);
+						}
+
+						if (empty($value))
+						{
+							$mediaTable->delete();
+
+							continue;
+						}
+					}
+					else
+					{
+						$mediaTable->set('section_id', $row->manufacturer_id);
+						$mediaTable->set('media_section', 'manufacturer');
+					}
+
+					$alternateText = $this->input->getString('media_alternate_text', '');
+					$alternateText = empty($alternateText) ? $row->manufacturer_name : $alternateText;
+
+					$mediaTable->set('media_alternate_text', $alternateText);
+					$mediaTable->set('media_type', 'images');
+					$mediaTable->set('published', 1);
+
+					// Copy new image for this media
+					$fileName = md5($row->manufacturer_name) . '.' . JFile::getExt($value);
+					JFile::move(
+						JPATH_ROOT . '/' . $value,
+						REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $fileName
+					);
+					$mediaTable->set('media_name', $fileName);
+					$mediaTable->store();
+
+					// Optimize image
+					$factory   = new \ImageOptimizer\OptimizerFactory;
+					$optimizer = $factory->get();
+					$optimizer->optimize(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $fileName);
 				}
 
-				$mediaTable->set('media_alternate_text', $this->input->getString('media_alternate_text', ''));
-				$mediaTable->set('media_type', 'images');
-				$mediaTable->set('published', 1);
-
-				// Copy new image for this media
-				$fileName = md5(basename($post['dropzone']['manufacturer_image'])) . '.' . JFile::getExt($post['dropzone']['manufacturer_image']);
-				JFile::copy(
-					JPATH_ROOT . '/' . $post['dropzone']['manufacturer_image'],
-					REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $fileName
-				);
-				$mediaTable->set('media_name', $fileName);
-				$mediaTable->store();
+				// Clear thumbnail folder
+				JFolder::delete(JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/thumb'));
+				JFolder::create(JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/thumb'));
 			}
 		}
 		else

@@ -21,8 +21,8 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string $key    The name of the primary key of the URL variable.
+	 * @param   string $urlVar The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
@@ -39,8 +39,11 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$lang = JFactory::getLanguage();
 
 		/** @var RedshopModelCategory $model */
-		$model   = $this->getModel();
-		$table   = $model->getTable();
+		$model = $this->getModel();
+
+		/** @var RedshopTableCategory $table */
+		$table = $model->getTable();
+
 		$data    = $this->input->post->get('jform', array(), 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
