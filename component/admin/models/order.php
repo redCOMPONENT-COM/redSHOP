@@ -18,10 +18,19 @@ defined('_JEXEC') or die;
  */
 class RedshopModelOrder extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_data = null;
 
+	/**
+	 * @var null
+	 */
 	public $_total = null;
 
+	/**
+	 * @var null
+	 */
 	public $_pagination = null;
 
 	/**
@@ -188,8 +197,9 @@ class RedshopModelOrder extends RedshopModel
 			}
 		}
 
-		$orderIds = $app->input->get('cid', array(0), 'array');
+		$orderIds = $app->input->get('cid', array(), 'array');
 		$orderIds = \Joomla\Utilities\ArrayHelper::toInteger($orderIds);
+		$orderIds = array_filter(array_values($orderIds));
 
 		if (!empty($orderIds))
 		{
@@ -211,7 +221,7 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Method for export data.
 	 *
-	 * @param   array  $cid  List of order ID
+	 * @param   array $cid List of order ID
 	 *
 	 * @return  array<object>
 	 */
@@ -239,9 +249,9 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Method for update download setting
 	 *
-	 * @param   integer  $did      Download ID
-	 * @param   integer  $limit    Limiit
-	 * @param   integer  $enddate  End date.
+	 * @param   integer $did     Download ID
+	 * @param   integer $limit   Limiit
+	 * @param   integer $enddate End date.
 	 *
 	 * @return  boolean
 	 */
@@ -261,7 +271,7 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * GLS Export
 	 *
-	 * @param   array  $cid  sOrder Ids
+	 * @param   array $cid sOrder Ids
 	 *
 	 * @return  void
 	 * @throws  Exception
@@ -283,9 +293,8 @@ class RedshopModelOrder extends RedshopModel
 				continue;
 			}
 
-			$orderProducts   = RedshopHelperOrder::getOrderItemDetail($order->order_id);
-			$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
-			$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($order->order_id);
+			$orderProducts  = RedshopHelperOrder::getOrderItemDetail($order->order_id);
+			$billingDetails = RedshopEntityOrder::getInstance($order->order_id)->getBilling();
 
 			$totalWeight = 0;
 
@@ -324,10 +333,10 @@ class RedshopModelOrder extends RedshopModel
 			if (!empty($order->ship_method_id))
 			{
 				$userDetail = array(
-					$billingDetails->firstname . ' ' . $billingDetails->lastname,
+					$billingDetails->get('firstname') . ' ' . $billingDetails->get('lastname'),
 					substr($order->customer_note, 0, 29),        // GLS only support max 29 characters
 					Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
-					$billingDetails->user_email,
+					$billingDetails->get('user_email'),
 					$userPhone[1]
 				);
 			}
