@@ -83,7 +83,7 @@ class RedshopModelSend_Friend extends RedshopModel
 	 */
 	public function sendProductMailToFriend($yourName, $friendName, $productId, $email)
 	{
-		$mailTemplate = RedshopHelperMail::getMailTemplate(0, "product");
+		$mailTemplate = Redshop\Mail\Helper::getTemplate(0, "product");
 		$mailBcc      = null;
 
 		if (!empty($mailTemplate))
