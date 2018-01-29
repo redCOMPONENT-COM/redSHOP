@@ -57,7 +57,7 @@ class RedshopEntityOrder extends AbstractEntity
 	protected $shipping;
 
 	/**
-	 * @var   array
+	 * @var   CoreEntityCollection
 	 *
 	 * @since   2.0.6
 	 */

@@ -66,12 +66,12 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields_group` (
   `created_by` INT(11) NULL DEFAULT NULL,
   `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `checked_out` INT(11) NULL DEFAULT NULL,
-  `checked_out_time` DATETIME NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` INT(11) NULL DEFAULT NULL,
-  `modified_date` DATETIME NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  INDEX `#__rs_feld_group_idx1` (`section` ASC),
-  INDEX `#__rs_feld_group_idx2` (`published` ASC))
+  INDEX `#__rs_field_group_idx1` (`section` ASC),
+  INDEX `#__rs_field_group_idx2` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Custom fields groups';

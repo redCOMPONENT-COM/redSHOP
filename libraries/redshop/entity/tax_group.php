@@ -63,7 +63,7 @@ class RedshopEntityTax_Group extends AbstractEntity
 			return $this;
 		}
 
-		/** @var RedshopModel $model */
+		/** @var RedshopModelTax_Rates $model */
 		$model = RedshopModel::getInstance('Tax_Rates', 'RedshopModel', array('ignore_request' => true));
 		$model->setState('filter.tax_group', $this->getId());
 

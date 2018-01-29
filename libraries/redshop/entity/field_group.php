@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
+
 /**
  * Field Group Entity
  *
@@ -16,19 +19,19 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.1.0
  */
-class RedshopEntityField_Group extends RedshopEntity
+class RedshopEntityField_Group extends AbstractEntity
 {
 	/**
 	 * List of fields
 	 *
-	 * @var RedshopEntitiesCollection
+	 * @var  EntityCollection
 	 */
 	protected $fields;
 
 	/**
 	 * Method for get fields associate with this group
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -51,7 +54,7 @@ class RedshopEntityField_Group extends RedshopEntity
 	 */
 	protected function loadFields()
 	{
-		$this->fields = new RedshopEntitiesCollection;
+		$this->fields = new EntityCollection;
 
 		if (!$this->hasId())
 		{
