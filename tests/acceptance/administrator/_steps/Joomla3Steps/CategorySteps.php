@@ -28,7 +28,6 @@ class CategorySteps extends AbstractStep
         $I->click(CategoryPage::$template);
         $I->click(CategoryPage::$choiceTemplate);
         $I->click(CategoryPage::$buttonSave);
-        $I->pauseExecution();
         $categoryParent = '- '. $categoryParent;
         $I->see($categoryParent);
     }
@@ -37,18 +36,12 @@ class CategorySteps extends AbstractStep
     {
         $I = $this;
         $I->amOnPage(CategoryPage::$url);
-        $I->click(CategoryPage::$buttonNew);
-        $I->fillField(CategoryPage::$idFieldName, $categoryName);
-        $I->click(CategoryPage::$parentCategory);
-        $I->click(CategoryPage::$choiceTemplate);
-        $I->fillField(CategoryPage::$categoryNoPage, $noPage);
-        $I->click(CategoryPage::$template);
-        $I->click(CategoryPage::$choiceTemplate);
+        $I->searchItem($categoryName);
+        $I->click($categoryName);
         $I->click(CategoryPage::$tabAccessory);
         $I->waitForElement(CategoryPage::$getAccessory, 60);
         $this->selectAccessories($productAccessories);
         $I->click(CategoryPage::$buttonSave);
-        $I->pauseExecution();
         $I->click(CategoryPage::$tabAccessory);
         $I->see($productAccessories);
     }

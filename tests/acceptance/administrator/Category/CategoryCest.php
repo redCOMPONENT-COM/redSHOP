@@ -3,7 +3,7 @@ use  \Cest\AbstractCest;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 class CategoryCest extends AbstractCest
 {
-//    use  Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
+    use  Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
 
     /**
      * Name field, which is use for search
@@ -82,17 +82,26 @@ class CategoryCest extends AbstractCest
         $tester = new CategorySteps($scenario);
         $nameCategoryChild = $this->faker->bothify('CategiryChild ?##? ');
         $productName  = $this->faker->bothify('ProductCategory ?##?');
+        $productNameSecond  = $this->faker->bothify('Product ?##?');
         $productNumber = $this->faker->numberBetween(1,10000);
         $price = $this->faker->numberBetween(1,100);
 
         $tester->addCategoryChild('New' . $this->dataNew['name'], $nameCategoryChild, 3);
-        $tester->deleteItem($nameCategoryChild);
-        
+
         $tester   = new ProductManagerSteps($scenario);
         $tester->createProductSaveClose($productName, 'New' . $this->dataNew['name'], $productNumber, $price);
-//        $tester->deleteItem($this->dataNew['name']);
+        $tester->createProductSaveClose($productNameSecond, $nameCategoryChild, $productNameSecond, $price);
+        
         $tester = new CategorySteps($scenario);
-        $tester->addCategoryAccessories($this->dataNew['name'], 4, $productName);
+        $tester->addCategoryAccessories($this->dataNew['name'], 4, $productNameSecond);
+
+        $tester   = new ProductManagerSteps($scenario);
+        $tester->deleteProduct($productName);
+        $tester->deleteProduct($productNameSecond);
+
+        $tester = new CategorySteps($scenario);
+        $tester->deleteItem($nameCategoryChild);
+        $tester->deleteItem('New' . $this->dataNew['name']);
     }
 
     /**

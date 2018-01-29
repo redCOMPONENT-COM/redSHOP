@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Cest;
 
 use Codeception\Scenario;
 use Faker\Factory;
@@ -21,7 +20,7 @@ use Cest\Traits\Delete;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.0
+ * @since    2.2
  */
 class AbstractCest
 {
@@ -229,40 +228,5 @@ class AbstractCest
 	{
 		$tester->wantTo('Run after create item test suite');
 	}
-
-	/**
-	 * Method for test edit item
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 *
-	 * @depends afterTestItemCreate
-	 */
-	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Test Edit item.');
-		$stepClass = $this->stepClass;
-
-		/** @var AbstractStep $step */
-		$step = new $stepClass($scenario);
-		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);
-		$step->searchItem($this->dataNew[$this->nameField]);
-	}
-
-	/**
-	 * Abstract method for run after complete edit item.
-	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
-	 *
-	 * @return  void
-	 *
-	 * @depends testItemEdit
-	 */
-	public function afterTestItemEdit(\AcceptanceTester $tester, Scenario $scenario)
-	{
-		$tester->wantTo('Run after edit item test suite');
-	}
+	
 }
