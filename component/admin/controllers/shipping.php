@@ -109,6 +109,7 @@ class RedshopControllerShipping extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelShipping_detail $model */
 		$model = $this->getModel('shipping_detail');
 
 		if (!$model->publish($cid, 0))

@@ -47,6 +47,7 @@ class RedshopControllerShopper_group extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelShopper_group_detail $model */
 		$model = $this->getModel('shopper_group_detail');
 
 		if (!$model->publish($cid, 0))
