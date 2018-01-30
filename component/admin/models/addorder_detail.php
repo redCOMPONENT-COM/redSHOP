@@ -784,7 +784,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -792,7 +792,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// ORDER MAIL SEND
 		if ($postdata['task'] != "save_without_sendmail")
 		{
-			RedshopHelperMail::sendOrderMail($row->order_id);
+			Redshop\Mail\Order::sendMail($row->order_id);
 		}
 
 		return $row;
@@ -800,8 +800,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function sendRegistrationMail($post)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$redshopMail->sendRegistrationMail($post);
+		Redshop\Mail\User::sendRegistrationMail($post);
 	}
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)

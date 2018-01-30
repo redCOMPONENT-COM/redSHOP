@@ -560,7 +560,7 @@ class RedshopHelperUser
 
 				if ($row->requesting_tax_exempt == 1)
 				{
-					RedshopHelperMail::sendRequestTaxExemptMail($row, $data['username']);
+					Redshop\Mail\User::sendRequestTaxExempt($row, $data['username']);
 				}
 			}
 
@@ -568,7 +568,7 @@ class RedshopHelperUser
 			if (!$isNew && $admin && isset($data["tax_exempt_approved"]) && $data["old_tax_exempt_approved"] != $data["tax_exempt_approved"])
 			{
 				$mailTemplate = $data["tax_exempt_approved"] == 1 ? 'tax_exempt_approval_mail' : 'tax_exempt_disapproval_mail';
-				RedshopHelperMail::sendTaxExemptMail($mailTemplate, $data, $row->user_email);
+				Redshop\Mail\User::sendTaxExempt($mailTemplate, $data, $row->user_email);
 			}
 		}
 
@@ -675,7 +675,7 @@ class RedshopHelperUser
 			if ($registerMethod != 2
 				|| ($registerMethod == 2 && isset($data['createaccount']) && $data['createaccount'] == 1))
 			{
-				RedshopHelperMail::sendRegistrationMail($data);
+				Redshop\Mail\User::sendRegistrationMail($data);
 			}
 		}
 
