@@ -6,12 +6,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Cest;
 
 use Codeception\Scenario;
 use Faker\Factory;
 use Faker\Generator;
 use Step\AbstractStep;
-use Cest\Traits\Delete;
 
 /**
  * Class Abstract cest

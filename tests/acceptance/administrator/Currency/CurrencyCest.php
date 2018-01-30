@@ -42,6 +42,47 @@ class CurrencyCest extends AbstractCest
 	}
 
 	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreate
+	 */
+	public function deleteDataSave(\AcceptanceTester $tester,  $scenario)
+	{
+		$tester->wantTo('Run after create item with save button ');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$tester = new $stepClass($scenario);
+		$tester->deleteItem('New ' . $this->dataNew['name']);
+
+	}
+
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreateSaveClose
+	 */
+	public function deleteDataSaveClose(\AcceptanceTester $tester,  $scenario)
+	{
+		$tester->wantTo('Run after create item with save button ');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$tester = new $stepClass($scenario);
+		$tester->deleteItem('New ' . $this->dataNew['name']);
+
+	}
+	/**
 	 * Method for set new data.
 	 *
 	 * @return  array

@@ -42,7 +42,10 @@ class CategoryCest extends AbstractCest
     public function deleteDataSave(\AcceptanceTester $tester,  $scenario)
     {
         $tester->wantTo('Run after create item with save button ');
-        $tester = new CategorySteps($scenario);
+        $stepClass = $this->stepClass;
+
+        /** @var AbstractStep $step */
+        $tester = new $stepClass($scenario);
         $tester->deleteItem('New' . $this->dataNew['name']);
 
     }
@@ -60,11 +63,13 @@ class CategoryCest extends AbstractCest
     public function deleteDataSaveClose(\AcceptanceTester $tester,  $scenario)
     {
         $tester->wantTo('Run after create item with save button ');
-        $tester = new CategorySteps($scenario);
+        $stepClass = $this->stepClass;
+
+        /** @var AbstractStep $step */
+        $tester = new $stepClass($scenario);
         $tester->deleteItem('New' . $this->dataNew['name']);
 
     }
-
 
     /**
      * Abstract method for run after complete create item.
@@ -79,7 +84,10 @@ class CategoryCest extends AbstractCest
     public function afterTestItemCreate(\AcceptanceTester $tester,  $scenario)
     {
         $tester->wantTo('Run after create category test suite');
-        $tester = new CategorySteps($scenario);
+        $stepClass = $this->stepClass;
+
+        /** @var AbstractStep $step */
+        $tester = new $stepClass($scenario);
         $nameCategoryChild = $this->faker->bothify('CategiryChild ?##? ');
         $productName  = $this->faker->bothify('ProductCategory ?##?');
         $productNameSecond  = $this->faker->bothify('Product ?##?');
@@ -91,15 +99,21 @@ class CategoryCest extends AbstractCest
         $tester   = new ProductManagerSteps($scenario);
         $tester->createProductSaveClose($productName, 'New' . $this->dataNew['name'], $productNumber, $price);
         $tester->createProductSaveClose($productNameSecond, $nameCategoryChild, $productNameSecond, $price);
-        
-        $tester = new CategorySteps($scenario);
+
+        $stepClass = $this->stepClass;
+
+        /** @var AbstractStep $step */
+        $tester = new $stepClass($scenario);
         $tester->addCategoryAccessories($this->dataNew['name'], 4, $productNameSecond);
 
         $tester   = new ProductManagerSteps($scenario);
         $tester->deleteProduct($productName);
         $tester->deleteProduct($productNameSecond);
 
-        $tester = new CategorySteps($scenario);
+        $stepClass = $this->stepClass;
+
+        /** @var AbstractStep $step */
+        $tester = new $stepClass($scenario);
         $tester->deleteItem($nameCategoryChild);
         $tester->deleteItem('New' . $this->dataNew['name']);
     }
