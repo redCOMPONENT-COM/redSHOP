@@ -1232,26 +1232,26 @@ class RedshopHelperExtrafields
 	public static function listAllFieldDisplay($fieldSection = "", $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
 	{
 		$rowData = self::getSectionFieldList($fieldSection);
-
 		$exField = '';
+		$html = '';
 
-		for ($i = 0, $in = count($rowData); $i < $in; $i++)
+		foreach ($rowData as $index => $row)
 		{
-			$type            = $rowData[$i]->type;
+			$type            = $row->type;
 			$extraFieldValue = "";
-			$extraFieldLabel = $rowData[$i]->title;
+			$extraFieldLabel = $row->title;
 
 			if ($flag == 1)
 			{
-				if ($i > 0)
+				if ($index > 0)
 				{
 					$exField .= "<br />";
 				}
 
-				$exField .= JText::_($extraFieldLabel) . ' : ';
+				$exField .= JText::_($extraFieldLabel);
 			}
 
-			$dataValue = self::getSectionFieldDataList($rowData[$i]->id, $fieldSection, $sectionId, $userEmail);
+			$dataValue = self::getSectionFieldDataList($row->id, $fieldSection, $sectionId, $userEmail);
 
 			switch ($type)
 			{
@@ -1260,14 +1260,14 @@ class RedshopHelperExtrafields
 					$exField        .= RedshopLayoutHelper::render(
 						'field_display.text',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1276,14 +1276,14 @@ class RedshopHelperExtrafields
 					$exField        .= RedshopLayoutHelper::render(
 						'field_display.textarea',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1305,14 +1305,14 @@ class RedshopHelperExtrafields
 					$exField .= RedshopLayoutHelper::render(
 						'field_display.checkbox',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1334,14 +1334,14 @@ class RedshopHelperExtrafields
 					$exField .= RedshopLayoutHelper::render(
 						'field_display.radio',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1363,14 +1363,14 @@ class RedshopHelperExtrafields
 					$exField .= RedshopLayoutHelper::render(
 						'field_display.select',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1392,14 +1392,14 @@ class RedshopHelperExtrafields
 					$exField .= RedshopLayoutHelper::render(
 						'field_display.multiple',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1415,14 +1415,14 @@ class RedshopHelperExtrafields
 					$exField .= RedshopLayoutHelper::render(
 						'field_display.country',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 
@@ -1432,14 +1432,14 @@ class RedshopHelperExtrafields
 					$exField        .= RedshopLayoutHelper::render(
 						'field_display.datepicker',
 						array(
-								'extraFieldLabel' => $extraFieldLabel,
-								'extraFieldValue' => $extraFieldValue,
-								'sendMail'        => $sendmail
-							),
+							'extraFieldLabel' => $extraFieldLabel,
+							'extraFieldValue' => $extraFieldValue,
+							'sendMail'        => $sendmail
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 					break;
 			}
@@ -1455,6 +1455,25 @@ class RedshopHelperExtrafields
 				$templateDesc = str_replace("{" . $rowData[$i]->name . "}", "", $templateDesc);
 				$templateDesc = str_replace("{" . $rowData[$i]->name . "_lbl}", "", $templateDesc);
 			}
+
+			if ($flag == 0 && !empty($extraFieldLabel))
+			{
+				$client      = null;
+				$fieldLayout = 'fields.display';
+
+				if ($sendmail)
+				{
+					$fieldLayout = 'fields.mail';
+					$client      = array('client' => 0);
+				}
+
+				$html .= RedshopLayoutHelper::render(
+					$fieldLayout,
+					array('extraFieldValue' => $exField),
+					null,
+					$client
+				);
+			}
 		}
 
 		if (trim($templateDesc) != '')
@@ -1462,26 +1481,7 @@ class RedshopHelperExtrafields
 			return $templateDesc;
 		}
 
-		if ($flag == 0 && !empty($extraFieldLabel))
-		{
-			$client      = null;
-			$fieldLayout = 'fields.display';
-
-			if ($sendmail)
-			{
-				$fieldLayout = 'fields.mail';
-				$client      = array('client' => 0);
-			}
-
-			return RedshopLayoutHelper::render(
-				$fieldLayout,
-				array('extraFieldValue' => $exField),
-				null,
-				$client
-			);
-		}
-
-		return $exField;
+		return $html;
 	}
 
 	/**
