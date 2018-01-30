@@ -176,7 +176,7 @@ class RedshopControllerOrder extends RedshopController
 			{
 				$ecomsg  = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
@@ -216,7 +216,7 @@ class RedshopControllerOrder extends RedshopController
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$ret = Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}

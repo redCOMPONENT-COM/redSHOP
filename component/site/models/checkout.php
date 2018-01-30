@@ -1196,7 +1196,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -1231,7 +1231,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function sendGiftCard($order_id)
 	{
-		$giftcardmail = RedshopHelperMail::getMailTemplate(0, "giftcard_mail");
+		$giftcardmail = Redshop\Mail\Helper::getTemplate(0, "giftcard_mail");
 
 		if (count($giftcardmail) > 0)
 		{
