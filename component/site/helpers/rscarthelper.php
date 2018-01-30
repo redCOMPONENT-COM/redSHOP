@@ -228,7 +228,7 @@ class rsCarthelper
 					$shippingdata = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $shippingdata);
 				}
 
-				$cname = $this->_order_functions->getCountryName($shippingaddresses->country_code);
+				$cname = RedshopHelperOrder::getCountryName($shippingaddresses->country_code);
 
 				if ($cname != "")
 				{
@@ -236,7 +236,7 @@ class rsCarthelper
 					$shippingdata = str_replace("{country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $shippingdata);
 				}
 
-				$sname = $this->_order_functions->getStateName($shippingaddresses->state_code, $shippingaddresses->country_code);
+				$sname = RedshopHelperOrder::getStateName($shippingaddresses->state_code, $shippingaddresses->country_code);
 
 				if ($sname != "")
 				{
@@ -253,7 +253,7 @@ class rsCarthelper
 				// Additional functionality - more flexible way
 				$shippingdata = Redshop\Helper\ExtraFields::displayExtraFields($extra_section, $shippingaddresses->users_info_id, "", $shippingdata);
 
-				$shipping_extrafield = $this->_extra_field->list_all_field_display($extra_section, $shippingaddresses->users_info_id, 1);
+				$shipping_extrafield = RedshopHelperExtrafields::listAllFieldDisplay($extra_section, $shippingaddresses->users_info_id, 1);
 			}
 
 			$shippingdata = str_replace("{companyname}", "", $shippingdata);
@@ -345,94 +345,90 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$prdItemid  = $this->input->getInt('Itemid');
 		$Itemid     = RedshopHelperRouter::getCheckoutItemId();
-		$url        = JURI::base(true);
-		$mainview   = $this->input->getCmd('view');
+		$mainView   = $this->input->getCmd('view');
 
 		if ($Itemid == 0)
 		{
 			$Itemid = $this->input->getInt('Itemid');
 		}
 
-		$cart_tr = '';
+		$cartTr = '';
 
 		$idx        = $cart['idx'];
 		$fieldArray = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
+		$deleteImage = "defaultcross.png";
+
 		if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 		{
-			$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
-		}
-		else
-		{
-			$delete_img = "defaultcross.png";
+			$deleteImage = Redshop::getConfig()->getString('ADDTOCART_DELETE');
 		}
 
-		for ($i = 0; $i < $idx; $i++)
+		for ($index = 0; $index < $idx; $index++)
 		{
-			$cart_mdata = $data;
+			$cartMiddleData = $data;
 
 			// Plugin support:  Process the product plugin for cart item
-			$dispatcher->trigger('onCartItemDisplay', array(&$cart_mdata, $cart, $i));
+			$dispatcher->trigger('onCartItemDisplay', array(&$cartMiddleData, $cart, $index));
 
-			$quantity = $cart[$i]['quantity'];
+			$quantity = $cart[$index]['quantity'];
 
-			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
+			if (isset($cart[$index]['giftcard_id']) && $cart[$index]['giftcard_id'])
 			{
-				$giftcard_id  = $cart[$i]['giftcard_id'];
+				$giftcard_id  = $cart[$index]['giftcard_id'];
 				$giftcardData = $this->_producthelper->getGiftcardData($giftcard_id);
 				$link         = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftcard_id . '&Itemid=' . $Itemid);
-				$reciverInfo = '<div class="reciverInfo">' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL') . ': ' . $cart[$i]['reciver_name']
-					. '<br />' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL') . ': ' . $cart[$i]['reciver_email'] . '</div>';
+				$reciverInfo = '<div class="reciverInfo">' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL') . ': ' . $cart[$index]['reciver_name']
+					. '<br />' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL') . ': ' . $cart[$index]['reciver_email'] . '</div>';
 
 				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $giftcardData->giftcard_name . "</a></div>" . $reciverInfo;
 
-				if (strpos($cart_mdata, "{product_name_nolink}") !== false)
+				if (strpos($cartMiddleData, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "<div  class=\"product_name\">" . $giftcardData->giftcard_name . "</div><" . $reciverInfo;
-					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $cart_mdata);
+					$cartMiddleData      = str_replace("{product_name_nolink}", $product_name_nolink, $cartMiddleData);
 
-					if (strpos($cart_mdata, "{product_name}") !== false)
-						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
+					if (strpos($cartMiddleData, "{product_name}") !== false)
+						$cartMiddleData = str_replace("{product_name}", "", $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
+					$cartMiddleData = str_replace("{product_name}", $product_name, $cartMiddleData);
 				}
 
-				$cart_mdata = str_replace("{product_attribute}", '', $cart_mdata);
-				$cart_mdata = str_replace("{product_accessory}", '', $cart_mdata);
-				$cart_mdata = str_replace("{product_wrapper}", '', $cart_mdata);
-				$cart_mdata = str_replace("{product_old_price}", '', $cart_mdata);
-				$cart_mdata = str_replace("{vat_info}", '', $cart_mdata);
-				$cart_mdata = str_replace("{product_number_lbl}", '', $cart_mdata);
-				$cart_mdata = str_replace("{product_number}", '', $cart_mdata);
-				$cart_mdata = str_replace("{attribute_price_without_vat}", '', $cart_mdata);
-				$cart_mdata = str_replace("{attribute_price_with_vat}", '', $cart_mdata);
+				$cartMiddleData = str_replace("{product_attribute}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_accessory}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_wrapper}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_old_price}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{vat_info}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_number_lbl}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_number}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{attribute_price_without_vat}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{attribute_price_with_vat}", '', $cartMiddleData);
 
 				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
-					$cart_mdata = str_replace("{product_total_price}", "", $cart_mdata);
-					$cart_mdata = str_replace("{product_price}", "", $cart_mdata);
+					$cartMiddleData = str_replace("{product_total_price}", "", $cartMiddleData);
+					$cartMiddleData = str_replace("{product_price}", "", $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_price}", RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price']), $cart_mdata);
-					$cart_mdata = str_replace("{product_total_price}", RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price'] * $cart[$i]['quantity'], true), $cart_mdata);
+					$cartMiddleData = str_replace("{product_price}", RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price']), $cartMiddleData);
+					$cartMiddleData = str_replace("{product_total_price}", RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price'] * $cart[$index]['quantity'], true), $cartMiddleData);
 				}
 
-				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
-				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
+				$cartMiddleData = str_replace("{if product_on_sale}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_on_sale end if}", '', $cartMiddleData);
 
-				$thumbUrl = RedShopHelperImages::getImagePath(
+				$thumbUrl = RedshopHelperMedia::getImagePath(
 					$giftcardData->giftcard_image,
 					'',
 					'thumb',
 					'giftcard',
-					Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-					Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+					Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+					Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+					Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 				);
 
 				$giftcard_image = "&nbsp;";
@@ -442,75 +438,72 @@ class rsCarthelper
 					$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl . "'></div>";
 				}
 
-				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
-				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
-				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
-				$cart_mdata     = str_replace("{product_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price']), $cart_mdata);
-				$cart_mdata     = str_replace("{product_total_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price'] * $cart[$i]['quantity']), $cart_mdata);
-				$cart_mdata     = str_replace("{attribute_change}", '', $cart_mdata);
-				$cart_mdata     = str_replace("{product_attribute_price}", "", $cart_mdata);
-				$cart_mdata     = str_replace("{product_attribute_number}", "", $cart_mdata);
-				$cart_mdata     = str_replace("{product_tax}", "", $cart_mdata);
+				$cartMiddleData = str_replace("{product_thumb_image}", $giftcard_image, $cartMiddleData);
+				$user_fields    = $this->_producthelper->GetProdcutUserfield($index, 13);
+				$cartMiddleData = str_replace("{product_userfields}", $user_fields, $cartMiddleData);
+				$cartMiddleData = str_replace("{product_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price']), $cartMiddleData);
+				$cartMiddleData = str_replace("{product_total_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price'] * $cart[$index]['quantity']), $cartMiddleData);
+				$cartMiddleData = str_replace("{attribute_change}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{product_attribute_price}", "", $cartMiddleData);
+				$cartMiddleData = str_replace("{product_attribute_number}", "", $cartMiddleData);
+				$cartMiddleData = str_replace("{product_tax}", "", $cartMiddleData);
 
 				// ProductFinderDatepicker Extra Field
-				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $giftcard_id, $fieldArray, $giftcard = 1);
+				$cartMiddleData = $this->_producthelper->getProductFinderDatepickerValue($cartMiddleData, $giftcard_id, $fieldArray, $giftcard = 1);
 
-				$remove_product = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $i . '" method="POST" >
-				<input type="hidden" name="giftcard_id" value="' . $cart[$i]['giftcard_id'] . '">
-				<input type="hidden" name="cart_index" value="' . $i . '">
+				$remove_product = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $index . '" method="POST" >
+				<input type="hidden" name="giftcard_id" value="' . $cart[$index]['giftcard_id'] . '">
+				<input type="hidden" name="cart_index" value="' . $index . '">
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="Itemid" value="' . $Itemid . '">
-				<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img
+				<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $deleteImage
 					. '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
 					. '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
-					. '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
+					. '" onclick="document.delete_cart' . $index . '.task.value=\'delete\';document.delete_cart' . $index . '.submit();"></form>';
 
 				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
-					$cart_mdata = str_replace("{remove_product}", $remove_product, $cart_mdata);
+					$cartMiddleData = str_replace("{remove_product}", $remove_product, $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{remove_product}", $remove_product, $cart_mdata);
+					$cartMiddleData = str_replace("{remove_product}", $remove_product, $cartMiddleData);
 				}
 
 				// Replace attribute tags to empty on giftcard
-				if (strpos($cart_mdata, "{product_attribute_loop_start}") !== false && strpos($cart_mdata, "{product_attribute_loop_end}") !== false)
+				if (strpos($cartMiddleData, "{product_attribute_loop_start}") !== false && strpos($cartMiddleData, "{product_attribute_loop_end}") !== false)
 				{
-					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
+					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cartMiddleData);
 					$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
 					$templateattibute_middle = $templateattibute_edata[0];
 
-					$cart_mdata = str_replace($templateattibute_middle, "", $cart_mdata);
+					$cartMiddleData = str_replace($templateattibute_middle, "", $cartMiddleData);
 				}
 
 				$cartItem = 'giftcard_id';
 			}
 			else
 			{
-				$product_id     = $cart[$i]['product_id'];
+				$product_id     = $cart[$index]['product_id'];
 				$product        = RedshopHelperProduct::getProductById($product_id);
-				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $cart_mdata);
+				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$index] ['cart_attribute'], $product_id, 0, 0, $quantity, $cartMiddleData);
 				$cart_attribute = $retAttArr[0];
 
-				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $cart_mdata);
+				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$index] ['cart_accessory'], $product_id, $cartMiddleData);
 				$cart_accessory = $retAccArr[0];
 
 				$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
+				$Itemid = RedshopHelperRouter::getItemId($product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$Itemid = $ItemData->id;
-				}
-				else
-				{
-					$Itemid = RedshopHelperRouter::getItemId($product_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
 
 				// Trigger to change product link.
-				$dispatcher->trigger('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $i));
+				$dispatcher->trigger('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $index));
 
 				$pname         = $product->product_name;
 				$product_name  = "<div  class='product_name'><a href='" . $link . "'>" . $pname . "</a></div>";
@@ -518,10 +511,10 @@ class rsCarthelper
 				$prd_image     = '';
 				$type          = 'product';
 
-				if (Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART') && isset($cart[$i]['hidden_attribute_cartimage']))
+				if (Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART') && isset($cart[$index]['hidden_attribute_cartimage']))
 				{
 					$image_path    = REDSHOP_FRONT_IMAGES_ABSPATH;
-					$product_image = str_replace($image_path, '', $cart[$i]['hidden_attribute_cartimage']);
+					$product_image = str_replace($image_path, '', $cart[$index]['hidden_attribute_cartimage']);
 				}
 
 				if ($product_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
@@ -543,14 +536,14 @@ class rsCarthelper
 
 				$isAttributeImage = false;
 
-				if (isset($cart[$i]['attributeImage']))
+				if (isset($cart[$index]['attributeImage']))
 				{
-					$isAttributeImage = JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$i]['attributeImage']);
+					$isAttributeImage = JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$index]['attributeImage']);
 				}
 
 				if ($isAttributeImage)
 				{
-					$prd_image = $cart[$i]['attributeImage'];
+					$prd_image = $cart[$index]['attributeImage'];
 					$type      = 'mergeImages';
 				}
 
@@ -566,7 +559,7 @@ class rsCarthelper
 					}
 					else
 					{
-						$thumbUrl = RedShopHelperImages::getImagePath(
+						$thumbUrl = RedshopHelperMedia::getImagePath(
 								$prd_image,
 								'',
 								'thumb',
@@ -585,7 +578,7 @@ class rsCarthelper
 				}
 
 				// Trigger to change product image.
-				$dispatcher->trigger('OnSetCartOrderItemImage', array(&$cart, &$product_image, $product, $i));
+				$dispatcher->trigger('OnSetCartOrderItemImage', array(&$cart, &$product_image, $product, $index));
 
 				$chktag              = $this->_producthelper->getApplyVatOrNot($data);
 				$product_total_price = "<div class='product_price'>";
@@ -594,11 +587,11 @@ class rsCarthelper
 				{
 					if (!$chktag)
 					{
-						$product_total_price .= RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price_excl_vat'] * $quantity);
+						$product_total_price .= RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price_excl_vat'] * $quantity);
 					}
 					else
 					{
-						$product_total_price .= RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price'] * $quantity);
+						$product_total_price .= RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price'] * $quantity);
 					}
 				}
 
@@ -611,20 +604,20 @@ class rsCarthelper
 				{
 					if (!$chktag)
 					{
-						$product_price .= RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price_excl_vat'], true);
+						$product_price .= RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price_excl_vat'], true);
 					}
 					else
 					{
-						$product_price .= RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price'], true);
+						$product_price .= RedshopHelperProductPrice::formattedPrice($cart[$index]['product_price'], true);
 					}
 
-					if (isset($cart[$i]['product_old_price']))
+					if (isset($cart[$index]['product_old_price']))
 					{
-						$product_old_price = $cart[$i]['product_old_price'];
+						$product_old_price = $cart[$index]['product_old_price'];
 
 						if (!$chktag)
 						{
-							$product_old_price = $cart[$i]['product_old_price_excl_vat'];
+							$product_old_price = $cart[$index]['product_old_price_excl_vat'];
 						}
 
 						// Set Product Old Price without format
@@ -638,9 +631,9 @@ class rsCarthelper
 
 				$wrapper_name = "";
 
-				if ((array_key_exists('wrapper_id', $cart[$i])) && $cart[$i]['wrapper_id'])
+				if ((array_key_exists('wrapper_id', $cart[$index])) && $cart[$index]['wrapper_id'])
 				{
-					$wrapper = $this->_producthelper->getWrapper($product_id, $cart[$i]['wrapper_id']);
+					$wrapper = $this->_producthelper->getWrapper($product_id, $cart[$index]['wrapper_id']);
 
 					if (count($wrapper) > 0)
 					{
@@ -648,38 +641,38 @@ class rsCarthelper
 
 						if (!$quotation_mode || ($quotation_mode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 						{
-							$wrapper_name .= "(" . RedshopHelperProductPrice::formattedPrice($cart[$i]['wrapper_price'], true) . ")";
+							$wrapper_name .= "(" . RedshopHelperProductPrice::formattedPrice($cart[$index]['wrapper_price'], true) . ")";
 						}
 					}
 				}
 
-				if (strpos($cart_mdata, "{product_name_nolink}") !== false)
+				if (strpos($cartMiddleData, "{product_name_nolink}") !== false)
 				{
-					$product_name_nolink = "";
 					$product_name_nolink = "<div  class='product_name'>$product->product_name</a></div>";
-					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $cart_mdata);
+					$cartMiddleData      = str_replace("{product_name_nolink}", $product_name_nolink, $cartMiddleData);
 
-					if (strpos($cart_mdata, "{product_name}") !== false)
-						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
+					if (strpos($cartMiddleData, "{product_name}") !== false)
+						$cartMiddleData = str_replace("{product_name}", "", $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
+					$cartMiddleData = str_replace("{product_name}", $product_name, $cartMiddleData);
 				}
 
-				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
+				$cartMiddleData = str_replace("{product_s_desc}", $product->product_s_desc, $cartMiddleData);
 
 				// Replace Attribute data
-				if (strpos($cart_mdata, "{product_attribute_loop_start}") !== false && strpos($cart_mdata, "{product_attribute_loop_end}") !== false)
+				if (strpos($cartMiddleData, "{product_attribute_loop_start}") !== false && strpos($cartMiddleData, "{product_attribute_loop_end}") !== false)
 				{
-					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
+					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cartMiddleData);
 					$templateattibute_start  = $templateattibute_sdata[0];
 					$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
 					$templateattibute_end    = $templateattibute_edata[1];
 					$templateattibute_middle = $templateattibute_edata[0];
 					$pro_detail              = '';
-					$sum_total               = count($cart[$i]['cart_attribute']);
-					$temp_tpi                = $cart[$i]['cart_attribute'];
+					$sum_total               = count($cart[$index]['cart_attribute']);
+					$temp_tpi                = $cart[$index]['cart_attribute'];
+					$productAttributeCalculatedPrice = 0;
 
 					if ($sum_total > 0)
 					{
@@ -687,7 +680,6 @@ class rsCarthelper
 
 						for ($tpi = 0; $tpi < $sum_total; $tpi++)
 						{
-							$product_attribute_name        = "";
 							$product_attribute_value       = "";
 							$product_attribute_value_price = "";
 							$product_attribute_name        = $temp_tpi[$tpi]['attribute_name'];
@@ -742,107 +734,107 @@ class rsCarthelper
 						}
 					}
 
-					$cart_mdata = str_replace($templateattibute_middle, $pro_detail, $cart_mdata);
+					$cartMiddleData = str_replace($templateattibute_middle, $pro_detail, $cartMiddleData);
 				}
 
-				if (count($cart [$i] ['cart_attribute']) > 0)
+				if (count($cart [$index] ['cart_attribute']) > 0)
 				{
-					$cart_mdata = str_replace("{attribute_label}", JText::_("COM_REDSHOP_ATTRIBUTE"), $cart_mdata);
+					$cartMiddleData = str_replace("{attribute_label}", JText::_("COM_REDSHOP_ATTRIBUTE"), $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{attribute_label}", "", $cart_mdata);
+					$cartMiddleData = str_replace("{attribute_label}", "", $cartMiddleData);
 				}
 
-				$cart_mdata           = str_replace("{product_number}", $product->product_number, $cart_mdata);
-				$cart_mdata           = str_replace("{product_vat}", $cart[$i]['product_vat'] * $cart[$i]['quantity'], $cart_mdata);
-				$user_fields          = $this->_producthelper->GetProdcutUserfield($i);
-				$cart_mdata           = str_replace("{product_userfields}", $user_fields, $cart_mdata);
-				$user_custom_fields   = $this->_producthelper->GetProdcutfield($i);
-				$cart_mdata           = str_replace("{product_customfields}", $user_custom_fields, $cart_mdata);
-				$cart_mdata           = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cart_mdata);
-				$discount_calc_output = (isset($cart[$i]['discount_calc_output']) && $cart[$i]['discount_calc_output']) ? $cart[$i]['discount_calc_output'] . "<br />" : "";
+				$cartMiddleData       = str_replace("{product_number}", $product->product_number, $cartMiddleData);
+				$cartMiddleData       = str_replace("{product_vat}", $cart[$index]['product_vat'] * $cart[$index]['quantity'], $cartMiddleData);
+				$user_fields          = $this->_producthelper->GetProdcutUserfield($index);
+				$cartMiddleData       = str_replace("{product_userfields}", $user_fields, $cartMiddleData);
+				$user_custom_fields   = $this->_producthelper->GetProdcutfield($index);
+				$cartMiddleData       = str_replace("{product_customfields}", $user_custom_fields, $cartMiddleData);
+				$cartMiddleData       = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cartMiddleData);
+				$discount_calc_output = (isset($cart[$index]['discount_calc_output']) && $cart[$index]['discount_calc_output']) ? $cart[$index]['discount_calc_output'] . "<br />" : "";
 
-				$cart_mdata           = RedshopTagsReplacer::_(
+				$cartMiddleData = RedshopTagsReplacer::_(
 											'attribute',
-											$cart_mdata,
+											$cartMiddleData,
 											array(
 												'product_attribute' => $discount_calc_output . $cart_attribute,
 											)
 										);
 
-				$cart_mdata           = str_replace("{product_accessory}", $cart_accessory, $cart_mdata);
-				$cart_mdata           = str_replace("{product_attribute_price}", "", $cart_mdata);
-				$cart_mdata           = str_replace("{product_attribute_number}", "", $cart_mdata);
-				$cart_mdata           = $this->_producthelper->getProductOnSaleComment($product, $cart_mdata, $product_old_price);
-				$cart_mdata           = str_replace("{product_old_price}", $product_old_price, $cart_mdata);
-				$cart_mdata           = str_replace("{product_wrapper}", $wrapper_name, $cart_mdata);
-				$cart_mdata           = str_replace("{product_thumb_image}", $product_image, $cart_mdata);
-				$cart_mdata           = str_replace("{attribute_price_without_vat}", '', $cart_mdata);
-				$cart_mdata           = str_replace("{attribute_price_with_vat}", '', $cart_mdata);
+				$cartMiddleData = str_replace("{product_accessory}", $cart_accessory, $cartMiddleData);
+				$cartMiddleData = str_replace("{product_attribute_price}", "", $cartMiddleData);
+				$cartMiddleData = str_replace("{product_attribute_number}", "", $cartMiddleData);
+				$cartMiddleData = $this->_producthelper->getProductOnSaleComment($product, $cartMiddleData, $product_old_price);
+				$cartMiddleData = str_replace("{product_old_price}", $product_old_price, $cartMiddleData);
+				$cartMiddleData = str_replace("{product_wrapper}", $wrapper_name, $cartMiddleData);
+				$cartMiddleData = str_replace("{product_thumb_image}", $product_image, $cartMiddleData);
+				$cartMiddleData = str_replace("{attribute_price_without_vat}", '', $cartMiddleData);
+				$cartMiddleData = str_replace("{attribute_price_with_vat}", '', $cartMiddleData);
 
 				// ProductFinderDatepicker Extra Field Start
-				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
+				$cartMiddleData = $this->_producthelper->getProductFinderDatepickerValue($cartMiddleData, $product_id, $fieldArray);
 
-				$product_price_excl_vat = $cart[$i]['product_price_excl_vat'];
+				$product_price_excl_vat = $cart[$index]['product_price_excl_vat'];
 
 				if (!$quotation_mode || ($quotation_mode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 				{
-					$cart_mdata = str_replace("{product_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($product_price_excl_vat), $cart_mdata);
-					$cart_mdata = str_replace("{product_total_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($product_price_excl_vat * $quantity), $cart_mdata);
+					$cartMiddleData = str_replace("{product_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($product_price_excl_vat), $cartMiddleData);
+					$cartMiddleData = str_replace("{product_total_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($product_price_excl_vat * $quantity), $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_price_excl_vat}", "", $cart_mdata);
-					$cart_mdata = str_replace("{product_total_price_excl_vat}", "", $cart_mdata);
+					$cartMiddleData = str_replace("{product_price_excl_vat}", "", $cartMiddleData);
+					$cartMiddleData = str_replace("{product_total_price_excl_vat}", "", $cartMiddleData);
 				}
 
 				if ($product->product_type == 'subscription')
 				{
-					$subscription_detail   = $this->_producthelper->getProductSubscriptionDetail($product->product_id, $cart[$i]['subscription_id']);
+					$subscription_detail   = $this->_producthelper->getProductSubscriptionDetail($product->product_id, $cart[$index]['subscription_id']);
 					$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
-					$cart_mdata            = str_replace("{product_subscription_lbl}", JText::_('COM_REDSHOP_SUBSCRIPTION'), $cart_mdata);
-					$cart_mdata            = str_replace("{product_subscription}", $selected_subscription, $cart_mdata);
+					$cartMiddleData        = str_replace("{product_subscription_lbl}", JText::_('COM_REDSHOP_SUBSCRIPTION'), $cartMiddleData);
+					$cartMiddleData        = str_replace("{product_subscription}", $selected_subscription, $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_subscription_lbl}", "", $cart_mdata);
-					$cart_mdata = str_replace("{product_subscription}", "", $cart_mdata);
+					$cartMiddleData = str_replace("{product_subscription_lbl}", "", $cartMiddleData);
+					$cartMiddleData = str_replace("{product_subscription}", "", $cartMiddleData);
 				}
 
 				if ($replace_button)
 				{
 					$update_attribute = '';
 
-					if ($mainview == 'cart')
+					if ($mainView == 'cart')
 					{
-						$attchange        = JURI::root() . 'index.php?option=com_redshop&view=cart&layout=change_attribute&tmpl=component&pid=' . $product_id . '&cart_index=' . $i;
+						$attchange        = JURI::root() . 'index.php?option=com_redshop&view=cart&layout=change_attribute&tmpl=component&pid=' . $product_id . '&cart_index=' . $index;
 						$update_attribute = '<a class="modal" rel="{handler: \'iframe\', size: {x: 550, y: 400}}" href="' . $attchange . '">' . JText::_('COM_REDSHOP_CHANGE_ATTRIBUTE') . '</a>';
 					}
 
 					if ($cart_attribute != "")
 					{
-						$cart_mdata = str_replace("{attribute_change}", $update_attribute, $cart_mdata);
+						$cartMiddleData = str_replace("{attribute_change}", $update_attribute, $cartMiddleData);
 					}
 					else
 					{
-						$cart_mdata = str_replace("{attribute_change}", "", $cart_mdata);
+						$cartMiddleData = str_replace("{attribute_change}", "", $cartMiddleData);
 					}
 				}
 				else
 				{
-					$cart_mdata = str_replace("{attribute_change}", '', $cart_mdata);
+					$cartMiddleData = str_replace("{attribute_change}", '', $cartMiddleData);
 				}
 
 				// Product extra fields.
-				$cart_mdata  = RedshopHelperProductTag::getExtraSectionTag(
-					Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cart_mdata
+				$cartMiddleData = RedshopHelperProductTag::getExtraSectionTag(
+					Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT), $product_id, "1", $cartMiddleData
 				);
 
-				$cartItem = 'product_id';
-				$cart_mdata = RedshopHelperTax::replaceVatInformation($cart_mdata);
-				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
-				$cart_mdata = str_replace("{product_total_price}", $product_total_price, $cart_mdata);
+				$cartItem       = 'product_id';
+				$cartMiddleData = RedshopHelperTax::replaceVatInformation($cartMiddleData);
+				$cartMiddleData = str_replace("{product_price}", $product_price, $cartMiddleData);
+				$cartMiddleData = str_replace("{product_total_price}", $product_total_price, $cartMiddleData);
 			}
 
 			if ($replace_button)
@@ -851,16 +843,16 @@ class rsCarthelper
 
 				$update_img = '';
 
-				if ($mainview == 'checkout')
+				if ($mainView == 'checkout')
 				{
-					$update_cart = $quantity;
+					$updateCart = $quantity;
 				}
 				else
 				{
-					$update_cart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >';
-					$update_cart .= '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">';
-					$update_cart .= '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
-								<input type="hidden" name="cart_index" value="' . $i . '">
+					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $index . '" method="POST" >';
+					$updateCart .= '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $index . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">';
+					$updateCart .= '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
+								<input type="hidden" name="cart_index" value="' . $index . '">
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
 								<input type="hidden" name="task" value="">';
 
@@ -873,78 +865,79 @@ class rsCarthelper
 						$update_img = "defaultupdate.png";
 					}
 
-					$update_cart .= '<img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">';
+					$updateCart .= '<img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $index . '.task.value=\'update\';document.update_cart' . $index . '.submit();">';
 
-					$update_cart .= '</form>';
+					$updateCart .= '</form>';
 				}
 
-				$update_cart_minus_plus = '<form name="update_cart' . $i . '" method="POST">';
+				$updateCartMinusPlus = '<form name="update_cart' . $index . '" method="POST">';
 
-				$update_cart_minus_plus .= '<input type="text" id="quantitybox' . $i . '" name="quantity"  size="1"  value="' . $quantity . '" /><input type="button" id="minus" value="-"
+				$updateCartMinusPlus .= '<input type="text" id="quantitybox' . $index . '" name="quantity"  size="1"  value="' . $quantity . '" /><input type="button" id="minus" value="-"
 						onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">';
 
-				$update_cart_minus_plus .= '<input type="button" value="+"
+				$updateCartMinusPlus .= '<input type="button" value="+"
 						onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
-						<input type="hidden" name="cart_index" value="' . $i . '">
+						<input type="hidden" name="cart_index" value="' . $index . '">
 						<input type="hidden" name="Itemid" value="' . $Itemid . '">
-						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
+						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $index . '.task.value=\'update\';document.update_cart' . $index . '.submit();">
 						</form>';
 
 				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 				{
-					$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
+					$deleteImage = Redshop::getConfig()->get('ADDTOCART_DELETE');
 				}
 				else
 				{
-					$delete_img = "defaultcross.png";
+					$deleteImage = "defaultcross.png";
 				}
 
-				if ($mainview == 'checkout')
+				if ($mainView == 'checkout')
 				{
 					$remove_product = '';
 				}
 				else
 				{
-					$remove_product = '<form name="delete_cart' . $i . '" method="POST" >
+					$remove_product = '<form name="delete_cart' . $index . '" method="POST" >
 							<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
-							<input type="hidden" name="cart_index" value="' . $i . '">
+							<input type="hidden" name="cart_index" value="' . $index . '">
 							<input type="hidden" name="task" value="">
 							<input type="hidden" name="Itemid" value="' . $Itemid . '">
-							<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
+							<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $deleteImage . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" onclick="document.delete_cart' . $index . '.task.value=\'delete\';document.delete_cart' . $index . '.submit();"></form>';
 				}
 
 				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
-					if (strstr($cart_mdata, "{quantity_increase_decrease}") && $mainview == 'cart')
+
+					if (strstr($cartMiddleData, "{quantity_increase_decrease}") && $mainView == 'cart')
 					{
-						$cart_mdata = str_replace("{quantity_increase_decrease}", $update_cart_minus_plus, $cart_mdata);
-						$cart_mdata = str_replace("{update_cart}", '', $cart_mdata);
+						$cartMiddleData = str_replace("{quantity_increase_decrease}", $updateCartMinusPlus, $cartMiddleData);
+						$cartMiddleData = str_replace("{update_cart}", '', $cartMiddleData);
 					}
 					else
 					{
-						$cart_mdata = str_replace("{quantity_increase_decrease}", $update_cart, $cart_mdata);
-						$cart_mdata = str_replace("{update_cart}", $update_cart, $cart_mdata);
+						$cartMiddleData = str_replace("{quantity_increase_decrease}", $updateCart, $cartMiddleData);
+						$cartMiddleData = str_replace("{update_cart}", $updateCart, $cartMiddleData);
 					}
 
-					$cart_mdata = str_replace("{remove_product}", $remove_product, $cart_mdata);
+					$cartMiddleData = str_replace("{remove_product}", $remove_product, $cartMiddleData);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{quantity_increase_decrease}", $update_cart_minus_plus, $cart_mdata);
-					$cart_mdata = str_replace("{update_cart}", $update_cart_none, $cart_mdata);
-					$cart_mdata = str_replace("{remove_product}", $remove_product, $cart_mdata);
+					$cartMiddleData = str_replace("{quantity_increase_decrease}", $updateCartMinusPlus, $cartMiddleData);
+					$cartMiddleData = str_replace("{update_cart}", $update_cart_none, $cartMiddleData);
+					$cartMiddleData = str_replace("{remove_product}", $remove_product, $cartMiddleData);
 				}
 			}
 			else
 			{
-				$cart_mdata = str_replace("{update_cart}", $quantity, $cart_mdata);
-				$cart_mdata = str_replace("{remove_product}", '', $cart_mdata);
+				$cartMiddleData = str_replace("{update_cart}", $quantity, $cartMiddleData);
+				$cartMiddleData = str_replace("{remove_product}", '', $cartMiddleData);
 			}
 
-			$cart_tr .= $cart_mdata;
+			$cartTr .= $cartMiddleData;
 		}
 
-		return $cart_tr;
+		return $cartTr;
 	}
 
 	/**
@@ -1009,14 +1002,14 @@ class rsCarthelper
 
 			if (JFile::exists($dirname))
 			{
-				$attribute_image_path = RedShopHelperImages::getImagePath(
+				$attribute_image_path = RedshopHelperMedia::getImagePath(
 											$rowitem[$i]->attribute_image,
 											'',
 											'thumb',
 											'orderMergeImages',
-											Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-											Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+											Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+											Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+											Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 										);
 				$attrib_img = '<img src="' . $attribute_image_path . '">';
 			}
@@ -1024,14 +1017,14 @@ class rsCarthelper
 			{
 				if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem[$i]->attribute_image) && Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART'))
 				{
-					$attribute_image_path = RedShopHelperImages::getImagePath(
+					$attribute_image_path = RedshopHelperMedia::getImagePath(
 												$rowitem[$i]->attribute_image,
 												'',
 												'thumb',
 												'product_attributes',
-												Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-												Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+												Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+												Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+												Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 											);
 					$attrib_img = '<img src="' . $attribute_image_path . '">';
 				}
@@ -1052,14 +1045,14 @@ class rsCarthelper
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
-							$attribute_image_path = RedShopHelperImages::getImagePath(
+							$attribute_image_path = RedshopHelperMedia::getImagePath(
 														$product_full_image,
 														'',
 														'thumb',
 														$product_type,
-														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+														Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+														Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+														Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
@@ -1067,14 +1060,14 @@ class rsCarthelper
 						{
 							if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 							{
-								$attribute_image_path = RedShopHelperImages::getImagePath(
-															Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
+								$attribute_image_path = RedshopHelperMedia::getImagePath(
+															Redshop::getConfig()->getString('PRODUCT_DEFAULT_IMAGE'),
 															'',
 															'thumb',
 															'product',
-															Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-															Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+															Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+															Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+															Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 														);
 								$attrib_img = '<img src="' . $attribute_image_path . '">';
 							}
@@ -1084,14 +1077,14 @@ class rsCarthelper
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 						{
-							$attribute_image_path = RedShopHelperImages::getImagePath(
-														Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
+							$attribute_image_path = RedshopHelperMedia::getImagePath(
+														Redshop::getConfig()->getString('PRODUCT_DEFAULT_IMAGE'),
 														'',
 														'thumb',
 														'product',
-														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
-														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+														Redshop::getConfig()->getInt('CART_THUMB_WIDTH'),
+														Redshop::getConfig()->getInt('CART_THUMB_HEIGHT'),
+														Redshop::getConfig()->getInt('USE_IMAGE_SIZE_SWAPPING')
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
@@ -2249,7 +2242,7 @@ class rsCarthelper
 		$box_template_desc = str_replace("{shipping_box_list}", $shipping_box_list, $box_template_desc);
 		$style             = 'none';
 
-		$shippingmethod = $this->_order_functions->getShippingMethodInfo();
+		$shippingmethod = RedshopHelperOrder::getShippingMethodInfo();
 
 		for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 		{
@@ -2271,8 +2264,7 @@ class rsCarthelper
 
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
-		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
-		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
+		$shippingmethod       = RedshopHelperOrder::getShippingMethodInfo();
 		$rateExist            = 0;
 		$d                    = array();
 		$d['user_id']         = $user_id;
@@ -2387,7 +2379,7 @@ class rsCarthelper
 
 								if (strpos($data, "{shipping_location}") !== false)
 								{
-									$shippinglocation = $this->_order_functions->getshippinglocationinfo($rate[$i]->text);
+									$shippinglocation = RedshopHelperOrder::getShippingLocationInfo($rate[$i]->text);
 
 									for ($k = 0, $kn = count($shippinglocation); $k < $kn; $k++)
 									{
@@ -2462,7 +2454,7 @@ class rsCarthelper
 		}
 
 		JPluginHelper::importPlugin('redshop_checkout');
-		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
+		RedshopHelperUtility::getDispatcher()->trigger('onRenderShippingMethod', array(&$template_desc));
 
 		$returnarr = array("template_desc" => $template_desc, "shipping_rate_id" => $shipping_rate_id);
 
@@ -2488,7 +2480,7 @@ class rsCarthelper
 			return '';
 		}
 
-		$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 		$paymentmethod = $paymentmethod[0];
 
 		$cardinfo = "";
@@ -2868,9 +2860,8 @@ class rsCarthelper
 		$product_price          = 0;
 		$product_price_excl_vat = 0;
 		$quantity               = 0;
-		$flag                   = false;
 		$product_idArr          = explode(',', $product_id);
-		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
+		$product_idArr          = ArrayHelper::toInteger($product_idArr);
 
 		for ($v = 0; $v < $idx; $v++)
 		{
@@ -3720,7 +3711,6 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 
 		$dispatcher       = RedshopHelperUtility::getDispatcher();
-		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');
 		$data['quantity'] = round($data['quantity']);
@@ -3812,7 +3802,7 @@ class rsCarthelper
 			}
 			else
 			{
-				$producttemplate = $redTemplate->getTemplate("product", $product_data->product_template);
+				$producttemplate = RedshopHelperTemplate::getTemplate("product", $product_data->product_template);
 				$data_add = $producttemplate[0]->template_desc;
 			}
 
@@ -3838,7 +3828,6 @@ class rsCarthelper
 
 			$calc_output = "";
 			$calc_output_array = array();
-			$product_price_tax = 0;
 			$product_vat_price = 0;
 
 			if (!empty($discountArr))
@@ -4522,7 +4511,7 @@ class rsCarthelper
 			// Secure productsIds
 			if ($productsIds = explode(',', $product_id))
 			{
-				$productsIds = Joomla\Utilities\ArrayHelper::toInteger($productsIds);
+				$productsIds = ArrayHelper::toInteger($productsIds);
 
 				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
 			}
@@ -4548,7 +4537,7 @@ class rsCarthelper
 			// Secure notAttributeId
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
-				$notAttributeIds = Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
+				$notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
 
 				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 			}
@@ -4603,17 +4592,14 @@ class rsCarthelper
 						for ($ip = 0; $ip < $countProperty; $ip++)
 						{
 							$accSubpropertyCart = array();
-							$property_price     = 0;
 							$property           = RedshopHelperProduct_Attribute::getAttributeProperties($accessoriesPropertiesData[$ip]);
 							$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($accessoriesPropertiesData[$ip], $data['quantity'], 'property', $user_id);
 
-							if (count($pricelist) > 0)
+							$property_price = $property[0]->property_price;
+
+							if (!empty($pricelist))
 							{
 								$property_price = $pricelist->product_price;
-							}
-							else
-							{
-								$property_price = $property[0]->property_price;
 							}
 
 							$accPropertyCart[$ip]['property_id']     = $accessoriesPropertiesData[$ip];
@@ -4626,7 +4612,7 @@ class rsCarthelper
 
 							if (!empty($acc_subproperty_data))
 							{
-								$subPropertiesData = @explode(',,', $acc_subproperty_data[$ia]);
+								$subPropertiesData = explode(',,', $acc_subproperty_data[$ia]);
 
 								if (isset($subPropertiesData[$ip]) && $subPropertiesData[$ip] != "")
 								{
@@ -4635,18 +4621,13 @@ class rsCarthelper
 
 									for ($isp = 0; $isp < $countSubproperty; $isp++)
 									{
-										$subproperty_price = 0;
 										$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($subSubPropertyData[$isp]);
-
 										$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subSubPropertyData[$isp], $data['quantity'], 'subproperty', $user_id);
+										$subproperty_price = $subproperty[0]->subattribute_color_price;
 
-										if (count($pricelist) > 0)
+										if (!empty($pricelist))
 										{
 											$subproperty_price = $pricelist->product_price;
-										}
-										else
-										{
-											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}
 
 										$accSubpropertyCart[$isp]['subproperty_id']           = $subSubPropertyData[$isp];
@@ -5229,7 +5210,7 @@ class rsCarthelper
 	 * @param   number  $pid          default value can be null
 	 * @param   number  $areabetween  default value is 0
 	 *
-	 * @return object
+	 * @return  array|null
 	 */
 	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
 	{
