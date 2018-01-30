@@ -691,9 +691,9 @@ function removeAjaxUpload(removeData)
         type: "POST",
         url: removeData.action,
         data: {
-			id: removeData.id,
-			product_id: removeData.product_id
-		},
+            id: removeData.id,
+            product_id: removeData.product_id
+        },
         success: function(data){
             var removedItem = '#uploadNameSpan' + removeData.id;
 

@@ -44,7 +44,7 @@ $input = JFactory::getApplication()->input;
     <div class="form-group">
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="createaccount" id="onestep-createaccount-toggle"
+                <input type="checkbox" name="createaccount" id="createaccount" class="onestep-createaccount-toggle"
 					<?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'checked="checked"' : "''" ?>
                        value="1"/>
 				<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
@@ -53,7 +53,8 @@ $input = JFactory::getApplication()->input;
     </div>
 <?php endif; ?>
 <?php if ($registerMethod != 1 && $registerMethod != 3): ?>
-    <div id="onestep-createaccount-wrapper" style="display: block;">
+    <div id="onestep-createaccount-wrapper"
+         style="display: <?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'block' : 'none' ?>;">
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_USERNAME_REGISTER') ?></label>
             <input class="inputbox form-control required" type="text" name="username"
@@ -63,12 +64,12 @@ $input = JFactory::getApplication()->input;
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_PASSWORD_REGISTER') ?></label>
             <input class="inputbox form-control required" type="password" name="password1"
-                   id="onestep-createaccount-password1" size="32" maxlength="250" value=""/>
+                   id="password1" size="32" maxlength="250" value=""/>
         </div>
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_CONFIRM_PASSWORD') ?></label>
             <input class="inputbox form-control required" type="password" name="password2"
-                   id="onestep-createaccount-password2" size="32" maxlength="250" value=""/>
+                   id="password2" size="32" maxlength="250" value=""/>
         </div>
         <hr />
     </div>
