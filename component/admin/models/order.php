@@ -9,13 +9,28 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Model Order
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.0.0
+ */
 class RedshopModelOrder extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_data = null;
 
+	/**
+	 * @var null
+	 */
 	public $_total = null;
 
+	/**
+	 * @var null
+	 */
 	public $_pagination = null;
 
 	/**
@@ -25,7 +40,7 @@ class RedshopModelOrder extends RedshopModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -47,8 +62,8 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -56,107 +71,37 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	protected function populateState($ordering = 'o.order_id', $direction = 'desc')
 	{
-		$filter_status         = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', '', 'string');
-		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
-		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
-		$filter_from_date      = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
-		$filter_to_date        = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
+		$filterStatus        = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', '', 'string');
+		$filterPaymentStatus = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
+		$filter              = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
+		$filterBy            = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
+		$filterFromDate      = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
+		$filterToDate        = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
 
 		$this->setState('filter', $filter);
-		$this->setState('filter_by', $filter_by);
-		$this->setState('filter_status', $filter_status);
-		$this->setState('filter_payment_status', $filter_payment_status);
-		$this->setState('filter_from_date', $filter_from_date);
-		$this->setState('filter_to_date', $filter_to_date);
+		$this->setState('filter_by', $filterBy);
+		$this->setState('filter_status', $filterStatus);
+		$this->setState('filter_payment_status', $filterPaymentStatus);
+		$this->setState('filter_from_date', $filterFromDate);
+		$this->setState('filter_to_date', $filterToDate);
 
 		parent::populateState($ordering, $direction);
 	}
 
+	/**
+	 * Method for build query
+	 *
+	 * @return JDatabaseQuery
+	 * @throws Exception
+	 */
 	public function _buildQuery()
 	{
-		$app   = JFactory::getApplication();
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$app = JFactory::getApplication();
+		$db  = $this->getDbo();
 
-		$filter                = $this->getState('filter');
-		$filter_by             = $this->getState('filter_by');
-		$filter_status         = $this->getState('filter_status');
-		$filter_payment_status = $this->getState('filter_payment_status');
-		$filter_from_date      = $this->getState('filter_from_date');
-		$filter_to_date        = $this->getState('filter_to_date');
-
-		if ($filter_from_date)
-		{
-			$query->where($db->qn('o.cdate') . '>=' . strtotime($filter_from_date));
-		}
-
-		if ($filter_to_date)
-		{
-			// Adding 24 hours to the end date to consider whole end day
-			$query->where($db->qn('o.cdate') . ' <= ' . (strtotime($filter_to_date) + 24 * 3600));
-		}
-
-		if ($filter_status)
-		{
-			$query->where($db->qn('o.order_status') . '=' . $db->q($filter_status));
-		}
-
-		if ($filter_payment_status)
-		{
-			$query->where($db->qn('o.order_payment_status') . '=' . $db->q($filter_payment_status));
-		}
-
-		if ($filter)
-		{
-			$filter = str_replace(' ', '', $filter);
-
-			if ($filter_by == 'orderid')
-			{
-				$query->where($db->qn('o.order_id') . ' LIKE ' . $db->q('%' . $filter . '%'));
-			}
-			elseif ($filter_by == 'ordernumber')
-			{
-				$query->where($db->qn('o.order_number') . ' LIKE ' . $db->q('%' . $filter . '%'));
-			}
-			elseif ($filter_by == 'fullname')
-			{
-				$query->where("REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", " . $db->qn('uf.lastname') . "), ' ', '') LIKE " . $db->q('%' . $filter . '%'));
-			}
-			elseif ($filter_by == 'useremail')
-			{
-				$query->where($db->qn('uf.user_email') . ' LIKE ' . $db->q('%' . $filter . '%'));
-			}
-			// $filter_by == 'all'
-			else
-			{
-				$query->where("(REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", " . $db->qn('uf.lastname') . "), ' ', '') LIKE " . $db->q('%' . $filter . '%')
-						. " OR " . $db->qn('o.order_id') . " LIKE " . $db->q('%' . $filter . '%')
-						. " OR " . $db->qn('o.order_number') . " LIKE " . $db->q('%' . $filter . '%')
-						. " OR " . $db->qn('o.referral_code') . " LIKE " . $db->q('%' . $filter . '%')
-						. " OR " . $db->qn('uf.user_email') . " LIKE " . $db->q('%' . $filter . '%')
-					. ")"
-				);
-			}
-		}
-
-		$cid = $app->input->get('cid', array(0), 'request', 'array');
-
-		if ($cid[0] != 0)
-		{
-			$order_id = array();
-			$order_id = implode(',', $cid);
-
-			$query->where($db->qn('o.order_id') . ' IN (' . $order_id . ')');
-		}
-
-		if ('labellisting' == $app->input->getCmd('layout'))
-		{
-			$query->where($db->qn('o.order_label_create') . '=1');
-		}
-
-		$query->select(
-			array(
+		$query = $db->getQuery(true)
+			->select(
+				array(
 					'o.*',
 					$db->qn('uf.lastname'),
 					$db->qn('uf.firstname'),
@@ -166,7 +111,7 @@ class RedshopModelOrder extends RedshopModel
 					$db->qn('uf.ean_number'),
 					$db->qn('os.order_status_name')
 				)
-		)
+			)
 			->from($db->qn('#__redshop_orders', 'o'))
 			->leftjoin(
 				$db->qn('#__redshop_order_users_info', 'uf')
@@ -176,132 +121,230 @@ class RedshopModelOrder extends RedshopModel
 			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
 			->group($db->qn('o.order_id'));
 
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order     = $this->getState('list.ordering');
-		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
+		$filterBy = $this->getState('filter_by');
+
+		// Filter: From date.
+		$filterFromDate = $this->getState('filter_from_date');
+
+		if ($filterFromDate)
+		{
+			$query->where($db->qn('o.cdate') . '>=' . strtotime($filterFromDate));
+		}
+
+		// Filter: To date
+		$filterToDate = $this->getState('filter_to_date');
+
+		if ($filterToDate)
+		{
+			// Adding 24 hours to the end date to consider whole end day
+			$query->where($db->qn('o.cdate') . ' <= ' . (strtotime($filterToDate) + 24 * 3600));
+		}
+
+		// Filter: order status
+		$filterStatus = $this->getState('filter_status');
+
+		if ($filterStatus)
+		{
+			$query->where($db->qn('o.order_status') . ' = ' . $db->q($filterStatus));
+		}
+
+		// Filter: Order payment status
+		$filterPaymentStatus = $this->getState('filter_payment_status');
+
+		if ($filterPaymentStatus)
+		{
+			$query->where($db->qn('o.order_payment_status') . ' = ' . $db->q($filterPaymentStatus));
+		}
+
+		// Filter
+		$filter = $this->getState('filter');
+
+		if ($filter)
+		{
+			$filter = str_replace(' ', '', $filter);
+
+			if ($filterBy == 'orderid')
+			{
+				$query->where($db->qn('o.order_id') . ' LIKE ' . $db->q('%' . $filter . '%'));
+			}
+			elseif ($filterBy == 'ordernumber')
+			{
+				$query->where($db->qn('o.order_number') . ' LIKE ' . $db->q('%' . $filter . '%'));
+			}
+			elseif ($filterBy == 'fullname')
+			{
+				$query->where(
+					"REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", "
+					. $db->qn('uf.lastname') . "), ' ', '') LIKE " . $db->q('%' . $filter . '%')
+				);
+			}
+			elseif ($filterBy == 'useremail')
+			{
+				$query->where($db->qn('uf.user_email') . ' LIKE ' . $db->q('%' . $filter . '%'));
+			}
+			// $filter_by == 'all'
+			else
+			{
+				$query->where(
+					"(REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", "
+					. $db->qn('uf.lastname') . "), ' ', '') LIKE " . $db->q('%' . $filter . '%')
+					. " OR " . $db->qn('o.order_id') . " LIKE " . $db->q('%' . $filter . '%')
+					. " OR " . $db->qn('o.order_number') . " LIKE " . $db->q('%' . $filter . '%')
+					. " OR " . $db->qn('o.referral_code') . " LIKE " . $db->q('%' . $filter . '%')
+					. " OR " . $db->qn('uf.user_email') . " LIKE " . $db->q('%' . $filter . '%')
+					. ")"
+				);
+			}
+		}
+
+		$orderIds = $app->input->get('cid', array(), 'array');
+		$orderIds = \Joomla\Utilities\ArrayHelper::toInteger($orderIds);
+		$orderIds = array_filter(array_values($orderIds));
+
+		if (!empty($orderIds))
+		{
+			$query->where($db->qn('o.order_id') . ' IN (' . implode(',', $orderIds) . ')');
+		}
+
+		if ('labellisting' == $app->input->getCmd('layout'))
+		{
+			$query->where($db->qn('o.order_label_create') . '=1');
+		}
+
+		$filterOrderDir = $this->getState('list.direction');
+		$filterOrder    = $this->getState('list.ordering');
+		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
 		return $query;
 	}
 
+	/**
+	 * Method for export data.
+	 *
+	 * @param   array $cid List of order ID
+	 *
+	 * @return  array<object>
+	 */
 	public function export_data($cid)
 	{
-		$where    = array();
-		$order_id = implode(',', $cid);
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(' . $db->qn('o.cdate') . ')')
+			->select('o.*')
+			->select('ouf.*')
+			->from($db->qn('#__redshop_orders', 'o'))
+			->leftJoin($db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('ouf.order_id'))
+			->where($db->qn('ouf.address_type') . ' = ' . $db->quote('BT'))
+			->order($db->qn('o.order_id') . ' DESC');
 
-		$where[] = " 1=1";
-
-		if ($cid[0] != 0)
+		if (!empty($cid))
 		{
-			$where[] = " o.order_id IN (" . $order_id . ")";
+			$cid = \Joomla\Utilities\ArrayHelper::toInteger($cid);
+			$query->where($db->qn('o.order_id') . ' IN (' . implode(',', $cid) . ')');
 		}
-
-		$where   = count($where) ? '  ' . implode(' AND ', $where) : '';
-		$orderby = " order by o.order_id DESC";
-
-		$query = 'SELECT distinct(o.cdate),o.*,ouf.* FROM #__redshop_orders AS o '
-			. 'LEFT JOIN #__redshop_order_users_info AS ouf ON o.order_id=ouf.order_id '
-			. 'WHERE ouf.address_type LIKE "BT" '
-			. 'AND ' . $where . ' '
-			. $orderby;
 
 		return $this->_getList($query);
 	}
 
+	/**
+	 * Method for update download setting
+	 *
+	 * @param   integer $did     Download ID
+	 * @param   integer $limit   Limiit
+	 * @param   integer $enddate End date.
+	 *
+	 * @return  boolean
+	 */
 	public function updateDownloadSetting($did, $limit, $enddate)
 	{
-		$query = "UPDATE #__redshop_product_download "
-			. " SET `download_max` = " . $limit . " , `end_date` = " . $enddate . " "
-			. " WHERE download_id = '" . $did . "'";
-		$this->_db->setQuery($query);
+		$db = $this->getDbo();
 
-		if (!$this->_db->execute())
-		{
-			return false;
-		}
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_product_download'))
+			->set($db->qn('download_max') . ' = ' . $limit)
+			->set($db->qn('end_date') . ' = ' . $enddate)
+			->where($db->qn('download_id') . ' = ' . $did);
 
-		return true;
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
 	 * GLS Export
 	 *
-	 * @param   array  $cid  Order Ids
+	 * @param   array $cid sOrder Ids
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function gls_export($cid)
 	{
-		$orderHelper = order_functions::getInstance();
 		ob_clean();
 
-		// Start the ouput
-		$outputCsv = fopen('php://output', 'w');
-
+		// Start the output
+		$outputCsv  = fopen('php://output', 'w');
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
+		foreach ($ordersInfo as $order)
 		{
-			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
+			$details = RedshopShippingRate::decrypt($order->ship_method_id);
 
-			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
+			if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls' || $order->shop_id == '')
 			{
-				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
-
-				$totalWeight = 0;
-
-				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
-				{
-					$weight       = (float) $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
-				}
-
-				$parceltype      = 'A';
-				$shopDetails_arr = explode("|", $ordersInfo[$i]->shop_id);
-
-				$userphoneArr = explode("###", $ordersInfo[$i]->shop_id);
-
-				$shopDetails_temparr = explode("###", $shopDetails_arr[7]);
-				$shopDetails_arr[7]  = $shopDetails_temparr[0];
-
-				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
-
-				$row = array(
-					$ordersInfo[$i]->order_number,
-					$shopDetails_arr[1],
-					$shopDetails_arr[2],
-					'Pakkeshop: ' . $shopDetails_arr[0],
-					$shopDetails_arr[3],
-					$shopDetails_arr[7],
-					'008',
-					date("d-m-Y", $ordersInfo[$i]->cdate),
-					$totalWeight,
-					1,
-					'',
-					'',
-					$parceltype,
-					'Z'	// Shippment Type
-				);
-
-				$userDetail = array();
-
-				if ($ordersInfo[$i]->ship_method_id != '')
-				{
-					$userDetail = array(
-						$billingDetails->firstname . ' ' . $billingDetails->lastname,
-						substr($ordersInfo[$i]->customer_note, 0, 29),		// GLS only support max 29 characters
-						Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
-						$billingDetails->user_email,
-						$userphoneArr[1]
-					);
-				}
-
-				$row = array_map('utf8_decode', array_merge($row, $userDetail));
-
-				// Output CSV line
-				fputcsv($outputCsv, $row);
+				continue;
 			}
+
+			$orderProducts  = RedshopHelperOrder::getOrderItemDetail($order->order_id);
+			$billingDetails = RedshopEntityOrder::getInstance($order->order_id)->getBilling();
+
+			$totalWeight = 0;
+
+			foreach ($orderProducts as $orderProduct)
+			{
+				$weight       = (float) $this->getProductWeight($orderProduct->product_id);
+				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
+			}
+
+			$parcelType     = 'A';
+			$shopDetail     = explode("|", $order->shop_id);
+			$userPhone      = explode("###", $order->shop_id);
+			$shopDetailTemp = explode("###", $shopDetail[7]);
+			$shopDetail[7]  = $shopDetailTemp[0];
+			$shopDetail[2]  = str_replace(',', '-', $shopDetail[2]);
+
+			$row = array(
+				$order->order_number,
+				$shopDetail[1],
+				$shopDetail[2],
+				'Pakkeshop: ' . $shopDetail[0],
+				$shopDetail[3],
+				$shopDetail[7],
+				'008',
+				date("d-m-Y", $order->cdate),
+				$totalWeight,
+				1,
+				'',
+				'',
+				$parcelType,
+				'Z'    // Shippment Type
+			);
+
+			$userDetail = array();
+
+			if (!empty($order->ship_method_id))
+			{
+				$userDetail = array(
+					$billingDetails->get('firstname') . ' ' . $billingDetails->get('lastname'),
+					substr($order->customer_note, 0, 29),        // GLS only support max 29 characters
+					Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
+					$billingDetails->get('user_email'),
+					$userPhone[1]
+				);
+			}
+
+			$row = array_map('utf8_decode', array_merge($row, $userDetail));
+
+			// Output CSV line
+			fputcsv($outputCsv, $row);
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
@@ -314,84 +357,83 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Business GLS Export
 	 *
-	 * @param   array  $cid  Order Ids
+	 * @param   array $cid Order Ids
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function business_gls_export($cid)
 	{
-		$orderHelper = order_functions::getInstance();
-		$extraField  = extraField::getInstance();
-
 		ob_clean();
 
 		// Start the ouput
-		$outputCsv = fopen('php://output', 'w');
-
+		$outputCsv  = fopen('php://output', 'w');
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
+		foreach ($ordersInfo as $order)
 		{
-			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
+			$details = RedshopShippingRate::decrypt($order->ship_method_id);
 
-			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
+			if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
-				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
-
-				$totalWeight = 0;
-
-				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
-				{
-					$weight       = (float) $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
-				}
-
-				// Initialize row
-				$row = array(
-					$ordersInfo[$i]->order_number
-				);
-
-				$extraFieldData = $extraField->getSectionFieldList(19, 1);
-				$extraInfo      = array();
-
-				for ($j = 0, $jn = count($extraFieldData); $j < $jn; $j++)
-				{
-					$extraFieldResult = $extraField->getSectionFieldDataList($extraFieldData[$j]->field_id, 19, $ordersInfo[$i]->order_id);
-
-					if ($extraFieldResult->data_txt != "" && $extraFieldData[$j]->field_show_in_front == 1)
-					{
-						$extraInfo[] = $extraFieldResult->data_txt;
-					}
-				}
-
-				$rowAppend = array(
-					'8',
-					date("d-m-Y", $ordersInfo[$i]->cdate),
-					$totalWeight,
-					1,
-					'',
-					'',
-					'A',
-					'A',
-					$billingDetails->firstname . ' ' . $billingDetails->lastname,
-					$ordersInfo[$i]->customer_note,
-					Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
-					$billingDetails->user_email,
-					$shippingDetails->phone
-				);
-
-				$row = array_merge($row, $extraInfo, $rowAppend);
-
-				foreach ($row as $key => $value)
-				{
-					$row[$key] = utf8_decode($value);
-				}
-
-				// Output CSV line
-				fputcsv($outputCsv, $row);
+				continue;
 			}
+
+			$orderProducts   = RedshopHelperOrder::getOrderItemDetail($order->order_id);
+			$shippingDetails = RedshopEntityOrder::getInstance($order->order_id)->getShipping();
+			$billingDetails  = RedshopEntityOrder::getInstance($order->order_id)->getBilling();
+			$totalWeight     = 0;
+
+			foreach ($orderProducts as $orderProduct)
+			{
+				$weight       = (float) $this->getProductWeight($orderProduct->product_id);
+				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
+			}
+
+			// Initialize row
+			$row            = array($order->order_number);
+			$extraFieldData = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_SHIPPING_GATEWAY, 1);
+			$extraInfo      = array();
+
+			foreach ($extraFieldData as $extraFieldDatum)
+			{
+				$extraFieldResult = RedshopHelperExtrafields::getData(
+					$extraFieldDatum->field_id,
+					RedshopHelperExtrafields::SECTION_SHIPPING_GATEWAY,
+					$order->order_id
+				);
+
+				if ($extraFieldResult->data_txt != "" && $extraFieldDatum->field_show_in_front == 1)
+				{
+					$extraInfo[] = $extraFieldResult->data_txt;
+				}
+			}
+
+			$rowAppend = array(
+				'8',
+				date("d-m-Y", $order->cdate),
+				$totalWeight,
+				1,
+				'',
+				'',
+				'A',
+				'A',
+				$billingDetails->get('firstname') . ' ' . $billingDetails->get('lastname'),
+				$order->customer_note,
+				Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
+				$billingDetails->get('user_email'),
+				$shippingDetails->get('phone')
+			);
+
+			$row = array_merge($row, $extraInfo, $rowAppend);
+
+			foreach ($row as $key => $value)
+			{
+				$row[$key] = utf8_decode($value);
+			}
+
+			// Output CSV line
+			fputcsv($outputCsv, $row);
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
@@ -404,7 +446,7 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Get Order details of the ids
 	 *
-	 * @param   array  $orderIds  Order Information Ids
+	 * @param   array $orderIds Order Information Ids
 	 *
 	 * @return  array             Information of the orders in array
 	 */
@@ -423,15 +465,13 @@ class RedshopModelOrder extends RedshopModel
 			$query->where($db->qn('order_id') . ' IN(' . implode(',', $orderIds) . ')');
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
 	 * Get Product weight
 	 *
-	 * @param   integer  $productId  Product Id
+	 * @param   integer $productId Product Id
 	 *
 	 * @return  integer              Product Weight
 	 */
