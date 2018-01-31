@@ -25,8 +25,8 @@ abstract class ModRedshopSearch
 	{
 		$shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
 		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db               = JFactory::getDbo();
+		$query            = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
 			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_category'))
@@ -49,10 +49,10 @@ abstract class ModRedshopSearch
 	 */
 	public static function getManufacturers()
 	{
-		$shopperGroupId = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+		$shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
 		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db               = JFactory::getDbo();
+		$query            = $db->getQuery(true)
 			->select($db->qn('manufacturer_id', 'value'))
 			->select($db->qn('manufacturer_name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'))
@@ -69,7 +69,7 @@ abstract class ModRedshopSearch
 	/**
 	 * Get products custom fields
 	 *
-	 * @param   array  $productFields  Product custom fields
+	 * @param   array $productFields Product custom fields
 	 *
 	 * @return  array
 	 */
@@ -80,7 +80,7 @@ abstract class ModRedshopSearch
 			return array();
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('fv.field_value'))
 			->select($db->qn('fv.field_id'))
@@ -95,7 +95,7 @@ abstract class ModRedshopSearch
 
 		foreach ($data as $key => $value)
 		{
-			$result[$value->field_id]['title'] = $value->title;
+			$result[$value->field_id]['title']                      = $value->title;
 			$result[$value->field_id]['value'][$value->field_value] = $value->field_name;
 		}
 

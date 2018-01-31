@@ -11,11 +11,11 @@ use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
 
-/** @var  Registry  $params  Module params */
+/** @var  Registry $params Module params */
 
 require_once dirname(__FILE__) . '/helper.php';
 JLoader::import('redshop.library');
-JHtml::script('modules/mod_redshop_search/js/search.js');
+JHtml::script('modules/mod_redshop_search/js/search.min.js');
 
 $app      = JFactory::getApplication();
 $input    = $app->input;
@@ -54,8 +54,8 @@ if ($modSearchItemid != "")
 
 if ($enableAjaxsearch)
 {
-	$document->addScript(JUri::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/js/search.js");
-	$document->addStyleSheet(JUri::base() . "administrator/components/MOD_REDSHOP_SEARCH/assets/css/search.css");
+	$document->addScript(JUri::base() . 'administrator/components/com_redshop/assets/js/search.js');
+	$document->addStyleSheet(JUri::base() . 'administrator/components/com_redshop/assets/css/search.css');
 	$javaFun = "makeUrl();";
 }
 

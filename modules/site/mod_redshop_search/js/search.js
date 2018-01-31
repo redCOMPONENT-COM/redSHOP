@@ -1,9 +1,15 @@
+/**
+ *
+ * @returns {boolean|object}
+ */
 function getHTTPObject() {
 	var xhr = false;
 	if (window.XMLHttpRequest) {
+		/** global: XMLHttpRequest */
 		xhr = new XMLHttpRequest();
 	} else if (window.ActiveXObject) {
 		try {
+			/** global: ActiveXObject */
 			xhr = new ActiveXObject("Msxml2.XMLHTTP");
 		}
 		catch (e) {
@@ -18,14 +24,28 @@ function getHTTPObject() {
 	return xhr;
 }
 
+/**
+ * @TODO Use jQuery.ajax instead
+ * @param tid
+ * @param mid
+ */
 function loadProducts(tid, mid) {
+	/** global: base_url */
+	if (typeof base_url === 'undefined')
+	{
+		base_url = '';
+	}
+
 	request = getHTTPObject();
 	request.onreadystatechange = sendProductData;
 	request.open("GET", base_url + "index.php?tmpl=component&option=com_redshop&view=search&task=loadProducts&taskid=" + tid + "&manufacture_id=" + mid, true);
 	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
 }
-// function is executed when var request state changes
+
+/**
+ * function is executed when var request state changes
+ */
 function sendProductData() {
 	// if request object received response
 	if (request.readyState == 4) {
@@ -39,4 +59,3 @@ function sendProductData() {
 		}
 	}
 }
-
