@@ -695,13 +695,15 @@ function removeAjaxUpload(removeData)
 			product_id: removeData.product_id
 		},
         success: function(data){
-            jQuery('#uploadNameSpan' + removeData.id).remove();
-			var uploadFiles = jQuery("#ol_" + removeData.uniqueOl + " li").map(function() {
-				return jQuery(this).find("span").text();
-			}).get().join(",");
+            var removedItem = '#uploadNameSpan' + removeData.id;
 
-			jQuery("#" + removeData.ajaxFlag + removeData.uniqueOl).val(uploadFiles);
-			jQuery("#" + removeData.fieldName).val(uploadFiles);
+            var uploadFiles = jQuery(removedItem).closest('ol[id^="ol_"]').find('li').not(removedItem).map(function() {
+                return jQuery(this).find("span").text();
+            }).get().join(",");
+
+            jQuery(removedItem).remove();
+            jQuery("#" + removeData.ajaxFlag + removeData.uniqueOl).val(uploadFiles);
+            jQuery("#" + removeData.fieldName).val(uploadFiles);
         }
     });
 }
