@@ -2157,15 +2157,21 @@ COMMENT = 'redSHOP Templates Detail';
 DROP TABLE IF EXISTS `#__redshop_textlibrary` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_textlibrary` (
-  `textlibrary_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `text_name` VARCHAR(255) NULL DEFAULT NULL,
-  `text_desc` VARCHAR(255) NULL DEFAULT NULL,
-  `text_field` TEXT NULL DEFAULT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `desc` VARCHAR(255) NOT NULL DEFAULT '',
+  `content` TEXT NOT NULL DEFAULT '',
   `section` VARCHAR(255) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`textlibrary_id`),
-  INDEX `idx_section` (`section` ASC),
-  INDEX `idx_published` (`published` ASC))
+  `published` TINYINT(4) NOT NULL DEFAULT 1,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_text_tag_section` (`section` ASC),
+  INDEX `#__rs_text_tag_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP TextLibrary';
