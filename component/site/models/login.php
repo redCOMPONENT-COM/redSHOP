@@ -40,6 +40,7 @@ class RedshopModelLogin extends RedshopModel
 			$msg = "<a href='" . JRoute::_('index.php?option=com_users&view=reset') . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
 			$app->enqueuemessage($msg);
 		}
+		return $error;
 	}
 
 	public function ShopperGroupDetail($sid = 0)

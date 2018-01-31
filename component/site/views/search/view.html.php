@@ -307,7 +307,7 @@ class RedshopViewSearch extends RedshopView
 			$endlimit = $model->getState('list.limit');
 			$start    = $model->getState('list.start');
 
-			$tagarray            = $texts->getTextLibraryTagArray();
+			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
 			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);

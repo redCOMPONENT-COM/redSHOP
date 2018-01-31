@@ -68,6 +68,7 @@ class RedshopControllerRating extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelRating_detail $model */
 		$model = $this->getModel('rating_detail');
 
 		if (!$model->publish($cid, 0))
