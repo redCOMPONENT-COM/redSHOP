@@ -96,7 +96,7 @@ class RedshopControllerShipping extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=shipping');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', JText::_('COM_REDSHOP_SHIPPING_PUBLISHED_SUCCESSFULLY'));
 	}
 
 	public function unpublish()
@@ -115,7 +115,7 @@ class RedshopControllerShipping extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=shipping');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', JText::_('COM_REDSHOP_SHIPPING_UNPUBLISHED_SUCCESSFULLY'));
 	}
 
 	/**
