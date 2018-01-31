@@ -33,7 +33,27 @@ echo RedshopLayoutHelper::render(
 		'title' => JText::_('COM_REDSHOP_DEFAULT_IMAGE_QUALITY_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_IMAGE_QUALITY_LBL'),
 		'field' => '<input type="number" name="image_quality_output" id="image_quality_output" class="form-control"'
-			. 'value="' . $this->config->get('IMAGE_QUALITY_OUTPUT') . '"/>'
+			. 'value="' . $this->config->get('IMAGE_QUALITY_OUTPUT', 70) . '"/>'
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_WIDTH_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_WIDTH_DESC'),
+		'field' => '<input type="number" name="image_max_width" id="image_max_width" class="form-control"'
+			. 'value="' . $this->config->get('IMAGE_MAX_WIDTH', 2048) . '"/>'
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_HEIGHT_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_HEIGHT_DESC'),
+		'field' => '<input type="number" name="image_max_height" id="image_max_height" class="form-control"'
+			. 'value="' . $this->config->get('IMAGE_MAX_HEIGHT', 2048) . '"/>'
 	)
 );
 
