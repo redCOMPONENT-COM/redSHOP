@@ -120,6 +120,7 @@ class RedshopControllerTools extends RedshopController
 	 * Method for resize images.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -138,7 +139,7 @@ class RedshopControllerTools extends RedshopController
 			$imageInspector->toFile(JPATH_ROOT . '/images/' . time() . '-' . $file);
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
