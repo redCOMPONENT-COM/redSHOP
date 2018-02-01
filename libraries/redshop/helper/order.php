@@ -2528,7 +2528,7 @@ class RedshopHelperOrder
 				$shippingAddresses = $userDetail;
 			}
 
-			$mailData = $cartHelper->replaceShippingAddress($mailData, $shippingAddresses);
+			$mailData = RedshopHelperShippingTag::replaceShippingAddress($mailData, $shippingAddresses);
 
 			$search[]  = "{shopname}";
 			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
