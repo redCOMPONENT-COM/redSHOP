@@ -48,6 +48,7 @@ class RedshopControllerSample extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelSample_detail $model */
 		$model = $this->getModel('sample_detail');
 
 		if (!$model->publish($cid, 0))

@@ -26,9 +26,12 @@ class RedshopControllerWishlist extends RedshopController
 	 */
 	public function createsave()
 	{
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
+
+		/** @var RedshopModelWishlist $model */
 		$model = $this->getModel("wishlist");
 		$input = JFactory::getApplication()->input;
+
 		$post                  = array();
 		$post['wishlist_name'] = $input->post->getString('txtWishlistname', '');
 		$post['user_id']       = $user->id;

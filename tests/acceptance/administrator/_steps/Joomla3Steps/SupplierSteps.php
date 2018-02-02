@@ -19,9 +19,8 @@ use Step\AbstractStep;
  */
 class SupplierSteps extends AbstractStep
 {
-
 	use Step\Traits\CheckIn, Step\Traits\Delete, Step\Traits\Publish;
-	
+
 	/**
 	 * @return void
 	 */
@@ -57,7 +56,7 @@ class SupplierSteps extends AbstractStep
 		$client->click(\SupplierPage::$buttonSave);
 		$client->acceptPopup();
 	}
-	
+
 	public function editSupplierCheckCloseButton($supplierUpdatedName)
 	{
 		$client = $this;
@@ -67,7 +66,7 @@ class SupplierSteps extends AbstractStep
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->click(\SupplierPage::$buttonClose);
 	}
-	
+
 	public function deleteSupplierCancel($supplierName)
 	{
 		$client = $this;
