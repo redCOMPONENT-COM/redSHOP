@@ -58,7 +58,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 *
 	 * @return  void
 	 */
-	public function addNewItem($data = array(), $function)
+	public function addNewItem($data = array(), $function = 'save')
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
