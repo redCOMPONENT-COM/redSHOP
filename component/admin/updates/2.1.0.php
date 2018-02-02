@@ -33,7 +33,8 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/component/com_redshop/models/coupon_detail.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/coupon_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/addressfields_listing.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php',
+			JPATH_LIBRARIES . '/redshop/src/Economic/Economic.php'
 		);
 	}
 
@@ -70,15 +71,18 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 			->from($db->qn('#__redshop_coupons'))
 			->order($db->qn('id'));
 
-		$coupons = $db->setQuery($query)->loadColumn();
+		$coupons = $db->setQuery($query)->loadObjectList();
 
 		if (empty($coupons))
 		{
 			return;
 		}
 
+		$nullDate = $db->getNullDate();
+
 		foreach ($coupons as $coupon)
 		{
+			/** @var RedshopTableCoupon $table */
 			$table = RedshopTable::getAdminInstance('Coupon');
 
 			if (!$table->load($coupon->id))
@@ -86,11 +90,24 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 				continue;
 			}
 
-			$table->start_date = empty($coupon->start_date_old) ?
-				'0000-00-00 00:00:00' : JFactory::getDate($coupon->start_date_old)->format('Y-m-d H:i:s');
+			$needUpdate = false;
 
-			$table->end_date = empty($coupon->end_date_old) ?
-				'0000-00-00 00:00:00' : JFactory::getDate($coupon->end_date_old)->format('Y-m-d H:i:s');
+			if ($table->start_date == $nullDate && !empty($coupon->start_date_old))
+			{
+				$table->start_date = JFactory::getDate($coupon->start_date_old)->toSql();
+				$needUpdate        = true;
+			}
+
+			if ($table->end_date == $nullDate && !empty($coupon->end_date_old))
+			{
+				$table->end_date = JFactory::getDate($coupon->end_date_old)->toSql();
+				$needUpdate      = true;
+			}
+
+			if (!$needUpdate)
+			{
+				continue;
+			}
 
 			if (!$table->store())
 			{

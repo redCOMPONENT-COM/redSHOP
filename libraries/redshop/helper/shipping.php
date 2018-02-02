@@ -33,260 +33,6 @@ class RedshopHelperShipping
 	protected static $users = array();
 
 	/**
-	 * @var   array
-	 *
-	 * @since  2.0.6
-	 */
-	protected static $defaultShipping = array();
-
-	/**
-	 * Get Shipping rate for cart
-	 *
-	 * @param   array $data Shipping data
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.0.3
-	 */
-	public static function getDefaultShipping($data)
-	{
-		$shippingArr = self::getShopperGroupDefaultShipping();
-
-		if (!empty($shippingArr))
-		{
-			return $shippingArr;
-		}
-
-		$session       = JFactory::getSession();
-		$orderSubtotal = $data['order_subtotal'];
-		$user          = JFactory::getUser();
-		$userId        = $user->id;
-		$db            = JFactory::getDbo();
-
-		$totalDimension = self::getCartItemDimension();
-		$weightTotal    = $totalDimension['totalweight'];
-		$volume         = $totalDimension['totalvolume'];
-
-		$userInfo        = RedshopHelperOrder::getBillingAddress($userId);
-		$country         = '';
-		$state           = '';
-		$isCompany       = '';
-		$newProductWhere = '';
-		$newCwhere       = '';
-		$whereState      = '';
-		$whereShopper    = '';
-
-		if ($userInfo)
-		{
-			$country   = $userInfo->country_code;
-			$isCompany = $userInfo->is_company;
-			$userId    = $userInfo->user_id;
-			$state     = $userInfo->state_code;
-		}
-
-		$key = md5(serialize($data)) . md5(serialize($userInfo));
-
-		if (array_key_exists($key, self::$defaultShipping))
-		{
-			return self::$defaultShipping[$key];
-		}
-
-		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
-
-		if (count($shopperGroup) > 0)
-		{
-			$shopperGroupId = $shopperGroup->shopper_group_id;
-			$whereShopper   = ' AND (FIND_IN_SET(' . $db->quote((int) $shopperGroupId) . ', '
-				. $db->qn('shipping_rate_on_shopper_group') . ' ) OR '
-				. $db->qn('shipping_rate_on_shopper_group') . ' = "") ';
-		}
-
-		if ($country)
-		{
-			$whereCountry = '(FIND_IN_SET(' . $db->quote($country) . ', ' . $db->qn('shipping_rate_country') . ') OR '
-				. $db->qn('shipping_rate_country') . ' = ' . $db->quote(0) . ' OR '
-				. $db->qn('shipping_rate_country') . ' = "")';
-		}
-		else
-		{
-			$whereCountry = '(FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', '
-				. $db->qn('shipping_rate_country') . ') OR '
-				. $db->qn('shipping_rate_country') . ' = ' . $db->quote(0) . ' OR '
-				. $db->qn('shipping_rate_country') . ' = "")';
-		}
-
-		if ($state)
-		{
-			$whereState = ' AND (FIND_IN_SET(' . $db->quote($state) . ', '
-				. $db->qn('shipping_rate_state') . ') OR '
-				. $db->qn('shipping_rate_state') . ' = ' . $db->quote(0) . ' OR '
-				. $db->qn('shipping_rate_state') . ' = "")';
-		}
-
-		if (!$isCompany)
-		{
-			$isWhere = ' AND (' . $db->qn('company_only') . ' = 2 OR ' . $db->qn('company_only') . ' = 0) ';
-		}
-		else
-		{
-			$isWhere = ' AND (' . $db->qn('company_only') . ' = 1 OR ' . $db->qn('company_only') . ' = 0) ';
-		}
-
-		$cart         = $session->get('cart');
-		$idx          = (int) ($cart ['idx']);
-		$shippingRate = array();
-
-		if ($idx)
-		{
-			$pWhere = 'AND ( ';
-
-			for ($i = 0; $i < $idx; $i++)
-			{
-				$productId = (int) $cart[$i]['product_id'];
-				$pWhere   .= 'FIND_IN_SET(' . $productId . ', ' . $db->qn('shipping_rate_on_product') . ')';
-
-				if ($i != $idx - 1)
-				{
-					$pWhere .= " OR ";
-				}
-			}
-
-			$pWhere         .= ")";
-			$newProductWhere = str_replace("AND (", "OR (", $pWhere);
-			$sql             = ' SELECT ' . ' * '
-				. ' FROM ' . $db->qn('#__redshop_shipping_rate', 'sr')
-				. ' LEFT JOIN ' . $db->qn('#__extensions', 's')
-				. ' ON ' . $db->qn('sr.shipping_class') . ' = ' . $db->qn('s.element')
-				. ' WHERE ' . $db->qn('s.folder') . ' = ' . $db->quote('redshop_shipping')
-				. ' AND ' . $db->qn('s.enabled') . ' = 1 '
-				. ' AND ' . $whereCountry . $isWhere
-				. ' AND ( '
-				. ' ( ' . $db->qn('shipping_rate_volume_start') . ' <= ' . $db->quote($volume)
-				. ' AND ' . $db->qn('shipping_rate_volume_end') . ' >= ' . $db->quote($volume) . ' ) '
-				. ' OR ( ' . $db->qn('shipping_rate_volume_end') . ' = 0) '
-				. ' ) '
-				. ' AND ( '
-				. ' ( ' . $db->qn('shipping_rate_ordertotal_start') . ' <= ' . $db->quote($orderSubtotal)
-				. ' AND ' . $db->qn('shipping_rate_ordertotal_end') . ' >= ' . $db->quote($orderSubtotal) . ' ) '
-				. ' OR ( ' . $db->qn('shipping_rate_ordertotal_end') . ' = 0 '
-				. ' ) '
-				. ' ) '
-				. ' AND ( '
-				. ' ( ' . $db->qn('shipping_rate_weight_start') . ' <= ' . $db->quote($weightTotal)
-				. ' AND ' . $db->qn('shipping_rate_weight_end') . ' >= ' . $db->quote($weightTotal)
-				. ' ) '
-				. ' OR ( ' . $db->qn('shipping_rate_weight_end') . ' = 0 ' . ' ) '
-				. ' ) '
-				. $pWhere . $whereState . $whereShopper
-				. ' ORDER BY ' . $db->qn('s.ordering') . ' , ' . $db->qn('sr.shipping_rate_priority') . ' LIMIT 0,1 ';
-
-			$shippingRate = $db->setQuery($sql)->loadObject();
-		}
-
-		if (!$shippingRate)
-		{
-			for ($i = 0; $i < $idx; $i++)
-			{
-				$productId  = (int) $cart[$i]['product_id'];
-				$product    = RedshopHelperProduct::getProductById($productId);
-				$categories = $product->categories;
-
-				if (!empty($categories))
-				{
-					$where = 'AND ( ';
-					$index = 0;
-
-					foreach ($categories as $category)
-					{
-						$where .= " FIND_IN_SET(" . (int) $category . ", " . $db->qn('shipping_rate_on_category') . ") ";
-
-						if ($index != count($categories) - 1)
-						{
-							$where .= " OR ";
-						}
-
-						$index++;
-					}
-
-					$where .= ")";
-				}
-			}
-
-			$newCwhere = str_replace("AND (", "OR (", $where);
-			$sql       = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
-								 LEFT JOIN " . $db->qn('#__extensions') . " AS s
-								 ON
-								 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-								 WHERE " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping')
-				. " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
-								 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->quote($volume)
-				. " AND " . $db->qn('shipping_rate_volume_end') . " >= "
-				. $db->quote($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
-								 AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->quote($orderSubtotal)
-				. " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
-				. $db->quote($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
-								 AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->quote($weightTotal)
-				. " AND " . $db->qn('shipping_rate_weight_end') . " >= "
-				. $db->quote($weightTotal) . ")  OR (" . $db->qn('shipping_rate_weight_end') . " = 0))"
-				. $where . $whereState . "
-								ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
-
-			$shippingRate = $db->setQuery($sql)->loadObject();
-		}
-
-		if (!$shippingRate)
-		{
-			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
-							 LEFT JOIN " . $db->qn('#__extensions') . " AS s
-							 ON
-							 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-					WHERE " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND "
-				. $whereCountry . $whereShopper . $isWhere . $whereState . "
-					AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->quote($volume)
-				. " AND " . $db->qn('shipping_rate_volume_end') . " >= "
-				. $db->quote($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
-					AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->quote($orderSubtotal)
-				. " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
-				. $db->quote($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
-					AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->quote($weightTotal)
-				. " AND " . $db->qn('shipping_rate_weight_end') . " >= " . $db->quote($weightTotal) . ")"
-				. " OR (" . $db->qn('shipping_rate_weight_end') . " = 0))
-					AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $newProductWhere . ")"
-				. " AND (" . $db->qn('shipping_rate_on_category') . " = '' " . $newCwhere . " )
-					ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
-
-			$shippingRate = $db->setQuery($sql)->loadObject();
-		}
-
-		$total       = 0;
-		$shippingVat = 0;
-
-		if ($shippingRate)
-		{
-			$total = $shippingRate->shipping_rate_value;
-
-			if ($shippingRate->apply_vat == 1)
-			{
-				$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-				$addVat = RedshopHelperCart::taxExemptAddToCart($userId);
-
-				if (!empty($result) && $addVat)
-				{
-					if ($result->tax_rate > 0)
-					{
-						$shippingVat = $total * $result->tax_rate;
-						$total       = $shippingVat + $total;
-					}
-				}
-			}
-		}
-
-		self::$defaultShipping[$key] = array('shipping_rate' => $total, 'shipping_vat' => $shippingVat);
-
-		return self::$defaultShipping[$key];
-	}
-
-	/**
 	 * Get Shipping rate for xmlexport
 	 *
 	 * @param   array $data Shipping data
@@ -297,7 +43,6 @@ class RedshopHelperShipping
 	 */
 	public static function getDefaultShippingXmlExport($data)
 	{
-		$userHelper    = rsUserHelper::getInstance();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
 		$userId        = $user->id;
@@ -323,7 +68,7 @@ class RedshopHelperShipping
 			$state     = $userInfo->state_code;
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userId);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -988,7 +733,7 @@ class RedshopHelperShipping
 			$country   = $userInfo->country_code;
 			$state     = $userInfo->state_code;
 			$zip       = $userInfo->zipcode;
-			$isCompany = $userInfo->is_company;
+			$isCompany = (bool) $userInfo->is_company;
 
 			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
@@ -1001,18 +746,38 @@ class RedshopHelperShipping
 		}
 		elseif (empty($userInfo) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
-			if (!empty($data['post']['anonymous_params']))
+			if (!empty($data['post']['anonymous']))
 			{
-				$country   = $data['post']['anonymous_params']['country_code'];
-				$state     = $data['post']['anonymous_params']['state_code'];
-				$zip       = $data['post']['anonymous_params']['zip_code'];
-				$isCompany = ($data['post']['anonymous_params']['billing_type'] == 'company') ? true : false;
+				$anonymousUser = $data['post']['anonymous'];
+				$isCompany = ($anonymousUser['billing_type'] == 'company');
+
+				$country   = $anonymousUser['BT']['country_code'];
+				$state     = $anonymousUser['BT']['state_code'];
+				$zip       = $anonymousUser['BT']['zip_code'];
+
+				if ($anonymousUser['bill_is_ship'] == 0)
+				{
+					$country   = $anonymousUser['ST']['country_code_ST'];
+					$state     = $anonymousUser['ST']['state_code_ST'];
+					$zip       = $anonymousUser['ST']['zip_code_ST'];
+				}
+
+				switch ($anonymousUser['billing_type'])
+				{
+					case 'private':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
+						break;
+					case 'company':
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
+						break;
+					default:
+						$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+						break;
+				}
+
+				$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
+				OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 			}
-
-			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-			$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
-			OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 		}
 
 		if ($isCompany === false)
@@ -1223,7 +988,7 @@ class RedshopHelperShipping
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
+		if (!empty($data) && ((!empty($data['user_id']) && $data['user_id'] > 0) || $data['users_info_id'] > 0))
 		{
 			if ('BT' == Redshop::getConfig()->get('CALCULATE_VAT_ON'))
 			{
@@ -1556,7 +1321,6 @@ class RedshopHelperShipping
 	 */
 	public static function getCartItemDimension()
 	{
-		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1580,17 +1344,17 @@ class RedshopHelperShipping
 
 			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
-				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
+				foreach ($cart[$i]['cart_accessory'] as $index => $cartAccessory)
 				{
-					$accId  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
+					$accId  = $cartAccessory['accessory_id'];
 					$accQty = 1;
 
-					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
+					if (isset($cartAccessory['accessory_quantity']))
 					{
-						$accQty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+						$accQty = $cartAccessory['accessory_quantity'];
 					}
 
-					if ($accData = $productHelper->getProductById($accId))
+					if ($accData = RedshopHelperProduct::getProductById($accId))
 					{
 						$accWeight += ($accData->weight * $accQty);
 					}
@@ -1834,7 +1598,6 @@ class RedshopHelperShipping
 			return false;
 		}
 
-		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
 		$country      = $userInfo->country_code;
@@ -1855,7 +1618,7 @@ class RedshopHelperShipping
 
 		if ($country)
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote($country) . ", " . $db->qn('shipping_rate_country') . " ) OR "
+			$whereCountry = "AND (FIND_IN_SET(" . (string) $db->quote($country) . ", " . $db->qn('shipping_rate_country') . " ) OR "
 				. $db->qn('shipping_rate_country') . " = " . $db->quote(0) . " OR "
 				. $db->qn('shipping_rate_country') . " = '') ";
 		}
@@ -1867,7 +1630,7 @@ class RedshopHelperShipping
 				. " )";
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -1879,7 +1642,7 @@ class RedshopHelperShipping
 
 		if ($state)
 		{
-			$whereState = "AND (FIND_IN_SET(" . $db->quote($state) . ", " . $db->qn('shipping_rate_state') . " ) OR "
+			$whereState = "AND (FIND_IN_SET(" . (string) $db->quote($state) . ", " . $db->qn('shipping_rate_state') . " ) OR "
 				. $db->qn('shipping_rate_state') . " = " . $db->quote(0) . " OR "
 				. $db->qn('shipping_rate_state') . " = '') ";
 		}
@@ -2007,7 +1770,6 @@ class RedshopHelperShipping
 		$input         = JFactory::getApplication()->input;
 		$usersInfoId   = $input->getInt('users_info_id', 0);
 		$productHelper = productHelper::getInstance();
-		$userHelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);
 		$db            = JFactory::getDbo();
@@ -2020,7 +1782,6 @@ class RedshopHelperShipping
 		}
 
 		$orderSubtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$orderFunctions = order_functions::getInstance();
 		$user           = JFactory::getUser();
 		$userId         = $user->id;
 
@@ -2047,7 +1808,7 @@ class RedshopHelperShipping
 			{
 				$userInfo = self::getShippingAddress($usersInfoId);
 			}
-			elseif ($userInfo = $orderFunctions->getShippingAddress($userId))
+			elseif ($userInfo = RedshopHelperOrder::getShippingAddress($userId))
 			{
 				$userInfo = $userInfo[0];
 			}
@@ -2058,7 +1819,7 @@ class RedshopHelperShipping
 			$country      = $userInfo->country_code;
 			$state        = $userInfo->state_code;
 			$isCompany    = $userInfo->is_company;
-			$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 			$zip          = $userInfo->zipcode;
 		}
 
@@ -2233,7 +1994,7 @@ class RedshopHelperShipping
 		$allowCompany  = $isCompany != 1 ? 'style="display:none;"' : '';
 
 		$readOnly  = "";
-		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
+		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox form-control billingRequired valid', 'state_code_ST');
 
 		$post['country_code_ST']  = $countries['country_code_ST'];
 		$lists['country_code_ST'] = $countries['country_dropdown'];
@@ -2249,7 +2010,7 @@ class RedshopHelperShipping
 		$value        = !empty($post["firstname_ST"]) ? $post["firstname_ST"] : '';
 		$templateHtml = str_replace(
 			"{firstname_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2258,7 +2019,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["lastname_ST"])) ? $post["lastname_ST"] : '';
 		$templateHtml = str_replace(
 			"{lastname_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2267,7 +2028,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
 		$templateHtml = str_replace(
 			"{address_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2276,7 +2037,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
 		$templateHtml = str_replace(
 			"{zipcode_st}",
-			'<input class="inputbox billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
+			'<input class="inputbox form-control billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
 			. 'value="' . $value . '" onblur="return autoFillCity(this.value,\'ST\');" '
 			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '" />',
 			$templateHtml
@@ -2286,7 +2047,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["city_ST"])) ? $post["city_ST"] : '';
 		$templateHtml = str_replace(
 			"{city_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="city_ST" ' . $readOnly . ' id="city_ST" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="city_ST" ' . $readOnly . ' id="city_ST" '
 			. 'value="' . $value . '" size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2295,7 +2056,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
 		$templateHtml = str_replace(
 			"{phone_st}",
-			'<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" onblur="return searchByPhone(this.value,\'ST\');" '
 			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"/>',
 			$templateHtml

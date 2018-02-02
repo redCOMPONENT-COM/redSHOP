@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $editor = JFactory::getEditor();
-JHTML::_('behavior.tooltip');
 $model = $this->getModel('newsletter_detail');
 ?>
 <script language="javascript" type="text/javascript">
@@ -127,10 +126,10 @@ $model = $this->getModel('newsletter_detail');
 						?>
 						<tr>
 							<td width="100" align="right" class="key">
-								<?php echo $tags[$i]->text_desc; ?>:
+								<?php echo $tags[$i]->desc ?>:
 							</td>
 							<td>
-								<?php echo "{" . $tags[$i]->text_name . "}"; ?>
+								<?php echo "{" . $tags[$i]->name . "}"; ?>
 							</td>
 						</tr>
 					<?php } ?>

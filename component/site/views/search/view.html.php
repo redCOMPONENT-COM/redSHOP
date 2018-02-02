@@ -147,8 +147,7 @@ class RedshopViewSearch extends RedshopView
 			$model      = $this->getModel('search');
 			$total      = $model->getTotal();
 
-			JHTML::_('behavior.tooltip');
-			JHTMLBehavior::modal();
+			JHTML::_('behavior.modal');
 			$url = JURI::base();
 
 			if ($this->params->get('page_title') != "")
@@ -299,15 +298,15 @@ class RedshopViewSearch extends RedshopView
 				$order_by = $orderby_form;
 			}
 
-			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
-			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
+			$attribute_template            = $producthelper->getAttributeTemplate($template_desc);
 
 			$total_product = $model->getTotal();
 			$endlimit = $model->getState('list.limit');
 			$start    = $model->getState('list.start');
 
-			$tagarray            = $texts->getTextLibraryTagArray();
+			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
 			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
@@ -335,7 +334,7 @@ class RedshopViewSearch extends RedshopView
 					$pro_s_desc     = $this->search[$i]->product_s_desc;
 					$pro_desc       = $this->search[$i]->product_desc;
 
-					if (!in_array($keyword, $tagarray))
+					if (!empty($keyword) && !in_array($keyword, $tagarray))
 					{
 						$regex          = "/" . preg_quote($keyword, "/") . "(?![^<]*>)/";
 						$pname          = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
@@ -654,7 +653,7 @@ class RedshopViewSearch extends RedshopView
 				$data_add = $producthelper->replaceWishlistButton($this->search[$i]->product_id, $data_add);
 
 				// Replace compare product button
-				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
+				$data_add = Redshop\Product\Compare::replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
 				// Checking for child products
 				if ($this->search[$i]->count_child_products > 0)

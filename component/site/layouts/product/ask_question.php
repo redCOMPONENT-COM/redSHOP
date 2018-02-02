@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 

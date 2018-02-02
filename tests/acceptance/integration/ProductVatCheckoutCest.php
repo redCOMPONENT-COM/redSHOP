@@ -19,18 +19,18 @@ class ProductVatCheckoutCest
 {
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
+		$this->faker        = Faker\Factory::create();
 		$this->vatGroupName = $this->faker->bothify('ProductVatCheckoutCest ?##?');
-		$this->country = 'United States';
-		$this->state = 'Alabama';
-		$this->taxRate = ".10";
+		$this->country      = 'United States';
+		$this->state        = 'Alabama';
+		$this->taxRate      = ".10";
 	}
 
 	/**
 	 * Test to Verify the Vat Integration
 	 *
-	 * @param   AcceptanceTester  $I         Actor Class Object
-	 * @param   String            $scenario  Scenario Variable
+	 * @param   AcceptanceTester $I        Actor Class Object
+	 * @param   String           $scenario Scenario Variable
 	 *
 	 * @return void
 	 */
@@ -80,14 +80,14 @@ class ProductVatCheckoutCest
 		$I->waitForText("Configuration Saved", 30, '.alert-message');
 		$I->see("Configuration Saved", '.alert-message');
 		$I->doAdministratorLogout();
-		$productName = 'redCOOKIE';
+		$productName  = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv,30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');

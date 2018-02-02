@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
+
 $url           = JURI::base();
 $extraField    = extraField::getInstance();
 $extra_field   = extra_field::getInstance();
@@ -169,9 +169,9 @@ if (strstr($template_desc, "{manufacturer_url}"))
 }
 
 // Extra field display
-$extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
-$template_desc = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);
-$template_desc = str_replace("{manufacturer_description}", $row->manufacturer_desc, $template_desc);
+$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
+$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $template_desc);
+$template_desc  = str_replace("{manufacturer_description}", $row->manufacturer_desc, $template_desc);
 
 if (strstr($template_desc, "{manufacturer_extra_fields}"))
 {

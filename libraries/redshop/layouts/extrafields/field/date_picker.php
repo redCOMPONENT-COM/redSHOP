@@ -12,19 +12,28 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $extraFieldLabel  Extra field label
- * @param   string  $required         Extra field required
- * @param   string  $requiredLabel    Extra field required label
- * @param   string  $errorMsg         Extra field error message
- * @param   string  $date             Extra field date
+ * @var   array  $displayData     Extra field data
+ * @var   object $rowData         Extra field data
+ * @var   string $extraFieldLabel Extra field label
+ * @var   string $required        Extra field required
+ * @var   string $requiredLabel   Extra field required label
+ * @var   string $errorMsg        Extra field error message
+ * @var   string $date            Extra field date
  */
 extract($displayData);
 ?>
 
 <td valign="top" width="100" align="right" class="key">
-	<?php echo $extraFieldLabel; ?>
+	<?php echo $extraFieldLabel ?>
 </td>
 <td>
-	<?php echo JHtml::_('calendar', $date, $rowData->name, $rowData->name, '%d-%m-%Y', array('class' => 'inputbox', 'size' => $rowData->size > 0 ? $rowData->size : 20 , 'maxlength' => '15')); ?>
+	<?php echo JHtml::_(
+		'redshopcalendar.calendar',
+		$date,
+		$rowData->name,
+		$rowData->name,
+		null,
+		array('class' => 'form-control', 'size' => $rowData->size > 0 ? $rowData->size : 20, 'maxlength' => '15')
+	);
+	?>
 </td>

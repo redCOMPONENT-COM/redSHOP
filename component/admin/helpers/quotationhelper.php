@@ -11,11 +11,10 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Class Redshop Helper for Quotation
  *
+ * @since  1.6.0
  * @deprecated  2.0.3  Use RedshopHelperQuotation instead
  */
 class quotationHelper
@@ -108,30 +107,30 @@ class quotationHelper
 	/**
 	 * Get quotation product
 	 *
-	 * @param   integer  $quotation_id       Quotation ID
-	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 * @param   integer $quotationId     Quotation ID
+	 * @param   integer $quotationItemId Quotation Item ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationProduct() instead
 	 */
-	public function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
+	public function getQuotationProduct($quotationId = 0, $quotationItemId = 0)
 	{
-		return RedshopHelperQuotation::getQuotationProduct($quotation_id, $quotation_item_id);
+		return RedshopHelperQuotation::getQuotationProduct($quotationId, $quotationItemId);
 	}
 
 	/**
 	 * Get quotation detail
 	 *
-	 * @param   integer  $quotation_id  Quotation ID
+	 * @param   integer $quotationId Quotation ID
 	 *
 	 * @return  object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationDetail() instead
 	 */
-	public function getQuotationDetail($quotation_id)
+	public function getQuotationDetail($quotationId)
 	{
-		return RedshopHelperQuotation::getQuotationDetail($quotation_id);
+		return RedshopHelperQuotation::getQuotationDetail($quotationId);
 	}
 
 	/**

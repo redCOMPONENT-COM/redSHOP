@@ -93,7 +93,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Deletion of Category in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Category');
 		$I->deleteCategory($this->newCategoryName);
 	}
 
@@ -106,7 +105,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category creation  Save and Close in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
 		$I->addCategorySaveClose($this->categoryName);
 	}
 
@@ -115,7 +113,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Deletion of Category in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Category');
 		$I->deleteCategory($this->categoryName);
 	}
 
@@ -130,7 +127,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category creation Save and New  in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
 		$I->addCategorySaveNew($this->categoryName, $this->noPage);
 
 	}
@@ -146,7 +142,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category check cancel  in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
 		$I->addCategoryCancel();
 		$I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$headPage);
 	}
@@ -162,7 +157,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category is child category is  in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
 		$I->addCategoryChild($this->categoryName, $this->noPage);
 	}
 
@@ -202,7 +196,7 @@ class ManageCategoryAdministratorCest
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 */
-	public function publishWithouChoice(AcceptanceTester $I, $scenario)
+	public function publishWithoutChoice(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
@@ -236,7 +230,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category Unpublish without choice  in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Unpublish without a Category');
 		$I->unpublishWithoutChoice();
 		$I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
 	}
@@ -253,7 +246,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category Unpublish all categories in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Unpublish for all Categories');
 		$I->unpublishAllCategories();
 		$currentState = $I->getCategoryState($this->categoryName);
 		$I->verifyState('unpublished', $currentState);
@@ -271,7 +263,6 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Test Category check in without choice  in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Check-in  without a Category');
 		$I->checkinWithoutChoice();
 		$I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
 	}
@@ -284,10 +275,9 @@ class ManageCategoryAdministratorCest
 	 */
 	public function checkinAllCategory(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Category Unpublish all categories in Administrator');
+		$I->wantTo('Administrator > Check-in all categories');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Check-in without a Category');
 		$I->checkinAllCategories();
 		$I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
 	}
@@ -299,12 +289,9 @@ class ManageCategoryAdministratorCest
 	 */
 	public function createCategoryAccessories(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Category creation  Save and Close in Administrator');
+		$I->wantTo('Administrator > Create category with Accessories');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
 		$I->addCategoryAccessories($this->categoryName, $this->noPage, $this->productAccessories);
 	}
-
-
 }

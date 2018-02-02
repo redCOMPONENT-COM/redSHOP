@@ -8,8 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $app           = JFactory::getApplication();
 $producthelper = productHelper::getInstance();
@@ -83,7 +82,7 @@ if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc
 	$template_middle = $template_edata[0];
 }
 
-$extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
+$extraFieldName     = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
 $replace_middledata = '';
 
 if ($this->detail && $template_middle != "")

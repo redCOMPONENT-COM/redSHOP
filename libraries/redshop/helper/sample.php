@@ -91,7 +91,7 @@ class RedshopHelperSample
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, 'colour_sample_first_reminder');
+		$mailData = Redshop\Mail\Helper::getTemplate(0, 'colour_sample_first_reminder');
 
 		if (count($mailData) > 0)
 		{
@@ -154,7 +154,7 @@ class RedshopHelperSample
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, 'colour_sample_second_reminder');
+		$mailData = Redshop\Mail\Helper::getTemplate(0, 'colour_sample_second_reminder');
 
 		if (count($mailData) > 0)
 		{
@@ -221,7 +221,7 @@ class RedshopHelperSample
 			$mailBody = "";
 			$subject  = "";
 			$mailBcc  = null;
-			$mailData = RedshopHelperMail::getMailTemplate(0, 'colour_sample_third_reminder');
+			$mailData = Redshop\Mail\Helper::getTemplate(0, 'colour_sample_third_reminder');
 
 			if (count($mailData) > 0)
 			{
@@ -298,7 +298,7 @@ class RedshopHelperSample
 			$mailBody = "";
 			$subject  = "";
 			$mailBcc  = null;
-			$mailData = RedshopHelperMail::getMailTemplate(0, 'colour_sample_third_reminder');
+			$mailData = Redshop\Mail\Helper::getTemplate(0, 'colour_sample_third_reminder');
 
 			if (count($mailData) > 0)
 			{

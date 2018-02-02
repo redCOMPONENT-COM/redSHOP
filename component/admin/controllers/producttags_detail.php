@@ -32,7 +32,9 @@ class RedshopControllerProducttags_detail extends RedshopController
 		$post             = $this->input->post->getArray();
 		$cid              = $this->input->post->get('cid', array(0), 'array');
 		$post ['tags_id'] = $cid[0];
-		$model            = $this->getModel('producttags_detail');
+
+		/** @var RedshopModelProducttags_detail $model */
+		$model = $this->getModel('producttags_detail');
 
 		if ($model->store($post))
 		{
@@ -55,6 +57,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelProducttags_detail $model */
 		$model = $this->getModel('producttags_detail');
 
 		if (!$model->delete($cid))
@@ -75,6 +78,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelProducttags_detail $model */
 		$model = $this->getModel('producttags_detail');
 
 		if (!$model->publish($cid, 1))

@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $objhelper     = redhelper::getInstance();
 $config        = Redconfiguration::getInstance();
@@ -116,7 +115,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 	$cat_detail     = "";
 	$countCategories = count($this->detail);
 

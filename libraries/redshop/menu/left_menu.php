@@ -142,7 +142,9 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'suppliers');
 
 			case "discount":
-			case "discount_detail":
+			case "discounts":
+			case "discount_product":
+			case "discount_products":
 			case "mass_discounts":
 			case "mass_discount":
 				return array('DISCOUNT', 'discount');
@@ -196,9 +198,9 @@ class RedshopMenuLeft_Menu
 			case "tax_rate":
 				return array('PRODUCT_LISTING', 'tax_rate');
 
+			case "currencies":
 			case "currency":
-			case "currency_detail":
-				return array('CUSTOMIZATION', 'currency');
+				return array('CUSTOMIZATION', 'currencies');
 
 			case "countries":
 			case "country":
@@ -226,13 +228,17 @@ class RedshopMenuLeft_Menu
 			case "field":
 				return array('CUSTOMIZATION', 'fields');
 
+			case "field_groups":
+			case "field_group":
+				return array('CUSTOMIZATION', 'field_group');
+
 			case "template":
 			case "templates":
 				return array('CUSTOMIZATION', 'template');
 
-			case "textlibrary":
-			case "textlibrary_detail":
-				return array('CUSTOMIZATION', 'textlibrary');
+			case "texts":
+			case "text":
+				return array('CUSTOMIZATION', 'texts');
 
 			case "catalog":
 			case "catalog_request":
@@ -436,14 +442,14 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'mass_discounts') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=discount',
+				'index.php?option=com_redshop&view=discounts',
 				'COM_REDSHOP_DISCOUNT_LISTING',
-				(self::$view == 'discount' && self::$layout == '') ? true : false
+				(self::$view == 'discounts') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=discount&layout=product',
+				'index.php?option=com_redshop&view=discount_products',
 				'COM_REDSHOP_DISCOUNT_PRODUCT_LISTING',
-				(self::$view == 'discount' && self::$layout == 'product') ? true : false
+				(self::$view == 'discount_products') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=giftcards',
@@ -629,14 +635,19 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'fields') ? true : false
 			)
 			->addItem(
+				'index.php?option=com_redshop&view=field_groups',
+				'COM_REDSHOP_FIELD_GROUP_MANAGEMENT',
+				(self::$view == 'field_groups') ? true : false
+			)
+			->addItem(
 				'index.php?option=com_redshop&view=templates',
 				'COM_REDSHOP_TEMPLATE_LISTING',
 				(self::$view == 'templates') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=textlibrary',
+				'index.php?option=com_redshop&view=texts',
 				'COM_REDSHOP_TEXT_LIBRARY_LISTING',
-				(self::$view == 'textlibrary') ? true : false
+				(self::$view == 'texts') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=catalog',
@@ -664,9 +675,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'attribute_set') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=currency',
+				'index.php?option=com_redshop&view=currencies',
 				'COM_REDSHOP_CURRENCY_LISTING',
-				(self::$view == 'currency') ? true : false
+				(self::$view == 'currencies') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=countries',

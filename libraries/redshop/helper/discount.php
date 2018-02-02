@@ -20,8 +20,8 @@ class RedshopHelperDiscount
 	/**
 	 * Method for get discount
 	 *
-	 * @param   int  $subTotal  Sub-total amount
-	 * @param   int  $userId    User ID
+	 * @param   int $subTotal Sub-total amount
+	 * @param   int $userId   User ID
 	 *
 	 * @return  mixed
 	 *
@@ -29,7 +29,6 @@ class RedshopHelperDiscount
 	 */
 	public static function getDiscount($subTotal = 0, $userId = 0)
 	{
-		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		if (!$userId)
@@ -47,43 +46,45 @@ class RedshopHelperDiscount
 			return false;
 		}
 
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_discount'))
-			->where($db->qn('published') . ' = 1')
-			->where($db->qn('discount_id') . ' IN (' . implode(',', $shopperGroupDiscounts->ids()) . ')')
-			->where($db->qn('start_date') . ' <= ' . time())
-			->where($db->qn('end_date') . ' >= ' . time())
-			->order($db->qn('amount') . ' DESC');
+		$result      = false;
+		$currentTime = time();
 
-		$db->setQuery($query, 0, 1);
-
-		if (!$subTotal)
+		foreach ($shopperGroupDiscounts->getAll() as $discount)
 		{
-			return $db->setQuery($query)->loadObject();
-		}
+			/** @var RedshopEntityDiscount $discount */
+			$potentialDiscount = null;
 
-		$newQuery = clone $query;
-		$newQuery->where($db->qn('condition') . ' = 2')
-			->where($db->qn('amount') . ' = ' . $subTotal);
-
-		$result = $db->setQuery($newQuery)->loadObject();
-
-		if (!$result)
-		{
-			$newQuery = clone $query;
-			$newQuery->where($db->qn('condition') . ' = 1')
-				->where($db->qn('amount') . ' > ' . $subTotal);
-
-			$result = $db->setQuery($newQuery)->loadObject();
-
-			if (!$result)
+			// Skip if this discount is not published
+			if (!$discount->get('published', false))
 			{
-				$newQuery = clone $query;
-				$newQuery->where($db->qn('condition') . ' = 3')
-					->where($db->qn('amount') . ' < ' . $subTotal);
+				continue;
+			}
 
-				$result = $db->setQuery($newQuery)->loadObject();
+			$startDate = $discount->get('start_date', 0);
+			$endDate   = $discount->get('end_date', 0);
+
+			/**
+			 * Discount condition
+			 * 1. Start date and End date not set
+			 * 2. Had only start date and start date smaller than current time.
+			 * 3. Had only end date and end date higher than current time.
+			 * 4. Start date exist and smaller than current time. End date exist and higher than current time.
+			 */
+			if ((!$startDate && !$endDate)
+				|| ($startDate && !$endDate && $startDate <= $currentTime)
+				|| (!$startDate && $endDate && $endDate >= $currentTime)
+				|| ($startDate && $startDate <= $currentTime && $endDate && $endDate >= $currentTime))
+			{
+				$potentialDiscount = $discount;
+			}
+			else
+			{
+				continue;
+			}
+
+			if (false === $result || $result->get('amount') > $potentialDiscount->get('amount'))
+			{
+				$result = $potentialDiscount;
 			}
 		}
 
@@ -93,7 +94,7 @@ class RedshopHelperDiscount
 	/**
 	 * Get discount price from product with check discount date.
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return  float
 	 *
@@ -126,12 +127,12 @@ class RedshopHelperDiscount
 	/**
 	 * Add GiftCard To Cart
 	 *
-	 * @param   array  $cartItem  Cart item
-	 * @param   array  $data      User cart data
+	 * @param   array $cartItem Cart item
+	 * @param   array $data     User cart data
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function addGiftCardToCart(&$cartItem, $data)
 	{
@@ -177,12 +178,12 @@ class RedshopHelperDiscount
 	/**
 	 * Re-calculate the Voucher/Coupon value when the product is already discount
 	 *
-	 * @param   float  $value  Voucher/Coupon value
-	 * @param   array  $cart   Cart array
+	 * @param   float $value Voucher/Coupon value
+	 * @param   array $cart  Cart array
 	 *
 	 * @return  float          Voucher/Coupon value
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculateAlreadyDiscount($value, $cart)
 	{
@@ -213,12 +214,12 @@ class RedshopHelperDiscount
 	/**
 	 * Method for calculate discount.
 	 *
-	 * @param   string  $type   Type of discount
-	 * @param   array   $types  List of type
+	 * @param   string $type  Type of discount
+	 * @param   array  $types List of type
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculate($type, $types)
 	{

@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
+use Redshop\Order\Template;
 
 /**
  * Class Redshop Helper for Order
@@ -148,7 +149,6 @@ class RedshopHelperOrder
 	public static function generateInvoiceNumber($orderId)
 	{
 		$db    = JFactory::getDbo();
-
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
@@ -181,7 +181,6 @@ class RedshopHelperOrder
 			$db->setQuery($query);
 
 			$maxInvoiceNo   = $db->loadResult();
-
 			$firstInvoiceNo = (int) Redshop::getConfig()->get('FIRST_INVOICE_NUMBER');
 
 			// It will apply only for the first number ideally!
@@ -444,13 +443,13 @@ class RedshopHelperOrder
 			return self::$orderExtraFieldData[$key];
 		}
 
-		$privateSection = extraField::SECTION_PRIVATE_BILLING_ADDRESS;
-		$companySection = extraField::SECTION_COMPANY_BILLING_ADDRESS;
+		$privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
+		$companySection = RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
 
 		if ('shipping' == $section)
 		{
-			$privateSection = extraField::SECTION_PRIVATE_SHIPPING_ADDRESS;
-			$companySection = extraField::SECTION_COMPANY_SHIPPING_ADDRESS;
+			$privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
+			$companySection = RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS;
 		}
 
 		$db    = JFactory::getDbo();
@@ -598,7 +597,7 @@ class RedshopHelperOrder
 	 */
 	public static function getOrderStatusTitle($orderStatusCode)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('order_status_name'))
 			->from($db->qn('#__redshop_order_status'))
@@ -1063,13 +1062,13 @@ class RedshopHelperOrder
 				// Send Order Mail After Payment
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C")
 				{
-					RedshopHelperMail::sendOrderMail($orderId);
+					Redshop\Mail\Order::sendMail($orderId);
 				}
 
 				// Send Invoice mail only if order mail is set to before payment.
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					RedshopHelperMail::sendInvoiceMail($orderId);
+					Redshop\Mail\Invoice::sendMail($orderId);
 				}
 			}
 
@@ -1172,7 +1171,7 @@ class RedshopHelperOrder
 			// Economic Integration start for invoice generate and book current invoice
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::renewInvoiceInEconomic($order->getItem());
+				RedshopEconomic::renewInvoiceInEconomic($order->getItem());
 			}
 		}
 	}
@@ -1391,12 +1390,12 @@ class RedshopHelperOrder
 					)
 					{
 						// Only send email if order_sendordermail checked or frontend
-						RedshopHelperMail::sendOrderMail($orderId);
+						Redshop\Mail\Order::sendMail($orderId);
 					}
 				}
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					RedshopHelperMail::sendInvoiceMail($orderId);
+					Redshop\Mail\Invoice::sendMail($orderId);
 				}
 			}
 
@@ -1601,7 +1600,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0)
+	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0, $force = false)
 	{
 		// Make sure at least one options has been pass.
 		if (empty($orderId) && !$productId && !$orderItemId)
@@ -1611,7 +1610,7 @@ class RedshopHelperOrder
 
 		$key = $orderId . '_' . $productId . '_' . $orderItemId;
 
-		if (!array_key_exists($key, self::$orderItems))
+		if (!array_key_exists($key, self::$orderItems) || $force)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -1752,7 +1751,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object            Object data if success. False otherwise.
+	 * @return  mixed             Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -1988,7 +1987,7 @@ class RedshopHelperOrder
 			$db->setQuery($query);
 
 			$maxOrderNumber = $db->loadResult();
-			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
+			$maxInvoice     = RedshopEconomic::getMaxOrderNumberInEconomic();
 			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
@@ -2126,7 +2125,7 @@ class RedshopHelperOrder
 		$mailData    = "";
 		$mailSubject = "";
 		$mailBcc     = null;
-		$mailInfo    = RedshopHelperMail::getMailTemplate(0, "downloadable_product_mail");
+		$mailInfo    = Redshop\Mail\Helper::getTemplate(0, "downloadable_product_mail");
 
 		if (count($mailInfo) > 0)
 		{
@@ -2445,7 +2444,7 @@ class RedshopHelperOrder
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
-		$mailTemplate = RedshopHelperMail::getMailTemplate(
+		$mailTemplate = Redshop\Mail\Helper::getTemplate(
 			0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"'
 		);
 
@@ -2487,7 +2486,7 @@ class RedshopHelperOrder
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($orderDetail, $mailData, true);
+			$mailData = Template::replaceTemplate($orderDetail, $mailData, true);
 
 			$arrDiscount     = explode('@', $orderDetail->discount_type);
 			$discountType    = '';
@@ -2684,14 +2683,14 @@ class RedshopHelperOrder
 					}
 				}
 
-				Economic::createInvoiceInEconomic($orderId, $economicData);
+				RedshopEconomic::createInvoiceInEconomic($orderId, $economicData);
 			}
 
-			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
+			$bookInvoicePdf = RedshopEconomic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
 			if (JFile::exists($bookInvoicePdf))
 			{
-				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
+				Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}
 		}
 	}
@@ -2735,7 +2734,6 @@ class RedshopHelperOrder
 			return;
 		}
 
-		$cartHelper    = rsCarthelper::getInstance();
 		$orderDetail   = self::getOrderDetails($orderId);
 		$orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
@@ -2782,7 +2780,7 @@ class RedshopHelperOrder
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
+		$message = Template::replaceTemplate($orderDetail, $message, true);
 
 		JPluginHelper::importPlugin('redshop_pdf');
 		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));

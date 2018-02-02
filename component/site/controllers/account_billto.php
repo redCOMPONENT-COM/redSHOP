@@ -27,6 +27,7 @@ class RedshopControllerAccount_billto extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
+
 		$this->registerTask('add', 'edit');
 		$this->registerTask('', 'edit');
 		$this->registerTask('display', 'edit');
@@ -35,13 +36,14 @@ class RedshopControllerAccount_billto extends RedshopController
 	/**
 	 * Method to edit billing Address
 	 *
-	 * @return  boolean  True if the ID is in the edit list.
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function edit()
 	{
-		$user                        = JFactory::getUser();
-		$order_functions             = order_functions::getInstance();
-		$billingaddresses            = $order_functions->getBillingAddress($user->id);
+		$user             = JFactory::getUser();
+		$billingaddresses = RedshopHelperOrder::getBillingAddress($user->id);
+
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
 		$task = JFactory::getApplication()->input->get('submit', 'post');
@@ -119,19 +121,19 @@ class RedshopControllerAccount_billto extends RedshopController
 	 * Method called when user pressed cancel button
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	function cancel()
 	{
 		$input   = JFactory::getApplication()->input;
-		$Itemid  = $input->get('Itemid');
+		$itemId  = $input->get('Itemid');
 		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
 		$return  = $input->get('return');
 		$setexit = $input->getInt('setexit', 1);
-		$link    = '';
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -140,12 +142,12 @@ class RedshopControllerAccount_billto extends RedshopController
                     window.parent.location.href = "<?php echo $link ?>";
                 </script>
 				<?php
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 		else
 		{
-			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $itemId;
 		}
 
 		$this->setRedirect($link, $msg);

@@ -54,8 +54,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('behavior.tooltip');
-
 		$app         = JFactory::getApplication();
 		$this->input = $app->input;
 		$user        = JFactory::getUser();
@@ -353,6 +351,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		if ($detail->product_id > 0)
 		{
 			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+
 			$catidmain = $detail->cat_in_sefurl;
 
 			if (count($ItemData) > 0)

@@ -37,8 +37,6 @@ class RedshopViewRegistration extends RedshopView
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 
-		$field                        = extraField::getInstance();
-
 		$jInput = JFactory::getApplication()->input;
 		$openToStretcher = 0;
 		$isCompany = $jInput->getInt('is_company', 0);
@@ -49,21 +47,21 @@ class RedshopViewRegistration extends RedshopView
 		}
 
 		// Allow registration type settings
-		$lists['allowCustomer'] = "";
-		$lists['allowCompany'] = "";
+		$lists['allowCustomer']    = "";
+		$lists['allowCompany']     = "";
 		$lists['showCustomerdesc'] = "";
-		$lists['showCompanydesc'] = "style='display:none;'";
+		$lists['showCompanydesc']  = "style='display:none;'";
 
 		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
-			$lists['allowCompany']      = "style='display:none;'";
-			$openToStretcher = 0;
+			$lists['allowCompany'] = "style='display:none;'";
+			$openToStretcher       = 0;
 		}
 		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
-			$lists['allowCustomer']     = "style='display:none;'";
-			$lists['showCustomerdesc']  = "style='display:none;'";
-			$openToStretcher = 1;
+			$lists['allowCustomer']    = "style='display:none;'";
+			$lists['showCustomerdesc'] = "style='display:none;'";
+			$openToStretcher           = 1;
 		}
 
 		if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
@@ -77,12 +75,12 @@ class RedshopViewRegistration extends RedshopView
 		if ($lists['is_company'])
 		{
 			// Field_section 8 : Company Address
-			$lists['extra_field_company'] = $field->list_all_field(8);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8);
 		}
 		else
 		{
 			// Field_section 7 : Customer Registration
-			$lists['extra_field_user']    = $field->list_all_field(7);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7);
 		}
 
 		$this->lists = $lists;

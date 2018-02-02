@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 
@@ -771,7 +771,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
@@ -780,11 +780,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -792,7 +792,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// ORDER MAIL SEND
 		if ($postdata['task'] != "save_without_sendmail")
 		{
-			RedshopHelperMail::sendOrderMail($row->order_id);
+			Redshop\Mail\Order::sendMail($row->order_id);
 		}
 
 		return $row;
@@ -800,8 +800,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function sendRegistrationMail($post)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$redshopMail->sendRegistrationMail($post);
+		Redshop\Mail\User::sendRegistrationMail($post);
 	}
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)

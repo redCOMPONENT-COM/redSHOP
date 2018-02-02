@@ -268,7 +268,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 
 		if (!empty($products))
 		{
-			ArrayHelper::toInteger($products);
+			$products = ArrayHelper::toInteger($products);
 			$attributeQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
 			$propertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
 			$subPropertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');

@@ -338,7 +338,7 @@ class RedshopViewList extends AbstractView
 		{
 			if ($this->canEdit)
 			{
-				return JHtml::_('jgrid.published', $row->published, $index);
+				return JHtml::_('redshopgrid.published', $row->published, $index);
 			}
 			else
 			{

@@ -105,7 +105,7 @@ class RedshopHelperNewsletter
 
 		if ($needSendMail)
 		{
-			RedshopHelperMail::sendNewsletterConfirmationMail($row->subscription_id);
+			Redshop\Mail\Newsletter::sendConfirmationMail($row->subscription_id);
 		}
 
 		return true;
@@ -149,7 +149,7 @@ class RedshopHelperNewsletter
 
 		$db->setQuery($query)->execute();
 
-		RedshopHelperMail::sendNewsletterCancellationMail($email);
+		Redshop\Mail\Newsletter::sendCancellationMail($email);
 
 		return true;
 	}

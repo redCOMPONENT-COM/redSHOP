@@ -26,6 +26,51 @@ class RedshopTableVoucher extends RedshopTable
 	protected $_tableName = 'redshop_voucher';
 
 	/**
+	 * @var  integer
+	 */
+	public $id;
+
+	/**
+	 * @var  string
+	 */
+	public $code;
+
+	/**
+	 * @var  float
+	 */
+	public $amount;
+
+	/**
+	 * @var  string
+	 */
+	public $type;
+
+	/**
+	 * @var  string
+	 */
+	public $start_date = '0000-00-00 00:00:00';
+
+	/**
+	 * @var  string
+	 */
+	public $end_date = '0000-00-00 00:00:00';
+
+	/**
+	 * @var  integer
+	 */
+	public $free_ship;
+
+	/**
+	 * @var  integer
+	 */
+	public $voucher_left;
+
+	/**
+	 * @var  integer
+	 */
+	public $published;
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -84,18 +129,15 @@ class RedshopTableVoucher extends RedshopTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws  \InvalidArgumentException
+	 * @throws  Exception
 	 */
 	protected function doBind(&$src, $ignore = array())
 	{
-		// Check container products
-		$products = $this->getOption('products', null);
-
-		if (is_null($products))
+		if (isset($src['voucher_products']) && !empty($src['voucher_products']))
 		{
-			// Try to get products from input
-			$products = JFactory::getApplication()->input->getString('container_product', '');
-			$this->setOption('products', explode(',', $products));
+			$products = is_string($src['voucher_products']) ? explode(',', $src['voucher_products']) : $src['voucher_products'];
+			$this->setOption('products', $products);
+			unset($src['shopper_group']);
 		}
 
 		return parent::doBind($src, $ignore);
@@ -115,7 +157,7 @@ class RedshopTableVoucher extends RedshopTable
 			return false;
 		}
 
-		if ($this->getOption('skip.updateProducts', false) === true)
+		if ($this->getOption('skip.updateProducts', false) === true || $this->getOption('inlineMode', false) === true)
 		{
 			return true;
 		}
@@ -148,8 +190,6 @@ class RedshopTableVoucher extends RedshopTable
 		$query->clear()
 			->insert($db->qn('#__redshop_product_voucher_xref'))
 			->columns($db->qn(array('voucher_id', 'product_id')));
-
-		$values = array();
 
 		foreach ($products as $productId)
 		{

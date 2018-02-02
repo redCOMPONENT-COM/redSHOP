@@ -26,8 +26,7 @@ defined('_JEXEC') or die;
 <?php
 $url = JURI::base();
 $user = JFactory::getUser();
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $app             = JFactory::getApplication();
 $carthelper = rsCarthelper::getInstance();

@@ -54,7 +54,15 @@ class RedshopControllerUser_detail extends RedshopController
 		if ($shipping)
 		{
 			$info_id = $this->input->getString('info_id', '');
-			$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			if ($apply == 1)
+			{
+				$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $info_id . '&cid[]=' . $row->users_info_id;
+			}
+			else
+			{
+				$app->setUserState('com_redshop.user_detail.data', "");
+				$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			}
 		}
 		else
 		{

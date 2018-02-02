@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+
 $url             = JURI::base();
 $app             = JFactory::getApplication();
 $order_functions = order_functions::getInstance();

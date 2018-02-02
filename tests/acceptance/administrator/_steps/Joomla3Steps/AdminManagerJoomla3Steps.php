@@ -185,13 +185,28 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+	
+	public function addValueForField($xpath, $prices)
+	{
+		$I = $this;
+		$I->click($xpath);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+
+		$price = str_split($prices);
+		foreach ($price as $char)
+		{
+			$I->pressKey($xpath, $char);
+		}
+	}
 
 	public function chooseOnSelect2($element, $text)
 	{
 		$I = $this;
-
 		$elementId = is_array($element) ? $element['id'] : $element;
-
 		$I->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
 		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
 		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
@@ -204,12 +219,26 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
-	public function chooseRadio($element, $value)
+	public function selectOptionInChosenjs($label, $option)
 	{
 		$I = $this;
-		$element = is_array($element) ? $element : array('id' => $element);
-		$element['value'] = $value;
-		$element['type']  = 'radio';
-		$I->click($element);
+
+		$I->waitForJS("return jQuery(\"label:contains('$label')\");");
+		$selectID = $I->executeJS("return jQuery(\"label:contains('$label')\").attr(\"for\");");
+
+		$option = trim($option);
+
+		$I->waitForJS(
+			"jQuery('#$selectID option').filter(function(){ return this.text.trim() === \"$option\" }).prop('selected', true); return true;",
+			30
+		);
+		$I->waitForJS(
+			"jQuery('#$selectID').trigger('liszt:updated').trigger('chosen:updated'); return true;",
+			30
+		);
+		$I->waitForJS(
+			"jQuery('#$selectID').trigger('change'); return true;",
+			30
+		);
 	}
 }

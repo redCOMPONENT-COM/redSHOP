@@ -989,7 +989,7 @@ class RedshopHelperProductTag
 		{
 			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
 
-			if (empty($attribute->text) || empty($property))
+			if (empty($attribute->text) || empty($properties))
 			{
 				continue;
 			}

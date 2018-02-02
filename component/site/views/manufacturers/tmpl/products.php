@@ -17,8 +17,7 @@ $extraField       = extraField::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 $app              = JFactory::getApplication();
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $url              = JURI::base();
 $user             = JFactory::getUser();
@@ -107,7 +106,7 @@ $cname = '';
 
 if ($template_middle != "")
 {
-	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 
 	for ($i = 0, $in = count($manufacturer_products); $i < $in; $i++)
 	{
@@ -232,8 +231,8 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{manufacturer_product_link}", $link, $cart_mdata);
 		}
 
-		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
-		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
+		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+		$cart_mdata     = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
 
 		$productAvailabilityDate = strstr($cart_mdata, "{product_availability_date}");
 		$stockNotifyFlag         = strstr($cart_mdata, "{stock_notify_flag}");
@@ -303,7 +302,7 @@ $manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout
 $template_desc = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $template_desc);
 
 // Extra field display
-$extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
+$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
 $template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->manufacturer_id, "10", $template_desc);
 $template_desc  = str_replace("{manufacturer_description}", $manufacturer->manufacturer_desc, $template_desc);
 

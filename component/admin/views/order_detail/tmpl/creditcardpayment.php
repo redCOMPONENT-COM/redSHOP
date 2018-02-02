@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
-JHTML::_('behavior.tooltip');
 
 $carthelper = rsCarthelper::getInstance();
 $producthelper = productHelper::getInstance();

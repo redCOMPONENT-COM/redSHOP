@@ -721,24 +721,21 @@ abstract class RedshopHelperCart
 					$cartItemId, $isAccessory, "subproperty", $cartProperties[$p]->section_id
 				);
 
-				for ($sp = 0; $sp < count($cartSubProperties); $sp++)
+				foreach ($cartSubProperties as $index => $cartSubProperty)
 				{
-					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperties[$sp]->section_id);
-					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
+					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperty->section_id);
+					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperty->section_id, $quantity, 'subproperty');
+					$subPropertyPrice = $subProperty[0]->subattribute_color_price;
 
-					if (count($price) > 0)
+					if (!empty($price))
 					{
 						$subPropertyPrice = $price->product_price;
 					}
-					else
-					{
-						$subPropertyPrice = $subProperty[0]->subattribute_color_price;
-					}
 
-					$generateSubProperties[$sp]['subproperty_id']     = $cartSubProperties[$sp]->section_id;
-					$generateSubProperties[$sp]['subproperty_name']   = $subProperty[0]->text;
-					$generateSubProperties[$sp]['subproperty_oprand'] = $subProperty[0]->oprand;
-					$generateSubProperties[$sp]['subproperty_price']  = $subPropertyPrice;
+					$generateSubProperties[$index]['subproperty_id']     = $cartSubProperty->section_id;
+					$generateSubProperties[$index]['subproperty_name']   = $subProperty[0]->text;
+					$generateSubProperties[$index]['subproperty_oprand'] = $subProperty[0]->oprand;
+					$generateSubProperties[$index]['subproperty_price']  = $subPropertyPrice;
 				}
 
 				$generateProperties[$p]['property_childs'] = $generateSubProperties;
@@ -764,7 +761,7 @@ abstract class RedshopHelperCart
 	public static function cartFinalCalculation($isModify = true)
 	{
 		$ajax = JFactory::getApplication()->input->get('ajax_cart_box');
-		$cart = JFactory::getSession()->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		if ($isModify === true)
 		{
@@ -801,29 +798,14 @@ abstract class RedshopHelperCart
 		$return           = array();
 		$totalQuantity    = 0;
 		$idx              = $cart['idx'];
-		$showWithVAT      = 0;
-		$html             = 'simple';
-		$showShippingLine = 0;
-		$cartParams       = rsCarthelper::getInstance()->GetCartParameters();
-
-		if (array_key_exists('cart_output', $cartParams))
-		{
-			$html = $cartParams['cart_output'];
-		}
-
-		if (array_key_exists('show_shipping_line', $cartParams))
-		{
-			$showShippingLine = $cartParams['show_shipping_line'];
-		}
+		$cartParams       = \Redshop\Cart\Module::getParams();
+		$html             = (string) $cartParams->get('cart_output', 'simple');
+		$showShippingLine = (int) $cartParams->get('show_shipping_line', 0);
+		$showWithVAT      = (int) $cartParams->get('show_with_vat', 0);
 
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$totalQuantity += $cart[$i]['quantity'];
-
-			if (array_key_exists('show_with_vat', $cartParams))
-			{
-				$showWithVAT = $cartParams['show_with_vat'];
-			}
 		}
 
 		// Load cart module language

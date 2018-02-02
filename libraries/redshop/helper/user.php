@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Class Redshop Helper Stock Room
@@ -398,11 +398,11 @@ class RedshopHelperUser
 			$userId = $user->id;
 		}
 
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
+		$userData = $session->get('rs_user');
 
 		if ($userId)
 		{
-			$userData        = $session->get('rs_user');
 			$userInformation = self::getUserInformation($userId);
 
 			if ($userData['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
@@ -449,8 +449,8 @@ class RedshopHelperUser
 			$userInforId = $auth['users_info_id'];
 
 			$userInformation               = new stdClass;
-			$userInformation->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-			$userInformation->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
+			$userInformation->country_code = !empty($userData['vatCountry']) ? $userData['vatCountry'] : Redshop::getConfig()->getString('DEFAULT_VAT_COUNTRY');
+			$userInformation->state_code   = !empty($userData['vatState']) ? $userData['vatState'] : Redshop::getConfig()->getString('DEFAULT_VAT_STATE');
 
 			if ($userInforId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2)
 				&& (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
@@ -560,7 +560,7 @@ class RedshopHelperUser
 
 				if ($row->requesting_tax_exempt == 1)
 				{
-					RedshopHelperMail::sendRequestTaxExemptMail($row, $data['username']);
+					Redshop\Mail\User::sendRequestTaxExempt($row, $data['username']);
 				}
 			}
 
@@ -568,7 +568,7 @@ class RedshopHelperUser
 			if (!$isNew && $admin && isset($data["tax_exempt_approved"]) && $data["old_tax_exempt_approved"] != $data["tax_exempt_approved"])
 			{
 				$mailTemplate = $data["tax_exempt_approved"] == 1 ? 'tax_exempt_approval_mail' : 'tax_exempt_disapproval_mail';
-				RedshopHelperMail::sendTaxExemptMail($mailTemplate, $data, $row->user_email);
+				Redshop\Mail\User::sendTaxExempt($mailTemplate, $data, $row->user_email);
 			}
 		}
 
@@ -675,7 +675,7 @@ class RedshopHelperUser
 			if ($registerMethod != 2
 				|| ($registerMethod == 2 && isset($data['createaccount']) && $data['createaccount'] == 1))
 			{
-				RedshopHelperMail::sendRegistrationMail($data);
+				Redshop\Mail\User::sendRegistrationMail($data);
 			}
 		}
 

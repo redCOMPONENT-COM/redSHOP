@@ -205,51 +205,18 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
-		if (count($cid))
+		if (empty($cid))
 		{
-			$cids  = implode(',', $cid);
-			$items = $quotationHelper->getQuotationProduct($cids);
+			return false;
+		}
 
-			for ($i = 0, $in = count($items); $i < $in; $i++)
-			{
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
-					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-				$this->_db->setQuery($query);
+		$cids  = implode(',', $cid);
+		$items = RedshopHelperQuotation::getQuotationProduct($cids);
 
-				if (!$this->_db->execute())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
-					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-				$this->_db->setQuery($query);
-
-				if (!$this->_db->execute())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
-					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-				$this->_db->setQuery($query);
-
-				if (!$this->_db->execute())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-			}
-
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
-				. 'WHERE quotation_id IN ( ' . $cids . ' )';
+		for ($i = 0, $in = count($items); $i < $in; $i++)
+		{
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
+				. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -259,7 +226,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
+				. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -268,6 +236,38 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 				return false;
 			}
+
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
+				. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+
+		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
+			. 'WHERE quotation_id IN ( ' . $cids . ' )';
+		$this->_db->setQuery($query);
+
+		if (!$this->_db->execute())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
+		$this->_db->setQuery($query);
+
+		if (!$this->_db->execute())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
 		}
 
 		return true;
@@ -706,8 +706,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$jinput = JFactory::getApplication()->input;
 
 			// Store userfields
-			$userfields    = $jinput->get('extrafields' . $qitemdata->product_id);
-			$userfields_id = $jinput->get('extrafields_id_' . $qitemdata->product_id);
+			$userfields = $jinput->getSring('extrafieldname' . $qitemdata->product_id . 'product1');
+			$userfields_id = $jinput->getInt('extrafieldId' . $qitemdata->product_id . 'product1');
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
