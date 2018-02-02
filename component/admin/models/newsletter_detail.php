@@ -200,14 +200,22 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * Method for get texts of newsletter.
+	 *
+	 * @return  array
+	 */
 	public function getnewslettertexts()
 	{
-		$query = 'SELECT text_name,text_desc FROM ' . $this->_table_prefix . 'textlibrary '
-			. 'WHERE section="newsletter" '
-			. 'AND published=1';
-		$this->_db->setQuery($query);
+		$db = $this->_db;
 
-		return $this->_db->loadObjectlist();
+		$query = $db->getQuery(true)
+			->select($db->qn(array('name', 'desc')))
+			->from($db->qn('#__redshop_textlibrary'))
+			->where($db->qn('section') . ' = ' . $db->quote('newsletter'))
+			->where($db->qn('published') . ' = 1');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function getNewsletterList($newsletter_id = 0)

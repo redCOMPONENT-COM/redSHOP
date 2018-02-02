@@ -1062,13 +1062,13 @@ class RedshopHelperOrder
 				// Send Order Mail After Payment
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C")
 				{
-					RedshopHelperMail::sendOrderMail($orderId);
+					Redshop\Mail\Order::sendMail($orderId);
 				}
 
 				// Send Invoice mail only if order mail is set to before payment.
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					RedshopHelperMail::sendInvoiceMail($orderId);
+					Redshop\Mail\Invoice::sendMail($orderId);
 				}
 			}
 
@@ -1390,12 +1390,12 @@ class RedshopHelperOrder
 					)
 					{
 						// Only send email if order_sendordermail checked or frontend
-						RedshopHelperMail::sendOrderMail($orderId);
+						Redshop\Mail\Order::sendMail($orderId);
 					}
 				}
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
-					RedshopHelperMail::sendInvoiceMail($orderId);
+					Redshop\Mail\Invoice::sendMail($orderId);
 				}
 			}
 
@@ -1751,7 +1751,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object            Object data if success. False otherwise.
+	 * @return  mixed             Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -2125,7 +2125,7 @@ class RedshopHelperOrder
 		$mailData    = "";
 		$mailSubject = "";
 		$mailBcc     = null;
-		$mailInfo    = RedshopHelperMail::getMailTemplate(0, "downloadable_product_mail");
+		$mailInfo    = Redshop\Mail\Helper::getTemplate(0, "downloadable_product_mail");
 
 		if (count($mailInfo) > 0)
 		{
@@ -2444,7 +2444,7 @@ class RedshopHelperOrder
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
-		$mailTemplate = RedshopHelperMail::getMailTemplate(
+		$mailTemplate = Redshop\Mail\Helper::getTemplate(
 			0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"'
 		);
 
@@ -2690,7 +2690,7 @@ class RedshopHelperOrder
 
 			if (JFile::exists($bookInvoicePdf))
 			{
-				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
+				Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}
 		}
 	}

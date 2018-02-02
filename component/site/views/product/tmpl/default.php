@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
-JHtmlBehavior::modal();
+JHtml::_('behavior.modal');
 
 $url             = JURI::base();
 $u               = JURI::getInstance();
@@ -1465,7 +1464,7 @@ $template_desc = str_replace("{ajaxwishlist_icon}", '', $template_desc);
 $template_desc = $producthelper->replaceWishlistButton($this->data->product_id, $template_desc);
 
 // Replace compare product button
-$template_desc = $producthelper->replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
+$template_desc = Redshop\Product\Compare::replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
 
 // Ajax detail box template
 $ajaxdetail_templatedata = $producthelper->getAjaxDetailboxTemplate($this->data);

@@ -45,26 +45,26 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
-
-	public static $addressEmail = ['xpath' => '//input[@id=\'email1\']'];
+	
+	public static $addressEmail = "#private-email1";
 	
 	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
 
-	public static $addressFirstName = ['xpath' => './/*[@id=\'firstname\']'];
+	public static $addressFirstName = "//input[@id='private-firstname']";
 
-	public static $addressLastName = ['xpath' => './/*[@id=\'lastname\']'];
+	public static $addressLastName = "//input[@id='private-lastname']";
 
-	public static $addressAddress = ['xpath' => '//input[@id=\'address\']'];
+	public static $addressAddress = "//input[@id='private-address']";
 
-	public static $addressPostalCode = ['xpath' => '//input[@id=\'zipcode\']'];
+	public static $addressPostalCode = "//input[@id='private-zipcode']";
 
-	public static $addressCity = ['xpath' => '//input[@id=\'city\']'];
+	public static $addressCity = "//input[@id='private-city']";
 
-	public static $addressCountry = "//select[@id='country_code']";
+	public static $addressCountry = "//select[@id='rs_country_country_code']";
 
 	public static $addressState = "//select[@id='state_code']";
 
-	public static $addressPhone = "//input[@id='phone']";
+	public static $addressPhone = "//input[@id='private-phone']";
 
 	public static $shippingFirstName = "//input[@id='firstname_ST']";
 
@@ -116,12 +116,52 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var array
 	 */
+	public static $idCompanyNameOnePage = ['xpath' => '//input[@id=\'company-company_name\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyAddressOnePage = ['xpath' => '//input[@id=\'company-address\']'];
+	
+	/**
+	 * @var array
+	 */
+	public static $idCompanyEmailOnePage = ['xpath' => '//input[@id=\'company-email1\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyZipCodeOnePage = ['xpath' => '//input[@id=\'company-zipcode\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyCityOnePage = ['xpath' => '//input[@id=\'company-city\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyPhoneOnePage = ['xpath' => '//input[@id=\'company-phone\']'];
+
+	/**
+	 * @var array
+	 */
 	public static $idBusinessNumber = ['xpath' => '//input[@id=\'vat_number\']'];
 
 	/**
 	 * @var array
 	 */
 	public static $idEanNumber = ['xpath' => '//input[@id=\'ean_number\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyFirstName  =   ['xpath' => '//input[@id=\'company-firstname\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyLastName  =   ['xpath' => '//input[@id=\'company-lastname\']'];
 
 
 	/**

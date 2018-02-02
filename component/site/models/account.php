@@ -19,10 +19,19 @@ defined('_JEXEC') or die;
  */
 class RedshopModelAccount extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_id = null;
 
+	/**
+	 * @var null
+	 */
 	public $_data = null;
 
+	/**
+	 * @var null
+	 */
 	public $_table_prefix = null;
 
 	/**
@@ -40,9 +49,7 @@ class RedshopModelAccount extends RedshopModel
 		$order_functions = order_functions::getInstance();
 
 		$user = JFactory::getUser();
-
 		$session = JFactory::getSession();
-
 		$auth = $session->get('auth');
 
 		$list = array();

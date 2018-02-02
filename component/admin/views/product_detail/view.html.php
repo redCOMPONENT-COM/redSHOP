@@ -54,8 +54,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('behavior.tooltip');
-
 		$app         = JFactory::getApplication();
 		$this->input = $app->input;
 		$user        = JFactory::getUser();

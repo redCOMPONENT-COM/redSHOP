@@ -8,9 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-JHTML::_('behavior.tooltip');
-
 ?>
 
 <script language="javascript" type="text/javascript">

@@ -8,8 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $app           = JFactory::getApplication();
 $producthelper = productHelper::getInstance();

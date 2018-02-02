@@ -47,21 +47,21 @@ class RedshopViewRegistration extends RedshopView
 		}
 
 		// Allow registration type settings
-		$lists['allowCustomer'] = "";
-		$lists['allowCompany'] = "";
+		$lists['allowCustomer']    = "";
+		$lists['allowCompany']     = "";
 		$lists['showCustomerdesc'] = "";
-		$lists['showCompanydesc'] = "style='display:none;'";
+		$lists['showCompanydesc']  = "style='display:none;'";
 
 		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
-			$lists['allowCompany']      = "style='display:none;'";
-			$openToStretcher = 0;
+			$lists['allowCompany'] = "style='display:none;'";
+			$openToStretcher       = 0;
 		}
 		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
-			$lists['allowCustomer']     = "style='display:none;'";
-			$lists['showCustomerdesc']  = "style='display:none;'";
-			$openToStretcher = 1;
+			$lists['allowCustomer']    = "style='display:none;'";
+			$lists['showCustomerdesc'] = "style='display:none;'";
+			$openToStretcher           = 1;
 		}
 
 		if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)

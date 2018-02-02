@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
+
 $url           = JURI::base();
 $extraField    = extraField::getInstance();
 $extra_field   = extra_field::getInstance();

@@ -706,8 +706,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$jinput = JFactory::getApplication()->input;
 
 			// Store userfields
-			$userfields    = $jinput->get('extrafields' . $qitemdata->product_id);
-			$userfields_id = $jinput->get('extrafields_id_' . $qitemdata->product_id);
+			$userfields = $jinput->getSring('extrafieldname' . $qitemdata->product_id . 'product1');
+			$userfields_id = $jinput->getInt('extrafieldId' . $qitemdata->product_id . 'product1');
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{

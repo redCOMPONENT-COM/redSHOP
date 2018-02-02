@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $objhelper       = redhelper::getInstance();
 $config          = Redconfiguration::getInstance();
@@ -480,10 +479,10 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add = $producthelper->getProductOnSaleComment($product, $prddata_add);
 
 				// Replace wishlistbutton.
-				$prddata_add = $producthelper->replaceWishlistButton($product->product_id, $prddata_add);
+				$prddata_add = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $prddata_add);
 
 				// Replace compare product button.
-				$prddata_add = $producthelper->replaceCompareProductsButton($product->product_id, $this->catid, $prddata_add);
+				$prddata_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $prddata_add);
 
 				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
