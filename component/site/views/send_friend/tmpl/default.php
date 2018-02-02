@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 JHtml::_('redshopjquery.framework');
 JHtml::script('com_redshop/jquery.tools.min.js', false, true);

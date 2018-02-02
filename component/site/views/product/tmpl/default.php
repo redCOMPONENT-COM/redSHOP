@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
-JHtmlBehavior::modal();
+JHtml::_('behavior.modal');
 
 $url             = JURI::base();
 $u               = JURI::getInstance();

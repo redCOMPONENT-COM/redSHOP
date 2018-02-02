@@ -42,6 +42,7 @@ class RedshopViewCheckout extends RedshopView
 
 		/** @scrutinizer ignore-deprecated */JHtml::script('system/validate.js', true, false);
 		JHtml::_('redshopjquery.framework');
+		JHtml::_('behavior.framework', true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/common.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.js', false, true);
@@ -83,11 +84,11 @@ class RedshopViewCheckout extends RedshopView
 
 		// Allow registration type settings
 		$lists['allowCustomer'] = "";
-		$lists['allowCompany'] = "";
+		$lists['allowCompany']  = "";
 
 		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
 		{
-			$lists['allowCompany'] = "style='display:none;'";
+			$lists['allowCompany']  = "style='display:none;'";
 			$lists['allowCustomer'] = "style='display:none;'";
 		}
 

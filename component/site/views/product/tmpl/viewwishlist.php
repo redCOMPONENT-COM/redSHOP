@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-
 
 $config        = Redconfiguration::getInstance();
 $producthelper = productHelper::getInstance();

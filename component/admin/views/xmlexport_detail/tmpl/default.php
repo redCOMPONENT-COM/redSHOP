@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
-JHTML::_('behavior.tooltip');
 
 $model = $this->getModel('xmlexport_detail');
 

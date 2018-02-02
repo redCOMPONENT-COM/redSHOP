@@ -147,8 +147,7 @@ class RedshopViewSearch extends RedshopView
 			$model      = $this->getModel('search');
 			$total      = $model->getTotal();
 
-			JHTML::_('behavior.tooltip');
-			JHTMLBehavior::modal();
+			JHTML::_('behavior.modal');
 			$url = JURI::base();
 
 			if ($this->params->get('page_title') != "")

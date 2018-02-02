@@ -11,11 +11,10 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Class Redshop Helper for Quotation
  *
+ * @since  1.6.0
  * @deprecated  2.0.3  Use RedshopHelperQuotation instead
  */
 class quotationHelper

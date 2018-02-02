@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $editor = JFactory::getEditor();
-JHTML::_('behavior.tooltip');
 $model = $this->getModel('newsletter_detail');
 ?>
 <script language="javascript" type="text/javascript">

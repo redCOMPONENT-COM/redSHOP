@@ -11,17 +11,18 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Order helper for backend
  *
- * @since       2.0.3
+ * @since       1.6.0
  *
  * @deprecated  2.0.3  Use RedshopHelperOrder instead
  */
 class order_functions
 {
+	/**
+	 * @var null
+	 */
 	protected static $instance = null;
 
 	/**

@@ -1994,7 +1994,7 @@ class RedshopHelperShipping
 		$allowCompany  = $isCompany != 1 ? 'style="display:none;"' : '';
 
 		$readOnly  = "";
-		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
+		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox form-control billingRequired valid', 'state_code_ST');
 
 		$post['country_code_ST']  = $countries['country_code_ST'];
 		$lists['country_code_ST'] = $countries['country_dropdown'];
@@ -2010,7 +2010,7 @@ class RedshopHelperShipping
 		$value        = !empty($post["firstname_ST"]) ? $post["firstname_ST"] : '';
 		$templateHtml = str_replace(
 			"{firstname_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2019,7 +2019,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["lastname_ST"])) ? $post["lastname_ST"] : '';
 		$templateHtml = str_replace(
 			"{lastname_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2028,7 +2028,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
 		$templateHtml = str_replace(
 			"{address_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2037,7 +2037,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
 		$templateHtml = str_replace(
 			"{zipcode_st}",
-			'<input class="inputbox billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
+			'<input class="inputbox form-control billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
 			. 'value="' . $value . '" onblur="return autoFillCity(this.value,\'ST\');" '
 			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '" />',
 			$templateHtml
@@ -2047,7 +2047,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["city_ST"])) ? $post["city_ST"] : '';
 		$templateHtml = str_replace(
 			"{city_st}",
-			'<input class="inputbox billingRequired valid" type="text" name="city_ST" ' . $readOnly . ' id="city_ST" '
+			'<input class="inputbox form-control billingRequired valid" type="text" name="city_ST" ' . $readOnly . ' id="city_ST" '
 			. 'value="' . $value . '" size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -2056,7 +2056,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
 		$templateHtml = str_replace(
 			"{phone_st}",
-			'<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" onblur="return searchByPhone(this.value,\'ST\');" '
 			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"/>',
 			$templateHtml

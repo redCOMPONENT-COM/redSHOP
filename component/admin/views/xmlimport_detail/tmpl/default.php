@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-
 
 $model = $this->getModel('xmlimport_detail');
 $uri = JURI::getInstance();
@@ -51,14 +49,13 @@ function checkSourcePath() {
 	/*if (form.section_type.value=="product")
 	 {
 	 if (form.stock_element_name.value==""){
-	 alert( "
-	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ELEMENT_NAME', true ); ?>" );
+	 alert( "<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ELEMENT_NAME', true) ?>" );
 	 form.stock_element_name.focus();
 	 return false;
 	 }
 	 if (form.prdextrafield_element_name.value==""){
 	 alert( "
-	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ELEMENT_NAME', true ); ?>" );
+	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ELEMENT_NAME', true) ?>" );
 	 form.prdextrafield_element_name.focus();
 	 return false;
 	 }

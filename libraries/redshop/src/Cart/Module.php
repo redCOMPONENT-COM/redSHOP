@@ -21,6 +21,11 @@ defined('_JEXEC') or die;
 class Module
 {
 	/**
+	 * @var  Registry
+	 */
+	public static $params;
+
+	/**
 	 * Get cart module calculate
 	 *
 	 * @param   array $cart Cart data
@@ -78,16 +83,21 @@ class Module
 	 */
 	public static function getParams()
 	{
-		$db = \JFactory::getDbo();
+		if (null === self::$params)
+		{
+			$db = \JFactory::getDbo();
 
-		$query = $db->getQuery(true)
-			->select($db->qn('params'))
-			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->quote('mod_redshop_cart'))
-			->where($db->qn('published') . ' = 1');
+			$query = $db->getQuery(true)
+				->select($db->qn('params'))
+				->from($db->qn('#__modules'))
+				->where($db->qn('module') . ' = ' . $db->quote('mod_redshop_cart'))
+				->where($db->qn('published') . ' = 1');
 
-		$params = $db->setQuery($query)->loadResult();
+			$params = $db->setQuery($query)->loadResult();
 
-		return new Registry($params);
+			self::$params = new Registry($params);
+		}
+
+		return self::$params;
 	}
 }

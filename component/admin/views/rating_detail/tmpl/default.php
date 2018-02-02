@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-
 $editor = JFactory::getEditor();
-JHTML::_('behavior.tooltip');
+
 $user = JFactory::getUser();
 $url = JURI::base();
 $jinput = JFactory::getApplication()->input;
