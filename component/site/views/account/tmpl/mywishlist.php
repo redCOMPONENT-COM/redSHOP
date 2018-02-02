@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 $url   = JURI::base();
 $input = JFactory::getApplication()->input;
 
-JHTML::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 
 // Get product helper

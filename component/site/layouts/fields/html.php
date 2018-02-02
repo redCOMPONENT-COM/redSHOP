@@ -12,23 +12,23 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $form        A JForm object
- * @param   int     $product_id  Id current product
- * @param   int     $modal       Flag use form in modal
+ * @var   array   $displayData Layout data
+ * @var   object  $form        A JForm object
+ * @var   integer $product_id  Id current product
+ * @var   integer $modal       Flag use form in modal
  */
 extract($displayData);
-
 ?>
 
 <div class="form-group">
-	<label><?php echo JText::_($fieldHandle->title); ?></label>
+    <label><?php echo JText::_($fieldHandle->title); ?></label>
 	<?php echo $inputField; ?>
 	<?php if ($fieldHandle->required == 1) : ?>
-		<span class='required'>*</span>
+        <span class='required'>*</span>
 	<?php endif; ?>
 	<?php if (trim($fieldHandle->desc) != '') : ?>
 		<?php
-			echo '&nbsp; ' . JHTML::tooltip($fieldHandle->desc, '', 'tooltip.png', '', '', false);
+		echo '&nbsp; ' . JHTML::tooltip($fieldHandle->desc, '', 'tooltip.png', '', '', false);
 		?>
 	<?php endif; ?>
 </div>

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
 JPluginHelper::importPlugin('redshop_shipping');

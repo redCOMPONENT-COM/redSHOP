@@ -29,27 +29,26 @@ class RedshopModelAccount_billto extends RedshopModel
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
-				$order_functions = order_functions::getInstance();
-				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
+				$detail = RedshopHelperOrder::getBillingAddress(-$auth['users_info_id']);
 
 				if (!isset($detail->user_id))
 				{
-					$detail->user_id = - $auth['users_info_id'];
+					$detail->user_id = -$auth['users_info_id'];
 				}
 			}
 			else
 			{
-				// Toggler settings
-				$is_company = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
+				// Toggle settings
+				$isCompany = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 
 				// Allow registration type settings
 				if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 				{
-					$is_company = 0;
+					$isCompany = 0;
 				}
 				elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 				{
-					$is_company = 1;
+					$isCompany = 1;
 				}
 
 				$user   = JFactory::getUser();
@@ -63,7 +62,7 @@ class RedshopModelAccount_billto extends RedshopModel
 				$detail->email                 = $user->email;
 				$detail->user_email            = $user->email;
 				$detail->password              = null;
-				$detail->is_company            = $is_company;
+				$detail->is_company            = $isCompany;
 				$detail->firstname             = null;
 				$detail->lastname              = null;
 				$detail->address_type          = 'BT';

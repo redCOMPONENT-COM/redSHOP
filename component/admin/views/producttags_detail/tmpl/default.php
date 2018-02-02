@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 $now = JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">

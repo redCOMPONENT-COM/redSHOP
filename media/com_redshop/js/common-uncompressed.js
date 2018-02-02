@@ -506,7 +506,7 @@ function changeproductImage(product_id,imgPath,ahrefpath)
 
 function billingIsShipping(obj)
 {
-	if(obj && obj.checked)
+	if (obj && obj.checked)
 	{
 		if(document.getElementById('divShipping'))
 		{

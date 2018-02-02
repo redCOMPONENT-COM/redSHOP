@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
 $ccdetail = $this->ccdetail;
 $cardnumber = base64_decode($ccdetail->order_payment_number);
 
