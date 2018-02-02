@@ -106,11 +106,11 @@ class OnePageCheckoutCest
      * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
      */
 
-//    public function deleteData($scenario)
-//    {
-//        $I= new RedshopSteps($scenario);
-//        $I->clearAllData();
-//    }
+    public function deleteData($scenario)
+    {
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
 
     public function _before(AcceptanceTester $I)
     {
@@ -119,9 +119,9 @@ class OnePageCheckoutCest
 
     public function onePageCheckout(AcceptanceTester $I, $scenario)
     {
-//        $I->wantTo('setup up one page checkout at admin');
-//        $I = new ConfigurationSteps($scenario);
-//        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+        $I->wantTo('setup up one page checkout at admin');
+        $I = new ConfigurationSteps($scenario);
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 
         $I->wantTo('Create Category in Administrator');
         $I = new CategoryManagerJoomla3Steps($scenario);
