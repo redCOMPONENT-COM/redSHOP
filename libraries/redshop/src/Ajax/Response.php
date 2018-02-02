@@ -71,6 +71,17 @@ class Response
 	}
 
 	/**
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __toString()
+	{
+		return $this->toJson();
+	}
+
+	/**
 	 * @return string
 	 *
 	 * @since  2.1.0
@@ -113,7 +124,6 @@ class Response
 		return $this;
 	}
 
-
 	/**
 	 * @param   string $message Message
 	 *
@@ -125,6 +135,7 @@ class Response
 	{
 		return $this->addMessage($message, 'primary');
 	}
+
 	/**
 	 * @param   string $message Message
 	 *
@@ -136,6 +147,7 @@ class Response
 	{
 		return $this->addMessage($message, 'success');
 	}
+
 	/**
 	 * @param   string $message Message
 	 *
@@ -147,6 +159,7 @@ class Response
 	{
 		return $this->addMessage($message, 'info');
 	}
+
 	/**
 	 * @param   string $message Message
 	 *
@@ -158,6 +171,7 @@ class Response
 	{
 		return $this->addMessage($message, 'warning');
 	}
+
 	/**
 	 * @param   string $message Message
 	 *
@@ -254,8 +268,31 @@ class Response
 	 *
 	 * @since  2.1.0
 	 */
-	public function respond()
+	public function respond($includeMessageQueue = true)
 	{
+		if ($includeMessageQueue)
+		{
+			// Get the message queue if requested and available
+			$app = \JFactory::getApplication();
+
+			if (is_callable(array($app, 'getMessageQueue')))
+			{
+				$messages = $app->getMessageQueue();
+
+				// Build the sorted messages list
+				if (is_array($messages) && !empty($messages))
+				{
+					foreach ($messages as $message)
+					{
+						if (isset($message['type']) && isset($message['message']))
+						{
+							$this->addMessage($message['message'], $message['type']);
+						}
+					}
+				}
+			}
+		}
+
 		header('Content-Type: application/json');
 		echo $this->toJson();
 
