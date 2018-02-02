@@ -23,7 +23,7 @@ class RedshopHelperVirtuemart
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $vmShopperGroups = null;
+	protected static $vmShopperGroups;
 
 	/**
 	 * @var  array
@@ -43,14 +43,15 @@ class RedshopHelperVirtuemart
 	 */
 	public static function getVirtuemartShopperGroups($id)
 	{
-		if (is_null(self::$vmShopperGroups))
+		if (null === self::$vmShopperGroups)
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->qn('shopper_group_name', 'name'))
 				->select($db->qn('shopper_group_name', 'id'))
 				->from($db->qn('#__virtuemart_shoppergroups'))
 				->order($db->qn('id') . ' ASC');
+
 			self::$vmShopperGroups = $db->setQuery($query)->loadObjectList('id');
 		}
 
@@ -68,14 +69,15 @@ class RedshopHelperVirtuemart
 	 */
 	public static function getRedshopShopperGroups($name = '')
 	{
-		if (is_null(self::$shopperGroups))
+		if (null === self::$shopperGroups)
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->qn('shopper_group_id', 'id'))
 				->select($db->qn('shopper_group_id', 'name'))
 				->from($db->qn('#__redshop_shopper_group'))
 				->order($db->qn('id') . ' ASC');
+
 			self::$shopperGroups = $db->setQuery($query)->loadObjectList('name');
 		}
 
