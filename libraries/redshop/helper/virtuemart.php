@@ -23,14 +23,14 @@ class RedshopHelperVirtuemart
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $vmShopperGroups;
+	protected static $vmShopperGroups = array();
 
 	/**
 	 * @var  array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $shopperGroups = null;
+	protected static $shopperGroups = array();
 
 	/**
 	 * Method for get shopper group ID
@@ -43,19 +43,18 @@ class RedshopHelperVirtuemart
 	 */
 	public static function getVirtuemartShopperGroups($id)
 	{
-		if (null === self::$vmShopperGroups)
+		if (!array_key_exists($id, self::$vmShopperGroups))
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->qn('shopper_group_name', 'name'))
-				->select($db->qn('shopper_group_name', 'id'))
+				->select($db->qn('shopper_group_name'))
 				->from($db->qn('#__virtuemart_shoppergroups'))
-				->order($db->qn('id') . ' ASC');
+				->where($db->qn('shopper_group_id') . ' = ' . $id);
 
-			self::$vmShopperGroups = $db->setQuery($query)->loadObjectList('id');
+			self::$vmShopperGroups[$id] = $db->setQuery($query)->loadResult();
 		}
 
-		return isset(self::$vmShopperGroups[$id]) ? self::$vmShopperGroups[$id]->name : '';
+		return self::$vmShopperGroups[$id];
 	}
 
 	/**
@@ -69,18 +68,6 @@ class RedshopHelperVirtuemart
 	 */
 	public static function getRedshopShopperGroups($name = '')
 	{
-		if (null === self::$shopperGroups)
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->qn('shopper_group_id', 'id'))
-				->select($db->qn('shopper_group_id', 'name'))
-				->from($db->qn('#__redshop_shopper_group'))
-				->order($db->qn('id') . ' ASC');
-
-			self::$shopperGroups = $db->setQuery($query)->loadObjectList('name');
-		}
-
 		if ($name == 'COM_VIRTUEMART_SHOPPERGROUP_DEFAULT')
 		{
 			$name = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT');
@@ -90,6 +77,17 @@ class RedshopHelperVirtuemart
 			$name = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST');
 		}
 
-		return isset(self::$shopperGroups[$name]) ? self::$shopperGroups[$name]->id : '';
+		if (!array_key_exists($name, self::$shopperGroups))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->qn('shopper_group_id', 'id'))
+				->from($db->qn('#__redshop_shopper_group'))
+				->where($db->qn('shopper_group_name') . ' = ' . $db->quote($name));
+
+			self::$shopperGroups[$name] = $db->setQuery($query)->loadResult();
+		}
+
+		return self::$shopperGroups[$name];
 	}
 }
