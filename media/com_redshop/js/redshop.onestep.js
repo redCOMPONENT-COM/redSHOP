@@ -1,1 +1,8 @@
-!function(e){e(document).ready(function(){e(".onestep-createaccount-toggle").change(function(n){n.preventDefault(),e("#onestep-createaccount-wrapper").slideToggle("medium")})})}(jQuery);
+(function($){
+    $(document).ready(function(){
+        $(".onestep-createaccount-toggle").change(function(evt){
+            evt.preventDefault();
+            $("#onestep-createaccount-wrapper").slideToggle('medium');
+        });
+    });
+})(jQuery);

@@ -41,11 +41,9 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
 		}
 
-		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
-
-		$document->addScript('components/com_redshop/assets/js/fields.js');
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
 		$uri = JFactory::getURI();
 

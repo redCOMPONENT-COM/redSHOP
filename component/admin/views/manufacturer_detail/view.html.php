@@ -28,11 +28,9 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-
 		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
 
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 		$this->setLayout('default');
 
 		$lists = array();

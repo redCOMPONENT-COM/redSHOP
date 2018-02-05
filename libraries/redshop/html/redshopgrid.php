@@ -96,7 +96,7 @@ class JHtmlRedshopGrid extends JHtmlJGrid
 			return $value;
 		}
 
-		JHtml::script('com_redshop/redshop.inline.js', false, true, false, false);
+		JHtml::script('com_redshop/redshop.inline.min.js', false, true, false, false);
 		JText::script('COM_REDSHOP_SUCCESS');
 		JText::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
 		JText::script('COM_REDSHOP_FAIL');

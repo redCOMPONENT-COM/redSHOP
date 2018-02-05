@@ -34,12 +34,12 @@ class RedshopViewCatalog_detail extends RedshopViewAdmin
 
 		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/colorpicker.min.js', false, true);
 
-		$document->addScript('components/com_redshop/assets/js/eye.js');
-		$document->addScript('components/com_redshop/assets/js/utils.js');
-		$document->addScript('components/com_redshop/assets/js/layout.js?ver=1.0.2');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/eye.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.utils.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.layout.min.js', false, true);
 
 		$uri = JFactory::getURI();
 

@@ -35,7 +35,7 @@ class RedshopViewCart extends RedshopView
 		}
 
 		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/common.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.common.min.js', false, true);
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{

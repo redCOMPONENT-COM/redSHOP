@@ -44,8 +44,6 @@ class RedshopViewNewsletter_detail extends RedshopViewAdmin
 
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-
 		$uri    = JFactory::getURI();
 		$lists  = array();
 		$detail = $this->get('data');

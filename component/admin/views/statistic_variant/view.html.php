@@ -34,8 +34,8 @@ class RedshopViewStatistic_Variant extends RedshopViewAdmin
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT'));
 		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
-		$document->addScript('components/com_redshop/assets/js/moment.min.js');
-		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/daterangepicker.min.js', false, true);
 
 		$this->productVariants = $this->get('ProductVariants');
 		$this->filterStartDate = $app->input->getString('filter_start_date', '');
