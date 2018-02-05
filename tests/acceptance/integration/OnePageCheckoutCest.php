@@ -91,6 +91,7 @@ class OnePageCheckoutCest
         $this->onePageYes='yes';
 
         $this->buttonCartLeadEdit = 'Directly to cart';
+        $this->shippingWithVat     = "DKK 0,00";
 
     }
 
@@ -136,12 +137,9 @@ class OnePageCheckoutCest
         $I->comment('Test one page checkout with private user');
         $I->onePageCheckout($this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerBussinesInformation,'business');
 
-        $I->doFrontEndLogin();
-//        $I->click(\FrontEndProductManagerJoomla3Page::$logOutButton);
-
         $I->comment('Test one page checkout with business user');
-        $I->checkoutSpecificShopperGroup($userName, $password, $productName, $categoryName, $ShippingRate, $Total);
-        $I->onePageCheckout($this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerInformation,'private');
+        $I->onePageCheckoutLogin('admin', 'admin', $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
+//        $I->onePageCheckout($this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerInformation,'private');
 
     }
 
