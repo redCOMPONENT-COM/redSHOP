@@ -19,6 +19,7 @@
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationSteps as ConfigurationSteps ;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 class OnePageCheckoutCest
@@ -27,10 +28,7 @@ class OnePageCheckoutCest
     {
         $this->faker = Faker\Factory::create();
         $this->ProductName = 'ProductName' . rand(100, 999);
-//        $this-> ProductName= 'redCARPENTER';
         $this->CategoryName = "CategoryName" . rand(1, 100);
-        
-//        $this-> CategoryName= 'Templates';
         $this->ManufactureName = "ManufactureName" . rand(1, 10);
         $this->MassDiscountAmoutTotal = 90;
         $this->MassDiscountPercent = 0.3;
@@ -48,8 +46,20 @@ class OnePageCheckoutCest
 
         $this->customerInformation = array(
             "email" => "test@test" . rand() . ".com",
-            "firstName" => "Tester",
-            "lastName" => "User",
+            "firstName" => $this->faker->bothify('firstNameCustomer ?####?'),
+            "lastName" => $this->faker->bothify('lastNameCustomer ?####?'),
+            "address" => "Some Place in the World",
+            "postalCode" => "23456",
+            "city" => "Bangalore",
+            "country" => "India",
+            "state" => "Karnataka",
+            "phone" => "8787878787"
+        );
+
+        $this->customerInformationSecond = array(
+            "email" => "test@test" . rand() . ".com",
+            "firstName" => $this->faker->bothify('firstNameCustomer ?####?'),
+            "lastName" => $this->faker->bothify('lastNameCustomer ?####?'),
             "address" => "Some Place in the World",
             "postalCode" => "23456",
             "city" => "Bangalore",
@@ -62,8 +72,23 @@ class OnePageCheckoutCest
             "email" => "test@test" . rand() . ".com",
             "companyName"=>"CompanyName",
             "businessNumber"=>1231312,
-            "firstName" => "BusinessDemo",
-            "lastName" => "UserBusiness",
+            "firstName" => $this->faker->bothify('firstName ?####?'),
+            "lastName" => $this->faker->bothify('lastName ?####?'),
+            "address" => "Some Place in the World",
+            "postalCode" => "23456",
+            "city" => "Bangalore",
+            "country" => "India",
+            "state" => "Karnataka",
+            "phone" => "8787878787",
+            "eanNumber"=>1212331331231,
+        );
+
+        $this->customerBussinesInformationSecond = array(
+            "email" => "test@test" . rand() . ".com",
+            "companyName"=> $this->faker->bothify('Name Company ?###?'),
+            "businessNumber"=>1231312,
+            "firstName" => $this->faker->bothify('firstNameSecond ?####?'),
+            "lastName" => $this->faker->bothify('lastNameSecond  ?####?'),
             "address" => "Some Place in the World",
             "postalCode" => "23456",
             "city" => "Bangalore",
@@ -106,12 +131,12 @@ class OnePageCheckoutCest
      * Step7: Goes on frontend and create quotation with business account
      * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
      */
-//
-//    public function deleteData($scenario)
-//    {
-//        $I= new RedshopSteps($scenario);
-//        $I->clearAllData();
-//    }
+
+    public function deleteData($scenario)
+    {
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
 
     public function _before(AcceptanceTester $I)
     {
@@ -121,8 +146,9 @@ class OnePageCheckoutCest
     public function onePageCheckout(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('setup up one page checkout at admin');
-//        $I = new ConfigurationSteps($scenario);
-//        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
+        $I = new ConfigurationSteps($scenario);
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, 
+            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
         $I->wantTo('Create Category in Administrator');
         $I = new CategoryManagerJoomla3Steps($scenario);
@@ -132,36 +158,54 @@ class OnePageCheckoutCest
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
 
+        $I = new ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->wantToTest('Test one page checkout with business user with name is customerBussinesInformation[firstName]');
+        $I->onePageCheckout('admin' , 'admin', $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerBussinesInformation,'business','no');
+        $I->resetCookie(null);
+
+        $I->wantToTest('Test one page checkout with private with user login is customerInformation[firstName]');
+        $I->onePageCheckout($this->customerInformation['firstName'] , $this->customerInformation['firstName'], $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerInformation,'private','yes');
+        $I->doFrontendLogout();
+        $I->resetCookie(null);
 
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->comment('want to check bussines ');
+        $I->wantToTest('Test one page checkout with business with user login is customerBussinesInformationSecond[firstName]');
+        
+        $I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond,'business','yes');
+        $I->resetCookie(null);
+        
         $I->comment('Test one page checkout with private user');
-        $I->onePageCheckout($this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerBussinesInformation,'business');
-
-        $I->comment('Test one page checkout with business user');
-        $I->onePageCheckoutLogin('admin', 'admin', $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
-//        $I->onePageCheckout($this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerInformation,'private');
-
+        $I->wantToTest('Test one page checkout with private and do not login is customerInformationSecond[firstName]');
+        $I->onePageCheckout('admin' , 'admin', $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerInformationSecond, 'private', 'no');
     }
 
-//    public function clearUpDatabse(AcceptanceTester $I,$scenario )
-//    {
-////        $I->wantTo('setup up one page checkout is no at admin');
-////        $I = new ConfigurationSteps($scenario);
-////        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
-//
-//        $I->wantTo('Delete product');
-//        $I = new ProductManagerJoomla3Steps($scenario);
-//        $I->deleteProduct($this->ProductName);
-//
-//        $I->wantTo('Delete Category');
-//        $I = new CategoryManagerJoomla3Steps($scenario);
-//        $I->deleteCategory($this->CategoryName);
-//
-//        $I->wantTo('Test Order delete by user  in Administrator');
-//        $I = new OrderManagerJoomla3Steps($scenario);
-//        $I->deleteOrder($this->customerInformation['firstName']);
-//        $I->deleteOrder($this->customerBussinesInformation['firstName']);
-//
-//    }
+    public function clearUpDatabse(AcceptanceTester $I,$scenario )
+    {
+        $I->wantTo('setup up one page checkout is no at admin');
+        $I = new ConfigurationSteps($scenario);
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
 
+        $I->wantTo('Delete product');
+        $I = new ProductManagerJoomla3Steps($scenario);
+        $I->deleteProduct($this->ProductName);
+
+        $I->wantTo('Delete Category');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->deleteCategory($this->CategoryName);
+
+        $I->wantTo('Test Order delete by user  in Administrator');
+        $I = new OrderManagerJoomla3Steps($scenario);
+        $I->deleteOrder($this->customerInformation['firstName']);
+        $I->deleteOrder($this->customerBussinesInformation['firstName']);
+        $I->deleteOrder($this->customerBussinesInformationSecond['firstName']);
+        $I->deleteOrder($this->customerInformationSecond['firstName']);
+
+        $I->wantToTest('Delete all users');
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->deleteUser($this->customerInformation['firstName']);
+        $I->deleteUser($this->customerBussinesInformation['firstName']);
+        $I->deleteUser($this->customerInformationSecond['firstName']);
+        $I->deleteUser($this->customerBussinesInformationSecond['firstName']);
+    }
 }
