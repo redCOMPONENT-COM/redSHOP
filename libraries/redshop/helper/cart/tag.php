@@ -444,7 +444,7 @@ class RedshopHelperCartTag
 				}
 
 				// Trigger to change product image.
-				$dispatcher->trigger('OnSetCartOrderItemImage', array(&$cart, &$productImage, $product, $i));
+				$dispatcher->trigger('onSetCartOrderItemImage', array(&$cart, &$productImage, $product, $i));
 
 				$isApplyVAT        = productHelper::getInstance()->getApplyVatOrNot($data);
 				$productTotalPrice = "<div class='product_price'>";

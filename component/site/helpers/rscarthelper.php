@@ -208,10 +208,10 @@ class rsCarthelper
 	/**
 	 * Method for replace cart item
 	 *
-	 * @param   string   $data            Template Html
-	 * @param   array    $cart            Cart data
-	 * @param   boolean  $replace_button  Is replace button?
-	 * @param   integer  $quotation_mode  Is in Quotation Mode
+	 * @param   string  $data          Template Html
+	 * @param   array   $cart          Cart data
+	 * @param   boolean $replaceButton Is replace button?
+	 * @param   integer $quotationMode Is in Quotation Mode
 	 *
 	 * @return  string
 	 * @throws  Exception
@@ -219,9 +219,9 @@ class rsCarthelper
 	 * @deprecated   __DEPLOY_VERSION__
 	 * @see RedshopHelperCartTag::replaceCartItem
 	 */
-	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
+	public function replaceCartItem($data, $cart = array(), $replaceButton, $quotationMode = 0)
 	{
-		return RedshopHelperCartTag::replaceCartItem($data, $cart, $replace_button, $quotation_mode);
+		return RedshopHelperCartTag::replaceCartItem($data, $cart, $replaceButton, $quotationMode);
 	}
 
 	/**
