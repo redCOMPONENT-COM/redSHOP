@@ -126,7 +126,7 @@ if (strstr($template_desc, "{reserve_discount}"))
 
 if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{order_loop_end}"))
 {
-	$oder_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'order16.png" align="absmiddle">';
+	$oder_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'order16.png" align="absmiddle">';
 	$template_desc = str_replace('{order_image}', $oder_image, $template_desc);
 	$template_desc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $template_desc);
 
@@ -260,7 +260,7 @@ $tag_link     = '';
 if (Redshop::getConfig()->get('MY_TAGS'))
 {
 	$tag_imagelbl = JText::_('COM_REDSHOP_MY_TAGS');
-	$tag_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
+	$tag_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$tag_link     = JText::_('COM_REDSHOP_NO_TAGS_AVAILABLE');
 	$myTags       = $model->countMyTags();
 
@@ -294,7 +294,7 @@ $quotations = array();
 
 if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "{quotation_loop_end}"))
 {
-	$quotation_image = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'quotation_16.jpg" align="absmiddle">';
+	$quotation_image = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'quotation_16.jpg" align="absmiddle">';
 	$template_desc   = str_replace('{quotation_image}', $quotation_image, $template_desc);
 	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
 
@@ -368,7 +368,7 @@ if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc,
 if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
 	$wishlist_imagelbl  = JText::_('COM_REDSHOP_MY_WISHLIST');
-	$wishlist_image     = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
+	$wishlist_image     = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$edit_wishlist_link = JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST');
 	$myWishlist         = $model->countMyWishlist();
 
@@ -403,7 +403,7 @@ $userDownloadProduct = array();
 
 if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_desc, "{product_serial_loop_end}"))
 {
-	$product_serial_image = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'products16.png" align="absmiddle">';
+	$product_serial_image = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'products16.png" align="absmiddle">';
 	$template_desc        = str_replace('{product_serial_image}', $product_serial_image, $template_desc);
 	$template_desc        = str_replace('{product_serial_title}', JText::_('COM_REDSHOP_MY_SERIALS'), $template_desc);
 
@@ -459,7 +459,7 @@ $cmp_link     = '';
 if (Redshop::getConfig()->get('COMPARE_PRODUCTS'))
 {
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
-	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
+	$cmp_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$cmp_link     = JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
 	$compare      = new RedshopProductCompare;
 

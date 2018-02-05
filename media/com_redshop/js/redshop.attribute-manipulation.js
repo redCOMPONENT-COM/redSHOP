@@ -23,7 +23,7 @@
 			+ '<input type="hidden" value="' + sh + '" name="' + propPref + '[key_prop]" class="key_prop" />'
 			+ '<div class="row-fluid"><div class="row-fluid">'
 			+ '<div class="span1"><a href="#" class="showhidearrow">'
-			+ '<img class="arrowimg" src="components/com_redshop/assets/images/arrow.png" alt="" />'
+			+ '<img class="arrowimg" src="media/com_redshop/images/arrow.png" alt="" />'
 			+ Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + '</a></div>'
 			+ '<div class="span2"><input type="text" class="input-small" name="' + propPref + '[name]" value=""><input type="hidden"  name="attribute[' + gh + '][property][' + sh + '][mainImage]" value="" id="propmainImage' + gh + sh + '"><input type="hidden" name="attribute[' + gh + '][property][' + sh + '][property_image]" id="propertyImageName' + gh + sh + '" /></div>'
 			+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_ORDERING') + ' <input type="text" class="text-center input-xmini" name="' + propPref + '[order]" value="' + or + '"></div>'
@@ -59,7 +59,7 @@
 				+ '<input type="hidden" name="' + attrPref + '[count_prop]" class="count_prop" value="1" />'
 				+ '<input type="hidden" value="' + gh + '" name="' + attrPref + '[key_attr]" class="key_attr" />'
 				+ '<div class="span12 oneAttribute">'
-				+ '<div class="span2"><a href="#" class="showhidearrow" style="display: block;"><img class="arrowimg" src="components/com_redshop/assets/images/arrow.png" alt="" />' + Joomla.JText._('COM_REDSHOP_TITLE') + '</a></div>'
+				+ '<div class="span2"><a href="#" class="showhidearrow" style="display: block;"><img class="arrowimg" src="media/com_redshop/images/arrow.png" alt="" />' + Joomla.JText._('COM_REDSHOP_TITLE') + '</a></div>'
 				+ '<div class="span2"><input type="text" class="input-small" name="' + attrPref + '[name]" value="" /></div>'
 				+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_DESCRIPTION') + ' <input class="text-center input-small" type="text" name="' + attrPref + '[attribute_description]" value="" /></div>'
 				+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_ORDERING') + ' <input class="text-center input-xmini" type="text" name="' + attrPref + '[ordering]" value="' + (gh + 1) + '" /></div>'
@@ -202,10 +202,10 @@
 			var $divFromHideShow = $(this).closest('.divInspectFromHideShow').find('.divFromHideShow');
 			if ($divFromHideShow.css('display') == 'none') {
 				$divFromHideShow.show(200);
-				$(this).find('img').attr('src', 'components/com_redshop/assets/images/arrow.png');
+				$(this).find('img').attr('src', 'media/com_redshop/images/arrow.png');
 			} else {
 				$divFromHideShow.hide(200);
-				$(this).find('img').attr('src', 'components/com_redshop/assets/images/arrow_d.png');
+				$(this).find('img').attr('src', 'media/com_redshop/images/arrow_d.png');
 			}
 		});
 		

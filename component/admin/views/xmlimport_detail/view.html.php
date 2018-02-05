@@ -26,7 +26,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.xmlfunc.min.js', false, true);
 
-		$uri                 = JFactory::getURI();
+		$uri                 = JUri::getInstance();
 		$columns             = array();
 		$lists               = array();
 		$updateshippingtag   = array();

@@ -30,10 +30,10 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 	{
 		$shoppergroup = new shoppergroup;
 
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$this->setLayout('default');
 

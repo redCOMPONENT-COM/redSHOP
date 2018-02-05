@@ -28,7 +28,7 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$uri      = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 		$this->setLayout('default');
@@ -96,8 +96,6 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 	 */
 	private function getTabMenu()
 	{
-		$app = JFactory::getApplication();
-
 		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
 			->title('COM_REDSHOP_DETAILS')

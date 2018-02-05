@@ -55,7 +55,7 @@ if ($modSearchItemid != "")
 if ($enableAjaxsearch)
 {
 	/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.search.min.js', false, true);
-	$document->addStyleSheet(JUri::base() . 'administrator/components/com_redshop/assets/css/search.css');
+	/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
 	$javaFun = "makeUrl();";
 }
 

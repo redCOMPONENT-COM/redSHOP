@@ -129,7 +129,7 @@ $order_functions = order_functions::getInstance();
 
 					<td class="order" width="12%">
 						<img
-							src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/<?php echo $row->user_rating; ?>.gif"
+							src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>star_rating/<?php echo $row->user_rating; ?>.gif"
 							border="0">
 					</td>
 					<td align="center" width="8%">

@@ -21,11 +21,11 @@ JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
-$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.css');
+$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
 
 if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true))
 {
-	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/style.css');
+	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.min.css');
 }
 
 // Use different CSS for print layout

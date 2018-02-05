@@ -28,7 +28,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.admin.media.min.js', false, true);
 

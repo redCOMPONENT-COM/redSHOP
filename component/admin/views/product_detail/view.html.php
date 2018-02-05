@@ -297,7 +297,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
-			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
+			/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
 		}
 
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
