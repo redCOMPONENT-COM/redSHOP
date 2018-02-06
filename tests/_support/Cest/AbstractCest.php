@@ -20,7 +20,7 @@ use Step\AbstractStep;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.0
+ * @since    2.2
  */
 class AbstractCest
 {
@@ -117,11 +117,16 @@ class AbstractCest
 	public function testItemCreate(\AcceptanceTester $tester, Scenario $scenario)
 	{
 		$tester->wantTo('Test create item.');
+		$tester->wantToTest($this->stepClass);
+		$tester->wantToTest($this->stepClass);
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->addNewItem($this->dataNew);
+		$step->addNewItem($this->dataNew, 'save');
+
+		$step->wantToTest('edit this item with save button');
+		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit, 'save');
 	}
 
 	/**
@@ -134,43 +139,94 @@ class AbstractCest
 	 *
 	 * @depends testItemCreate
 	 */
-	public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
+	public function deleteDataSave(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Run after create item test suite');
+		$tester->wantTo('Run after create item with save button ');
+		$tester->wantToTest('After create with save we should delete');
+
 	}
 
 	/**
-	 * Method for test edit item
+	 * Abstract method for run after complete create item.
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
 	 *
-	 * @depends afterTestItemCreate
+	 * @depends deleteDataSave
 	 */
-	public function testItemEdit(\AcceptanceTester $tester, Scenario $scenario)
+	public function testItemCreateSaveClose(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Test Edit item.');
+		$tester->wantTo('Test create item.');
+		$tester->wantToTest($this->stepClass);
+		$tester->wantToTest($this->stepClass);
 		$stepClass = $this->stepClass;
 
 		/** @var AbstractStep $step */
 		$step = new $stepClass($scenario);
-		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit);
+		$step->addNewItem($this->dataNew, 'save&close');
+
+		$step->wantToTest('edit this item with save &close button');
+		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit, 'save&close');
 	}
 
 	/**
-	 * Abstract method for run after complete edit item.
+	 * Abstract method for run after complete create item.
 	 *
 	 * @param   \AcceptanceTester  $tester    Tester
 	 * @param   Scenario           $scenario  Scenario
 	 *
 	 * @return  void
 	 *
-	 * @depends testItemEdit
+	 * @depends testItemCreateSaveClose
 	 */
-	public function afterTestItemEdit(\AcceptanceTester $tester, Scenario $scenario)
+	public function deleteDataSaveClose(\AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Run after edit item test suite');
+		$tester->wantTo('Run after create item with save & close button ');
+		$tester->wantToTest('Delete after save & close button');
 	}
+
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends deleteDataSaveClose
+	 */
+	public function testItemCreateSaveNew(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Test create item.');
+		$tester->wantToTest($this->stepClass);
+		$tester->wantToTest($this->stepClass);
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$step = new $stepClass($scenario);
+		$step->addNewItem($this->dataNew, 'save&new');
+
+		$step->wantToTest('edit this item with save &close button');
+		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit, 'save&new');
+
+
+	}
+	
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreateSaveNew
+	 */
+	public function afterTestItemCreate(\AcceptanceTester $tester, Scenario $scenario)
+	{
+		$tester->wantTo('Run after create item test suite');
+	}
+	
 }
