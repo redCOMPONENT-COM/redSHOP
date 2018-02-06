@@ -305,7 +305,7 @@ class extraField
 
 						// File Upload
 						JHtml::_('redshopjquery.framework');
-						JHtml::script('com_redshop/ajaxupload.js', false, true);
+						/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
 						$ajax   = '';
 						$unique = $data->name . '_' . $productId;

@@ -31,7 +31,7 @@ class RedshopViewSend_Friend extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
+		JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
 
 		parent::display($tpl);
 	}

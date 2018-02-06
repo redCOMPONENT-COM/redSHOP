@@ -29,13 +29,11 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		$shoppergroup = new shoppergroup;
-		$redhelper    = redhelper::getInstance();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$this->setLayout('default');
 

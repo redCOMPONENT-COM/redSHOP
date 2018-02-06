@@ -36,10 +36,10 @@ class RedshopViewCategory extends RedshopViewForm
 	{
 		$producthelper = productHelper::getInstance();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/fields.js');
-		$document->addScript('components/com_redshop/assets/js/json.js');
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
 
 		$model = $this->getModel('category');
 

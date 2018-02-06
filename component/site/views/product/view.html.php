@@ -114,7 +114,7 @@ class RedshopViewProduct extends RedshopView
 			$stopJQuery = false;
 		}
 
-		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
+		JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
 
 		if ($layout == "downloadproduct")
 		{

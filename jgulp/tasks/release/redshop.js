@@ -49,9 +49,7 @@ function getIncludedExtensions() {
     ];
     var excluded = [
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
-        '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
-        '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
-        '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/freefont-*/**',
+        '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/**'
     ];
     var includedModules = [
         "./modules/site/mod_redshop_cart/**",

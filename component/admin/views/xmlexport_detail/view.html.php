@@ -30,9 +30,9 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 		$childelement = $session->get('childelement');
 		$document     = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.xmlfunc.min.js', false, true);
 
-		$uri                  = JFactory::getURI();
+		$uri                  = JUri::getInstance();
 		$lists                = array();
 		$colvalue             = array();
 		$model                = $this->getModel();
