@@ -695,6 +695,8 @@ class App
 			"AJAX_CART_DISPLAY_TIME"                       => $data['ajax_cart_display_time'],
 			"MEDIA_ALLOWED_MIME_TYPE"                      => $data['media_allowed_mime_type'],
 			"IMAGE_QUALITY_OUTPUT"                         => $data['image_quality_output'],
+			"IMAGE_MAX_WIDTH"                              => $data['image_max_width'],
+			"IMAGE_MAX_HEIGHT"                             => $data['image_max_height'],
 			"SEND_CATALOG_REMINDER_MAIL"                   => $data['send_catalog_reminder_mail'],
 			"CATEGORY_IN_SEF_URL"                          => $data['category_in_sef_url'],
 			"CATEGORY_TREE_IN_SEF_URL"                     => $data['category_tree_in_sef_url'],
