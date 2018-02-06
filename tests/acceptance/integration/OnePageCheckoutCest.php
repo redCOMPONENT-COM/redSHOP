@@ -163,6 +163,11 @@ class OnePageCheckoutCest
         $I->onePageCheckout('admin' , 'admin', $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerBussinesInformation,'business','no');
         $I->resetCookie(null);
 
+        $I->checkoutSpecificShopperGroup('admin', 'admin', $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
+        $I->doFrontendLogout();
+
+
+
         $I->wantToTest('Test one page checkout with private with user login is customerInformation[firstName]');
         $I->onePageCheckout($this->customerInformation['firstName'] , $this->customerInformation['firstName'], $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerInformation,'private','yes');
         $I->doFrontendLogout();
@@ -171,10 +176,12 @@ class OnePageCheckoutCest
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->comment('want to check bussines ');
         $I->wantToTest('Test one page checkout with business with user login is customerBussinesInformationSecond[firstName]');
-        
+
         $I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond,'business','yes');
         $I->resetCookie(null);
-        
+        $I->checkoutSpecificShopperGroup('admin', 'admin', $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
+        $I->doFrontendLogout();
+
         $I->comment('Test one page checkout with private user');
         $I->wantToTest('Test one page checkout with private and do not login is customerInformationSecond[firstName]');
         $I->onePageCheckout('admin' , 'admin', $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerInformationSecond, 'private', 'no');
