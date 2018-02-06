@@ -338,7 +338,7 @@ class RedshopHelperCartTag
 					$cartHtml = str_replace($templateAttrMiddle, "", $cartHtml);
 				}
 
-				$cartItem = 'giftcard_id';
+				$cartItem = 'giftCardId';
 			}
 			else
 			{
@@ -716,7 +716,7 @@ class RedshopHelperCartTag
 					Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT), $productId, "1", $cartHtml
 				);
 
-				$cartItem = 'product_id';
+				$cartItem = 'productId';
 				$cartHtml = RedshopHelperTax::replaceVatInformation($cartHtml);
 				$cartHtml = str_replace("{product_price}", $productPrice, $cartHtml);
 				$cartHtml = str_replace("{product_total_price}", $productTotalPrice, $cartHtml);
@@ -733,12 +733,14 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$updateCart  = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >';
-					$updateCart .= '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">';
-					$updateCart .= '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
-								<input type="hidden" name="cart_index" value="' . $i . '">
-								<input type="hidden" name="Itemid" value="' . $itemId . '">
-								<input type="hidden" name="task" value="">';
+					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >'
+						. '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" '
+						. 'id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '"'
+						. ' maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">'
+						. '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '" />'
+						. '<input type="hidden" name="cart_index" value="' . $i . '" />'
+						. '<input type="hidden" name="Itemid" value="' . $itemId . '" />'
+						. '<input type="hidden" name="task" value="" />';
 
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
 					{
