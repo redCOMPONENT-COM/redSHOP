@@ -195,12 +195,12 @@ class RedshopEntityCategory extends RedshopEntity
 	 */
 	protected function loadMedia()
 	{
+		$this->media = new RedshopEntitiesCollection;
+
 		if (!$this->hasId())
 		{
 			return $this;
 		}
-
-		$this->media = new RedshopEntitiesCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
