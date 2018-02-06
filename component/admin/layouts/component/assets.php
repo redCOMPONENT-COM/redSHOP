@@ -23,7 +23,8 @@ $doc->addTopScript(JURI::root() . 'media/com_redshop/js/adminlte.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.validation.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');
-$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.min.css');
+$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.backend.min.css');
+$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.backend.skin.min.css');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.min.css');
 
 // Disable template shit
