@@ -504,8 +504,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
+		$I->pauseExecution();
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->pauseExecution();
+//		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
@@ -665,4 +667,44 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 			}
 	}
+
+	public function checkoutOnePageWithLogin($userName, $password, $productName, $categoryName, $ShippingRate, $Total)
+	{
+		$I = $this;
+		$I->doFrontEndLogin($userName, $password);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 10);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->pauseExecution();
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->pauseExecution();
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+//		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
+		$I->pauseExecution();
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+
+		$I->see($ShippingRate, \FrontEndProductManagerJoomla3Page::$shippingRate);
+		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+	}
+
 }

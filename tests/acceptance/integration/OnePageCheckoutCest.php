@@ -44,6 +44,19 @@ class OnePageCheckoutCest
         $this->Total="DKK 100,00";
 
 
+        $this->userName        = 'ManageUserAdministratorCest' . rand(10, 100);
+        $this->password        = $this->faker->bothify('Password ?##?');
+        $this->email           = $this->faker->email;
+        $this->shopperGroup    = 'Default Private';
+        $this->group           = 'Public';
+        $this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+        $this->updateFirstName = 'Updating ' . $this->firstName;
+        $this->lastName        = 'Last';
+        $this->address         = '14 Phan Ton';
+        $this->zipcode         = 7000;
+        $this->city            = 'Ho Chi Minh';
+        $this->phone           = 010101010;
+        
         $this->customerInformation = array(
             "email" => "test@test" . rand() . ".com",
             "firstName" => $this->faker->bothify('firstNameCustomer ?####?'),
@@ -132,11 +145,11 @@ class OnePageCheckoutCest
      * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
      */
 
-    public function deleteData($scenario)
-    {
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
-    }
+//    public function deleteData($scenario)
+//    {
+//        $I= new RedshopSteps($scenario);
+//        $I->clearAllData();
+//    }
 
     public function _before(AcceptanceTester $I)
     {
@@ -147,7 +160,7 @@ class OnePageCheckoutCest
     {
         $I->wantTo('setup up one page checkout at admin');
         $I = new ConfigurationSteps($scenario);
-        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, 
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
             $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
         $I->wantTo('Create Category in Administrator');
@@ -163,7 +176,13 @@ class OnePageCheckoutCest
         $I->onePageCheckout('admin' , 'admin', $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerBussinesInformation,'business','no');
         $I->resetCookie(null);
 
-        $I->checkoutSpecificShopperGroup('admin', 'admin', $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
+        $I->doAdministratorLogin();
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
+
+
+        $I = new ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
         $I->doFrontendLogout();
 
 
@@ -179,6 +198,7 @@ class OnePageCheckoutCest
 
         $I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond,'business','yes');
         $I->resetCookie(null);
+        $I->pauseExecution();
         $I->checkoutSpecificShopperGroup('admin', 'admin', $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
         $I->doFrontendLogout();
 

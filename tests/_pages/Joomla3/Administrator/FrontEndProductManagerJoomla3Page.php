@@ -44,6 +44,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
+	public static $headBilling = 'Billing Address Information';
+
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 	
 	public static $addressEmail = "#private-email1";
