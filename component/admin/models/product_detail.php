@@ -4479,6 +4479,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copy_image_from_path($imagePath, $section, $section_id = 0)
 	{
+		if (strpos($imagePath, "components/com_redshop/assets/images/") !== -1)
+		{
+			$imagePath = str_replace("components/com_redshop/assets/images/", "", $imagePath);
+		}
+
 		$src            = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 		$imgname        = RedShopHelperImages::cleanFileName($imagePath);
 		$property_image = $section_id . '_' . JFile::getName($imgname);
