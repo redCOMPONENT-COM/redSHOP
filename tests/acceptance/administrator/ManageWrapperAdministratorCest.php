@@ -34,8 +34,9 @@ class ManageWrapperAdministratorCest
 	{
 		$I->wantTo('Test Wrapper creation in Administrator');
 		$I->doAdministratorLogin();
-
-
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Create category');
+		$I->addCategorySave($this->category);
 
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
 		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
@@ -67,9 +68,7 @@ class ManageWrapperAdministratorCest
 	{
 		$I->wantTo('Test if Wrapper gets updated in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create category');
-		$I->addCategorySave($this->category);
+
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
 		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
 		$I->click(['id' => "reset"]);
