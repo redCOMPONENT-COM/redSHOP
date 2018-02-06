@@ -48,7 +48,7 @@ class OnePageCheckoutCest
         $this->password        = $this->faker->bothify('Password ?##?');
         $this->email           = $this->faker->email;
         $this->shopperGroup    = 'Default Private';
-        $this->group           = 'Public';
+        $this->group           = 'Registered';
         $this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
         $this->updateFirstName = 'Updating ' . $this->firstName;
         $this->lastName        = 'Last';
@@ -145,11 +145,11 @@ class OnePageCheckoutCest
      * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
      */
 
-//    public function deleteData($scenario)
-//    {
-//        $I= new RedshopSteps($scenario);
-//        $I->clearAllData();
-//    }
+    public function deleteData($scenario)
+    {
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
 
     public function _before(AcceptanceTester $I)
     {
@@ -184,7 +184,7 @@ class OnePageCheckoutCest
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
         $I->doFrontendLogout();
-
+        $I->pauseExecution();
 
 
         $I->wantToTest('Test one page checkout with private with user login is customerInformation[firstName]');
@@ -192,15 +192,26 @@ class OnePageCheckoutCest
         $I->doFrontendLogout();
         $I->resetCookie(null);
 
+        $I->doAdministratorLogin();
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->wantTo('Delete acccunt userName');
+        $I->deleteUser($this->firstName);
+
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->comment('want to check bussines ');
         $I->wantToTest('Test one page checkout with business with user login is customerBussinesInformationSecond[firstName]');
 
         $I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond,'business','yes');
         $I->resetCookie(null);
-        $I->pauseExecution();
-        $I->checkoutSpecificShopperGroup('admin', 'admin', $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
+
+        $I->doAdministratorLogin();
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
+
+        $I = new ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
         $I->doFrontendLogout();
+
 
         $I->comment('Test one page checkout with private user');
         $I->wantToTest('Test one page checkout with private and do not login is customerInformationSecond[firstName]');
