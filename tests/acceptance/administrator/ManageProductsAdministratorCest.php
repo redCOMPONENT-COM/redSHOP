@@ -112,6 +112,12 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Test Product Save Manager in Administrator');
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+
+		$I->wantTo('create Product Accessories ');
+		$I->createProductSaveClose($this->nameProductAccessories, $this->randomCategoryName, $this->fake->numberBetween(1,10000), $this->randomProductPrice);
+
+		$I->wantTo('create Related Product ');
+		$I->createProductSaveClose($this->nameRelatedProduct, $this->randomCategoryName, $this->fake->numberBetween(1,10000), $this->randomProductPrice);
 	}
 
 	public function copyProduct(AcceptanceTester $I, $scenario)
