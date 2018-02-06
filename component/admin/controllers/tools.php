@@ -117,32 +117,6 @@ class RedshopControllerTools extends RedshopController
 	}
 
 	/**
-	 * Method for resize images.
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function resizeImage()
-	{
-		$images = array(JPATH_ROOT . '/images/chelsea-1.jpg', JPATH_ROOT . '/images/chelsea-2.jpg');
-
-		$imageInspector = new JImage;
-
-		foreach ($images as $image)
-		{
-			$file = basename($image);
-
-			$imageInspector->loadFile($image);
-			$imageInspector->resize(1000, 1000, false, JImage::SCALE_INSIDE);
-			$imageInspector->toFile(JPATH_ROOT . '/images/' . time() . '-' . $file);
-		}
-
-		JFactory::getApplication()->close();
-	}
-
-	/**
 	 * Method for process image checks.
 	 *
 	 * @return  void
@@ -172,7 +146,7 @@ class RedshopControllerTools extends RedshopController
 
 				list($width, $height, $type, $attr) = getimagesize($file);
 
-				if ($width > $maxWidth || $height > $maxHeight)
+				if ($width >= $maxWidth || $height >= $maxHeight)
 				{
 					RedshopHelperMedia::resizeImage(
 						$file, $maxWidth, $maxHeight, Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'), 'file', false
