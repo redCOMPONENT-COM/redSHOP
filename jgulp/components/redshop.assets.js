@@ -53,7 +53,6 @@ gulp.task('scripts:' + baseTask, function () {
             assetsPath + '/js/*.js',
             assetsPath + '/js/**/*.js'
         ])
-        .pipe(changed(mediaPath + "/js"))
         .pipe(gulp.dest(mediaPath + '/js'))
         .pipe(uglify())
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
@@ -69,7 +68,6 @@ gulp.task('sass:' + baseTask, function () {
             assetsPath + "/scss/*.scss",
             assetsPath + "/scss/**/*.scss"
         ])
-        .pipe(changed(mediaPath + "/css"))
         .pipe(sass())
         .pipe(gulp.dest(mediaPath + "/css"))
         .pipe(sass({
