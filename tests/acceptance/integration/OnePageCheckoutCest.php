@@ -133,7 +133,6 @@ class OnePageCheckoutCest
 
     }
 
-
     /**
      * Step1: Clear all database
      * Step2: Goes on configuration and setup this site can use quotation
@@ -174,25 +173,21 @@ class OnePageCheckoutCest
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->wantToTest('Test one page checkout with business user with name is customerBussinesInformation[firstName]');
         $I->onePageCheckout('admin' , 'admin', $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerBussinesInformation,'business','no');
-        $I->resetCookie(null);
 
-        $I->doAdministratorLogin();
         $I = new UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 
 
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->wantTo('checkout with user with login ');
         $I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
         $I->doFrontendLogout();
-        $I->pauseExecution();
 
 
         $I->wantToTest('Test one page checkout with private with user login is customerInformation[firstName]');
         $I->onePageCheckout($this->customerInformation['firstName'] , $this->customerInformation['firstName'], $this->ProductName,$this->CategoryName,$this->subtotal,$this->Total,$this->customerInformation,'private','yes');
         $I->doFrontendLogout();
-        $I->resetCookie(null);
 
-        $I->doAdministratorLogin();
         $I = new UserManagerJoomla3Steps($scenario);
         $I->wantTo('Delete acccunt userName');
         $I->deleteUser($this->firstName);
@@ -202,16 +197,14 @@ class OnePageCheckoutCest
         $I->wantToTest('Test one page checkout with business with user login is customerBussinesInformationSecond[firstName]');
 
         $I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond,'business','yes');
-        $I->resetCookie(null);
+        $I->doFrontendLogout();
 
-        $I->doAdministratorLogin();
         $I = new UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
-
+        $I->wantTo('checkout with user with login ');
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName,$this->CategoryName, $this->shippingWithVat, $this->Total);
         $I->doFrontendLogout();
-
 
         $I->comment('Test one page checkout with private user');
         $I->wantToTest('Test one page checkout with private and do not login is customerInformationSecond[firstName]');
@@ -245,5 +238,6 @@ class OnePageCheckoutCest
         $I->deleteUser($this->customerBussinesInformation['firstName']);
         $I->deleteUser($this->customerInformationSecond['firstName']);
         $I->deleteUser($this->customerBussinesInformationSecond['firstName']);
+        $I->deleteUser($this->firstName);
     }
 }
