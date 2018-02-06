@@ -111,11 +111,11 @@ else
 		$count_no_user_field = 0;
 		display_products($rows);
 
-		for ($p = 0, $pn = count($rows); $p < $pn; $p++)
+		foreach ($rows as $row)
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
-				$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $rows[$p]->product_id);
+				$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $row->product_id);
 
 				$ufield .= $productUserFields[1];
 
@@ -125,7 +125,7 @@ else
 				}
 			}
 
-			$myproductid .= $rows[$p]->product_id . ",";
+			$myproductid .= $row->product_id . ",";
 		}
 
 		echo "<br />";
@@ -137,7 +137,7 @@ else
 		}
 		else
 		{
-			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><input type='button'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
+			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\" data-productid=\"" . $myproductid . "\"  ><input type='button'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
 		}
 	}
 
