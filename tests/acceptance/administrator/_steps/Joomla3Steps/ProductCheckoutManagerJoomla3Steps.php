@@ -618,6 +618,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		if ($account == 'yes')
 		{
 			$I->comment($userName);
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
 			$I->click(\FrontEndProductManagerJoomla3Page::$idAddAccount);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, $userName);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idPassOneStep, $password);
