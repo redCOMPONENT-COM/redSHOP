@@ -104,4 +104,12 @@ class RedshopControllerZipcode_detail extends RedshopController
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 	}
+
+	public function GetStateDropdown()
+	{
+		$get   = $this->input->get->getArray();
+		$model = $this->getModel('zipcode_detail');
+		$model->GetStateDropdown($get);
+		JFactory::getApplication()->close();
+	}
 }
