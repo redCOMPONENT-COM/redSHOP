@@ -34,6 +34,10 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 		$detail           = $this->get('data');
 		$isNew            = ($detail->zipcode_id < 1);
 		$text             = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$model            = $this->getModel();
+
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/common.js');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 		JToolBarHelper::save();
@@ -48,17 +52,29 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$countryarray          = RedshopHelperWorld::getCountryList((array) $detail);
-		$detail->country_code  = $countryarray['country_code'];
-		$lists['country_code'] = $countryarray['country_dropdown'];
+		$countries = $model->getcountry();
 
-		$statearray          = RedshopHelperWorld::getStateList((array) $detail);
-		$lists['state_code'] = $statearray['state_dropdown'];
+		$state_code = array();
+
+		if ($detail->country_code)
+		{
+			$state_code = $model->GetStateList($detail->country_code);
+		}
+
+		$detail->state_code = explode(',', $detail->state_code);
+
+		$lists['state_code'] = JHTML::_('select.genericlist', $state_code, 'state_code[]',
+			'class="inputbox" multiple="multiple"', 'value', 'text', $detail->state_code
+		);
+
+		$detail->country_code  = explode(',', $detail->country_code);
+
+		$lists['country_code'] = JHTML::_('select.genericlist', $countries, 'country_code[]',
+			'class="inputbox" multiple="multiple" onchange="getStateList_Zipcode()" ', 'value', 'text', $detail->country_code
+		);
 
 		$this->detail      = $detail;
 		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
 	}
 }
