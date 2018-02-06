@@ -431,6 +431,7 @@ class RedshopHelperBilling
 					"{vat_number}",
 					'<input type="text" class="inputbox form-control ' . $classRequired . '" name="vat_number"'
 					. ' id="vat_number" size="32" maxlength="250" '
+					. ' title="' . JText::_('COM_REDSHOP_REGISTRATION_INVALID_VAT_NUMBER')
 					. 'value="' . (!empty($post["vat_number"]) ? $post['vat_number'] : '') . '" />',
 					$htmlMiddle
 				);
