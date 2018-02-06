@@ -620,8 +620,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->comment($userName);
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
 			$I->click(\FrontEndProductManagerJoomla3Page::$idAddAccount);
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, $userName);
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idPassOneStep, 30);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idPassOneStep, $password);
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idPassConfirmOneStep, 30);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idPassConfirmOneStep, $password);
 		}
 			if ($function == 'business') {
