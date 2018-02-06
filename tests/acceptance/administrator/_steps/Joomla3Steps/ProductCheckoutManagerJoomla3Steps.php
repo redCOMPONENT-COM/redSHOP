@@ -648,7 +648,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 			} else {
 				$I->comment('private');
-				$I->click(\FrontEndProductManagerJoomla3Page::$radioPrivate);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
