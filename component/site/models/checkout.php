@@ -141,6 +141,12 @@ class RedshopModelCheckout extends RedshopModel
 		return $reduser;
 	}
 
+	/**
+	 * Method for order place
+	 *
+	 * @return  Tableorder_detail
+	 * @throws  Exception
+	 */
 	public function orderplace()
 	{
 		$app = JFactory::getApplication();
@@ -1213,12 +1219,12 @@ class RedshopModelCheckout extends RedshopModel
 		// Send the Order mail before payment
 		if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER') || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $row->order_payment_status == "Paid"))
 		{
-			RedshopHelperMail::sendOrderMail($row->order_id);
+			Redshop\Mail\Order::sendMail($row->order_id);
 		}
 		elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
-			RedshopHelperMail::sendOrderMail($row->order_id, true);
+			Redshop\Mail\Order::sendMail($row->order_id, true);
 		}
 
 		if ($row->order_status == "C" && $row->order_payment_status == "Paid")
@@ -1329,7 +1335,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				$pdfFile = RedshopHelperUtility::getDispatcher()->trigger(
 					'onRedshopCreateGiftCardPdf',
-					array($giftcardData, $pdfMailBody, $backgroundImage)
+					array($giftcardData, $pdfMailBody, $mailImage)
 				);
 
 				if (!empty($pdfFile))
