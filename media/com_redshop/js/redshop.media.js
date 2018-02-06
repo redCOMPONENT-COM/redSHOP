@@ -30,7 +30,7 @@
  * Strict mode is declared
  */
 // "use strict";
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     var pluginName = "redshopMedia";
 
     var defaults = {
@@ -54,28 +54,30 @@
 
     // The actual plugin constructor
     function Plugin(element, options) {
-        this._name     = pluginName;
+        this._name = pluginName;
         this._defaults = defaults;
 
         this.element = element;
         this.options = $.extend({}, defaults, options);
-        this.token   = null;
+        this.token = null;
         this.dropzoneInstance = null;
 
-        this.$container       = $(element);
+        this.$container = $(element);
         this.$dropzonePreview = this.$container.find(".rs-media-dropzone-preview");
-        this.$dropzoneForm    = this.$container.find(".rs-media-dropzone-form");
+        this.$dropzoneForm = this.$container.find(".rs-media-dropzone-form");
+        this.$form = this.$container.closest('form');
+        this.$hasFile = false;
 
-        this.$alertModal    = this.$container.find(".rs-media-alert-modal");
-        this.$cropperModal  = this.$container.find(".rs-media-cropper-modal");
+        this.$alertModal = this.$container.find(".rs-media-alert-modal");
+        this.$cropperModal = this.$container.find(".rs-media-cropper-modal");
         this.$cropperButton = this.$container.find(".rs-media-cropper-btn");
-        this.$removeButton  = this.$container.find(".rs-media-remove-btn");
-        this.$target        = this.$container.find(".redshop-media-img-select");
+        this.$removeButton = this.$container.find(".rs-media-remove-btn");
+        this.$target = this.$container.find(".redshop-media-img-select");
 
-        this.$mediaFileButton   = null;
+        this.$mediaFileButton = null;
         this.$mediaFileInsertButton = null;
-        this.$mediaFileModal    = null;
-        this.$mediaFilePreview  = null;
+        this.$mediaFileModal = null;
+        this.$mediaFilePreview = null;
         this.$mediaFileDelModal = null;
 
         this.init();
@@ -87,7 +89,7 @@
          *
          * @return {void}
          */
-        init: function() {
+        init: function () {
             var self = this;
 
             this._initAttributes();
@@ -103,12 +105,15 @@
                 // Initialize new Dropzone
                 self.dropzoneInstance = new Dropzone("#" + self.$container.data("id") + "-dropzone", {
                     url: self.options.uploadUrl,
-                    // acceptedFiles: ".png,.jpg,.jpeg,.bmp",
+                    acceptedFiles: ".png,.jpg,.jpeg,.bmp",
                     autoProcessQueue: true,
                     // maxFiles: 1,
                     thumbnailWidth: null,
                     thumbnailHeight: null,
-                    previewTemplate: $(self.$dropzonePreview[0]).html()
+                    previewTemplate: $(self.$dropzonePreview[0]).html(),
+                    resizeWidth: 2048,
+                    resizeHeight: 2048,
+                    resizeMethod: 'contain'
                 });
             }
 
@@ -128,7 +133,7 @@
                 self.$target = $(self.$target[0]);
             }
 
-            if (self.options.showMediaFiles == true) {
+            if (self.options.showMediaFiles === true) {
                 if (self.$container.find('.rs-media-gallery-modal').length)
                     self.$mediaFileModal = $(self.$container.find('.rs-media-gallery-modal')[0]);
 
@@ -151,7 +156,7 @@
 
             if (self.options.initFile != null) {
                 // Preload file from server
-                var newFile  = self.dataURItoBlob(self.options.initFile.blob);
+                var newFile = self.dataURItoBlob(self.options.initFile.blob);
                 newFile.name = self.options.initFile.name;
 
                 // this.emit("addedfile", file);
@@ -168,15 +173,16 @@
          *
          * @return  {void}
          */
-        _initAttributes: function() {
+        _initAttributes: function () {
             this.token = this.$container.attr('data-token');
         },
+
         /**
          * Init associated events
          *
          * @return {void}
          */
-        _initEvents: function() {
+        _initEvents: function () {
             var self = this;
 
             /**
@@ -184,11 +190,9 @@
              *
              * @return  void
              */
-            self.dropzoneInstance.on('addedfile',  function(file) {
-                // disable Save buttons to avoid user click save during ajax event
-                $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", true);
-
+            self.dropzoneInstance.on('addedfile', function (file) {
                 if (!self.validateFile(file)) {
+                    // self.$hasFile = false;
                     this.removeFile(file);
 
                     return;
@@ -204,6 +208,8 @@
                 if (self.$container.find("#rs-media-img-delete").length) {
                     self.$container.find("#rs-media-img-delete").remove();
                 }
+
+                // self.$hasFile = true;
             });
 
             /**
@@ -211,14 +217,15 @@
              *
              * @return  void
              */
-            self.dropzoneInstance.on('success', function(file, response){
+            self.dropzoneInstance.on('success', function (file, response) {
                 response = JSON.parse(response);
+
                 if (response.success) {
                     self.$target.val(response.data.file.url);
                 }
 
-                // enable Save buttons
-                $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", false);
+                /*self.$hasFile = false;
+                self.$form.submit();*/
             });
 
             /**
@@ -226,7 +233,7 @@
              *
              * @return  void
              */
-            self.$removeButton.on("click", function(event){
+            self.$removeButton.on("click", function (event) {
                 event.preventDefault();
                 self.dropzoneInstance.removeAllFiles();
                 self.$target.val("");
@@ -253,7 +260,7 @@
              *
              * @return  void
              */
-            self.$cropperButton.on("click", function(event){
+            self.$cropperButton.on("click", function (event) {
                 event.preventDefault();
 
                 // ignore files which were already cropped and re-rendered
@@ -280,7 +287,7 @@
              *
              * @return  void
              */
-            self.$cropperModal.on("shown.bs.modal", function(e){
+            self.$cropperModal.on("shown.bs.modal", function (e) {
                 var file = self.dropzoneInstance.files[0];
 
                 // cache filename to re-assign it to cropped file
@@ -324,7 +331,7 @@
                 $uploadCrop.off('click');
 
                 // listener for 'Crop and Upload' button in modal
-                $uploadCrop.on('click', function() {
+                $uploadCrop.on('click', function () {
                     // Get cropped image data
                     var blob = $img.cropper('getCroppedCanvas').toDataURL();
 
@@ -344,17 +351,36 @@
                     self.dropzoneInstance.addFile(newFile);
 
                     // Upload cropped file with dropzone
-                    // jDropzone.processQueue();
+                    // self.dropzoneInstance.processQueue();
+
                     self.$cropperModal.modal('hide');
                 });
             });
+
+            /**
+             * Event on parent form submit.
+             *
+             * @return  void
+             */
+            /*self.$form.on('submit', function (event) {
+                event.preventDefault();
+
+                if (self.dropzoneInstance.files.length > 0 && self.$hasFile === true) {
+                    // Run upload file before submit form
+                    self.dropzoneInstance.processQueue();
+
+                    return false;
+                } else {
+                    $(this).unbind('submit').submit();
+                }
+            });*/
         },
         /**
          * Init associated events
          *
          * @return {void}
          */
-        _initMediaFileEvents: function() {
+        _initMediaFileEvents: function () {
             var self = this;
 
             /**
@@ -362,18 +388,18 @@
              *
              * @return  void
              */
-            self.$mediaFileButton.click(function(event){
+            self.$mediaFileButton.click(function (event) {
                 event.preventDefault();
                 self.$mediaFileModal.modal("show");
             });
 
             // Click on image object.
-            self.$mediaFileModal.find(".img-obj").click(function(event){
+            self.$mediaFileModal.find(".img-obj").click(function (event) {
                 event.preventDefault();
 
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
-                } else{
+                } else {
                     self.$mediaFileModal.find(".img-obj").removeClass('selected');
                     $(this).addClass('selected');
                     self.mediaFileShowInfor(this);
@@ -383,7 +409,7 @@
             });
 
             // Click on Insert image button
-            self.$mediaFileInsertButton.click(function(e) {
+            self.$mediaFileInsertButton.click(function (e) {
                 e.preventDefault();
 
                 var imgObj = self.$mediaFileModal.find(".img-obj.selected").find('img').first();
@@ -395,11 +421,11 @@
                 xhr.open("GET", imgUrl);
                 xhr.responseType = "blob";
                 xhr.send();
-                xhr.addEventListener("load", function() {
+                xhr.addEventListener("load", function () {
                     var reader = new FileReader();
                     reader.readAsDataURL(this.response);
-                    reader.addEventListener("loadend", function() {
-                        var newFile  = self.dataURItoBlob(reader.result);
+                    reader.addEventListener("loadend", function () {
+                        var newFile = self.dataURItoBlob(reader.result);
                         newFile.name = imgObj.attr('alt');
                         self.dropzoneInstance.addFile(newFile);
                         self.$mediaFileModal.modal('hide');
@@ -408,7 +434,7 @@
             });
 
             // Click on open modal delete.
-            self.$mediaFileModal.find(".btn-del-g").on('click', function(e){
+            self.$mediaFileModal.find(".btn-del-g").on('click', function (e) {
                 e.preventDefault();
 
                 self.$mediaFileDelModal.find(".btn-confirm-del-g").data('id', $(this).data('id'));
@@ -416,7 +442,7 @@
             });
 
             // Click confirm delete file.
-            self.$mediaFileDelModal.find(".btn-confirm-del-g").on('click', function(e){
+            self.$mediaFileDelModal.find(".btn-confirm-del-g").on('click', function (e) {
                 e.preventDefault();
 
                 var id = $(this).data('id');
@@ -427,11 +453,11 @@
                         method: 'post',
                         data: {id: id}
                     })
-                        .done(function(response){
+                        .done(function (response) {
                             self.$mediaFileModal.find(".img-obj.selected").parent().remove();
                             self.$mediaFileModal.find(".pv-wrapper").addClass('hidden');
                         })
-                        .always(function(e){
+                        .always(function (e) {
                             self.$mediaFileDelModal.modal('hide');
                         });
                 }
@@ -444,20 +470,18 @@
          *
          * @return {boolean}
          */
-        validateFile: function(file) {
+        validateFile: function (file) {
             var self = this;
 
             var fileSize = file.size / 1024;
 
-            if (fileSize > self.options.maxFileSize)
-            {
+            if (fileSize > self.options.maxFileSize) {
                 self.showAlert(Joomla.JText._("COM_REDSHOP_UPLOAD_FILE_TOO_BIG"));
 
                 return false;
             }
 
-            if (self.options.allowedMime.indexOf(file.type) == -1)
-            {
+            if (self.options.allowedMime.indexOf(file.type) == -1) {
                 self.showAlert(Joomla.JText._("COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID"));
 
                 return false;
@@ -472,7 +496,7 @@
          *
          * @return  void
          */
-        showAlert: function(text) {
+        showAlert: function (text) {
             var self = this;
 
             self.$alertModal.find('.alert-text').text(text);
@@ -486,17 +510,16 @@
          *
          * @return  Blob
          */
-        dataURItoBlob: function(dataURI) {
+        dataURItoBlob: function (dataURI) {
             var byteString = atob(dataURI.split(',')[1]);
-            var ab         = new ArrayBuffer(byteString.length);
-            var ia         = new Uint8Array(ab);
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
 
-            for (var i = 0; i < byteString.length; i++)
-            {
+            for (var i = 0; i < byteString.length; i++) {
                 ia[i] = byteString.charCodeAt(i);
             }
 
-            return new Blob([ab], { type: 'image/jpg' });
+            return new Blob([ab], {type: 'image/jpg'});
         },
         /**
          * Show info of thumbnail when selecting
@@ -505,8 +528,7 @@
          *
          * @return  {void}
          */
-        mediaFileShowInfor: function(element)
-        {
+        mediaFileShowInfor: function (element) {
             var self = this;
 
             if (self.$mediaFileModal.find(".preview-pane").length <= 0) {
@@ -535,7 +557,7 @@
             $previewPanel.find('.pv-name').text(info.name);
             $previewPanel.find('.pv-size').text(info.size);
             $previewPanel.find('.pv-dimension').text(info.dimension);
-            $previewPanel.find('.pv-url').html('<input type="text" value="'+info.url+'" class="form-control" readonly="true">');
+            $previewPanel.find('.pv-url').html('<input type="text" value="' + info.url + '" class="form-control" readonly="true">');
             $previewPanel.find('.pv-remove > a').data('id', info.id);
 
             $previewPanel.find('.pv-wrapper').removeClass('hidden');
@@ -545,8 +567,7 @@
          *
          * @return  {void}
          */
-        mediaFileResetPreview: function()
-        {
+        mediaFileResetPreview: function () {
             var self = this;
 
             if (self.$mediaFileModal.find(".preview-pane").length <= 0) {
@@ -564,8 +585,7 @@
          *
          * @return  {void}
          */
-        mediaFileToggleInsert: function()
-        {
+        mediaFileToggleInsert: function () {
             var self = this;
 
             if (self.$mediaFileModal == null) {
@@ -580,8 +600,8 @@
         }
     };
 
-    $.fn[pluginName] = function(options) {
-        return this.each(function() {
+    $.fn[pluginName] = function (options) {
+        return this.each(function () {
             if (!$.data(this, "plugin_" + pluginName)) {
                 $.data(this, "plugin_" + pluginName, new Plugin(this, options));
             }

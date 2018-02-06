@@ -21,8 +21,8 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string $key    The name of the primary key of the URL variable.
+	 * @param   string $urlVar The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
@@ -39,18 +39,15 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$lang = JFactory::getLanguage();
 
 		/** @var RedshopModelCategory $model */
-		$model   = $this->getModel();
-		$table   = $model->getTable();
+		$model = $this->getModel();
+
+		/** @var RedshopTableCategory $table */
+		$table = $model->getTable();
+
 		$data    = $this->input->post->get('jform', array(), 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task    = $this->getTask();
-
-		$data['old_image']                = $this->input->post->getString('old_image');
-		$data['image_delete']             = $this->input->post->getString('image_delete');
-		$data['image_back_delete']        = $this->input->post->getString('image_back_delete');
-		$data['category_full_image']      = $this->input->post->getString('category_full_image');
-		$data['category_back_full_image'] = $this->input->post->getString('category_back_full_image');
 
 		if (!empty($data["more_template"]) && is_array($data["more_template"]))
 		{

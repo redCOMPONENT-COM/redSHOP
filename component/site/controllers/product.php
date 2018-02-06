@@ -40,7 +40,7 @@ class RedshopControllerProduct extends RedshopController
 		// Article frontpage Editor product proxying:
 		if ($this->input->get('layout') === 'element')
 		{
-			JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
+			JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 

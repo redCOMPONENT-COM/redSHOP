@@ -604,7 +604,7 @@ class RedshopTableNested extends JTableNested
 		}
 
 		// Store
-		if (!parent::store($updateNulls))
+		if (!$this->doStore($updateNulls))
 		{
 			return false;
 		}
@@ -970,5 +970,17 @@ class RedshopTableNested extends JTableNested
 
 		// Return the right value of this node + 1.
 		return $rightId + 1;
+	}
+
+	/**
+	 * Do the database store.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean
+	 */
+	protected function doStore($updateNulls = false)
+	{
+		return parent::store($updateNulls);
 	}
 }

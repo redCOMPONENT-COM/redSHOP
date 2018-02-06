@@ -101,8 +101,8 @@ if ($this->detail && $template_middle != "")
 		if ($row != '')
 		{
 			$mimg_tag = '{manufacturer_image}';
-			$mh_thumb = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
-			$mw_thumb = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
+			$mh_thumb = Redshop::getConfig()->getInt('MANUFACTURER_THUMB_HEIGHT');
+			$mw_thumb = Redshop::getConfig()->getInt('MANUFACTURER_THUMB_WIDTH');
 
 			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
@@ -114,51 +114,54 @@ if ($this->detail && $template_middle != "")
 			$middledata = str_replace("{manufacturer_name}", $manu_name, $middledata);
 
 			// Extra field display
-			$middledata = $producthelper->getExtraSectionTag($extraFieldName, $row->manufacturer_id, "10", $middledata);
+			$middledata = RedshopHelperProductTag::getExtraSectionTag(
+				$extraFieldName, $row->manufacturer_id, RedshopHelperExtrafields::SECTION_MANUFACTURER, $middledata
+			);
 
-			if (strstr($middledata, $mimg_tag))
+			if (strpos($middledata, $mimg_tag) !== false)
 			{
-				$thum_image  = "";
-				$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
+				$media      = RedshopEntityManufacturer::getInstance($row->manufacturer_id)->getMedia();
+				$thum_image = "";
 
-				for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
+				if ($media->isValid() && !empty($media->get('media_name'))
+					&& JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $media->get('media_name')))
 				{
-					if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+					$altText = $media->get('media_alternate_text', $row->manufacturer_name);
+
+					if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 					{
-						$altText = RedshopHelperMedia::getAlternativeText('manufacturer', $row->manufacturer_id);
+						$manufacturer_img = RedshopHelperMedia::watermark(
+							'manufacturer',
+							$media->get('media_name'),
+							$mw_thumb,
+							$mh_thumb,
+							Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+						);
+					}
+					else
+					{
+						$manufacturer_img = RedshopHelperMedia::getImagePath(
+							$media->get('media_name'),
+							'',
+							'thumb',
+							'manufacturer',
+							$mw_thumb,
+							$mh_thumb,
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
+							'manufacturer',
+							$row->manufacturer_id
+						);
+					}
 
-						if (!$altText)
-						{
-							$altText = $media_image[$m]->media_name;
-						}
-
-						if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
-						{
-							$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
-						}
-						else
-						{
-							$manufacturer_img = RedShopHelperImages::getImagePath(
-								$media_image[$m]->media_name,
-								'',
-								'thumb',
-								'manufacturer',
-								$mw_thumb,
-								$mh_thumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-						}
-
-						if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
-						{
-							$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "manufacturer/" . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
+					if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
+					{
+						$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";
-						}
-						else
-						{
-							$thum_image = "<a title='" . $altText . "' href='" . $manproducts . "'>
+					}
+					else
+					{
+						$thum_image = "<a title='" . $altText . "' href='" . $manproducts . "'>
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";
-						}
 					}
 				}
 
