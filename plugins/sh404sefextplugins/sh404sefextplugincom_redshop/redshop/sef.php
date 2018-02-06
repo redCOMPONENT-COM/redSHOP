@@ -223,7 +223,9 @@ switch ($view)
 					$GLOBALS['catlist_reverse'] = array();
 					$where                      = '';
 
-					if ($cid)
+					$cids = explode("%2C", $cid);
+
+					if (count($cids) == 1)
 					{
 						$category_id = $cid;
 					}
