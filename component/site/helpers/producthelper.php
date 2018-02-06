@@ -6780,7 +6780,7 @@ class productHelper
 
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
 	{
-		if (strpos($data_add, "{stock_status") !== false)
+		if (strpos($data_add, "{stock_status}") !== false)
 		{
 			$product = RedshopProduct::getInstance($product_id);
 
