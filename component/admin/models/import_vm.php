@@ -695,7 +695,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @param   int $index Index
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -722,9 +722,12 @@ class RedshopModelImport_Vm extends RedshopModel
 			)
 			->leftJoin(
 				$db->qn('#__redshop_product', 'rp') . ' ON '
-				. '((' . $db->qn('vmp.product_sku') . ' IS NOT NULL OR ' . $db->qn('vmp.product_sku') . ' != ' . $db->quote('') . ') AND '
-				. $db->qn('rp.product_number') . ' = ' . $db->qn('vmp.product_sku') . ')' . ' OR ((' . $db->qn('vmp.product_sku') . ' IS NULL OR '
-				. $db->qn('vmp.product_sku') . ' = ' . $db->quote('') . ') AND ' . $db->qn('rp.product_number') . ' = ' . $db->qn('vmdata.slug') . ')'
+				. '((' . $db->qn('vmp.product_sku') . ' IS NOT NULL'
+				. ' OR ' . $db->qn('vmp.product_sku') . ' != ' . $db->quote('') . ') AND '
+				. $db->qn('rp.product_number') . ' = ' . $db->qn('vmp.product_sku') . ')'
+				. ' OR ((' . $db->qn('vmp.product_sku') . ' IS NULL OR '
+				. $db->qn('vmp.product_sku') . ' = ' . $db->quote('') . ') AND '
+				. $db->qn('rp.product_number') . ' = ' . $db->qn('vmdata.slug') . ')'
 			)
 			->leftJoin(
 				$db->qn('#__virtuemart_product_prices', 'vmprice')
@@ -885,7 +888,10 @@ class RedshopModelImport_Vm extends RedshopModel
 			$query->clear()
 				->select($db->qn('manufacturer_id'))
 				->from($db->qn('#__redshop_manufacturer', 'm'))
-				->leftJoin($db->qn('#__virtuemart_manufacturers_en_gb', 'vm') . ' ON ' . $db->qn('vm.mf_name') . ' = ' . $db->qn('m.manufacturer_name'))
+				->leftJoin(
+					$db->qn('#__virtuemart_manufacturers_en_gb', 'vm') . ' ON '
+					. $db->qn('vm.mf_name') . ' = ' . $db->qn('m.manufacturer_name')
+				)
 				->where($db->qn('vm.virtuemart_manufacturer_id') . ' = ' . $productVM->virtuemart_manufacturer_id);
 			$table->manufacturer_id = $db->setQuery($query)->loadResult();
 		}
@@ -896,7 +902,10 @@ class RedshopModelImport_Vm extends RedshopModel
 			$query->clear()
 				->select($db->qn('product_id'))
 				->from($db->qn('#__redshop_product', 'p'))
-				->leftJoin($db->qn('#__virtuemart_products', 'vm') . ' ON ' . $db->qn('vm.product_sku') . ' = ' . $db->qn('p.product_number'))
+				->leftJoin(
+					$db->qn('#__virtuemart_products', 'vm') . ' ON '
+					. $db->qn('vm.product_sku') . ' = ' . $db->qn('p.product_number')
+				)
 				->where($db->qn('vm.virtuemart_product_id') . ' = ' . $productVM->product_parent_id);
 			$table->product_parent_id = $db->setQuery($query)->loadResult();
 
@@ -905,7 +914,10 @@ class RedshopModelImport_Vm extends RedshopModel
 				$query->clear()
 					->select($db->qn('product_id'))
 					->from($db->qn('#__redshop_product', 'p'))
-					->leftJoin($db->qn('#__virtuemart_products_en_gb', 'vm') . ' ON ' . $db->qn('vm.slug') . ' = ' . $db->qn('p.product_number'))
+					->leftJoin(
+						$db->qn('#__virtuemart_products_en_gb', 'vm') . ' ON '
+						. $db->qn('vm.slug') . ' = ' . $db->qn('p.product_number')
+					)
 					->where($db->qn('vm.virtuemart_product_id') . ' = ' . $productVM->product_parent_id);
 				$table->product_parent_id = $db->setQuery($query)->loadResult();
 			}
@@ -975,48 +987,7 @@ class RedshopModelImport_Vm extends RedshopModel
 		}
 
 		// Product images
-		$query->clear()
-			->select('m.*')
-			->from($db->qn('#__virtuemart_medias', 'm'))
-			->leftJoin(
-				$db->qn('#__virtuemart_product_medias', 'ref') . ' ON ' . $db->qn('ref.virtuemart_media_id') . ' = ' . $db->qn('m.virtuemart_media_id')
-			)
-			->where($db->qn('ref.virtuemart_product_id') . ' = ' . $productVM->virtuemart_product_id)
-			->where($db->qn('m.file_type') . ' = ' . $db->quote('product'))
-			->order($db->qn('ref.virtuemart_product_id'));
-		$medias = $db->setQuery($query)->loadObjectList();
-
-		if (!empty($medias))
-		{
-			foreach ($medias as $media)
-			{
-				// Skip migrate image file if not exist.
-				if (empty($media->file_url) || !JFile::exists(JPATH_ROOT . '/' . $media->file_url))
-				{
-					continue;
-				}
-
-				$fileName = basename($media->file_url);
-
-				$mediaTable                       = JTable::getInstance('Media_Detail', 'Table');
-				$mediaTable->media_id             = 0;
-				$mediaTable->media_name           = $fileName;
-				$mediaTable->media_section        = 'product';
-				$mediaTable->media_alternate_text = $media->file_description;
-				$mediaTable->section_id           = $table->product_id;
-				$mediaTable->media_type           = 'images';
-				$mediaTable->media_mimetype       = $media->file_mimetype;
-				$mediaTable->published            = $media->published;
-
-				// Skip migrate image file if fail in insert media.
-				if (!$mediaTable->store())
-				{
-					continue;
-				}
-
-				JFile::copy(JPATH_ROOT . '/' . $media->file_url, REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $fileName);
-			}
-		}
+		$this->syncMedia($table->product_id, $productVM->virtuemart_product_id);
 
 		// Remove all current product category
 		$query->clear()
@@ -1054,6 +1025,66 @@ class RedshopModelImport_Vm extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for sync media
+	 *
+	 * @param   integer  $productId    Product ID
+	 * @param   integer  $vmProductId  Virtuemart ID
+	 *
+	 * @return  void
+	 */
+	protected function syncMedia($productId, $vmProductId)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('m.*')
+			->from($db->qn('#__virtuemart_medias', 'm'))
+			->leftJoin(
+				$db->qn('#__virtuemart_product_medias', 'ref') . ' ON '
+				. $db->qn('ref.virtuemart_media_id') . ' = ' . $db->qn('m.virtuemart_media_id')
+			)
+			->where($db->qn('ref.virtuemart_product_id') . ' = ' . $vmProductId)
+			->where($db->qn('m.file_type') . ' = ' . $db->quote('product'))
+			->order($db->qn('ref.virtuemart_product_id'));
+
+		$medias = $db->setQuery($query)->loadObjectList();
+
+		if (empty($medias))
+		{
+			return;
+		}
+
+		foreach ($medias as $media)
+		{
+			// Skip migrate image file if not exist.
+			if (empty($media->file_url) || !JFile::exists(JPATH_ROOT . '/' . $media->file_url))
+			{
+				continue;
+			}
+
+			$fileName = basename($media->file_url);
+
+			$mediaTable                       = JTable::getInstance('Media_Detail', 'Table');
+			$mediaTable->media_id             = 0;
+			$mediaTable->media_name           = $fileName;
+			$mediaTable->media_section        = 'product';
+			$mediaTable->media_alternate_text = $media->file_description;
+			$mediaTable->section_id           = $productId;
+			$mediaTable->media_type           = 'images';
+			$mediaTable->media_mimetype       = $media->file_mimetype;
+			$mediaTable->published            = $media->published;
+
+			// Skip migrate image file if fail in insert media.
+			if (!$mediaTable->store())
+			{
+				continue;
+			}
+
+			JFile::copy(JPATH_ROOT . '/' . $media->file_url, REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $fileName);
+		}
 	}
 
 	/**
