@@ -36,6 +36,7 @@ var uglify  = require('gulp-uglify');
 var path    = require("path");
 var fs      = require('fs');
 var changed = require('gulp-changed');
+var gutil   = require('gulp-util');
 
 /// Define component tasks
 var componentName = 'com_redshop';
@@ -53,13 +54,11 @@ gulp.task('scripts:' + baseTask, function () {
             assetsPath + '/js/**/*.js'
         ])
         .pipe(changed(mediaPath + "/js"))
-        .pipe(rename(function (path) {
-            path.basename += '-uncompressed';
-        }))
         .pipe(gulp.dest(mediaPath + '/js'))
         .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(rename(function (path) {
-            path.basename = path.basename.replace('-uncompressed', '');
+            path.basename += '.min';
         }))
         .pipe(gulp.dest(mediaPath + '/js'));
 });
@@ -71,9 +70,6 @@ gulp.task('sass:' + baseTask, function () {
             assetsPath + "/scss/**/*.scss"
         ])
         .pipe(changed(mediaPath + "/css"))
-        .pipe(rename(function (path) {
-            path.basename += '-uncompressed';
-        }))
         .pipe(sass())
         .pipe(gulp.dest(mediaPath + "/css"))
         .pipe(sass({
@@ -81,7 +77,7 @@ gulp.task('sass:' + baseTask, function () {
             errLogToConsole: true
         }))
         .pipe(rename(function (path) {
-            path.basename = path.basename.replace('-uncompressed', '');
+            path.basename += '.min';
         }))
         .pipe(gulp.dest(mediaPath + "/css"));
 });

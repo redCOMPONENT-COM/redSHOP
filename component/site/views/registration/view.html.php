@@ -29,11 +29,11 @@ class RedshopViewRegistration extends RedshopView
 
 		$params = $app->getParams('com_redshop');
 		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/jquery.validate.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::script('com_redshop/jquery.metadata.js', false, true);
-		JHtml::script('com_redshop/registration.js', false, true);
-		JHtml::stylesheet('com_redshop/validation.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.registration.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 
@@ -47,21 +47,21 @@ class RedshopViewRegistration extends RedshopView
 		}
 
 		// Allow registration type settings
-		$lists['allowCustomer'] = "";
-		$lists['allowCompany'] = "";
+		$lists['allowCustomer']    = "";
+		$lists['allowCompany']     = "";
 		$lists['showCustomerdesc'] = "";
-		$lists['showCompanydesc'] = "style='display:none;'";
+		$lists['showCompanydesc']  = "style='display:none;'";
 
 		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
-			$lists['allowCompany']      = "style='display:none;'";
-			$openToStretcher = 0;
+			$lists['allowCompany'] = "style='display:none;'";
+			$openToStretcher       = 0;
 		}
 		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
-			$lists['allowCustomer']     = "style='display:none;'";
-			$lists['showCustomerdesc']  = "style='display:none;'";
-			$openToStretcher = 1;
+			$lists['allowCustomer']    = "style='display:none;'";
+			$lists['showCustomerdesc'] = "style='display:none;'";
+			$openToStretcher           = 1;
 		}
 
 		if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)

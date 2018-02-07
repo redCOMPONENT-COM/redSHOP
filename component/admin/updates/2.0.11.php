@@ -45,7 +45,7 @@ class RedshopUpdate2011 extends RedshopInstallUpdate
 	protected function getOldFolders()
 	{
 		return array(
-			JPATH_SITE . '/components/com_redshop/views/currency_detail'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/currency_detail'
 		);
 	}
 }

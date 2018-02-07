@@ -11,17 +11,18 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Order helper for backend
  *
- * @since       2.0.3
+ * @since       1.6.0
  *
  * @deprecated  2.0.3  Use RedshopHelperOrder instead
  */
 class order_functions
 {
+	/**
+	 * @var null
+	 */
 	protected static $instance = null;
 
 	/**
@@ -263,15 +264,15 @@ class order_functions
 	/**
 	 * Get list order details
 	 *
-	 * @param   integer  $order_id  Order ID
+	 * @param   integer  $orderId  Order ID
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  2.0.3  Use RedshopHelperOrder::getMultiOrderDetails() instead
+	 * @deprecated  2.0.3  Use RedshopEntityOrder::getInstance($orderId)->getItem() instead
 	 */
-	public function getmultiOrderDetails($order_id)
+	public function getmultiOrderDetails($orderId)
 	{
-		return RedshopHelperOrder::getMultiOrderDetails($order_id);
+		return RedshopEntityOrder::getInstance($orderId)->getItem();
 	}
 
 	/**
@@ -501,11 +502,11 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.3  Use RedshopHelperOrder::randomGenerateEncryptKey() instead
+	 * @deprecated  2.0.3  Use \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey() instead
 	 */
 	public function random_gen_enc_key($p_length = '30')
 	{
-		return RedshopHelperOrder::randomGenerateEncryptKey($p_length);
+		return \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey((int) $p_length);
 	}
 
 	/**

@@ -60,10 +60,10 @@ abstract class JHtmlRedshopcalendar
 			$inputvalue = '';
 		}
 
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/moment.js', false, true, false, false);
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/jquery.inputmask.js', false, true);
-		/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
 
 		$momentValue = false;
 

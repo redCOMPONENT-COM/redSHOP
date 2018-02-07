@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $form        A JForm object
- * @param   int     $product_id  Id current product
- * @param   int     $modal       Flag use form in modal
+ * @var   array $displayData       A JForm object
+ * @var   int   $extra_field_label Id current product
+ * @var   int   $extra_field_value Flag use form in modal
  */
 extract($displayData);
 
 ?>
 
 <tr>
-	<td><?php echo $extra_field_label;?>:</td>
-	<td><?php echo $extra_field_value;?></td>
+    <td><?php echo $extra_field_label ?>:</td>
+    <td><?php echo $extra_field_value ?></td>
 </tr>

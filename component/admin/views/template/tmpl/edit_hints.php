@@ -616,8 +616,8 @@ $newShippingTags = array(
                                         <tbody>
 										<?php foreach ($texts as $text): ?>
                                             <tr>
-                                                <td width="30%"><strong class="text-info">{<?php echo $text->text_name ?>}</strong></td>
-                                                <td><?php echo $text->text_desc ?></td>
+                                                <td width="30%"><strong class="text-info">{<?php echo $text->name ?>}</strong></td>
+                                                <td><?php echo $text->desc ?></td>
                                             </tr>
 										<?php endforeach; ?>
                                         </tbody>

@@ -298,12 +298,13 @@ class RedshopControllerCart extends RedshopController
 	 * @param   array $cart Cart data.
 	 *
 	 * @return  mixed
+     * @throws  Exception
 	 */
 	public function modifyCalculation($cart)
 	{
 		$cart                     = !is_array($cart) ? (array) $cart : $cart;
 		$productHelper            = productHelper::getInstance();
-		$calArr                   = $this->cartHelper->calculation($cart);
+		$calArr                   = \Redshop\Cart\Helper::calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$discountAmount           = 0;
 		$voucherDiscount          = 0;
@@ -337,7 +338,7 @@ class RedshopControllerCart extends RedshopController
 		$codeDsicount            = $voucherDiscount + $couponDiscount;
 		$totaldiscount           = $cart['cart_discount'] + $codeDsicount;
 
-		$calArr = $this->cartHelper->calculation($cart);
+		$calArr = \Redshop\Cart\Helper::calculation($cart);
 
 		$tax         = $calArr[5];
 		$discountVAT = 0;
@@ -382,7 +383,7 @@ class RedshopControllerCart extends RedshopController
 		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
-		$cart['mod_cart_total']            = $this->cartHelper->GetCartModuleCalc($cart);
+		$cart['mod_cart_total']            = Redshop\Cart\Module::calculate($cart);
 
 		RedshopHelperCartSession::setCart($cart);
 
@@ -527,7 +528,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function ajaxDeleteCartItem()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$app         = JFactory::getApplication();
 		$input       = $app->input;
@@ -653,7 +654,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function ajaxGetProductTax()
 	{
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$app = JFactory::getApplication();
 

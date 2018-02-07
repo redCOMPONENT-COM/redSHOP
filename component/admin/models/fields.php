@@ -61,8 +61,9 @@ class RedshopModelFields extends RedshopModelList
 	protected function getStoreId($id = '')
 	{
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.type');
-		$id .= ':' . $this->getState('filter.section');
+		$id .= ':' . $this->getState('filter.field_type');
+		$id .= ':' . $this->getState('filter.field_section');
+		$id .= ':' . $this->getState('filter.field_group');
 
 		return parent::getStoreId($id);
 	}
@@ -90,6 +91,9 @@ class RedshopModelFields extends RedshopModelList
 		$filterFieldSection = $this->getUserStateFromRequest($this->context . '.filter.field_section', 'filter_field_section');
 		$this->setState('filter.field_section', $filterFieldSection);
 
+		$filterFieldGroup = $this->getUserStateFromRequest($this->context . '.filter.field_group', 'filter_field_group');
+		$this->setState('filter.field_group', $filterFieldGroup);
+
 		parent::populateState('ordering', $direction);
 	}
 
@@ -108,8 +112,11 @@ class RedshopModelFields extends RedshopModelList
 		$query->select('f.*')
 			->select($db->quoteName('fg.name', 'groupName'))
 			->from($db->quoteName('#__redshop_fields', 'f'))
-			->join('LEFT', $db->quoteName('#__redshop_fields_group', 'fg')
-			. ' ON ' . $db->quoteName('f.groupId') .' = ' . $db->quoteName('fg.id'));
+			->join('LEFT',
+				$db->quoteName('#__redshop_fields_group', 'fg')
+				. ' ON ' . $db->quoteName('f.groupId') .' = ' . $db->quoteName('fg.id')
+			);
+
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
 
@@ -143,7 +150,7 @@ class RedshopModelFields extends RedshopModelList
 		}
 
 		// Filter: Field group
-		$filterFieldGroup = $this->getState('filter.field_group', false);
+		$filterFieldGroup = $this->getState('filter.field_group', 0);
 
 		if (!empty($filterFieldGroup))
 		{

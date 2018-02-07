@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
-JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 
 $editor = JFactory::getEditor();

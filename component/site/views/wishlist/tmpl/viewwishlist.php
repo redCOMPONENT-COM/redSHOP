@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
 $app           = JFactory::getApplication();
@@ -112,11 +111,11 @@ else
 		$count_no_user_field = 0;
 		display_products($rows);
 
-		for ($p = 0, $pn = count($rows); $p < $pn; $p++)
+		foreach ($rows as $row)
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
-				$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $rows[$p]->product_id);
+				$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $row->product_id);
 
 				$ufield .= $productUserFields[1];
 
@@ -126,7 +125,7 @@ else
 				}
 			}
 
-			$myproductid .= $rows[$p]->product_id . ",";
+			$myproductid .= $row->product_id . ",";
 		}
 
 		echo "<br />";
@@ -138,7 +137,7 @@ else
 		}
 		else
 		{
-			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><input type='button'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
+			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\" data-productid=\"" . $myproductid . "\"  ><input type='button'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
 		}
 	}
 
@@ -249,7 +248,7 @@ function display_products($rows)
 		$wishlist_data1 = $template[0]->template_desc;
 
 		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
-		$mail_link      = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
+		$mail_link      = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
 		$wishlist_data1 = str_replace('{mail_link}', $mail_link, $wishlist_data1);
 		$template_d1    = explode("{product_loop_start}", $wishlist_data1);
 		$template_d2    = explode("{product_loop_end}", $template_d1[1]);

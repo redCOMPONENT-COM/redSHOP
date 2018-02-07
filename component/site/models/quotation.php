@@ -499,7 +499,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		$email = $app->input->get('email');
 
-		$password = RedshopHelperOrder::randomGenerateEncryptKey(12);
+		$password = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
 
 		// Disallow control chars in the email
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password);
@@ -591,7 +591,7 @@ class RedshopModelQuotation extends RedshopModel
 		$mailbody .= '</table>';
 		$mailsubject = 'Register';
 		$mailbcc     = null;
-		$mailinfo    = RedshopHelperMail::getMailTemplate(0, "quotation_user_register");
+		$mailinfo    = Redshop\Mail\Helper::getTemplate(0, "quotation_user_register");
 
 		if (count($mailinfo) > 0)
 		{
@@ -635,7 +635,7 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function sendQuotationMail($quotationId)
 	{
-		return RedshopHelperMail::sendQuotationMail($quotationId);
+		return Redshop\Mail\Quotation::sendMail($quotationId);
 	}
 
 	/**

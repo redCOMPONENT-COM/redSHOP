@@ -37,7 +37,8 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  mixed         A string if successful, otherwise an Error object.
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -54,10 +55,11 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		RedshopHelperShipping::loadLanguages();
 
 		$layout = $input->getCmd('layout', '');
-		$document->addScript('components/com_redshop/assets/js/order.js');
-		$document->addScript('components/com_redshop/assets/js/common.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/json.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.order.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
 		$lists = array();
 

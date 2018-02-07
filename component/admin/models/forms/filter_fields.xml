@@ -26,6 +26,14 @@
                 onchange="this.form.submit();">
             <option value="">COM_REDSHOP_FIELDS_FILTER_SELECT_FIELD_SECTION</option>
         </field>
+        <field
+                name="field_group"
+                type="redshop.fieldsgroups"
+                label="COM_REDSHOP_FIELDS_FILTER_SELECT_FIELD_GROUP"
+                default=""
+                class="form-control"
+                onchange="this.form.submit();"
+                />
     </fields>
     <fields name="list">
         <field

@@ -741,7 +741,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 
 		// Send mail from template ********************/
-		RedshopHelperMail::sendOrderSpecialDiscountMail($this->_id);
+		Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
 
 		return true;
 	}
@@ -974,7 +974,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 
 		// Send mail from template
-		RedshopHelperMail::sendOrderSpecialDiscountMail($this->_id);
+		Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
 
 		return true;
 	}
@@ -1052,7 +1052,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 
 		// Send mail from template
-		RedshopHelperMail::sendOrderSpecialDiscountMail($this->_id);
+		Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
 
 		return true;
 	}

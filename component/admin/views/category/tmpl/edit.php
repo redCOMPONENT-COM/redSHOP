@@ -8,8 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal();
-JHtml::_('behavior.tooltip');
+JHtml::_('behavior.modal');
 JHtml::_('behavior.formvalidator');
 
 JFactory::getDocument()->addScriptDeclaration('

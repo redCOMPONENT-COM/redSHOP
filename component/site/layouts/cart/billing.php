@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * =============================
- * @var  array   $displayData       Display data
- * @var  object  $billingaddresses  Billing addresses
+ * @var  array  $displayData      Display data
+ * @var  object $billingaddresses Billing addresses
  */
 extract($displayData);
 
 $extraSections = ($billingaddresses->is_company == 1) ?
-    RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
+	RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
 ?>
 
 <div class="redshop-billingaddresses">
@@ -39,7 +39,7 @@ $extraSections = ($billingaddresses->is_company == 1) ?
         <div class="col-xs-7"><?php echo $billingaddresses->lastname; ?></div>
     </div>
 
-	<?php if ($billingaddresses->address != "") : ?>
+	<?php if ( $billingaddresses->address != "") : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</label>
             <div class="col-xs-7"><?php echo $billingaddresses->address; ?></div>
@@ -91,15 +91,16 @@ $extraSections = ($billingaddresses->is_company == 1) ?
 
 	<?php if ($billingaddresses->is_company == 1) : ?>
 
-		<?php if ($billingaddresses->ean_number != "") : ?>
+		<?php if (!empty($billingaddresses->ean_number)) : ?>
             <div class="row">
                 <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</label>
                 <div class="col-xs-7"><?php echo $billingaddresses->ean_number; ?></div>
             </div>
-
+		<?php endif; ?>
+		<?php if (!empty($billingaddresses->requisition_number)) : ?>
             <div class="row">
                 <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER'); ?>:</label>
-                <div class="col-xs-7"><?php echo $billingaddresses->requisition_number; ?></div>
+                <div class="col-xs-7"><?php echo $billingaddresses->requisition_number ?></div>
             </div>
 		<?php endif; ?>
 

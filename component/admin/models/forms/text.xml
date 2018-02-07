@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_TEXT_NAME"
+                description="COM_REDSHOP_TEXT_NAME_DESC"
+                placeholder="COM_REDSHOP_TEXT_NAME"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="desc"
+                type="redshop.text"
+                label="COM_REDSHOP_TEXT_DESCRIPTION"
+                description="COM_REDSHOP_TEXT_DESCRIPTION_DESC"
+                placeholder="COM_REDSHOP_TEXT_DESCRIPTION"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-width="20%"
+        />
+        <field
+                name="section"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="product"
+                label="COM_REDSHOP_TEXT_SECTION"
+                description="COM_REDSHOP_TEXT_SECTION_DESC"
+                required="true"
+                table-sortable="1"
+                table-width="10%">
+            <option value="product">COM_REDSHOP_TEXT_SECTION_OPTION_PRODUCT</option>
+            <option value="category">COM_REDSHOP_TEXT_SECTION_OPTION_CATEGORY</option>
+            <option value="newsletter">COM_REDSHOP_TEXT_SECTION_OPTION_NEWSLETTER</option>
+        </field>
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="content"
+                type="editor"
+                label="COM_REDSHOP_TEXT_CONTENT"
+                description="COM_REDSHOP_TEXT_CONTENT_DESC"
+                width="300"
+                filter="safehtml"
+                table-hide="1"
+        />
+    </fieldset>
+</form>

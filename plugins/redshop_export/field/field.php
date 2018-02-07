@@ -26,14 +26,15 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  string
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 *
 	 * @TODO: Need to load XML File instead
 	 */
 	public function onAjaxField_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -42,10 +43,11 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  integer
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 */
 	public function onAjaxField_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$this->writeData($this->getHeader(), 'w+');
 
@@ -58,10 +60,11 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  integer
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 */
 	public function onAjaxField_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);
@@ -76,6 +79,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 * @return  void
 	 *
 	 * @since   1.0.0
+	 * @throws  Exception
 	 */
 	public function onAjaxField_Complete()
 	{
@@ -209,12 +213,46 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 */
 	protected function getTotal()
 	{
-		$db = $this->db;
-		$query = $this->getQuery();
+		$db       = $this->db;
+		$query    = $this->getQuery();
 		$newQuery = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('(' . $query . ') AS ' . $db->qn('field_union'));
 
 		return (int) $this->db->setQuery($newQuery)->loadResult();
+	}
+
+	/**
+	 * Method for do some stuff for data return. (Like image path,...)
+	 *
+	 * @param   array  $data  Array of data.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.1
+	 */
+	protected function processData(&$data)
+	{
+		if (empty($data))
+		{
+			return;
+		}
+
+		foreach ($data as $index => $item)
+		{
+			$item = (array) $item;
+
+			foreach ($item as $column => $value)
+			{
+				if (!in_array($column, array('desc', 'data_txt', 'field_value')))
+				{
+					continue;
+				}
+
+				$item[$column] = str_replace(array("\n", "\r"), "", $value);
+			}
+
+			$data[$index] = $item;
+		}
 	}
 }

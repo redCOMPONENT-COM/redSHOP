@@ -61,9 +61,9 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	 */
 	public function onAjaxField_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -75,7 +75,7 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	 */
 	public function onAjaxField_Import()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
 		$this->encoding  = $input->getString('encoding', 'UTF-8');

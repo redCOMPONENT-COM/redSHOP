@@ -26,6 +26,7 @@ class RedshopControllerXmlexport extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 1))
@@ -46,11 +47,12 @@ class RedshopControllerXmlexport extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo '<script> alert("' . /** @scrutinizer ignore-deprecated */ $model->getError(null, true) . '"); window.history.go(-1); </script>\n';
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_UNPUBLISHED_SUCCESSFULLY');

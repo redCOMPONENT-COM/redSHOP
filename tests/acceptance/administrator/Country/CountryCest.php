@@ -44,6 +44,46 @@ class CountryCest extends AbstractCest
 	}
 
 	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester      $tester    Tester
+	 * @param   \Codeception\Scenario  $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreate
+	 */
+	public function deleteDataSave(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
+	{
+		$tester->wantTo('Run after create item with save button ');
+		$stepClass = $this->stepClass;
+
+		/** @var CountrySteps $tester */
+		$tester = new $stepClass($scenario);
+		$tester->deleteItem('New ' . $this->dataNew['country_name']);
+	}
+
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester      $tester    Tester
+	 * @param   \Codeception\Scenario  $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreateSaveClose
+	 */
+	public function deleteDataSaveClose(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
+	{
+		$tester->wantTo('Run after create item with save button ');
+		$stepClass = $this->stepClass;
+
+		/** @var CountrySteps $tester */
+		$tester = new $stepClass($scenario);
+		$tester->deleteItem('New ' . $this->dataNew['country_name']);
+	}
+
+	/**
 	 * Method for set new data.
 	 *
 	 * @return  array

@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
 $app    = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid');
 $user   = JFactory::getUser();

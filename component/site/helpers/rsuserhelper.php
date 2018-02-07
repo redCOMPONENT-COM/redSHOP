@@ -176,6 +176,7 @@ class RsUserHelper
 	 * @param   array   $data  User data.
 	 *
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @deprecated   2.0.7  Use RedshopHelperJoomla::updateJoomlaUser
 	 */
@@ -191,6 +192,7 @@ class RsUserHelper
 	 * @param   int    $createUser  Create user
 	 *
 	 * @return  boolean|JUser       JUser if success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7
 	 */
@@ -208,6 +210,7 @@ class RsUserHelper
 	 * @deprecated  2.0.7
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 */
 	public function checkCaptcha($data, $displayWarning = true)
 	{
@@ -222,6 +225,7 @@ class RsUserHelper
 	 * @param   integer  $admin   Is admin user.
 	 *
 	 * @return  bool|\JTable      RedshopTableUser if success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7
 	 */
@@ -236,6 +240,7 @@ class RsUserHelper
 	 * @param   array  $data  Available data.
 	 *
 	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.7  Use RedshopHelperUser::storeRedshopUserShipping
 	 */
@@ -267,6 +272,7 @@ class RsUserHelper
 	 * @param   null   $isNew     Capability for old method.
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperNewsletter::subscribe() instead
 	 */
@@ -300,6 +306,7 @@ class RsUserHelper
 	 * @param   integer  $createAccount   Is create account?
 	 *
 	 * @return  string                    HTML content layout.
+	 * @throws  Exception
 	 *
 	 * @deprecated   2.0.7   Use RedshopHelperBilling::renderTemplate instead
 	 */
@@ -364,6 +371,7 @@ class RsUserHelper
 	 * @param   array    $lists      List of data.
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.7  Use RedshopHelperShipping::getShippingTable
 	 */
@@ -402,6 +410,8 @@ class RsUserHelper
 	 * @param   string  $error  Error message
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function setError($error)
 	{

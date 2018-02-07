@@ -70,6 +70,7 @@ class RedshopMenuLeft_Menu
 			self::setAccountGroup();
 			self::setStatisticsGroup();
 			self::setConfigGroup();
+			self::setTool();
 
 			if ($disableMenu)
 			{
@@ -236,9 +237,9 @@ class RedshopMenuLeft_Menu
 			case "templates":
 				return array('CUSTOMIZATION', 'template');
 
-			case "textlibrary":
-			case "textlibrary_detail":
-				return array('CUSTOMIZATION', 'textlibrary');
+			case "texts":
+			case "text":
+				return array('CUSTOMIZATION', 'texts');
 
 			case "catalog":
 			case "catalog_request":
@@ -278,6 +279,9 @@ class RedshopMenuLeft_Menu
 				 * case "statistic_variant":
 				 */
 				return array('STATISTIC', 'statistic');
+
+			case "tools":
+				return array('TOOLS', 'tools');
 
 			case "configuration":
 			case 'update':
@@ -645,9 +649,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'templates') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=textlibrary',
+				'index.php?option=com_redshop&view=texts',
 				'COM_REDSHOP_TEXT_LIBRARY_LISTING',
-				(self::$view == 'textlibrary') ? true : false
+				(self::$view == 'texts') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=catalog',
@@ -875,6 +879,22 @@ class RedshopMenuLeft_Menu
 			);
 
 		self::$menu->group('CONFIG');
+	}
+
+	/**
+	 * Method for set tool
+	 *
+	 * @return void
+	 */
+	protected static function setTool()
+	{
+		self::$menu->addHeaderItem(
+			'index.php?option=com_redshop&view=tools',
+			'COM_REDSHOP_BACKEND_TOOLS',
+			(self::$view == 'tools') ? true : false,
+			null,
+			'fa fa-wrench'
+		);
 	}
 
 	/**

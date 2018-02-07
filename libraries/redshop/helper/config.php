@@ -385,7 +385,7 @@ class RedshopHelperConfig
 		}
 
 		// Load redshop script
-		JHtml::script('com_redshop/redshop.js', false, true);
+		JHtml::script('com_redshop/redshop.min.js', false, true);
 
 		JFactory::getDocument()->addScriptDeclaration('
 			(function($) {

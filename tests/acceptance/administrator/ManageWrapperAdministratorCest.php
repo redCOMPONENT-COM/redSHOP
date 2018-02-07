@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
+use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 /**
  * Class ManageWrapperAdministratorCest
  *
@@ -34,6 +34,9 @@ class ManageWrapperAdministratorCest
 	{
 		$I->wantTo('Test Wrapper creation in Administrator');
 		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Create category');
+		$I->addCategorySave($this->category);
 
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
 		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
@@ -65,6 +68,7 @@ class ManageWrapperAdministratorCest
 	{
 		$I->wantTo('Test if Wrapper gets updated in Administrator');
 		$I->doAdministratorLogin();
+
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
 		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
 		$I->click(['id' => "reset"]);
@@ -128,5 +132,9 @@ class ManageWrapperAdministratorCest
 		$I->waitForText('Wrapping detail deleted successfully',60, ['id' => 'system-message-container']);
 		$I->see('Wrapping detail deleted successfully', ['id' => 'system-message-container']);
 		$I->dontSeeElement(['link' => $this->newName]);
+
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete category');
+		$I->deleteCategory($this->category);
 	}
 }
