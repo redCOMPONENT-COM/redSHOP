@@ -598,4 +598,41 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($usePage->productName($productFirst), 30);
 		$I->waitForElement($usePage->productName($productSecond), 30);
 	}
+
+	public function testProductWithVatCheckout($productName, $categoryName, $subTotal, $vatPrice, $total)
+	{
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->pauseExecution();
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectorSuccess, 30);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
+		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->pauseExecution();
+		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->pauseExecution();
+		$I->see($vatPrice, \FrontEndProductManagerJoomla3Page::$priceDiscount);
+		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+	}
 }

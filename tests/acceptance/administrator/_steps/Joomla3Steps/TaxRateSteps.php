@@ -29,7 +29,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addTAXRatesSave($taxRateName, $taxGroupName, $taxRateValue, $nameCountry)
+	public function addTAXRatesSave($taxRateName, $taxGroupName, $taxRateValue, $nameCountry, $stateName)
 	{
 		$client = $this;
 		$client->amOnPage(\TaxRatePage::$url);
