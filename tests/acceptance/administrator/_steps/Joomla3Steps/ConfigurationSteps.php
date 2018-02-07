@@ -133,15 +133,19 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->fillField(\ConfigurationPage::$countrySearchPrice, $country);
 		$userConfigurationPage = new \ConfigurationPage();
 		$I->waitForElement($userConfigurationPage->returnChoice($country));
-		$I->click($userConfigurationPage->returnChoice($country));
+		$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+//		$I->click($userConfigurationPage->returnChoice($country));
 
 		//get state
-		$I->click(\ConfigurationPage::$statePrice);
-		$I->waitForElement(\ConfigurationPage::$stateSearchPrice, 5);
-		$I->fillField(\ConfigurationPage::$stateSearchPrice, $state);
-		$I->waitForElement($userConfigurationPage->returnChoice($state));
-		$I->click($userConfigurationPage->returnChoice($state));
-
+		if(isset($state))
+		{
+			$I->click(\ConfigurationPage::$statePrice);
+			$I->waitForElement(\ConfigurationPage::$stateSearchPrice, 5);
+			$I->fillField(\ConfigurationPage::$stateSearchPrice, $state);
+			$I->waitForElement($userConfigurationPage->returnChoice($state));
+			$I->click($userConfigurationPage->returnChoice($state));
+		}
+		
 		//get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);

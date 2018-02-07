@@ -599,9 +599,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($usePage->productName($productSecond), 30);
 	}
 
-	public function testProductWithVatCheckout($productName, $categoryName, $subTotal, $vatPrice, $total)
+	public function testProductWithVatCheckout($userName , $password, $productName, $categoryName, $subTotal, $vatPrice, $total)
 	{
 		$I = $this;
+		$I->doFrontEndLogin($userName, $password);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;

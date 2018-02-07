@@ -8,7 +8,9 @@
 use AcceptanceTester\TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
-use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps; 
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps as  ConfigurationSteps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 /**
  * Class ProductVatCheckoutCest
  *
@@ -25,10 +27,9 @@ class ProductVatCheckoutCest
 		$this->faker        = Faker\Factory::create();
 		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
 		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
-		$this->taxGroupName         = 'Testing VAT Groups690';
+		$this->taxGroupName         = $this->faker->bothify('TaxGroups ?###?');
 		$this->taxRateValue         = 0.1;
-		$this->countryName          = 'United States';
-		$this->stateName            = 'Alabama';
+		$this->countryName          = 'Denmark';
 		$this->taxRateValueNegative = -1;
 		$this->taxRateValueString   = 'Test';
 		$this->productName  = $this->faker->bothify('NameProductVAT ?###?');
@@ -37,9 +38,31 @@ class ProductVatCheckoutCest
 		$this->randomProductPrice = 100;
 
 
+		// vat setting
+		$this->vatCalculation  = 'Webshop';
+		$this->vatAfter        = 'after';
+		$this->vatNumber       = 0;
+		$this->calculationBase = 'billing';
+		$this->requiVAT        = 'no';
+
 		$this->subtotal = "DKK 100,00";
 		$this->vatPrice = "DKK 10,00";
 		$this->total    = "DKK 110,00";
+
+		//create user for quotation
+		$this->faker           = Faker\Factory::create();
+		$this->userName        = $this->faker->bothify('ManageUserAdministratorCest ?####?' );
+		$this->password        = $this->faker->bothify('Password ?##?');
+		$this->email           = $this->faker->email;
+		$this->shopperGroup    = 'Default Private';
+		$this->group           = 'Registered';
+		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->updateFirstName = 'Updating ' . $this->firstName;
+		$this->lastName        = $this->faker->bothify('LastName ?####?');
+		$this->address         = '14 Phan Ton';
+		$this->zipcode         = 7000;
+		$this->city            = 'Ho Chi Minh';
+		$this->phone           = 010101010;
 
 	}
 
@@ -57,13 +80,14 @@ class ProductVatCheckoutCest
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
+
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
 
 		$client->wantTo('Create new category ');
 		$client = new CategoryManagerJoomla3Steps($scenario);
@@ -73,59 +97,17 @@ class ProductVatCheckoutCest
 		$client = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$client->wantTo('I Want to add product inside the category');
 		$client->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
-		
+
+		$client->wantTo('Configuration for apply VAT');
+		$client = new ConfigurationSteps($scenario);
+		$client->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
+
+		$client->wantTo('Create user for checkout');
+		$client = new UserManagerJoomla3Steps($scenario);
+		$client->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 		$client= new ProductCheckoutManagerJoomla3Steps($scenario);
-		$client->testProductWithVatCheckout($this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total);
+		$client->testProductWithVatCheckout($this->userName,$this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total);
 	}
-
-
-	/**
-	 * Test to Verify the Vat Integration
-	 *
-	 * @param   AcceptanceTester $I        Actor Class Object
-	 * @param   String           $scenario Scenario Variable
-	 *
-	 * @return void
-	 */
-	public function testProductWithVatCheckout(AcceptanceTester $I, $scenario)
-	{
-		$I->doAdministratorLogout();
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$I->checkForPhpNoticesOrWarnings();
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->seeElement(['link' => $productName]);
-		$I->see("$ 24,00", ['class' => "lc-subtotal"]);
-		$I->see("$ 2,40", ['class' => "lc-vat"]);
-		$I->see("$ 26,40", ['class' => "lc-total"]);
-		$I->doAdministratorLogin();
-		$I->amOnPage("/administrator/index.php?option=com_redshop&view=tax_group");
-		$I->waitForText('VAT / Tax Group Management', 30, ['xpath' => "//h1"]);
-		$I->click("ID");
-		$I->see($this->vatGroupName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
-		$I->click(['id' => "cb0"]);
-		$I->click("Delete");
-		$I->waitForText("VAT Group detail deleted successfully", 10, '.alert-message');
-		$I->see("VAT Group detail deleted successfully", '.alert-message');
-		$I->amOnPage("/administrator/index.php?option=com_redshop&view=configuration");
-		$I->waitForText("Configuration", 30, ['xpath' => "//h1"]);
-		$I->click(["link" => "Price"]);
-		$I->executeJS("window.scrollTo(0, 900);");
-		// @todo: check why this is not working $I->scrollTo('#default_vat_country', 0, -200);
-		$I->wait(1);
-		$I->selectOptionInChosenByIdUsingJs("default_vat_country", "Select");
-		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/a"]);
-		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/div/ul/li[text() = 'Default']"]);
-		$I->click("Save & Close");
-		$I->waitForText("Configuration Saved", 30, '.alert-message');
-		$I->see("Configuration Saved", '.alert-message');
-	}
+	
 }
