@@ -26,6 +26,10 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	public $detail;
+
+	public $lists;
+
 	public function display($tpl = null)
 	{
 		$Redconfiguration = Redconfiguration::getInstance();
