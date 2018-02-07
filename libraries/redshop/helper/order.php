@@ -148,20 +148,20 @@ class RedshopHelperOrder
 	 */
 	public static function generateInvoiceNumber($orderId)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db = JFactory::getDbo();
 
-		// Create the base select statement.
-		$query->select('invoice_number, invoice_number_chrono, order_status, order_payment_status, order_total')
-			->from($db->qn('#__redshop_orders'))
-			->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		// Use entity instead query directly. Do reset for make sure
+		$orderEntity = RedshopEntityOrder::getInstance($orderId);
 
-		$db->setQuery($query);
+		if (!$orderEntity->isValid())
+		{
+			return false;
+		}
 
-		$orderInfo = $db->loadObject();
+		$orderInfo = $orderEntity->getItem();
 
 		// Don't generate invoice number for free orders if disabled from config
-		if ($orderInfo->order_total <= 0 && ! (boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER'))
+		if ($orderInfo->order_total <= 0 && !Redshop::getConfig()->getBool('INVOICE_NUMBER_FOR_FREE_ORDER'))
 		{
 			return false;
 		}
@@ -549,39 +549,16 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'TRUNCATE TABLE `#__redshop_orders`';
-		$db->setQuery($query);
-		$db->execute();
+		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_orders') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_item') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_users_info') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_status_log') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_acc_item');
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_attribute_item') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_payment') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_product_download') . ';';
+		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_product_download_log') . ';';
 
-		$query = 'TRUNCATE TABLE `#__redshop_order_item`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_users_info`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_status_log`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_acc_item`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_attribute_item`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_payment`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_product_download`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_product_download_log`';
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -984,12 +961,6 @@ class RedshopHelperOrder
 	{
 		$db      = JFactory::getDbo();
 		$orderId = $data->order_id;
-		$pos     = strpos(JURI::base(), 'plugins');
-
-		if ($pos !== false)
-		{
-			$explode = explode("plugins", JURI::base());
-		}
 
 		$data->order_status_code         = trim($data->order_status_code);
 		$data->order_payment_status_code = trim($data->order_payment_status_code);
@@ -1546,18 +1517,11 @@ class RedshopHelperOrder
 	 * @return  object
 	 *
 	 * @since   2.0.3
+	 * @deprecated  Use RedshopEntityOrder::getInstance($orderId)->getItem();
 	 */
 	public static function getMultiOrderDetails($orderId)
 	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_orders'))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return RedshopEntityOrder::getInstance($orderId)->getItem();
 	}
 
 	/**
@@ -2011,22 +1975,11 @@ class RedshopHelperOrder
 	 * @return  string
 	 *
 	 * @since   2.0.3
+	 * @deprecated  Use \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey
 	 */
 	public static function randomGenerateEncryptKey($pLength = '30')
 	{
-		/* Generated a unique order number */
-		$charList = "abcdefghijklmnopqrstuvwxyz";
-		$charList .= "1234567890123456789012345678901234567890123456789012345678901234567890";
-
-		$random = "";
-		srand((double) microtime() * 1000000);
-
-		for ($i = 0; $i < $pLength; $i++)
-		{
-			$random .= substr($charList, (rand() % (strlen($charList))), 1);
-		}
-
-		return $random;
+		return \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey((int) $pLength);
 	}
 
 	/**
@@ -2115,7 +2068,6 @@ class RedshopHelperOrder
 	 */
 	public static function sendDownload($orderId = 0)
 	{
-		$config = Redconfiguration::getInstance();
 		$app    = JFactory::getApplication();
 
 		// Getting the order status changed template from mail center end
@@ -2157,7 +2109,7 @@ class RedshopHelperOrder
 		$mailData = str_replace("{fullname}", $userFullname, $mailData);
 		$mailData = str_replace("{order_id}", $orderDetail->order_id, $mailData);
 		$mailData = str_replace("{order_number}", $orderDetail->order_number, $mailData);
-		$mailData = str_replace("{order_date}", $config->convertDateFormat($orderDetail->cdate), $mailData);
+		$mailData = str_replace("{order_date}", RedshopHelperDatetime::convertDateFormat($orderDetail->cdate), $mailData);
 
 		$productStart  = "";
 		$productEnd    = "";
@@ -2434,7 +2386,6 @@ class RedshopHelperOrder
 	{
 		$app = JFactory::getApplication();
 
-		$config          = Redconfiguration::getInstance();
 		$cartHelper      = rsCarthelper::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
@@ -2549,7 +2500,7 @@ class RedshopHelperOrder
 			$replace[] = $orderDetail->order_number;
 
 			$search[]  = "{order_date}";
-			$replace[] = $config->convertDateFormat($orderDetail->cdate);
+			$replace[] = RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
 
 			$search[]  = "{customer_note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_COMMENT');

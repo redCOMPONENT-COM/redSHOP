@@ -499,7 +499,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		$email = $app->input->get('email');
 
-		$password = RedshopHelperOrder::randomGenerateEncryptKey(12);
+		$password = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
 
 		// Disallow control chars in the email
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password);

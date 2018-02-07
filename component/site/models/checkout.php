@@ -428,7 +428,7 @@ class RedshopModelCheckout extends RedshopModel
 		// Start code to track duplicate order number checking
 		$order_number = $this->_order_functions->generateOrderNumber();
 
-		$random_gen_enc_key      = $this->_order_functions->random_gen_enc_key(35);
+		$random_gen_enc_key      = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
 		$users_info_id           = $billingaddresses->users_info_id;
 		$row->user_id            = $userId;
 		$row->order_number       = $order_number;
@@ -1265,7 +1265,7 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmailsub   = str_replace('{giftcard_price}', $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
-			$gift_code         = RedshopHelperOrder::randomGenerateEncryptKey(12);
+			$gift_code         = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
 
 			/** @var RedshopTableCoupon $couponItems */
 			$couponItems = RedshopTable::getAdminInstance('Coupon');
