@@ -236,105 +236,162 @@ class RedshopControllerOrder extends RedshopController
 	{
 		$extraFile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
 
-		if (JFile::exists($extraFile))
+		if (file_exists($extraFile))
 		{
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
+
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			JFactory::getApplication()->close();
+
+			exit;
 		}
 
-		$productHelper = productHelper::getInstance();
+		$producthelper  = productHelper::getInstance();
+		$order_function = order_functions::getInstance();
 
-		$model        = $this->getModel('order');
-		$data         = $model->export_data();
-		$productCount = array();
-		$noProducts = $this->getNoProducts();
+		$model         = $this->getModel('order');
+		$cid           = $this->input->get('cid', array(0), 'array');
+		$data          = $model->export_data($cid);
+		$product_count = array();
+		$db            = JFactory::getDbo();
 
-		\Redshop\Environment\Respond\Helper::download('Order.csv');
+		$where = "";
 
-		foreach ($data as $index => $aData)
+		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
+
+		$db->setQuery($sql);
+		$no_products = $db->loadObjectList();
+
+		for ($index = 0, $in = count($data); $index < $in; $index++)
 		{
-			$productCount [] = $noProducts [$index]->noproduct;
+			$product_count [] = $no_products [$index]->noproduct;
 		}
 
-		$noProducts = max($productCount);
+		$no_products = max($product_count);
 
-		ob_clean();
+		$header = array(
+			'Order number', 'Order status', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
+			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Company name', 'Email', 'Billing address',
+			'Billing postalcode', 'Billing city', 'Billing country', 'Billing User'
+		);
 
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
-		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
-		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
-
-		for ($i = 1; $i <= $noProducts; $i++)
+		for ($index = 1; $index <= $no_products; $index++)
 		{
-			echo JText::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
-			echo JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
-			echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
+			$header[] = JText::_('COM_REDSHOP_PRODUCT_NAME') . $index;
+			$header[] = JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $index;
+			$header[] = JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $index;
 		}
 
-		echo "Order Total\n";
+		$header[] = 'Order Total';
+		$rows     = array();
+		$rows[]   = $header;
 
-		foreach ($data as $aData)
+		for ($index = 0, $in = count($data); $index < $in; $index++)
 		{
-			$billingInfo = RedshopEntityOrder::getInstance((int) $aData->order_id)->getBilling()->getItem();
+			$billing_info = RedshopHelperOrder::getOrderBillingUserInfo($data [$index]->order_id);
 
-			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
+			$details = RedshopShippingRate::decrypt($data[$index]->ship_method_id);
 
-			echo $aData->order_id . ",";
-			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($aData->order_status)) . " ,";
-			echo date('d-m-Y H:i', $aData->cdate) . " ,";
+			$row = array();
 
+			// order number
+			$row[] = $data [$index]->order_id;
+
+			// order status
+			$row[] = utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$index]->order_status));
+
+			// order date
+			$row[] = date('d-m-Y H:i', $data [$index]->cdate);
+
+			// shipping method
 			if (empty($details))
 			{
-				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+				$row[] = str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ")";
 			}
 			else
 			{
-				echo '';
+				$row[] = '';
 			}
 
-			$shippingInfo = RedshopEntityOrder::getInstance($data[$i]->order_id)->getShipping()->getItem();
+			// shipping user
+			$shipping_info = RedshopHelperOrder::getOrderShippingUserInfo($data[$index]->order_id);
+			$row[]         = str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname);
 
-			echo str_replace(",", " ", $shippingInfo->firstname) . " " . str_replace(",", " ", $shippingInfo->lastname) . " ,";
-			echo str_replace(",", " ", utf8_decode($shippingInfo->address)) . " ,";
-			echo $shippingInfo->zipcode . " ,";
-			echo str_replace(",", " ", utf8_decode($shippingInfo->city)) . " ,";
-			echo $shippingInfo->country_code . " ,";
-			echo str_replace(",", " ", $shippingInfo->company_name) . " ,";
-			echo $shippingInfo->user_email . " ,";
+			// shipping address
+			$row[] = str_replace(",", " ", utf8_decode($shipping_info->address));
 
-			echo str_replace(",", " ", utf8_decode($billingInfo->address)) . " ,";
-			echo $billingInfo->zipcode . " ,";
-			echo str_replace(",", " ", utf8_decode($billingInfo->city)) . " ,";
-			echo $billingInfo->country_code . " ,";
-			echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(",", " ", $billingInfo->lastname) . " ,";
+			// postal code
+			$row[] = $shipping_info->zipcode;
 
-			$noItems = RedshopHelperOrder::getOrderItemDetail($aData->order_id);
+			// city
+			$row[] = str_replace(",", " ", utf8_decode($shipping_info->city));
 
-			if ($noItems)
+			// country
+			$row[] = $shipping_info->country_code;
+
+			// company
+			$row[] = str_replace(",", " ", $shipping_info->company_name);
+
+			// email
+			$row[] = $shipping_info->user_email;
+
+			// billing address
+			$row[] = str_replace(",", " ", utf8_decode($billing_info->address));
+
+			// postal code
+			$row[] = $billing_info->zipcode;
+
+			// city
+			$row[] = str_replace(",", " ", utf8_decode($billing_info->city));
+
+			// country
+			$row[] = $billing_info->country_code;
+
+			// user
+			$row[] = str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname);
+
+			$no_items = $order_function->getOrderItemDetail($data [$index]->order_id);
+
+			for ($it = 0; $it < count($no_items); $it++)
 			{
-				foreach ($noItems as $noItem)
-				{
-					echo str_replace(",", " ", utf8_decode($noItem->order_item_name)) . " ,";
-					echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItem->product_final_price . ",";
+				$row[] = str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name));
+				$row[] = Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price;
 
-					$product_attribute = $productHelper->makeAttributeOrder($noItem->order_item_id, 0, $noItem->product_id, 0, 1);
-					$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
+				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
+				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
 
-					echo trim(utf8_decode($product_attribute)) . " ,";
-				}
-
-				$temp = $noProducts - count($noItems);
-
-				if ($temp >= 0)
-				{
-					echo str_repeat(' ,', $temp * 3);
-				}
-
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $aData->order_total . "\n";
+				$row[] = trim(utf8_decode($product_attribute));
 			}
+
+			$temp = $no_products - count($no_items);
+
+			if ($temp >= 0)
+			{
+				for ($count = 1; $count <= $temp * 3; $count++)
+				{
+					$row[] = '';
+				}
+			}
+
+			$row[] = Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$index]->order_total;
+
+			$rows[] = $row;
 		}
+
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-type: text/x-csv");
+		header("Content-type: text/csv");
+		header("Content-type: application/csv");
+		header('Content-Disposition: attachment; filename=Order.csv');
+
+		$output = fopen('php://output', 'w');
+
+		foreach ($rows as $row)
+		{
+			fputcsv($output, $row);
+		}
+
+		fclose($output);
 
 		JFactory::getApplication()->close();
 	}
