@@ -34,9 +34,9 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	 */
 	public function onAjaxProduct_stockroom_data_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -48,7 +48,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	 */
 	public function onAjaxProduct_stockroom_data_Import()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
 		$this->encoding  = $input->getString('encoding', 'UTF-8');

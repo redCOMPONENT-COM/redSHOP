@@ -29,7 +29,7 @@ class RedshopControllerState extends RedshopControllerForm
 	 */
 	public function ajaxGetState()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$app = JFactory::getApplication();
 

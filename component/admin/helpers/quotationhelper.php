@@ -199,7 +199,7 @@ class quotationHelper
 	 */
 	public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
-		return RedshopHelperQuotation::manageQuotationUserField($cart = array(), $quotation_item_id, $section_id);
+		return RedshopHelperQuotation::manageQuotationUserField($cart, $quotation_item_id, $section_id);
 	}
 
 	/**
