@@ -149,14 +149,10 @@ class OnePageCheckoutCest
         $I= new RedshopSteps($scenario);
         $I->clearAllData();
     }
-
-    public function _before(AcceptanceTester $I)
-    {
-        $I->doAdministratorLogin();
-    }
-
+    
     public function onePageCheckout(AcceptanceTester $I, $scenario)
     {
+        $I->doAdministratorLogin();
         $I->wantTo('setup up one page checkout at admin');
         $I = new ConfigurationSteps($scenario);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
@@ -191,7 +187,10 @@ class OnePageCheckoutCest
         $I = new UserManagerJoomla3Steps($scenario);
         $I->wantTo('Delete acccunt userName');
         $I->deleteUser($this->firstName);
+    }
 
+    public function businessCreatePrivateNo (AcceptanceTester $I, $scenario)
+    {
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->comment('want to check bussines ');
         $I->wantToTest('Test one page checkout with business with user login is customerBussinesInformationSecond[firstName]');
@@ -199,6 +198,7 @@ class OnePageCheckoutCest
         $I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond,'business','yes');
         $I->doFrontendLogout();
 
+        $I->doAdministratorLogin();
         $I = new UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
         $I->wantTo('checkout with user with login ');
