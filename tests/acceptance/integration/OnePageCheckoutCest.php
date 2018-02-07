@@ -213,6 +213,7 @@ class OnePageCheckoutCest
 
     public function clearUpDatabse(AcceptanceTester $I,$scenario )
     {
+        $I->doAdministratorLogin();
         $I->wantTo('setup up one page checkout is no at admin');
         $I = new ConfigurationSteps($scenario);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo,$this->showShippingCart,$this->attributeImage,$this->quantityChange,$this->quantityInCart,$this->minimunOrder);
