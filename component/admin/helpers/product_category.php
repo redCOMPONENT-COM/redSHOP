@@ -139,13 +139,13 @@ class product_category
 	/**
 	 * Get category tree
 	 *
-	 * @param   string  $cid  Category ID
+	 * @param   integer  $cid  Category ID
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryTree() instead
 	 */
-	public function getCategoryTree($cid = '0')
+	public function getCategoryTree($cid = 0)
 	{
 		return RedshopHelperCategory::getCategoryTree($cid);
 	}
