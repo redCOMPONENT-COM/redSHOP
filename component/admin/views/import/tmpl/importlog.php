@@ -126,7 +126,7 @@ defined('_JEXEC') or die;
 				<tr>
 					<td>
 						<div id="divLoading"><img
-								src="<?php echo JURI::root() ?>administrator/components/com_redshop/assets/images/preloader.gif">
+								src="<?php echo JURI::root() ?>media/com_redshop/images/preloader.gif">
 						</div>
 					</td>
 				</tr>

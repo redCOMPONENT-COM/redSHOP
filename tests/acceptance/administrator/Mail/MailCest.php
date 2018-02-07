@@ -19,7 +19,7 @@ use Cest\AbstractCest;
  */
 class MailCest extends AbstractCest
 {
-	use Cest\Traits\Publish, Cest\Traits\Delete;
+	use  Cest\Traits\Publish, Cest\Traits\Delete;
 
 	/**
 	 * Name field, which is use for search
@@ -44,6 +44,48 @@ class MailCest extends AbstractCest
 	}
 
 	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreate
+	 */
+	public function deleteDataSave(\AcceptanceTester $tester,  $scenario)
+	{
+		$tester->wantTo('Run after create item with save button ');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$tester = new $stepClass($scenario);
+		$tester->deleteItem('New' . $this->dataNew['mail_name']);
+
+	}
+
+	/**
+	 * Abstract method for run after complete create item.
+	 *
+	 * @param   \AcceptanceTester  $tester    Tester
+	 * @param   Scenario           $scenario  Scenario
+	 *
+	 * @return  void
+	 *
+	 * @depends testItemCreateSaveClose
+	 */
+	public function deleteDataSaveClose(\AcceptanceTester $tester,  $scenario)
+	{
+		$tester->wantTo('Run after create item with save button ');
+		$stepClass = $this->stepClass;
+
+		/** @var AbstractStep $step */
+		$tester = new $stepClass($scenario);
+		$tester->deleteItem('New' . $this->dataNew['mail_name']);
+
+	}
+
+	/**
 	 * Method for set new data.
 	 *
 	 * @return  array
@@ -52,7 +94,7 @@ class MailCest extends AbstractCest
 	{
 		$return = $this->dataNew;
 
-		$return['mail_name'] = 'Updated ' . $return['mail_name'];
+		$return['mail_name'] = 'New' . $return['mail_name'];
 
 		return $return;
 	}

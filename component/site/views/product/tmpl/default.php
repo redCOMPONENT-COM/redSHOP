@@ -1592,7 +1592,7 @@ if (strstr($template_desc, "{product_rating}"))
 		for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
 		{
 			$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
-			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
+			$starimage = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
 			if ($fullname != " ")
 			{
@@ -1626,7 +1626,7 @@ if (strstr($template_desc, "{product_rating}"))
 		for ($k = $mainblock; $k < count($reviews); $k++)
 		{
 			$fullname2  = $reviews [$k]->firstname . " " . $reviews [$k]->lastname;
-			$starimage2 = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
+			$starimage2 = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
 
 			$fullname2     = $reviews[$k]->username;
 			$reviews_data2 = str_replace("{fullname}", '', $reviews_template);

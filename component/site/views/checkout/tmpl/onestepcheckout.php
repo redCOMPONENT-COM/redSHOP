@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
-JHtml::script('com_redshop/credit_card.js', false, true);
-JHtml::script('com_redshop/redshop.onestep.js', false, true);
+/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.onestep.min.js', false, true);
 
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();

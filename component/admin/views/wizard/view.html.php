@@ -58,9 +58,9 @@ class RedshopViewWizard extends RedshopViewAdmin
 		$document    = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		JHtml::stylesheet('com_redshop/redshop.css', array(), true);
-		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		JHtml::stylesheet('com_redshop/redshop.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.wizard.min.css', array(), true);
 
 		// Shop country
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";

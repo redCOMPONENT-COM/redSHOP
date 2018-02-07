@@ -69,7 +69,7 @@ if ($mail == 0)
 
 	$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
 
-	$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
+	$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
 
 	if (count($MyWishlist) > 0)
 	{
@@ -503,7 +503,7 @@ if ($mail == 0)
 	if (count($MyWishlist) > 0)
 	{
 		$mlink     = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
-		$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
+		$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
 	}
 
 	$data = str_replace('{mail_link}', $mail_link, $data);

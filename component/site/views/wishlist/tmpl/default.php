@@ -14,7 +14,7 @@ JHtml::_('behavior.framework');
 $url = JUri::base();
 $input = JFactory::getApplication()->input;
 $wishlists = $this->wishlists;
-$productId = $input->getInt('product_id', 0);
+$productId = $input->getString('product_id', '');
 $hasWishlist = ($productId && count($wishlists) > 0) ? true : false;
 $Itemid = $input->getInt('Itemid', 0);
 ?>
@@ -62,7 +62,7 @@ $Itemid = $input->getInt('Itemid', 0);
 			</div>
 		</div>
 		<input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
-		<input type="hidden" name="product_id" value="<?php echo $input->getInt('product_id', 0) ?>" />
+		<input type="hidden" name="product_id" value="<?php echo $input->getString('product_id', '') ?>" />
 		<input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>" />
 		<input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>" />
 		<input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>" />
@@ -139,7 +139,7 @@ $Itemid = $input->getInt('Itemid', 0);
 				</table>
 			</div>
 			<input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
-            <input type="hidden" name="product_id" value="<?php echo $input->getInt('product_id', 0) ?>" />
+            <input type="hidden" name="product_id" value="<?php echo $input->getString('product_id', '') ?>" />
 			<input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>" />
 			<input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>" />
 			<input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>" />

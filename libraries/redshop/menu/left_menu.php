@@ -70,6 +70,7 @@ class RedshopMenuLeft_Menu
 			self::setAccountGroup();
 			self::setStatisticsGroup();
 			self::setConfigGroup();
+			self::setTool();
 
 			if ($disableMenu)
 			{
@@ -278,6 +279,9 @@ class RedshopMenuLeft_Menu
 				 * case "statistic_variant":
 				 */
 				return array('STATISTIC', 'statistic');
+
+			case "tools":
+				return array('TOOLS', 'tools');
 
 			case "configuration":
 			case 'update':
@@ -875,6 +879,22 @@ class RedshopMenuLeft_Menu
 			);
 
 		self::$menu->group('CONFIG');
+	}
+
+	/**
+	 * Method for set tool
+	 *
+	 * @return void
+	 */
+	protected static function setTool()
+	{
+		self::$menu->addHeaderItem(
+			'index.php?option=com_redshop&view=tools',
+			'COM_REDSHOP_BACKEND_TOOLS',
+			(self::$view == 'tools') ? true : false,
+			null,
+			'fa fa-wrench'
+		);
 	}
 
 	/**

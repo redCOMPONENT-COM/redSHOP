@@ -64,9 +64,8 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
 		JPluginHelper::importPlugin('redshop_product');
 		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
 		$this->setLayout('default');
 

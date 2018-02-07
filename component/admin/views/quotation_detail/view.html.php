@@ -27,10 +27,10 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/ajaxupload.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.order.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
 		$uri   = JUri::getInstance();
 		$lists = array();
