@@ -10,21 +10,26 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
 JHtml::_('behavior.formvalidator');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task);
-		}
-	};
-');
 ?>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery("select").select2({width: "100%"});
     });
+    Joomla.submitbutton = function(task)
+    {
+        var form = document.adminForm;
+        if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
+        {
+            if (form.jform_name.value.trim() != "")
+            {
+                Joomla.submitform(task);
+            }
+            else
+            {
+                alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME', true ); ?>")
+            }
+        }
+    };
 </script>
 <form
         action="index.php?option=com_redshop&task=category.edit&id=<?php echo $this->item->id; ?>"
