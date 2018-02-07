@@ -278,6 +278,8 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function gls_export($cid)
 	{
+		$productHelper = productHelper::getInstance();
+
 		ob_clean();
 
 		// Start the output
@@ -302,6 +304,14 @@ class RedshopModelOrder extends RedshopModel
 			{
 				$weight       = (float) $this->getProductWeight($orderProduct->product_id);
 				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
+			}
+
+			$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+
+			if ($unitRatio != 0)
+			{
+				// Converting weight in kg
+				$totalWeight = $totalWeight * $unitRatio;
 			}
 
 			$parcelType     = 'A';
@@ -364,6 +374,8 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function business_gls_export($cid)
 	{
+		$productHelper = productHelper::getInstance();
+
 		ob_clean();
 
 		// Start the ouput
@@ -388,6 +400,14 @@ class RedshopModelOrder extends RedshopModel
 			{
 				$weight       = (float) $this->getProductWeight($orderProduct->product_id);
 				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
+			}
+
+			$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+
+			if ($unitRatio != 0)
+			{
+				// Converting weight in kg
+				$totalWeight = $totalWeight * $unitRatio;
 			}
 
 			// Initialize row
