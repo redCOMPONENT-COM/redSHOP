@@ -247,8 +247,6 @@ class RedshopControllerOrder extends RedshopController
 		}
 
 		$producthelper  = productHelper::getInstance();
-		$order_function = order_functions::getInstance();
-
 		$model         = $this->getModel('order');
 		$cid           = $this->input->get('cid', array(0), 'array');
 		$data          = $model->export_data($cid);
@@ -288,7 +286,7 @@ class RedshopControllerOrder extends RedshopController
 
 		for ($index = 0, $in = count($data); $index < $in; $index++)
 		{
-			$billing_info = RedshopHelperOrder::getOrderBillingUserInfo($data [$index]->order_id);
+			$billing_info = RedshopEntityOrder::getInstance($data[$index]->order_id)->getBilling()->getItem();
 
 			$details = RedshopShippingRate::decrypt($data[$index]->ship_method_id);
 
@@ -314,7 +312,7 @@ class RedshopControllerOrder extends RedshopController
 			}
 
 			// shipping user
-			$shipping_info = RedshopHelperOrder::getOrderShippingUserInfo($data[$index]->order_id);
+			$shipping_info = RedshopEntityOrder::getInstance($data[$index]->order_id)->getShipping()->getItem();
 			$row[]         = str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname);
 
 			// shipping address
@@ -350,20 +348,23 @@ class RedshopControllerOrder extends RedshopController
 			// user
 			$row[] = str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname);
 
-			$no_items = $order_function->getOrderItemDetail($data [$index]->order_id);
+			$items = RedshopHelperOrder::getOrderItemDetail($data [$index]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			if ($items && !empty($items))
 			{
-				$row[] = str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name));
-				$row[] = Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price;
+				foreach ($items as $item)
+				{
+					$row[] = str_replace(",", " ", utf8_decode($item->order_item_name));
+					$row[] = Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $item->product_final_price;
 
-				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
+					$product_attribute = $producthelper->makeAttributeOrder($item->order_item_id, 0, $item->product_id, 0, 1);
+					$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
 
-				$row[] = trim(utf8_decode($product_attribute));
+					$row[] = trim(utf8_decode($product_attribute));
+				}
 			}
 
-			$temp = $no_products - count($no_items);
+			$temp = $no_products - count($items);
 
 			if ($temp >= 0)
 			{
