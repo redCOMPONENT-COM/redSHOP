@@ -102,7 +102,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 		$box      = new Box($width, $height);
 		$options  = array();
 
-		if (!is_null($quality))
+		if (!empty($quality))
 		{
 			$options['quality'] = $quality;
 		}
@@ -112,7 +112,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 		$finalThumbnail = null;
 		$thumbnail      = $image->thumbnail($box, $mode);
 
-		$destinationFile = JFile::stripExt(basename($this->get('media_name')));
+		$destinationFile  = JFile::stripExt(basename($this->get('media_name')));
 		$destinationFile .= '_w' . $width . '_h' . $height;
 		$destinationFile .= '.' . JFile::getExt($this->get('media_name'));
 

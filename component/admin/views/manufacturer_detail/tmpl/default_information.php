@@ -108,10 +108,9 @@ $plgManufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_
 					$media->get('media_name'),
 					false,
 					true,
-					$media->get('media_id')
+					(int) $media->get('media_id')
 				); ?>
             </div>
         </div>
     </div>
 </div>
-

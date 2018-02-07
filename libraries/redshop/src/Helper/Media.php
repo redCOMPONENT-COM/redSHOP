@@ -24,8 +24,8 @@ class Media
 	 * @param   string   $section          Image section
 	 * @param   integer  $sectionId        Section ID
 	 * @param   string   $imageName        Image name
-	 * @param   string   $thumbWidth       Thumb width
-	 * @param   string   $thumbHeight      Thumb height
+	 * @param   integer  $thumbWidth       Thumb width
+	 * @param   integer  $thumbHeight      Thumb height
 	 * @param   integer  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
@@ -33,14 +33,14 @@ class Media
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function watermark($section, $sectionId = 0, $imageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = -1)
+	public static function watermark($section, $sectionId = 0, $imageName = '', $thumbWidth = 0, $thumbHeight = 0, $enableWatermark = -1)
 	{
 		$enableWatermark = $enableWatermark == -1 ? \Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE') : $enableWatermark;
 		$pathMainImage   = $section . '/' . $sectionId . '/' . $imageName;
 
 		try
 		{
-			// If main image not exists - display noimage
+			// If main image not exists - display no image
 			if (!\JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage))
 			{
 				$pathMainImage = 'noimage.jpg';
@@ -100,18 +100,25 @@ class Media
 			switch (\JFile::getExt(\Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				case 'gif':
-					$dest = imagecreatefromjpeg($destinationFile);
-					$src  = imagecreatefromgif($watermark);
+					$destinationFile = imagecreatefromjpeg($destinationFile);
+					$sourceFile      = imagecreatefromgif($watermark);
 
 					list($width, $height)                   = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
-						$dest, $src, ($width - $watermarkWidth) >> 1, ($height - $watermarkHeight) >> 1, 0, 0, $watermarkWidth, $watermarkHeight, 50
+						$destinationFile,
+						$sourceFile,
+						($width - $watermarkWidth) >> 1,
+						($height - $watermarkHeight) >> 1,
+						0,
+						0,
+						$watermarkWidth,
+						$watermarkHeight,
+						50
 					);
 
-					imagejpeg($dest, $destinationFile);
-
+					imagejpeg($destinationFile, $destinationFile);
 					break;
 
 				case 'png':
@@ -162,11 +169,9 @@ class Media
 					}
 
 					imagejpeg($im2, $destinationFile);
-
 					break;
 
 				default:
-
 					throw new \Exception;
 			}
 

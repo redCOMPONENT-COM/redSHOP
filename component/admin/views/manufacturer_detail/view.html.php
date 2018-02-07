@@ -26,6 +26,21 @@ class RedshopViewManufacturer_Detail extends RedshopViewAdmin
 	public $request_url;
 
 	/**
+	 * @var  array
+	 */
+	public $lists;
+
+	/**
+	 * @var  object
+	 */
+	public $detail;
+
+	/**
+	 * @var  array
+	 */
+	public $tabmenu;
+
+	/**
 	 * Do we have to display a sidebar ?
 	 *
 	 * @var  boolean
@@ -37,7 +52,6 @@ class RedshopViewManufacturer_Detail extends RedshopViewAdmin
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed         A string if successful, otherwise a Error object.
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)
