@@ -45,7 +45,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 */
 	public function ajaxProcess()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 		$app = JFactory::getApplication();
 
 		$remainingTasks = RedshopInstall::getRemainingTasks();

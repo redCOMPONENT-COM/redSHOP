@@ -32,9 +32,9 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 */
 	public function onAjaxField_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -47,7 +47,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 */
 	public function onAjaxField_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$this->writeData($this->getHeader(), 'w+');
 
@@ -64,7 +64,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 */
 	public function onAjaxField_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);

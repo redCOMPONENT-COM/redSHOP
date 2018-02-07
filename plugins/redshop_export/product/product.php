@@ -50,7 +50,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 */
 	public function onAjaxProduct_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		// Radio for load extra fields
 		$configs[] = '<div class="form-group">
@@ -131,7 +131,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 */
 	public function onAjaxProduct_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 
@@ -157,7 +157,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 */
 	public function onAjaxProduct_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);

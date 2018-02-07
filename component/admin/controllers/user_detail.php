@@ -218,7 +218,7 @@ class RedshopControllerUser_detail extends RedshopController
 	 */
 	public function ajaxValidationUsername()
 	{
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$username = $this->input->getString('username', '');
 		$user_id  = $this->input->getInt('user_id', 0);
