@@ -17,7 +17,7 @@ use Codeception\Scenario;
  *
  * @since    1.4
  */
-class AdministratorNoticesCest
+class NoticesCest
 {
 	/**
 	 * @var array

@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageUserAdministratorCest
+class UserCest
 {
     public function __construct()
     {

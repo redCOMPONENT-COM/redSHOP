@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageStockRoomAdministratorCest
+class StockRoomCest
 {
 	public function __construct()
 	{

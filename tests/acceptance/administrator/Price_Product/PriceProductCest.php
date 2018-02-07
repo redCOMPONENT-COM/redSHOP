@@ -9,7 +9,7 @@
  *
  * @since    1.4
  */
-class PriceProductAdministratorCest
+class PriceProductCest
 {
 
     public function __construct()

@@ -5,7 +5,7 @@
  *
  * @since 1.6.0
  */
-class ManagerMassDiscountAdministratorCest
+class MassDiscountCest
 {
 	/**
 	 * @var \Faker\Generator

@@ -579,6 +579,14 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+		$this->taskCodecept()
+			->debug()
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CouponCheckoutMixCheckoutCest.php')
+			->run()
+			->stopOnFail();
+		
+
 		/*
 		$this->taskCodecept()
 			->arg('--steps')

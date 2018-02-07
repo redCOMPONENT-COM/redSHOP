@@ -15,7 +15,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
  *
  * @since    1.4
  */
-class ManageWrapperAdministratorCest
+class WrapperCest
 {
 	public function __construct()
 	{
