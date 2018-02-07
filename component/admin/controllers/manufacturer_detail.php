@@ -53,6 +53,8 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 		if ($row)
 		{
+			\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id);
+
 			RedshopHelperExtrafields::extraFieldSave($post, "10", $row->manufacturer_id);
 			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 
@@ -117,8 +119,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 				}
 
 				// Clear thumbnail folder
-				JFolder::delete(JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/thumb'));
-				JFolder::create(JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/thumb'));
+				\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/thumb', true);
 			}
 		}
 		else

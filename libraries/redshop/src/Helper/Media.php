@@ -199,4 +199,43 @@ class Media
 			return $fileName;
 		}
 	}
+
+	/**
+	 * Method for create / re-create folder and add index.html inside.
+	 *
+	 * @param   string   $folder    Folder path
+	 * @param   boolean  $reCreate  True for delete if exist and re-create
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createFolder($folder, $reCreate = false)
+	{
+		if (empty($folder))
+		{
+			return false;
+		}
+
+		$folder = \JPath::clean($folder);
+
+		if (\JFolder::exists($folder))
+		{
+			if ($reCreate === false)
+			{
+				return true;
+			}
+			else
+			{
+				\JFolder::delete($folder);
+			}
+		}
+
+		if (!\JFolder::create($folder))
+		{
+			return false;
+		}
+
+		return \JFile::copy(JPATH_REDSHOP_LIBRARY . '/index.html', $folder . '/index.html');
+	}
 }

@@ -122,7 +122,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		$isNew = ($row->manufacturer_id > 0) ? false : true;
 		JPluginHelper::importPlugin('redshop_product');
 
-		$result = JDispatcher::getInstance()->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
+		RedshopHelperUtility::getDispatcher()->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{

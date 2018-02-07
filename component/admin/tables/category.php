@@ -131,12 +131,10 @@ class RedshopTableCategory extends RedshopTableNested
 		}
 
 		// Prepare target folder.
-		$mediaPath = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id;
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id);
 
-		if (!JFolder::exists($mediaPath))
-		{
-			JFolder::create($mediaPath);
-		}
+		// Prepare target folder.
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id . '/thumb');
 
 		/** @var RedshopModelCategory $model */
 		$model = RedshopModel::getInstance('Category', 'RedshopModel');

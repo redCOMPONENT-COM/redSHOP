@@ -63,12 +63,12 @@ class RedshopEntityManufacturer extends RedshopEntity
 	 */
 	protected function loadMedia()
 	{
+		$this->media = RedshopEntityMediaImage::getInstance();
+
 		if (!$this->hasId())
 		{
 			return $this;
 		}
-
-		$this->media = RedshopEntityMediaImage::getInstance();
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
