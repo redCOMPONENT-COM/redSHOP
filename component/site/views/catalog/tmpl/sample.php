@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
 $redTemplate = Redtemplate::getInstance();
 $extra_field = extra_field::getInstance();
 $app         = JFactory::getApplication();

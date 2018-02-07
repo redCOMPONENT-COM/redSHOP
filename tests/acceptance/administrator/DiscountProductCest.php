@@ -69,7 +69,9 @@ class DiscountProductCest
 	public function __construct()
 	{
 		$this->faker          = Faker\Factory::create();
-		$this->categoryName   = 'Events and Forms';
+		$this->dataCategory = array();
+		$this->dataCategory['name'] = $this->faker->bothify('Category Name ?##?');
+		$this->dataCategory['type'] = 'Total';
 		$this->noPage         = $this->faker->randomNumber();
 		$this->productPrice   = $this->faker->numberBetween(100, 999);
 		$this->startDate      = "19-06-2017";
@@ -84,6 +86,14 @@ class DiscountProductCest
 		$this->type = 1;
 	}
 
+	public function createCategory(AcceptanceTester $client, $scenario)
+	{
+		$client->doAdministratorLogin();
+		$client->wantTo('Test Category creation in Administrator');
+		$client = new CategorySteps($scenario);
+		$client->wantTo('Create a Category');
+		$client->addNewItem($this->dataCategory);
+	}
 	/**
 	 * Function to Test Discount Product Creation in Backend
 	 *
@@ -103,7 +113,7 @@ class DiscountProductCest
 			$this->discountAmount,
 			$this->startDate,
 			$this->endDate,
-			$this->categoryName,
+			$this->dataCategory['name'],
 			$this->groupName
 		);
 	}
@@ -147,7 +157,7 @@ class DiscountProductCest
 			$this->type,
 			$this->startDate,
 			$this->endDate,
-			$this->categoryName,
+			$this->dataCategory['name'],
 			$this->groupName
 		);
 	}
@@ -174,7 +184,7 @@ class DiscountProductCest
 			$this->discountAmount,
 			$this->startDate,
 			$this->endDate,
-			$this->categoryName
+			$this->dataCategory['name']
 		);
 	}
 
@@ -199,7 +209,7 @@ class DiscountProductCest
 			$this->discountAmount,
 			$this->endDate,
 			$this->startDate,
-			$this->categoryName,
+			$this->dataCategory['name'],
 			$this->groupName
 		);
 	}
@@ -237,7 +247,7 @@ class DiscountProductCest
 	{
 		$client->doAdministratorLogin();
 		$client = new DiscountProductSteps($scenario);
-		$client->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->categoryName, $this->groupName);
+		$client->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->dataCategory['name'], $this->groupName);
 		$client->checkDeleteAll();
 	}
 }

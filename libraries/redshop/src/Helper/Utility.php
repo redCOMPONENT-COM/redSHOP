@@ -9,10 +9,6 @@
 
 namespace Redshop\Helper;
 
-use JCaptcha;
-use JFactory;
-use JText;
-
 defined('_JEXEC') or die;
 
 /**
@@ -29,16 +25,17 @@ class Utility
 	 * @param   boolean  $displayWarning  Display warning or not.
 	 *
 	 * @return  boolean
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.7
 	 */
 	public static function checkCaptcha($data, $displayWarning = true)
 	{
-		$default = JFactory::getConfig()->get('captcha');
+		$default = \JFactory::getConfig()->get('captcha');
 
-		if (JFactory::getApplication()->isSite())
+		if (\JFactory::getApplication()->isSite())
 		{
-			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+			$default = \JFactory::getApplication()->getParams()->get('captcha', \JFactory::getConfig()->get('captcha'));
 		}
 
 		if (empty($default))
@@ -46,18 +43,69 @@ class Utility
 			return true;
 		}
 
-		$captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop'));
+		$captcha = \JCaptcha::getInstance($default, array('namespace' => 'redshop'));
 
 		if ($captcha != null && !$captcha->checkAnswer($data))
 		{
 			if ($displayWarning)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
 			}
 
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Function which will return product tag array form  given template
+	 *
+	 * @param   integer $section      Display warning or not.
+	 * @param   string  $templateHtml Display warning or not.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getProductTags($section = \RedshopHelperExtrafields::SECTION_PRODUCT, $templateHtml = '')
+	{
+		if (empty($templateHtml))
+		{
+			return array();
+		}
+
+		$db     = \JFactory::getDbo();
+		$query  = $db->getQuery(true)
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('section') . ' = ' . (int) $section);
+		$fields = $db->setQuery($query)->loadColumn();
+
+		if (empty($fields))
+		{
+			return array();
+		}
+
+		$templateHtml = explode("{", $templateHtml);
+
+		if (empty($templateHtml))
+		{
+			return array();
+		}
+
+		$results = array();
+
+		foreach ($templateHtml as $tmp)
+		{
+			$word = explode('}', $tmp);
+
+			if (in_array($word[0], $fields))
+			{
+				$results[] = $word[0];
+			}
+		}
+
+		return $results;
 	}
 }

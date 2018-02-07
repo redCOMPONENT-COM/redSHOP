@@ -423,6 +423,7 @@ class redhelper
 	 * Method for get menu item id of checkout page
 	 *
 	 * @return  integer
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperUtility::getCheckoutItemId instead
 	 */

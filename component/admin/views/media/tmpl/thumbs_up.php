@@ -28,7 +28,7 @@ if ($fdownload)
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
 			<a href="<?php echo $link . $extra_arg; ?>">
-				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>folderup_32.png" width="32" height="32" border="0"
+				<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>folderup_32.png" width="32" height="32" border="0"
 				     alt=".."/></a>
 		</div>
 	</div>

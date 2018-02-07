@@ -91,6 +91,7 @@ class Redtemplate
 	 * @param   string   $name     Template Name
 	 *
 	 * @return  array              Template Array
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperTemplate::getTemplate($section, $tId, $name) instead
 	 */

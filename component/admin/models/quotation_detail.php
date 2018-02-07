@@ -706,8 +706,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$jinput = JFactory::getApplication()->input;
 
 			// Store userfields
-			$userfields    = $jinput->get('extrafields' . $qitemdata->product_id);
-			$userfields_id = $jinput->get('extrafields_id_' . $qitemdata->product_id);
+			$userfields = $jinput->getSring('extrafieldname' . $qitemdata->product_id . 'product1');
+			$userfields_id = $jinput->getInt('extrafieldId' . $qitemdata->product_id . 'product1');
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
@@ -769,7 +769,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$producthelper  = productHelper::getInstance();
 		$db             = $this->getDbo();
 		$orderNumber    = $orderFunctions->generateOrderNumber();
-		$encrKey        = $orderFunctions->random_gen_enc_key(35);
+		$encrKey        = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
 
 		$row                          = $this->getTable('order_detail');
 		$row->user_id                 = (int) $data['user_id'];

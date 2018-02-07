@@ -67,6 +67,20 @@ class Com_RedshopInstallerScript
 	 */
 	public function postflight($type, $parent)
 	{
+		// Respond json for ajax request and redirect with standard request
+		if(
+			isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+			strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'xmlhttprequest') == 0
+		){
+
+			$response = new JResponseJson(array('redirect' =>'index.php?option=com_redshop&view=install&install_type=' . $type));
+
+			header('Content-type: application/json');
+			echo $response;
+
+			JFactory::getApplication()->close();
+		}
+
 		JFactory::getApplication()->redirect('index.php?option=com_redshop&view=install&install_type=' . $type);
 	}
 

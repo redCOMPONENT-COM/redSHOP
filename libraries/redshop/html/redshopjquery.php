@@ -55,7 +55,7 @@ abstract class JHtmlRedshopjquery
 				$debug  = (boolean) $config->get('debug');
 			}
 
-			JHtml::script('com_redshop/jquery.js', false, true, false, false, $debug);
+			JHtml::script('com_redshop/jquery.min.js', false, true, false, false, $debug);
 
 			// Check if we are loading in noConflict
 			if ($noConflict)
@@ -66,7 +66,7 @@ abstract class JHtmlRedshopjquery
 			// Check if we are loading Migrate
 			if ($migrate)
 			{
-				JHtml::_('script', 'com_redshop/jquery-migrate.js', false, true, false, false, $debug);
+				JHtml::_('script', 'com_redshop/jquery-migrate.min.js', false, true, false, false, $debug);
 			}
 		}
 		else
@@ -94,9 +94,9 @@ abstract class JHtmlRedshopjquery
 			return;
 		}
 
-		JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.css', array(), true);
+		JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', array(), true);
 		self::framework();
-		JHtml::script('com_redshop/jquery-ui/jquery-ui.js', false, true, false, false);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery-ui.min.js', false, true, false, false);
 
 		if (version_compare(JVERSION, '3.0', '>='))
 		{
@@ -144,8 +144,8 @@ abstract class JHtmlRedshopjquery
 
 		self::framework();
 
-		JHtml::script('com_redshop/flexslider/flexslider.js', false, true);
-		JHtml::stylesheet('com_redshop/flexslider/flexslider.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/flexslider.min.js', false, true);
+		JHtml::stylesheet('com_redshop/flexslider/flexslider.min.css', array(), true);
 
 		$options = static::options2Jregistry($options);
 
@@ -247,7 +247,7 @@ abstract class JHtmlRedshopjquery
 
 		self::framework();
 
-		JHtml::script('com_redshop/select2/select2.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/select2.min.js', false, true);
 		JHtml::stylesheet('com_redshop/select2/select2.css', array(), true);
 
 		if (version_compare(JVERSION, '3.0', '>='))

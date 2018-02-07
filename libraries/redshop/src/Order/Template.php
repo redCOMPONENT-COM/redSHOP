@@ -232,7 +232,7 @@ class Template
 		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
 
 		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
-		$template = \rsCarthelper::getInstance()->replaceShippingAddress($template, $shippingAddresses, $sendMail);
+		$template = \RedshopHelperShippingTag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
 
 		$template = self::replaceOrderStatusLog($template, $row->order_id);
 

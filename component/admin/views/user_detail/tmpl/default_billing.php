@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+JFactory::getApplication()->setUserState('com_redshop.user_detail.data', "");
+
 $allowCustomer = '';
 $allowCompany  = '';
 

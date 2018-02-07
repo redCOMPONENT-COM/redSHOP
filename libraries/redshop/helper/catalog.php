@@ -94,7 +94,7 @@ class RedshopHelperCatalog
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, "catalog_first_reminder");
+		$mailData = Redshop\Mail\Helper::getTemplate(0, "catalog_first_reminder");
 
 		if (count($mailData) > 0)
 		{
@@ -162,7 +162,7 @@ class RedshopHelperCatalog
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, "catalog_second_reminder");
+		$mailData = Redshop\Mail\Helper::getTemplate(0, "catalog_second_reminder");
 
 		if (count($mailData) > 0)
 		{
@@ -270,7 +270,7 @@ class RedshopHelperCatalog
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, "catalog_coupon_reminder");
+		$mailData = Redshop\Mail\Helper::getTemplate(0, "catalog_coupon_reminder");
 
 		if (count($mailData) > 0)
 		{

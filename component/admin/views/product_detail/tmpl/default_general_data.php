@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
-JHtml::script('com_redshop/jquery.inputmask.js', false, true);
+/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
 
 $priceDecimal  = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');

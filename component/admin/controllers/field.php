@@ -27,7 +27,7 @@ class RedshopControllerField extends RedshopControllerForm
 	 */
 	public function ajaxGetAllFieldName()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Field');

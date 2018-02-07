@@ -28,8 +28,6 @@ function pluginRelease(group, name) {
             }
 
             parser.parseString(data, function (err, result) {
-                console.log(err);
-
                 var version = result.extension.version[0];
 
                 // Generate file name

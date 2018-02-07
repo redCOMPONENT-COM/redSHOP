@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 class xmlHelper
 {
 	public $_db = null;

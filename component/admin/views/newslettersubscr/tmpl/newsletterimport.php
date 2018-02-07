@@ -9,8 +9,6 @@
 defined('_JEXEC') or die;
 
 $editor = JFactory::getEditor();
-
-JHTML::_('behavior.tooltip');
 ?>
 <script language="javascript" type="text/javascript">
 

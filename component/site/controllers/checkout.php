@@ -778,7 +778,7 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function ajaxDisplayPaymentExtraField()
 	{
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$app = JFactory::getApplication();
 		$plugin = RedshopHelperPayment::info($app->input->getCmd('paymentMethod'));

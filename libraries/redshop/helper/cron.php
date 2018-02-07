@@ -171,7 +171,7 @@ class RedshopHelperCron
 			if ($mail->mail1_status == 0 && Redshop::getConfig()->get('DAYS_MAIL1'))
 			{
 				$sendDate      = date("Y-m-d", $mail->cdate + (Redshop::getConfig()->get('DAYS_MAIL1') * (60 * 60 * 24)));
-				$firstMailData = RedshopHelperMail::getMailTemplate(0, "first_mail_after_order_purchased");
+				$firstMailData = Redshop\Mail\Helper::getTemplate(0, "first_mail_after_order_purchased");
 
 				if (count($firstMailData) > 0)
 				{
@@ -223,7 +223,7 @@ class RedshopHelperCron
 			elseif ($mail->mail2_status == 0 && Redshop::getConfig()->get('DAYS_MAIL2') && $total != 0)
 			{
 				$sendDate       = date("Y-m-d", $mail->cdate + (Redshop::getConfig()->get('DAYS_MAIL2') * (59 * 59 * 23)));
-				$secondMailData = RedshopHelperMail::getMailTemplate(0, "second_mail_after_order_purchased");
+				$secondMailData = Redshop\Mail\Helper::getTemplate(0, "second_mail_after_order_purchased");
 
 				if (count($secondMailData) > 0)
 				{
@@ -264,7 +264,7 @@ class RedshopHelperCron
 			)
 			{
 				// Coupon reminder
-				$thirdMailData = RedshopHelperMail::getMailTemplate(0, "third_mail_after_order_purchased");
+				$thirdMailData = Redshop\Mail\Helper::getTemplate(0, "third_mail_after_order_purchased");
 
 				if (count($thirdMailData) > 0)
 				{
@@ -343,7 +343,7 @@ class RedshopHelperCron
 		foreach ($subscriptions as $subscription)
 		{
 			// Subscription renewal mail
-			RedshopHelperMail::sendSubscriptionRenewalMail($subscription);
+			Redshop\Mail\User::sendSubscriptionRenewal($subscription);
 
 			$productSubscribeIds[] = (int) $subscription->product_subscribe_id;
 		}

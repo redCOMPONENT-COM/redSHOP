@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
-JHtmlBehavior::modal();
+JHtml::_('behavior.modal');
 
 $producthelper = productHelper::getInstance();
 $extraField = extraField::getInstance();
