@@ -278,7 +278,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $addressEmail = "#email1";
+	public static $addressEmail = "#private-email1";
 
 	/**
 	 * @var string

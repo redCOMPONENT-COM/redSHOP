@@ -18,7 +18,7 @@
 
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 
-class ManageProductsAdministratorCest
+class ProductsCest
 {
 	public function __construct()
 	{

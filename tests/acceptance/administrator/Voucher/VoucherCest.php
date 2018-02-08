@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageVoucherAdministratorCest
+class VoucherCest
 {
 	public function __construct()
 	{

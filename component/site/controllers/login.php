@@ -86,7 +86,16 @@ class RedshopControllerLogin extends RedshopController
 			}
 			else
 			{
-				$link = 'index.php?option=com_redshop&Itemid=' . $returnitemid;
+				$error = $model->setlogin($username, $password);
+
+				if ($error == true)
+				{
+					$link = JRoute::_('index.php?option=com_redshop&Itemid=' . $returnitemid, false);
+				}
+				else
+				{
+					$link = JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $Itemid, false);
+				}
 			}
 
 			if (!empty($return))
