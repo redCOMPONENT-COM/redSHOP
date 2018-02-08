@@ -27,7 +27,7 @@ class ProductVatCheckoutCest
 		$this->faker        = Faker\Factory::create();
 		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
 		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
-		$this->taxGroupName         = $this->faker->bothify('TaxGroups ?###?');
+		$this->taxGroupName         = $this->faker->bothify(' ?###? TaxGroupsNam');
 		$this->taxRateValue         = 0.1;
 		$this->countryName          = 'Denmark';
 		$this->taxRateValueNegative = -1;
@@ -96,7 +96,7 @@ class ProductVatCheckoutCest
 		$client->wantTo('Create new product');
 		$client = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$client->wantTo('I Want to add product inside the category');
-		$client->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
+		$client->createProductWithVATGroups($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName);
 
 		$client->wantTo('Configuration for apply VAT');
 		$client = new ConfigurationSteps($scenario);
