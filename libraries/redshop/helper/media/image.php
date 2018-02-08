@@ -70,14 +70,14 @@ class RedshopHelperMediaImage
 	 */
 	public static function requireDependencies()
 	{
-		JHtml::stylesheet('com_redshop/dropzone/dropzone.min.css', array(), true);
-		JHtml::stylesheet('com_redshop/cropper/cropper.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/dropzone.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/cropper.min.css', array(), true);
 		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', array(), true);
 		JHtml::stylesheet('com_redshop/redshop.media.min.css', array(), true);
 
-		JHtml::script('com_redshop/dropzone/dropzone.min.js', false, true);
-		JHtml::script('com_redshop/cropper/cropper.min.js', false, true);
-		JHtml::script('com_redshop/lightbox2/lightbox.min.js', false, true);
+		JHtml::script('com_redshop/dropzone.min.js', false, true);
+		JHtml::script('com_redshop/cropper.min.js', false, true);
+		JHtml::script('com_redshop/lightbox2.min.js', false, true);
 		JHtml::script('com_redshop/redshop.media.min.js', false, true);
 
 		return true;
