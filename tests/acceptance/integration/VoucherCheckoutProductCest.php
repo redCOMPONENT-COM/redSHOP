@@ -200,7 +200,7 @@ class VoucherCheckoutProductCest
 		$I->seeElement(['link' => $productName]);
 		$I->fillField(\GiftCardCheckoutPage::$couponInput, $voucherCode);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->see(\GiftCardCheckoutPage::$messageInvalid, \AdminJ3Page::$selectorSuccess);
+		$I->see(\GiftCardCheckoutPage::$messageValid, \AdminJ3Page::$selectorSuccess);
 		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
 		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);

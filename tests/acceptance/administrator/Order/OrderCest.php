@@ -7,7 +7,7 @@
  */
 
 /**
- * Class ManageQuotationAdministratorCest
+ * Class ManageOrderAdministratorCest
  *
  * @package  AcceptanceTester
  *
@@ -15,17 +15,18 @@
  *
  * @since    1.4
  */
-class ManageQuotationAdministratorCest
+class OrderCest
 {
 	/**
-	 * Function to Test Quotation Creation in Backend
+	 * Function to Test Order Creation in Backend
 	 *
 	 */
+
 	public function __construct()
 	{
 		//create user for quotation
 		$this->faker           = Faker\Factory::create();
-		$this->userName        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->userName        = 'ManageUserAdministratorCest' . rand(10, 100);
 		$this->password        = $this->faker->bothify('Password ?##?');
 		$this->email           = $this->faker->email;
 		$this->shopperGroup    = 'Default Private';
@@ -33,8 +34,12 @@ class ManageQuotationAdministratorCest
 		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
 		$this->updateFirstName = 'Updating ' . $this->firstName;
 		$this->lastName        = 'Last';
+		$this->address         = '14 Phan Ton';
+		$this->zipcode         = 7000;
+		$this->city            = 'Ho Chi Minh';
+		$this->phone           = 010101010;
 
-		//create product and category
+		// Create product and category
 		$this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
 		$this->ramdoCategoryNameAssign      = 'CategoryAssign' . rand(99, 999);
 		$this->randomProductName            = 'Testing Products' . rand(99, 999);
@@ -63,6 +68,9 @@ class ManageQuotationAdministratorCest
 
 		$this->quantity    = $this->faker->numberBetween(1, 100);
 		$this->newQuantity = $this->faker->numberBetween(100, 300);
+
+		$this->status        = "Confirmed";
+		$this->paymentStatus = "Paid";
 
 
 	}
@@ -120,60 +128,51 @@ class ManageQuotationAdministratorCest
 	}
 
 	/**
-	 *
-	 * Functrion create Quotation
+	 * Function create new Order
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 *
-	 * @depends createCategory
 	 *
-	 * @depends createUser
-	 *
-	 * @depends createProductSave
-	 *
+	 * depends createUser
 	 */
-	public function createQuotation(AcceptanceTester $I, $scenario)
+	public function createOrder(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Quotation creation in Administrator');
-		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
-		$I->addQuotation($this->userName, $this->randomProductName, $this->quantity);
+		$I->wantTo('Test Order creation in Administrator');
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
 	}
 
 	/**
 	 *
-	 * Function edit quotation
+	 * Function edit status of order
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 *
-	 * @depends createQuotation
+	 * depends createOrder
 	 *
 	 */
-	public function editQuotation(AcceptanceTester $I, $scenario)
+	public function editOrder(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Quotation creation in Administrator');
-		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
-		$I->editQuotation($this->newQuantity);
-
+		$I->wantTo('Test Order Edit status and payment in Administrator');
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
 	}
 
 	/**
 	 *
-	 * Function delete quotation
+	 * Function delete order by user
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 *
-	 * @depends editQuotation
-	 *
+	 * depends editOrder
 	 */
-	public function deleteQuotation(AcceptanceTester $I, $scenario)
+	public function deleteOrder(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Quotation creation in Administrator');
-		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
-		$I->deleteQuotation();
+		$I->wantTo('Test Order delete by user  in Administrator');
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder($this->firstName);
 	}
-
-
 }

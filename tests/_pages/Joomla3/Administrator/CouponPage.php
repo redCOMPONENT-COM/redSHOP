@@ -26,7 +26,17 @@ class CouponPage extends AdminJ3Page
 	public static $url = '/administrator/index.php?option=com_redshop&view=coupons';
 
 	/**
+	 * @var array
+	 */
+	public static $idFromCode = ['id' => 'jform_code'];
+	
+	/**
 	 * @var string
 	 */
 	public static $selectFirst = "//input[@id='cb0']";
+
+	/**
+	 * @var array
+	 */
+	public static $selectValueCoupon =  ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'btn-edit-item \')]'];
 }

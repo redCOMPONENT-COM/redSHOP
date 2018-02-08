@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageCustomFieldAdministratorCest
+class CustomFieldCest
 {
     public function __construct()
     {

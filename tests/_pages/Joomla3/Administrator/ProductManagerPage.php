@@ -55,6 +55,12 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $categoryFile = ['id' => 's2id_autogen4'];
 
+    public static $vatDropdownList = ['xpath' => '//div[@id=\'s2id_product_tax_group_id\']'];
+
+    public static $vatSearchField = ['id' => 's2id_autogen8_search'];
+    
+//    public static 
+
     //stockroom for product
     public static $stockroomTab = ['xpath'=> '//a[contains(text(), \'Stockroom\')]'];
 

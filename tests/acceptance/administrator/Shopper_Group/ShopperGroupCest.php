@@ -2,7 +2,7 @@
 
 /**
  */
-class ManageShopperGroupAdministratorCest
+class ShopperGroupCest
 {
 	public function __construct()
 	{

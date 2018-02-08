@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageStockImageAdministratorCest
+class StockImageCest
 {
 	public function __construct()
 	{
