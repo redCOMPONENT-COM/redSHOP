@@ -60,7 +60,7 @@ if (!$user->id)
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
-				$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $rows[$p]->product_id);
+				$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', 0, 0, $rows[$p]->product_id);
 
 				$ufield .= $productUserFields[1];
 
@@ -115,7 +115,7 @@ else
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
-				$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', 0, 0, $row->product_id);
+				$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', 0, 0, $row->product_id);
 
 				$ufield .= $productUserFields[1];
 
@@ -520,11 +520,11 @@ function display_products($rows)
 
 					if ($productUserFieldsFinal != '')
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
 					}
 					else
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
 					}
 
 					$ufield .= $productUserFields[1];

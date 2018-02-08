@@ -1275,7 +1275,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 			$cart_id = "";
 		}
 
-		$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
+		$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
 
 		$ufield .= $productUserFields[1];
 

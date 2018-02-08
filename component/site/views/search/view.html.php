@@ -545,7 +545,7 @@ class RedshopViewSearch extends RedshopView
 
 					for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 						$ufield .= $productUserFields[1];
 
 						if ($productUserFields[1] != "")
@@ -590,8 +590,8 @@ class RedshopViewSearch extends RedshopView
 
 						for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 						{
-							$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
-							$ufield .= $productUserFields[1];
+							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
+							$ufield           .= $productUserFields[1];
 
 							if ($productUserFields[1] != "")
 							{
