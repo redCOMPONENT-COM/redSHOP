@@ -87,8 +87,29 @@ window.addEvent('domready', function () {
     var imagehandle = {isenable: true, mainImage: true};
     preloadSlimbox(imagehandle);
     // end
-    var otheroptions = {handler: 'iframe'};
-    redBOX.assign($$(".redcolorproductimg"), otheroptions);
+    jQuery('.redcolorproductimg').click(function (event) {
+        event.preventDefault();
+
+        var productId = jQuery(this).attr('data-productid');
+        var link = jQuery(this).attr('data-href');
+
+        if (link == '' || typeof link == 'undefined') {
+            link = jQuery(this).attr('href');
+        }
+
+        if (productId == '') {
+            return false;
+        }
+
+        link += '&product_id=' + productId;
+
+        redBOX.open(link, {
+            handler: 'iframe',
+            name: 'wishlist-iframe'
+        });
+
+        return true;
+    });
 
     redBOX.assign($$('a.redbox'), {
         parse: 'rel'

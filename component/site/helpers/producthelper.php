@@ -1581,7 +1581,7 @@ class productHelper
 
 							if (trim($data_txt) != "")
 							{
-								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+								$resultArr[] = '<span class="userfield-label">' . $userfield[$j]->title
 								. ':</span><span class="userfield-value">' . stripslashes($data_txt) . '</span>';
 							}
 						}
@@ -1589,7 +1589,7 @@ class productHelper
 						{
 							if (trim($userfield[$j]->data_txt) != "")
 							{
-								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+								$resultArr[] = '<span class="userfield-label">' . $userfield[$j]->title
 								. '</span> : <span class="userfield-value">' . stripslashes($userfield[$j]->data_txt);
 							}
 						}
