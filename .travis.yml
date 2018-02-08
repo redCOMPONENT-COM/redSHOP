@@ -26,34 +26,7 @@ cache:
 env:
   matrix:
       - ACCEPTANCE=false
-      - ACCEPTANCE=acceptance/administrator/Category
-      - ACCEPTANCE=acceptance/administrator/Configuration
-      - ACCEPTANCE=acceptance/administrator/Country
-      - ACCEPTANCE=acceptance/administrator/Coupon
-      - ACCEPTANCE=acceptance/administrator/Currency
-      - ACCEPTANCE=acceptance/administrator/Custome_Field
-      - ACCEPTANCE=acceptance/administrator/Discount
-      - ACCEPTANCE=acceptance/administrator/Discount_Product
-      - ACCEPTANCE=acceptance/administrator/Giftcard
-      - ACCEPTANCE=acceptance/administrator/Mail
-      - ACCEPTANCE=acceptance/administrator/Mass_Discount
-      - ACCEPTANCE=acceptance/administrator/Notices
-      - ACCEPTANCE=acceptance/administrator/Order
-      - ACCEPTANCE=acceptance/administrator/Price_Product
-      - ACCEPTANCE=acceptance/administrator/Products
-      - ACCEPTANCE=acceptance/administrator/Quotation
-      - ACCEPTANCE=acceptance/administrator/Shipping
-      - ACCEPTANCE=acceptance/administrator/Shopper_Group
-      - ACCEPTANCE=acceptance/administrator/State
-      - ACCEPTANCE=acceptance/administrator/Stock_Image
-      - ACCEPTANCE=acceptance/administrator/StockRoom
-      - ACCEPTANCE=acceptance/administrator/Supplier
-      - ACCEPTANCE=acceptance/administrator/Tax_Rate
-      - ACCEPTANCE=acceptance/administrator/Template
-      - ACCEPTANCE=acceptance/administrator/Text
-      - ACCEPTANCE=acceptance/administrator/User
-      - ACCEPTANCE=acceptance/administrator/Voucher
-      - ACCEPTANCE=acceptance/administrator/Wrapper
+      - ACCEPTANCE=acceptance/administrator
       - ACCEPTANCE=acceptance/integration
 
   global:
