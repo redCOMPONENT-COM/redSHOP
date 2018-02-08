@@ -356,6 +356,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+
+	/**
+	 * @var array
+	 */
+	public static $priceVAT = ['xpath' => '//div[@class=\'form-group\'][3]//div[1]'];
 	/**
 	 * @var array
 	 */
