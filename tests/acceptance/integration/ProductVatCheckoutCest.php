@@ -1,6 +1,5 @@
 <?php
 /**
- this page pending by REDSHOP-4904
  * @package     RedShop
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
@@ -68,6 +67,12 @@ class ProductVatCheckoutCest
 
 	}
 
+    /**
+     * @param $scenario
+     *
+     * Method delete data at database
+     *
+     */
     public function deleteData($scenario)
     {
         $I = new RedshopSteps($scenario);
@@ -78,7 +83,7 @@ class ProductVatCheckoutCest
 	{
 		$I->doAdministratorLogin();
 	}
-    
+
 	/**
 	 * Create VAT Group with
 	 *
@@ -119,6 +124,13 @@ class ProductVatCheckoutCest
 		$client->testProductWithVatCheckout($this->userName,$this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total);
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * Method clear all data
+     *
+     */
     public function clearUp(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Delete product');
