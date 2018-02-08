@@ -29,8 +29,8 @@ class GiftCardCheckoutProductCest
 		$this->lastName        = 'Last';
 		$this->userInformation = array(
 			"email"      => $this->email,
-			"firstName"  => "Tester",
-			"lastName"   => "User",
+			"firstName"  => $this->faker->bothify('firstName ?###?'),
+			"lastName"   => $this->faker->bothify('LastName ?###'),
 			"address"    => "Some Place in the World",
 			"postalCode" => "23456",
 			"city"       => "Bangalore",
@@ -74,6 +74,19 @@ class GiftCardCheckoutProductCest
 		);
 
 	}
+
+	/**
+	 * Method for clean data.
+	 *
+	 * @param   mixed $scenario Scenario
+	 *
+	 * @return  void
+	 */
+//	public function deleteData($scenario)
+//	{
+//		$I = new RedshopSteps($scenario);
+//		$I->clearAllData();
+//	}
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -195,14 +208,14 @@ class GiftCardCheckoutProductCest
 		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
 
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
-		$I->waitForElementVisible(\GiftCardCheckoutPage::$addressEmail);
-		$I->fillField(\GiftCardCheckoutPage::$addressEmail, $this->email);
-		$I->fillField(\GiftCardCheckoutPage::$addressFirstName, $this->firstName);
-		$I->fillField(\GiftCardCheckoutPage::$addressLastName, $this->lastName);
-		$I->fillField(\GiftCardCheckoutPage::$addressAddress, $addressDetail['address']);
-		$I->fillField(\GiftCardCheckoutPage::$addressPostalCode, $addressDetail['postalCode']);
-		$I->fillField(\GiftCardCheckoutPage::$addressCity, $addressDetail['city']);
-		$I->fillField(\GiftCardCheckoutPage::$addressPhone, $addressDetail['phone']);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $this->email);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $this->firstName);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $this->lastName);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
 		$I->click(GiftCardCheckoutPage::$buttonSave);
 
 		$I->waitForElement(\GiftCardCheckoutPage::$addressLink, 30);
@@ -238,12 +251,13 @@ class GiftCardCheckoutProductCest
 	public function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
-		$I->amOnPage(\CouponPage::$URL);
+		$I->amOnPage(\CouponPage::$url);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
-		$I->click(\CouponPage::$selectFirst);
-		$I->wait(500);
-		$this->couponCode = $I->grabTextFrom(\CouponPage::$selectValueCoupon);
+		$I->waitForElement(\CouponPage::$selectValueCoupon, 30);
+		$I->click(\CouponPage::$selectValueCoupon);
+		$I->waitForElement(\CouponPage::$idFromCode, 30);
+		$this->couponCode = $I->grabValueFrom(\CouponPage::$idFromCode);
 	}
 
 	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
@@ -282,8 +296,8 @@ class GiftCardCheckoutProductCest
 		$I->seeElement(['link' => $productName]);
 		$I->fillField(\GiftCardCheckoutPage::$couponInput, $couponCode);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->waitForText(\GiftCardCheckoutPage::$messageInvalid, 10, \GiftCardCheckoutPage::$selectorSuccess);
-		$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorSuccess);
+		$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+		$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
 
 		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
 		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);

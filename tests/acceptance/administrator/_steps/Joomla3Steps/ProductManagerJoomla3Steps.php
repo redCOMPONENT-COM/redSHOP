@@ -79,7 +79,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonUnpublish);
-		$I->waitForText(ProductManagerPage::$messageHead, 30, ProductManagerPage::$selectorSuccess);
 	}
 
 
