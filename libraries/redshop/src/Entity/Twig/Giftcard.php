@@ -61,14 +61,9 @@ final class Giftcard extends AbstractTwigEntity
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPrice(bool $format = true)
+	public function getPrice($format = true)
 	{
-		if ($format)
-		{
-			return $this->getFormattedPrice();
-		}
-
-		return (float) $this->entity->get('giftcard_price', 0.0);
+		return $format ? $this->getFormattedPrice() : (float) $this->entity->get('giftcard_price', 0.0);
 	}
 
 	/**
@@ -80,7 +75,7 @@ final class Giftcard extends AbstractTwigEntity
 	 */
 	public function getFormattedPrice()
 	{
-		return \RedshopHelperProductPrice::formattedPrice($this->entity->get('giftcard_price', 0.0));
+		return \RedshopHelperProductPrice::formattedPrice((float) $this->entity->get('giftcard_price', 0.0));
 	}
 
 	/**
@@ -154,7 +149,7 @@ final class Giftcard extends AbstractTwigEntity
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getImage(int $width = null, int $height = null, int $waterMark = null)
+	public function getImage($width = 0, $height = 0, $waterMark = 0)
 	{
 		return $this->generateThumb($this->entity->get('giftcard_image', ''), $width, $height, $waterMark);
 	}
@@ -170,7 +165,7 @@ final class Giftcard extends AbstractTwigEntity
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getBackgroundImage(int $width = null, int $height = null, int $waterMark = null)
+	public function getBackgroundImage($width = 0, $height = 0, $waterMark = 0)
 	{
 		return $this->generateThumb($this->entity->get('giftcard_bgimage', ''), $width, $height, $waterMark);
 	}

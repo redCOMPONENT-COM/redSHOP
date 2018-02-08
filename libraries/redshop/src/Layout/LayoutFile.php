@@ -47,9 +47,11 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Method to instantiate the file-based layout.
 	 *
-	 * @param   string  $layoutId  Dot separated path to the layout file, relative to base path
-	 * @param   string  $basePath  Base path to use when loading layout files
-	 * @param   mixed   $options   Optional custom options to load. JRegistry or array format [@since 3.2]
+	 * @param   string $layoutId Dot separated path to the layout file, relative to base path
+	 * @param   string $basePath Base path to use when loading layout files
+	 * @param   mixed  $options  Optional custom options to load. JRegistry or array format [@since 3.2]
+	 *
+	 * @throws  \Exception
 	 */
 	public function __construct($layoutId, $basePath = null, $options = null)
 	{
@@ -68,9 +70,10 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   array  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
 	 *
-	 * @return  string               The necessary HTML to display the layout
+	 * @return  string                The necessary HTML to display the layout
+	 * @throws  \Exception
 	 */
 	public function render($displayData)
 	{
@@ -100,12 +103,14 @@ class LayoutFile extends AbstractLayoutFile
 	 * Method to finds the full real file path, checking possible overrides
 	 *
 	 * @return  string  The full path to the layout file
+	 *
+	 * @throws  \Exception
 	 */
 	protected function getPath()
 	{
 		\JLoader::import('joomla.filesystem.path');
 
-		if (is_null($this->fullPath) && !empty($this->layoutId))
+		if (null === $this->fullPath && !empty($this->layoutId))
 		{
 			$this->addDebugMessage('<strong>Layout:</strong> ' . $this->layoutId);
 
@@ -123,7 +128,7 @@ class LayoutFile extends AbstractLayoutFile
 
 				foreach ($suffixes as $suffix)
 				{
-					$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+					$rawPath = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 					$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 					$this->fullPath = \JPath::find($this->includePaths, $rawPath);
@@ -138,7 +143,7 @@ class LayoutFile extends AbstractLayoutFile
 			}
 
 			// Standard version
-			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+			$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
 			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 			$this->fullPath = \JPath::find($this->includePaths, $rawPath);
@@ -155,7 +160,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Add one path to include in layout search. Proxy of addIncludePaths()
 	 *
-	 * @param   string  $path  The path to search for layouts
+	 * @param   string $path The path to search for layouts
 	 *
 	 * @return  void
 	 */
@@ -167,7 +172,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   string $paths The path or array of paths to search for layouts
 	 *
 	 * @return  void
 	 */
@@ -189,7 +194,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Remove one path from the layout search
 	 *
-	 * @param   string  $path  The path to remove from the layout search
+	 * @param   string $path The path to remove from the layout search
 	 *
 	 * @return  void
 	 */
@@ -201,7 +206,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Remove one or more paths to exclude in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to remove for the layout search
+	 * @param   string $paths The path or array of paths to remove for the layout search
 	 *
 	 * @return  void
 	 */
@@ -218,7 +223,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Validate that the active component is valid
 	 *
-	 * @param   string  $option  URL Option of the component. Example: com_content
+	 * @param   string $option URL Option of the component. Example: com_content
 	 *
 	 * @return  boolean
 	 */
@@ -246,6 +251,7 @@ class LayoutFile extends AbstractLayoutFile
 	 * @param   string  $option  URL Option of the component. Example: com_content
 	 *
 	 * @return  mixed            Component option string | null for none
+	 * @throws  \Exception
 	 */
 	public function setComponent($option)
 	{
@@ -260,7 +266,7 @@ class LayoutFile extends AbstractLayoutFile
 			case 'auto':
 				if (defined('JPATH_COMPONENT'))
 				{
-					$parts = explode('/', JPATH_COMPONENT);
+					$parts     = explode('/', JPATH_COMPONENT);
 					$component = end($parts);
 				}
 
@@ -288,9 +294,10 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Function to initialise the application client
 	 *
-	 * @param   mixed  $client  Frontend: 'site' or 0 | Backend: 'admin' or 1
+	 * @param   mixed $client Frontend: 'site' or 0 | Backend: 'admin' or 1
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 */
 	public function setClient($client)
 	{
@@ -321,7 +328,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Change the layout
 	 *
-	 * @param   string  $layoutId  Layout to render
+	 * @param   string $layoutId Layout to render
 	 *
 	 * @return  void
 	 */
@@ -335,6 +342,8 @@ class LayoutFile extends AbstractLayoutFile
 	 * Refresh the list of include paths
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 */
 	protected function refreshIncludePaths()
 	{
@@ -391,7 +400,7 @@ class LayoutFile extends AbstractLayoutFile
 	/**
 	 * Change the debug mode
 	 *
-	 * @param   boolean  $debug  Enable / Disable debug
+	 * @param   boolean $debug Enable / Disable debug
 	 *
 	 * @return  void
 	 */
@@ -407,6 +416,7 @@ class LayoutFile extends AbstractLayoutFile
 	 * @param   mixed   $displayData  Data to be rendered
 	 *
 	 * @return  string  The necessary HTML to display the layout
+	 * @throws  \Exception
 	 */
 	public function subLayout($layoutId, $displayData)
 	{
@@ -416,9 +426,10 @@ class LayoutFile extends AbstractLayoutFile
 			$layoutId = $this->layoutId . '.' . $layoutId;
 		}
 
-		$sublayout = new static($layoutId, $this->basePath, $this->options);
-		$sublayout->includePaths = $this->includePaths;
+		$subLayout = new static($layoutId, $this->basePath, $this->options);
 
-		return $sublayout->render($displayData);
+		$subLayout->includePaths = $this->includePaths;
+
+		return $subLayout->render($displayData);
 	}
 }
