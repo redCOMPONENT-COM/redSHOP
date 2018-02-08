@@ -314,9 +314,12 @@ class SiteHelper
 							$onKeyup = $addToCartFormName . '.' . $data->name . '.value = this.value';
 						}
 
-						$exField .= '<div class="userfield_input">';
-						$exField .= '<input class="' . $data->class . '" type="text" maxlength="' . $data->maxlength . '" onkeyup="var f_value = this.value;' . $onKeyup . '" name="extrafields' . $productId . '[]"  id="' . $data->name . '" ' . $req . ' userfieldlbl="' . $data->title . '" value="' . $textValue . '" size="' . $data->size . '" />';
-						$exField .= '</div>';
+						$exField .= '<div class="userfield_input">'
+							. '<input class="' . $data->class . '" type="text" maxlength="' . $data->maxlength . '"'
+							. ' onkeyup="var f_value = this.value;' . $onKeyup . '" name="extrafields' . $productId . '[]"'
+							. ' id="' . $data->name . '" ' . $req . ' userfieldlbl="' . $data->title . '" '
+							. ' value="' . $textValue . '" size="' . $data->size . '" />'
+							. '</div>';
 						break;
 
 					case \RedshopHelperExtrafields::TYPE_TEXT_AREA:
@@ -329,7 +332,7 @@ class SiteHelper
 						}
 
 						$exField .= '<div class="userfield_input">';
-						$exField .= '<textarea class="' . $data->class . '"  name="extrafields' . $productId . '[]"  id="' . $data->name . '" ' . $req . ' userfieldlbl="' . $data->title . '" cols="' . $data->cols . '" onkeyup=" var f_value = this.value;' . $onKeyup . '" rows="' . $data->rows . '" >' . $textValue . '</textarea>';
+						$exField .= '<textarea class="' . $data->class . '"  name="extrafields' . $productId . '[]" id="' . $data->name . '" ' . $req . ' userfieldlbl="' . $data->title . '" cols="' . $data->cols . '" onkeyup=" var f_value = this.value;' . $onKeyup . '" rows="' . $data->rows . '" >' . $textValue . '</textarea>';
 						$exField .= '</div>';
 						break;
 
@@ -453,7 +456,7 @@ class SiteHelper
 									},
 									name:"file' . $ajax . $unique . '",
 									onSubmit : function(file , ext){
-										jQuery("file' . $ajax . $unique . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);
+										jQuery("file' . $ajax . $unique . '").text("' . \JText::_('COM_REDSHOP_UPLOADING') . '" + file);
 										this.disable();
 									},
 									onComplete :function(file,response){
