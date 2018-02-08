@@ -168,12 +168,8 @@ else
 
 function display_products($rows)
 {
-	$url           = JURI::base();
-	$extraField    = extraField::getInstance();
 	$session       = JFactory::getSession();
 	$producthelper = productHelper::getInstance();
-	$redhelper     = redhelper::getInstance();
-	$config        = Redconfiguration::getInstance();
 	$redTemplate   = Redtemplate::getInstance();
 	$template      = $redTemplate->getTemplate("wishlist_template");
 

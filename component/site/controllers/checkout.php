@@ -807,7 +807,6 @@ class RedshopControllerCheckout extends RedshopController
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 
-		$extraField = extraField::getInstance();
 		$extrafield_total = "";
 		$extrafield_hidden = '';
 

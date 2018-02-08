@@ -3389,7 +3389,6 @@ class productHelper
 	{
 		$user_id          = 0;
 		$redconfig        = Redconfiguration::getInstance();
-		$extraField       = extraField::getInstance();
 		$stockroomhelper  = rsstockroomhelper::getInstance();
 		$input            = JFactory::getApplication()->input;
 		$product_quantity = $input->get('product_quantity');

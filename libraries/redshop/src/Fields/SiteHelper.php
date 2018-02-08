@@ -380,7 +380,7 @@ class SiteHelper
 						$fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
 						$checkData  = explode(",", $cart[$idx][$data->name]);
 						$exField    .= '<div class="userfield_input"><select name="extrafields' . $productId . '[]" ' . $req . ' id="' . $data->name . '" userfieldlbl="' . $data->title . '">';
-						$exField    .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
+						$exField    .= '<option value="">' . \JText::_('COM_REDSHOP_SELECT') . '</option>';
 
 						foreach ($fieldCheck as $aFieldCheck)
 						{
