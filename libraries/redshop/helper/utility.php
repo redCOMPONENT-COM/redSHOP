@@ -31,6 +31,11 @@ class RedshopHelperUtility
 	protected static $isRedProductFinder;
 
 	/**
+	 * @var  array
+	 */
+	protected static $menuItemAssociation = array();
+
+	/**
 	 * Get SSL link for backend or applied for ssl link
 	 *
 	 * @param   string  $link     Link to be converted into ssl
@@ -628,6 +633,7 @@ class RedshopHelperUtility
 	 * @param   array $queryItems Values query
 	 *
 	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -639,7 +645,7 @@ class RedshopHelperUtility
 		{
 			self::$menuItemAssociation[$serializeItem] = false;
 
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			foreach (RedshopHelperRouter::getRedshopMenuItems() as $oneMenuItem)
 			{
 				if (self::checkMenuQuery($oneMenuItem, $queryItems))
 				{
@@ -735,7 +741,7 @@ class RedshopHelperUtility
 
 		$categories = explode(',', $categoryId);
 
-		if ($categories)
+		if (!empty($categories))
 		{
 			foreach ($categories as $category)
 			{
@@ -753,7 +759,7 @@ class RedshopHelperUtility
 		// Get from Parents
 		$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
 
-		if ($categories)
+		if (!empty($categories))
 		{
 			foreach ($categories as $category)
 			{

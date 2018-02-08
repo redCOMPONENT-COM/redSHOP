@@ -51,7 +51,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 		$model = $this->getModel('manufacturer_detail');
 		$row   = $model->store($post);
 
-		if ($row)
+		if (false !== $row)
 		{
 			\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id);
 

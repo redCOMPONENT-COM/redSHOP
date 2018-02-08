@@ -36,7 +36,7 @@ class RedshopViewManufacturer_Detail extends RedshopViewAdmin
 	public $detail;
 
 	/**
-	 * @var  array
+	 * @var  object
 	 */
 	public $tabmenu;
 

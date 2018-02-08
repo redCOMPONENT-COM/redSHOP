@@ -103,19 +103,22 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$template      = str_replace("{category_thumb_image}", $categoryImage, $template);
 		}
 
-		if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}') && isset($category->category_full_image))
+		if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
+			&& isset($category->category_full_image))
 		{
 			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
 			$template      = str_replace("{category_thumb_image_1}", $categoryImage, $template);
 		}
 
-		if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}') && isset($category->category_full_image))
+		if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}')
+			&& isset($category->category_full_image))
 		{
 			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_2'), Redshop::getConfig()->get('THUMB_HEIGHT_2'));
 			$template      = str_replace("{category_thumb_image_2}", $categoryImage, $template);
 		}
 
-		if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}') && isset($category->category_full_image))
+		if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}')
+			&& isset($category->category_full_image))
 		{
 			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_3'), Redshop::getConfig()->get('THUMB_HEIGHT_3'));
 			$template      = str_replace("{category_thumb_image_3}", $categoryImage, $template);
@@ -183,9 +186,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * Replace sub categories tags
 	 *
-	 * @param   array $subCategories Sub categories array
+	 * @param   array  $subCategories  Sub categories array
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.0.6
 	 */
@@ -229,10 +233,11 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		$manufacturerId = $model->getState('manufacturer_id');
 
 		// Default with JPATH_ROOT . '/components/com_redshop/assets/images/'
-		$middlePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title      = " title='" . $category->name . "' ";
-		$alt        = " alt='" . $category->name . "' ";
-		$productImg = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+		$middlePath        = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
+		$title             = " title='" . $category->name . "' ";
+		$alt               = " alt='" . $category->name . "' ";
+		$productImg        = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+		$categoryFullImage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
 		// Try to get category Itemid
 		$categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($category->id);
@@ -253,6 +258,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		foreach ($medias->getAll() as $media)
 		{
+			/** @var RedshopEntityMedia $media */
 			if ($media->get('scope') == 'full')
 			{
 				$fullImage = RedshopEntityMediaImage::getInstance($media->getId());

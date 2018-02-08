@@ -100,14 +100,14 @@ class Media
 			switch (\JFile::getExt(\Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				case 'gif':
-					$destinationFile = imagecreatefromjpeg($destinationFile);
-					$sourceFile      = imagecreatefromgif($watermark);
+					$targetFile = imagecreatefromjpeg($destinationFile);
+					$sourceFile = imagecreatefromgif($watermark);
 
 					list($width, $height)                   = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
-						$destinationFile,
+						$targetFile,
 						$sourceFile,
 						($width - $watermarkWidth) >> 1,
 						($height - $watermarkHeight) >> 1,
@@ -118,7 +118,7 @@ class Media
 						50
 					);
 
-					imagejpeg($destinationFile, $destinationFile);
+					imagejpeg($targetFile, $destinationFile);
 					break;
 
 				case 'png':
