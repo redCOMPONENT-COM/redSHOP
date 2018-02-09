@@ -569,7 +569,7 @@ class SiteHelper
 							{
 								$exField .= '<div class="userfield_input">';
 								$exField .= '' . $asterisk . $data->title . ' : <select name="extrafields' . $productId . '[]" id="' . $data->name . '" userfieldlbl="' . $data->title . '" ' . $req . ' >';
-								$exField .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
+								$exField .= '<option value="">' . \JText::_('COM_REDSHOP_SELECT') . '</option>';
 
 								foreach ($mainSplitDateExtra as $aMainSplitDateExtra)
 								{
