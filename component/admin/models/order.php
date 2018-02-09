@@ -353,8 +353,15 @@ class RedshopModelOrder extends RedshopModel
 
 			$row = array_map('utf8_decode', array_merge($row, $userDetail));
 
+			foreach ($row as &$column)
+			{
+				$column = '"' . $column . '"';
+			}
+
+			unset($column);
+
 			// Output CSV line
-			fputcsv($outputCsv, $row);
+			fputcsv($outputCsv, $row, ",", " ");
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
@@ -445,15 +452,17 @@ class RedshopModelOrder extends RedshopModel
 				$shippingDetails->get('phone')
 			);
 
-			$row = array_merge($row, $extraInfo, $rowAppend);
+			$row = array_map('utf8_decode', array_merge($row, $extraInfo, $rowAppend));
 
-			foreach ($row as $key => $value)
+			foreach ($row as &$column)
 			{
-				$row[$key] = utf8_decode($value);
+				$column = '"' . $column . '"';
 			}
 
+			unset($column);
+
 			// Output CSV line
-			fputcsv($outputCsv, $row);
+			fputcsv($outputCsv, $row, ",", " ");
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
