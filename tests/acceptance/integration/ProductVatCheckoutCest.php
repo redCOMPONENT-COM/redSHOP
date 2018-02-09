@@ -146,10 +146,6 @@ class ProductVatCheckoutCest
         $client->deleteTAXRatesOK($this->taxRateName);
         $client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
 
-        $I->wantTo('Delete tax groups');
-        $client = new TaxGroupSteps($scenario);
-        $client->deleteVATGroupOK($this->taxGroupName);
-
         $I->wantTo('Delete user');
         $I = new UserManagerJoomla3Steps($scenario);
         $I->deleteUser($this->firstName);
