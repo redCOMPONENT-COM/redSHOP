@@ -60,7 +60,7 @@ $extraFieldCategory = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
-$attributeTemplate = $productHelper->getAttributeTemplate($templateDesc);
+$attributeTemplate = \Redshop\Helper\Template::getAttribute($templateDesc);
 
 // Begin replace template
 $templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
@@ -398,7 +398,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateD2      = explode("{product_loop_end}", $templateD1[1]);
 	$templateProduct = $templateD2[0];
 
-	$attributeTemplate = $productHelper->getAttributeTemplate($templateProduct);
+	$attributeTemplate = \Redshop\Helper\Template::getAttribute($templateProduct);
 
 	// Loop product lists
 	foreach ($products as $k => $pid)

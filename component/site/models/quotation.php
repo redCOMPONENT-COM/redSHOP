@@ -145,7 +145,7 @@ class RedshopModelQuotation extends RedshopModel
 			{
 				$quotation_item[$i]->product_id = $data[$i]['giftcard_id'];
 
-				$giftcardData = $producthelper->getGiftcardData($data[$i]['giftcard_id']);
+				$giftcardData = RedshopEntityGiftcard::getInstance($data[$i]['giftcard_id'])->getItem();
 
 				$quotation_item[$i]->is_giftcard  = 1;
 				$quotation_item[$i]->product_name = $giftcardData->giftcard_name;

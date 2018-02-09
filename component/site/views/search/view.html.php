@@ -300,7 +300,7 @@ class RedshopViewSearch extends RedshopView
 
 			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
-			$attribute_template            = $producthelper->getAttributeTemplate($template_desc);
+			$attribute_template            = \Redshop\Helper\Template::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
 			$endlimit = $model->getState('list.limit');
@@ -573,7 +573,7 @@ class RedshopViewSearch extends RedshopView
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
+					$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($this->search[$i]);
 
 					if (count($ajax_detail_template) > 0)
 					{

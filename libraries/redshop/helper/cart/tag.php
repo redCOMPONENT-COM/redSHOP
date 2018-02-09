@@ -222,7 +222,7 @@ class RedshopHelperCartTag
 			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
 			{
 				$giftCardId    = $cart[$i]['giftcard_id'];
-				$giftcard      = productHelper::getInstance()->getGiftcardData($giftCardId);
+				$giftcard      = RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
 				$link          = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId);
 				$receiverInfor = '<div class="reciverInfo">' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL') . ': ' . $cart[$i]['reciver_name']
 					. '<br />' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL') . ': ' . $cart[$i]['reciver_email'] . '</div>';

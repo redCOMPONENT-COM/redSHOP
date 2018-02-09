@@ -18,7 +18,7 @@ $url = JURI::base();
 
 $layout             = $this->input->getString('layout', '');
 $relatedprd_id      = $this->input->getInt('relatedprd_id', 0);
-$ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
+$ajaxdetal_template = \Redshop\Helper\Template::getAjaxDetailBox($this->data);
 
 ?>
 	<script type="text/javascript" language="javascript">//var J=jQuery.noConflict();</script>
@@ -187,7 +187,7 @@ if (count($ajaxdetal_template) > 0)
 		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
-	$attribute_template = $producthelper->getAttributeTemplate($data_add);
+	$attribute_template = \Redshop\Helper\Template::getAttribute($data_add);
 	$attributes         = $producthelper->getProductAttribute($this->data->product_id);
 	$attributes         = array_merge($attributes, $attributes_set);
 	$totalatt           = count($attributes);

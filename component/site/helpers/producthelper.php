@@ -893,7 +893,7 @@ class productHelper
 
 	public function GetDefaultQuantity($product_id = 0, $data_add = "")
 	{
-		$cart_template = $this->getAddtoCartTemplate($data_add);
+		$cart_template = \Redshop\Helper\Template::getAddToCart($data_add);
 		$cartform      = (count($cart_template) > 0) ? $cart_template->template_desc : "";
 		$qunselect     = 1;
 
@@ -1454,6 +1454,7 @@ class productHelper
 	 * @param   integer  $sectionId  Section ID
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7
 	 *
@@ -1693,14 +1694,18 @@ class productHelper
 		return $res;
 	}
 
+	/**
+	 * Method for get giftcard data
+	 *
+	 * @param   integer  $gid  ID of giftcard
+	 *
+	 * @return object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function getGiftcardData($gid)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "
-			. "WHERE giftcard_id = " . (int) $gid;
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
-
-		return $res;
+		return RedshopEntityGiftcard::getInstance($gid)->getItem();
 	}
 
 	public function getValidityDate($period, $data)
@@ -1716,63 +1721,23 @@ class productHelper
 		return $data;
 	}
 
-	public function getAccessoryPrice($product_id = 0, $accessory_price = 0, $accessory_main_price = 0, $vat = 0, $user_id = 0)
+	/**
+	 * Method for calculate accessory price
+	 *
+	 * @param   integer  $productId           Product ID
+	 * @param   integer  $accessoryPrice      Accessory price
+	 * @param   integer  $accessoryMainPrice  Accessory main price
+	 * @param   integer  $hasVAT              Is include VAT?
+	 * @param   integer  $userId              User ID
+	 *
+	 * @return  array
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 * @see \Redshop\Product\Accessory::getAccessoryPrice
+	 */
+	public function getAccessoryPrice($productId = 0, $accessoryPrice = 0, $accessoryMainPrice = 0, $hasVAT = 0, $userId = 0)
 	{
-		$return = array();
-		$saved  = 0;
-
-		if (empty($accessory_price))
-		{
-			$accessory_price = 0;
-		}
-
-		if (empty($accessory_main_price))
-		{
-			$accessory_main_price = 0;
-		}
-
-		/*
-		 * $vat = 0 (add vat to accessory price)
-		 * $vat = 1 (Do not add vat to accessory price)
-		 */
-		if ($vat != 1)
-		{
-			$accessory_price_vat      = 0;
-			$accessory_main_price_vat = 0;
-
-			// Get vat for accessory price
-			if ($accessory_price > 0)
-			{
-				$accessory_price_vat = $this->getProductTax($product_id, $accessory_price, $user_id);
-			}
-
-			if ($accessory_main_price > 0)
-			{
-				$accessory_main_price_vat = $this->getProductTax($product_id, $accessory_main_price, $user_id);
-			}
-
-			// Add VAT to accessory prices
-			$accessory_price += $accessory_price_vat;
-			$accessory_main_price += $accessory_main_price_vat;
-		}
-
-		$saved = $accessory_main_price - $accessory_price;
-
-		if ($saved < 0)
-		{
-			$saved = 0;
-		}
-
-		//accessory Price
-		$return[0] = $accessory_price;
-
-		//accessory main price
-		$return[1] = $accessory_main_price;
-
-		//accessory saving price
-		$return[2] = $saved;
-
-		return $return;
+		return \Redshop\Product\Accessory::getPrice($productId, $accessoryPrice, $accessoryMainPrice, $hasVAT, $userId);
 	}
 
 	public function getuserfield($orderitemid = 0, $section_id = 12)
@@ -2177,60 +2142,21 @@ class productHelper
 		return RedshopHelperProduct_Attribute::getAttributeSubProperties($subproperty_id, $property_id);
 	}
 
-	public function getAttributeTemplate($data_add = "", $display = true)
+	/**
+	 * Method for get attribute template
+	 *
+	 * @param   string   $templateHtml  Template html
+	 * @param   boolean  $display       Is display?
+	 *
+	 * @return  object
+	 * @throws  \Exception
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Template::getAttribute
+	 */
+	public function getAttributeTemplate($templateHtml = '', $display = true)
 	{
-		$attribute_template      = array();
-		$attribute_template_data = array();
-		$redTemplate             = Redtemplate::getInstance();
-		$displayname             = "attribute_template";
-		$nodisplayname           = "attributewithcart_template";
-
-		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
-		{
-			$displayname   = "attributewithcart_template";
-			$nodisplayname = "attribute_template";
-		}
-
-		if (!$display)
-		{
-			$displayname = $nodisplayname;
-		}
-
-		if ($displayname == "attribute_template")
-		{
-			if (is_null($this->_attribute_template))
-			{
-				$this->_attribute_template = $attribute_template = RedshopHelperTemplate::getTemplate($displayname);
-			}
-			else
-			{
-				$attribute_template = $this->_attribute_template;
-			}
-		}
-		else
-		{
-			if (is_null($this->_attributewithcart_template))
-			{
-				$this->_attributewithcart_template = $attribute_template = RedshopHelperTemplate::getTemplate($displayname);
-			}
-			else
-			{
-				$attribute_template = $this->_attributewithcart_template;
-			}
-		}
-
-		if ($data_add != "")
-		{
-			for ($i = 0, $in = count($attribute_template); $i < $in; $i++)
-			{
-				if (strpos($data_add, "{" . $displayname . ":" . $attribute_template[$i]->name . "}") !== false)
-				{
-					$attribute_template_data = $attribute_template[$i];
-				}
-			}
-		}
-
-		return $attribute_template_data;
+		return \Redshop\Helper\Template::getAttribute($templateHtml, $display);
 	}
 
 	/**
@@ -2250,100 +2176,52 @@ class productHelper
 		return RedshopHelperAccessory::getProductAccessories($accessory_id, $product_id, $child_product_id, $cid);
 	}
 
-	public function getAddtoCartTemplate($data_add = "")
+	/**
+	 * Method for get add-to-cart template
+	 *
+	 * @param   string  $templateHtml  Template HTML
+	 *
+	 * @return  object
+	 * @throws  \Exception
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Template::getAddToCart
+	 */
+	public function getAddtoCartTemplate($templateHtml = '')
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (is_null($this->_cart_template))
-		{
-			$this->_cart_template = $cart_template = $redTemplate->getTemplate("add_to_cart");
-		}
-		else
-		{
-			$cart_template = $this->_cart_template;
-		}
-
-		$cart_template_data = array();
-
-		if ($data_add != "")
-		{
-			for ($i = 0, $in = count($cart_template); $i < $in; $i++)
-			{
-				if (strpos($data_add, "{form_addtocart:" . $cart_template[$i]->name . "}") !== false)
-				{
-					$cart_template_data = $cart_template[$i];
-
-					if (count($cart_template_data) > 0 && $cart_template_data->template_desc == "")
-					{
-						$cart_template_data->template_desc = '<div style="clear: left;"></div><div class="cart-wrapper"><div class="cart-quantity">{quantity_lbl}: {addtocart_quantity}</div><div class="cart-link">{addtocart_image_aslink}</div></div>';
-					}
-
-					break;
-				}
-			}
-		}
-
-		return $cart_template_data;
+		return \Redshop\Helper\Template::getAddToCart($templateHtml);
 	}
 
-	public function getAccessoryTemplate($data_add = "")
+	/**
+	 * Method for get accessory template
+	 *
+	 * @param   string  $templateHtml  Template HTML
+	 *
+	 * @return  object
+	 * @throws  \Exception
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Template::getAccessory
+	 */
+	public function getAccessoryTemplate($templateHtml = "")
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (is_null($this->_acc_template))
-		{
-			$this->_acc_template = $acc_template = $redTemplate->getTemplate("accessory_template");
-		}
-		else
-		{
-			$acc_template = $this->_acc_template;
-		}
-
-		$acc_template_data = array();
-
-		if ($data_add != "")
-		{
-			for ($i = 0, $in = count($acc_template); $i < $in; $i++)
-			{
-				if (strpos($data_add, "{accessory_template:" . $acc_template[$i]->name . "}") !== false)
-				{
-					$acc_template_data = $acc_template[$i];
-
-					if (count($acc_template_data) > 0 && $acc_template_data->template_desc == "")
-					{
-						$acc_template_data->template_desc = '<div class="accessory"><div class="accessory_info"><h2>Accessories</h2>Add accessories by clicking in the box.</div>{accessory_product_start}<div class="accessory_box"><div class="accessory_left"><div class="accessory_image">{accessory_image}</div></div><div class="accessory_right"><div class="accessory_title"><h3>{accessory_title}</h3></div><div class="accessory_desc">{accessory_short_desc}</div><div class="accessory_readmore">{accessory_readmore}</div><div class="accessory_add">{accessory_price} {accessory_add_chkbox}</div><div class="accessory_qua">{accessory_quantity_lbl} {accessory_quantity}</div></div><div style="clear: left">&nbsp;&nbsp;</div></div>{accessory_product_end}</div><div style="clear: left">&nbsp;&nbsp;</div>';
-					}
-
-					break;
-				}
-			}
-		}
-
-		return $acc_template_data;
+		return \Redshop\Helper\Template::getAccessory($templateHtml);
 	}
 
-	public function getRelatedProductTemplate($data_add = "")
+	/**
+	 * Method for get add-to-cart template
+	 *
+	 * @param   string  $templateHtml  Template HTML
+	 *
+	 * @return  object
+	 * @throws  \Exception
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Template::getRelatedProduct
+	 */
+	public function getRelatedProductTemplate($templateHtml = '')
 	{
-		$redTemplate   = Redtemplate::getInstance();
-		$template      = $redTemplate->getTemplate("related_product");
-		$template_data = array();
-
-		for ($i = 0, $in = count($template); $i < $in; $i++)
-		{
-			if (strpos($data_add, "{related_product:" . $template[$i]->name . "}") !== false)
-			{
-				$template_data = $template[$i];
-
-				if (count($template_data) > 0 && $template_data->template_desc == "")
-				{
-					$template_data->template_desc = '<div class="related_product_wrapper"><h2>Related Products</h2>{related_product_start}<div class="related_product_inside"><div class="related_product_left"><div class="related_product_image"><div class="related_product_image_inside">{relproduct_image}</div></div></div><div class="related_product_right"><div class="related_product_name">{relproduct_name}</div><div class="related_product_price">{relproduct_price}</div><div class="related_product_desc">{relproduct_s_desc}</div><div class="related_product_readmore">{read_more}</div></div><div class="related_product_bottom"><div class="related_product_attr">{attribute_template:attributes}</div><div class="related_product_addtocart">{form_addtocart:add_to_cart2}</div></div></div>{related_product_end}</div>';
-				}
-
-				break;
-			}
-		}
-
-		return $template_data;
+		return \Redshop\Helper\Template::getRelatedProduct($templateHtml);
 	}
 
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
@@ -2616,49 +2494,20 @@ class productHelper
 		return $data_add;
 	}
 
+	/**
+	 * Method for get ajax detail box template
+	 *
+	 * @param   array  $product  Product data
+	 *
+	 * @return  object
+	 * @throws  \Exception
+	 *
+	 * @deprecated    __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Template::getAjaxDetailBox
+	 */
 	public function getAjaxDetailboxTemplate($product = array())
 	{
-		if (!Redshop::getConfig()->get('AJAX_CART_BOX'))
-		{
-			return array();
-		}
-
-		$productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
-
-		if (!$this->_ajaxdetail_templatedata)
-		{
-			$ajaxdetail_templatedata         = array();
-			$default_ajaxdetail_templatedata = array();
-			$ajaxdetail_template             = RedshopHelperTemplate::getTemplate("ajax_cart_detail_box");
-
-			for ($i = 0, $in = count($ajaxdetail_template); $i < $in; $i++)
-			{
-				if (strpos($productTemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->name . "}") !== false)
-				{
-					$ajaxdetail_templatedata = $ajaxdetail_template[$i];
-					break;
-				}
-
-				if (Redshop::getConfig()->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE') == $ajaxdetail_template[$i]->id)
-				{
-					$default_ajaxdetail_templatedata = $ajaxdetail_template[$i];
-				}
-			}
-
-			if (empty($ajaxdetail_templatedata) && count($default_ajaxdetail_templatedata) > 0)
-			{
-				$ajaxdetail_templatedata = $default_ajaxdetail_templatedata;
-			}
-
-			if (count($ajaxdetail_templatedata) > 0 && $ajaxdetail_templatedata->template_desc == "")
-			{
-				$ajaxdetail_templatedata->template_desc = '<div id="ajax-cart"><div id="ajax-cart-attr">{attribute_template:attributes}</div><div id="ajax-cart-access">{accessory_template:accessory}</div>{if product_userfield}<div id="ajax-cart-user">{userfield-test}</div>{product_userfield end if}<div id="ajax-cart-label">{form_addtocart:add_to_cart2}</div></div>';
-			}
-
-			$this->_ajaxdetail_templatedata = $ajaxdetail_templatedata;
-		}
-
-		return $this->_ajaxdetail_templatedata;
+		return \Redshop\Helper\Template::getAjaxDetailBox($product);
 	}
 
 	/**
@@ -3417,7 +3266,7 @@ class productHelper
 
 		if ($giftcard_id != 0)
 		{
-			$product       = $this->getGiftcardData($giftcard_id);
+			$product       = RedshopEntityGiftcard::getInstance($giftcard_id)->getItem();
 			$field_section = 13;
 		}
 		else
@@ -3432,7 +3281,7 @@ class productHelper
 
 		$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart($user_id, true);
 
-		$cart_template = $this->getAddtoCartTemplate($data_add);
+		$cart_template = \Redshop\Helper\Template::getAddToCart($data_add);
 
 		if (count($cart_template) <= 0 && $data_add != "")
 		{
@@ -3928,7 +3777,7 @@ class productHelper
 					$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
 				}
 
-				$ajaxdetail_templatedata = $this->getAjaxDetailboxTemplate($product);
+				$ajaxdetail_templatedata = \Redshop\Helper\Template::getAjaxDetailBox($product);
 
 				if (count($ajaxdetail_templatedata) > 0)
 				{
@@ -4314,7 +4163,7 @@ class productHelper
 			$user_id = $user->id;
 		}
 
-		$data                  = $this->getcartTemplate();
+		$data                  = \Redshop\Helper\Template::getCart();
 		$chktag                = $this->getApplyattributeVatOrNot($data[0]->template_desc, $user_id);
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
@@ -4462,17 +4311,18 @@ class productHelper
 		return array($displayaccessory, $accessory_total_price, $accessory_vat_price);
 	}
 
-	public function getcartTemplate()
+	/**
+	 * Method for get cart template
+	 *
+	 * @return  object
+	 * @throws  \Exception
+	 *
+	 * @deprecated    __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Template::getCart
+	 */
+	public function getCartTemplate()
 	{
-		if (empty($this->_cartTemplateData))
-		{
-			if (!Redshop::getConfig()->get('USE_AS_CATALOG') || Redshop::getConfig()->get('USE_AS_CATALOG'))
-				$this->_cartTemplateData = RedshopHelperTemplate::getTemplate("cart");
-			else
-				$this->_cartTemplateData = RedshopHelperTemplate::getTemplate("catalogue_cart");
-		}
-
-		return $this->_cartTemplateData;
+		return \Redshop\Helper\Template::getCart();
 	}
 
 	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')
@@ -6332,6 +6182,7 @@ class productHelper
 	 * @param   string   $redLayout         redshop layout
 	 *
 	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7
 	 *
@@ -6389,7 +6240,7 @@ class productHelper
 		$extra_field      = extraField::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
-		$related_template = $this->getRelatedProductTemplate($template_desc);
+		$related_template = \Redshop\Helper\Template::getRelatedProduct($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
 		JPluginHelper::importPlugin('redshop_product');
@@ -6409,7 +6260,7 @@ class productHelper
 				$tempdata_div_middle = $product_end [0];
 				$tempdata_div_end    = $product_end [1];
 
-				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
+				$attribute_template = \Redshop\Helper\Template::getAttribute($tempdata_div_middle);
 
 				// Extra field display
 				$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);

@@ -793,7 +793,7 @@ else
 	$attributes = array_merge($attributes, $attributes_set);
 }
 
-$attribute_template = $producthelper->getAttributeTemplate($template_desc);
+$attribute_template = \Redshop\Helper\Template::getAttribute($template_desc);
 
 // Check product for not for sale
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
@@ -1467,7 +1467,7 @@ $template_desc = $producthelper->replaceWishlistButton($this->data->product_id, 
 $template_desc = Redshop\Product\Compare::replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
 
 // Ajax detail box template
-$ajaxdetail_templatedata = $producthelper->getAjaxDetailboxTemplate($this->data);
+$ajaxdetail_templatedata = \Redshop\Helper\Template::getAjaxDetailBox($this->data);
 
 if (count($ajaxdetail_templatedata) > 0)
 {

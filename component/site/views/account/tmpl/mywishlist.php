@@ -281,7 +281,7 @@ if ($mail == 0)
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
-			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
+			$attribute_template = \Redshop\Helper\Template::getAttribute($wishlist_data);
 
 			$wishlistData = $row->wishlistData;
 

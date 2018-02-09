@@ -1252,7 +1252,7 @@ class RedshopEconomic
 		$product->product_name   = $orderItem->order_item_name;
 		$product->product_price  = $orderItem->product_item_price_excl_vat;
 
-		$giftData                 = $productHelper->getGiftcardData($orderItem->product_id);
+		$giftData                 = \RedshopEntityGiftcard::getInstance($orderItem->product_id)->getItem();
 		$product->accountgroup_id = $giftData->accountgroup_id;
 		$product->product_volume  = 0;
 

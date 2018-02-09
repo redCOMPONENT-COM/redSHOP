@@ -338,7 +338,7 @@ class RedshopHelperProduct
 
 		for ($a = 0, $an = count($accessory); $a < $an; $a++)
 		{
-			$acId = $accessory[$a]->child_product_id;
+			$acId   = $accessory[$a]->child_product_id;
 			$cpData = Redshop::product((int) $acId);
 
 			$accessoryName = RedshopHelperUtility::maxChars(
@@ -348,13 +348,13 @@ class RedshopHelperProduct
 			);
 
 			// Get accessory final price with VAT rules
-			$accessoryPriceList = $productHelper->getAccessoryPrice(
+			$accessoryPriceList = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price
 			);
 
 			$accessoryPrice = $accessoryPriceList[0];
 
-			$accessoryPriceWithoutvat = $productHelper->getAccessoryPrice(
+			$accessoryPriceWithoutvat = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price,
 				$accessory[$a]->accessory_main_price, 1
 			);
