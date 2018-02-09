@@ -560,18 +560,18 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($categoryid)
 			{
-				$cat_main       = $category_helper->getCategoryTree($categoryid);
-				$cat_group_main = array();
+				$catMain      = RedshopHelperCategory::getCategoryTree($categoryid);
+				$catGroupMain = array();
 
-				for ($j = 0, $countCatMain = count($cat_main); $j < $countCatMain; $j++)
+				foreach ($catMain as $row)
 				{
-					$cat_group_main[$j] = $cat_main[$j]->category_id;
+					$catGroupMain[] = $row->id;
 				}
 
-				$cat_group_main[] = $categoryid;
-				$cat_group_main = ArrayHelper::toInteger($cat_group_main);
+				$catGroupMain[] = $categoryid;
+				$catGroupMain = ArrayHelper::toInteger($catGroupMain);
 
-				$query->where('pc.category_id IN (' . implode(',', $cat_group_main) . ')');
+				$query->where('pc.category_id IN (' . implode(',', $catGroupMain) . ')');
 			}
 
 			$query->where(
@@ -590,22 +590,20 @@ class RedshopModelSearch extends RedshopModel
 		}
 		elseif ($layout == 'newproduct')
 		{
-			$catid = $item->query['categorytemplate'];
-
-			$cat_main       = RedshopHelperCategory::getCategoryTree($catid);
-			$cat_group_main = array();
-
-			for ($j = 0, $countCatMain = count($cat_main); $j < $countCatMain; $j++)
+			if ($categoryid)
 			{
-				$cat_group_main[$j] = $cat_main[$j]->category_id;
-			}
+				$catMain      = RedshopHelperCategory::getCategoryTree($categoryid);
+				$catGroupMain = array();
 
-			$cat_group_main[] = $catid;
-			$cat_group_main = ArrayHelper::toInteger($cat_group_main);
+				foreach ($catMain as $row)
+				{
+					$catGroupMain[] = $row->id;
+				}
 
-			if ($catid)
-			{
-				$query->where('pc.category_id in (' . implode(',', $cat_group_main) . ')');
+				$catGroupMain[] = $categoryid;
+				$catGroupMain = ArrayHelper::toInteger($catGroupMain);
+
+				$query->where('pc.category_id IN (' . implode(',', $catGroupMain) . ')');
 			}
 
 			$query->where('p.publish_date BETWEEN ' . $db->quote($days_before) . ' AND ' . $db->quote($today))

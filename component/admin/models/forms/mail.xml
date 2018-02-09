@@ -85,6 +85,7 @@
                 description="COM_REDSHOP_BODY"
                 width="300"
                 filter="raw"
+                syntax="html"
                 rows="50"
                 table-hide="1"
         />
