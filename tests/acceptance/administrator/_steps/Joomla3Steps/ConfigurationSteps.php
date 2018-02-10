@@ -133,8 +133,13 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->fillField(\ConfigurationPage::$countrySearchPrice, $country);
 		$userConfigurationPage = new \ConfigurationPage();
 		$I->waitForElement($userConfigurationPage->returnChoice($country));
-//		$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->click($userConfigurationPage->returnChoice($country));
+		if ($country == 'Denmark')
+		{
+			$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}
+		else{
+			$I->click($userConfigurationPage->returnChoice($country));
+		}
 
 		//get state
 		if(isset($state))
