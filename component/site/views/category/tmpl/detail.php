@@ -159,7 +159,7 @@ if (!$slide)
 
 		if ($parentid != 0)
 		{
-			$categorylist     = $producthelper->getSection("category", $parentid);
+			$categorylist     = RedshopEntityCategory::getInstance($parentid)->getItem();
 			$returntocategory_name = $categorylist->name;
 			$returncatlink    = JRoute::_(
 											"index.php?option=" . $this->option .
@@ -1006,7 +1006,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$attributeproductStockStatus = $producthelper->getproductStockStatus($product->product_id, $totalatt);
 		}
 
-		$data_add = $producthelper->replaceProductStockdata(
+		$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(
 			$product->product_id,
 			0,
 			0,

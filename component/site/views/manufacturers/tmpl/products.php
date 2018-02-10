@@ -142,7 +142,7 @@ if ($template_middle != "")
 		$cart_mdata   = $producthelper->getProductNotForSaleComment($manufacturer_products[$i], $cart_mdata);
 		$cart_mdata   = $producthelper->getSpecialProductComment($manufacturer_products[$i], $cart_mdata);
 		$product_id   = $manufacturer_products[$i]->product_id;
-		$childproduct = $producthelper->getChildProduct($product_id);
+		$childproduct = RedshopHelperProduct::getChildProduct($product_id);
 
 		if (count($childproduct) > 0)
 		{
@@ -245,7 +245,7 @@ if ($template_middle != "")
 			$attributeproductStockStatus = $producthelper->getproductStockStatus($manufacturer_products[$i]->product_id, $totalatt);
 		}
 
-		$cart_mdata = $producthelper->replaceProductStockdata(
+		$cart_mdata = \Redshop\Helper\Stockroom::replaceProductStockData(
 			$manufacturer_products[$i]->product_id,
 			0,
 			0,

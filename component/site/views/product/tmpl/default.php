@@ -756,7 +756,7 @@ if (strstr($template_desc, "{child_products}"))
 }
 
 // Checking for child products
-$childproduct = $producthelper->getChildProduct($this->data->product_id);
+$childproduct = RedshopHelperProduct::getChildProduct($this->data->product_id);
 
 if (count($childproduct) > 0)
 {
@@ -930,7 +930,7 @@ else
 	}
 }
 
-$template_desc = $producthelper->replaceProductStockdata(
+$template_desc = \Redshop\Helper\Stockroom::replaceProductStockData(
 															$this->data->product_id,
 															$selectedpropertyId,
 															$selectedsubpropertyId,

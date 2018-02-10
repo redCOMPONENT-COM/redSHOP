@@ -487,7 +487,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
 				// Checking for child products.
-				$childproduct = $producthelper->getChildProduct($product->product_id);
+				$childproduct = RedshopHelperProduct::getChildProduct($product->product_id);
 
 				if (count($childproduct) > 0)
 				{

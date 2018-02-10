@@ -166,7 +166,7 @@ abstract class RedshopHelperAttribute
 
 				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
-					$property = $productHelper->getAttibutePropertyWithStock($property_all);
+					$property = \Redshop\Helper\Stockroom::getAttributePropertyWithStock($property_all);
 				}
 				else
 				{
@@ -231,7 +231,7 @@ abstract class RedshopHelperAttribute
 						// Filter Out of stock data
 						if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 						{
-							$subproperty = $productHelper->getAttibuteSubPropertyWithStock($subproperty_all);
+							$subproperty = \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subproperty_all);
 						}
 						else
 						{

@@ -176,7 +176,7 @@ class RedshopViewProduct extends RedshopView
 
 				while ($parentid != 0)
 				{
-					$parentdetail = $prodhelperobj->getSection("category", $parentid);
+					$parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
 					$parentcat    = $parentdetail->name . "  " . $parentcat;
 					$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
 				}

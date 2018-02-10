@@ -771,7 +771,7 @@ class RedshopHelperOrder
 			$totalWeight += (($weight * $orderProducts [$c]->product_quantity) + $accWeight);
 		}
 
-		$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 
 		if ($unitRatio != 0)
 		{

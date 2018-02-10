@@ -69,7 +69,7 @@ else
 $product = $producthelper->getProductById($product_id);
 
 // Checking for child products
-$childproduct = $producthelper->getChildProduct($product_id);
+$childproduct = RedshopHelperProduct::getChildProduct($product_id);
 
 if (count($childproduct) > 0)
 {

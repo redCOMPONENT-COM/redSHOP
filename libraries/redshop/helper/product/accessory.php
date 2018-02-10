@@ -250,7 +250,7 @@ class RedshopHelperProductAccessory
 				// Add manufacturer
 				if (strpos($accessoryWrapper, "{manufacturer_name}") !== false || strpos($accessoryWrapper, "{manufacturer_link}") !== false)
 				{
-					$manufacturer = productHelper::getInstance()->getSection("manufacturer", $accessory[$a]->manufacturer_id);
+					$manufacturer = RedshopEntityManufacturer::getInstance($accessory[$a]->manufacturer_id)->getItem();
 
 					if (count($manufacturer) > 0)
 					{

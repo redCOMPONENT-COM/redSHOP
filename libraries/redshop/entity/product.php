@@ -29,6 +29,11 @@ class RedshopEntityProduct extends RedshopEntity
 	protected $relatedProducts = null;
 
 	/**
+	 * @var   RedshopEntitiesCollection  Collections of child products
+	 */
+	protected $childProducts = null;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
@@ -75,6 +80,27 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
+	 * Method for get child products
+	 *
+	 * @param   boolean  $reload  Force reload even it's cached
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   2.1.0
+	 */
+	public function getChildProducts($reload = false)
+	{
+		if (null === $this->childProducts || $reload === true)
+		{
+			$this->loadChild();
+		}
+
+		return $this->childProducts;
+	}
+
+	/**
+	 * Method for set categories to this product
+	 *
 	 * @param   array    $ids             Array of categories' ids
 	 * @param   boolean  $removeAssigned  Remove all assigned categories
 	 *
@@ -201,6 +227,39 @@ class RedshopEntityProduct extends RedshopEntity
 		foreach ($productIds as $productId)
 		{
 			$this->relatedProducts->add(self::getInstance($productId));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to load child product
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadChild()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->childProducts = new RedshopEntitiesCollection;
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('product_id'))
+			->from($db->quoteName('#__redshop_product'))
+			->where($db->quoteName('product_parent_id') . ' = ' . (int) $this->getId());
+
+		$productIds = $db->setQuery($query)->loadColumn();
+
+		foreach ($productIds as $productId)
+		{
+			$this->childProducts->add(self::getInstance($productId));
 		}
 
 		return $this;

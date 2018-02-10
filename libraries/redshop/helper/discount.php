@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperDiscount
 {
-
 	/**
 	 * Method for get discount
 	 *

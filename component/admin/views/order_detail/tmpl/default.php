@@ -592,7 +592,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             $p_userfield      = $productHelper->getuserfield($order_item_id);
                             $subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
                             $catId            = $productHelper->getCategoryProduct($product_id);
-                            $res              = $productHelper->getSection("category", $catId);
+                            $res              = RedshopEntityCategory::getInstance($catId)->getItem();
                             $cname            = '';
 
                             if (count($res) > 0)

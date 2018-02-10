@@ -712,7 +712,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Checking for child products
-		$childProducts = $productHelper->getChildProduct($product->product_id);
+		$childProducts = RedshopHelperProduct::getChildProduct($product->product_id);
 
 		if (count($childProducts) > 0)
 		{

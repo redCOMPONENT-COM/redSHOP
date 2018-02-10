@@ -429,7 +429,7 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 
 			$catId = $this->_producthelper->getCategoryProduct($product_id);
-			$res   = $this->_producthelper->getSection("category", $catId);
+			$res   = RedshopEntityCategory::getInstance($catId)->getItem();
 
 			if (count($res) > 0)
 			{
@@ -4277,7 +4277,7 @@ class rsCarthelper
 
 		// Convert unit using helper function
 		$unit = 1;
-		$unit = $this->_producthelper->getUnitConversation($globalUnit, $calcUnit);
+		$unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, $calcUnit);
 
 		$calcHeight *= $unit;
 		$calcWidth *= $unit;
@@ -4288,7 +4288,7 @@ class rsCarthelper
 
 		if (!$use_range)
 		{
-			$product_unit = $this->_producthelper->getUnitConversation($globalUnit, Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
+			$product_unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 			$product_height   = $data->product_height * $product_unit;
 			$product_width    = $data->product_width * $product_unit;

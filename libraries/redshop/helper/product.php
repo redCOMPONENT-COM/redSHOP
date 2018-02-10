@@ -1156,4 +1156,32 @@ class RedshopHelperProduct
 			static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
 		}
 	}
+
+	/**
+	 * Method for get child products of specific product
+	 *
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  array
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getChildProduct($productId = 0)
+	{
+		$childProducts = RedshopEntityProduct::getInstance($productId)->getChildProducts();
+
+		if ($childProducts->isEmpty())
+		{
+			return array();
+		}
+
+		$results = array();
+
+		foreach ($childProducts->getAll() as $child)
+		{
+			/** @var  RedshopEntityProduct $child */
+			$results[] = $child->getItem();
+		}
+
+		return $results;
+	}
 }

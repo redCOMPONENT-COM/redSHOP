@@ -356,7 +356,7 @@ function display_products($rows)
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
 
-			$childproduct = $producthelper->getChildProduct($row->product_id);
+			$childproduct = RedshopHelperProduct::getChildProduct($row->product_id);
 
 			if (count($childproduct) > 0)
 			{

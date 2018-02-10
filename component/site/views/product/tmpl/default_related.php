@@ -95,7 +95,7 @@ if (count($relptemplate) > 0)
 		$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
 		$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
 
-		$manufacturer = $producthelper->getSection("manufacturer", $related_product [$r]->manufacturer_id);
+		$manufacturer = RedshopEntityManufacturer::getInstance($related_product[$r]->manufacturer_id)->getItem();
 
 		if (count($manufacturer) > 0)
 		{

@@ -21,7 +21,7 @@ class Template
 	/**
 	 * @var array
 	 */
-	protected static $templates;
+	protected static $templates = array();
 
 	/**
 	 * Method for get accessory template

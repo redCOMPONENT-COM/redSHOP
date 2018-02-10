@@ -419,7 +419,7 @@ class RedshopViewSearch extends RedshopView
 
 					if ($parentCategoryId != 0)
 					{
-						$parentCategory = $producthelper->getSection("category", $parentCategoryId);
+						$parentCategory = RedshopEntityCategory::getInstance($parentCategoryId)->getItem();
 						$data_add = str_replace("{returntoparent_category_name}", $parentCategory->category_name, $data_add);
 					}
 					else
@@ -703,7 +703,7 @@ class RedshopViewSearch extends RedshopView
 					$attributeproductStockStatus = $producthelper->getproductStockStatus($this->search[$i]->product_id, $totalatt);
 				}
 
-				$data_add = $producthelper->replaceProductStockdata(
+				$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(
 					$this->search[$i]->product_id,
 					0,
 					0,

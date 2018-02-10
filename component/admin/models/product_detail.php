@@ -807,7 +807,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			for ($c = 0, $cn = count($area_start); $c < $cn; $c++)
 			{
 				// Convert whatever unit into meter
-				$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
+				$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit[$c]);
 
 				// Replace comma with dot
 				$new_area_start = str_replace(",", ".", $area_start[$c]);
@@ -4576,8 +4576,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$productHelper = productHelper::getInstance();
-		$info          = $productHelper->getChildProduct($parentid);
+		$info = RedshopHelperProduct::getChildProduct($parentid);
 
 		if (empty(static::$childproductlist))
 		{
@@ -4727,7 +4726,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$area_end           = $list[$i]->area_end;
 			$area_price         = $list[$i]->area_price;
 
-			$unit = $producthelper->getUnitConversation("m", $discount_calc_unit);
+			$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit);
 
 			// Replace comma with dot.
 			$new_area_start = str_replace(",", ".", $area_start);

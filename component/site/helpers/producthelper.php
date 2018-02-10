@@ -9,20 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Redshop\Helper\Utility;
-
 jimport('joomla.filesystem.file');
 
 class productHelper
 {
 	public $_db = null;
 
-	public $_userdata = null;
-
 	public $_table_prefix = null;
-
-	public $_product_level = 0;
 
 	public $_userhelper = null;
 
@@ -891,36 +884,21 @@ class productHelper
 		return $product_delivery_time;
 	}
 
+	/**
+	 * Method for get default quantity
+	 *
+	 * @param   integer  $product_id  Product ID
+	 * @param   string   $data_add    Template html
+	 *
+	 * @return  integer
+	 * @throws  Exception
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Cart\Helper::getDefaultQuantity
+	 */
 	public function GetDefaultQuantity($product_id = 0, $data_add = "")
 	{
-		$cart_template = \Redshop\Helper\Template::getAddToCart($data_add);
-		$cartform      = (count($cart_template) > 0) ? $cart_template->template_desc : "";
-		$qunselect     = 1;
-
-		if (strstr($cartform, "{addtocart_quantity_selectbox}"))
-		{
-			$product = $this->getProductById($product_id);
-
-			if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != "" && $product->quantity_selectbox_value == '')
-				|| $product->quantity_selectbox_value != '')
-			{
-				$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
-				$quaboxarr       = explode(",", $selectbox_value);
-				$quaboxarr       = array_merge(array(), array_unique($quaboxarr));
-				sort($quaboxarr);
-
-				for ($q = 0, $qn = count($quaboxarr); $q < $qn; $q++)
-				{
-					if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
-					{
-						$qunselect = intVal($quaboxarr[$q]);
-						break;
-					}
-				}
-			}
-		}
-
-		return $qunselect;
+		return \Redshop\Cart\Helper::getDefaultQuantity($product_id, $data_add);
 	}
 
 	/**
@@ -977,9 +955,20 @@ class productHelper
 		return RedshopHelperProduct::getProductQuantityPrice($productId, $userId);
 	}
 
-	public function getDiscountId($subtotal = 0, $user_id = 0)
+	/**
+	 * Method for get discount
+	 *
+	 * @param   integer  $subTotal  Sub-total amount
+	 * @param   integer  $userId    User ID
+	 *
+	 * @return  mixed
+	 *
+	 * @deprecated 2.0.3
+	 * @see RedshopHelperDiscount::getDiscount
+	 */
+	public function getDiscountId($subTotal = 0, $userId = 0)
 	{
-		return RedshopHelperDiscount::getDiscount($subtotal, $user_id);
+		return RedshopHelperDiscount::getDiscount($subTotal, $userId);
 	}
 
 	public function getDiscountAmount($cart = array(), $user_id = 0)
@@ -996,7 +985,7 @@ class productHelper
 			$cart = $this->_session->get('cart');
 		}
 
-		$discount = $this->getDiscountId($cart['product_subtotal'], $user_id);
+		$discount = RedshopHelperDiscount::getDiscount($cart['product_subtotal'], $user_id);
 
 		$discount_amount_final = 0;
 		$discountVAT     = 0;
@@ -1418,7 +1407,7 @@ class productHelper
 		static $i = 0;
 		static $category_list = array();
 
-		$categorylist       = $this->getSection("category", $category_id);
+		$categorylist       = RedshopEntityCategory::getInstance($category_id)->getItem();
 		$category_parent_id = $this->getParentCategory($category_id);
 
 		if (count($categorylist) > 0 && $categorylist->parent_id > 0)
@@ -1468,10 +1457,11 @@ class productHelper
 	/**
 	 * Get section
 	 *
-	 * @param   string  $section  Section name
-	 * @param   int     $id       Section id
+	 * @param   string   $section  Section name
+	 * @param   integer  $id       Section id
 	 *
-	 * @return mixed|null
+	 * @return  mixed|null
+	 * @deprecated __DEPLOY_VERSION__
 	 */
 	public function getSection($section = '', $id = 0)
 	{
@@ -1505,7 +1495,8 @@ class productHelper
 	 *
 	 * @param   string  $link  Link
 	 *
-	 * @return mixed|null
+	 * @return  mixed|null
+	 * @throws  Exception
 	 */
 	public function getMenuDetail($link = '')
 	{
@@ -2079,52 +2070,34 @@ class productHelper
 		);
 	}
 
-	public function getAttibutePropertyWithStock($property)
+	/**
+	 * Method for get attribute with stock
+	 *
+	 * @param   array  $property  List of property
+	 *
+	 * @return  array
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Stockroom::getAttributePropertyWithStock
+	 */
+	public function getAttibutePropertyWithStock($property = array())
 	{
-		$stockroomhelper     = rsstockroomhelper::getInstance();
-		$property_with_stock = array();
-
-		for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
-		{
-			if ($stockroomhelper->isStockExists($property[$p]->property_id, $section = "property"))
-			{
-				$property_with_stock[] = $property[$p];
-			}
-			else
-			{
-				if ($subPropertyAll = $this->getAttibuteSubProperty(0, $property[$p]->value))
-				{
-					foreach ($subPropertyAll as $subProperty)
-					{
-						if ($stockroomhelper->isStockExists($subProperty->subattribute_color_id, $section = "subproperty"))
-						{
-							$property_with_stock[] = $property[$p];
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		return $property_with_stock;
+		return \Redshop\Helper\Stockroom::getAttributePropertyWithStock($property);
 	}
 
+	/**
+	 * Method for get sub-attribute with stock
+	 *
+	 * @param   array  $subproperty  List of property
+	 *
+	 * @return  array
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock
+	 */
 	public function getAttibuteSubPropertyWithStock($subproperty)
 	{
-		$stockroomhelper        = rsstockroomhelper::getInstance();
-		$subproperty_with_stock = array();
-
-		for ($p = 0, $pn = count($subproperty); $p < $pn; $p++)
-		{
-			$isStock = $stockroomhelper->isStockExists($subproperty[$p]->subattribute_color_id, $section = "subproperty");
-
-			if ($isStock)
-			{
-				$subproperty_with_stock[] = $subproperty[$p];
-			}
-		}
-
-		return $subproperty_with_stock;
+		return \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subproperty);
 	}
 
 	/**
@@ -2642,7 +2615,7 @@ class productHelper
 			// filter Out of stock data
 			if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 			{
-				$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
+				$subproperty = \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subproperty_all);
 			}
 			else
 			{
@@ -3436,7 +3409,7 @@ class productHelper
 				}
 			}
 
-			$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
+			$qunselect = \Redshop\Cart\Helper::getDefaultQuantity($product_id, $data_add);
 
 			$productArr          = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add);
 			$product_price       = $productArr['product_price'] * $qunselect;
@@ -3940,7 +3913,7 @@ class productHelper
 				$cartstyle     = '';
 				$preorderstyle = 'style="display:none"';
 
-				if (Redshop::getConfig()->get('USE_AS_CATALOG') || $this->_userhelper->getShopperGroupData($user_id)->use_as_catalog == 'yes')
+				if (Redshop::getConfig()->get('USE_AS_CATALOG') || RedshopHelperUser::getShopperGroupData($user_id)->use_as_catalog == 'yes')
 				{
 					$cartstyle = 'style="display:none"';
 
@@ -4886,7 +4859,7 @@ class productHelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($user->id);
+			$userArr = RedshopHelperUser::createUserSession($user->id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -4932,217 +4905,20 @@ class productHelper
 		return $aclProduct;
 	}
 
-	/*
-	 * redSHOP Unit conversation
-	 * @params: $globalUnit
-	 * $params: $calcUnit
+	/**
+	 * Method for convert Unit
 	 *
-	 * $globalUnit: base conversation unit
-	 * $calcUnit: Unit ratio which to convert
+	 * @param   string  $globalUnit  Base conversation unit
+	 * @param   string  $calcUnit    Unit ratio which to convert
+	 *
+	 * @return  float                Unit ratio
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Helper\Utility::getUnitConversation
 	 */
-
 	public function getUnitConversation($globalUnit, $calcUnit)
 	{
-		/*
-		 * calculation for setting unit value
-		 */
-		$unit = 1;
-		switch ($calcUnit)
-		{
-			case "mm":
-
-				switch ($globalUnit)
-				{
-					case "mm":
-						$unit = 1;
-						break;
-
-					case "cm":
-						$unit = 0.1;
-						break;
-
-					case "m":
-						$unit = 0.001;
-						break;
-
-					case "inch":
-						$unit = 0.0393700787;
-						break;
-					case "feet":
-						$unit = 0.0032808399;
-						break;
-				}
-
-				break;
-
-			case "cm":
-
-				switch ($globalUnit)
-				{
-					case "mm":
-						$unit = 10;
-						break;
-
-					case "cm":
-						$unit = 1;
-						break;
-
-					case "m":
-						$unit = 0.01;
-						break;
-
-					case "inch":
-						$unit = 0.393700787;
-						break;
-					case "feet":
-						$unit = 0.032808399;
-						break;
-				}
-
-				break;
-
-			case "m":
-
-				switch ($globalUnit)
-				{
-					case "mm":
-						$unit = 1000;
-						break;
-
-					case "cm":
-						$unit = 100;
-						break;
-
-					case "m":
-						$unit = 1;
-						break;
-
-					case "inch":
-						$unit = 39.3700787;
-						break;
-					case "feet":
-						$unit = 3.2808399;
-						break;
-				}
-
-				break;
-
-			case "inch":
-
-				switch ($globalUnit)
-				{
-					case "mm":
-						$unit = 25.4;
-						break;
-
-					case "cm":
-						$unit = 2.54;
-						break;
-
-					case "m":
-						$unit = 0.0254;
-						break;
-
-					case "inch":
-						$unit = 1;
-						break;
-					case "feet":
-						$unit = 0.0833333333;
-						break;
-				}
-
-				break;
-
-			case "feet":
-
-				switch ($globalUnit)
-				{
-					case "mm":
-						$unit = 304.8;
-						break;
-
-					case "cm":
-						$unit = 30.48;
-						break;
-
-					case "m":
-						$unit = 0.3048;
-						break;
-
-					case "inch":
-						$unit = 12;
-						break;
-					case "feet":
-						$unit = 1;
-						break;
-				}
-
-				break;
-
-			case "kg":
-
-				switch ($globalUnit)
-				{
-					case "pounds":
-					case "lbs":
-						$unit = 2.20462262;
-						break;
-
-					case "gram":
-						$unit = 1000;
-						break;
-
-					case "kg":
-						$unit = 1;
-						break;
-				}
-
-				break;
-
-			case "pounds":
-			case "lbs":
-
-				switch ($globalUnit)
-				{
-					case "pounds":
-					case "lbs":
-						$unit = 1;
-						break;
-
-					case "gram":
-						$unit = 453.59237;
-						break;
-
-					case "kg":
-						$unit = 0.45359237;
-						break;
-				}
-
-				break;
-
-			case "gram":
-
-				switch ($globalUnit)
-				{
-					case "pounds":
-					case "lbs":
-						$unit = 0.00220462262;
-						break;
-
-					case "gram":
-						$unit = 1;
-						break;
-
-					case "kg":
-						$unit = 0.001;
-						break;
-				}
-
-				break;
-
-		}
-
-		return $unit;
+		return \Redshop\Helper\Utility::getUnitConversation($globalUnit, $calcUnit);
 	}
 
 	// Get Product subscription price
@@ -5444,7 +5220,7 @@ class productHelper
 	 */
 	public function product_tag($section, $html)
 	{
-		return Utility::getProductTags($section, $html);
+		return \Redshop\Helper\Utility::getProductTags($section, $html);
 	}
 
 	public function getJcommentEditor($product = array(), $data_add = "")
@@ -5764,21 +5540,18 @@ class productHelper
 		return $data_add;
 	}
 
-	/*
-	 * function to check product is parent
-	 * or it has childs
+	/**
+	 * Method for get child products of specific product
 	 *
-	 * @return: integer
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  array
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see RedshopHelperProduct::getChildProduct
 	 */
-	public function getChildProduct($product_id = 0)
+	public function getChildProduct($productId = 0)
 	{
-		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM " . $this->_table_prefix
-			. "product "
-			. "WHERE product_parent_id = " . (int) $product_id . " AND published = 1 ORDER BY product_id";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperProduct::getChildProduct($productId);
 	}
 
 	/*
@@ -6351,7 +6124,7 @@ class productHelper
 
 					if (strpos($related_template_data, "{manufacturer_name}") !== false || strpos($related_template_data, "{manufacturer_link}") !== false)
 					{
-						$manufacturer = $this->getSection("manufacturer", $related_product [$r]->manufacturer_id);
+						$manufacturer = RedshopEntityManufacturer::getInstance($related_product[$r]->manufacturer_id)->getItem();
 
 						if (count($manufacturer) > 0)
 						{
@@ -6414,7 +6187,7 @@ class productHelper
 						$related_template_data =  str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
 					}
 
-					$childproduct = $this->getChildProduct($related_product[$r]->product_id);
+					$childproduct = RedshopHelperProduct::getChildProduct($related_product[$r]->product_id);
 
 					if (count($childproduct) > 0)
 					{
@@ -6447,7 +6220,7 @@ class productHelper
 						$attributeproductStockStatus = $this->getproductStockStatus($related_product[$r]->product_id, $totalatt);
 					}
 
-					$related_template_data = $this->replaceProductStockdata(
+					$related_template_data = \Redshop\Helper\Stockroom::replaceProductStockData(
 						$related_product[$r]->product_id,
 						0,
 						0,
@@ -6634,105 +6407,7 @@ class productHelper
 
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
 	{
-		if (strpos($data_add, "{stock_status") !== false)
-		{
-			$product = RedshopProduct::getInstance($product_id);
-
-			$stocktag     = strstr($data_add, "{stock_status");
-			$newstocktag  = explode("}", $stocktag);
-			$realstocktag = $newstocktag[0] . "}";
-
-			$stock_tag = substr($newstocktag[0], 1);
-			$sts_array = explode(":", $stock_tag);
-
-			$avail_class = "available_stock_cls";
-
-			if (isset($sts_array[1]) && $sts_array[1] != "")
-			{
-				$avail_class = $sts_array[1];
-			}
-
-			$out_stock_class = "out_stock_cls";
-
-			if (isset($sts_array[2]) && $sts_array[2] != "")
-			{
-				$out_stock_class = $sts_array[2];
-			}
-
-			$pre_order_class = "pre_order_cls";
-
-			if (isset($sts_array[3]) && $sts_array[3] != "")
-			{
-				$pre_order_class = $sts_array[3];
-			}
-
-			if ($product->not_for_sale == 1)
-			{
-				$stock_status = '';
-			}
-			elseif (!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock'])
-			{
-				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
-				{
-					$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $out_stock_class
-						. "' class='" . $out_stock_class . "'>" . JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div></span>";
-				}
-				else
-				{
-					$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $pre_order_class
-						. "' class='" . $pre_order_class . "'>" . JText::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
-				}
-			}
-			else
-			{
-				$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $avail_class . "' class='"
-					. $avail_class . "'>" . JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
-			}
-
-			$data_add = str_replace($realstocktag, $stock_status, $data_add);
-		}
-
-		RedshopLayoutHelper::renderTag(
-			'{stock_notify_flag}', $data_add, 'product', array(
-				'productId' => $product_id, 'propertyId' => $property_id, 'subPropertyId' => $subproperty_id,
-				'productStockStatus' => $stockStatusArray
-			)
-		);
-
-		if (strstr($data_add, "{product_availability_date}"))
-		{
-			$redshopconfig = Redconfiguration::getInstance();
-			$product       = $this->getProductById($product_id);
-
-			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $stockStatusArray['preorder'])
-			{
-				if ($product->product_availability_date)
-				{
-					$data_add = str_replace("{product_availability_date_lbl}", "<span id='stock_availability_date_lbl"
-						. $product_id . "'>" . JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": </span>", $data_add);
-					$data_add = str_replace("{product_availability_date}", "<span id='stock_availability_date" . $product_id
-						. "'>" . $redshopconfig->convertDateFormat($product->product_availability_date) . "</span>", $data_add);
-				}
-				else
-				{
-					$data_add = str_replace("{product_availability_date_lbl}", "<span id='stock_availability_date_lbl"
-						. $product_id . "'></span>", $data_add);
-					$data_add = str_replace("{product_availability_date}", "<span id='stock_availability_date" . $product_id
-						. "'></span>", $data_add);
-				}
-
-			}
-			else
-			{
-				$data_add = str_replace("{product_availability_date_lbl}", "<span id='stock_availability_date_lbl"
-					. $product_id . "'></span>", $data_add);
-				$data_add = str_replace("{product_availability_date}", "<span id='stock_availability_date" . $product_id
-					. "'></span>", $data_add);
-
-			}
-		}
-
-		return $data_add;
+		return \Redshop\Helper\Stockroom::replaceProductStockData($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray);
 	}
 
 	/**

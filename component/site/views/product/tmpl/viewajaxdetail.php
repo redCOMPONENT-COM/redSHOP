@@ -167,7 +167,7 @@ if (count($ajaxdetal_template) > 0)
 		$count_no_user_field = 0;
 	}
 
-	$childproduct = $producthelper->getChildProduct($this->data->product_id);
+	$childproduct = RedshopHelperProduct::getChildProduct($this->data->product_id);
 
 	if (count($childproduct) > 0 && Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 0)
 	{

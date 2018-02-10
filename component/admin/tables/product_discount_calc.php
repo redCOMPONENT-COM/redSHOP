@@ -54,7 +54,7 @@ class Tableproduct_discount_calc extends JTable
 		$producthelper = productHelper::getInstance();
 
 		// @todo  $discount_calc_unit is missing here
-		$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
+		$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit[$c]);
 
 		$converted_area_start = $this->area_start * $unit * $unit;
 		$converted_area_end   = $this->area_end * $unit * $unit;
