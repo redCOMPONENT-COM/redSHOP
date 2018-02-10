@@ -22,10 +22,10 @@ abstract class RedshopToolbarHelper extends JToolBarHelper
 	/**
 	 * Writes a custom option and task button for the button bar.
 	 *
-	 * @param   string  $link    Link.
-	 * @param   string  $icon    The image to display.
-	 * @param   string  $alt     The alt text for the icon image.
-	 * @param   string  $target  Target open link
+	 * @param   string $link   Link.
+	 * @param   string $icon   The image to display.
+	 * @param   string $alt    The alt text for the icon image.
+	 * @param   string $target Target open link
 	 *
 	 * @return void
 	 */
@@ -44,8 +44,8 @@ abstract class RedshopToolbarHelper extends JToolBarHelper
 	/**
 	 * Writes a custom option and task button for the button bar.
 	 *
-	 * @param   string  $groupName   The group name.
-	 * @param   string  $groupTitle  The group title.
+	 * @param   string $groupName  The group name.
+	 * @param   string $groupTitle The group title.
 	 *
 	 * @return RedshopToolbar
 	 */

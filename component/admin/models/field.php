@@ -41,4 +41,43 @@ class RedshopModelField extends RedshopModelForm
 
 		return $db->setQuery($query)->loadColumn();
 	}
+
+	/**
+	 * Method for mass assign group into multiple fields
+	 *
+	 * @param   mixed $fieldIds Field Id
+	 * @param   null  $groupId  Group Id
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function massAssignGroup($fieldIds, $groupId = null)
+	{
+		$fieldIds = !is_array($fieldIds) ? array($fieldIds) : $fieldIds;
+		$fieldIds = \Joomla\Utilities\ArrayHelper::toInteger($fieldIds);
+
+		if (empty($fieldIds))
+		{
+			return false;
+		}
+
+		// @TODO: Need change to use RedshopTableFields for update after fix error ordering field lost values.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_fields'))
+			->where($db->qn('id') . ' IN (' . implode(',', $fieldIds) . ')');
+
+		if ($groupId)
+		{
+			$query->set($db->qn('groupId') . ' = ' . $db->quote($groupId));
+		}
+		else
+		{
+			$query->set($db->qn('groupId') . ' = NULL');
+		}
+
+		return $db->setQuery($query)->execute();
+	}
 }
