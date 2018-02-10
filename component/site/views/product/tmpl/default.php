@@ -1469,7 +1469,7 @@ $template_desc = Redshop\Product\Compare::replaceCompareProductsButton($this->da
 // Ajax detail box template
 $ajaxdetail_templatedata = \Redshop\Helper\Template::getAjaxDetailBox($this->data);
 
-if (count($ajaxdetail_templatedata) > 0)
+if (null !== $ajaxdetail_templatedata)
 {
 	$template_desc = str_replace("{ajaxdetail_template:" . $ajaxdetail_templatedata->name . "}", "", $template_desc);
 }

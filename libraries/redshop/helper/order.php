@@ -702,7 +702,6 @@ class RedshopHelperOrder
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail               = self::getOrderDetails($orderId);
-		$productHelper             = productHelper::getInstance();
 		$orderProducts             = self::getOrderItemDetail($orderId);
 		$billingInfo               = self::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = self::getOrderShippingUserInfo($orderId);

@@ -228,7 +228,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   array  $data  Product detail data.
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 * @throws  Exception
 	 */
 	public function store($data)
 	{
@@ -237,8 +238,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$catorder    = array();
 		$oldcategory = array();
 
-		$producthelper = productHelper::getInstance();
-
+		/** @var TableProduct_Detail $row */
 		$row = $this->getTable('product_detail');
 
 		if (!$row->bind($data))
@@ -4709,15 +4709,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   int     $new_product_id        new_product_id
 	 * @param   string  $discount_calc_method  discount_calc_method
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 * @throws  Exception
 	 */
 	public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
 	{
-		$producthelper = productHelper::getInstance();
-		$query         = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
-				  WHERE product_id='" . $old_product_id . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_discount_calc'))
+			->where($db->qn('product_id') . ' = ' . (int) $old_product_id);
+
+		$list = $db->setQuery($query)->loadObjectList();
 
 		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{

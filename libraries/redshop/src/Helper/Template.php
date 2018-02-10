@@ -37,7 +37,7 @@ class Template
 	{
 		if (empty($templateHtml))
 		{
-			return new \stdClass;
+			return null;
 		}
 
 		if (!array_key_exists('accessory_template', self::$templates))
@@ -67,7 +67,7 @@ class Template
 			}
 		}
 
-		return new \stdClass;
+		return null;
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Template
 	 *
 	 * @param   string  $templateHtml  Template HTML
 	 *
-	 * @return  object
+	 * @return  null|object
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -84,7 +84,7 @@ class Template
 	{
 		if (empty($templateHtml))
 		{
-			return new \stdClass;
+			return null;
 		}
 
 		if (!array_key_exists('add_to_cart', self::$templates))
@@ -107,7 +107,7 @@ class Template
 			}
 		}
 
-		return new \stdClass;
+		return null;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Template
 	 *
 	 * @param   string  $templateHtml  Template HTML
 	 *
-	 * @return  object
+	 * @return  null|object
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -124,7 +124,7 @@ class Template
 	{
 		if (empty($templateHtml))
 		{
-			return new \stdClass;
+			return null;
 		}
 
 		if (!array_key_exists('related_product', self::$templates))
@@ -156,7 +156,7 @@ class Template
 			}
 		}
 
-		return new \stdClass;
+		return null;
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Template
 	 *
 	 * @param   object  $product  Product data
 	 *
-	 * @return  object
+	 * @return  null|object
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -173,7 +173,7 @@ class Template
 	{
 		if (!\Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
-			return new \stdClass;
+			return null;
 		}
 
 		$productTemplate = \RedshopHelperTemplate::getTemplate('product', $product->product_template);
@@ -224,7 +224,7 @@ class Template
 	 * @param   string   $templateHtml  Template html
 	 * @param   boolean  $display       Is display?
 	 *
-	 * @return  object
+	 * @return  null|object
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -233,7 +233,7 @@ class Template
 	{
 		if (empty($templateHtml))
 		{
-			return new \stdClass;
+			return null;
 		}
 
 		$displayName   = 'attribute_template';
@@ -277,7 +277,7 @@ class Template
 			}
 		}
 
-		return new \stdClass;
+		return null;
 	}
 
 	/**

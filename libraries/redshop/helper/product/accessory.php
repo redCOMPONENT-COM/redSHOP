@@ -68,7 +68,7 @@ class RedshopHelperProductAccessory
 		$product           = RedshopHelperProduct::getProductById($productId);
 		$accessoryTemplate = \Redshop\Helper\Template::getAccessory($templateContent);
 
-		if (count($accessoryTemplate) <= 0)
+		if (null === $accessoryTemplate)
 		{
 			return $templateContent;
 		}

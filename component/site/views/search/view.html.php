@@ -575,7 +575,7 @@ class RedshopViewSearch extends RedshopView
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($this->search[$i]);
 
-					if (count($ajax_detail_template) > 0)
+					if (null !== $ajax_detail_template)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}

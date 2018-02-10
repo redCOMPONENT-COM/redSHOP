@@ -24,7 +24,7 @@ $ajaxdetal_template = \Redshop\Helper\Template::getAjaxDetailBox($this->data);
 	<script type="text/javascript" language="javascript">//var J=jQuery.noConflict();</script>
 	<div style="clear:both"></div>
 <?php
-if (count($ajaxdetal_template) > 0)
+if (null !== $ajaxdetal_template)
 {
 	$ajaxdetal_templatedata = $ajaxdetal_template->template_desc;
 	$data_add               = $ajaxdetal_templatedata;

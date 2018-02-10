@@ -2154,7 +2154,7 @@ class productHelper
 	 *
 	 * @param   string  $templateHtml  Template HTML
 	 *
-	 * @return  object
+	 * @return  null|object
 	 * @throws  \Exception
 	 *
 	 * @deprecated   __DEPLOY_VERSION__
@@ -2470,7 +2470,7 @@ class productHelper
 	/**
 	 * Method for get ajax detail box template
 	 *
-	 * @param   array  $product  Product data
+	 * @param   object  $product  Product data
 	 *
 	 * @return  object
 	 * @throws  \Exception
@@ -2478,7 +2478,7 @@ class productHelper
 	 * @deprecated    __DEPLOY_VERSION__
 	 * @see \Redshop\Helper\Template::getAjaxDetailBox
 	 */
-	public function getAjaxDetailboxTemplate($product = array())
+	public function getAjaxDetailboxTemplate($product)
 	{
 		return \Redshop\Helper\Template::getAjaxDetailBox($product);
 	}
@@ -3256,19 +3256,21 @@ class productHelper
 
 		$cart_template = \Redshop\Helper\Template::getAddToCart($data_add);
 
-		if (count($cart_template) <= 0 && $data_add != "")
+		if (null !== $cart_template)
 		{
-			$cart_template                = new stdclass;
-			$cart_template->name = "";
-			$cart_template->template_desc = "";
-		}
-
-		if ($data_add == "" && count($cart_template) <= 0)
-		{
-			$cart_template                = new stdclass;
-			$cart_template->name = "notemplate";
-			$cart_template->template_desc = "<div>{addtocart_image_aslink}</div>";
-			$data_add                     = "{form_addtocart:$cart_template->name}";
+			if (!empty($data_add))
+			{
+				$cart_template                = new stdclass;
+				$cart_template->name          = "";
+				$cart_template->template_desc = "";
+			}
+			else
+			{
+				$cart_template                = new stdclass;
+				$cart_template->name          = "notemplate";
+				$cart_template->template_desc = "<div>{addtocart_image_aslink}</div>";
+				$data_add                     = "{form_addtocart:$cart_template->name}";
+			}
 		}
 
 		$layout = $input->getCmd('layout');
@@ -3752,7 +3754,7 @@ class productHelper
 
 				$ajaxdetail_templatedata = \Redshop\Helper\Template::getAjaxDetailBox($product);
 
-				if (count($ajaxdetail_templatedata) > 0)
+				if (null !== $ajaxdetail_templatedata)
 				{
 					$ajax_cart_detail_temp_desc = $ajaxdetail_templatedata->template_desc;
 					/*
@@ -6019,7 +6021,7 @@ class productHelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
-		if (count($related_template) > 0)
+		if (null !== $related_template)
 		{
 			if (count($related_product) > 0
 				&& strpos($related_template->template_desc, "{related_product_start}") !== false

@@ -808,12 +808,12 @@ abstract class RedshopHelperAttribute
 					$propertyData = str_replace("{property_price}", $price, $propertyData);
 				}
 
-				if (!count($cartTemplate))
+				if (empty($cartTemplate))
 				{
 					$cartTemplate = \Redshop\Helper\Template::getAddToCart($propertyData);
 				}
 
-				if (count($cartTemplate) > 0)
+				if (null !== $cartTemplate)
 				{
 					$propertyData = $productHelper->replacePropertyAddtoCart(
 						$productId, $property->value, 0, $propertyId, $propertyStock,
@@ -858,7 +858,7 @@ abstract class RedshopHelperAttribute
 		{
 			$cart_template = \Redshop\Helper\Template::getAddToCart($templateContent);
 
-			if (count($cart_template) > 0)
+			if (null !== $cart_template)
 			{
 				$templateContent = str_replace("{form_addtocart:$cart_template->name}", "", $templateContent);
 			}

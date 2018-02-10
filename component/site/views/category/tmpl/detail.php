@@ -579,7 +579,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($product);
 
-			if (count($ajax_detail_template) > 0)
+			if (null !== $ajax_detail_template)
 			{
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 			}

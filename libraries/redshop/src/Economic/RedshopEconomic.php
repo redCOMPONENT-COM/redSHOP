@@ -1243,18 +1243,17 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$productHelper = \productHelper::getInstance();
 
-		$product                 = new \stdClass;
-		$orderItem               = (object) $orderItem;
-		$product->product_id     = $orderItem->product_id;
-		$product->product_number = $orderItem->order_item_sku = "gift_" . $orderItem->product_id . "_" . $orderItem->order_item_name;
-		$product->product_name   = $orderItem->order_item_name;
-		$product->product_price  = $orderItem->product_item_price_excl_vat;
-
-		$giftData                 = \RedshopEntityGiftcard::getInstance($orderItem->product_id)->getItem();
-		$product->accountgroup_id = $giftData->accountgroup_id;
-		$product->product_volume  = 0;
+		$product                   = new \stdClass;
+		$orderItem                 = (object) $orderItem;
+		$product->product_id       = $orderItem->product_id;
+		$product->product_number   = "gift_" . $orderItem->product_id . "_" . $orderItem->order_item_name;
+		$orderItem->order_item_sku = $product->product_number;
+		$product->product_name     = $orderItem->order_item_name;
+		$product->product_price    = $orderItem->product_item_price_excl_vat;
+		$giftData                  = \RedshopEntityGiftcard::getInstance($orderItem->product_id)->getItem();
+		$product->accountgroup_id  = $giftData->accountgroup_id;
+		$product->product_volume   = 0;
 
 		self::createProductInEconomic($product);
 

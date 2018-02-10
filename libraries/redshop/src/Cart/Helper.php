@@ -220,7 +220,7 @@ class Helper
 	public static function getDefaultQuantity($productId = 0, $html = "")
 	{
 		$template = Template::getAddToCart($html);
-		$cartForm = !empty($template) && $template != new \stdClass ? $template->template_desc : "";
+		$cartForm = null !== $template ? $template->template_desc : "";
 
 		if (strpos($cartForm, "{addtocart_quantity_selectbox}") === false)
 		{

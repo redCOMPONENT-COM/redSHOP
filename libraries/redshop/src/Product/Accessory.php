@@ -22,8 +22,8 @@ class Accessory
 	 * Method for calculate accessory price
 	 *
 	 * @param   integer  $productId           Product ID
-	 * @param   integer  $accessoryPrice      Accessory price
-	 * @param   integer  $accessoryMainPrice  Accessory main price
+	 * @param   float    $accessoryPrice      Accessory price
+	 * @param   float    $accessoryMainPrice  Accessory main price
 	 * @param   integer  $hasVAT              Is include VAT?
 	 * @param   integer  $userId              User ID
 	 *

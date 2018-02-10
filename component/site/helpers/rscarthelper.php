@@ -429,7 +429,7 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 
 			$catId = $this->_producthelper->getCategoryProduct($product_id);
-			$res   = RedshopEntityCategory::getInstance($catId)->getItem();
+			$res   = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 
 			if (count($res) > 0)
 			{
@@ -3086,7 +3086,7 @@ class rsCarthelper
 				$tempdata           = RedshopHelperProduct::getProductById($data['parent_accessory_product_id']);
 				$producttemplate    = RedshopHelperTemplate::getTemplate("product", $tempdata->product_template);
 				$accessory_template = \Redshop\Helper\Template::getAccessory($producttemplate[0]->template_desc);
-				$data_add           = $accessory_template->template_desc;
+				$data_add           = null !== $accessory_template ? $accessory_template->template_desc : '';
 			}
 			else
 			{

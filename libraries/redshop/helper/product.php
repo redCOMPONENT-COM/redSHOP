@@ -325,7 +325,6 @@ class RedshopHelperProduct
 	 */
 	public static function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
-		$productHelper  = productHelper::getInstance();
 		$totalAccessory = count($accessory);
 		$accessoryList  = "";
 
@@ -880,7 +879,7 @@ class RedshopHelperProduct
 	 * Method for get product tax
 	 *
 	 * @param   integer  $productId     Product Id
-	 * @param   integer  $productPrice  Product price
+	 * @param   float    $productPrice  Product price
 	 * @param   integer  $userId        User ID
 	 * @param   integer  $taxExempt     Tax exempt
 	 *
@@ -888,7 +887,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   2.0.6
 	 */
-	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
+	public static function getProductTax($productId = 0, $productPrice = 0.0, $userId = 0, $taxExempt = 0)
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
 
