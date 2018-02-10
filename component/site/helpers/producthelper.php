@@ -3256,7 +3256,7 @@ class productHelper
 
 		$cart_template = \Redshop\Helper\Template::getAddToCart($data_add);
 
-		if (null !== $cart_template)
+		if (null === $cart_template)
 		{
 			if (!empty($data_add))
 			{
