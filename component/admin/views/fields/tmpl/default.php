@@ -48,7 +48,7 @@ echo RedshopLayoutHelper::render('view.list', array('data' => $this));
                         <ul class="list-group no-margin">
                             <li class="list-group-item">
                                 <label>
-                                    <input type="radio" name="field_assign_group" value="" />
+                                    <input type="radio" name="field_assign_group" value="" checked="checked"/>
 			                        <?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_CLEAR') ?>
                                 </label>
                             </li>
