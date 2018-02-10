@@ -72,6 +72,9 @@ class productHelper
 		return self::$instance;
 	}
 
+	/**
+	 * ProductHelper constructor.
+	 */
 	public function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -247,6 +250,7 @@ class productHelper
 		}
 
 		$result = $db->setQuery($query)->loadColumn();
+
 		self::$productSpecialIds[$userId] = '0';
 
 		if (count($result) > 0)
@@ -310,15 +314,15 @@ class productHelper
 	/**
 	 * Get VAT User information
 	 *
-	 * @param   integer  $user_id  User ID
+	 * @param   integer  $userId  User ID
 	 *
 	 * @return  object
 	 *
 	 * @deprecated   2.0.6
 	 */
-	public function getVatUserinfo($user_id = 0)
+	public function getVatUserinfo($userId = 0)
 	{
-		return RedshopHelperUser::getVatUserInformation($user_id);
+		return RedshopHelperUser::getVatUserInformation($userId);
 	}
 
 	/**
@@ -3385,7 +3389,6 @@ class productHelper
 	{
 		$user_id          = 0;
 		$redconfig        = Redconfiguration::getInstance();
-		$extraField       = extraField::getInstance();
 		$stockroomhelper  = rsstockroomhelper::getInstance();
 		$input            = JFactory::getApplication()->input;
 		$product_quantity = $input->get('product_quantity');
@@ -3782,7 +3785,7 @@ class productHelper
 
 				for ($ui = 0, $countUserfieldArr = count($userfieldArr); $ui < $countUserfieldArr; $ui++)
 				{
-					$result_arr = $extraField->list_all_user_fields(
+					$result_arr = Redshop\Fields\SiteHelper::listAllUserFields(
 						$userfieldArr[$ui],
 						$field_section,
 						"hidden",

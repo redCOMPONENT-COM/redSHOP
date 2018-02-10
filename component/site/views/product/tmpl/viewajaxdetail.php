@@ -111,7 +111,7 @@ if (count($ajaxdetal_template) > 0)
 				$cart_id = "";
 			}
 
-			$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
+			$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
 			$ufield .= $productUserFields[0];
 
 			if ($productUserFields[0] != "")
