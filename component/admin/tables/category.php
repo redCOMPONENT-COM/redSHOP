@@ -114,4 +114,24 @@ class RedshopTableCategory extends RedshopTableNested
 		// Force do not delete child categories
 		return parent::doDelete($pk, false);
 	}
+
+	/**
+	 * Called check().
+	 *
+	 * @return  boolean  True on success.
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doCheck()
+	{
+		if (empty(trim($this->name)))
+		{
+			$this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'), 'error');
+
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }

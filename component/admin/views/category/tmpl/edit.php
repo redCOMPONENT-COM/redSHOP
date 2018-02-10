@@ -15,19 +15,12 @@ JHtml::_('behavior.formvalidator');
     jQuery(document).ready(function () {
         jQuery("select").select2({width: "100%"});
     });
+
     Joomla.submitbutton = function(task)
     {
-        var form = document.adminForm;
         if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
         {
-            if (form.jform_name.value.trim() != "")
-            {
-                Joomla.submitform(task);
-            }
-            else
-            {
-                alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME', true ); ?>")
-            }
+            Joomla.submitform(task);
         }
     };
 </script>
