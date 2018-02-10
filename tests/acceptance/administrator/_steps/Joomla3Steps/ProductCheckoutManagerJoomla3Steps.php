@@ -611,29 +611,30 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->pauseExecution();
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectorSuccess, 30);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer,30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->pauseExecution();
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->pauseExecution();
-		$I->see($vatPrice, \FrontEndProductManagerJoomla3Page::$priceDiscount);
+		$I->see($vatPrice, \FrontEndProductManagerJoomla3Page::$priceVAT);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
+		$I->seeElement(['link' => $productName]);
 	}
 }

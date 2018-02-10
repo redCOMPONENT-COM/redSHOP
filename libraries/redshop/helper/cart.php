@@ -120,9 +120,10 @@ abstract class RedshopHelperCart
 	/**
 	 * Store Cart to Database
 	 *
-	 * @param   array $cart Cart data.
+	 * @param   array  $cart  Cart data.
 	 *
 	 * @return  boolean       True on success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @since   2.0.3
 	 */

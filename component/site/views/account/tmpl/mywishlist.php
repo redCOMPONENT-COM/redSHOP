@@ -405,11 +405,11 @@ if ($mail == 0)
 
 					if ($productUserFieldsFinal != '')
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
 					}
 					else
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
 					}
 
 					$ufield .= $productUserFields[1];

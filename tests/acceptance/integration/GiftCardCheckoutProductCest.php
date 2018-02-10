@@ -82,11 +82,11 @@ class GiftCardCheckoutProductCest
 	 *
 	 * @return  void
 	 */
-//	public function deleteData($scenario)
-//	{
-//		$I = new RedshopSteps($scenario);
-//		$I->clearAllData();
-//	}
+	public function deleteData($scenario)
+	{
+		$I = new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	public function _before(AcceptanceTester $I)
 	{

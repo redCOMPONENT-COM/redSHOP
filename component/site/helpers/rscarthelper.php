@@ -1690,7 +1690,6 @@ class rsCarthelper
 
 					if (strpos($rate_data, "{shipping_extrafields}") !== false)
 					{
-						$extraField         = extraField::getInstance();
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 
@@ -1702,7 +1701,7 @@ class rsCarthelper
 
 							for ($ui = 0; $ui < $countExtrafield; $ui++)
 							{
-								$productUserFields = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
+								$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($extrafield_payment[$ui], 19, '', 0, 0, 0);
 								$extrafield_total .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
 								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
 							}

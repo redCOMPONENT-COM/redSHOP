@@ -287,10 +287,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$vatSearchField, $vatGroups);
 		$I->waitForElement($usePage->returnChoice($vatGroups));
 		$I->click($usePage->returnChoice($vatGroups));
-		
-		
 		$I->click(ProductManagerPage::$buttonSaveClose);
-		$I->pauseExecution();
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
 
