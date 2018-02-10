@@ -219,7 +219,7 @@ class rsCarthelper
 	 * @deprecated   __DEPLOY_VERSION__
 	 * @see RedshopHelperCartTag::replaceCartItem
 	 */
-	public function replaceCartItem($data, $cart = array(), $replaceButton, $quotationMode = 0)
+	public function replaceCartItem($data, $cart = array(), $replaceButton = false, $quotationMode = 0)
 	{
 		return RedshopHelperCartTag::replaceCartItem($data, $cart, $replaceButton, $quotationMode);
 	}
