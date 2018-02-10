@@ -127,7 +127,7 @@ class RedshopTableCategory extends RedshopTableNested
 	{
 		if (empty(trim($this->name)))
 		{
-			$this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'), 'error');
+			$this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
 
 			return false;
 		}
