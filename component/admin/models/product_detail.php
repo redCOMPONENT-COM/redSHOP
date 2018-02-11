@@ -228,7 +228,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   array  $data  Product detail data.
 	 *
-	 * @return  boolean
+	 * @return  boolean|TableProduct_Detail
 	 * @throws  Exception
 	 */
 	public function store($data)

@@ -19,6 +19,61 @@ defined('_JEXEC') or die;
 class TableProduct_Detail extends JTable
 {
 	/**
+	 * @var  integer
+	 */
+	public $attribute_set_id;
+
+	/**
+	 * @var  integer
+	 */
+	public $not_for_sale;
+
+	/**
+	 * @var  integer
+	 */
+	public $manufacturer_id;
+
+	/**
+	 * @var  string
+	 */
+	public $product_name;
+
+	/**
+	 * @var  string
+	 */
+	public $product_thumb_image;
+
+	/**
+	 * @var  string
+	 */
+	public $product_back_thumb_image;
+
+	/**
+	 * @var  string
+	 */
+	public $product_full_image;
+
+	/**
+	 * @var  string
+	 */
+	public $product_back_full_image;
+
+	/**
+	 * @var  string
+	 */
+	public $product_preview_image;
+
+	/**
+	 * @var  string
+	 */
+	public $product_preview_back_image;
+
+	/**
+	 * @var  integer
+	 */
+	public $product_id;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
