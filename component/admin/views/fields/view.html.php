@@ -105,8 +105,8 @@ class RedshopViewFields extends RedshopViewList
 			$model->setState('filter.section', $filterSection);
 			$model->setState('list.limit', 99);
 
-			$this->fieldGroups = $model->getItems();
-			$this->fieldGroups = !$this->fieldGroups ? array() : $this->fieldGroups;
+			$fieldGroups       = $model->getItems();
+			$this->fieldGroups = $fieldGroups === false ? array() : $fieldGroups;
 
 			JToolbarHelper::modal('fieldsAssignGroup', 'fa fa-list', 'COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP');
 		}
