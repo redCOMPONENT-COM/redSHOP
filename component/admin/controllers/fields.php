@@ -26,7 +26,7 @@ class RedshopControllerFields extends RedshopControllerAdmin
 	 */
 	public function massAssignGroup()
 	{
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 

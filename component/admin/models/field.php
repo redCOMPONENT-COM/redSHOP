@@ -45,8 +45,8 @@ class RedshopModelField extends RedshopModelForm
 	/**
 	 * Method for mass assign group into multiple fields
 	 *
-	 * @param   mixed $fieldIds Field Id
-	 * @param   null  $groupId  Group Id
+	 * @param   mixed  $fieldIds  Field Id
+	 * @param   mixed  $groupId   Group Id
 	 *
 	 * @return  boolean
 	 * @throws  Exception
@@ -69,9 +69,9 @@ class RedshopModelField extends RedshopModelForm
 			->update($db->qn('#__redshop_fields'))
 			->where($db->qn('id') . ' IN (' . implode(',', $fieldIds) . ')');
 
-		if ($groupId)
+		if (null !== $groupId)
 		{
-			$query->set($db->qn('groupId') . ' = ' . $db->quote($groupId));
+			$query->set($db->qn('groupId') . ' = ' . (int) $groupId);
 		}
 		else
 		{
