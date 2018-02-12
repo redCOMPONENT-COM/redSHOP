@@ -199,7 +199,7 @@ class Template
 				}
 			}
 
-			if (empty($ajaxDetailData) && !empty($defaultAjaxDetailData))
+			if (null === $ajaxDetailData && null !== $defaultAjaxDetailData)
 			{
 				$ajaxDetailData = $defaultAjaxDetailData;
 			}

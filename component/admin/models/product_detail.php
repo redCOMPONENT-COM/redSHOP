@@ -1323,7 +1323,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   array  $cid               Array of IDs.
 	 * @param   bool   $postMorePriority  Flag what data more priority for copy - POST or DB
 	 *
-	 * @return boolean
+	 * @return  boolean|TableProduct_Detail
 	 */
 	public function copy($cid = array(), $postMorePriority = false)
 	{
@@ -4810,14 +4810,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Store product from webservice
 	 *
-	 * @param   string  $data  Data from the request
+	 * @param   array  $data  Data from the request
 	 *
-	 * @return array
-	 *
+	 * @return  boolean|integer
+	 * @throws  Exception
 	 */
 	public function saveWS($data)
 	{
-		if ($row = $this->store($data))
+		$row = $this->store($data);
+
+		if (false !== $row)
 		{
 			return $row->product_id;
 		}

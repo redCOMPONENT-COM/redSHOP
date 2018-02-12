@@ -41,6 +41,11 @@ class TableProduct_Detail extends JTable
 	/**
 	 * @var  string
 	 */
+	public $product_number;
+
+	/**
+	 * @var  string
+	 */
 	public $product_thumb_image;
 
 	/**

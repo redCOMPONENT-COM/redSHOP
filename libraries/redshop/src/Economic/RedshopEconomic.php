@@ -574,17 +574,17 @@ class RedshopEconomic
 	/**
 	 * Create product in E-conomic
 	 *
-	 * @param   array $row Data to create
+	 * @param   object  $row  Data to create
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function createProductInEconomic($row = array())
+	public static function createProductInEconomic($row)
 	{
 		if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2 && self::getTotalProperty($row->product_id) > 0)
 		{
-			return;
+			return array();
 		}
 
 		// If using Dispatcher, must call plugin Economic first
