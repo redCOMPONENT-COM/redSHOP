@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Tools controller
+ * Tool Image controller
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerTools extends RedshopController
+class RedshopControllerTool_Image extends RedshopController
 {
 	/**
 	 * Method for get overall image files.

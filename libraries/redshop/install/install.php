@@ -349,7 +349,8 @@ class RedshopInstall
 			$versions[$version->version] = $version;
 		}
 
-		arsort($versions);
+		uksort($versions, 'version_compare');
+		$versions = array_reverse($versions);
 
 		self::$tasks = $versions;
 

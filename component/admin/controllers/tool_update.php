@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Tool controller
+ * Tool update controller
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerTool extends RedshopControllerAdmin
+class RedshopControllerTool_Update extends RedshopControllerAdmin
 {
 	/**
 	 * Proxy for getModel.
@@ -46,7 +46,7 @@ class RedshopControllerTool extends RedshopControllerAdmin
 	 */
 	public function ajaxProcess()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 		$app = JFactory::getApplication();
 
 		$remainingTasks = RedshopInstall::getRemainingTasks();
@@ -154,11 +154,16 @@ class RedshopControllerTool extends RedshopControllerAdmin
 		$app->close();
 	}
 
+	/**
+	 * Method for run migrate file function.
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
 	public function ajaxMigrateFiles()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
+		\Redshop\Helper\Ajax::validateAjaxRequest();
+		$app     = JFactory::getApplication();
 		$version = $this->input->getString('version', '');
 
 		if (empty($version))
@@ -170,8 +175,89 @@ class RedshopControllerTool extends RedshopControllerAdmin
 
 		$tasks = RedshopInstall::getUpdateTasks($version);
 
+		if (!empty($tasks))
+		{
+			$versionTasks = array();
+
+			foreach ($tasks->tasks as $task)
+			{
+				$versionTasks[] = array('func' => $task['func'], 'path' => $tasks->path);
+			}
+
+			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $versionTasks);
+		}
+		else
+		{
+			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, null);
+		}
+
 		$app->sendHeaders();
 		echo json_encode($tasks);
+		$app->close();
+	}
+
+	/**
+	 * Method for run migrate file function.
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function ajaxRunUpdateSql()
+	{
+		\Redshop\Helper\Ajax::validateAjaxRequest();
+		$app     = JFactory::getApplication();
+		$version = $this->input->getString('version', '');
+		$file    = JPath::clean(JPATH_COMPONENT_ADMINISTRATOR . '/sql/updates/mysql/' . $version . '.sql');
+
+		if (empty($version) || !JFile::exists($file))
+		{
+			$app->sendHeaders();
+			echo json_encode((object) array('msg' => JText::_('COM_REDSHOP_TOOL_AJAX_ERROR_VERSION_NOT_FOUND'), 'continue' => 0));
+			$app->close();
+		}
+
+		$buffer = file_get_contents(JPATH_COMPONENT_ADMINISTRATOR . '/sql/updates/mysql/' . $version . '.sql');
+
+		// Graceful exit and rollback if read not successful
+		if ($buffer === false)
+		{
+			$app->sendHeaders();
+			echo json_encode((object) array('msg' => JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), 'continue' => 0));
+			$app->close();
+		}
+
+		// Create an array of queries from the sql file
+		$queries = JDatabaseDriver::splitSql($buffer);
+
+		if (count($queries) === 0)
+		{
+			// No queries to process
+			$app->sendHeaders();
+			echo json_encode((object) array('msg' => '', 'continue' => 0));
+			$app->close();
+		}
+
+		$db = JFactory::getDbo();
+
+		// Process each query in the $queries array (split out of sql file).
+		foreach ($queries as $query)
+		{
+			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
+
+			try
+			{
+				$db->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				$app->sendHeaders();
+				echo json_encode((object) array('msg' => JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), 'continue' => 0));
+				$app->close();
+			}
+		}
+
+		$app->sendHeaders();
+		echo json_encode((object) array('msg' => '', 'continue' => 0));
 		$app->close();
 	}
 }

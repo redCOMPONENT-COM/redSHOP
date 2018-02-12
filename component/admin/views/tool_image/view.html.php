@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Tools view
+ * Tool image view
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewTools extends RedshopViewAdmin
+class RedshopViewTool_Image extends RedshopViewAdmin
 {
 	/**
 	 * @var  RedshopModelRedshop

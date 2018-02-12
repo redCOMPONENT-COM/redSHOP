@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
                 $(".images-loading").show();
 
                 $.post(
-                    'index.php?option=com_redshop&task=tools.cleanThumbFolders',
+                    'index.php?option=com_redshop&task=tool_image.cleanThumbFolders',
                     {
                         "<?php echo JSession::getFormToken() ?>": 1
                     },
@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
                 $(".images-status-log").html('');
 
                 $.post(
-                    'index.php?option=com_redshop&task=tools.getImages',
+                    'index.php?option=com_redshop&task=tool_image.getImages',
                     {
                         "<?php echo JSession::getFormToken() ?>": 1
                     },
@@ -64,7 +64,7 @@ defined('_JEXEC') or die;
     {
         (function($){
             $.post(
-                'index.php?option=com_redshop&task=tools.processImageCheck',
+                'index.php?option=com_redshop&task=tool_image.processImageCheck',
                 {
                     "<?php echo JSession::getFormToken() ?>": 1
                 },

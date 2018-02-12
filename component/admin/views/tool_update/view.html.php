@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewTool extends RedshopViewAdmin
+class RedshopViewTool_Update extends RedshopViewAdmin
 {
 	/**
 	 * @var  array

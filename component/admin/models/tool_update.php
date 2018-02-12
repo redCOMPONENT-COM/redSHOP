@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Tool
+ * Model Tool Update
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       __DEPLOY_VERSION__
  */
-class RedshopModelTool extends RedshopModelList
+class RedshopModelTool_Update extends RedshopModelList
 {
 	/**
 	 * Method for get all available version of installation.

@@ -580,7 +580,7 @@ class Com_RedshopInstallerScript
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
-				IF ((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND index_name = indexName) = 1)
+				IF ((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND index_name = indexName) >= 1)
 				THEN
 					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP INDEX `',indexName,'`');
 					prepare DynamicStatement from @StatementToExecute ;
