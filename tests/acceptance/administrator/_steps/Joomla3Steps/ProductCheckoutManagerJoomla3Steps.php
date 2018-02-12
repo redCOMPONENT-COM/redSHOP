@@ -661,7 +661,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
-				$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 				$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
@@ -715,11 +715,19 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
@@ -729,10 +737,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->wait(1);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$priceEnd, 30);
 		$I->waitForText($Total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 	}
 

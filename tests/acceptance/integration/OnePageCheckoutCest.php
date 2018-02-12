@@ -28,9 +28,9 @@ class OnePageCheckoutCest
 	public function __construct()
 	{
 		$this->faker                  = Faker\Factory::create();
-		$this->ProductName            = 'ProductName' . rand(100, 999);
-		$this->CategoryName           = "CategoryName" . rand(1, 100);
-		$this->ManufactureName        = "ManufactureName" . rand(1, 10);
+		$this->ProductName            =  $this->faker->bothify('ProductName ?####?');
+		$this->CategoryName           =  $this->faker->bothify('CategoryName ?####?');
+		$this->ManufactureName        = $this->faker->bothify('ManufactureName ?#####');
 		$this->MassDiscountAmoutTotal = 90;
 		$this->MassDiscountPercent    = 0.3;
 		$this->minimumPerProduct      = 1;
@@ -45,12 +45,12 @@ class OnePageCheckoutCest
 		$this->Total    = "DKK 100,00";
 
 
-		$this->userName        = 'ManageUserAdministratorCest' . rand(10, 100);
+		$this->userName        = $this->faker->bothify('OnePageCest ?####?');
 		$this->password        = $this->faker->bothify('Password ?##?');
 		$this->email           = $this->faker->email;
 		$this->shopperGroup    = 'Default Private';
 		$this->group           = 'Registered';
-		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->firstName       = $this->faker->bothify('OnePageCest FN ?#####?');
 		$this->updateFirstName = 'Updating ' . $this->firstName;
 		$this->lastName        = 'Last';
 		$this->address         = '14 Phan Ton';
@@ -145,6 +145,11 @@ class OnePageCheckoutCest
 	 * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
 	 */
 
+	/**
+	 * @param $scenario
+	 * 
+	 * Method delete all data
+	 */
 	public function deleteData($scenario)
 	{
 		$I = new RedshopSteps($scenario);

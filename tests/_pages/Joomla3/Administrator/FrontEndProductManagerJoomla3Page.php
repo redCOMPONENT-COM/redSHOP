@@ -90,8 +90,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $billingFinal = "//h3[text() = 'Bill to information']";
 
-	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
-
 	public static $termAndConditions = "//input[@id='termscondition']";
 
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
