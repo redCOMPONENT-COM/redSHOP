@@ -17,23 +17,23 @@ $display = $item->text;
 switch ((string) $item->text)
 {
 	// Check for "Start" item
-	case JText::_('JLIB_HTML_START') :
+	case JText::_('JLIB_HTML_START'):
 		$icon = 'fa fa-fast-backward';
 		break;
 
 	// Check for "Prev" item
-	case $item->text === JText::_('JPREV') :
+	case $item->text === JText::_('JPREV'):
 		$item->text = JText::_('JPREVIOUS');
-		$icon = 'fa fa-backward';
+		$icon       = 'fa fa-backward';
 		break;
 
 	// Check for "Next" item
-	case JText::_('JNEXT') :
+	case JText::_('JNEXT'):
 		$icon = 'fa fa-forward';
 		break;
 
 	// Check for "End" item
-	case JText::_('JLIB_HTML_END') :
+	case JText::_('JLIB_HTML_END'):
 		$icon = 'fa fa-fast-forward';
 		break;
 
