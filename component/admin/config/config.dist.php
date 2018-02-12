@@ -663,6 +663,10 @@ class RedshopConfig
 
 	public $IMAGE_QUALITY_OUTPUT = '70';
 
+	public $IMAGE_MAX_WIDTH = '2048';
+
+	public $IMAGE_MAX_HEIGHT = '2048';
+
 	public $SEND_CATALOG_REMINDER_MAIL = '0';
 
 	public $CATEGORY_IN_SEF_URL = '0';

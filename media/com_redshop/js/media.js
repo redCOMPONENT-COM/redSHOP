@@ -1,1 +1,559 @@
-var rsMedia={url:"index.php?option=com_redshop&view=media&task=ajaxUpload",delUrl:"index.php?option=com_redshop&view=media&task=ajaxDelete",dropzoneFromHtml:$("#j-dropzone-form").html(),dropzoneInstance:{},galleryItems:[],cropping:function(e){$(document).on("click","button.rs-media-cropping",function(a){a.preventDefault();var n=e.files[0];if(!n)return $("#alertModal").find(".alert-text").text("Please insert an image!!!"),void $("#alertModal").modal("show");if(!(n.width<100)){var i=n.name,t=$("#cropModal"),o=t.find(".crop-upload"),d=$("<img />"),r=new FileReader;r.onloadend=function(){d.attr("src",r.result),t.find(".image-container").html(d),d.cropper({dragMode:"move",autoCropArea:.5,movable:!1,cropBoxResizable:!0,minContainerWidth:320,minContainerHeight:320,viewMode:3,zoomable:!1})},n.preload?r.readAsDataURL(rsMedia.dataURItoBlob(n.blob)):r.readAsDataURL(n),o.off("click"),t.modal("show"),t.trigger("resize"),console.log("abc"),o.on("click",function(){var a=d.cropper("getCroppedCanvas").toDataURL(),o=rsMedia.dataURItoBlob(a);o.cropped=!0,o.name=i,console.log(i),console.log(o),e.removeFile(n),e.addFile(o),t.modal("hide")})}})},dropzone:function(){Dropzone.autoDiscover=!1,$("body").append(this.dropzoneFromHtml),$("#j-dropzone").length&&(this.dropzoneInstance=new Dropzone("#j-dropzone",{url:rsMedia.url,autoProcessQueue:!0,thumbnailWidth:null,thumbnailHeight:null,previewTemplate:$("#j-dropzone-tpl").html()}),this.dropzoneEvents(this.dropzoneInstance),this.cropping(this.dropzoneInstance))},dropzoneEvents:function(e){e.on("addedfile",function(e){if(e.type.indexOf("image/")<0)return this.removeFile(e),$("#alertModal").find(".alert-text").text("You can not upload this type of file!"),void $("#alertModal").modal("show");this.files.length>1&&this.removeFile(this.files[0]),$("#j-dropzone").parent().find(".btn.rs-media-removing").removeClass("disabled").prop("disabled",!1),$("#j-dropzone").parent().find(".btn.rs-media-cropping").removeClass("disabled").prop("disabled",!1)}),e.on("success",function(e,a){a=JSON.parse(a),a.success&&$(".img-select").val(a.data.file.url)}),$(document).on("click","button.rs-media-removing",function(a){if(e.removeAllFiles(),$(".img-select").val(""),$("#j-dropzone").parent().find(".btn.rs-media-removing").addClass("disabled").prop("disabled",!0),$("#j-dropzone").parent().find(".btn.rs-media-cropping").addClass("disabled").prop("disabled",!0),$("#image_delete").length<=0){var n=$("<input/>");n.attr("id","image_delete").attr("name","image_delete").attr("type","hidden").val(!0),$("#adminForm").append(n[0])}})},dropzonePreload:function(e,a){a&&(newfile=rsMedia.dataURItoBlob(a.blob),newfile.name=a.name,e.emit("thumbnail",a,a.url),e.addFile(newfile))},dataURItoBlob:function(e){for(var a=atob(e.split(",")[1]),n=new ArrayBuffer(a.length),i=new Uint8Array(n),t=0;t<a.length;t++)i[t]=a.charCodeAt(t);return new Blob([n],{type:"image/jpg"})},init:function(){$.fn.modalmanager.defaults.backdropLimit=1,this.dropzone(),this.galleryEvents()},galleryDropzone:function(){if($("#g-dropzone").length){var e=new Dropzone("#g-dropzone",{url:rsMedia.url,maxFiles:1,thumbnailWidth:null,thumbnailHeight:null,previewTemplate:$("#g-dropzone-tpl").html()});this.galleryDropzoneEvents(e)}},galleryEvents:function(e){void 0!==e&&""!=e||(e="galleryModal"),$(".choosing").on("click",function(a){a.preventDefault(),$("#"+e).modal("show")}),$(document).on("click","#"+e+" .img-obj",function(a){a.preventDefault(),$(this).hasClass("selected")?$(this).removeClass("selected"):($("#"+e+" .img-obj").removeClass("selected"),$(this).addClass("selected"),rsMedia.showInfoThumbnail(this)),rsMedia.resetInfoThumbnail(),rsMedia.toggleInsert()}),$("#"+e+" #type-filter").on("change",function(a){var n=$(this).val();return"all"==n?void $("#"+e+" .img-obj").parent().removeClass("hidden"):"attached"==n?void $("#"+e+" .img-obj > img:not([data-attached=true])").parent().parent().addClass("hidden"):($("#"+e+" .img-obj > img:not([data-media="+n+"])").parent().parent().addClass("hidden"),void $("#"+e+" .img-obj > img[data-media="+n+"]").parent().parent().removeClass("hidden"))}),$("#"+e+" .btn-insert").on("click",function(a){a.preventDefault();var n=$("#"+e+" .img-obj.selected").find("img").first(),i=n.attr("src");$("#"+e+" .img-select").val(i);var t=new XMLHttpRequest;t.open("GET",i),t.responseType="blob",t.send(),t.addEventListener("load",function(){var a=new FileReader;a.readAsDataURL(t.response),a.addEventListener("loadend",function(){var i=rsMedia.dataURItoBlob(a.result);i.name=n.attr("alt"),rsMedia.dropzoneInstance.addFile(i),$("#"+e).modal("hide")})})}),$("#"+e+" .btn-del-g").on("click",function(a){a.preventDefault(),$("#"+e+"Delete .btn-confirm-del-g").data("id",$(this).data("id")),$("#"+e+"Delete").modal("show")}),$("#"+e+"Delete .btn-confirm-del-g").on("click",function(a){a.preventDefault(),console.log("abc");var n=$(this).data("id");n&&$.ajax({url:rsMedia.delUrl,method:"post",data:{id:n}}).done(function(a){$("#"+e).find(".img-obj.selected").parent().remove(),$("#"+e+" .pv-wrapper").addClass("hidden")}).always(function(a){$("#"+e+"Delete").modal("hide")})})},galleryDropzoneEvents:function(e){e.on("sending",function(e,a,n){n.append("new",!0)}),e.on("success",function(a,n){n=JSON.parse(n);var a=n.data.file,i=$("#g-item-tpl").html(),t=$(i),o={};"image"==a.mime?(t.find("span.img-type").remove(),o=t.find("img.img-type")):(t.find("img.img-type").remove(),o=t.find("span.img-type")),o.attr("src","/"+a.url),o.attr("alt",a.name),o.data("id",a.id),o.data("size",a.size),o.data("dimension",a.dimension),o.data("media",a.media),t.find(".img-mime").data("mime",a.mime),""!=a.mime&&(o.find("i.fa").removeClass("fa-file-o").addClass("fa-file-"+a.mime+"-o"),t.find(".img-mime i.fa").removeClass("fa-file-o").addClass("fa-file-"+a.mime+"-o")),t.find(".img-name").text(a.name),$("#upload-lib .list-pane").append(t[0]),$('#g-tab a[href="#upload-lib"]').tab("show"),e.removeAllFiles()})},showInfoThumbnail:function(e){var a=$(e).find(".img-type"),n={id:a.data("id"),url:a.attr("src"),name:a.attr("alt"),size:a.data("size"),dimension:a.data("dimension")};$img=a.clone();var i=$(".preview-pane");i.find(".pv-img .img-type").remove(),i.find(".pv-img").append($img),i.find(".pv-zoom").attr("href",n.url),i.find(".pv-zoom").attr("data-title",n.name),i.find(".pv-link").attr("href",n.url),i.find(".pv-name").text(n.name),i.find(".pv-size").text(n.size),i.find(".pv-dimension").text(n.dimension),i.find(".pv-url").html('<input type="text" value="'+n.url+'" class="form-control" readonly="true">'),i.find(".pv-remove > a").data("id",n.id),i.find(".pv-wrapper").removeClass("hidden")},resetInfoThumbnail:function(){var e=$(".preview-pane");$(".img-obj.selected").length<=0&&e.find(".pv-wrapper").addClass("hidden")},toggleInsert:function(){$(".img-obj.selected").length>0?$(".btn-insert").removeAttr("disabled"):$(".btn-insert").attr("disabled","true")}};
+/**
+ * @license
+ * Media.js - redSHOP Javascript component
+ *
+ * Copyright (c) 2016. GNU General Public License version 2 or later, see LICENSE.
+ *
+ * This library provide a new class to handle media upload
+ * with dropzonejs, cropperjs.
+ * It also manage the script of new media gallery for redSHOP.
+ * It support to search item with js by fusejs.
+ * Media.js's dependencies use Bower to manage.
+ *
+ * Component: com_redshop
+ * Develop: redWeb.vn Team
+ * Author: thuy@redweb.dk
+ * Version: 1.0 Devel
+ *
+ * References:
+ * - http://www.dropzonejs.com
+ * - https://fengyuanchen.github.io/cropperjs/
+ * - http://fusejs.io
+ * - https://bower.io
+ *
+ * To run:
+ * - bower install
+ * - gulp copy
+ */
+
+/**
+ * Strict mode is declared
+ */
+// "use strict";
+
+/**
+ * Media library
+ * Uses: rsMedia.init();
+ *
+ * @type  {Object}
+ */
+var rsMedia = {
+
+    /**
+     * URL to upload file with Ajax
+     *
+     * @todo Need more secure
+     *
+     * @type  {String}
+     */
+    url: 'index.php?option=com_redshop&view=media&task=ajaxUpload',
+
+    /**
+     * URL to delete item in media gallery
+     *
+     * @type  {String}
+     */
+    delUrl: 'index.php?option=com_redshop&view=media&task=ajaxDelete',
+
+    /**
+     * Get html of dropzone DOM
+     *
+     * @type  {jQueryObject}
+     */
+    dropzoneFromHtml: $("#j-dropzone-form").html(),
+
+    /**
+     * Pre-defined Dropzone object
+     *
+     * @type  {Object}
+     */
+    dropzoneInstance: {},
+
+    /**
+     * An array to store gallery items
+     *
+     * @type  {Array}
+     */
+    galleryItems: [],
+
+    /**
+     * [cropper description]
+     *
+     * @return  {[type]}  [description]
+     */
+    cropping: function(jDropzone) {
+
+        $(document).on('click', 'button.rs-media-cropping',function(e) {
+            e.preventDefault();
+            // ignore files which were already cropped and re-rendered
+            // to prevent infinite loop
+            var file = jDropzone.files[0];
+
+            if (!file) {
+                $('#alertModal').find('.alert-text').text('Please insert an image!!!');
+                $('#alertModal').modal('show');
+                return;
+            }
+
+            if (file.width < 100) {
+                // validate width to prevent too small files to be uploaded
+                // .. add some error message here
+                return;
+            }
+            // cache filename to re-assign it to cropped file
+            var cachedFilename = file.name;
+
+            // dynamically create modals to allow multiple files processing
+            // var $cropperModal = $($.parseHTML(modalTemplate));
+            var $cropperModal = $("#cropModal");
+            // 'Crop and Upload' button in a modal
+            var $uploadCrop = $cropperModal.find('.crop-upload');
+
+            var $img = $('<img />');
+            // initialize FileReader which reads uploaded file
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                // add uploaded and read image to modal
+                $img.attr('src', reader.result);
+                $cropperModal.find('.image-container').html($img);
+
+                // initialize cropper for uploaded image
+                $img.cropper({
+                    // aspectRatio: 16 / 9,
+                    dragMode: 'move',
+                    autoCropArea: .5,
+                    movable: false,
+                    cropBoxResizable: true,
+                    // minCropBoxWidth: 200,
+                    minContainerWidth: 320,
+                    minContainerHeight: 320,
+                    viewMode: 3,
+                    zoomable: false
+                });
+            };
+            // read uploaded file (triggers code above)
+            if (file.preload) {
+                reader.readAsDataURL(rsMedia.dataURItoBlob(file.blob));
+            } else {
+                reader.readAsDataURL(file);
+            }
+
+            // unbind event click Crop button
+            $uploadCrop.off('click');
+
+            $cropperModal.modal('show');
+
+            $cropperModal.trigger('resize');
+            console.log('abc');
+
+            // listener for 'Crop and Upload' button in modal
+            $uploadCrop.on('click', function() {
+                // get cropped image data
+                var blob = $img.cropper('getCroppedCanvas').toDataURL();
+                // transform it to Blob object
+                var newFile = rsMedia.dataURItoBlob(blob);
+                // set 'cropped to true' (so that we don't get to that listener again)
+                newFile.cropped = true;
+                // assign original filename
+                newFile.name = cachedFilename;
+                console.log(cachedFilename);
+                console.log(newFile);
+                // remove not cropped file from dropzone (we will replace it later)
+                jDropzone.removeFile(file);
+                // add cropped file to dropzone
+                jDropzone.addFile(newFile);
+                // upload cropped file with dropzone
+                /*jDropzone.processQueue();*/
+                $cropperModal.modal('hide');
+            });
+        });
+    },
+
+    /**
+     * Handle dropzone
+     *
+     * @return  {void}
+     */
+    dropzone: function() {
+        // Disable DropzoneJS auto discover and apply default settings
+        Dropzone.autoDiscover = false;
+
+        $('body').append(this.dropzoneFromHtml);
+
+        // check if Dropzone HTML was included
+        if ($('#j-dropzone').length) {
+            // Initialize new Dropzone
+            this.dropzoneInstance = new Dropzone(
+                "#j-dropzone",
+                {
+                    url: rsMedia.url,
+                    // acceptedFiles: ".png,.jpg,.jpeg,.bmp",
+                    autoProcessQueue: true,
+                    // maxFiles: 1,
+                    thumbnailWidth: null,
+                    thumbnailHeight: null,
+                    previewTemplate: $("#j-dropzone-tpl").html()
+                }
+            );
+
+            this.dropzoneEvents(this.dropzoneInstance);
+            this.cropping(this.dropzoneInstance);
+        }
+    },
+
+    /**
+     * Handle events of dropzone instance
+     *
+     * @param   {Dropzone}  jDropzone  Dropzone instance
+     *
+     * @return  {void}
+     */
+    dropzoneEvents: function(jDropzone) {
+        // jDropzone.on("maxfilesreached", function(file) {
+        // 	console.log("trigger reach max: %s", this.files.length);
+        // 	if (this.files.length > 1) {
+        // 		this.removeAllFiles();
+        // 		this.addFile(file);
+        // 	}
+        // });
+
+        jDropzone.on('addedfile',  function(file) {
+            if (file.type.indexOf("image/") < 0) {
+                this.removeFile(file);
+                $('#alertModal').find('.alert-text').text('You can not upload this type of file!');
+                $('#alertModal').modal('show');
+                return;
+            }
+
+            if (this.files.length > 1) {
+                this.removeFile(this.files[0]);
+            }
+
+            $('#j-dropzone').parent().find('.btn.rs-media-removing').removeClass('disabled').prop('disabled', false);
+            $('#j-dropzone').parent().find('.btn.rs-media-cropping').removeClass('disabled').prop('disabled', false);
+        });
+
+        jDropzone.on('success', function(file, response){
+            response = JSON.parse(response);
+            if (response.success) {
+                $(".img-select").val(response.data.file.url);
+            }
+        });
+
+        // jDropzone.on('error', function(file, err){
+        // 	console.log("trigger error: %o", file);
+        // 	if (!file.accepted) {
+        // 		jDropzone.removeFile(file);
+        // 	}
+        // 	$('#alertModal').find('.alert-text').text(err);
+        // 	$('#alertModal').modal('show');
+        // });
+
+        $(document).on('click', 'button.rs-media-removing',function(e) {
+            jDropzone.removeAllFiles();
+            $(".img-select").val('');
+            $('#j-dropzone').parent().find('.btn.rs-media-removing').addClass('disabled').prop('disabled', true);
+            $('#j-dropzone').parent().find('.btn.rs-media-cropping').addClass('disabled').prop('disabled', true);
+
+            if ($('#image_delete').length <= 0) {
+                var hidden = $('<input/>');
+                hidden.attr('id', 'image_delete').attr('name', 'image_delete').attr('type', 'hidden').val(true);
+                $("#adminForm").append(hidden[0]);
+            }
+        });
+    },
+
+    /**
+     * Preload a file into Dropzone thumbnail
+     *
+     * @param   {Dropzone}  jDropzone  Dropzone to load
+     * @param   {Object}    file       File to Preload
+     *
+     * @return  {void}
+     */
+    dropzonePreload: function(jDropzone, file) {
+        if (file) {
+            // Preload file from server
+            newfile = rsMedia.dataURItoBlob(file.blob);
+            newfile.name = file.name;
+            // this.emit("addedfile", file);
+            // And optionally show the thumbnail of the file:
+            jDropzone.emit("thumbnail", file, file.url);
+            // this.files.push(file);
+            jDropzone.addFile(newfile);
+        }
+    },
+
+    /**
+     * Transform cropper dataURI output to a Blob which Dropzone accepts
+     *
+     * @param   string  dataURI  base64encode data of files
+     *
+     * @return  Blob
+     */
+    dataURItoBlob: function(dataURI) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: 'image/jpg' });
+    },
+
+    /**
+     * Initialize new Media instance
+     *
+     * @return  {void}
+     */
+    init: function() {
+        // set limit for backdrop
+        $.fn.modalmanager.defaults.backdropLimit = 1;
+
+        // load dropzone
+        this.dropzone();
+
+        this.galleryEvents();
+    },
+
+    /**
+     * Create dropzone for gallery media
+     *
+     * @return  {void}
+     */
+    galleryDropzone: function() {
+        // check if Dropzone HTML was included
+        if ($('#g-dropzone').length) {
+            // Initialize new Dropzone
+            var gDropzone = new Dropzone(
+                "#g-dropzone",
+                {
+                    url: rsMedia.url,
+                    // acceptedFiles: ".png,.jpg,.jpeg,.bmp",
+                    // autoProcessQueue: false,
+                    maxFiles: 1,
+                    thumbnailWidth: null,
+                    thumbnailHeight: null,
+                    previewTemplate: $("#g-dropzone-tpl").html()
+                }
+            );
+
+            this.galleryDropzoneEvents(gDropzone);
+        }
+
+    },
+
+    /**
+     * Events relative to gallery
+     *
+     * @return  {void}
+     */
+    galleryEvents: function(galleryId) {
+        if (typeof galleryId == "undefined" || galleryId == "")
+            galleryId = "galleryModal";
+
+        // open gallery modal
+        $(".choosing").on('click', function(e){
+            e.preventDefault();
+
+            $("#" + galleryId).modal('show');
+        });
+
+        // Click on gallery items
+        $(document).on('click', "#" + galleryId + " .img-obj", function(e){
+            e.preventDefault();
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else{
+                $("#" + galleryId + " .img-obj").removeClass('selected');
+                $(this).addClass('selected');
+                rsMedia.showInfoThumbnail(this);
+            }
+            rsMedia.resetInfoThumbnail();
+            rsMedia.toggleInsert();
+        });
+
+        // change filters
+        $("#" + galleryId + " #type-filter").on("change", function(e){
+            var value = $(this).val();
+            if (value == 'all') {
+                $("#" + galleryId + " .img-obj").parent().removeClass('hidden');
+                return;
+            }
+
+            if (value == 'attached') {
+                $("#" + galleryId + " .img-obj > img:not([data-attached=true])").parent().parent().addClass('hidden');
+                return;
+            }
+
+            // filter by media type
+            $("#" + galleryId + " .img-obj > img:not([data-media="+value+"])").parent().parent().addClass('hidden');
+            $("#" + galleryId + " .img-obj > img[data-media="+value+"]").parent().parent().removeClass('hidden');
+        });
+
+        // insert and image
+        $("#" + galleryId + " .btn-insert").on('click', function(e) {
+            e.preventDefault();
+
+            var imgObj = $("#" + galleryId + " .img-obj.selected").find('img').first();
+            var imgUrl = imgObj.attr('src');
+
+            $("#" + galleryId + " .img-select").val(imgUrl);
+
+            var xhr = new XMLHttpRequest()
+            xhr.open("GET", imgUrl);
+            xhr.responseType = "blob";
+            xhr.send();
+            xhr.addEventListener("load", function() {
+                var reader = new FileReader();
+                reader.readAsDataURL(xhr.response);
+                reader.addEventListener("loadend", function() {
+                    var newFile = rsMedia.dataURItoBlob(reader.result);
+                    newFile.name = imgObj.attr('alt');
+                    rsMedia.dropzoneInstance.addFile(newFile);
+                    $("#" + galleryId).modal('hide');
+                });
+            });
+        });
+
+        // open delete gallery modal
+        $("#" + galleryId + " .btn-del-g").on('click', function(e){
+            e.preventDefault();
+
+            $("#" + galleryId + "Delete .btn-confirm-del-g").data('id', $(this).data('id'));
+            $("#" + galleryId + "Delete").modal('show');
+
+            // bootbox.confirm("This is the default confirm!", function(result){
+            // 	console.log('This was logged in the callback: ' + result);
+            // });
+        });
+
+        // confirm delete item
+        $("#" + galleryId + "Delete .btn-confirm-del-g").on('click', function(e){
+            e.preventDefault();
+
+            console.log('abc');
+
+            var id = $(this).data('id');
+            if (id) {
+                $.ajax({
+                    url: rsMedia.delUrl,
+                    method: 'post',
+                    data: {id: id}
+                })
+                .done(function(response){
+                    $("#" + galleryId).find(".img-obj.selected").parent().remove();
+                    $("#" + galleryId + " .pv-wrapper").addClass('hidden');
+                })
+                .always(function(e){
+                    $("#" + galleryId + "Delete").modal('hide');
+                });
+            }
+        });
+    },
+
+    galleryDropzoneEvents: function(gDropzone) {
+        gDropzone.on("sending", function(file, xhr, data) {
+            data.append("new", true);
+        });
+
+        gDropzone.on('success', function(file, res) {
+            res = JSON.parse(res);
+            var file = res.data.file;
+            var item = $('#g-item-tpl').html();
+            var $item = $(item);
+            var $itemObj = {};
+            if (file.mime == 'image') {
+                $item.find('span.img-type').remove();
+                $itemObj = $item.find('img.img-type');
+            } else {
+                $item.find('img.img-type').remove();
+                $itemObj = $item.find('span.img-type');
+            }
+            $itemObj.attr('src', '/' + file.url);
+            $itemObj.attr('alt', file.name);
+            $itemObj.data('id', file.id);
+            $itemObj.data('size', file.size);
+            $itemObj.data('dimension', file.dimension);
+            $itemObj.data('media', file.media);
+            $item.find('.img-mime').data('mime', file.mime);
+            if (file.mime != '') {
+                $itemObj.find('i.fa')
+                .removeClass('fa-file-o')
+                .addClass('fa-file-' + file.mime + '-o');
+                $item.find('.img-mime i.fa')
+                .removeClass('fa-file-o')
+                .addClass('fa-file-' + file.mime + '-o');
+            }
+            $item.find('.img-name').text(file.name);
+            $("#upload-lib .list-pane").append($item[0]);
+            $('#g-tab a[href="#upload-lib"]').tab("show");
+
+            gDropzone.removeAllFiles();
+        });
+    },
+
+    /**
+     * Show info of thumbnail when selecting
+     *
+     * @param   {DOM}  elem  Element item selected
+     *
+     * @return  {void}
+     */
+    showInfoThumbnail: function(elem)
+    {
+        var $imgObj = $(elem).find('.img-type');
+
+        var info = {
+            id: $imgObj.data('id'),
+            url: $imgObj.attr('src'),
+            name: $imgObj.attr('alt'),
+            size: $imgObj.data('size'),
+            dimension: $imgObj.data('dimension')
+        };
+
+        $img = $imgObj.clone();
+
+        var $pane = $(".preview-pane");
+        $pane.find('.pv-img .img-type').remove();
+        $pane.find('.pv-img').append($img);
+        $pane.find('.pv-zoom').attr('href', info.url);
+        $pane.find('.pv-zoom').attr('data-title', info.name);
+        $pane.find('.pv-link').attr('href', info.url);
+        $pane.find('.pv-name').text(info.name);
+        $pane.find('.pv-size').text(info.size);
+        $pane.find('.pv-dimension').text(info.dimension);
+        $pane.find('.pv-url').html('<input type="text" value="'+info.url+'" class="form-control" readonly="true">');
+        $pane.find('.pv-remove > a').data('id', info.id);
+
+        $pane.find('.pv-wrapper').removeClass('hidden');
+    },
+
+    /**
+     * Clear attachment details when unselecting
+     *
+     * @return  {void}
+     */
+    resetInfoThumbnail: function()
+    {
+        var $pane = $(".preview-pane");
+        if ($(".img-obj.selected").length <= 0) {
+            $pane.find('.pv-wrapper').addClass('hidden');
+        }
+    },
+
+    /**
+     * Toggle disabled or not of insert media button
+     *
+     * @return  {void}
+     */
+    toggleInsert: function()
+    {
+        if ($(".img-obj.selected").length > 0) {
+            $(".btn-insert").removeAttr('disabled');
+        } else {
+            $(".btn-insert").attr('disabled', 'true');
+        }
+
+    }
+}

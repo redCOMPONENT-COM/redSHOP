@@ -93,7 +93,7 @@ defined('_JEXEC') or die;
         </div>
         <div class="row">
             <div class="col-md-4">
-                <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png"
+                <img src="<?php echo JURI::root(); ?>media/com_redshop/images/261-x-88.png"
                      width="261" height="88"
                      alt="redSHOP Logo" align="left" class="img"/>
             </div>
@@ -146,7 +146,7 @@ defined('_JEXEC') or die;
                 </td>
                 <td width="20%" style="text-align: right;">
                     <strong class="text-result text-muted">Pending</strong>
-                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img" width="128px"
+                    <img src="<?php echo JUri::root() ?>media/com_redshop/images/ajax-loader.gif" class="loader img" width="128px"
                          height="15px"/>
                 </td>
             </tr>

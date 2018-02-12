@@ -81,6 +81,11 @@ abstract class AdminJ3Page
 	public static $searchField = ['id' => 'filter_search'];
 
 	/**
+	 * @var array
+	 */
+	public static $idFieldName = ['id' => 'jform_name'];
+
+	/**
 	 * @var string
 	 */
 	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
@@ -142,6 +147,11 @@ abstract class AdminJ3Page
 	 */
 	public static $selectorPageTitle = '.page-title';
 
+	/**
+	 * @var string
+	 */
+	public static $selectorHeading = '.alert-heading';
+	
 	/**
 	 * @var string
 	 */
@@ -268,7 +278,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $addressEmail = "#email1";
+	public static $addressEmail = "#private-email1";
 
 	/**
 	 * @var string
@@ -346,6 +356,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+
+	/**
+	 * @var array
+	 */
+	public static $priceVAT = ['xpath' => '//div[@class=\'form-group\'][3]//div[1]'];
 	/**
 	 * @var array
 	 */

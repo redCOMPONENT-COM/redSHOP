@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class ManageGiftCardAdministratorCest
+class GiftCardCest
 {
     public function __construct()
     {

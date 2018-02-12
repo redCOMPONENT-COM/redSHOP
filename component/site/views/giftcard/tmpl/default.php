@@ -206,7 +206,7 @@ if ($gid != 0)
 				$cart_id = "";
 			}
 
-			$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
+			$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
 			$ufield .= $productUserFields[1];
 

@@ -49,7 +49,10 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 	{
 		return array(
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/addressfields_listing',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/coupon_detail'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/coupon_detail',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/assets/js',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/assets/css',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images'
 		);
 	}
 

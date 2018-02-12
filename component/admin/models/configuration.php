@@ -81,7 +81,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 		if ($data['image_quality_output'] <= 10)
 		{
-			$data['image_quality_output'] = 100;
+			$data['image_quality_output'] = 90;
 		}
 
 		if ($data['image_quality_output'] >= 100)

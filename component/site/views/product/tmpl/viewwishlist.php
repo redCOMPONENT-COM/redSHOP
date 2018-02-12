@@ -28,7 +28,7 @@ if (!$user->id)
 	{
 		// Send mail link
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
-		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
+		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
 		display_products($rows);
 		$reglink = JURI::root() . "index.php?option=com_redshop&view=registration";
 		echo "<br /><div><a href=" . $reglink . "><input type='button' value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "></a></div>";
@@ -47,7 +47,7 @@ else // If user logged in than display this code.
 	if (count($this->wish_session) > 0)
 	{
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
-		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
+		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
 		display_products($this->wish_session);
 		echo "<br />";
 		$mywishlist_link = "index.php?option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component";
@@ -64,7 +64,7 @@ else // If user logged in than display this code.
 		{
 			$rows  = $wish_products[$wishlists[$j]->wishlist_id];
 			$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlists[$j]->wishlist_id;
-			echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" >' . $wishlists[$j]->wishlist_name . '</a></div>';
+			echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" >' . $wishlists[$j]->wishlist_name . '</a></div>';
 
 			display_products($rows);
 			echo "<br />";

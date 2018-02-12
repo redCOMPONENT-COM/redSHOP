@@ -258,26 +258,26 @@ class RedshopModelMedia extends RedshopModel
 
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/mime-icon-32/' . $ext . '.png';
+							$iconfile_32 = JPATH_ROOT . '/media/com_redshop/images/mime-icon-32/' . $ext . '.png';
 
 							if (file_exists($iconfile_32))
 							{
-								$tmp->icon_32 = 'components/com_redshop/assets/images/mime-icon-32/' . $ext . '.png';
+								$tmp->icon_32 = 'media/com_redshop/images/mime-icon-32/' . $ext . '.png';
 							}
 							else
 							{
-								$tmp->icon_32 = 'components/com_redshop/assets/images/con_info.png';
+								$tmp->icon_32 = 'media/com_redshop/images/con_info.png';
 							}
 
-							$iconfile_16 = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/mime-icon-16/' . $ext . '.png';
+							$iconfile_16 = JPATH_ADMINISTRATOR . '/media/com_redshop/images/mime-icon-16/' . $ext . '.png';
 
 							if (file_exists($iconfile_16))
 							{
-								$tmp->icon_16 = 'components/com_redshop/assets/images/mime-icon-16/' . $ext . '.png';
+								$tmp->icon_16 = 'media/com_redshop/images/mime-icon-16/' . $ext . '.png';
 							}
 							else
 							{
-								$tmp->icon_16 = 'components/com_redshop/assets/images/con_info.png';
+								$tmp->icon_16 = 'media/com_redshop/images/con_info.png';
 							}
 
 							$docs[] = $tmp;

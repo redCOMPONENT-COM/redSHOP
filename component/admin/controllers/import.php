@@ -41,7 +41,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 	 */
 	public function uploadFile()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		// Init response
 		$response = array('status' => 1, 'msg' => JText::_('COM_REDSHOP_IMPORT_MESSAGE_UPLOAD_FILE_SUCCESS'));

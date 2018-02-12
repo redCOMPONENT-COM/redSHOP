@@ -27,6 +27,13 @@ class PlgRedshop_PaymentRs_Payment_BankTransfer extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
+		// Send the Order mail
+		if (Redshop::getConfig()->get('ORDER_MAIL_AFTER'))
+		{
+			$redshopMail = redshopMail::getInstance();
+			$redshopMail->sendOrderMail($data['order_id']);
+		}
+
 		return true;
 	}
 }

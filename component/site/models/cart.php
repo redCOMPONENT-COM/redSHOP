@@ -615,7 +615,7 @@ class RedshopModelCart extends RedshopModel
 	public function shippingrate_calc()
 	{
 		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/common.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.common.min.js', false, true);
 
 		$countryarray         = RedshopHelperWorld::getCountryList();
 		$post['country_code'] = $countryarray['country_code'];

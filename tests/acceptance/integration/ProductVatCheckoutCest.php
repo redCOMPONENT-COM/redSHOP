@@ -5,7 +5,13 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
+use AcceptanceTester\TaxRateSteps;
+use AcceptanceTester\TaxGroupSteps;
+use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps as  ConfigurationSteps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+use AcceptanceTester\OrderManagerJoomla3Steps as OrderManagerJoomla3Steps;
 /**
  * Class ProductVatCheckoutCest
  *
@@ -20,104 +26,132 @@ class ProductVatCheckoutCest
 	public function __construct()
 	{
 		$this->faker        = Faker\Factory::create();
-		$this->vatGroupName = $this->faker->bothify('ProductVatCheckoutCest ?##?');
-		$this->country      = 'United States';
-		$this->state        = 'Alabama';
-		$this->taxRate      = ".10";
+		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
+		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
+		$this->taxGroupName         = $this->faker->bothify(' ?###? TaxGroupsNam');
+		$this->taxRateValue         = 0.1;
+		$this->countryName          = 'Denmark';
+		$this->taxRateValueNegative = -1;
+		$this->taxRateValueString   = 'Test';
+		$this->productName  = $this->faker->bothify('NameProductVAT ?###?');
+		$this->categoryName = $this->faker->bothify('CategoryNameVAT ?###?');
+		$this->randomProductNumber = $this->faker->bothify('productNumber ?###?');
+		$this->randomProductPrice = 100;
+
+
+		// vat setting
+		$this->vatCalculation  = 'Webshop';
+		$this->vatAfter        = 'after';
+		$this->vatNumber       = 0;
+		$this->calculationBase = 'billing';
+		$this->requiVAT        = 'no';
+
+		$this->subtotal = "DKK 100,00";
+		$this->vatPrice = "DKK 10,00";
+		$this->total    = "DKK 110,00";
+
+		//create user for quotation
+		$this->faker           = Faker\Factory::create();
+		$this->userName        = $this->faker->bothify('ManageUserAdministratorCest ?####?' );
+		$this->password        = $this->faker->bothify('Password ?##?');
+		$this->email           = $this->faker->email;
+		$this->shopperGroup    = 'Default Private';
+		$this->group           = 'Registered';
+		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->updateFirstName = 'Updating ' . $this->firstName;
+		$this->lastName        = $this->faker->bothify('LastName ?####?');
+		$this->address         = '14 Phan Ton';
+		$this->zipcode         = 7000;
+		$this->city            = 'Ho Chi Minh';
+		$this->phone           = 010101010;
+
+	}
+
+    /**
+     * @param $scenario
+     *
+     * Method delete data at database
+     *
+     */
+    public function deleteData($scenario)
+    {
+        $I = new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
+
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
 	}
 
 	/**
-	 * Test to Verify the Vat Integration
+	 * Create VAT Group with
 	 *
-	 * @param   AcceptanceTester $I        Actor Class Object
-	 * @param   String           $scenario Scenario Variable
+	 * @param   AcceptanceTester  $client    Current user state.
+	 * @param   Scenario          $scenario  Scenario for test.
 	 *
-	 * @return void
+	 * @return  void
 	 */
-	public function testProductWithVatCheckout(AcceptanceTester $I, $scenario)
+	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
-		$I = new AcceptanceTester($scenario);
 
-		$I->wantTo('Test to Verify the Vat Integration with product checkout');
-		$I->doAdministratorLogin();
+		$client->wantTo('VAT Groups - Save creation in Administrator');
+		$client = new TaxGroupSteps($scenario);
+		$client->addVATGroupsSave($this->taxGroupName);
 
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=tax_groups');
-		$I->waitForText('VAT / Tax Group Management', 30, ['xpath' => "//h1"]);
-		$I->click("New");
-		$I->waitForElement(['id' => "jform_name"], 30);
-		$I->fillField(['id' => "jform_name"], $this->vatGroupName);
-		$I->click(["xpath" => "//input[@name='published' and @value='1']"]);
-		$I->click("Save & Close");
-		$I->waitForText("VAT Group Detail saved", 10, '.alert-message');
-		$I->see("VAT Group Detail saved", '.alert-message');
-		$I->click("ID");
-		$I->see($this->vatGroupName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
-		$I->click(['id' => "cb0"]);
-		$I->click("Edit");
-		$I->waitForElement(['xpath' => "//div[@id='toolbar-redshop_tax_tax32']/button"], 30);
-		$I->click(['xpath' => "//div[@id='toolbar-redshop_tax_tax32']/button"]);
-		$I->waitForText("VAT Rates", 30, ['xpath' => "//h1"]);
-		$I->click("New");
-		$I->selectOptionInChosenByIdUsingJs("tax_country", $this->country);
-		$I->selectOptionInChosenByIdUsingJs("tax_state", $this->state);
-		$I->fillField(['id' => "tax_rate"], $this->taxRate);
-		$I->click("Save & Close");
-		$I->waitForText("VAT rate detail saved successfully", 30, '.alert-message');
-		$I->see("VAT rate detail saved successfully", '.alert-message');
-		$I->amOnPage("/administrator/index.php?option=com_redshop&view=configuration");
-		$I->waitForText("Configuration", 30, ['xpath' => "//h1"]);
-		$I->click(["link" => "Price"]);
-		$I->waitForElement(['id' => 'price_decimal']);
-		$I->fillField(['id' => 'price_decimal'], 2);
-		$I->executeJS("window.scrollTo(0, 900);");
-		// @todo: check why this is not working $I->scrollTo('#default_vat_country', 0, -200);
-		$I->wait(1);
-		$I->selectOptionInChosenByIdUsingJs("default_vat_country", $this->country);
-		$I->selectOptionInChosenByIdUsingJs("default_vat_state", $this->state);
-		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/a"]);
-		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/div/ul/li[text() = '" . $this->vatGroupName . "']"]);
-		$I->click("Save & Close");
-		$I->waitForText("Configuration Saved", 30, '.alert-message');
-		$I->see("Configuration Saved", '.alert-message');
-		$I->doAdministratorLogout();
-		$productName  = 'redCOOKIE';
-		$categoryName = 'Events and Forms';
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$I->checkForPhpNoticesOrWarnings();
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->seeElement(['link' => $productName]);
-		$I->see("$ 24,00", ['class' => "lc-subtotal"]);
-		$I->see("$ 2,40", ['class' => "lc-vat"]);
-		$I->see("$ 26,40", ['class' => "lc-total"]);
-		$I->doAdministratorLogin();
-		$I->amOnPage("/administrator/index.php?option=com_redshop&view=tax_group");
-		$I->waitForText('VAT / Tax Group Management', 30, ['xpath' => "//h1"]);
-		$I->click("ID");
-		$I->see($this->vatGroupName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
-		$I->click(['id' => "cb0"]);
-		$I->click("Delete");
-		$I->waitForText("VAT Group detail deleted successfully", 10, '.alert-message');
-		$I->see("VAT Group detail deleted successfully", '.alert-message');
-		$I->amOnPage("/administrator/index.php?option=com_redshop&view=configuration");
-		$I->waitForText("Configuration", 30, ['xpath' => "//h1"]);
-		$I->click(["link" => "Price"]);
-		$I->executeJS("window.scrollTo(0, 900);");
-		// @todo: check why this is not working $I->scrollTo('#default_vat_country', 0, -200);
-		$I->wait(1);
-		$I->selectOptionInChosenByIdUsingJs("default_vat_country", "Select");
-		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/a"]);
-		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/div/ul/li[text() = 'Default']"]);
-		$I->click("Save & Close");
-		$I->waitForText("Configuration Saved", 30, '.alert-message');
-		$I->see("Configuration Saved", '.alert-message');
+		$client->wantTo('Test TAX Rates Save creation in Administrator');
+		$client = new TaxRateSteps($scenario);
+		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
+
+		$client->wantTo('Create new category ');
+		$client = new CategoryManagerJoomla3Steps($scenario);
+		$client->addCategorySave($this->categoryName);
+
+		$client->wantTo('Create new product');
+		$client = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$client->wantTo('I Want to add product inside the category');
+		$client->createProductWithVATGroups($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName);
+
+		$client->wantTo('Configuration for apply VAT');
+		$client = new ConfigurationSteps($scenario);
+		$client->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
+
+		$client->wantTo('Create user for checkout');
+		$client = new UserManagerJoomla3Steps($scenario);
+		$client->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
+		$client= new ProductCheckoutManagerJoomla3Steps($scenario);
+		$client->testProductWithVatCheckout($this->userName,$this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total);
 	}
+
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * Method clear all data
+     *
+     */
+    public function clearUp(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Delete product');
+        $I = new \AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->deleteProduct($this->productName);
+
+        $I->wantTo('Delete Category');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->deleteCategory($this->categoryName);
+
+        $I->wantTo('Delete tax value');
+        $client = new TaxRateSteps($scenario);
+        $client->deleteTAXRatesOK($this->taxRateName);
+        $client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+
+        $I->wantTo('Delete user');
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->deleteUser($this->firstName);
+
+        $I->wantTo('Test Order delete by user  in Administrator');
+        $I = new OrderManagerJoomla3Steps($scenario);
+        $I->deleteOrder($this->firstName);
+    }
 }

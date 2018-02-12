@@ -241,7 +241,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 						$ufield .= $productUserFields[1];
 
 						if ($productUserFields[1] != "")
@@ -288,7 +288,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 						for ($ui = 0; $ui < count($userfieldArr); $ui++)
 						{
-							$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 							$ufield .= $productUserFields[1];
 
 							if ($productUserFields[1] != "")
