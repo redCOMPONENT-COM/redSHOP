@@ -93,7 +93,7 @@ class Field_GroupCest extends AbstractCest
 	{
 		$tester->wantTo('Run after create category test suite');
 		$stepClass = $this->stepClass;
-		/** @var CategorySteps $tester */
+		/** @var Field_GroupSteps $tester */
 		$tester = new $stepClass($scenario);
 		$tester->missingName();
 	}
