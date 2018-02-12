@@ -4819,7 +4819,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$row = $this->store($data);
 
-		if (false !== $row)
+		if ($row)
 		{
 			return $row->product_id;
 		}
