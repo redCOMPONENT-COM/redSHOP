@@ -578,7 +578,9 @@ class RedshopModelSearch extends RedshopModel
 				array(
 					'p.product_on_sale = 1',
 					'p.expired = 0',
-					'p.product_parent_id = 0'
+					'p.product_parent_id = 0',
+					'UNIX_TIMESTAMP() BETWEEN p.discount_stratdate AND p.discount_enddate',
+					'p.discount_price > 0'
 				)
 			);
 		}
