@@ -9,6 +9,8 @@
 
 namespace Redshop\Cart;
 
+use Redshop\Helper\Template;
+
 defined('_JEXEC') or die;
 
 /**
@@ -51,7 +53,7 @@ class Helper
 
 		for ($i = 0; $i < $index; $i++)
 		{
-			$quantity       = $cart[$i]['quantity'];
+			$quantity      = $cart[$i]['quantity'];
 			$subTotal      += $quantity * $cart[$i]['product_price'];
 			$subTotalNoVAT += $quantity * $cart[$i]['product_price_excl_vat'];
 			$vat           += $quantity * $cart[$i]['product_vat'];
@@ -190,7 +192,7 @@ class Helper
 			$cart['coupon_discount'] = 0;
 		}
 
-		$totalDiscount  = $cart['cart_discount'];
+		$totalDiscount = $cart['cart_discount'];
 		$totalDiscount += isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0.0;
 		$totalDiscount += isset($cart['coupon_discount']) ? $cart['coupon_discount'] : 0.0;
 
@@ -202,5 +204,52 @@ class Helper
 		$defaultShipping = \RedshopHelperCartShipping::getDefault($shippingData);
 		$shipping        = $defaultShipping['shipping_rate'];
 		$shippingVat     = $defaultShipping['shipping_vat'];
+	}
+
+	/**
+	 * Method for get default quantity
+	 *
+	 * @param   integer $productId Product ID
+	 * @param   string  $html      Template html
+	 *
+	 * @return  integer
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDefaultQuantity($productId = 0, $html = "")
+	{
+		$template = Template::getAddToCart($html);
+		$cartForm = null !== $template ? $template->template_desc : "";
+
+		if (strpos($cartForm, "{addtocart_quantity_selectbox}") === false)
+		{
+			return 1;
+		}
+
+		$quantitySelected = 1;
+		$product          = \RedshopHelperProduct::getProductById($productId);
+
+		if ((\Redshop::getConfig()->getString('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
+			&& $product->quantity_selectbox_value == '') || $product->quantity_selectbox_value != '')
+		{
+			$selectBoxValue = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value
+				: \Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
+			$quantityBoxes  = explode(",", $selectBoxValue);
+			$quantityBoxes  = array_merge(array(), array_unique($quantityBoxes));
+
+			sort($quantityBoxes);
+
+			foreach ($quantityBoxes as $quantityBox)
+			{
+				if (intVal($quantityBox) && intVal($quantityBox) != 0)
+				{
+					$quantitySelected = intVal($quantityBox);
+					break;
+				}
+			}
+		}
+
+		return $quantitySelected;
 	}
 }

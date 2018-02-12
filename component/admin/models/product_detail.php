@@ -228,7 +228,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   array  $data  Product detail data.
 	 *
-	 * @return boolean
+	 * @return  boolean|TableProduct_Detail
+	 * @throws  Exception
 	 */
 	public function store($data)
 	{
@@ -237,8 +238,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$catorder    = array();
 		$oldcategory = array();
 
-		$producthelper = productHelper::getInstance();
-
+		/** @var TableProduct_Detail $row */
 		$row = $this->getTable('product_detail');
 
 		if (!$row->bind($data))
@@ -807,7 +807,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			for ($c = 0, $cn = count($area_start); $c < $cn; $c++)
 			{
 				// Convert whatever unit into meter
-				$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
+				$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit[$c]);
 
 				// Replace comma with dot
 				$new_area_start = str_replace(",", ".", $area_start[$c]);
@@ -1323,7 +1323,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   array  $cid               Array of IDs.
 	 * @param   bool   $postMorePriority  Flag what data more priority for copy - POST or DB
 	 *
-	 * @return boolean
+	 * @return  boolean|TableProduct_Detail
 	 */
 	public function copy($cid = array(), $postMorePriority = false)
 	{
@@ -4576,8 +4576,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$productHelper = productHelper::getInstance();
-		$info          = $productHelper->getChildProduct($parentid);
+		$info = RedshopHelperProduct::getChildProduct($parentid);
 
 		if (empty(static::$childproductlist))
 		{
@@ -4710,15 +4709,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   int     $new_product_id        new_product_id
 	 * @param   string  $discount_calc_method  discount_calc_method
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 * @throws  Exception
 	 */
 	public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
 	{
-		$producthelper = productHelper::getInstance();
-		$query         = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
-				  WHERE product_id='" . $old_product_id . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_discount_calc'))
+			->where($db->qn('product_id') . ' = ' . (int) $old_product_id);
+
+		$list = $db->setQuery($query)->loadObjectList();
 
 		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
@@ -4727,7 +4729,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$area_end           = $list[$i]->area_end;
 			$area_price         = $list[$i]->area_price;
 
-			$unit = $producthelper->getUnitConversation("m", $discount_calc_unit);
+			$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit);
 
 			// Replace comma with dot.
 			$new_area_start = str_replace(",", ".", $area_start);
@@ -4808,14 +4810,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Store product from webservice
 	 *
-	 * @param   string  $data  Data from the request
+	 * @param   array  $data  Data from the request
 	 *
-	 * @return array
-	 *
+	 * @return  boolean|integer
+	 * @throws  Exception
 	 */
 	public function saveWS($data)
 	{
-		if ($row = $this->store($data))
+		$row = $this->store($data);
+
+		if ($row)
 		{
 			return $row->product_id;
 		}

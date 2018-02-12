@@ -275,7 +275,7 @@ abstract class RedshopHelperProduct_Attribute
 			return $showPrice;
 		}
 
-		$attributeTemplate = productHelper::getInstance()->getAttributeTemplate($templateHtml);
+		$attributeTemplate = \Redshop\Helper\Template::getAttribute($templateHtml);
 
 		if (empty($attributeTemplate))
 		{

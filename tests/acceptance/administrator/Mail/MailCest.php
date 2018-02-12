@@ -79,7 +79,7 @@ class MailCest extends AbstractCest
 		$tester->wantTo('Run after create item with save button ');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var \Step\AbstractStep $step */
 		$tester = new $stepClass($scenario);
 		$tester->deleteItem('New' . $this->dataNew['mail_name']);
 

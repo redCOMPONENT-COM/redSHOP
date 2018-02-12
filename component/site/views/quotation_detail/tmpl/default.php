@@ -217,7 +217,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 	if ($quotationProducts [$i]->is_giftcard == 1)
 	{
 		$productUserFields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 13);
-		$giftcardData       = $producthelper->getGiftcardData($quotationProducts[$i]->product_id);
+		$giftcardData      = RedshopEntityGiftcard::getInstance($quotationProducts[$i]->product_id)->getItem();
 
 		$product_number = "";
 	}

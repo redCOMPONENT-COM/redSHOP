@@ -268,7 +268,7 @@ class rsCarthelper
 
 			if ($rowitem[$i]->is_giftcard)
 			{
-				$giftcardData      = $this->_producthelper->getGiftcardData($product_id);
+				$giftcardData      = RedshopEntityGiftcard::getInstance($product_id)->getItem();
 				$product_name      = $giftcardData->giftcard_name;
 				$userfield_section = 13;
 				$product = new stdClass;
@@ -429,7 +429,7 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 
 			$catId = $this->_producthelper->getCategoryProduct($product_id);
-			$res   = $this->_producthelper->getSection("category", $catId);
+			$res   = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 
 			if (count($res) > 0)
 			{
@@ -2922,7 +2922,7 @@ class rsCarthelper
 		for ($i = 0, $in = count($cartItemdata); $i < $in; $i++)
 		{
 			$accessory          = RedshopHelperAccessory::getProductAccessories($cartItemdata[$i]->product_id);
-			$accessorypricelist = $this->_producthelper->getAccessoryPrice($product_id, $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1);
+			$accessorypricelist = \Redshop\Product\Accessory::getPrice($product_id, $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1);
 			$accessory_price    = $accessorypricelist[0];
 
 			$generateAccessoryCart[$i]['accessory_id']     = $cartItemdata[$i]->product_id;
@@ -3085,8 +3085,8 @@ class rsCarthelper
 
 				$tempdata           = RedshopHelperProduct::getProductById($data['parent_accessory_product_id']);
 				$producttemplate    = RedshopHelperTemplate::getTemplate("product", $tempdata->product_template);
-				$accessory_template = $this->_producthelper->getAccessoryTemplate($producttemplate[0]->template_desc);
-				$data_add           = $accessory_template->template_desc;
+				$accessory_template = \Redshop\Helper\Template::getAccessory($producttemplate[0]->template_desc);
+				$data_add           = null !== $accessory_template ? $accessory_template->template_desc : '';
 			}
 			else
 			{
@@ -3641,7 +3641,7 @@ class rsCarthelper
 			for ($i = 0, $in = count($accessoryData); $i < $in; $i++)
 			{
 				$accessory          = RedshopHelperAccessory::getProductAccessories($accessoryData[$i]);
-				$accessoryPriceList = $this->_producthelper->getAccessoryPrice(
+				$accessoryPriceList = \Redshop\Product\Accessory::getPrice(
 					$data['product_id'], $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1, $user_id
 				);
 				$accessory_price    = $accessoryPriceList[0];
@@ -4094,7 +4094,7 @@ class rsCarthelper
 		foreach ($orderItemdata as $index => $orderItem)
 		{
 			$accessory          = RedshopHelperAccessory::getProductAccessories($orderItem->product_id);
-			$accessorypricelist = $this->_producthelper->getAccessoryPrice($product_id, $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1);
+			$accessorypricelist = \Redshop\Product\Accessory::getPrice($product_id, $accessory[0]->newaccessory_price, $accessory[0]->accessory_main_price, 1);
 			$accessory_price    = $accessorypricelist[0];
 
 			$generateAccessoryCart[$index]['accessory_id']       = $orderItem->product_id;
@@ -4277,7 +4277,7 @@ class rsCarthelper
 
 		// Convert unit using helper function
 		$unit = 1;
-		$unit = $this->_producthelper->getUnitConversation($globalUnit, $calcUnit);
+		$unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, $calcUnit);
 
 		$calcHeight *= $unit;
 		$calcWidth *= $unit;
@@ -4288,7 +4288,7 @@ class rsCarthelper
 
 		if (!$use_range)
 		{
-			$product_unit = $this->_producthelper->getUnitConversation($globalUnit, Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
+			$product_unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 			$product_height   = $data->product_height * $product_unit;
 			$product_width    = $data->product_width * $product_unit;
@@ -4564,7 +4564,7 @@ class rsCarthelper
 		}
 
 		// Check if required attribute is filled or not ...
-		$attributeTemplateArray = $this->_producthelper->getAttributeTemplate($attributeTemplate);
+		$attributeTemplateArray = \Redshop\Helper\Template::getAttribute($attributeTemplate);
 
 		if (!empty($attributeTemplateArray))
 		{
