@@ -661,6 +661,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 				$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+				$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
@@ -674,9 +677,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+				$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-
 				$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
@@ -725,6 +730,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$priceEnd, 30);
 		$I->waitForText($Total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 	}
