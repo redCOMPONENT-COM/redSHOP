@@ -204,6 +204,9 @@ class AbstractStep extends AdminManagerJoomla3Steps
 				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
+				case 'redshop.fieldsection':
+					$this->chooseOnSelect2($field['xpath'], $data[$index]);
+					break;
 
 				case 'redshop.mail_section':
 				case 'categories':

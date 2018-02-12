@@ -336,7 +336,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon
 				|| $discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon
-				|| $discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle)
+				|| $discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle
+			)
 			{
 				if ($applyDiscount == 'couponCode')
 				{
@@ -735,7 +736,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 	}
 
-	public function testProductWithVatCheckout($userName , $password, $productName, $categoryName, $subTotal, $vatPrice, $total)
+	public function testProductWithVatCheckout($userName, $password, $productName, $categoryName, $subTotal, $vatPrice, $total)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
@@ -752,7 +753,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal, 30);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer,30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
