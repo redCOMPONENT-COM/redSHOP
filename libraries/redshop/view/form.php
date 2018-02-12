@@ -84,7 +84,7 @@ class RedshopViewForm extends AbstractView
 	 * @var   integer
 	 * @since 2.0.7
 	 */
-	public $formFieldsetsColumn = 2;
+	public $formFieldsetsColumn = 1;
 
 	/**
 	 * Method for run before display to initial variables.

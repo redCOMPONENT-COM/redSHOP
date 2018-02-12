@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
+    "bower": "^1.8.2",
     "browser-sync": "^2.23.2",
     "del": "^2.2.2",
     "fs": "0.0.2",

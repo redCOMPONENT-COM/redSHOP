@@ -12,27 +12,30 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * ---------------------
- *    $options         : (array)  Optional parameters
- *    $label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- *    $input           : (string) The input field html code
+ * @var  array  $options Field option parameters
+ * @var  string $label   The html code for the label (not required if $options['hiddenLabel'] is true)
+ * @var  string $input   The input field html code
+ *
  */
 
-if (!empty($displayData['options']['showonEnabled']))
+extract($displayData);
+
+if (!empty($options['showonEnabled']))
 {
 	JHtml::_('jquery.framework');
 	JHtml::_('script', 'jui/cms.js', false, true);
 }
 
-$class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
-$rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['options']['rel'];
+$class = empty($options['class']) ? "" : " " . $options['class'];
+$rel   = empty($options['rel']) ? "" : " " . $options['rel'];
 ?>
-<?php if (!empty($displayData['label']) || !empty($displayData['input'])) : ?>
-    <div class="form-group row-fluid <?php echo $class; ?>"<?php echo $rel; ?>>
-		<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
-			<?php echo $displayData['label']; ?>
+<?php if (!empty($label) || !empty($input)) : ?>
+    <div class="form-group row-fluid <?php echo $class ?>"<?php echo $rel ?>>
+		<?php if (empty($options['hiddenLabel'])) : ?>
+            <div class="col-md-12"><?php echo $label ?></div>
+            <div class="col-md-12"><?php echo $input ?></div>
+		<?php else: ?>
+            <div class="col-md-12"><?php echo $input ?></div>
 		<?php endif; ?>
-        <div class="col-md-10">
-			<?php echo $displayData['input']; ?>
-        </div>
     </div>
 <?php endif ?>

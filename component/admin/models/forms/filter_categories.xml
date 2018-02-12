@@ -6,7 +6,7 @@
                 type="text"
                 label="COM_REDSHOP_FILTER_SEARCH_DESC"
                 placeholder="JSEARCH_FILTER"
-                class="js-enter-submits"
+                class="js-enter-submits form-control"
         />
         <field
                 name="category_template"
@@ -36,6 +36,6 @@
                 default="25"
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
-                onchange="this.form.submit();" />
+                onchange="this.form.submit();"/>
     </fields>
 </form>

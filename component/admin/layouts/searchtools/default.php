@@ -35,19 +35,25 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 $showFilter = isset($data['options']['showFilter']) ? (boolean) $data['options']['showFilter'] : true;
 ?>
 <div class="js-stools clearfix">
-	<div class="clearfix">
-		<div class="js-stools-container-bar">
-			<?php echo RedshopLayoutHelper::render('searchtools.default.bar', $data); ?>
-		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php echo RedshopLayoutHelper::render('searchtools.default.list', $data); ?>
-		</div>
-	</div>
-	<!-- Filters div -->
+    <div class="row">
+        <div class="col-md-10 col-lg-8 col-xs-12" style="padding-left: 0;">
+            <div class="col-md-1">
+                <div class="js-stools-container-list hidden-phone hidden-tablet">
+		            <?php echo RedshopLayoutHelper::render('searchtools.default.list', $data); ?>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="js-stools-container-bar">
+		            <?php echo RedshopLayoutHelper::render('searchtools.default.bar', $data); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Filters div -->
 	<?php if ($showFilter): ?>
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
-		<?php echo RedshopLayoutHelper::render('searchtools.default.filters', $data); ?>
-	</div>
+        <div class="js-stools-container-filters row clearfix hidden-phone clearfix<?php echo $filtersClass; ?>">
+			<?php echo RedshopLayoutHelper::render('searchtools.default.filters', $data); ?>
+        </div>
 	<?php endif; ?>
 </div>
 <?php if ($data['options']['totalResults'] === 0) : ?>

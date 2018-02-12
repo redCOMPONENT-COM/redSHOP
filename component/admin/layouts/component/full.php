@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $activeView = $view->getName();
-
+$listView   = ($view->getLayout() === 'default' && strpos($activeView, '_detail') === false && $activeView !== 'configuration');
 ?>
-<div id="redSHOPAdminContainer" class="redSHOPAdminView<?php echo ucfirst($activeView) ?>">
+<div id="redSHOPAdminContainer" class="redSHOPAdminView<?php echo ucfirst($activeView) ?> <?php echo $listView ? 'item-list' : 'item-form' ?>">
     <div class="wrapper">
         <header class="main-header">
 			<?php echo JLayoutHelper::render('component.full.header', $displayData); ?>

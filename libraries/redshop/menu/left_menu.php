@@ -395,7 +395,9 @@ class RedshopMenuLeft_Menu
 			->addItem(
 				'index.php?option=com_redshop&view=order',
 				'COM_REDSHOP_ORDER_LISTING',
-				(self::$view == 'order' && self::$layout == '') ? true : false
+				(self::$view == 'order' && self::$layout == '') ? true : false,
+				null,
+				'fa fa-cart'
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=order&layout=labellisting',

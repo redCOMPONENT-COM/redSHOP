@@ -61,6 +61,12 @@ else
 	composer install --prefer-dist
 
 	npm install
+
+	# Install bower components
+	cd src/assets/com_redshop
+	../../../node_modules/.bin/bower install
+	cd ../../..
+
 	mv gulp-config.sample.json gulp-config.json
 	node_modules/.bin/gulp release --skip-version
 fi

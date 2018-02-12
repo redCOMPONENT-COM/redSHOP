@@ -1,0 +1,28 @@
+{
+  "name": "redshop-admin",
+  "homepage": "https://github.com/thongredweb/redSHOP",
+  "authors": [
+    "thongredweb <thong@redweb.dk>"
+  ],
+  "description": "Admin packge",
+  "main": "redshop.admin.js",
+  "keywords": [
+    "redshop"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "bootstrap#3.3.7",
+    "jquery": "jquery#2.2.4",
+    "font-awesome": "font-awesome#4.7.0",
+    "adminLTE": "adminLTE#2.3.11",
+    "selectize": "^0.12.4"
+  }
+}

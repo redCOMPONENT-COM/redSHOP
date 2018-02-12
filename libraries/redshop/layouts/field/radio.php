@@ -35,7 +35,8 @@ $readOnly = ((string) $data->element['readonly'] == 'true');
 $selectName = $readOnly ? '' : $data->name;
 ?>
 <div <?php echo $renderedAttributes; ?>>
-	<?php if ($data->options) : ?>
+	<?php if (!empty($data->options)) : ?>
+
 		<?php foreach ($data->options as $i => $option) : ?>
 			<?php
 			// Input field attributes
@@ -51,17 +52,20 @@ $selectName = $readOnly ? '' : $data->name;
 			// Label attributes
 			$labelAttributes = array();
 			$labelAttributes['class'] = !empty($data->element['label-class']) ? (string) $data->element['label-class'] : null;
+			// $labelAttributes['class'] .= ' btn btn-default';
+			// $labelAttributes['class'] .= (string) $option->value == (string) $data->value ? ' active' : '';
 			?>
-			<label for="<?php echo $data->id . $i; ?>" <?php echo RedshopHelperUtility::toAttributes($labelAttributes);?> >
-				<input
-					type="radio"
-					id="<?php echo $data->id . $i; ?>"
-					name="<?php echo $data->name; ?>"
-					value="<?php echo htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"
-					<?php echo RedshopHelperUtility::toAttributes($inputAttributes); ?>
-				/>
-				<?php echo JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $data->name)); ?>
-			</label>
+            <label for="<?php echo $data->id . $i ?>" <?php echo RedshopHelperUtility::toAttributes($labelAttributes) ?>>
+                <input
+                        type="radio"
+                        id="<?php echo $data->id . $i; ?>"
+                        name="<?php echo $data->name; ?>"
+                        value="<?php echo htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"
+		            <?php echo RedshopHelperUtility::toAttributes($inputAttributes); ?>
+                />
+	            <?php echo JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $data->name)); ?>
+            </label>
 		<?php endforeach; ?>
+
 	<?php endif; ?>
 </div>

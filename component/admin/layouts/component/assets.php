@@ -11,16 +11,20 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
+JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true, 'width' => '100%'));
 JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/jquery.min.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/bootstrap.min.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/adminlte.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.validation.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');
-$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.min.css');
+$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.backend.min.css');
+$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.backend.skin.min.css');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.min.css');
 
 // Disable template shit

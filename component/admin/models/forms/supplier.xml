@@ -32,18 +32,6 @@
                 table-width="20%"
         />
         <field
-                name="published"
-                type="redshop.radio"
-                label-class="radio-inline"
-                default="1"
-                label="COM_REDSHOP_PUBLISHED"
-                required="true"
-                table-sortable="1"
-                table-width="5%">
-            <option value="1">JYES</option>
-            <option value="0">JNO</option>
-        </field>
-        <field
                 name="description"
                 type="editor"
                 label="COM_REDSHOP_SUPPLIER_DESCRIPTION"
@@ -53,5 +41,21 @@
                 table-sortable="1"
                 table-width="20%"
         />
+    </fieldset>
+    <fieldset name="state">
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED_DESC"
+                required="true"
+                table-sortable="1"
+                table-width="5%"
+                fieldset="details">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
     </fieldset>
 </form>
