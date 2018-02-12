@@ -69,7 +69,9 @@ class RedshopModelField extends RedshopModelForm
 			->update($db->qn('#__redshop_fields'))
 			->where($db->qn('id') . ' IN (' . implode(',', $fieldIds) . ')');
 
-		if (null !== $groupId)
+		$groupId = (int) $groupId;
+
+		if ($groupId)
 		{
 			$query->set($db->qn('groupId') . ' = ' . (int) $groupId);
 		}
