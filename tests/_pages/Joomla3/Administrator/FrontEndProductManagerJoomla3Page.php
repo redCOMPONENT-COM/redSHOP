@@ -44,8 +44,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
-	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
+	public static $headBilling = 'Billing Address Information';
 
+	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
+	
 	public static $addressEmail = "#private-email1";
 	
 	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
@@ -88,8 +90,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $billingFinal = "//h3[text() = 'Bill to information']";
 
-	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
-
 	public static $termAndConditions = "//input[@id='termscondition']";
 
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
@@ -97,6 +97,91 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
 	public static $orderReceipt = "Order Receipt";
+
+	/**
+	 * @var array
+	 */
+	public static $idAddAccount = ['xpath' => '//input[@id=\'createaccount\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idUserNameOneStep = ['xpath' => '//input[@id=\'onestep-createaccount-username\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idPassOneStep = ['xpath' => '//input[@id=\'password1\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idPassConfirmOneStep = ['xpath' => '//input[@id=\'password2\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $radioCompany = ['xpath' => '//input[@billing_type=\'company\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $radioPrivate = ['xpath' => '//input[@billing_type=\'private\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyName = ['xpath' => '//input[@id=\'company_name\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyNameOnePage = ['xpath' => '//input[@id=\'company-company_name\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyAddressOnePage = ['xpath' => '//input[@id=\'company-address\']'];
+	
+	/**
+	 * @var array
+	 */
+	public static $idCompanyEmailOnePage = ['xpath' => '//input[@id=\'company-email1\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyZipCodeOnePage = ['xpath' => '//input[@id=\'company-zipcode\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyCityOnePage = ['xpath' => '//input[@id=\'company-city\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyPhoneOnePage = ['xpath' => '//input[@id=\'company-phone\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idBusinessNumber = ['xpath' => '//input[@id=\'vat_number\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idEanNumber = ['xpath' => '//input[@id=\'ean_number\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyFirstName  =   ['xpath' => '//input[@id=\'company-firstname\']'];
+
+	/**
+	 * @var array
+	 */
+	public static $idCompanyLastName  =   ['xpath' => '//input[@id=\'company-lastname\']'];
 
 
 	/**
