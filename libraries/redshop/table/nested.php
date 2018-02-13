@@ -411,6 +411,16 @@ class RedshopTableNested extends JTableNested
 	}
 
 	/**
+	 * Called check().
+	 *
+	 * @return  boolean  True on success.
+	 */
+	protected function doCheck()
+	{
+		return parent::check();
+	}
+
+	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.
 	 *
 	 * @param   integer $pk       The primary key of the node to delete.
@@ -514,7 +524,7 @@ class RedshopTableNested extends JTableNested
 		}
 
 		// Check
-		if (!parent::check())
+		if (!$this->doCheck())
 		{
 			return false;
 		}

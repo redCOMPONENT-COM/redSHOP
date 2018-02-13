@@ -150,16 +150,9 @@ if ($total > 0)
 
 		if (strstr($template, "{manufacturer_name}"))
 		{
-			if ($manufacturer = $producthelper->getSection('manufacturer', $product->manufacturer_id))
-			{
-				$manufacturerName = $manufacturer->manufacturer_name;
-			}
-			else
-			{
-				$manufacturerName = '';
-			}
-
-			$template     = str_replace('{manufacturer_name}', $exp_div . $manufacturerName . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
+			$manufacturer     = RedshopEntityManufacturer::getInstance($product->manufacturer_id);
+			$manufacturerName = $manufacturer->get('manufacturer_name');
+			$template         = str_replace('{manufacturer_name}', $exp_div . $manufacturerName . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
 		}
 
 		if (strstr($template, "{discount_start_date}"))
@@ -261,8 +254,8 @@ if ($total > 0)
 
 		if (strstr($template, "{product_category}"))
 		{
-			$category = $producthelper->getSection('category', $data['item']->categoryId);
-			$template = str_replace('{product_category}', $exp_div . $category->name . $div_end . $td_end . $td_start . "{product_category}", $template);
+			$category = RedshopEntityCategory::getInstance($data['item']->categoryId);
+			$template = str_replace('{product_category}', $exp_div . $category->get('name') . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
 		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->id . '&Itemid=' . $this->itemId . '&tmpl=component';

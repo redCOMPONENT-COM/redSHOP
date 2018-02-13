@@ -300,7 +300,7 @@ class RedshopViewSearch extends RedshopView
 
 			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
-			$attribute_template            = $producthelper->getAttributeTemplate($template_desc);
+			$attribute_template            = \Redshop\Helper\Template::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
 			$endlimit = $model->getState('list.limit');
@@ -419,7 +419,7 @@ class RedshopViewSearch extends RedshopView
 
 					if ($parentCategoryId != 0)
 					{
-						$parentCategory = $producthelper->getSection("category", $parentCategoryId);
+						$parentCategory = RedshopEntityCategory::getInstance($parentCategoryId)->getItem();
 						$data_add = str_replace("{returntoparent_category_name}", $parentCategory->category_name, $data_add);
 					}
 					else
@@ -573,9 +573,9 @@ class RedshopViewSearch extends RedshopView
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
+					$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($this->search[$i]);
 
-					if (count($ajax_detail_template) > 0)
+					if (null !== $ajax_detail_template)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
@@ -703,7 +703,7 @@ class RedshopViewSearch extends RedshopView
 					$attributeproductStockStatus = $producthelper->getproductStockStatus($this->search[$i]->product_id, $totalatt);
 				}
 
-				$data_add = $producthelper->replaceProductStockdata(
+				$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(
 					$this->search[$i]->product_id,
 					0,
 					0,

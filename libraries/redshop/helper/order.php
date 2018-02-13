@@ -702,7 +702,6 @@ class RedshopHelperOrder
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail               = self::getOrderDetails($orderId);
-		$productHelper             = productHelper::getInstance();
 		$orderProducts             = self::getOrderItemDetail($orderId);
 		$billingInfo               = self::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = self::getOrderShippingUserInfo($orderId);
@@ -771,7 +770,7 @@ class RedshopHelperOrder
 			$totalWeight += (($weight * $orderProducts [$c]->product_quantity) + $accWeight);
 		}
 
-		$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 
 		if ($unitRatio != 0)
 		{

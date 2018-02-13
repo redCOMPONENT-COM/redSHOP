@@ -605,7 +605,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if ($is_giftcard == 1)
 			{
-				$giftcardData                    = $this->_producthelper->getGiftcardData($cart [$i] ['giftcard_id']);
+				$giftcardData                    = RedshopEntityGiftcard::getInstance($cart[$i]['giftcard_id'])->getItem();
 				$rowitem->product_id             = $cart [$i] ['giftcard_id'];
 				$rowitem->order_item_name        = $giftcardData->giftcard_name;
 				$rowitem->product_item_old_price = $cart [$i] ['product_price'];
@@ -1243,7 +1243,7 @@ class RedshopModelCheckout extends RedshopModel
 		foreach ($giftCards as $eachorders)
 		{
 			$giftcardmailsub   = $giftcardmail->mail_subject;
-			$giftcardData      = $this->_producthelper->getGiftcardData($eachorders->product_id);
+			$giftcardData      = RedshopEntityGiftcard::getInstance($eachorders->product_id)->getItem();
 			$giftcard_value    = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
 			$giftcard_price    = $eachorders->product_final_price;
 			$giftcardmail_body = $giftcardmail->mail_body;

@@ -69,7 +69,7 @@ else
 $product = $producthelper->getProductById($product_id);
 
 // Checking for child products
-$childproduct = $producthelper->getChildProduct($product_id);
+$childproduct = RedshopHelperProduct::getChildProduct($product_id);
 
 if (count($childproduct) > 0)
 {
@@ -96,7 +96,7 @@ else
 	}
 
 	$bool                              = (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) ? false : true;
-	$attribute_template                = $producthelper->getAttributeTemplate($template_desc, $bool);
+	$attribute_template                = \Redshop\Helper\Template::getAttribute($template_desc, $bool);
 	$attribute_template->template_desc = str_replace("{property_image_scroller}", "", $attribute_template->template_desc);
 	$attribute_template->template_desc = str_replace("{subproperty_image_scroller}", "", $attribute_template->template_desc);
 	$attributes                        = $producthelper->getProductAttribute($product_id);

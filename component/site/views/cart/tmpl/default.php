@@ -179,7 +179,7 @@ $empty_cart = '<form style="padding:0px;margin:0px;" name="empty_cart" method="P
 
 $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
-$discount = $producthelper->getDiscountId(0);
+$discount = RedshopHelperDiscount::getDiscount(0);
 
 if (is_object($discount))
 {

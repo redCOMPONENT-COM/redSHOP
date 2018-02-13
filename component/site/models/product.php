@@ -545,8 +545,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = productHelper::getInstance();
-		$info          = $producthelper->getChildProduct($parentid);
+		$info = RedshopHelperProduct::getChildProduct($parentid);
 
 		for ($i = 0, $in = count($info); $i < $in; $i++)
 		{

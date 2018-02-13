@@ -12,7 +12,7 @@ namespace Redshop\Product;
 defined('_JEXEC') or die;
 
 /**
- * Category helper
+ * Compare helper
  *
  * @since  __DEPLOY_VERSION__
  */

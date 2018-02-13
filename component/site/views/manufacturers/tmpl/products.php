@@ -142,7 +142,7 @@ if ($template_middle != "")
 		$cart_mdata   = $producthelper->getProductNotForSaleComment($manufacturer_products[$i], $cart_mdata);
 		$cart_mdata   = $producthelper->getSpecialProductComment($manufacturer_products[$i], $cart_mdata);
 		$product_id   = $manufacturer_products[$i]->product_id;
-		$childproduct = $producthelper->getChildProduct($product_id);
+		$childproduct = RedshopHelperProduct::getChildProduct($product_id);
 
 		if (count($childproduct) > 0)
 		{
@@ -171,7 +171,7 @@ if ($template_middle != "")
 		// Check product for not for sale
 		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
 
-		$attribute_template = $producthelper->getAttributeTemplate($cart_mdata);
+		$attribute_template = \Redshop\Helper\Template::getAttribute($cart_mdata);
 		$cart_mdata         = $producthelper->replaceProductInStock($product_id, $cart_mdata, $attributes, $attribute_template);
 
 		$cart_mdata = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
@@ -245,7 +245,7 @@ if ($template_middle != "")
 			$attributeproductStockStatus = $producthelper->getproductStockStatus($manufacturer_products[$i]->product_id, $totalatt);
 		}
 
-		$cart_mdata = $producthelper->replaceProductStockdata(
+		$cart_mdata = \Redshop\Helper\Stockroom::replaceProductStockData(
 			$manufacturer_products[$i]->product_id,
 			0,
 			0,

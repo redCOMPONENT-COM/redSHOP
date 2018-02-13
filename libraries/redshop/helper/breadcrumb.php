@@ -127,8 +127,8 @@ class RedshopHelperBreadcrumb
 
 					if ($sectionId != 0)
 					{
-						$prd  = productHelper::getInstance()->getSection("product", $sectionId);
-						$menu = productHelper::getInstance()->getSection("manufacturer", $prd->manufacturer_id);
+						$prd  = RedshopHelperProduct::getProductById($sectionId);
+						$menu = RedshopEntityManufacturer::getInstance($prd->manufacturer_id)->getItem();
 
 						if (count($menu) > 0)
 						{
@@ -179,7 +179,7 @@ class RedshopHelperBreadcrumb
 
 					if ($sectionId != 0)
 					{
-						$prd = productHelper::getInstance()->getSection("product", $sectionId);
+						$prd = RedshopHelperProduct::getProductById($sectionId);
 
 						if (!$categoryId)
 						{
@@ -240,7 +240,7 @@ class RedshopHelperBreadcrumb
 					}
 					else
 					{
-						$menu = productHelper::getInstance()->getSection("manufacturer", $sectionId);
+						$menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
 						if (count($menu) > 0)
 						{

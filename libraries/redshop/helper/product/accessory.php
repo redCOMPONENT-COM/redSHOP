@@ -66,15 +66,15 @@ class RedshopHelperProductAccessory
 		}
 
 		$product           = RedshopHelperProduct::getProductById($productId);
-		$accessoryTemplate = productHelper::getInstance()->getAccessoryTemplate($templateContent);
+		$accessoryTemplate = \Redshop\Helper\Template::getAccessory($templateContent);
 
-		if (count($accessoryTemplate) <= 0)
+		if (null === $accessoryTemplate)
 		{
 			return $templateContent;
 		}
 
 		$accessoryTemplateData = $accessoryTemplate->template_desc;
-		$attributeTemplate     = (object) productHelper::getInstance()->getAttributeTemplate($accessoryTemplateData);
+		$attributeTemplate     = (object) \Redshop\Helper\Template::getAttribute($accessoryTemplateData);
 
 		if (empty($accessory))
 		{
@@ -250,7 +250,7 @@ class RedshopHelperProductAccessory
 				// Add manufacturer
 				if (strpos($accessoryWrapper, "{manufacturer_name}") !== false || strpos($accessoryWrapper, "{manufacturer_link}") !== false)
 				{
-					$manufacturer = productHelper::getInstance()->getSection("manufacturer", $accessory[$a]->manufacturer_id);
+					$manufacturer = RedshopEntityManufacturer::getInstance($accessory[$a]->manufacturer_id)->getItem();
 
 					if (count($manufacturer) > 0)
 					{
@@ -272,7 +272,7 @@ class RedshopHelperProductAccessory
 				}
 
 				// Get accessory final price with VAT rules
-				$accessoryPriceWithoutVAT = productHelper::getInstance()->getAccessoryPrice(
+				$accessoryPriceWithoutVAT = \Redshop\Product\Accessory::getPrice(
 					$productId,
 					$accessory[$a]->newaccessory_price,
 					$accessory[$a]->accessory_main_price,
@@ -281,7 +281,7 @@ class RedshopHelperProductAccessory
 
 				if (strpos($accessoryWrapper, "{without_vat}") === false)
 				{
-					$accessoryPrices = productHelper::getInstance()->getAccessoryPrice(
+					$accessoryPrices = \Redshop\Product\Accessory::getPrice(
 						$productId,
 						$accessory[$a]->newaccessory_price,
 						$accessory[$a]->accessory_main_price
