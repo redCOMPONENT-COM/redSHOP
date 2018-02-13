@@ -455,7 +455,7 @@ class RedshopHelperExtrafields
 		$model        = JModelLegacy::getInstance('Fields', 'RedshopModel');
 		$customFields = $model->getFieldsBySection($fieldSection, $fieldName, $front, $checkout);
 
-		if (count($customFields) <= 0 || !empty($table))
+		if (!count($customFields))
 		{
 			return '';
 		}
