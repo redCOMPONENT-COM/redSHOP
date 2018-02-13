@@ -356,7 +356,7 @@ function display_products($rows)
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
 
-			$childproduct = $producthelper->getChildProduct($row->product_id);
+			$childproduct = RedshopHelperProduct::getChildProduct($row->product_id);
 
 			if (count($childproduct) > 0)
 			{
@@ -418,7 +418,7 @@ function display_products($rows)
 				$attributes = array_values($attributes);
 			}
 
-			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
+			$attribute_template = \Redshop\Helper\Template::getAttribute($wishlist_data);
 
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);

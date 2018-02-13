@@ -30,7 +30,7 @@ if (count($relptemplate) > 0)
 	$extra_field = extraField::getInstance();
 	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
 
-	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);
+	$attribute_template = \Redshop\Helper\Template::getAttribute($tempdata_div_middle);
 	/************************************************************ **********************************************/
 	for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 	{
@@ -95,7 +95,7 @@ if (count($relptemplate) > 0)
 		$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
 		$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
 
-		$manufacturer = $producthelper->getSection("manufacturer", $related_product [$r]->manufacturer_id);
+		$manufacturer = RedshopEntityManufacturer::getInstance($related_product[$r]->manufacturer_id)->getItem();
 
 		if (count($manufacturer) > 0)
 		{

@@ -22,7 +22,7 @@ class CompareProductsCest
         $this->Discount ="DKK 50,00";
         $this->Total="DKK 50,00";
 
-        $this->productNameCompares = 'ProductName' . rand(100, 999);
+        $this->productNameCompares = 'ProductNameCompares' . rand(100, 999);
         $this->productNumberCompares = $this->faker->numberBetween(999, 9999);
         $this->productPriceCompares = 80;
 

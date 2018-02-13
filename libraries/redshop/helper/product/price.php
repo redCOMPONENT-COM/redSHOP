@@ -513,7 +513,7 @@ class RedshopHelperProductPrice
 		$userId    = !$userId ? JFactory::getUser()->id : $userId;
 		$relPrefix = !$isRel ? '' : 'rel';
 
-		$defaultQuantity = productHelper::getInstance()->GetDefaultQuantity($productId, $templateHtml);
+		$defaultQuantity = \Redshop\Cart\Helper::getDefaultQuantity($productId, $templateHtml);
 		$productPrices   = self::getNetPrice($productId, $userId, $defaultQuantity, $templateHtml, $attributes);
 
 		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')

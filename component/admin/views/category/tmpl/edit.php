@@ -10,21 +10,19 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
 JHtml::_('behavior.formvalidator');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task);
-		}
-	};
-');
 ?>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery("select").select2({width: "100%"});
     });
+
+    Joomla.submitbutton = function(task)
+    {
+        if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
+        {
+            Joomla.submitform(task);
+        }
+    };
 </script>
 <form
         action="index.php?option=com_redshop&task=category.edit&id=<?php echo $this->item->id; ?>"

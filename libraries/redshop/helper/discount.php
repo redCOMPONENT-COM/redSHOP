@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperDiscount
 {
-
 	/**
 	 * Method for get discount
 	 *
@@ -146,7 +145,7 @@ class RedshopHelperDiscount
 			$cartItem['customer_amount'] = $data['customer_amount'];
 		}
 
-		$giftCard      = productHelper::getInstance()->getGiftcardData($data['giftcard_id']);
+		$giftCard      = RedshopEntityGiftcard::getInstance($data['giftcard_id'])->getItem();
 		$giftCardPrice = $giftCard && $giftCard->customer_amount ? $cartItem['customer_amount'] : $giftCard->giftcard_price;
 
 		$fields = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD);

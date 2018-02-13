@@ -107,13 +107,13 @@ class economic
 	/**
 	 * Create product in E-conomic
 	 *
-	 * @param   array  $row  Data to create
+	 * @param   object  $row  Data to create
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::createProductInEconomic() instead
 	 */
-	public function createProductInEconomic($row = array())
+	public function createProductInEconomic($row)
 	{
 		return RedshopEconomic::createProductInEconomic($row);
 	}

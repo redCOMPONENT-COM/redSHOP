@@ -159,7 +159,7 @@ if (!$slide)
 
 		if ($parentid != 0)
 		{
-			$categorylist     = $producthelper->getSection("category", $parentid);
+			$categorylist     = RedshopEntityCategory::getInstance($parentid)->getItem();
 			$returntocategory_name = $categorylist->name;
 			$returncatlink    = JRoute::_(
 											"index.php?option=" . $this->option .
@@ -459,7 +459,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 	$template_d2      = explode("{product_loop_end}", $template_d1 [1]);
 	$template_product = $template_d2 [0];
 
-	$attribute_template = $producthelper->getAttributeTemplate($template_product);
+	$attribute_template = \Redshop\Helper\Template::getAttribute($template_product);
 
 	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 	$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
@@ -577,9 +577,9 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajax_detail_template_desc = "";
-			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
+			$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($product);
 
-			if (count($ajax_detail_template) > 0)
+			if (null !== $ajax_detail_template)
 			{
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 			}
@@ -1006,7 +1006,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$attributeproductStockStatus = $producthelper->getproductStockStatus($product->product_id, $totalatt);
 		}
 
-		$data_add = $producthelper->replaceProductStockdata(
+		$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(
 			$product->product_id,
 			0,
 			0,

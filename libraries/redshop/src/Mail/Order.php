@@ -206,7 +206,7 @@ class Order
 
 			if ($useManufacturerEmail)
 			{
-				$manufacturer = \productHelper::getInstance()->getSection("manufacturer", $product->manufacturer_id);
+				$manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
 				if (!empty($manufacturer)
 					&& !empty($manufacturer->manufacturer_email)
@@ -220,7 +220,7 @@ class Order
 
 			if ($useSupplierEmail)
 			{
-				$supplier = \productHelper::getInstance()->getSection("supplier", $product->supplier_id);
+				$supplier = \RedshopEntitySupplier::getInstance($product->supplier_id)->getItem();
 
 				if (!empty($supplier)
 					&& !empty($supplier->supplier_email)
@@ -349,7 +349,7 @@ class Order
 				}
 
 				$product      = \Redshop::product((int) $orderItem->product_id);
-				$manufacturer = $productHelper->getSection("manufacturer", $product->manufacturer_id);
+				$manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
 				if (!empty($manufacturer)
 					&& !empty($manufacturer->manufacturer_email)

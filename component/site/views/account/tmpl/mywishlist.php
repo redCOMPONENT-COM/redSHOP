@@ -243,7 +243,7 @@ if ($mail == 0)
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
 
-			$childproduct = $producthelper->getChildProduct($row->product_id);
+			$childproduct = RedshopHelperProduct::getChildProduct($row->product_id);
 
 			if (count($childproduct) > 0)
 			{
@@ -281,7 +281,7 @@ if ($mail == 0)
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
-			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
+			$attribute_template = \Redshop\Helper\Template::getAttribute($wishlist_data);
 
 			$wishlistData = $row->wishlistData;
 

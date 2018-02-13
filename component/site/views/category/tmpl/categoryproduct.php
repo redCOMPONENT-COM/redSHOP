@@ -205,7 +205,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$template_d2      = explode("{product_loop_end}", $template_d1 [1]);
 			$template_product = $template_d2 [0];
 
-			$attribute_template = $producthelper->getAttributeTemplate($template_product);
+			$attribute_template = \Redshop\Helper\Template::getAttribute($template_product);
 			$extraFieldName     = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$product_data       = '';
 			$prddata_add        = "";
@@ -271,9 +271,9 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
+					$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($product);
 
-					if (count($ajax_detail_template) > 0)
+					if (null !== $ajax_detail_template)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
@@ -487,7 +487,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
 				// Checking for child products.
-				$childproduct = $producthelper->getChildProduct($product->product_id);
+				$childproduct = RedshopHelperProduct::getChildProduct($product->product_id);
 
 				if (count($childproduct) > 0)
 				{
