@@ -74,7 +74,6 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 		);
 
 		$lists['published'] = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$field              = extra_field::getInstance();
 
 		$list_field           = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_MANUFACTURER, $detail->manufacturer_id);
 		$lists['extra_field'] = $list_field;

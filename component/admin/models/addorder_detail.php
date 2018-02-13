@@ -805,8 +805,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
-		$extra_field = extra_field::getInstance();
-
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
 			. 'AND user_id = ' . (int) $user_id . ' '
@@ -834,6 +832,8 @@ class RedshopModelAddorder_detail extends RedshopModel
 		{
 			$allowCompany = 'style="display:none;"';
 		}
+
+		$list = array();
 
 		// Field_section 7 :Customer Address
 		$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shipping->users_info_id);
