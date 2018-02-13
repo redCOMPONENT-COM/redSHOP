@@ -129,7 +129,7 @@ class OnePageCheckoutCest
 		$this->onePageNo        = 'no';
 		$this->onePageYes       = 'yes';
 
-		$this->buttonCartLeadEdit = 'Directly to cart';
+		$this->buttonCartLeadEdit = 'Back to current view';
 		$this->shippingWithVat    = "DKK 0,00";
 
 	}
