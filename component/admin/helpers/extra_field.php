@@ -73,7 +73,7 @@ class extra_field
 	 */
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
-		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $table, $template_desc);
+		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $template_desc);
 	}
 
 	/**

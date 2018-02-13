@@ -434,9 +434,7 @@ class RedshopHelperExtrafields
 	 * @param   string   $fieldSection  Field section
 	 * @param   integer  $sectionId     Section ID
 	 * @param   string   $fieldName     Field name
-	 * @param   string   $table         Table
 	 * @param   string   $templateDesc  Template
-	 * @param   string   $userEmail     User email
 	 * @param   int      $front         Show field in front
 	 * @param   int      $checkout      Show field in checkout
 	 *
@@ -444,8 +442,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since   2.0.3
 	 */
-	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '',
-	                                    $front = 0, $checkout = 0)
+	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $templateDesc = '', $front = 0, $checkout = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -816,23 +813,23 @@ class RedshopHelperExtrafields
 							$tmpImageHover = explode(',,,,,', $dataValue->altText);
 						}
 
-					if ($dataValue->image_link)
-					{
-						$tmpImageLink = explode(',,,,,', $dataValue->image_link);
-					}
+						if ($dataValue->image_link)
+						{
+							$tmpImageLink = explode(',,,,,', $dataValue->image_link);
+						}
 
 						$chkData    = explode(",", $dataValue->data_txt);
 						$imageLink  = array();
 						$imageHover = array();
 
-					if ($chkData !== false)
-					{
-						foreach ($chkData as $index => $aChkData)
+						if ($chkData !== false)
 						{
-							$imageLink[$aChkData]  = $tmpImageLink[$index];
-							$imageHover[$aChkData] = $tmpImageHover[$index];
+							foreach ($chkData as $index => $aChkData)
+							{
+								$imageLink[$aChkData]  = $tmpImageLink[$index];
+								$imageHover[$aChkData] = $tmpImageHover[$index];
+							}
 						}
-					}
 
 						$exField .= RedshopLayoutHelper::render(
 							'extrafields.field.image_link',
