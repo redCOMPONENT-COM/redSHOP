@@ -457,7 +457,6 @@ class RedshopModelSearch extends RedshopModel
 			->where('p.published = 1');
 
 		$layout          = $input->getString('layout', 'default');
-		$category_helper = new product_category;
 		$manufacture_id  = $input->getInt('manufacture_id', 0);
 		$cat_group       = array();
 		$customField     = $input->get('custom_field', array(), 'array');
@@ -590,6 +589,8 @@ class RedshopModelSearch extends RedshopModel
 		}
 		elseif ($layout == 'newproduct')
 		{
+			$categoryid = $item->params->get('categorytemplate');
+
 			if ($categoryid)
 			{
 				$catMain      = RedshopHelperCategory::getCategoryTree($categoryid);
@@ -601,7 +602,7 @@ class RedshopModelSearch extends RedshopModel
 				}
 
 				$catGroupMain[] = $categoryid;
-				$catGroupMain = ArrayHelper::toInteger($catGroupMain);
+				$catGroupMain   = ArrayHelper::toInteger($catGroupMain);
 
 				$query->where('pc.category_id IN (' . implode(',', $catGroupMain) . ')');
 			}

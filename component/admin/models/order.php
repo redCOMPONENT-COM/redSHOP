@@ -283,7 +283,13 @@ class RedshopModelOrder extends RedshopModel
 		ob_clean();
 
 		// Start the output
-		$outputCsv  = fopen('php://output', 'w');
+		$outputCsv = fopen('php://output', 'w');
+
+		if ($outputCsv === false)
+		{
+			JFactory::getApplication()->close();
+		}
+
 		$ordersInfo = $this->getOrdersDetail($cid);
 
 		foreach ($ordersInfo as $order)
@@ -386,7 +392,13 @@ class RedshopModelOrder extends RedshopModel
 		ob_clean();
 
 		// Start the ouput
-		$outputCsv  = fopen('php://output', 'w');
+		$outputCsv = fopen('php://output', 'w');
+
+		if ($outputCsv === false)
+		{
+			JFactory::getApplication()->close();
+		}
+
 		$ordersInfo = $this->getOrdersDetail($cid);
 
 		foreach ($ordersInfo as $order)
