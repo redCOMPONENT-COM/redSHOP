@@ -26,7 +26,7 @@ class RedshopViewTool_Update extends RedshopViewAdmin
 	/**
 	 * Display template function
 	 *
-	 * @param   object  $tpl  template variable
+	 * @param   string  $tpl  template variable
 	 *
 	 * @return  mixed
 	 * @throws  Exception

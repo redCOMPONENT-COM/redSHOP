@@ -89,7 +89,7 @@ class RedshopMenu
 	/**
 	 * Set section value for an instance
 	 *
-	 * @param   integer  $section  Section value
+	 * @param   string  $section  Section value
 	 *
 	 * @return  self
 	 *
@@ -105,7 +105,7 @@ class RedshopMenu
 	/**
 	 * Set title value for an instance
 	 *
-	 * @param   integer  $title  Title value
+	 * @param   string  $title  Title value
 	 *
 	 * @return  self
 	 *

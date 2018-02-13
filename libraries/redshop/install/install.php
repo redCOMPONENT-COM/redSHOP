@@ -24,7 +24,7 @@ class RedshopInstall
 	const REDSHOP_INSTALL_STATE_NAME = 'redshop.install.tasks';
 
 	/**
-	 * @var array
+	 * @var  null|array
 	 */
 	public static $tasks = null;
 

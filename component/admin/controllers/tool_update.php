@@ -219,7 +219,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		$buffer = file_get_contents(JPATH_COMPONENT_ADMINISTRATOR . '/sql/updates/mysql/' . $version . '.sql');
 
 		// Graceful exit and rollback if read not successful
-		if ($buffer === false)
+		if (false === $buffer)
 		{
 			$app->sendHeaders();
 			echo json_encode((object) array('msg' => JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), 'continue' => 0));
