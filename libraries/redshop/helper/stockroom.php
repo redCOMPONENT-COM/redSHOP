@@ -928,6 +928,10 @@ class RedshopHelperStockroom
 					'product.stockroom_detail',
 					array(
 						'stockroomDetails' => $list
+					),
+					'',
+					array(
+						'component' => 'com_redshop'
 					)
 				);
 			}
