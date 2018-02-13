@@ -833,42 +833,47 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$allowCompany = 'style="display:none;"';
 		}
 
-		$list = array();
+		$lists = array(
+			// Field_section 7 :Customer Address
+			'shipping_customer_field' => RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
+				$shipping->users_info_id
+			),
+			// Field_section 8 :Company Address
+			'shipping_company_field' => RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
+				$shipping->users_info_id
+			)
+		);
 
-		// Field_section 7 :Customer Address
-		$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shipping->users_info_id);
+		$countries                 = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
+		$shipping->country_code_ST = $shipping->country_code = $countries['country_code_ST'];
+		$lists['country_code_ST']  = $countries['country_dropdown'];
 
-		// Field_section 8 :Company Address
-		$lists['shipping_company_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $shipping->users_info_id);
+		$states                 = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
+		$lists['state_code_ST'] = $states['state_dropdown'];
 
-		$countryarray              = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
-		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
-		$lists['country_code_ST']  = $countryarray['country_dropdown'];
+		$html  = '<table class="adminlist" border="0" width="100%">';
+		$html .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
+		$html .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
+		$html .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
+		$html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>';
+		$html .= '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
+		$html .= '</table>';
 
-		$statearray             = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
-		$lists['state_code_ST'] = $statearray['state_dropdown'];
-
-		$htmlshipping  = '<table class="adminlist" border="0" width="100%">';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
-		$htmlshipping .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
-		$htmlshipping .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
-		$htmlshipping .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>
-							<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
-		$htmlshipping .= '</table>';
-
-		return $htmlshipping;
+		return $html;
 	}
 }
