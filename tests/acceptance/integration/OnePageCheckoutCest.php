@@ -217,7 +217,7 @@ class OnePageCheckoutCest
 		$I->onePageCheckout('admin', 'admin', $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerInformationSecond, 'private', 'no');
 	}
 
-	public function clearUpDatabse(AcceptanceTester $I, $scenario)
+	public function clearUpDatabase(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('setup up one page checkout is no at admin');
