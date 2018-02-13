@@ -836,10 +836,10 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// Field_section 7 :Customer Address
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shipping->users_info_id);
+		$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shipping->users_info_id);
 
 		// Field_section 8 :Company Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id);
+		$lists['shipping_company_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $shipping->users_info_id);
 
 		$countryarray              = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
 		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
