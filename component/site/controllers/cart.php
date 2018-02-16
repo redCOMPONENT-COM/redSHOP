@@ -618,7 +618,7 @@ class RedshopControllerCart extends RedshopController
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('cart');
 
-		$cart = rsCarthelper::getInstance()->modifyCart($model->changeAttribute($post), JFactory::getUser()->id);
+		$cart = \Redshop\Cart\Cart::modify($model->changeAttribute($post), JFactory::getUser()->id);
 
 		RedshopHelperCartSession::setCart($cart);
 		RedshopHelperCart::cartFinalCalculation();
