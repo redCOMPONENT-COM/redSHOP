@@ -210,7 +210,7 @@ class RedshopModelImport_Vm extends RedshopModel
 		$query->clear()
 			->select($db->qn('id'))
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('name') . ' = ' . $db->quote($categoryVM->category_name));
+			->where($db->qn('name') . ' = ' . $db->quote((string) $categoryVM->category_name));
 		$rsCategoryId = $db->setQuery($query)->loadResult();
 
 		/** @var RedshopTableCategory $table */
@@ -234,7 +234,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
 		$parentId = $categoryVM->parent_id ? $this->getCategoryIdSynced($categoryVM->parent_id) : $table->getRootId();
 
-		$table->setLocation($parentId, 'last-child');
+		$table->setLocation((int) $parentId, 'last-child');
 
 		if (!$table->store())
 		{
@@ -509,7 +509,7 @@ class RedshopModelImport_Vm extends RedshopModel
 			->where($db->qn('order_status_code') . ' NOT IN (' . $subQuery . ')')
 			->order($db->qn('virtuemart_orderstate_id'));
 
-		$db->setQuery($query, 0, 1);
+		$db->setQuery($query, $index, 1);
 
 		$orderStatusVM = $db->setQuery($query)->loadObject();
 
@@ -588,7 +588,7 @@ class RedshopModelImport_Vm extends RedshopModel
 		$query->clear()
 			->select($db->qn('manufacturer_id'))
 			->from($db->qn('#__redshop_manufacturer'))
-			->where($db->qn('manufacturer_name') . ' = ' . $db->quote($manufacturerVM->mf_name));
+			->where($db->qn('manufacturer_name') . ' = ' . $db->quote((string) $manufacturerVM->mf_name));
 		$rsManufacturerId = $db->setQuery($query)->loadResult();
 
 		/** @var \TableManufacturer_Detail $table */
@@ -939,7 +939,7 @@ class RedshopModelImport_Vm extends RedshopModel
 		$query->clear()
 			->select('*')
 			->from($db->qn('#__virtuemart_product_prices'))
-			->where($db->qn('virtuemart_product_id') . ' = ' . $db->quote($productVM->virtuemart_product_id));
+			->where($db->qn('virtuemart_product_id') . ' = ' . $db->quote((string) $productVM->virtuemart_product_id));
 		$prices = $db->setQuery($query)->loadObjectList();
 
 		if (!empty($prices))

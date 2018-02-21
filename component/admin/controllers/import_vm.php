@@ -126,7 +126,8 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 */
 	private function sync($method = '')
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		Redshop\Helper\Ajax::validateAjaxRequest();
+
 		$app = JFactory::getApplication();
 
 		/** @var \RedshopModelImport_Vm $model */
@@ -146,7 +147,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 		if (!$model->$method($index))
 		{
 			$app->setHeader('status', 500);
-			echo json_encode(array('name' => $model->getState($this->logName), 'msg' => $model->getError()));
+			echo json_encode(array('name' => $model->getState($this->logName), 'msg' => /** @scrutinizer ignore-deprecated */ $model->getError()));
 			$app->sendHeaders();
 		}
 
