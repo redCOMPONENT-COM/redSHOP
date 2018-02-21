@@ -75,7 +75,7 @@ class Cart
 			}
 
 			// Only set price without vat for accessories as product
-			$accessoryHasProductWithoutVat = false;
+			$accessoryHasProductWithoutVat = '';
 
 			if (isset($cart['AccessoryAsProduct']))
 			{
@@ -103,7 +103,7 @@ class Cart
 				$accessoryHasProductWithoutVat
 			);
 
-			$accessoryAsProductZero = (count($retAttArr[8]) == 0 && $price == 0 && $accessoryHasProductWithoutVat);
+			$accessoryAsProductZero = !count($retAttArr[8]) && $price == 0 && !empty($accessoryHasProductWithoutVat);
 
 			// Product + attribute (price)
 			$getProductPrice = ($accessoryAsProductZero) ? 0 : $retAttArr[1];
