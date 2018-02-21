@@ -12,8 +12,8 @@
 namespace Redshop\Economic;
 
 use Joomla\Registry\Registry;
+use Redshop\Template\Helper;
 use RedshopHelperUtility;
-use stdClass;
 
 defined('_JEXEC') or die;
 
@@ -850,11 +850,10 @@ class RedshopEconomic
 	 */
 	public static function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
 	{
-		$productHelper    = \productHelper::getInstance();
 		$displayAttribute = "";
 		$setPrice         = 0;
 		$orderItem        = (object) $orderItem;
-		$checkShowVAT     = $productHelper->getApplyattributeVatOrNot('', $userId);
+		$checkShowVAT     = Helper::isApplyAttributeVat('', $userId);
 		$orderItemAttData = \RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
 
 		if (count($orderItemAttData) > 0)

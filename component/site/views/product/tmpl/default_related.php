@@ -30,7 +30,7 @@ if (count($relptemplate) > 0)
 	$extra_field = extraField::getInstance();
 	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
 
-	$attribute_template = \Redshop\Helper\Template::getAttribute($tempdata_div_middle);
+	$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
 	/************************************************************ **********************************************/
 	for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 	{

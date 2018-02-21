@@ -38,7 +38,7 @@ $producthelper = productHelper::getInstance();?>
 
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id);
 		$pricetext     = '';
-		$product_price = $producthelper->getProductPrice($row->product_id);
+		$product_price = Redshop\Product\Price::getPrice($row->product_id);
 		$tmpprcie      = $product_price;
 
 		if ($product_price >= $texpricemin && $product_price <= $texpricemax && $count > 0)

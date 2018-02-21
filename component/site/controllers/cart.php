@@ -312,7 +312,7 @@ class RedshopControllerCart extends RedshopController
 
 		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 1)
 		{
-			$discountAmount = $productHelper->getDiscountAmount($cart);
+			$discountAmount = Redshop\Cart\Helper::getDiscountAmount($cart);
 
 			if ($discountAmount > 0)
 			{

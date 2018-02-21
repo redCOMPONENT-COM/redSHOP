@@ -60,7 +60,7 @@ $extraFieldCategory = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
-$attributeTemplate = \Redshop\Helper\Template::getAttribute($templateDesc);
+$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateDesc);
 
 // Begin replace template
 $templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
@@ -398,7 +398,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateD2      = explode("{product_loop_end}", $templateD1[1]);
 	$templateProduct = $templateD2[0];
 
-	$attributeTemplate = \Redshop\Helper\Template::getAttribute($templateProduct);
+	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
 
 	// Loop product lists
 	foreach ($products as $k => $pid)
@@ -505,7 +505,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		if (strstr($dataAdd, '{product_rating_summary}'))
 		{
 			// Product Review/Rating Fetching reviews
-			$finalAvgReviewData = $productHelper->getProductRating($product->product_id);
+			$finalAvgReviewData = Redshop\Product\Rating::getRating($product->product_id);
 			$dataAdd            = str_replace("{product_rating_summary}", $finalAvgReviewData, $dataAdd);
 		}
 

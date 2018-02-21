@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Helper;
+namespace Redshop\Template;
 
 defined('_JEXEC') or die;
 
@@ -16,12 +16,105 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Template
+class Helper
 {
 	/**
 	 * @var array
 	 */
 	protected static $templates = array();
+
+	/**
+	 * Method for check if template apply attribute VAT or not
+	 *
+	 * @param   string   $template  Template content
+	 * @param   integer  $userId    User ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isApplyAttributeVat($template = "", $userId = 0)
+	{
+		$userInformation = new \stdClass;
+
+		if ($userId == 0)
+		{
+			$userId = \JFactory::getUser()->id;
+		}
+
+		if ($userId != 0)
+		{
+			$userInformation = \RedshopHelperUser::getUserInformation($userId);
+		}
+
+		if (count((array) $userInformation) == 0)
+		{
+			$userInformation = \Redshop\Helper\ShopperGroup::getDefault();
+		}
+
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
+		{
+			return false;
+		}
+
+		if (strpos($template, "{attribute_price_without_vat}") !== false)
+		{
+			return false;
+		}
+		elseif (strpos($template, "{attribute_price_with_vat}") !== false)
+		{
+			return true;
+		}
+
+		return \RedshopHelperCart::taxExemptAddToCart($userId);
+	}
+
+	/**
+	 * Method for check if template apply VAT or not
+	 *
+	 * @param   string   $template  Template content
+	 * @param   integer  $userId    User ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isApplyVat($template = "", $userId = 0)
+	{
+		$user            = \JFactory::getUser();
+		$userInformation = array();
+
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		if ($userId != 0)
+		{
+			$userInformation = \RedshopHelperUser::getUserInformation($userId);
+		}
+
+		if (count($userInformation) <= 0)
+		{
+			$userInformation = \Redshop\Helper\ShopperGroup::getDefault();
+		}
+
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
+		{
+			return false;
+		}
+
+		if (strpos($template, "{without_vat}") !== false)
+		{
+			return false;
+		}
+
+		return \RedshopHelperCart::taxExemptAddToCart($userId);
+	}
 
 	/**
 	 * Method for get accessory template
@@ -218,6 +311,7 @@ class Template
 		return self::$templates['ajax_cart_detail_box'];
 	}
 
+
 	/**
 	 * Method for get attribute template
 	 *
@@ -303,5 +397,23 @@ class Template
 		}
 
 		return self::$templates['cart'];
+	}
+
+	/**
+	 * Method to get attribute template loop
+	 *
+	 * @param   string  $template  Attribute Template data
+	 *
+	 * @return  string             Template middle data
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAttributeTemplateLoop($template)
+	{
+		$start   = "{product_attribute_loop_start}";
+		$end     = "{product_attribute_loop_end}";
+		$matches = \Redshop\Helper\Utility::findStringBetween($start, $end, $template);
+
+		return count($matches) > 0 ? (string) $matches[0] : '';
 	}
 }

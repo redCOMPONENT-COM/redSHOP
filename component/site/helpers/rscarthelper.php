@@ -385,7 +385,7 @@ class rsCarthelper
 			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
 
-			if (!$this->_producthelper->getApplyVatOrNot($data))
+			if (!\Redshop\Template\Helper::isApplyVat($data))
 			{
 				$product_total_price .= RedshopHelperProductPrice::formattedPrice($rowitem[$i]->product_item_price_excl_vat * $quantity);
 			}
@@ -398,7 +398,7 @@ class rsCarthelper
 
 			$product_price = "<div class='product_price'>";
 
-			if (!$this->_producthelper->getApplyVatOrNot($data))
+			if (!\Redshop\Template\Helper::isApplyVat($data))
 			{
 				$product_price .= RedshopHelperProductPrice::formattedPrice($rowitem[$i]->product_item_price_excl_vat);
 			}
@@ -1149,7 +1149,7 @@ class rsCarthelper
 			$cart_data = str_replace("{total}", "<span id='spnTotal'>" . RedshopHelperProductPrice::formattedPrice($total, true) . "</span>", $cart_data);
 			$cart_data = str_replace("{total_excl_vat}", "<span id='spnTotal'>" . RedshopHelperProductPrice::formattedPrice($subtotal_excl_vat) . "</span>", $cart_data);
 
-			$chktag = $this->_producthelper->getApplyVatOrNot($cart_data);
+			$chktag = \Redshop\Template\Helper::isApplyVat($cart_data);
 
 			if (!empty($chktag))
 			{
@@ -2365,7 +2365,7 @@ class rsCarthelper
 
 		if (Redshop::getConfig()->getBool('DISCOUNT_ENABLE'))
 		{
-			$discountAmount = $this->_producthelper->getDiscountAmount($cart);
+			$discountAmount = Redshop\Cart\Helper::getDiscountAmount($cart);
 
 			if ($discountAmount > 0)
 			{
@@ -2946,7 +2946,7 @@ class rsCarthelper
 
 				$tempdata           = RedshopHelperProduct::getProductById($data['parent_accessory_product_id']);
 				$producttemplate    = RedshopHelperTemplate::getTemplate("product", $tempdata->product_template);
-				$accessory_template = \Redshop\Helper\Template::getAccessory($producttemplate[0]->template_desc);
+				$accessory_template = \Redshop\Template\Helper::getAccessory($producttemplate[0]->template_desc);
 				$data_add           = null !== $accessory_template ? $accessory_template->template_desc : '';
 			}
 			else
@@ -4272,7 +4272,7 @@ class rsCarthelper
 			}
 
 			// Applying TAX
-			$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
+			$chktag              = \Redshop\Template\Helper::isApplyAttributeVat();
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
@@ -4425,7 +4425,7 @@ class rsCarthelper
 		}
 
 		// Check if required attribute is filled or not ...
-		$attributeTemplateArray = \Redshop\Helper\Template::getAttribute($attributeTemplate);
+		$attributeTemplateArray = \Redshop\Template\Helper::getAttribute($attributeTemplate);
 
 		if (!empty($attributeTemplateArray))
 		{

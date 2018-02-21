@@ -211,7 +211,7 @@ if ($total > 0)
 
 		if (strstr($template, "{product_rating_summary}"))
 		{
-			$final_avgreview_data = $producthelper->getProductRating($data['item']->productId);
+			$final_avgreview_data = Redshop\Product\Rating::getRating($data['item']->productId);
 			$template             = str_replace('{product_rating_summary}', $exp_div . $final_avgreview_data . $div_end . $td_end . $td_start . "{product_rating_summary}", $template);
 		}
 

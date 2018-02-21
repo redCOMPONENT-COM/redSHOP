@@ -291,7 +291,7 @@ class RedshopHelperProductPrice
 			$newPrice = $results[0];
 		}
 
-		$isApplyTax   = productHelper::getInstance()->getApplyVatOrNot($templateHtml, $userId);
+		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
 		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
 
 		if (!is_null($specialPrice))
@@ -488,7 +488,8 @@ class RedshopHelperProductPrice
 	 * @param   boolean  $isRel         Is Rel
 	 * @param   array    $attributes    Attributes
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
