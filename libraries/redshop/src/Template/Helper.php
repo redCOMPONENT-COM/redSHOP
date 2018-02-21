@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Helper;
+namespace Redshop\Template;
 
 defined('_JEXEC') or die;
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Template
+class Helper
 {
 	/**
 	 * @var array
@@ -24,9 +24,75 @@ class Template
 	protected static $templates = array();
 
 	/**
+	 * Method for check if template apply attribute VAT or not
+	 *
+	 * @param   string  $template Template content
+	 * @param   integer $userId   User ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isApplyAttributeVat($template = "", $userId = 0)
+	{
+		$userId          = !$userId ? \JFactory::getUser()->id : $userId;
+		$userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
+		$userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
+
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
+		{
+			return false;
+		}
+
+		if (strpos($template, "{attribute_price_without_vat}") !== false)
+		{
+			return false;
+		}
+		elseif (strpos($template, "{attribute_price_with_vat}") !== false)
+		{
+			return true;
+		}
+
+		return \RedshopHelperCart::taxExemptAddToCart($userId);
+	}
+
+	/**
+	 * Method for check if template apply VAT or not
+	 *
+	 * @param   string  $template Template content
+	 * @param   integer $userId   User ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isApplyVat($template = "", $userId = 0)
+	{
+		$userId          = !$userId ? \JFactory::getUser()->id : $userId;
+		$userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
+		$userInformation = ($userInformation === new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
+
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
+		{
+			return false;
+		}
+
+		if (strpos($template, "{without_vat}") !== false)
+		{
+			return false;
+		}
+
+		return \RedshopHelperCart::taxExemptAddToCart($userId);
+	}
+
+	/**
 	 * Method for get accessory template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  object
 	 * @throws  \Exception
@@ -73,7 +139,7 @@ class Template
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -113,7 +179,7 @@ class Template
 	/**
 	 * Method for get related-product template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -162,7 +228,7 @@ class Template
 	/**
 	 * Method for get ajax detail box template
 	 *
-	 * @param   object  $product  Product data
+	 * @param   object $product Product data
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -218,11 +284,12 @@ class Template
 		return self::$templates['ajax_cart_detail_box'];
 	}
 
+
 	/**
 	 * Method for get attribute template
 	 *
-	 * @param   string   $templateHtml  Template html
-	 * @param   boolean  $display       Is display?
+	 * @param   string  $templateHtml Template html
+	 * @param   boolean $display      Is display?
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -303,5 +370,23 @@ class Template
 		}
 
 		return self::$templates['cart'];
+	}
+
+	/**
+	 * Method to get attribute template loop
+	 *
+	 * @param   string $template Attribute Template data
+	 *
+	 * @return  string             Template middle data
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAttributeTemplateLoop($template)
+	{
+		$start   = "{product_attribute_loop_start}";
+		$end     = "{product_attribute_loop_end}";
+		$matches = \Redshop\Helper\Utility::findStringBetween($start, $end, $template);
+
+		return count($matches) > 0 ? (string) $matches[0] : '';
 	}
 }

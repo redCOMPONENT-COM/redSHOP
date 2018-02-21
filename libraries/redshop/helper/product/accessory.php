@@ -66,7 +66,7 @@ class RedshopHelperProductAccessory
 		}
 
 		$product           = RedshopHelperProduct::getProductById($productId);
-		$accessoryTemplate = \Redshop\Helper\Template::getAccessory($templateContent);
+		$accessoryTemplate = \Redshop\Template\Helper::getAccessory($templateContent);
 
 		if (null === $accessoryTemplate)
 		{
@@ -74,7 +74,7 @@ class RedshopHelperProductAccessory
 		}
 
 		$accessoryTemplateData = $accessoryTemplate->template_desc;
-		$attributeTemplate     = (object) \Redshop\Helper\Template::getAttribute($accessoryTemplateData);
+		$attributeTemplate     = (object) \Redshop\Template\Helper::getAttribute($accessoryTemplateData);
 
 		if (empty($accessory))
 		{

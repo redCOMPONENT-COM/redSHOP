@@ -124,10 +124,8 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 			)
 		);
 
-		$field = extra_field::getInstance();
-
 		// Extra field
-		$list_field           = $field->list_all_field(11, $detail->shipping_rate_id);
+		$list_field           = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_SHIPPING, $detail->shipping_rate_id);
 		$lists['extra_field'] = $list_field;
 
 		$shippingVatGroup = $model->getVatGroup();

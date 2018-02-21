@@ -285,4 +285,22 @@ class Utility
 				return 1;
 		}
 	}
+
+	/**
+	 * Method to get string between inputs
+	 *
+	 * @param   string  $start   Starting string where you need to start search
+	 * @param   string  $end     Ending string where you need to end search
+	 * @param   string  $string  Target string from where need to search
+	 *
+	 * @return  array            Matched string array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function findStringBetween($start, $end, $string)
+	{
+		preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
+
+		return $m[1];
+	}
 }

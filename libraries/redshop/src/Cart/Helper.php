@@ -9,8 +9,6 @@
 
 namespace Redshop\Cart;
 
-use Redshop\Helper\Template;
-
 defined('_JEXEC') or die;
 
 /**
@@ -219,7 +217,7 @@ class Helper
 	 */
 	public static function getDefaultQuantity($productId = 0, $html = "")
 	{
-		$template = Template::getAddToCart($html);
+		$template = \Redshop\Template\Helper::getAddToCart($html);
 		$cartForm = null !== $template ? $template->template_desc : "";
 
 		if (strpos($cartForm, "{addtocart_quantity_selectbox}") === false)
@@ -231,7 +229,7 @@ class Helper
 		$product          = \RedshopHelperProduct::getProductById($productId);
 
 		if ((\Redshop::getConfig()->getString('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
-			&& $product->quantity_selectbox_value == '') || $product->quantity_selectbox_value != '')
+				&& $product->quantity_selectbox_value == '') || $product->quantity_selectbox_value != '')
 		{
 			$selectBoxValue = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value
 				: \Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
@@ -251,5 +249,113 @@ class Helper
 		}
 
 		return $quantitySelected;
+	}
+
+	/**
+	 * Method for get discount amount fromm cart
+	 *
+	 * @param   array   $cart   Cart data
+	 * @param   integer $userId User ID
+	 *
+	 * @return  float
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDiscountAmount($cart = array(), $userId = 0)
+	{
+		$cart     = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
+		$userId   = empty($userId) ? \JFactory::getUser()->id : $userId;
+		$discount = \RedshopHelperDiscount::getDiscount($cart['product_subtotal'], $userId);
+
+		$discountAmountFinal = 0;
+		$discountVAT         = 0;
+
+		if (!empty($discount))
+		{
+			$productSubtotal = $cart['product_subtotal'] + $cart['shipping'];
+
+			// Discount total type
+			if (isset($discount->discount_type) && $discount->discount_type == 0)
+			{
+				// 100% discount
+				if ($discount->discount_amount > $productSubtotal)
+				{
+					$discountAmount = $productSubtotal;
+				}
+				else
+				{
+					$discountAmount = $discount->discount_amount;
+				}
+
+				$discountPercent = ($discountAmount * 100) / $productSubtotal;
+			}
+			// Discount percentage price
+			else
+			{
+				$discountPercent = isset($discount->discount_amount) ? $discount->discount_amount : 0;
+			}
+
+			// Apply even products already on discount
+			if (\Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+			{
+				$discountAmountFinal = $discountPercent * $productSubtotal / 100;
+			}
+			else
+			{
+				/*
+				 * Checking which discount is the best
+				 * Example 2 products in cart, 1 product 0% - 1 product 15%
+				 * Cart total order discount of 10% for value over 1000, now that discount will be added to both products,
+				 * so the product with 15% will now have 25% and the product with 0% will have 10%.
+				 * The product with 25% should only have 15% discount as it's best practice and most logical setup
+				*/
+
+				$idx = 0;
+
+				if (isset($cart['idx']))
+				{
+					$idx = $cart['idx'];
+				}
+
+				for ($i = 0; $i < $idx; $i++)
+				{
+					$productPrice = \RedshopHelperProductPrice::getNetPrice($cart[$i]['product_id']);
+
+					// Product already discount
+					if ($productPrice['product_discount_price'] > 0)
+					{
+						// Restore to the origigal price
+						$cart[$i]['product_price']          = $productPrice['product_old_price'];
+						$cart[$i]['product_price_excl_vat'] = $productPrice['product_old_price_excl_vat'];
+						$cart[$i]['product_vat']            = $productPrice['product_old_price'] - $productPrice['product_old_price_excl_vat'];
+					}
+
+					// Checking the product discount < total discount => get total discount
+					if ($productPrice['product_price_saving_percentage'] <= $discountPercent)
+					{
+						$discountAmount = $discountPercent * $productPrice['product_price'] / 100;
+					}
+					// Keep product discount
+					else
+					{
+						$discountAmount = $productPrice['product_price_saving'];
+					}
+
+					// With quantity
+					$discountAmountFinal += $discountAmount * $cart[$i]['quantity'];
+				}
+			}
+
+			if (\Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT') && !\Redshop::getConfig()->getBool('APPLY_VAT_ON_DISCOUNT'))
+			{
+				$discountVAT = $discountAmountFinal * \Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT');
+			}
+
+			$cart['discount_tax'] = $discountVAT;
+
+			\RedshopHelperCartSession::setCart($cart);
+		}
+
+		return $discountAmountFinal;
 	}
 }

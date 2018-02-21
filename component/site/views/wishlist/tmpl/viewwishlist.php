@@ -180,7 +180,7 @@ function display_products($rows)
 			$Itemid = RedshopHelperRouter::getItemId($row->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
-			$product_price          = $producthelper->getProductPrice($row->product_id);
+			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
 			echo "<div id='wishlist_box'>";
@@ -261,7 +261,7 @@ function display_products($rows)
 			$Itemid = RedshopHelperRouter::getItemId($row->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
-			$product_price          = $producthelper->getProductPrice($row->product_id);
+			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
 			if ($row->product_full_image)
@@ -418,7 +418,7 @@ function display_products($rows)
 				$attributes = array_values($attributes);
 			}
 
-			$attribute_template = \Redshop\Helper\Template::getAttribute($wishlist_data);
+			$attribute_template = \Redshop\Template\Helper::getAttribute($wishlist_data);
 
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);

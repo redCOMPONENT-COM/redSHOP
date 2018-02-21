@@ -177,6 +177,7 @@ class productHelper
 	 * @param   int  $quantity   Quantity
 	 *
 	 * @return mixed
+	 * @deprecated __DEPLOY_VERSION__
 	 */
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
@@ -971,168 +972,34 @@ class productHelper
 		return RedshopHelperDiscount::getDiscount($subTotal, $userId);
 	}
 
-	public function getDiscountAmount($cart = array(), $user_id = 0)
+	/**
+	 * Method for get discount amount fromm cart
+	 *
+	 * @param   array    $cart    Cart data
+	 * @param   integer  $userId  User ID
+	 *
+	 * @return  float
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 */
+	public function getDiscountAmount($cart = array(), $userId = 0)
 	{
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		if (count($cart) <= 0)
-		{
-			$cart = $this->_session->get('cart');
-		}
-
-		$discount = RedshopHelperDiscount::getDiscount($cart['product_subtotal'], $user_id);
-
-		$discount_amount_final = 0;
-		$discountVAT     = 0;
-
-		if (!empty($discount))
-		{
-			$product_subtotal = $cart['product_subtotal'] + $cart['shipping'];
-
-			// Discount total type
-			if (isset($discount->discount_type) && $discount->discount_type == 0)
-			{
-				// 100% discount
-				if ($discount->discount_amount > $product_subtotal)
-				{
-					$discount_amount = $product_subtotal;
-				}
-				else
-				{
-					$discount_amount = $discount->discount_amount;
-				}
-
-				$discount_percent = ($discount_amount * 100) / $product_subtotal;
-			}
-			// Disocunt percentage price
-			else
-			{
-				$discount_percent = isset($discount->discount_amount)? $discount->discount_amount: 0;
-			}
-
-			// Apply even products already on discount
-			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-			{
-				$discount_amount_final = $discount_percent * $product_subtotal / 100;
-			}
-			else
-			{
-				/*
-					Checking which discount is the best
-					Example 2 products in cart, 1 product 0% - 1 product 15%
-					Cart total order discount of 10% for value over 1000, now that discount will be added to both products, so the product with 15% will now have 25% and the product with 0% will have 10%.
-					The product with 25% should only have 15% discount as it's best practice and most logical setup
-				*/
-
-				$idx = 0;
-
-				if (isset($cart['idx']))
-				{
-					$idx = $cart['idx'];
-				}
-
-				for ($i = 0; $i < $idx; $i++)
-				{
-					$product_price_array = $this->getProductNetPrice($cart[$i]['product_id']);
-
-					// Product already discount
-					if ($product_price_array['product_discount_price'] > 0)
-					{
-						// Restore to the origigal price
-						$cart[$i]['product_price'] = $product_price_array['product_old_price'];
-						$cart[$i]['product_price_excl_vat'] = $product_price_array['product_old_price_excl_vat'];
-						$cart[$i]['product_vat']= $product_price_array['product_old_price'] - $product_price_array['product_old_price_excl_vat'];
-					}
-
-					// Checking the product discount < total discount => get total discount
-					if ($product_price_array['product_price_saving_percentage'] <= $discount_percent)
-					{
-						$discount_amount = $discount_percent * $product_price_array['product_price'] / 100;
-					}
-					// Keep product discount
-					else
-					{
-						$discount_amount = $product_price_array['product_price_saving'];
-					}
-
-					// With quantity
-					$discount_amount_final += $discount_amount * $cart[$i]['quantity'];
-				}
-			}
-
-			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
-			{
-				$discountVAT = $discount_amount_final * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
-			}
-
-			$cart['discount_tax'] = $discountVAT;
-
-			$this->_session->set('cart', $cart);
-		}
-
-		return $discount_amount_final;
+		return Redshop\Cart\Helper::getDiscountAmount($cart, $userId);
 	}
 
+	/**
+	 * Method for get price of product
+	 *
+	 * @param   integer $product_id            Product ID
+	 * @param   integer $show_price_with_vat   True for include VAT. False for not include VAT
+	 * @param   integer $user_id               User ID
+	 *
+	 * @return  float
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
 	{
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$row    = $this->getProductById($product_id);
-		$result = $this->getProductPrices($product_id, $user_id);
-
-		if (!empty($result))
-		{
-			$temp_Product_price = $result->product_price;
-			$row->product_price = $temp_Product_price;
-		}
-
-		$discount_product_id = $this->getProductSpecialId($user_id);
-		$res                 = $this->getProductSpecialPrice($row->product_price, $discount_product_id);
-
-		if (!empty($res))
-		{
-			$discount_amount = 0;
-
-			if (count($res) > 0)
-			{
-				if ($res->discount_type == 0)
-				{
-					$discount_amount = $res->discount_amount;
-				}
-				else
-				{
-					$discount_amount = ($row->product_price * $res->discount_amount) / (100);
-				}
-			}
-
-			$row->product_price = $row->product_price - $discount_amount;
-
-			if ($row->product_price < 0)
-			{
-				$row->product_price = 0;
-			}
-		}
-
-		$tax_amount = 0;
-
-		if ($show_price_with_vat && $row->product_price != 0)
-		{
-			$tax_amount = $this->getProductTax($row->product_id, $row->product_price, $user_id);
-		}
-
-		$product_price = $tax_amount + $row->product_price;
-
-		return $product_price;
+		return Redshop\Product\Price::getPrice($product_id, (boolean) $show_price_with_vat, $user_id);
 	}
 
 	/**
@@ -1187,99 +1054,48 @@ class productHelper
 		return RedshopHelperUser::getUserInformation($userId, $addressType, $userInfoId);
 	}
 
-	public function getApplyVatOrNot($data_add = "", $user_id = 0)
+	/**
+	 * Method for check if template apply VAT or not
+	 *
+	 * @param   string   $template  Template content
+	 * @param   integer  $userId    User ID
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Template\Helper::isApplyVat
+	 */
+	public function getApplyVatOrNot($template = "", $userId = 0)
 	{
-		$user            = JFactory::getUser();
-		$userInformation = array();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		if ($user_id != 0)
-		{
-			$userInformation = $this->getUserInformation($user_id);
-		}
-
-		if (count($userInformation) <= 0)
-		{
-			$userInformation = $this->GetdefaultshopperGroupData();
-		}
-
-		if (!empty($userInformation)
-			&& isset($userInformation->show_price_without_vat)
-			&& $userInformation->show_price_without_vat)
-		{
-			return false;
-		}
-
-		if (strpos($data_add, "{without_vat}") !== false)
-		{
-			return false;
-		}
-		else
-		{
-			return RedshopHelperCart::taxExemptAddToCart($user_id);
-		}
-
-		return true;
+		return \Redshop\Template\Helper::isApplyVat($template, $userId);
 	}
 
+	/**
+	 * Method for check if template apply attribute VAT or not
+	 *
+	 * @param   string   $template  Template content
+	 * @param   integer  $userId    User ID
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Template\Helper::isApplyAttributeVat
+	 */
 	public function getApplyattributeVatOrNot($template = "", $userId = 0)
 	{
-		$userInformation = new stdClass;
-
-		if ($userId == 0)
-		{
-			$userId = JFactory::getUser()->id;
-		}
-
-		if ($userId != 0)
-		{
-			$userInformation = $this->getUserInformation($userId);
-		}
-
-		if (count((array) $userInformation) == 0)
-		{
-			$userInformation = $this->GetdefaultshopperGroupData();
-		}
-
-		if (!empty($userInformation)
-			&& isset($userInformation->show_price_without_vat)
-			&& $userInformation->show_price_without_vat)
-		{
-			return false;
-		}
-
-		if (strpos($template, "{attribute_price_without_vat}") !== false)
-		{
-			return false;
-		}
-		elseif (strpos($template, "{attribute_price_with_vat}") !== false)
-		{
-			return true;
-		}
-		else
-		{
-			return RedshopHelperCart::taxExemptAddToCart($userId);
-		}
-
-		return true;
+		return \Redshop\Template\Helper::isApplyAttributeVat($template, $userId);
 	}
 
+	/**
+	 * Method for get default shopper group data
+	 *
+	 * @return   array
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 */
 	public function GetdefaultshopperGroupData()
 	{
-		$list           = array();
-		$shopperGroupId = RedshopHelperUser::getShopperGroup();
-		$result         = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
-
-		if (count($result) > 0)
-		{
-			$list = $result[0];
-		}
-
-		return $list;
+		return \Redshop\Helper\ShopperGroup::getDefault();
 	}
 
 	/**
@@ -2125,11 +1941,11 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated   __DEPLOY_VERSION__
-	 * @see \Redshop\Helper\Template::getAttribute
+	 * @see \Redshop\Template\Helper::getAttribute
 	 */
 	public function getAttributeTemplate($templateHtml = '', $display = true)
 	{
-		return \Redshop\Helper\Template::getAttribute($templateHtml, $display);
+		return \Redshop\Template\Helper::getAttribute($templateHtml, $display);
 	}
 
 	/**
@@ -2158,11 +1974,11 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated   __DEPLOY_VERSION__
-	 * @see \Redshop\Helper\Template::getAddToCart
+	 * @see \Redshop\Template\Helper::getAddToCart
 	 */
 	public function getAddtoCartTemplate($templateHtml = '')
 	{
-		return \Redshop\Helper\Template::getAddToCart($templateHtml);
+		return \Redshop\Template\Helper::getAddToCart($templateHtml);
 	}
 
 	/**
@@ -2174,11 +1990,11 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated   __DEPLOY_VERSION__
-	 * @see \Redshop\Helper\Template::getAccessory
+	 * @see \Redshop\Template\Helper::getAccessory
 	 */
 	public function getAccessoryTemplate($templateHtml = "")
 	{
-		return \Redshop\Helper\Template::getAccessory($templateHtml);
+		return \Redshop\Template\Helper::getAccessory($templateHtml);
 	}
 
 	/**
@@ -2190,11 +2006,11 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated   __DEPLOY_VERSION__
-	 * @see \Redshop\Helper\Template::getRelatedProduct
+	 * @see \Redshop\Template\Helper::getRelatedProduct
 	 */
 	public function getRelatedProductTemplate($templateHtml = '')
 	{
-		return \Redshop\Helper\Template::getRelatedProduct($templateHtml);
+		return \Redshop\Template\Helper::getRelatedProduct($templateHtml);
 	}
 
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
@@ -2421,7 +2237,7 @@ class productHelper
 		if ($showPrice)
 		{
 			// Product show price without formatted
-			$applytax = $this->getApplyVatOrNot($data_add);
+			$applytax = \Redshop\Template\Helper::isApplyVat($data_add);
 
 			if ($applytax)
 			{
@@ -2476,11 +2292,11 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated    __DEPLOY_VERSION__
-	 * @see \Redshop\Helper\Template::getAjaxDetailBox
+	 * @see \Redshop\Template\Helper::getAjaxDetailBox
 	 */
 	public function getAjaxDetailboxTemplate($product)
 	{
-		return \Redshop\Helper\Template::getAjaxDetailBox($product);
+		return \Redshop\Template\Helper::getAjaxDetailBox($product);
 	}
 
 	/**
@@ -3254,7 +3070,7 @@ class productHelper
 
 		$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart($user_id, true);
 
-		$cart_template = \Redshop\Helper\Template::getAddToCart($data_add);
+		$cart_template = \Redshop\Template\Helper::getAddToCart($data_add);
 
 		if (null === $cart_template)
 		{
@@ -3752,7 +3568,7 @@ class productHelper
 					$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
 				}
 
-				$ajaxdetail_templatedata = \Redshop\Helper\Template::getAjaxDetailBox($product);
+				$ajaxdetail_templatedata = \Redshop\Template\Helper::getAjaxDetailBox($product);
 
 				if (null !== $ajaxdetail_templatedata)
 				{
@@ -4138,8 +3954,8 @@ class productHelper
 			$user_id = $user->id;
 		}
 
-		$data                  = \Redshop\Helper\Template::getCart();
-		$chktag                = $this->getApplyattributeVatOrNot($data[0]->template_desc, $user_id);
+		$data                  = \Redshop\Template\Helper::getCart();
+		$chktag                = \Redshop\Template\Helper::isApplyAttributeVat($data[0]->template_desc, $user_id);
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
 		$displayaccessory      = "";
@@ -4293,11 +4109,11 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated    __DEPLOY_VERSION__
-	 * @see \Redshop\Helper\Template::getCart
+	 * @see \Redshop\Template\Helper::getCart
 	 */
 	public function getCartTemplate()
 	{
-		return \Redshop\Helper\Template::getCart();
+		return \Redshop\Template\Helper::getCart();
 	}
 
 	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')
@@ -4312,7 +4128,7 @@ class productHelper
 
 		$sel                  = 0;
 		$selP                 = 0;
-		$applyVat             = $this->getApplyattributeVatOrNot($data, $userId);
+		$applyVat             = \Redshop\Template\Helper::isApplyAttributeVat($data, $userId);
 		$setPropEqual         = true;
 		$setSubpropEqual      = true;
 		$selectedAttributs    = array();
@@ -4535,7 +4351,7 @@ class productHelper
 		$stockroomhelper   = rsstockroomhelper::getInstance();
 		$order_functions   = order_functions::getInstance();
 		$displayattribute  = "";
-		$chktag            = $this->getApplyattributeVatOrNot($data);
+		$chktag            = \Redshop\Template\Helper::isApplyAttributeVat($data);
 		$product_attribute = "";
 		$quantity          = 0;
 		$stockroom_id      = "0";
@@ -4551,10 +4367,10 @@ class productHelper
 			$stockroom_id      = $orderItemdata[0]->stockroom_id;
 		}
 
-		$orderItemAttdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
+		$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
 
 		// Get Attribute middle template
-		$attribute_middle_template = $this->getAttributeTemplateLoop($data);
+		$attribute_middle_template = \Redshop\Template\Helper::getAttributeTemplateLoop($data);
 		$attribute_final_template = '';
 
 		if (count($orderItemAttdata) > 0)
@@ -4736,13 +4552,13 @@ class productHelper
 	 * @param   string  $end     Ending string where you need to end search
 	 * @param   string  $string  Target string from where need to search
 	 *
-	 * @return  array           Matched string array
+	 * @return  array            Matched string array
+	 *
+	 * @deprecated __DEPLOY_VERSION__
 	 */
 	public function findStringBetween($start, $end, $string)
 	{
-		preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
-
-		return $m[1];
+		return \Redshop\Helper\Utility::findStringBetween($start, $end, $string);
 	}
 
 	/**
@@ -4751,21 +4567,13 @@ class productHelper
 	 * @param   string  $template  Attribute Template data
 	 *
 	 * @return  string             Template middle data
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Template\Helper::getAttributeTemplateLoop
 	 */
 	public function getAttributeTemplateLoop($template)
 	{
-		$start   = "{product_attribute_loop_start}";
-		$end     = "{product_attribute_loop_end}";
-		$matches = $this->findStringBetween($start, $end, $template);
-
-		$template_middle = '';
-
-		if (count($matches) > 0)
-		{
-			$template_middle = $matches[0];
-		}
-
-		return $template_middle;
+		return \Redshop\Template\Helper::getAttributeTemplateLoop($template);
 	}
 
 	public function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
@@ -5106,34 +4914,12 @@ class productHelper
 	 *
 	 * @param   int  $productId  Product id
 	 *
-	 * @return string
+	 * @return  string
+	 * @deprecated __DEPLOY_VERSION__
 	 */
 	public function getProductRating($productId)
 	{
-		$finalAvgReviewData = '';
-
-		if ($productData = $this->getProductById($productId))
-		{
-			$avgRating = 0;
-
-			if ($productData->count_rating > 0)
-			{
-				$avgRating = round($productData->sum_rating / $productData->count_rating);
-			}
-
-			if ($avgRating > 0)
-			{
-				$finalAvgReviewData = RedshopLayoutHelper::render(
-					'product.rating',
-					array(
-						'avgRating' => $avgRating,
-						'countRating' => $productData->count_rating
-					)
-				);
-			}
-		}
-
-		return $finalAvgReviewData;
+		return Redshop\Product\Rating::getRating($productId);
 	}
 
 	/**
@@ -6015,7 +5801,7 @@ class productHelper
 		$extra_field      = extraField::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
-		$related_template = \Redshop\Helper\Template::getRelatedProduct($template_desc);
+		$related_template = \Redshop\Template\Helper::getRelatedProduct($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
 		JPluginHelper::importPlugin('redshop_product');
@@ -6035,7 +5821,7 @@ class productHelper
 				$tempdata_div_middle = $product_end [0];
 				$tempdata_div_end    = $product_end [1];
 
-				$attribute_template = \Redshop\Helper\Template::getAttribute($tempdata_div_middle);
+				$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
 
 				// Extra field display
 				$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
@@ -6319,7 +6105,6 @@ class productHelper
 			->setLimit(0, 1);
 
 		return $db->setQuery($query)->loadResult();
-
 	}
 
 	public function removeOutofstockProduct($products)

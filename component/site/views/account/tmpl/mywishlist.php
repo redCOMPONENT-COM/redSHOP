@@ -161,7 +161,7 @@ if ($mail == 0)
 			$link_remove = JRoute::_($link_remove . '&Itemid=' . $Itemid, false);
 
 			$thum_image             = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
-			$product_price          = $producthelper->getProductPrice($row->product_id);
+			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
 			$pname         = "<a href='" . $link . "' >" . $row->product_name . "</a>";
@@ -281,7 +281,7 @@ if ($mail == 0)
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
-			$attribute_template = \Redshop\Helper\Template::getAttribute($wishlist_data);
+			$attribute_template = \Redshop\Template\Helper::getAttribute($wishlist_data);
 
 			$wishlistData = $row->wishlistData;
 

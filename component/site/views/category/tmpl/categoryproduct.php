@@ -205,7 +205,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$template_d2      = explode("{product_loop_end}", $template_d1 [1]);
 			$template_product = $template_d2 [0];
 
-			$attribute_template = \Redshop\Helper\Template::getAttribute($template_product);
+			$attribute_template = \Redshop\Template\Helper::getAttribute($template_product);
 			$extraFieldName     = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$product_data       = '';
 			$prddata_add        = "";
@@ -271,7 +271,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($product);
+					$ajax_detail_template      = \Redshop\Template\Helper::getAjaxDetailBox($product);
 
 					if (null !== $ajax_detail_template)
 					{
@@ -383,7 +383,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if (strstr($prddata_add, '{product_rating_summary}'))
 				{
 					// Product Review/Rating Fetching reviews
-					$final_avgreview_data = $producthelper->getProductRating($product->product_id);
+					$final_avgreview_data = Redshop\Product\Rating::getRating($product->product_id);
 					$prddata_add          = str_replace("{product_rating_summary}", $final_avgreview_data, $prddata_add);
 				}
 

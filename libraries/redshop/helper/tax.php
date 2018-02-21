@@ -36,7 +36,7 @@ class RedshopHelperTax
 	{
 		if (strpos($templateData, "{vat_info}") !== false)
 		{
-			$strVat = productHelper::getInstance()->getApplyVatOrNot($templateData) ?
+			$strVat = \Redshop\Template\Helper::isApplyVat($templateData) ?
 				Redshop::getConfig()->get('WITH_VAT_TEXT_INFO') : Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
 
 			$templateData = str_replace("{vat_info}", $strVat, $templateData);

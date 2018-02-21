@@ -80,7 +80,7 @@ if ($this->params->get('show_page_heading', 1))
 
 	if (strstr($template_desc, "{address_fields}"))
 	{
-		$address_fields = $extra_field->list_all_field(9, 0, '', 1);
+		$address_fields = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COLOR_SAMPLE, 0);
 		$myfield        = "<table class='admintable' border='0'>";
 		$myfield .= $address_fields;
 		$myfield .= '</table>';

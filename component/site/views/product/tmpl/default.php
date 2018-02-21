@@ -793,7 +793,7 @@ else
 	$attributes = array_merge($attributes, $attributes_set);
 }
 
-$attribute_template = \Redshop\Helper\Template::getAttribute($template_desc);
+$attribute_template = \Redshop\Template\Helper::getAttribute($template_desc);
 
 // Check product for not for sale
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
@@ -1467,7 +1467,7 @@ $template_desc = $producthelper->replaceWishlistButton($this->data->product_id, 
 $template_desc = Redshop\Product\Compare::replaceCompareProductsButton($this->data->product_id, $this->data->category_id, $template_desc);
 
 // Ajax detail box template
-$ajaxdetail_templatedata = \Redshop\Helper\Template::getAjaxDetailBox($this->data);
+$ajaxdetail_templatedata = \Redshop\Template\Helper::getAjaxDetailBox($this->data);
 
 if (null !== $ajaxdetail_templatedata)
 {
@@ -1522,7 +1522,7 @@ $template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 // Product Review/Rating
 if (strstr($template_desc, "{product_rating_summary}"))
 {
-	$final_avgreview_data = $producthelper->getProductRating($this->data->product_id);
+	$final_avgreview_data = Redshop\Product\Rating::getRating($this->data->product_id);
 
 	if ($final_avgreview_data != "")
 	{

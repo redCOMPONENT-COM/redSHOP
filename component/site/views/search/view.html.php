@@ -300,7 +300,7 @@ class RedshopViewSearch extends RedshopView
 
 			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
-			$attribute_template            = \Redshop\Helper\Template::getAttribute($template_desc);
+			$attribute_template            = \Redshop\Template\Helper::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
 			$endlimit = $model->getState('list.limit');
@@ -392,7 +392,7 @@ class RedshopViewSearch extends RedshopView
 
 				// Product Review/Rating
 				// Fetching reviews
-				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]->product_id);
+				$final_avgreview_data = Redshop\Product\Rating::getRating($this->search[$i]->product_id);
 
 				// Attribute ajax chage
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
@@ -573,7 +573,7 @@ class RedshopViewSearch extends RedshopView
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = \Redshop\Helper\Template::getAjaxDetailBox($this->search[$i]);
+					$ajax_detail_template      = \Redshop\Template\Helper::getAjaxDetailBox($this->search[$i]);
 
 					if (null !== $ajax_detail_template)
 					{
