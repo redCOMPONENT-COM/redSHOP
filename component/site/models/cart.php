@@ -86,7 +86,7 @@ class RedshopModelCart extends RedshopModel
 					|| (!isset($usersess['vatCountry']) || !isset($usersess['vatState']) || $usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code)
 				)
 				{
-					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
+					$cart                          = \Redshop\Cart\Cart::modify($cart, $user_id);
 					$cart['user_shopper_group_id'] = $shopperGroupId;
 
 					$task = JFactory::getApplication()->input->getCmd('task');

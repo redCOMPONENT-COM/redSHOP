@@ -1318,7 +1318,7 @@ class rsCarthelper
 	/**
 	 * Method for get parameters of module cart
 	 *
-	 * @return  array
+	 * @return  Registry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @see \Redshop\Cart\Module::getParams()
@@ -1328,159 +1328,20 @@ class rsCarthelper
 		return \Redshop\Cart\Module::getParams();
 	}
 
+	/**
+	 * Method for modify cart data.
+	 *
+	 * @param   array   $cartArr   Cart data.
+	 * @param   integer $user_id   User ID
+	 *
+	 * @return  array
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see \Redshop\Cart\Cart::modify
+	 */
 	public function modifyCart($cartArr, $user_id)
 	{
-		$cartArr['user_id'] = $user_id;
-		$idx = 0;
-
-		if (isset($cartArr['idx']))
-		{
-			$idx = (int) $cartArr['idx'];
-		}
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			if (!isset($cartArr[$i]['giftcard_id'])
-				|| (isset($cartArr[$i]['giftcard_id']) && $cartArr[$i]['giftcard_id'] <= 0))
-			{
-				$product_id   = $cartArr[$i]['product_id'];
-				$quantity     = $cartArr[$i]['quantity'];
-				$product      = RedshopHelperProduct::getProductById($product_id);
-				$hasAttribute = isset($cartArr[$i]['cart_attribute']) ? true : false;
-
-				// Attribute price
-				$price = 0;
-
-				if (!isset($cartArr['quotation']))
-				{
-					$cartArr['quotation'] = 0;
-				}
-
-				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1) && !$hasAttribute)
-				{
-					$price = $cartArr[$i]['product_price_excl_vat'];
-				}
-
-				if ($product->use_discount_calc)
-				{
-					$price = $cartArr[$i]['discount_calc_price'];
-				}
-
-				// Only set price without vat for accessories as product
-				$accessoryAsProdutWithoutVat = false;
-
-				if (isset($cartArr['AccessoryAsProduct']))
-				{
-					// Accessory price fix during update
-					$accessoryAsProdut = RedshopHelperAccessory::getAccessoryAsProduct($cartArr['AccessoryAsProduct']);
-
-					if (isset($accessoryAsProdut->accessory)
-						&& isset($accessoryAsProdut->accessory[$cartArr[$i]['product_id']])
-						&& isset($cartArr[$i]['accessoryAsProductEligible']))
-					{
-						$accessoryAsProdutWithoutVat = '{without_vat}';
-
-						$accessoryPrice                        = (float) $accessoryAsProdut->accessory[$cartArr[$i]['product_id']]->newaccessory_price;
-						$price                                 = $this->_producthelper->productPriceRound($accessoryPrice);
-						$cartArr[$i]['product_price_excl_vat'] = $this->_producthelper->productPriceRound($accessoryPrice);
-					}
-				}
-
-				$retAttArr = $this->_producthelper->makeAttributeCart(
-					isset($cartArr[$i]['cart_attribute']) ? $cartArr[$i]['cart_attribute'] : array(),
-					(int) $product->product_id,
-					$user_id,
-					$price,
-					$quantity,
-					$accessoryAsProdutWithoutVat
-				);
-
-				$accessoryAsProductZero = (count($retAttArr[8]) == 0 && $price == 0 && $accessoryAsProdutWithoutVat);
-
-				// Product + attribute (price)
-				$getproprice = ($accessoryAsProductZero) ? 0 : $retAttArr[1];
-
-				// Product + attribute (VAT)
-				$getprotax                  = ($accessoryAsProductZero) ? 0 : $retAttArr[2];
-				$product_old_price_excl_vat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
-
-				// Accessory calculation
-				$retAccArr = $this->_producthelper->makeAccessoryCart(
-					isset($cartArr[$i]['cart_accessory']) ? $cartArr[$i]['cart_accessory'] : array(),
-					$product->product_id,
-					$user_id
-				);
-
-				// Accessory + attribute (price)
-				$getaccprice = $retAccArr[1];
-
-				// Accessory + attribute (VAT)
-				$getacctax = $retAccArr[2];
-				$product_old_price_excl_vat += $retAccArr[1];
-
-				// ADD WRAPPER PRICE
-				$wrapper_vat   = 0;
-				$wrapper_price = 0;
-
-				if (array_key_exists('wrapper_id', $cartArr[$i]))
-				{
-					if ($cartArr[$i]['wrapper_id'])
-					{
-						$wrapperArr                 = $this->getWrapperPriceArr(array('product_id' => $cartArr[$i]['product_id'], 'wrapper_id' => $cartArr[$i]['wrapper_id']));
-						$wrapper_vat                = $wrapperArr['wrapper_vat'];
-						$wrapper_price              = $wrapperArr['wrapper_price'];
-						$product_old_price_excl_vat += $wrapper_price;
-					}
-				}
-
-				$product_price          = $getaccprice + $getproprice + $getprotax + $getacctax + $wrapper_price + $wrapper_vat;
-				$product_vat            = ($getprotax + $getacctax + $wrapper_vat);
-				$product_price_excl_vat = ($getproprice + $getaccprice + $wrapper_price);
-
-				if ($product->product_type == 'subscription')
-				{
-					if (isset($cartArr[$i]['subscription_id']) && $cartArr[$i]['subscription_id'] != "")
-					{
-						$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cartArr[$i]['subscription_id']);
-						$subscription_vat    = 0;
-						$subscription_price  = $subscription_detail->subscription_price;
-
-						if ($subscription_price)
-						{
-							$subscription_vat = RedshopHelperProduct::getProductTax($this->data->product_id, $subscription_price);
-						}
-
-						$product_vat += $subscription_vat;
-						$product_price = $product_price + $subscription_price + $subscription_vat;
-						$product_price_excl_vat += $subscription_price;
-						$product_old_price_excl_vat += $subscription_price + $subscription_vat;
-					}
-					else
-					{
-						return;
-					}
-				}
-
-				// Set product price
-				if ($product_price < 0)
-				{
-					$product_price = 0;
-				}
-
-				$cartArr[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat;
-				$cartArr[$i]['product_price_excl_vat']     = $product_price_excl_vat;
-				$cartArr[$i]['product_vat']                = $product_vat;
-				$cartArr[$i]['product_price']              = $product_price;
-
-				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = RedshopHelperUtility::getDispatcher();
-				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
-			}
-		}
-
-		unset($cartArr[$idx]);
-
-		return $cartArr;
+		return \Redshop\Cart\Cart::modify($cartArr, $user_id);
 	}
 
 	public function replaceShippingBoxTemplate($box_template_desc = "", $shipping_box_post_id = 0)

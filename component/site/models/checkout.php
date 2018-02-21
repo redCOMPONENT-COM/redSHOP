@@ -106,7 +106,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($user->id)
 		{
-			$cart = $this->_carthelper->modifyCart($cart, $user->id);
+			$cart = \Redshop\Cart\Cart::modify($cart, $user->id);
 		}
 
 		RedshopHelperCartSession::setCart($cart);
@@ -2058,7 +2058,7 @@ class RedshopModelCheckout extends RedshopModel
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
 		$session->set('rs_user', $usersess);
-		$cart     = $this->_carthelper->modifyCart($cart, $user_id);
+		$cart     = \Redshop\Cart\Cart::modify($cart, $user_id);
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
