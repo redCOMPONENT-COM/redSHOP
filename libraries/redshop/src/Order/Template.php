@@ -67,7 +67,7 @@ class Template
 		$totalForDiscount = !\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') ? $subTotalExcludeVAT : $row->order_subtotal;
 
 		$template   = \rsCarthelper::getInstance()->replaceLabel($template);
-		$isApplyVAT = \productHelper::getInstance()->getApplyVatOrNot($template);
+		$isApplyVAT = \Redshop\Template\Helper::isApplyVat($template);
 
 		// Order sub-total
 		$search[] = "{order_subtotal}";

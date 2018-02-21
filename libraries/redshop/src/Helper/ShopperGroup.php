@@ -56,4 +56,19 @@ class ShopperGroup
 
 		return self::$list[$shopperGroupId];
 	}
+
+	/**
+	 * Method for get default shopper group data
+	 *
+	 * @return   array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDefault()
+	{
+		$shopperGroupId = \RedshopHelperUser::getShopperGroup();
+		$result         = self::generateList($shopperGroupId);
+
+		return count($result) ? $result[0] : array();
+	}
 }

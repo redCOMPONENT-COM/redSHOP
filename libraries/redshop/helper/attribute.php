@@ -45,7 +45,7 @@ abstract class RedshopHelperAttribute
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 
-		$chktag    = $productHelper->getApplyattributeVatOrNot($templateContent);
+		$chktag    = \Redshop\Template\Helper::isApplyAttributeVat($templateContent);
 		$chktagArr = array(
 			'chkvat' => $chktag
 		);
@@ -54,7 +54,7 @@ abstract class RedshopHelperAttribute
 
 		if (Redshop::getConfig()->getInt('INDIVIDUAL_ADD_TO_CART_ENABLE') == 1 && $displayIndCart)
 		{
-			$attributeTemplate = empty($attributeTemplate) ? \Redshop\Helper\Template::getAttribute($templateContent, false) : $attributeTemplate;
+			$attributeTemplate = empty($attributeTemplate) ? \Redshop\Template\Helper::getAttribute($templateContent, false) : $attributeTemplate;
 
 			if (!empty($attributeTemplate))
 			{
@@ -66,7 +66,7 @@ abstract class RedshopHelperAttribute
 			);
 		}
 
-		$attributeTemplate = empty($attributeTemplate) ? \Redshop\Helper\Template::getAttribute($templateContent, false) : $attributeTemplate;
+		$attributeTemplate = empty($attributeTemplate) ? \Redshop\Template\Helper::getAttribute($templateContent, false) : $attributeTemplate;
 
 		if (empty($attributeTemplate) || $attributeTemplate == new stdClass)
 		{
@@ -787,7 +787,7 @@ abstract class RedshopHelperAttribute
 
 						$priceWithoutVat = $property->property_price;
 
-						if ($productHelper->getApplyattributeVatOrNot($propertyData))
+						if (\Redshop\Template\Helper::isApplyAttributeVat($propertyData))
 						{
 							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
 						}
@@ -810,7 +810,7 @@ abstract class RedshopHelperAttribute
 
 				if (empty($cartTemplate))
 				{
-					$cartTemplate = \Redshop\Helper\Template::getAddToCart($propertyData);
+					$cartTemplate = \Redshop\Template\Helper::getAddToCart($propertyData);
 				}
 
 				if (null !== $cartTemplate)
@@ -856,7 +856,7 @@ abstract class RedshopHelperAttribute
 
 		if ($attributeTable != "")
 		{
-			$cart_template = \Redshop\Helper\Template::getAddToCart($templateContent);
+			$cart_template = \Redshop\Template\Helper::getAddToCart($templateContent);
 
 			if (null !== $cart_template)
 			{

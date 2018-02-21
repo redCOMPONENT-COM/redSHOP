@@ -446,7 +446,7 @@ class RedshopHelperCartTag
 				// Trigger to change product image.
 				$dispatcher->trigger('onSetCartOrderItemImage', array(&$cart, &$productImage, $product, $i));
 
-				$isApplyVAT        = productHelper::getInstance()->getApplyVatOrNot($data);
+				$isApplyVAT        = \Redshop\Template\Helper::isApplyVat($data);
 				$productTotalPrice = "<div class='product_price'>";
 
 				if (!$quotationMode || ($quotationMode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
