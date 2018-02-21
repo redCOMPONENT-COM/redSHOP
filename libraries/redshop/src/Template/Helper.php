@@ -26,8 +26,8 @@ class Helper
 	/**
 	 * Method for check if template apply attribute VAT or not
 	 *
-	 * @param   string   $template  Template content
-	 * @param   integer  $userId    User ID
+	 * @param   string  $template Template content
+	 * @param   integer $userId   User ID
 	 *
 	 * @return  boolean
 	 *
@@ -35,22 +35,9 @@ class Helper
 	 */
 	public static function isApplyAttributeVat($template = "", $userId = 0)
 	{
-		$userInformation = new \stdClass;
-
-		if ($userId == 0)
-		{
-			$userId = \JFactory::getUser()->id;
-		}
-
-		if ($userId != 0)
-		{
-			$userInformation = \RedshopHelperUser::getUserInformation($userId);
-		}
-
-		if (count((array) $userInformation) == 0)
-		{
-			$userInformation = \Redshop\Helper\ShopperGroup::getDefault();
-		}
+		$userId          = !$userId ? \JFactory::getUser()->id : $userId;
+		$userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
+		$userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
 
 		if (!empty($userInformation)
 			&& isset($userInformation->show_price_without_vat)
@@ -74,8 +61,8 @@ class Helper
 	/**
 	 * Method for check if template apply VAT or not
 	 *
-	 * @param   string   $template  Template content
-	 * @param   integer  $userId    User ID
+	 * @param   string  $template Template content
+	 * @param   integer $userId   User ID
 	 *
 	 * @return  boolean
 	 *
@@ -83,23 +70,9 @@ class Helper
 	 */
 	public static function isApplyVat($template = "", $userId = 0)
 	{
-		$user            = \JFactory::getUser();
-		$userInformation = array();
-
-		if ($userId == 0)
-		{
-			$userId = $user->id;
-		}
-
-		if ($userId != 0)
-		{
-			$userInformation = \RedshopHelperUser::getUserInformation($userId);
-		}
-
-		if (count($userInformation) <= 0)
-		{
-			$userInformation = \Redshop\Helper\ShopperGroup::getDefault();
-		}
+		$userId          = !$userId ? \JFactory::getUser()->id : $userId;
+		$userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
+		$userInformation = ($userInformation === new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
 
 		if (!empty($userInformation)
 			&& isset($userInformation->show_price_without_vat)
@@ -119,7 +92,7 @@ class Helper
 	/**
 	 * Method for get accessory template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  object
 	 * @throws  \Exception
@@ -166,7 +139,7 @@ class Helper
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -206,7 +179,7 @@ class Helper
 	/**
 	 * Method for get related-product template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -255,7 +228,7 @@ class Helper
 	/**
 	 * Method for get ajax detail box template
 	 *
-	 * @param   object  $product  Product data
+	 * @param   object $product Product data
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -315,8 +288,8 @@ class Helper
 	/**
 	 * Method for get attribute template
 	 *
-	 * @param   string   $templateHtml  Template html
-	 * @param   boolean  $display       Is display?
+	 * @param   string  $templateHtml Template html
+	 * @param   boolean $display      Is display?
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -402,7 +375,7 @@ class Helper
 	/**
 	 * Method to get attribute template loop
 	 *
-	 * @param   string  $template  Attribute Template data
+	 * @param   string $template Attribute Template data
 	 *
 	 * @return  string             Template middle data
 	 *

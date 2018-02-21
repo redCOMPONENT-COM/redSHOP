@@ -298,12 +298,11 @@ class RedshopControllerCart extends RedshopController
 	 * @param   array $cart Cart data.
 	 *
 	 * @return  mixed
-     * @throws  Exception
+	 * @throws  Exception
 	 */
 	public function modifyCalculation($cart)
 	{
 		$cart                     = !is_array($cart) ? (array) $cart : $cart;
-		$productHelper            = productHelper::getInstance();
 		$calArr                   = \Redshop\Cart\Helper::calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$discountAmount           = 0;
@@ -624,9 +623,9 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::cartFinalCalculation();
 
 		?>
-        <script type="text/javascript">
-            window.parent.location.reload();
-        </script>
+		<script type="text/javascript">
+			window.parent.location.reload();
+		</script>
 		<?php
 	}
 
@@ -639,9 +638,9 @@ class RedshopControllerCart extends RedshopController
 	public function cancel()
 	{
 		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . JFactory::getApplication()->input->getInt('Itemid'), false); ?>
-        <script language="javascript">
-            window.parent.location.href = "<?php echo $link ?>";
-        </script>
+		<script language="javascript">
+			window.parent.location.href = "<?php echo $link ?>";
+		</script>
 		<?php
 		JFactory::getApplication()->close();
 	}

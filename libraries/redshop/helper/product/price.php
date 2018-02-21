@@ -274,7 +274,7 @@ class RedshopHelperProductPrice
 		$priceSavingLabel   = '';
 		$oldPriceExcludeVat = '';
 
-		$result = productHelper::getInstance()->getProductPrices($productId, $userId, $quantity);
+		$result = RedshopHelperProduct::getProductPrices($productId, $userId, $quantity);
 
 		if (!empty($result))
 		{
