@@ -26,9 +26,8 @@ cache:
 env:
   matrix:
       - ACCEPTANCE=false
-      - ACCEPTANCE=true
-#      - ACCEPTANCE=acceptance/administrator
-#      - ACCEPTANCE=acceptance/integration
+      - ACCEPTANCE=acceptance/administrator
+      - ACCEPTANCE=acceptance/integration
 
   global:
     - CLOUD_NAME=redcomponent
