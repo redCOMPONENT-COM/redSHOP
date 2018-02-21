@@ -649,6 +649,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->comment('Business');
 				$I->wantToTest($function);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
 				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
 				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
