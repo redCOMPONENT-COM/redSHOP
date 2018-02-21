@@ -103,7 +103,7 @@ else
 	}
 	else
 	{
-		$template_desc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", "", $template_desc);
+		$template_desc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", $template_desc);
 	}
 
 	$billing .= '</div>';

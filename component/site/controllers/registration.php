@@ -175,7 +175,7 @@ class RedshopControllerRegistration extends RedshopController
 		if ($isCompany == 1 && $type == 'company')
 		{
 			$lists['extra_field_company'] = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, 0, '', 1, '', '', 1, 1
+				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, 0, '', '', 1, 1
 			);
 
 			$template = RedshopHelperTemplate::getTemplate("company_billing_template");
@@ -219,7 +219,7 @@ class RedshopControllerRegistration extends RedshopController
 		elseif ($isCompany == 0 && $type == 'private')
 		{
 			$lists['extra_field_user'] = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, 0, '', 1, '', '', 1, 1
+				RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, 0, '', '', 1, 1
 			);
 
 			$template = RedshopHelperTemplate::getTemplate("private_billing_template");

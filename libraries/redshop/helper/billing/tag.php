@@ -85,7 +85,7 @@ class RedshopHelperBillingTag
 		elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 		{
 			$content = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', '', $content
+				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', $content
 			);
 		}
 

@@ -429,11 +429,10 @@ class RedshopModelProduct extends RedshopModel
 		if (count($str) > 0)
 		{
 			$dbname = implode(",", $str);
-			$field  = extra_field::getInstance();
 
 			for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 			{
-				$list_field[] = $field->list_all_field($sec[$t], $product_id, $dbname);
+				$list_field[] = RedshopHelperExtrafields::listAllField($sec[$t], $product_id, $dbname);
 			}
 		}
 
