@@ -592,7 +592,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productSecond));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
-
+		$I->wait(1);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
 		$I->waitForElement($usePage->productName($productFirst), 30);
