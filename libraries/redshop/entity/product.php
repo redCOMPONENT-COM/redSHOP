@@ -32,7 +32,7 @@ class RedshopEntityProduct extends AbstractEntity
 	protected $relatedProducts = null;
 
 	/**
-	 * @var   RedshopEntitiesCollection  Collections of child products
+	 * @var   EntityCollection  Collections of child products
 	 */
 	protected $childProducts = null;
 
@@ -94,7 +94,7 @@ class RedshopEntityProduct extends AbstractEntity
 	 *
 	 * @param   boolean  $reload  Force reload even it's cached
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -256,7 +256,7 @@ class RedshopEntityProduct extends AbstractEntity
 			return $this;
 		}
 
-		$this->childProducts = new RedshopEntitiesCollection;
+		$this->childProducts = new EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
