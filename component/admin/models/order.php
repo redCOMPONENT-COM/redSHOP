@@ -278,8 +278,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function gls_export($cid)
 	{
-		$productHelper = productHelper::getInstance();
-
 		ob_clean();
 
 		// Start the output
@@ -312,7 +310,7 @@ class RedshopModelOrder extends RedshopModel
 				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
 			}
 
-			$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+			$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 
 			if ($unitRatio != 0)
 			{
@@ -387,8 +385,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function business_gls_export($cid)
 	{
-		$productHelper = productHelper::getInstance();
-
 		ob_clean();
 
 		// Start the ouput
@@ -421,7 +417,7 @@ class RedshopModelOrder extends RedshopModel
 				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
 			}
 
-			$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+			$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 
 			if ($unitRatio != 0)
 			{
@@ -495,7 +491,7 @@ class RedshopModelOrder extends RedshopModel
 	{
 		$orderIds = Joomla\Utilities\ArrayHelper::toInteger($orderIds);
 
-		// Initialiase variables.
+		// Init variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
