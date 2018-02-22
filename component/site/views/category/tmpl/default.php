@@ -19,6 +19,7 @@ $redTemplate   = Redtemplate::getInstance();
 
 $url    = JURI::base();
 
+/** @var RedshopModelCategory $model */
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
 
@@ -266,7 +267,7 @@ if (strstr($template_desc, "{show_all_products_in_category}"))
 	$template_desc = str_replace("{pagination}", "", $template_desc);
 }
 
-if (strstr($template_desc, "{pagination}"))
+if (strpos($template_desc, "{pagination}") !== false)
 {
 	$pagination    = $model->getCategoryPagination();
 	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
