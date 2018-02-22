@@ -76,4 +76,35 @@ class RedshopTableMedia extends RedshopTable
 	 * @var string
 	 */
 	public $scope = '';
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfuly?
+	 */
+	protected function doDelete($pk = null)
+	{
+		if ($this->media_section == 'images'
+			&& ($this->media_section == 'manufacturer' || $this->media_section == 'category'))
+		{
+			// New folder structure
+			$folder = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . $this->media_section . '/' . $this->section_id . '/thumb');
+
+			if (JFolder::exists($folder))
+			{
+				JFolder::delete($folder);
+			}
+
+			$file = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . $this->media_section . '/' . $this->section_id . '/' . $this->media_name);
+
+			if (JFile::exists($file))
+			{
+				JFile::delete($file);
+			}
+		}
+
+		return parent::doDelete($pk);
+	}
 }

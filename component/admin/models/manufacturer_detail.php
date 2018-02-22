@@ -160,8 +160,21 @@ class RedshopModelManufacturer_detail extends RedshopModel
 				return false;
 			}
 
+			foreach ($cid as $id)
+			{
+				/** @var RedshopTableMedia $mediaTable */
+				$mediaTable = RedshopTable::getAdminInstance('Media', array(), 'com_redshop');
+
+				if (!$mediaTable->load(array('media_section' => 'manufacturer', 'section_id' => $id, 'media_type' => 'images')))
+				{
+					continue;
+				}
+
+				$mediaTable->delete();
+			}
+
 			JPluginHelper::importPlugin('redshop_product');
-			JDispatcher::getInstance()->trigger('onAfterManufacturerDelete', array($cid));
+			RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerDelete', array($cid));
 		}
 
 		return true;
