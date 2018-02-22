@@ -48,6 +48,8 @@
         deleteUrl: "index.php?option=com_redshop&view=media&task=ajaxDelete",
         allowedMime: "image/jpeg,image/jpg,image/png,image/gif",
         maxFileSize: 2048,
+        imageMaxWidth: 2048,
+        imageMaxHeight: 2048,
         initFile: null,
         showMediaFiles: false
     };
@@ -66,7 +68,6 @@
         this.$dropzonePreview = this.$container.find(".rs-media-dropzone-preview");
         this.$dropzoneForm = this.$container.find(".rs-media-dropzone-form");
         this.$form = this.$container.closest('form');
-        this.$hasFile = false;
 
         this.$alertModal = this.$container.find(".rs-media-alert-modal");
         this.$cropperModal = this.$container.find(".rs-media-cropper-modal");
@@ -111,8 +112,8 @@
                     thumbnailWidth: null,
                     thumbnailHeight: null,
                     previewTemplate: $(self.$dropzonePreview[0]).html(),
-                    resizeWidth: 2048,
-                    resizeHeight: 2048,
+                    resizeWidth: self.options.imageMaxWidth,
+                    resizeHeight: self.options.imageMaxHeight,
                     resizeMethod: 'contain'
                 });
             }
@@ -158,8 +159,6 @@
                 // Preload file from server
                 var newFile = self.dataURItoBlob(self.options.initFile.blob);
                 newFile.name = self.options.initFile.name;
-
-                // this.emit("addedfile", file);
 
                 // And optionally show the thumbnail of the file:
                 self.dropzoneInstance.emit("thumbnail", self.options.initFile, self.options.initFile.url);

@@ -12,19 +12,23 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * =======================
- * @var  array    $displayData   List of data.
- * @var  string   $id            DOM ID
- * @var  integer  $mediaId       Media ID
- * @var  string   $type          Type of section (Ex: product)
- * @var  string   $sectionId     Section ID (Ex: Product ID if $type is product)
- * @var  string   $mediaSection  Section media (Ex: product)
- * @var  array    $file          File data as array
- * @var  bool     $showMedia     Show pop-up for select image from media or not
- * @var  string   $maxFileSize   Max file size to upload
+ * @var  array   $displayData    List of data.
+ * @var  string  $id             DOM ID
+ * @var  integer $mediaId        Media ID
+ * @var  string  $type           Type of section (Ex: product)
+ * @var  string  $sectionId      Section ID (Ex: Product ID if $type is product)
+ * @var  string  $mediaSection   Section media (Ex: product)
+ * @var  array   $file           File data as array
+ * @var  bool    $showMedia      Show pop-up for select image from media or not
+ * @var  integer $maxFileSize    Max file size to upload
+ * @var  integer $imageMaxWidth  Image max width
+ * @var  integer $imageMaxHeight Image max height
  */
 extract($displayData);
 
-$maxFileSize = !empty($maxFileSize) ? $maxFileSize : Redshop::getConfig()->get('MAX_FILE_SIZE_UPLOAD', 2048);
+$maxFileSize    = !empty($maxFileSize) ? $maxFileSize : Redshop::getConfig()->get('MAX_FILE_SIZE_UPLOAD', 2048);
+$imageMaxWidth  = !empty($imageMaxWidth) ? $imageMaxWidth : Redshop::getConfig()->get('IMAGE_MAX_WIDTH', 2048);
+$imageMaxHeight = !empty($imageMaxHeight) ? $imageMaxHeight : Redshop::getConfig()->get('IMAGE_MAX_HEIGHT', 2048);
 
 JText::script('COM_REDSHOP_UPLOAD_FILE_TOO_BIG');
 JText::script('COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID');
@@ -154,7 +158,11 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
-            var option = {maxFileSize: '<?php echo $maxFileSize; ?>'};
+            var option = {
+                maxFileSize: '<?php echo $maxFileSize; ?>',
+                imageMaxWidth: <?php echo $imageMaxWidth ?>,
+                imageMaxHeight: <?php echo $imageMaxHeight ?>
+            };
 			<?php if (!empty($file)): ?>
             option.initFile = {
                 name: "<?php echo $file['name'] ?>",
