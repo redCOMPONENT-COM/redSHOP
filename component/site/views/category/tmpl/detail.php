@@ -27,6 +27,7 @@ $slide = $this->input->getInt('ajaxslide', null);
 $filter_by = $this->input->getInt('manufacturer_id', $this->params->get('manufacturer_id'));
 $category_template = $this->input->getInt('category_template', 0);
 
+/** @var RedshopModelCategory $model */
 $model = $this->getModel('category');
 $minmax = $model->getMaxMinProductPrice();
 $texpricemin = $minmax[0];
@@ -1041,14 +1042,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 	$paginationList  = '';
 	$usePerPageLimit = false;
 
-	if ($this->maincat->products_per_page == $endlimit)
-	{
-		$pagination = new JPagination($model->_total, $start, 0);
-	}
-	else
-	{
-		$pagination = new JPagination($model->_total, $start, $endlimit);
-	}
+	$pagination = new JPagination($model->_total, $start, $endlimit);
 
 	if ($this->productPriceSliderEnable)
 	{
@@ -1056,13 +1050,13 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$pagination->setAdditionalUrlParam('texpricemax', $texpricemax);
 	}
 
-	if (strstr($template_desc, "{pagination}"))
+	if (strpos($template_desc, "{pagination}") !== false)
 	{
 		$paginationList = $pagination->getPagesLinks();
 		$template_desc = str_replace("{pagination}", $paginationList, $template_desc);
 	}
 
-	if (strstr($template_desc, "perpagelimit:"))
+	if (strpos($template_desc, "perpagelimit:") !== false)
 	{
 		$usePerPageLimit = true;
 		$perpage       = explode('{perpagelimit:', $template_desc);
@@ -1070,7 +1064,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 	}
 
-	if (strstr($template_desc, "{product_display_limit}"))
+	if (strpos($template_desc, "{product_display_limit}") !== false)
 	{
 		if (!$usePerPageLimit)
 		{
