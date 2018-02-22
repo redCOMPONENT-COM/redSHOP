@@ -77,6 +77,7 @@ DEFAULT CHARACTER SET = utf8
 COMMENT = 'Custom fields groups';
 
 CALL redSHOP_Column_Update('#__redshop_fields', 'groupId', 'groupId', "INT(11) NULL DEFAULT NULL AFTER `section`");
+CALL redSHOP_Constraint_Remove('#__redshop_fields', '#__rs_field_fk1');
 CALL redSHOP_Index_Add('#__redshop_fields', '#__rs_field_fk1', "(`groupId` ASC)");
 CALL redSHOP_Constraint_Update('#__redshop_fields', '#__rs_field_fk1', 'groupId', '#__redshop_fields_group', 'id', 'CASCADE', 'SET NULL');
 

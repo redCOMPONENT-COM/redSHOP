@@ -76,7 +76,18 @@ defined('_JEXEC') or die;
                         $button.removeClass("hidden");
                     },
                     'JSON'
-                );
+                )
+                    .fail(function(response) {
+                        $.redshopAlert(
+                            "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>",
+                            response.responseText,
+                            "danger"
+                        )
+
+                        $table.find("button").prop("disabled", false).removeClass("disabled");
+                        $loaderImg.addClass("hidden");
+                        $button.removeClass("hidden");
+                    });
             });
         });
     })(jQuery);
@@ -110,7 +121,18 @@ defined('_JEXEC') or die;
                 }
             },
             'JSON'
-        );
+        )
+            .fail(function(response) {
+                $.redshopAlert(
+                    "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
+                    response.responseText,
+                    "danger"
+                );
+
+                $(tableObj).find("button").prop("disabled", false).removeClass("disabled");
+                $(loaderImg).addClass("hidden");
+                $(buttonObj).removeClass("hidden");
+            });
     }
 </script>
 <div class="row-fluid">

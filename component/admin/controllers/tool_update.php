@@ -66,8 +66,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			$return['msg'] = JText::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
-			echo json_encode((object) $return);
+			echo JText::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
 			$app->close();
 		}
 
@@ -102,8 +101,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			$return['msg'] = JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_CLASS', $className);
-			echo json_encode((object) $return);
+			echo JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_CLASS', $className);
 			$app->close();
 		}
 
@@ -112,8 +110,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			$return['msg'] = JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_METHOD_IN_CLASS', $className, $method);
-			echo json_encode((object) $return);
+			echo JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_METHOD_IN_CLASS', $className, $method);
 			$app->close();
 		}
 
@@ -133,8 +130,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			$return['msg'] = $error->getMessage();
-			echo json_encode((object) $return);
+			echo $error->getMessage();
 			$app->close();
 		}
 
@@ -257,7 +253,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		}
 
 		$app->sendHeaders();
-		echo json_encode((object) array('msg' => '', 'continue' => 0));
+		echo json_encode((object) array('msg' => JText::_('COM_REDSHOP_TOOL_UPDATE_DB_MIGRATE_SUCCESS'), 'continue' => 0));
 		$app->close();
 	}
 }
