@@ -31,6 +31,9 @@ define('REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT', REDSHOP_FRONT_IMAGES_RELPATH . 'p
 define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JUri::root() . 'components/com_redshop/assets/document/');
 define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
 
+define('REDSHOP_MEDIA_IMAGE_RELPATH', JPATH_ROOT . '/media/com_redshop/images/');
+define('REDSHOP_MEDIA_IMAGE_ABSPATH', JUri::root() . 'media/com_redshop/images/');
+
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';
 

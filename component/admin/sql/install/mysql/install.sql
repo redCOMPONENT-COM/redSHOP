@@ -546,7 +546,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `desc` LONGTEXT NOT NULL,
   `class` VARCHAR(20) NOT NULL,
   `section` VARCHAR(20) NOT NULL,
-  `groupId` INT(11) NULL DEFAULT NULL,
+  `groupId` INT NULL DEFAULT NULL,
   `maxlength` INT(11) NOT NULL,
   `cols` INT(11) NOT NULL,
   `rows` INT(11) NOT NULL,
@@ -751,13 +751,15 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   `media_mimetype` VARCHAR(20) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `ordering` INT(11) NOT NULL,
+  `scope` VARCHAR(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`media_id`),
   INDEX `idx_section_id` (`section_id` ASC),
   INDEX `idx_media_section` (`media_section` ASC),
   INDEX `idx_media_type` (`media_type` ASC),
   INDEX `idx_media_name` (`media_name` ASC),
   INDEX `idx_published` (`published` ASC),
-  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC))
+  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC),
+  INDEX `#__rs_idx_media_scope` (`scope` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Media';
