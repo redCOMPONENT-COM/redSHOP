@@ -408,13 +408,15 @@ $orders        = $this->model->countOrders();
             $("#start_import").click(function (e) {
                 e.preventDefault();
 
+                $("#category_log").html('');
+                $("#manufacturer_log").html('');
+                $("#shoppergroup_log").html('');
+                $("#customer_log").html('');
+                $("#orderstatus_log").html('');
+                $("#product_log").html('');
+                $("#order_log").html('');
+
                 syncCategories(0);
-                /*syncManufacturer(0);
-                syncShopperGroup(0);
-                syncUser(0);
-                syncOrderStatus(0);
-                syncProduct(0);
-                syncOrder(0);*/
             });
         });
     })(jQuery);
