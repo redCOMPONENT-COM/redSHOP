@@ -354,7 +354,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
                                 $disp_style = '';
 
-                                if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+                                if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls')
                                 {
                                     $disp_style = "style=display:none";
                                 }
