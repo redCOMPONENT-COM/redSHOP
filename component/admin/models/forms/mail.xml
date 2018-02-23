@@ -84,7 +84,8 @@
                 label="COM_REDSHOP_BODY"
                 description="COM_REDSHOP_BODY"
                 width="300"
-                filter="safehtml"
+                filter="raw"
+                rows="50"
                 table-hide="1"
         />
     </fieldset>
