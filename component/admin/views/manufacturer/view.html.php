@@ -9,52 +9,33 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewManufacturer extends RedshopViewAdmin
+/**
+ * View Manufacturer
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewManufacturer extends RedshopViewForm
 {
 	/**
-	 * The current user.
+	 * Form layout. (box, tab)
 	 *
-	 * @var  JUser
+	 * @var    string
+	 *
+	 * @since  2.0.6
 	 */
-	public $user;
+	protected $formLayout = 'tab';
 
 	/**
-	 * The request url.
+	 * Method for get page title.
 	 *
-	 * @var  string
+	 * @return  string
+	 *
+	 * @since   2.0.6
 	 */
-	public $request_url;
-
-	public function display($tpl = null)
+	public function getTitle()
 	{
-		$uri = JFactory::getURI();
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT'), 'flag redshop_manufact48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$state            = $this->get('State');
-		$filter_order     = $state->get('list.ordering');
-		$filter_order_Dir = $state->get('list.direction');
-		$this->filter     = $state->get('filter');
-
-		$lists ['order']     = $filter_order;
-		$lists ['order_Dir'] = $filter_order_Dir;
-
-		$manufacturer = $this->get('Data');
-		$pagination   = $this->get('Pagination');
-
-		$this->user         = JFactory::getUser();
-		$this->lists        = $lists;
-		$this->manufacturer = $manufacturer;
-		$this->pagination   = $pagination;
-		$this->request_url  = $uri->toString();
-
-		parent::display($tpl);
+		return JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT') . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
 }

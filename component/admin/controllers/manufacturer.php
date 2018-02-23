@@ -7,149 +7,120 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
 
-
+/**
+ * Manufacturer controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       __DEPLOY_VERSION__
+ */
 class RedshopControllerManufacturer extends RedshopControllerForm
 {
 	/**
-	 * Method for cancel
+	 * Method for save manufacturer
 	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
-	/**
-	 * logic for save an order
+	 * @param   integer $apply Apply or not.
 	 *
-	 * @access public
-	 * @return void
-	 * @throws Exception
-	 */
-	public function saveorder()
-	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		$cid   = ArrayHelper::toInteger($cid);
-		$order = ArrayHelper::toInteger($order);
-
-		/** @var RedshopModelManufacturer $model */
-		$model = $this->getModel('manufacturer');
-		$model->saveOrder($cid, $order);
-
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * logic for orderup manufacturer
+	 * @throws  Exception
 	 *
-	 * @access public
 	 * @return void
 	 */
-	public function orderup()
+	public function save($apply = 0)
 	{
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(-1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * logic for orderdown manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderdown()
-	{
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return	void
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$pks   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		$pks   = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
-
-		// Get the model
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('Manufacturer_Detail', 'RedshopModel');
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-
-	public function publish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
+		$post                      = $this->input->post->getArray();
+		$post["manufacturer_desc"] = $this->input->post->get('manufacturer_desc', '', 'raw');
+		$cid                       = $this->input->post->get('cid', array(0), 'array');
+		$post['manufacturer_id']   = $cid[0];
 
 		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
+		$row   = $model->store($post);
 
-		if (!$model->publish($cid, 1))
+		if (false !== $row)
 		{
-			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
+			\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id);
+
+			RedshopHelperExtrafields::extraFieldSave($post, "10", $row->manufacturer_id);
+			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
+
+			// Working on media files of this manufacturer
+			$dropzone = isset($post['dropzone']) && !empty($post['dropzone']['manufacturer_image'])
+				? $post['dropzone']['manufacturer_image'] : null;
+
+			if (!empty($dropzone))
+			{
+				foreach ($dropzone as $key => $value)
+				{
+					/** @var RedshopTableMedia $mediaTable */
+					$mediaTable = JTable::getInstance('Media', 'RedshopTable');
+
+					if (strpos($key, 'media-') !== false)
+					{
+						$mediaTable->load(str_replace('media-', '', $key));
+
+						// Delete old image.
+						$oldMediaFile = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/'
+							. $row->manufacturer_id . '/' . $mediaTable->media_name
+						);
+
+						if (JFile::exists($oldMediaFile))
+						{
+							JFile::delete($oldMediaFile);
+						}
+
+						if (empty($value))
+						{
+							$mediaTable->delete();
+
+							continue;
+						}
+					}
+					else
+					{
+						$mediaTable->set('section_id', $row->manufacturer_id);
+						$mediaTable->set('media_section', 'manufacturer');
+					}
+
+					$alternateText = $this->input->getString('media_alternate_text', '');
+					$alternateText = empty($alternateText) ? $row->manufacturer_name : $alternateText;
+
+					$mediaTable->set('media_alternate_text', $alternateText);
+					$mediaTable->set('media_type', 'images');
+					$mediaTable->set('published', 1);
+
+					// Copy new image for this media
+					$fileName = md5($row->manufacturer_name) . '.' . JFile::getExt($value);
+					JFile::move(
+						JPATH_ROOT . '/' . $value,
+						REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $fileName
+					);
+					$mediaTable->set('media_name', $fileName);
+					$mediaTable->store();
+
+					// Optimize image
+					$factory   = new \ImageOptimizer\OptimizerFactory;
+					$optimizer = $factory->get();
+					$optimizer->optimize(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $fileName);
+				}
+
+				// Clear thumbnail folder
+				\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/thumb', true);
+			}
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MANUFACTURER_DETAIL');
 		}
 
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	public function unpublish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
+		if ($apply == 1)
 		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			$this->setRedirect('index.php?option=com_redshop&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id, $msg);
 		}
-
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-
-		if (!$model->publish($cid, 0))
+		else
 		{
-			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
+			$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
 		}
-
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
 	}
 }
-

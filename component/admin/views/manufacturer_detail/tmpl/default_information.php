@@ -23,43 +23,10 @@ $plgManufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label for="name">
-						<?php echo JText::_('COM_REDSHOP_NAME'); ?>
-                        <span class="star text-danger"> *</span>:
-                    </label>
-                    <input class="text_area" type="text" name="manufacturer_name" id="manufacturer_name" size="32"
-                           maxlength="250" value="<?php echo $this->detail->manufacturer_name ?>"/>
-                </div>
-
-                <div class="form-group">
                     <label for="template">
 						<?php echo JText::_('COM_REDSHOP_TEMPLATE'); ?>:
                     </label>
 					<?php echo $this->lists['template']; ?>
-                </div>
-
-                <div class="form-group">
-                    <label for="manufacturer_email">
-						<?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:
-                    </label>
-                    <input class="text_area" type="text" name="manufacturer_email" id="manufacturer_email" size="32"
-                           maxlength="250" value="<?php echo $this->detail->manufacturer_email; ?>"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="manufacturer_url">
-						<?php echo JText::_('COM_REDSHOP_MANUFACTURER_URL'); ?>:
-                    </label>
-                    <input class="text_area" type="text" name="manufacturer_url" id="manufacturer_url" size="32"
-                           maxlength="250" value="<?php echo $this->detail->manufacturer_url; ?>"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="product_per_page">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_PER_PAGE'); ?>:
-                    </label>
-                    <input class="text_area" type="text" name="product_per_page" id="product_per_page" size="32"
-                           maxlength="250" value="<?php echo $this->detail->product_per_page; ?>"/>
                 </div>
 
 				<?php if (count($plgManufacturer) > 0 && $plgManufacturer[0]->enabled): ?>
@@ -70,20 +37,6 @@ $plgManufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_
 						<?php echo $this->lists['excluding_category_list']; ?>
                     </div>
 				<?php endif; ?>
-
-                <div class="form-group">
-                    <label>
-						<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
-                    </label>
-					<?php echo $this->lists['published']; ?>
-                </div>
-
-                <div class="form-group">
-                    <label>
-						<?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?>:
-                    </label>
-					<?php echo $editor->display("manufacturer_desc", $this->detail->manufacturer_desc, '$widthPx', '$heightPx', '100', '20'); ?>
-                </div>
             </div>
         </div>
     </div>
