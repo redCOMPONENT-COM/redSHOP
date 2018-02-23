@@ -207,7 +207,7 @@ class RedshopHelperBillingTag
 				$emailLabel = JText::_('COM_REDSHOP_EMAIL');
 			}
 
-			if ($billingAddress->is_company === 1)
+			if ((int) $billingAddress->is_company === 1)
 			{
 				if (!empty($billingAddress->company_name))
 				{
