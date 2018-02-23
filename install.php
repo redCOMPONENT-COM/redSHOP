@@ -542,7 +542,7 @@ class Com_RedshopInstallerScript
 			COMMENT " . $db->quote('Procedure for use in redSHOP to remove column to table avoid unexpected errors.') . "
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
-				IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) = 1)
+				IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) >= 1)
 				THEN
 					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
 					prepare DynamicStatement from @StatementToExecute ;
@@ -732,7 +732,7 @@ class Com_RedshopInstallerScript
 			BEGIN
 				SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
 				SET refName = REPLACE(refName, " . $db->quote('#__') . ", " . $db->quote(JFactory::getConfig()->get('dbprefix')) . ") ;
-				IF ((SELECT COUNT(*) AS constraint_exists FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = DATABASE() and TABLE_NAME = tableName AND CONSTRAINT_NAME = refName AND CONSTRAINT_TYPE = 'FOREIGN KEY') = 1)
+				IF ((SELECT COUNT(*) AS constraint_exists FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = DATABASE() and TABLE_NAME = tableName AND CONSTRAINT_NAME = refName AND CONSTRAINT_TYPE = 'FOREIGN KEY') >= 1)
 				THEN
 					SET FOREIGN_KEY_CHECKS = 0;
 					set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP FOREIGN KEY `',refName,'`');

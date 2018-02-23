@@ -229,7 +229,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		{
 			// No queries to process
 			$app->sendHeaders();
-			echo json_encode((object) array('msg' => '', 'continue' => 0));
+			echo json_encode((object) array('msg' => JText::_('COM_REDSHOP_TOOL_UPDATE_DB_MIGRATE_SUCCESS'), 'continue' => 0));
 			$app->close();
 		}
 

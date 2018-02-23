@@ -114,11 +114,13 @@ DELETE FROM `#__content_types` WHERE `type_alias` = 'com_redshop.product';
 DELETE FROM `#__contentitem_tag_map` WHERE `type_alias` = 'com_redshop.product';
 DELETE FROM `#__ucm_content` WHERE `core_type_alias` = 'com_redshop.product';
 
-DROP PROCEDURE IF EXISTS `redSHOP_Column_Remove`;
 DROP PROCEDURE IF EXISTS `redSHOP_Column_Update`;
+DROP PROCEDURE IF EXISTS `redSHOP_Column_Remove`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Fulltext_Add`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Add`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Unique_Add`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Remove`;
+DROP PROCEDURE IF EXISTS `redSHOP_Constraint_Update`;
+DROP PROCEDURE IF EXISTS `redSHOP_Constraint_Remove`;
 
 SET FOREIGN_KEY_CHECKS=1;
