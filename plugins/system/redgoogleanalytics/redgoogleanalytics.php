@@ -33,6 +33,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 	 * When this event triggers the router has parsed the route and pushed the request parameters into JRequest for retrieval by the application.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function onAfterRoute()
 	{
@@ -63,6 +64,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 	 * @param   object $orderDetail Order detail data
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since  2.0
 	 */
