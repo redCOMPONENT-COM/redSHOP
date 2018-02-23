@@ -358,4 +358,115 @@ class Helper
 
 		return $discountAmountFinal;
 	}
+
+	/**
+	 * Method for generate attribute array
+	 *
+	 * @param   array   $data   Data of attributes
+	 * @param   integer $userId ID of user
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function generateAttribute($data, $userId = 0)
+	{
+		if (empty($data) || !array_key_exists('attribute_data', $data) || empty($data['attribute_data']))
+		{
+			return array();
+		}
+
+		$result = array();
+
+		$attributes        = explode('##', $data['attribute_data']);
+		$propertiesData    = explode('##', $data['property_data']);
+		$subPropertiesData = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
+
+		foreach ($attributes as $attrIndex => $attribute)
+		{
+			$propertiesOprand                     = array();
+			$propertiesPrice                      = array();
+			$accPropertyCart                      = array();
+			$attribute                            = \RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute);
+			$result[$attrIndex]['attribute_id']   = $attribute;
+			$result[$attrIndex]['attribute_name'] = $attribute[0]->text;
+
+			if ($attribute[0]->text != "" && ($data['property_data'] != "" || $data['property_data'] != 0))
+			{
+				if (isset($propertiesData[$attrIndex]) && $propertiesData[$attrIndex] != "")
+				{
+					$accessoriesPropertiesData = explode(',,', $propertiesData[$attrIndex]);
+
+					foreach ($accessoriesPropertiesData as $propIndex => $accessoriesProperty)
+					{
+						$accSubpropertyCart = array();
+						$property           = \RedshopHelperProduct_Attribute::getAttributeProperties($accessoriesPropertiesData[$propIndex]);
+						$priceList          = \RedshopHelperProduct_Attribute::getPropertyPrice(
+							$accessoriesProperty[$propIndex], $data['quantity'], 'property', $userId
+						);
+
+						if (!empty($priceList) && $priceList != new \stdClass)
+						{
+							$propertyPrice = $priceList->product_price;
+						}
+						else
+						{
+							$propertyPrice = $property[0]->property_price;
+						}
+
+						$accPropertyCart[$propIndex]['property_id']     = $accessoriesProperty[$propIndex];
+						$accPropertyCart[$propIndex]['attribute_id']    = $property[0]->attribute_id;
+						$accPropertyCart[$propIndex]['property_name']   = $property[0]->text;
+						$accPropertyCart[$propIndex]['property_oprand'] = $property[0]->oprand;
+						$accPropertyCart[$propIndex]['property_price']  = $propertyPrice;
+						$propertiesOprand[$propIndex]                   = $property[0]->oprand;
+						$propertiesPrice[$propIndex]                    = $propertyPrice;
+
+						if (!empty($subPropertiesData))
+						{
+							$subPropertiesData = explode(',,', $subPropertiesData[$attrIndex]);
+
+							if (isset($subPropertiesData[$propIndex]) && $subPropertiesData[$propIndex] != "")
+							{
+								$subSubPropertyData = explode('::', $subPropertiesData[$propIndex]);
+
+								foreach ($subSubPropertyData as $supPropIndex => $subSubProperty)
+								{
+									$subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties($subSubProperty);
+
+									$priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
+										$subSubProperty, $data['quantity'], 'subproperty', $userId
+									);
+
+									if (!empty($priceList) && $priceList != new \stdClass)
+									{
+										$subPropertyPrice = $priceList->product_price;
+									}
+									else
+									{
+										$subPropertyPrice = $subproperty[0]->subattribute_color_price;
+									}
+
+									$accSubpropertyCart[$supPropIndex]['subproperty_id']           = $subSubProperty;
+									$accSubpropertyCart[$supPropIndex]['subproperty_name']         = $subproperty[0]->text;
+									$accSubpropertyCart[$supPropIndex]['subproperty_oprand']       = $subproperty[0]->oprand;
+									$accSubpropertyCart[$supPropIndex]['subattribute_color_title'] = $subproperty[0]->subattribute_color_title;
+									$accSubpropertyCart[$supPropIndex]['subproperty_price']        = $subPropertyPrice;
+								}
+							}
+						}
+
+						$accPropertyCart[$propIndex]['property_childs'] = $accSubpropertyCart;
+					}
+				}
+			}
+
+			if (!empty($accPropertyCart))
+			{
+				$result[array_search($accPropertyCart[0]['attribute_id'], $attributes)]['attribute_childs'] = $accPropertyCart;
+			}
+		}
+
+		return $result;
+	}
 }
