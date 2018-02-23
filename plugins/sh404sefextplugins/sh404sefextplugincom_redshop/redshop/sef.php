@@ -119,10 +119,8 @@ switch ($view)
 		// If link set From Manufacturer detail Page
 		if ($manufacturer_id)
 		{
-			$sql = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$manufacturer_id'";
-			$db->setQuery($sql);
-			$manufacturer = $db->loadObject();
-			$title[]      = RedshopHelperUtility::convertToNonSymbol($manufacturer->manufacturer_name);
+			$manufacturer = RedshopEntityManufacturer::getInstance($manufacturer_id);
+			$title[]      = RedshopHelperUtility::convertToNonSymbol($manufacturer->get('manufacturer_name'));
 		}
 
 		if (!$cid)
@@ -132,7 +130,7 @@ switch ($view)
 
 		if ($cid)
 		{
-			$url = RedshopHelperCategory::getCategoryById($cid);
+			$url = RedshopEntityCategory::getInstance($cid)->getItem();
 
 			if ($url->sef_url == "")
 			{
@@ -147,7 +145,7 @@ switch ($view)
 
 						for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 						{
-							$cat     = $cats[$x];
+							$cat = $cats[$x];
 
 							if ($cat->parent_id == 0)
 							{
@@ -232,7 +230,7 @@ switch ($view)
 					else
 					{
 						$cat_in_sefurl = $product->cat_in_sefurl;
-						$category_id = 0;
+						$category_id   = 0;
 
 						if ($cat_in_sefurl > 0)
 						{
@@ -259,7 +257,7 @@ switch ($view)
 
 							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 							{
-								$cat     = $cats[$x];
+								$cat = $cats[$x];
 
 								if ($cat->parent_id == 0)
 								{
@@ -344,11 +342,8 @@ switch ($view)
 
 		if ($gid)
 		{
-			$sql = "SELECT giftcard_name  FROM #__redshop_giftcard WHERE giftcard_id = '$gid'";
-			$db->setQuery($sql);
-			$giftcardname = $db->loadResult();
-
-			$title[] = $giftcardname;
+			$giftcard = RedshopEntityGiftcard::getInstance($gid);
+			$title[]  = $giftcard->get('giftcard_name');
 			shRemoveFromGETVarsList('gid');
 		}
 		break;
