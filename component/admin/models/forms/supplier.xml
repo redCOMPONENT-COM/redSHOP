@@ -27,8 +27,8 @@
                 size="30"
                 class="form-control"
                 default=""
+                validate="email"
                 table-sortable="1"
-                table-inline="1"
                 table-width="20%"
         />
         <field
