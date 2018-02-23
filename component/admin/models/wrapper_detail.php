@@ -271,6 +271,17 @@ class RedshopModelWrapper_detail extends RedshopModel
 			return false;
 		}
 
+		if (isset($data['thumb_image_delete']))
+		{
+			$row->product_thumb_image = "";
+			$unlink_path              = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $data['old_thumb_image']);
+
+			if (JFile::exists($unlink_path))
+			{
+				JFile::delete($unlink_path);
+			}
+		}
+		
 		return $row;
 	}
 
