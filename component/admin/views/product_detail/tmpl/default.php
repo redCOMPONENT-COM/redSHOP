@@ -181,7 +181,7 @@ JHtml::_('behavior.formvalidation');
 		);
 
 		// Echo plugin tabs.
-		$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
+	JFactory::getApplication()->triggerEvent('onDisplayProductTabs', array($this->detail));
 	?>
 
 	<div class="clr"></div>

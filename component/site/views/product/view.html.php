@@ -92,7 +92,6 @@ class RedshopViewProduct extends RedshopView
 		$template     = $this->input->getString('r_template', '');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (!$this->pid)
 		{
@@ -103,7 +102,7 @@ class RedshopViewProduct extends RedshopView
 		 *  Include JavaScript.
 		 *  But, first check if a plugin wants to use its own jQuery.
 		 */
-		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
+		$stopJQuery = JFactory::getApplication()->triggerEvent('stopProductRedshopJQuery', array($this->data, $layout));
 
 		if (in_array(true, $stopJQuery, true))
 		{
@@ -153,7 +152,7 @@ class RedshopViewProduct extends RedshopView
 			/*
 			 * Process the prepare Product plugins
 			 */
-			$this->dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $this->data));
+			JFactory::getApplication()->triggerEvent('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $this->data));
 
 			$pagetitletag = '';
 
@@ -441,7 +440,7 @@ class RedshopViewProduct extends RedshopView
 			 * Show content return by plugin directly into product page after display product title
 			 */
 			$this->data->event = new stdClass;
-			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(&$productTemplate->template_desc, $params, $this->data));
+			$results = JFactory::getApplication()->triggerEvent('onAfterDisplayProductTitle', array(&$productTemplate->template_desc, $params, $this->data));
 			$this->data->event->afterDisplayTitle = trim(implode("\n", $results));
 
 			/**
@@ -449,7 +448,7 @@ class RedshopViewProduct extends RedshopView
 			 *
 			 * Trigger event onBeforeDisplayProduct will display content before product display
 			 */
-			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(&$productTemplate->template_desc, $params, $this->data));
+			$results = JFactory::getApplication()->triggerEvent('onBeforeDisplayProduct', array(&$productTemplate->template_desc, $params, $this->data));
 			$this->data->event->beforeDisplayProduct = trim(implode("\n", $results));
 
 			// For page heading

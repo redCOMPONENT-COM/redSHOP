@@ -233,8 +233,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function store($data)
 	{
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
 		$catorder    = array();
 		$oldcategory = array();
 
@@ -482,7 +480,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		/**
 		 * @var array Trigger redSHOP Product Plugin
 		 */
-		$result = $dispatcher->trigger('onBeforeProductSave', array(&$row, $isNew));
+		$result = JFactory::getApplication()->triggerEvent('onBeforeProductSave', array(&$row, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -498,7 +496,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			return false;
 		}
 
-		$dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
+		JFactory::getApplication()->triggerEvent('onAfterProductSave', array(&$row, $isNew));
 
 		if (isset($data['copy_attribute']))
 		{
@@ -1282,7 +1280,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			JPluginHelper::importPlugin('redshop_product');
-			JDispatcher::getInstance()->trigger('onAfterProductDelete', array($cid));
+			JFactory::getApplication()->triggerEvent('onAfterProductDelete', array($cid));
 		}
 
 		return true;
@@ -3381,8 +3379,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$stockroom_data['preorder_stock'] = $preorder_stock;
 
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = RedshopHelperUtility::getDispatcher();
-				$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
+				JFactory::getApplication()->triggerEvent('onAfterUpdateStock', array($stockroom_data));
 			}
 		}
 
@@ -4014,8 +4011,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$stockroom_data['preorder_stock'] = $preorder_stock;
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
+		JFactory::getApplication()->triggerEvent('onAfterUpdateStock', array($stockroom_data));
 
 		return true;
 	}

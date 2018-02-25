@@ -302,8 +302,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		$shippingRateState = $this->GetStateList($countryCode);
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onRenderShippingRateState', array(&$shippingRateState, $countryCode));
+		JFactory::getApplication()->triggerEvent('onRenderShippingRateState', array(&$shippingRateState, $countryCode));
 
 		$shippingRate->shipping_rate_state = explode(',', $shippingRate->shipping_rate_state);
 		$tmp                               = array_merge(array(), $shippingRate->shipping_rate_state);

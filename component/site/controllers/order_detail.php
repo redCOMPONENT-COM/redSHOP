@@ -129,9 +129,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
-		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
+		$results = JFactory::getApplication()->triggerEvent('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
 
 		$paymentResponse->log = $paymentResponse->message;
@@ -168,9 +166,8 @@ class RedshopControllerOrder_detail extends RedshopController
 		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
-		$results = $dispatcher->trigger(
+		$results = JFactory::getApplication()->triggerEvent(
 			'onNotifyPayment' . $request['payment_plugin'],
 			array(
 				$request['payment_plugin'],
@@ -198,7 +195,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		/*
 		 * Plugin will trigger onAfterNotifyPayment
 		 */
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onAfterNotifyPayment' . $request['payment_plugin'],
 			array(
 				$request['payment_plugin'],
@@ -207,7 +204,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		);
 
 		JPluginHelper::importPlugin('system');
-		$dispatcher->trigger('afterOrderNotify', array($results));
+		JFactory::getApplication()->triggerEvent('afterOrderNotify', array($results));
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
@@ -237,7 +234,6 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		// Import redSHOP Product Plugin
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$app        = JFactory::getApplication();
 
 		// If empty then load order item detail from order table
@@ -250,7 +246,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		// Event Trigger on reordering cart item
-		$dispatcher->trigger('onReorderCartItem', array(&$row));
+		JFactory::getApplication()->triggerEvent('onReorderCartItem', array(&$row));
 
 		$subscription_id = 0;
 		$row['quantity'] = $row['product_quantity'];

@@ -66,7 +66,7 @@ class Tablenewslettersubscr_detail extends JTable
 		}
 
 		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('addNewsLetterSubscription', array($isNew, $this->getProperties()));
+		JFactory::getApplication()->triggerEvent('addNewsLetterSubscription', array($isNew, $this->getProperties()));
 
 		return true;
 	}
@@ -91,7 +91,7 @@ class Tablenewslettersubscr_detail extends JTable
 		}
 
 		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('removeNewsLetterSubscription', array($data));
+		JFactory::getApplication()->triggerEvent('removeNewsLetterSubscription', array($data));
 
 		return true;
 	}

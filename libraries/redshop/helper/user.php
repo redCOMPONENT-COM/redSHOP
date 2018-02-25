@@ -543,7 +543,7 @@ class RedshopHelperUser
 
 		JPluginHelper::importPlugin('redshop_shipping');
 		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateRedshopUser', array(&$data, $isNew));
+		JFactory::getApplication()->triggerEvent('onBeforeCreateRedshopUser', array(&$data, $isNew));
 
 		if (!$row->bind($data))
 		{
@@ -680,7 +680,7 @@ class RedshopHelperUser
 		}
 
 		JPluginHelper::importPlugin('user');
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
+		JFactory::getApplication()->triggerEvent('onAfterCreateRedshopUser', array($data, $isNew));
 
 		return $row;
 	}
@@ -700,7 +700,7 @@ class RedshopHelperUser
 	{
 		JPluginHelper::importPlugin('redshop_user');
 		JPluginHelper::importPlugin('redshop_shipping');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeStoreRedshopUserShipping', array(&$data));
+		JFactory::getApplication()->triggerEvent('onBeforeStoreRedshopUserShipping', array(&$data));
 
 		/** @var Tableuser_detail $userTable */
 		$userTable = JTable::getInstance('user_detail', 'Table');

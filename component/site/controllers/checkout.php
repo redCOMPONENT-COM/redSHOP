@@ -162,11 +162,10 @@ class RedshopControllerCheckout extends RedshopController
 		$app             = JFactory::getApplication();
 		$input           = $app->input;
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher      = RedshopHelperUtility::getDispatcher();
 		$usersInfoId     = $input->getInt('users_info_id', 0);
 		$values          = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
 		$values->zipcode = $input->get('zipcode', '');
-		$ShopResponses   = $dispatcher->trigger('GetNearstParcelShops', array($values));
+		$ShopResponses   = JFactory::getApplication()->triggerEvent('GetNearstParcelShops', array($values));
 
 		if ($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
 		{
@@ -204,8 +203,7 @@ class RedshopControllerCheckout extends RedshopController
 		$input = $app->input;
 		$plugin = $input->getCmd('plugin', '');
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
+		JFactory::getApplication()->triggerEvent('on' . $plugin . 'AjaxRequest');
 
 		$app->close();
 	}
@@ -400,7 +398,6 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app               = JFactory::getApplication();
 		$input             = $app->input;
-		$dispatcher        = RedshopHelperUtility::getDispatcher();
 		$post              = $input->post->getArray();
 		$Itemid            = $input->post->getInt('Itemid', 0);
 
@@ -508,7 +505,7 @@ class RedshopControllerCheckout extends RedshopController
 			if ($order_id === 0)
 			{
 				// Add plugin support
-				$dispatcher->trigger('beforeOrderPlace', array($cart));
+				JFactory::getApplication()->triggerEvent('beforeOrderPlace', array($cart));
 				$orderresult = $model->orderplace();
 				$order_id    = $orderresult->order_id;
 			}
@@ -523,7 +520,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				JPluginHelper::importPlugin('redshop_product');
 				JPluginHelper::importPlugin('redshop_alert');
-				$data = $dispatcher->trigger('getStockroomStatus', array($order_id));
+				$data = JFactory::getApplication()->triggerEvent('getStockroomStatus', array($order_id));
 
 				$labelClass = '';
 
@@ -533,15 +530,15 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
-				$dispatcher->trigger('storeAlert', array($message));
+				JFactory::getApplication()->triggerEvent('storeAlert', array($message));
 
 				$model->resetcart();
 
 				// Add Plugin support
-				$dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
+				JFactory::getApplication()->triggerEvent('afterOrderPlace', array($cart, $orderresult));
 
 				JPluginHelper::importPlugin('system');
-				$dispatcher->trigger('afterOrderCreated', array($orderresult));
+				JFactory::getApplication()->triggerEvent('afterOrderCreated', array($orderresult));
 
 				// New checkout flow
 				/**

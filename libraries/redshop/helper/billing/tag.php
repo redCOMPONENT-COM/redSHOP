@@ -61,8 +61,7 @@ class RedshopHelperBillingTag
 		$billingLayout = $sendMail ? 'mail.billing' : 'cart.billing';
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onBeforeRenderBillingAddress', array(&$billingAddress));
+		JFactory::getApplication()->triggerEvent('onBeforeRenderBillingAddress', array(&$billingAddress));
 
 		$billingContent = RedshopLayoutHelper::render(
 			$billingLayout,

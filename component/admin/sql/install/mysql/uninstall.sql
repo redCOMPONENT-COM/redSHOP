@@ -1,5 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
-
 DROP TABLE IF EXISTS `#__redshop_attribute_set`;
 DROP TABLE IF EXISTS `#__redshop_cart`;
 DROP TABLE IF EXISTS `#__redshop_catalog`;
@@ -120,5 +118,3 @@ DROP PROCEDURE IF EXISTS `redSHOP_Index_Fulltext_Add`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Add`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Unique_Add`;
 DROP PROCEDURE IF EXISTS `redSHOP_Index_Remove`;
-
-SET FOREIGN_KEY_CHECKS=1;

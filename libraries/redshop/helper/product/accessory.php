@@ -37,7 +37,6 @@ class RedshopHelperProductAccessory
 		$userId = 0;
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$input   = JFactory::getApplication()->input;
 		$viewAcc = $input->get('viewacc', 1);
@@ -151,7 +150,7 @@ class RedshopHelperProductAccessory
 					. $accessoryHeightThumb . "'>";
 
 				// Trigger to change product image.
-				$dispatcher->trigger(
+				JFactory::getApplication()->triggerEvent(
 					'changeProductImage',
 					array(
 						&$accessoryImg,

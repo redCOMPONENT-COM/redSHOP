@@ -268,8 +268,7 @@ class RedshopHelperShippingTag
 				}
 
 				JPluginHelper::importPlugin('redshop_shipping');
-				$dispatcher = RedshopHelperUtility::getDispatcher();
-				$dispatcher->trigger('onBeforeRenderShippingAddress', array(&$shippingAddress));
+				JFactory::getApplication()->triggerEvent('onBeforeRenderShippingAddress', array(&$shippingAddress));
 
 				$shipAdd = RedshopLayoutHelper::render(
 					$shippingLayout,

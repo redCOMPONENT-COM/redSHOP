@@ -173,15 +173,14 @@ class Helper
 		}
 
 		\JPluginHelper::importPlugin('redshop_mail');
-		$dispatcher = \RedshopHelperUtility::getDispatcher();
 
 		// Process the product plugin before send mail
-		$dispatcher->trigger('beforeRedshopSendMail', array(&$mail, $mailSection, $argList));
+		JFactory::getApplication()->triggerEvent('beforeRedshopSendMail', array(&$mail, $mailSection, $argList));
 
 		$isSend = $mail->Send();
 
 		// Process the product plugin after send mail
-		$dispatcher->trigger('afterRedshopSendMail', array(&$mail, $mailSection, $argList, $isSend));
+		JFactory::getApplication()->triggerEvent('afterRedshopSendMail', array(&$mail, $mailSection, $argList, $isSend));
 
 		return $isSend;
 	}

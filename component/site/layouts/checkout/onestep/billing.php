@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$dispatcher = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_checkout');
 
 $openToStretcher = 0;
@@ -85,6 +84,6 @@ $input = JFactory::getApplication()->input;
                value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> billing_type="company"/>
 		<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
     </label>
-	<?php $dispatcher->trigger('onRenderOnstepCheckout'); ?>
+	<?php JFactory::getApplication()->triggerEvent('onRenderOnstepCheckout'); ?>
 </div>
 <div id="wrapper-billing"></div>

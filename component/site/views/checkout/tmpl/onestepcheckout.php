@@ -14,8 +14,7 @@ JHtml::_('behavior.modal');
 /** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.onestep.min.js', false, true);
 
 JPluginHelper::importPlugin('redshop_shipping');
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$dispatcher->trigger('onRenderCustomField');
+JFactory::getApplication()->triggerEvent('onRenderCustomField');
 
 $url  = JUri::base();
 $user = JFactory::getUser();
@@ -344,7 +343,7 @@ if (strpos($oneStepTemplateHtml, "{shipping_address}") !== false)
 }
 
 JPluginHelper::importPlugin('redshop_checkout');
-$dispatcher->trigger('onRenderInvoiceOneStepCheckout', array(&$oneStepTemplateHtml));
+JFactory::getApplication()->triggerEvent('onRenderInvoiceOneStepCheckout', array(&$oneStepTemplateHtml));
 
 if ($usersInfoId && !empty($billingAddresses))
 {

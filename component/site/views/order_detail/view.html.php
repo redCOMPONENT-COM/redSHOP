@@ -102,7 +102,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		}
 
 		JPluginHelper::importPlugin('system');
-		RedshopHelperUtility::getDispatcher()->trigger('onDisplayOrderReceipt', array(&$orderDetail));
+		JFactory::getApplication()->triggerEvent('onDisplayOrderReceipt', array(&$orderDetail));
 
 		$this->OrdersDetail = $orderDetail;
 		$this->user         = $user;

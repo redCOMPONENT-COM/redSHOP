@@ -291,22 +291,13 @@ class RedshopModelList extends JModelList
 		// Import the appropriate plugin group.
 		JPluginHelper::importPlugin($group);
 
-		// Get the dispatcher.
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
+		$results = JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true))
 		{
-			// Get the last error.
-			$error = $dispatcher->getError();
 
-			if (!($error instanceof Exception))
-			{
-				throw new Exception($error);
-			}
 		}
 	}
 

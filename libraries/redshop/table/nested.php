@@ -266,8 +266,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RedshopHelperUtility::getDispatcher()
-				->trigger($this->_eventBeforeLoad, array($this, $keys, $reset));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventBeforeLoad, array($this, $keys, $reset));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -295,8 +294,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
-				->trigger($this->_eventAfterLoad, array($this, $keys, $reset));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventAfterLoad, array($this, $keys, $reset));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -356,8 +354,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
-				->trigger($this->_eventBeforeDelete, array($this, $pk, $children));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventBeforeDelete, array($this, $pk, $children));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -385,8 +382,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
-				->trigger($this->_eventAfterDelete, array($this, $pk, $children));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventAfterDelete, array($this, $pk, $children));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -464,8 +460,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
-				->trigger($this->_eventBeforeCheck, array($this));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventBeforeCheck, array($this));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -495,8 +490,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
-				->trigger($this->_eventAfterCheck, array($this));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventAfterCheck, array($this));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -553,8 +547,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
-				->trigger($this->_eventBeforeStore, array($this, $updateNulls));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventBeforeStore, array($this, $updateNulls));
 
 			if (count($results) && in_array(false, $results, true))
 			{
@@ -586,8 +579,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RedshopHelperUtility::getDispatcher()
-				->trigger($this->_eventAfterStore, array($this, $updateNulls));
+			$results = JFactory::getApplication()->triggerEvent($this->_eventAfterStore, array($this, $updateNulls));
 
 			if (count($results) && in_array(false, $results, true))
 			{

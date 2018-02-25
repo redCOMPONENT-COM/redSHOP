@@ -145,7 +145,7 @@ abstract class RedshopHelperProduct_Attribute
 			}
 
 			JPluginHelper::importPlugin('redshop_product');
-			RedshopHelperUtility::getDispatcher()->trigger('onGetProductAttribute', array(&static::$productAttributes[$key]));
+			JFactory::getApplication()->triggerEvent('onGetProductAttribute', array(&static::$productAttributes[$key]));
 		}
 
 		return static::$productAttributes[$key];
@@ -248,7 +248,7 @@ abstract class RedshopHelperProduct_Attribute
 			static::$propertyPrice[$key] = $result;
 
 			JPluginHelper::importPlugin('redshop_product');
-			RedshopHelperUtility::getDispatcher()->trigger('onGetPropertyPrice', array(&static::$propertyPrice[$key], $sectionId, $section, $userId));
+			JFactory::getApplication()->triggerEvent('onGetPropertyPrice', array(&static::$propertyPrice[$key], $sectionId, $section, $userId));
 		}
 
 		return static::$propertyPrice[$key];
@@ -530,7 +530,7 @@ abstract class RedshopHelperProduct_Attribute
 			}
 
 			JPluginHelper::importPlugin('redshop_product');
-			RedshopHelperUtility::getDispatcher()->trigger('onGetAttributeProperties', array(&static::$attributeProperties[$key]));
+			JFactory::getApplication()->triggerEvent('onGetAttributeProperties', array(&static::$attributeProperties[$key]));
 		}
 
 		return static::$attributeProperties[$key];
@@ -592,7 +592,7 @@ abstract class RedshopHelperProduct_Attribute
 			static::$subProperties[$key] = $db->setQuery($query)->loadObjectList();
 
 			JPluginHelper::importPlugin('redshop_product');
-			RedshopHelperUtility::getDispatcher()->trigger('onGetAttributeSubProperties', array(&static::$subProperties[$key]));
+			JFactory::getApplication()->triggerEvent('onGetAttributeSubProperties', array(&static::$subProperties[$key]));
 		}
 
 		return static::$subProperties[$key];

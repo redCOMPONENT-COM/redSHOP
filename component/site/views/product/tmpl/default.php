@@ -896,7 +896,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	$pluginResults           = array();
 
 	// Trigger plugin to get merge images.
-	$this->dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
+	JFactory::getApplication()->triggerEvent('onBeforeImageLoad', array($get, &$pluginResults));
 
 	$preselectedresult = RedshopHelperProductTag::displayAdditionalImage(
 		$this->data->product_id,
@@ -1882,7 +1882,7 @@ if (strstr($template_desc, '{form_rating_without_link}'))
  * Will we change only $template_desc inside a plugin, that's why only $template_desc should be
  * passed by reference.
  */
-$this->dispatcher->trigger('onAfterDisplayProduct', array(&$template_desc, $this->params, $this->data));
+JFactory::getApplication()->triggerEvent('onAfterDisplayProduct', array(&$template_desc, $this->params, $this->data));
 
 echo eval("?>" . $template_desc . "<?php ");
 

@@ -179,7 +179,7 @@ class Cart
 			$cart[$i]['product_vat']                = $productVat;
 			$cart[$i]['product_price']              = $productPrice;
 
-			\RedshopHelperUtility::getDispatcher()->trigger('onBeforeLoginCartSession', array(&$cart, $i));
+			\JFactory::getApplication()->triggerEvent('onBeforeLoginCartSession', array(&$cart, $i));
 		}
 
 		unset($cart[$idx]);

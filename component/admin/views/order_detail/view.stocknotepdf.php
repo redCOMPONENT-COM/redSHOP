@@ -84,7 +84,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		$pdfTemplate = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $pdfTemplate);
 
 		JPluginHelper::importPlugin('redshop_pdf');
-		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderGenerateStockNotePdf', array($detail, $pdfTemplate));
+		JFactory::getApplication()->triggerEvent('onRedshopOrderGenerateStockNotePdf', array($detail, $pdfTemplate));
 
 		JFactory::getApplication()->close();
 	}

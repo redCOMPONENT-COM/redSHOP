@@ -410,7 +410,7 @@ class RedshopModel extends JModelLegacy
 		JPluginHelper::importPlugin('redshop');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onRedshopPrepareData', array($context, &$data));
+		$results = JFactory::getApplication()->triggerEvent('onRedshopPrepareData', array($context, &$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) > 0 && in_array(false, $results, true))

@@ -574,8 +574,7 @@ class RedshopHelperProduct
 		$shippingMethod = RedshopHelperOrder::getShippingMethodInfo();
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$shippingRate = $dispatcher->trigger('onListRates', array(&$data));
+		$shippingRate = JFactory::getApplication()->triggerEvent('onListRates', array(&$data));
 
 		$rateArr = array();
 		$r = 0;

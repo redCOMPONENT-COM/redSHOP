@@ -9,6 +9,7 @@
     <license>GNU/GPL</license>
     <version>2.1.0</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
+    <namespace>Redcomponent\Component\Redshop</namespace>
     <scriptfile>install.php</scriptfile>
     <install>
         <sql>

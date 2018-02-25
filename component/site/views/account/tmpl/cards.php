@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JPluginHelper::importPlugin('redshop_payment');
 
-$cards = JEventDispatcher::getInstance()->trigger('onListCreditCards', array());
+$cards = JFactory::getApplication()->triggerEvent('onListCreditCards', array());
 
 if (empty($cards))
 {

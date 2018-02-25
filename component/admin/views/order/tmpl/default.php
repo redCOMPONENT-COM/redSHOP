@@ -18,7 +18,6 @@ $calendarFormat  = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'
 $lists           = $this->lists;
 $model           = $this->getModel('order');
 $stockroomHelper = rsstockroomhelper::getInstance();
-$dispatcher      = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_product');
 ?>
 <style type="text/css">
@@ -307,7 +306,7 @@ JPluginHelper::importPlugin('redshop_product');
 			 */
 			$data                             = new stdClass;
 			$data->highlight                  = new stdClass;
-			$results                          = $dispatcher->trigger('toHighlightGrid', array(&$row));
+			$results                          = JFactory::getApplication()->triggerEvent('toHighlightGrid', array(&$row));
 			$data->highlight->toHighlightGrid = trim(implode("\n", $results));
 			?>
             <tr class="row<?php echo $k; ?>">

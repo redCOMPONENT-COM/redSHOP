@@ -62,7 +62,6 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
 		RedshopHelperJs::init();
 
 		JPluginHelper::importPlugin('redshop_product');
-		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);

@@ -61,7 +61,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
 
-		$this->dispatcher    = RedshopHelperUtility::getDispatcher();
 		$this->producthelper = productHelper::getInstance();
 
 		$this->option = $this->input->getString('option', 'com_redshop');
@@ -276,7 +275,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		 * So, product type plugins should be used for this event. Be aware that this file should
 		 * be loaded only once.
 		 */
-		$loadedFromAPlugin = $this->dispatcher->trigger('loadFieldsJSFromPlugin', array($detail));
+		$loadedFromAPlugin = JFactory::getApplication()->triggerEvent('loadFieldsJSFromPlugin', array($detail));
 
 		if (in_array(1, $loadedFromAPlugin))
 		{
@@ -556,7 +555,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		 * Example of a returned value:
 		 * return array('value' => 'redDESIGN', 'text' => JText::_('PLG_REDSHOP_PRODUCT_TYPE_REDDESIGN_REDDESIGN_PRODUCT_TYPE'));
 		 */
-		$productTypePluginOptions = $this->dispatcher->trigger('onListProductTypes');
+		$productTypePluginOptions = JFactory::getApplication()->triggerEvent('onListProductTypes');
 
 		foreach ($productTypePluginOptions as $productTypePluginOption)
 		{

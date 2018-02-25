@@ -237,7 +237,6 @@ class rsCarthelper
 	public function repalceOrderItems($data, $rowitem = array(), $sendMail = false)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$mainview   = $this->input->getCmd('view');
 		$fieldArray = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
@@ -255,7 +254,7 @@ class rsCarthelper
 			$cart_mdata = $data;
 
 			// Process the product plugin for cart item
-			$dispatcher->trigger('onOrderItemDisplay', array(&$cart_mdata, &$rowitem, $i));
+			JFactory::getApplication()->triggerEvent('onOrderItemDisplay', array(&$cart_mdata, &$rowitem, $i));
 
 			$product_id = $rowitem[$i]->product_id;
 			$quantity   = $rowitem[$i]->product_quantity;
@@ -574,7 +573,7 @@ class rsCarthelper
 			$prepareCartAttributes[$i]               = get_object_vars($attribute_data);
 			$prepareCartAttributes[$i]['product_id'] = $rowitem[$i]->product_id;
 
-			$dispatcher->trigger(
+			JFactory::getApplication()->triggerEvent(
 				'OnSetCartOrderItemImage',
 				array(
 					&$prepareCartAttributes,
@@ -604,9 +603,8 @@ class rsCarthelper
 
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
 
-			$dispatcher = RedshopHelperUtility::getDispatcher();
 			JPluginHelper::importPlugin('redshop_stockroom');
-			$dispatcher->trigger('onReplaceStockStatus', array($rowitem[$i], &$cart_mdata));
+			JFactory::getApplication()->triggerEvent('onReplaceStockStatus', array($rowitem[$i], &$cart_mdata));
 
 			if ($mainview == "order_detail")
 			{
@@ -1449,8 +1447,7 @@ class rsCarthelper
 			if ($template_middle != "" && count($shippingmethod) > 0)
 			{
 				JPluginHelper::importPlugin('redshop_shipping');
-				$dispatcher   = RedshopHelperUtility::getDispatcher();
-				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
+				$shippingrate = JFactory::getApplication()->triggerEvent('onListRates', array(&$d));
 
 				for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 				{
@@ -1538,7 +1535,7 @@ class rsCarthelper
 									$data = str_replace("{shipping_location}", $mainlocation, $data);
 								}
 
-								$dispatcher->trigger('onReplaceShippingTemplate', array($d, &$data, $classname, $checked));
+								JFactory::getApplication()->triggerEvent('onReplaceShippingTemplate', array($d, &$data, $classname, $checked));
 
 								$data = str_replace("{gls_shipping_location}", "", $data);
 							}
@@ -1599,7 +1596,7 @@ class rsCarthelper
 		}
 
 		JPluginHelper::importPlugin('redshop_checkout');
-		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
+		JFactory::getApplication()->triggerEvent('onRenderShippingMethod', array(&$template_desc));
 
 		$returnarr = array("template_desc" => $template_desc, "shipping_rate_id" => $shipping_rate_id);
 
@@ -2491,7 +2488,7 @@ class rsCarthelper
 	public function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$result = RedshopHelperUtility::getDispatcher()->trigger('onCheckQuantityInStock', array(&$data, &$newquantity, &$minQuantity));
+		$result = JFactory::getApplication()->triggerEvent('onCheckQuantityInStock', array(&$data, &$newquantity, &$minQuantity));
 
 		if (in_array(true, $result, true))
 		{
@@ -2858,7 +2855,6 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 
-		$dispatcher       = RedshopHelperUtility::getDispatcher();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');
@@ -3271,7 +3267,7 @@ class rsCarthelper
 					 * Previous comment stated it is not used anymore.
 					 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 					 */
-					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct, $i));
+					JFactory::getApplication()->triggerEvent('checkSameCartProduct', array(&$cart, $data, &$sameProduct, $i));
 
 					// Product userfield
 					if (!empty($row_data))
@@ -3318,7 +3314,7 @@ class rsCarthelper
 							 *
 							 * Usually redSHOP update quantity
 							 */
-							$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
+							JFactory::getApplication()->triggerEvent('onSameCartProduct', array(& $cart, $data, $i));
 
 							$this->_session->set('cart', $cart);
 							$data['cart_index'] = $i;
@@ -3404,7 +3400,7 @@ class rsCarthelper
 				 * Implement new plugin support before session update
 				 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 				 */
-				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data, $idx));
+				JFactory::getApplication()->triggerEvent('onBeforeSetCartSession', array(&$cart, $data, $idx));
 
 				$cart['idx'] = $idx + 1;
 

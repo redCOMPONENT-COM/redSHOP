@@ -25,13 +25,6 @@ class Com_RedshopInstallerScript
 	public $status = null;
 
 	/**
-	 * The common JInstaller instance used to install all the extensions
-	 *
-	 * @var  object
-	 */
-	public $installer = null;
-
-	/**
 	 * Install type
 	 *
 	 * @var   string
@@ -39,25 +32,30 @@ class Com_RedshopInstallerScript
 	protected $type = null;
 
 	/**
-	 * Method to install the component
+	 * Installer class
+	 */
+	public $installer;
+
+	/**
+	 * Method to install component
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
-	public function install($parent)
+	public function install($installer)
 	{
 		// Install extensions
-		$this->installLibraries($parent);
-		$this->installModules($parent);
-		$this->installPlugins($parent);
+		$this->installLibraries($installer);
+		$this->installModules($installer);
+		$this->installPlugins($installer);
 	}
 
 	/**
 	 * method to run after an install/update/uninstall method
 	 *
-	 * @param   string $type   Type of method
-	 * @param   object $parent Parent class call this method
+	 * @param   string      $type       Type of method
+	 * @param   JInstaller  $installer  Parent class call this method
 	 *
 	 * @return  void
 	 *
@@ -65,7 +63,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @throws  Exception
 	 */
-	public function postflight($type, $parent)
+	public function postflight($type, $installer)
 	{
 		// Respond json for ajax request and redirect with standard request
 		if(
@@ -100,36 +98,37 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Method to update the component
+	 * Method to update Joomla!
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
-	public function update($parent)
+	public function update($installer)
 	{
-		$this->installLibraries($parent);
-		$this->installModules($parent);
-		$this->installPlugins($parent);
+		$this->installLibraries($installer);
+		$this->installModules($installer);
+		$this->installPlugins($installer);
 	}
 
 	/**
-	 * method to run before an install/update/uninstall method
+	 * Function to act prior to installation process begins
 	 *
-	 * @param   object $type   Type of change (install, update or discover_install)
-	 * @param   object $parent Class calling this method
+	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
-	 * @return  void
-	 *
+	 * @return  boolean  True on success
 	 * @throws  Exception
+	 *
+	 * @since   3.7.0
 	 */
-	public function preflight($type, $parent)
+	public function preflight($action, $parent)
 	{
-		$this->type = $type;
+		$this->type = $action;
 
-		$this->implementProcedure();
+		// $this->implementProcedure();
 
-		if ($type == 'update' || $type == 'discover_install')
+		if ($action == 'update' || $action == 'discover_install')
 		{
 			if (!class_exists('RedshopHelperJoomla'))
 			{
@@ -142,33 +141,21 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Get the common JInstaller instance used to install all the extensions
-	 *
-	 * @return JInstaller The JInstaller object
-	 */
-	public function getInstaller()
-	{
-		$this->installer = new JInstaller;
-
-		return $this->installer;
-	}
-
-	/**
 	 * Install the package libraries
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   Joomla\CMS\Installer\Adapter\ComponentAdapter  $installer  Installer class
 	 *
 	 * @return  void
 	 */
-	protected function installLibraries($parent)
+	protected function installLibraries($installer)
 	{
 		// Required objects
-		$manifest = $parent->get('manifest');
-		$src      = $parent->getParent()->getPath('source');
+		$manifest = $installer->getManifest();
+		$src      = $installer->getParent()->getPath('source');
 
 		if ($nodes = $manifest->libraries->library)
 		{
-			$installer = $this->getInstaller();
+			$newInstaller = new JInstaller;
 
 			foreach ($nodes as $node)
 			{
@@ -178,12 +165,12 @@ class Com_RedshopInstallerScript
 				// Standard install
 				if (is_dir($extPath))
 				{
-					$installer->install($extPath);
+					$newInstaller->install($extPath);
 				}
 				// Discover install
 				elseif ($extId = $this->searchExtension($extName, 'library', '-1'))
 				{
-					$installer->discover_install($extId);
+					$newInstaller->discover_install($extId);
 				}
 			}
 		}
@@ -192,18 +179,20 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package modules
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   Joomla\CMS\Installer\Adapter\ComponentAdapter  $installer  Class calling this method
 	 *
 	 * @return  void
 	 */
-	protected function installModules($parent)
+	protected function installModules($installer)
 	{
 		// Required objects
-		$manifest = $parent->get('manifest');
-		$src      = $parent->getParent()->getPath('source');
+		$manifest = $installer->getManifest();
+		$src      = $installer->getParent()->getPath('source');
 
 		if ($nodes = $manifest->modules->module)
 		{
+			$newInstaller = new JInstaller;
+
 			foreach ($nodes as $node)
 			{
 				$extName   = (string) $node->attributes()->name;
@@ -212,12 +201,12 @@ class Com_RedshopInstallerScript
 
 				if (is_dir($extPath))
 				{
-					$this->getInstaller()->install($extPath);
+					$newInstaller->install($extPath);
 				}
 				// Discover install
 				elseif ($extId = $this->searchExtension($extName, 'module', '-1'))
 				{
-					$this->getInstaller()->discover_install($extId);
+					$newInstaller->discover_install($extId);
 				}
 			}
 		}
@@ -226,19 +215,19 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package libraries
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   Joomla\CMS\Installer\Adapter\ComponentAdapter  $installer  Class calling this method
 	 *
 	 * @return  void
 	 */
-	protected function installPlugins($parent)
+	protected function installPlugins($installer)
 	{
 		// Required objects
-		$manifest = $parent->get('manifest');
-		$src      = $parent->getParent()->getPath('source');
+		$manifest = $installer->getManifest();
+		$src      = $installer->getParent()->getPath('source');
 
 		if ($nodes = $manifest->plugins->plugin)
 		{
-			$installer = $this->getInstaller();
+			$newInstaller = new JInstaller;
 
 			foreach ($nodes as $node)
 			{
@@ -250,13 +239,13 @@ class Com_RedshopInstallerScript
 				// Install or upgrade plugin
 				if (is_dir($extPath))
 				{
-					$installer->setAdapter('plugin');
-					$result = $installer->install($extPath);
+					$newInstaller->setAdapter('plugin');
+					$result = $newInstaller->install($extPath);
 				}
 				// Discover install
 				elseif ($extId = $this->searchExtension($extName, 'plugin', '-1', $extGroup))
 				{
-					$result = $installer->discover_install($extId);
+					$result = $newInstaller->discover_install($extId);
 				}
 
 				// We'll not enable plugin for update case
@@ -316,24 +305,26 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package libraries
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   Joomla\CMS\Installer\Adapter\ComponentAdapter  $installer  Class calling this method
 	 *
 	 * @return  void
 	 */
-	protected function uninstallLibraries($parent)
+	protected function uninstallLibraries($installer)
 	{
 		// Required objects
-		$manifest = $parent->get('manifest');
+		$manifest = $installer->getManifest();
 
 		if ($nodes = $manifest->libraries->library)
 		{
+			$newInstaller = new JInstaller;
+
 			foreach ($nodes as $node)
 			{
 				$extName = (string) $node->attributes()->name;
 
 				if ($extId = $this->searchExtension($extName, 'library'))
 				{
-					$this->getInstaller()->uninstall('library', $extId);
+					$newInstaller->uninstall('library', $extId);
 				}
 			}
 		}
@@ -342,17 +333,19 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package modules
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   Joomla\CMS\Installer\Adapter\ComponentAdapter $installer Class calling this method
 	 *
 	 * @return  void
 	 */
-	protected function uninstallModules($parent)
+	protected function uninstallModules($installer)
 	{
 		// Required objects
-		$manifest = $parent->get('manifest');
+		$manifest = $installer->getManifest();
 
 		if ($nodes = $manifest->modules->module)
 		{
+			$newInstaller = new JInstaller;
+
 			foreach ($nodes as $node)
 			{
 				$extName   = (string) $node->attributes()->name;
@@ -360,7 +353,7 @@ class Com_RedshopInstallerScript
 
 				if ($extId = $this->searchExtension($extName, 'module'))
 				{
-					$this->getInstaller()->uninstall('module', $extId);
+					$newInstaller->uninstall('module', $extId);
 				}
 			}
 		}
@@ -369,18 +362,18 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package plugins
 	 *
-	 * @param   object $parent Class calling this method
+	 * @param   Joomla\CMS\Installer\Adapter\ComponentAdapter  $installer  Class calling this method
 	 *
 	 * @return  void
 	 */
-	protected function uninstallPlugins($parent)
+	protected function uninstallPlugins($installer)
 	{
 		// Required objects
-		$manifest = $parent->get('manifest');
+		$manifest = $installer->getManifest();
 
 		if ($nodes = $manifest->plugins->plugin)
 		{
-			$installer = $this->getInstaller();
+			$newInstaller = new JInstaller;
 
 			foreach ($nodes as $node)
 			{
@@ -389,7 +382,7 @@ class Com_RedshopInstallerScript
 
 				if ($extId = $this->searchExtension($extName, 'plugin', null, $extGroup))
 				{
-					$installer->uninstall('plugin', $extId);
+					$newInstaller->uninstall('plugin', $extId);
 				}
 			}
 		}

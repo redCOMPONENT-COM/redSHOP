@@ -1462,7 +1462,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+		JFactory::getApplication()->triggerEvent('onFilterProduct', array(&$query, $pk));
 
 		return $query;
 	}

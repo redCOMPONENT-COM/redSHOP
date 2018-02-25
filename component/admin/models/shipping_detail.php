@@ -80,8 +80,7 @@ class RedshopModelShipping_detail extends RedshopModel
 		}
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onWriteconfig', array($data));
+		JFactory::getApplication()->triggerEvent('onWriteconfig', array($data));
 
 		return true;
 	}

@@ -282,11 +282,9 @@ class RedshopModelCheckout extends RedshopModel
 		$order_tax      = $cart ['tax'];
 		$d['order_tax'] = $order_tax;
 
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
 		// Add plugin support
 		JPluginHelper::importPlugin('redshop_checkout');
-		$dispatcher->trigger('onBeforeOrderSave', array(&$cart, &$post, &$order_shipping));
+		JFactory::getApplication()->triggerEvent('onBeforeOrderSave', array(&$cart, &$post, &$order_shipping));
 
 		$tax_after_discount = 0;
 
@@ -366,7 +364,7 @@ class RedshopModelCheckout extends RedshopModel
 			$values["order_id"]       = $app->input->get('order_id', 0);
 			$values['payment_plugin'] = $paymentMethod->element;
 			$values['odiscount']      = $odiscount;
-			$paymentResponses         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
+			$paymentResponses         = JFactory::getApplication()->triggerEvent('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 			$paymentResponse          = $paymentResponses[0];
 
 			if ($paymentResponse->responsestatus == "Success")
@@ -459,7 +457,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_paymentstatus = 'Unpaid';
 		}
 
-		$dispatcher->trigger('onOrderStatusChange', array($post, &$order_status));
+		JFactory::getApplication()->triggerEvent('onOrderStatusChange', array($post, &$order_status));
 
 		// For barcode generation
 		$row->order_discount       = $odiscount;
@@ -686,7 +684,7 @@ class RedshopModelCheckout extends RedshopModel
 			}
 
 			// Add plugin support
-			$dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
+			JFactory::getApplication()->triggerEvent('afterOrderItemSave', array($cart, $rowitem, $i));
 
 			// End
 
@@ -1095,7 +1093,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
+		JFactory::getApplication()->triggerEvent('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
@@ -1114,7 +1112,7 @@ class RedshopModelCheckout extends RedshopModel
 		$orderuserrow->address_type = 'BT';
 
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher->trigger('onBeforeUserBillingStore', array(&$orderuserrow));
+		JFactory::getApplication()->triggerEvent('onBeforeUserBillingStore', array(&$orderuserrow));
 
 		if (!$orderuserrow->store())
 		{
@@ -1151,7 +1149,7 @@ class RedshopModelCheckout extends RedshopModel
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'ST';
 
-		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
+		JFactory::getApplication()->triggerEvent('onBeforeUserShippingStore', array(&$orderuserrow));
 
 		if (!$orderuserrow->store())
 		{
@@ -1318,7 +1316,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				JPluginHelper::importPlugin('redshop_pdf');
 
-				$pdfFile = RedshopHelperUtility::getDispatcher()->trigger(
+				$pdfFile = JFactory::getApplication()->triggerEvent(
 					'onRedshopCreateGiftCardPdf',
 					array($giftcardData, $pdfMailBody, $backgroundImage)
 				);
@@ -2072,7 +2070,7 @@ class RedshopModelCheckout extends RedshopModel
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_checkout');
-		RedshopHelperUtility::getDispatcher()->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $post)
 		);
 

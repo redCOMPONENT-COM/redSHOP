@@ -331,7 +331,7 @@ if ($data->lists['attributes'])
 				$property->k       = $keyAttr;
 				$property->g       = $keyProperty;
 
-				$data->dispatcher->trigger('productTypeAttributeValue', array($property));
+				JFactory::getApplication()->triggerEvent('productTypeAttributeValue', array($property));
 			}
 			?>
 			<br/>
