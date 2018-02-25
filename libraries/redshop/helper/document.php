@@ -21,14 +21,25 @@ class RedshopHelperDocument
 	 *
 	 * @var  array
 	 */
-	protected static $disabledScripts = array('media/jui/js/bootstrap.js', 'media/jui/js/bootstrap.min.js');
+	protected static $disabledScripts = array(
+		'media/jui/js/bootstrap.js',
+		'media/jui/js/bootstrap.min.js',
+		'media/vendor/bootstrap/js/bootstrap.bundle.js',
+		'media/vendor/jquery/js/jquery.js',
+		'media/system/js/bootstrap-init.js'
+	);
 
 	/**
 	 * Stylesheets marked as disabled
 	 *
 	 * @var  array
 	 */
-	protected static $disabledStylesheets = array();
+	protected static $disabledStylesheets = array(
+		'administrator/templates/atum/css/template.css',
+		'administrator/templates/atum/css/template.min.css',
+		'administrator/templates/atum/css/bootstrap.css',
+		'administrator/templates/atum/css/bootstrap.min.css'
+	);
 
 	/**
 	 * Scripts that will be injected on top

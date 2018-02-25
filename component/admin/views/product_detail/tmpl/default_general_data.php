@@ -13,7 +13,7 @@ JHtml::_('behavior.modal', 'a.joom-box');
 
 $priceDecimal  = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');
-$editor        = JFactory::getEditor();
+$editor        = Joomla\CMS\Editor\Editor::getInstance();
 $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 ?>
 <script type="text/javascript">

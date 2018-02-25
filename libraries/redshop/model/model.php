@@ -406,7 +406,6 @@ class RedshopModel extends JModelLegacy
 	protected function preprocessData($context, &$data)
 	{
 		// Get the dispatcher and load the users plugins.
-		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop');
 
 		// Trigger the data preparation event.
@@ -415,7 +414,7 @@ class RedshopModel extends JModelLegacy
 		// Check for errors encountered while preparing the data.
 		if (count($results) > 0 && in_array(false, $results, true))
 		{
-			$this->setError($dispatcher->getError());
+
 		}
 	}
 

@@ -17,7 +17,7 @@ JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
-$doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.validation.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.min.css');

@@ -262,13 +262,14 @@ class RedshopHelperUser
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('user_info_id') . ' = ' . (int) $userInfoId);
 
-		// Set the query and load the result.
-		$total = $db->setQuery($query)->loadResult();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			// Set the query and load the result.
+			$total = $db->setQuery($query)->loadResult();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return null;
 		}

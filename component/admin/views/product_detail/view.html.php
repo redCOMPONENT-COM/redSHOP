@@ -306,7 +306,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
 		}
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$layout = $this->input->getString('layout', '');
 

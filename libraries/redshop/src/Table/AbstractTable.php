@@ -192,12 +192,14 @@ abstract class AbstractTable extends \JTable implements TableInterface
 		}
 
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return false;
 		}

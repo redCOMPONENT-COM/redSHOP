@@ -117,10 +117,10 @@ RedshopHelperConfig::script('THOUSAND_SEPERATOR', Redshop::getConfig()->get('THO
 RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
+$task = JFactory::getApplication()->input->getCmd('task', '');
+
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Redshop');
-
-$task = JFactory::getApplication()->input->getCmd('task', '');
 
 $controller->execute($task);
 $controller->redirect();

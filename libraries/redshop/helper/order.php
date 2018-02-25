@@ -314,12 +314,14 @@ class RedshopHelperOrder
 
 		// Set the query and load the result.
 		$db->setQuery($query);
-		self::$allStatus = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			self::$allStatus = $db->loadObjectList();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return null;
 		}
@@ -470,13 +472,14 @@ class RedshopHelperOrder
 			. ' ON ' . $db->qn('f.id') . '=' . $db->qn('fd.fieldid')
 		);
 
-		// Set the query and load the result.
-		$fields = $db->setQuery($query)->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			// Set the query and load the result.
+			$fields = $db->setQuery($query)->loadObjectList();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return null;
 		}
