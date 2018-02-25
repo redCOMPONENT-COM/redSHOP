@@ -49,7 +49,6 @@ class RedshopControllerCart extends RedshopController
 		$parentAccessoryProductId = $post['product_id'];
 
 		$productHelper = productHelper::getInstance();
-		$rsCartHelper  = rsCarthelper::getInstance();
 		$Itemid        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session

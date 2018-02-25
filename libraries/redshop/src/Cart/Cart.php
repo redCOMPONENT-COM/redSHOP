@@ -21,8 +21,8 @@ class Cart
 	/**
 	 * Method for modify cart data.
 	 *
-	 * @param   array   $cart   Cart data.
-	 * @param   integer $userId User ID
+	 * @param   array    $cart    Cart data.
+	 * @param   integer  $userId  User ID
 	 *
 	 * @return  array
 	 *
@@ -190,10 +190,10 @@ class Cart
 	/**
 	 * Method for add product to cart
 	 *
-	 * @param   array $data Product data
+	 * @param   array  $data  Product data
 	 *
-	 * @return  boolean
-	 * @throws \Exception
+	 * @return  mixed         True on success. Error message string if fail.
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -206,13 +206,12 @@ class Cart
 		$cart             = \RedshopHelperCartSession::getCart();
 		$data['quantity'] = round($data['quantity']);
 
-		if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
+		if (empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
 		{
-			$cart        = array();
-			$cart['idx'] = 0;
+			$cart = array('idx' => 0);
 		}
 
-		$idx = (int) ($cart['idx']);
+		$idx = (int) $cart['idx'];
 
 		// Set session for giftcard
 		if (isset($data['giftcard_id']) && $data['giftcard_id'])
@@ -229,7 +228,7 @@ class Cart
 				{
 					$sameGiftCard = true;
 
-					// Product userfield
+					// Product user field
 					if (!empty($rows))
 					{
 						foreach ($rows as $row)
@@ -320,7 +319,7 @@ class Cart
 
 			$calcOutput      = "";
 			$calcOutputs     = array();
-			$productPriceTax = 0;
+			$productVatPrice = 0;
 			$productVatPrice = 0;
 
 			if (!empty($discounts))
@@ -393,7 +392,7 @@ class Cart
 			$selectedPropId       = $selectProp[0];
 			$notSelectedSubPropId = $retAttArr[8];
 			$productPreOrder      = $product->preorder;
-			$isPreorderStock      = $retAttArr[7];
+			$isPreOrderStock      = $retAttArr[7];
 
 			// Check for the required attributes if selected
 			$handleMessage = \rsCarthelper::getInstance()->handleRequiredSelectedAttributeCartMessage(
@@ -415,7 +414,7 @@ class Cart
 
 					return $msg;
 				}
-				elseif (!$isPreorderStock)
+				elseif (!$isPreOrderStock)
 				{
 					$msg = urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 
