@@ -314,12 +314,14 @@ class RedshopHelperOrder
 
 		// Set the query and load the result.
 		$db->setQuery($query);
-		self::$allStatus = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			self::$allStatus = $db->loadObjectList();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return null;
 		}
@@ -470,13 +472,14 @@ class RedshopHelperOrder
 			. ' ON ' . $db->qn('f.id') . '=' . $db->qn('fd.fieldid')
 		);
 
-		// Set the query and load the result.
-		$fields = $db->setQuery($query)->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			// Set the query and load the result.
+			$fields = $db->setQuery($query)->loadObjectList();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return null;
 		}
@@ -645,7 +648,7 @@ class RedshopHelperOrder
 			$values["order_userid"]        = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$data = RedshopHelperUtility::getDispatcher()->trigger('onCapture_Payment' . $result->element, array($result->element, $values));
+			$data = JFactory::getApplication()->triggerEvent('onCapture_Payment' . $result->element, array($result->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))
@@ -673,7 +676,7 @@ class RedshopHelperOrder
 			JPluginHelper::importPlugin('redshop_payment');
 
 			// Get status and refund if capture/cancel if authorize (for quickpay only)
-			$data = RedshopHelperUtility::getDispatcher()->trigger('onStatus_Payment' . $result->element, array($result->element, $values));
+			$data = JFactory::getApplication()->triggerEvent('onStatus_Payment' . $result->element, array($result->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))
@@ -1044,7 +1047,7 @@ class RedshopHelperOrder
 
 			// Trigger function on Order Status change
 			JPluginHelper::importPlugin('redshop_order');
-			RedshopHelperUtility::getDispatcher()->trigger(
+			JFactory::getApplication()->triggerEvent(
 				'onAfterOrderStatusUpdate',
 				array(
 					self::getOrderDetails($orderId),
@@ -1053,7 +1056,7 @@ class RedshopHelperOrder
 			);
 
 			JPluginHelper::importPlugin('redshop_shipping');
-			RedshopHelperUtility::getDispatcher()->trigger(
+			JFactory::getApplication()->triggerEvent(
 				'sendOrderShipping'
 				, array(
 					$orderId,
@@ -1334,7 +1337,7 @@ class RedshopHelperOrder
 			// Trigger function on Order Status change
 			JPluginHelper::importPlugin('redshop_order');
 
-			RedshopHelperUtility::getDispatcher()->trigger(
+			JFactory::getApplication()->triggerEvent(
 				'onAfterOrderStatusUpdate',
 				array(
 					RedshopEntityOrder::getInstance($orderId)->getItem(),
@@ -1453,7 +1456,7 @@ class RedshopHelperOrder
 				break;
 		}
 
-		RedshopHelperUtility::getDispatcher()->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'sendOrderShipping',
 			array(
 				$orderId,
@@ -2304,7 +2307,7 @@ class RedshopHelperOrder
 			}
 
 			JPluginHelper::importPlugin('redshop_payment');
-			RedshopHelperUtility::getDispatcher()->trigger('onPrePayment', array($values['payment_plugin'], $values));
+			JFactory::getApplication()->triggerEvent('onPrePayment', array($values['payment_plugin'], $values));
 
 			$app->redirect(
 				JUri::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $row->order_id
@@ -2547,7 +2550,7 @@ class RedshopHelperOrder
 			$orderTrackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $orderId;
 
 			JPluginHelper::importPlugin('redshop_shipping');
-			RedshopHelperUtility::getDispatcher()->trigger(
+			JFactory::getApplication()->triggerEvent(
 				'onReplaceTrackingUrl',
 				array(
 					$orderId,
@@ -2733,7 +2736,7 @@ class RedshopHelperOrder
 		$message = Template::replaceTemplate($orderDetail, $message, true);
 
 		JPluginHelper::importPlugin('redshop_pdf');
-		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));
+		JFactory::getApplication()->triggerEvent('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));
 	}
 
 	/**

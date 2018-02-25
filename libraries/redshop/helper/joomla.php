@@ -149,7 +149,7 @@ class RedshopHelperJoomla
 		}
 
 		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateJoomlaUser', array(&$data));
+		JFactory::getApplication()->triggerEvent('onBeforeCreateJoomlaUser', array(&$data));
 
 		// Get required system objects
 		$user = clone JFactory::getUser();
@@ -196,7 +196,7 @@ class RedshopHelperJoomla
 			$app->login($credentials);
 		}
 
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateJoomlaUser', array(&$user));
+		JFactory::getApplication()->triggerEvent('onAfterCreateJoomlaUser', array(&$user));
 
 		return $user;
 	}

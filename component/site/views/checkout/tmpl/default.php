@@ -13,8 +13,7 @@ JHtml::_('behavior.calendar');
 JHtml::_('behavior.modal');
 
 JPluginHelper::importPlugin('redshop_shipping');
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$dispatcher->trigger('onRenderCustomField');
+JFactory::getApplication()->triggerEvent('onRenderCustomField');
 
 $url     = JURI::base();
 $user    = JFactory::getUser();
@@ -32,8 +31,7 @@ $jinput     = JFactory::getApplication()->input;
 $l               = $jinput->getInt('l', 1);
 
 JPluginHelper::importPlugin('redshop_checkout');
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$dispatcher->trigger('onRenderCustomField');
+JFactory::getApplication()->triggerEvent('onRenderCustomField');
 
 /*
  * REGISTER_METHOD

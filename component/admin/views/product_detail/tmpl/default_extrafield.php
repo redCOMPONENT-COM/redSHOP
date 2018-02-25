@@ -30,7 +30,7 @@ foreach ($sections as $section)
 	$html .= RedshopHelperExtrafields::listAllField($section, $this->detail->product_id, '');
 }
 
-$this->dispatcher->trigger('onRenderExtraFields', array($this->detail->product_id, &$html));
+JFactory::getApplication()->triggerEvent('onRenderExtraFields', array($this->detail->product_id, &$html));
 ?>
 <?php if (empty($html)): ?>
     <div class="row">

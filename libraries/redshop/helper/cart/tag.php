@@ -184,7 +184,6 @@ class RedshopHelperCartTag
 	public static function replaceCartItem($data, $cart = array(), $isReplaceButton = false, $quotationMode = 0)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$input  = JFactory::getApplication()->input;
 		$itemId = RedshopHelperRouter::getCheckoutItemId();
@@ -215,7 +214,7 @@ class RedshopHelperCartTag
 			$cartHtml = $data;
 
 			// Plugin support: Process the product plugin for cart item
-			$dispatcher->trigger('onCartItemDisplay', array(&$cartHtml, $cart, $i));
+			JFactory::getApplication()->triggerEvent('onCartItemDisplay', array(&$cartHtml, $cart, $i));
 
 			$quantity = $cart[$i]['quantity'];
 
@@ -365,7 +364,7 @@ class RedshopHelperCartTag
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId);
 
 				// Trigger to change product link.
-				$dispatcher->trigger('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $i));
+				JFactory::getApplication()->triggerEvent('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $i));
 
 				$productName  = "<div  class='product_name'><a href='" . $link . "'>" . $product->product_name . "</a></div>";
 				$productImage = "";
@@ -444,7 +443,7 @@ class RedshopHelperCartTag
 				}
 
 				// Trigger to change product image.
-				$dispatcher->trigger('onSetCartOrderItemImage', array(&$cart, &$productImage, $product, $i));
+				JFactory::getApplication()->triggerEvent('onSetCartOrderItemImage', array(&$cart, &$productImage, $product, $i));
 
 				$isApplyVAT        = \Redshop\Template\Helper::isApplyVat($data);
 				$productTotalPrice = "<div class='product_price'>";

@@ -35,7 +35,6 @@ $order_functions = order_functions::getInstance();
 $redhelper = redhelper::getInstance();
 $userhelper = rsUserHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$dispatcher = RedshopHelperUtility::getDispatcher();
 
 $user = JFactory::getUser();
 $session = JFactory::getSession();
@@ -87,7 +86,7 @@ else
 
 // Process the product plugin for cart item
 JPluginHelper::importPlugin('redshop_product');
-$results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
+$results = JFactory::getApplication()->triggerEvent('onStartCartTemplateReplace', array(& $cart_data, $cart));
 // End
 
 echo JLayoutHelper::render('cart.wizard', array('step' => '2'));

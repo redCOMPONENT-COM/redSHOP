@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$app        = JFactory::getApplication();
+$app = JFactory::getApplication();
 
 // Event
 $task = $app->input->getCmd('task');
@@ -18,8 +17,8 @@ $task = $app->input->getCmd('task');
 // Group
 $type = $app->input->getCmd('type');
 
-$post   = $app->input->getArray();
+$post = $app->input->getArray();
 
 JPluginHelper::importPlugin($type);
 
-$paymentResponses = $dispatcher->trigger($task, array(&$post));
+$paymentResponses = JFactory::getApplication()->triggerEvent($task, array(&$post));

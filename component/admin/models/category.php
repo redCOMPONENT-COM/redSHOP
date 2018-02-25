@@ -203,7 +203,7 @@ class RedshopModelCategory extends RedshopModelForm
 			return false;
 		}
 
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCategorySave', array(&$row));
+		JFactory::getApplication()->triggerEvent('onAfterCategorySave', array(&$row));
 
 		if (isset($row->id))
 		{

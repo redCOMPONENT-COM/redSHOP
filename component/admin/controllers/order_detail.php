@@ -498,9 +498,8 @@ class RedshopControllerOrder_detail extends RedshopController
 		$values['order']          = $order;
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
-		$results         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
+		$results         = JFactory::getApplication()->triggerEvent('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
 
 		if ($paymentResponse->responsestatus == "Success" || $values['payment_plugin'] == "")
@@ -592,7 +591,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$orderId = $this->input->getInt('orderId');
 
 		JPluginHelper::importPlugin('redshop_payment');
-		JEventDispatcher::getInstance()->trigger('onBackendPayment', array($orderId));
+		JFactory::getApplication()->triggerEvent('onBackendPayment', array($orderId));
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId);
 	}

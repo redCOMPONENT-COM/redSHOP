@@ -139,12 +139,13 @@ class RedshopModelQuotation extends RedshopModelList
 
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
 
-		$items = $this->_getList($query);
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$items = $this->_getList($query);
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
 
 			return false;
 		}

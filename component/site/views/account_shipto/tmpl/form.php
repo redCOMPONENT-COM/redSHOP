@@ -10,14 +10,13 @@
 defined('_JEXEC') or die;
 
 JPluginHelper::importPlugin('redshop_shipping');
-$dispatcher = RedshopHelperUtility::getDispatcher();
 $input      = JFactory::getApplication()->input;
 $itemId     = $input->getInt('Itemid', 0);
 $isEdit     = $input->getInt('is_edit', 0);
 $return     = $input->getString('return', "");
 $infoId     = $input->getInt('infoid', 0);
 $userHelper = rsUserHelper::getInstance();
-$dispatcher->trigger('onRenderCustomField', array($infoId));
+JFactory::getApplication()->triggerEvent('onRenderCustomField', array($infoId));
 
 $post = (array) $this->shippingAddresses;
 

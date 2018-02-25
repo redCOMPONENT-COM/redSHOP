@@ -650,7 +650,6 @@ class RedshopHelperStockroom
 				if (Redshop::getConfig()->get('ENABLE_STOCKROOM_NOTIFICATION') == 1
 					&& $remaining <= Redshop::getConfig()->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER'))
 				{
-					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_alert');
 					$productId   = ($section == "product") ? $sectionId : $productId;
 					$productData = Redshop::product((int) $productId);
@@ -664,8 +663,8 @@ class RedshopHelperStockroom
 						$stockroomDetail[0]->stockroom_name
 					);
 
-					$dispatcher->trigger('storeAlert', array($message));
-					$dispatcher->trigger('sendEmail', array($message));
+					JFactory::getApplication()->triggerEvent('storeAlert', array($message));
+					JFactory::getApplication()->triggerEvent('sendEmail', array($message));
 				}
 			}
 
@@ -704,9 +703,8 @@ class RedshopHelperStockroom
 							continue;
 						}
 
-						$dispatcher = RedshopHelperUtility::getDispatcher();
 						JPluginHelper::importPlugin('redshop_stockroom');
-						$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $productData));
+						JFactory::getApplication()->triggerEvent('onUpdateStockroomQuantity', array($section, $productData));
 						self::updatePreorderStockAmount($sectionId, $remainingQuantity, $preOrderStockroom->stockroom_id, $section);
 					}
 				}

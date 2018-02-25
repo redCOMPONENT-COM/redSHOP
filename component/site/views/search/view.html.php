@@ -114,7 +114,6 @@ class RedshopViewSearch extends RedshopView
 			$input = JFactory::getApplication()->input;
 			$input->set('order_by', $app->getUserState('order_by'));
 
-			$dispatcher       = RedshopHelperUtility::getDispatcher();
 			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
@@ -317,7 +316,7 @@ class RedshopViewSearch extends RedshopView
 
 				// RedSHOP Product Plugin
 				$params = array();
-				$dispatcher->trigger('onPrepareProduct', array(&$data_add, &$params, $this->search[$i]));
+				JFactory::getApplication()->triggerEvent('onPrepareProduct', array(&$data_add, &$params, $this->search[$i]));
 
 				$thum_image = "";
 				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
@@ -711,7 +710,7 @@ class RedshopViewSearch extends RedshopView
 					$attributeproductStockStatus
 				);
 
-				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
+				JFactory::getApplication()->triggerEvent('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
 
 				$data .= $data_add;
 			}

@@ -106,8 +106,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		else
 		{
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$results    = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
+			$results    = JFactory::getApplication()->triggerEvent('onPrePayment', array($values['payment_plugin'], $values));
 
 			$key = array_search(true, $results);
 

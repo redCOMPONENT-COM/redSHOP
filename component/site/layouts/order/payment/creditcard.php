@@ -49,7 +49,7 @@ $months[] = JHtml::_('select.option', '12', 12);
 ?>
 <?php
 JPluginHelper::importPlugin('redshop_payment');
-RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selectable' => true));
+JFactory::getApplication()->triggerEvent('onListCreditCards', array('selectable' => true));
 ?>
 <fieldset class="adminform">
     <legend>

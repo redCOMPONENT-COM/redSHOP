@@ -151,7 +151,7 @@ class RedshopControllerOrder extends RedshopController
 
 		// Trigger when order status changed.
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
+		JFactory::getApplication()->triggerEvent('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
 
 		ob_clean();
 		echo json_encode($response);

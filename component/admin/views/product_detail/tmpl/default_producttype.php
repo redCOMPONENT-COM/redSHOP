@@ -264,7 +264,7 @@ $total_serial = count($productSerialDetail);
 				</div>
 			<?php else : ?>
 				<?php
-					$this->dispatcher->trigger('onDisplayProductTypeData', array($this->detail));
+					JFactory::getApplication()->triggerEvent('onDisplayProductTypeData', array($this->detail));
 				?>
 			<?php endif; ?>
 			</div>

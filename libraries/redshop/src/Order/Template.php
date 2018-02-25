@@ -103,7 +103,7 @@ class Template
 		$orderTrackURL = '';
 
 		\JPluginHelper::importPlugin('redshop_shipping');
-		\RedshopHelperUtility::getDispatcher()->trigger('onReplaceTrackingUrl', array($row->order_id, &$orderTrackURL));
+		\JFactory::getApplication()->triggerEvent('onReplaceTrackingUrl', array($row->order_id, &$orderTrackURL));
 
 		if ($row->track_no)
 		{

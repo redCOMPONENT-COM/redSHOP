@@ -403,7 +403,7 @@ abstract class RedshopHelperAttribute
 					}
 
 					// Run event for prepare product properties.
-					RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductProperties', array($product, &$property));
+					JFactory::getApplication()->triggerEvent('onPrepareProductProperties', array($product, &$property));
 
 					$properties = array_merge(
 						array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . urldecode($attributes[$a]->text))),

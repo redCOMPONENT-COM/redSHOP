@@ -78,8 +78,7 @@ defined('_JEXEC') or die;
                 <div class="box-body">
 					<?php
 					JPluginHelper::importPlugin('redshop_shipping');
-					$dispatcher = RedshopHelperUtility::getDispatcher();
-					$payment    = $dispatcher->trigger('onShowConfig', array($this->detail));
+					$payment    = JFactory::getApplication()->triggerEvent('onShowConfig', array($this->detail));
 					?>
                 </div>
             </div>

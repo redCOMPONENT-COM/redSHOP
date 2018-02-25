@@ -80,7 +80,7 @@ class Invoice
 		if (\RedshopHelperPdf::isAvailablePdfPlugins())
 		{
 			\JPluginHelper::importPlugin('redshop_pdf');
-			$result = \RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $pdfTemplate, 'F', true));
+			$result = \JFactory::getApplication()->triggerEvent('onRedshopOrderCreateInvoicePdf', array($orderId, $pdfTemplate, 'F', true));
 
 			if (!in_array(false, $result, true))
 			{

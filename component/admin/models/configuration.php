@@ -101,8 +101,8 @@ class RedshopModelConfiguration extends RedshopModel
 		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->configData);
 
 		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onBeforeAdminSaveConfiguration', array(&$this->configData));
+
+		JFactory::getApplication()->triggerEvent('onBeforeAdminSaveConfiguration', array(&$this->configData));
 
 		// Temporary new way to save config
 		$config = Redshop::getConfig();
@@ -111,7 +111,7 @@ class RedshopModelConfiguration extends RedshopModel
 		{
 			if ($config->save(new Registry($this->configData)))
 			{
-				$dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
+				JFactory::getApplication()->triggerEvent('onAfterAdminSaveConfiguration', array($config));
 			}
 		}
 		catch (Exception $e)
@@ -403,9 +403,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$o       = new stdClass;
 		$o->text = $newsletterBody;
 		JPluginHelper::importPlugin('content');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$x          = array();
-		$dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+		JFactory::getApplication()->triggerEvent('onPrepareContent', array(&$o, &$x, 0));
 		$newsletterTemplate2 = $o->text;
 
 		$content = str_replace("{data}", $newsletterTemplate2, $newsletterTemplate);

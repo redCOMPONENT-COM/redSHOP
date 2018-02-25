@@ -29,7 +29,6 @@ class RedshopControllerRegistration extends RedshopController
 		$input      = JFactory::getApplication()->input;
 		$post       = $input->post->getArray();
 		$itemId     = $input->getInt('Itemid', 0);
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$model   = $this->getModel('registration');
 		$success = $model->store($post);
@@ -38,7 +37,7 @@ class RedshopControllerRegistration extends RedshopController
 		{
 			$message = JText::sprintf('COM_REDSHOP_ALERT_REGISTRATION_SUCCESSFULLY', $post['username']);
 			JPluginHelper::importPlugin('redshop_alert');
-			$dispatcher->trigger('storeAlert', array($message));
+			JFactory::getApplication()->triggerEvent('storeAlert', array($message));
 
 			if ($post['mywishlist'] == 1)
 			{
@@ -89,7 +88,7 @@ class RedshopControllerRegistration extends RedshopController
 		JPluginHelper::importPlugin('telesearch');
 
 		$telephone     = array('phone' => $get['phone']);
-		$accountHandle = RedshopHelperUtility::getDispatcher()->trigger('onSearchUserDetails', array($telephone));
+		$accountHandle = JFactory::getApplication()->triggerEvent('onSearchUserDetails', array($telephone));
 
 		if (count($accountHandle) > 0)
 		{
@@ -241,7 +240,7 @@ class RedshopControllerRegistration extends RedshopController
 			JPluginHelper::importPlugin('redshop_checkout');
 
 			$html = '';
-			RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingOneStepCheckout', array(&$html));
+			JFactory::getApplication()->triggerEvent('onRenderBillingOneStepCheckout', array(&$html));
 		}
 
 		echo $html;

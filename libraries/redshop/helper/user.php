@@ -262,13 +262,14 @@ class RedshopHelperUser
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('user_info_id') . ' = ' . (int) $userInfoId);
 
-		// Set the query and load the result.
-		$total = $db->setQuery($query)->loadResult();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			// Set the query and load the result.
+			$total = $db->setQuery($query)->loadResult();
+		}
+		catch (Exception $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
 			return null;
 		}
@@ -543,7 +544,7 @@ class RedshopHelperUser
 
 		JPluginHelper::importPlugin('redshop_shipping');
 		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateRedshopUser', array(&$data, $isNew));
+		JFactory::getApplication()->triggerEvent('onBeforeCreateRedshopUser', array(&$data, $isNew));
 
 		if (!$row->bind($data))
 		{
@@ -680,7 +681,7 @@ class RedshopHelperUser
 		}
 
 		JPluginHelper::importPlugin('user');
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
+		JFactory::getApplication()->triggerEvent('onAfterCreateRedshopUser', array($data, $isNew));
 
 		return $row;
 	}
@@ -700,7 +701,7 @@ class RedshopHelperUser
 	{
 		JPluginHelper::importPlugin('redshop_user');
 		JPluginHelper::importPlugin('redshop_shipping');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeStoreRedshopUserShipping', array(&$data));
+		JFactory::getApplication()->triggerEvent('onBeforeStoreRedshopUserShipping', array(&$data));
 
 		/** @var Tableuser_detail $userTable */
 		$userTable = JTable::getInstance('user_detail', 'Table');

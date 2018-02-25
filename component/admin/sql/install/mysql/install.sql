@@ -1,6 +1,3 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-
 -- -----------------------------------------------------
 -- Table `#__redshop_attribute_set`
 -- -----------------------------------------------------
@@ -716,9 +713,9 @@ DROP TABLE IF EXISTS `#__redshop_mass_discount` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_mass_discount` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `discount_product` LONGTEXT NOT NULL DEFAULT '',
-  `category_id` LONGTEXT NOT NULL DEFAULT '',
-  `manufacturer_id` LONGTEXT NOT NULL DEFAULT '',
+  `discount_product` LONGTEXT NOT NULL,
+  `category_id` LONGTEXT NOT NULL,
+  `manufacturer_id` LONGTEXT NOT NULL,
   `type` TINYINT(4) NOT NULL,
   `amount` DOUBLE(10,2) NOT NULL,
   `start_date` INT(11) NOT NULL,
@@ -2059,7 +2056,7 @@ DROP TABLE IF EXISTS `#__redshop_supplier` ;
 CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `description` TEXT NOT NULL DEFAULT '',
+  `description` TEXT NOT NULL,
   `email` VARCHAR(255) NOT NULL DEFAULT '',
   `published` TINYINT(4) NOT NULL DEFAULT 0,
   `checked_out` INT(11) NULL DEFAULT NULL,
@@ -2162,7 +2159,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_textlibrary` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL DEFAULT '',
   `desc` VARCHAR(255) NOT NULL DEFAULT '',
-  `content` TEXT NOT NULL DEFAULT '',
+  `content` TEXT NOT NULL,
   `section` VARCHAR(255) NOT NULL,
   `published` TINYINT(4) NOT NULL DEFAULT 1,
   `checked_out` INT(11) NULL DEFAULT NULL,
@@ -2625,7 +2622,3 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
   INDEX `#__rs_pro_pay_ref_fk1` (`product_id` ASC))
 ENGINE = InnoDB
 COMMENT = 'redSHOP Product Individual payment reference.';
-
-
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

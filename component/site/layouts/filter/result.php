@@ -51,7 +51,6 @@ $productData = '';
 
 JPluginHelper::importPlugin('redshop_product');
 
-$dispatcher         = RedshopHelperUtility::getDispatcher();
 $params             = $app->getParams('com_redshop');
 $itemId             = $input->get('Itemid', 0, "int");
 $fieldArray         = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
@@ -817,7 +816,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);
 
-		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
+		$results = JFactory::getApplication()->triggerEvent('onPrepareProduct', array(&$dataAdd, &$params, $product));
 
 		$productData .= $dataAdd;
 	}

@@ -67,8 +67,7 @@ if ($this->params->get('show_page_heading', 1))
 
 JPluginHelper::importPlugin('redshop_account');
 JPluginHelper::importPlugin('user');
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$dispatcher->trigger('onReplaceAccountTemplate', array(&$template_desc, $this->userdata));
+JFactory::getApplication()->triggerEvent('onReplaceAccountTemplate', array(&$template_desc, $this->userdata));
 
 $template_desc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $template_desc);
 

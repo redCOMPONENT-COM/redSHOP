@@ -91,7 +91,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		}
 
 		JPluginHelper::importPlugin('redshop_pdf');
-		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderGenerateShippingPdf', array($detail, $pdfTemplate));
+		JFactory::getApplication()->triggerEvent('onRedshopOrderGenerateShippingPdf', array($detail, $pdfTemplate));
 
 		JFactory::getApplication()->close();
 	}

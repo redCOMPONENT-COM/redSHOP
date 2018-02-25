@@ -490,11 +490,10 @@ class RedshopControllerProduct_Detail extends RedshopController
 				// Set trigger to save Attribute Property Plugin Data
 				if ((int) $property_id)
 				{
-					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
-					$dispatcher->trigger('onAttributePropertySaveLoop', array($row, &$property[$p], &$property_array));
+					JFactory::getApplication()->triggerEvent('onAttributePropertySaveLoop', array($row, &$property[$p], &$property_array));
 				}
 
 				$subproperty       = array_merge(array(), $property[$p]['subproperty']);

@@ -85,9 +85,8 @@ class RedshopHelperPdf
 		}
 
 		JPluginHelper::importPlugin('redshop_pdf');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
-		$result = $dispatcher->trigger('onRedshopOrderCreateMultiInvoicePdf', array($orderIds, $message));
+		$result = JFactory::getApplication()->triggerEvent('onRedshopOrderCreateMultiInvoicePdf', array($orderIds, $message));
 
 		if (!empty($result))
 		{

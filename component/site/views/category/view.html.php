@@ -59,7 +59,6 @@ class RedshopViewCategory extends RedshopView
 
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_robots           = $params->get('robots');

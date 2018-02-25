@@ -487,7 +487,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		 * Process the prepare Product plugins
 		 */
 		$params  = array();
-		$results = $this->dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $product));
+		$results = JFactory::getApplication()->triggerEvent('onPrepareProduct', array(& $data_add, & $params, $product));
 
 		if (strpos($data_add, "{product_delivery_time}") !== false)
 		{
@@ -646,7 +646,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add     = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $data_add);
 		$data_add     = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
 
-		$specificLink = $this->dispatcher->trigger('createProductLink', array($product));
+		$specificLink = JFactory::getApplication()->triggerEvent('createProductLink', array($product));
 
 		if (empty($specificLink))
 		{
@@ -1015,7 +1015,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$attributeproductStockStatus
 		);
 
-		$this->dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
+		JFactory::getApplication()->triggerEvent('onAfterDisplayProduct', array(&$data_add, array(), $product));
 
 		$product_data .= $data_add;
 	}

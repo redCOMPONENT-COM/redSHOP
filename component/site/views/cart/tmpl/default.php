@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.modal');
 
-$dispatcher    = RedshopHelperUtility::getDispatcher();
 $producthelper = productHelper::getInstance();
 $objshipping   = shipping::getInstance();
 $redhelper     = redhelper::getInstance();
@@ -33,7 +32,7 @@ $cart_data = $this->data [0]->template_desc;
 
 // Process the product plugin before cart template replace tag
 JPluginHelper::importPlugin('redshop_product');
-$results = $dispatcher->trigger('onStartCartTemplateReplace', array(&$cart_data, &$cart));
+$results = JFactory::getApplication()->triggerEvent('onStartCartTemplateReplace', array(&$cart_data, &$cart));
 
 // End
 
@@ -90,8 +89,7 @@ else
 {
 	$checkout = '';
 	JPluginHelper::importPlugin('redshop_payment');
-	$dispatcher   = RedshopHelperUtility::getDispatcher();
-	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
+	$pluginButton = JFactory::getApplication()->triggerEvent('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
 	// Google checkout start Div
@@ -271,7 +269,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
 
 // Process the product plugin for cart item
 JPluginHelper::importPlugin('redshop_product');
-$results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
+$results = JFactory::getApplication()->triggerEvent('atEndCartTemplateReplace', array(& $cart_data, $cart));
 
 $cart_data = $redTemplate->parseredSHOPplugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");

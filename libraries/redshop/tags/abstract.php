@@ -141,10 +141,8 @@ abstract class RedshopTagsAbstract
 	 */
 	public function replace()
 	{
-		$dispatcher = $this->getDispatcher();
-
 		// Trigger event and cancel replace if event return false
-		if ($dispatcher->trigger('onBeforeReplaceTags', array(&$this->search, &$this->replace, &$this->template)) === false)
+		if (JFactory::getApplication()->triggerEvent('onBeforeReplaceTags', array(&$this->search, &$this->replace, &$this->template)) === false)
 		{
 			return $this->template;
 		}
@@ -166,10 +164,8 @@ abstract class RedshopTagsAbstract
 	 */
 	protected function addReplace($tag, $value)
 	{
-		$dispatcher = $this->getDispatcher();
-
 		// Trigger event and cancel addReplace if event return false
-		if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false))
+		if (JFactory::getApplication()->triggerEvent('onBeforeAddReplaceTag', array(&$tag, &$value) === false))
 		{
 			return false;
 		}
@@ -223,18 +219,5 @@ abstract class RedshopTagsAbstract
 		}
 
 		return false;
-	}
-
-	/**
-	 *
-	 * @return  JEventDispatcher
-	 *
-	 * @since  2.0.6
-	 */
-	protected function getDispatcher()
-	{
-		JPluginHelper::importPlugin('redshop');
-
-		return RedshopHelperUtility::getDispatcher();
 	}
 }

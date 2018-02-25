@@ -306,7 +306,7 @@ class RedshopHelperTemplate
 		$temp          = array();
 
 		JPluginHelper::importPlugin('content');
-		RedshopHelperUtility::getDispatcher()->trigger('onContentPrepare', array($context, &$content, &$temp, 0));
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array($context, &$content, &$temp, 0));
 
 		return $content->text;
 	}
@@ -456,7 +456,7 @@ class RedshopHelperTemplate
 		);
 
 		JPluginHelper::importPlugin('system');
-		RedshopHelperUtility::getDispatcher()->trigger('onTemplateSections', array(&$options));
+		JFactory::getApplication()->triggerEvent('onTemplateSections', array(&$options));
 
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
@@ -511,7 +511,7 @@ class RedshopHelperTemplate
 		);
 
 		JPluginHelper::importPlugin('system');
-		RedshopHelperUtility::getDispatcher()->trigger('onMailSections', array(&$options));
+		JFactory::getApplication()->triggerEvent('onMailSections', array(&$options));
 
 		return self::prepareSectionOptions($options, $sectionValue);
 	}

@@ -475,10 +475,8 @@ class productHelper
 		}
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
 		// Trigger to change product image.
-		$dispatcher->trigger('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
+		JFactory::getApplication()->triggerEvent('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
 
 		if (!empty($thum_image))
 		{
@@ -645,8 +643,6 @@ class productHelper
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
 		$redhelper     = redhelper::getInstance();
-		$dispatcher    = RedshopHelperUtility::getDispatcher();
-
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
 
@@ -661,8 +657,7 @@ class productHelper
 		$altText = RedshopHelperMedia::getAlternativeText('product', $product_id, $product_image);
 		$altText = empty($altText) ? $product->product_name : $altText;
 
-		$dispatcher    = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+		JFactory::getApplication()->triggerEvent('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		$title = " title='" . $altText . "' ";
 		$alt   = " alt='" . $altText . "' ";
@@ -752,7 +747,7 @@ class productHelper
 			$thum_image = "<div>" . $thum_image . "</div>";
 		}
 
-		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+		JFactory::getApplication()->triggerEvent('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		return $thum_image;
 	}
@@ -2653,7 +2648,7 @@ class productHelper
 				}
 
 				// Run event when prepare sub-properties data.
-				RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductSubProperties', array($product, &$subproperty));
+				JFactory::getApplication()->triggerEvent('onPrepareProductSubProperties', array($product, &$subproperty));
 
 				$subproperties = array_merge(
 					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
@@ -2799,8 +2794,7 @@ class productHelper
 
 		// Process the product plugin for property
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onPropertyAddtoCart', array(&$property_data, &$cart_template, &$property_stock, $property_id, $product));
+		JFactory::getApplication()->triggerEvent('onPropertyAddtoCart', array(&$property_data, &$cart_template, &$property_stock, $property_id, $product));
 
 		if ($property_stock <= 0)
 		{
@@ -3014,7 +3008,7 @@ class productHelper
 		$cartform = str_replace($cartTag, '<span id="stockaddtocart' . $stockId . '"></span>' . $cartIcon, $cartform);
 
 		// Trigger event on Add to Cart
-		$dispatcher->trigger('onAddtoCart', array(&$cartform, $product, $addtocartFormName, $property_id));
+		JFactory::getApplication()->triggerEvent('onAddtoCart', array(&$cartform, $product, $addtocartFormName, $property_id));
 
 		$cartform .= "</form>";
 
@@ -3035,7 +3029,6 @@ class productHelper
 		$product_preorder = "";
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if ($user_id == 0)
 		{
@@ -3743,7 +3736,7 @@ class productHelper
 			$cartTitle = ' title="' . $ADD_OR_TOOLTIP . '" ';
 
 			// Trigger event which hepls us to add new JS functions to the Add To Cart button onclick
-			$addToCartClickJS = $dispatcher->trigger('onAddToCartClickJS', array($product, $cart));
+			$addToCartClickJS = JFactory::getApplication()->triggerEvent('onAddToCartClickJS', array($product, $cart));
 
 			if (!empty($addToCartClickJS))
 			{
@@ -3902,7 +3895,7 @@ class productHelper
 				. ' class="stock_addtocart">' . $display_text . '</span>' . $cartIconPreorder . $cartIcon, $cartform);
 
 			// Trigger event on Add to Cart
-			$dispatcher->trigger('onAddtoCart', array(&$cartform, $product, $addtocartFormName, 0));
+			JFactory::getApplication()->triggerEvent('onAddtoCart', array(&$cartform, $product, $addtocartFormName, 0));
 
 			$cartform .= "</form>";
 
@@ -4327,7 +4320,7 @@ class productHelper
 		);
 
 		JPluginHelper::importPlugin('redshop_product');
-		RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
+		JFactory::getApplication()->triggerEvent('onMakeAttributeCart', array(&$data, $attributes, $productId));
 
 		return $data;
 	}
@@ -5615,8 +5608,7 @@ class productHelper
 		elseif (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 		{
 			$altText = $product->product_name;
-			$dispatcher    = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+			JFactory::getApplication()->triggerEvent('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 			$type                = 'product';
 			$imagename           = $product->product_full_image;
@@ -5706,8 +5698,7 @@ class productHelper
 
 			$altText = $product->product_name;
 
-			$dispatcher    = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+			JFactory::getApplication()->triggerEvent('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
 				. $altText . "' title='" . $altText . "'>";
@@ -5805,7 +5796,6 @@ class productHelper
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (null !== $related_template)
 		{
@@ -5830,7 +5820,7 @@ class productHelper
 				{
 					$related_template_data .= $tempdata_div_middle;
 
-					$dispatcher->trigger('onPrepareRelatedProduct', array(&$related_template_data, $related_product[$r]));
+					JFactory::getApplication()->triggerEvent('onPrepareRelatedProduct', array(&$related_template_data, $related_product[$r]));
 
 					$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $related_product[$r]->product_id);
 
@@ -6016,7 +6006,7 @@ class productHelper
 						$attributeproductStockStatus
 					);
 
-					$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $related_product[$r]));
+					JFactory::getApplication()->triggerEvent('onAfterDisplayRelatedProduct', array(&$related_template_data, $related_product[$r]));
 				}
 
 				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;

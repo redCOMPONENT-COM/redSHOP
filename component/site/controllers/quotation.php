@@ -33,7 +33,6 @@ class RedshopControllerQuotation extends RedshopController
 		$post   = $app->input->post->getArray();
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (!$post['user_email'])
 		{
@@ -48,13 +47,13 @@ class RedshopControllerQuotation extends RedshopController
 		$cart                   = $session->get('cart');
 		$cart['quotation_note'] = $post['quotation_note'];
 
-		$dispatcher->trigger('onRedshopQuotationBeforeAdding', array(&$cart, &$post));
+		JFactory::getApplication()->triggerEvent('onRedshopQuotationBeforeAdding', array(&$cart, &$post));
 
 		$row = $model->store($cart, $post);
 
 		if ($row)
 		{
-			$dispatcher->trigger('onRedshopQuotationAfterAdded', array(&$cart, &$post, $row));
+			JFactory::getApplication()->triggerEvent('onRedshopQuotationAfterAdded', array(&$cart, &$post, $row));
 
 			$sent = $model->sendQuotationMail($row->quotation_id);
 

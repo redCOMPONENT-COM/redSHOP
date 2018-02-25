@@ -36,6 +36,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 	 * Method for upload csv file.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since  2.0.3
 	 */
@@ -51,7 +52,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		$data   = $this->input->post->getArray();
 
 		JPluginHelper::importPlugin('redshop_import');
-		$result = RedshopHelperUtility::getDispatcher()->trigger('onUploadFile', array($plugin, $file, $data));
+		$result = JFactory::getApplication()->triggerEvent('onUploadFile', array($plugin, $file, $data));
 
 		if (in_array(false, $result, false))
 		{

@@ -787,7 +787,7 @@ trait HasAutoEvents
 		array_unshift($params, $this);
 
 		// Trigger the event
-		$results = \RedshopHelperUtility::getDispatcher()->trigger($eventName, $params);
+		$results = \JFactory::getApplication()->triggerEvent($eventName, $params);
 
 		if (count($results) && in_array(false, $results, true))
 		{

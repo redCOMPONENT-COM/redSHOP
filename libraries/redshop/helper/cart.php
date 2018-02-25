@@ -143,7 +143,7 @@ abstract class RedshopHelperCart
 		}
 
 		JPluginHelper::importPlugin('redshop_product');
-		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
+		JFactory::getApplication()->triggerEvent('onAddCartToDatabase', array(&$cart));
 
 		$idx = isset($cart['idx']) ? (int) ($cart['idx']) : 0;
 
@@ -414,7 +414,7 @@ abstract class RedshopHelperCart
 
 		foreach ($cartItems as $cartItem)
 		{
-			RedshopHelperUtility::getDispatcher()->trigger('onDatabaseToCart', array(&$cartItem));
+			JFactory::getApplication()->triggerEvent('onDatabaseToCart', array(&$cartItem));
 
 			$setCartItem           = true;
 			$quantity              = $cartItem->product_quantity;

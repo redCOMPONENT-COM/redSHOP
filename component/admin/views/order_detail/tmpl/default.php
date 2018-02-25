@@ -362,7 +362,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 <tr>
                                     <td align="left">
                                         <div id="rs_glslocationId" <?php echo $disp_style ?>>
-                                            <?php $result = $dispatcher->trigger('getGLSLocation', array($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id)); ?>
+                                            <?php $result = JFactory::getApplication()->triggerEvent('getGLSLocation', array($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id)); ?>
 											<?php echo $result[0]; ?>
                                         </div>
                                     </td>
@@ -690,8 +690,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                 <br/><br/>
                                                                 <?php
                                                                 JPluginHelper::importPlugin('redshop_product');
-                                                                $dispatcher = RedshopHelperUtility::getDispatcher();
-                                                                $dispatcher->trigger('onDisplayOrderItemNote', array($products[$i]));
+                                                                JFactory::getApplication()->triggerEvent('onDisplayOrderItemNote', array($products[$i]));
                                                                 ?>
                                                             </td>
                                                             <td width="10%">

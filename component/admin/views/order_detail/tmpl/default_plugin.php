@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$dispatcher = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_product');
 /**
  * @var $data
@@ -16,7 +15,7 @@ JPluginHelper::importPlugin('redshop_product');
  * Show content return by plugin directly into product page after display product title
  */
 $data = new stdClass;
-$results = $dispatcher->trigger('onBackendOrderDetailFooter', array(& $this));
+$results = JFactory::getApplication()->triggerEvent('onBackendOrderDetailFooter', array(& $this));
 $data->loadhtml = trim(implode("\n", $results));
 
 echo $data->loadhtml;
