@@ -40,8 +40,8 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 		$shippinghelper = shipping::getInstance();
 		$shippingrate = array();
 		$rate = 0;
-		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$shippingArr = $shippinghelper->getShopperGroupDefaultShipping();
+		$shipping    = RedshopHelperShipping::getShippingMethodByClasss($this->classname);
+		$shippingArr = RedshopHelperShipping::getShopperGroupDefaultShipping();
 
 		if (!empty($shippingArr))
 		{
@@ -75,7 +75,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 		{
 			$rs                      = $ratelist[$i];
 			$shippingRate            = $rs->shipping_rate_value;
-			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d);
+			$rs->shipping_rate_value = RedshopHelperShipping::applyVatOnShippingRate($rs, $d);
 			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber  = $rs->economic_displaynumber;
 			$shipping_rate_id        = RedshopShippingRate::encrypt(

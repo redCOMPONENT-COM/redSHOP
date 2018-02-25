@@ -74,7 +74,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		// Check captcha only for guests
 		if (JFactory::getUser()->guest)
 		{
-			if (!$userHelper->checkCaptcha($data, false))
+			if (!Redshop\Helper\Utility::checkCaptcha($data, false))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
 				$this->setRedirect($link);
@@ -89,10 +89,9 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 		else
 		{
-			$userHelper = rsUserHelper::getInstance();
 			$data['userid'] = $user->id;
 
-			if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
+			if ($userInfo = RedshopHelperUser::getUserInformation($user->id))
 			{
 				$data['username'] = $userInfo->firstname . " " . $userInfo->lastname;
 				$data['email'] = $userInfo->user_email;

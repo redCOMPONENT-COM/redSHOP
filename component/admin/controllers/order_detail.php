@@ -104,7 +104,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$model = $this->getModel('order_detail');
 
-		$orderItem          = $adminproducthelper->redesignProductItem($post);
+		$orderItem          = Redshop\Order\Helper::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
 		$product_id    = $orderItem[0]->product_id;
@@ -113,7 +113,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		// Check product Quantity
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			$currentStock = $stockroomhelper->getStockroomTotalAmount($product_id);
+			$currentStock = RedshopHelperStockroom::getStockroomTotalAmount($product_id);
 
 			if ($currentStock >= $quantity)
 			{
@@ -390,7 +390,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
 
-		if ($order_functions->SendDownload($cid[0]))
+		if (RedshopHelperOrder::sendDownload($cid[0]))
 		{
 			$msg = JText::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
 		}
@@ -416,7 +416,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$user_id    = $get['user_id'];
 		$newprice   = $get['newprice'];
 
-		$response = $adminproducthelper->getProductItemInfo($product_id, $quantity, $unique_id, $user_id, $newprice);
+		$response = RedshopHelperProduct::getProductItemInfo($product_id, $quantity, $unique_id, $user_id, $newprice);
 		echo $response;
 		JFactory::getApplication()->close();
 	}
@@ -530,7 +530,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$cid  = $this->input->get->get('cid', array(0), 'array');
 		$tmpl = $this->input->getCmd('tmpl', '');
 
-		if ($redshopMail->sendInvoiceMail($cid[0]))
+		if (Redshop\Mail\Invoice::sendMail($cid[0]))
 		{
 			$msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
 		}
@@ -561,7 +561,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$orderId = $this->input->getInt('orderid');
 		$tmpl    = $this->input->getCmd('tmpl', '');
 
-		if ($redshopMail->sendOrderMail($orderId))
+		if (Redshop\Mail\Order::sendMail($orderId))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_SEND_ORDER_MAIL'), 'success');
 		}

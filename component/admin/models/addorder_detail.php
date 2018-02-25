@@ -54,11 +54,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions;
-
 		if (empty($this->_data))
 		{
-			$this->_data = $order_functions->getOrderDetails($this->_id);
+			$this->_data = RedshopHelperOrder::getOrderDetail($this->_id);
 
 			return (boolean) $this->_data;
 		}
@@ -276,7 +274,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$rowOrderStatus->customer_note = $row->customer_note;
 		$rowOrderStatus->store();
 
-		$billingaddresses = $order_functions->getBillingAddress($row->user_id);
+		$billingaddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
 		{
@@ -285,7 +283,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		else
 		{
 			$key                 = 0;
-			$shippingaddresses   = $order_functions->getShippingAddress($row->user_id);
+			$shippingaddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
 			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
 
 			if ($shipp_users_info_id != 0)
@@ -356,7 +354,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 
 			// STOCKROOM update
-			$updatestock                          = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
+			$updatestock                          = RedshopHelperStockroom::updateStockroomQuantity($product_id, $quantity);
 			$stockroom_id_list                    = $updatestock['stockroom_list'];
 			$stockroom_quantity_list              = $updatestock['stockroom_quantity_list'];
 			$rowitem->stockroom_id                = $stockroom_id_list;
@@ -600,7 +598,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
-						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
+						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
@@ -637,7 +635,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
-							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
+							$updatestock = RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -673,7 +671,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
-					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
+					RedshopHelperProduct::insertProductUserField($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
 			}
 		}

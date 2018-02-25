@@ -134,7 +134,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$subject    = '';
 		$message    = $data['your_question'];
 		$productId  = $data['product_id'];
-		$mailbody   = $redshopMail->getMailtemplate(0, 'ask_question_mail');
+		$mailbody   = Redshop\Mail\Helper::getTemplate(0, 'ask_question_mail');
 		$data_add   = $message;
 
 		if (count($mailbody) > 0)
@@ -166,7 +166,8 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data_add    = str_replace('{user_telephone}', $data['telephone'], $data_add);
 		$data_add    = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
 		$data_add    = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
-		$data_add = $redshopMail->imginmail($data_add);
+
+		Redshop\Mail\Helper::imgInMail($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{

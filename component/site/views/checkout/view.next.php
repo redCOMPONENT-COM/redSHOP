@@ -87,7 +87,7 @@ class RedshopViewCheckout extends RedshopView
 			$app->redirect(JRoute::_($link), $msg, 'error');
 		}
 
-		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentinfo     = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 		$paymentinfo     = $paymentinfo[0];
 		$paymentpath     = JPATH_SITE . '/plugins/redshop_payment/' . $paymentinfo->element . '/' . $paymentinfo->element . '.xml';
 		$paymentparams   = new JRegistry($paymentinfo->params);

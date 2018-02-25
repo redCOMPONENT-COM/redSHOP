@@ -797,7 +797,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					else
 					{
 						$imageName = basename($image);
-						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 						JFile::write($dest, $binaryData);
 						$data['product_preview_image'] = $fileName;

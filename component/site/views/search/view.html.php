@@ -470,7 +470,7 @@ class RedshopViewSearch extends RedshopView
 				 ************************************/
 				$data_add = $producthelper->getProductOnSaleComment($this->search[$i], $data_add);
 
-				$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $this->search[$i]->product_id);
+				$data_add = RedshopHelperStockroom::replaceStockroomAmountDetail($data_add, $this->search[$i]->product_id);
 
 				if (strstr($data_add, "{product_thumb_image_3}"))
 				{
@@ -788,8 +788,8 @@ class RedshopViewSearch extends RedshopView
 			$template_org = str_replace("{with_vat}", "", $template_org);
 			$template_org = str_replace("{without_vat}", "", $template_org);
 
-			$template_org = $redTemplate->parseredSHOPplugin($template_org);
-			$template_org = $texts->replace_texts($template_org);
+			$template_org = RedshopHelperTemplate::parseRedshopPlugin($template_org);
+			$template_org = RedshopHelperText::replaceTexts($template_org);
 
 			eval("?>" . $template_org . "<?php ");
 		}

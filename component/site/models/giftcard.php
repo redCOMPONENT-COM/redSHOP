@@ -85,11 +85,11 @@ class RedshopModelGiftcard extends RedshopModel
 
 		if (!$this->_id)
 		{
-			$carttemplate = $redTemplate->getTemplate("giftcard_list");
+			$carttemplate = RedshopHelperTemplate::getTemplate("giftcard_list");
 		}
 		else
 		{
-			$carttemplate = $redTemplate->getTemplate("giftcard");
+			$carttemplate = RedshopHelperTemplate::getTemplate("giftcard");
 		}
 
 		return $carttemplate;

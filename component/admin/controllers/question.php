@@ -60,7 +60,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		if ($send == 1)
 		{
-			redshopMail::getInstance()->sendAskQuestionMail($data['id']);
+			Redshop\Mail\AskQuestion::sendMail($data['id']);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
@@ -139,8 +139,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendAskQuestionMail($cid[$i]);
+			Redshop\Mail\AskQuestion::sendMail($cid[$i]);
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');

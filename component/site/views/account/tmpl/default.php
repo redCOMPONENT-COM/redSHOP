@@ -35,7 +35,7 @@ $wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task
 
 /** @var RedshopModelAccount $model */
 $model    = $this->getModel('account');
-$template = $redTemplate->getTemplate("account_template");
+$template = RedshopHelperTemplate::getTemplate("account_template");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -106,11 +106,11 @@ $is_company = $this->userdata->is_company;
 
 if ($is_company == 1)
 {
-	$extrafields = $extra_field->list_all_field_display(8, $this->userdata->users_info_id);
+	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $this->userdata->users_info_id);
 }
 else
 {
-	$extrafields = $extra_field->list_all_field_display(7, $this->userdata->users_info_id);
+	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $this->userdata->users_info_id);
 }
 
 $template_desc = str_replace('{customer_custom_fields}', $extrafields, $template_desc);
@@ -130,7 +130,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 	$template_desc = str_replace('{order_image}', $oder_image, $template_desc);
 	$template_desc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $template_desc);
 
-	$orderslist = $order_functions->getUserOrderDetails($user->id);
+	$orderslist = RedshopHelperOrder::getUserOrderDetails($user->id);
 
 	// More Order information
 
@@ -298,7 +298,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 	$template_desc   = str_replace('{quotation_image}', $quotation_image, $template_desc);
 	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
 
-	$quotations = $quotationHelper->getQuotationUserList();
+	$quotations = RedshopHelperQuotation::getQuotationUserList();
 
 	// More Order information
 	if (!empty($quotations))
@@ -491,5 +491,5 @@ $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
 $template_desc = str_replace('{if compare}', '', $template_desc);
 $template_desc = str_replace('{compare end if}', '', $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

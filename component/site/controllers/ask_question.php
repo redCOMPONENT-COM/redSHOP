@@ -24,7 +24,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 	/**
 	 * Method to send Ask Question Mail.
 	 *
-	 * @return bool
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public function submit()

@@ -43,7 +43,7 @@ if (null !== $ajaxdetal_template)
 	{
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 		{
-			$thumbUrl = RedShopHelperImages::getImagePath(
+			$thumbUrl = RedshopHelperMedia::getImagePath(
 						$this->data->product_full_image,
 						'',
 						'thumb',

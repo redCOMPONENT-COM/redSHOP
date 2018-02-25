@@ -86,7 +86,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			$details     = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
-			echo utf8_decode($orderFunction->getOrderStatusTitle($data [$i]->order_status)) . " ,";
+			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data[$i]->cdate) . " ,";
 
 			if (empty($details))
@@ -114,7 +114,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			echo $billingInfo->country_code . " ,";
 			echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(",", " ", $billingInfo->lastname) . " ,";
 
-			$noItems = $orderFunction->getOrderItemDetail($data[$i]->order_id);
+			$noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
 
 			for ($it = 0, $countItem = count($noItems); $it < $countItem; $it++)
 			{

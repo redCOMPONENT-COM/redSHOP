@@ -167,6 +167,7 @@ class redshopMail
 	 * @param   integer  $orderId  Order Information Id
 	 *
 	 * @return  boolean  True on sending email successfully.
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendInvoiceMail($orderId) instead
 	 */

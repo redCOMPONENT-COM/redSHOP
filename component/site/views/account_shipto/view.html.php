@@ -70,7 +70,7 @@ class RedshopViewAccount_Shipto extends RedshopView
 
 		if ($user->id)
 		{
-			$billingAddress = $orderFunctions->getBillingAddress($user->id);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif (isset($auth['users_info_id']) && $auth['users_info_id'])
 		{

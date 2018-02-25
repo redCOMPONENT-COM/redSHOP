@@ -39,7 +39,7 @@ class RedshopViewCart extends RedshopView
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{
-			$cart_data = $redTemplate->getTemplate("empty_cart");
+			$cart_data = RedshopHelperTemplate::getTemplate("empty_cart");
 
 			if (count($cart_data) > 0 && $cart_data[0]->template_desc != "")
 			{

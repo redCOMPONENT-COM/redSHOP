@@ -78,7 +78,7 @@ if (strstr($templateHtml, '{category_loop_start}') && strstr($templateHtml, '{ca
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->description, $cart_mdata);
 			$cart_mdata = str_replace("{category_name}", $category[$i]->name, $cart_mdata);
-			$thumbUrl   = RedShopHelperImages::getImagePath(
+			$thumbUrl   = RedshopHelperMedia::getImagePath(
 				$category[$i]->category_full_image,
 				'',
 				'thumb',

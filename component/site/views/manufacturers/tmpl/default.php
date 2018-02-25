@@ -43,7 +43,7 @@ if ($this->pageheadingtag != '')
     </h1>
 <?php
 // Page title end
-$manufacturers_template = $redTemplate->getTemplate("manufacturer");
+$manufacturers_template = RedshopHelperTemplate::getTemplate("manufacturer");
 
 if (count($manufacturers_template) > 0 && $manufacturers_template[0]->template_desc != "")
 {
@@ -201,5 +201,5 @@ if (strstr($template_desc, '{pagination}'))
 	}
 }
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

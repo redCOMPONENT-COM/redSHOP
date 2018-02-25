@@ -39,7 +39,7 @@ class RedshopViewQuotation_detail extends RedshopView
 			$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid));
 		}
 
-		$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
+		$quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
 		if (count($quotationDetail) < 1)
 		{

@@ -1481,7 +1481,7 @@ class RedshopModelSearch extends RedshopModel
 		$templateId = $this->getState('template_id');
 
 		$redTemplate  = Redtemplate::getInstance();
-		$templateArr  = $redTemplate->getTemplate("category", $templateId);
+		$templateArr  = RedshopHelperTemplate::getTemplate("category", $templateId);
 		$templateDesc = $templateArr[0]->template_desc;
 
 		if ($templateDesc)

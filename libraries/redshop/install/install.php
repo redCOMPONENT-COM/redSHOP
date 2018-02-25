@@ -110,7 +110,7 @@ class RedshopInstall
 			$post['password1']  = '';
 			$post['billisship'] = 1;
 
-			$userHelper->storeRedshopUser($post, $joomlaUser->id, 1);
+			RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id, 1);
 		}
 
 		return count($joomlaUsers);

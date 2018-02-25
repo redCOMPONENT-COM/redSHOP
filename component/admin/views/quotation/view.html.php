@@ -45,7 +45,7 @@ class RedshopViewQuotation extends RedshopViewAdmin
 		$quotation  = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
-		$optionsection          = $quotationHelper->getQuotationStatusList();
+		$optionsection          = RedshopHelperQuotation::getQuotationStatusList();
 		$lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_status
 		);

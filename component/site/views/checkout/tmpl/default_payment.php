@@ -14,7 +14,7 @@ JHTML::_('behavior.modal');
 $redTemplate      = Redtemplate::getInstance();
 $carthelper       = rsCarthelper::getInstance();
 $model            = $this->getModel('checkout');
-$payment_template = $redTemplate->getTemplate("redshop_payment");
+$payment_template = RedshopHelperTemplate::getTemplate("redshop_payment");
 
 if (count($payment_template) > 0 && $payment_template[0]->template_desc)
 {
@@ -33,5 +33,5 @@ $eanNumber 	  = (int) $billingaddresses->ean_number;
 
 $template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $eanNumber);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

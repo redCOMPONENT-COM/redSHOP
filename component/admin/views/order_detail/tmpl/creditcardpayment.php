@@ -25,7 +25,7 @@ $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $cart = $session->get('cart');
 
 $payment_method_id = $app->input->getCmd('payment_method_id', '');
-$paymentinfo = $order_functions->getPaymentMethodInfo($payment_method_id);
+$paymentinfo = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 $paymentinfo = $paymentinfo[0];
 
 $order_id = $app->input->getInt('order_id', 0);
@@ -34,14 +34,14 @@ JPluginHelper::importPlugin('redshop_product');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('getStockroomStatus', array($order_id));
 
-$order = $order_functions->getOrderDetails($order_id);
+$order = RedshopHelperOrder::getOrderDetail($order_id);
 
 // Add Plugin support
 $dispatcher->trigger('afterOrderPlace', array($cart, $order));
 
 $plugin = $app->input->getCmd('plugin', '');
 
-$getparameters = $order_functions->getparameters($plugin);
+$getparameters = RedshopHelperOrder::getParameters($plugin);
 
 $paymentinfo = $getparameters[0];
 

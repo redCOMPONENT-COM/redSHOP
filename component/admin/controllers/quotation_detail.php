@@ -46,7 +46,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		if ($post['quotation_id'] == 0)
 		{
 			$post['quotation_cdate']   = time();
-			$post['quotation_encrkey'] = $quotationHelper->randomQuotationEncrkey();
+			$post['quotation_encrkey'] = RedshopHelperQuotation::randomQuotationEncryptKey();
 		}
 
 		if ($post['user_id'] == 0 && $post['quotation_email'] == "")
@@ -101,7 +101,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
 
 			$quotation_status = $post['quotation_status'] > 0 ? $post['quotation_status'] : 2;
-			$quotationHelper->updateQuotationStatus($row->quotation_id, $quotation_status);
+			RedshopHelperQuotation::updateQuotationStatus($row->quotation_id, $quotation_status);
 
 			if ($send == 1)
 			{
@@ -184,7 +184,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$model = $this->getModel('quotation_detail');
 
-		$quotationItem = $adminproducthelper->redesignProductItem($post);
+		$quotationItem = Redshop\Order\Helper::redesignProductItem($post);
 
 		$post['quotation_item'] = $quotationItem;
 

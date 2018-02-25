@@ -601,7 +601,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_ACCESSORY_ORDERING_METHOD')
 		);
 
-		$lists['shipping_after'] = $extra_field->rs_booleanlist(
+		$lists['shipping_after'] = RedshopHelperExtrafields::rsBooleanList(
 			'shipping_after',
 			'class="form-control"',
 			$this->config->get('SHIPPING_AFTER', 'total'),
@@ -612,7 +612,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'subtotal'
 		);
 
-		$lists['payment_calculation_on'] = $extra_field->rs_booleanlist(
+		$lists['payment_calculation_on'] = RedshopHelperExtrafields::rsBooleanList(
 			'payment_calculation_on',
 			'class="form-control"',
 			$this->config->get('PAYMENT_CALCULATION_ON', 'total'),
@@ -623,7 +623,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'subtotal'
 		);
 
-		$lists['calculate_vat_on'] = $extra_field->rs_booleanlist(
+		$lists['calculate_vat_on'] = RedshopHelperExtrafields::rsBooleanList(
 			'calculate_vat_on',
 			'class="form-control"',
 			$this->config->get('CALCULATE_VAT_ON', 'BT'),

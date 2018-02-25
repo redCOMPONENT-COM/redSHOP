@@ -59,11 +59,11 @@ $extra_section = ($billingAddresses->is_company == 1) ?
 	<?php if ($billingAddresses->country_code != "") : ?>
 	<tr>
 		<td><?php echo JText::_('COM_REDSHOP_COUNTRY');?>:</td>
-		<td><?php echo JText::_($order_functions->getCountryName($billingAddresses->country_code));?></td>
+		<td><?php echo JText::_(RedshopHelperOrder::getCountryName($billingAddresses->country_code));?></td>
 	</tr>
 	<?php endif; ?>
 
-	<?php $state = $order_functions->getStateName($billingAddresses->state_code, $billingAddresses->country_code); ?>
+	<?php $state = RedshopHelperOrder::getStateName($billingAddresses->state_code, $billingAddresses->country_code); ?>
 	<?php if ($state != "") : ?>
 	<tr>
 		<td><?php echo JText::_('COM_REDSHOP_STATE');?>:</td>
@@ -126,5 +126,5 @@ $extra_section = ($billingAddresses->is_company == 1) ?
 		<?php endif; ?>
 
 	<?php endif; ?>
-	<?php echo $extrafields = $extra_field->list_all_field_display($extra_section, $billingAddresses->users_info_id, 0, "", "", true); ?>
+	<?php echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay($extra_section, $billingAddresses->users_info_id, 0, "", "", true); ?>
 </table>

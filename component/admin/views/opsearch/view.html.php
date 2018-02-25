@@ -44,7 +44,7 @@ class RedshopViewOpsearch extends RedshopViewAdmin
 		$pagination = $this->get('Pagination');
 
 		$lists['filter_user']   = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
-		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
+		$lists['filter_status'] = RedshopHelperOrder::getStatusList('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 

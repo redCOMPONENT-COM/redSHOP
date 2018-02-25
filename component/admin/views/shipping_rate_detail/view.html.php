@@ -21,16 +21,14 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$context        = 'shipping_rate';
-		$shippinghelper = shipping::getInstance();
-		$userhelper     = rsUserHelper::getInstance();
-		$uri            = JFactory::getURI();
-		$model          = $this->getModel();
-		$db             = JFactory::getDbo();
+		$app     = JFactory::getApplication();
+		$context = 'shipping_rate';
+		$uri     = JFactory::getURI();
+		$model   = $this->getModel();
+		$db      = JFactory::getDbo();
 
 		$id       = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
-		$shipping = $shippinghelper->getShippingMethodById($id);
+		$shipping = RedshopHelperShipping::getShippingMethodById($id);
 
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
 
@@ -96,7 +94,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 		$detail->shipping_rate_on_category = explode(',', $detail->shipping_rate_on_category);
 
 		$product_category                   = new product_category;
-		$lists['shipping_rate_on_category'] = $product_category->list_all("shipping_rate_on_category[]", 0,
+		$lists['shipping_rate_on_category'] = RedshopHelperCategory::listAll("shipping_rate_on_category[]", 0,
 			$detail->shipping_rate_on_category, 10, false, true
 		);
 

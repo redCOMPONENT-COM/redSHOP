@@ -628,7 +628,7 @@ class RedshopHelperOrder
 		$paymentMethod   = $paymentMethod[0];
 
 		// Getting the order details
-		$orderDetail        = self::getOrderDetails($orderId);
+		$orderDetail        = self::getOrderDetail($orderId);
 		$paymentParams      = new Registry($paymentMethod->params);
 		$orderStatusCapture = $paymentParams->get('capture_status', '');
 		$orderStatusCode    = $orderStatusCapture;
@@ -2559,7 +2559,7 @@ class RedshopHelperOrder
 			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailBody = str_replace($search, $replace, $mailData);
-			$mailBody = $redshopMail->imginmail($mailBody);
+			Redshop\Mail\Helper::imgInMail($mailBody);
 			$mailSubject = str_replace($search, $replace, $mailSubject);
 
 			if ('' != $userDetail->thirdparty_email && $mailBody)

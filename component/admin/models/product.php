@@ -380,11 +380,11 @@ class RedshopModelProduct extends RedshopModel
 
 		if ($section == 1 || $section == 12)
 		{
-			$template_desc = $redTemplate->getTemplate("product", $template_id);
+			$template_desc = RedshopHelperTemplate::getTemplate("product", $template_id);
 		}
 		else
 		{
-			$template_desc = $redTemplate->getTemplate("category", $template_id);
+			$template_desc = RedshopHelperTemplate::getTemplate("category", $template_id);
 		}
 
 		if (count($template_desc) == 0)

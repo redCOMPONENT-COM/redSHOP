@@ -121,7 +121,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
 		);
 
-		$product_sort          = $adminproducthelper->getProductrBySortedList();
+		$product_sort          = RedshopHelperProduct::getProductsSortByList();
 		$lists['product_sort'] = JHTML::_('select.genericlist', $product_sort, 'product_sort',
 			'class="inputbox"  onchange="document.adminForm.submit();" ', 'value', 'text', $state->get('product_sort')
 		);

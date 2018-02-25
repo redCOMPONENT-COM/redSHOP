@@ -291,7 +291,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
         {
-            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
+            $field_arr = RedshopHelperExtrafields::getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
             $field_value = '';
             if (count($field_arr) > 0)
             {

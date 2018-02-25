@@ -826,7 +826,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			}
 			else
 			{
-				$mainsrcPath = RedShopHelperImages::getImagePath(
+				$mainsrcPath = RedshopHelperMedia::getImagePath(
 								$product->product_full_image,
 								'',
 								'thumb',
@@ -843,7 +843,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			}
 			else
 			{
-				$backsrcPath = RedShopHelperImages::getImagePath(
+				$backsrcPath = RedshopHelperMedia::getImagePath(
 								$product->product_back_full_image,
 								'',
 								'thumb',
@@ -880,7 +880,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		{
 			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 			{
-				$previewsrcPath = RedShopHelperImages::getImagePath(
+				$previewsrcPath = RedshopHelperMedia::getImagePath(
 									$product->product_preview_image,
 									'',
 									'thumb',
@@ -925,7 +925,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		// Replace compare product button
 		$data_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
 
-		$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
+		$data_add = RedshopHelperStockroom::replaceStockroomAmountDetail($data_add, $product->product_id);
 
 		// Checking for child products
 		if ($product->count_child_products > 0)
@@ -1154,9 +1154,9 @@ $template_desc = str_replace("{product_price_slider1}", "", $template_desc);
 $template_desc = str_replace("{redproductfinderfilter_formend}", "", $template_desc);
 $template_desc = str_replace("{redproductfinderfilter:rp_myfilter}", "", $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 
-$template_desc = $texts->replace_texts($template_desc);
+$template_desc = RedshopHelperText::replaceTexts($template_desc);
 echo eval("?>" . $template_desc . "<?php ");
 
 if ($slide)

@@ -28,13 +28,13 @@ $Itemid = $app->input->getInt('Itemid', 1);
 $quoid  = $app->input->getInt('quoid');
 $encr   = $app->input->getString('encr');
 
-$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
+$quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
-$quotationProducts = $quotationHelper->getQuotationProduct($quoid);
+$quotationProducts = RedshopHelperQuotation::getQuotationProduct($quoid);
 
 $fieldArray = $extra_field_new->getSectionFieldList(17, 0, 0);
 
-$template = $redTemplate->getTemplate("quotation_detail");
+$template = RedshopHelperTemplate::getTemplate("quotation_detail");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -76,7 +76,7 @@ $replace[] = JText::_('COM_REDSHOP_QUOTATION_CUSTOMER_NOTE');
 $search [] = "{quotation_customer_note}";
 $replace[] = $quotationDetail->quotation_customer_note;
 
-$statustext = $quotationHelper->getQuotationStatusName($quotationDetail->quotation_status);
+$statustext = RedshopHelperQuotation::getQuotationStatusName($quotationDetail->quotation_status);
 
 if ($quotationDetail->quotation_status == '2')
 {
@@ -154,12 +154,12 @@ else
 
 if (strstr($quotation_template, "{quotation_custom_field_list}"))
 {
-	$billadd .= $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email);
+	$billadd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email);
 	$quotation_template = str_replace("{quotation_custom_field_list}", "", $quotation_template);
 }
 else
 {
-	$quotation_template = $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email, $quotation_template);
+	$quotation_template = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email, $quotation_template);
 }
 
 $search []  = "{account_information}";
@@ -216,14 +216,14 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 	if ($quotationProducts [$i]->is_giftcard == 1)
 	{
-		$productUserFields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 13);
+		$productUserFields = RedshopHelperQuotation::displayQuotationUserField($quotationProducts[$i]->quotation_item_id, 13);
 		$giftcardData      = RedshopEntityGiftcard::getInstance($quotationProducts[$i]->product_id)->getItem();
 
 		$product_number = "";
 	}
 	else
 	{
-		$productUserFields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 12);
+		$productUserFields = RedshopHelperQuotation::displayQuotationUserField($quotationProducts[$i]->quotation_item_id, 12);
 
 		$product = $producthelper->getProductById($quotationProducts[$i]->product_id);
 
@@ -255,7 +255,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 		if ($product_image_path)
 		{
-			$thumbUrl = RedShopHelperImages::getImagePath(
+			$thumbUrl = RedshopHelperMedia::getImagePath(
 							$product_image_path,
 							'',
 							'thumb',
@@ -403,5 +403,5 @@ $replace [] = $quotation_tax;
 
 $message = str_replace($search, $replace, $quotation_template);
 
-$message = $redTemplate->parseredSHOPplugin($message);
+$message = RedshopHelperTemplate::parseRedshopPlugin($message);
 echo eval("?>" . $message . "<?php ");

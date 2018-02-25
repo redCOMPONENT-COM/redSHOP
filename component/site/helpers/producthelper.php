@@ -447,10 +447,8 @@ class productHelper
 		$thum_image      = '';
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$result          = $this->getProductById($product_id);
-
-		$isStockExists = $stockroomhelper->isStockExists($product_id);
-
-		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
+		$isStockExists   = RedshopHelperStockroom::isStockExists($product_id);
+		$middlepath      = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 
 		if ($result->product_full_image == '' && $result->product_parent_id > 0)
 		{
@@ -1554,15 +1552,15 @@ class productHelper
 		$live_site       = JURI::root();
 		$resultArr       = array();
 
-		$userfield = $order_functions->getOrderUserfieldData($orderitemid, $section_id);
+		$userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $section_id);
 
 		if (count($userfield) > 0)
 		{
-			$orderItem  = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
+			$orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 			$product_id = $orderItem[0]->product_id;
 
 			$productdetail   = $this->getProductById($product_id);
-			$productTemplate = $redTemplate->getTemplate("product", $productdetail->product_template);
+			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productdetail->product_template);
 
 			$returnArr    = $this->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag = $returnArr[1];
@@ -1713,7 +1711,7 @@ class productHelper
 			$giftcard  = 1;
 		}
 
-		$productTemplate = $redTemplate->getTemplate($temp_name, $temp_id);
+		$productTemplate = RedshopHelperTemplate::getTemplate($temp_name, $temp_id);
 
 		$returnArr    = $this->getProductUserfieldFromTemplate($productTemplate[0]->template_desc, $giftcard);
 		$userFieldTag = $returnArr[1];
@@ -1785,7 +1783,7 @@ class productHelper
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
 		$order_functions = order_functions::getInstance();
-		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
+		$orderItem       = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 
 		$product_id = $orderItem[0]->product_id;
 
@@ -2477,7 +2475,7 @@ class productHelper
 		}
 
 		$product         = $this->getProductById($product_id);
-		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
+		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
@@ -2548,7 +2546,7 @@ class productHelper
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
 							$borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
-							$thumbUrl       = RedShopHelperImages::getImagePath(
+							$thumbUrl       = RedshopHelperMedia::getImagePath(
 								$subproperty[$i]->subattribute_color_image,
 								'',
 								'thumb',
@@ -3195,7 +3193,7 @@ class productHelper
 							$subPropertyIds[] = $subProperty->subattribute_color_id;
 						}
 
-						$isSubpropertyStock = $stockroomhelper->isStockExists(
+						$isSubpropertyStock = RedshopHelperStockroom::isStockExists(
 							implode(',', $subPropertyIds),
 							'subproperty'
 						);
@@ -3221,7 +3219,7 @@ class productHelper
 
 				if (!$isStockExists)
 				{
-					$isStockExists = (boolean) $stockroomhelper->isStockExists(
+					$isStockExists = (boolean) RedshopHelperStockroom::isStockExists(
 						implode(',', $propertyIds), 'property'
 					);
 				}
@@ -3261,7 +3259,7 @@ class productHelper
 			{
 				// Get preorder stock for Product
 
-				$isPreorderStockExists = $stockroomhelper->isPreorderStockExists($product_id);
+				$isPreorderStockExists = RedshopHelperStockroom::isPreorderStockExists($product_id);
 
 				if ($totalatt > 0 && !$isPreorderStockExists)
 				{
@@ -3275,7 +3273,7 @@ class productHelper
 
 						for ($sub_j = 0; $sub_j < $countSubproperty; $sub_j++)
 						{
-							$isSubpropertyStock = $stockroomhelper->isPreorderStockExists(
+							$isSubpropertyStock = RedshopHelperStockroom::isPreorderStockExists(
 								$sub_property[$sub_j]->subattribute_color_id,
 								'subproperty'
 							);
@@ -3293,7 +3291,7 @@ class productHelper
 						}
 						else
 						{
-							$isPropertystock = $stockroomhelper->isPreorderStockExists(
+							$isPropertystock = RedshopHelperStockroom::isPreorderStockExists(
 								$property[$att_j]->property_id,
 								"property"
 							);
@@ -4155,8 +4153,8 @@ class productHelper
 			$productOldprice = $productPrices['product_old_price_excl_vat'];
 		}
 
-		$isStock          = $stockroomhelper->isStockExists($productId);
-		$isPreorderStock  = $stockroomhelper->isPreorderStockExists($productId);
+		$isStock          = RedshopHelperStockroom::isStockExists($productId);
+		$isPreorderStock  = RedshopHelperStockroom::isPreorderStockExists($productId);
 		$displayAttribute = 0;
 
 		for ($i = 0, $in = count($attributes); $i < $in; $i++)
@@ -4200,8 +4198,8 @@ class productHelper
 					}
 				}
 
-				$isStock         = $stockroomhelper->isStockExists($properties[$k]['property_id'], "property");
-				$isPreorderStock = $stockroomhelper->isPreorderStockExists($properties[$k]['property_id'], "property");
+				$isStock         = RedshopHelperStockroom::isStockExists($properties[$k]['property_id'], "property");
+				$isPreorderStock = RedshopHelperStockroom::isPreorderStockExists($properties[$k]['property_id'], "property");
 
 				$propertiesOperator[$k]     = $propertyOperator;
 				$propertiesPrice[$k]        = $propertyPriceWithoutVat;
@@ -4242,11 +4240,11 @@ class productHelper
 						}
 					}
 
-					$isStock         = $stockroomhelper->isStockExists(
+					$isStock         = RedshopHelperStockroom::isStockExists(
 						$subProperties[$l]['subproperty_id'],
 						"subproperty"
 					);
-					$isPreorderStock = $stockroomhelper->isPreorderStockExists(
+					$isPreorderStock = RedshopHelperStockroom::isPreorderStockExists(
 						$subProperties[$l]['subproperty_id'],
 						"subproperty"
 					);
@@ -4355,7 +4353,7 @@ class productHelper
 		$product_attribute = "";
 		$quantity          = 0;
 		$stockroom_id      = "0";
-		$orderItemdata     = $order_functions->getOrderItemDetail(0, 0, $order_item_id);
+		$orderItemdata     = RedshopHelperOrder::getOrderItemDetail(0, 0, $order_item_id);
 		$cartAttributes    = array();
 
 		$products = $this->getProductById($orderItemdata[0]->product_id);
@@ -4399,7 +4397,7 @@ class productHelper
 
 					if ($stock == 1)
 					{
-						$stockroomhelper->manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
+						RedshopHelperStockroom::manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
 					}
 
 					$property = $this->getAttibuteProperty($orderPropdata[$p]->section_id);
@@ -4451,7 +4449,7 @@ class productHelper
 						'property_childs' => array()
 					);
 
-					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
+					$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
 					for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 					{
@@ -4459,7 +4457,7 @@ class productHelper
 
 						if ($stock == 1)
 						{
-							$stockroomhelper->manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
+							RedshopHelperStockroom::manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
 						}
 
 						$subproperty = $this->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
@@ -4580,7 +4578,7 @@ class productHelper
 	{
 		$quotationHelper  = quotationHelper::getInstance();
 		$displayaccessory = "";
-		$Itemdata         = $quotationHelper->getQuotationItemAccessoryDetail($quotation_item_id);
+		$Itemdata         = RedshopHelperQuotation::getQuotationItemAccessoryDetail($quotation_item_id);
 
 		if (count($Itemdata) > 0)
 		{
@@ -4607,7 +4605,7 @@ class productHelper
 		}
 		else
 		{
-			$Itemdata         = $quotationHelper->getQuotationProduct(0, $quotation_item_id);
+			$Itemdata         = RedshopHelperQuotation::getQuotationProduct(0, $quotation_item_id);
 			$displayaccessory = $Itemdata[0]->product_accessory;
 		}
 
@@ -4622,7 +4620,7 @@ class productHelper
 		$product_attribute = "";
 		$quantity          = 0;
 		$stockroom_id      = "0";
-		$Itemdata          = $quotationHelper->getQuotationProduct(0, $quotation_item_id);
+		$Itemdata          = RedshopHelperQuotation::getQuotationProduct(0, $quotation_item_id);
 
 		if (count($Itemdata) > 0 && $is_accessory != 1)
 		{
@@ -4630,7 +4628,7 @@ class productHelper
 			$quantity          = $Itemdata[0]->product_quantity;
 		}
 
-		$ItemAttdata = $quotationHelper->getQuotationItemAttributeDetail(
+		$ItemAttdata = RedshopHelperQuotation::getQuotationItemAttributeDetail(
 			$quotation_item_id,
 			$is_accessory,
 			"attribute",
@@ -5281,7 +5279,7 @@ class productHelper
 		}
 
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$productinstock  = $stockroomhelper->getStockAmountwithReserve($Id, $sec);
+		$productinstock  = RedshopHelperStockroom::getStockAmountWithReserve($Id, $sec);
 
 		if ($productinstock == 0)
 		{
@@ -5292,7 +5290,7 @@ class productHelper
 				|| ($product_preorder == "yes")
 				|| ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
-				$productinpreorderstock = $stockroomhelper->getPreorderStockAmountwithReserve($Id, $sec);
+				$productinpreorderstock = RedshopHelperStockroom::getPreorderStockAmountwithReserve($Id, $sec);
 			}
 		}
 
@@ -5304,7 +5302,7 @@ class productHelper
 
 		if (strpos($data_add, "{product_stock_amount_image}") !== false)
 		{
-			$stockamountList  = $stockroomhelper->getStockAmountImage($Id, $sec, $productinstock);
+			$stockamountList  = RedshopHelperStockroom::getStockAmountImage($Id, $sec, $productinstock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
@@ -5684,7 +5682,7 @@ class productHelper
 			}
 			else
 			{
-				$productmainimg = RedShopHelperImages::getImagePath(
+				$productmainimg = RedshopHelperMedia::getImagePath(
 					$imagename,
 					'',
 					'thumb',
@@ -6022,8 +6020,7 @@ class productHelper
 				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
 
 				$template_desc = str_replace("{related_product:$related_template->name}", $related_template_data, $template_desc);
-
-				$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+				$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 			}
 			else
 			{
@@ -6124,11 +6121,10 @@ class productHelper
 				$attributes_set = $this->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
 
-			$attributes = $this->getProductAttribute($product->product_id);
-			$attributes = array_merge($attributes, $attributes_set);
-			$totalatt   = count($attributes);
-
-			$stock_amount = $stockroomhelper->getFinalStockofProduct($pid, $totalatt);
+			$attributes   = $this->getProductAttribute($product->product_id);
+			$attributes   = array_merge($attributes, $attributes_set);
+			$totalatt     = count($attributes);
+			$stock_amount = RedshopHelperStockroom::getFinalStockofProduct($pid, $totalatt);
 
 			if ($stock_amount)
 			{
@@ -6153,11 +6149,11 @@ class productHelper
 			if ($selectedsubpropertyId)
 			{
 				// Count status for selected subproperty
-				$stocksts = $stockroomhelper->isStockExists($selectedsubpropertyId, "subproperty");
+				$stocksts = RedshopHelperStockroom::isStockExists($selectedsubpropertyId, "subproperty");
 
 				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 				{
-					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedsubpropertyId, "subproperty");
+					$prestocksts                = RedshopHelperStockroom::isPreorderStockExists($selectedsubpropertyId, "subproperty");
 					$rsltdata['preorder']       = 1;
 					$rsltdata['preorder_stock'] = $prestocksts;
 				}
@@ -6165,11 +6161,11 @@ class productHelper
 			else
 			{
 				// Count status for selected property
-				$stocksts = $stockroomhelper->isStockExists($selectedPropertyId, "property");
+				$stocksts = RedshopHelperStockroom::isStockExists($selectedPropertyId, "property");
 
 				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 				{
-					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedPropertyId, "property");
+					$prestocksts                = RedshopHelperStockroom::isPreorderStockExists($selectedPropertyId, "property");
 					$rsltdata['preorder']       = 1;
 					$rsltdata['preorder_stock'] = $prestocksts;
 				}
@@ -6177,11 +6173,11 @@ class productHelper
 		}
 		else
 		{
-			$stocksts = $stockroomhelper->getFinalStockofProduct($product_id, $totalatt);
+			$stocksts = RedshopHelperStockroom::getFinalStockofProduct($product_id, $totalatt);
 
 			if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 			{
-				$prestocksts                = $stockroomhelper->getFinalPreorderStockofProduct($product_id, $totalatt);
+				$prestocksts                = RedshopHelperStockroom::getFinalPreorderStockofProduct($product_id, $totalatt);
 				$rsltdata['preorder']       = 1;
 				$rsltdata['preorder_stock'] = $prestocksts;
 			}

@@ -165,7 +165,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 
 		// Discount after Shipping
 		$shipping_after          = $this->temparray['SHIPPING_AFTER'];
-		$lists['shipping_after'] = $extra_field->rs_booleanlist('shipping_after', 'class="inputbox"', $shipping_after,
+		$lists['shipping_after'] = RedshopHelperExtrafields::rsBooleanList('shipping_after', 'class="inputbox"', $shipping_after,
 			$yes                 = JText::_('COM_REDSHOP_TOTAL'), $no = JText::_('COM_REDSHOP_SUBTOTAL_LBL'), '', 'total', 'subtotal'
 		);
 
@@ -282,7 +282,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 		);
 
 		$calculate_vat_on          = $this->temparray['CALCULATE_VAT_ON'];
-		$lists['calculate_vat_on'] = $extra_field->rs_booleanlist('calculate_vat_on',
+		$lists['calculate_vat_on'] = RedshopHelperExtrafields::rsBooleanList('calculate_vat_on',
 			'class="inputbox"', $calculate_vat_on,
 			$yes                   = JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),
 			$no                    = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'), '', 'BT', 'ST'

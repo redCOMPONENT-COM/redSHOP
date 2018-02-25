@@ -115,16 +115,20 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function store($data)
 	{
-		$captcha = $this->_userhelper->checkCaptcha($data);
-
-		if (!$captcha)
+		// Disable check captcha if in One Step Checkout mode.
+		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
-			return false;
+			$captcha = Redshop\Helper\Utility::checkCaptcha($data);
+
+			if (!$captcha)
+			{
+				return false;
+			}
 		}
 
 		if (isset($data['user_id']) && $data['user_id'])
 		{
-			$joomlauser = $this->_userhelper->updateJoomlaUser($data);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
 		}
 		else
 		{
@@ -184,7 +188,7 @@ class RedshopModelCheckout extends RedshopModel
 		// If user subscribe for the newsletter
 		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
 		{
-			$this->_userhelper->newsletterSubscribe();
+			RedshopHelperNewsletter::subscribe();
 		}
 
 		// If user unsubscribe for the newsletter
@@ -253,7 +257,7 @@ class RedshopModelCheckout extends RedshopModel
 		$cart = $this->_carthelper->modifyDiscount($cart);
 
 		// Get Payment information
-		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];
 
 		// Se payment method plugin params
@@ -352,7 +356,7 @@ class RedshopModelCheckout extends RedshopModel
 		// For credit card payment gateway page will redirect to order detail page from plugin
 		if ($is_creditcard == 1 && $is_redirected == 0 && $cart['total'] > 0)
 		{
-			$order_number = $order_functions->generateOrderNumber();
+			$order_number = RedshopHelperOrder::generateOrderNumber();
 
 			JPluginHelper::importPlugin('redshop_payment');
 
@@ -426,7 +430,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Start code to track duplicate order number checking
-		$order_number = $this->_order_functions->generateOrderNumber();
+		$order_number = RedshopHelperOrder::generateOrderNumber();
 
 		$random_gen_enc_key      = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
 		$users_info_id           = $billingaddresses->users_info_id;
@@ -510,13 +514,13 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
 		{
-			$this->_userhelper->updateUserTermsCondition($users_info_id, 1);
+			RedshopHelperUser::updateUserTermsCondition($users_info_id, 1);
 		}
 
 		// Place order id in quotation table if it Quotation
 		if (array_key_exists("quotation_id", $cart) && $cart['quotation_id'])
 		{
-			$quotationHelper->updateQuotationwithOrder($cart['quotation_id'], $row->order_id);
+			RedshopHelperQuotation::updateQuotationWithOrder($cart['quotation_id'], $row->order_id);
 		}
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
@@ -573,7 +577,7 @@ class RedshopModelCheckout extends RedshopModel
 			// Product stockroom update
 			if (!$is_giftcard)
 			{
-				$updatestock                 = $stockroomhelper->updateStockroomQuantity($product_id, $cart [$i] ['quantity']);
+				$updatestock                 = RedshopHelperStockroom::updateStockroomQuantity($product_id, $cart [$i] ['quantity']);
 				$stockroom_id_list           = $updatestock['stockroom_list'];
 				$stockroom_quantity_list     = $updatestock['stockroom_quantity_list'];
 				$rowitem->stockroom_id       = $stockroom_id_list;
@@ -937,7 +941,7 @@ class RedshopModelCheckout extends RedshopModel
 							$property_id = $propArr[$k]['property_id'];
 
 							//  Product property STOCKROOM update start
-							$updatestock_att             = $stockroomhelper->updateStockroomQuantity($property_id, $cart [$i] ['quantity'], "property", $product_id);
+							$updatestock_att             = RedshopHelperStockroom::updateStockroomQuantity($property_id, $cart [$i] ['quantity'], "property", $product_id);
 							$stockroom_att_id_list       = $updatestock_att['stockroom_list'];
 							$stockroom_att_quantity_list = $updatestock_att['stockroom_quantity_list'];
 
@@ -979,7 +983,7 @@ class RedshopModelCheckout extends RedshopModel
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
 
 								// Product subproperty STOCKROOM update start
-								$updatestock_subatt             = $stockroomhelper->updateStockroomQuantity($subproperty_id, $cart [$i] ['quantity'], "subproperty", $product_id);
+								$updatestock_subatt             = RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $cart [$i] ['quantity'], "subproperty", $product_id);
 								$stockroom_subatt_id_list       = $updatestock_subatt['stockroom_list'];
 								$stockroom_subatt_quantity_list = $updatestock_subatt['stockroom_quantity_list'];
 
@@ -1204,17 +1208,17 @@ class RedshopModelCheckout extends RedshopModel
 		// Send the Order mail before payment
 		if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER') || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $row->order_payment_status == "Paid"))
 		{
-			$this->_redshopMail->sendOrderMail($row->order_id);
+			Redshop\Mail\Order::sendMail($row->order_id);
 		}
 		elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
-			$this->_redshopMail->sendOrderMail($row->order_id, true);
+			Redshop\Mail\Order::sendMail($row->order_id, true);
 		}
 
 		if ($row->order_status == "C" && $row->order_payment_status == "Paid")
 		{
-			$this->_order_functions->SendDownload($row->order_id);
+			RedshopHelperOrder::sendDownload($row->order_id);
 		}
 
 		return $row;
@@ -1355,12 +1359,12 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($user->id)
 		{
-			$list = $this->_order_functions->getBillingAddress($user->id);
+			$list = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
-			$list = $this->_order_functions->getBillingAddress($uid);
+			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		return $list;
@@ -1385,12 +1389,12 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($user->id)
 		{
-			$list = $this->_order_functions->getShippingAddress($user->id);
+			$list = RedshopHelperOrder::getShippingAddress($user->id);
 		}
 		else
 		{
 			$uid  = - $auth['users_info_id'];
-			$list = $this->_order_functions->getShippingAddress($uid);
+			$list = RedshopHelperOrder::getShippingAddress($uid);
 		}
 
 		return $list;
@@ -1399,7 +1403,7 @@ class RedshopModelCheckout extends RedshopModel
 	public function getpaymentmethod()
 	{
 		$user          = JFactory::getUser();
-		$shopper_group = $this->_order_functions->getBillingAddress($user->id);
+		$shopper_group = RedshopHelperOrder::getBillingAddress($user->id);
 		$query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . (int) $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
 		$this->_db->setQuery($query);
 
@@ -2359,7 +2363,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($trackid_time == "")
 		{
 			$this->insertOrdernumberTrack();
-			$order_number = $order_functions->generateOrderNumber();
+			$order_number = RedshopHelperOrder::generateOrderNumber();
 
 			return $order_number;
 		}

@@ -192,7 +192,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 			if ($data[$i]->user_id != 0)
 			{
-				$subname = $order_function->getUserFullname($data[$i]->user_id);
+				$subname = RedshopHelperOrder::getUserFullName($data[$i]->user_id);
 				echo $subname;
 			}
 			else

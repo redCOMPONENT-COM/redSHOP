@@ -57,9 +57,9 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$idx = (int) ($cart['idx']);
 
-		$row_data           = $quotationHelper->getQuotationUserfield($data->quotation_item_id);
-		$quotation_acc_data = $quotationHelper->getQuotationItemAccessoryDetail($data->quotation_item_id);
-		$quotation_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "attribute", $data->product_id);
+		$row_data           = RedshopHelperQuotation::getQuotationUserField($data->quotation_item_id);
+		$quotation_acc_data = RedshopHelperQuotation::getQuotationItemAccessoryDetail($data->quotation_item_id);
+		$quotation_att_data = RedshopHelperQuotation::getQuotationItemAttributeDetail($data->quotation_item_id, 0, "attribute", $data->product_id);
 
 		// Set session for giftcard
 		if ($data->is_giftcard == 1)
@@ -120,7 +120,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$generateAccessoryCart[$i]['accessory_oprand'] = "+";
 			$generateAccessoryCart[$i]['accessory_price']  = $quotation_acc_data[$i]->accessory_price;
 
-			$acc_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "attribute", $quotation_acc_data[$i]->accessory_id);
+			$acc_att_data = RedshopHelperQuotation::getQuotationItemAttributeDetail($data->quotation_item_id, 1, "attribute", $quotation_acc_data[$i]->accessory_id);
 
 			$accAttributeCart = array();
 
@@ -130,7 +130,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 				$accAttributeCart[$ia]['attribute_id']   = $acc_att_data[$ia]->section_id;
 				$accAttributeCart[$ia]['attribute_name'] = $acc_att_data[$ia]->section_name;
 
-				$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "property", $acc_att_data[$ia]->section_id);
+				$acc_prop_data = RedshopHelperQuotation::getQuotationItemAttributeDetail($data->quotation_item_id, 1, "property", $acc_att_data[$ia]->section_id);
 
 				for ($ip = 0, $countAccessoryProperty = count($acc_prop_data); $ip < $countAccessoryProperty; $ip++)
 				{
@@ -139,7 +139,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 					$accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
 					$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
 
-					$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
+					$acc_subpro_data = RedshopHelperQuotation::getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
 					$countAccessorySubroperty = count($acc_subpro_data);
 
 					for ($isp = 0; $isp < $countAccessorySubroperty; $isp++)
@@ -166,7 +166,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$generateAttributeCart[$ia]['attribute_id']   = $quotation_att_data[$ia]->section_id;
 			$generateAttributeCart[$ia]['attribute_name'] = $quotation_att_data[$ia]->section_name;
 
-			$acc_prop_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "property", $quotation_att_data[$ia]->section_id);
+			$acc_prop_data = RedshopHelperQuotation::getQuotationItemAttributeDetail($data->quotation_item_id, 0, "property", $quotation_att_data[$ia]->section_id);
 			$countQuotationProperty = count($acc_prop_data);
 
 			for ($ip = 0; $ip < $countQuotationProperty; $ip++)
@@ -176,7 +176,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 				$accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
 				$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
 
-				$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
+				$acc_subpro_data = RedshopHelperQuotation::getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
 				$countQuotationSubproperty = count($acc_subpro_data);
 
 				for ($isp = 0; $isp < $countQuotationSubproperty; $isp++)

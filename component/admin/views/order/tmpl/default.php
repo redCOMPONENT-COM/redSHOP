@@ -477,7 +477,7 @@ JPluginHelper::importPlugin('redshop_product');
 							$stamp         = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
 							$delivery_date = date('d/m/Y', $stamp);
 							$current_date  = date('d/m/Y');
-							$dateDiff      = $stockroomHelper->getdateDiff($stamp, time());
+							$dateDiff      = RedshopHelperStockroom::getDateDiff($stamp, time());
 
 							if ($dateDiff < 0)
 							{

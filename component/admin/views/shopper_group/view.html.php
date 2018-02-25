@@ -39,7 +39,7 @@ class RedshopViewShopper_group extends RedshopViewAdmin
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$groups = $shoppergroup->getshopperGroupListArray();
+		$groups = RedshopHelperShopper_Group::getShopperGroupListArray();
 
 		$pagination = $this->get('Pagination');
 

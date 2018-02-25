@@ -67,7 +67,7 @@ class RedshopViewNewsletter extends RedshopView
 
 		$categories = array();
 
-		$categories          = $product_category->list_all("product_category[]", 0, '', 10, true, true);
+		$categories          = RedshopHelperCategory::listAll("product_category[]", 0, '', 10, true, true);
 		$lists['categories'] = $categories;
 
 		$product_data = array();

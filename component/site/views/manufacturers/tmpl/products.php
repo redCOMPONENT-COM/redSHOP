@@ -312,7 +312,7 @@ $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
 $template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->manufacturer_id, "10", $template_desc);
 $template_desc  = str_replace("{manufacturer_description}", $manufacturer->manufacturer_desc, $template_desc);
 
-$manufacturer_extra_fields = $extra_field->list_all_field_display(10, $manufacturer->manufacturer_id);
+$manufacturer_extra_fields = RedshopHelperExtrafields::listAllFieldDisplay(10, $manufacturer->manufacturer_id);
 $template_desc             = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $template_desc);
 
 $template_desc = str_replace("{manufacturer_link}", $manlink, $template_desc);
@@ -339,5 +339,5 @@ if (strstr($template_desc, '{pagination}'))
 	$template_desc     = str_replace("{pagination}", $productpagination->getPagesLinks(), $template_desc);
 }
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

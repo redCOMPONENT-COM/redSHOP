@@ -32,7 +32,7 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
 			return false;
 		}
 
-		$shipping = $shippinghelper->getShippingMethodById($id);
+		$shipping = RedshopHelperShipping::getShippingMethodById($id);
 
 		$shipping_rates = $this->get('Data');
 		$pagination     = $this->get('Pagination');

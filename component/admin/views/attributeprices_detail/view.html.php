@@ -27,8 +27,7 @@ class RedshopViewAttributeprices_detail extends RedshopViewAdmin
 		$this->property    = $model->getPropertyName();
 		$this->request_url = JFactory::getURI()->toString();
 
-		$shoppergroup                      = new shoppergroup;
-		$this->lists['shopper_group_name'] = $shoppergroup->list_all(
+		$this->lists['shopper_group_name'] = RedshopHelperShopper_Group::listAll(
 			"shopper_group_id",
 			0,
 			array($this->detail->shopper_group_id),

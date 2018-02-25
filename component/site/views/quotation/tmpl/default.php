@@ -22,7 +22,7 @@ $detail     = $this->detail;
 $user       = JFactory::getUser();
 $extraField = extraField::getInstance();
 
-$quotation_template = $redTemplate->getTemplate("quotation_request");
+$quotation_template = RedshopHelperTemplate::getTemplate("quotation_request");
 
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {

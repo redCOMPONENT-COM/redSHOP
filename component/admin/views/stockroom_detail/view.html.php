@@ -74,9 +74,7 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 			$delivery_time['value']  = "days";
 			$delivery_time['value'] .= "weeks";
 
-			$extra_field = extra_field::getInstance();
-
-			$booleanlist = $extra_field->booleanlist('delivery_time', 'class="inputbox"', $detail->delivery_time,
+			$booleanlist = RedshopHelperExtrafields::booleanList('delivery_time', 'class="inputbox"', $detail->delivery_time,
 				JText::_('COM_REDSHOP_DAYS'), JText::_('COM_REDSHOP_WEEKS')
 			);
 

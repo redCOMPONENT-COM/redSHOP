@@ -57,7 +57,7 @@ if ($this->params->get('show_page_heading', 1))
 		<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
 
 		<?php
-		echo $userhelper->getBillingTable($post, $is_company, $this->lists, 0, 1, 1);
+		echo RedshopHelperBilling::render($post, $is_company, $this->lists, 0, 1, 1);
 
 		echo RedshopLayoutHelper::render('registration.captcha');
 

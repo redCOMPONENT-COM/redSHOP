@@ -190,7 +190,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		// Change Order Status based on resutls
-		$objOrder->changeorderstatus($results[0]);
+		RedshopHelperOrder::changeOrderStatus($results[0]);
 
 		$model     = $this->getModel('order_detail');
 		$model->resetcart();

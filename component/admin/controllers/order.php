@@ -143,7 +143,7 @@ class RedshopControllerOrder extends RedshopController
 		$order_functions = order_functions::getInstance();
 
 		// Change Order Status
-		$order_functions->orderStatusUpdate($orderId, $post);
+		RedshopHelperOrder::orderStatusUpdate($orderId, $post);
 
 		$response = array(
 			'message' => '<li class="success text-success">' . JText::sprintf('COM_REDSHOP_AJAX_ORDER_UPDATE_SUCCESS', $orderId) . '</li>'
@@ -287,7 +287,7 @@ class RedshopControllerOrder extends RedshopController
 			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
-			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
+			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
 
 			if (empty($details))
@@ -315,7 +315,7 @@ class RedshopControllerOrder extends RedshopController
 			echo $billing_info->country_code . " ,";
 			echo str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname) . " ,";
 
-			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
+			$no_items = RedshopHelperOrder::getOrderItemDetail($data [$i]->order_id);
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
@@ -429,10 +429,10 @@ class RedshopControllerOrder extends RedshopController
 			echo $shipping_address->country_code . ",";
 			echo $shipping_address->zipcode . ",";
 
-			echo $order_function->getOrderStatusTitle($data [$i]->order_status) . ",";
+			echo RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status) . ",";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . ",";
 
-			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
+			$no_items = RedshopHelperOrder::getOrderItemDetail($data [$i]->order_id);
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
@@ -466,10 +466,8 @@ class RedshopControllerOrder extends RedshopController
 
 	public function generateParcel()
 	{
-		$order_function = order_functions::getInstance();
 		$order_id       = $this->input->getInt('order_id');
-
-		$generate_label = $order_function->generateParcel($order_id);
+		$generate_label = RedshopHelperOrder::generateParcel($order_id);
 
 		if ($generate_label == "success")
 		{

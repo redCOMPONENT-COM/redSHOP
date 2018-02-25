@@ -17,13 +17,13 @@ $url = JURI::base();
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $order_id = JFactory::getApplication()->input->getInt('oid');
 
-$order     = $order_functions->getOrderDetails($order_id);
-$orderitem = $order_functions->getOrderItemDetail($order_id);
+$order     = RedshopHelperOrder::getOrderDetail($order_id);
+$orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
-	$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
+	$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
 	$paymentmethod = $paymentmethod[0];
 
 	$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
