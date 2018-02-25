@@ -147,7 +147,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
-		$userhelper            = rsUserHelper::getInstance();
 		$data['address_type']  = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
 		$data['user_email']    = $data['email1'] = $data['email'];

@@ -428,7 +428,7 @@ class Cart
 			else
 			{
 				$productAttrImage = implode('_p', $selectProp[0]);
-				$attributeImage   .= '_p' . $productAttrImage;
+				$attributeImage  .= '_p' . $productAttrImage;
 			}
 
 			if (count($selectProp[1]) == 1)
@@ -500,11 +500,11 @@ class Cart
 				}
 
 				$productVatPrice                      += $subscriptionVat;
-				$data['product_price']                = $data['product_price'] + $subscriptionPrice + $subscriptionVat;
-				$data['product_old_price']            = $data['product_old_price'] + $subscriptionPrice + $subscriptionVat;
+				$data['product_price']                 = $data['product_price'] + $subscriptionPrice + $subscriptionVat;
+				$data['product_old_price']             = $data['product_old_price'] + $subscriptionPrice + $subscriptionVat;
 				$data['product_old_price_excl_vat']   += $subscriptionPrice;
 				$cart[$idx]['product_price_excl_vat'] += $subscriptionPrice;
-				$cart[$idx]['subscription_id']        = $data['subscription_id'];
+				$cart[$idx]['subscription_id']         = $data['subscription_id'];
 			}
 			else
 			{
@@ -618,52 +618,52 @@ class Cart
 
 				$prevSelectAtt = \rsCarthelper::getInstance()->getSelectedCartAttributeArray($cart[$i]['cart_attribute']);
 
-				$newdiff1 = array_diff($prevSelectAtt[0], $selectAtt[0]);
-				$newdiff2 = array_diff($selectAtt[0], $prevSelectAtt[0]);
+				$diff1 = array_diff($prevSelectAtt[0], $selectAtt[0]);
+				$diff2 = array_diff($selectAtt[0], $prevSelectAtt[0]);
 
-				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				if (count($diff1) > 0 || count($diff2) > 0)
 				{
 					$sameProduct = false;
 				}
 
 				if (!empty($discounts)
 					&& ($cart[$i]["discount_calc"]["calcWidth"] != $data["calcWidth"]
-						|| $cart[$i]["discount_calc"]["calcDepth"] != $data["calcDepth"])
+					|| $cart[$i]["discount_calc"]["calcDepth"] != $data["calcDepth"])
 				)
 				{
 					$sameProduct = false;
 				}
 
-				$newdiff1 = array_diff($prevSelectAtt[1], $selectAtt[1]);
-				$newdiff2 = array_diff($selectAtt[1], $prevSelectAtt[1]);
+				$diff1 = array_diff($prevSelectAtt[1], $selectAtt[1]);
+				$diff2 = array_diff($selectAtt[1], $prevSelectAtt[1]);
 
-				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				if (count($diff1) > 0 || count($diff2) > 0)
 				{
 					$sameProduct = false;
 				}
 
 				$prevSelectAcc = \rsCarthelper::getInstance()->getSelectedCartAccessoryArray($cart[$i]['cart_accessory']);
 
-				$newdiff1 = array_diff($prevSelectAcc[0], $selectAcc[0]);
-				$newdiff2 = array_diff($selectAcc[0], $prevSelectAcc[0]);
+				$diff1 = array_diff($prevSelectAcc[0], $selectAcc[0]);
+				$diff2 = array_diff($selectAcc[0], $prevSelectAcc[0]);
 
-				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				if (count($diff1) > 0 || count($diff2) > 0)
 				{
 					$sameProduct = false;
 				}
 
-				$newdiff1 = array_diff($prevSelectAcc[1], $selectAcc[1]);
-				$newdiff2 = array_diff($selectAcc[1], $prevSelectAcc[1]);
+				$diff1 = array_diff($prevSelectAcc[1], $selectAcc[1]);
+				$diff2 = array_diff($selectAcc[1], $prevSelectAcc[1]);
 
-				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				if (count($diff1) > 0 || count($diff2) > 0)
 				{
 					$sameProduct = false;
 				}
 
-				$newdiff1 = array_diff($prevSelectAcc[2], $selectAcc[2]);
-				$newdiff2 = array_diff($selectAcc[2], $prevSelectAcc[2]);
+				$diff1 = array_diff($prevSelectAcc[2], $selectAcc[2]);
+				$diff2 = array_diff($selectAcc[2], $prevSelectAcc[2]);
 
-				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				if (count($diff1) > 0 || count($diff2) > 0)
 				{
 					$sameProduct = false;
 				}
@@ -762,7 +762,7 @@ class Cart
 			return \JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL') . " " . $perProductTotal;
 		}
 
-		if (!$sameProduct)
+		if ($sameProduct === false)
 		{
 			// SET VALVUES INTO SESSION CART
 			$cart[$idx]['giftcard_id']                = '';
