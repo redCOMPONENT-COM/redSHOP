@@ -79,7 +79,7 @@ class RedshopHelperProduct
 	 * @param   int  $productId  Product id
 	 * @param   int  $userId     User id
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	public static function getProductById($productId, $userId = 0)
 	{

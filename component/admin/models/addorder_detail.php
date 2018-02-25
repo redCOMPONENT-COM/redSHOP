@@ -221,7 +221,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$data['phone_ST'] = $data['phone'];
 				}
 
-				$rowsh = $userhelper->storeRedshopUserShipping($data);
+				$rowsh = RedshopHelperUser::storeRedshopUserShipping($data);
 
 				return $rowsh;
 			}

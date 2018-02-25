@@ -2860,8 +2860,8 @@ class rsCarthelper
 	 *
 	 * @param   array  $data  Product data
 	 *
-	 * @return  boolean
-	 * @throws \Exception
+	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated __DEPLOY_VERSION__
 	 * @see Redshop\Cart\Cart::addProduct

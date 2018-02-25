@@ -68,7 +68,7 @@ class RedshopShippingRate
 			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);
 			$xoredByte             = $asciiNumByteToEncrypt ^ $keyToUse;
 			$encryptedByte         = chr($xoredByte);
-			$encrypted             .= $encryptedByte;
+			$encrypted            .= $encryptedByte;
 		}
 
 		return $encrypted;
@@ -83,7 +83,7 @@ class RedshopShippingRate
 	 */
 	public static function removeShippingRate()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(' . $db->qn('shipping_class') . ')')
 			->from($db->qn('#__redshop_shipping_rate'));

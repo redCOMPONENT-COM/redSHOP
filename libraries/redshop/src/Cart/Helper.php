@@ -51,7 +51,7 @@ class Helper
 
 		for ($i = 0; $i < $index; $i++)
 		{
-			$quantity      = $cart[$i]['quantity'];
+			$quantity       = $cart[$i]['quantity'];
 			$subTotal      += $quantity * $cart[$i]['product_price'];
 			$subTotalNoVAT += $quantity * $cart[$i]['product_price_excl_vat'];
 			$vat           += $quantity * $cart[$i]['product_vat'];
@@ -190,7 +190,7 @@ class Helper
 			$cart['coupon_discount'] = 0;
 		}
 
-		$totalDiscount = $cart['cart_discount'];
+		$totalDiscount  = $cart['cart_discount'];
 		$totalDiscount += isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0.0;
 		$totalDiscount += isset($cart['coupon_discount']) ? $cart['coupon_discount'] : 0.0;
 
@@ -391,73 +391,74 @@ class Helper
 			$result[$attrIndex]['attribute_id']   = $attribute;
 			$result[$attrIndex]['attribute_name'] = $attribute[0]->text;
 
-			if ($attribute[0]->text != "" && ($data['property_data'] != "" || $data['property_data'] != 0))
+			if ($attribute[0]->text != "" && !empty($data['property_data']) && !empty($propertiesData[$attrIndex]))
 			{
-				if (isset($propertiesData[$attrIndex]) && $propertiesData[$attrIndex] != "")
+				$accessoriesPropertiesData = explode(',,', $propertiesData[$attrIndex]);
+
+				foreach ($accessoriesPropertiesData as $propIndex => $accessoriesProperty)
 				{
-					$accessoriesPropertiesData = explode(',,', $propertiesData[$attrIndex]);
+					$accSubpropertyCart = array();
+					$property           = \RedshopHelperProduct_Attribute::getAttributeProperties($accessoriesPropertiesData[$propIndex]);
+					$priceList          = \RedshopHelperProduct_Attribute::getPropertyPrice(
+						$accessoriesProperty[$propIndex], $data['quantity'], 'property', $userId
+					);
 
-					foreach ($accessoriesPropertiesData as $propIndex => $accessoriesProperty)
+					if (!empty($priceList) && $priceList != new \stdClass)
 					{
-						$accSubpropertyCart = array();
-						$property           = \RedshopHelperProduct_Attribute::getAttributeProperties($accessoriesPropertiesData[$propIndex]);
-						$priceList          = \RedshopHelperProduct_Attribute::getPropertyPrice(
-							$accessoriesProperty[$propIndex], $data['quantity'], 'property', $userId
-						);
+						$propertyPrice = $priceList->product_price;
+					}
+					else
+					{
+						$propertyPrice = $property[0]->property_price;
+					}
 
-						if (!empty($priceList) && $priceList != new \stdClass)
+					$accPropertyCart[$propIndex] = array(
+						'property_id'     => $accessoriesProperty[$propIndex],
+						'attribute_id'    => $property[0]->attribute_id,
+						'property_name'   => $property[0]->text,
+						'property_oprand' => $property[0]->oprand,
+						'property_price'  => $propertyPrice,
+					);
+
+					$propertiesOprand[$propIndex] = $property[0]->oprand;
+					$propertiesPrice[$propIndex]  = $propertyPrice;
+
+					if (!empty($subPropertiesData))
+					{
+						$subPropertiesData = explode(',,', $subPropertiesData[$attrIndex]);
+
+						if (isset($subPropertiesData[$propIndex]) && $subPropertiesData[$propIndex] != "")
 						{
-							$propertyPrice = $priceList->product_price;
-						}
-						else
-						{
-							$propertyPrice = $property[0]->property_price;
-						}
+							$subSubPropertyData = explode('::', $subPropertiesData[$propIndex]);
 
-						$accPropertyCart[$propIndex]['property_id']     = $accessoriesProperty[$propIndex];
-						$accPropertyCart[$propIndex]['attribute_id']    = $property[0]->attribute_id;
-						$accPropertyCart[$propIndex]['property_name']   = $property[0]->text;
-						$accPropertyCart[$propIndex]['property_oprand'] = $property[0]->oprand;
-						$accPropertyCart[$propIndex]['property_price']  = $propertyPrice;
-						$propertiesOprand[$propIndex]                   = $property[0]->oprand;
-						$propertiesPrice[$propIndex]                    = $propertyPrice;
-
-						if (!empty($subPropertiesData))
-						{
-							$subPropertiesData = explode(',,', $subPropertiesData[$attrIndex]);
-
-							if (isset($subPropertiesData[$propIndex]) && $subPropertiesData[$propIndex] != "")
+							foreach ($subSubPropertyData as $supPropIndex => $subSubProperty)
 							{
-								$subSubPropertyData = explode('::', $subPropertiesData[$propIndex]);
+								$subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties($subSubProperty);
+								$priceList   = \RedshopHelperProduct_Attribute::getPropertyPrice(
+									$subSubProperty, $data['quantity'], 'subproperty', $userId
+								);
 
-								foreach ($subSubPropertyData as $supPropIndex => $subSubProperty)
+								if (!empty($priceList) && $priceList != new \stdClass)
 								{
-									$subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties($subSubProperty);
-
-									$priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
-										$subSubProperty, $data['quantity'], 'subproperty', $userId
-									);
-
-									if (!empty($priceList) && $priceList != new \stdClass)
-									{
-										$subPropertyPrice = $priceList->product_price;
-									}
-									else
-									{
-										$subPropertyPrice = $subproperty[0]->subattribute_color_price;
-									}
-
-									$accSubpropertyCart[$supPropIndex]['subproperty_id']           = $subSubProperty;
-									$accSubpropertyCart[$supPropIndex]['subproperty_name']         = $subproperty[0]->text;
-									$accSubpropertyCart[$supPropIndex]['subproperty_oprand']       = $subproperty[0]->oprand;
-									$accSubpropertyCart[$supPropIndex]['subattribute_color_title'] = $subproperty[0]->subattribute_color_title;
-									$accSubpropertyCart[$supPropIndex]['subproperty_price']        = $subPropertyPrice;
+									$subPropertyPrice = $priceList->product_price;
 								}
+								else
+								{
+									$subPropertyPrice = $subproperty[0]->subattribute_color_price;
+								}
+
+								$accSubpropertyCart[$supPropIndex] = array(
+									'subproperty_id'           => $subSubProperty,
+									'subproperty_name'         => $subproperty[0]->text,
+									'subproperty_oprand'       => $subproperty[0]->oprand,
+									'subattribute_color_title' => $subproperty[0]->subattribute_color_title,
+									'subproperty_price'        => $subPropertyPrice,
+								);
 							}
 						}
-
-						$accPropertyCart[$propIndex]['property_childs'] = $accSubpropertyCart;
 					}
+
+					$accPropertyCart[$propIndex]['property_childs'] = $accSubpropertyCart;
 				}
 			}
 
