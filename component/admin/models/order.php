@@ -221,11 +221,11 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Method for export data.
 	 *
-	 * @param   array $cid List of order ID
+	 * @param   array  $cid  List of order ID
 	 *
 	 * @return  array<object>
 	 */
-	public function export_data($cid)
+	public function export_data($cid = array())
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)

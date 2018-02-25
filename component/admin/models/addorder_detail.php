@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 use Redshop\Economic\RedshopEconomic;
 
 
-
 class RedshopModelAddorder_detail extends RedshopModel
 {
 	public $_id = null;
@@ -29,8 +28,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
-		$this->_order_functions = order_functions::getInstance();
-		$this->_db              = JFactory::getDbo();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function setId($id)
@@ -422,7 +420,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$attribute_id         = $attchildArr[$j]['attribute_id'];
+						$attribute_id        = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
@@ -455,11 +453,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
-							$property_id          = $propArr[$k]['property_id'];
+							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " ("
 								. $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
-							$subpropArr           = $propArr[$k]['property_childs'];
+							$subpropArr          = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -492,7 +490,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
-								$subproperty_id       = $subpropArr[$l]['subproperty_id'];
+								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
@@ -633,7 +631,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
-							$updatestock = RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
+							RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -835,7 +833,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				$shipping->users_info_id
 			),
 			// Field_section 8 :Company Address
-			'shipping_company_field' => RedshopHelperExtrafields::listAllField(
+			'shipping_company_field'  => RedshopHelperExtrafields::listAllField(
 				RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
 				$shipping->users_info_id
 			)
@@ -848,7 +846,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$states                 = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
 		$lists['state_code_ST'] = $states['state_dropdown'];
 
-		$html  = '<table class="adminlist" border="0" width="100%">';
+		$html = '<table class="adminlist" border="0" width="100%">';
 		$html .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
 		$html .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
