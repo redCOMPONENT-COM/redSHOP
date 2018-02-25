@@ -40,7 +40,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 		$shippinghelper = shipping::getInstance();
 		$shippingrate = array();
 		$rate = 0;
-		$shipping    = RedshopHelperShipping::getShippingMethodByClasss($this->classname);
+		$shipping    = RedshopHelperShipping::getShippingMethodByClass($this->classname);
 		$shippingArr = RedshopHelperShipping::getShopperGroupDefaultShipping();
 
 		if (!empty($shippingArr))
