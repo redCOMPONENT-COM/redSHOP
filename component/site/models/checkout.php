@@ -149,8 +149,6 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$quotationHelper = quotationHelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$input            = $app->input;
@@ -182,7 +180,6 @@ class RedshopModelCheckout extends RedshopModel
 			$userId = - $auth['users_info_id'];
 		}
 
-		$db      = JFactory::getDbo();
 		$issplit = $session->get('issplit');
 
 		// If user subscribe for the newsletter
@@ -2344,8 +2341,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function getOrdernumber()
 	{
-		$order_functions = order_functions::getInstance();
-		$trackid_time    = $this->getOrdernumberTrack();
+		$trackid_time = $this->getOrdernumberTrack();
 
 		if ($trackid_time != "")
 		{

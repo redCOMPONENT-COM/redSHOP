@@ -228,8 +228,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$attributesSet = $model->getAttributeSetList();
 
-		$product_category = new product_category;
-
 		// Merging select option in the select box
 		$temps          = array();
 		$temps[0]       = new stdClass;

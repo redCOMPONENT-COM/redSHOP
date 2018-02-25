@@ -21,9 +21,10 @@ class RedshopViewNewsletter extends RedshopView
 
 		$selected_product = $app->input->get('product', '');
 		$n                = $cid[0];
-		$model            = $this->getModel('newsletter');
-		$subscribers      = $model->listallsubscribers($n);
-		$product_category = new product_category;
+
+		/** @var RedshopModelNewsletter $model */
+		$model       = $this->getModel('newsletter');
+		$subscribers = $model->listallsubscribers($n);
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
@@ -46,14 +47,14 @@ class RedshopViewNewsletter extends RedshopView
 		$oprand = $app->input->getCmd('oprand', 'select');
 
 		$optionoprand    = array();
-		$optionoprand[]  = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-		$optionoprand[]  = JHTML::_('select.option', 'more', JText::_('COM_REDSHOP_GTOREQUEL'));
-		$optionoprand[]  = JHTML::_('select.option', 'less', JText::_('COM_REDSHOP_LTOREQUEL'));
-		$optionoprand[]  = JHTML::_('select.option', 'equally', JText::_('COM_REDSHOP_EQUAL_SIGN'));
-		$lists['oprand'] = JHTML::_('select.genericlist', $optionoprand, 'oprand', 'class="inputbox" size="1" ', 'value', 'text', $oprand);
+		$optionoprand[]  = JHtml::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
+		$optionoprand[]  = JHtml::_('select.option', 'more', JText::_('COM_REDSHOP_GTOREQUEL'));
+		$optionoprand[]  = JHtml::_('select.option', 'less', JText::_('COM_REDSHOP_LTOREQUEL'));
+		$optionoprand[]  = JHtml::_('select.option', 'equally', JText::_('COM_REDSHOP_EQUAL_SIGN'));
+		$lists['oprand'] = JHtml::_('select.genericlist', $optionoprand, 'oprand', 'class="inputbox" size="1" ', 'value', 'text', $oprand);
 
 		$country_option   = array();
-		$country_option[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_COUNTRY'));
+		$country_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_COUNTRY'));
 
 		$country = $model->getContry();
 
@@ -61,29 +62,26 @@ class RedshopViewNewsletter extends RedshopView
 
 		$country_value = $app->input->get('country', '');
 
-		$lists['country'] = JHTML::_('select.genericlist', $country_data, 'country[]',
+		$lists['country'] = JHtml::_('select.genericlist', $country_data, 'country[]',
 			'class="inputbox" multiple="multiple" size="4" ', 'value', 'text', $country_value
 		);
-
-		$categories = array();
 
 		$categories          = RedshopHelperCategory::listAll("product_category[]", 0, '', 10, true, true);
 		$lists['categories'] = $categories;
 
-		$product_data = array();
 		$product_data = $model->getProduct();
 
-		$lists['product'] = JHTML::_('select.genericlist', $product_data, 'product[]',
+		$lists['product'] = JHtml::_('select.genericlist', $product_data, 'product[]',
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $selected_product
 		);
 
 		$shopper_option   = array();
-		$shopper_option[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
+		$shopper_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
 		$shoppergroup     = $app->input->get('shoppergroups', '');
 		$ShopperGrup      = $model->getShopperGroup();
 		$ShopperGroups    = array_merge($shopper_option, $ShopperGrup);
 
-		$lists['shoppergroups'] = JHTML::_('select.genericlist', $ShopperGroups, 'shoppergroups[]',
+		$lists['shoppergroups'] = JHtml::_('select.genericlist', $ShopperGroups, 'shoppergroups[]',
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup
 		);
 

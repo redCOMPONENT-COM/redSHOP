@@ -14,7 +14,7 @@ class RedshopModelQuotation extends RedshopModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
 	 * @see     JController
@@ -40,7 +40,7 @@ class RedshopModelQuotation extends RedshopModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -58,8 +58,8 @@ class RedshopModelQuotation extends RedshopModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -84,15 +84,15 @@ class RedshopModelQuotation extends RedshopModelList
 	public function getCsvColumns()
 	{
 		return array(
-			'quotation_id' => JText::_('COM_REDSHOP_QUOTATION_ID'),
-			'full_name' => JText::_('COM_REDSHOP_FULLNAME'),
-			'user_email' => JText::_('COM_REDSHOP_USEREMAIL'),
-			'phone' => JText::_('COM_REDSHOP_PHONE'),
-			'quotation_status' => JText::_('COM_REDSHOP_QUOTATION_STATUS'),
-			'quotation_note' => JText::_('COM_REDSHOP_QUOTATION_NOTE'),
-			'product_name' => JText::_('COM_REDSHOP_PRODUCT_NAME'),
+			'quotation_id'        => JText::_('COM_REDSHOP_QUOTATION_ID'),
+			'full_name'           => JText::_('COM_REDSHOP_FULLNAME'),
+			'user_email'          => JText::_('COM_REDSHOP_USEREMAIL'),
+			'phone'               => JText::_('COM_REDSHOP_PHONE'),
+			'quotation_status'    => JText::_('COM_REDSHOP_QUOTATION_STATUS'),
+			'quotation_note'      => JText::_('COM_REDSHOP_QUOTATION_NOTE'),
+			'product_name'        => JText::_('COM_REDSHOP_PRODUCT_NAME'),
 			'product_final_price' => JText::_('COM_REDSHOP_PRODUCT_PRICE'),
-			'product_attribute' => JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
+			'product_attribute'   => JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
 		);
 	}
 
@@ -151,17 +151,15 @@ class RedshopModelQuotation extends RedshopModelList
 
 		if ($items)
 		{
-			$quotationHelper = quotationHelper::getInstance();
-			$productHelper   = productHelper::getInstance();
+			$productHelper = productHelper::getInstance();
 
 			foreach ($items as $key => $item)
 			{
 				$items[$key]->quotation_status    = RedshopHelperQuotation::getQuotationStatusName($item->quotation_status);
-				$items[$key]->product_final_price = $productHelper->getProductFormattedPrice($item->product_final_price);
-
-				$productAttribute               = $productHelper->makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
-				$productAttribute               = preg_replace('#<[^>]+>#', ' ', $productAttribute);
-				$items[$key]->product_attribute = $productAttribute;
+				$items[$key]->product_final_price = RedshopHelperProductPrice::formattedPrice($item->product_final_price);
+				$productAttribute                 = $productHelper->makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
+				$productAttribute                 = preg_replace('#<[^>]+>#', ' ', $productAttribute);
+				$items[$key]->product_attribute   = $productAttribute;
 			}
 		}
 

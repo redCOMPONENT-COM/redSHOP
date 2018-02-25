@@ -46,7 +46,6 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 	public function exportOrder()
 	{
 		$productHelper = productHelper::getInstance();
-		$orderFunction = order_functions::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->exportOrder();
 		$noProducts    = $model->countProductByOrder();

@@ -54,11 +54,10 @@ class RedshopViewOrder extends RedshopViewAdmin
 	 * @param   string  $tpl  The template name
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		$order_function = order_functions::getInstance();
-
 		JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$layout = JFactory::getApplication()->input->getCmd('layout');
 

@@ -56,7 +56,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$this->_data = RedshopHelperOrder::getOrderDetail($this->_id);
+			$this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
 
 			return (boolean) $this->_data;
 		}
@@ -119,10 +119,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper   = productHelper::getInstance();
-		$order_functions = order_functions::getInstance();
-		$quotationHelper = quotationHelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		if (count($cid))
 		{
@@ -144,7 +141,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				$quntity = $order_item[$i]->product_quantity;
 
 				$order_id     = $order_item[$i]->order_id;
-				$order_detail = RedshopHelperOrder::getOrderDetail($order_id);
+				$order_detail = RedshopEntityOrder::getInstance($order_id)->getItem();
 
 				if ($order_detail->order_payment_status == "Unpaid")
 				{
@@ -263,10 +260,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function neworderitem($data, $quantity, $order_item_id)
 	{
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$producthelper      = productHelper::getInstance();
-		$rsCarthelper       = rsCarthelper::getInstance();
-		$stockroomhelper    = rsstockroomhelper::getInstance();
+		$producthelper = productHelper::getInstance();
+		$rsCarthelper  = rsCarthelper::getInstance();
 
 		// Get Order Info
 		$orderdata = $this->getTable('order_detail');
@@ -390,7 +385,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$attribute_id         = $attchildArr[$j]['attribute_id'];
+						$attribute_id        = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
@@ -423,10 +418,10 @@ class RedshopModelOrder_detail extends RedshopModel
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
-							$property_id          = $propArr[$k]['property_id'];
+							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
-							$subpropArr           = $propArr[$k]['property_childs'];
+							$subpropArr          = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -459,7 +454,7 @@ class RedshopModelOrder_detail extends RedshopModel
 									$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
-								$subproperty_id       = $subpropArr[$l]['subproperty_id'];
+								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " ("
 									. $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
@@ -564,7 +559,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
-						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
@@ -745,10 +740,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function updateItem($data)
 	{
-		$producthelper   = productHelper::getInstance();
-		$order_functions = order_functions::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
-
 		$order_item_id = $data['order_item_id'];
 		$orderitemdata = $this->getTable('order_item_detail');
 		$orderitemdata->load($order_item_id);
@@ -773,7 +764,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($productPrice > 0)
 		{
-			$product_tax = $producthelper->getProductTax($product_id, $productPrice, $user_id);
+			$product_tax = RedshopHelperProduct::getProductTax($product_id, $productPrice, $user_id);
 		}
 
 		if ($productPrice_new < 0)
@@ -864,9 +855,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function updateAttributeItem($order_item_id, $quantity = 0)
 	{
-		$stockroomhelper = rsstockroomhelper::getInstance();
-		$order_functions = order_functions::getInstance();
-		$attArr          = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, 0, "attribute");
+		$attArr = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, 0, "attribute");
 
 		/** my attribute save in table start */
 		for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
@@ -885,7 +874,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 				elseif ($quantity < 0)
 				{
-					$updatestock = RedshopHelperStockroom::updateStockroomQuantity($propitemdata->section_id, (-$quantity), "property");
+					RedshopHelperStockroom::updateStockroomQuantity($propitemdata->section_id, (-$quantity), "property");
 				}
 
 				$subpropArr = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, 0, "subproperty", $propitemdata->section_id);
@@ -901,7 +890,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					}
 					elseif ($quantity < 0)
 					{
-						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($subpropitemdata->section_id, (-$quantity), "subproperty");
+						RedshopHelperStockroom::updateStockroomQuantity($subpropitemdata->section_id, (-$quantity), "subproperty");
 					}
 				}
 			}
@@ -1131,8 +1120,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($row->store())
 		{
-			$field = extra_field::getInstance();
-
 			// Field_section 7 :Customer Address Section
 			$fieldSection = 7;
 

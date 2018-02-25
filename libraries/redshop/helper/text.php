@@ -70,7 +70,7 @@ class RedshopHelperText
 	/**
 	 * Replace data with data of text library
 	 *
-	 * @param   array  $data  Data to replace with
+	 * @param   string  $data  Data to replace with
 	 *
 	 * @return  string
 	 *

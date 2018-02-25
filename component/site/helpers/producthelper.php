@@ -418,7 +418,7 @@ class productHelper
 
 	public function getProductparentImage($product_parent_id)
 	{
-		$result = $this->getProductById($product_parent_id);
+		$result = RedshopHelperProduct::getProductById($product_parent_id);
 
 		if ($result->product_full_image == '' && $result->product_parent_id > 0)
 		{
@@ -444,11 +444,10 @@ class productHelper
 	 */
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0, $preselectedresult = array())
 	{
-		$thum_image      = '';
-		$stockroomhelper = rsstockroomhelper::getInstance();
-		$result          = $this->getProductById($product_id);
-		$isStockExists   = RedshopHelperStockroom::isStockExists($product_id);
-		$middlepath      = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
+		$thum_image    = '';
+		$result        = RedshopHelperProduct::getProductById($product_id);
+		$isStockExists = RedshopHelperStockroom::isStockExists($product_id);
+		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 
 		if ($result->product_full_image == '' && $result->product_parent_id > 0)
 		{
@@ -638,7 +637,7 @@ class productHelper
 
 	public function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
-		$url           = JURI::root();
+		$url           = JUri::root();
 		$imagename     = trim($imagename);
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
@@ -758,7 +757,7 @@ class productHelper
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
 		$redhelper  = redhelper::getInstance();
-		$result     = $this->getProductById($product_id);
+		$result     = RedshopHelperProduct::getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
 		$alt        = " alt='" . $result->product_name . "' ";
@@ -1285,7 +1284,7 @@ class productHelper
 			switch ($section)
 			{
 				case 'product':
-					return $this->getProductById($id);
+					return RedshopHelperProduct::getProductById($id);
 					break;
 				case 'category':
 					return RedshopHelperCategory::getCategoryById($id);
@@ -1430,7 +1429,7 @@ class productHelper
 	 */
 	public function getCategoryProduct($productId = 0)
 	{
-		if ($result = $this->getProductById($productId))
+		if ($result = RedshopHelperProduct::getProductById($productId))
 		{
 			if (!empty($result->categories))
 			{
@@ -1547,10 +1546,8 @@ class productHelper
 
 	public function getuserfield($orderitemid = 0, $section_id = 12)
 	{
-		$redTemplate     = Redtemplate::getInstance();
-		$order_functions = order_functions::getInstance();
-		$live_site       = JURI::root();
-		$resultArr       = array();
+		$live_site = JUri::root();
+		$resultArr = array();
 
 		$userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $section_id);
 
@@ -1559,7 +1556,7 @@ class productHelper
 			$orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 			$product_id = $orderItem[0]->product_id;
 
-			$productdetail   = $this->getProductById($product_id);
+			$productdetail   = RedshopHelperProduct::getProductById($product_id);
 			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productdetail->product_template);
 
 			$returnArr    = $this->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
@@ -1691,15 +1688,13 @@ class productHelper
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$redTemplate = Redtemplate::getInstance();
-		$cart        = $this->_session->get('cart');
-
+		$cart     = RedshopHelperCartSession::getCart();
 		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
 		if ($section_id == 12)
 		{
 			$product_id = $cart[$id]['product_id'];
-			$productdetail = $this->getProductById($product_id);
+			$productdetail = RedshopHelperProduct::getProductById($product_id);
 			$temp_name = "product";
 			$temp_id   = $productdetail->product_template;
 			$giftcard  = 0;
@@ -1782,8 +1777,7 @@ class productHelper
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$order_functions = order_functions::getInstance();
-		$orderItem       = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
+		$orderItem = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 
 		$product_id = $orderItem[0]->product_id;
 
@@ -2347,12 +2341,11 @@ class productHelper
 
 	public function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
 	{
-		$url      = JURI::base();
 		$attrbimg = "";
 
 		if ($property_id > 0)
 		{
-			$property = $this->getAttibuteProperty($property_id);
+			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
 
 			//Display attribute image in cart
 			if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
@@ -2363,7 +2356,7 @@ class productHelper
 
 		if ($subproperty_id > 0)
 		{
-			$subproperty = $this->getAttibuteSubProperty($subproperty_id);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($subproperty_id);
 
 			if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
 			{
@@ -2403,8 +2396,6 @@ class productHelper
 
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
-		$redTemplate     = Redtemplate::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
 		$attribute_table = "";
 		$subproperty     = array();
 
@@ -2423,9 +2414,9 @@ class productHelper
 
 		if ($property_id != 0 && $attribute_id != 0)
 		{
-			$attributes      = $this->getProductAttribute(0, 0, $attribute_id);
+			$attributes      = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute_id);
 			$attributes      = $attributes[0];
-			$subproperty_all = $this->getAttibuteSubProperty(0, $property_id);
+			$subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
 			// filter Out of stock data
 			if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 			{
@@ -2474,7 +2465,7 @@ class productHelper
 			$product_id = $relatedprd_id;
 		}
 
-		$product         = $this->getProductById($product_id);
+		$product         = RedshopHelperProduct::getProductById($product_id);
 		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
@@ -2588,9 +2579,9 @@ class productHelper
 
 						if ($chktag)
 						{
-							$attributes_subproperty_vat_show = $this->getProducttax($product_id, $subproperty [$i]->subattribute_color_price);
+							$attributes_subproperty_vat_show = RedshopHelperProduct::getProductTax($product_id, $subproperty [$i]->subattribute_color_price);
 
-							$attributes_subproperty_oldprice_vat = $this->getProducttax($product_id, $attributes_subproperty_oldprice);
+							$attributes_subproperty_oldprice_vat = RedshopHelperProduct::getProductTax($product_id, $attributes_subproperty_oldprice);
 						}
 
 						$attributes_subproperty_vat_show += $subproperty [$i]->subattribute_color_price;
@@ -2598,7 +2589,7 @@ class productHelper
 
 						if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && (!$attributes->hide_attribute_price))
 						{
-							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . $this->getProductFormattedPrice($attributes_subproperty_vat_show) . ")";
+							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . RedshopHelperProductPrice::formattedPrice($attributes_subproperty_vat_show) . ")";
 						}
 						else
 						{
@@ -2787,13 +2778,11 @@ class productHelper
 
 	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
 	{
-		$input           = JFactory::getApplication()->input;
-		$user_id         = 0;
-		$url             = JURI::base();
-		$stockroomhelper = rsstockroomhelper::getInstance();
-		$Itemid          = $input->getInt('Itemid');
+		$input   = JFactory::getApplication()->input;
+		$user_id = 0;
+		$Itemid  = $input->getInt('Itemid');
 
-		$product = $this->getProductById($product_id);
+		$product = RedshopHelperProduct::getProductById($product_id);
 
 		// Process the product plugin for property
 		JPluginHelper::importPlugin('redshop_product');
@@ -2816,7 +2805,7 @@ class productHelper
 
 		// IF PRODUCT CHILD IS EXISTS THEN DONT SHOW PRODUCT ATTRIBUTES
 		$qunselect           = 1;
-		$productArr          = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add);
+		$productArr          = RedshopHelperProductPrice::getNetPrice($product_id, $user_id, $qunselect, $data_add);
 		$product_price       = $productArr['product_price'] * $qunselect;
 		$product_price_novat = $productArr['product_price_novat'] * $qunselect;
 		$product_old_price   = $productArr['product_old_price'] * $qunselect;
@@ -3025,7 +3014,6 @@ class productHelper
 	{
 		$user_id          = 0;
 		$redconfig        = Redconfiguration::getInstance();
-		$stockroomhelper  = rsstockroomhelper::getInstance();
 		$input            = JFactory::getApplication()->input;
 		$product_quantity = $input->get('product_quantity');
 		$Itemid           = $input->getInt('Itemid');
@@ -3058,7 +3046,7 @@ class productHelper
 		}
 		else
 		{
-			$product = $this->getProductById($product_id);
+			$product = RedshopHelperProduct::getProductById($product_id);
 
 			if(isset($product->preorder))
 			{
@@ -3176,13 +3164,13 @@ class productHelper
 
 			if ($totalatt > 0 && !$isStockExists)
 			{
-				$properties  = $this->getAttibuteProperty(0, 0, $product_id);
+				$properties  = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $product_id);
 				$propertyIds = array();
 
 				foreach ($properties as $property)
 				{
 					$isSubpropertyStock = false;
-					$subProperties      = $this->getAttibuteSubProperty(0, $property->property_id);
+					$subProperties      = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
 
 					if (!empty($subProperties))
 					{
@@ -3227,7 +3215,7 @@ class productHelper
 
 			$qunselect = \Redshop\Cart\Helper::getDefaultQuantity($product_id, $data_add);
 
-			$productArr          = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add);
+			$productArr          = RedshopHelperProductPrice::getNetPrice($product_id, $user_id, $qunselect, $data_add);
 			$product_price       = $productArr['product_price'] * $qunselect;
 			$product_price_novat = $productArr['product_price_novat'] * $qunselect;
 			$product_old_price   = $productArr['product_old_price'] * $qunselect;
@@ -3263,12 +3251,12 @@ class productHelper
 
 				if ($totalatt > 0 && !$isPreorderStockExists)
 				{
-					$property = $this->getAttibuteProperty(0, 0, $product_id);
+					$property = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $product_id);
 
 					for ($att_j = 0, $countProperty = count($property); $att_j < $countProperty; $att_j++)
 					{
 						$isSubpropertyStock = false;
-						$sub_property       = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+						$sub_property       = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property[$att_j]->property_id);
 						$countSubproperty   = count($sub_property);
 
 						for ($sub_j = 0; $sub_j < $countSubproperty; $sub_j++)
@@ -3356,10 +3344,10 @@ class productHelper
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributes_set = $this->getProductAttribute(0, $product->attribute_set_id, 0, 1, 1);
+				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1, 1);
 			}
 
-			$requiredattribute = $this->getProductAttribute($product_id, 0, 0, 1, 1);
+			$requiredattribute = RedshopHelperProduct_Attribute::getProductAttribute($product_id, 0, 0, 1, 1);
 			$requiredattribute = array_merge($requiredattribute, $attributes_set);
 
 			for ($i = 0, $in = count($requiredattribute); $i < $in; $i++)
@@ -3368,7 +3356,7 @@ class productHelper
 					. urldecode($requiredattribute[$i]->attribute_name) . "\n";
 			}
 
-			$requiredproperty = $this->getAttibuteProperty(0, 0, $product_id, 0, 1);
+			$requiredproperty = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $product_id, 0, 1);
 
 			for ($y = 0, $yn = count($requiredproperty); $y < $yn; $y++)
 			{
@@ -3439,7 +3427,7 @@ class productHelper
 			}
 
 			//Start Hidden attribute image in cart
-			$attributes = $this->getProductAttribute($product_id);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
 
 			if (count($attributes) > 0)
 			{
@@ -3449,7 +3437,7 @@ class productHelper
 				for ($a = 0, $an = count($attributes); $a < $an; $a++)
 				{
 					$selectedId = array();
-					$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id, $product_id);
+					$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id, $product_id);
 
 					if ($attributes[$a]->text != "" && count($property) > 0)
 					{
@@ -3464,7 +3452,7 @@ class productHelper
 						if (count($selectedId) > 0)
 						{
 							$selectedPropertyId = $selectedId[count($selectedId) - 1];
-							$subproperty        = $this->getAttibuteSubProperty(0, $selectedPropertyId);
+							$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedPropertyId);
 							$selectedId         = array();
 
 							for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
@@ -3968,7 +3956,7 @@ class productHelper
 
 				if ($attArr[$i]['accessory_price'] > 0)
 				{
-					$acc_vat = $this->getProducttax($product_id, $attArr[$i]['accessory_price'], $user_id);
+					$acc_vat = RedshopHelperProduct::getProductTax($product_id, $attArr[$i]['accessory_price'], $user_id);
 				}
 
 				$accessory_price = $attArr[$i]['accessory_price'];
@@ -4002,7 +3990,7 @@ class productHelper
 
 						if ($propArr[$k]['property_price'] > 0)
 						{
-							$acc_propvat = $this->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
+							$acc_propvat = RedshopHelperProduct::getProductTax($product_id, $propArr[$k]['property_price'], $user_id);
 						}
 
 						if (!empty($chktag))
@@ -4026,7 +4014,7 @@ class productHelper
 
 							if ($subpropArr[$l]['subproperty_price'] > 0)
 							{
-								$acc_subpropvat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+								$acc_subpropvat = RedshopHelperProduct::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
 							if (!empty($chktag))
@@ -4116,23 +4104,22 @@ class productHelper
 
 	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')
 	{
-		$user            = JFactory::getUser();
-		$stockroomhelper = rsstockroomhelper::getInstance();
+		$user = JFactory::getUser();
 
 		if ($userId == 0)
 		{
 			$userId = $user->id;
 		}
 
-		$sel                  = 0;
-		$selP                 = 0;
-		$applyVat             = \Redshop\Template\Helper::isApplyAttributeVat($data, $userId);
-		$setPropEqual         = true;
-		$setSubpropEqual      = true;
-		$selectedAttributs    = array();
-		$selectedProperty     = array();
-		$productOldprice      = 0;
-		$productVatPrice      = 0;
+		$sel               = 0;
+		$selP              = 0;
+		$applyVat          = \Redshop\Template\Helper::isApplyAttributeVat($data, $userId);
+		$setPropEqual      = true;
+		$setSubpropEqual   = true;
+		$selectedAttributs = array();
+		$selectedProperty  = array();
+		$productOldprice   = 0;
+		$productVatPrice   = 0;
 
 		if ($newProductPrice != 0)
 		{
@@ -4140,12 +4127,12 @@ class productHelper
 
 			if ($productPrice > 0)
 			{
-				$productVatPrice = $this->getProductTax($productId, $productPrice, $userId);
+				$productVatPrice = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId);
 			}
 		}
 		else
 		{
-			$productPrices   = $this->getProductNetPrice($productId, $userId, $quantity, $data);
+			$productPrices   = RedshopHelperProductPrice::getNetPrice($productId, $userId, $quantity, $data);
 
 			// Using price without vat to proceed with calcualtion - we will apply vat in the end.
 			$productPrice    = $productPrices['product_price_novat'];
@@ -4180,7 +4167,7 @@ class productHelper
 				$propertyVat             = 0;
 				$propertyOperator        = $properties[$k]['property_oprand'];
 				$propertyPriceWithoutVat = (isset($properties[$k]['property_price'])) ? $properties[$k]['property_price'] : 0;
-				$property                = $this->getAttibuteProperty($properties[$k]['property_id']);
+				$property                = RedshopHelperProduct_Attribute::getAttributeProperties($properties[$k]['property_id']);
 				$propertyPrice           = $propertyPriceWithoutVat;
 
 				if ($propertyPriceWithoutVat > 0)
@@ -4194,7 +4181,7 @@ class productHelper
 
 					if ($propertyOperator != '*' && $propertyOperator != '/')
 					{
-						$propertyVat = $this->getProducttax($productId, $propertyPriceWithoutVat, $userId);
+						$propertyVat = RedshopHelperProduct::getProductTax($productId, $propertyPriceWithoutVat, $userId);
 					}
 				}
 
@@ -4236,7 +4223,7 @@ class productHelper
 
 						if ($subPropertyOperator != '*' &&  $subPropertyOperator != '/')
 						{
-							$subPropertyVat = $this->getProducttax($productId, $subPropertyPriceWithoutVat, $userId);
+							$subPropertyVat = RedshopHelperProduct::getProductTax($productId, $subPropertyPriceWithoutVat, $userId);
 						}
 					}
 
@@ -4297,13 +4284,13 @@ class productHelper
 
 		if ($productOldprice > 0)
 		{
-			$productVatOldPrice = $this->getProductTax($productId, $productOldprice, $userId);
+			$productVatOldPrice = RedshopHelperProduct::getProductTax($productId, $productOldprice, $userId);
 		}
 
 		// Recalculate VAT if set to apply vat for attribute
 		if ($applyVat)
 		{
-			$productVatPrice = $this->getProducttax($productId, $productPrice, $userId);
+			$productVatPrice = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId);
 		}
 
 		// Todo: For QA to check all cases.
@@ -4346,9 +4333,6 @@ class productHelper
 
 	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
 	{
-		$stockroomhelper   = rsstockroomhelper::getInstance();
-		$order_functions   = order_functions::getInstance();
-		$displayattribute  = "";
 		$chktag            = \Redshop\Template\Helper::isApplyAttributeVat($data);
 		$product_attribute = "";
 		$quantity          = 0;
@@ -4356,7 +4340,7 @@ class productHelper
 		$orderItemdata     = RedshopHelperOrder::getOrderItemDetail(0, 0, $order_item_id);
 		$cartAttributes    = array();
 
-		$products = $this->getProductById($orderItemdata[0]->product_id);
+		$products = RedshopHelperProduct::getProductById($orderItemdata[0]->product_id);
 
 		if (count($orderItemdata) > 0 && $is_accessory != 1)
 		{
@@ -4375,7 +4359,7 @@ class productHelper
 		{
 			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{
-				$attribute = $this->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
+				$attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
 
 				// Assign Attribute middle template in tmp variable
 				$tmp_attribute_middle_template = $attribute_middle_template;
@@ -4400,7 +4384,7 @@ class productHelper
 						RedshopHelperStockroom::manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
 					}
 
-					$property = $this->getAttibuteProperty($orderPropdata[$p]->section_id);
+					$property = RedshopHelperProduct_Attribute::getAttributeProperties($orderPropdata[$p]->section_id);
 
 					if (!empty($chktag))
 					{
@@ -4429,7 +4413,7 @@ class productHelper
 						}
 						elseif (!$hideAttributePrice)
 						{
-							$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->getProductFormattedPrice($property_price) . ")";
+							$disPrice = " (" . $orderPropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($property_price) . ")";
 						}
 					}
 
@@ -4460,7 +4444,7 @@ class productHelper
 							RedshopHelperStockroom::manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
 						}
 
-						$subproperty = $this->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
+						$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubpropdata[$sp]->section_id);
 
 						if (!empty($chktag))
 						{
@@ -4488,7 +4472,7 @@ class productHelper
 					}
 
 					// Format Calculated price using Language variable
-					$productAttributeCalculatedPrice = $this->getProductFormattedPrice($productAttributeCalculatedPrice);
+					$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice($productAttributeCalculatedPrice);
 					$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
 					$tmp_attribute_middle_template   = str_replace(
 						"{product_attribute_calculated_price}",
@@ -4576,7 +4560,6 @@ class productHelper
 
 	public function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
 	{
-		$quotationHelper  = quotationHelper::getInstance();
 		$displayaccessory = "";
 		$Itemdata         = RedshopHelperQuotation::getQuotationItemAccessoryDetail($quotation_item_id);
 
@@ -4590,7 +4573,7 @@ class productHelper
 
 				if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 				{
-					$displayaccessory .= "(" . $this->getProductFormattedPrice($Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat) . ")";
+					$displayaccessory .= "(" . RedshopHelperProductPrice::formattedPrice($Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat) . ")";
 				}
 
 				$displayaccessory .= "</div>";
@@ -4614,9 +4597,7 @@ class productHelper
 
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
-		$quotationHelper  = quotationHelper::getInstance();
 		$displayattribute = "";
-
 		$product_attribute = "";
 		$quantity          = 0;
 		$stockroom_id      = "0";
@@ -5218,7 +5199,7 @@ class productHelper
 		for ($a = 0, $an = count($attributes); $a < $an; $a++)
 		{
 			$selectedId = array();
-			$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id, $product_id);
+			$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id, $product_id);
 
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{
@@ -5249,7 +5230,7 @@ class productHelper
 				{
 					$stock_status_flag = true;
 					$i                 = count($selectedId) - 1;
-					$subproperty       = $this->getAttibuteSubProperty(0, $selectedId[$i]);
+					$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedId[$i]);
 					$selectedId        = array();
 
 					for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
@@ -5278,19 +5259,18 @@ class productHelper
 			}
 		}
 
-		$stockroomhelper = rsstockroomhelper::getInstance();
-		$productinstock  = RedshopHelperStockroom::getStockAmountWithReserve($Id, $sec);
+		$productinstock = RedshopHelperStockroom::getStockAmountWithReserve($Id, $sec);
 
 		if ($productinstock == 0)
 		{
-			$product_detail   = $this->getProductById($product_id);
+			$product_detail   = RedshopHelperProduct::getProductById($product_id);
 			$product_preorder = $product_detail->preorder;
 
 			if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 				|| ($product_preorder == "yes")
 				|| ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
-				$productinpreorderstock = RedshopHelperStockroom::getPreorderStockAmountwithReserve($Id, $sec);
+				$productinstock = RedshopHelperStockroom::getPreorderStockAmountwithReserve($Id, $sec);
 			}
 		}
 
@@ -5587,8 +5567,8 @@ class productHelper
 
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
-		$url                 = JURI::base();
-		$product             = $this->getProductById($product_id);
+		$url                 = JUri::base();
+		$product             = RedshopHelperProduct::getProductById($product_id);
 		$redhelper           = redhelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
@@ -5596,7 +5576,7 @@ class productHelper
 		$mainImageResponse   = '';
 		$productmainimg      = '';
 		$Arrreturn           = array();
-		$product             = $this->getProductById($product_id);
+		$product             = RedshopHelperProduct::getProductById($product_id);
 		$type                = '';
 		$pr_number           = $product->product_number;
 		$attrbimg            = '';
@@ -5634,7 +5614,7 @@ class productHelper
 
 		if ($property_id > 0)
 		{
-			$property  = $this->getAttibuteProperty($property_id);
+			$property  = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
 			$pr_number = $property[0]->property_number;
 
 			if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "property/"
@@ -5654,7 +5634,7 @@ class productHelper
 
 		if ($subproperty_id > 0)
 		{
-			$subproperty = $this->getAttibuteSubProperty($subproperty_id);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($subproperty_id);
 			$pr_number   = $subproperty[0]->subattribute_color_number;
 			//Display Sub-Property Number
 			if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/"
@@ -5797,7 +5777,6 @@ class productHelper
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
 		$extra_field      = extraField::getInstance();
-		$redTemplate      = Redtemplate::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = \Redshop\Template\Helper::getRelatedProduct($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
@@ -5941,10 +5920,10 @@ class productHelper
 
 					if ($related_product [$r]->attribute_set_id > 0)
 					{
-						$attributes_set = $this->getProductAttribute(0, $related_product [$r]->attribute_set_id);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product [$r]->attribute_set_id);
 					}
 
-					$attributes = $this->getProductAttribute($relid);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
 					$attributes = array_merge($attributes, $attributes_set);
 
 					$related_template_data = $this->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
@@ -5986,10 +5965,10 @@ class productHelper
 
 						if ($related_product[$r]->attribute_set_id > 0)
 						{
-							$attributes_set = $this->getProductAttribute(0, $related_product[$r]->attribute_set_id, 0, 1);
+							$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product[$r]->attribute_set_id, 0, 1);
 						}
 
-						$attributes = $this->getProductAttribute($related_product[$r]->product_id);
+						$attributes = RedshopHelperProduct_Attribute::getProductAttribute($related_product[$r]->product_id);
 						$attributes = array_merge($attributes, $attributes_set);
 					}
 
@@ -6045,7 +6024,7 @@ class productHelper
 	public function replaceAttributePriceList($id, $templatedata)
 	{
 		$output     = "";
-		$attributes = $this->getProductAttribute($id, 0, 0, 1);
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($id, 0, 0, 1);
 
 		$k = 0;
 
@@ -6054,7 +6033,7 @@ class productHelper
 			$attribute      = $attributes[$i];
 			$attribute_name = $attribute->text;
 			$attribute_id   = $attribute->value;
-			$propertys      = $this->getAttibuteProperty(0, $attribute_id);
+			$propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
 
 			for ($p = 0, $pn = count($propertys); $p < $pn; $p++)
 			{
@@ -6063,12 +6042,12 @@ class productHelper
 				$property_id             = $property->value;
 				$property_name           = $property->text;
 				$proprty_price           = $property->property_price;
-				$property_formated_price = $this->getProductFormattedPrice($proprty_price);
+				$property_formated_price = RedshopHelperProductPrice::formattedPrice($proprty_price);
 				$proprty_oprand          = $property->oprand;
 
 				$output .= '<div class="related_plist_property_name' . $k . '">' . $property_formated_price . '</div>';
 
-				$subpropertys = $this->getAttibuteSubProperty(0, $property_id);
+				$subpropertys = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
 
 				for ($s = 0, $sn = count($subpropertys); $s < $sn; $s++)
 				{
@@ -6106,7 +6085,6 @@ class productHelper
 
 	public function removeOutofstockProduct($products)
 	{
-		$stockroomhelper = rsstockroomhelper::getInstance();
 		$filter_products = array();
 
 		for ($s = 0, $sn = count($products); $s < $sn; $s++)
@@ -6118,10 +6096,10 @@ class productHelper
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributes_set = $this->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
 
-			$attributes   = $this->getProductAttribute($product->product_id);
+			$attributes   = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 			$attributes   = array_merge($attributes, $attributes_set);
 			$totalatt     = count($attributes);
 			$stock_amount = RedshopHelperStockroom::getFinalStockofProduct($pid, $totalatt);
@@ -6137,8 +6115,7 @@ class productHelper
 
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$stockroomhelper            = rsstockroomhelper::getInstance();
-		$producDetail               = $this->getProductById($product_id);
+		$producDetail               = RedshopHelperProduct::getProductById($product_id);
 		$product_preorder           = trim($producDetail->preorder);
 		$rsltdata                   = array();
 		$rsltdata['preorder']       = 0;

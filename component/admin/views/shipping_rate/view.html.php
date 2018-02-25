@@ -16,10 +16,8 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
 	{
 		$context = 'shipping_rate';
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 		$app = JFactory::getApplication();
-
-		$shippinghelper = shipping::getInstance();
 
 		$lists['order']     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
 		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

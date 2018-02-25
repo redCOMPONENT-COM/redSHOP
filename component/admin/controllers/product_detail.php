@@ -191,8 +191,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 				RedshopEconomic::createProductInEconomic($row);
 			}
 
-			$field = extra_field::getInstance();
-
 			// Field_section 1 :Product
 			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
 

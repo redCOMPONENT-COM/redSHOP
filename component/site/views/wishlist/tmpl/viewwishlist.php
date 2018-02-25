@@ -170,7 +170,6 @@ function display_products($rows)
 {
 	$session       = JFactory::getSession();
 	$producthelper = productHelper::getInstance();
-	$redTemplate   = Redtemplate::getInstance();
 	$template      = RedshopHelperTemplate::getTemplate("wishlist_template");
 
 	if (count($template) <= 0)

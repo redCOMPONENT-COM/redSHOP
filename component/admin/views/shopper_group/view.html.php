@@ -10,14 +10,11 @@
 defined('_JEXEC') or die;
 
 
-
 class RedshopViewShopper_group extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
 		global $context;
-
-		$shoppergroup = new shoppergroup;
 
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();

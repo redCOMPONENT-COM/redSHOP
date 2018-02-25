@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * Order Detail Controller.
  *
@@ -18,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerOrder_detail extends RedshopController
+class RedshopControllerOrder_Detail extends RedshopController
 {
 	/**
 	 * Constructor
@@ -165,7 +163,6 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$request = $this->input->getArray();
 		$Itemid  = $this->input->getInt('Itemid');
-		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = RedshopHelperUtility::getDispatcher();

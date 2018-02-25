@@ -112,8 +112,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function _initData()
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
 		if (empty($this->_data))
 		{
 			$detail                      = new stdClass;
@@ -272,8 +270,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function deleteitem($cids = 0, $quotation_id = 0)
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
 		$this->_db->setQuery($query);
@@ -368,10 +364,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 	// Add new Quotation Item
 	public function newQuotationItem($data)
 	{
-		$quotationHelper = quotationHelper::getInstance();
 		$rsCarthelper    = rsCarthelper::getInstance();
 		$producthelper   = productHelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
 		$item            = $data['quotation_item'];
 
 		// Get Order Info
@@ -634,7 +628,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 						$property_id = $propArr[$k]['property_id'];
 
 						/** product property STOCKROOM update start */
-						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($property_id, $qitemdata->product_quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $qitemdata->product_quantity, "property");
 
 						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;

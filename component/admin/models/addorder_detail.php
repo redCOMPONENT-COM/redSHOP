@@ -56,7 +56,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$this->_data = RedshopHelperOrder::getOrderDetail($this->_id);
+			$this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
 
 			return (boolean) $this->_data;
 		}
@@ -235,11 +235,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function store($postdata)
 	{
-		$order_functions    = order_functions::getInstance();
-		$producthelper      = productHelper::getInstance();
-		$rsCarthelper       = rsCarthelper::getInstance();
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$stockroomhelper    = rsstockroomhelper::getInstance();
+		$order_functions = order_functions::getInstance();
+		$producthelper   = productHelper::getInstance();
+		$rsCarthelper    = rsCarthelper::getInstance();
 
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
@@ -598,7 +596,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
-						$updatestock = RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;

@@ -34,7 +34,7 @@ JPluginHelper::importPlugin('redshop_product');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('getStockroomStatus', array($order_id));
 
-$order = RedshopHelperOrder::getOrderDetail($order_id);
+$order = RedshopEntityOrder::getInstance($order_id)->getItem();
 
 // Add Plugin support
 $dispatcher->trigger('afterOrderPlace', array($cart, $order));

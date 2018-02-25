@@ -26,6 +26,7 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 		$lists = array();
 		$uri   = JFactory::getURI();
 
+		/** @var RedshopModelStockroom_detail $model */
 		$model = $this->getModel('stockroom_detail');
 
 		if ($layout == 'importstock')
@@ -63,12 +64,8 @@ class RedshopViewStockroom_detail extends RedshopViewAdmin
 				JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 			}
 
-			// Get data from the model
-			$model = $this->getModel('stockroom_detail');
-
-			$lists['show_in_front'] = JHTML::_('select.booleanlist', 'show_in_front', 'class="inputbox"', $detail->show_in_front);
-
-			$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+			$lists['show_in_front'] = JHtml::_('select.booleanlist', 'show_in_front', 'class="inputbox"', $detail->show_in_front);
+			$lists['published']     = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 			$delivery_time           = array();
 			$delivery_time['value']  = "days";

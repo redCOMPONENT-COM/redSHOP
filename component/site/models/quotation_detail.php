@@ -44,14 +44,10 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function addtocart($data = array())
 	{
-		$app     = JFactory::getApplication();
-		$Itemid  = $app->input->get("Itemid");
 		$session = JFactory::getSession();
-		$db      = JFactory::getDbo();
 
 		$carthelper      = rsCarthelper::getInstance();
 		$producthelper   = productHelper::getInstance();
-		$quotationHelper = quotationHelper::getInstance();
 
 		$cart = $session->get('cart');
 

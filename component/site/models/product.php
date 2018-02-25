@@ -117,9 +117,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (empty ($this->_template))
+		if (empty($this->_template))
 		{
 			$this->_template = RedshopHelperTemplate::getTemplate("product", $this->_data->product_template);
 			$this->_template = $this->_template[0];
@@ -218,7 +216,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$producthelper = productHelper::getInstance();
-		$redshopMail   = redshopMail::getInstance();
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();

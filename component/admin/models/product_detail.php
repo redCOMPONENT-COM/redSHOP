@@ -1528,8 +1528,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 				}
 
-				$field = extra_field::getInstance();
-
 				// Field_section 1 :Product.
 				RedshopHelperExtrafields::copyProductExtraField($pdata->product_id, $row->product_id);
 

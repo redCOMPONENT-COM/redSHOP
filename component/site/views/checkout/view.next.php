@@ -15,15 +15,12 @@ class RedshopViewCheckout extends RedshopView
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$shippinghelper  = shipping::getInstance();
-		$order_functions = order_functions::getInstance();
-
-		$params  = $app->getParams('com_redshop');
 		$Itemid  = $app->input->getInt('Itemid');
 		$issplit = $app->input->getBool('issplit');
 		$ccinfo  = $app->input->getInt('ccinfo');
 		$task    = $app->input->getCmd('task');
 
+		/** @var RedshopModelCheckout $model */
 		$model   = $this->getModel('checkout');
 		$session = JFactory::getSession();
 

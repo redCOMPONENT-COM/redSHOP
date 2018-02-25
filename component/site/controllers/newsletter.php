@@ -54,8 +54,6 @@ class RedshopControllerNewsletter extends RedshopController
 		}
 		else
 		{
-			$userhelper = rsUserHelper::getInstance();
-
 			if (RedshopHelperNewsletter::subscribe(0, $post, 1))
 			{
 				if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION'))

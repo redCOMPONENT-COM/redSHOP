@@ -102,12 +102,12 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$quotationHelper = quotationHelper::getInstance();
-		$producthelper   = productHelper::getInstance();
-		$rsCarthelper    = rsCarthelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
+		$producthelper = productHelper::getInstance();
+		$rsCarthelper  = rsCarthelper::getInstance();
 
+		/** @var Tableuser_detail $userRow */
 		$userRow = $this->getTable('user_detail');
+
 		$userRow->load($data['user_info_id']);
 		$userRow->firstname    = $data['firstname'];
 		$userRow->lastname     = $data['lastname'];
@@ -195,6 +195,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
 
+			/** @var Tablequotation_item_detail $rowitem */
 			$rowitem = $this->getTable('quotation_item_detail');
 
 			$product = Redshop::product((int) $product_id);

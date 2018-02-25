@@ -17,7 +17,7 @@ $url = JURI::base();
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $order_id = JFactory::getApplication()->input->getInt('oid');
 
-$order     = RedshopHelperOrder::getOrderDetail($order_id);
+$order     = RedshopEntityOrder::getInstance($order_id)->getItem();
 $orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))

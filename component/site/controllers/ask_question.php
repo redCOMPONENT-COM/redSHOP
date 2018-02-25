@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Redshop\Helper\Utility;
-
 defined('_JEXEC') or die;
 
 
@@ -71,7 +69,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 			// Check exists captcha tag in question template form
 			$template = RedshopHelperTemplate::getTemplate('ask_question_template');
 
-			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}') && Utility::checkCaptcha($data, false))
+			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}') && Redshop\Helper\Utility::checkCaptcha($data, false))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
 				$this->setRedirect($link);
@@ -85,7 +83,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		if ($validate === false)
 		{
 			// Get the validation messages.
-			$errors = $model->getErrors();
+			$errors = /** @scrutinizer ignore-deprecated */ $model->getErrors();
 
 			foreach ($errors as $index => $error)
 			{
@@ -122,7 +120,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 			}
 			else
 			{
-				$app->enqueueMessage($model->getError(), 'warning');
+				$app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $model->getError(), 'warning');
 			}
 		}
 

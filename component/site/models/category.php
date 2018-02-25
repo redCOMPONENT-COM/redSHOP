@@ -666,8 +666,6 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$category_template = $this->getState('category_template');
 
-		$redTemplate = Redtemplate::getInstance();
-
 		if ($this->_id)
 		{
 			$selected_template = $this->_maincat->template;

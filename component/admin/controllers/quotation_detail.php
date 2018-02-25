@@ -33,10 +33,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function save($send = 0, $apply = 0)
 	{
-		$quotationHelper = quotationHelper::getInstance();
-		$post            = $this->input->post->getArray();
-		$status          = $post['quotation_status'];
-		$cid             = $this->input->post->get('cid', array(0), 'array');
+		$post   = $this->input->post->getArray();
+		$status = $post['quotation_status'];
+		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		$post['quotation_id'] = $cid [0];
 
@@ -158,6 +157,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$qitemid = $this->input->getInt('qitemid', 0);
 		$cid     = $this->input->get('cid', array(0), 'array');
 
+		/** @var RedshopModelQuotation_detail $model */
 		$model = $this->getModel('quotation_detail');
 
 		if (!$model->deleteitem($qitemid, $cid[0]))
@@ -177,11 +177,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function newQuotationItem()
 	{
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$post               = $this->input->post->getArray();
+		$post = $this->input->post->getArray();
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
+		/** @var RedshopModelQuotation_detail $model */
 		$model = $this->getModel('quotation_detail');
 
 		$quotationItem = Redshop\Order\Helper::redesignProductItem($post);
@@ -202,7 +202,6 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function getQuotationPriceTax()
 	{
-		$producthelper = productHelper::getInstance();
 		$get           = $this->input->get->getArray();
 		$product_id    = $get['product_id'];
 		$user_id       = $get['user_id'];
@@ -211,7 +210,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		if ($newprice > 0)
 		{
-			$vatprice = $producthelper->getProductTax($product_id, $newprice, $user_id);
+			$vatprice = RedshopHelperProduct::getProductTax($product_id, $newprice, $user_id);
 		}
 
 		echo '<div id="newtax">' . $vatprice . '</div>';

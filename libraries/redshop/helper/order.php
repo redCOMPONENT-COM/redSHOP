@@ -628,7 +628,7 @@ class RedshopHelperOrder
 		$paymentMethod   = $paymentMethod[0];
 
 		// Getting the order details
-		$orderDetail        = self::getOrderDetail($orderId);
+		$orderDetail        = RedshopEntityOrder::getInstance($orderId)->getItem();
 		$paymentParams      = new Registry($paymentMethod->params);
 		$orderStatusCapture = $paymentParams->get('capture_status', '');
 		$orderStatusCode    = $orderStatusCapture;
@@ -2384,9 +2384,6 @@ class RedshopHelperOrder
 	public static function changeOrderStatusMail($orderId, $newStatus, $orderComment = '')
 	{
 		$app = JFactory::getApplication();
-
-		$cartHelper      = rsCarthelper::getInstance();
-		$redshopMail     = redshopMail::getInstance();
 
 		// Changes to parse all tags same as order mail end
 		$userDetail = self::getOrderBillingUserInfo($orderId);

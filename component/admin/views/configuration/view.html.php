@@ -38,7 +38,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
 		/** @var RedshopModelConfiguration $model */
 		$model         = $this->getModel('configuration');
@@ -46,11 +47,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$this->config = $model->getData();
 
-		$redhelper   = redhelper::getInstance();
-		$config      = Redconfiguration::getInstance();
-		$extra_field = extra_field::getInstance();
-		$userhelper  = rsUserHelper::getInstance();
-		$lists       = array();
+		$config = Redconfiguration::getInstance();
+		$lists  = array();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages(true);
@@ -607,7 +605,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$this->config->get('SHIPPING_AFTER', 'total'),
 			JText::_('COM_REDSHOP_TOTAL'),
 			JText::_('COM_REDSHOP_SUBTOTAL_LBL'),
-			'',
+			false,
 			'total',
 			'subtotal'
 		);
@@ -618,7 +616,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$this->config->get('PAYMENT_CALCULATION_ON', 'total'),
 			JText::_('COM_REDSHOP_TOTAL'),
 			JText::_('COM_REDSHOP_SUBTOTAL_LBL'),
-			'',
+			false,
 			'total',
 			'subtotal'
 		);
@@ -629,7 +627,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$this->config->get('CALCULATE_VAT_ON', 'BT'),
 			JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),
 			JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'),
-			'',
+			false,
 			'BT',
 			'ST'
 		);

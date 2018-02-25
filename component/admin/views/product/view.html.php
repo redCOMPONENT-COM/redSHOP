@@ -65,7 +65,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$context = 'product_id';
 
 		$GLOBALS['productlist'] = array();
-		$adminproducthelper     = RedshopAdminProduct::getInstance();
 
 		$list_in_products = RedshopHelperExtrafields::listAllFieldInProduct();
 

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-
 /**
  * Quotation Detail Controller.
  *
@@ -28,14 +27,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function updatestatus()
 	{
-		$post   = $this->input->post->getArray();
+		$post = $this->input->post->getArray();
 
 		$Itemid = $this->input->get('Itemid');
 		$encr   = $this->input->get('encr');
-		$model = $this->getModel('quotation_detail');
-
-		$quotationHelper = quotationHelper::getInstance();
-		$redshopMail     = redshopMail::getInstance();
+		$model  = $this->getModel('quotation_detail');
 
 		// Update Status
 		RedshopHelperQuotation::updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
@@ -43,7 +39,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		// Add Customer Note
 		$model->addQuotationCustomerNote($post);
 
-		$mailbool = Redshop\Mail\Quotation::sendMail($post['quotation_id'], $post['quotation_status']);
+		Redshop\Mail\Quotation::sendMail($post['quotation_id'], $post['quotation_status']);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
@@ -55,19 +51,18 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 *
 	 * @access public
 	 * @return void
+	 * @throws  Exception
 	 */
 	public function checkout()
 	{
-
 		$Itemid = $this->input->get('Itemid');
 		$post   = $this->input->post->getArray();
 		$encr   = $this->input->get('encr');
 
-		$quotationHelper = quotationHelper::getInstance();
-		$model           = $this->getModel('quotation_detail');
-		$session         = JFactory::getSession();
+		$model   = $this->getModel('quotation_detail');
+		$session = JFactory::getSession();
 
-		$cart = array();
+		$cart        = array();
 		$cart['idx'] = 0;
 		RedshopHelperCartSession::setCart($cart);
 
@@ -80,7 +75,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$cart = $session->get('cart');
 
-		$quotationDetail = RedshopHelperQuotation::getQuotationDetail($post['quotation_id']);
+		$quotationDetail       = RedshopHelperQuotation::getQuotationDetail($post['quotation_id']);
 		$cart['customer_note'] = $quotationDetail->quotation_note;
 		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;

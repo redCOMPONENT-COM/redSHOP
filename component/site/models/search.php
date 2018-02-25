@@ -1480,7 +1480,6 @@ class RedshopModelSearch extends RedshopModel
 		$limit      = $this->getState('list.limit');
 		$templateId = $this->getState('template_id');
 
-		$redTemplate  = Redtemplate::getInstance();
 		$templateArr  = RedshopHelperTemplate::getTemplate("category", $templateId);
 		$templateDesc = $templateArr[0]->template_desc;
 

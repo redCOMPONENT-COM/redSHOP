@@ -439,8 +439,6 @@ class RedshopModelAccount extends RedshopModel
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = redshopMail::getInstance();
-
 		$wishlist_id = JFactory::getApplication()->input->getInt('wishlist_id');
 		$emailto     = $post['emailto'];
 		$sender      = $post['sender'];
