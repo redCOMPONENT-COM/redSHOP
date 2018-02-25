@@ -154,10 +154,10 @@ abstract class RedshopHelperProduct_Attribute
 	/**
 	 * Method for get property price with discount
 	 *
-	 * @param   int     $sectionId Section ID
-	 * @param   string  $quantity  Quantity
-	 * @param   string  $section   Section
-	 * @param   integer $userId    User ID
+	 * @param   integer  $sectionId  Section ID
+	 * @param   string   $quantity   Quantity
+	 * @param   string   $section    Section
+	 * @param   integer  $userId     User ID
 	 *
 	 * @return  object
 	 *

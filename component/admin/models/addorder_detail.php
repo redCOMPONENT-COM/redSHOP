@@ -147,7 +147,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
-		$userhelper            = rsUserHelper::getInstance();
 		$data['address_type']  = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
 		$data['user_email']    = $data['email1'] = $data['email'];
@@ -221,7 +220,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$data['phone_ST'] = $data['phone'];
 				}
 
-				$rowsh = $userhelper->storeRedshopUserShipping($data);
+				$rowsh = RedshopHelperUser::storeRedshopUserShipping($data);
 
 				return $rowsh;
 			}
@@ -317,7 +316,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$product_price      = $item[$i]->productprice;
 
 			// Attribute price added
-			$generateAttributeCart = $rsCarthelper->generateAttributeArray((array) $item[$i], $user_id);
+			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
 			$retAttArr             = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 

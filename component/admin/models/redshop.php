@@ -284,6 +284,7 @@ class RedshopModelRedshop extends RedshopModel
 
 		if (JFile::exists($file))
 		{
+			RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1');
 			JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1/redweb-logo.jpg');
 		}
 
@@ -291,6 +292,7 @@ class RedshopModelRedshop extends RedshopModel
 
 		if (JFile::exists($file))
 		{
+			RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2');
 			JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2/redhost-logo.jpg');
 		}
 
@@ -298,6 +300,7 @@ class RedshopModelRedshop extends RedshopModel
 
 		if (JFile::exists($file))
 		{
+			RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3');
 			JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3/redcomponent-logo.jpg');
 		}
 	}
