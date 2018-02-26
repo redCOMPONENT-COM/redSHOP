@@ -112,7 +112,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query = $db->getQuery(true)
 				->select($db->qn("manufacturer_id"))
 				->from($db->qn('#__redshop_manufacturer'))
-				->where($db->qn('manufacturer_name') . ' = ' . $db->quote($data['manufacturer_name']));
+				->where($db->qn('name') . ' = ' . $db->quote($data['manufacturer_name']));
 
 			$manufacturerId = (int) $db->setQuery($query)->loadResult();
 
@@ -124,11 +124,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-				$manufacturer                    = RedshopTable::getInstance('Manufacturer', 'RedshopTable');
-				$manufacturer->manufacturer_name = $data['manufacturer_name'];
-				$manufacturer->published         = 1;
+				/** @var RedshopTableManufacturer $manufacturer */
+				$manufacturer            = RedshopTable::getInstance('Manufacturer', 'RedshopTable');
+				$manufacturer->name      = $data['manufacturer_name'];
+				$manufacturer->published = 1;
 				$manufacturer->store();
-				$data['manufacturer_id'] = $manufacturer->manufacturer_id;
+				$data['manufacturer_id'] = $manufacturer->id;
 			}
 		}
 
@@ -1168,7 +1169,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if ($hasPropertyName)
 		{
 			// Get Property ID
-			$query = $db->getQuery(true)
+			$query      = $db->getQuery(true)
 				->select($db->qn('property_id'))
 				->from($db->qn('#__redshop_product_attribute_property'))
 				->where($db->qn('attribute_id') . ' = ' . $db->quote($attributeId))
@@ -1373,7 +1374,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if ($hasSubPropertyName)
 		{
 			// Get Sub-property ID
-			$query         = $db->getQuery(true)
+			$query = $db->getQuery(true)
 				->select($db->qn('subattribute_color_id'))
 				->from($db->qn('#__redshop_product_subattribute_color'))
 				->where($db->qn('subattribute_id') . ' = ' . $db->quote($propertyId))

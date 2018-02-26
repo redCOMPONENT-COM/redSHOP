@@ -35,7 +35,8 @@ class RedshopModelManufacturers extends RedshopModelList
 				'amount', 'm.amount',
 				'start_date', 'm.start_date',
 				'end_date', 'm.end_date',
-				'name', 'm.name'
+				'name', 'm.name',
+				'ordering', 'm.ordering'
 			);
 		}
 

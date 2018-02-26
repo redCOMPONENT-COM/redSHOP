@@ -618,12 +618,12 @@ class RedshopViewSearch extends RedshopView
 				/*
 				 * manufacturer data
 				 */
-				$manufacturer_id = $this->search[$i]->manufacturer_id;
+				$manufacturer_id = $this->search[$i]->id;
 
 				if ($manufacturer_id != 0)
 				{
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name      = $this->search[$i]->manufacturer_name;
+					$manufacturer_name      = $this->search[$i]->name;
 					$manufacturer_link      = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
 
 					if (strstr($data_add, "{manufacturer_link}"))

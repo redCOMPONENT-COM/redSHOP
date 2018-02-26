@@ -33,6 +33,11 @@ class RedshopTableMedia extends RedshopTable
 	protected $_tableKey = 'media_id';
 
 	/**
+	 * @var integer
+	 */
+	public $media_id;
+
+	/**
 	 * @var string
 	 */
 	public $media_name = '';

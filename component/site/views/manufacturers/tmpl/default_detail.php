@@ -27,11 +27,11 @@ for ($i = 0; $i < count($this->detail); $i++)
 {
 	if ($this->detail[$i]->manufacturer_id == $mid)
 	{
-		$link              = JRoute::_('index.php?option=com_redshop&view=manufacturer_products&mid=' . $this->detail[$i]->manufacturer_id . '&Itemid=' . $Itemid);
-		$manufacturer_name = "<a href='" . $link . "'>" . $this->detail[$i]->manufacturer_name . "</a>";
+		$link              = JRoute::_('index.php?option=com_redshop&view=manufacturer_products&mid=' . $this->detail[$i]->id . '&Itemid=' . $Itemid);
+		$manufacturer_name = "<a href='" . $link . "'>" . $this->detail[$i]->name . "</a>";
 
 		$manufacturers_data = str_replace("{manufacturer_name}", $manufacturer_name, $manufacturerTemplate);
-		$manufacturers_data = str_replace("{manufacturer_description}", $this->detail[$i]->manufacturer_desc, $manufacturers_data);
+		$manufacturers_data = str_replace("{manufacturer_description}", $this->detail[$i]->description, $manufacturers_data);
 		echo "<div style='float:left;'>";
 
 		$manufacturers_data = RedshopHelperTemplate::parseRedshopPlugin($manufacturers_data);

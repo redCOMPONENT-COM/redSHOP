@@ -4,7 +4,7 @@
         <field
                 name="id"
                 type="hidden"
-                />
+        />
         <field
                 name="name"
                 type="redshop.text"
@@ -17,7 +17,41 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
-                />
+        />
+        <field
+                name="template_id"
+                type="redshop.template"
+                label="COM_REDSHOP_MANUFACTURER_TEMPLATE"
+                description="COM_REDSHOP_MANUFACTURER_TEMPLATE_DESC"
+                section="manufacturer_products"
+                class="form-control"
+                default=""
+                required="true"
+                table-hide="1">
+            <option value="">COM_REDSHOP_MANUFACTURER_TEMPLATE_OPTION_SELECT</option>
+        </field>
+        <field
+                name="media"
+                type="redshop.media"
+                label="COM_REDSHOP_MANUFACTURER_IMAGE"
+                description="COM_REDSHOP_MANUFACTURER_IMAGE_DESC"
+                table-sortable="0"
+                table-inline="0"
+                table-edit-link="0"
+                table-width="10%"
+                media-dom="manufacturer_image"
+                media-alternate="1"
+                media-type="manufacturer"
+                media-section="manufacturer"
+                media-gallery="0"
+                media-newMediaPath="1"
+        />
+        <field
+                name="excluding_category_list"
+                type="hidden"
+                label="COM_REDSHOP_MANUFACTURER_EXCLUDING_CATEGORY_LIST"
+                description="COM_REDSHOP_MANUFACTURER_EXCLUDING_CATEGORY_LIST_DESC"
+        />
         <field
                 name="email"
                 type="redshop.text"
@@ -38,29 +72,20 @@
                 description="COM_REDSHOP_MANUFACTURER_URL_DESC"
                 placeholder="COM_REDSHOP_MANUFACTURER_URL_DESC"
                 class="form-control"
+                validate="url"
                 default=""
                 table-hide="1"
         />
         <field
                 name="product_per_page"
                 type="number"
-                label="COM_REDSHOP_PRODUCT_PER_PAGE"
-                description="COM_REDSHOP_PRODUCT_PER_PAGE_DESC"
-                placeholder="COM_REDSHOP_PRODUCT_PER_PAGE_DESC"
+                label="COM_REDSHOP_MANUFACTURER_PRODUCT_PER_PAGE"
+                description="COM_REDSHOP_MANUFACTURER_PRODUCT_PER_PAGE_DESC"
+                placeholder="COM_REDSHOP_MANUFACTURER_PRODUCT_PER_PAGE_DESC"
                 class="form-control"
-                validate="integer"
+                validate="number"
                 default="12"
                 table-hide="1"
-        />
-        <field
-                name="description"
-                type="editor"
-                label="COM_REDSHOP_MANUFACTURER_DESCRIPTION"
-                description="COM_REDSHOP_MANUFACTURER_DESCRIPTION_DESC"
-                width="300"
-                filter="safehtml"
-                table-sortable="1"
-                table-width="20%"
         />
         <field
                 name="published"
@@ -74,6 +99,16 @@
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
+        <field
+                name="description"
+                type="editor"
+                label="COM_REDSHOP_MANUFACTURER_DESCRIPTION"
+                description="COM_REDSHOP_MANUFACTURER_DESCRIPTION_DESC"
+                width="300"
+                filter="safehtml"
+                table-sortable="1"
+                table-width="20%"
+        />
     </fieldset>
     <fieldset name="seo">
         <field
@@ -149,5 +184,7 @@
                 table-hide="1"
                 rows="4"
         />
+    </fieldset>
+    <fieldset name="fields">
     </fieldset>
 </form>

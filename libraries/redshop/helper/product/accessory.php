@@ -261,7 +261,7 @@ class RedshopHelperProductAccessory
 
 						$manufacturerLink = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>"
 							. JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-						$accessoryWrapper = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $accessoryWrapper);
+						$accessoryWrapper = str_replace("{manufacturer_name}", $manufacturer->name, $accessoryWrapper);
 						$accessoryWrapper = str_replace("{manufacturer_link}", $manufacturerLink, $accessoryWrapper);
 					}
 					else

@@ -263,7 +263,7 @@ class RedshopModelRedshop extends RedshopModel
 		$db = JFactory::getDbo();
 
 		// Insert manufacturer data
-		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
+		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`id`, `name`, `description`, `email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
 						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, ''),
 						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
 						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '')";
