@@ -299,7 +299,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 		}
 
-		$result = $this->_carthelper->addProductToCart($row);
+		$result = Redshop\Cart\Cart::addProduct($row);
 
 		if (is_bool($result) && $result)
 		{

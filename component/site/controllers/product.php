@@ -40,7 +40,7 @@ class RedshopControllerProduct extends RedshopController
 		// Article frontpage Editor product proxying:
 		if ($this->input->get('layout') === 'element')
 		{
-			JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
+			JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 
@@ -94,7 +94,7 @@ class RedshopControllerProduct extends RedshopController
 		$data['acc_subproperty_data'] = str_replace("::", "##", $get['acc_subproperty_data']);
 		$data['quantity']             = $quantity;
 
-		$cartdata  = $carthelper->generateAttributeArray($data);
+		$cartdata  = Redshop\Cart\Helper::generateAttribute($data);
 		$retAttArr = $producthelper->makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
 
 		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);

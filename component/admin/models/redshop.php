@@ -86,21 +86,14 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
-						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, ''),
-						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
-						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '')";
-		$db->setQuery($query);
-		$db->execute();
+		// Insert demo manufacturers
+		$this->demoManufacturers();
 
 		$query = "INSERT IGNORE INTO `#__redshop_media`
 			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
 			VALUES (16, '1262876429_redEVENT-box.jpg', 'product', 1, 'images', 'image/jpeg', 1, ''),
 			(20, '1262876675_redVMPRODUCTFINDER-box.jpg', 'product', 5, 'images', 'image/jpeg', 1, ''),
 			(23, '1262876737_redVMMASSCART-box.jpg', 'product', 8, 'images', 'image/jpeg', 1, ''),
-			(33, '1274444752_redweb-logo.jpg', 'manufacturer', 1, 'images', '', 1, 'redweb.dk'),
-			(34, '1274444735_redhost-logo.jpg', 'manufacturer', 2, 'images', '', 1, 'redhost.dk'),
-			(35, '1274444723_redcomponent-logo.jpg', 'manufacturer', 3, 'images', '', 1, 'redcomponent.com'),
 			(45, '1421054444_bakery-demo-400-400.jpg', 'product', 10, 'images', 'image/jpeg', 1, ''),
 			(46, '1421054762_carpenter-demo-400-400.jpg', 'product', 11, 'images', 'image/jpeg', 1, ''),
 			(47, '1421055027_fashionstore-demo-400-400.jpg', 'product', 8, 'images', 'image/jpeg', 1, ''),
@@ -258,6 +251,58 @@ class RedshopModelRedshop extends RedshopModel
 		$db->setQuery($query)->execute();
 
 		return true;
+	}
+
+	/**
+	 * Method for insert demo Manufacturers
+	 *
+	 * @return void
+	 */
+	private function demoManufacturers()
+	{
+		$db = JFactory::getDbo();
+
+		// Insert manufacturer data
+		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
+						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, ''),
+						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
+						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '')";
+		$db->setQuery($query);
+		$db->execute();
+
+		// Insert media
+		$query = "INSERT IGNORE INTO `#__redshop_media`
+			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
+			VALUES (33, 'redweb-logo.jpg', 'manufacturer', 1, 'images', 'images/jpg', 1, 'redweb.dk'),
+			(34, 'redhost-logo.jpg', 'manufacturer', 2, 'images', 'images/jpg', 1, 'redhost.dk'),
+			(35, 'redcomponent-logo.jpg', 'manufacturer', 3, 'images', 'images/jpg', 1, 'redcomponent.com')";
+		$db->setQuery($query);
+		$db->execute();
+
+		// Copy files
+		$file = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redweb-logo.jpg');
+
+		if (JFile::exists($file))
+		{
+			RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1');
+			JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1/redweb-logo.jpg');
+		}
+
+		$file = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redhost-logo.jpg');
+
+		if (JFile::exists($file))
+		{
+			RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2');
+			JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2/redhost-logo.jpg');
+		}
+
+		$file = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redcomponent-logo.jpg');
+
+		if (JFile::exists($file))
+		{
+			RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3');
+			JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3/redcomponent-logo.jpg');
+		}
 	}
 
 	/**

@@ -19,6 +19,7 @@ $redTemplate   = Redtemplate::getInstance();
 
 $url    = JURI::base();
 
+/** @var RedshopModelCategory $model */
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
 
@@ -85,7 +86,7 @@ $template_desc = str_replace("{category_frontpage_introtext}", Redshop::getConfi
 if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($template_desc, "{category_frontpage_loop_end}"))
 {
 	$cattemplate_desc = explode('{category_frontpage_loop_start}', $template_desc);
-	$catheader        = $cattemplate_desc [0];
+	$catheader        = $cattemplate_desc[0];
 
 	$cattemplate_desc    = explode('{category_frontpage_loop_end}', $cattemplate_desc [1]);
 	$middletemplate_desc = $cattemplate_desc[0];
@@ -158,35 +159,12 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->id . '&layout=detail&Itemid=' . $tmpItemid);
 
-		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $row->name . "' ";
-		$alt         = " alt='" . $row->name . "' ";
-		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
-		$linkimage   = $product_img;
-
-		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
-		{
-			$product_img = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
-		}
-		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
-		{
-			$product_img = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
-		}
-
-		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
-		{
-			$cat_thumb = "<a class='modal' href='" . $linkimage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
-		}
-		else
-		{
-			$cat_thumb = "<a href='" . $link . "' " . $title . ">";
-		}
-
-		$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
-		$cat_thumb .= "</a>";
-		$data_add = str_replace($tag, $cat_thumb, $data_add);
+		// New tags replacement for category template section
+		$data_add = RedshopTagsReplacer::_(
+			'category',
+			$data_add,
+			array('category' => $row, 'itemId' => $tmpItemid)
+		);
 
 		if (strstr($data_add, '{category_name}'))
 		{
@@ -266,7 +244,7 @@ if (strstr($template_desc, "{show_all_products_in_category}"))
 	$template_desc = str_replace("{pagination}", "", $template_desc);
 }
 
-if (strstr($template_desc, "{pagination}"))
+if (strpos($template_desc, "{pagination}") !== false)
 {
 	$pagination    = $model->getCategoryPagination();
 	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);

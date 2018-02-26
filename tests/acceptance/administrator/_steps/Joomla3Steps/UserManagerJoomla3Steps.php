@@ -154,6 +154,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->acceptPopup();
                 break;
             case 'readyUser':
+                $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);

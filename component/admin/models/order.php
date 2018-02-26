@@ -281,7 +281,13 @@ class RedshopModelOrder extends RedshopModel
 		ob_clean();
 
 		// Start the output
-		$outputCsv  = fopen('php://output', 'w');
+		$outputCsv = fopen('php://output', 'w');
+
+		if ($outputCsv === false)
+		{
+			JFactory::getApplication()->close();
+		}
+
 		$ordersInfo = $this->getOrdersDetail($cid);
 
 		foreach ($ordersInfo as $order)
@@ -302,6 +308,14 @@ class RedshopModelOrder extends RedshopModel
 			{
 				$weight       = (float) $this->getProductWeight($orderProduct->product_id);
 				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
+			}
+
+			$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+
+			if ($unitRatio != 0)
+			{
+				// Converting weight in kg
+				$totalWeight = $totalWeight * $unitRatio;
 			}
 
 			$parcelType     = 'A';
@@ -343,8 +357,15 @@ class RedshopModelOrder extends RedshopModel
 
 			$row = array_map('utf8_decode', array_merge($row, $userDetail));
 
+			foreach ($row as &$column)
+			{
+				$column = '"' . $column . '"';
+			}
+
+			unset($column);
+
 			// Output CSV line
-			fputcsv($outputCsv, $row);
+			fputcsv($outputCsv, $row, ",", " ");
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
@@ -367,7 +388,13 @@ class RedshopModelOrder extends RedshopModel
 		ob_clean();
 
 		// Start the ouput
-		$outputCsv  = fopen('php://output', 'w');
+		$outputCsv = fopen('php://output', 'w');
+
+		if ($outputCsv === false)
+		{
+			JFactory::getApplication()->close();
+		}
+
 		$ordersInfo = $this->getOrdersDetail($cid);
 
 		foreach ($ordersInfo as $order)
@@ -388,6 +415,14 @@ class RedshopModelOrder extends RedshopModel
 			{
 				$weight       = (float) $this->getProductWeight($orderProduct->product_id);
 				$totalWeight += ($weight * (float) $orderProduct->product_quantity);
+			}
+
+			$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+
+			if ($unitRatio != 0)
+			{
+				// Converting weight in kg
+				$totalWeight = $totalWeight * $unitRatio;
 			}
 
 			// Initialize row
@@ -425,15 +460,17 @@ class RedshopModelOrder extends RedshopModel
 				$shippingDetails->get('phone')
 			);
 
-			$row = array_merge($row, $extraInfo, $rowAppend);
+			$row = array_map('utf8_decode', array_merge($row, $extraInfo, $rowAppend));
 
-			foreach ($row as $key => $value)
+			foreach ($row as &$column)
 			{
-				$row[$key] = utf8_decode($value);
+				$column = '"' . $column . '"';
 			}
 
+			unset($column);
+
 			// Output CSV line
-			fputcsv($outputCsv, $row);
+			fputcsv($outputCsv, $row, ",", " ");
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
@@ -454,7 +491,7 @@ class RedshopModelOrder extends RedshopModel
 	{
 		$orderIds = Joomla\Utilities\ArrayHelper::toInteger($orderIds);
 
-		// Initialiase variables.
+		// Init variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')

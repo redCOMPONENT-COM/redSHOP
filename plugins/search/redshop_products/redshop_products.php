@@ -53,6 +53,7 @@ class PlgSearchRedshop_Products extends JPlugin
 	 * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
 	 *
 	 * @return  array  Search results.
+	 * @throws  Exception
 	 *
 	 * @since   1.6
 	 */
@@ -111,9 +112,10 @@ class PlgSearchRedshop_Products extends JPlugin
 				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
 				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery . ')';
 
-				$wheres = array();
-				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
-				$wheres[] = $db->qn('product_number') . ' LIKE ' . $text;
+				$wheres = array(
+					$db->qn('product_name') . ' LIKE ' . $text,
+					$db->qn('product_number') . ' LIKE ' . $text
+				);
 
 				if ($searchShortDesc)
 				{
@@ -137,17 +139,18 @@ class PlgSearchRedshop_Products extends JPlugin
 			case 'all':
 			case 'any':
 			default:
-				$words = explode(' ', $text);
-				$wheres = array();
+				$words    = explode(' ', $text);
+				$wheres   = array();
 				$orsField = array();
 
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 
-					$ors = array();
-					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
-					$ors[] = $db->qn('product_number') . ' LIKE ' . $word;
+					$ors = array(
+						$db->qn('product_name') . ' LIKE ' . $word,
+						$db->qn('product_number') . ' LIKE ' . $word
+					);
 
 					if ($searchShortDesc)
 					{
@@ -179,7 +182,7 @@ class PlgSearchRedshop_Products extends JPlugin
 				break;
 		}
 
-		// Bulding Ordering
+		// Building Ordering
 		switch ($ordering)
 		{
 			case 'oldest':
@@ -219,9 +222,9 @@ class PlgSearchRedshop_Products extends JPlugin
 		{
 			$rows = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (Exception $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 
 		$return = array();
@@ -230,7 +233,6 @@ class PlgSearchRedshop_Products extends JPlugin
 		{
 			$itemId    = RedshopHelperRouter::getItemId($row->product_id, $row->cat_in_sefurl);
 			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $itemId;
-
 			$return[]  = $row;
 		}
 

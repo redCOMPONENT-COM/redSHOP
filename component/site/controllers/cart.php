@@ -49,7 +49,6 @@ class RedshopControllerCart extends RedshopController
 		$parentAccessoryProductId = $post['product_id'];
 
 		$productHelper = productHelper::getInstance();
-		$rsCartHelper  = rsCarthelper::getInstance();
 		$Itemid        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session
@@ -59,7 +58,7 @@ class RedshopControllerCart extends RedshopController
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
-		$result = $rsCartHelper->addProductToCart($post);
+		$result = Redshop\Cart\Cart::addProduct($post);
 
 		if (!is_bool($result) || (is_bool($result) && !$result))
 		{
@@ -134,7 +133,7 @@ class RedshopControllerCart extends RedshopController
 						$cartData['subproperty_data']            = $acc_subproperty_data[$i];
 						$cartData['accessory_id']                = $accessory_data[$i];
 
-						$result = $rsCartHelper->addProductToCart($cartData);
+						$result = Redshop\Cart\Cart::addProduct($cartData);
 
 						$cart = $session->get('cart');
 
