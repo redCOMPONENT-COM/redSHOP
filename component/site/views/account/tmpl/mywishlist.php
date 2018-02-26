@@ -347,7 +347,7 @@ if ($mail == 0)
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
-			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
+			$wishlist_data = Redshop\Product\Stock::replaceInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
 			// Product attribute  Start
 			$totalatt      = count($attributes);

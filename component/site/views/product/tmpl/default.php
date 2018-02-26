@@ -817,7 +817,7 @@ $attribute_template = \Redshop\Template\Helper::getAttribute($template_desc);
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
 
 // Replace product in stock tags
-$template_desc = $producthelper->replaceProductInStock($this->data->product_id, $template_desc, $attributes, $attribute_template);
+$template_desc = Redshop\Product\Stock::replaceInStock($this->data->product_id, $template_desc, $attributes, $attribute_template);
 
 // Product attribute  Start
 $totalatt      = count($attributes);

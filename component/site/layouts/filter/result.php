@@ -772,7 +772,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Check product for not for sale
 		$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
 
-		$dataAdd = $productHelper->replaceProductInStock(
+		$dataAdd = Redshop\Product\Stock::replaceInStock(
 			$product->product_id,
 			$dataAdd,
 			$attributes,

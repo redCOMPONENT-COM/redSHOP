@@ -516,7 +516,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Check product for not for sale.
 				$prddata_add = $producthelper->getProductNotForSaleComment($product, $prddata_add, $attributes);
 
-				$prddata_add = $producthelper->replaceProductInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
+				$prddata_add = Redshop\Product\Stock::replaceInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
 
 				$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
 

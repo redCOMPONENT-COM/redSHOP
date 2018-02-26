@@ -167,7 +167,7 @@ if ($template_middle != "")
 		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
 
 		$attribute_template = \Redshop\Template\Helper::getAttribute($cart_mdata);
-		$cart_mdata         = $producthelper->replaceProductInStock($product_id, $cart_mdata, $attributes, $attribute_template);
+		$cart_mdata         = Redshop\Product\Stock::replaceInStock($product_id, $cart_mdata, $attributes, $attribute_template);
 
 		$cart_mdata = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
 
