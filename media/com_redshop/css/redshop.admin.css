@@ -16247,6 +16247,10 @@ i.config {
     background: transparent url(../images/configuration.png) center center no-repeat;
 }
 
+i.tools {
+    background: transparent url(../images/tools.png) center center no-repeat;
+}
+
 #adminForm .filterTool {
     background-color: #f7f7f7;
     padding: 10px;
