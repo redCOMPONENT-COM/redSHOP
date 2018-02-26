@@ -58,7 +58,7 @@ class SupplierCest extends AbstractCest
 		$tester->wantTo('Run after create item with save button ');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var SupplierSteps $step */
 		$tester = new $stepClass($scenario);
 		$tester->deleteItem('New ' . $this->dataNew['name']);
 
@@ -79,7 +79,7 @@ class SupplierCest extends AbstractCest
 		$tester->wantTo('Run after create item with save button ');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var SupplierSteps $step */
 		$tester = new $stepClass($scenario);
 		$tester->deleteItem('New ' . $this->dataNew['name']);
 
@@ -110,7 +110,7 @@ class SupplierCest extends AbstractCest
 		$tester->wantTo('Test Supplier Missing Name creation in Administrator');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var SupplierSteps $step */
 		$step = new $stepClass($scenario);
 		$step->addSupplierSaveMissingName($this->faker->email);
 	}
@@ -128,7 +128,7 @@ class SupplierCest extends AbstractCest
 		$client->wantTo('Test Supplier check Close button in Administrator');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var SupplierSteps $step */
 		$step = new $stepClass($scenario);
 		$step->checkCancelButton();
 	}
@@ -146,7 +146,7 @@ class SupplierCest extends AbstractCest
 		$client->wantTo('Test Supplier check Close button in Administrator');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var SupplierSteps $step */
 		$step = new $stepClass($scenario);
 		$step->addSupplierWrongEmail($this->dataNew['name'], 'demo');
 	}

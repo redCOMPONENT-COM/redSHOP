@@ -54,7 +54,8 @@ class SupplierSteps extends AbstractStep
 		$client->fillField(\SupplierPage::$fieldName, $supplierName);
 		$client->fillField(\SupplierPage::$fieldEmail, $supplierEmail);
 		$client->click(\SupplierPage::$buttonSave);
-		$client->acceptPopup();
+		$client->waitForText(\SupplierPage::$fieldEmailInvalid, 60, \SupplierPage::$selectorMissing);
+		$client->waitForElement(\SupplierPage::$fieldName, 30);
 	}
 
 	public function editSupplierCheckCloseButton($supplierUpdatedName)

@@ -25,12 +25,22 @@ jimport('joomla.filesystem.file');
  */
 class RedshopControllerProduct_Detail extends RedshopController
 {
+	/**
+	 * @var JApplicationCms
+	 */
 	public $app;
+
+	/**
+	 * @var  string
+	 */
+	public $option;
 
 	/**
 	 * Constructor to set the right model
 	 *
-	 * @param   array  $default  Optional  configuration parameters
+	 * @param   array $default Optional  configuration parameters
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct($default = array())
 	{
@@ -141,7 +151,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
-		 $post['discount_enddate']  = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
+		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
 
 		if ($post['discount_stratdate'])
 		{
@@ -210,7 +220,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-			elseif ($apply == 1)
+            elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -303,6 +313,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if (!$model->publish($cid, 0))
@@ -335,7 +346,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save2copy()
 	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->copy($cid, true))
@@ -357,6 +370,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$cid = $this->input->post->get('cid', array(), 'array');
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($model->copy($cid))
@@ -381,7 +395,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function attribute_save($post, $row)
 	{
-	    /** @var RedshopModelProduct_Detail $model */
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$attribute_save   = array();
@@ -645,9 +659,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-			<script language="javascript" type="text/javascript">
-				window.parent.SqueezeBox.close();
-			</script>
+            <script language="javascript" type="text/javascript">
+                window.parent.SqueezeBox.close();
+            </script>
 			<?php
 		}
 	}
@@ -701,9 +715,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-		<script language="javascript" type="text/javascript">
-			window.parent.SqueezeBox.close();
-		</script>
+        <script language="javascript" type="text/javascript">
+            window.parent.SqueezeBox.close();
+        </script>
 		<?php
 	}
 
