@@ -29,7 +29,7 @@ class RedshopControllerMails extends RedshopControllerAdmin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Mails', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Mail', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 
