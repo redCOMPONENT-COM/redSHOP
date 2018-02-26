@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
 
-
 class RedshopControllerOrder extends RedshopController
 {
 	/**
@@ -110,7 +109,6 @@ class RedshopControllerOrder extends RedshopController
 		$postData['isPacsoft'] = $isPacsoft;
 
 		$app->setUserState("com_redshop.order.batch.postdata", serialize($postData));
-
 		$this->setRedirect('index.php?option=com_redshop&view=order&layout=batch');
 
 		return;
@@ -133,17 +131,13 @@ class RedshopControllerOrder extends RedshopController
 	 */
 	public function updateOrderStatus()
 	{
-		// Force disable error reporting to get clean ajax response
-		error_reporting(0);
-
-		$app             = JFactory::getApplication();
-		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
-		$post            = unserialize($serialized);
-		$orderId         = $this->input->getInt('oid', 0);
-		$order_functions = order_functions::getInstance();
+		$app        = JFactory::getApplication();
+		$serialized = $app->getUserState("com_redshop.order.batch.postdata");
+		$post       = unserialize($serialized);
+		$orderId    = $this->input->getInt('oid', 0);
 
 		// Change Order Status
-		$order_functions->orderStatusUpdate($orderId, $post);
+		RedshopHelperOrder::orderStatusUpdate($orderId, $post);
 
 		$response = array(
 			'message' => '<li class="success text-success">' . JText::sprintf('COM_REDSHOP_AJAX_ORDER_UPDATE_SUCCESS', $orderId) . '</li>'
@@ -151,7 +145,7 @@ class RedshopControllerOrder extends RedshopController
 
 		// Trigger when order status changed.
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
+		RedshopHelperUtility::getDispatcher()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
 
 		ob_clean();
 		echo json_encode($response);
@@ -163,20 +157,20 @@ class RedshopControllerOrder extends RedshopController
 	{
 		$post            = $this->input->post->getArray();
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
-		$order_id        = $this->input->getInt('order_id');
+		$orderId         = $this->input->getInt('order_id');
 		$ecomsg          = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
 		$msgType         = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
+			$bookInvoicePdf = RedshopEconomic::bookInvoiceInEconomic($orderId, 0, $bookInvoiceDate);
 
-			if (JFile::exists($bookinvoicepdf))
+			if (JFile::exists($bookInvoicePdf))
 			{
 				$ecomsg  = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}
 		}
 
@@ -188,35 +182,49 @@ class RedshopControllerOrder extends RedshopController
 	{
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$order_id       = $this->input->getInt('order_id');
-			$order_function = order_functions::getInstance();
-			$paymentInfo    = RedshopHelperOrder::getPaymentInfo($order_id);
+			$orderId      = $this->input->getInt('order_id');
+			$orderEntity  = RedshopEntityOrder::getInstance($orderId);
+
+			if (!$orderEntity->isValid())
+			{
+				return false;
+			}
+
+			$paymentInfo  = $orderEntity->getPayment();
+
+			if (!$paymentInfo->isValid())
+			{
+				return false;
+			}
+
+			$paymentInfo = $paymentInfo->getItem();
+			$economicData = array();
 
 			if ($paymentInfo)
 			{
-				$payment_name = $paymentInfo->payment_method_class;
-				$paymentArr   = explode("rs_payment_", $paymentInfo->payment_method_class);
+				$paymentName = $paymentInfo->payment_method_class;
+				$paymentArr  = explode("rs_payment_", $paymentInfo->payment_method_class);
 
-				if (count($paymentArr) > 0)
+				if (!empty($paymentArr))
 				{
-					$payment_name = $paymentArr[1];
+					$paymentName = $paymentArr[1];
 				}
 
-				$economicdata['economic_payment_method']   = $payment_name;
-				$economicdata['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
-				$economicdata['economic_design_layout']    = $paymentInfo->plugin->params->get('economic_design_layout');
-				$economicdata['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
+				$economicData['economic_payment_method']   = $paymentName;
+				$economicData['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
+				$economicData['economic_design_layout']    = $paymentInfo->plugin->params->get('economic_design_layout');
+				$economicData['economic_is_creditcard']    = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
-			RedshopEconomic::createInvoiceInEconomic($order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($orderId, $economicData);
 
-			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
+			if (Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
-				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 1);
+				$bookInvoicePdf = RedshopEconomic::bookInvoiceInEconomic($orderId, 1);
 
-				if (JFile::exists($bookinvoicepdf))
+				if (JFile::exists($bookInvoicePdf))
 				{
-					$ret = Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$ret = Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 				}
 			}
 		}
@@ -226,21 +234,22 @@ class RedshopControllerOrder extends RedshopController
 
 	public function export_fullorder_data()
 	{
-		$extrafile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
+		$extraFile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
 
-		if (file_exists($extrafile))
+		if (file_exists($extraFile))
 		{
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
+
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			JFactory::getApplication()->close();
+
+			exit;
 		}
 
 		$producthelper  = productHelper::getInstance();
-		$order_function = order_functions::getInstance();
-
 		$model         = $this->getModel('order');
-		$data          = $model->export_data();
+		$cid           = $this->input->get('cid', array(0), 'array');
+		$data          = $model->export_data($cid);
 		$product_count = array();
 		$db            = JFactory::getDbo();
 
@@ -248,97 +257,144 @@ class RedshopControllerOrder extends RedshopController
 
 		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
 
+		$db->setQuery($sql);
+		$no_products = $db->loadObjectList();
+
+		for ($index = 0, $in = count($data); $index < $in; $index++)
+		{
+			$product_count [] = $no_products [$index]->noproduct;
+		}
+
+		$no_products = max($product_count);
+
+		$header = array(
+			'Order number', 'Order status', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
+			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Company name', 'Email', 'Billing address',
+			'Billing postalcode', 'Billing city', 'Billing country', 'Billing User'
+		);
+
+		for ($index = 1; $index <= $no_products; $index++)
+		{
+			$header[] = JText::_('COM_REDSHOP_PRODUCT_NAME') . $index;
+			$header[] = JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $index;
+			$header[] = JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $index;
+		}
+
+		$header[] = 'Order Total';
+		$rows     = array();
+		$rows[]   = $header;
+
+		for ($index = 0, $in = count($data); $index < $in; $index++)
+		{
+			$billing_info = RedshopEntityOrder::getInstance($data[$index]->order_id)->getBilling()->getItem();
+
+			$details = RedshopShippingRate::decrypt($data[$index]->ship_method_id);
+
+			$row = array();
+
+			// order number
+			$row[] = $data [$index]->order_id;
+
+			// order status
+			$row[] = utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$index]->order_status));
+
+			// order date
+			$row[] = date('d-m-Y H:i', $data [$index]->cdate);
+
+			// shipping method
+			if (empty($details))
+			{
+				$row[] = str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ")";
+			}
+			else
+			{
+				$row[] = '';
+			}
+
+			// shipping user
+			$shipping_info = RedshopEntityOrder::getInstance($data[$index]->order_id)->getShipping()->getItem();
+			$row[]         = str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname);
+
+			// shipping address
+			$row[] = str_replace(",", " ", utf8_decode($shipping_info->address));
+
+			// postal code
+			$row[] = $shipping_info->zipcode;
+
+			// city
+			$row[] = str_replace(",", " ", utf8_decode($shipping_info->city));
+
+			// country
+			$row[] = $shipping_info->country_code;
+
+			// company
+			$row[] = str_replace(",", " ", $shipping_info->company_name);
+
+			// email
+			$row[] = $shipping_info->user_email;
+
+			// billing address
+			$row[] = str_replace(",", " ", utf8_decode($billing_info->address));
+
+			// postal code
+			$row[] = $billing_info->zipcode;
+
+			// city
+			$row[] = str_replace(",", " ", utf8_decode($billing_info->city));
+
+			// country
+			$row[] = $billing_info->country_code;
+
+			// user
+			$row[] = str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname);
+
+			$items = RedshopHelperOrder::getOrderItemDetail($data [$index]->order_id);
+
+			if ($items && !empty($items))
+			{
+				foreach ($items as $item)
+				{
+					$row[] = str_replace(",", " ", utf8_decode($item->order_item_name));
+					$row[] = Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $item->product_final_price;
+
+					$product_attribute = $producthelper->makeAttributeOrder($item->order_item_id, 0, $item->product_id, 0, 1);
+					$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
+
+					$row[] = trim(utf8_decode($product_attribute));
+				}
+			}
+
+			$temp = $no_products - count($items);
+
+			if ($temp >= 0)
+			{
+				for ($count = 1; $count <= $temp * 3; $count++)
+				{
+					$row[] = '';
+				}
+			}
+
+			$row[] = Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$index]->order_total;
+
+			$rows[] = $row;
+		}
+
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
 		header("Content-type: text/csv");
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=Order.csv');
 
-		$db->setQuery($sql);
-		$no_products = $db->loadObjectList();
+		$output = fopen('php://output', 'w');
 
-		for ($i = 0, $in = count($data); $i < $in; $i++)
+		foreach ($rows as $row)
 		{
-			$product_count [] = $no_products [$i]->noproduct;
+			fputcsv($output, $row);
 		}
 
-		$no_products = max($product_count);
+		fclose($output);
 
-		$shipping_helper = shipping::getInstance();
-		ob_clean();
-
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
-		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
-		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
-
-		for ($i = 1; $i <= $no_products; $i++)
-		{
-			echo JText::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
-			echo JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
-			echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
-		}
-
-		echo "Order Total\n";
-
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$billing_info = RedshopHelperOrder::getOrderBillingUserInfo($data [$i]->order_id);
-
-			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
-
-			echo $data [$i]->order_id . ",";
-			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
-			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
-
-			if (empty($details))
-			{
-				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
-			}
-			else
-			{
-				echo '';
-			}
-
-			$shipping_info = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
-
-			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";
-			echo str_replace(",", " ", utf8_decode($shipping_info->address)) . " ,";
-			echo $shipping_info->zipcode . " ,";
-			echo str_replace(",", " ", utf8_decode($shipping_info->city)) . " ,";
-			echo $shipping_info->country_code . " ,";
-			echo str_replace(",", " ", $shipping_info->company_name) . " ,";
-			echo $shipping_info->user_email . " ,";
-
-			echo str_replace(",", " ", utf8_decode($billing_info->address)) . " ,";
-			echo $billing_info->zipcode . " ,";
-			echo str_replace(",", " ", utf8_decode($billing_info->city)) . " ,";
-			echo $billing_info->country_code . " ,";
-			echo str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname) . " ,";
-
-			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
-
-			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
-			{
-				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
-
-				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
-
-				echo trim(utf8_decode($product_attribute)) . " ,";
-			}
-
-			$temp = $no_products - count($no_items);
-
-			if ($temp >= 0)
-			{
-				echo str_repeat(' ,', $temp * 3);
-			}
-
-			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
-		}
-
-		exit();
+		JFactory::getApplication()->close();
 	}
 
 	public function export_data()
@@ -346,56 +402,41 @@ class RedshopControllerOrder extends RedshopController
 		/**
 		 * new order export for paid customer support
 		 */
-		$extrafile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
+		$extraFile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
 
-		if (file_exists($extrafile))
+		if (JFile::exists($extraFile))
 		{
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
 
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
+
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper  = productHelper::getInstance();
-		$order_function = order_functions::getInstance();
-		$model          = $this->getModel('order');
+		$productHelper = productHelper::getInstance();
+		$model         = $this->getModel('order');
+		$productCount = array();
 
-		$product_count = array();
-		$db            = JFactory::getDbo();
+		$cid     = $this->input->get('cid', array(0), 'array');
+		$data    = $model->export_data($cid);
+		$orderId = implode(',', $cid);
 
-		$cid      = $this->input->get('cid', array(0), 'array');
-		$data     = $model->export_data($cid);
-		$order_id = implode(',', $cid);
-		$where    = "";
+		$noProducts = $this->getNoProducts($orderId);
 
-		if ($order_id != 0)
+		\Redshop\Environment\Respond\Helper::download('Order.csv');
+
+		foreach ($data as $index => $aData)
 		{
-			$where .= " where order_id IN (" . $order_id . ") ";
+			$productCount[] = $noProducts [$index]->noproduct;
 		}
 
-		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
-
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=Order.csv');
-
-		$db->setQuery($sql);
-		$no_products = $db->loadObjectList();
-
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$product_count [] = $no_products [$i]->noproduct;
-		}
-
-		$no_products = max($product_count);
+		$noProducts = max($productCount);
 
 		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,";
 		echo "Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
 
-		for ($i = 1; $i <= $no_products; $i++)
+		for ($i = 1; $i <= $noProducts; $i++)
 		{
 			echo JText::_('PRODUCT_NAME') . $i . ',';
 			echo JText::_('PRODUCT') . ' ' . JText::_('PRODUCT_PRICE') . $i . ',';
@@ -404,24 +445,24 @@ class RedshopControllerOrder extends RedshopController
 
 		echo "Shipping Cost,Order Total\n";
 
-		for ($i = 0, $in = count($data); $i < $in; $i++)
+		foreach ($data as $aData)
 		{
-			$shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
+			$shipping_address = RedshopEntityOrder::getInstance($aData->order_id)->getShipping()->getItem();
 
-			echo $data [$i]->order_id . ",";
-			echo $data [$i]->firstname . " " . $data [$i]->lastname . ",";
-			echo $data [$i]->user_email . ",";
-			echo $data [$i]->phone . ",";
-			$user_address          = str_replace(",", "<br/>", $data [$i]->address);
+			echo $aData->order_id . ",";
+			echo $aData->firstname . " " . $aData->lastname . ",";
+			echo $aData->user_email . ",";
+			echo $aData->phone . ",";
+			$user_address          = str_replace(",", "<br/>", $aData->address);
 			$user_address          = strip_tags($user_address);
 			$user_shipping_address = str_replace(",", "<br/>", $shipping_address->address);
 			$user_shipping_address = strip_tags($user_shipping_address);
 
 			echo trim($user_address) . ",";
-			echo $data [$i]->city . ",";
-			echo $data [$i]->state_code . ",";
-			echo $data [$i]->country_code . ",";
-			echo $data [$i]->zipcode . ",";
+			echo $aData->city . ",";
+			echo $aData->state_code . ",";
+			echo $aData->country_code . ",";
+			echo $aData->zipcode . ",";
 
 			echo trim($user_shipping_address) . ",";
 			echo $shipping_address->city . ",";
@@ -429,85 +470,81 @@ class RedshopControllerOrder extends RedshopController
 			echo $shipping_address->country_code . ",";
 			echo $shipping_address->zipcode . ",";
 
-			echo $order_function->getOrderStatusTitle($data [$i]->order_status) . ",";
-			echo date('d-m-Y H:i', $data [$i]->cdate) . ",";
+			echo RedshopHelperOrder::getOrderStatusTitle($aData->order_status) . ",";
+			echo date('d-m-Y H:i', $aData->cdate) . ",";
 
-			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
+			$noItems = RedshopHelperOrder::getOrderItemDetail($aData->order_id);
 
-			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
+			if ($noItems)
 			{
-				echo $no_items [$it]->order_item_name . ",";
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
+				foreach ($noItems as $noItem)
+				{
+					echo $noItem->order_item_name . ",";
+					echo Redshop::getConfig()->getString('REDCURRENCY_SYMBOL') . $noItem->product_final_price . ",";
 
-				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags($product_attribute->product_attribute);
+					$product_attribute = $productHelper->makeAttributeOrder($noItem->order_item_id, 0, $noItem->product_id, 0, 1);
+					$product_attribute = strip_tags($product_attribute->product_attribute);
 
-				echo trim($product_attribute) . ",";
+					echo trim($product_attribute) . ",";
+				}
+
+				$temp = $noProducts - count($noItems);
+				echo str_repeat(',', $temp * 3);
 			}
 
-			$temp = $no_products - count($no_items);
-			echo str_repeat(',', $temp * 3);
-
-			if ($data [$i]->order_shipping != "")
+			if ($aData->order_shipping != "")
 			{
-				$shippingcost = $data [$i]->order_shipping;
+				$shippingcost = $aData->order_shipping;
 			}
 			else
 			{
 				$shippingcost = 0;
 			}
 
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $shippingcost . ",";
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $data [$i]->order_total . "\n";
+			echo Redshop::getConfig()->getString('REDCURRENCY_SYMBOL') . $shippingcost . ",";
+			echo Redshop::getConfig()->getString('REDCURRENCY_SYMBOL') . $aData->order_total . "\n";
 		}
 
-		exit();
+		JFactory::getApplication()->close();
 	}
 
 	public function generateParcel()
 	{
-		$order_function = order_functions::getInstance();
-		$order_id       = $this->input->getInt('order_id');
+		$orderId      = $this->input->getInt('order_id');
+		$generalLabel = RedshopHelperOrder::generateParcel($orderId);
 
-		$generate_label = $order_function->generateParcel($order_id);
-
-		if ($generate_label == "success")
+		if ($generalLabel == "success")
 		{
-			$sussces_message = JText::_('COM_REDSHOP_XML_GENERATED_SUCCESSFULLY');
-			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message, 'success');
+			$this->setRedirect('index.php?option=com_redshop&view=order', JText::_('COM_REDSHOP_XML_GENERATED_SUCCESSFULLY'), 'success');
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label, 'error');
+			$this->setRedirect('index.php?option=com_redshop&view=order', $generalLabel, 'error');
 		}
 	}
 
 	public function download_token()
 	{
-		$post = $this->input->post->getArray();
-		$cid  = $this->input->post->get('cid', array(0), 'array');
+		$post            = $this->input->post->getArray();
+		$cid             = $this->input->post->get('cid', array(0), 'array');
+		$model           = $this->getModel('order');
+		$downloadIdArray = $post ['download_id'];
 
-		$model = $this->getModel('order');
-
-		$download_id_arr = $post ['download_id'];
-
-		for ($i = 0, $in = count($download_id_arr); $i < $in; $i++)
+		foreach ($downloadIdArray as $downloadId)
 		{
-			$download_id = $download_id_arr [$i];
-
-			$product_download_infinite_var = 'product_download_infinite_' . $download_id;
+			$product_download_infinite_var = 'product_download_infinite_' . $downloadId;
 			$product_download_infinite     = $post [$product_download_infinite_var];
 
-			$limit_var = 'limit_' . $download_id;
+			$limit_var = 'limit_' . $downloadId;
 			$limit     = $post [$limit_var];
 
-			$days_var = 'days_' . $download_id;
+			$days_var = 'days_' . $downloadId;
 			$days     = $post [$days_var];
 
-			$clock_var = 'clock_' . $download_id;
+			$clock_var = 'clock_' . $downloadId;
 			$clock     = $post [$clock_var];
 
-			$clock_min_var = 'clock_min_' . $download_id;
+			$clock_min_var = 'clock_min_' . $downloadId;
 			$clock_min     = $post [$clock_min_var];
 
 			$days = (date("H") > $clock && $days == 0) ? 1 : $days;
@@ -522,10 +559,10 @@ class RedshopControllerOrder extends RedshopController
 			// If download product is set to infinit
 			$endtime = ($product_download_infinite == 1) ? 0 : $endtime;
 
-			$model->updateDownloadSetting($download_id, $limit, $endtime);
+			$model->updateDownloadSetting($downloadId, $limit, $endtime);
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid [0]);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid [0]);
 	}
 
 	public function gls_export()
@@ -540,5 +577,30 @@ class RedshopControllerOrder extends RedshopController
 		$cid   = $this->input->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
+	}
+
+	/**
+	 * @param   string  $orderId  Order Id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getNoProducts($orderId = '')
+	{
+		$db            = JFactory::getDbo();
+		$query         = $db->getQuery(true);
+
+		if (!empty($orderId))
+		{
+			$query->where($db->quoteName('order_id') . ' IN (' . $orderId . ')');
+		}
+
+		$query->select($db->quoteName('order_id'))
+			->select('COUNT (' . $db->quoteName('order_item_id', 'noproduct') . ') ')
+			->from($db->quoteName('#__redshop_order_item'))
+			->group($db->quoteName('order_id'));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
