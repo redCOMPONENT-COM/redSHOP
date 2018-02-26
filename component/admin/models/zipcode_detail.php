@@ -83,8 +83,8 @@ class RedshopModelZipcode_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$data['country_code']          = @ implode(',', $data['country_code']);
-		$data['state_code']       = @ implode(',', $data['state_code']);
+		$data['country_code']     = implode(',', $data['country_code']);
+		$data['state_code']       = implode(',', $data['state_code']);
 
 		$row = $this->getTable();
 
@@ -141,30 +141,30 @@ class RedshopModelZipcode_detail extends RedshopModel
 		return RedshopHelperUtility::convertLanguageString($countries);
 	}
 
-	public function GetStateList($country_codes)
+	public function getStateList($country_codes)
 	{
 		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.id = s.country_id '
 			. 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) '
 			. 'ORDER BY s.state_name ASC';
-		$this->_db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $this->_db->setQuery($query)->loadObjectList();
 	}
 
-	public function GetStateDropdown($data)
+	/**
+	 * Get list state of country
+	 *
+	 * @param array $data Data
+	 *
+	 * @return object list
+	 *
+	 * @since 2.1.0
+	 */
+
+	public function getStateDropdown($data)
 	{
 		$countryCode    = $data['country_codes'];
 
-		$stateCode = $this->GetStateList($countryCode);
-
-		echo JHTML::_(
-			'select.genericlist',
-			$stateCode,
-			'stateCode[]',
-			'class="inputbox" multiple="multiple"',
-			'value',
-			'text'
-		);
+		return $this->getStateList($countryCode);
 	}
 }

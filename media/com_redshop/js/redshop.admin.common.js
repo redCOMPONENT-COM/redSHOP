@@ -1181,7 +1181,7 @@ function getStateList_Zipcode() {
         }
     }
 
-    var url = "index.php?option=com_redshop&view=zipcode_detail&task=GetStateDropdown";
+    var url = "index.php?option=com_redshop&view=zipcode_detail&task=getStateDropdown";
     url = url + "&country_codes=" + selected.join(',');
 
     xmlhttp.onreadystatechange = function() {

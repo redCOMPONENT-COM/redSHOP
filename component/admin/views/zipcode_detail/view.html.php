@@ -40,8 +40,7 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 		$text             = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		$model            = $this->getModel();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/common.js');
+		JHtml::script(JUri::base() . 'components/com_redshop/assets/js/common.js');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 		JToolBarHelper::save();
@@ -62,7 +61,7 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 
 		if ($detail->country_code)
 		{
-			$state_code = $model->GetStateList($detail->country_code);
+			$state_code = $model->getStateList($detail->country_code);
 		}
 
 		$detail->state_code = explode(',', $detail->state_code);
