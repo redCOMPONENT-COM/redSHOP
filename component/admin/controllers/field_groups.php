@@ -19,6 +19,24 @@ defined('_JEXEC') or die;
 class RedshopControllerField_Groups extends RedshopControllerAdmin
 {
 	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModel($name = 'Field_Group', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
+	/**
 	 * Method for get prepared HTML of fields group
 	 *
 	 * @return  void
@@ -28,7 +46,7 @@ class RedshopControllerField_Groups extends RedshopControllerAdmin
 	 */
 	public function ajaxGetFieldsGroup()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$section  = $this->input->getInt('section', 0);
 		$selected = $this->input->getInt('selected', 0);
