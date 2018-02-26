@@ -822,6 +822,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$cid   = ArrayHelper::toInteger($cid);
 		$order = ArrayHelper::toInteger($order);
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 		$model->saveorder($cid, $order);
 

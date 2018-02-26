@@ -697,7 +697,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
   `pagetitle` TEXT NOT NULL DEFAULT '',
   `pageheading` TEXT NOT NULL DEFAULT '',
   `sef_url` TEXT NOT NULL DEFAULT '',
-  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `published` TINYINT(4) NOT NULL DEFAULT 1,
   `ordering` INT(11) NOT NULL DEFAULT 0,
   `manufacturer_url` VARCHAR(255) NOT NULL DEFAULT '',
   `excluding_category_list` TEXT NOT NULL DEFAULT '',

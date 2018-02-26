@@ -36,6 +36,11 @@ class RedshopTableManufacturer extends RedshopTable
 	public $name;
 
 	/**
+	 * @var  integer
+	 */
+	public $published = 1;
+
+	/**
 	 * Delete one or more registers
 	 *
 	 * @param   string/array  $pk  Array of ids or ids comma separated

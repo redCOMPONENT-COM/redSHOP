@@ -438,8 +438,8 @@ class Com_RedshopInstallerScript
 	 */
 	protected function implementProcedure()
 	{
-		$this->procedureUpdateColumn();
 		$this->procedureRemoveColumn();
+		$this->procedureUpdateColumn();
 		$this->procedureIndexRemove();
 		$this->procedureIndexAdd();
 		$this->procedureUniqueIndexAdd();

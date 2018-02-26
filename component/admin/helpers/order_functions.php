@@ -587,7 +587,7 @@ class order_functions
 	 *
 	 * @param   string  $payment  Payment type
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getParameters() instead
 	 */

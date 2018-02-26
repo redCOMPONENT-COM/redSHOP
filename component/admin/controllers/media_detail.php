@@ -678,8 +678,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 											JFolder::delete($target . '/' . $name[0]);
 											JFolder::delete($target);
 											JFile::delete($dest);
-
-											return true;
 										}
 
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');

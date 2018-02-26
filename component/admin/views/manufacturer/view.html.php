@@ -28,6 +28,13 @@ class RedshopViewManufacturer extends RedshopViewForm
 	protected $formLayout = 'tab';
 
 	/**
+	 * @var    RedshopModelManufacturer
+	 *
+	 * @since  2.0.6
+	 */
+	public $model;
+
+	/**
 	 * Method for get page title.
 	 *
 	 * @return  string

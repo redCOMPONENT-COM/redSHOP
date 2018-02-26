@@ -20,7 +20,7 @@ CALL redSHOP_Column_Update('#__redshop_manufacturer', 'sef_url', 'sef_url', "TEX
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'ordering', 'ordering', "INT(11) NOT NULL DEFAULT 0");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'manufacturer_url', 'manufacturer_url', "VARCHAR(255) NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'excluding_category_list', 'excluding_category_list', "TEXT NOT NULL DEFAULT ''");
-CALL redSHOP_Column_Update('#__redshop_manufacturer', 'published', 'published', "TINYINT(4) NOT NULL DEFAULT 0");
+CALL redSHOP_Column_Update('#__redshop_manufacturer', 'published', 'published', "TINYINT(4) NOT NULL DEFAULT 1");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'checked_out', 'checked_out', "INT(11) NULL DEFAULT NULL");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'checked_out_time', 'checked_out_time', "DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'created_by', 'created_by', "INT(11) NULL DEFAULT NULL");
