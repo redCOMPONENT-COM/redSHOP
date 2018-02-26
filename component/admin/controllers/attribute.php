@@ -18,4 +18,17 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerAttribute extends RedshopControllerForm
 {
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string $name   The model name. Optional.
+	 * @param   string $prefix The class prefix. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
+	 *
+	 * @return  object         The model.
+	 */
+	public function getModel($name = 'Attribute', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, $config);
+	}
 }
