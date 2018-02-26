@@ -550,7 +550,7 @@ class RedshopControllerCheckout extends RedshopController
 				 * Note: ( Only when redirect payment gateway are in motion, not for credit card gateway)
 				 *
 				 */
-				$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+				$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 				$paymentmethod = $paymentmethod[0];
 				$params        = new \Joomla\Registry\Registry($paymentmethod->params);
 				$is_creditcard = $params->get('is_creditcard', 0);
@@ -596,7 +596,7 @@ class RedshopControllerCheckout extends RedshopController
 		$model           = $this->getModel('checkout');
 		$session         = JFactory::getSession();
 		$paymentMethodId = $input->post->getCmd('payment_method_id', '');
-		$paymentMethod   = $this->_order_functions->getPaymentMethodInfo($paymentMethodId);
+		$paymentMethod   = RedshopHelperOrder::getPaymentMethodInfo($paymentMethodId);
 		$paymentParams   = new JRegistry($paymentMethod[0]->params);
 		$isCreditcard    = $paymentParams->get('is_creditcard', 0);
 
@@ -803,7 +803,7 @@ class RedshopControllerCheckout extends RedshopController
 		ob_clean();
 		$app = JFactory::getApplication();
 		$shipping_rate_id    = $app->input->post->getCmd('shipping_rate_id', '');
-		$shippingmethod      = $this->_order_functions->getShippingMethodInfo($shipping_rate_id);
+		$shippingmethod      = RedshopHelperOrder::getShippingMethodInfo($shipping_rate_id);
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Class accountModelaccount
  *
@@ -44,35 +43,42 @@ class RedshopModelAccount extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	public function getuseraccountinfo($uid)
+	/**
+	 * Get user Account information
+	 *
+	 * @param   integer $uid User ID
+	 *
+	 * @return array|mixed
+	 */
+	public function getUserAccountInfo($uid)
 	{
-		$order_functions = order_functions::getInstance();
-
-		$user = JFactory::getUser();
+		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
-		$auth = $session->get('auth');
+		$auth    = $session->get('auth');
 
 		$list = array();
 
 		if ($user->id)
 		{
-			$list = $order_functions->getBillingAddress($user->id);
+			$list = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid  = - $auth['users_info_id'];
-			$list = $order_functions->getBillingAddress($uid);
+			$uid  = -$auth['users_info_id'];
+			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		if (!empty($list))
+		{
 			$list->email = $list->user_email;
+		}
 
 		return $list;
 	}
 
 	public function usercoupons($uid)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__redshop_coupons')
@@ -107,16 +113,16 @@ class RedshopModelAccount extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
+		$app   = JFactory::getApplication();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$user   = JFactory::getUser();
 		$userid = $user->id;
 
-		$tagid		 = $app->input->getInt('tagid', 0);
+		$tagid       = $app->input->getInt('tagid', 0);
 		$wishlist_id = $app->input->getInt('wishlist_id', 0);
-		$layout		 = $app->input->getCmd('layout', '');
+		$layout      = $app->input->getCmd('layout', '');
 
 		switch ($layout)
 		{
@@ -124,7 +130,7 @@ class RedshopModelAccount extends RedshopModel
 
 				if ($tagid != 0)
 				{
-					$query->select(array('ptx.product_id','p.*'))
+					$query->select(array('ptx.product_id', 'p.*'))
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = ptx.product_id')
 						->where('pt.tags_id = ' . (int) $tagid);
 				}
@@ -140,7 +146,7 @@ class RedshopModelAccount extends RedshopModel
 				if ($userid && $wishlist_id)
 				{
 					$query->select('DISTINCT(' . $db->qn('w.wishlist_id') . ')')
-						->select(array('w.*','p.*'))
+						->select(array('w.*', 'p.*'))
 						->from($db->quoteName('#__redshop_wishlist', 'w'))
 						->leftJoin($db->quoteName('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
@@ -223,8 +229,8 @@ class RedshopModelAccount extends RedshopModel
 	{
 		$user   = JFactory::getUser();
 		$userid = $user->id;
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true)
 			->select('COUNT(pt.tags_id)')
 			->from($db->quoteName('#__redshop_product_tags', 'pt'))
 			->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
@@ -258,7 +264,7 @@ class RedshopModelAccount extends RedshopModel
 	public function removeWishlistProduct()
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
+		$db  = JFactory::getDbo();
 
 		$Itemid            = $app->input->getInt('Itemid', 0);
 		$wishlist_id       = $app->input->getInt('wishlist_id', 0);
@@ -330,8 +336,8 @@ class RedshopModelAccount extends RedshopModel
 
 	public function removeTags($tagid)
 	{
-		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
+		$user  = JFactory::getUser();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__redshop_product_tags_xref'))
 			->where('tags_id = ' . (int) $tagid)
@@ -369,7 +375,7 @@ class RedshopModelAccount extends RedshopModel
 
 	public function getMytag($tagid)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('tags_name')
 			->from($db->quoteName('#__redshop_product_tags'))
@@ -382,7 +388,7 @@ class RedshopModelAccount extends RedshopModel
 
 	public function editTag($post)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = "
 			. $db->quote($post['tags_name']) . ' WHERE tags_id = ' . (int) $post['tags_id'];
 		$db->setQuery($query);
@@ -433,8 +439,6 @@ class RedshopModelAccount extends RedshopModel
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = redshopMail::getInstance();
-
 		$wishlist_id = JFactory::getApplication()->input->getInt('wishlist_id');
 		$emailto     = $post['emailto'];
 		$sender      = $post['sender'];
@@ -464,15 +468,15 @@ class RedshopModelAccount extends RedshopModel
 			}
 
 			$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
-			$query = "SELECT DISTINCT p.* FROM #__redshop_product AS p "
+			$query        = "SELECT DISTINCT p.* FROM #__redshop_product AS p "
 				. "WHERE p.product_id IN (" . implode(',', $productIds) . ")";
 		}
 
 		$MyWishlist    = $this->_getList($query);
 		$data          = "";
 		$mailbcc       = null;
-		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
-		$data_add = '';
+		$wishlist_body = Redshop\Mail\Helper::getTemplate(0, "mywishlist_mail");
+		$data_add      = '';
 
 		if (count($wishlist_body) > 0)
 		{
@@ -571,7 +575,7 @@ class RedshopModelAccount extends RedshopModel
 					$link  = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
-					$data_add .= $thum_image;
+					$data_add   .= $thum_image;
 
 					$data_add .= "<div><a href='" . $link . "' >" . $pname . "</a></div>";
 					$data_add .= '</div>';
@@ -579,7 +583,7 @@ class RedshopModelAccount extends RedshopModel
 			}
 		}
 
-		$data_add = $redshopMail->imginmail($data_add);
+		Redshop\Mail\Helper::imgInMail($data_add);
 
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 		{
@@ -630,7 +634,7 @@ class RedshopModelAccount extends RedshopModel
 
 	public function unused_coupon_amount($user_id, $coupone_code)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE userid ='
 			. (int) $user_id . ' AND coupon_code = ' . $db->quote($coupone_code);
 		$db->setQuery($query);

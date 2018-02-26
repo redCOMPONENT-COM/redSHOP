@@ -272,7 +272,7 @@ abstract class RedshopHelperAttribute
 							{
 								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
-								$thumbUrl = RedShopHelperImages::getImagePath(
+								$thumbUrl = RedshopHelperMedia::getImagePath(
 									$property[$i]->property_image,
 									'',
 									'thumb',

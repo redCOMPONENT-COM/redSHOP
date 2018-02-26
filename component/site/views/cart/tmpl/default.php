@@ -273,7 +273,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
 
-$cart_data = $redTemplate->parseredSHOPplugin($cart_data);
+$cart_data = RedshopHelperTemplate::parseRedshopPlugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");
 ?>
 <script type="text/javascript" language="javascript">

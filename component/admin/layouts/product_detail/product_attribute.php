@@ -268,7 +268,7 @@ if ($data->lists['attributes'])
 					<?php
 					if ($property->property_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $property->property_image))
 					{
-						$thumbUrl = RedShopHelperImages::getImagePath(
+						$thumbUrl = RedshopHelperMedia::getImagePath(
 							$property->property_image,
 							'',
 							'thumb',
@@ -493,7 +493,7 @@ if ($data->lists['attributes'])
 																<?php
 																if ($subProperty->subattribute_color_image != '' && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subProperty->subattribute_color_image))
 																{
-																	$thumbUrl = RedShopHelperImages::getImagePath(
+																	$thumbUrl = RedshopHelperMedia::getImagePath(
 																		$subProperty->subattribute_color_image,
 																		'',
 																		'thumb',

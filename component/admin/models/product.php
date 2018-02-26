@@ -25,9 +25,9 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array $config An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JModelLegacy
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -325,6 +325,8 @@ class RedshopModelProduct extends RedshopModel
 
 			return $final_products;
 		}
+
+		return null;
 	}
 
 	public function _buildContentOrderBy()
@@ -374,17 +376,23 @@ class RedshopModelProduct extends RedshopModel
 		return $db->setQuery($query)->loadObjectlist();
 	}
 
+	/**
+	 * @param   integer  $template_id  Template ID
+	 * @param   integer  $product_id   Product ID
+	 * @param   integer  $section      Section
+	 *
+	 * @return  array|string|void
+	 * @throws  Exception
+	 */
 	public function product_template($template_id, $product_id, $section)
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if ($section == 1 || $section == 12)
+		if ($section == RedshopHelperExtrafields::SECTION_PRODUCT || $section == RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD)
 		{
-			$template_desc = $redTemplate->getTemplate("product", $template_id);
+			$template_desc = RedshopHelperTemplate::getTemplate("product", $template_id);
 		}
 		else
 		{
-			$template_desc = $redTemplate->getTemplate("category", $template_id);
+			$template_desc = RedshopHelperTemplate::getTemplate("category", $template_id);
 		}
 
 		if (count($template_desc) == 0)

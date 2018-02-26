@@ -9,15 +9,22 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewQuotation_detail extends RedshopView
+/**
+ * Class RedshopViewQuotation_detail
+ *
+ * @since  1.6.0
+ */
+class RedshopViewQuotation_Detail extends RedshopView
 {
-	function display($tpl = null)
+	/**
+	 * @param null $tpl
+	 *
+	 * @return mixed|void
+	 * @throws Exception
+	 */
+	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
-		$quotationHelper = quotationHelper::getInstance();
-
+		$app   = JFactory::getApplication();
 		$print = $app->input->getInt('print');
 
 		if ($print)
@@ -30,16 +37,16 @@ class RedshopViewQuotation_detail extends RedshopView
 		}
 
 		$user   = JFactory::getUser();
-		$Itemid = $app->input->getInt('Itemid');
+		$itemId = $app->input->getInt('Itemid');
 		$quoid  = $app->input->getInt('quoid');
 		$encr   = $app->input->getString('encr');
 
 		if (!$quoid)
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId, false));
 		}
 
-		$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
+		$quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
 		if (count($quotationDetail) < 1)
 		{

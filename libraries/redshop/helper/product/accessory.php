@@ -170,7 +170,7 @@ class RedshopHelperProductAccessory
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
 						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
+							$thumbUrl = RedshopHelperMedia::getImagePath(
 								$accessoryImage,
 								'',
 								'thumb',

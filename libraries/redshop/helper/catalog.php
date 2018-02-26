@@ -110,7 +110,8 @@ class RedshopHelperCatalog
 
 		$body = str_replace("{name}", $catalog->name, $mailBody);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
-		$body = RedshopHelperMail::imgInMail($body);
+
+		Redshop\Mail\Helper::imgInMail($body);
 
 		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, 1, null, $mailBcc))
 		{

@@ -65,7 +65,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$context = 'product_id';
 
 		$GLOBALS['productlist'] = array();
-		$adminproducthelper     = RedshopAdminProduct::getInstance();
 
 		$list_in_products = RedshopHelperExtrafields::listAllFieldInProduct();
 
@@ -121,7 +120,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
 		);
 
-		$product_sort          = $adminproducthelper->getProductrBySortedList();
+		$product_sort          = RedshopHelperProduct::getProductsSortByList();
 		$lists['product_sort'] = JHTML::_('select.genericlist', $product_sort, 'product_sort',
 			'class="inputbox"  onchange="document.adminForm.submit();" ', 'value', 'text', $state->get('product_sort')
 		);

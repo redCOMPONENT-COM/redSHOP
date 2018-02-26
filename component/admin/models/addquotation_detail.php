@@ -97,19 +97,17 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function sendRegistrationMail($post)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$redshopMail->sendRegistrationMail($post);
+		Redshop\Mail\User::sendRegistrationMail($post);
 	}
 
 	public function store($data)
 	{
-		$extra_field     = extra_field::getInstance();
-		$quotationHelper = quotationHelper::getInstance();
-		$producthelper   = productHelper::getInstance();
-		$rsCarthelper    = rsCarthelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
+		$producthelper = productHelper::getInstance();
+		$rsCarthelper  = rsCarthelper::getInstance();
 
+		/** @var Tableuser_detail $userRow */
 		$userRow = $this->getTable('user_detail');
+
 		$userRow->load($data['user_info_id']);
 		$userRow->firstname    = $data['firstname'];
 		$userRow->lastname     = $data['lastname'];
@@ -127,7 +125,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			return false;
 		}
 
-		$extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);
+		RedshopHelperExtrafields::extraFieldSave($data, 16, $data['user_info_id'], $data['user_email']);
 
 		$row = $this->getTable('quotation_detail');
 
@@ -136,8 +134,8 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
 		}
 
-		$data['quotation_number']    = $quotationHelper->generateQuotationNumber();
-		$data['quotation_encrkey']   = $quotationHelper->randomQuotationEncrkey();
+		$data['quotation_number']    = RedshopHelperQuotation::generateQuotationNumber();
+		$data['quotation_encrkey']   = RedshopHelperQuotation::randomQuotationEncryptKey();
 		$data['quotation_cdate']     = time();
 		$data['quotation_mdate']     = time();
 		$data['quotation_total']     = $data['order_total'];
@@ -197,6 +195,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
 
+			/** @var Tablequotation_item_detail $rowitem */
 			$rowitem = $this->getTable('quotation_item_detail');
 
 			$product = Redshop::product((int) $product_id);
@@ -238,7 +237,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
-				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $rowitem->quotation_item_id, 12, $userfields[$ui]);
+				RedshopHelperQuotation::insertQuotationUserField($userfields_id[$ui], $rowitem->quotation_item_id, 12, $userfields[$ui]);
 			}
 
 			/** my accessory save in table start */
@@ -439,7 +438,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						$property_id = $propArr[$k]['property_id'];
 
 						/** product property STOCKROOM update start */
-						$stockroomhelper->updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
 
 						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
@@ -476,7 +475,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
-							$stockroomhelper->updateStockroomQuantity($subproperty_id, $rowitem->product_quantity, "subproperty");
+							RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $rowitem->product_quantity, "subproperty");
 
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
@@ -510,10 +509,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$send        = $redshopMail->sendQuotationMail($quotaion_id);
-
-		return $send;
+		return Redshop\Mail\Quotation::sendMail($quotaion_id);
 	}
 
 	public function getUserData($user_id = 0, $billing = "", $user_info_id = 0)

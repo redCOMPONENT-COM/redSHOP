@@ -81,7 +81,7 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 							$image = $images[$i];
 							$thumb = $image->subattribute_color_image;
 
-							$thumbUrl = RedShopHelperImages::getImagePath(
+							$thumbUrl = RedshopHelperMedia::getImagePath(
 											$thumb,
 											'',
 											'thumb',

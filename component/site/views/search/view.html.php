@@ -10,14 +10,13 @@
 defined('_JEXEC') or die;
 
 
-
 class RedshopViewSearch extends RedshopView
 {
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
-		$lists       = array();
+		$lists = array();
 
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
@@ -83,21 +82,21 @@ class RedshopViewSearch extends RedshopView
 			}
 		}
 
-		$order_data            = RedshopHelperUtility::getOrderByList();
-		$getorderby            = $app->input->getString('order_by',
+		$order_data = RedshopHelperUtility::getOrderByList();
+		$getorderby = $app->input->getString('order_by',
 			$app->getUserState('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
 		);
 		$app->setUserState('order_by', $getorderby);
 		JFactory::getApplication()->input->set('order_by', $app->getUserState('order_by'));
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
-		$search     = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$search                = $this->get('Data');
+		$pagination            = $this->get('Pagination');
 
-		$this->params = $params;
-		$this->lists = $lists;
+		$this->params       = $params;
+		$this->lists        = $lists;
 		$this->templatedata = $model->getState('templateDesc');
-		$this->search = $search;
-		$this->pagination = $pagination;
+		$this->search       = $search;
+		$this->pagination   = $pagination;
 		parent::display($tpl);
 	}
 
@@ -110,17 +109,14 @@ class RedshopViewSearch extends RedshopView
 		{
 			JPluginHelper::importPlugin('redshop_product');
 
-			$app = JFactory::getApplication();
+			$app   = JFactory::getApplication();
 			$input = JFactory::getApplication()->input;
 			$input->set('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = RedshopHelperUtility::getDispatcher();
-			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
 			$extraField       = extraField::getInstance();
-			$texts            = new text_library;
-			$stockroomhelper  = rsstockroomhelper::getInstance();
 			$objhelper        = redhelper::getInstance();
 
 			$Itemid         = $app->input->getInt('Itemid');
@@ -128,14 +124,14 @@ class RedshopViewSearch extends RedshopView
 			$cid            = $app->input->getInt('category_id');
 			$manufacture_id = $app->input->getInt('manufacture_id');
 
-			$manisrch       = $this->search;
-			$templateid     = $app->input->getInt('templateid');
+			$manisrch   = $this->search;
+			$templateid = $app->input->getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = $app->input->getString('keyword');
-			$layout         = $app->input->getCmd('layout', 'default');
+			$keyword = $app->input->getString('keyword');
+			$layout  = $app->input->getCmd('layout', 'default');
 
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->qn('name'))
 				->from($db->qn('#__redshop_category'))
@@ -143,9 +139,9 @@ class RedshopViewSearch extends RedshopView
 
 			$cat_name = $db->setQuery($query)->loadResult();
 
-			$session    = JFactory::getSession();
-			$model      = $this->getModel('search');
-			$total      = $model->getTotal();
+			$session = JFactory::getSession();
+			$model   = $this->getModel('search');
+			$total   = $model->getTotal();
 
 			JHTML::_('behavior.modal');
 			$url = JURI::base();
@@ -303,13 +299,13 @@ class RedshopViewSearch extends RedshopView
 			$attribute_template            = \Redshop\Template\Helper::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
-			$endlimit = $model->getState('list.limit');
-			$start    = $model->getState('list.start');
+			$endlimit      = $model->getState('list.limit');
+			$start         = $model->getState('list.start');
 
 			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
-			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
+			$fieldArray          = $extraField->getSectionFieldList(17, 0, 0);
 
 			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
@@ -346,7 +342,7 @@ class RedshopViewSearch extends RedshopView
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 
-				$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
+				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
 
 				if (count($ItemData) > 0)
 				{
@@ -357,7 +353,7 @@ class RedshopViewSearch extends RedshopView
 					$pItemid = $objhelper->getItemid($this->search[$i]->product_id, $this->search[$i]->category_id);
 				}
 
-				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
 
 				if (strstr($data_add, '{product_name}'))
 				{
@@ -420,7 +416,7 @@ class RedshopViewSearch extends RedshopView
 					if ($parentCategoryId != 0)
 					{
 						$parentCategory = RedshopEntityCategory::getInstance($parentCategoryId)->getItem();
-						$data_add = str_replace("{returntoparent_category_name}", $parentCategory->category_name, $data_add);
+						$data_add       = str_replace("{returntoparent_category_name}", $parentCategory->category_name, $data_add);
 					}
 					else
 					{
@@ -470,7 +466,7 @@ class RedshopViewSearch extends RedshopView
 				 ************************************/
 				$data_add = $producthelper->getProductOnSaleComment($this->search[$i], $data_add);
 
-				$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $this->search[$i]->product_id);
+				$data_add = RedshopHelperStockroom::replaceStockroomAmountDetail($data_add, $this->search[$i]->product_id);
 
 				if (strstr($data_add, "{product_thumb_image_3}"))
 				{
@@ -533,10 +529,10 @@ class RedshopViewSearch extends RedshopView
 				// More documents end
 
 				/************************************************ user fields*******************************************************/
-				$hidden_userfield   = "";
-				$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
-				$template_userfield = $returnArr[0];
-				$userfieldArr       = $returnArr[1];
+				$hidden_userfield    = "";
+				$returnArr           = $producthelper->getProductUserfieldFromTemplate($data_add);
+				$template_userfield  = $returnArr[0];
+				$userfieldArr        = $returnArr[1];
 				$count_no_user_field = 0;
 
 				if ($template_userfield != "")
@@ -546,7 +542,7 @@ class RedshopViewSearch extends RedshopView
 					for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 					{
 						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
-						$ufield .= $productUserFields[1];
+						$ufield            .= $productUserFields[1];
 
 						if ($productUserFields[1] != "")
 						{
@@ -591,7 +587,7 @@ class RedshopViewSearch extends RedshopView
 						for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 						{
 							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
-							$ufield           .= $productUserFields[1];
+							$ufield            .= $productUserFields[1];
 
 							if ($productUserFields[1] != "")
 							{
@@ -615,7 +611,7 @@ class RedshopViewSearch extends RedshopView
 
 				// ProductFinderDatepicker Extra Field Start
 
-				$data_add   = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
+				$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
 
@@ -627,8 +623,8 @@ class RedshopViewSearch extends RedshopView
 				if ($manufacturer_id != 0)
 				{
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name = $this->search[$i]->manufacturer_name;
-					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
+					$manufacturer_name      = $this->search[$i]->manufacturer_name;
+					$manufacturer_link      = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
 
 					if (strstr($data_add, "{manufacturer_link}"))
 					{
@@ -753,9 +749,9 @@ class RedshopViewSearch extends RedshopView
 			if (strstr($template_org, "perpagelimit:"))
 			{
 				$usePerPageLimit = true;
-				$perpage       = explode('{perpagelimit:', $template_org);
-				$perpage       = explode('}', $perpage[1]);
-				$template_org = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_org);
+				$perpage         = explode('{perpagelimit:', $template_org);
+				$perpage         = explode('}', $perpage[1]);
+				$template_org    = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_org);
 			}
 
 			if (strstr($template_org, "{product_display_limit}"))
@@ -788,8 +784,8 @@ class RedshopViewSearch extends RedshopView
 			$template_org = str_replace("{with_vat}", "", $template_org);
 			$template_org = str_replace("{without_vat}", "", $template_org);
 
-			$template_org = $redTemplate->parseredSHOPplugin($template_org);
-			$template_org = $texts->replace_texts($template_org);
+			$template_org = RedshopHelperTemplate::parseRedshopPlugin($template_org);
+			$template_org = RedshopHelperText::replaceTexts($template_org);
 
 			eval("?>" . $template_org . "<?php ");
 		}

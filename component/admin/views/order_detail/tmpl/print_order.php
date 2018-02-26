@@ -16,7 +16,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 $redTemplate = Redtemplate::getInstance();
 $OrdersDetail = $this->detail;
-$order_print_template = $redTemplate->getTemplate("order_print");
+$order_print_template = RedshopHelperTemplate::getTemplate("order_print");
 
 if (count($order_print_template) > 0 && $order_print_template[0]->template_desc != "")
 {

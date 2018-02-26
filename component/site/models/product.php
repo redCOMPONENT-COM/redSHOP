@@ -117,11 +117,9 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (empty ($this->_template))
+		if (empty($this->_template))
 		{
-			$this->_template = $redTemplate->getTemplate("product", $this->_data->product_template);
+			$this->_template = RedshopHelperTemplate::getTemplate("product", $this->_data->product_template);
 			$this->_template = $this->_template[0];
 		}
 
@@ -218,7 +216,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$producthelper = productHelper::getInstance();
-		$redshopMail   = redshopMail::getInstance();
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -232,7 +229,7 @@ class RedshopModelProduct extends RedshopModel
 		$username   = $data['username'];
 		$product_id = $data['product_id'];
 
-		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
+		$mailbody = Redshop\Mail\Helper::getTemplate(0, "review_mail");
 
 		$data_add = $message;
 
@@ -256,7 +253,8 @@ class RedshopModelProduct extends RedshopModel
 		$data_add    = str_replace("{title}", $message, $data_add);
 		$data_add    = str_replace("{comment}", $comment, $data_add);
 		$data_add    = str_replace("{username}", $username, $data_add);
-		$data_add    = $redshopMail->imginmail($data_add);
+
+		Redshop\Mail\Helper::imgInMail($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{

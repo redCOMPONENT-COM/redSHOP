@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Helper\Utility;
-
 /**
  * redSHOP User Helper class
  *
@@ -214,7 +212,7 @@ class RsUserHelper
 	 */
 	public function checkCaptcha($data, $displayWarning = true)
 	{
-		return Utility::checkCaptcha($data, $displayWarning);
+		return Redshop\Helper\Utility::checkCaptcha($data, $displayWarning);
 	}
 
 	/**
@@ -224,7 +222,7 @@ class RsUserHelper
 	 * @param   integer  $userId  ID of user
 	 * @param   integer  $admin   Is admin user.
 	 *
-	 * @return  bool|\JTable      RedshopTableUser if success. False otherwise.
+	 * @return  boolean|\JTable      RedshopTableUser if success. False otherwise.
 	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7

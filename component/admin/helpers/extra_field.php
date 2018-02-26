@@ -160,7 +160,7 @@ class extra_field
 	 */
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
-		RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
+		return RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class extra_field
 	 *
 	 * @param   integer  $id  ID of field
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getFieldValue() instead
 	 */

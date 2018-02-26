@@ -236,7 +236,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             </tr>
                             <?php //}?>
                             <?php
-                            $partialPaid        = $orderFunctions->getOrderPartialPayment($orderId);
+                            $partialPaid        = RedshopHelperOrder::getOrderPartialPayment($orderId);
                             $sendMailToCustomer = 0;
                             if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
                             {
@@ -464,11 +464,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <td align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
                                         <td><?php echo $billing->ean_number; ?></td>
                                     </tr>
-                                    <?php $fields = $extraFieldHelper->list_all_field_display(8, $billing->users_info_id);
+                                    <?php $fields = RedshopHelperExtrafields::listAllFieldDisplay(8, $billing->users_info_id);
                                 }
                                 else
                                 {
-                                    $fields = $extraFieldHelper->list_all_field_display(7, $billing->users_info_id);
+                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(7, $billing->users_info_id);
                                 }
                                 echo $fields;
                                 ?>
@@ -511,11 +511,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-                                    <td><?php echo JText::_($orderFunctions->getCountryName($shipping->country_code)); ?></td>
+                                    <td><?php echo JText::_(RedshopHelperOrder::getCountryName($shipping->country_code)); ?></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-                                    <td><?php echo $orderFunctions->getStateName($shipping->state_code, $shipping->country_code); ?></td>
+                                    <td><?php echo RedshopHelperOrder::getStateName($shipping->state_code, $shipping->country_code); ?></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
@@ -525,11 +525,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
                                 if ($isCompany)
                                 {
-                                    $fields = $extraFieldHelper->list_all_field_display(15, $shipping->users_info_id);
+                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(15, $shipping->users_info_id);
                                 }
                                 else
                                 {
-                                    $fields = $extraFieldHelper->list_all_field_display(14, $shipping->users_info_id);
+                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(14, $shipping->users_info_id);
                                 }
                                 echo $fields; ?>
                             </table>
@@ -717,7 +717,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                             </td>
                                                             <td width="20%">
                                                                 <?php
-                                                                echo $orderFunctions->getstatuslist('status', $products[$i]->order_status, "class=\"form-control\" size=\"1\" ");
+                                                                echo RedshopHelperOrder::getStatusList('status', $products[$i]->order_status, "class=\"form-control\" size=\"1\" ");
                                                                 ?>
                                                                 <br/><br/>
                                                                 <textarea cols="30" rows="3" class="form-control"

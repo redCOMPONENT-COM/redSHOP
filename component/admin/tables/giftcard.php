@@ -82,7 +82,7 @@ class RedshopTableGiftcard extends RedshopTable
 
 		if ($image['name'] != '')
 		{
-			$image['name']        = RedShopHelperImages::cleanFileName($image['name']);
+			$image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
 			$this->giftcard_image = $image['name'];
 			JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
 		}
@@ -98,7 +98,7 @@ class RedshopTableGiftcard extends RedshopTable
 
 		if ($bgImage['name'] != '')
 		{
-			$bgImage['name']        = RedShopHelperImages::cleanFileName($bgImage['name']);
+			$bgImage['name']        = RedshopHelperMedia::cleanFileName($bgImage['name']);
 			$this->giftcard_bgimage = $bgImage['name'];
 			JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
 		}

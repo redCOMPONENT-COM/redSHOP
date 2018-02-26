@@ -97,8 +97,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$order_functions  = order_functions::getInstance();
-		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+		$plg_manufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
@@ -155,7 +154,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}

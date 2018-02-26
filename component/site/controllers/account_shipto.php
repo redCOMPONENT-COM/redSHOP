@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAccount_shipto extends RedshopController
+class RedshopControllerAccount_Shipto extends RedshopController
 {
 	/**
 	 * Method to save Shipping Address

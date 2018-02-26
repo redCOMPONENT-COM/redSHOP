@@ -508,12 +508,12 @@ if ($mail == 0)
 
 	$data = str_replace('{mail_link}', $mail_link, $data);
 	$data = str_replace('{all_cart}', $my, $data);
-	$data = $redTemplate->parseredSHOPplugin($data);
+	$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 	echo eval("?>" . $data . "<?php ");
 }
 else
 {
-	$mailtemplate = $redTemplate->getTemplate("wishlist_mail_template");
+	$mailtemplate = RedshopHelperTemplate::getTemplate("wishlist_mail_template");
 
 	if (count($mailtemplate) > 0 && $mailtemplate[0]->template_desc != "")
 	{
@@ -555,5 +555,5 @@ else
 	$data .= '</form>';
 	echo eval("?>" . $data . "<?php ");
 
-	$data = $redTemplate->parseredSHOPplugin($data);
+	$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 }

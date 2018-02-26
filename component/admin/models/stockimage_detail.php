@@ -89,7 +89,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 			$ext         = explode(".", $file['name']);
 			$filetmpname = substr($file['name'], 0, strlen($file['name']) - strlen($ext[count($ext) - 1]));
 
-			$filename                = RedShopHelperImages::cleanFileName($filetmpname . 'jpg');
+			$filename                = RedshopHelperMedia::cleanFileName($filetmpname . 'jpg');
 			$row->stock_amount_image = $filename;
 
 			$src  = $file['tmp_name'];

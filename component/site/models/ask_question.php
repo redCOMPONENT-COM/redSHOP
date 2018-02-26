@@ -24,8 +24,8 @@ class RedshopModelAsk_Question extends RedshopModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data     Data for the form.
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -61,7 +61,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 	/**
 	 * Method to store the records
 	 *
-	 * @param   array  $data  array of data
+	 * @param   array $data array of data
 	 *
 	 * @return bool
 	 */
@@ -75,7 +75,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data['published']     = 1;
 		$data['question_date'] = time();
 
-		$row              = $this->getTable('Question');
+		$row = $this->getTable('Question');
 
 		$data['ordering'] = $this->MaxOrdering();
 
@@ -105,7 +105,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 	 */
 	public function MaxOrdering()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('MAX(ordering)+1')
 			->from($db->qn('#__redshop_customer_question'))
@@ -117,9 +117,9 @@ class RedshopModelAsk_Question extends RedshopModelForm
 	/**
 	 * Send Mail For Ask Question
 	 *
-	 * @param   array  $data  Question data
+	 * @param   array $data Question data
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function sendMailForAskQuestion($data)
 	{
@@ -128,14 +128,13 @@ class RedshopModelAsk_Question extends RedshopModelForm
 			return false;
 		}
 
-		$redshopMail = redshopMail::getInstance();
-		$Itemid     = $data['Itemid'];
-		$mailbcc    = null;
-		$subject    = '';
-		$message    = $data['your_question'];
-		$productId  = $data['product_id'];
-		$mailbody   = $redshopMail->getMailtemplate(0, 'ask_question_mail');
-		$data_add   = $message;
+		$Itemid    = $data['Itemid'];
+		$mailbcc   = null;
+		$subject   = '';
+		$message   = $data['your_question'];
+		$productId = $data['product_id'];
+		$mailbody  = Redshop\Mail\Helper::getTemplate(0, 'ask_question_mail');
+		$data_add  = $message;
 
 		if (count($mailbody) > 0)
 		{
@@ -148,7 +147,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 			}
 		}
 
-		$product = RedshopHelperProduct::getProductById($productId);
+		$product  = RedshopHelperProduct::getProductById($productId);
 		$data_add = str_replace('{product_name}', $product->product_name, $data_add);
 		$data_add = str_replace('{product_desc}', $product->product_desc, $data_add);
 
@@ -156,17 +155,18 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data['address']   = isset($data['address']) ? $data['address'] : null;
 		$data['telephone'] = isset($data['telephone']) ? $data['telephone'] : null;
 
-		$link        = JRoute::_(JURI::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $Itemid);
-		$data_add    = str_replace('{product_link}', '<a href="' . $link . '">' . $product->product_name . '</a>', $data_add);
-		$data_add    = str_replace('{user_question}', $message, $data_add);
-		$data_add    = str_replace('{answer}', '', $data_add);
-		$subject     = str_replace('{user_question}', $message, $subject);
-		$subject     = str_replace('{shopname}', Redshop::getConfig()->get('SHOP_NAME'), $subject);
-		$data_add    = str_replace('{user_address}', $data['address'], $data_add);
-		$data_add    = str_replace('{user_telephone}', $data['telephone'], $data_add);
-		$data_add    = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
-		$data_add    = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
-		$data_add = $redshopMail->imginmail($data_add);
+		$link     = JRoute::_(JURI::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $Itemid);
+		$data_add = str_replace('{product_link}', '<a href="' . $link . '">' . $product->product_name . '</a>', $data_add);
+		$data_add = str_replace('{user_question}', $message, $data_add);
+		$data_add = str_replace('{answer}', '', $data_add);
+		$subject  = str_replace('{user_question}', $message, $subject);
+		$subject  = str_replace('{shopname}', Redshop::getConfig()->get('SHOP_NAME'), $subject);
+		$data_add = str_replace('{user_address}', $data['address'], $data_add);
+		$data_add = str_replace('{user_telephone}', $data['telephone'], $data_add);
+		$data_add = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
+		$data_add = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
+
+		Redshop\Mail\Helper::imgInMail($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{

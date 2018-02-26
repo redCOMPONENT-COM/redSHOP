@@ -105,7 +105,7 @@ $model = $this->getModel('newsletter_detail');
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS'); ?></legend>
 			<table class="admintable table">
 				<tr>
-					<td><?php echo Redtemplate::getTemplateValues('newsletter', 'mail'); ?></td>
+					<td><?php echo RedshopHelperTemplate::getTemplateValues('newsletter', 'mail'); ?></td>
 				</tr>
 			</table>
 		</fieldset>

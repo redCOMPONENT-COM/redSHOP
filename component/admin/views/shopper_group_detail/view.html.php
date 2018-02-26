@@ -28,8 +28,6 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$shoppergroup = new shoppergroup;
-
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
@@ -60,7 +58,7 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$groups                = $shoppergroup->list_all("parent_id", $detail->shopper_group_id);
+		$groups                = RedshopHelperShopper_Group::listAll("parent_id", $detail->shopper_group_id);
 		$lists['groups']       = $groups;
 		$model                 = $this->getModel('shopper_group_detail');
 		$optioncustomer        = array();
@@ -90,9 +88,8 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 
 		$shopper_group_categories = $detail->shopper_group_categories;
 		$shopper_group_categories = explode(",", $shopper_group_categories);
-		$shoppergroup_category    = new product_category;
 
-		$categories          = $shoppergroup_category->list_all("shopper_group_categories[]", 0, $shopper_group_categories, 20, true, true, array(), 250);
+		$categories          = RedshopHelperCategory::listAll("shopper_group_categories[]", 0, $shopper_group_categories, 20, true, true, array(), 250);
 		$lists['categories'] = $categories;
 
 		$shopper_group_manufactures = '';

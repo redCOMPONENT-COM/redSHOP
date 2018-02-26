@@ -216,7 +216,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 		if ($wrapperfile['name'] != "")
 		{
-			$wrapperimg = RedShopHelperImages::cleanFileName($wrapperfile['name']);
+			$wrapperimg = RedshopHelperMedia::cleanFileName($wrapperfile['name']);
 
 			$src  = $wrapperfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper/' . $wrapperimg;

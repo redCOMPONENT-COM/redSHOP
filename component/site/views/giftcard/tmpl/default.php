@@ -238,7 +238,7 @@ if ($gid != 0)
 	// Cart
 	$template = $producthelper->replaceCartTemplate($gid, 0, 0, 0, $template, false, $userfieldArr, 0, 0, $count_no_user_field, 0, $gid);
 
-	$template = $redTemplate->parseredSHOPplugin($template);
+	$template = RedshopHelperTemplate::parseRedshopPlugin($template);
 	echo eval("?>" . $template . "<?php ");
 }
 else

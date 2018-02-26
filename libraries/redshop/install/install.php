@@ -78,6 +78,7 @@ class RedshopInstall
 	 * @return  int   Number of synchronized user.
 	 *
 	 * @since   2.0.6
+	 * @throws  Exception
 	 */
 	public static function synchronizeUser()
 	{
@@ -94,8 +95,6 @@ class RedshopInstall
 			return 0;
 		}
 
-		$userHelper = rsUserHelper::getInstance();
-
 		foreach ($joomlaUsers as $joomlaUser)
 		{
 			$name = explode(" ", $joomlaUser->name);
@@ -110,7 +109,7 @@ class RedshopInstall
 			$post['password1']  = '';
 			$post['billisship'] = 1;
 
-			$userHelper->storeRedshopUser($post, $joomlaUser->id, 1);
+			RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id, 1);
 		}
 
 		return count($joomlaUsers);
@@ -199,7 +198,7 @@ class RedshopInstall
 
 		$db->setQuery($query)->execute();
 
-		$query = $db->getQuery(true)
+		$query     = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__redshop_template'))
 			->order($db->qn('id'));
@@ -207,6 +206,7 @@ class RedshopInstall
 
 		foreach ($templates as $templateId)
 		{
+			/** @var RedshopTableTemplate $table */
 			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
 			$table->load($templateId);

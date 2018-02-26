@@ -576,7 +576,7 @@ class RedshopHelperShipping
 	/**
 	 * Get shipping method by id
 	 *
-	 * @param   int $id Shipping id
+	 * @param   integer  $id  Shipping id
 	 *
 	 * @return  object
 	 *
@@ -590,7 +590,7 @@ class RedshopHelperShipping
 			->select('*')
 			->select($db->qn('extension_id', 'id'))
 			->from($db->qn('#__extensions'))
-			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->quote($folder))
+			->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote($folder))
 			->where($db->qn('extension_id') . ' = ' . $db->quote((int) $id));
 
 		return $db->setQuery($query)->loadObject();

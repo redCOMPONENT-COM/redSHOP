@@ -17,7 +17,7 @@ $Itemid = $app->input->getInt('Itemid');
 $layout = $app->input->getCmd('layout', 'default');
 $model  = $this->getModel('catalog');
 
-$template = $redTemplate->getTemplate("product_sample");
+$template = RedshopHelperTemplate::getTemplate("product_sample");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {

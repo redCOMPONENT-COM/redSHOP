@@ -95,7 +95,7 @@ class RedshopControllerOrder extends RedshopController
 	/**
 	 * Update all Order Status using AJAX
 	 *
-	 * @param   boolean  $isPacsoft  If true then Pacsoft lable will be created else not
+	 * @param   boolean $isPacsoft If true then Pacsoft lable will be created else not
 	 *
 	 * @return  void
 	 */
@@ -136,14 +136,13 @@ class RedshopControllerOrder extends RedshopController
 		// Force disable error reporting to get clean ajax response
 		error_reporting(0);
 
-		$app             = JFactory::getApplication();
-		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
-		$post            = unserialize($serialized);
-		$orderId         = $this->input->getInt('oid', 0);
-		$order_functions = order_functions::getInstance();
+		$app        = JFactory::getApplication();
+		$serialized = $app->getUserState("com_redshop.order.batch.postdata");
+		$post       = unserialize($serialized);
+		$orderId    = $this->input->getInt('oid', 0);
 
 		// Change Order Status
-		$order_functions->orderStatusUpdate($orderId, $post);
+		RedshopHelperOrder::orderStatusUpdate($orderId, $post);
 
 		$response = array(
 			'message' => '<li class="success text-success">' . JText::sprintf('COM_REDSHOP_AJAX_ORDER_UPDATE_SUCCESS', $orderId) . '</li>'
@@ -151,7 +150,7 @@ class RedshopControllerOrder extends RedshopController
 
 		// Trigger when order status changed.
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
+		RedshopHelperUtility::getDispatcher()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
 
 		ob_clean();
 		echo json_encode($response);
@@ -188,9 +187,8 @@ class RedshopControllerOrder extends RedshopController
 	{
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$order_id       = $this->input->getInt('order_id');
-			$order_function = order_functions::getInstance();
-			$paymentInfo    = RedshopHelperOrder::getPaymentInfo($order_id);
+			$order_id    = $this->input->getInt('order_id');
+			$paymentInfo = RedshopEntityOrder::getInstance($order_id)->getPayment()->getItem();
 
 			if ($paymentInfo)
 			{
@@ -236,10 +234,11 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper  = productHelper::getInstance();
-		$order_function = order_functions::getInstance();
+		$producthelper = productHelper::getInstance();
 
-		$model         = $this->getModel('order');
+		/** @var RedshopModelOrder $model */
+		$model = $this->getModel('order');
+
 		$data          = $model->export_data();
 		$product_count = array();
 		$db            = JFactory::getDbo();
@@ -264,7 +263,6 @@ class RedshopControllerOrder extends RedshopController
 
 		$no_products = max($product_count);
 
-		$shipping_helper = shipping::getInstance();
 		ob_clean();
 
 		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
@@ -287,7 +285,7 @@ class RedshopControllerOrder extends RedshopController
 			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
-			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
+			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
 
 			if (empty($details))
@@ -315,7 +313,7 @@ class RedshopControllerOrder extends RedshopController
 			echo $billing_info->country_code . " ,";
 			echo str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname) . " ,";
 
-			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
+			$no_items = RedshopHelperOrder::getOrderItemDetail($data [$i]->order_id);
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
@@ -335,7 +333,7 @@ class RedshopControllerOrder extends RedshopController
 				echo str_repeat(' ,', $temp * 3);
 			}
 
-			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
+			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
 		}
 
 		exit();
@@ -357,9 +355,8 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper  = productHelper::getInstance();
-		$order_function = order_functions::getInstance();
-		$model          = $this->getModel('order');
+		$producthelper = productHelper::getInstance();
+		$model         = $this->getModel('order');
 
 		$product_count = array();
 		$db            = JFactory::getDbo();
@@ -429,10 +426,10 @@ class RedshopControllerOrder extends RedshopController
 			echo $shipping_address->country_code . ",";
 			echo $shipping_address->zipcode . ",";
 
-			echo $order_function->getOrderStatusTitle($data [$i]->order_status) . ",";
+			echo RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status) . ",";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . ",";
 
-			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
+			$no_items = RedshopHelperOrder::getOrderItemDetail($data [$i]->order_id);
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
@@ -466,10 +463,8 @@ class RedshopControllerOrder extends RedshopController
 
 	public function generateParcel()
 	{
-		$order_function = order_functions::getInstance();
 		$order_id       = $this->input->getInt('order_id');
-
-		$generate_label = $order_function->generateParcel($order_id);
+		$generate_label = RedshopHelperOrder::generateParcel($order_id);
 
 		if ($generate_label == "success")
 		{
@@ -530,14 +525,16 @@ class RedshopControllerOrder extends RedshopController
 
 	public function gls_export()
 	{
-		$cid   = $this->input->get('cid', array(0), 'array');
+		$cid = $this->input->get('cid', array(0), 'array');
+		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
 		$model->gls_export($cid);
 	}
 
 	public function business_gls_export()
 	{
-		$cid   = $this->input->get('cid', array(0), 'array');
+		$cid = $this->input->get('cid', array(0), 'array');
+		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
 	}

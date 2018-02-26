@@ -286,7 +286,7 @@ class rsCarthelper
 
 			if (JFile::exists($dirname))
 			{
-				$attribute_image_path = RedShopHelperImages::getImagePath(
+				$attribute_image_path = RedshopHelperMedia::getImagePath(
 											$rowitem[$i]->attribute_image,
 											'',
 											'thumb',
@@ -301,7 +301,7 @@ class rsCarthelper
 			{
 				if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem[$i]->attribute_image) && Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART'))
 				{
-					$attribute_image_path = RedShopHelperImages::getImagePath(
+					$attribute_image_path = RedshopHelperMedia::getImagePath(
 												$rowitem[$i]->attribute_image,
 												'',
 												'thumb',
@@ -329,7 +329,7 @@ class rsCarthelper
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
-							$attribute_image_path = RedShopHelperImages::getImagePath(
+							$attribute_image_path = RedshopHelperMedia::getImagePath(
 														$product_full_image,
 														'',
 														'thumb',
@@ -344,7 +344,7 @@ class rsCarthelper
 						{
 							if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 							{
-								$attribute_image_path = RedShopHelperImages::getImagePath(
+								$attribute_image_path = RedshopHelperMedia::getImagePath(
 															Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 															'',
 															'thumb',
@@ -361,7 +361,7 @@ class rsCarthelper
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 						{
-							$attribute_image_path = RedShopHelperImages::getImagePath(
+							$attribute_image_path = RedshopHelperMedia::getImagePath(
 														Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 														'',
 														'thumb',
@@ -621,7 +621,7 @@ class rsCarthelper
 			}
 
 			// Get Downloadable Products
-			$downloadProducts     = $this->_order_functions->getDownloadProduct($rowitem[$i]->order_id);
+			$downloadProducts     = RedshopHelperOrder::getDownloadProduct($rowitem[$i]->order_id);
 			$totalDownloadProduct = count($downloadProducts);
 
 			$dproducts = array();
@@ -633,7 +633,7 @@ class rsCarthelper
 			}
 
 			// Get Downloadable Products Logs
-			$downloadProductslog     = $this->_order_functions->getDownloadProductLog($rowitem[$i]->order_id);
+			$downloadProductslog     = RedshopHelperOrder::getDownloadProductLog($rowitem[$i]->order_id);
 			$totalDownloadProductlog = count($downloadProductslog);
 
 			$dproductslog = array();
@@ -1347,7 +1347,7 @@ class rsCarthelper
 	public function replaceShippingBoxTemplate($box_template_desc = "", $shipping_box_post_id = 0)
 	{
 		// Get shipping boxes HTML
-		$shippingBoxes = $this->_shippinghelper->getShippingBox();
+		$shippingBoxes = RedshopHelperShipping::getShippingBox();
 
 		$box_template_desc = str_replace("{shipping_box_heading}", JText::_('COM_REDSHOP_SHIPPING_BOXES'), $box_template_desc);
 
@@ -1387,7 +1387,7 @@ class rsCarthelper
 		$box_template_desc = str_replace("{shipping_box_list}", $shipping_box_list, $box_template_desc);
 		$style             = 'none';
 
-		$shippingmethod = $this->_order_functions->getShippingMethodInfo();
+		$shippingmethod = RedshopHelperOrder::getShippingMethodInfo();
 
 		for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 		{
@@ -1409,7 +1409,7 @@ class rsCarthelper
 
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
-		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
+		$shippingmethod       = RedshopHelperOrder::getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
 		$d                    = array();
@@ -1525,7 +1525,7 @@ class rsCarthelper
 
 								if (strpos($data, "{shipping_location}") !== false)
 								{
-									$shippinglocation = $this->_order_functions->getshippinglocationinfo($rate[$i]->text);
+									$shippinglocation = RedshopHelperOrder::getShippingLocationInfo($rate[$i]->text);
 
 									for ($k = 0, $kn = count($shippinglocation); $k < $kn; $k++)
 									{
@@ -1625,7 +1625,7 @@ class rsCarthelper
 			return '';
 		}
 
-		$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 		$paymentmethod = $paymentmethod[0];
 
 		$cardinfo = "";

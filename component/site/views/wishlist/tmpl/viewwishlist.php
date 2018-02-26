@@ -26,7 +26,7 @@ $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
 $redTemplate        = Redtemplate::getInstance();
 $extraField         = extraField::getInstance();
-$template           = $redTemplate->getTemplate("wishlist_template");
+$template           = RedshopHelperTemplate::getTemplate("wishlist_template");
 $wishlist_data1     = $template[0]->template_desc;
 $returnArr          = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
 $template_userfield = $returnArr[0];
@@ -170,8 +170,7 @@ function display_products($rows)
 {
 	$session       = JFactory::getSession();
 	$producthelper = productHelper::getInstance();
-	$redTemplate   = Redtemplate::getInstance();
-	$template      = $redTemplate->getTemplate("wishlist_template");
+	$template      = RedshopHelperTemplate::getTemplate("wishlist_template");
 
 	if (count($template) <= 0)
 	{

@@ -21,7 +21,7 @@ $image_path = $type . '/' . trim($image);
 <?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path) && trim($image) != "") : ?>
 
 <?php
-	$thumbUrl = RedShopHelperImages::getImagePath(
+	$thumbUrl = RedshopHelperMedia::getImagePath(
 		$image,
 		'',
 		'thumb',
