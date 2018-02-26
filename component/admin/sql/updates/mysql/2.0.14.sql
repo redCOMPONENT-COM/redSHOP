@@ -1,5 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- ------------------------------------------------------
 -- Table `#__redshop_manufacturer`
 -- ------------------------------------------------------
 CALL redSHOP_Index_Remove('#__redshop_manufacturer', 'idx_published');
