@@ -23,7 +23,6 @@
                     $wrapper = $("<div>")
                         .attr("id", "redshop-alert-wrapper")
                         .css({
-                            "display": "none",
                             "position": "fixed",
                             "top": "60px",
                             "right": "10px",
@@ -40,7 +39,17 @@
          * Display alert function
          */
         this.display = function () {
-            $wrapper.fadeIn('slow');
+            $wrapper.find("div.alert-item").each(function(index, item){
+                var $item = $(item);
+
+                $item.fadeIn('slow', function(){
+                    window.setTimeout(function () {
+                        $item.fadeOut('slow', function(){
+                            $item.remove();
+                        });
+                    }, 2500);
+                });
+            });
         };
 
         /**
@@ -48,19 +57,15 @@
          */
         this.prepare = function () {
             var $div = $("<div>")
-                .attr("class", "").addClass("callout callout-" + msgType)
+                .attr("class", "alert-item")
+                .addClass("callout callout-" + msgType)
                 .append(
-                    $("<h4>")
-                        .html(msgTitle)
-                        .append(
-                            $("<i>").addClass("fa fa-close pull-right")
-                                .css({"cursor" : "pointer"})
-                                .click(function(evt){
-                                    $(this).parent().parent().remove();
-                                })
-                        )
+                    $("<h4>").html(msgTitle)
                 )
-                .append($("<p>").html(msgBody));
+                .append($("<p>").html(msgBody))
+                .click(function(evt){
+                    $(this).remove();
+                });
 
             $div.appendTo($wrapper);
         };

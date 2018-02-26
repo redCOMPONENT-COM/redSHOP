@@ -217,8 +217,9 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 		// Graceful exit and rollback if read not successful
 		if (false === $buffer)
 		{
+			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo json_encode((object) array('msg' => JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), 'continue' => 0));
+			echo JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER');
 			$app->close();
 		}
 
@@ -246,8 +247,9 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 			}
 			catch (JDatabaseExceptionExecuting $e)
 			{
+				$app->setHeader('status', 500);
 				$app->sendHeaders();
-				echo json_encode((object) array('msg' => JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), 'continue' => 0));
+				echo JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
 				$app->close();
 			}
 		}

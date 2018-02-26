@@ -18,6 +18,6 @@ ALTER TABLE `#__redshop_siteviewer` ENGINE = InnoDB;
 
 ALTER TABLE `#__redshop_pageviewer` ENGINE = InnoDB;
 
-ALTER TABLE `#__redshop_cart` ADD PRIMARY KEY(`session_id`, `product_id`, `section`);
+CALL redSHOP_Primary_Add('#__redshop_cart', "`session_id`, `product_id`, `section`");
 
 SET FOREIGN_KEY_CHECKS = 1;
