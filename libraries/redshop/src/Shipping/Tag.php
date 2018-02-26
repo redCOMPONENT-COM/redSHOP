@@ -181,14 +181,14 @@ class Tag
 		if (strpos($templateHtml, '{shipping_address_start}') !== false
 			&& strpos($templateHtml, '{shipping_address_end}') !== false)
 		{
-			self::replaceShippingAddressStartEnd($templateHtml, $shippingAddress, $sendMail, $shippingEnable);
+			self::replaceShippingAddressStartEnd($templateHtml, $shippingAddress, $shippingEnable);
 		}
 		elseif (strpos($templateHtml, '{shipping_address}') !== false)
 		{
 			self::replaceShippingAddressBlock($templateHtml, $shippingAddress, $sendMail, $shippingEnable);
 		}
 
-		$shippingText = $shippingEnable == true ? \JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
+		$shippingText = $shippingEnable === true ? \JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
 		$templateHtml = str_replace("{shipping_address_information_lbl}", $shippingText, $templateHtml);
 
 		return $templateHtml;
@@ -243,11 +243,10 @@ class Tag
 	}
 
 	/**
-	 * Replace Shipping Address block {shipping_address}
+	 * Replace Shipping Address block {shipping_address_start}...{shipping_address_end}
 	 *
 	 * @param   string  $templateHtml    Template content
 	 * @param   object  $shippingAddress Shipping address
-	 * @param   boolean $sendMail        Is in send mail
 	 * @param   boolean $shippingEnable  Enable shipping or not
 	 *
 	 * @return  void
@@ -255,7 +254,7 @@ class Tag
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function replaceShippingAddressStartEnd(&$templateHtml, $shippingAddress, $sendMail, $shippingEnable)
+	protected static function replaceShippingAddressStartEnd(&$templateHtml, $shippingAddress, $shippingEnable)
 	{
 		// Remove {shipping_address} tag
 		$templateHtml = str_replace("{shipping_address}", "", $templateHtml);
@@ -264,144 +263,135 @@ class Tag
 		$templateEnd   = explode('{shipping_address_end}', $templateStart[1]);
 		$shippingData  = $shippingEnable ? $templateEnd[0] : '';
 
-		$search = array(
-			'{companyname}',
-			'{companyname_lbl}',
-			'{firstname}',
-			'{firstname_lbl}',
-			'{lastname}',
-			'{lastname_lbl}',
-			'{address}',
-			'{address_lbl}',
-			'{zip}',
-			'{zip_lbl}',
-			'{city}',
-			'{city_lbl}',
-			'{country}',
-			'{country_lbl}',
-			'{state}',
-			'{state_lbl}',
-			'{phone}',
-			'{phone_lbl}',
-			'{shipping_extrafield}'
-		);
-
-		$replaces = array();
-
 		if (null !== $shippingAddress && $shippingAddress !== new \stdClass && $shippingEnable)
 		{
 			$extraSection = $shippingAddress->is_company == 1 ?
 				\RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
 
-			if ($shippingAddress->is_company == 1 && !empty($shippingAddress->company_name))
+			if ($shippingAddress->is_company == 1)
 			{
-				$replaces[] = $shippingAddress->company_name;
-				$replaces[] = \JText::_('COM_REDSHOP_COMPANY_NAME');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
-
-			if (!empty($shippingAddress->firstname))
-			{
-				$replaces[] = $shippingAddress->firstname;
-				$replaces[] = \JText::_('COM_REDSHOP_FIRSTNAME');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
+				self::replaceTag(
+					$shippingData,
+					$shippingAddress->company_name,
+					array('{companyname}', '{companyname_lbl}'),
+					array($shippingAddress->company_name, \JText::_('COM_REDSHOP_COMPANY_NAME'))
+				);
 			}
 
-			if (!empty($shippingAddress->lastname))
-			{
-				$replaces[] = $shippingAddress->lastname;
-				$replaces[] = \JText::_('COM_REDSHOP_LASTNAME');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
+			self::replaceTag(
+				$shippingData,
+				$shippingAddress->firstname,
+				array('{firstname}', '{firstname_lbl}'),
+				array($shippingAddress->firstname, \JText::_('COM_REDSHOP_FIRSTNAME'))
+			);
 
-			if (!empty($shippingAddress->address))
-			{
-				$replaces[] = $shippingAddress->address;
-				$replaces[] = \JText::_('COM_REDSHOP_ADDRESS');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
+			self::replaceTag(
+				$shippingData,
+				$shippingAddress->lastname,
+				array('{lastname}', '{lastname_lbl}'),
+				array($shippingAddress->lastname, \JText::_('COM_REDSHOP_LASTNAME'))
+			);
 
-			if (!empty($shippingAddress->zipcode))
-			{
-				$replaces[] = $shippingAddress->zipcode;
-				$replaces[] = \JText::_('COM_REDSHOP_ZIP');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
+			self::replaceTag(
+				$shippingData,
+				$shippingAddress->address,
+				array('{address}', '{address_lbl}'),
+				array($shippingAddress->address, \JText::_('COM_REDSHOP_ADDRESS'))
+			);
 
-			if (!empty($shippingAddress->city))
-			{
-				$replaces[] = $shippingAddress->city;
-				$replaces[] = \JText::_('COM_REDSHOP_CITY');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
+			self::replaceTag(
+				$shippingData,
+				$shippingAddress->zipcode,
+				array('{zip}', '{zip_lbl}'),
+				array($shippingAddress->zipcode, \JText::_('COM_REDSHOP_ZIP'))
+			);
+
+			self::replaceTag(
+				$shippingData,
+				$shippingAddress->city,
+				array('{city}', '{city_lbl}'),
+				array($shippingAddress->city, \JText::_('COM_REDSHOP_CITY'))
+			);
 
 			$cname = \RedshopHelperOrder::getCountryName($shippingAddress->country_code);
-
-			if (!empty($cname))
-			{
-				$replaces[] = \JText::_($cname);
-				$replaces[] = \JText::_('COM_REDSHOP_COUNTRY');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
+			self::replaceTag(
+				$shippingData,
+				$cname,
+				array('{country}', '{country_lbl}'),
+				array(\JText::_($cname), \JText::_('COM_REDSHOP_COUNTRY'))
+			);
 
 			$stateName = \RedshopHelperOrder::getStateName($shippingAddress->state_code, $shippingAddress->country_code);
+			self::replaceTag(
+				$shippingData,
+				$stateName,
+				array('{state}', '{state_lbl}'),
+				array($stateName, \JText::_('COM_REDSHOP_STATE'))
+			);
 
-			if (!empty($stateName))
-			{
-				$replaces[] = $stateName;
-				$replaces[] = \JText::_('COM_REDSHOP_STATE');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
+			self::replaceTag(
+				$shippingData,
+				$shippingAddress->phone,
+				array('{phone}', '{phone_lbl}'),
+				array($shippingAddress->phone, \JText::_('COM_REDSHOP_PHONE'))
+			);
 
-			if (!empty($shippingAddress->phone))
-			{
-				$replaces[] = $shippingAddress->phone;
-				$replaces[] = \JText::_('COM_REDSHOP_PHONE');
-			}
-			else
-			{
-				$replaces[] = '';
-				$replaces[] = '';
-			}
-
-			$replaces[] = \RedshopHelperExtrafields::listAllFieldDisplay($extraSection, $shippingAddress->users_info_id, 1);
+			$shippingData = str_replace(
+				'{shipping_extrafield}',
+				\RedshopHelperExtrafields::listAllFieldDisplay($extraSection, $shippingAddress->users_info_id, 1),
+				$shippingData
+			);
 
 			// Additional functionality - more flexible way
 			$shippingData = \Redshop\Helper\ExtraFields::displayExtraFields($extraSection, $shippingAddress->users_info_id, "", $shippingData);
 		}
+		else
+		{
+			$shippingData = str_replace(
+				array(
+					'{companyname}',
+					'{companyname_lbl}',
+					'{firstname}',
+					'{firstname_lbl}',
+					'{lastname}',
+					'{lastname_lbl}',
+					'{address}',
+					'{address_lbl}',
+					'{zip}',
+					'{zip_lbl}',
+					'{city}',
+					'{city_lbl}',
+					'{country}',
+					'{country_lbl}',
+					'{state}',
+					'{state_lbl}',
+					'{phone}',
+					'{phone_lbl}',
+					'{shipping_extrafield}'
+				),
+				'',
+				$shippingData
+			);
+		}
 
-		$templateHtml = $templateStart[0] . str_replace($search, $replaces, $shippingData) . $templateEnd[1];
+		$templateHtml = $templateStart[0] . $shippingData . $templateEnd[1];
+	}
+
+	/**
+	 * Method for replace with condition
+	 *
+	 * @param   string $html      Template Html
+	 * @param   string $condition Condition for check
+	 * @param   array  $search    List of tag
+	 * @param   array  $replace   List of associated data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function replaceTag(&$html, $condition = '', $search = array(), $replace = array())
+	{
+		$replace = !empty($condition) ? $replace : '';
+		$html    = str_replace($search, $replace, $html);
 	}
 }
