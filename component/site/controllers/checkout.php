@@ -429,7 +429,7 @@ class RedshopControllerCheckout extends RedshopController
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shipping_rate_id = $input->post->getString('shipping_rate_id', '');
-			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
+			$shippingdetail   = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 
 			if (count($shippingdetail) < 4)
 			{

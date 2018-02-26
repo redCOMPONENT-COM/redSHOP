@@ -705,7 +705,7 @@ class RedshopHelperOrder
 		$orderProducts             = self::getOrderItemDetail($orderId);
 		$billingInfo               = self::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = self::getOrderShippingUserInfo($orderId);
-		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
+		$shippingRateDecryptDetail = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
 		$shippingDeliveryType = 1;
@@ -2512,7 +2512,7 @@ class RedshopHelperOrder
 			$replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
 			// Todo: Move to the shipping plugin to return track no and track url
-			$details = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
+			$details = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
 
 			if (count($details) <= 1)
 			{
@@ -2762,7 +2762,7 @@ class RedshopHelperOrder
 		if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentStatus == "Paid")
 		{
 			$orderDetails   = self::getOrderDetails($orderId);
-			$details        = RedshopShippingRate::decrypt($orderDetails->ship_method_id);
+			$details        = Redshop\Shipping\Rate::decrypt($orderDetails->ship_method_id);
 
 			$shippingParams = new Registry(
 								JPluginHelper::getPlugin(

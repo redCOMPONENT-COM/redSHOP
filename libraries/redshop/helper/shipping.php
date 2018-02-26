@@ -494,15 +494,16 @@ class RedshopHelperShipping
 	 *
 	 * @param   string $strMessage String to encrypt
 	 *
-	 * @deprecated 1.6  Use RedshopShippingRate::encrypt(array);
-	 *
 	 * @return  string  Encrypt shipping rate
 	 *
 	 * @since      2.0.0.3
+	 *
+	 * @deprecated __DEPLOY_VERSION__ Redshop\Shipping\Rate::encrypt
+	 * @see Redshop\Shipping\Rate::encrypt
 	 */
 	public static function encryptShipping($strMessage)
 	{
-		return RedshopShippingRate::encrypt(array($strMessage));
+		return Redshop\Shipping\Rate::encrypt(array($strMessage));
 	}
 
 	/**
@@ -510,15 +511,16 @@ class RedshopHelperShipping
 	 *
 	 * @param   string $strMessage String to decrypt
 	 *
-	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
-	 *
 	 * @return  array  Decrypt shipping rate
 	 *
-	 * @since      2.0.0.3
+	 * @since   2.0.0.3
+	 *
+	 * @deprecated __DEPLOY_VERSION__ Redshop\Shipping\Rate::decrypt
+	 * @see Redshop\Shipping\Rate::decrypt
 	 */
 	public static function decryptShipping($strMessage)
 	{
-		return RedshopShippingRate::decrypt($strMessage);
+		return Redshop\Shipping\Rate::decrypt($strMessage);
 	}
 
 	/**
@@ -626,33 +628,14 @@ class RedshopHelperShipping
 	 *
 	 * @since   2.0.0.3
 	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::applyVat
+	 *
 	 * @throws  InvalidArgumentException
 	 */
 	public static function applyVatOnShippingRate($shippingRate, $data)
 	{
-		if (!is_array($data))
-		{
-			throw new InvalidArgumentException(
-				__FUNCTION__ . ' function only accepts array as 2nd argument. Input was: ' . gettype($data)
-			);
-		}
-
-		$shippingRateVat = $shippingRate->shipping_rate_value;
-
-		if ($shippingRate->apply_vat != 1)
-		{
-			return $shippingRateVat;
-		}
-
-		$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
-		$addVat = RedshopHelperCart::taxExemptAddToCart($data['user_id']);
-
-		if (!empty($result) && $addVat && $result->tax_rate > 0)
-		{
-			$shippingRateVat = ($shippingRateVat * $result->tax_rate) + $shippingRateVat;
-		}
-
-		return $shippingRateVat;
+		return Redshop\Shipping\Rate::applyVat($shippingRate, $data);
 	}
 
 	/**
@@ -957,7 +940,7 @@ class RedshopHelperShipping
 
 			if ($isAdmin == false)
 			{
-				$shipping = self::filterRatesByPriority($shipping);
+				$shipping = Redshop\Shipping\Rate::filterRatesByPriority($shipping);
 			}
 
 			return $shipping;
@@ -966,7 +949,7 @@ class RedshopHelperShipping
 		{
 			if ($isAdmin == false)
 			{
-				$shippingRate = self::filterRatesByPriority($shippingRate);
+				$shippingRate = Redshop\Shipping\Rate::filterRatesByPriority($shippingRate);
 			}
 
 			return $shippingRate;
@@ -1181,21 +1164,13 @@ class RedshopHelperShipping
 	 * @param   array  $shippingRates  Array shipping rates
 	 *
 	 * @return  array
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::filterRatesByPriority
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
-		$filteredRates = array();
-
-		for ($i = 0, $j = 0, $ni = count($shippingRates); $i < $ni; $i++)
-		{
-			if ($shippingRates[0]->shipping_rate_priority == $shippingRates[$i]->shipping_rate_priority)
-			{
-				$filteredRates[$j] = $shippingRates[$i];
-				$j++;
-			}
-		}
-
-		return $filteredRates;
+		return Redshop\Shipping\Rate::filterRatesByPriority($shippingRates);
 	}
 
 	/**
@@ -1762,156 +1737,14 @@ class RedshopHelperShipping
 	 * @return  string
 	 *
 	 * @since   2.0.0.3
-	 *
 	 * @throws  Exception
+	 *
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::getFreeShippingRate
 	 */
 	public static function getFreeShippingRate($shippingRateId = 0)
 	{
-		$input         = JFactory::getApplication()->input;
-		$usersInfoId   = $input->getInt('users_info_id', 0);
-		$productHelper = productHelper::getInstance();
-		$session       = JFactory::getSession();
-		$cart          = $session->get('cart', null);
-		$db            = JFactory::getDbo();
-
-		$idx = 0;
-
-		if (isset($cart ['idx']) === true)
-		{
-			$idx = (int) ($cart['idx']);
-		}
-
-		$orderSubtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$user           = JFactory::getUser();
-		$userId         = $user->id;
-
-		if (!empty($idx))
-		{
-			$text = JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
-		}
-		else
-		{
-			return JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE_WHEN_NOPRODUCT_IN_CART');
-		}
-
-		// Try to load user information
-		$userInfo     = null;
-		$country      = null;
-		$state        = null;
-		$isCompany    = null;
-		$shopperGroup = null;
-		$zip          = null;
-
-		if ($userId)
-		{
-			if ($usersInfoId)
-			{
-				$userInfo = self::getShippingAddress($usersInfoId);
-			}
-			elseif ($userInfo = RedshopHelperOrder::getShippingAddress($userId))
-			{
-				$userInfo = $userInfo[0];
-			}
-		}
-
-		if ($userInfo)
-		{
-			$country      = $userInfo->country_code;
-			$state        = $userInfo->state_code;
-			$isCompany    = $userInfo->is_company;
-			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
-			$zip          = $userInfo->zipcode;
-		}
-
-		$whereState   = '';
-		$whereShopper = '';
-
-		if (!$isCompany)
-		{
-			$where = " AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
-		}
-		else
-		{
-			$where = " AND ( " . $db->qn('company_only') . " = 1 OR " . $db->qn('company_only') . " = 0) ";
-		}
-
-		if (count($shopperGroup) > 0)
-		{
-			$shopperGroupId = $shopperGroup->shopper_group_id;
-			$whereShopper   = " AND (FIND_IN_SET(" . $db->quote((int) $shopperGroupId) . ", "
-				. $db->qn('shipping_rate_on_shopper_group') . " ) OR "
-				. $db->qn('shipping_rate_on_shopper_group') . " = '') ";
-		}
-
-		if ($country)
-		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote($country) . ", "
-				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0) . " OR "
-				. $db->qn('shipping_rate_country') . " = '' )";
-		}
-		else
-		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0) . " OR "
-				. $db->qn('shipping_rate_country') . " = '')";
-		}
-
-		if ($state)
-		{
-			$whereState = " AND (FIND_IN_SET(" . $db->quote($state) . ", "
-				. $db->qn('shipping_rate_state') . " ) OR " . $db->qn('shipping_rate_state') . " = " . $db->quote(0) . " OR "
-				. $db->qn('shipping_rate_state') . " = '')";
-		}
-
-		$zipCond = "";
-		$zip     = trim($zip);
-
-		if (preg_match('/^[0-9 ]+$/', $zip) && !empty($zip))
-		{
-			$zipCond = " AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->quote($zip) . " AND "
-				. $db->qn('shipping_rate_zip_end') . " >= " . $db->quote($zip) . " )
-				OR (" . $db->qn('shipping_rate_zip_start') . " = " . $db->quote(0) . " AND " . $db->qn('shipping_rate_zip_end') . " = " . $db->quote(0) . ")
-				OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
-		}
-
-		if ($shippingRateId)
-		{
-			$where .= ' AND sr.shipping_rate_id = ' . (int) $shippingRateId . ' ';
-		}
-
-		$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
-								LEFT JOIN " . $db->qn('#__extensions') . " AS s
-								ON" . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element')
-			. "WHERE ( " . $db->qn('shipping_rate_value') . " = 0 OR "
-			. $db->qn('shipping_rate_value') . " = 0) "
-			. $whereCountry . $whereState . $whereShopper . $zipCond . $where
-			. "ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
-
-		$shippingRate = $db->setQuery($sql)->loadObject();
-
-		if ($shippingRate)
-		{
-			if ($shippingRate->shipping_rate_ordertotal_start > $orderSubtotal)
-			{
-				$diff = $shippingRate->shipping_rate_ordertotal_start - $orderSubtotal;
-				$text = sprintf(JText::_('COM_REDSHOP_SHIPPING_TEXT_LBL'), $productHelper->getProductFormattedPrice($diff));
-			}
-
-			elseif ($shippingRate->shipping_rate_ordertotal_start <= $orderSubtotal
-				&& ($shippingRate->shipping_rate_ordertotal_end == 0
-					|| $shippingRate->shipping_rate_ordertotal_end >= $orderSubtotal)
-			)
-			{
-				$text = JText::_('COM_REDSHOP_FREE_SHIPPING_RATE_IS_IN_USED');
-			}
-
-			else
-			{
-				$text = JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
-			}
-		}
-
-		return $text;
+		return Redshop\Shipping\Rate::getFreeShippingRate($shippingRateId);
 	}
 
 	/**

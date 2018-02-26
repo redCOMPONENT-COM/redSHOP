@@ -75,7 +75,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 		{
 			$rs                      = $ratelist[$i];
 			$shippingRate            = $rs->shipping_rate_value;
-			$rs->shipping_rate_value = RedshopHelperShipping::applyVatOnShippingRate($rs, $d);
+			$rs->shipping_rate_value = Redshop\Shipping\Rate::applyVat($rs, $d);
 			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber  = $rs->economic_displaynumber;
 			$shipping_rate_id        = RedshopShippingRate::encrypt(

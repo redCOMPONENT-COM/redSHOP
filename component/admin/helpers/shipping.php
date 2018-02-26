@@ -90,15 +90,14 @@ class shipping
 	 *
 	 * @param   string  $strMessage  String to encrypt
 	 *
-	 * @deprecated 1.6  Use RedshopShippingRate::encrypt(array);
-	 *
 	 * @return  string  Encrypt shipping rate
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::encryptShipping($strMessage) instead
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::encrypt
 	 */
 	public function encryptShipping($strMessage)
 	{
-		return RedshopHelperShipping::encryptShipping($strMessage);
+		return Redshop\Shipping\Rate::encrypt(array($strMessage));
 	}
 
 	/**
@@ -106,15 +105,14 @@ class shipping
 	 *
 	 * @param   string  $strMessage  String to decrypt
 	 *
-	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
-	 *
 	 * @return  array  Encrypt shipping rate
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::decryptShipping($strMessage) instead
+	 * @deprecated  2.0.0.3
+	 * @see Redshop\Shipping\Rate::decrypt
 	 */
 	public function decryptShipping($strMessage)
 	{
-		return RedshopHelperShipping::decryptShipping($strMessage);
+		return Redshop\Shipping\Rate::decrypt($strMessage);
 	}
 
 	/**
@@ -181,11 +179,12 @@ class shipping
 	 *
 	 * @return  float  Shipping Rate
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::applyVatOnShippingRate($shippingRate, $data) instead
+	 * @deprecated  __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::applyVat
 	 */
 	public function applyVatOnShippingRate($shippingRate, $data)
 	{
-		return RedshopHelperShipping::applyVatOnShippingRate($shippingRate, $data);
+		return Redshop\Shipping\Rate::applyVat($shippingRate, $data);
 	}
 
 	/**
@@ -262,11 +261,12 @@ class shipping
 	 *
 	 * @return array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::filterRatesByPriority($shippingRates) instead
+	 * @deprecated __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::filterRatesByPriority
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
-		return RedshopHelperShipping::filterRatesByPriority($shippingRates);
+		return Redshop\Shipping\Rate::filterRatesByPriority($shippingRates);
 	}
 
 	/**
@@ -382,12 +382,13 @@ class shipping
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getFreeShippingRate($shippingRateId) instead
+	 * @deprecated  __DEPLOY_VERSION__
+	 * @see Redshop\Shipping\Rate::getFreeShippingRate
 	 *
 	 * @throws  Exception
 	 */
 	public function getfreeshippingRate($shippingRateId = 0)
 	{
-		return RedshopHelperShipping::getFreeShippingRate($shippingRateId);
+		return Redshop\Shipping\Rate::getFreeShippingRate($shippingRateId);
 	}
 }

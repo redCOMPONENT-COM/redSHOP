@@ -1287,7 +1287,7 @@ class RedshopEconomic
 
 		if ($shipMethodId != "")
 		{
-			$orderShipping = \RedshopShippingRate::decrypt($shipMethodId);
+			$orderShipping = \Redshop\Shipping\Rate::decrypt($shipMethodId);
 
 			if (count($orderShipping) > 5)
 			{

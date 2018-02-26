@@ -45,7 +45,7 @@ class Tag
 			return str_replace($search, array("", "", "", "", '', '', '', ''), $content);
 		}
 
-		$shippingDetail = \RedshopShippingRate::decrypt($shipping->ship_method_id);
+		$shippingDetail = \Redshop\Shipping\Rate::decrypt($shipping->ship_method_id);
 
 		if (count($shippingDetail) <= 1)
 		{

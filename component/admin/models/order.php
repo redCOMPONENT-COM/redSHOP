@@ -292,7 +292,7 @@ class RedshopModelOrder extends RedshopModel
 
 		foreach ($ordersInfo as $order)
 		{
-			$details = RedshopShippingRate::decrypt($order->ship_method_id);
+			$details = Redshop\Shipping\Rate::decrypt($order->ship_method_id);
 
 			if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls' || $order->shop_id == '')
 			{
@@ -399,7 +399,7 @@ class RedshopModelOrder extends RedshopModel
 
 		foreach ($ordersInfo as $order)
 		{
-			$details = RedshopShippingRate::decrypt($order->ship_method_id);
+			$details = Redshop\Shipping\Rate::decrypt($order->ship_method_id);
 
 			if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{

@@ -39,7 +39,7 @@ class RedshopViewCheckout extends RedshopView
 		}
 
 		$shipping_rate_id = $app->input->getString('shipping_rate_id');
-		$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
+		$shippingdetail   = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 
 		if (count($shippingdetail) < 4)
 		{
