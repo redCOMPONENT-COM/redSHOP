@@ -181,11 +181,11 @@ class rsCarthelper
 	 * @throws  Exception
 	 *
 	 * @deprecated  __DEPLOY_VERSION__
-	 * @see RedshopHelperShippingTag::replaceShippingAddress
+	 * @see Redshop\Shipping\Tag::replaceShippingAddress
 	 */
 	public function replaceShippingAddress($data, $shippingAddress, $sendMail = false)
 	{
-		return RedshopHelperShippingTag::replaceShippingAddress($data, $shippingAddress, $sendMail);
+		return Redshop\Shipping\Tag::replaceShippingAddress($data, $shippingAddress, $sendMail);
 	}
 
 	/**
@@ -198,11 +198,11 @@ class rsCarthelper
 	 *
 	 * @deprecated   2.0.7
 	 *
-	 * @see RedshopHelperShippingTag::replaceShippingMethod()
+	 * @see Redshop\Shipping\Tag::replaceShippingMethod()
 	 */
 	public function replaceShippingMethod($shipping, $content = '')
 	{
-		return RedshopHelperShippingTag::replaceShippingMethod($shipping, $content);
+		return Redshop\Shipping\Tag::replaceShippingMethod($shipping, $content);
 	}
 
 	/**

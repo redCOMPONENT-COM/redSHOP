@@ -317,7 +317,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
+                                        <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -325,7 +325,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
+                                        <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
