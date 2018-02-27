@@ -125,7 +125,7 @@ class RedshopModelAccount extends RedshopModel
 		{
 			$query = $this->_buildQuery();
 
-			if ($query instanceof JDatabaseQuery)
+			if ($query)
 			{
 				$this->_data = $this->_getList($query, $start, $limit);
 			}
@@ -259,7 +259,7 @@ class RedshopModelAccount extends RedshopModel
 			$query        = $this->_buildQuery();
 			$this->_total = 0;
 
-			if ($query instanceof JDatabaseQuery)
+			if ($query)
 			{
 				$this->_total = $this->_getListCount($query);
 			}
