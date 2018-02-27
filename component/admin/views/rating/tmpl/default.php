@@ -102,7 +102,7 @@ $order_functions = order_functions::getInstance();
 				$favoured = JHTML::_('grid.published', $row, $i, 'tick.png', 'publish_x.png', 'fv_');
 
 				if ($row->userid)
-					$username = $order_functions->getUserFullname($row->userid);
+					$username = RedshopHelperOrder::getUserFullName($row->userid);
 				else
 					$username = $row->username;
 

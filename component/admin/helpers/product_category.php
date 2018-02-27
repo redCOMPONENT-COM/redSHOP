@@ -41,25 +41,25 @@ class product_category
 	/**
 	 * List all categories and return HTML format
 	 *
-	 * @param   string   $name                 Name of list
-	 * @param   integer  $category_id          Only category to show
-	 * @param   array    $selected_categories  Only select categories from this
-	 * @param   integer  $size                 Size of dropdown
-	 * @param   boolean  $toplevel             Add option '-Top-'
-	 * @param   boolean  $multiple             Dropdown is multiple or not
-	 * @param   array    $disabledFields       Fields need to be disabled
-	 * @param   integer  $width                Width in pixel
+	 * @param   string  $name               Name of list
+	 * @param   integer $categoryId         Only category to show
+	 * @param   array   $selectedCategories Only select categories from this
+	 * @param   integer $size               Size of dropdown
+	 * @param   boolean $toplevel           Add option '-Top-'
+	 * @param   boolean $multiple           Dropdown is multiple or not
+	 * @param   array   $disabledFields     Fields need to be disabled
+	 * @param   integer $width              Width in pixel
 	 *
 	 * @return  string   HTML of dropdown
 	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
 	 */
-	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false,
-		$multiple = false, $disabledFields = array(), $width = 250
+	public function list_all($name, $categoryId, $selectedCategories = Array(), $size = 1, $toplevel = false,
+	                         $multiple = false, $disabledFields = array(), $width = 250
 	)
 	{
-		return RedshopHelperCategory::listAll($name, $category_id, $selected_categories, $size, $toplevel, $multiple, $disabledFields, $width);
+		return RedshopHelperCategory::listAll($name, $categoryId, $selectedCategories, $size, $toplevel, $multiple, $disabledFields, $width);
 	}
 
 	/**
@@ -90,7 +90,8 @@ class product_category
 	 * @param   int  $category_id  First category level in filter
 	 * @param   int  $cid          Current category id
 	 *
-	 * @return array|mixed
+	 * @return  array|mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated  1.5 Use RedshopHelperCategory::getCategoryListArray instead
 	 */
@@ -116,7 +117,8 @@ class product_category
 	/**
 	 * Build content order by user state from request
 	 *
-	 * @return string
+	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::buildContentOrderBy() instead
 	 */
@@ -156,7 +158,7 @@ class product_category
 	 *
 	 * @param   string  $cid  Category ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryProductList() instead
 	 */

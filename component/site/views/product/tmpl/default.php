@@ -425,7 +425,7 @@ else
 	$template_desc = str_replace("{product_weight_lbl}", "", $template_desc);
 }
 
-$template_desc = $stockroomhelper->replaceStockroomAmountDetail($template_desc, $this->data->product_id);
+$template_desc = RedshopHelperStockroom::replaceStockroomAmountDetail($template_desc, $this->data->product_id);
 
 $template_desc = str_replace("{update_date}", $redshopconfig->convertDateFormat(strtotime($this->data->update_date)), $template_desc);
 
@@ -643,7 +643,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
 				{
-					$thumbUrl         = RedShopHelperImages::getImagePath(
+					$thumbUrl         = RedshopHelperMedia::getImagePath(
 						$wrapper[$i]->wrapper_image,
 						'',
 						'thumb',
@@ -817,7 +817,7 @@ $attribute_template = \Redshop\Template\Helper::getAttribute($template_desc);
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
 
 // Replace product in stock tags
-$template_desc = $producthelper->replaceProductInStock($this->data->product_id, $template_desc, $attributes, $attribute_template);
+$template_desc = Redshop\Product\Stock::replaceInStock($this->data->product_id, $template_desc, $attributes, $attribute_template);
 
 // Product attribute  Start
 $totalatt      = count($attributes);
@@ -1011,7 +1011,7 @@ if (strstr($template_desc, $mpimg_tag))
 					}
 					else
 					{
-						$pimg      = RedShopHelperImages::getImagePath(
+						$pimg      = RedshopHelperMedia::getImagePath(
 							$thumb,
 							'',
 							'thumb',
@@ -1022,7 +1022,7 @@ if (strstr($template_desc, $mpimg_tag))
 						);
 						$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 
-						$hoverimg_path = RedShopHelperImages::getImagePath(
+						$hoverimg_path = RedshopHelperMedia::getImagePath(
 							$thumb,
 							'',
 							'thumb',
@@ -1049,7 +1049,7 @@ if (strstr($template_desc, $mpimg_tag))
 						}
 						else
 						{
-							$img_path = RedShopHelperImages::getImagePath(
+							$img_path = RedshopHelperMedia::getImagePath(
 								$thumb,
 								'',
 								'thumb',
@@ -1079,7 +1079,7 @@ if (strstr($template_desc, $mpimg_tag))
 						}
 						else
 						{
-							$img_path_org = RedShopHelperImages::getImagePath(
+							$img_path_org = RedshopHelperMedia::getImagePath(
 								$thumb_original,
 								'',
 								'thumb',
@@ -1090,7 +1090,7 @@ if (strstr($template_desc, $mpimg_tag))
 							);
 						}
 
-						$hovermore_org = RedShopHelperImages::getImagePath(
+						$hovermore_org = RedshopHelperMedia::getImagePath(
 							$thumb_original,
 							'',
 							'thumb',
@@ -1099,7 +1099,7 @@ if (strstr($template_desc, $mpimg_tag))
 							$ph_thumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-						$oimg_path     = RedShopHelperImages::getImagePath(
+						$oimg_path     = RedshopHelperMedia::getImagePath(
 							$thumb,
 							'',
 							'thumb',
@@ -1325,7 +1325,7 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 // Category front-back image tag...
 if (strstr($template_desc, "{category_product_img}"))
 {
-	$mainsrcPath = RedShopHelperImages::getImagePath(
+	$mainsrcPath = RedshopHelperMedia::getImagePath(
 		$this->data->category_full_image,
 		'',
 		'thumb',
@@ -1334,7 +1334,7 @@ if (strstr($template_desc, "{category_product_img}"))
 		$ph_thumb,
 		Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 	);
-	$backsrcPath = RedShopHelperImages::getImagePath(
+	$backsrcPath = RedshopHelperMedia::getImagePath(
 		$this->data->category_back_full_image,
 		'',
 		'thumb',
@@ -1387,7 +1387,7 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 	}
 	else
 	{
-		$mainsrcPath = RedShopHelperImages::getImagePath(
+		$mainsrcPath = RedshopHelperMedia::getImagePath(
 			$this->data->product_full_image,
 			'',
 			'thumb',
@@ -1404,7 +1404,7 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 	}
 	else
 	{
-		$backsrcPath = RedShopHelperImages::getImagePath(
+		$backsrcPath = RedshopHelperMedia::getImagePath(
 			$this->data->product_back_full_image,
 			'',
 			'thumb',
@@ -1443,7 +1443,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 {
 	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
 	{
-		$previewsrcPath = RedShopHelperImages::getImagePath(
+		$previewsrcPath = RedshopHelperMedia::getImagePath(
 			$this->data->product_preview_image,
 			'',
 			'thumb',
@@ -1463,7 +1463,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 }
 
 // Cart
-$template_desc = $producthelper->replaceCartTemplate(
+$template_desc = Redshop\Cart\Render::replace(
 	$this->data->product_id,
 	$this->data->category_id,
 	0,

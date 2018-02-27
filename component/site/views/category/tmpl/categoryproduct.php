@@ -21,7 +21,7 @@ $stockroomhelper = rsstockroomhelper::getInstance();
 $url    = JURI::base();
 
 $model                = $this->getModel('category');
-$loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
+$loadCategorytemplate = RedshopHelperTemplate::getTemplate('categoryproduct');
 
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
@@ -484,7 +484,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Replace compare product button.
 				$prddata_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $prddata_add);
 
-				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
+				$prddata_add = RedshopHelperStockroom::replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
 				// Checking for child products.
 				$childproduct = RedshopHelperProduct::getChildProduct($product->product_id);
@@ -516,12 +516,12 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Check product for not for sale.
 				$prddata_add = $producthelper->getProductNotForSaleComment($product, $prddata_add, $attributes);
 
-				$prddata_add = $producthelper->replaceProductInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
+				$prddata_add = Redshop\Product\Stock::replaceInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
 
 				$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
 
 				// Get cart tempalte.
-				$prddata_add = $producthelper->replaceCartTemplate(
+				$prddata_add = Redshop\Cart\Render::replace(
 					$product->product_id,
 					$this->catid,
 					0,
@@ -581,7 +581,7 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 
 if ($this->params->get('show_page_heading', 0))
 {

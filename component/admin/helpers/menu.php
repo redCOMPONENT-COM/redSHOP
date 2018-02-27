@@ -52,7 +52,7 @@ class RedshopAdminMenu extends RedshopMenu
 	 */
 	public function init()
 	{
-		$this->menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
+		$this->menuHide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 
 		return $this;
 	}

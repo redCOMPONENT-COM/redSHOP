@@ -30,7 +30,7 @@ extract($displayData);
 	<fieldset>
 		<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
-		<?php echo $userhelper->getBillingTable($post, $isCompany, $lists, Redshop::getConfig()
+		<?php echo RedshopHelperBilling::render($post, $isCompany, $lists, Redshop::getConfig()
 			->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')); ?>
 	</fieldset>
 

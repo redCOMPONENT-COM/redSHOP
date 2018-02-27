@@ -123,7 +123,7 @@ if ($total > 0)
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid);
 
-		$thumbUrl = RedShopHelperImages::getImagePath(
+		$thumbUrl = RedshopHelperMedia::getImagePath(
 							$product->product_full_image,
 							'',
 							'thumb',
@@ -217,10 +217,10 @@ if ($total > 0)
 
 		if (strstr($template, "{products_in_stock}") || strstr($template, "{product_stock_amount_image}"))
 		{
-			$product_stock = $stockroomhelper->getStockAmountwithReserve($data['item']->productId);
+			$product_stock = RedshopHelperStockroom::getStockAmountWithReserve($data['item']->productId);
 			$template      = str_replace('{products_in_stock}', $exp_div . $product_stock . $div_end . $td_end . $td_start . "{products_in_stock}", $template);
 
-			$stockamountList  = $stockroomhelper->getStockAmountImage($data['item']->productId, "product", $product_stock);
+			$stockamountList  = RedshopHelperStockroom::getStockAmountImage($data['item']->productId, "product", $product_stock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
@@ -265,7 +265,7 @@ if ($total > 0)
 
 		if (strstr($template, "{add_to_cart}"))
 		{
-			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
+			$addtocart = Redshop\Cart\Render::replace($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 

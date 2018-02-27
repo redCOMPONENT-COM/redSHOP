@@ -72,6 +72,14 @@ class RedshopUpdate207 extends RedshopInstallUpdate
 	{
 		$db = JFactory::getDbo();
 
+		// Check table exist.
+		$result = $db->setQuery("SHOW TABLES LIKE " . $db->quote('#__redshop_product_voucher'))->loadResult();
+
+		if (empty($result))
+		{
+			return;
+		}
+
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_product_voucher'))

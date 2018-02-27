@@ -29,10 +29,11 @@ class RedshopViewAccount extends RedshopView
 		$itemId = $input->getInt('Itemid');
 		$layout = $input->getCmd('layout');
 
+		/** @var RedshopModelAccount $model */
 		$model = $this->getModel();
 		$user  = JFactory::getUser();
 
-		$userdata = $model->getuseraccountinfo($user->id);
+		$userdata = $model->getUserAccountInfo($user->id);
 
 		if (!count($userdata) && $layout != 'mywishlist')
 		{

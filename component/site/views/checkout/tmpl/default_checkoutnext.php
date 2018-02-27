@@ -64,7 +64,7 @@ $cart_data = "";
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
-	$carttempdata = $redTemplate->getTemplate("catalogue_cart");
+	$carttempdata = RedshopHelperTemplate::getTemplate("catalogue_cart");
 
 	if ($carttempdata[0]->template_desc != "")
 	{
@@ -73,7 +73,7 @@ if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 }
 else
 {
-	$carttempdata = $redTemplate->getTemplate("checkout");
+	$carttempdata = RedshopHelperTemplate::getTemplate("checkout");
 
 	if ($carttempdata[0]->template_desc != "")
 	{

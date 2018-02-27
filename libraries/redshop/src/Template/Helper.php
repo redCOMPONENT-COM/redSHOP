@@ -139,7 +139,7 @@ class Helper
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string $templateHtml Template HTML
+	 * @param   string  $templateHtml  Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception

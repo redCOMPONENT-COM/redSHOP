@@ -26,8 +26,8 @@ $lastname   = $detail->lastname;
 $address    = $detail->address;
 $zipcode    = $detail->zipcode;
 $city       = $detail->city;
-$country    = JText::_($order_functions->getCountryName($detail->country_code));
-$state      = $order_functions->getStateName($detail->state_code, $detail->country_code);
+$country    = JText::_(RedshopHelperOrder::getCountryName($detail->country_code));
+$state      = RedshopHelperOrder::getStateName($detail->state_code, $detail->country_code);
 $phone      = $detail->phone;
 $user_email = $detail->user_email;
 

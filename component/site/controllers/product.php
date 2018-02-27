@@ -851,7 +851,7 @@ class RedshopControllerProduct extends RedshopController
 		{
 			$uploadFileData = $this->input->files->get($name);
 			$fileExtension = JFile::getExt($uploadFileData['name']);
-			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
+			$fileName = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
 
 			$uploadFilePath = JPath::clean($uploadDir . $fileName);
 

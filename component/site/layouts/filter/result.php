@@ -772,7 +772,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Check product for not for sale
 		$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
 
-		$dataAdd = $productHelper->replaceProductInStock(
+		$dataAdd = Redshop\Product\Stock::replaceInStock(
 			$product->product_id,
 			$dataAdd,
 			$attributes,
@@ -801,7 +801,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Get cart template
-		$dataAdd = $productHelper->replaceCartTemplate(
+		$dataAdd = Redshop\Cart\Render::replace(
 			$product->product_id,
 			$catid,
 			0,
@@ -810,9 +810,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$isChilds,
 			$userfieldArr,
 			$totalatt,
-			$totacc,
-			0,
-			""
+			$totacc
 		);
 
 		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);

@@ -43,7 +43,7 @@ if (null !== $ajaxdetal_template)
 	{
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 		{
-			$thumbUrl = RedShopHelperImages::getImagePath(
+			$thumbUrl = RedshopHelperMedia::getImagePath(
 						$this->data->product_full_image,
 						'',
 						'thumb',
@@ -204,7 +204,7 @@ if (null !== $ajaxdetal_template)
 	// Product accessory End /////////////////////////////////
 
 	// Cart
-	$data_add = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+	$data_add = Redshop\Cart\Render::replace($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 	$data_add = $data_add . "<input type='hidden' name='isAjaxBoxOpen' id='isAjaxBoxOpen' value='" . $layout . "' />";
 

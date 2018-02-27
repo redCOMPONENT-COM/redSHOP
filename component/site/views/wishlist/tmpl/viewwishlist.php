@@ -26,7 +26,7 @@ $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
 $redTemplate        = Redtemplate::getInstance();
 $extraField         = extraField::getInstance();
-$template           = $redTemplate->getTemplate("wishlist_template");
+$template           = RedshopHelperTemplate::getTemplate("wishlist_template");
 $wishlist_data1     = $template[0]->template_desc;
 $returnArr          = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
 $template_userfield = $returnArr[0];
@@ -170,8 +170,7 @@ function display_products($rows)
 {
 	$session       = JFactory::getSession();
 	$producthelper = productHelper::getInstance();
-	$redTemplate   = Redtemplate::getInstance();
-	$template      = $redTemplate->getTemplate("wishlist_template");
+	$template      = RedshopHelperTemplate::getTemplate("wishlist_template");
 
 	if (count($template) <= 0)
 	{
@@ -232,7 +231,7 @@ function display_products($rows)
 
 			echo "<br><div class='wishlist_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a></div>&nbsp;</div> ";
 
-			$addtocartdata = $producthelper->replaceCartTemplate($row->product_id, 0, 0, $row->product_id);
+			$addtocartdata = Redshop\Cart\Render::replace($row->product_id, 0, 0, $row->product_id);
 
 			echo "<div class='wishlist_right'>" . $addtocartdata . "</div><br class='clear' /></div><br class='clear' />";
 		}
@@ -423,7 +422,7 @@ function display_products($rows)
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
-			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
+			$wishlist_data = Redshop\Product\Stock::replaceInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
 			/* Product attribute  Start */
 			$totalatt      = count($attributes);
@@ -572,7 +571,7 @@ function display_products($rows)
 			$wishlist_data = str_replace('{product_s_desc}', $pdesc, $wishlist_data);
 
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
-			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+			$wishlist_data = Redshop\Cart\Render::replace($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 			$rmore         = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 			$wishlist_data = str_replace("{read_more}", $rmore, $wishlist_data);

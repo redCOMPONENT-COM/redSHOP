@@ -55,7 +55,7 @@ $document = JFactory::getDocument();
 		}
 	</script>
 <?php
-$cart_attribute = $redTemplate->getTemplate("change_cart_attribute");
+$cart_attribute = RedshopHelperTemplate::getTemplate("change_cart_attribute");
 
 if (count($cart_attribute) > 0 && $cart_attribute[0]->template_desc)
 {
@@ -131,7 +131,7 @@ $template_desc = str_replace("{change_attribute}", JText::_("COM_REDSHOP_CHANGE_
 
 if ($totalatt > 0)
 {
-	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+	$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 	echo eval ("?>" . $template_desc . "<?php ");
 }
 else

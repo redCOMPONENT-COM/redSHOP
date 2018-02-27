@@ -24,8 +24,8 @@ $OrderProducts = array();
 
 if ($order_id != 0)
 {
-	$order_detail  = $order_functions->getOrderDetails($order_id);
-	$OrderProducts = $order_functions->getOrderItemDetail($order_id);
+	$order_detail  = RedshopEntityOrder::getInstance($order_id)->getItem();
+	$OrderProducts = RedshopHelperOrder::getOrderItemDetail($order_id);
 }
 
 if ($this->params->get('show_page_heading', 1))
@@ -79,7 +79,7 @@ if ($this->params->get('show_page_heading', 1))
 		}
 
 		$itemlist = implode(',<br/>', $order_item_name);
-		$statusname = $order_functions->getOrderStatusTitle($order_detail->order_status);
+		$statusname = RedshopHelperOrder::getOrderStatusTitle($order_detail->order_status);
 		$orderdetailurl = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $order_id);    ?>
 		<tr class="rblOrderDetailItem">
 			<td><?php echo $order_id;?></td>

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$thumbUrl = RedShopHelperImages::getImagePath(
+$thumbUrl = RedshopHelperMedia::getImagePath(
 				$this->detail->stock_amount_image,
 				'',
 				'thumb',

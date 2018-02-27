@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Account Billing Address Controller.
  *
@@ -17,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAccount_billto extends RedshopController
+class RedshopControllerAccount_Billto extends RedshopController
 {
 	/**
 	 * Constructor.
@@ -42,9 +41,9 @@ class RedshopControllerAccount_billto extends RedshopController
 	public function edit()
 	{
 		$user             = JFactory::getUser();
-		$billingaddresses = RedshopHelperOrder::getBillingAddress($user->id);
+		$billingAddresses = RedshopHelperOrder::getBillingAddress($user->id);
 
-		$GLOBALS['billingaddresses'] = $billingaddresses;
+		$GLOBALS['billingaddresses'] = $billingAddresses;
 
 		$task = JFactory::getApplication()->input->get('submit', 'post');
 
@@ -123,7 +122,7 @@ class RedshopControllerAccount_billto extends RedshopController
 	 * @return void
 	 * @throws Exception
 	 */
-	function cancel()
+	public function cancel()
 	{
 		$input   = JFactory::getApplication()->input;
 		$itemId  = $input->get('Itemid');

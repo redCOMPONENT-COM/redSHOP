@@ -262,5 +262,5 @@ if (strstr($template_desc, "{product_display_limit}"))
 	$template_desc = str_replace("{product_display_limit}", '', $template_desc);
 }
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

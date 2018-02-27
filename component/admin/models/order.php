@@ -221,11 +221,11 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Method for export data.
 	 *
-	 * @param   array $cid List of order ID
+	 * @param   array  $cid  List of order ID
 	 *
 	 * @return  array<object>
 	 */
-	public function export_data($cid)
+	public function export_data($cid = array())
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -292,7 +292,7 @@ class RedshopModelOrder extends RedshopModel
 
 		foreach ($ordersInfo as $order)
 		{
-			$details = RedshopShippingRate::decrypt($order->ship_method_id);
+			$details = Redshop\Shipping\Rate::decrypt($order->ship_method_id);
 
 			if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls' || $order->shop_id == '')
 			{
@@ -399,7 +399,7 @@ class RedshopModelOrder extends RedshopModel
 
 		foreach ($ordersInfo as $order)
 		{
-			$details = RedshopShippingRate::decrypt($order->ship_method_id);
+			$details = Redshop\Shipping\Rate::decrypt($order->ship_method_id);
 
 			if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{

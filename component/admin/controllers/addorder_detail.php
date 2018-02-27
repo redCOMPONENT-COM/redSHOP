@@ -146,7 +146,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
 
 		$orderTotal = $post['order_total'];
 
-		$orderShipping = RedshopShippingRate::decrypt($post['shipping_rate_id']);
+		$orderShipping = Redshop\Shipping\Rate::decrypt($post['shipping_rate_id']);
 
 		if (count($orderShipping) > 4)
 		{
@@ -334,7 +334,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
 	public function getShippingRate()
 	{
 		$get                  = $this->input->get->getArray();
-		$shipping             = RedshopShippingRate::decrypt($get['shipping_rate_id']);
+		$shipping             = Redshop\Shipping\Rate::decrypt($get['shipping_rate_id']);
 		$order_shipping_class = '';
 		$order_shipping       = 0;
 		$order_shipping_tax   = '';

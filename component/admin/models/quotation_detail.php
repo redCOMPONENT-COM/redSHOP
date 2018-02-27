@@ -112,14 +112,12 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function _initData()
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
 		if (empty($this->_data))
 		{
 			$detail                      = new stdClass;
 			$detail->quotation_id        = 0;
 			$detail->user_id             = 0;
-			$detail->quotation_number    = $quotationHelper->generateQuotationNumber();
+			$detail->quotation_number    = RedshopHelperQuotation::generateQuotationNumber();
 			$detail->user_info_id        = null;
 			$detail->quotation_total     = null;
 			$detail->quotation_subtotal  = null;
@@ -197,10 +195,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$send        = $redshopMail->sendQuotationMail($quotaion_id);
-
-		return $send;
+		return Redshop\Mail\Quotation::sendMail($quotaion_id);
 	}
 
 	public function delete($cid = array())
@@ -275,8 +270,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function deleteitem($cids = 0, $quotation_id = 0)
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
 		$this->_db->setQuery($query);
@@ -331,7 +324,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$QuotationDiscount    = 0;
 		$QuotationTotDiscount = 0;
 		$QuotationTax         = 0;
-		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
+		$quotationItems       = RedshopHelperQuotation::getQuotationProduct($QuotationData->quotation_id);
 
 		for ($q = 0, $qn = count($quotationItems); $q < $qn; $q++)
 		{
@@ -371,10 +364,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 	// Add new Quotation Item
 	public function newQuotationItem($data)
 	{
-		$quotationHelper = quotationHelper::getInstance();
 		$rsCarthelper    = rsCarthelper::getInstance();
 		$producthelper   = productHelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
 		$item            = $data['quotation_item'];
 
 		// Get Order Info
@@ -637,7 +628,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 						$property_id = $propArr[$k]['property_id'];
 
 						/** product property STOCKROOM update start */
-						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $qitemdata->product_quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $qitemdata->product_quantity, "property");
 
 						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
@@ -675,7 +666,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 
 							/** product subproperty STOCKROOM update start */
-							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $qitemdata->product_quantity, "subproperty");
+							$updatestock = RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $qitemdata->product_quantity, "subproperty");
 
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
@@ -711,7 +702,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
-				$quotationHelper->insertQuotationUserfield($userfields_id[$ui], $qitemdata->quotation_item_id, 12, $userfields[$ui]);
+				RedshopHelperQuotation::insertQuotationUserField($userfields_id[$ui], $qitemdata->quotation_item_id, 12, $userfields[$ui]);
 			}
 		}
 
@@ -725,7 +716,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$QuotationDiscount    = 0;
 		$QuotationTotDiscount = 0;
 		$QuotationTax         = 0;
-		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
+		$quotationItems       = RedshopHelperQuotation::getQuotationProduct($QuotationData->quotation_id);
 
 		for ($q = 0, $qn = count($quotationItems); $q < $qn; $q++)
 		{
@@ -765,11 +756,10 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function storeOrder($data)
 	{
-		$orderFunctions = order_functions::getInstance();
-		$producthelper  = productHelper::getInstance();
-		$db             = $this->getDbo();
-		$orderNumber    = $orderFunctions->generateOrderNumber();
-		$encrKey        = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
+		$producthelper = productHelper::getInstance();
+		$db            = $this->getDbo();
+		$orderNumber   = RedshopHelperOrder::generateOrderNumber();
+		$encrKey       = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
 
 		$row                          = $this->getTable('order_detail');
 		$row->user_id                 = (int) $data['user_id'];

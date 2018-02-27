@@ -115,6 +115,7 @@ class RedshopAdminProduct
 	 * @param   int     $newProductPrice  New product price
 	 *
 	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId,
 	 *  $newProductPrice) instead
@@ -161,7 +162,8 @@ class RedshopAdminProduct
 	 * @param   int     $templateId  Template id
 	 * @param   string  $uniqueId    Unique id
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId) instead
 	 */
@@ -178,7 +180,7 @@ class RedshopAdminProduct
 	 * @param   int     $sectionId    Section id
 	 * @param   string  $value        Unique id
 	 *
-	 * @return boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::insertProductUserField($fieldId, $orderItemId, $sectionId,
 	 * $value) instead

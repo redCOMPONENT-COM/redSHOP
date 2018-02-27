@@ -21,9 +21,28 @@ use Joomla\Registry\Registry;
 class RedshopControllerState extends RedshopControllerForm
 {
 	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModel($name = 'State', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
+	/**
 	 * Method for get list of state base on specific country value.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.3
 	 */

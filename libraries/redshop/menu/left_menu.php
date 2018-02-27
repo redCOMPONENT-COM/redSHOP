@@ -280,7 +280,8 @@ class RedshopMenuLeft_Menu
 				 */
 				return array('STATISTIC', 'statistic');
 
-			case "tools":
+			case "tool_image":
+			case "tool_update":
 				return array('TOOLS', 'tools');
 
 			case "configuration":
@@ -888,13 +889,20 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setTool()
 	{
-		self::$menu->addHeaderItem(
-			'index.php?option=com_redshop&view=tools',
-			'COM_REDSHOP_BACKEND_TOOLS',
-			(self::$view == 'tools') ? true : false,
-			null,
-			'fa fa-wrench'
-		);
+		self::$menu->section('tools')
+			->title('COM_REDSHOP_BACKEND_TOOLS')
+			->addItem(
+				'index.php?option=com_redshop&view=tool_image',
+				'COM_REDSHOP_BACKEND_TOOLS_IMAGE',
+				(self::$view == 'tool_image') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=tool_update',
+				'COM_REDSHOP_BACKEND_TOOLS_UPDATE',
+				(self::$view == 'tool_update') ? true : false
+			);
+
+		self::$menu->group('TOOLS');
 	}
 
 	/**

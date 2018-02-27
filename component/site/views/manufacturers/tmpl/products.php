@@ -167,12 +167,12 @@ if ($template_middle != "")
 		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
 
 		$attribute_template = \Redshop\Template\Helper::getAttribute($cart_mdata);
-		$cart_mdata         = $producthelper->replaceProductInStock($product_id, $cart_mdata, $attributes, $attribute_template);
+		$cart_mdata         = Redshop\Product\Stock::replaceInStock($product_id, $cart_mdata, $attributes, $attribute_template);
 
 		$cart_mdata = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
 
 		// Get cart tempalte
-		$cart_mdata = $producthelper->replaceCartTemplate($product_id, 0, 0, 0, $cart_mdata, $isChilds);
+		$cart_mdata = Redshop\Cart\Render::replace($product_id, 0, 0, 0, $cart_mdata, $isChilds);
 
 		$cart_mdata = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $cart_mdata);
 		$cart_mdata = str_replace("{product_id}", $manufacturer_products[$i]->product_id, $cart_mdata);
@@ -312,7 +312,7 @@ $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
 $template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->manufacturer_id, "10", $template_desc);
 $template_desc  = str_replace("{manufacturer_description}", $manufacturer->manufacturer_desc, $template_desc);
 
-$manufacturer_extra_fields = $extra_field->list_all_field_display(10, $manufacturer->manufacturer_id);
+$manufacturer_extra_fields = RedshopHelperExtrafields::listAllFieldDisplay(10, $manufacturer->manufacturer_id);
 $template_desc             = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $template_desc);
 
 $template_desc = str_replace("{manufacturer_link}", $manlink, $template_desc);
@@ -339,5 +339,5 @@ if (strstr($template_desc, '{pagination}'))
 	$template_desc     = str_replace("{pagination}", $productpagination->getPagesLinks(), $template_desc);
 }
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

@@ -105,7 +105,7 @@ class RedshopHelperStockroom
 	/**
 	 * Check is stock exists
 	 *
-	 * @param   integer  $sectionId    Section id
+	 * @param   mixed    $sectionId    Section id
 	 * @param   string   $section      Section
 	 * @param   integer  $stockroomId  Stockroom id
 	 *
@@ -137,7 +137,7 @@ class RedshopHelperStockroom
 	public static function isAttributeStockExists($productId)
 	{
 		$isStockExists = false;
-		$properties      = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
+		$properties    = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
 
 		foreach ($properties as $property)
 		{
@@ -319,11 +319,11 @@ class RedshopHelperStockroom
 	/**
 	 * Get Stock Amount with Reserve
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   mixed    $sectionId    Section id
+	 * @param   string   $section      Section
+	 * @param   integer  $stockroomId  Stockroom id
 	 *
-	 * @return int|mixed
+	 * @return  mixed
 	 */
 	public static function getStockAmountWithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{

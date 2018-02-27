@@ -108,7 +108,7 @@ if ($user->id != 0)
 
 								if ($row->product_full_image)
 								{
-									$thumbUrl = RedShopHelperImages::getImagePath(
+									$thumbUrl = RedshopHelperMedia::getImagePath(
 													$row->product_full_image,
 													'',
 													'thumb',

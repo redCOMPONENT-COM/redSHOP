@@ -37,8 +37,7 @@ class RedshopControllerCatalog extends RedshopController
 
 		if ($row = $model->catalogStore($post))
 		{
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendCatalogRequest($row);
+			Redshop\Mail\Catalog::sendRequest($row);
 			$msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
 		}
 		else
@@ -73,8 +72,7 @@ class RedshopControllerCatalog extends RedshopController
 
 		if ($row = $model->catalogSampleStore($post))
 		{
-			$extra_field = extra_field::getInstance();
-			$extra_field->extra_field_save($post, 9, $row->request_id);
+			RedshopHelperExtrafields::extraFieldSave($post, 9, $row->request_id);
 			$msg = JText::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
 		}
 		else

@@ -54,11 +54,10 @@ class RedshopViewOrder extends RedshopViewAdmin
 	 * @param   string  $tpl  The template name
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		$order_function = order_functions::getInstance();
-
 		JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$layout = JFactory::getApplication()->input->getCmd('layout');
 
@@ -146,14 +145,14 @@ class RedshopViewOrder extends RedshopViewAdmin
 		$lists['order']     = $state->get('list.ordering', 'o.order_id');
 		$lists['order_Dir'] = $state->get('list.direction', 'desc');
 
-		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by,
+		$lists['filter_by'] = RedshopHelperOrder::getFilterByList('filter_by', $filter_by,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 
-		$lists['filter_status']         = $order_function->getstatuslist('filter_status', $filter_status,
+		$lists['filter_status']         = RedshopHelperOrder::getStatusList('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
-		$lists['filter_payment_status'] = $order_function->getpaymentstatuslist('filter_payment_status', $filter_payment_status,
+		$lists['filter_payment_status'] = RedshopHelperOrder::getPaymentStatusList('filter_payment_status', $filter_payment_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" '
 		);
 

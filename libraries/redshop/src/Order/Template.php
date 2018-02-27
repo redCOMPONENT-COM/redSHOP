@@ -232,7 +232,7 @@ class Template
 		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
 
 		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
-		$template = \RedshopHelperShippingTag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
+		$template = \Redshop\Shipping\Tag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
 
 		$template = self::replaceOrderStatusLog($template, $row->order_id);
 
@@ -533,7 +533,7 @@ class Template
 			}
 		}
 
-		$template = \RedshopHelperShippingTag::replaceShippingMethod($orderEntity->getItem(), $template);
+		$template = \Redshop\Shipping\Tag::replaceShippingMethod($orderEntity->getItem(), $template);
 	}
 
 	/**

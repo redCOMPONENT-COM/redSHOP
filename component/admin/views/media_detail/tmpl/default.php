@@ -209,7 +209,7 @@ if ($showbuttons)
 
 									if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
 									{
-										$thumbUrl = RedShopHelperImages::getImagePath(
+										$thumbUrl = RedshopHelperMedia::getImagePath(
 											$this->detail->media_name,
 											'',
 											'thumb',

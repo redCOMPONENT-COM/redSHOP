@@ -1675,7 +1675,7 @@ class RedshopHelperExtrafields
 	 * Render HTML radio list
 	 *
 	 * @param   string   $name      Name of radio checkbox
-	 * @param   array    $attribs   Attribute values
+	 * @param   mixed    $attribs   Attribute values
 	 * @param   array    $selected  The name of the object variable for the option text
 	 * @param   string   $yes       Option Days
 	 * @param   string   $no        Option Weeks
@@ -1699,7 +1699,7 @@ class RedshopHelperExtrafields
 	 * Render HTML radio list with options
 	 *
 	 * @param   string   $name      Name of radio checkbox
-	 * @param   array    $attribs   Attribute values
+	 * @param   mixed    $attribs   Attribute values
 	 * @param   array    $selected  The name of the object variable for the option text
 	 * @param   string   $yes       Option Days
 	 * @param   string   $no        Option Weeks

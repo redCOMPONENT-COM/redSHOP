@@ -170,7 +170,7 @@ class RedshopHelperProductAccessory
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
 						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
+							$thumbUrl = RedshopHelperMedia::getImagePath(
 								$accessoryImage,
 								'',
 								'thumb',
@@ -347,7 +347,7 @@ class RedshopHelperProductAccessory
 					$selectAtt
 				);
 
-				$accessoryWrapper = productHelper::getInstance()->replaceProductInStock($accessory[$a]->child_product_id, $accessoryWrapper);
+				$accessoryWrapper = Redshop\Product\Stock::replaceInStock($accessory[$a]->child_product_id, $accessoryWrapper);
 
 				// Accessory attribute  End
 				$accessoryChecked = "";
@@ -597,7 +597,7 @@ class RedshopHelperProductAccessory
 			}
 		}
 
-		$accessoryMiddle   = productHelper::getInstance()->replaceProductInStock($product->product_id, $accessoryMiddle);
+		$accessoryMiddle   = Redshop\Product\Stock::replaceInStock($product->product_id, $accessoryMiddle);
 		$accessoryTemplate = $accessoryStart . $accessoryMiddle . $accessoryEnd;
 	}
 }

@@ -15,8 +15,6 @@ class RedshopViewCart extends RedshopView
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$redTemplate = Redtemplate::getInstance();
-		$user        = JFactory::getUser();
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
@@ -35,11 +33,12 @@ class RedshopViewCart extends RedshopView
 		}
 
 		JHtml::_('redshopjquery.framework');
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.common.min.js', false, true);
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{
-			$cart_data = $redTemplate->getTemplate("empty_cart");
+			$cart_data = RedshopHelperTemplate::getTemplate("empty_cart");
 
 			if (count($cart_data) > 0 && $cart_data[0]->template_desc != "")
 			{
@@ -57,7 +56,7 @@ class RedshopViewCart extends RedshopView
 
 		$Discount = $this->get('DiscountId');
 
-		$data     = $this->get('data');
+		$data = $this->get('data');
 
 		if ($layout == 'change_attribute')
 		{
@@ -65,8 +64,8 @@ class RedshopViewCart extends RedshopView
 		}
 
 		$this->Discount = $Discount;
-		$this->cart = $cart;
-		$this->data = $data;
+		$this->cart     = $cart;
+		$this->data     = $data;
 		parent::display($tpl);
 	}
 }

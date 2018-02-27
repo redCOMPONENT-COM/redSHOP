@@ -272,7 +272,7 @@ abstract class RedshopHelperAttribute
 							{
 								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
-								$thumbUrl = RedShopHelperImages::getImagePath(
+								$thumbUrl = RedshopHelperMedia::getImagePath(
 									$property[$i]->property_image,
 									'',
 									'thumb',
@@ -815,7 +815,7 @@ abstract class RedshopHelperAttribute
 
 				if (null !== $cartTemplate)
 				{
-					$propertyData = $productHelper->replacePropertyAddtoCart(
+					$propertyData = Redshop\Product\Property::replaceAddToCart(
 						$productId, $property->value, 0, $propertyId, $propertyStock,
 						$propertyData, $cartTemplate, $templateContent
 					);

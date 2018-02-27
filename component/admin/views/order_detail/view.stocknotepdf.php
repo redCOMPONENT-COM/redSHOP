@@ -79,7 +79,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		$billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
 		$shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
-		$pdfTemplate = RedshopHelperShippingTag::replaceShippingAddress($pdfTemplate, $shipping);
+		$pdfTemplate = Redshop\Shipping\Tag::replaceShippingAddress($pdfTemplate, $shipping);
 		$pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);
 		$pdfTemplate = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $pdfTemplate);
 

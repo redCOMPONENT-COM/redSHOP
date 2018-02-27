@@ -24,6 +24,11 @@ class RedshopInstall
 	const REDSHOP_INSTALL_STATE_NAME = 'redshop.install.tasks';
 
 	/**
+	 * @var  null|array
+	 */
+	public static $tasks = null;
+
+	/**
 	 * Get list of available tasks for clean install
 	 *
 	 * @return  array|mixed
@@ -78,6 +83,7 @@ class RedshopInstall
 	 * @return  int   Number of synchronized user.
 	 *
 	 * @since   2.0.6
+	 * @throws  Exception
 	 */
 	public static function synchronizeUser()
 	{
@@ -94,8 +100,6 @@ class RedshopInstall
 			return 0;
 		}
 
-		$userHelper = rsUserHelper::getInstance();
-
 		foreach ($joomlaUsers as $joomlaUser)
 		{
 			$name = explode(" ", $joomlaUser->name);
@@ -110,7 +114,7 @@ class RedshopInstall
 			$post['password1']  = '';
 			$post['billisship'] = 1;
 
-			$userHelper->storeRedshopUser($post, $joomlaUser->id, 1);
+			RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id, 1);
 		}
 
 		return count($joomlaUsers);
@@ -199,7 +203,7 @@ class RedshopInstall
 
 		$db->setQuery($query)->execute();
 
-		$query = $db->getQuery(true)
+		$query     = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__redshop_template'))
 			->order($db->qn('id'));
@@ -207,6 +211,7 @@ class RedshopInstall
 
 		foreach ($templates as $templateId)
 		{
+			/** @var RedshopTableTemplate $table */
 			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
 			$table->load($templateId);
@@ -268,5 +273,87 @@ class RedshopInstall
 
 		// Try to load distinct if no config found.
 		Redshop::getConfig()->loadDist();
+	}
+
+	/**
+	 * Method for get specific available version of installation.
+	 *
+	 * @param   string  $version  Version specific.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUpdateTasks($version = null)
+	{
+		if (null === $version)
+		{
+			return array();
+		}
+
+		$tasks = self::loadUpdateTasks();
+
+		if (empty($tasks) || !isset($tasks[$version]))
+		{
+			return array();
+		}
+
+		return $tasks[$version];
+	}
+
+	/**
+	 * Method for get all available version of installation.
+	 *
+	 * @return  array  List of update tasks.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function loadUpdateTasks()
+	{
+		if (null !== self::$tasks)
+		{
+			return self::$tasks;
+		}
+
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+
+		$files    = JFolder::files($updatePath, '.php', false, true);
+		$versions = array();
+
+		foreach ($files as $file)
+		{
+			$version = new stdClass;
+
+			$version->version = JFile::stripExt(basename($file));
+
+			require_once $file;
+
+			$version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
+			$version->path  = $file;
+
+			/** @var RedshopInstallUpdate $updateClass */
+			$updateClass    = new $version->class;
+			$classTasks     = $updateClass->getTasksList();
+			$version->tasks = array();
+
+			if (empty($classTasks))
+			{
+				continue;
+			}
+
+			foreach ($classTasks as $classTask)
+			{
+				$version->tasks[] = array('text' => JText::_($classTask->name), 'func' => $version->class . '.' . $classTask->func);
+			}
+
+			$versions[$version->version] = $version;
+		}
+
+		uksort($versions, 'version_compare');
+		$versions = array_reverse($versions);
+
+		self::$tasks = $versions;
+
+		return self::$tasks;
 	}
 }
