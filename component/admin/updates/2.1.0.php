@@ -31,7 +31,9 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/coupon_detail.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/views/coupon/tmpl/default.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/models/coupon_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/statistic.php',
 			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/coupon_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/statistic.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/addressfields_listing.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/addressfields_listing.php',
 			JPATH_LIBRARIES . '/redshop/src/Economic/Economic.php'
@@ -50,6 +52,7 @@ class RedshopUpdate210 extends RedshopInstallUpdate
 		return array(
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/addressfields_listing',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/coupon_detail',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/statistic',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/assets/js',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/assets/css',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images'
