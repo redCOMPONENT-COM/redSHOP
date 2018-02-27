@@ -76,13 +76,14 @@ class shipping
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRateCalc() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Shipping\Rate::calculate() instead
+	 * @see Redshop\Shipping\Rate::calculate
 	 *
 	 * @throws  Exception
 	 */
 	public function getShippingrate_calc()
 	{
-		return RedshopHelperShipping::getShippingRateCalc();
+		return Redshop\Shipping\Rate::calculate();
 	}
 
 	/**
