@@ -16,17 +16,17 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.1.0
  */
-class RedshopEntityMedia extends RedshopEntity
+class RedshopEntityMedia extends \Redshop\Entity\AbstractEntity
 {
 	/**
-	 * @var  RedshopEntity
+	 * @var  \Redshop\Entity\AbstractEntity
 	 */
 	protected $sectionEntity;
 
 	/**
 	 * Method for get section entity
 	 *
-	 * @return  RedshopEntity
+	 * @return  \Redshop\Entity\AbstractEntity
 	 *
 	 * @since   2.1.0
 	 */

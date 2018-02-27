@@ -175,7 +175,7 @@ class RedshopEntityCategory extends AbstractEntity
 	/**
 	 * Method for get medias of current category
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -198,7 +198,7 @@ class RedshopEntityCategory extends AbstractEntity
 	 */
 	protected function loadMedia()
 	{
-		$this->media = new RedshopEntitiesCollection;
+		$this->media = new EntityCollection;
 
 		if (!$this->hasId())
 		{

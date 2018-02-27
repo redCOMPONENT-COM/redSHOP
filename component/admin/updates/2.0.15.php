@@ -28,6 +28,54 @@ class RedshopUpdate2015 extends RedshopInstallUpdate
 	protected function getOldFiles()
 	{
 		return array(
+			JPATH_LIBRARIES . '/redshop/entity/base.php',
+			JPATH_LIBRARIES . '/redshop/entity/entity.php'
+		);
+	}
+
+	/**
+	 * Return list of old folders for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.15
+	 */
+	protected function getOldFolders()
+	{
+		return array(
+			JPATH_LIBRARIES . '/redshop/entities'
+		);
+	}
+
+
+	/**
+	 * Method for migrate voucher data to new table
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.15
+	 */
+	public function updateTwigTemplate()
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->update('#__redshop_template')
+			->set($db->qn('twig_support') . ' = 1')
+			->where($db->qn('section') . ' = ' . $db->q('giftcard_list'));
+		$db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Return list of old files for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.15
+	 */
+	protected function getOldFiles()
+	{
+		return array(
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/manufacturer_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/manufacturer_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/manufacturer_detail.php',
