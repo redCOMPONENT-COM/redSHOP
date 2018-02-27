@@ -41,7 +41,9 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['zipcode_id'] = $cid [0];
-		$model               = $this->getModel('zipcode_detail');
+
+		/** @var RedshopModelZipcode_detail $model */
+		$model = $this->getModel('zipcode_detail');
 
 		if ($post["zipcode_to"] == "")
 		{

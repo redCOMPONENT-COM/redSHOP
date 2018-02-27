@@ -43,7 +43,7 @@ class RedshopControllerAccount_Billto extends RedshopController
 		$user             = JFactory::getUser();
 		$billingAddresses = RedshopHelperOrder::getBillingAddress($user->id);
 
-		$GLOBALS['billingaddresses'] = $billingAddresses;
+		Redshop\User\Billing\Billing::setGlobal($billingAddresses);
 
 		$task = JFactory::getApplication()->input->get('submit', 'post');
 

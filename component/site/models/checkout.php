@@ -345,7 +345,7 @@ class RedshopModelCheckout extends RedshopModel
 		$input->set('payment_status', $order_paymentstatus);
 
 		$d['order_shipping']         = $order_shipping [3];
-		$GLOBALS['billingaddresses'] = $billingaddresses;
+		Redshop\User\Billing\Billing::setGlobal($billingaddresses);
 		$timestamp                   = time();
 
 		$order_status_log = '';
