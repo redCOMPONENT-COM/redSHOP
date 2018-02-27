@@ -265,7 +265,7 @@ if ($total > 0)
 
 		if (strstr($template, "{add_to_cart}"))
 		{
-			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
+			$addtocart = Redshop\Cart\Render::replace($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 

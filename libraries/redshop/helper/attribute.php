@@ -815,7 +815,7 @@ abstract class RedshopHelperAttribute
 
 				if (null !== $cartTemplate)
 				{
-					$propertyData = $productHelper->replacePropertyAddtoCart(
+					$propertyData = Redshop\Product\Property::replaceAddToCart(
 						$productId, $property->value, 0, $propertyId, $propertyStock,
 						$propertyData, $cartTemplate, $templateContent
 					);

@@ -679,12 +679,12 @@ class RedshopViewSearch extends RedshopView
 				// Check product for not for sale
 				$data_add = $producthelper->getProductNotForSaleComment($this->search[$i], $data_add, $attributes);
 
-				$data_add = $producthelper->replaceProductInStock($this->search[$i]->product_id, $data_add, $attributes, $attribute_template);
+				$data_add = Redshop\Product\Stock::replaceInStock($this->search[$i]->product_id, $data_add, $attributes, $attribute_template);
 
 				$data_add = $producthelper->replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
-				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
+				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field);
 
 				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
 

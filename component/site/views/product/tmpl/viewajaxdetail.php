@@ -204,7 +204,7 @@ if (null !== $ajaxdetal_template)
 	// Product accessory End /////////////////////////////////
 
 	// Cart
-	$data_add = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+	$data_add = Redshop\Cart\Render::replace($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 	$data_add = $data_add . "<input type='hidden' name='isAjaxBoxOpen' id='isAjaxBoxOpen' value='" . $layout . "' />";
 

@@ -347,7 +347,7 @@ if ($mail == 0)
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
-			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
+			$wishlist_data = Redshop\Product\Stock::replaceInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
 			// Product attribute  Start
 			$totalatt      = count($attributes);
@@ -459,14 +459,14 @@ if ($mail == 0)
 
 			if ($isIndividualAddToCart)
 			{
-				$wishlist_data = $producthelper->replaceCartTemplate(
+				$wishlist_data = Redshop\Cart\Render::replace(
 					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
 					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $row->wishlistData->wishlist_product_id
 				);
 			}
 			else
 			{
-				$wishlist_data = $producthelper->replaceCartTemplate(
+				$wishlist_data = Redshop\Cart\Render::replace(
 					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
 					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field
 				);

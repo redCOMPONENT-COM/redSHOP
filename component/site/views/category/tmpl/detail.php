@@ -974,12 +974,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
+		$data_add = Redshop\Product\Stock::replaceInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 		// Get cart tempalte
-		$data_add = $producthelper->replaceCartTemplate(
+		$data_add = Redshop\Cart\Render::replace(
 			$product->product_id,
 			$this->catid,
 			0,
