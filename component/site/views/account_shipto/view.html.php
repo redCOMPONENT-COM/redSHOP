@@ -58,6 +58,7 @@ class RedshopViewAccount_Shipto extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
+		/** @var JApplicationSite $app */
 		$app  = JFactory::getApplication();
 		$task = $app->input->getCmd('task');
 		$user = JFactory::getUser();
@@ -79,7 +80,7 @@ class RedshopViewAccount_Shipto extends RedshopView
 		}
 		else
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid', 0)));
 			$app->close();
 		}
 
@@ -104,8 +105,12 @@ class RedshopViewAccount_Shipto extends RedshopView
 				return;
 			}
 
-			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, $shippingAddresses->users_info_id);
-			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, $shippingAddresses->users_info_id);
+			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(
+				RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shippingAddresses->users_info_id
+			);
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(
+				RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $shippingAddresses->users_info_id
+			);
 
 			$this->setLayout('form');
 		}
@@ -118,8 +123,9 @@ class RedshopViewAccount_Shipto extends RedshopView
 		$this->shippingAddresses = $shippingAddresses;
 		$this->billingAddresses  = $billingAddress;
 		$this->request_url       = JUri::getInstance()->toString();
+
 		JFilterOutput::cleanText($this->request_url);
-		$this->params = JFactory::getApplication()->getParams();
+		$this->params = $app->getParams();
 
 		parent::display($tpl);
 	}
