@@ -27,8 +27,11 @@ $mail          = $input->getInt('mail', 0);
 $window        = $input->getInt('window');
 
 /** @var RedshopModelAccount $model */
-$model         = $this->getModel('account');
-$user          = JFactory::getUser();
+$model = $this->getModel('account');
+
+/** @var RedshopModelProduct $productModel */
+$productModel = $this->getModel('product');
+$user  = JFactory::getUser();
 
 $pagetitle     = JText::_('COM_REDSHOP_MY_WISHLIST');
 $isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
@@ -194,7 +197,7 @@ if ($mail == 0)
 					$productInfo = $producthelper->getProductById($parentproductid);
 
 					// Get child products
-					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
+					$childproducts = $productModel->getAllChildProductArrayList(0, $parentproductid);
 
 					if (count($childproducts) > 0)
 					{

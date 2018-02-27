@@ -87,107 +87,121 @@ class Wishlist
 
 		if ($data)
 		{
-			$templateD1          = explode("{product_loop_start}", $data);
-			$templateD2          = explode("{product_loop_end}", $templateD1[1]);
-			$wishlistDescription = $templateD2[0];
-
-			if (strpos($data, '{product_thumb_image_2}') !== false)
-			{
-				$tag         = '{product_thumb_image_2}';
-				$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT_2');
-				$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH_3');
-			}
-			elseif (strpos($data, '{product_thumb_image_3}') !== false)
-			{
-				$tag         = '{product_thumb_image_3}';
-				$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT_3');
-				$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH_3');
-			}
-			elseif (strpos($data, '{product_thumb_image_1}') !== false)
-			{
-				$tag         = '{product_thumb_image_1}';
-				$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT');
-				$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH');
-			}
-			else
-			{
-				$tag         = '{product_thumb_image}';
-				$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT');
-				$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH');
-			}
-
-			$tmpTemplate = '';
-
-			if (count($myWishList))
-			{
-				foreach ($myWishList as $row)
-				{
-					$itemId       = \RedshopHelperRouter::getItemId($row->product_id);
-					$link         = \JRoute::_(
-						'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int) $itemId,
-						true,
-						-1
-					);
-					$thumbImage   = $productHelper->getProductImage($row->product_id, $link, $thumbWidth, $thumbHeight);
-					$productName  = $row->product_name;
-					$wishlistData = str_replace($tag, $thumbImage, $wishlistDescription);
-					$wishlistData = str_replace('{product_name}', $productName, $wishlistData);
-
-					// Attribute ajax change
-					if (!$row->not_for_sale)
-					{
-						$wishlistData = \RedshopHelperProductPrice::getShowPrice($row->product_id, $wishlistData);
-					}
-					else
-					{
-						$wishlistData = str_replace("{product_price}", "", $wishlistData);
-						$wishlistData = str_replace("{price_excluding_vat}", "", $wishlistData);
-						$wishlistData = str_replace("{product_price_table}", "", $wishlistData);
-						$wishlistData = str_replace("{product_old_price}", "", $wishlistData);
-						$wishlistData = str_replace("{product_price_saving}", "", $wishlistData);
-						$wishlistData = str_replace("{product_price_saving_percentage}", "", $wishlistData);
-					}
-
-					$tmpTemplate .= $wishlistData;
-				}
-			}
-
-			$data = $templateD1[0] . $tmpTemplate . $templateD2[1];
-
-			$name    = explode('@', $emailTo);
-			$data    = str_replace('{from}', $sender, $data);
-			$data    = str_replace('{name}', $name[0], $data);
-			$data    = str_replace('{from_name}', $sender, $data);
-			$dataAdd = $data;
+			$dataAdd = self::prepare($data, $myWishList, $emailTo, $sender);
 		}
-		else
+		elseif (!empty($myWishList))
 		{
-			if (count($myWishList))
+			$dataAdd = '';
+
+			foreach ($myWishList as $row)
 			{
-				$dataAdd = '';
+				$dataAdd .= '<div class="redProductWishlist">';
 
-				foreach ($myWishList as $row)
-				{
-					$dataAdd .= '<div class="redProductWishlist">';
+				$productName = $row->product_name;
+				$link        = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $itemId, false);
+				$thumbImage  = $productHelper->getProductImage(
+					$row->product_id,
+					$link,
+					\Redshop::getConfig()->get('THUMB_WIDTH'),
+					\Redshop::getConfig()->get('THUMB_HEIGHT')
+				);
 
-					$productName = $row->product_name;
-					$link        = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $itemId, false);
-					$thumbImage  = $productHelper->getProductImage(
-						$row->product_id,
-						$link,
-						\Redshop::getConfig()->get('THUMB_WIDTH'),
-						\Redshop::getConfig()->get('THUMB_HEIGHT')
-					);
-
-					$dataAdd .= $thumbImage;
-					$dataAdd .= "<div><a href='" . $link . "' >" . $productName . "</a></div>";
-					$dataAdd .= '</div>';
-				}
+				$dataAdd .= $thumbImage;
+				$dataAdd .= "<div><a href='" . $link . "' >" . $productName . "</a></div>";
+				$dataAdd .= '</div>';
 			}
 		}
 
 		\Redshop\Mail\Helper::imgInMail($dataAdd);
 
 		return \JFactory::getMailer()->sendMail($email, $sender, $emailTo, $subject, $dataAdd, true, null, $mailBcc);
+	}
+
+	/**
+	 * Method for prepare mail body
+	 *
+	 * @param   string $content    Template content
+	 * @param   array  $myWishList My wishlist data
+	 * @param   string $emailTo    Email to
+	 * @param   string $sender     Sender
+	 *
+	 * @return mixed|string
+	 * @throws \Exception
+	 */
+	protected static function prepare($content, $myWishList, $emailTo, $sender)
+	{
+		$templateD1          = explode("{product_loop_start}", $content);
+		$templateD2          = explode("{product_loop_end}", $templateD1[1]);
+		$wishlistDescription = $templateD2[0];
+
+		if (strpos($content, '{product_thumb_image_2}') !== false)
+		{
+			$tag         = '{product_thumb_image_2}';
+			$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT_2');
+			$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH_3');
+		}
+		elseif (strpos($content, '{product_thumb_image_3}') !== false)
+		{
+			$tag         = '{product_thumb_image_3}';
+			$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT_3');
+			$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH_3');
+		}
+		elseif (strpos($content, '{product_thumb_image_1}') !== false)
+		{
+			$tag         = '{product_thumb_image_1}';
+			$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT');
+			$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH');
+		}
+		else
+		{
+			$tag         = '{product_thumb_image}';
+			$thumbHeight = \Redshop::getConfig()->get('THUMB_HEIGHT');
+			$thumbWidth  = \Redshop::getConfig()->get('THUMB_WIDTH');
+		}
+
+		$tmpTemplate = '';
+
+		if (count($myWishList))
+		{
+			foreach ($myWishList as $row)
+			{
+				$itemId       = \RedshopHelperRouter::getItemId($row->product_id);
+				$link         = \JRoute::_(
+					'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int) $itemId,
+					true,
+					-1
+				);
+				$thumbImage   = \productHelper::getInstance()->getProductImage($row->product_id, $link, $thumbWidth, $thumbHeight);
+				$productName  = $row->product_name;
+				$wishlistData = str_replace($tag, $thumbImage, $wishlistDescription);
+				$wishlistData = str_replace('{product_name}', $productName, $wishlistData);
+
+				// Attribute ajax change
+				if (!$row->not_for_sale)
+				{
+					$wishlistData = \RedshopHelperProductPrice::getShowPrice($row->product_id, $wishlistData);
+				}
+				else
+				{
+					$wishlistData = str_replace("{product_price}", "", $wishlistData);
+					$wishlistData = str_replace("{price_excluding_vat}", "", $wishlistData);
+					$wishlistData = str_replace("{product_price_table}", "", $wishlistData);
+					$wishlistData = str_replace("{product_old_price}", "", $wishlistData);
+					$wishlistData = str_replace("{product_price_saving}", "", $wishlistData);
+					$wishlistData = str_replace("{product_price_saving_percentage}", "", $wishlistData);
+				}
+
+				$tmpTemplate .= $wishlistData;
+			}
+		}
+
+		$content = $templateD1[0] . $tmpTemplate . $templateD2[1];
+
+		$name    = explode('@', $emailTo);
+		$content = str_replace('{from}', $sender, $content);
+		$content = str_replace('{name}', $name[0], $content);
+		$content = str_replace('{from_name}', $sender, $content);
+
+		return $content;
 	}
 }
