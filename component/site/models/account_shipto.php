@@ -19,12 +19,12 @@ defined('_JEXEC') or die;
 class RedshopModelAccount_Shipto extends RedshopModel
 {
 	/**
-	 * @var null
+	 * @var integer
 	 */
 	public $_id = null;
 
 	/**
-	 * @var null
+	 * @var null|object
 	 */
 	public $_data = null;
 

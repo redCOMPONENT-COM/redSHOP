@@ -509,7 +509,10 @@ class RedshopControllerCart extends RedshopController
 		$post        = JFactory::getApplication()->input->post->getArray();
 		$cartElement = $post['cart_index'];
 
-		$this->getModel('cart')->delete($cartElement);
+		/** @var RedshopModelCart $model */
+		$model = $this->getModel('cart');
+
+		$model->delete($cartElement);
 		RedshopHelperCart::cartFinalCalculation();
 		RedshopHelperCart::addCartToDatabase();
 
