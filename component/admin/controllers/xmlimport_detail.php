@@ -38,7 +38,9 @@ class RedshopControllerXmlimport_detail extends RedshopController
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post['xmlimport_id'] = $cid [0];
-		$model                = $this->getModel('xmlimport_detail');
+
+		/** @var RedshopModelXmlimport_detail $model */
+		$model = $this->getModel('xmlimport_detail');
 
 		if ($post['xmlimport_id'] == 0)
 		{

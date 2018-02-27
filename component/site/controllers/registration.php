@@ -31,6 +31,7 @@ class RedshopControllerRegistration extends RedshopController
 		$itemId     = $input->getInt('Itemid', 0);
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
+		/** @var RedshopModelRegistration $model */
 		$model   = $this->getModel('registration');
 		$success = $model->store($post);
 

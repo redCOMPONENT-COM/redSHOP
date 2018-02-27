@@ -37,6 +37,7 @@ class RedshopControllerUser_detail extends RedshopController
 	{
 		$app      = JFactory::getApplication();
 		$post     = $this->input->post->getArray();
+		/** @var RedshopModelUser_detail $model */
 		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
 		$app->setUserState('com_redshop.user_detail.data', $post);

@@ -38,7 +38,7 @@ class Billing
 	/**
 	 * Method for get global stored billing address
 	 *
-	 * @param   object  $data  Billing address data.
+	 * @param   mixed  $data  Billing address data.
 	 *
 	 * @return  void
 	 *
