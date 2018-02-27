@@ -1,0 +1,51 @@
+<?php
+/**
+ * @package     RedShop
+ * @subpackage  Helper
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+namespace Redshop\User\Billing;
+
+defined('_JEXEC') or die;
+
+/**
+ * User Billing
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+class Billing
+{
+	/**
+	 * @var string
+	 */
+	protected static $key = 'redshop.billing_address';
+
+	/**
+	 * Method for get global stored billing address
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getGlobal()
+	{
+		return \JFactory::getSession()->get(self::$key, null);
+	}
+
+	/**
+	 * Method for get global stored billing address
+	 *
+	 * @param   object  $data  Billing address data.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setGlobal($data = null)
+	{
+		\JFactory::getSession()->set(self::$key, $data);
+	}
+}

@@ -25,7 +25,7 @@ class RedshopViewAccount_billto extends RedshopView
 		$app    = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
 
-		$billingaddresses = $GLOBALS['billingaddresses'];
+		$billingaddresses = Redshop\User\Billing\Billing::getGlobal();
 
 		if (empty($billingaddresses))
 		{
