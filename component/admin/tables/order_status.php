@@ -34,6 +34,11 @@ class RedshopTableOrder_Status extends RedshopTable
 	protected $_tableKey = 'order_status_id';
 
 	/**
+	 * @var  integer
+	 */
+	public $order_status_id;
+
+	/**
 	 * @var  string
 	 */
 	public $order_status_name;

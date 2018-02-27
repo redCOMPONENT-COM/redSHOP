@@ -591,7 +591,7 @@ class RedshopModelImport_Vm extends RedshopModel
 			->where($db->qn('manufacturer_name') . ' = ' . $db->quote((string) $manufacturerVM->mf_name));
 		$rsManufacturerId = $db->setQuery($query)->loadResult();
 
-		/** @var \TableManufacturer_Detail $table */
+		/** @var TableManufacturer_Detail $table */
 		$table = JTable::getInstance('Manufacturer_Detail', 'Table');
 
 		if ($rsManufacturerId)
@@ -623,13 +623,12 @@ class RedshopModelImport_Vm extends RedshopModel
 				JFile::copy(JPATH_ROOT . '/' . $manufacturerVM->file_name, $mediaFile);
 			}
 
-			/** @var \Tablemedia_detail $table */
+			/** @var Tablemedia_detail $table */
 			$mediaTable = JTable::getInstance('Media_Detail', 'Table');
 
 			if (!$mediaTable->load(
 				array('media_section' => 'manufacturer', 'media_type' => 'images', 'section_id' => $table->manufacturer_id)
-			)
-			)
+			))
 			{
 				$mediaTable->media_name           = basename($manufacturerVM->file_name);
 				$mediaTable->media_alternate_text = $manufacturerVM->file_description;
