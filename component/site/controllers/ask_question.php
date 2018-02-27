@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Ask Question Controller.
  *
@@ -55,7 +54,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		if (!$form)
 		{
 			/** @scrutinizer ignore-deprecated */ JError::raiseError(500, $model->getError());
-			$this->setRedirect($link);
+			$this->setRedirect(JRoute::_($link, false));
 
 			return false;
 		}
@@ -69,10 +68,11 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 			// Check exists captcha tag in question template form
 			$template = RedshopHelperTemplate::getTemplate('ask_question_template');
 
-			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}') && Redshop\Helper\Utility::checkCaptcha($data, false))
+			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}')
+				&& Redshop\Helper\Utility::checkCaptcha($data, false))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
-				$this->setRedirect($link);
+				$this->setRedirect(JRoute::_($link, false));
 
 				return false;
 			}
@@ -124,6 +124,6 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 			}
 		}
 
-		$this->setRedirect($link);
+		$this->setRedirect(JRoute::_($link, false));
 	}
 }
