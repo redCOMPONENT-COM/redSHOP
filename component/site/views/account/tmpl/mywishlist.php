@@ -26,6 +26,7 @@ $wishlist_id   = $input->getInt('wishlist_id');
 $mail          = $input->getInt('mail', 0);
 $window        = $input->getInt('window');
 
+/** @var RedshopModelAccount $model */
 $model         = $this->getModel('account');
 $user          = JFactory::getUser();
 

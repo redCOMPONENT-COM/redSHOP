@@ -18,6 +18,7 @@ $Itemid = $app->input->getInt('Itemid');
 $tagid  = $app->input->getInt('tagid');
 $edit   = $app->input->getInt('edit');
 
+/** @var RedshopModelAccount $model */
 $model = $this->getModel('account');
 $user  = JFactory::getUser();
 
@@ -48,8 +49,8 @@ if ($user->id != 0)
 					<tr>
 						<td width="10%"><?php echo JText::_('COM_REDSHOP_TAG_NAME');?></td>
 						<td width="70%"><input type="text" name="tags_name"
-						                       value="<?php echo $model->getMytag($tagid); ?>" id="tags_name"
-						                       size="50"/></td>
+                                               value="<?php echo $model->getMyTag($tagid); ?>" id="tags_name"
+                                               size="50"/></td>
 						<td width="20%">
 							<input type="submit" class="button btn btn-primary" name="tags_submit"
 							       value="<?php echo JText::_('COM_REDSHOP_EDIT_TAG'); ?>"/>
