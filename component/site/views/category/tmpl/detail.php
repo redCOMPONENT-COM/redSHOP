@@ -979,7 +979,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 		// Get cart tempalte
-		$data_add = Redshop\Cart\Render::render(
+		$data_add = Redshop\Cart\Render::replace(
 			$product->product_id,
 			$this->catid,
 			0,

@@ -150,7 +150,7 @@ if (count($relptemplate) > 0)
 		$attributes = array_merge($attributes, $attributes_set);
 
 		$related_template_data = $producthelper->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
-		$related_template_data = Redshop\Cart\Render::render($related_product[$r]->mainproduct_id, $this->data->category_id, 0, $related_product[$r]->product_id, $related_template_data, false, 0, count($attributes), 0, 0);
+		$related_template_data = Redshop\Cart\Render::replace($related_product[$r]->mainproduct_id, $this->data->category_id, 0, $related_product[$r]->product_id, $related_template_data, false, array(), count($attributes));
 		$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($related_product[$r]->product_id, $this->data->category_id, $related_template_data, 1);
 		$related_template_data = Redshop\Product\Stock::replaceInStock($related_product[$r]->product_id, $related_template_data);
 

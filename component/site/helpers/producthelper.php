@@ -2823,7 +2823,7 @@ class productHelper
 	 */
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
-		return Redshop\Cart\Render::render($product_id, $category_id, $accessory_id, $relproduct_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id, $giftcard_id);
+		return Redshop\Cart\Render::replace($product_id, $category_id, $accessory_id, $relproduct_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id, $giftcard_id);
 	}
 
 	/**
@@ -4753,7 +4753,7 @@ class productHelper
 					// Check product for not for sale
 					$related_template_data = $this->getProductNotForSaleComment($related_product[$r], $related_template_data, $attributes, 1);
 
-					$related_template_data = Redshop\Cart\Render::render($related_product[$r]->mainproduct_id, 0, 0, $related_product[$r]->product_id, $related_template_data, false, 0, count($attributes), 0, 0);
+					$related_template_data = Redshop\Cart\Render::replace($related_product[$r]->mainproduct_id, 0, 0, $related_product[$r]->product_id, $related_template_data, false, array(), count($attributes), 0, 0);
 					$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($related_product[$r]->product_id, 0, $related_template_data, 1);
 					$related_template_data = Redshop\Product\Stock::replaceInStock($related_product[$r]->product_id, $related_template_data);
 

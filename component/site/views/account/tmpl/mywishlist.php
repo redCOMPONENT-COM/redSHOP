@@ -459,14 +459,14 @@ if ($mail == 0)
 
 			if ($isIndividualAddToCart)
 			{
-				$wishlist_data = Redshop\Cart\Render::render(
+				$wishlist_data = Redshop\Cart\Render::replace(
 					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
 					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $row->wishlistData->wishlist_product_id
 				);
 			}
 			else
 			{
-				$wishlist_data = Redshop\Cart\Render::render(
+				$wishlist_data = Redshop\Cart\Render::replace(
 					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
 					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field
 				);

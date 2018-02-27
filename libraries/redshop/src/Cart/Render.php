@@ -39,7 +39,7 @@ class Render
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function render($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0, $content = "", $isChild = false, $userFields = array(), $totalAttr = 0, $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0, $giftcardId = 0)
+	public static function replace($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0, $content = "", $isChild = false, $userFields = array(), $totalAttr = 0, $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0, $giftcardId = 0)
 	{
 		\JPluginHelper::importPlugin('redshop_product');
 
@@ -385,6 +385,7 @@ class Render
 		}
 
 		$stockId = $prefix . $productId;
+		$cartId  = 0;
 
 		if ($addCartFlag)
 		{
@@ -409,8 +410,6 @@ class Render
 				{
 					$idx = (int) ($cart['idx']);
 				}
-
-				$cartId = '';
 
 				for ($j = 0; $j < $idx; $j++)
 				{
@@ -692,13 +691,13 @@ class Render
 					{
 						if (intVal($quantityBox) && intVal($quantityBox) != 0)
 						{
-							$quantityselect   = ($quantity == intval($quantityBox)) ? "selected" : "";
+							$quantityselect    = ($quantity == intval($quantityBox)) ? "selected" : "";
 							$quantityComboBox .= "<option value='" . intVal($quantityBox) . "' " . $quantityselect . ">"
 								. intVal($quantityBox) . "</option>";
 						}
 					}
 
-					$quantityComboBox  .= "</select>";
+					$quantityComboBox .= "</select>";
 					$addToCartQuantity = "<span id='stockQuantity" . $stockId . "'>" . $quantityComboBox . "</span>";
 				}
 

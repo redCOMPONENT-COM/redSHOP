@@ -801,7 +801,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Get cart template
-		$dataAdd = Redshop\Cart\Render::render(
+		$dataAdd = Redshop\Cart\Render::replace(
 			$product->product_id,
 			$catid,
 			0,
@@ -810,9 +810,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$isChilds,
 			$userfieldArr,
 			$totalatt,
-			$totacc,
-			0,
-			""
+			$totacc
 		);
 
 		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);

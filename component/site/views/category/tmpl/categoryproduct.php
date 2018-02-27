@@ -521,7 +521,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
 
 				// Get cart tempalte.
-				$prddata_add = Redshop\Cart\Render::render(
+				$prddata_add = Redshop\Cart\Render::replace(
 					$product->product_id,
 					$this->catid,
 					0,

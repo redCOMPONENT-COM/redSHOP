@@ -172,7 +172,7 @@ if ($template_middle != "")
 		$cart_mdata = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
 
 		// Get cart tempalte
-		$cart_mdata = Redshop\Cart\Render::render($product_id, 0, 0, 0, $cart_mdata, $isChilds);
+		$cart_mdata = Redshop\Cart\Render::replace($product_id, 0, 0, 0, $cart_mdata, $isChilds);
 
 		$cart_mdata = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $cart_mdata);
 		$cart_mdata = str_replace("{product_id}", $manufacturer_products[$i]->product_id, $cart_mdata);

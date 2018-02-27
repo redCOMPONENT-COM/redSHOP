@@ -135,7 +135,7 @@ function display_products($rows)
 
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
-		echo $addtocartdata = Redshop\Cart\Render::render($row->product_id);
+		echo $addtocartdata = Redshop\Cart\Render::replace($row->product_id);
 
 		echo "<div>" . $addtocartdata . "</div>";
 	}

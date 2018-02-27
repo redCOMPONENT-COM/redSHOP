@@ -231,7 +231,7 @@ function display_products($rows)
 
 			echo "<br><div class='wishlist_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a></div>&nbsp;</div> ";
 
-			$addtocartdata = Redshop\Cart\Render::render($row->product_id, 0, 0, $row->product_id);
+			$addtocartdata = Redshop\Cart\Render::replace($row->product_id, 0, 0, $row->product_id);
 
 			echo "<div class='wishlist_right'>" . $addtocartdata . "</div><br class='clear' /></div><br class='clear' />";
 		}
@@ -571,7 +571,7 @@ function display_products($rows)
 			$wishlist_data = str_replace('{product_s_desc}', $pdesc, $wishlist_data);
 
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
-			$wishlist_data = Redshop\Cart\Render::render($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+			$wishlist_data = Redshop\Cart\Render::replace($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 			$rmore         = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 			$wishlist_data = str_replace("{read_more}", $rmore, $wishlist_data);
