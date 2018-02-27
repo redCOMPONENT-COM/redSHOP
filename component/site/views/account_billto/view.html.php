@@ -91,11 +91,13 @@ class RedshopViewAccount_Billto extends RedshopView
 			$app->close();
 		}
 
-		$lists['requesting_tax_exempt'] = JHtml::_(
-			'select.booleanlist',
-			'requesting_tax_exempt',
-			'class="inputbox"',
-			$billingAddresses->requesting_tax_exempt
+		$lists = array(
+			'requesting_tax_exempt' => JHtml::_(
+				'select.booleanlist',
+				'requesting_tax_exempt',
+				'class="inputbox"',
+				$billingAddresses->requesting_tax_exempt
+			)
 		);
 
 		if ($billingAddresses->is_company)
