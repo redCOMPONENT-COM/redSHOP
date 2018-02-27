@@ -24,7 +24,7 @@ class RedshopModelAccount_Shipto extends RedshopModel
 	public $_id = null;
 
 	/**
-	 * @var null|object
+	 * @var mixed
 	 */
 	public $_data = null;
 
