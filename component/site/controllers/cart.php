@@ -598,7 +598,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function getShippingrate()
 	{
-		echo RedshopHelperShipping::getShippingRateCalc();
+		echo Redshop\Shipping\Rate::calculate();
 
 		JFactory::getApplication()->close();
 	}

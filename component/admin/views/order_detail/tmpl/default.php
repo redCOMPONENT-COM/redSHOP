@@ -345,7 +345,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     </td>
                                 </tr>
                                 <?php
-                                $details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
+                                $details = Redshop\Shipping\Rate::decrypt($this->detail->ship_method_id);
 
                                 if (count($details) <= 1)
                                 {

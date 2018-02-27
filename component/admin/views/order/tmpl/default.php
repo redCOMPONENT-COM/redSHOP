@@ -537,7 +537,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php
 				if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 				{
-					$details        = RedshopShippingRate::decrypt($row->ship_method_id);
+					$details        = Redshop\Shipping\Rate::decrypt($row->ship_method_id);
 					$shippingParams = new JRegistry;
 
 					if (!empty($details[0]))

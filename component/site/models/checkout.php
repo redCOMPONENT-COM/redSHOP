@@ -276,7 +276,7 @@ class RedshopModelCheckout extends RedshopModel
 		$cart['total'] = $paymentArray[0];
 		RedshopHelperCartSession::setCart($cart);
 
-		$order_shipping = RedshopShippingRate::decrypt($shipping_rate_id);
+		$order_shipping = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 		$order_status   = 'P';
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
@@ -2035,7 +2035,7 @@ class RedshopModelCheckout extends RedshopModel
 		$order_shipping_rate = 0;
 		$shippingVatRate     = 0;
 		$shipArr             = array();
-		$order_shipping      = RedshopShippingRate::decrypt($shipping_rate_id);
+		$order_shipping      = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 
 		if (isset($order_shipping[3]))
 		{

@@ -82,7 +82,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$billingInfo = RedshopHelperOrder::getOrderBillingUserInfo($data[$i]->order_id);
-			$details     = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
+			$details     = Redshop\Shipping\Rate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
 			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
