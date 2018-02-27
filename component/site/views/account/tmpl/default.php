@@ -117,7 +117,7 @@ $template_desc = str_replace('{customer_custom_fields}', $extrafields, $template
 
 if (strstr($template_desc, "{reserve_discount}"))
 {
-	$reserve_discount = $model->getReserveDiscount();
+	$reserve_discount = Redshop\Account\Helper::getReserveDiscount();
 	$reserve_discount = $producthelper->getProductFormattedPrice($reserve_discount);
 
 	$template_desc = str_replace('{reserve_discount}', $reserve_discount, $template_desc);
@@ -199,14 +199,14 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 	{
 		$coupon_imagelbl = JText::_('COM_REDSHOP_COUPON_INFO');
 		$coupon_image    = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/coupon.jpg" align="absmiddle">';
-		$usercoupons     = $model->usercoupons($user->id);
+		$usercoupons     = $model->getUserCoupons($user->id);
 
 		if (count($usercoupons))
 		{
 			for ($i = 0, $in = count($usercoupons); $i < $in; $i++)
 			{
 				$coupon_data .= $coupon_desc;
-				$unused_amount = $model->unused_coupon_amount($user->id, $usercoupons[$i]->code);
+				$unused_amount = Redshop\Account\Helper::getUnusedCouponAmount($user->id, $usercoupons[$i]->code);
 				$coupon_data   = str_replace('{coupon_code_lbl}', JText::_('COM_REDSHOP_COUPON_CODE'), $coupon_data);
 				$coupon_data   = str_replace('{coupon_code}', $usercoupons[$i]->code, $coupon_data);
 				$coupon_data   = str_replace('{coupon_value_lbl}', JText::_('COM_REDSHOP_COUPON_VALUE'), $coupon_data);
@@ -411,7 +411,7 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 	$template_d2 = explode("{product_serial_loop_end}", $template_d1[1]);
 	$serial_desc = $template_d2[0];
 
-	$userDownloadProduct = $model->getdownloadproductlist($user->id);
+	$userDownloadProduct = Redshop\Account\Helper::getDownloadProductList($user->id);
 
 	$serial_data = '';
 
