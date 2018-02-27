@@ -177,7 +177,7 @@ class RedshopMenuLeft_Menu
 				return array('SHIPPING', 'shipping_method');
 
 			case "shipping_box":
-			case "shipping_box_detail":
+			case "shipping_boxes":
 				return array('SHIPPING', 'shipping_box');
 
 			case "wrapper":
