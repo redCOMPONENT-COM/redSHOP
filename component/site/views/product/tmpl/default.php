@@ -1463,7 +1463,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 }
 
 // Cart
-$template_desc = $producthelper->replaceCartTemplate(
+$template_desc = Redshop\Cart\Render::render(
 	$this->data->product_id,
 	$this->data->category_id,
 	0,

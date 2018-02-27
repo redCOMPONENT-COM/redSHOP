@@ -2800,6 +2800,33 @@ class productHelper
 	}
 
 	/**
+	 * Method for render cart, replace tag in template
+	 *
+	 * @param   integer $product_id          Product Id
+	 * @param   integer $category_id         Category Id
+	 * @param   integer $accessory_id        Accessory Id
+	 * @param   integer $relproduct_id       Related product Id
+	 * @param   string  $data_add            Template content
+	 * @param   boolean $isChilds            Is child product?
+	 * @param   array   $userfieldArr        User fields
+	 * @param   integer $totalatt            Total attributes
+	 * @param   integer $totalAccessory      Total accessories
+	 * @param   integer $count_no_user_field Total user fields
+	 * @param   integer $module_id           Module Id
+	 * @param   integer $giftcard_id         Giftcard Id
+	 *
+	 * @return  mixed|string
+	 * @throws  \Exception
+	 *
+	 * @deprecated __DEPLOY_VERSION__ Use Redshop\Cart\Render::render
+	 * @see Redshop\Cart\Render::render
+	 */
+	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
+	{
+		return Redshop\Cart\Render::render($product_id, $category_id, $accessory_id, $relproduct_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id, $giftcard_id);
+	}
+
+	/**
 	 * Method for replace wishlist tag in template.
 	 *
 	 * @param   int     $productId        Product ID
@@ -4726,7 +4753,7 @@ class productHelper
 					// Check product for not for sale
 					$related_template_data = $this->getProductNotForSaleComment($related_product[$r], $related_template_data, $attributes, 1);
 
-					$related_template_data = $this->replaceCartTemplate($related_product[$r]->mainproduct_id, 0, 0, $related_product[$r]->product_id, $related_template_data, false, 0, count($attributes), 0, 0);
+					$related_template_data = Redshop\Cart\Render::render($related_product[$r]->mainproduct_id, 0, 0, $related_product[$r]->product_id, $related_template_data, false, 0, count($attributes), 0, 0);
 					$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($related_product[$r]->product_id, 0, $related_template_data, 1);
 					$related_template_data = Redshop\Product\Stock::replaceInStock($related_product[$r]->product_id, $related_template_data);
 

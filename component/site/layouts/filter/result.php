@@ -801,7 +801,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Get cart template
-		$dataAdd = $productHelper->replaceCartTemplate(
+		$dataAdd = Redshop\Cart\Render::render(
 			$product->product_id,
 			$catid,
 			0,

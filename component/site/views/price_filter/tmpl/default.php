@@ -116,7 +116,7 @@ $producthelper = productHelper::getInstance();?>
 
 					if ($show_addtocart)
 					{
-						$addtocartform = $producthelper->replaceCartTemplate($row->product_id);
+						$addtocartform = Redshop\Cart\Render::render($row->product_id);
 						echo "<div>" . $addtocartform . "<div>";
 					}
 
