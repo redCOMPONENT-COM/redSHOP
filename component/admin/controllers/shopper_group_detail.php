@@ -109,6 +109,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 		else
 		{
+			/** @var RedshopModelShopper_group_detail $model */
 			$model = $this->getModel('shopper_group_detail');
 
 			if (!$model->delete($cid))

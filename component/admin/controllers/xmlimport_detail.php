@@ -85,6 +85,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelXmlimport_detail $model */
 		$model = $this->getModel('xmlimport_detail');
 
 		if (!$model->delete($cid))

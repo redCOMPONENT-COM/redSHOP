@@ -145,7 +145,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
 		}
 		else
 		{
-			$link = 'index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId;
+			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 		}
 
 		$this->setRedirect($link, $msg);
