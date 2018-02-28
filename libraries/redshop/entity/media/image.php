@@ -49,8 +49,10 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 			return '';
 		}
 
-		return REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
-			. '/' . $this->get('section_id') . '/' . $this->get('media_name');
+		return JPath::clean(
+			REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
+			. '/' . $this->get('section_id') . '/' . $this->get('media_name')
+		);
 	}
 
 	/**
@@ -72,20 +74,38 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	/**
 	 * Method for generate thumbnail
 	 *
-	 * @param   integer $width   Width of thumbnail
-	 * @param   integer $height  Height of thumbnail
-	 * @param   integer $quality Quality of thumbnail
-	 * @param   integer $crop    Is crop image or not
-	 * @param   boolean $force   Force create image.
+	 * @param   integer  $width   Width of thumbnail
+	 * @param   integer  $height  Height of thumbnail
+	 * @param   boolean  $crop    Is crop image or not
+	 * @param   boolean  $force   Force create image.
 	 *
-	 * @return  array              List of relative and absolute path
+	 * @return  array             List of relative and absolute path
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function generateThumb($width, $height, $quality = 90, $crop = 0, $force = false)
+	public function generateThumb($width, $height, $crop = false, $force = false)
 	{
 		$result = array('rel' => '', 'abs' => '');
 
 		if (!$this->hasId())
+		{
+			return $result;
+		}
+
+		$destinationFile  = JFile::stripExt(basename($this->get('media_name')));
+		$destinationFile .= '_w' . $width . '_h' . $height;
+		$destinationFile .= '.' . JFile::getExt($this->get('media_name'));
+
+		$result = array(
+			'rel' => JPath::clean(
+				REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
+				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile
+			),
+			'abs' => REDSHOP_MEDIA_IMAGE_ABSPATH . $this->get('media_section')
+				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile
+		);
+
+		if (JFile::exists($result['rel']) && $force === false)
 		{
 			return $result;
 		}
@@ -95,42 +115,16 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 
 		$sourceFile = $this->getImagePath();
 
-		$data     = file_get_contents($sourceFile);
-		$resource = imagecreatefromstring($data);
-		$imagine  = new Imagine;
-		$image    = new Image($resource, new RGB, $imagine->getMetadataReader()->readFile($sourceFile));
-		$box      = new Box($width, $height);
-		$options  = array();
-
-		if (!empty($quality))
-		{
-			$options['quality'] = $quality;
-		}
-
-		$mode = $crop ? ImageInterface::THUMBNAIL_OUTBOUND : ImageInterface::THUMBNAIL_INSET;
-
-		$finalThumbnail = null;
-		$thumbnail      = $image->thumbnail($box, $mode);
-
-		$destinationFile  = JFile::stripExt(basename($this->get('media_name')));
-		$destinationFile .= '_w' . $width . '_h' . $height;
-		$destinationFile .= '.' . JFile::getExt($this->get('media_name'));
-
-		$result = array(
-			'rel' => REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
-				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile,
-			'abs' => REDSHOP_MEDIA_IMAGE_ABSPATH . $this->get('media_section')
-				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile
-		);
-
-		if (JFile::exists(JPath::clean($result['rel'])) && $force === false)
-		{
-			return $result;
-		}
+		$data      = file_get_contents($sourceFile);
+		$resource  = imagecreatefromstring($data);
+		$imagine   = new Imagine;
+		$image     = new Image($resource, new RGB, $imagine->getMetadataReader()->readFile($sourceFile));
+		$box       = new Box($width, $height);
+		$mode      = $crop ? ImageInterface::THUMBNAIL_OUTBOUND : ImageInterface::THUMBNAIL_INSET;
+		$thumbnail = $image->thumbnail($box, $mode);
 
 		$thumbnail->save($result['rel']);
 
-		unset($finalThumbnail);
 		unset($thumbnail);
 		unset($image);
 		unset($imagine);
