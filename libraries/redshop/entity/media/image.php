@@ -28,9 +28,10 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	/**
 	 * Get the associated table
 	 *
-	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
+	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
 	 * @return  RedshopTable
+	 * @throws  Exception
 	 */
 	public function getTable($name = null)
 	{
@@ -87,7 +88,16 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	{
 		$result = array('rel' => '', 'abs' => '');
 
+		// Check if this is correct media image
 		if (!$this->hasId())
+		{
+			return $result;
+		}
+
+		// Get original file path
+		$sourceFile = $this->getImagePath();
+
+		if (empty($sourceFile) || !JFile::exists($sourceFile))
 		{
 			return $result;
 		}
@@ -112,8 +122,6 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 
 		$originalMemoryLimit = ini_get('memory_limit');
 		ini_set('memory_limit', '1024M');
-
-		$sourceFile = $this->getImagePath();
 
 		$data      = file_get_contents($sourceFile);
 		$resource  = imagecreatefromstring($data);
