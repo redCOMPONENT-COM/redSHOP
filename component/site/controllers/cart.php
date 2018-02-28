@@ -49,7 +49,7 @@ class RedshopControllerCart extends RedshopController
 		$parentAccessoryProductId = $post['product_id'];
 
 		$productHelper = productHelper::getInstance();
-		$Itemid        = RedshopHelperRouter::getCartItemId();
+		$itemId        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session
 		$userfield = $app->input->get('userfield');
@@ -113,25 +113,25 @@ class RedshopControllerCart extends RedshopController
 
 				if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 				{
-					$accessory_data       = explode("@@", $data['accessory_data']);
-					$acc_quantity_data    = explode("@@", $data['acc_quantity_data']);
-					$acc_attribute_data   = explode("@@", $data['acc_attribute_data']);
-					$acc_property_data    = explode("@@", $data['acc_property_data']);
-					$acc_subproperty_data = explode("@@", $data['acc_subproperty_data']);
+					$accessories            = explode("@@", $data['accessory_data']);
+					$accessoriesQuantity    = explode("@@", $data['acc_quantity_data']);
+					$accessoriesAttribute   = explode("@@", $data['acc_attribute_data']);
+					$accessoriesProperty    = explode("@@", $data['acc_property_data']);
+					$accessoriesSubProperty = explode("@@", $data['acc_subproperty_data']);
 
-					for ($i = 0, $in = count($accessory_data); $i < $in; $i++)
+					foreach ($accessories as $i => $accessoryId)
 					{
-						$accessory                               = RedshopHelperAccessory::getProductAccessories($accessory_data[$i]);
+						$accessory                               = RedshopHelperAccessory::getProductAccessories($accessoryId);
 						$cartData                                = array();
 						$cartData['parent_accessory_product_id'] = $parentAccessoryProductId;
 						$cartData['product_id']                  = $accessory[0]->child_product_id;
-						$cartData['quantity']                    = $acc_quantity_data[$i];
+						$cartData['quantity']                    = $accessoriesQuantity[$i];
 						$cartData['category_id']                 = 0;
 						$cartData['sel_wrapper_id']              = 0;
-						$cartData['attribute_data']              = $acc_attribute_data[$i];
-						$cartData['property_data']               = $acc_property_data[$i];
-						$cartData['subproperty_data']            = $acc_subproperty_data[$i];
-						$cartData['accessory_id']                = $accessory_data[$i];
+						$cartData['attribute_data']              = $accessoriesAttribute[$i];
+						$cartData['property_data']               = $accessoriesProperty[$i];
+						$cartData['subproperty_data']            = $accessoriesSubProperty[$i];
+						$cartData['accessory_id']                = $accessories[$i];
 
 						$result = Redshop\Cart\Cart::addProduct($cartData);
 
@@ -146,11 +146,11 @@ class RedshopControllerCart extends RedshopController
 
 							$app->enqueueMessage($errorMessage, 'error');
 
-							if (JError::isError(JError::getError()))
+							if (/** @scrutinizer ignore-deprecated */JError::isError(/** @scrutinizer ignore-deprecated */JError::getError()))
 							{
-								$error        = JError::getError();
+								$error        = /** @scrutinizer ignore-deprecated */JError::getError();
 								$errorMessage = $error->getMessage();
-								$app->enqueueMessage($this->getError(), 'error');
+								$app->enqueueMessage(/** @scrutinizer ignore-deprecated */$this->getError(), 'error');
 							}
 
 							if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1)
@@ -204,7 +204,7 @@ class RedshopControllerCart extends RedshopController
 		}
 
 		$link = JRoute::_(
-			'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $Itemid,
+			'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $itemId,
 			false
 		);
 
@@ -213,7 +213,7 @@ class RedshopControllerCart extends RedshopController
 			if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
 			{
 				$link = JRoute::_(
-					'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid,
+					'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $itemId,
 					false
 				);
 			}
@@ -221,7 +221,7 @@ class RedshopControllerCart extends RedshopController
 			{
 				if (Redshop::getConfig()->get('ADDTOCART_BEHAVIOUR') == 1)
 				{
-					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 				}
 				else
 				{
@@ -485,8 +485,11 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function empty_cart()
 	{
+		/** @var RedshopModelCart $model */
+		$model = $this->getModel('cart');
+
 		// Call empty_cart method of model to remove all products from cart
-		$this->getModel('cart')->emptyCart();
+		$model->emptyCart();
 		$user = JFactory::getUser();
 
 		if ($user->id)
@@ -587,7 +590,9 @@ class RedshopControllerCart extends RedshopController
 			$app->redirect($rurl, $msg);
 		}
 
-		$this->getModel('cart')->redmasscart($post);
+		/** @var RedshopModelCart $model */
+		$model = $this->getModel('cart');
+		$model->redmasscart($post);
 
 		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $app->input->getInt('Itemid'), false);
 		$this->setRedirect($link);
