@@ -128,7 +128,7 @@ class RedshopTableManufacturer extends RedshopTable
 	 */
 	protected function doCheck()
 	{
-		if (!parent::check())
+		if (!parent::doCheck())
 		{
 			return false;
 		}
