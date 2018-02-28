@@ -60,6 +60,17 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
                 "autoUnmask"        : true,
                 "removeMaskOnSubmit": true
             });
+
+            SqueezeBox.presets.onClose = function(e){
+                if (this.options.classWindow == 'additional-media-popup') {
+                    var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
+
+                    <?php JFactory::getApplication()->setUserState('com_redshop.product_detail.selectedTabPosition', 'general_data')  ?>
+
+                    $('#general_data').html(reloading_img);
+                    window.location.reload();
+                }
+            };
         });
     })(jQuery);
 </script>
@@ -326,7 +337,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
 						. $this->detail->product_id . '&showbuttons=1&media_section=product'; ?>
                     <div class="form-group">
                         <a class="joom-box btn btn-primary" title="Image" href="<?php echo JRoute::_($ilink, false) ?>"
-                           rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+                           rel="{handler: 'iframe', size: {x: 950, y: 500}, classWindow: 'additional-media-popup'}">
 							<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'); ?>
                         </a>
                     </div>
