@@ -8,7 +8,7 @@
 
 namespace AcceptanceTester;
 
-use ManufacturerPage as ManufacturerPage;
+use ManufacturerPage;
 
 /**
  * Class ManufacturerManagerJoomla3Steps
@@ -24,7 +24,8 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Test Manufacturer Creation
 	 *
-	 * @param   string $manufacturerName Name of the Manufacturer
+	 * @param   string  $manufacturerName  Name of the Manufacturer
+	 * @param   string  $email             Name of the Manufacturer
 	 *
 	 * @return void
 	 */
@@ -39,6 +40,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$tester->fillField(ManufacturerPage::$manufacturerName, $manufacturerName);
 		$tester->fillField(ManufacturerPage::$emailManufacture, $email);
 		$tester->fillField(ManufacturerPage::$productPerPage, 12);
+		$tester->chooseOnSelect2(ManufacturerPage::$fieldTemplate, ManufacturerPage::$templateSection);
 		$tester->click(ManufacturerPage::$buttonSaveClose);
 		$tester->waitForText(ManufacturerPage::$manufacturerSuccessMessage, 60, '.alert-success');
 		$tester->see(ManufacturerPage::$manufacturerSuccessMessage, '.alert-success');

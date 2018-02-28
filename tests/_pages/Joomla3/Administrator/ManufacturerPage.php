@@ -59,4 +59,14 @@ class ManufacturerPage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $productPerPage = ['id' => 'jform_product_per_page'];
+
+	/**
+	 * @var array
+	 */
+	public static $fieldTemplate = ['id' => 'jform_template_id'];
+
+	/**
+	 * @var string
+	 */
+	public static $templateSection = 'manufacturer_products';
 }
