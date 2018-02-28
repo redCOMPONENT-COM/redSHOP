@@ -7,7 +7,7 @@
  */
 
 /**
- * Class ManufacturerManagerJoomla3Page
+ * Class ManufacturerPage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
@@ -18,55 +18,30 @@ class ManufacturerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturers';
+	public static $namePage = 'Manufacturer Management';
 
 	/**
 	 * @var string
 	 */
-	public static $detailsTab = "//a[contains(text(), 'Details')]";
+	public static $url = '/administrator/index.php?option=com_redshop&view=manufacturers';
 
 	/**
 	 * @var array
 	 */
-	public static $manufacturerName = ['id' => 'jform_name'];
-
-	/**
-	 * @var string
-	 */
-	public static $manufacturerSuccessMessage = 'Item saved';
-
-	/**
-	 * @var string
-	 */
-	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
-
-	/**
-	 * @var string
-	 */
-	public static $selectFirst = "//input[@id='cb0']";
-
-	/**
-	 * @var string
-	 */
-	public static $manufacturerStatePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
+	public static $fieldName = ['id' => 'jform_name'];
 
 	/**
 	 * @var array
 	 */
-	public static $emailManufacture = ['id' => 'jform_email'];
-
-	/**
-	 * @var array
-	 */
-	public static $productPerPage = ['id' => 'jform_product_per_page'];
-
-	/**
-	 * @var array
-	 */
-	public static $fieldTemplate = ['id' => 'jform_template_id'];
+	public static $fieldEmail = ['id' => 'jform_email'];
 
 	/**
 	 * @var string
 	 */
-	public static $templateSection = 'manufacturer_products';
+	public static $fieldMissing = 'Field required: Name';
+
+	/**
+	 * @var string
+	 */
+	public static $fieldEmailInvalid = 'Invalid field: Email';
 }

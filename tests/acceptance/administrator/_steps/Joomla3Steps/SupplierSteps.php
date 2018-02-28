@@ -33,6 +33,13 @@ class SupplierSteps extends AbstractStep
 		$client->click(\SupplierPage::$buttonCancel);
 	}
 
+	/**
+	 * Bad case: Missing name
+	 *
+	 * @param   string $supplierEmailId Email
+	 *
+	 * @return  void
+	 */
 	public function addSupplierSaveMissingName($supplierEmailId)
 	{
 		$client = $this;

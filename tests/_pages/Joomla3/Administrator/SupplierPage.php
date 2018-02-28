@@ -7,7 +7,7 @@
  */
 
 /**
- * Class SupplierManagerPage
+ * Class SupplierPage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *

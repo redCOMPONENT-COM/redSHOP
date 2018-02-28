@@ -8,10 +8,9 @@
 
 use Cest\AbstractCest;
 use Codeception\Scenario;
-use Step\AbstractStep;
 
 /**
- * Class SupplierSteps
+ * Class SupplierCest
  *
  * @package  AcceptanceTester
  *
@@ -84,6 +83,7 @@ class SupplierCest extends AbstractCest
 		$tester->deleteItem('New ' . $this->dataNew['name']);
 
 	}
+
 	/**
 	 * Method for set new data.
 	 *
