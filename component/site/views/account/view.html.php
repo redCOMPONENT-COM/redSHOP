@@ -112,7 +112,8 @@ class RedshopViewAccount extends RedshopView
 
 				$app->redirect(
 					JRoute::_(
-						"index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=" . $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
+						"index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id="
+						. $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
 						false
 					)
 				);
@@ -136,7 +137,7 @@ class RedshopViewAccount extends RedshopView
 			}
 
 			$maxcategory      = $params->get('maxcategory', 5);
-			$limit            = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
+			$limit            = $app->getUserStateFromRequest($model->context . 'limit', 'limit', $maxcategory, 5);
 			$limitstart       = $input->getInt('limitstart', 0, '', 'int');
 			$total            = $this->get('total');
 			$pagination       = new JPagination($total, $limitstart, $limit);
