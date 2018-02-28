@@ -44,7 +44,7 @@ class RedshopViewCart extends RedshopView
 		$cart   = RedshopHelperCartSession::getCart();
 		$layout = $app->input->getCmd('layout');
 
-		if (!$cart)
+		if (!empty($cart))
 		{
 			$cart = array();
 		}

@@ -48,8 +48,6 @@ class RedshopViewAccount extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		global $context;
-
 		/** @var JApplicationSite $app */
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
@@ -96,7 +94,7 @@ class RedshopViewAccount extends RedshopView
 			}
 
 			$maxcategory      = $params->get('maxcategory', 5);
-			$limit            = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
+			$limit            = $app->getUserStateFromRequest($model->context . 'limit', 'limit', $maxcategory, 5);
 			$limitstart       = $input->getInt('limitstart', 0, '', 'int');
 			$total            = $this->get('total');
 			$pagination       = new JPagination($total, $limitstart, $limit);
