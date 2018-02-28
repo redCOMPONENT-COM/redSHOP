@@ -15,7 +15,7 @@
  */
 class ManufacturerPage extends AdminJ3Page
 {
-    public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturer';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturers';
 
     public static $detailsTab = "//a[contains(text(), 'Details')]";
 
