@@ -43,12 +43,6 @@ class RedshopViewCart extends RedshopView
 		// Request variables
 		$cart   = RedshopHelperCartSession::getCart();
 		$layout = $app->input->getCmd('layout');
-
-		if (!empty($cart))
-		{
-			$cart = array();
-		}
-
 		$itemId = $app->input->getInt('Itemid');
 
 		if ($app->input->getString('quotemsg') != "")
