@@ -15,27 +15,48 @@
  */
 class ManufacturerPage extends AdminJ3Page
 {
-    public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturers';
+	/**
+	 * @var string
+	 */
+	public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturers';
 
-    public static $detailsTab = "//a[contains(text(), 'Details')]";
+	/**
+	 * @var string
+	 */
+	public static $detailsTab = "//a[contains(text(), 'Details')]";
 
-    public static $manufacturerName = "//input[@id='manufacturer_name']";
+	/**
+	 * @var array
+	 */
+	public static $manufacturerName = ['id' => 'jform_name'];
 
-    public static $manufacturerSuccessMessage = 'Manufacturer Detail Saved';
+	/**
+	 * @var string
+	 */
+	public static $manufacturerSuccessMessage = 'Item saved';
 
-    public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
+	/**
+	 * @var string
+	 */
+	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
 
-    public static $selectFirst = "//input[@id='cb0']";
+	/**
+	 * @var string
+	 */
+	public static $selectFirst = "//input[@id='cb0']";
 
-    public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
+	/**
+	 * @var string
+	 */
+	public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
 
-    /**
-     * @var array
-     */
-    public static $emailManufacture = ['id' => 'manufacturer_email'];
+	/**
+	 * @var array
+	 */
+	public static $emailManufacture = ['id' => 'jform_email'];
 
-    /**
-     * @var array
-     */
-    public static $productPerPage = ['id' => 'product_per_page'];
+	/**
+	 * @var array
+	 */
+	public static $productPerPage = ['id' => 'jform_product_per_page'];
 }

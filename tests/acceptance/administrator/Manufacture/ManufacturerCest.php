@@ -28,8 +28,12 @@ class ManufacturerCest
 	/**
 	 * Function to Test Manufacturer Creation in Backend
 	 *
+	 * @param   AcceptanceTester      $I         Acceptance
+	 * @param   Codeception\Scenario  $scenario  Scenario
+	 *
+	 * @return  void
 	 */
-	public function createManufacturer(AcceptanceTester $I, $scenario)
+	public function createManufacturer(AcceptanceTester $I, Codeception\Scenario $scenario)
 	{
 		$I->wantTo('Test Manufacture creation in Administrator');
 		$I->doAdministratorLogin();
