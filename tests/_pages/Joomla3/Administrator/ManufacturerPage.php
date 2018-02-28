@@ -48,7 +48,7 @@ class ManufacturerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
+	public static $manufacturerStatePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
 
 	/**
 	 * @var array
