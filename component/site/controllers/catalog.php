@@ -82,7 +82,7 @@ class RedshopControllerCatalog extends RedshopController
 
 		if ($row)
 		{
-			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_COLOR_SAMPLE, $row->request_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_COLOR_SAMPLE, $post['request_id']);
 			$msg = JText::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
 		}
 		else
