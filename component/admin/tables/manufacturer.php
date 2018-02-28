@@ -41,6 +41,11 @@ class RedshopTableManufacturer extends RedshopTable
 	public $published = 1;
 
 	/**
+	 * @var  integer
+	 */
+	public $product_per_page;
+
+	/**
 	 * Delete one or more registers
 	 *
 	 * @param   string/array  $pk  Array of ids or ids comma separated
@@ -75,6 +80,8 @@ class RedshopTableManufacturer extends RedshopTable
 
 		// Delete media folder
 		JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturerId);
+
+		return true;
 	}
 
 	/**
@@ -107,6 +114,32 @@ class RedshopTableManufacturer extends RedshopTable
 
 		// B/C for old plugin
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerSave', array(&$this, $isNew));
+
+		return true;
+	}
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (!parent::check())
+		{
+			return false;
+		}
+
+		// Check product per page
+		if (!$this->product_per_page)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MANUFACTURER_ERROR_PRODUCT_PER_PAGE'));
+
+			return false;
+		}
 
 		return true;
 	}
@@ -145,9 +178,11 @@ class RedshopTableManufacturer extends RedshopTable
 
 		$input = JFactory::getApplication()->input;
 
-		$dropzone              = $input->post->get('dropzone', array(), '');
-		$dropzone              = isset($dropzone[$mediaField]) ? $dropzone[$mediaField] : null;
+		$dropzone = $input->post->get('dropzone', array(), '');
+		$dropzone = isset($dropzone[$mediaField]) ? $dropzone[$mediaField] : null;
+
 		$dropzoneAlternateText = $input->post->get('dropzone_alternate_text', array(), '');
+		$dropzoneAlternateText = isset($dropzoneAlternateText[$mediaField]) ? $dropzoneAlternateText[$mediaField] : null;
 
 		if (null === $dropzone)
 		{
