@@ -151,7 +151,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 			$app->sendHeaders();
 		}
 
-		echo json_encode(array('name' => $model->getState($this->logName), 'msg' => ''));
+		echo json_encode(array('name' => (string) $model->getState($this->logName), 'msg' => ''));
 
 		$app->close();
 	}

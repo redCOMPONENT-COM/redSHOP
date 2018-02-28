@@ -409,12 +409,25 @@ $orders        = $this->model->countOrders();
                 e.preventDefault();
 
                 $("#category_log").html('');
+                $("#category_sync").css("width", "0%").removeClass('progress-bar-striped active');
+
                 $("#manufacturer_log").html('');
+                $("#manufacturer_sync").css("width", "0%").removeClass('progress-bar-striped active');
+
                 $("#shoppergroup_log").html('');
+                $("#shoppergroup_sync").css("width", "0%").removeClass('progress-bar-striped active');
+
                 $("#customer_log").html('');
+                $("#customer_sync").css("width", "0%").removeClass('progress-bar-striped active');
+
                 $("#orderstatus_log").html('');
+                $("#orderstatus_sync").css("width", "0%").removeClass('progress-bar-striped active');
+
                 $("#product_log").html('');
+                $("#product_sync").css("width", "0%").removeClass('progress-bar-striped active');
+
                 $("#order_log").html('');
+                $("#order_sync").css("width", "0%").removeClass('progress-bar-striped active');
 
                 syncCategories(0);
             });

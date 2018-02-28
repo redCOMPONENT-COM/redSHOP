@@ -517,7 +517,7 @@ class RedshopModelImport_Vm extends RedshopModel
 		{
 			$this->setState($this->logName, null);
 
-			return false;
+			return true;
 		}
 
 		JFactory::getLanguage()->load('com_virtuemart_orders', JPATH_SITE . '/components/com_virtuemart');
@@ -539,7 +539,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @param   int $index Index
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -623,7 +623,7 @@ class RedshopModelImport_Vm extends RedshopModel
 				JFile::copy(JPATH_ROOT . '/' . $manufacturerVM->file_name, $mediaFile);
 			}
 
-			/** @var Tablemedia_detail $table */
+			/** @var Tablemedia_detail $mediaTable */
 			$mediaTable = JTable::getInstance('Media_Detail', 'Table');
 
 			if (!$mediaTable->load(
@@ -962,9 +962,10 @@ class RedshopModelImport_Vm extends RedshopModel
 				$priceQuery = 'INSERT IGNORE ' . $db->qn('#__redshop_product_price')
 					. '(' . $db->qn('product_id') . ',' . $db->qn('product_price') . ',' . $db->qn('cdate')
 					. ',' . $db->qn('price_quantity_start') . ',' . $db->qn('price_quantity_end') . ',' . $db->qn('shopper_group_id') . ')'
-					. ' VALUES('
-					. $table->product_id . ',' . $db->quote($price->product_price) . ',' . $db->quote($createdDate->format('Y-m-d')) . ','
-					. $db->quote($price->price_quantity_start) . ',' . $db->quote($price->price_quantity_end) . ',' . $db->quote($shopperGroupId)
+					. ' VALUES(' . $table->product_id . ',' . $db->quote((string) $price->product_price) . ','
+					. $db->quote((string) $createdDate->format('Y-m-d')) . ','
+					. $db->quote((string) $price->price_quantity_start) . ','
+					. $db->quote((string) $price->price_quantity_end) . ',' . $shopperGroupId
 					. ')';
 
 				$db->setQuery($priceQuery)->execute();
@@ -1017,7 +1018,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
 			foreach ($categoryIds as $categoryId)
 			{
-				$query->values($db->quote($categoryId) . ',' . $db->quote($table->product_id));
+				$query->values($categoryId . ',' . $table->product_id);
 			}
 
 			return $db->setQuery($query)->execute();
@@ -1177,7 +1178,7 @@ class RedshopModelImport_Vm extends RedshopModel
 			->select($db->qn('rdoi.order_id', 'rdoi_order_id'))
 			->select($db->qn('rdp.product_id', 'rdp_product_id'))
 			->from($db->qn('#__virtuemart_order_items', 'vmoi'))
-			->leftJoin($db->qn('#__redshop_order_item', 'rdoi') . ' ON ' . $db->qn('rdoi.order_id') . ' = ' . $db->quote($orderTable->order_id))
+			->leftJoin($db->qn('#__redshop_order_item', 'rdoi') . ' ON ' . $db->qn('rdoi.order_id') . ' = ' . $orderTable->order_id)
 			->leftJoin($db->qn('#__redshop_product', 'rdp') . ' ON ' . $db->qn('rdp.product_number') . ' = ' . $db->qn('vmoi.order_item_sku'))
 			->where($db->qn('vmoi.virtuemart_order_id') . ' = ' . $orderVM->virtuemart_order_id);
 

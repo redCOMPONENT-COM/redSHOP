@@ -49,7 +49,7 @@ class RedshopHelperVirtuemart
 			$query = $db->getQuery(true)
 				->select($db->qn('shopper_group_name'))
 				->from($db->qn('#__virtuemart_shoppergroups'))
-				->where($db->qn('shopper_group_id') . ' = ' . $id);
+				->where($db->qn('virtuemart_shoppergroup_id') . ' = ' . $id);
 
 			self::$vmShopperGroups[$id] = $db->setQuery($query)->loadResult();
 		}
