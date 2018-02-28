@@ -21,21 +21,24 @@ class Property
 	/**
 	 * Method for replace product properties add to cart
 	 *
-	 * @param   integer $productId     Product ID
-	 * @param   integer $propertyId    Property ID
-	 * @param   integer $categoryId    Category ID
-	 * @param   string  $commonId      DOM ID
-	 * @param   integer $propertyStock Property stock
-	 * @param   string  $propertyData  Property Data
-	 * @param   object  $cartTemplate  Cart template
-	 * @param   string  $content       Template content
+	 * @param   integer  $productId      Product ID
+	 * @param   integer  $propertyId     Property ID
+	 * @param   integer  $categoryId     Category ID
+	 * @param   string   $commonId       DOM ID
+	 * @param   integer  $propertyStock  Property stock
+	 * @param   string   $propertyData   Property Data
+	 * @param   object   $cartTemplate   Cart template
+	 * @param   string   $content        Template content
+	 * @param   integer  $subPropertyId  Sub-property Id
 	 *
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function replaceAddToCart($productId = 0, $propertyId = 0, $categoryId = 0, $commonId = "", $propertyStock = 0, $propertyData = "", $cartTemplate = null, $content = "")
+	public static function replaceAddToCart($productId = 0, $propertyId = 0, $categoryId = 0, $commonId = "", $propertyStock = 0,
+		$propertyData = "", $cartTemplate = null, $content = "", $subPropertyId = 0
+	)
 	{
 		$input  = \JFactory::getApplication()->input;
 		$itemId = $input->getInt('Itemid');

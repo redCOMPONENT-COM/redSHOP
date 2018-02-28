@@ -2840,14 +2840,15 @@ class productHelper
 	/**
 	 * Method for replace product properties add to cart
 	 *
-	 * @param   integer $product_id     Product ID
-	 * @param   integer $property_id    Property ID
-	 * @param   integer $category_id    Category ID
-	 * @param   string  $commonid       DOM ID
-	 * @param   integer $property_stock Property stock
-	 * @param   string  $property_data  Property Data
-	 * @param   array   $cart_template  Cart template
-	 * @param   string  $data_add       Template content
+	 * @param   integer  $product_id      Product ID
+	 * @param   integer  $property_id     Property ID
+	 * @param   integer  $category_id     Category ID
+	 * @param   string   $commonid        DOM ID
+	 * @param   integer  $property_stock  Property stock
+	 * @param   string   $property_data   Property Data
+	 * @param   object   $cart_template   Cart template
+	 * @param   string   $data_add        Template content
+	 * @param   integer  $subPropertyId   Sub-property Id
 	 *
 	 * @return  mixed|string
 	 * @throws  \Exception
@@ -2855,9 +2856,9 @@ class productHelper
 	 * @deprecated __DEPLOY_VERSION__ Redshop\Product\Property::replaceAddToCart
 	 * @see Redshop\Product\Property::replaceAddToCart
 	 */
-	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
+	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = null, $data_add = "", $subPropertyId = 0)
 	{
-		return Redshop\Product\Property::replaceAddToCart($product_id, $property_id, $category_id, $commonid, $property_stock, $property_data, $cart_template, $data_add);
+		return Redshop\Product\Property::replaceAddToCart($product_id, $property_id, $category_id, $commonid, $property_stock, $property_data, $cart_template, $data_add, $subPropertyId);
 	}
 
 	/**
