@@ -63,7 +63,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
 
             SqueezeBox.presets.onClose = function(e){
                 if (this.options.classWindow == 'additional-media-popup') {
-                    var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/components/com_redshop/assets/images/reloading.gif" alt="" border="0" ></div>';
+                    var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
 
                     <?php JFactory::getApplication()->setUserState('com_redshop.product_detail.selectedTabPosition', 'general_data')  ?>
 
