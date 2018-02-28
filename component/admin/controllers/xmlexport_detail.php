@@ -38,7 +38,9 @@ class RedshopControllerXmlexport_detail extends RedshopController
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post['xmlexport_id'] = $cid [0];
-		$model                = $this->getModel('xmlexport_detail');
+
+		/** @var RedshopModelXmlexport_detail $model */
+		$model = $this->getModel('xmlexport_detail');
 
 		if ($post['xmlexport_id'] == 0)
 		{
@@ -178,6 +180,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->delete($cid))

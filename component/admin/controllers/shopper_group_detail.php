@@ -60,6 +60,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 			$post["shopper_group_manufactures"] = "";
 		}
 
+		/** @var RedshopModelShopper_group_detail $model */
 		$model = $this->getModel('shopper_group_detail');
 		$row   = $model->store($post);
 
@@ -108,6 +109,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 		else
 		{
+			/** @var RedshopModelShopper_group_detail $model */
 			$model = $this->getModel('shopper_group_detail');
 
 			if (!$model->delete($cid))

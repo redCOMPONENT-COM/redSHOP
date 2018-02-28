@@ -382,13 +382,13 @@ class Helper
 		$propertiesData    = explode('##', $data['property_data']);
 		$subPropertiesData = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
 
-		foreach ($attributes as $attrIndex => $attribute)
+		foreach ($attributes as $attrIndex => $attributeId)
 		{
 			$propertiesOprand                     = array();
 			$propertiesPrice                      = array();
 			$accPropertyCart                      = array();
-			$attribute                            = \RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute);
-			$result[$attrIndex]['attribute_id']   = $attribute;
+			$attribute                            = \RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attributeId);
+			$result[$attrIndex]['attribute_id']   = $attributeId;
 			$result[$attrIndex]['attribute_name'] = $attribute[0]->text;
 
 			if ($attribute[0]->text != "" && !empty($data['property_data']) && !empty($propertiesData[$attrIndex]))
