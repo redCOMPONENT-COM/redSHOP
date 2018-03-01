@@ -102,16 +102,10 @@ class RedshopModelImport_Vm extends RedshopModel
 	 */
 	public function countOrderStatuses()
 	{
-		$db = $this->_db;
-
-		$subQuery = $db->getQuery(true)
-			->select($db->qn('order_status_code'))
-			->from($db->qn('#__redshop_order_status'));
-
+		$db    = $this->_db;
 		$query = $db->getQuery(true)
 			->select('COUNT(' . $db->qn('virtuemart_orderstate_id') . ')')
-			->from($db->qn('#__virtuemart_orderstates'))
-			->where($db->qn('order_status_code') . ' NOT IN (' . $subQuery . ')');
+			->from($db->qn('#__virtuemart_orderstates'));
 
 		return (int) $db->setQuery($query)->loadResult();
 	}
@@ -497,16 +491,10 @@ class RedshopModelImport_Vm extends RedshopModel
 	 */
 	public function syncOrderStatus($index)
 	{
-		$db = $this->_db;
-
-		$subQuery = $db->getQuery(true)
-			->select($db->qn('order_status_code'))
-			->from($db->qn('#__redshop_order_status'));
-
+		$db    = $this->_db;
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__virtuemart_orderstates'))
-			->where($db->qn('order_status_code') . ' NOT IN (' . $subQuery . ')')
 			->order($db->qn('virtuemart_orderstate_id'));
 
 		$db->setQuery($query, $index, 1);
@@ -526,6 +514,11 @@ class RedshopModelImport_Vm extends RedshopModel
 
 		/** @var \RedshopTableOrder_Status $table */
 		$table = JTable::getInstance('Order_Status', 'RedshopTable');
+
+		if (!$table->load(array('order_status_code' => $orderStatusVM->order_status_code)))
+		{
+			$table->order_status_id = 0;
+		}
 
 		$table->order_status_name = JText::_($orderStatusVM->order_status_name);
 		$table->order_status_code = $orderStatusVM->order_status_code;
@@ -952,14 +945,10 @@ class RedshopModelImport_Vm extends RedshopModel
 					$shopperGroupName = RedshopHelperVirtuemart::getVirtuemartShopperGroups($price->virtuemart_shoppergroup_id);
 					$shopperGroupId   = RedshopHelperVirtuemart::getRedshopShopperGroups($shopperGroupName);
 				}
-				else
-				{
-					$shopperGroupId = $defaultShopperGroup;
-				}
 
-				$createdDate = JFactory::getDate($price->created_on);
-
-				$priceQuery = 'INSERT IGNORE ' . $db->qn('#__redshop_product_price')
+				$shopperGroupId = !$shopperGroupId ? $defaultShopperGroup : $shopperGroupId;
+				$createdDate    = JFactory::getDate($price->created_on);
+				$priceQuery     = 'INSERT IGNORE ' . $db->qn('#__redshop_product_price')
 					. '(' . $db->qn('product_id') . ',' . $db->qn('product_price') . ',' . $db->qn('cdate')
 					. ',' . $db->qn('price_quantity_start') . ',' . $db->qn('price_quantity_end') . ',' . $db->qn('shopper_group_id') . ')'
 					. ' VALUES(' . $table->product_id . ',' . $db->quote((string) $price->product_price) . ','
