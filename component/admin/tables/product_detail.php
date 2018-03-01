@@ -79,6 +79,111 @@ class TableProduct_Detail extends JTable
 	public $product_id;
 
 	/**
+	 * @var  float
+	 */
+	public $weight;
+
+	/**
+	 * @var  float
+	 */
+	public $product_length;
+
+	/**
+	 * @var  float
+	 */
+	public $product_height;
+
+	/**
+	 * @var  float
+	 */
+	public $product_width;
+
+	/**
+	 * @var  float
+	 */
+	public $product_price;
+
+	/**
+	 * @var  integer
+	 */
+	public $min_order_product_quantity;
+
+	/**
+	 * @var  integer
+	 */
+	public $max_order_product_quantity;
+
+	/**
+	 * @var  integer
+	 */
+	public $product_special;
+
+	/**
+	 * @var  integer
+	 */
+	public $expired;
+
+	/**
+	 * @var  integer
+	 */
+	public $product_on_sale;
+
+	/**
+	 * @var  integer
+	 */
+	public $visited;
+
+	/**
+	 * @var  integer
+	 */
+	public $published;
+
+	/**
+	 * @var  integer
+	 */
+	public $product_template;
+
+	/**
+	 * @var  integer
+	 */
+	public $product_parent_id;
+
+	/**
+	 * @var  string
+	 */
+	public $sef_url;
+
+	/**
+	 * @var  string
+	 */
+	public $metarobot_info;
+
+	/**
+	 * @var  string
+	 */
+	public $product_s_desc;
+
+	/**
+	 * @var  string
+	 */
+	public $product_desc;
+
+	/**
+	 * @var  string
+	 */
+	public $metadesc;
+
+	/**
+	 * @var  string
+	 */
+	public $metakey;
+
+	/**
+	 * @var  string
+	 */
+	public $pagetitle;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
