@@ -521,7 +521,8 @@ JPluginHelper::importPlugin('redshop_product');
 									'bookDate' . $i,
 									'bookDate' . $i,
 									$calendarFormat,
-									array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+									array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                    false
 								);
 								?>
                                 <br/>
@@ -572,7 +573,8 @@ JPluginHelper::importPlugin('redshop_product');
 								'specifiedDate' . $i,
 								'specifiedDate' . $i,
 								$calendarFormat,
-								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                false
 							);
 							?>
                             <input type="button" class="button"

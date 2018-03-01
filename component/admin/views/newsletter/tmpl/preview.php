@@ -113,7 +113,8 @@ else
 	                            'start_date',
 	                            'start_date',
 	                            null,
-	                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+	                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                false
                             );
                             ?>
                         </td>
@@ -126,7 +127,8 @@ else
 								'end_date',
 								'end_date',
 								null,
-								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                false
 							);
 							?>
                         </td>

@@ -77,7 +77,7 @@ $model = $this->getModel('newslettersubscr_detail');
 					<td>
 						<?php
 						if ($this->detail->date):
-							$datee = date("d-m-Y", $this->detail->date);
+							$datee = date("Y-m-d", $this->detail->date);
 						else:
 							$datee = null;
 						endif;
@@ -88,7 +88,8 @@ $model = $this->getModel('newslettersubscr_detail');
 							'date',
 							'date',
 							null,
-							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                            true
 						);
 						?>
 					</td>
@@ -119,7 +120,6 @@ $model = $this->getModel('newslettersubscr_detail');
 	<div class="clr"></div>
 
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->subscription_id; ?>"/>
-	<input type="hidden" name="date" id="date" value="<?php echo time(); ?>">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="newslettersubscr_detail"/>
 </form>

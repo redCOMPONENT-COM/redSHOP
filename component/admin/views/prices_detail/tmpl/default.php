@@ -92,7 +92,8 @@ $producthelper  = productHelper::getInstance();
 							'discount_start_date',
 							'discount_start_date',
 							$calendarFormat,
-							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                            false
 						);
 						?>
                     </td>
@@ -116,7 +117,8 @@ $producthelper  = productHelper::getInstance();
 							'discount_end_date',
 							'discount_end_date',
 							$calendarFormat,
-							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                            false
 						);
 						?>
                     </td>

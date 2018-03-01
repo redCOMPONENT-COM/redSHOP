@@ -178,7 +178,8 @@ class SiteHelper
 						$field->name,
 						$field->name,
 						$format = '%d-%m-%Y',
-						array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15')
+						array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'),
+						false
 					);
 					break;
 
@@ -526,7 +527,8 @@ class SiteHelper
 									'required'     => $req,
 									'userfieldlbl' => $data->title,
 									'errormsg'     => ''
-								)
+								),
+								false
 							)
 							. '</div>';
 						break;
