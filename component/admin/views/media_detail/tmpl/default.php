@@ -333,7 +333,7 @@ if ($showbuttons)
 
 	<div class="clr"></div>
 	<input type="hidden" value="<?php echo isset($k) ? $k : ''; ?>" name="total_extra" id="total_extra">
-	<input type="hidden" name="cid[]" value="<?php echo $this->detail->media_id; ?>"/>
+	<input type="hidden" name="media_id" value="<?php echo $this->detail->media_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="media_detail"/>
 	<input type="hidden" name="oldmedia" value="<?php echo $this->detail->media_name; ?>"/>
