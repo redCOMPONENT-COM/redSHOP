@@ -28,15 +28,11 @@ class RedshopViewField_Group extends RedshopViewForm
 	 */
 	public function getTitle()
 	{
-		$isNew = ($this->item->id < 1);
-
-		if ($isNew)
-		{
-			return JText::_('COM_REDSHOP_FIELD_GROUP_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
-		}
-		else
+		if (!empty($this->item->id))
 		{
 			return JText::_('COM_REDSHOP_FIELD_GROUP_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 		}
+
+		return JText::_('COM_REDSHOP_FIELD_GROUP_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
 	}
 }
