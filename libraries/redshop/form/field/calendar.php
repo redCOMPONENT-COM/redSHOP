@@ -206,6 +206,6 @@ class RedshopFormFieldCalendar extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return JHtml::_('redshopcalendar.calendar', $this->value, $this->name, $this->id, $format, $attributes, false);
+		return JHtml::_('redshopcalendar.calendar', $this->value, $this->name, $this->id, $format, $attributes);
 	}
 }

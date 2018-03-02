@@ -33,8 +33,7 @@ extract($displayData);
 		$rowData->name,
 		$rowData->name,
 		null,
-		array('class' => 'form-control', 'size' => $rowData->size > 0 ? $rowData->size : 20, 'maxlength' => '15'),
-        false
+		array('class' => 'form-control', 'size' => $rowData->size > 0 ? $rowData->size : 20, 'maxlength' => '15')
 	);
 	?>
 </td>

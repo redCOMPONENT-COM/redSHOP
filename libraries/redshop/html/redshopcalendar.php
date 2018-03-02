@@ -34,7 +34,7 @@ abstract class JHtmlRedshopcalendar
 	 *
 	 * @since   1.5
 	 */
-	public static function calendar($value, $name, $id, $format = '', $attribs = null, $inline)
+	public static function calendar($value, $name, $id, $format = '', $attribs = null, $inline = false)
 	{
 		$format = empty($format) ? Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d') : $format;
 
@@ -76,7 +76,7 @@ abstract class JHtmlRedshopcalendar
 
 		$defaultDate = $momentValue ? 'defaultDate: moment.unix(' . $momentValue . '),' : '';
 
-		if ($inline == false)
+		if ($inline)
 		{
 			JFactory::getDocument()->addScriptDeclaration(
 				'(function($){
@@ -114,41 +114,39 @@ abstract class JHtmlRedshopcalendar
 				. '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
 				. '</div>';
 		}
-		else
-		{
-			JFactory::getDocument()->addScriptDeclaration(
-				'(function($){
-					$(document).ready(function(){
-						$("#' . $id . '_wrapper").datetimepicker({
-							collapse: true,
-							sideBySide: true,
-							showTodayButton: false,
-							format: "' . RedshopHelperDatetime::convertPHPToMomentFormat($format) . '",
-							showClear: false,
-							showClose: false,
-							inline: true,
-							allowInputToggle: true,
-							defaultDate: "' . $value . '" ,
-							icons: {
-								time: "fa fa-time",
-								date: "fa fa-calendar",
-								up: "fa fa-chevron-up",
-								down: "fa fa-chevron-down",
-								previous: "fa fa-chevron-left",
-								next: "fa fa-chevron-right",
-								today: "fa fa-calendar",
-								clear: "fa fa-trash text-danger",
-								close: "fa fa-remove"
-							}
-						});
+
+		JFactory::getDocument()->addScriptDeclaration(
+			'(function($){
+				$(document).ready(function(){
+					$("#' . $id . '_wrapper").datetimepicker({
+						collapse: true,
+						sideBySide: true,
+						showTodayButton: false,
+						format: "' . RedshopHelperDatetime::convertPHPToMomentFormat($format) . '",
+						showClear: false,
+						showClose: false,
+						inline: true,
+						allowInputToggle: true,
+						defaultDate: "' . $value . '" ,
+						icons: {
+							time: "fa fa-time",
+							date: "fa fa-calendar",
+							up: "fa fa-chevron-up",
+							down: "fa fa-chevron-down",
+							previous: "fa fa-chevron-left",
+							next: "fa fa-chevron-right",
+							today: "fa fa-calendar",
+							clear: "fa fa-trash text-danger",
+							close: "fa fa-remove"
+						}
 					});
-				})(jQuery);'
-			);
-			
-			return '<div class="input-group" id="' . $id . '_wrapper">'
-				. '<input type="hidden" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
-				. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
-				. '</div>';
-		}
+				});
+			})(jQuery);'
+		);
+
+		return '<div class="input-group" id="' . $id . '_wrapper">'
+			. '<input type="hidden" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
+			. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
+			. '</div>';
 	}
 }

@@ -111,8 +111,7 @@ $producthelper = productHelper::getInstance();
 							'discount_start_date',
 							'discount_start_date',
 							null,
-							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
-                            false
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
 						);
 
 						?>
@@ -136,8 +135,7 @@ $producthelper = productHelper::getInstance();
                             'discount_end_date',
                             'discount_end_date',
                             null,
-                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
-                            false
+                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
                         );
 
 						?>

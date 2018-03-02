@@ -77,7 +77,7 @@ $model = $this->getModel('newslettersubscr_detail');
 					<td>
 						<?php
 						if ($this->detail->date):
-							$datee = date("Y-m-d", $this->detail->date);
+							$datee = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->date);
 						else:
 							$datee = null;
 						endif;
