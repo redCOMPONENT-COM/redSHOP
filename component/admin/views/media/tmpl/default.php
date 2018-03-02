@@ -284,9 +284,14 @@ else
         if (pressbutton) {
             form.task.value = pressbutton;
         }
+        if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove' || pressbutton == 'copy' || pressbutton == 'edit'
+            || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
+            form.view.value = "media_detail";
+        }
         if (pressbutton == 'edit' || pressbutton == 'remove' || pressbutton == 'publish' || pressbutton == 'unpublish') {
             var checked = $("input[type='checkbox'][id^='cb'][name^='cid']:checked");
 
+            console.log(checked);
             if (!checked.length) {
                 alert("<?php echo JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') ?>");
             }
