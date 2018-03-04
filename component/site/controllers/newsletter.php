@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * Newsletter Controller.
  *
@@ -21,34 +19,32 @@ defined('_JEXEC') or die;
 class RedshopControllerNewsletter extends RedshopController
 {
 	/**
-	 *  Method to subscribe newsletter
+	 * Method to subscribe newsletter
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function subscribe()
 	{
-		$post             = $this->input->post->getArray();
-		$model            = $this->getModel('newsletter');
-		$Itemid           = $this->input->get('Itemid');
-		$newsletteritemid = $this->input->get('newsletteritemid');
-		$menu             = JFactory::getApplication()->getMenu();
-		$item             = $menu->getItem($newsletteritemid);
+		/** @var RedshopModelNewsletter $model */
+		$model        = $this->getModel('newsletter');
+		$post         = $this->input->post->getArray();
+		$itemId       = $this->input->get('Itemid');
+		$newsletterId = $this->input->get('newsletteritemid');
+		$menu         = JFactory::getApplication()->getMenu();
+		$item         = $menu->getItem($newsletterId);
 
 		if ($item)
 		{
-			$return = $item->link . '&Itemid=' . $newsletteritemid;
+			$return = $item->link . '&Itemid=' . $newsletterId;
 		}
 		else
 		{
-			$return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $Itemid;
+			$return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $itemId;
 		}
 
-		/*
-		  *  check if user has alreday subscribe.
-		  */
-		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email']);
-
-		if ($alreadysubscriberbymail)
+		// Check if user has already subscribe.
+		if ($model->checkSubscriptionByEmail($post['email']))
 		{
 			$msg = JText::_('COM_REDSHOP_ALREADY_NEWSLETTER_SUBSCRIBER');
 		}
@@ -75,36 +71,32 @@ class RedshopControllerNewsletter extends RedshopController
 	}
 
 	/**
-	 *  Method to unsubscribe newsletter
+	 * Method to unsubscribe newsletter
 	 *
-	 * @return void
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function unsubscribe()
 	{
-		$post  = $this->input->get->getArray();
-		$model = $this->getModel('newsletter');
-
-		$Itemid           = $this->input->get('Itemid');
-		$email            = $this->input->get('email');
-		$newsletteritemid = $this->input->get('newsletteritemid');
-		$menu             = JFactory::getApplication()->getMenu();
-		$item             = $menu->getItem($newsletteritemid);
+		/** @var RedshopModelNewsletter $model */
+		$model        = $this->getModel('newsletter');
+		$itemId       = $this->input->get('Itemid');
+		$email        = $this->input->get('email');
+		$newsletterId = $this->input->get('newsletteritemid');
+		$menu         = JFactory::getApplication()->getMenu();
+		$item         = $menu->getItem($newsletterId);
 
 		if ($item)
 		{
-			$return = $item->link . '&Itemid=' . $newsletteritemid;
+			$return = $item->link . '&Itemid=' . $newsletterId;
 		}
 		else
 		{
-			$return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $Itemid;
+			$return = "index.php?option=com_redshop&view=newsletter&layout=thankyou&Itemid=" . $itemId;
 		}
 
-		/*
- 	 	 *  check if user has subscribe or not.
- 	 	 */
-		$alreadysubscriberbymail = $model->checksubscriptionbymail($email);
-
-		if ($alreadysubscriberbymail)
+		// Check if user has subscribe or not.
+		if ($model->checkSubscriptionByEmail($email))
 		{
 			if (RedshopHelperNewsletter::removeSubscribe($email))
 			{
@@ -127,10 +119,11 @@ class RedshopControllerNewsletter extends RedshopController
 	 * Newsletter tracker to confirm email is read
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function tracker()
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$trackerId = $this->input->getInt('tracker_id', 0);
 
@@ -141,16 +134,16 @@ class RedshopControllerNewsletter extends RedshopController
 
 		// Mark Newsletter as read
 		$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_newsletter_tracker'))
-					->set($db->qn('read') . ' = 1')
-					->where($db->qn('tracker_id') . ' = ' . (int) $trackerId);
+			->update($db->qn('#__redshop_newsletter_tracker'))
+			->set($db->qn('read') . ' = 1')
+			->where($db->qn('tracker_id') . ' = ' . (int) $trackerId);
 
 		// Set the query and execute the update.
 		$db->setQuery($query)->execute();
 
 		// Set image header
 		header("Content-type: image/gif");
-		readfile(JURI::root() . 'components/com_redshop/assets/images/spacer.gif');
+		readfile(JUri::root() . 'components/com_redshop/assets/images/spacer.gif');
 
 		JFactory::getApplication()->close();
 	}
