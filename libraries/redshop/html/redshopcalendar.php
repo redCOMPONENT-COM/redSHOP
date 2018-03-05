@@ -76,45 +76,6 @@ abstract class JHtmlRedshopcalendar
 
 		$defaultDate = $momentValue ? 'defaultDate: moment.unix(' . $momentValue . '),' : '';
 
-		if ($inline)
-		{
-			JFactory::getDocument()->addScriptDeclaration(
-				'(function($){
-					$(document).ready(function(){
-						$("#' . $id . '_wrapper").datetimepicker({
-							collapse: true,
-							sideBySide: true,
-							showTodayButton: false,
-							format: "' . RedshopHelperDatetime::convertPHPToMomentFormat($format) . '",
-							showClear: true,
-							showClose: true,
-							allowInputToggle: true,
-							' . $defaultDate . '
-							icons: {
-								time: "fa fa-time",
-								date: "fa fa-calendar",
-								up: "fa fa-chevron-up",
-								down: "fa fa-chevron-down",
-								previous: "fa fa-chevron-left",
-								next: "fa fa-chevron-right",
-								today: "fa fa-calendar",
-								clear: "fa fa-trash text-danger",
-								close: "fa fa-remove"
-							}
-						});
-					});
-				})(jQuery);'
-			);
-
-			// Hide button using inline styles for readonly/disabled fields
-			return '<div class="input-group" id="' . $id . '_wrapper">'
-				. '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
-				. '<input type="text" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
-				. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
-				. '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
-				. '</div>';
-		}
-
 		JFactory::getDocument()->addScriptDeclaration(
 			'(function($){
 				$(document).ready(function(){
@@ -123,11 +84,11 @@ abstract class JHtmlRedshopcalendar
 						sideBySide: true,
 						showTodayButton: false,
 						format: "' . RedshopHelperDatetime::convertPHPToMomentFormat($format) . '",
-						showClear: false,
-						showClose: false,
-						inline: true,
+						showClear: ' . (!$inline ? 'true' : 'false') . ',
+						showClose: ' . (!$inline ? 'true' : 'false') . ',
+						inline: ' . (!$inline ? 'false' : 'true') . ',
 						allowInputToggle: true,
-						defaultDate: "' . $value . '" ,
+						' . $defaultDate . '
 						icons: {
 							time: "fa fa-time",
 							date: "fa fa-calendar",
@@ -144,6 +105,18 @@ abstract class JHtmlRedshopcalendar
 			})(jQuery);'
 		);
 
+		if (!$inline)
+		{
+			// Hide button using inline styles for readonly/disabled fields
+			return '<div class="input-group" id="' . $id . '_wrapper">'
+				. '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
+				. '<input type="text" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
+				. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
+				. '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
+				. '</div>';
+		}
+
+		// Hide button using inline styles for readonly/disabled fields
 		return '<div class="input-group" id="' . $id . '_wrapper">'
 			. '<input type="hidden" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
 			. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
