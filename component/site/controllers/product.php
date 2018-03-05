@@ -32,6 +32,7 @@ class RedshopControllerProduct extends RedshopController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
 	 * @since   1.5
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -63,6 +64,26 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		parent::__construct($config);
+	}
+
+	/**
+	 * Typical view method for MVC based architecture
+	 *
+	 * This function is provide as a default implementation, in most cases
+	 * you will need to override it in your own controllers.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 *
+	 * @since   3.0
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		parent::display(true, $urlparams);
+
+		return $this;
 	}
 
 	/**
