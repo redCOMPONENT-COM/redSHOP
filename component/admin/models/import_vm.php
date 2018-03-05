@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Import VirtueMart model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class RedshopModelImport_Vm extends RedshopModel
 {
@@ -26,7 +26,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__s
+	 * @since   2.1.0s
 	 */
 	public function countProducts()
 	{
@@ -44,7 +44,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function countCategories()
 	{
@@ -62,7 +62,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function countShopperGroups()
 	{
@@ -80,7 +80,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function countUsers()
 	{
@@ -98,7 +98,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function countOrderStatuses()
 	{
@@ -115,7 +115,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function countManufacturers()
 	{
@@ -133,7 +133,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function countOrders()
 	{
@@ -153,7 +153,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncCategory($index)
 	{
@@ -251,7 +251,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  int                 Redshop category id
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function getCategoryIdSynced($vmCategoryId)
 	{
@@ -277,7 +277,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncShopperGroup($index)
 	{
@@ -356,7 +356,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncUser($index)
 	{
@@ -487,7 +487,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncOrderStatus($index)
 	{
@@ -534,7 +534,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncManufacturer($index)
 	{
@@ -689,7 +689,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncProduct($index)
 	{
@@ -1084,7 +1084,7 @@ class RedshopModelImport_Vm extends RedshopModel
 	 * @return  boolean
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncOrder($index)
 	{

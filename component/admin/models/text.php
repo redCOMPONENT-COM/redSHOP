@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopModelText extends RedshopModelForm
 {
@@ -30,7 +30,7 @@ class RedshopModelText extends RedshopModelForm
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 * @throws  Exception
 	 */
 	protected function loadFormData()

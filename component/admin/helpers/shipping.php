@@ -76,7 +76,7 @@ class shipping
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Shipping\Rate::calculate() instead
+	 * @deprecated  2.1.0  Use Redshop\Shipping\Rate::calculate() instead
 	 * @see Redshop\Shipping\Rate::calculate
 	 *
 	 * @throws  Exception
@@ -93,7 +93,7 @@ class shipping
 	 *
 	 * @return  string  Encrypt shipping rate
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::encrypt
 	 */
 	public function encryptShipping($strMessage)
@@ -180,7 +180,7 @@ class shipping
 	 *
 	 * @return  float  Shipping Rate
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Shipping\Rate::applyVat
 	 */
 	public function applyVatOnShippingRate($shippingRate, $data)
@@ -262,7 +262,7 @@ class shipping
 	 *
 	 * @return array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::filterRatesByPriority
 	 */
 	public static function filterRatesByPriority($shippingRates)
@@ -383,7 +383,7 @@ class shipping
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Shipping\Rate::getFreeShippingRate
 	 *
 	 * @throws  Exception

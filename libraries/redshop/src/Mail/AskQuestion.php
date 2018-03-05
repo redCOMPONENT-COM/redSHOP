@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Ask Question helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class AskQuestion
 {
@@ -25,7 +25,7 @@ class AskQuestion
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($answerId)
 	{

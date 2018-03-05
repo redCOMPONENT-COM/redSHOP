@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Compare helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Compare
 {
@@ -23,7 +23,7 @@ class Compare
 	 *
 	 * @return  string  HTML layout of compare div
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  \Exception
 	 */
@@ -55,7 +55,7 @@ class Compare
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getCategoryCompareTemplate($cid = 0)
 	{
@@ -85,7 +85,7 @@ class Compare
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceCompareProductsButton($productId = 0, $categoryId = 0, $html = "", $isRelatedProduct = 0)
 	{

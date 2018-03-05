@@ -994,7 +994,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getMedia($section = '', $sectionId = 0, $scope = '', $type = '')
 	{

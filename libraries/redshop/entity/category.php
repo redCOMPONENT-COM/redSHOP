@@ -42,7 +42,7 @@ class RedshopEntityCategory extends RedshopEntity
 	/**
 	 * @var    RedshopEntitiesCollection
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $media;
 
@@ -174,7 +174,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getMedia()
 	{
@@ -191,7 +191,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function loadMedia()
 	{
