@@ -139,7 +139,8 @@ class extra_field
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */
-	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $fieldType = '', $uniqueId = '')
+	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
+		$fieldType = '', $uniqueId = '')
 	{
 		return RedshopHelperExtrafields::listAllUserFields($fieldSection, $sectionId, $fieldType, $uniqueId);
 	}

@@ -323,7 +323,7 @@ class order_functions
 			return array(RedshopHelperOrder::getPaymentInfo($orderId));
 		}
 
-		return RedshopHelperOrder::getOrderPaymentDetail($paymentOrderId);
+		return array(RedshopHelperOrder::getOrderPaymentDetail($paymentOrderId));
 	}
 
 	/**

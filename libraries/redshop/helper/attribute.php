@@ -160,7 +160,8 @@ abstract class RedshopHelperAttribute
 			{
 				$subdisplay = false;
 
-				$property_all = empty($attributes[$a]->properties) ? $productHelper->getAttibuteProperty(0, $attributes[$a]->attribute_id) :
+				$property_all = empty($attributes[$a]->properties) ?
+					RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id) :
 					$attributes[$a]->properties;
 				$property_all = array_values($property_all);
 
@@ -225,7 +226,7 @@ abstract class RedshopHelperAttribute
 						}
 						else
 						{
-							$subproperty_all = $productHelper->getAttibuteSubProperty(0, $property[$i]->value);
+							$subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property[$i]->value);
 						}
 
 						// Filter Out of stock data

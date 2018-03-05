@@ -508,7 +508,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		// More documents
 		if (strpos($data_add, "{more_documents}") !== false)
 		{
-			$media_documents = $producthelper->getAdditionMediaImage($product->product_id, "product", "document");
+			$media_documents = RedshopHelperMedia::getAdditionMediaImage($product->product_id, "product", "document");
 			$more_doc        = '';
 
 			for ($m = 0, $nm = count($media_documents); $m < $nm; $m++)

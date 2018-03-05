@@ -165,13 +165,13 @@ class economic
 	/**
 	 * Import Stock from Economic
 	 *
-	 * @param   array  $prdrow  Product Info
+	 * @param   object  $prdrow  Product Info
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::importStockFromEconomic() instead
 	 */
-	public function importStockFromEconomic($prdrow = array())
+	public function importStockFromEconomic($prdrow = null)
 	{
 		return RedshopEconomic::importStockFromEconomic($prdrow);
 	}
@@ -317,7 +317,7 @@ class economic
 	/**
 	 * Method to create Invoice and send mail in E-conomic
 	 *
-	 * @param   array  $orderdata  Order data
+	 * @param   object  $orderdata  Order data
 	 *
 	 * @return  array
 	 *
@@ -345,7 +345,7 @@ class economic
 	/**
 	 * Method to check invoice is draft or booked in E-conomic
 	 *
-	 * @param   array  $orderdetail  Order detail
+	 * @param   object  $orderdetail  Order detail
 	 *
 	 * @return  array
 	 *
@@ -482,9 +482,9 @@ class economic
 	/**
 	 * Create Attribute Invoice Line In Economic
 	 *
-	 * @param   string $invoiceNo           Invoice number
-	 * @param   array  $orderItem           Order Item
-	 * @param   array  $orderAttributeItems Ordere Attribute Item
+	 * @param   string  $invoiceNo           Invoice number
+	 * @param   object  $orderItem           Order Item
+	 * @param   array   $orderAttributeItems Ordere Attribute Item
 	 *
 	 * @return  void
 	 *

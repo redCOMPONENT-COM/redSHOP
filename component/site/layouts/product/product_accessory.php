@@ -66,7 +66,7 @@ $productHelper = productHelper::getInstance();
 					<?php if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') || $hideAttribute): ?>
 						<?php $displayPrice = ""; ?>
 					<?php endif; ?>
-					<?php $property = $productHelper->getAttibuteProperty($properties['property_id']); ?>
+					<?php $property = RedshopHelperProduct_Attribute::getAttributeProperties($properties['property_id']); ?>
 					<?php $virtualNumber = ""; ?>
 					<?php if (count($property) > 0 && $property[0]->property_number) : ?>
 						<?php $virtualNumber = "<div class='checkout_attribute_number'>" . $property[0]->property_number
@@ -92,7 +92,7 @@ $productHelper = productHelper::getInstance();
 							<?php if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') || $hideAttribute): ?>
 								<?php $displayPrice = ""; ?>
 							<?php endif; ?>
-							<?php $subProperty = $productHelper->getAttibuteProperty($subProperties['subproperty_id']); ?>
+							<?php $subProperty = RedshopHelperProduct_Attribute::getAttributeProperties($subProperties['subproperty_id']); ?>
 							<?php $virtualNumber = ""; ?>
 							<?php if (count($subProperty) > 0 && $subProperty[0]->subattribute_color_number) : ?>
 								<?php $virtualNumber = "<div class='checkout_subattribute_number'>[" . $subProperty[0]->subattribute_color_number

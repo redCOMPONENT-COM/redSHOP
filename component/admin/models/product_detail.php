@@ -3137,7 +3137,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if ($database->execute())
 				{
-					$property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
+					$property = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$i]->attribute_id);
 
 					for ($j = 0, $jn = count($property); $j < $jn; $j++)
 					{
@@ -4280,11 +4280,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$producthelper = productHelper::getInstance();
 
-		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
+		$subPropertyList = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $subattribute_id);
 
 		if ($sp)
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty($sp);
+			$subproperty =RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
 		}
 		else
 		{
@@ -4326,13 +4326,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_prop($attribute_id, $property_id)
 	{
-		$producthelper = productHelper::getInstance();
-
-		$propertyList = $producthelper->getAttibuteProperty(0, $attribute_id);
+		$propertyList = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
 
 		if ($property_id)
 		{
-			$property = $producthelper->getAttibuteProperty($property_id);
+			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
 		}
 		else
 		{

@@ -106,12 +106,10 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = productHelper::getInstance();
-
 		if (count($cid))
 		{
 			$cids           = implode(',', $cid);
-			$property_image = $producthelper->getAttibuteProperty(0, 0, 0, $cids);
+			$property_image = RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, 0, $cids);
 
 			foreach ($property_image as $imagename)
 			{
@@ -426,11 +424,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function property_image_list($cid)
 	{
-		$producthelper = productHelper::getInstance();
-
 		if (count($cid))
 		{
-			$prop = $producthelper->getAttibuteProperty(0, $cid);
+			$prop = RedshopHelperProduct_Attribute::getAttributeProperties(0, $cid);
 		}
 
 		return $prop;
@@ -747,7 +743,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if ($database->execute())
 				{
-					$property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
+					$property = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$i]->attribute_id);
 
 					for ($j = 0, $jn = count($property); $j < $jn; $j++)
 					{
@@ -772,9 +768,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removepropertyImage($pid)
 	{
-		$producthelper = productHelper::getInstance();
-
-		$image     = $producthelper->getAttibuteProperty($pid);
+		$image     = RedshopHelperProduct_Attribute::getAttributeProperties($pid);
 		$image     = $image[0];
 		$imagename = $image->property_image;
 
@@ -801,8 +795,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removesubpropertyImage($pid)
 	{
-		$producthelper    = productHelper::getInstance();
-		$image            = $producthelper->getAttibuteSubProperty($pid);
+		$image            = RedshopHelperProduct_Attribute::getAttributeSubProperties($pid);
 		$image            = $image[0];
 		$imagename        = $image->subattribute_color_image;
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/thumb/" . $imagename;

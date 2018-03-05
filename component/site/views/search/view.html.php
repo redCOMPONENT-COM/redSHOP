@@ -500,7 +500,7 @@ class RedshopViewSearch extends RedshopView
 				// More documents
 				if (strstr($data_add, "{more_documents}"))
 				{
-					$media_documents = $producthelper->getAdditionMediaImage($this->search[$i]->product_id, "product", "document");
+					$media_documents = RedshopHelperMedia::getAdditionMediaImage($this->search[$i]->product_id, "product", "document");
 					$more_doc        = '';
 
 					for ($m = 0, $countMedia = count($media_documents); $m < $countMedia; $m++)

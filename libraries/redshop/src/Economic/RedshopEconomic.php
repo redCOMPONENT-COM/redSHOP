@@ -37,7 +37,7 @@ class RedshopEconomic
 	/**
 	 * Import Stock from Economic
 	 *
-	 * @param   object $productRow Product Info
+	 * @param   object  $productRow  Product Info
 	 *
 	 * @return  array
 	 *
@@ -736,7 +736,7 @@ class RedshopEconomic
 	 * Make Accessory Order
 	 *
 	 * @param   string  $invoiceNo Invoice number
-	 * @param   array   $orderItem Order item
+	 * @param   object  $orderItem Order item
 	 * @param   integer $userId    User ID
 	 *
 	 * @return  integer
@@ -839,7 +839,7 @@ class RedshopEconomic
 	 * Make Attribute Order
 	 *
 	 * @param   string  $invoiceNo       Invoice number
-	 * @param   integer $orderItem       Order Item
+	 * @param   object  $orderItem       Order Item
 	 * @param   integer $isAccessory     Is accessory
 	 * @param   integer $parentSectionId Parent Section ID
 	 * @param   integer $userId          User ID
