@@ -39,7 +39,10 @@ class Render
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function replace($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0, $content = "", $isChild = false, $userFields = array(), $totalAttr = 0, $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0, $giftcardId = 0)
+	public static function replace($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0, $content = "",
+		$isChild = false, $userFields = array(), $totalAttr = 0, $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0,
+		$giftcardId = 0
+	)
 	{
 		\JPluginHelper::importPlugin('redshop_product');
 
@@ -649,23 +652,23 @@ class Render
 				$addToCartQuantity = "<span id='stockQuantity" . $stockId
 					. "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" . $productId . "' value='" . $quantity
 					. "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY')
-					. "' onblur='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
+					. "' onblur='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13' product_id='" . $productId . "'></span>";
 				$cartForm          = str_replace("{addtocart_quantity}", $addToCartQuantity, $cartForm);
 				$cartForm          = str_replace("{quantity_lbl}", \JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartForm);
 			}
 			elseif (strpos($cartForm, "{addtocart_quantity_increase_decrease}") !== false)
 			{
 				$addToCartQuantity .= '<input class="quantity" type="text"  id="quantity' . $productId
-					. '" name="quantity" size="1"  value="' . $quantity . '" onkeypress="return event.keyCode!=13"/>';
-				$addToCartQuantity .= '<input type="button" class="myupbutton" onClick="quantity' . $productId
-					. '.value = (+quantity' . $productId . '.value+1)">';
-				$addToCartQuantity .= '<input type="button" class="mydownbutton" onClick="quantity' . $productId
+					. '" name="quantity" size="1"  value="' . $quantity . '" onkeypress="return event.keyCode!=13" product_id="' . $productId . '"/>'
+					. '<input type="button" class="myupbutton" onClick="quantity' . $productId
+					. '.value = (+quantity' . $productId . '.value+1)" />'
+					. '<input type="button" class="mydownbutton" onClick="quantity' . $productId
 					. '.value = (quantity' . $productId . '.value); var qty1 = quantity' . $productId
-					. '.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity' . $productId . '.value--;return false;">';
-				$addToCartQuantity .= '<input type="hidden" name="product_id" value="' . $productId . '">
-				<input type="hidden" name="cart_index" value="' . $cartId . '">
-				<input type="hidden" name="Itemid" value="' . $itemId . '">
-				<input type="hidden" name="task" value="">';
+					. '.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity' . $productId . '.value--;return false;" />'
+					. '<input type="hidden" name="product_id" value="' . $productId . '" />'
+					. '<input type="hidden" name="cart_index" value="' . $cartId . '" />'
+					. '<input type="hidden" name="Itemid" value="' . $itemId . '" />'
+					. '<input type="hidden" name="task" value="" />';
 
 				$cartForm = str_replace("{addtocart_quantity_increase_decrease}", $addToCartQuantity, $cartForm);
 				$cartForm = str_replace("{quantity_lbl}", \JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartForm);
@@ -674,7 +677,7 @@ class Render
 			{
 				$addToCartQuantity = "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $productId . "'"
 					. " value='" . $quantity . "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'"
-					. " size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
+					. " size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' product_id='" . $productId . "' />";
 
 				if ((\Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != "" && $product->quantity_selectbox_value == '')
 					|| $product->quantity_selectbox_value != '')

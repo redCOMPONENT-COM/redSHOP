@@ -56,12 +56,12 @@ abstract class RedshopHelperAttribute
 		{
 			$attributeTemplate = empty($attributeTemplate) ? \Redshop\Template\Helper::getAttribute($templateContent, false) : $attributeTemplate;
 
-			if (!empty($attributeTemplate))
+			if (!empty($attributeTemplate) && $attributeTemplate != new stdClass)
 			{
 				$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", "", $templateContent);
 			}
 
-			return self::replaceAttributewithCartData(
+			return self::replaceAttributeWithCartData(
 				$productId, $accessoryId, $relatedProductId, $attributes, $templateContent, $attributeTemplate, $isChild, $onlySelected
 			);
 		}
@@ -288,7 +288,8 @@ abstract class RedshopHelperAttribute
 									. $productId . "\",\"" . $accessoryId . "\",\"" . $relatedProductId . "\",\""
 									. $attributes [$a]->value . "\",\"" . $property[$i]->value . "\",\"" . $mpw_thumb
 									. "\",\"" . $mph_thumb
-									. "\");'><img class='redAttributeImage' width='50' height='50' src='" . $thumbUrl . "' title='" . $property[$i]->property_name . "'></a></div>";
+									. "\");'><img class='redAttributeImage' width='50' height='50'"
+									. " title='" . $property[$i]->property_name . "' src='" . $thumbUrl . "'></a></div>";
 								$imgAdded++;
 							}
 						}
@@ -337,7 +338,7 @@ abstract class RedshopHelperAttribute
 
 							if (Redshop::getConfig()->get('SHOW_PRICE')
 								&& (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-								|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
+									|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 								&& (!$attributes[$a]->hide_attribute_price))
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
@@ -500,21 +501,21 @@ abstract class RedshopHelperAttribute
 					$propertyScroller = RedshopLayoutHelper::render(
 						'product.property_scroller',
 						array(
-								'attribute'        => $attributes[$a],
-								'properties'       => $property,
-								'commonId'         => $commonid,
-								'productId'        => $productId,
-								'propertyId'       => $propertyid,
-								'accessoryId'      => $accessoryId,
-								'relatedProductId' => $relatedProductId,
-								'selectedProperty' => $selectedProperty,
-								'width'            => $mpw_thumb,
-								'height'           => $mph_thumb
-							),
+							'attribute'        => $attributes[$a],
+							'properties'       => $property,
+							'commonId'         => $commonid,
+							'productId'        => $productId,
+							'propertyId'       => $propertyid,
+							'accessoryId'      => $accessoryId,
+							'relatedProductId' => $relatedProductId,
+							'selectedProperty' => $selectedProperty,
+							'width'            => $mpw_thumb,
+							'height'           => $mph_thumb
+						),
 						'',
 						array(
-								'component' => 'com_redshop'
-							)
+							'component' => 'com_redshop'
+						)
 					);
 
 					// Changes for attribue Image Scroll
@@ -583,6 +584,30 @@ abstract class RedshopHelperAttribute
 
 					$attribute_table .= "<input type='hidden' id='subattdata_" . $commonid . "' value='"
 						. base64_encode(htmlspecialchars($subpropertydata)) . "' />";
+					$subPropertyHtml = array();
+
+					foreach ($property as $key => $propertyValue)
+					{
+						$subProperties     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyValue->value);
+						$subPropertyHtml[] = RedshopLayoutHelper::render(
+							'product.subproperty_price_list',
+							array(
+								'productId'       => $productId,
+								'userId'          => JFactory::getUser()->id,
+								'propertyId'      => $propertyValue->value,
+								'subProperties'   => $subProperties,
+								'templateContent' => $templateContent,
+								'subPropertyData' => $subpropertydata,
+								'commonId'        => $commonid
+							),
+							'',
+							array(
+								'component' => 'com_redshop'
+							)
+						);
+					}
+
+					$attribute_table = str_replace("{subproperty_price_list}", implode('', $subPropertyHtml), $attribute_table);
 					$attribute_table = str_replace("{subproperty_start}", $subproperty_start, $attribute_table);
 					$attribute_table = str_replace("{subproperty_end}", "</div>", $attribute_table);
 				}
@@ -617,12 +642,12 @@ abstract class RedshopHelperAttribute
 	 * @since   2.0.3
 	 */
 	public static function replaceAttributeWithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
-		$templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
+	                                                    $templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
 		$user_id       = 0;
 		$productHelper = productHelper::getInstance();
 
-		if (empty($attributeTemplate))
+		if (empty($attributeTemplate) || $attributeTemplate == new stdClass)
 		{
 			return $templateContent;
 		}
@@ -796,7 +821,7 @@ abstract class RedshopHelperAttribute
 
 						if (Redshop::getConfig()->get('SHOW_PRICE')
 							&& (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-							|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
+								|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 							&& !$attribute->hide_attribute_price)
 						{
 							$opRand = $property->oprand;

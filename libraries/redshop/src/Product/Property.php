@@ -21,21 +21,24 @@ class Property
 	/**
 	 * Method for replace product properties add to cart
 	 *
-	 * @param   integer $productId     Product ID
-	 * @param   integer $propertyId    Property ID
-	 * @param   integer $categoryId    Category ID
-	 * @param   string  $commonId      DOM ID
-	 * @param   integer $propertyStock Property stock
-	 * @param   string  $propertyData  Property Data
-	 * @param   object  $cartTemplate  Cart template
-	 * @param   string  $content       Template content
+	 * @param   integer  $productId      Product ID
+	 * @param   integer  $propertyId     Property ID
+	 * @param   integer  $categoryId     Category ID
+	 * @param   string   $commonId       DOM ID
+	 * @param   integer  $propertyStock  Property stock
+	 * @param   string   $propertyData   Property Data
+	 * @param   object   $cartTemplate   Cart template
+	 * @param   string   $content        Template content
+	 * @param   integer  $subPropertyId  Sub-property Id
 	 *
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function replaceAddToCart($productId = 0, $propertyId = 0, $categoryId = 0, $commonId = "", $propertyStock = 0, $propertyData = "", $cartTemplate = null, $content = "")
+	public static function replaceAddToCart($productId = 0, $propertyId = 0, $categoryId = 0, $commonId = "", $propertyStock = 0,
+		$propertyData = "", $cartTemplate = null, $content = "", $subPropertyId = 0
+	)
 	{
 		$input  = \JFactory::getApplication()->input;
 		$itemId = $input->getInt('Itemid');
@@ -51,7 +54,11 @@ class Property
 
 		if ($propertyStock <= 0)
 		{
-			$propertyData = str_replace("{form_addtocart:$cartTemplate->name}", \JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'), $propertyData);
+			$propertyData = str_replace(
+				"{form_addtocart:$cartTemplate->name}",
+				\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'),
+				$propertyData
+			);
 
 			return $propertyData;
 		}
@@ -71,8 +78,8 @@ class Property
 		$quantityMax = $product->max_order_product_quantity;
 		$quantityMin = $product->min_order_product_quantity;
 
-		$addToCartFormName = 'addtocart_' . $commonId . '_' . $propertyId;
-		$stockId           = $commonId . '_' . $propertyId;
+		$addToCartFormName = 'addtocart_' . $commonId . '_' . $propertyId . '_' . $subPropertyId;
+		$stockId           = $commonId . '_' . $propertyId . '_' . $subPropertyId;
 		$attributeId       = 0;
 		$attributes        = explode("_", $commonId);
 
@@ -114,16 +121,16 @@ class Property
 
 			<input type='hidden' name='product_price_no_vat' id='product_price_no_vat" . $productId . "' value='"
 			. $productPriceNoVat . "' />
-			<input type='hidden' name='productprice_notvat' id='productprice_notvat' value='0'>
+			<input type='hidden' name='productprice_notvat' id='productprice_notvat' value='0' />
 
 			<input type='hidden' name='min_quantity' id='min_quantity' value='" . $quantityMin . "' requiredtext='"
-			. JText::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "'>
+			. \JText::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "' />
 			<input type='hidden' name='max_quantity' id='max_quantity' value='" . $quantityMax . "' requiredtext='"
-			. JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "'>
+			. \JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "' />
 
-			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attributeId . "'>
-			<input type='hidden' name='property_data' id='property_data' value='" . $propertyId . "'>
-			<input type='hidden' name='subproperty_data' id='subproperty_data' value='0'>
+			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attributeId . "' />
+			<input type='hidden' name='property_data' id='property_data' value='" . $propertyId . "' />
+			<input type='hidden' name='subproperty_data' id='subproperty_data' value='" . $subPropertyId . "' />
 
 			<input type='hidden' name='calcHeight' id='hidden_calc_height' value='' />
 			<input type='hidden' name='calcWidth' id='hidden_calc_width' value='' />
@@ -133,6 +140,14 @@ class Property
 			<input type='hidden' name='pdcextraid' id='hidden_calc_extraid' value='' />
 			<input type='hidden' name='hidden_attribute_cartimage' id='hidden_attribute_cartimage" . $productId .
 			"' value='' />";
+
+		if ($subPropertyId > 0)
+		{
+			$cartForm .= "<input type='hidden' name='subproperty_price_table'"
+				. " id='subproperty_price_table_" . $subPropertyId . "' value='1' />"
+				. "<input type='hidden' name='subproperty_price_list_" . $subPropertyId . "'"
+				. " id='subproperty_price_" . $subPropertyId . "' value='0' />";
+		}
 
 		if ($product->product_type == "subscription")
 		{
@@ -149,44 +164,57 @@ class Property
 		}
 		else
 		{
-			$productQuantity = 1;
+			$productQuantity = $subPropertyId > 0 ? 0 : 1;
+		}
+
+		$quantityId = 'quantity_' . $productId;
+
+		if ($subPropertyId > 0)
+		{
+			$quantityId .= '_' . $subPropertyId;
 		}
 
 		if (strpos($cartForm, "{addtocart_quantity}") !== false)
 		{
-			$addToCartQuantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" .
-				$productId . "' value='" . $productQuantity . "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') .
-				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
-			$cartForm          = str_replace("{addtocart_quantity}", $addToCartQuantity, $cartForm);
-			$cartForm          = str_replace("{quantity_lbl}", \JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartForm);
+			$addToCartQuantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity'"
+				. " id='" . $quantityId . "' value='" . $productQuantity . "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'"
+				. " size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'"
+				. " onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13' product_id='" . $productId . "'"
+				. " attribute_id='" . $attributeId . "' property_id='" . $propertyId . "' subproperty_id='" . $subPropertyId . "'></span>";
+
+			$cartForm = str_replace("{addtocart_quantity}", $addToCartQuantity, $cartForm);
+			$cartForm = str_replace("{quantity_lbl}", \JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartForm);
 		}
 		elseif (strpos($cartForm, "{addtocart_quantity_selectbox}") !== false)
 		{
-			$addToCartQuantity = "<input class='quantity' type='hidden' name='quantity' id='quantity" . $productId . "' value='" .
-				$productQuantity . "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
+			$addToCartQuantity = "<input class='quantity' type='hidden' name='quantity' id='quantity" . $productId . "'"
+				. " value='" . $productQuantity . "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'"
+				. " size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' product_id='" . $productId . "'"
+				. " attribute_id='" . $attributeId . "' property_id='" . $propertyId . "' subproperty_id='" . $subPropertyId . "' />";
 
 			if ((\Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
-					&& $product->quantity_selectbox_value == '')
+				&& $product->quantity_selectbox_value == '')
 				|| $product->quantity_selectbox_value != '')
 			{
-				$selectBoxValue = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : \Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
-				$quantityBox    = explode(",", $selectBoxValue);
-				$quantityBox    = array_merge(array(), array_unique($quantityBox));
-				sort($quantityBox);
-				$quantityCombobox = "<select name='quantity' id='quantity" . $productId . "'  OnChange='calculateTotalPrice("
+				$selectBoxValue = ($product->quantity_selectbox_value) ?
+					$product->quantity_selectbox_value : \Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
+				$quantityBoxes  = explode(",", $selectBoxValue);
+				$quantityBoxes  = array_merge(array(), array_unique($quantityBoxes));
+				sort($quantityBoxes);
+				$quantityCombobox = "<select name='quantity' id='" . $quantityId . "'  OnChange='calculateTotalPrice("
 					. $productId . ",0);'>";
 
-				for ($q = 0, $qn = count($quantityBox); $q < $qn; $q++)
+				foreach ($quantityBoxes as $quantityBox)
 				{
-					if (intVal($quantityBox[$q]) && intVal($quantityBox[$q]) != 0)
+					if (intVal($quantityBox) && intVal($quantityBox) != 0)
 					{
-						$quantitySelect   = ($productQuantity == intval($quantityBox[$q])) ? "selected" : "";
-						$quantityCombobox .= "<option value='" . intVal($quantityBox[$q]) . "' " . $quantitySelect . ">"
-							. intVal($quantityBox[$q]) . "</option>";
+						$quantitySelect    = ($productQuantity == intval($quantityBox)) ? "selected" : "";
+						$quantityCombobox .= "<option value='" . intVal($quantityBox) . "' " . $quantitySelect . ">"
+							. intVal($quantityBox) . "</option>";
 					}
 				}
 
-				$quantityCombobox  .= "</select>";
+				$quantityCombobox .= "</select>";
 				$addToCartQuantity = "<span id='stockQuantity" . $stockId . "'>" . $quantityCombobox . "</span>";
 			}
 
@@ -195,14 +223,20 @@ class Property
 		}
 		else
 		{
-			$cartForm .= "<input class='quantity' type='hidden' name='quantity' id='quantity" . $productId . "' value='" . $productQuantity
-				. "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
+			$cartForm .= "<input class='quantity' type='hidden' name='quantity' id=" . $quantityId . "' value='" . $productQuantity
+				. "' maxlength='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . \Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'"
+				. " product_id='" . $productId . "' attribute_id='" . $attributeId . "' property_id='" . $propertyId . "'"
+				. " subproperty_id='" . $subPropertyId . "' />";
 		}
 
-		$tooltip                = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? \JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : \JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
-		$requestQuoteLabel      = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? \JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : \JText::_('COM_REDSHOP_ADD_TO_CART');
-		$requestQuoteImage      = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? \Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : \Redshop::getConfig()->get('ADDTOCART_IMAGE');
-		$requestQuoteBackground = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? \Redshop::getConfig()->get('REQUESTQUOTE_BACKGROUND') : \Redshop::getConfig()->get('ADDTOCART_BACKGROUND');
+		$tooltip                = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
+			\JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : \JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
+		$requestQuoteLabel      = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
+			\JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : \JText::_('COM_REDSHOP_ADD_TO_CART');
+		$requestQuoteImage      = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
+			\Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : \Redshop::getConfig()->get('ADDTOCART_IMAGE');
+		$requestQuoteBackground = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
+			\Redshop::getConfig()->get('REQUESTQUOTE_BACKGROUND') : \Redshop::getConfig()->get('ADDTOCART_BACKGROUND');
 
 		$cartTag   = '';
 		$cartIcon  = '';
