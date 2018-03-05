@@ -28,7 +28,7 @@ $priceList     = array();
 
 foreach ($subProperties as $subProperty)
 {
-	$subPropertyPrices = RedshopHelperProduct_Attribute::getPropertyPrice($subProperty->value, 'subproperty', $userId);
+	$subPropertyPrices = RedshopHelperProduct_Attribute::getPropertyPrice($subProperty->value, 1, 'subproperty', $userId);
 
 	foreach ($subPropertyPrices as $subPropertyPrice)
 	{

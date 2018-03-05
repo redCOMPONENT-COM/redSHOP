@@ -124,9 +124,9 @@ class Property
 			<input type='hidden' name='productprice_notvat' id='productprice_notvat' value='0' />
 
 			<input type='hidden' name='min_quantity' id='min_quantity' value='" . $quantityMin . "' requiredtext='"
-			. JText::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "' />
+			. \JText::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "' />
 			<input type='hidden' name='max_quantity' id='max_quantity' value='" . $quantityMax . "' requiredtext='"
-			. JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "' />
+			. \JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "' />
 
 			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attributeId . "' />
 			<input type='hidden' name='property_data' id='property_data' value='" . $propertyId . "' />

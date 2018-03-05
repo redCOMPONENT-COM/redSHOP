@@ -56,12 +56,12 @@ abstract class RedshopHelperAttribute
 		{
 			$attributeTemplate = empty($attributeTemplate) ? \Redshop\Template\Helper::getAttribute($templateContent, false) : $attributeTemplate;
 
-			if (!empty($attributeTemplate))
+			if (!empty($attributeTemplate) && $attributeTemplate != new stdClass)
 			{
 				$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", "", $templateContent);
 			}
 
-			return self::replaceAttributewithCartData(
+			return self::replaceAttributeWithCartData(
 				$productId, $accessoryId, $relatedProductId, $attributes, $templateContent, $attributeTemplate, $isChild, $onlySelected
 			);
 		}
@@ -647,7 +647,7 @@ abstract class RedshopHelperAttribute
 		$user_id       = 0;
 		$productHelper = productHelper::getInstance();
 
-		if (empty($attributeTemplate))
+		if (empty($attributeTemplate) || $attributeTemplate == new stdClass)
 		{
 			return $templateContent;
 		}
