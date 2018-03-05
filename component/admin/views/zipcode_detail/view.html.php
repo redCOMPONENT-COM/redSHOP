@@ -40,7 +40,7 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 		$text             = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		$model            = $this->getModel();
 
-		JHtml::script(JUri::base() . 'components/com_redshop/assets/js/common.js');
+		JHtml::script('media/com_redshop/js/redshop.admin.common.js');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 		JToolBarHelper::save();
