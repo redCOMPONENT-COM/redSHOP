@@ -83,8 +83,15 @@ class RedshopModelZipcode_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$data['country_code']     = implode(',', $data['country_code']);
-		$data['state_code']       = implode(',', $data['state_code']);
+		if (!empty($data['country_code']) && !empty($data['state_code']))
+		{
+			$data['country_code'] = implode(',', $data['country_code']);
+			$data['state_code']   = implode(',', $data['state_code']);
+		}
+		else
+		{
+			return false;
+		}
 
 		$row = $this->getTable();
 
@@ -141,12 +148,24 @@ class RedshopModelZipcode_detail extends RedshopModel
 		return RedshopHelperUtility::convertLanguageString($countries);
 	}
 
-	public function getStateList($country_codes)
+	/**
+	 * Get list state of country
+	 *
+	 * @param   String or String List $countryCodes Country Codes
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getStateList($countryCodes)
 	{
-		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.id = s.country_id '
-			. 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) '
-			. 'ORDER BY s.state_name ASC';
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select(array($db->quoteName('s.state_name', 'text'), $db->quoteName('s.state_2_code', 'value')))
+			->from($db->quoteName('#__redshop_state', 's'))
+			->join('LEFT', $db->quoteName('#__redshop_country', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('s.country_id'))
+			->where('FIND_IN_SET (' . $db->quoteName('c.country_3_code') . ', "' . $countryCodes . '")')
+			->order($db->quoteName('s.state_name'), 'ASC');
 
 		return $this->_db->setQuery($query)->loadObjectList();
 	}
@@ -154,17 +173,19 @@ class RedshopModelZipcode_detail extends RedshopModel
 	/**
 	 * Get list state of country
 	 *
-	 * @param array $data Data
+	 * @param   array $data Data
 	 *
-	 * @return object list
+	 * @return  array
 	 *
-	 * @since 2.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-
 	public function getStateDropdown($data)
 	{
-		$countryCode    = $data['country_codes'];
+		if (!empty($data['country_codes']))
+		{
+			return $this->getStateList($data['country_codes']);
+		}
 
-		return $this->getStateList($countryCode);
+		return array();
 	}
 }
