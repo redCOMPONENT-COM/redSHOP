@@ -24,6 +24,12 @@ $section_name  = $jinput->get('section_name');
 $media_section = $jinput->get('media_section');
 $k = 0;
 
+if ($jinput->get('task') == "add")
+{
+	$this->detail->media_id = 0;
+	$this->detail->media_alternate_text = '';
+}
+
 JFactory::getDocument()->addScriptDeclaration('
 (function ($) {
 	$(document).ready(function () {
