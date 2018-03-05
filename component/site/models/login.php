@@ -35,11 +35,12 @@ class RedshopModelLogin extends RedshopModel
 		// Perform the login action
 		$error = $app->login($credentials);
 
-		if (isset($error->message))
+		if (!empty($error->getMessage()))
 		{
 			$msg = "<a href='" . JRoute::_('index.php?option=com_users&view=reset') . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
 			$app->enqueuemessage($msg);
 		}
+
 		return $error;
 	}
 
@@ -56,6 +57,7 @@ class RedshopModelLogin extends RedshopModel
 		{
 			$query = "SELECT sg.* FROM #__redshop_shopper_group as sg WHERE sg.`shopper_group_id`= " . (int) $sid;
 		}
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
