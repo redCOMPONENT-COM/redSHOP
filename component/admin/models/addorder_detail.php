@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 use Redshop\Economic\RedshopEconomic;
 
 
-
 class RedshopModelAddorder_detail extends RedshopModel
 {
 	public $_id = null;
@@ -29,8 +28,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
-		$this->_order_functions = order_functions::getInstance();
-		$this->_db              = JFactory::getDbo();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function setId($id)
@@ -41,10 +39,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
@@ -54,11 +49,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions;
-
 		if (empty($this->_data))
 		{
-			$this->_data = $order_functions->getOrderDetails($this->_id);
+			$this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
 
 			return (boolean) $this->_data;
 		}
@@ -147,7 +140,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
-		$userhelper            = rsUserHelper::getInstance();
 		$data['address_type']  = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
 		$data['user_email']    = $data['email1'] = $data['email'];
@@ -221,7 +213,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$data['phone_ST'] = $data['phone'];
 				}
 
-				$rowsh = $userhelper->storeRedshopUserShipping($data);
+				$rowsh = RedshopHelperUser::storeRedshopUserShipping($data);
 
 				return $rowsh;
 			}
@@ -238,11 +230,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function store($postdata)
 	{
-		$order_functions    = order_functions::getInstance();
-		$producthelper      = productHelper::getInstance();
-		$rsCarthelper       = rsCarthelper::getInstance();
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$stockroomhelper    = rsstockroomhelper::getInstance();
+		$order_functions = order_functions::getInstance();
+		$producthelper   = productHelper::getInstance();
+		$rsCarthelper    = rsCarthelper::getInstance();
 
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
@@ -277,7 +267,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$rowOrderStatus->customer_note = $row->customer_note;
 		$rowOrderStatus->store();
 
-		$billingaddresses = $order_functions->getBillingAddress($row->user_id);
+		$billingaddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
 		{
@@ -286,7 +276,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		else
 		{
 			$key                 = 0;
-			$shippingaddresses   = $order_functions->getShippingAddress($row->user_id);
+			$shippingaddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
 			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
 
 			if ($shipp_users_info_id != 0)
@@ -317,7 +307,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$product_price      = $item[$i]->productprice;
 
 			// Attribute price added
-			$generateAttributeCart = $rsCarthelper->generateAttributeArray((array) $item[$i], $user_id);
+			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
 			$retAttArr             = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 
@@ -357,7 +347,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 
 			// STOCKROOM update
-			$updatestock                          = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
+			$updatestock                          = RedshopHelperStockroom::updateStockroomQuantity($product_id, $quantity);
 			$stockroom_id_list                    = $updatestock['stockroom_list'];
 			$stockroom_quantity_list              = $updatestock['stockroom_quantity_list'];
 			$rowitem->stockroom_id                = $stockroom_id_list;
@@ -427,7 +417,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$attribute_id         = $attchildArr[$j]['attribute_id'];
+						$attribute_id        = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
@@ -460,11 +450,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
-							$property_id          = $propArr[$k]['property_id'];
+							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " ("
 								. $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
-							$subpropArr           = $propArr[$k]['property_childs'];
+							$subpropArr          = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -497,7 +487,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
-								$subproperty_id       = $subpropArr[$l]['subproperty_id'];
+								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
@@ -601,7 +591,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
-						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
 						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
@@ -638,7 +628,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
-							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
+							RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -674,7 +664,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
-					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
+					RedshopHelperProduct::insertProductUserField($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
 			}
 		}
@@ -805,8 +795,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
-		$extra_field = extra_field::getInstance();
-
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
 			. 'AND user_id = ' . (int) $user_id . ' '
@@ -835,40 +823,47 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$allowCompany = 'style="display:none;"';
 		}
 
-		// Field_section 7 :Customer Address
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shipping->users_info_id);
+		$lists = array(
+			// Field_section 7 :Customer Address
+			'shipping_customer_field' => RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
+				$shipping->users_info_id
+			),
+			// Field_section 8 :Company Address
+			'shipping_company_field'  => RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
+				$shipping->users_info_id
+			)
+		);
 
-		// Field_section 8 :Company Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id);
+		$countries                 = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
+		$shipping->country_code_ST = $shipping->country_code = $countries['country_code_ST'];
+		$lists['country_code_ST']  = $countries['country_dropdown'];
 
-		$countryarray              = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
-		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
-		$lists['country_code_ST']  = $countryarray['country_dropdown'];
+		$states                 = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
+		$lists['state_code_ST'] = $states['state_dropdown'];
 
-		$statearray             = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
-		$lists['state_code_ST'] = $statearray['state_dropdown'];
+		$html = '<table class="adminlist" border="0" width="100%">';
+		$html .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
+		$html .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
+		$html .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
+		$html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>';
+		$html .= '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
+		$html .= '</table>';
 
-		$htmlshipping  = '<table class="adminlist" border="0" width="100%">';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
-		$htmlshipping .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
-		$htmlshipping .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
-		$htmlshipping .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>
-							<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
-		$htmlshipping .= '</table>';
-
-		return $htmlshipping;
+		return $html;
 	}
 }

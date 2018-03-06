@@ -154,10 +154,10 @@ abstract class RedshopHelperProduct_Attribute
 	/**
 	 * Method for get property price with discount
 	 *
-	 * @param   int     $sectionId Section ID
-	 * @param   string  $quantity  Quantity
-	 * @param   string  $section   Section
-	 * @param   integer $userId    User ID
+	 * @param   integer  $sectionId  Section ID
+	 * @param   string   $quantity   Quantity
+	 * @param   string   $section    Section
+	 * @param   integer  $userId     User ID
 	 *
 	 * @return  object
 	 *
@@ -275,7 +275,7 @@ abstract class RedshopHelperProduct_Attribute
 			return $showPrice;
 		}
 
-		$attributeTemplate = productHelper::getInstance()->getAttributeTemplate($templateHtml);
+		$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateHtml);
 
 		if (empty($attributeTemplate))
 		{
@@ -381,12 +381,12 @@ abstract class RedshopHelperProduct_Attribute
 	/**
 	 * Get Attribute Properties of specific product.
 	 *
-	 * @param   int $propertyId     Property id
-	 * @param   int $attributeId    Attribute id
-	 * @param   int $productId      Product id
-	 * @param   int $attributeSetId Attribute set id
-	 * @param   int $required       Required
-	 * @param   int $notPropertyId  Not property id
+	 * @param   integer  $propertyId      Property id
+	 * @param   integer  $attributeId     Attribute id
+	 * @param   integer  $productId       Product id
+	 * @param   string   $attributeSetId  Attribute set id
+	 * @param   integer  $required        Required
+	 * @param   integer  $notPropertyId   Not property id
 	 *
 	 * @return  mixed
 	 */

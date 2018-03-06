@@ -45,7 +45,7 @@ abstract class RedshopHelperAttribute
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 
-		$chktag    = $productHelper->getApplyattributeVatOrNot($templateContent);
+		$chktag    = \Redshop\Template\Helper::isApplyAttributeVat($templateContent);
 		$chktagArr = array(
 			'chkvat' => $chktag
 		);
@@ -54,7 +54,7 @@ abstract class RedshopHelperAttribute
 
 		if (Redshop::getConfig()->getInt('INDIVIDUAL_ADD_TO_CART_ENABLE') == 1 && $displayIndCart)
 		{
-			$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
+			$attributeTemplate = empty($attributeTemplate) ? \Redshop\Template\Helper::getAttribute($templateContent, false) : $attributeTemplate;
 
 			if (!empty($attributeTemplate))
 			{
@@ -66,7 +66,7 @@ abstract class RedshopHelperAttribute
 			);
 		}
 
-		$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
+		$attributeTemplate = empty($attributeTemplate) ? \Redshop\Template\Helper::getAttribute($templateContent, false) : $attributeTemplate;
 
 		if (empty($attributeTemplate) || $attributeTemplate == new stdClass)
 		{
@@ -160,13 +160,14 @@ abstract class RedshopHelperAttribute
 			{
 				$subdisplay = false;
 
-				$property_all = empty($attributes[$a]->properties) ? $productHelper->getAttibuteProperty(0, $attributes[$a]->attribute_id) :
+				$property_all = empty($attributes[$a]->properties) ?
+					RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id) :
 					$attributes[$a]->properties;
 				$property_all = array_values($property_all);
 
 				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
-					$property = $productHelper->getAttibutePropertyWithStock($property_all);
+					$property = \Redshop\Helper\Stockroom::getAttributePropertyWithStock($property_all);
 				}
 				else
 				{
@@ -225,13 +226,13 @@ abstract class RedshopHelperAttribute
 						}
 						else
 						{
-							$subproperty_all = $productHelper->getAttibuteSubProperty(0, $property[$i]->value);
+							$subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property[$i]->value);
 						}
 
 						// Filter Out of stock data
 						if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 						{
-							$subproperty = $productHelper->getAttibuteSubPropertyWithStock($subproperty_all);
+							$subproperty = \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subproperty_all);
 						}
 						else
 						{
@@ -272,7 +273,7 @@ abstract class RedshopHelperAttribute
 							{
 								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
-								$thumbUrl = RedShopHelperImages::getImagePath(
+								$thumbUrl = RedshopHelperMedia::getImagePath(
 									$property[$i]->property_image,
 									'',
 									'thumb',
@@ -787,7 +788,7 @@ abstract class RedshopHelperAttribute
 
 						$priceWithoutVat = $property->property_price;
 
-						if ($productHelper->getApplyattributeVatOrNot($propertyData))
+						if (\Redshop\Template\Helper::isApplyAttributeVat($propertyData))
 						{
 							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
 						}
@@ -808,14 +809,14 @@ abstract class RedshopHelperAttribute
 					$propertyData = str_replace("{property_price}", $price, $propertyData);
 				}
 
-				if (!count($cartTemplate))
+				if (empty($cartTemplate))
 				{
-					$cartTemplate = $productHelper->getAddtoCartTemplate($propertyData);
+					$cartTemplate = \Redshop\Template\Helper::getAddToCart($propertyData);
 				}
 
-				if (count($cartTemplate) > 0)
+				if (null !== $cartTemplate)
 				{
-					$propertyData = $productHelper->replacePropertyAddtoCart(
+					$propertyData = Redshop\Product\Property::replaceAddToCart(
 						$productId, $property->value, 0, $propertyId, $propertyStock,
 						$propertyData, $cartTemplate, $templateContent
 					);
@@ -856,9 +857,9 @@ abstract class RedshopHelperAttribute
 
 		if ($attributeTable != "")
 		{
-			$cart_template = $productHelper->getAddtoCartTemplate($templateContent);
+			$cart_template = \Redshop\Template\Helper::getAddToCart($templateContent);
 
-			if (count($cart_template) > 0)
+			if (null !== $cart_template)
 			{
 				$templateContent = str_replace("{form_addtocart:$cart_template->name}", "", $templateContent);
 			}

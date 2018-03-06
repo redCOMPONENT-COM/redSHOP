@@ -50,17 +50,18 @@ class RedshopViewAccount_Shipto extends RedshopView
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  mixed         A string if successful, otherwise an Error object.
+	 * @throws  Exception
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$orderFunctions = order_functions::getInstance();
-		$task           = $app->input->getCmd('task');
-		$user           = JFactory::getUser();
+		/** @var JApplicationSite $app */
+		$app  = JFactory::getApplication();
+		$task = $app->input->getCmd('task');
+		$user = JFactory::getUser();
 
 		// Preform security checks
 		$session        = JFactory::getSession();
@@ -70,7 +71,7 @@ class RedshopViewAccount_Shipto extends RedshopView
 
 		if ($user->id)
 		{
-			$billingAddress = $orderFunctions->getBillingAddress($user->id);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif (isset($auth['users_info_id']) && $auth['users_info_id'])
 		{
@@ -79,17 +80,21 @@ class RedshopViewAccount_Shipto extends RedshopView
 		}
 		else
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid', 0)));
 			$app->close();
 		}
 
 		if ($task == 'addshipping')
 		{
 			JHtml::_('redshopjquery.framework');
-			/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
-			/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
-			/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.registration.min.js', false, true);
-			/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
+			/** @scrutinizer ignore-deprecated */
+			JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+			/** @scrutinizer ignore-deprecated */
+			JHtml::script('com_redshop/redshop.common.min.js', false, true);
+			/** @scrutinizer ignore-deprecated */
+			JHtml::script('com_redshop/redshop.registration.min.js', false, true);
+			/** @scrutinizer ignore-deprecated */
+			JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 
 			$shippingAddresses = $this->get('Data');
 
@@ -100,8 +105,12 @@ class RedshopViewAccount_Shipto extends RedshopView
 				return;
 			}
 
-			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, $shippingAddresses->users_info_id);
-			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, $shippingAddresses->users_info_id);
+			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(
+				RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shippingAddresses->users_info_id
+			);
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(
+				RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $shippingAddresses->users_info_id
+			);
 
 			$this->setLayout('form');
 		}
@@ -114,8 +123,9 @@ class RedshopViewAccount_Shipto extends RedshopView
 		$this->shippingAddresses = $shippingAddresses;
 		$this->billingAddresses  = $billingAddress;
 		$this->request_url       = JUri::getInstance()->toString();
+
 		JFilterOutput::cleanText($this->request_url);
-		$this->params = JFactory::getApplication()->getParams();
+		$this->params = $app->getParams();
 
 		parent::display($tpl);
 	}

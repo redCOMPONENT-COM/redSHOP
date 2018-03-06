@@ -72,8 +72,8 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
-		$prolist    = $order_function->getOrderItemDetail($this->detail[$i]->order_id);
-		$statusname = $order_function->getOrderStatusTitle($this->detail[$i]->order_status);
+		$prolist    = RedshopHelperOrder::getOrderItemDetail($this->detail[$i]->order_id);
+		$statusname = RedshopHelperOrder::getOrderStatusTitle($this->detail[$i]->order_status);
 
 		$order_item_name = array();
 
@@ -166,5 +166,5 @@ if (strstr($template_desc, "{pagination_limit}"))
 	$template_desc = str_replace("{pagination_limit}", $limitBox, $template_desc);
 }
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

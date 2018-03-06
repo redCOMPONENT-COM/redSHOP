@@ -46,12 +46,12 @@ if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
-	$ReceiptTemplate = $redTemplate->getTemplate("catalogue_order_receipt");
+	$ReceiptTemplate = RedshopHelperTemplate::getTemplate("catalogue_order_receipt");
 	$ReceiptTemplate = $ReceiptTemplate[0]->template_desc;
 }
 else
 {
-	$ReceiptTemplate = $redTemplate->getTemplate("order_receipt");
+	$ReceiptTemplate = RedshopHelperTemplate::getTemplate("order_receipt");
 
 	if (count($ReceiptTemplate) > 0 && $ReceiptTemplate[0]->template_desc)
 	{
@@ -63,7 +63,7 @@ else
 	}
 }
 
-$orderitem = $order_functions->getOrderItemDetail($order_id);
+$orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
 
 // Replace Reorder Button
 $this->replaceReorderButton($ReceiptTemplate);
@@ -112,7 +112,7 @@ $ReceiptTemplate = str_replace("{txtextra_info}", $txtextra_info, $ReceiptTempla
 
 // End
 
-$ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
+$ReceiptTemplate = RedshopHelperTemplate::parseRedshopPlugin($ReceiptTemplate);
 
 /**
  *

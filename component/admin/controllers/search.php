@@ -25,7 +25,7 @@ class RedshopControllerSearch extends RedshopController
 	public function getStatesAjax()
 	{
 		// Only verify token
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$app = JFactory::getApplication();
 

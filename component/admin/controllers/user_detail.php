@@ -35,8 +35,10 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$app      = JFactory::getApplication();
-		$post     = $this->input->post->getArray();
+		$app  = JFactory::getApplication();
+		$post = $this->input->post->getArray();
+
+		/** @var RedshopModelUser_detail $model */
 		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
 		$app->setUserState('com_redshop.user_detail.data', $post);
@@ -56,12 +58,12 @@ class RedshopControllerUser_detail extends RedshopController
 			$info_id = $this->input->getString('info_id', '');
 			if ($apply == 1)
 			{
-				$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $info_id . '&cid[]=' . $row->users_info_id;
+				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $info_id . '&cid[]=' . $row->users_info_id;
 			}
 			else
 			{
 				$app->setUserState('com_redshop.user_detail.data', "");
-				$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
 			}
 		}
 		else
@@ -99,6 +101,7 @@ class RedshopControllerUser_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelUser_detail $model */
 		$model = $this->getModel('user_detail');
 
 		if (!$model->delete($cid, $delete_joomla_users))
@@ -218,7 +221,7 @@ class RedshopControllerUser_detail extends RedshopController
 	 */
 	public function ajaxValidationUsername()
 	{
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$username = $this->input->getString('username', '');
 		$user_id  = $this->input->getInt('user_id', 0);

@@ -19,15 +19,34 @@ defined('_JEXEC') or die;
 class RedshopControllerField extends RedshopControllerForm
 {
 	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModel($name = 'Field', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
+	/**
 	 * Method for get all exist field name
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
 	public function ajaxGetAllFieldName()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Field');

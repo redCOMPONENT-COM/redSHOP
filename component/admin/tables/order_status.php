@@ -34,6 +34,26 @@ class RedshopTableOrder_Status extends RedshopTable
 	protected $_tableKey = 'order_status_id';
 
 	/**
+	 * @var  integer
+	 */
+	public $order_status_id;
+
+	/**
+	 * @var  string
+	 */
+	public $order_status_name;
+
+	/**
+	 * @var  string
+	 */
+	public $order_status_code;
+
+	/**
+	 * @var  integer
+	 */
+	public $published;
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.

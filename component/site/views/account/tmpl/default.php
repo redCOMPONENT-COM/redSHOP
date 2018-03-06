@@ -35,7 +35,7 @@ $wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task
 
 /** @var RedshopModelAccount $model */
 $model    = $this->getModel('account');
-$template = $redTemplate->getTemplate("account_template");
+$template = RedshopHelperTemplate::getTemplate("account_template");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -106,18 +106,18 @@ $is_company = $this->userdata->is_company;
 
 if ($is_company == 1)
 {
-	$extrafields = $extra_field->list_all_field_display(8, $this->userdata->users_info_id);
+	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $this->userdata->users_info_id);
 }
 else
 {
-	$extrafields = $extra_field->list_all_field_display(7, $this->userdata->users_info_id);
+	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $this->userdata->users_info_id);
 }
 
 $template_desc = str_replace('{customer_custom_fields}', $extrafields, $template_desc);
 
 if (strstr($template_desc, "{reserve_discount}"))
 {
-	$reserve_discount = $model->getReserveDiscount();
+	$reserve_discount = Redshop\Account\Helper::getReserveDiscount();
 	$reserve_discount = $producthelper->getProductFormattedPrice($reserve_discount);
 
 	$template_desc = str_replace('{reserve_discount}', $reserve_discount, $template_desc);
@@ -130,7 +130,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 	$template_desc = str_replace('{order_image}', $oder_image, $template_desc);
 	$template_desc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $template_desc);
 
-	$orderslist = $order_functions->getUserOrderDetails($user->id);
+	$orderslist = RedshopHelperOrder::getUserOrderDetails($user->id);
 
 	// More Order information
 
@@ -199,14 +199,14 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 	{
 		$coupon_imagelbl = JText::_('COM_REDSHOP_COUPON_INFO');
 		$coupon_image    = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/coupon.jpg" align="absmiddle">';
-		$usercoupons     = $model->usercoupons($user->id);
+		$usercoupons     = $model->getUserCoupons($user->id);
 
 		if (count($usercoupons))
 		{
 			for ($i = 0, $in = count($usercoupons); $i < $in; $i++)
 			{
 				$coupon_data .= $coupon_desc;
-				$unused_amount = $model->unused_coupon_amount($user->id, $usercoupons[$i]->code);
+				$unused_amount = Redshop\Account\Helper::getUnusedCouponAmount($user->id, $usercoupons[$i]->code);
 				$coupon_data   = str_replace('{coupon_code_lbl}', JText::_('COM_REDSHOP_COUPON_CODE'), $coupon_data);
 				$coupon_data   = str_replace('{coupon_code}', $usercoupons[$i]->code, $coupon_data);
 				$coupon_data   = str_replace('{coupon_value_lbl}', JText::_('COM_REDSHOP_COUPON_VALUE'), $coupon_data);
@@ -298,7 +298,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 	$template_desc   = str_replace('{quotation_image}', $quotation_image, $template_desc);
 	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
 
-	$quotations = $quotationHelper->getQuotationUserList();
+	$quotations = RedshopHelperQuotation::getQuotationUserList();
 
 	// More Order information
 	if (!empty($quotations))
@@ -411,7 +411,7 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 	$template_d2 = explode("{product_serial_loop_end}", $template_d1[1]);
 	$serial_desc = $template_d2[0];
 
-	$userDownloadProduct = $model->getdownloadproductlist($user->id);
+	$userDownloadProduct = Redshop\Account\Helper::getDownloadProductList($user->id);
 
 	$serial_data = '';
 
@@ -491,5 +491,5 @@ $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
 $template_desc = str_replace('{if compare}', '', $template_desc);
 $template_desc = str_replace('{compare end if}', '', $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

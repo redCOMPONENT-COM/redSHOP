@@ -67,7 +67,7 @@ class Template
 		$totalForDiscount = !\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') ? $subTotalExcludeVAT : $row->order_subtotal;
 
 		$template   = \rsCarthelper::getInstance()->replaceLabel($template);
-		$isApplyVAT = \productHelper::getInstance()->getApplyVatOrNot($template);
+		$isApplyVAT = \Redshop\Template\Helper::isApplyVat($template);
 
 		// Order sub-total
 		$search[] = "{order_subtotal}";
@@ -232,7 +232,7 @@ class Template
 		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
 
 		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
-		$template = \rsCarthelper::getInstance()->replaceShippingAddress($template, $shippingAddresses, $sendMail);
+		$template = \Redshop\Shipping\Tag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
 
 		$template = self::replaceOrderStatusLog($template, $row->order_id);
 
@@ -533,7 +533,7 @@ class Template
 			}
 		}
 
-		$template = \RedshopHelperShippingTag::replaceShippingMethod($orderEntity->getItem(), $template);
+		$template = \Redshop\Shipping\Tag::replaceShippingMethod($orderEntity->getItem(), $template);
 	}
 
 	/**

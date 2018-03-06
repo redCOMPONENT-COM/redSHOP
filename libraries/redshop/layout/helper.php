@@ -37,7 +37,7 @@ class RedshopLayoutHelper
 	 *
 	 * @return  string
 	 */
-	public static function render($layoutFile, $displayData = null, $basePath = '', $options = null)
+	public static function render($layoutFile, $displayData = null, $basePath = '', $options = array('component' => 'com_redshop'))
 	{
 		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 

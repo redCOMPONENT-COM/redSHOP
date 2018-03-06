@@ -26,8 +26,12 @@ $wishlist_id   = $input->getInt('wishlist_id');
 $mail          = $input->getInt('mail', 0);
 $window        = $input->getInt('window');
 
-$model         = $this->getModel('account');
-$user          = JFactory::getUser();
+/** @var RedshopModelAccount $model */
+$model = $this->getModel('account');
+
+/** @var RedshopModelProduct $productModel */
+$productModel = $this->getModel('product');
+$user  = JFactory::getUser();
 
 $pagetitle     = JText::_('COM_REDSHOP_MY_WISHLIST');
 $isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
@@ -161,7 +165,7 @@ if ($mail == 0)
 			$link_remove = JRoute::_($link_remove . '&Itemid=' . $Itemid, false);
 
 			$thum_image             = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
-			$product_price          = $producthelper->getProductPrice($row->product_id);
+			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
 			$pname         = "<a href='" . $link . "' >" . $row->product_name . "</a>";
@@ -193,7 +197,7 @@ if ($mail == 0)
 					$productInfo = $producthelper->getProductById($parentproductid);
 
 					// Get child products
-					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
+					$childproducts = $productModel->getAllChildProductArrayList(0, $parentproductid);
 
 					if (count($childproducts) > 0)
 					{
@@ -243,7 +247,7 @@ if ($mail == 0)
 				$wishlist_data = str_replace("{child_products}", $frmChild, $wishlist_data);
 			}
 
-			$childproduct = $producthelper->getChildProduct($row->product_id);
+			$childproduct = RedshopHelperProduct::getChildProduct($row->product_id);
 
 			if (count($childproduct) > 0)
 			{
@@ -281,7 +285,7 @@ if ($mail == 0)
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
-			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
+			$attribute_template = \Redshop\Template\Helper::getAttribute($wishlist_data);
 
 			$wishlistData = $row->wishlistData;
 
@@ -325,7 +329,7 @@ if ($mail == 0)
 
 						if (empty($property->sub_properties))
 						{
-							$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
+							$property->sub_properties = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->value);
 						}
 
 						foreach ($property->sub_properties as $subProperty)
@@ -347,7 +351,7 @@ if ($mail == 0)
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
-			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
+			$wishlist_data = Redshop\Product\Stock::replaceInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
 			// Product attribute  Start
 			$totalatt      = count($attributes);
@@ -405,11 +409,11 @@ if ($mail == 0)
 
 					if ($productUserFieldsFinal != '')
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
 					}
 					else
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
 					}
 
 					$ufield .= $productUserFields[1];
@@ -459,14 +463,14 @@ if ($mail == 0)
 
 			if ($isIndividualAddToCart)
 			{
-				$wishlist_data = $producthelper->replaceCartTemplate(
+				$wishlist_data = Redshop\Cart\Render::replace(
 					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
 					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $row->wishlistData->wishlist_product_id
 				);
 			}
 			else
 			{
-				$wishlist_data = $producthelper->replaceCartTemplate(
+				$wishlist_data = Redshop\Cart\Render::replace(
 					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
 					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field
 				);
@@ -508,12 +512,12 @@ if ($mail == 0)
 
 	$data = str_replace('{mail_link}', $mail_link, $data);
 	$data = str_replace('{all_cart}', $my, $data);
-	$data = $redTemplate->parseredSHOPplugin($data);
+	$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 	echo eval("?>" . $data . "<?php ");
 }
 else
 {
-	$mailtemplate = $redTemplate->getTemplate("wishlist_mail_template");
+	$mailtemplate = RedshopHelperTemplate::getTemplate("wishlist_mail_template");
 
 	if (count($mailtemplate) > 0 && $mailtemplate[0]->template_desc != "")
 	{
@@ -555,5 +559,5 @@ else
 	$data .= '</form>';
 	echo eval("?>" . $data . "<?php ");
 
-	$data = $redTemplate->parseredSHOPplugin($data);
+	$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 }

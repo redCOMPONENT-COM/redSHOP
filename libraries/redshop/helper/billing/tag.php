@@ -85,7 +85,7 @@ class RedshopHelperBillingTag
 		elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 		{
 			$content = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', '', $content
+				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', $content
 			);
 		}
 
@@ -207,7 +207,7 @@ class RedshopHelperBillingTag
 				$emailLabel = JText::_('COM_REDSHOP_EMAIL');
 			}
 
-			if ($billingAddress->is_company === 1)
+			if ((int) $billingAddress->is_company === 1)
 			{
 				if (!empty($billingAddress->company_name))
 				{

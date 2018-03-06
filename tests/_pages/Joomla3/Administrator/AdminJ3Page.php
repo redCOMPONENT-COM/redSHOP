@@ -278,7 +278,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $addressEmail = "#email1";
+	public static $addressEmail = "#private-email1";
 
 	/**
 	 * @var string
@@ -342,6 +342,11 @@ abstract class AdminJ3Page
 	 * @var array
 	 */
 	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']"];
+
+	/**
+	 * @var array
+	 */
+	public static $bankTransfer = ['xpath' => '//div[@id=\'rs_payment_banktransfer\']'];
 	/**
 	 * @var array
 	 */
@@ -356,6 +361,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+
+	/**
+	 * @var array
+	 */
+	public static $priceVAT = ['xpath' => '//div[@class=\'form-group\'][3]//div[1]'];
 	/**
 	 * @var array
 	 */

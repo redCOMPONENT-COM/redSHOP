@@ -577,7 +577,7 @@ class RedshopHelperProductTag
 				}
 				else
 				{
-					$imagePathOriginal = RedShopHelperImages::getImagePath(
+					$imagePathOriginal = RedshopHelperMedia::getImagePath(
 						$thumbOriginal,
 						'',
 						'thumb',

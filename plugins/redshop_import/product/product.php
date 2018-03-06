@@ -53,9 +53,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 */
 	public function onAjaxProduct_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -67,7 +67,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 */
 	public function onAjaxProduct_Import()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
 		$this->encoding  = $input->getString('encoding', 'UTF-8');
@@ -797,7 +797,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					else
 					{
 						$imageName = basename($image);
-						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 						JFile::write($dest, $binaryData);
 						$data['product_preview_image'] = $fileName;

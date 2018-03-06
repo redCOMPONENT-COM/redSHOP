@@ -90,7 +90,7 @@ function display_products($rows)
 		$row           = $rows[$i];
 		$Itemid        = $this->redHelper->getItemid($row->product_id);
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
-		$product_price = $producthelper->getProductPrice($row->product_id);
+		$product_price = Redshop\Product\Price::getPrice($row->product_id);
 
 		$productArr             = $producthelper->getProductNetPrice($row->product_id);
 		$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
@@ -135,7 +135,7 @@ function display_products($rows)
 
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
-		echo $addtocartdata = $producthelper->replaceCartTemplate($row->product_id);
+		echo $addtocartdata = Redshop\Cart\Render::replace($row->product_id);
 
 		echo "<div>" . $addtocartdata . "</div>";
 	}

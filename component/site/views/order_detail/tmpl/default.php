@@ -42,19 +42,19 @@ if ($this->params->get('show_page_heading', 1)) : ?>
 <?php
 $model          = $this->getModel('order_detail');
 $OrdersDetail   = $this->OrdersDetail;
-$OrderProducts  = $order_functions->getOrderItemDetail($oid);
-$partialpayment = $order_functions->getOrderPartialPayment($oid);
+$OrderProducts  = RedshopHelperOrder::getOrderItemDetail($oid);
+$partialpayment = RedshopHelperOrder::getOrderPartialPayment($oid);
 
 // Get order Payment method information
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
-	$orderslist_template = $redTemplate->getTemplate("catalogue_order_detail");
+	$orderslist_template = RedshopHelperTemplate::getTemplate("catalogue_order_detail");
 	$orderslist_template = $orderslist_template[0]->template_desc;
 }
 else
 {
-	$orderslist_template = $redTemplate->getTemplate("order_detail");
+	$orderslist_template = RedshopHelperTemplate::getTemplate("order_detail");
 
 	if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc)
 	{
@@ -117,7 +117,7 @@ else
 	$replace[] = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
 }
 
-$statustext = $order_functions->getOrderStatusTitle($OrdersDetail->order_status);
+$statustext = RedshopHelperOrder::getOrderStatusTitle($OrdersDetail->order_status);
 
 $search [] = "{order_status}";
 

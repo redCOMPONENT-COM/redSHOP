@@ -666,8 +666,6 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$category_template = $this->getState('category_template');
 
-		$redTemplate = Redtemplate::getInstance();
-
 		if ($this->_id)
 		{
 			$selected_template = $this->_maincat->template;
@@ -682,11 +680,11 @@ class RedshopModelCategory extends RedshopModel
 				$selected_template .= "," . $this->_maincat->more_template;
 			}
 
-			$alltemplate = $redTemplate->getTemplate("category", $selected_template);
+			$alltemplate = RedshopHelperTemplate::getTemplate("category", $selected_template);
 		}
 		else
 		{
-			$alltemplate = $redTemplate->getTemplate("frontpage_category");
+			$alltemplate = RedshopHelperTemplate::getTemplate("frontpage_category");
 		}
 
 		return $alltemplate;

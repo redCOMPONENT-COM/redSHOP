@@ -29,7 +29,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addTAXRatesSave($taxRateName, $taxGroupName, $taxRateValue, $nameCountry)
+	public function addTAXRatesSave($taxRateName, $taxGroupName, $taxRateValue, $nameCountry, $stateName)
 	{
 		$client = $this;
 		$client->amOnPage(\TaxRatePage::$url);
@@ -39,6 +39,12 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\TaxRatePage::$fieldName, $taxRateName);
 		$client->fillField(\TaxRatePage::$fieldValue, $taxRateValue);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
+		$client->waitForElement(\TaxRatePage::$stateDropdown, 30);
+		if (isset($stateName))
+		{
+			$client->click(\TaxRatePage::$stateDropdown);
+			$client->chooseOnSelect2(\TaxRatePage::$fieldState, $stateName);
+		}
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $taxGroupName);
 		$client->click(\TaxRatePage::$buttonSave);
 		$client->waitForElement(\TaxRatePage::$selectorSuccess,30);

@@ -57,7 +57,7 @@ if ($this->params->get('show_page_heading', 1))
       enctype="multipart/form-data">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_CUSTOMER_INFORMATION');?></legend>
-		<?php        echo $userHelper->getBillingTable($post, $this->billingaddresses->is_company, $this->lists, 0, 0, $createAccount);    ?>
+		<?php echo RedshopHelperBilling::render($post, $this->billingaddresses->is_company, $this->lists, 0, 0, $createAccount);    ?>
 		<table cellspacing="3" cellpadding="0" border="0" width="100%">
 			<tr>
 				<td align="right"><input type="button" class="button btn" name="back"

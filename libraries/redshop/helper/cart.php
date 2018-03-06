@@ -120,9 +120,10 @@ abstract class RedshopHelperCart
 	/**
 	 * Store Cart to Database
 	 *
-	 * @param   array $cart Cart data.
+	 * @param   array  $cart  Cart data.
 	 *
 	 * @return  boolean       True on success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @since   2.0.3
 	 */
@@ -435,8 +436,9 @@ abstract class RedshopHelperCart
 				$section       = 13;
 				$giftCardId    = $cartItem->giftcard_id;
 				$giftCardPrice = 0;
+				$giftCardData  = RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
 
-				if ($giftCardData = $productHelper->getGiftcardData($giftCardId))
+				if (!empty($giftCardData))
 				{
 					if ($giftCardData->customer_amount)
 					{
@@ -773,7 +775,7 @@ abstract class RedshopHelperCart
 
 		$cartOutput['cart_output']    = $carts[0];
 		$cartOutput['total_quantity'] = $carts[1];
-		$text                         = RedshopHelperShipping::getFreeShippingRate();
+		$text                         = Redshop\Shipping\Rate::getFreeShippingRate();
 
 		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{

@@ -10,14 +10,15 @@
 defined('_JEXEC') or die;
 
 $redTemplate = Redtemplate::getInstance();
-$extra_field = extra_field::getInstance();
 $app         = JFactory::getApplication();
 
 $Itemid = $app->input->getInt('Itemid');
 $layout = $app->input->getCmd('layout', 'default');
-$model  = $this->getModel('catalog');
 
-$template = $redTemplate->getTemplate("product_sample");
+/** @var RedshopModelCatalog $model */
+$model = $this->getModel('catalog');
+
+$template = RedshopHelperTemplate::getTemplate("product_sample");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -80,7 +81,7 @@ if ($this->params->get('show_page_heading', 1))
 
 	if (strstr($template_desc, "{address_fields}"))
 	{
-		$address_fields = $extra_field->list_all_field(9, 0, '', 1);
+		$address_fields = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COLOR_SAMPLE, 0);
 		$myfield        = "<table class='admintable' border='0'>";
 		$myfield .= $address_fields;
 		$myfield .= '</table>';

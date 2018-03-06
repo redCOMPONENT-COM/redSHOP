@@ -56,6 +56,8 @@ class RedshopControllerStockroom_detail extends RedshopController
 		$cid                    = $this->input->post->get('cid', array(0), 'array');
 		$post ['stockroom_id']  = $cid [0];
 		$post ['creation_date'] = strtotime($post ['creation_date']);
+
+		/** @var RedshopModelStockroom_detail $model */
 		$model                  = $this->getModel('stockroom_detail');
 		$post['stockroom_name'] = htmlspecialchars($post['stockroom_name']);
 
@@ -87,6 +89,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelStockroom_detail $model */
 		$model = $this->getModel('stockroom_detail');
 
 		if (!$model->delete($cid))
@@ -144,7 +147,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			{
 				$incNo++;
 				$ecoProductNumber = RedshopEconomic::importStockFromEconomic($prd[$i]);
-				$responcemsg     .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
+				$responcemsg      .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && isset($ecoProductNumber[0]))
 				{

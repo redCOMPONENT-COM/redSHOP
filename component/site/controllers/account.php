@@ -58,9 +58,6 @@ class RedshopControllerAccount extends RedshopController
 		$itemId     = $input->get('Itemid');
 		$wishListId = $input->get('wishlist_id');
 
-		/** @var RedshopModelAccount $model */
-		$model = $this->getModel('account');
-
 		if ($input->get('emailto') == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
@@ -77,7 +74,7 @@ class RedshopControllerAccount extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
 		}
-		elseif ($model->sendWishlist($input->getArray()))
+		elseif (Redshop\Account\Wishlist::send($input->getArray()))
 		{
 			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
 		}

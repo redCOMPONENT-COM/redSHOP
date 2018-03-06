@@ -45,10 +45,8 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 		if ($row = $model->store($post))
 		{
-			$field = extra_field::getInstance();
-
 			// Field_section 11 :Shipping
-			$field->extra_field_save($post, "11", $row->shipping_rate_id);
+			RedshopHelperExtrafields::extraFieldSave($post, "11", $row->shipping_rate_id);
 			$msg = JText::_('COM_REDSHOP_SHIPPING_LOCATION_SAVED');
 		}
 		else

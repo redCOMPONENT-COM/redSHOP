@@ -41,9 +41,49 @@ class RedshopTableCategory extends RedshopTableNested
 	public $category_thumb_image;
 
 	/**
+	 * @var  string
+	 */
+	public $description;
+
+	/**
+	 * @var  string
+	 */
+	public $category_full_image;
+
+	/**
+	 * @var  string
+	 */
+	public $metakey;
+
+	/**
+	 * @var  string
+	 */
+	public $metadesc;
+
+	/**
 	 * @var  integer
 	 */
 	public $template;
+
+	/**
+	 * @var  integer
+	 */
+	public $published;
+
+	/**
+	 * @var  integer
+	 */
+	public $category_pdate;
+
+	/**
+	 * @var  integer
+	 */
+	public $products_per_page;
+
+	/**
+	 * @var  integer
+	 */
+	public $ordering;
 
 	/**
 	 * Called delete().
@@ -113,5 +153,63 @@ class RedshopTableCategory extends RedshopTableNested
 
 		// Force do not delete child categories
 		return parent::doDelete($pk, false);
+	}
+
+	/**
+	 * Do the database store.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doStore($updateNulls = false)
+	{
+		if (!parent::doStore($updateNulls))
+		{
+			return false;
+		}
+
+		// Prepare target folder.
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id);
+
+		// Prepare target folder.
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id . '/thumb');
+
+		/** @var RedshopModelCategory $model */
+		$model = RedshopModel::getInstance('Category', 'RedshopModel');
+		$media = $this->getOption('media', array());
+
+		if (!empty($media['category_full_image']))
+		{
+			$model->storeMedia($this, $media['category_full_image'], 'full');
+		}
+
+		if (!empty($media['category_back_full_image']))
+		{
+			$model->storeMedia($this, $media['category_back_full_image'], 'back');
+		}
+
+		return true;
+	}
+
+	/**
+	 * Called check().
+	 *
+	 * @return  boolean  True on success.
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doCheck()
+	{
+		if (empty(trim($this->name)))
+		{
+			$this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
+
+			return false;
+		}
+
+		return parent::doCheck();
 	}
 }

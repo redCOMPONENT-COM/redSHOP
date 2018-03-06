@@ -64,16 +64,15 @@ class extra_field
 	 * @param   string   $field_section  Field Section
 	 * @param   integer  $section_id     Section ID
 	 * @param   string   $field_name     Field Name
-	 * @param   string   $table          Table
 	 * @param   string   $template_desc  Template
 	 *
 	 * @return  string   HTML <td></td>
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllField() instead
 	 */
-	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
+	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $template_desc = "")
 	{
-		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $table, $template_desc);
+		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $template_desc);
 	}
 
 	/**
@@ -85,6 +84,7 @@ class extra_field
 	 * @param   string   $user_email     User to match by email
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::extraFieldSave() instead
 	 */
@@ -139,7 +139,8 @@ class extra_field
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */
-	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $fieldType = '', $uniqueId = '')
+	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
+		$fieldType = '', $uniqueId = '')
 	{
 		return RedshopHelperExtrafields::listAllUserFields($fieldSection, $sectionId, $fieldType, $uniqueId);
 	}
@@ -160,7 +161,7 @@ class extra_field
 	 */
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
-		RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
+		return RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
 	}
 
 	/**
@@ -191,7 +192,7 @@ class extra_field
 	 *
 	 * @param   integer  $id  ID of field
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getFieldValue() instead
 	 */

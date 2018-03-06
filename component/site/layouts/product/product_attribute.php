@@ -29,7 +29,7 @@ $productHelper = productHelper::getInstance();
 			</div>
 		<?php endif; ?>
 		<?php for ($k = 0, $kn = count($properties); $k < $kn; $k++) : ?>
-			<?php $property = $productHelper->getAttibuteProperty($properties[$k]['property_id']); ?>
+			<?php $property = RedshopHelperProduct_Attribute::getAttributeProperties($properties[$k]['property_id']); ?>
 			<?php $propertyOperator = $properties[$k]['property_oprand']; ?>
 			<?php $propertyPrice = (isset($properties[$k]['property_price'])) ? $properties[$k]['property_price'] : 0; ?>
 			<?php $displayPrice = " (" . $propertyOperator . " " . $productHelper->getProductFormattedPrice($propertyPrice) . ")"; ?>

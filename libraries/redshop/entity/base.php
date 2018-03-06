@@ -864,7 +864,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Load the item already loaded in a table
 	 *
-	 * @param   RedshopTable  $table  Table with the item loaded
+	 * @param   RedshopTable|JTable  $table  Table with the item loaded
 	 *
 	 * @return  self
 	 */

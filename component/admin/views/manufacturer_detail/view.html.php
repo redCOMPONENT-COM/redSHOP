@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewManufacturer_detail extends RedshopViewAdmin
+/**
+ * View Manufacturer detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.3
+ */
+class RedshopViewManufacturer_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -20,12 +26,34 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 	public $request_url;
 
 	/**
+	 * @var  array
+	 */
+	public $lists;
+
+	/**
+	 * @var  object
+	 */
+	public $detail;
+
+	/**
+	 * @var  object
+	 */
+	public $tabmenu;
+
+	/**
 	 * Do we have to display a sidebar ?
 	 *
 	 * @var  boolean
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @throws  Exception
+	 */
 	public function display($tpl = null)
 	{
 		$uri = JUri::getInstance();
@@ -33,17 +61,14 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 		$this->setLayout('default');
 
-		$lists = array();
-
-		$detail = $this->get('data');
-
+		/** @var RedshopModelManufacturer_detail $model */
 		$model = $this->getModel('manufacturer_detail');
 
-		$template_data = $model->TemplateData();
-
-		$isNew = ($detail->manufacturer_id < 1);
-
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$lists        = array();
+		$detail       = $this->get('data');
+		$templateData = $model->templateData();
+		$isNew        = ($detail->manufacturer_id < 1);
+		$text         = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'flag redshop_manufact48');
 		JToolBarHelper::apply();
@@ -58,26 +83,24 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$optiontemplet   = array();
-		$optiontemplet[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
+		$optionTemplate   = array();
+		$optionTemplate[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 
-		$result = array_merge($optiontemplet, $template_data);
+		$result = array_merge($optionTemplate, $templateData);
 
 		$lists['template'] = JHtml::_('select.genericlist', $result, 'template_id',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->template_id
+			'class="inputbox form-control" size="1" ', 'value', 'text', $detail->template_id
 		);
 
 		$detail->excluding_category_list  = explode(',', $detail->excluding_category_list);
-		$product_category                 = new product_category;
-		$lists['excluding_category_list'] = $product_category->list_all("excluding_category_list[]", 0,
+		$lists['excluding_category_list'] = RedshopHelperCategory::listAll("excluding_category_list[]", 0,
 			$detail->excluding_category_list, 10, false, true
 		);
 
-		$lists['published'] = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$field              = extra_field::getInstance();
-
-		$list_field           = $field->list_all_field(10, $detail->manufacturer_id);
-		$lists['extra_field'] = $list_field;
+		$lists['published']   = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['extra_field'] = RedshopHelperExtrafields::listAllField(
+			RedshopHelperExtrafields::SECTION_MANUFACTURER, $detail->manufacturer_id
+		);
 
 		$this->lists       = $lists;
 		$this->detail      = $detail;
@@ -91,6 +114,7 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 	 * Tab Menu
 	 *
 	 * @return  object  Tab menu
+	 * @throws  Exception
 	 *
 	 * @since   1.7
 	 */

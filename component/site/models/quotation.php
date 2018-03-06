@@ -145,7 +145,7 @@ class RedshopModelQuotation extends RedshopModel
 			{
 				$quotation_item[$i]->product_id = $data[$i]['giftcard_id'];
 
-				$giftcardData = $producthelper->getGiftcardData($data[$i]['giftcard_id']);
+				$giftcardData = RedshopEntityGiftcard::getInstance($data[$i]['giftcard_id'])->getItem();
 
 				$quotation_item[$i]->is_giftcard  = 1;
 				$quotation_item[$i]->product_name = $giftcardData->giftcard_name;
@@ -499,7 +499,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		$email = $app->input->get('email');
 
-		$password = RedshopHelperOrder::randomGenerateEncryptKey(12);
+		$password = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
 
 		// Disallow control chars in the email
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password);
@@ -581,6 +581,14 @@ class RedshopModelQuotation extends RedshopModel
 
 		$email = $user->email;
 
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart');
+
+		$cart['user_id']      = $user_id;
+		$user_data            = RedshopHelperUser::getUserInformation($user_id);
+		$cart['user_info_id'] = $user_data->users_info_id;
+		$quotationDetail      = $this->store($cart);
+
 		$quotation_id       = $quotationDetail->quotation_id;
 		$quotationdetailurl = JURI::root() . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr=' . $quotationDetail->quotation_encrkey;
 
@@ -603,14 +611,6 @@ class RedshopModelQuotation extends RedshopModel
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 		}
-
-		$session       = JFactory::getSession();
-		$cart          = $session->get('cart');
-
-		$cart['user_id']      = $user_id;
-		$user_data            = RedshopHelperUser::getUserInformation($user_id);
-		$cart['user_info_id'] = $user_data->users_info_id;
-		$quotationDetail      = $this->store($cart);
 
 		$this->sendQuotationMail($quotationDetail->quotation_id);
 

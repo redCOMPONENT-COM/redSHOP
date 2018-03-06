@@ -79,7 +79,7 @@ class RedshopHelperProduct
 	 * @param   int  $productId  Product id
 	 * @param   int  $userId     User id
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	public static function getProductById($productId, $userId = 0)
 	{
@@ -325,7 +325,6 @@ class RedshopHelperProduct
 	 */
 	public static function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
-		$productHelper  = productHelper::getInstance();
 		$totalAccessory = count($accessory);
 		$accessoryList  = "";
 
@@ -338,7 +337,7 @@ class RedshopHelperProduct
 
 		for ($a = 0, $an = count($accessory); $a < $an; $a++)
 		{
-			$acId = $accessory[$a]->child_product_id;
+			$acId   = $accessory[$a]->child_product_id;
 			$cpData = Redshop::product((int) $acId);
 
 			$accessoryName = RedshopHelperUtility::maxChars(
@@ -348,13 +347,13 @@ class RedshopHelperProduct
 			);
 
 			// Get accessory final price with VAT rules
-			$accessoryPriceList = $productHelper->getAccessoryPrice(
+			$accessoryPriceList = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price
 			);
 
 			$accessoryPrice = $accessoryPriceList[0];
 
-			$accessoryPriceWithoutvat = $productHelper->getAccessoryPrice(
+			$accessoryPriceWithoutvat = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price,
 				$accessory[$a]->accessory_main_price, 1
 			);
@@ -880,7 +879,7 @@ class RedshopHelperProduct
 	 * Method for get product tax
 	 *
 	 * @param   integer  $productId     Product Id
-	 * @param   integer  $productPrice  Product price
+	 * @param   float    $productPrice  Product price
 	 * @param   integer  $userId        User ID
 	 * @param   integer  $taxExempt     Tax exempt
 	 *
@@ -888,7 +887,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   2.0.6
 	 */
-	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
+	public static function getProductTax($productId = 0, $productPrice = 0.0, $userId = 0, $taxExempt = 0)
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
 
@@ -1155,5 +1154,33 @@ class RedshopHelperProduct
 
 			static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
 		}
+	}
+
+	/**
+	 * Method for get child products of specific product
+	 *
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  array
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getChildProduct($productId = 0)
+	{
+		$childProducts = RedshopEntityProduct::getInstance($productId)->getChildProducts();
+
+		if ($childProducts->isEmpty())
+		{
+			return array();
+		}
+
+		$results = array();
+
+		foreach ($childProducts->getAll() as $child)
+		{
+			/** @var  RedshopEntityProduct $child */
+			$results[] = $child->getItem();
+		}
+
+		return $results;
 	}
 }

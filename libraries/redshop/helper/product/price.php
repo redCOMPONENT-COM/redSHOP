@@ -199,11 +199,11 @@ class RedshopHelperProductPrice
 
 			if (Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$currencySymbol = " " . $currencySymbol;
+				$currencySymbol = " " . (string) $currencySymbol;
 			}
 			else
 			{
-				$currencySymbol = $currencySymbol . " ";
+				$currencySymbol = (string) $currencySymbol . " ";
 			}
 		}
 
@@ -274,7 +274,7 @@ class RedshopHelperProductPrice
 		$priceSavingLabel   = '';
 		$oldPriceExcludeVat = '';
 
-		$result = productHelper::getInstance()->getProductPrices($productId, $userId, $quantity);
+		$result = RedshopHelperProduct::getProductPrices($productId, $userId, $quantity);
 
 		if (!empty($result))
 		{
@@ -291,7 +291,7 @@ class RedshopHelperProductPrice
 			$newPrice = $results[0];
 		}
 
-		$isApplyTax   = productHelper::getInstance()->getApplyVatOrNot($templateHtml, $userId);
+		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
 		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
 
 		if (!is_null($specialPrice))
@@ -488,7 +488,8 @@ class RedshopHelperProductPrice
 	 * @param   boolean  $isRel         Is Rel
 	 * @param   array    $attributes    Attributes
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -513,7 +514,7 @@ class RedshopHelperProductPrice
 		$userId    = !$userId ? JFactory::getUser()->id : $userId;
 		$relPrefix = !$isRel ? '' : 'rel';
 
-		$defaultQuantity = productHelper::getInstance()->GetDefaultQuantity($productId, $templateHtml);
+		$defaultQuantity = \Redshop\Cart\Helper::getDefaultQuantity($productId, $templateHtml);
 		$productPrices   = self::getNetPrice($productId, $userId, $defaultQuantity, $templateHtml, $attributes);
 
 		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')

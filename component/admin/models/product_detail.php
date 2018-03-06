@@ -228,7 +228,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   array  $data  Product detail data.
 	 *
-	 * @return boolean
+	 * @return  boolean|TableProduct_Detail
+	 * @throws  Exception
 	 */
 	public function store($data)
 	{
@@ -237,8 +238,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$catorder    = array();
 		$oldcategory = array();
 
-		$producthelper = productHelper::getInstance();
-
+		/** @var TableProduct_Detail $row */
 		$row = $this->getTable('product_detail');
 
 		if (!$row->bind($data))
@@ -283,7 +283,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($thumbfile['name'] != "")
 		{
-			$filename                 = RedShopHelperImages::cleanFileName($thumbfile['name'], $row->product_id);
+			$filename                 = RedshopHelperMedia::cleanFileName($thumbfile['name'], $row->product_id);
 			$row->product_thumb_image = $filename;
 
 			// Image Upload
@@ -347,7 +347,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!empty($file['name']))
 		{
-			$filename                = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
+			$filename                = RedshopHelperMedia::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
 
 			// Image Upload
@@ -385,7 +385,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($backthumbfile['name'] != "")
 		{
-			$filename                      = RedShopHelperImages::cleanFileName($backthumbfile['name'], $row->product_id);
+			$filename                      = RedshopHelperMedia::cleanFileName($backthumbfile['name'], $row->product_id);
 			$row->product_back_thumb_image = $filename;
 
 			// Image Upload
@@ -409,7 +409,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($backthumbfile['name'] != "")
 		{
-			$filename                     = RedShopHelperImages::cleanFileName($backthumbfile['name'], $row->product_id);
+			$filename                     = RedshopHelperMedia::cleanFileName($backthumbfile['name'], $row->product_id);
 			$row->product_back_full_image = $filename;
 
 			// Image Upload
@@ -434,7 +434,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($previewfile['name'] != "")
 		{
-			$filename                   = RedShopHelperImages::cleanFileName($previewfile['name'], $row->product_id);
+			$filename                   = RedshopHelperMedia::cleanFileName($previewfile['name'], $row->product_id);
 			$row->product_preview_image = $filename;
 
 			// Image Upload
@@ -459,7 +459,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($previewbackfile['name'] != "")
 		{
-			$filename                        = RedShopHelperImages::cleanFileName($previewfile['name'], $row->product_id);
+			$filename                        = RedshopHelperMedia::cleanFileName($previewfile['name'], $row->product_id);
 			$row->product_preview_back_image = $filename;
 
 			// Image Upload
@@ -807,7 +807,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			for ($c = 0, $cn = count($area_start); $c < $cn; $c++)
 			{
 				// Convert whatever unit into meter
-				$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
+				$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit[$c]);
 
 				// Replace comma with dot
 				$new_area_start = str_replace(",", ".", $area_start[$c]);
@@ -1323,7 +1323,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   array  $cid               Array of IDs.
 	 * @param   bool   $postMorePriority  Flag what data more priority for copy - POST or DB
 	 *
-	 * @return boolean
+	 * @return  boolean|TableProduct_Detail
 	 */
 	public function copy($cid = array(), $postMorePriority = false)
 	{
@@ -1528,10 +1528,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 				}
 
-				$field = extra_field::getInstance();
-
 				// Field_section 1 :Product.
-				$field->copy_product_extra_field($pdata->product_id, $row->product_id);
+				RedshopHelperExtrafields::copyProductExtraField($pdata->product_id, $row->product_id);
 
 				// End.
 				$this->SaveStockroom($row->product_id, $post);
@@ -1569,7 +1567,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$old_img   = $mediadata[$j]->media_name;
 					$new_img   = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
 					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
-					$mediaName = RedShopHelperImages::cleanFileName($new_img);
+					$mediaName = RedshopHelperMedia::cleanFileName($new_img);
 					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
 					copy($old_media, $new_media);
 
@@ -1615,7 +1613,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($imageName && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $imageName))
 		{
 			$newImageName = strstr($imageName, '_') ? strstr($imageName, '_') : $imageName;
-			$newImageName = $imageName = RedShopHelperImages::cleanFileName($newImageName);
+			$newImageName = $imageName = RedshopHelperMedia::cleanFileName($newImageName);
 		}
 		else
 		{
@@ -2378,7 +2376,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			else
 			{
-				$main_name = RedShopHelperImages::cleanFileName($main_img['name']);
+				$main_name = RedshopHelperMedia::cleanFileName($main_img['name']);
 				$main_src  = $main_img['tmp_name'];
 
 				if ($post['fsec'] == 'subproperty')
@@ -2433,7 +2431,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				else
 				{
-					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
+					$sub_name = RedshopHelperMedia::cleanFileName($sub_img['name'][$i]);
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
@@ -2534,7 +2532,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				else
 				{
-					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
+					$sub_name = RedshopHelperMedia::cleanFileName($sub_img['name'][$i]);
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
@@ -3139,7 +3137,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if ($database->execute())
 				{
-					$property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
+					$property = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$i]->attribute_id);
 
 					for ($j = 0, $jn = count($property); $j < $jn; $j++)
 					{
@@ -3687,7 +3685,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$src_image          = $data['media_name'];
 		$old_imgname        = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
-		$new_imgname        = RedShopHelperImages::cleanFileName($old_imgname);
+		$new_imgname        = RedshopHelperMedia::cleanFileName($old_imgname);
 		$data['media_name'] = $new_imgname;
 		$rowmedia           = $this->getTable('media_detail');
 		$data['media_id ']  = 0;
@@ -3727,7 +3725,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$imgname        = basename($imagePath);
 		$imgname        = strstr($imgname, '_') ? strstr($imgname, '_') : $imgname;
-		$property_image = RedShopHelperImages::cleanFileName($imgname);
+		$property_image = RedshopHelperMedia::cleanFileName($imgname);
 		$dest           = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 
 		copy($src, $dest);
@@ -3780,7 +3778,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$image_split = $att_property[$prop]->property_image;
 
 					// Make the filename unique.
-					$filename                            = RedShopHelperImages::cleanFileName($image_split);
+					$filename                            = RedshopHelperMedia::cleanFileName($image_split);
 					$att_property[$prop]->property_image = $filename;
 					$src                                 = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $image_split;
 					$dest                                = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $filename;
@@ -3795,7 +3793,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$image_split   = $image_split[1];
 
 					// Make the filename unique.
-					$filename                                 = RedShopHelperImages::cleanFileName($image_split);
+					$filename                                 = RedshopHelperMedia::cleanFileName($image_split);
 					$att_property[$prop]->property_main_image = $filename;
 					$src                                      = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $prop_main_img;
 					$dest                                     = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $filename;
@@ -3873,7 +3871,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$image_split = $subatt_property[$subprop]->subattribute_color_image;
 
 						// Make the filename unique.
-						$filename                                            = RedShopHelperImages::cleanFileName($image_split);
+						$filename                                            = RedshopHelperMedia::cleanFileName($image_split);
 						$subatt_property[$subprop]->subattribute_color_image = $filename;
 						$src                                                 = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $image_split;
 						$dest                                                = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $filename;
@@ -3888,7 +3886,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$image_split  = $image_split[1];
 
 						// Make the filename unique.
-						$filename = RedShopHelperImages::cleanFileName($image_split);
+						$filename = RedshopHelperMedia::cleanFileName($image_split);
 
 						$subatt_property[$subprop]->subattribute_color_main_image = $filename;
 						$src                                                      = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $sub_main_img;
@@ -4280,13 +4278,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_subprop($sp, $subattribute_id)
 	{
-		$producthelper = productHelper::getInstance();
-
-		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
+		$subPropertyList = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $subattribute_id);
 
 		if ($sp)
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty($sp);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
 		}
 		else
 		{
@@ -4328,13 +4324,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_prop($attribute_id, $property_id)
 	{
-		$producthelper = productHelper::getInstance();
-
-		$propertyList = $producthelper->getAttibuteProperty(0, $attribute_id);
+		$propertyList = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
 
 		if ($property_id)
 		{
-			$property = $producthelper->getAttibuteProperty($property_id);
+			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
 		}
 		else
 		{
@@ -4460,7 +4454,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function copy_image($imageArray, $section, $section_id)
 	{
 		$src            = $imageArray['tmp_name'];
-		$imgname        = RedShopHelperImages::cleanFileName($imageArray['name']);
+		$imgname        = RedshopHelperMedia::cleanFileName($imageArray['name']);
 		$property_image = $section_id . '_' . $imgname;
 		$dest           = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 		copy($src, $dest);
@@ -4485,7 +4479,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		$src            = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
-		$imgname        = RedShopHelperImages::cleanFileName($imagePath);
+		$imgname        = RedshopHelperMedia::cleanFileName($imagePath);
 		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest           = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 		copy($src, $dest);
@@ -4576,8 +4570,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$productHelper = productHelper::getInstance();
-		$info          = $productHelper->getChildProduct($parentid);
+		$info = RedshopHelperProduct::getChildProduct($parentid);
 
 		if (empty(static::$childproductlist))
 		{
@@ -4710,15 +4703,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   int     $new_product_id        new_product_id
 	 * @param   string  $discount_calc_method  discount_calc_method
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 * @throws  Exception
 	 */
 	public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
 	{
-		$producthelper = productHelper::getInstance();
-		$query         = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
-				  WHERE product_id='" . $old_product_id . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_discount_calc'))
+			->where($db->qn('product_id') . ' = ' . (int) $old_product_id);
+
+		$list = $db->setQuery($query)->loadObjectList();
 
 		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
@@ -4727,7 +4723,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$area_end           = $list[$i]->area_end;
 			$area_price         = $list[$i]->area_price;
 
-			$unit = $producthelper->getUnitConversation("m", $discount_calc_unit);
+			$unit = \Redshop\Helper\Utility::getUnitConversation("m", $discount_calc_unit);
 
 			// Replace comma with dot.
 			$new_area_start = str_replace(",", ".", $area_start);
@@ -4763,14 +4759,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$calcrow->area_end_converted   = $converted_area_end;
 			$calcrow->product_id           = $new_product_id;
 
-			if ($calcrow->check())
+			if (!$calcrow->check())
 			{
-				if (!$calcrow->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
-					return false;
-				}
+				return false;
+			}
+
+			if (!$calcrow->store())
+			{
+				/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
+
+				return false;
 			}
 		}
 
@@ -4808,14 +4808,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Store product from webservice
 	 *
-	 * @param   string  $data  Data from the request
+	 * @param   array  $data  Data from the request
 	 *
-	 * @return array
-	 *
+	 * @return  boolean|integer
+	 * @throws  Exception
 	 */
 	public function saveWS($data)
 	{
-		if ($row = $this->store($data))
+		$row = $this->store($data);
+
+		if ($row)
 		{
 			return $row->product_id;
 		}

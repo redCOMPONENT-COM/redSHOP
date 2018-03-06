@@ -33,6 +33,26 @@ class RedshopTableTemplate extends RedshopTable
 	public $templateDesc;
 
 	/**
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 * @var string
+	 */
+	public $file_name;
+
+	/**
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * @var string
+	 */
+	public $section;
+
+	/**
 	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *

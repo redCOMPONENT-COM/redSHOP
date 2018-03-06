@@ -81,12 +81,11 @@
         <field
                 name="templateDesc"
                 type="editor"
-                editor="codemirror"
                 label="COM_REDSHOP_DESCRIPTION"
                 description="COM_REDSHOP_DESCRIPTION"
                 class="form-control"
                 rows="50"
-                filter="safehtml"
+                filter="raw"
                 table-hide="1"
         />
     </fieldset>

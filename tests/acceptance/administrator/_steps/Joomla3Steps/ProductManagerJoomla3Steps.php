@@ -79,7 +79,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonUnpublish);
-		$I->waitForText(ProductManagerPage::$messageHead, 30, ProductManagerPage::$selectorSuccess);
 	}
 
 
@@ -264,6 +263,30 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($category));
 		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonSaveClose);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	public function createProductWithVATGroups($productName, $category, $productNumber, $price, $vatGroups)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category));
+		$I->click($usePage->returnChoice($category));
+		$I->waitForElement(ProductManagerPage::$vatDropdownList, 30);
+		$I->click(ProductManagerPage::$vatDropdownList);
+		$I->waitForElement(ProductManagerPage::$vatSearchField, 30);
+		$I->fillField(ProductManagerPage::$vatSearchField, $vatGroups);
+		$I->waitForElement($usePage->returnChoice($vatGroups));
+		$I->click($usePage->returnChoice($vatGroups));
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}

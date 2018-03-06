@@ -81,6 +81,7 @@ class RedshopProduct
 	 * @param   int  $id  Product Id
 	 *
 	 * @return  object  product Object
+	 * @throws  Exception
 	 */
 	public static function getInstance($id)
 	{

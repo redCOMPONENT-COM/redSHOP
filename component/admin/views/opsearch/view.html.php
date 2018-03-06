@@ -25,10 +25,8 @@ class RedshopViewOpsearch extends RedshopViewAdmin
 	{
 		$model = $this->getModel('opsearch');
 
-		$uri      = JFactory::getURI();
+		$uri      = JUri::getInstance();
 		$document = JFactory::getDocument();
-
-		$order_function = order_functions::getInstance();
 
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
@@ -44,7 +42,7 @@ class RedshopViewOpsearch extends RedshopViewAdmin
 		$pagination = $this->get('Pagination');
 
 		$lists['filter_user']   = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
-		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
+		$lists['filter_status'] = RedshopHelperOrder::getStatusList('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 

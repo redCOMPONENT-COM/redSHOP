@@ -14,9 +14,11 @@ $app         = JFactory::getApplication();
 
 $Itemid = $app->input->getInt('Itemid');
 $layout = $app->input->getCmd('layout', 'default');
-$model  = $this->getModel('catalog');
 
-$template = $redTemplate->getTemplate("catalog");
+/** @var RedshopModelCatalog $model */
+$model = $this->getModel('catalog');
+
+$template = RedshopHelperTemplate::getTemplate("catalog");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -32,9 +34,9 @@ if ($this->params->get('show_page_heading', 1))
 	if ($this->params->get('page_title'))
 	{
 		?>
-	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+    <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php echo $this->escape($this->params->get('page_title')); ?>
-		</h1><?php
+        </h1><?php
 	}
 } ?>
 <form action="" method="post" name="frmcatalog" id="frmcatalog">
@@ -59,39 +61,39 @@ if ($this->params->get('show_page_heading', 1))
 
 	echo $template_desc;
 	?>
-	<input type="hidden" name="view" value="catalog" id="view"/>
-	<input type="hidden" name="option" id="option" value="com_redshop"/>
-	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-	<input type="hidden" name="task" value="catalog_send"/>
+    <input type="hidden" name="view" value="catalog" id="view"/>
+    <input type="hidden" name="option" id="option" value="com_redshop"/>
+    <input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
+    <input type="hidden" name="task" value="catalog_send"/>
 </form>
 <script type="text/javascript">
-	function getCatalogValidation() {
-		var frm = document.frmcatalog;
-		var email = frm.email_address.value;
-		var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
+    function getCatalogValidation() {
+        var frm = document.frmcatalog;
+        var email = frm.email_address.value;
+        var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
 
-		if (frm.catalog_id.value == '0') {
-			alert('<?php echo JText::_('COM_REDSHOP_SELECT_CATALOG');?>');
-			frm.catalog_id.focus();
-			return false;
-		}
+        if (frm.catalog_id.value == '0') {
+            alert('<?php echo JText::_('COM_REDSHOP_SELECT_CATALOG');?>');
+            frm.catalog_id.focus();
+            return false;
+        }
 
-		if (frm.name_2.value == '') {
-			alert('<?php echo JText::_('COM_REDSHOP_ENTER_NAME');?>');
-			frm.name_2.focus();
-			return false;
-		}
+        if (frm.name_2.value == '') {
+            alert('<?php echo JText::_('COM_REDSHOP_ENTER_NAME');?>');
+            frm.name_2.focus();
+            return false;
+        }
 
-		if (email == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
-			frm.email_address.focus();
-			return false;
-		}
-		else if (patt1.test(email) == false) {
-			alert("<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
-			frm.email_address.focus();
-			return false;
-		}
-		return true;
-	}
+        if (email == '') {
+            alert("<?php echo JText::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
+            frm.email_address.focus();
+            return false;
+        }
+        else if (patt1.test(email) == false) {
+            alert("<?php echo JText::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
+            frm.email_address.focus();
+            return false;
+        }
+        return true;
+    }
 </script>

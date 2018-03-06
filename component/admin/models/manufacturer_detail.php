@@ -97,8 +97,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$order_functions  = order_functions::getInstance();
-		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+		$plg_manufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
@@ -122,7 +121,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		$isNew = ($row->manufacturer_id > 0) ? false : true;
 		JPluginHelper::importPlugin('redshop_product');
 
-		$result = JDispatcher::getInstance()->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
+		RedshopHelperUtility::getDispatcher()->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
@@ -155,13 +154,26 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
 
+			foreach ($cid as $id)
+			{
+				/** @var RedshopTableMedia $mediaTable */
+				$mediaTable = RedshopTable::getAdminInstance('Media', array(), 'com_redshop');
+
+				if (!$mediaTable->load(array('media_section' => 'manufacturer', 'section_id' => $id, 'media_type' => 'images')))
+				{
+					continue;
+				}
+
+				$mediaTable->delete();
+			}
+
 			JPluginHelper::importPlugin('redshop_product');
-			JDispatcher::getInstance()->trigger('onAfterManufacturerDelete', array($cid));
+			RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerDelete', array($cid));
 		}
 
 		return true;
@@ -220,7 +232,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		return true;
 	}
 
-	public function TemplateData()
+	public function templateData()
 	{
 		$query = "SELECT id as value,name as text FROM " . $this->_table_prefix
 			. "template WHERE section ='manufacturer_products' and published=1";
@@ -228,15 +240,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		$this->_templatedata = $this->_db->loadObjectList();
 
 		return $this->_templatedata;
-	}
-
-	public function getMediaId($mid)
-	{
-		$query = 'SELECT media_id,media_name,media_alternate_text FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
 	}
 
 	public function saveOrder(&$cid, $order = array())

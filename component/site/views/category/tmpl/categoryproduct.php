@@ -21,7 +21,7 @@ $stockroomhelper = rsstockroomhelper::getInstance();
 $url    = JURI::base();
 
 $model                = $this->getModel('category');
-$loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
+$loadCategorytemplate = RedshopHelperTemplate::getTemplate('categoryproduct');
 
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
@@ -205,7 +205,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$template_d2      = explode("{product_loop_end}", $template_d1 [1]);
 			$template_product = $template_d2 [0];
 
-			$attribute_template = $producthelper->getAttributeTemplate($template_product);
+			$attribute_template = \Redshop\Template\Helper::getAttribute($template_product);
 			$extraFieldName     = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$product_data       = '';
 			$prddata_add        = "";
@@ -241,7 +241,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 						$ufield .= $productUserFields[1];
 
 						if ($productUserFields[1] != "")
@@ -271,9 +271,9 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
+					$ajax_detail_template      = \Redshop\Template\Helper::getAjaxDetailBox($product);
 
-					if (count($ajax_detail_template) > 0)
+					if (null !== $ajax_detail_template)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
@@ -288,7 +288,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 						for ($ui = 0; $ui < count($userfieldArr); $ui++)
 						{
-							$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 							$ufield .= $productUserFields[1];
 
 							if ($productUserFields[1] != "")
@@ -383,7 +383,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if (strstr($prddata_add, '{product_rating_summary}'))
 				{
 					// Product Review/Rating Fetching reviews
-					$final_avgreview_data = $producthelper->getProductRating($product->product_id);
+					$final_avgreview_data = Redshop\Product\Rating::getRating($product->product_id);
 					$prddata_add          = str_replace("{product_rating_summary}", $final_avgreview_data, $prddata_add);
 				}
 
@@ -484,10 +484,10 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Replace compare product button.
 				$prddata_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $prddata_add);
 
-				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
+				$prddata_add = RedshopHelperStockroom::replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
 				// Checking for child products.
-				$childproduct = $producthelper->getChildProduct($product->product_id);
+				$childproduct = RedshopHelperProduct::getChildProduct($product->product_id);
 
 				if (count($childproduct) > 0)
 				{
@@ -516,12 +516,12 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Check product for not for sale.
 				$prddata_add = $producthelper->getProductNotForSaleComment($product, $prddata_add, $attributes);
 
-				$prddata_add = $producthelper->replaceProductInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
+				$prddata_add = Redshop\Product\Stock::replaceInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
 
 				$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
 
 				// Get cart tempalte.
-				$prddata_add = $producthelper->replaceCartTemplate(
+				$prddata_add = Redshop\Cart\Render::replace(
 					$product->product_id,
 					$this->catid,
 					0,
@@ -581,7 +581,7 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 
 if ($this->params->get('show_page_heading', 0))
 {

@@ -40,7 +40,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 
 			if ($cartHelper->rs_multi_array_key_exists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id'])
 			{
-				$giftCardData = $productHelper->getGiftcardData($cart[$i]['giftcard_id']);
+				$giftCardData = RedshopEntityGiftcard::getInstance($cart[$i]['giftcard_id'])->getItem();
 				$name         = $giftCardData->giftcard_name;
 			}
 			else

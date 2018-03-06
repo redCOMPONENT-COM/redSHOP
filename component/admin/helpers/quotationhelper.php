@@ -148,16 +148,16 @@ class quotationHelper
 	/**
 	 * Update Quotation Status
 	 *
-	 * @param   integer  $quotation_id  Quotation ID
-	 * @param   integer  $status        Quotation Change status
+	 * @param   integer $quotationId Quotation ID
+	 * @param   integer $status      Quotation Change status
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::updateQuotationStatus() instead
 	 */
-	public function updateQuotationStatus($quotation_id, $status = 1)
+	public function updateQuotationStatus($quotationId, $status = 1)
 	{
-		RedshopHelperQuotation::updateQuotationStatus($quotation_id, $status);
+		RedshopHelperQuotation::updateQuotationStatus($quotationId, $status);
 	}
 
 	/**
@@ -175,15 +175,15 @@ class quotationHelper
 	/**
 	 * Generate a random encrytion key for quotation
 	 *
-	 * @param   string  $p_length  Length of string to generate
+	 * @param   string $length Length of string to generate
 	 *
 	 * @return  string
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::randomQuotationEncryptKey() instead
 	 */
-	public function randomQuotationEncrkey($p_length = '30')
+	public function randomQuotationEncrkey($length = '30')
 	{
-		return RedshopHelperQuotation::randomQuotationEncryptKey($p_length);
+		return RedshopHelperQuotation::randomQuotationEncryptKey($length);
 	}
 
 	/**
@@ -199,7 +199,7 @@ class quotationHelper
 	 */
 	public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
-		return RedshopHelperQuotation::manageQuotationUserField($cart = array(), $quotation_item_id, $section_id);
+		return RedshopHelperQuotation::manageQuotationUserField($cart, $quotation_item_id, $section_id);
 	}
 
 	/**
@@ -216,36 +216,37 @@ class quotationHelper
 	 */
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
-		return RedshopHelperQuotation::insertQuotationUserField($field_id, $quotation_item_id, $section_id, $value);
+		RedshopHelperQuotation::insertQuotationUserField($field_id, $quotation_item_id, $section_id, $value);
 	}
 
 	/**
 	 * Get quotation item fields by field ID
 	 *
-	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 * @param   integer $quotationItemId Quotation Item ID
 	 *
 	 * @return  object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationUserField() instead
 	 */
-	public function getQuotationUserfield($quotation_item_id)
+	public function getQuotationUserfield($quotationItemId)
 	{
-		return RedshopHelperQuotation::getQuotationUserField();
+		return RedshopHelperQuotation::getQuotationUserField($quotationItemId);
 	}
 
 	/**
 	 * Display quotation user fields
 	 *
-	 * @param   integer  $quotation_item_id  Quotation Item ID
-	 * @param   integer  $section_id         Section ID
+	 * @param   integer $quotationItemId Quotation Item ID
+	 * @param   integer $sectionId       Section ID
 	 *
 	 * @return  string   HTML to display
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperQuotation::displayQuotationUserField() instead
 	 */
-	public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
+	public function displayQuotationUserfield($quotationItemId = 0, $sectionId = 12)
 	{
-		return RedshopHelperQuotation::displayQuotationUserField($quotation_item_id, $section_id);
+		return RedshopHelperQuotation::displayQuotationUserField($quotationItemId, $sectionId);
 	}
 
 	/**

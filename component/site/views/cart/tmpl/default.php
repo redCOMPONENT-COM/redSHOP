@@ -179,7 +179,7 @@ $empty_cart = '<form style="padding:0px;margin:0px;" name="empty_cart" method="P
 
 $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
-$discount = $producthelper->getDiscountId(0);
+$discount = RedshopHelperDiscount::getDiscount(0);
 
 if (is_object($discount))
 {
@@ -273,7 +273,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
 
-$cart_data = $redTemplate->parseredSHOPplugin($cart_data);
+$cart_data = RedshopHelperTemplate::parseRedshopPlugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");
 ?>
 <script type="text/javascript" language="javascript">

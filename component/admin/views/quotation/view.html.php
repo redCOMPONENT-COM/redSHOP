@@ -9,7 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Class RedshopViewQuotation
+ *
+ * @since  1.6.0
+ */
 class RedshopViewQuotation extends RedshopViewAdmin
 {
 	/**
@@ -19,13 +23,19 @@ class RedshopViewQuotation extends RedshopViewAdmin
 	 */
 	public $request_url;
 
+	/**
+	 * @var  array
+	 */
 	public $state;
 
+	/**
+	 * @param   null  $tpl  Template
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
-		$uri      = JFactory::getURI();
+		$uri      = JUri::getInstance();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
@@ -36,8 +46,8 @@ class RedshopViewQuotation extends RedshopViewAdmin
 		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
-		$this->state   = $this->get('State');
-		$filter_status = $this->state->get('filter_status', 0);
+		$this->state  = $this->get('State');
+		$filterStatus = $this->state->get('filter_status', 0);
 
 		$lists['order']     = $this->state->get('list.ordering', 'q.quotation_cdate');
 		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
@@ -45,9 +55,9 @@ class RedshopViewQuotation extends RedshopViewAdmin
 		$quotation  = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
-		$optionsection          = $quotationHelper->getQuotationStatusList();
+		$optionsection          = RedshopHelperQuotation::getQuotationStatusList();
 		$lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_status
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filterStatus
 		);
 
 		$this->lists       = $lists;

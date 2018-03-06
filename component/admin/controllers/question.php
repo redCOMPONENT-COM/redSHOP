@@ -21,6 +21,24 @@ defined('_JEXEC') or die;
 class RedshopControllerQuestion extends RedshopControllerForm
 {
 	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModel($name = 'Question', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
+	/**
 	 * Save question
 	 *
 	 * @param   integer  $send    Send Question?
@@ -60,7 +78,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		if ($send == 1)
 		{
-			redshopMail::getInstance()->sendAskQuestionMail($data['id']);
+			Redshop\Mail\AskQuestion::sendMail($data['id']);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
@@ -139,8 +157,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendAskQuestionMail($cid[$i]);
+			Redshop\Mail\AskQuestion::sendMail($cid[$i]);
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');

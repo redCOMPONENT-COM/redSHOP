@@ -12,8 +12,8 @@
 namespace Redshop\Economic;
 
 use Joomla\Registry\Registry;
+use Redshop\Template\Helper;
 use RedshopHelperUtility;
-use stdClass;
 
 defined('_JEXEC') or die;
 
@@ -37,7 +37,7 @@ class RedshopEconomic
 	/**
 	 * Import Stock from Economic
 	 *
-	 * @param   object $productRow Product Info
+	 * @param   object  $productRow  Product Info
 	 *
 	 * @return  array
 	 *
@@ -574,17 +574,17 @@ class RedshopEconomic
 	/**
 	 * Create product in E-conomic
 	 *
-	 * @param   array $row Data to create
+	 * @param   object  $row  Data to create
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function createProductInEconomic($row = array())
+	public static function createProductInEconomic($row)
 	{
 		if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2 && self::getTotalProperty($row->product_id) > 0)
 		{
-			return;
+			return array();
 		}
 
 		// If using Dispatcher, must call plugin Economic first
@@ -736,7 +736,7 @@ class RedshopEconomic
 	 * Make Accessory Order
 	 *
 	 * @param   string  $invoiceNo Invoice number
-	 * @param   array   $orderItem Order item
+	 * @param   object  $orderItem Order item
 	 * @param   integer $userId    User ID
 	 *
 	 * @return  integer
@@ -839,7 +839,7 @@ class RedshopEconomic
 	 * Make Attribute Order
 	 *
 	 * @param   string  $invoiceNo       Invoice number
-	 * @param   integer $orderItem       Order Item
+	 * @param   object  $orderItem       Order Item
 	 * @param   integer $isAccessory     Is accessory
 	 * @param   integer $parentSectionId Parent Section ID
 	 * @param   integer $userId          User ID
@@ -850,11 +850,10 @@ class RedshopEconomic
 	 */
 	public static function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
 	{
-		$productHelper    = \productHelper::getInstance();
 		$displayAttribute = "";
 		$setPrice         = 0;
 		$orderItem        = (object) $orderItem;
-		$checkShowVAT     = $productHelper->getApplyattributeVatOrNot('', $userId);
+		$checkShowVAT     = Helper::isApplyAttributeVat('', $userId);
 		$orderItemAttData = \RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
 
 		if (count($orderItemAttData) > 0)
@@ -1243,18 +1242,17 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$productHelper = \productHelper::getInstance();
 
-		$product                 = new \stdClass;
-		$orderItem               = (object) $orderItem;
-		$product->product_id     = $orderItem->product_id;
-		$product->product_number = $orderItem->order_item_sku = "gift_" . $orderItem->product_id . "_" . $orderItem->order_item_name;
-		$product->product_name   = $orderItem->order_item_name;
-		$product->product_price  = $orderItem->product_item_price_excl_vat;
-
-		$giftData                 = $productHelper->getGiftcardData($orderItem->product_id);
-		$product->accountgroup_id = $giftData->accountgroup_id;
-		$product->product_volume  = 0;
+		$product                   = new \stdClass;
+		$orderItem                 = (object) $orderItem;
+		$product->product_id       = $orderItem->product_id;
+		$product->product_number   = "gift_" . $orderItem->product_id . "_" . $orderItem->order_item_name;
+		$orderItem->order_item_sku = $product->product_number;
+		$product->product_name     = $orderItem->order_item_name;
+		$product->product_price    = $orderItem->product_item_price_excl_vat;
+		$giftData                  = \RedshopEntityGiftcard::getInstance($orderItem->product_id)->getItem();
+		$product->accountgroup_id  = $giftData->accountgroup_id;
+		$product->product_volume   = 0;
 
 		self::createProductInEconomic($product);
 
@@ -1289,7 +1287,7 @@ class RedshopEconomic
 
 		if ($shipMethodId != "")
 		{
-			$orderShipping = \RedshopShippingRate::decrypt($shipMethodId);
+			$orderShipping = \Redshop\Shipping\Rate::decrypt($shipMethodId);
 
 			if (count($orderShipping) > 5)
 			{

@@ -13,7 +13,7 @@ extract($displayData);
 
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post"
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>" method="post"
       name="adminForm" id="adminForm" enctype="multipart/form-data">
 	<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
 		$checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
@@ -30,7 +30,7 @@ extract($displayData);
 	<fieldset>
 		<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
-		<?php echo $userhelper->getBillingTable($post, $isCompany, $lists, Redshop::getConfig()
+		<?php echo RedshopHelperBilling::render($post, $isCompany, $lists, Redshop::getConfig()
 			->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')); ?>
 	</fieldset>
 
