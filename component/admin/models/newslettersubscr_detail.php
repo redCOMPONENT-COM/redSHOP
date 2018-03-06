@@ -86,6 +86,8 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 	public function store($data)
 	{
 		$data['date'] = strtotime($data['date']);
+
+		/** @var Tablenewslettersubscr_detail $row */
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
