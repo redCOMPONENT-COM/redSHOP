@@ -96,10 +96,14 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 		$destinationFile .= '_w' . $width . '_h' . $height;
 		$destinationFile .= '.' . JFile::getExt($this->get('media_name'));
 
+		// Create thumb folder if not exist
+		$thumbPath = REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
+			. '/' . $this->get('section_id') . '/thumb/';
+		\Redshop\Helper\Media::createFolder($thumbPath);
+
 		$result = array(
 			'rel' => JPath::clean(
-				REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
-				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile
+				$thumbPath . $destinationFile
 			),
 			'abs' => REDSHOP_MEDIA_IMAGE_ABSPATH . $this->get('media_section')
 				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile
