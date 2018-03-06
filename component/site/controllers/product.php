@@ -20,11 +20,6 @@ defined('_JEXEC') or die;
 class RedshopControllerProduct extends RedshopController
 {
 	/**
-	 * @var JInput
-	 */
-	protected $input;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -81,6 +76,13 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
+		$urlparams['Itemid'] = 'INT';
+		$urlparams['cid']    = 'INT';
+		$urlparams['lang']   = 'STRING';
+		$urlparams['pid']    = 'INT';
+		$urlparams['view']   = 'STRING';
+		$urlparams['layout'] = 'STRING';
+
 		parent::display(true, $urlparams);
 
 		return $this;
