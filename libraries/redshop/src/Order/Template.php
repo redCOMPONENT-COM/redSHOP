@@ -252,6 +252,7 @@ class Template
 	 * @param   array   $replace   Array of replace
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -320,6 +321,7 @@ class Template
 		$search [] = "{product_attribute_calculated_price}";
 		$replace[] = "";
 	}
+
 	/**
 	 * @param   string   $template  Template
 	 * @param   integer  $orderId   Order ID
@@ -355,14 +357,15 @@ class Template
 	/**
 	 * Method for replace products inside template
 	 *
-	 * @param   string  $template           Template html
-	 * @param   float   $subTotalExcludeVAT Sub-total exclude VAT
-	 * @param   integer $orderId            Order ID
-	 * @param   boolean $sendMail           Is in send mail
+	 * @param   string   $template            Template html
+	 * @param   float    $subTotalExcludeVAT  Sub-total exclude VAT
+	 * @param   integer  $orderId             Order ID
+	 * @param   boolean  $sendMail            Is in send mail
 	 *
-	 * @return void
+	 * @return  void
+	 * @throws  \Exception
 	 *
-	 * @since  2.1.0
+	 * @since   2.1.0
 	 */
 	public static function replaceProducts(&$template, &$subTotalExcludeVAT, $orderId = 0, $sendMail = false)
 	{
@@ -378,7 +381,7 @@ class Template
 		$endHtml            = explode('{product_loop_end}', $startHtml[1]);
 		$templateEnd        = $endHtml[1];
 		$templateMiddle     = $endHtml[0];
-		$cart               = \rsCarthelper::getInstance()->repalceOrderItems($templateMiddle, $orderItems, $sendMail);
+		$cart               = \Redshop\Order\Item::replaceItems($templateMiddle, $orderItems, $sendMail);
 		$template           = $productHtml . $cart[0] . $templateEnd;
 		$subTotalExcludeVAT = $cart[1];
 	}
@@ -569,8 +572,11 @@ class Template
 				$downloadToken    = $downloadProduct->download_id;
 				$productName      = $downloadProduct->product_name;
 				$mailToken        = $productName . ": <a href='"
-					. \JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken . "'>"
-					. $downloadFileName . "</a>";
+					. \JRoute::_(
+						\JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken,
+						false
+					)
+					. "'>" . $downloadFileName . "</a>";
 
 				$tokenHtml .= "</tr><td>(" . $number . ") " . $mailToken . "</td></tr>";
 			}
