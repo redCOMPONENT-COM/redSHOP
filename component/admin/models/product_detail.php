@@ -4759,14 +4759,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$calcrow->area_end_converted   = $converted_area_end;
 			$calcrow->product_id           = $new_product_id;
 
-			if ($calcrow->check())
+			if (!$calcrow->check())
 			{
-				if (!$calcrow->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
-					return false;
-				}
+				return false;
+			}
+
+			if (!$calcrow->store())
+			{
+				/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
+
+				return false;
 			}
 		}
 

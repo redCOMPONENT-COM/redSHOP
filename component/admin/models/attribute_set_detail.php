@@ -872,14 +872,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		// Bind and save data into 'attributeprices_detail'
 		if (!$row->bind($attribute))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
 			return false;
 		}
