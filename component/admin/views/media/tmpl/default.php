@@ -185,7 +185,7 @@ else
                         <a class="joom-box img-thumbnail" href="<?php echo $media->getAbsImagePath() ?>"
                            title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
                            rel="{handler: 'image', size: {}}">
-                            <img src="<?php echo $mediaFile['abs'] ?>" height="50" width="50"/></a>
+                            <img src="<?php echo $mediaFile['abs'] ?>" /></a>
 					<?php else: ?>
 						<?php $filetype = strtolower(JFile::getExt(trim($row->media_name))); ?>
 						<?php if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images'): ?>
