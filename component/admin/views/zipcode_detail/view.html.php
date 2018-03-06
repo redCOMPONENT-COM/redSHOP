@@ -79,5 +79,7 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 		$this->detail      = $detail;
 		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
+
+		parent::display($tpl);
 	}
 }
