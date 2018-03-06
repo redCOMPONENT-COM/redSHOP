@@ -26,7 +26,7 @@ $orderFunctions   = order_functions::getInstance();
 	<?php endif; ?>
 	<?php $orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItemId, $isAccessory, "property", $orderItemAttdata[$i]->section_id); ?>
 	<?php for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++) : ?>
-		<?php $property = $productHelper->getAttibuteProperty($orderPropdata[$p]->section_id); ?>
+		<?php $property = RedshopHelperProduct_Attribute::getAttributeProperties($orderPropdata[$p]->section_id); ?>
 		<?php $virtualNumber = ""; ?>
 		<?php if (count($property) > 0 && $property[0]->property_number) : ?>
 			<?php $virtualNumber = "<div class='checkout_attribute_number'>" . $property[0]->property_number . "</div>"; ?>
@@ -58,7 +58,7 @@ $orderFunctions   = order_functions::getInstance();
 		<?php $orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItemId, $isAccessory, "subproperty", $orderPropdata[$p]->section_id); ?>
 		<?php for ($sp = 0; $sp < count($orderSubpropdata); $sp++) : ?>
 			<?php $subPropertyPrice = $orderSubpropdata[$sp]->section_price; ?>
-			<?php $subProperty = $productHelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id); ?>
+			<?php $subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubpropdata[$sp]->section_id); ?>
 			<?php $virtualNumber = ""; ?>
 			<?php if (count($subProperty) > 0 && $subProperty[0]->subattribute_color_number) : ?>
 				<?php $virtualNumber = "<div class='checkout_subattribute_number'>[" . $subProperty[0]->subattribute_color_number . "]</div>"; ?>

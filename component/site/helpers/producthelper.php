@@ -1870,6 +1870,7 @@ class productHelper
 	 * @return  mixed
 	 *
 	 * @deprecated   2.0.3  Use RedshopHelperProduct_Attribute::getAttributeProperties() instead.
+	 * @see RedshopHelperProduct_Attribute::getAttributeProperties
 	 */
 	public function getAttibuteProperty($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = 0, $required = 0, $notPropertyId = 0)
 	{

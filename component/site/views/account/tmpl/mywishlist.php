@@ -329,7 +329,7 @@ if ($mail == 0)
 
 						if (empty($property->sub_properties))
 						{
-							$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
+							$property->sub_properties = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->value);
 						}
 
 						foreach ($property->sub_properties as $subProperty)

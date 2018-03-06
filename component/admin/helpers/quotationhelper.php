@@ -216,7 +216,7 @@ class quotationHelper
 	 */
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
-		return RedshopHelperQuotation::insertQuotationUserField($field_id, $quotation_item_id, $section_id, $value);
+		RedshopHelperQuotation::insertQuotationUserField($field_id, $quotation_item_id, $section_id, $value);
 	}
 
 	/**

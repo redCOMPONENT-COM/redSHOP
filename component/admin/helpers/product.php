@@ -16,12 +16,24 @@ defined('_JEXEC') or die;
  */
 class RedshopAdminProduct
 {
+	/**
+	 * @var  mixed
+	 */
 	public $_data = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * @var integer
+	 */
 	public $_product_level = 0;
 
+	/**
+	 * @var self
+	 */
 	protected static $instance = null;
 
 	/**
@@ -169,7 +181,7 @@ class RedshopAdminProduct
 	 */
 	public function replaceUserfield($productId = 0, $templateId = 0, $uniqueId = "")
 	{
-		return RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId);
+		return RedshopHelperProduct::replaceUserField($productId, $templateId, $uniqueId);
 	}
 
 	/**

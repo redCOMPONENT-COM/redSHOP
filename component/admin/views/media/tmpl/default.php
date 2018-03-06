@@ -43,13 +43,13 @@ if ($showbuttons == 1)
 			$directory              = $media_section;
 			break;
 		case "property";
-			$sectionadata           = $producthelper->getAttibuteProperty($section_id);
+			$sectionadata           = RedshopHelperProduct_Attribute::getAttributeProperties($section_id);
 			$section_name           = $sectionadata[0]->property_name;
 			$sectiona_primary_image = $sectionadata[0]->property_main_image;
 			$directory              = 'property';
 			break;
 		case "subproperty";
-			$sectionadata           = $producthelper->getAttibuteSubProperty($section_id);
+			$sectionadata           = RedshopHelperProduct_Attribute::getAttributeSubProperties($section_id);
 			$section_name           = $sectionadata[0]->subattribute_color_name;
 			$sectiona_primary_image = $sectionadata[0]->subattribute_color_main_image;
 			$directory              = 'subproperty';
