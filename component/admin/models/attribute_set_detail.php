@@ -455,18 +455,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function store_pro($data)
 	{
+		/** @var Tableattribute_property $row */
 		$row = $this->getTable('attribute_property');
 
-		if (!$row->bind($data))
+		if (!$row->bind($data) || !$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
 			return false;
 		}

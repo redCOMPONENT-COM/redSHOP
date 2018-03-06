@@ -4278,13 +4278,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_subprop($sp, $subattribute_id)
 	{
-		$producthelper = productHelper::getInstance();
-
 		$subPropertyList = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $subattribute_id);
 
 		if ($sp)
 		{
-			$subproperty =RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
 		}
 		else
 		{
