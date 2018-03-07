@@ -42,7 +42,7 @@ else
 
 
 	# Get ChromeDriver for headless mode
-	wget "https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip"
+	wget "https://chromedriver.storage.googleapis.com/2.8/chromedriver_linux64.zip"
 	unzip "chromedriver_linux64.zip"
 	mkdir -p /usr/local/bin
 	sudo cp -a chromedriver /usr/local/bin
