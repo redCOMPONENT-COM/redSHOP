@@ -8,16 +8,16 @@
         "phpmd/phpmd": "^2.6"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "2.9.1",
-        "codeception/codeception": "2.4.0",
-        "joomla-projects/joomla-browser": "dev-develop",
-        "consolidation/robo": "1.2.2",
+        "squizlabs/php_codesniffer": "~2",
+        "codeception/codeception": "~2.2",
+        "joomla-projects/joomla-browser": "v3.8.0.3",
+        "consolidation/robo": "~1",
         "joomla-projects/joomla-testing-robo": "dev-container-test",
         "joomla-projects/joomla-testing": "dev-container-test",
-        "fzaninotto/faker": "1.7.1",
-        "cloudinary/cloudinary_php": "1.8.0",
-        "knplabs/github-api": "2.7.0",
+        "fzaninotto/faker": "^1.5",
+        "cloudinary/cloudinary_php": "^1.7",
+        "knplabs/github-api": "~1",
         "joomla-projects/selenium-server-standalone": "3.8.1",
-        "nette/reflection": "2.4.2"
+        "nette/reflection": "~2.4"
     }
 }
