@@ -27,7 +27,12 @@ class RedshopControllerPrices_detail extends RedshopController
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
+	{
+		$this->save(1);
+	}
+
+	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
 
@@ -51,9 +56,11 @@ class RedshopControllerPrices_detail extends RedshopController
 		/** @var RedshopModelPrices_detail $model */
 		$model = $this->getModel('prices_detail');
 
+		$row = $model->store($post);
+
 		if ($price_quantity_start == 0 && $price_quantity_end == 0)
 		{
-			if ($model->store($post))
+			if ($row)
 			{
 				$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
 			}
@@ -66,7 +73,7 @@ class RedshopControllerPrices_detail extends RedshopController
 		{
 			if ($price_quantity_start < $price_quantity_end)
 			{
-				if ($model->store($post))
+				if ($row)
 				{
 					$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
 				}
@@ -81,7 +88,12 @@ class RedshopControllerPrices_detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		if ($apply == 0)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $product_id . '&cid[]=' . $row->price_id, $msg);
 	}
 
 	public function remove()
