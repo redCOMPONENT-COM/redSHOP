@@ -109,17 +109,17 @@ class RedshopControllerZipcode_detail extends RedshopController
 	 * Get list state of country
 	 *
 	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return mixed
 	 */
-
-	/** @var RedshopModelZipcode_detail $model */
 	public function getStateDropdown()
 	{
 		$get   = $this->input->get->getArray();
+		/** @var RedshopModelZipcode_detail $model */
 		$model = $this->getModel('zipcode_detail');
-		$stateCode = $model->getStateDropdown($get);
 		echo JHtml::_(
 			'select.genericlist',
-			$stateCode,
+			$model->getStateDropdown($get),
 			'stateCode[]',
 			'class="inputbox" multiple="multiple"',
 			'value',

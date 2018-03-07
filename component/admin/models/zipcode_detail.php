@@ -83,15 +83,13 @@ class RedshopModelZipcode_detail extends RedshopModel
 
 	public function store($data)
 	{
-		if (!empty($data['country_code']) && !empty($data['state_code']))
-		{
-			$data['country_code'] = implode(',', $data['country_code']);
-			$data['state_code']   = implode(',', $data['state_code']);
-		}
-		else
+		if (empty($data['country_code']) || empty($data['state_code']))
 		{
 			return false;
 		}
+
+		$data['country_code'] = implode(',', $data['country_code']);
+		$data['state_code']   = implode(',', $data['state_code']);
 
 		$row = $this->getTable();
 
@@ -181,11 +179,11 @@ class RedshopModelZipcode_detail extends RedshopModel
 	 */
 	public function getStateDropdown($data)
 	{
-		if (!empty($data['country_codes']))
+		if (empty($data['country_codes']))
 		{
-			return $this->getStateList($data['country_codes']);
+			return array();
 		}
 
-		return array();
+		return $this->getStateList($data['country_codes']);
 	}
 }

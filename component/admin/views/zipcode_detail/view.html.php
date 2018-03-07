@@ -26,8 +26,18 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Data
+	 *
+	 * @var  object
+	 */
 	public $detail;
 
+	/**
+	 * Array country code and state code
+	 *
+	 * @var  array
+	 */
 	public $lists;
 
 	public function display($tpl = null)
@@ -67,13 +77,13 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 		$detail->state_code = explode(',', $detail->state_code);
 
 		$lists['state_code'] = JHTML::_('select.genericlist', $state_code, 'state_code[]',
-			'class="inputbox" multiple="multiple"', 'value', 'text', $detail->state_code
+			'class="inputbox"', 'value', 'text', $detail->state_code
 		);
 
 		$detail->country_code  = explode(',', $detail->country_code);
 
 		$lists['country_code'] = JHTML::_('select.genericlist', $countries, 'country_code[]',
-			'class="inputbox" multiple="multiple" onchange="getStateList_Zipcode()" ', 'value', 'text', $detail->country_code
+			'class="inputbox" onchange="getStateList_Zipcode()" ', 'value', 'text', $detail->country_code
 		);
 
 		$this->detail      = $detail;
