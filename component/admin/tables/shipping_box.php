@@ -38,22 +38,22 @@ class RedshopTableShipping_Box extends RedshopTable
 	public $shipping_box_id = null;
 
 	/**
-	 * @var integer
+	 * @var float
 	 */
 	public $shipping_box_name = null;
 
 	/**
-	 * @var integer
+	 * @var float
 	 */
 	public $shipping_box_length = null;
 
 	/**
-	 * @var integer
+	 * @var float
 	 */
 	public $shipping_box_width = null;
 
 	/**
-	 * @var integer
+	 * @var float
 	 */
 	public $shipping_box_height = null;
 
@@ -66,4 +66,42 @@ class RedshopTableShipping_Box extends RedshopTable
 	 * @var integer
 	 */
 	public $published = null;
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		$this->shipping_box_length = floatval($this->shipping_box_length);
+		$this->shipping_box_width  = floatval($this->shipping_box_width);
+		$this->shipping_box_height = floatval($this->shipping_box_height);
+
+		if ($this->shipping_box_length <= 0.0)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_SHIPPING_BOX_ERROR_LENGTH_INVALID'));
+
+			return false;
+		}
+
+		if ($this->shipping_box_width <= 0.0)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_SHIPPING_BOX_ERROR_WIDTH_INVALID'));
+
+			return false;
+		}
+
+		if ($this->shipping_box_height <= 0.0)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_SHIPPING_BOX_ERROR_HEIGHT_INVALID'));
+
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }
