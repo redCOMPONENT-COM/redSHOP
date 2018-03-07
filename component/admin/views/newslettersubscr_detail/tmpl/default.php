@@ -21,11 +21,18 @@ $model = $this->getModel('newslettersubscr_detail');
 			return;
 		}
 
-		if (form.user_id.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true ); ?>");
-		} else {
-			submitform(pressbutton);
-		}
+        if (!checkmail(form.email.value))
+        {
+            alert("<?php echo JText::_('COM_REDSHOP_INVALID_EMAIL', true); ?>");
+            return;
+        }
+
+        if (form.user_id.value == 0) {
+            alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true); ?>");
+            return;
+        }
+
+        submitform(pressbutton);
 	}
 </script>
 
@@ -101,7 +108,7 @@ $model = $this->getModel('newslettersubscr_detail');
 						</label>
 					</td>
 					<td>
-						<input type="text" name="email" id="email" value="<?php echo $this->detail->email; ?>"
+						<input type="email" name="email" id="email" value="<?php echo $this->detail->email; ?>"
 						       size="75"/>
 						<?php  echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_SUBSCR_EMAIL'), JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_EMAIL'), 'tooltip.png', '', '', false); ?>
 					</td>
