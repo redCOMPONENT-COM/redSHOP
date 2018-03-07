@@ -177,7 +177,7 @@ class productHelper
 	 * @param   int  $quantity   Quantity
 	 *
 	 * @return mixed
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
@@ -891,7 +891,7 @@ class productHelper
 	 * @return  integer
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Cart\Helper::getDefaultQuantity
 	 */
 	public function GetDefaultQuantity($product_id = 0, $data_add = "")
@@ -977,7 +977,7 @@ class productHelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function getDiscountAmount($cart = array(), $userId = 0)
 	{
@@ -992,7 +992,7 @@ class productHelper
 	 * @param   integer $user_id               User ID
 	 *
 	 * @return  float
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
 	{
@@ -1059,7 +1059,7 @@ class productHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Template\Helper::isApplyVat
 	 */
 	public function getApplyVatOrNot($template = "", $userId = 0)
@@ -1075,7 +1075,7 @@ class productHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Template\Helper::isApplyAttributeVat
 	 */
 	public function getApplyattributeVatOrNot($template = "", $userId = 0)
@@ -1088,7 +1088,7 @@ class productHelper
 	 *
 	 * @return   array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function GetdefaultshopperGroupData()
 	{
@@ -1274,7 +1274,7 @@ class productHelper
 	 * @param   integer  $id       Section id
 	 *
 	 * @return  mixed|null
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function getSection($section = '', $id = 0)
 	{
@@ -1505,7 +1505,7 @@ class productHelper
 	 *
 	 * @return object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 */
 	public function getGiftcardData($gid)
 	{
@@ -1536,7 +1536,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see \Redshop\Product\Accessory::getAccessoryPrice
 	 */
 	public function getAccessoryPrice($productId = 0, $accessoryPrice = 0, $accessoryMainPrice = 0, $hasVAT = 0, $userId = 0)
@@ -1886,7 +1886,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Helper\Stockroom::getAttributePropertyWithStock
 	 */
 	public function getAttibutePropertyWithStock($property = array())
@@ -1901,7 +1901,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock
 	 */
 	public function getAttibuteSubPropertyWithStock($subproperty)
@@ -1933,7 +1933,7 @@ class productHelper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see \Redshop\Template\Helper::getAttribute
 	 */
 	public function getAttributeTemplate($templateHtml = '', $display = true)
@@ -1966,7 +1966,7 @@ class productHelper
 	 * @return  null|object
 	 * @throws  \Exception
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see \Redshop\Template\Helper::getAddToCart
 	 */
 	public function getAddtoCartTemplate($templateHtml = '')
@@ -1982,7 +1982,7 @@ class productHelper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see \Redshop\Template\Helper::getAccessory
 	 */
 	public function getAccessoryTemplate($templateHtml = "")
@@ -1998,7 +1998,7 @@ class productHelper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see \Redshop\Template\Helper::getRelatedProduct
 	 */
 	public function getRelatedProductTemplate($templateHtml = '')
@@ -2284,7 +2284,7 @@ class productHelper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.1.0
 	 * @see \Redshop\Template\Helper::getAjaxDetailBox
 	 */
 	public function getAjaxDetailboxTemplate($product)
@@ -2769,7 +2769,7 @@ class productHelper
 	 *
 	 * @return  float
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.1.0
 	 * @see RedshopHelperProduct_Attribute::defaultAttributePrice
 	 */
 	public function defaultAttributeDataPrice($productId = 0, $showPrice = 0.0, $templateHtml = '', $userId = 0, $applyTax = 0, $attributes = array())
@@ -2792,7 +2792,7 @@ class productHelper
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Product\Property::replaceAddToCart
+	 * @deprecated 2.1.0 Redshop\Product\Property::replaceAddToCart
 	 * @see Redshop\Product\Property::replaceAddToCart
 	 */
 	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
@@ -2819,7 +2819,7 @@ class productHelper
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Use Redshop\Cart\Render::render
+	 * @deprecated 2.1.0 Use Redshop\Cart\Render::render
 	 * @see Redshop\Cart\Render::render
 	 */
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
@@ -2852,7 +2852,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.1.0
 	 * @see Redshop\Product\Compare::replaceCompareProductsButton
 	 */
 	public function replaceCompareProductsButton($productId = 0, $categoryId = 0, $html = "", $isRelatedProduct = 0)
@@ -3023,7 +3023,7 @@ class productHelper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.1.0
 	 * @see \Redshop\Template\Helper::getCart
 	 */
 	public function getCartTemplate()
@@ -3465,7 +3465,7 @@ class productHelper
 	 *
 	 * @return  array            Matched string array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function findStringBetween($start, $end, $string)
 	{
@@ -3479,7 +3479,7 @@ class productHelper
 	 *
 	 * @return  string             Template middle data
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Template\Helper::getAttributeTemplateLoop
 	 */
 	public function getAttributeTemplateLoop($template)
@@ -3631,7 +3631,7 @@ class productHelper
 	 *
 	 * @return  float                Unit ratio
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Helper\Utility::getUnitConversation
 	 */
 	public function getUnitConversation($globalUnit, $calcUnit)
@@ -3823,7 +3823,7 @@ class productHelper
 	 * @param   int  $productId  Product id
 	 *
 	 * @return  string
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function getProductRating($productId)
 	{
@@ -3893,7 +3893,7 @@ class productHelper
 	 *
 	 * @return  string  HTML layout of compare div
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see Redshop\Product\Compare::generateCompareProduct
 	 *
 	 * @throws  \Exception
@@ -3911,7 +3911,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see Redshop\Helper\Utility::getProductTags()
 	 */
 	public function product_tag($section, $html)
@@ -4121,7 +4121,7 @@ class productHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Product\Stock::replaceInStock
+	 * @deprecated 2.1.0 Redshop\Product\Stock::replaceInStock
 	 * @see Redshop\Product\Stock::replaceInStock
 	 */
 	public function replaceProductInStock($product_id = 0, $data_add, $attributes = array(), $attribute_template = array())
@@ -4135,7 +4135,7 @@ class productHelper
 	 * @param   integer  $productId  Product ID
 	 *
 	 * @return  array
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see RedshopHelperProduct::getChildProduct
 	 */
 	public function getChildProduct($productId = 0)
@@ -4308,7 +4308,7 @@ class productHelper
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.1.0
 	 * @see Redshop\Product\Compare::getCategoryCompareTemplate
 	 */
 	public function getCategoryCompareTemplate($cid)
@@ -4718,7 +4718,7 @@ class productHelper
 						{
 							$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
 							$manufacturerLink      = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
+							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->name, $related_template_data);
 							$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
 						}
 						else

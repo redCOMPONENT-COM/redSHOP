@@ -66,7 +66,7 @@ class Utility
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getProductTags($section = \RedshopHelperExtrafields::SECTION_PRODUCT, $templateHtml = '')
 	{
@@ -117,7 +117,7 @@ class Utility
 	 *
 	 * @return  float                Unit ratio
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getUnitConversation($globalUnit, $calcUnit)
 	{
@@ -295,7 +295,7 @@ class Utility
 	 *
 	 * @return  array            Matched string array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function findStringBetween($start, $end, $string)
 	{

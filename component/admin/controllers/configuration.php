@@ -94,7 +94,7 @@ class RedshopControllerConfiguration extends RedshopController
 		{
 			$emails = explode(',', $post['administrator_email']);
 
-			if (is_array($emails))
+			if (!empty($emails))
 			{
 				foreach ($emails as $email)
 				{

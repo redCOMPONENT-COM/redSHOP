@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Redshop\Crypto\Helper
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class Encrypt
 {
@@ -23,7 +23,7 @@ class Encrypt
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function generateCustomRandomEncryptKey($pLength = 30)
 	{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Account helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Helper
 {
@@ -23,7 +23,7 @@ class Helper
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getReserveDiscount()
 	{
@@ -66,7 +66,7 @@ class Helper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getDownloadProductList($userId)
 	{
@@ -91,7 +91,7 @@ class Helper
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getUnusedCouponAmount($userId, $couponCode)
 	{

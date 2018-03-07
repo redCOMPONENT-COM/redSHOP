@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopTableMedia extends RedshopTable
 {
@@ -31,6 +31,11 @@ class RedshopTableMedia extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableKey = 'media_id';
+
+	/**
+	 * @var integer
+	 */
+	public $media_id;
 
 	/**
 	 * @var string

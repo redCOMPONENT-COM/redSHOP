@@ -138,6 +138,7 @@ class RedshopViewForm extends AbstractView
 	 * Method for add toolbar.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -193,9 +194,10 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * Method for prepare fields in group and also HTML content
 	 *
-	 * @param   object $group Group object
+	 * @param   object  $group  Group object
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since  2.0.6
 	 */
@@ -212,21 +214,42 @@ class RedshopViewForm extends AbstractView
 
 		foreach ($fields as $field)
 		{
-			if ($field->getAttribute('type') === "spacer")
+			$fieldHtml = $this->prepareField($field);
+
+			if (false === $fieldHtml)
 			{
 				continue;
 			}
 
-			if ($field->getAttribute('type') === "hidden")
-			{
-				$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
-
-				continue;
-			}
-
-			$group->fields[] = $this->form->renderField($field->getAttribute('name'));
+			$group->fields[] = $fieldHtml;
 		}
 
 		$group->html = implode('', $group->fields);
+	}
+
+	/**
+	 * Method for prepare field HTML
+	 *
+	 * @param   object  $field  Group object
+	 *
+	 * @return  boolean|string  False if keep. String for HTML content if success.
+	 *
+	 * @since   2.1.0
+	 */
+	protected function prepareField($field)
+	{
+		if ($field->getAttribute('type') === "spacer")
+		{
+			return false;
+		}
+
+		if ($field->getAttribute('type') === "hidden")
+		{
+			$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
+
+			return false;
+		}
+
+		return $this->form->renderField($field->getAttribute('name'));
 	}
 }

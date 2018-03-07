@@ -1,5 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- ------------------------------------------------------
 -- Table `#__redshop_media`
 -- ------------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_media', 'scope', 'scope', 'VARCHAR(100) NOT NULL DEFAULT ""');

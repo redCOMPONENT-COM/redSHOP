@@ -16,7 +16,7 @@ use Redshop\Order\Template;
 /**
  * Mail Catalog helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Invoice
 {
@@ -31,7 +31,7 @@ class Invoice
 	 * @return  boolean           True on sending email successfully.
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($orderId, $email = null)
 	{
@@ -147,7 +147,7 @@ class Invoice
 	 * @return  object             Object having mail body and subject. subject can be null for PDF type.
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceTemplate($orderId, $html, $subject = null)
 	{
@@ -223,7 +223,7 @@ class Invoice
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendEconomicBookInvoiceMail($orderId = 0, $bookInvoicePdf = "")
 	{

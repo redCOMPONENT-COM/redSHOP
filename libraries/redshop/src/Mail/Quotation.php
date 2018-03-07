@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Quotation helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Quotation
 {
@@ -27,7 +27,7 @@ class Quotation
 	 * @return  boolean
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($quotationId, $status = 0)
 	{

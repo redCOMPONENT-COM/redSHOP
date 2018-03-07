@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Newsletter helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Newsletter
 {
@@ -25,7 +25,7 @@ class Newsletter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendCancellationMail($email = "")
 	{
@@ -75,7 +75,7 @@ class Newsletter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendConfirmationMail($subscriptionId)
 	{

@@ -175,7 +175,7 @@ class xmlHelper
 
 						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
-							if ($cat[$i]->Field == "manufacturer_name")
+							if ($cat[$i]->Field == "name")
 							{
 								$catcol[] = $cat[$i];
 							}
@@ -1805,7 +1805,7 @@ class xmlHelper
 					or (p.discount_stratdate <= UNIX_TIMESTAMP() and p.discount_enddate>=UNIX_TIMESTAMP())), p.discount_price, p."
 						. $key . ") AS " . $value;
 				}
-				elseif ($key == "manufacturer_name") // Start Code for display manufacture name
+				elseif ($key == "name") // Start Code for display manufacture name
 				{
 					$field[] = "m." . $key . " AS " . $value;
 				}

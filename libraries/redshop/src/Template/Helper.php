@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Template helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Helper
 {
@@ -31,7 +31,7 @@ class Helper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function isApplyAttributeVat($template = "", $userId = 0)
 	{
@@ -66,7 +66,7 @@ class Helper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function isApplyVat($template = "", $userId = 0)
 	{
@@ -97,7 +97,7 @@ class Helper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAccessory($templateHtml = "")
 	{
@@ -144,7 +144,7 @@ class Helper
 	 * @return  null|object
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAddToCart($templateHtml = "")
 	{
@@ -184,7 +184,7 @@ class Helper
 	 * @return  null|object
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getRelatedProduct($templateHtml = '')
 	{
@@ -233,7 +233,7 @@ class Helper
 	 * @return  null|object
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAjaxDetailBox($product)
 	{
@@ -294,7 +294,7 @@ class Helper
 	 * @return  null|object
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAttribute($templateHtml = "", $display = true)
 	{
@@ -353,7 +353,7 @@ class Helper
 	 * @return  object
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getCart()
 	{
@@ -379,7 +379,7 @@ class Helper
 	 *
 	 * @return  string             Template middle data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAttributeTemplateLoop($template)
 	{

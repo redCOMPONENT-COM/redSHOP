@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Shipping rate
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Rate
 {
@@ -24,7 +24,7 @@ class Rate
 	 * @param   array $data Information of shipping which needs to encrypt
 	 *
 	 * @return  string         Encrypted string.
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function encrypt($data)
 	{
@@ -43,7 +43,7 @@ class Rate
 	 * @param   string $string String which needs to decrypt
 	 *
 	 * @return  array            Decrypted info in array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function decrypt($string)
 	{
@@ -58,7 +58,7 @@ class Rate
 	 * @param   string $string String which needs to be crypt
 	 *
 	 * @return  string           Crypt string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function cryptMethod($string)
 	{
@@ -84,7 +84,7 @@ class Rate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function removeShippingRate()
 	{
@@ -127,7 +127,7 @@ class Rate
 	 *
 	 * @return  float                  Shipping Rate
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
@@ -167,7 +167,7 @@ class Rate
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
@@ -198,7 +198,7 @@ class Rate
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  \Exception
 	 */
@@ -371,7 +371,7 @@ class Rate
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 *
 	 * @throws  \Exception
 	 */

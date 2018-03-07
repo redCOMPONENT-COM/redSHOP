@@ -725,15 +725,15 @@ switch ($view)
 		{
 			$menuMF = false;
 
-			$sql = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
-			$db->setQuery($sql);
-			$url = $db->loadObject();
+			$url = RedshopEntityManufacturer::getInstance($mid);
 
-			if ($url && !$menuMF)
+			if ($url->isValid() && !$menuMF)
 			{
-				if ($url->sef_url == "")
+				$url = $url->getItem();
+
+				if (empty($url->sef_url))
 				{
-					$title[] = RedshopHelperUtility::convertToNonSymbol($url->manufacturer_name);
+					$title[] = RedshopHelperUtility::convertToNonSymbol($url->name);
 				}
 				else
 				{
@@ -775,17 +775,15 @@ switch ($view)
 
 		if ($mid)
 		{
-			$sql = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
-			$db->setQuery($sql);
-			$url = $db->loadObject();
+			$url = RedshopEntityManufacturer::getInstance($mid);
 
-			if ($url->sef_url == "")
+			if ($url->get('sef_url') == "")
 			{
-				$title[] = $url->manufacturer_name;
+				$title[] = $url->get('name');
 			}
 			else
 			{
-				$title[] = $url->sef_url;
+				$title[] = $url->get('sef_url');
 			}
 
 			shRemoveFromGETVarsList('view');

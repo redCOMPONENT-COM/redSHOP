@@ -133,7 +133,7 @@ class RedshopHelperBreadcrumb
 						if (count($menu) > 0)
 						{
 							$main             = new stdClass;
-							$main->name       = $menu->manufacturer_name;
+							$main->name       = $menu->name;
 							$main->link       = JRoute::_(
 								'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $prd->manufacturer_id
 								. '&Itemid=' . $itemId
@@ -245,7 +245,7 @@ class RedshopHelperBreadcrumb
 						if (count($menu) > 0)
 						{
 							$main             = new stdClass;
-							$main->name       = $menu->manufacturer_name;
+							$main->name       = $menu->name;
 							$main->link       = "";
 							$customPathways[] = $main;
 						}

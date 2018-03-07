@@ -105,14 +105,14 @@ abstract class ModRedshopFilter
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('manufacturer_name'))
-			->select($db->qn('manufacturer_id'))
+			->select($db->qn('name'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_manufacturer'))
 			->where($db->qn('published') . ' = 1');
 
 		if (!empty($manuList))
 		{
-			$query->where($db->qn('manufacturer_id') . ' IN (' . implode(',', $manuList) . ')');
+			$query->where($db->qn('id') . ' IN (' . implode(',', $manuList) . ')');
 		}
 
 		return $db->setQuery($query)->loadObjectList();

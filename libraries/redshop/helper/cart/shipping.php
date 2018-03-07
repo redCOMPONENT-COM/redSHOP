@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Cart - Shipping
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class RedshopHelperCartShipping
 {
@@ -20,7 +20,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static $defaultShipping = array();
 
@@ -31,7 +31,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getDefault($data)
 	{
@@ -147,7 +147,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function getShippingRateFirst($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                            $whereState = '', $whereShopper = '')
@@ -198,7 +198,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function prepareProductWhere()
 	{
@@ -244,7 +244,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function getShippingRateSecond($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                             $whereState = '', $whereShopper = '')
@@ -287,7 +287,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function prepareCategoryWhere()
 	{
@@ -352,7 +352,7 @@ class RedshopHelperCartShipping
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function getShippingRateThird($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                            $whereState = '', $whereShopper = '')

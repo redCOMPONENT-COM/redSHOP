@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopControllerTool_Image extends RedshopController
 {
@@ -24,7 +24,7 @@ class RedshopControllerTool_Image extends RedshopController
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getImages()
 	{
@@ -72,7 +72,7 @@ class RedshopControllerTool_Image extends RedshopController
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function cleanThumbFolders()
 	{
@@ -122,7 +122,7 @@ class RedshopControllerTool_Image extends RedshopController
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function processImageCheck()
 	{

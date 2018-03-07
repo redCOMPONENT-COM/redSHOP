@@ -21,6 +21,9 @@ defined('_JEXEC') or die;
  */
 class RedshopModelProduct extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_id = null;
 
 	public $_data = null;
@@ -88,12 +91,12 @@ class RedshopModelProduct extends RedshopModel
 			->select($db->qn('c.name', 'category_name'))
 			->select($db->qn('c.category_full_image'))
 			->select($db->qn('c.category_back_full_image'))
-			->select($db->qn('m.manufacturer_name'))
+			->select($db->qn('m.name', 'manufacturer_name'))
 			->select($db->qn('pcx.ordering'))
 			->select($db->qn('ppx.payment_id'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
-			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
 			->leftjoin($db->qn('#__redshop_product_payment_xref', 'ppx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('ppx.product_id'))
 			->where($db->qn('p.product_id') . ' = ' . $db->q((int) $this->_id));

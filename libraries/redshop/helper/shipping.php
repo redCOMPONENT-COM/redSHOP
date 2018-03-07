@@ -251,7 +251,7 @@ class RedshopHelperShipping
 	 *
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Shipping\Rate::calculate()
+	 * @deprecated 2.1.0 Redshop\Shipping\Rate::calculate()
 	 * @see Redshop\Shipping\Rate::calculate
 	 */
 	public static function getShippingRateCalc()
@@ -268,7 +268,7 @@ class RedshopHelperShipping
 	 *
 	 * @since      2.0.0.3
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Shipping\Rate::encrypt
+	 * @deprecated 2.1.0 Redshop\Shipping\Rate::encrypt
 	 * @see Redshop\Shipping\Rate::encrypt
 	 */
 	public static function encryptShipping($strMessage)
@@ -285,7 +285,7 @@ class RedshopHelperShipping
 	 *
 	 * @since   2.0.0.3
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Shipping\Rate::decrypt
+	 * @deprecated 2.1.0 Redshop\Shipping\Rate::decrypt
 	 * @see Redshop\Shipping\Rate::decrypt
 	 */
 	public static function decryptShipping($strMessage)
@@ -398,7 +398,7 @@ class RedshopHelperShipping
 	 *
 	 * @since   2.0.0.3
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::applyVat
 	 *
 	 * @throws  InvalidArgumentException
@@ -935,7 +935,7 @@ class RedshopHelperShipping
 	 *
 	 * @return  array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::filterRatesByPriority
 	 */
 	public static function filterRatesByPriority($shippingRates)
@@ -1509,7 +1509,7 @@ class RedshopHelperShipping
 	 * @since   2.0.0.3
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::getFreeShippingRate
 	 */
 	public static function getFreeShippingRate($shippingRateId = 0)

@@ -263,10 +263,10 @@ class RedshopModelRedshop extends RedshopModel
 		$db = JFactory::getDbo();
 
 		// Insert manufacturer data
-		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
-						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, ''),
-						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
-						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '')";
+		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`id`, `name`, `description`, `email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
+			(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 1, ''),
+			(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 2, ''),
+			(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 3, '')";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -274,7 +274,7 @@ class RedshopModelRedshop extends RedshopModel
 		$query = "INSERT IGNORE INTO `#__redshop_media`
 			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
 			VALUES (33, 'redweb-logo.jpg', 'manufacturer', 1, 'images', 'images/jpg', 1, 'redweb.dk'),
-			(34, 'redhost-logo.jpg', 'manufacturer', 2, 'images', 'images/jpg', 1, 'redhost.dk'),
+			(34, 'redhost-logo.jpg', 'manufacturer', 2, 'ima1ges', 'images/jpg', 1, 'redhost.dk'),
 			(35, 'redcomponent-logo.jpg', 'manufacturer', 3, 'images', 'images/jpg', 1, 'redcomponent.com')";
 		$db->setQuery($query);
 		$db->execute();

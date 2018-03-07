@@ -21,7 +21,7 @@ class RedshopEntityManufacturer extends RedshopEntity
 	/**
 	 * @var  RedshopEntityMediaImage
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $media;
 
@@ -30,11 +30,12 @@ class RedshopEntityManufacturer extends RedshopEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  RedshopTableManufacturer
+	 * @throws  Exception
 	 */
-	public function getTable($name = "Tablemanufacturer_detail")
+	public function getTable($name = "Manufacturer")
 	{
-		return JTable::getInstance('Manufacturer_detail', 'Table');
+		return RedshopTable::getAdminInstance($name, array('ignore_request' => true), 'com_redshop');
 	}
 
 	/**
@@ -42,7 +43,7 @@ class RedshopEntityManufacturer extends RedshopEntity
 	 *
 	 * @return  RedshopEntityMediaImage
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getMedia()
 	{
@@ -59,7 +60,7 @@ class RedshopEntityManufacturer extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function loadMedia()
 	{
