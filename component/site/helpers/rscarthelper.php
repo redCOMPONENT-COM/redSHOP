@@ -180,7 +180,7 @@ class rsCarthelper
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Shipping\Tag::replaceShippingAddress
 	 */
 	public function replaceShippingAddress($data, $shippingAddress, $sendMail = false)
@@ -216,7 +216,7 @@ class rsCarthelper
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.1.0
 	 * @see RedshopHelperCartTag::replaceCartItem
 	 */
 	public function replaceCartItem($data, $cart = array(), $replaceButton, $quotationMode = 0)
@@ -557,7 +557,7 @@ class rsCarthelper
 	* @return  array
 	* @throws  \Exception
 	*
-	* @deprecated    __DEPLOY_VERSION__
+	* @deprecated    2.1.0
 	 * @see \Redshop\Cart\Helper::calculation()
 	 */
 	public function calculation($cart, $shipping = 0, $userId = 0)
@@ -573,7 +573,7 @@ class rsCarthelper
 	 * @return  float
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see \Redshop\Cart\Module::calculate()
 	 */
 	public function GetCartModuleCalc($redArray)
@@ -821,7 +821,7 @@ class rsCarthelper
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 * @see \Redshop\Cart\Module::getParams()
 	 */
 	public function GetCartParameters()
@@ -837,7 +837,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see \Redshop\Cart\Cart::modify
 	 */
 	public function modifyCart($cartArr, $user_id)
@@ -2364,7 +2364,7 @@ class rsCarthelper
 	 * @return  mixed
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Cart\Cart::addProduct
 	 */
 	public function addProductToCart($data = array())
@@ -2640,7 +2640,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated    __DEPLOY_VERSION__
+	 * @deprecated    2.1.0
 	 * @see Redshop\Cart\Helper::generateAttribute
 	 */
 	public function generateAttributeArray($data, $userId = 0)

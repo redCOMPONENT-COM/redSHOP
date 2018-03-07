@@ -234,7 +234,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  boolean|string  False if keep. String for HTML content if success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function prepareField($field)
 	{

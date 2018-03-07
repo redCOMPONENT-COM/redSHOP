@@ -74,7 +74,7 @@ class Response
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public function __toString()
 	{

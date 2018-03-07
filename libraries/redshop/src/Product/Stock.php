@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Product stock helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Stock
 {
@@ -28,7 +28,7 @@ class Stock
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceInStock($productId = 0, $content = '', $attributes = array(), $attributeTemplate = array())
 	{

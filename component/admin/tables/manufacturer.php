@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopTableManufacturer extends RedshopTable
 {
@@ -91,7 +91,7 @@ class RedshopTableManufacturer extends RedshopTable
 	 *
 	 * @return  boolean
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function doStore($updateNulls = false)
 	{
@@ -149,7 +149,7 @@ class RedshopTableManufacturer extends RedshopTable
 	 *
 	 * @throws Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected function storeFields()
 	{
@@ -164,7 +164,7 @@ class RedshopTableManufacturer extends RedshopTable
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected function storeMedia()
 	{

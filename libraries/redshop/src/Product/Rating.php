@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Rating helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Rating
 {
@@ -24,7 +24,7 @@ class Rating
 	 * @param   integer $productId Product id
 	 *
 	 * @return  string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getRating($productId)
 	{

@@ -14,7 +14,7 @@ require_once JPATH_LIBRARIES . '/redshop/library.php';
 /**
  * Media field
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class RedshopFormFieldMedia extends JFormField
 {
@@ -22,7 +22,7 @@ class RedshopFormFieldMedia extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $type = 'Media';
 

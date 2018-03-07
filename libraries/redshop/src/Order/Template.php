@@ -254,7 +254,7 @@ class Template
 	 * @return  void
 	 * @throws  \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static function replaceOrderLabel($template, &$search, &$replace)
 	{
@@ -328,7 +328,7 @@ class Template
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceOrderStatusLog($template, $orderId)
 	{

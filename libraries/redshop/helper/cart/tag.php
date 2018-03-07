@@ -179,7 +179,7 @@ class RedshopHelperCartTag
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceCartItem($data, $cart = array(), $isReplaceButton = false, $quotationMode = 0)
 	{

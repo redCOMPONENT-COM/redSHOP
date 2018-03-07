@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopControllerTool_Update extends RedshopControllerAdmin
 {
@@ -27,7 +27,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getModel($name = 'Tool', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
@@ -42,7 +42,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function ajaxProcess()
 	{

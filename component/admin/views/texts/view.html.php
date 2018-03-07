@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopViewTexts extends RedshopViewList
 {
@@ -22,7 +22,7 @@ class RedshopViewTexts extends RedshopViewList
 	 * Display duplicate button or not.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $enableDuplicate = true;
 
@@ -36,7 +36,7 @@ class RedshopViewTexts extends RedshopViewList
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

@@ -21,7 +21,7 @@ use ImageOptimizer\OptimizerFactory;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopEntityMediaImage extends RedshopEntityMedia
 {
@@ -82,7 +82,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	 *
 	 * @return  array             List of relative and absolute path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function generateThumb($width, $height, $crop = false, $force = false)
 	{

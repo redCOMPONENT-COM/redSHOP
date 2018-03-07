@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Redshop Templates field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class RedshopFormFieldTemplate extends JFormFieldList
 {
