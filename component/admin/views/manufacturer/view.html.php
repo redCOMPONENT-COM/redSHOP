@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopViewManufacturer extends RedshopViewForm
 {
@@ -106,7 +106,7 @@ class RedshopViewManufacturer extends RedshopViewForm
 	 * @return  boolean|string  False if keep. String for HTML content if success.
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function prepareField($field)
 	{
