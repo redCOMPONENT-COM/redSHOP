@@ -104,10 +104,10 @@ if ($this->detail && $template_middle != "")
 			$mh_thumb = Redshop::getConfig()->getInt('MANUFACTURER_THUMB_HEIGHT');
 			$mw_thumb = Redshop::getConfig()->getInt('MANUFACTURER_THUMB_WIDTH');
 
-			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->id . '&Itemid=' . $Itemid);
 
-			$manproducts       = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
-			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->manufacturer_name . "</b></a>";
+			$manproducts       = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $row->id . '&Itemid=' . $Itemid);
+			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->name . "</b></a>";
 
 			$middledata = $template_middle;
 			$manu_name  = $config->maxchar($manufacturer_name, Redshop::getConfig()->get('MANUFACTURER_TITLE_MAX_CHARS'), Redshop::getConfig()->get('MANUFACTURER_TITLE_END_SUFFIX'));
@@ -115,18 +115,18 @@ if ($this->detail && $template_middle != "")
 
 			// Extra field display
 			$middledata = RedshopHelperProductTag::getExtraSectionTag(
-				$extraFieldName, $row->manufacturer_id, RedshopHelperExtrafields::SECTION_MANUFACTURER, $middledata
+				$extraFieldName, $row->id, RedshopHelperExtrafields::SECTION_MANUFACTURER, $middledata
 			);
 
 			if (strpos($middledata, $mimg_tag) !== false)
 			{
-				$media      = RedshopEntityManufacturer::getInstance($row->manufacturer_id)->getMedia();
+				$media      = RedshopEntityManufacturer::getInstance($row->id)->getMedia();
 				$thum_image = "";
 
 				if ($media->isValid() && !empty($media->get('media_name'))
-					&& JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $media->get('media_name')))
+					&& JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $row->id . '/' . $media->get('media_name')))
 				{
-					$altText = $media->get('media_alternate_text', $row->manufacturer_name);
+					$altText = $media->get('media_alternate_text', $row->name);
 
 					if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 					{
@@ -149,13 +149,13 @@ if ($this->detail && $template_middle != "")
 							$mh_thumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
 							'manufacturer',
-							$row->manufacturer_id
+							$row->id
 						);
 					}
 
 					if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 					{
-						$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $row->manufacturer_id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
+						$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $row->id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";
 					}
 					else
@@ -168,7 +168,7 @@ if ($this->detail && $template_middle != "")
 				$middledata = str_replace($mimg_tag, $thum_image, $middledata);
 			}
 
-			$middledata = str_replace("{manufacturer_description}", $row->manufacturer_desc, $middledata);
+			$middledata = str_replace("{manufacturer_description}", $row->description, $middledata);
 			$middledata = str_replace("{manufacturer_link}", $link, $middledata);
 			$middledata = str_replace("{manufacturer_allproductslink}", $manproducts, $middledata);
 			$middledata = str_replace("{manufacturer_allproductslink_lbl}", JText::_('COM_REDSHOP_MANUFACTURER_ALLPRODUCTSLINK_LBL'), $middledata);

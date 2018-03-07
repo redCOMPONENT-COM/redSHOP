@@ -112,7 +112,7 @@ class RedshopControllerShipping extends RedshopController
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=shipping', JText::_('COM_REDSHOP_SHIPPING_UNPUBLISHED_SUCCESSFULLY'));
@@ -126,6 +126,7 @@ class RedshopControllerShipping extends RedshopController
 	 */
 	public function orderup()
 	{
+		/** @var RedshopModelShipping_detail $model */
 		$model = $this->getModel('shipping_detail');
 		$model->move(-1);
 
@@ -141,6 +142,7 @@ class RedshopControllerShipping extends RedshopController
 	 */
 	public function orderdown()
 	{
+		/** @var RedshopModelShipping_detail $model */
 		$model = $this->getModel('shipping_detail');
 		$model->move(1);
 

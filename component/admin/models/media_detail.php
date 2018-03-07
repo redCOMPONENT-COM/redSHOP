@@ -228,12 +228,12 @@ class RedshopModelMedia_detail extends RedshopModel
 			case 'manufacturer':
 				$query->select(
 					array(
-						$db->qn('manufacturer_id', 'id'),
-						$db->qn('manufacturer_name', 'name')
+						$db->qn('id', 'id'),
+						$db->qn('name', 'name')
 					)
 				)
 					->from($db->qn('#__redshop_manufacturer'))
-					->where($db->qn('manufacturer_id') . $search);
+					->where($db->qn('id') . $search);
 				break;
 			case 'catalog':
 				$query->select(

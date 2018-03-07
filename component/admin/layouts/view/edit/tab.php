@@ -21,7 +21,7 @@ JHtml::_('behavior.formvalidator');
 
 $primaryKey = $data->getPrimaryKey();
 $itemId     = $data->item->{$primaryKey};
-$action     = 'index.php?option=com_redshop&task=.' . $data->getInstanceName() . '.edit&' . $primaryKey . '=' . $itemId;
+$action     = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . '.edit&' . $primaryKey . '=' . $itemId;
 ?>
 
 <form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform"

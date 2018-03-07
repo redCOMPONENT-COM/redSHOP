@@ -9,111 +9,54 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelManufacturer extends RedshopModel
+/**
+ * Model Manufacturer
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopModelManufacturer extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
+	/**
+	 * The unique columns.
+	 *
+	 * @var  array
+	 */
+	protected $copyUniqueColumns = array('name');
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method for run after success copy record
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   JTable  $source  Source record
+	 * @param   JTable  $target  Target record
 	 *
 	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'm.ordering', $direction = '')
+	public function afterCopy($source, $target)
 	{
-		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
-		$this->setState('filter', $filter);
+		// Copy media file if necessary
+		$media = RedshopEntityManufacturer::getInstance()->bind($source)->getMedia();
 
-		parent::populateState($ordering, $direction);
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		$id .= ':' . $this->getState('filter');
-
-		return parent::getStoreId($id);
-	}
-
-	public function _buildQuery()
-	{
-		$filter  = $this->getState('filter');
-		$orderby = $this->_buildContentOrderBy();
-		$where   = '';
-
-		if ($filter)
+		if (!$media->isValid())
 		{
-			$where = " WHERE m.manufacturer_name like '%" . $filter . "%' ";
+			return;
 		}
 
-		$query = 'SELECT  distinct(m.manufacturer_id),m.* FROM #__redshop_manufacturer m '
-			. $where
-			. $orderby;
+		/** @var RedshopTableMedia $table */
+		$table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
+		$table->bind((array) $media->getItem());
 
-		return $query;
-	}
+		// Copy new image for this media
+		$newFileName = md5($target->name) . '.' . JFile::getExt($media->get('media_name'));
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $target->id);
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $target->id . '/thumb');
+		JFile::copy($media->getImagePath(), REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $target->id . '/' . $newFileName);
 
-	public function getMediaId($mid)
-	{
-		$database = JFactory::getDbo();
-
-		$query = ' SELECT media_id '
-			. ' FROM #__redshop_media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
-
-		$database->setQuery($query);
-
-		return $database->loadResult();
-	}
-
-	public function saveOrder(&$cid, $order = array())
-	{
-		$db  = JFactory::getDbo();
-		$row = $this->getTable('manufacturer_detail');
-
-		$total = count($cid);
-		$order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
-		$order = Joomla\Utilities\ArrayHelper::toInteger($order, array(0));
-
-		// Update ordering values
-		for ($i = 0; $i < $total; $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
-			}
-		}
-
-		$row->reorder();
-
-		return true;
+		// Store media table
+		$table->set('media_id', 0);
+		$table->set('media_name', $newFileName);
+		$table->set('section_id', $target->id);
+		$table->store();
 	}
 }
-

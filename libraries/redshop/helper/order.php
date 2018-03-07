@@ -2229,7 +2229,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   string  $payment  Payment type
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */

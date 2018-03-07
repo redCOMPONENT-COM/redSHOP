@@ -94,7 +94,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_DELETED_SUCCESSFULLY');
@@ -109,7 +109,9 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid   = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelStockroom_detail $model */
 		$model = $this->getModel('stockroom_detail');
 
 		if ($model->copy($cid))
@@ -186,6 +188,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 		}
 
 		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
-		die();
+
+		JFactory::getApplication()->close();
 	}
 }
