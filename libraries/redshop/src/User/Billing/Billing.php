@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * User Billing
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Billing
 {
@@ -28,7 +28,7 @@ class Billing
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getGlobal()
 	{
@@ -42,7 +42,7 @@ class Billing
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function setGlobal($data = null)
 	{

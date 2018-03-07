@@ -282,7 +282,7 @@ class RedshopInstall
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getUpdateTasks($version = null)
 	{
@@ -306,7 +306,7 @@ class RedshopInstall
 	 *
 	 * @return  array  List of update tasks.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function loadUpdateTasks()
 	{

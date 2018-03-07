@@ -103,6 +103,7 @@ class RedshopMenuLeft_Menu
 				return array('SHOP', 'categories');
 
 			case "manufacturer":
+			case "manufacturers":
 				return array('PRODUCT_LISTING', 'manufacturer');
 
 			case "media":
@@ -335,9 +336,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'product' && self::$layout == 'listing') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=manufacturer',
+				'index.php?option=com_redshop&view=manufacturers',
 				'COM_REDSHOP_MANUFACTURER_LISTING',
-				(self::$view == 'manufacturer') ? true : false
+				(self::$view == 'manufacturers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=suppliers',

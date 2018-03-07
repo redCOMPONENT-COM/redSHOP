@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Helper
 {
@@ -31,7 +31,7 @@ class Helper
 	 * @param   string   $extraCond   Extra condition for query
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getTemplate($templateId = 0, $section = '', $extraCond = '')
 	{
@@ -74,7 +74,7 @@ class Helper
 	 * @param   string  $message  Text message
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function imgInMail(&$message)
 	{

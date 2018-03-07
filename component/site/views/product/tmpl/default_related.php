@@ -101,7 +101,7 @@ if (count($relptemplate) > 0)
 		{
 			$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $this->itemId);
 			$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-			$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
+			$related_template_data = str_replace("{manufacturer_name}", $manufacturer->name, $related_template_data);
 			$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
 		}
 		else

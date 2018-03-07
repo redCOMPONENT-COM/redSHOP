@@ -14,19 +14,19 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopViewImport_Vm extends RedshopViewAdmin
 {
 	/**
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $checkVirtuemart;
 
 	/**
 	 * @var    JModelLegacy
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected $model;
 
@@ -37,7 +37,7 @@ class RedshopViewImport_Vm extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function display($tpl = null)
 	{

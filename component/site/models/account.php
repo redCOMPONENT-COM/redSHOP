@@ -486,7 +486,7 @@ class RedshopModelAccount extends RedshopModel
 	 * Get compare products
 	 *
 	 * @return  array
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public function getCompare()
 	{
@@ -541,7 +541,7 @@ class RedshopModelAccount extends RedshopModel
 	 * @return  boolean
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Account\Wishlist::send
+	 * @deprecated 2.1.0 Redshop\Account\Wishlist::send
 	 * @see Redshop\Account\Wishlist::send
 	 */
 	public function sendWishlist($post)
@@ -553,7 +553,7 @@ class RedshopModelAccount extends RedshopModel
 	 * Method for get reserve discount
 	 *
 	 * @return  integer
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Account\Helper::getReserveDiscount
+	 * @deprecated 2.1.0 Redshop\Account\Helper::getReserveDiscount
 	 * @see Redshop\Account\Helper::getReserveDiscount
 	 */
 	public function getReserveDiscount()
@@ -568,7 +568,7 @@ class RedshopModelAccount extends RedshopModel
 	 *
 	 * @return  array
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Account\Helper::getDownloadProductList
+	 * @deprecated 2.1.0 Redshop\Account\Helper::getDownloadProductList
 	 * @see Redshop\Account\Helper::getDownloadProductList
 	 */
 	public function getdownloadproductlist($user_id)
@@ -584,7 +584,7 @@ class RedshopModelAccount extends RedshopModel
 	 *
 	 * @return  float
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Account\Helper::getUnusedCouponAmount
+	 * @deprecated 2.1.0 Redshop\Account\Helper::getUnusedCouponAmount
 	 * @see Redshop\Account\Helper::getUnusedCouponAmount
 	 */
 	public function unused_coupon_amount($user_id, $coupone_code)

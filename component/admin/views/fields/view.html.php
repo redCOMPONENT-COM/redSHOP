@@ -28,7 +28,7 @@ class RedshopViewFields extends RedshopViewList
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public $fieldGroups = array();
 

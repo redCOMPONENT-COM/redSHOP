@@ -31,7 +31,7 @@ class Media
 	 * @return  string
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function watermark($section, $sectionId = 0, $imageName = '', $thumbWidth = 0, $thumbHeight = 0, $enableWatermark = -1)
 	{
@@ -208,7 +208,7 @@ class Media
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function createFolder($folder, $reCreate = false)
 	{

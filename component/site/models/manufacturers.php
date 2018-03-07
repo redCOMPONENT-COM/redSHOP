@@ -43,6 +43,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$this->context = 'com_redshop.' . $app->input->getCmd('view') . '.' . $app->input->getCmd('layout', 'default');
 
 		// @ToDo In fearure, when class Manufacturers extends RedshopModelList, replace filter_fields in constructor
+
 		$this->filter_fields_products = array(
 			'p.product_name ASC', 'product_name ASC',
 			'p.product_name DESC', 'product_name DESC',
@@ -54,9 +55,10 @@ class RedshopModelManufacturers extends RedshopModel
 			'pc.ordering ASC', 'ordering ASC',
 			'pc.ordering DESC', 'ordering DESC'
 		);
+
 		$this->filter_fields_manufacturer = array(
-			'mn.manufacturer_name ASC', 'manufacturer_name ASC',
-			'mn.manufacturer_id DESC', 'manufacturer_id DESC',
+			'mn.name ASC', 'manufacturer_name ASC',
+			'mn.id DESC', 'manufacturer_id DESC',
 			'mn.ordering ASC', 'ordering ASC'
 		);
 
@@ -109,21 +111,21 @@ class RedshopModelManufacturers extends RedshopModel
 		$and     = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopper_group_manufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-		if ($shopper_group_manufactures != "")
+		if (!empty($shopper_group_manufactures))
 		{
 			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
 			$shopper_group_manufactures = Joomla\Utilities\ArrayHelper::toInteger($shopper_group_manufactures);
 			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and .= " AND mn.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$and .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
+
 		if ($this->_id)
 		{
-			$and .= " AND mn.manufacturer_id = " . (int) $this->_id . " ";
+			$and .= " AND mn.id = " . (int) $this->_id . " ";
 		}
 
 		$query = "SELECT mn.* FROM " . $this->_table_prefix . "manufacturer AS mn "
@@ -185,7 +187,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 		if ($layout == 'products')
 		{
-			$filter_order = 'mn.manufacturer_id';
+			$filter_order = 'mn.id';
 		}
 		else
 		{

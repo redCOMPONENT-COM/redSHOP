@@ -216,7 +216,8 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */
+				$model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY');
@@ -289,9 +290,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-			<script language="javascript" type="text/javascript">
-				window.parent.SqueezeBox.close();
-			</script>
+            <script language="javascript" type="text/javascript">
+                window.parent.SqueezeBox.close();
+            </script>
 			<?php
 		}
 	}
@@ -336,9 +337,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-		<script language="javascript" type="text/javascript">
-			window.parent.SqueezeBox.close();
-		</script>
+        <script language="javascript" type="text/javascript">
+            window.parent.SqueezeBox.close();
+        </script>
 		<?php
 	}
 
@@ -365,6 +366,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$pid = $get['pid'];
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->removesubpropertyImage($pid))
@@ -399,7 +401,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 	public function copy()
 	{
-		$cid   = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->copy($cid))

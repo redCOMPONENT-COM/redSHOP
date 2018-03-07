@@ -106,15 +106,15 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 			->select($this->db->qn('md.media_name', 'manufacturer_image'))
 			->from($this->db->qn('#__redshop_manufacturer', 'm'))
 			->leftJoin(
-				$this->db->qn('#__redshop_product', 'p') . ' ON ' . $this->db->qn('m.manufacturer_id') . ' = ' . $this->db->qn('p.manufacturer_id')
+				$this->db->qn('#__redshop_product', 'p') . ' ON ' . $this->db->qn('m.id') . ' = ' . $this->db->qn('p.manufacturer_id')
 			)
 			->leftJoin(
 				$this->db->qn('#__redshop_media', 'md') . ' ON ('
-				. $this->db->qn('m.manufacturer_id') . ' = ' . $this->db->qn('md.section_id')
+				. $this->db->qn('m.id') . ' = ' . $this->db->qn('md.section_id')
 				. ' AND ' . $this->db->qn('md.media_section') . ' = ' . $this->db->quote('manufacturer')
 				. ' AND ' . $this->db->qn('md.media_type') . ' = ' . $this->db->quote('images') . ')'
 			)
-			->group($this->db->qn('m.manufacturer_id'));
+			->group($this->db->qn('m.id'));
 	}
 
 	/**

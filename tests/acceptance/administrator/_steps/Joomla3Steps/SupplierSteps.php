@@ -33,6 +33,13 @@ class SupplierSteps extends AbstractStep
 		$client->click(\SupplierPage::$buttonCancel);
 	}
 
+	/**
+	 * Bad case: Missing name
+	 *
+	 * @param   string $supplierEmailId Email
+	 *
+	 * @return  void
+	 */
 	public function addSupplierSaveMissingName($supplierEmailId)
 	{
 		$client = $this;
@@ -54,7 +61,8 @@ class SupplierSteps extends AbstractStep
 		$client->fillField(\SupplierPage::$fieldName, $supplierName);
 		$client->fillField(\SupplierPage::$fieldEmail, $supplierEmail);
 		$client->click(\SupplierPage::$buttonSave);
-		$client->acceptPopup();
+		$client->waitForText(\SupplierPage::$fieldEmailInvalid, 60, \SupplierPage::$selectorMissing);
+		$client->waitForElement(\SupplierPage::$fieldName, 30);
 	}
 
 	public function editSupplierCheckCloseButton($supplierUpdatedName)

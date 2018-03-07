@@ -46,19 +46,19 @@ class MailCest extends AbstractCest
 	/**
 	 * Abstract method for run after complete create item.
 	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
+	 * @param   \AcceptanceTester     $tester    Tester
+	 * @param   Codeception\Scenario  $scenario  Scenario
 	 *
 	 * @return  void
 	 *
 	 * @depends testItemCreate
 	 */
-	public function deleteDataSave(\AcceptanceTester $tester,  $scenario)
+	public function deleteDataSave(\AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
 		$tester->wantTo('Run after create item with save button ');
 		$stepClass = $this->stepClass;
 
-		/** @var AbstractStep $step */
+		/** @var MailSteps $tester */
 		$tester = new $stepClass($scenario);
 		$tester->deleteItem('New' . $this->dataNew['mail_name']);
 
@@ -67,19 +67,19 @@ class MailCest extends AbstractCest
 	/**
 	 * Abstract method for run after complete create item.
 	 *
-	 * @param   \AcceptanceTester  $tester    Tester
-	 * @param   Scenario           $scenario  Scenario
+	 * @param   \AcceptanceTester     $tester    Tester
+	 * @param   Codeception\Scenario  $scenario  Scenario
 	 *
 	 * @return  void
 	 *
 	 * @depends testItemCreateSaveClose
 	 */
-	public function deleteDataSaveClose(\AcceptanceTester $tester,  $scenario)
+	public function deleteDataSaveClose(\AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
 		$tester->wantTo('Run after create item with save button ');
 		$stepClass = $this->stepClass;
 
-		/** @var \Step\AbstractStep $step */
+		/** @var MailSteps $tester */
 		$tester = new $stepClass($scenario);
 		$tester->deleteItem('New' . $this->dataNew['mail_name']);
 

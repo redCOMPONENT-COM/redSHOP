@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopControllerText extends RedshopControllerForm
 {
@@ -27,7 +27,7 @@ class RedshopControllerText extends RedshopControllerForm
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getModel($name = 'Text', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
