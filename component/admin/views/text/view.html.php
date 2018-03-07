@@ -18,15 +18,4 @@ defined('_JEXEC') or die;
  */
 class RedshopViewText extends RedshopViewForm
 {
-	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.1.0
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_TEXT_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
 }

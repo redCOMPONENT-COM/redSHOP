@@ -35,18 +35,6 @@ class RedshopViewManufacturer extends RedshopViewForm
 	public $model;
 
 	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.6
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT') . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
-
-	/**
 	 * Method for run before display to initial variables.
 	 *
 	 * @param   string $tpl Template name

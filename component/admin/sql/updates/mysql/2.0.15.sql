@@ -8,7 +8,7 @@ CALL redSHOP_Index_Remove('#__redshop_manufacturer', 'idx_published');
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'manufacturer_id', 'id', 'INT(11) NOT NULL AUTO_INCREMENT');
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'manufacturer_name', 'name', "VARCHAR(250) NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'manufacturer_desc', 'description', "TEXT NOT NULL DEFAULT ''");
-CALL redSHOP_Column_Update('#__redshop_manufacturer', 'manufacturer_email', 'email', "ARCHAR(250) NOT NULL DEFAULT ''");
+CALL redSHOP_Column_Update('#__redshop_manufacturer', 'manufacturer_email', 'email', "VARCHAR(250) NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'product_per_page', 'product_per_page', "INT(11) NOT NULL DEFAULT 0");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'metakey', 'metakey', "TEXT NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_manufacturer', 'metadesc', 'metadesc', "TEXT NOT NULL DEFAULT ''");

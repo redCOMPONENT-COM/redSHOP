@@ -121,11 +121,6 @@ class RedshopViewCategory extends RedshopViewForm
 		$isNew = ($this->item->id < 1);
 		$user  = JFactory::getUser();
 
-		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_CATEGORY') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-
-		JToolbarHelper::title($title, 'redshop_categories48');
-
 		if ($isNew && (count($user->authorise('com_redshop', 'core.create')) > 0))
 		{
 			JToolbarHelper::apply('category.apply');
