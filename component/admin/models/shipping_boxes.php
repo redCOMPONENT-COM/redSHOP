@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model.Shipping_Boxes
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopModelShipping_Boxes extends RedshopModelList
 {
