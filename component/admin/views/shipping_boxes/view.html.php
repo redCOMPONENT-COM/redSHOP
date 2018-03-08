@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Shipping_Boxes.View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopViewShipping_Boxes extends RedshopViewList
 {

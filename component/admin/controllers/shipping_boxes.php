@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Shipping_Boxes
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopControllerShipping_Boxes extends RedshopControllerAdmin
 {
@@ -27,7 +27,7 @@ class RedshopControllerShipping_Boxes extends RedshopControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getModel($name = 'Shipping_Box', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
