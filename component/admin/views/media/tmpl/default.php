@@ -140,7 +140,7 @@ else
                 </th>
 				<?php if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')): ?>
 					<?php $countTd++; ?>
-                    <th width="5%" class="title">' . JText::_('COM_REDSHOP_PRIMARY_MEDIA') . '</th>
+                    <th width="5%" class="title"><?php echo JText::_('COM_REDSHOP_PRIMARY_MEDIA') ?></th>
 				<?php endif; ?>
 
 				<?php if ($showbuttons == 1): ?>
