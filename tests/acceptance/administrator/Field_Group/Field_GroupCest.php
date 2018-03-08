@@ -91,7 +91,7 @@ class Field_GroupCest extends AbstractCest
 	 */
 	public function afterTestItemCreate(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
 	{
-		$tester->wantTo('Run after create category test suite');
+		$tester->wantTo('Run after create field group test suite');
 		$stepClass = $this->stepClass;
 		/** @var Field_GroupSteps $tester */
 		$tester = new $stepClass($scenario);

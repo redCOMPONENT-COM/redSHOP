@@ -19,18 +19,6 @@ defined('_JEXEC') or die;
 class RedshopViewCoupon extends RedshopViewForm
 {
 	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.1.0
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_COUPON_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
-
-	/**
 	 * Method for run before display to initial variables.
 	 *
 	 * @param   string  $tpl  Template name

@@ -173,6 +173,7 @@ class RedshopViewForm extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 * @throws  Exception
 	 */
 	protected function loadFields()
 	{
@@ -251,5 +252,22 @@ class RedshopViewForm extends AbstractView
 		}
 
 		return $this->form->renderField($field->getAttribute('name'));
+	}
+
+	/**
+	 * Method for get page title.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 * @throws  Exception
+	 */
+	public function getTitle()
+	{
+		$primaryKey = $this->getPrimaryKey();
+		$title      = parent::getTitle();
+
+		return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>' :
+			$title . ' <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
 	}
 }
