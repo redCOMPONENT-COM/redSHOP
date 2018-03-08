@@ -10,7 +10,7 @@ class Field_GroupPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $namePage = 'Custom Field Groups';
+    public static $namePage = 'Field Group';
 
     /**
      * @var string
