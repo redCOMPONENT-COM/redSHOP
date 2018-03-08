@@ -94,6 +94,8 @@ class RedshopViewForm extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -111,6 +113,8 @@ class RedshopViewForm extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	protected function checkPermission()
 	{
@@ -134,6 +138,7 @@ class RedshopViewForm extends AbstractView
 	 * Method for add toolbar.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -149,6 +154,7 @@ class RedshopViewForm extends AbstractView
 		if ($this->canEdit || $this->canCreate)
 		{
 			JToolbarHelper::save($this->getInstanceName() . '.save');
+			JToolbarHelper::save2new($this->getInstanceName() . '.save2new');
 		}
 
 		if ($isNew)
@@ -167,6 +173,7 @@ class RedshopViewForm extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 * @throws  Exception
 	 */
 	protected function loadFields()
 	{
@@ -188,16 +195,18 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * Method for prepare fields in group and also HTML content
 	 *
-	 * @param   object $group Group object
+	 * @param   object  $group  Group object
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since  2.0.6
 	 */
 	protected function prepareFields($group)
 	{
 		$group->fields = array();
-		$fields        = $this->form->getFieldset($group->name);
+
+		$fields = $this->form->getFieldset($group->name);
 
 		if (empty($fields))
 		{
@@ -206,21 +215,59 @@ class RedshopViewForm extends AbstractView
 
 		foreach ($fields as $field)
 		{
-			if ($field->getAttribute('type') === "spacer")
+			$fieldHtml = $this->prepareField($field);
+
+			if (false === $fieldHtml)
 			{
 				continue;
 			}
 
-			if ($field->getAttribute('type') === "hidden")
-			{
-				$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
-
-				continue;
-			}
-
-			$group->fields[] = $this->form->renderField($field->getAttribute('name'));
+			$group->fields[] = $fieldHtml;
 		}
 
 		$group->html = implode('', $group->fields);
+	}
+
+	/**
+	 * Method for prepare field HTML
+	 *
+	 * @param   object  $field  Group object
+	 *
+	 * @return  boolean|string  False if keep. String for HTML content if success.
+	 *
+	 * @since   2.1.0
+	 */
+	protected function prepareField($field)
+	{
+		if ($field->getAttribute('type') === "spacer")
+		{
+			return false;
+		}
+
+		if ($field->getAttribute('type') === "hidden")
+		{
+			$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
+
+			return false;
+		}
+
+		return $this->form->renderField($field->getAttribute('name'));
+	}
+
+	/**
+	 * Method for get page title.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 * @throws  Exception
+	 */
+	public function getTitle()
+	{
+		$primaryKey = $this->getPrimaryKey();
+		$title      = parent::getTitle();
+
+		return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>' :
+			$title . ' <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
 	}
 }

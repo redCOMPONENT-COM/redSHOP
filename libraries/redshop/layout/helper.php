@@ -31,19 +31,19 @@ class RedshopLayoutHelper
 	 * Method to render the layout.
 	 *
 	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
 	 * @param   string  $basePath     Base path to use when loading layout files
 	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
 	 *
 	 * @return  string
 	 */
-	public static function render($layoutFile, $displayData = null, $basePath = '', $options = null)
+	public static function render($layoutFile, $displayData = null, $basePath = '', $options = array('component' => 'com_redshop'))
 	{
 		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
 		// Make sure we send null to JLayoutFile if no path set
-		$basePath = empty($basePath) ? null : $basePath;
-		$layout = new RedshopLayoutFile($layoutFile, $basePath, $options);
+		$basePath       = empty($basePath) ? null : $basePath;
+		$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
 		$renderedLayout = $layout->render($displayData);
 
 		return $renderedLayout;
@@ -53,9 +53,9 @@ class RedshopLayoutHelper
 	 * Method to render the redshop tag layout.
 	 *
 	 * @param   string  $tagName      Name tag
-	 * @param   string  &$template    Template with current tag
+	 * @param   string  $template     Template with current tag
 	 * @param   string  $tagSection   Section tag
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
 	 * @param   string  $basePath     Base path to use when loading layout files
 	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
 	 *
@@ -63,23 +63,25 @@ class RedshopLayoutHelper
 	 */
 	public static function renderTag($tagName, &$template, $tagSection = '', $displayData = null, $basePath = '', $options = null)
 	{
-		if (strpos($template, $tagName) !== false)
+		if (strpos($template, $tagName) === false)
 		{
-			$filePath = array('tags');
-
-			if ($tagSection)
-			{
-				$filePath[] = $tagSection;
-			}
-			else
-			{
-				$filePath[] = 'common';
-			}
-
-			$filePath[] = str_replace(array('{', '}', ':', ' '), array('', '', '_', '_'), $tagName);
-
-			$return = self::render(implode('.', $filePath), $displayData, $basePath, $options);
-			$template = str_replace($tagName, $return, $template);
+			return;
 		}
+
+		$filePath = array('tags');
+
+		if ($tagSection)
+		{
+			$filePath[] = $tagSection;
+		}
+		else
+		{
+			$filePath[] = 'common';
+		}
+
+		$filePath[] = str_replace(array('{', '}', ':', ' '), array('', '', '_', '_'), $tagName);
+
+		$return = self::render(implode('.', $filePath), $displayData, $basePath, $options);
+		$template = str_replace($tagName, $return, $template);
 	}
 }

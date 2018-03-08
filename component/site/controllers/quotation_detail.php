@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-
 /**
  * Quotation Detail Controller.
  *
@@ -28,22 +27,19 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function updatestatus()
 	{
-		$post   = $this->input->post->getArray();
+		$post = $this->input->post->getArray();
 
 		$Itemid = $this->input->get('Itemid');
 		$encr   = $this->input->get('encr');
-		$model = $this->getModel('quotation_detail');
-
-		$quotationHelper = quotationHelper::getInstance();
-		$redshopMail     = redshopMail::getInstance();
+		$model  = $this->getModel('quotation_detail');
 
 		// Update Status
-		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
+		RedshopHelperQuotation::updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
 
 		// Add Customer Note
 		$model->addQuotationCustomerNote($post);
 
-		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
+		Redshop\Mail\Quotation::sendMail($post['quotation_id'], $post['quotation_status']);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
@@ -55,24 +51,22 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 *
 	 * @access public
 	 * @return void
+	 * @throws  Exception
 	 */
 	public function checkout()
 	{
-
 		$Itemid = $this->input->get('Itemid');
 		$post   = $this->input->post->getArray();
 		$encr   = $this->input->get('encr');
 
-		$quotationHelper = quotationHelper::getInstance();
-		$model           = $this->getModel('quotation_detail');
-		$session         = JFactory::getSession();
-		$redhelper       = redhelper::getInstance();
+		$model   = $this->getModel('quotation_detail');
+		$session = JFactory::getSession();
 
-		$cart = array();
+		$cart        = array();
 		$cart['idx'] = 0;
 		RedshopHelperCartSession::setCart($cart);
 
-		$quotationProducts = $quotationHelper->getQuotationProduct($post['quotation_id']);
+		$quotationProducts = RedshopHelperQuotation::getQuotationProduct($post['quotation_id']);
 
 		for ($q = 0, $qn = count($quotationProducts); $q < $qn; $q++)
 		{
@@ -81,7 +75,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$cart = $session->get('cart');
 
-		$quotationDetail = $quotationHelper->getQuotationDetail($post['quotation_id']);
+		$quotationDetail       = RedshopHelperQuotation::getQuotationDetail($post['quotation_id']);
 		$cart['customer_note'] = $quotationDetail->quotation_note;
 		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;
@@ -89,7 +83,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		RedshopHelperCartSession::setCart($cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);
-		$Itemid = RedshopHelperUtility::getCheckoutItemId();
+		$Itemid = RedshopHelperRouter::getCheckoutItemId();
 		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
 	}
 }

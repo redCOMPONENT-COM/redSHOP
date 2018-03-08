@@ -36,7 +36,8 @@ class shoppergroup
 	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::listAll() instead
 	 */
 	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false,
-		$disabledFields = array())
+		$disabledFields = array()
+	)
 	{
 		return RedshopHelperShopper_Group::listAll($name, $shopper_group_id, $selected_groups, $size, $toplevel, $multiple, $disabledFields);
 	}
@@ -67,7 +68,8 @@ class shoppergroup
 	 * @param   integer  $cid               Parent ID
 	 * @param   integer  $level             Position
 	 *
-	 * @return array
+	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::getShopperGroupListArray() instead
 	 */

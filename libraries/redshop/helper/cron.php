@@ -54,10 +54,10 @@ class RedshopHelperCron
 
 		if (Redshop::getConfig()->get('SEND_CATALOG_REMINDER_MAIL'))
 		{
-			self::sendCatalogMail();
+			RedshopHelperCatalog::sendMail();
 		}
 
-		self::sendColorMail();
+		RedshopHelperSample::sendMail();
 
 		// Send subscription renewal mail.
 		self::sendSubscriptionRenewalMail();
@@ -134,12 +134,12 @@ class RedshopHelperCron
 			$orderUser = $db->setQuery($query)->loadObject();
 
 			$query->clear()
-				->select($db->qn('coupon_left', 'total'))
-				->select($db->qn('coupon_code'))
+				->select($db->qn('amount_left', 'total'))
+				->select($db->qn('code'))
 				->select($db->qn('end_date'))
 				->from($db->qn('#__redshop_coupons'))
 				->where($db->qn('order_id') . ' = ' . $orderId)
-				->where($db->qn('coupon_left') . ' <> 0');
+				->where($db->qn('amount_left') . ' <> 0');
 
 			$coupon = $db->setQuery($query)->loadObject();
 
@@ -155,7 +155,7 @@ class RedshopHelperCron
 			if (!empty($coupon))
 			{
 				$total         = $coupon->total;
-				$couponCode    = $coupon->coupon_code;
+				$couponCode    = $coupon->code;
 				$couponEndDate = $coupon->end_date;
 			}
 
@@ -171,7 +171,7 @@ class RedshopHelperCron
 			if ($mail->mail1_status == 0 && Redshop::getConfig()->get('DAYS_MAIL1'))
 			{
 				$sendDate      = date("Y-m-d", $mail->cdate + (Redshop::getConfig()->get('DAYS_MAIL1') * (60 * 60 * 24)));
-				$firstMailData = RedshopHelperMail::getMailTemplate(0, "first_mail_after_order_purchased");
+				$firstMailData = Redshop\Mail\Helper::getTemplate(0, "first_mail_after_order_purchased");
 
 				if (count($firstMailData) > 0)
 				{
@@ -195,21 +195,21 @@ class RedshopHelperCron
 					$token = substr($token, 0, 10);
 					$body  = str_replace("{coupon_code}", $token, $body);
 					$body  = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body  = RedshopHelperMail::imgInMail($body);
+					Redshop\Mail\Helper::imgInMail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $mailBcc))
+					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
-						$couponTable                   = JTable::getInstance('coupon_detail', 'Table');
-						$couponTable->coupon_code      = $token;
-						$couponTable->percent_or_total = Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL');
-						$couponTable->coupon_value     = Redshop::getConfig()->get('DISCOUPON_VALUE');
-						$couponTable->start_date       = $startDate;
-						$couponTable->end_date         = $endDate;
-						$couponTable->coupon_type      = 1;
-						$couponTable->userid           = $mail->user_id;
-						$couponTable->coupon_left      = 1;
-						$couponTable->published        = 1;
-						$couponTable->order_id         = $orderId;
+						$couponTable              = RedshopTable::getAdminInstance('Coupon');
+						$couponTable->code        = $token;
+						$couponTable->type        = Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL');
+						$couponTable->value       = Redshop::getConfig()->get('DISCOUPON_VALUE');
+						$couponTable->start_date  = $startDate;
+						$couponTable->end_date    = $endDate;
+						$couponTable->effect      = 1;
+						$couponTable->userid      = $mail->user_id;
+						$couponTable->amount_left = 1;
+						$couponTable->published   = 1;
+						$couponTable->order_id    = $orderId;
 						$couponTable->store();
 
 						$query->clear()
@@ -223,7 +223,7 @@ class RedshopHelperCron
 			elseif ($mail->mail2_status == 0 && Redshop::getConfig()->get('DAYS_MAIL2') && $total != 0)
 			{
 				$sendDate       = date("Y-m-d", $mail->cdate + (Redshop::getConfig()->get('DAYS_MAIL2') * (59 * 59 * 23)));
-				$secondMailData = RedshopHelperMail::getMailTemplate(0, "second_mail_after_order_purchased");
+				$secondMailData = Redshop\Mail\Helper::getTemplate(0, "second_mail_after_order_purchased");
 
 				if (count($secondMailData) > 0)
 				{
@@ -247,9 +247,9 @@ class RedshopHelperCron
 					$validEndDate = RedshopHelperDatetime::convertDateFormat($couponEndDate);
 					$body         = str_replace("{coupon_code}", $couponCode, $body);
 					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body         = RedshopHelperMail::imgInMail($body);
+					Redshop\Mail\Helper::imgInMail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $mailBcc))
+					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
 						$query->clear()
 							->update($db->qn('#__redshop_orders'))
@@ -264,7 +264,7 @@ class RedshopHelperCron
 			)
 			{
 				// Coupon reminder
-				$thirdMailData = RedshopHelperMail::getMailTemplate(0, "third_mail_after_order_purchased");
+				$thirdMailData = Redshop\Mail\Helper::getTemplate(0, "third_mail_after_order_purchased");
 
 				if (count($thirdMailData) > 0)
 				{
@@ -289,9 +289,9 @@ class RedshopHelperCron
 					$validEndDate = RedshopHelperDatetime::convertDateFormat($couponEndDate);
 					$body         = str_replace("{coupon_code}", $couponCode, $body);
 					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body         = RedshopHelperMail::imgInMail($body);
+					Redshop\Mail\Helper::imgInMail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $mailBcc))
+					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, 1, null, $mailBcc))
 					{
 						$query->clear()
 							->update($db->qn('#__redshop_orders'))
@@ -343,7 +343,7 @@ class RedshopHelperCron
 		foreach ($subscriptions as $subscription)
 		{
 			// Subscription renewal mail
-			RedshopHelperMail::sendSubscriptionRenewalMail($subscription);
+			Redshop\Mail\User::sendSubscriptionRenewal($subscription);
 
 			$productSubscribeIds[] = (int) $subscription->product_subscribe_id;
 		}

@@ -19,20 +19,6 @@ use Behat\Transliterator\Transliterator;
 class RedshopHelperUtility
 {
 	/**
-	 * @var   array
-	 *
-	 * @since  2.0.6
-	 */
-	protected static $menuItems;
-
-	/**
-	 * @var   array
-	 *
-	 * @since  2.0.6
-	 */
-	protected static $menuItemAssociation = array();
-
-	/**
 	 * The dispatcher.
 	 *
 	 * @var  JEventDispatcher
@@ -43,6 +29,11 @@ class RedshopHelperUtility
 	 * @var  boolean
 	 */
 	protected static $isRedProductFinder;
+
+	/**
+	 * @var  array
+	 */
+	protected static $menuItemAssociation = array();
 
 	/**
 	 * Get SSL link for backend or applied for ssl link
@@ -151,46 +142,6 @@ class RedshopHelperUtility
 	}
 
 	/**
-	 * Build the list representing the menu tree
-	 *
-	 * @param   integer $id       Id of the menu item
-	 * @param   string  $indent   The indentation string
-	 * @param   array   $list     The list to process
-	 * @param   array   &$childs  The children of the current item
-	 * @param   integer $maxLevel The maximum number of levels in the tree
-	 * @param   integer $level    The starting level
-	 * @param   string  $key      The name of primary key.
-	 * @param   string  $nameKey  The name of key for item title.
-	 * @param   string  $spacer   Spacer for sub-item.
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public static function createTree($id, $indent, $list, &$childs, $maxLevel = 9999, $level = 0, $key = 'id', $nameKey = 'title',
-									  $spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
-	{
-		if (empty($childs[$id]) || $level > $maxLevel)
-		{
-			return $list;
-		}
-
-		foreach ($childs[$id] as $item)
-		{
-			$nextId     = $item->{$key};
-			$itemIndent = ($item->parent_id > 0) ? str_repeat($spacer, $level) . $indent : '';
-
-			$list[$nextId]           = $item;
-			$list[$nextId]->treename = $itemIndent . $item->{$nameKey};
-			$list[$nextId]->indent   = $itemIndent;
-			$list[$nextId]->children = count(@$childs[$nextId]);
-			$list                    = static::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
-		}
-
-		return $list;
-	}
-
-	/**
 	 * Convert associative array into attributes.
 	 * Example:
 	 *        array('size' => '50', 'name' => 'myfield')
@@ -251,7 +202,7 @@ class RedshopHelperUtility
 	{
 		$user           = JFactory::getUser();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroups  = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
+		$shopperGroups  = \Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroups))
 		{
@@ -301,7 +252,7 @@ class RedshopHelperUtility
 	/**
 	 * Method for get quotation mode.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
@@ -440,7 +391,7 @@ class RedshopHelperUtility
 				}
 				else
 				{
-					$truncate    .= $tag[3];
+					$truncate   .= $tag[3];
 					$totalLength = $contentLength;
 				}
 
@@ -538,35 +489,28 @@ class RedshopHelperUtility
 			case '+':
 				$leftValue += $rightValue;
 				break;
+
 			case '-':
 				$leftValue -= $rightValue;
 				break;
+
 			case '*':
 				$leftValue *= $rightValue;
 				break;
+
 			case '/':
 				$leftValue /= $rightValue;
+				break;
+
+			case '=':
+				$leftValue = $rightValue;
+				break;
+
+			default:
 				break;
 		}
 
 		return $leftValue;
-	}
-
-	/**
-	 * Get Redshop Menu Items
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getRedshopMenuItems()
-	{
-		if (is_null(self::$menuItems))
-		{
-			self::$menuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
-		}
-
-		return self::$menuItems;
 	}
 
 	/**
@@ -689,6 +633,7 @@ class RedshopHelperUtility
 	 * @param   array $queryItems Values query
 	 *
 	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -700,7 +645,7 @@ class RedshopHelperUtility
 		{
 			self::$menuItemAssociation[$serializeItem] = false;
 
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			foreach (RedshopHelperRouter::getRedshopMenuItems() as $oneMenuItem)
 			{
 				if (self::checkMenuQuery($oneMenuItem, $queryItems))
 				{
@@ -796,7 +741,7 @@ class RedshopHelperUtility
 
 		$categories = explode(',', $categoryId);
 
-		if ($categories)
+		if (!empty($categories))
 		{
 			foreach ($categories as $category)
 			{
@@ -814,7 +759,7 @@ class RedshopHelperUtility
 		// Get from Parents
 		$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
 
-		if ($categories)
+		if (!empty($categories))
 		{
 			foreach ($categories as $category)
 			{
@@ -990,7 +935,7 @@ class RedshopHelperUtility
 		$order[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
 
 		$order[1]        = new stdClass;
-		$order[1]->value = "mn.manufacturer_id DESC";
+		$order[1]->value = "mn.id DESC";
 		$order[1]->text  = JText::_('COM_REDSHOP_NEWEST');
 
 		$order[2]        = new stdClass;
@@ -1174,51 +1119,6 @@ class RedshopHelperUtility
 	}
 
 	/**
-	 * Method for get menu item id of checkout page
-	 *
-	 * @return  integer
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getCheckoutItemId()
-	{
-		$itemId       = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
-		$shopperGroup = RedshopHelperUser::getShopperGroupData();
-
-		if (count($shopperGroup) > 0 && $shopperGroup->shopper_group_cart_checkout_itemid != 0)
-		{
-			$itemId = $shopperGroup->shopper_group_cart_checkout_itemid;
-		}
-
-		if ($itemId == 0)
-		{
-			$itemId = JFactory::getApplication()->input->getInt('Itemid');
-		}
-
-		return $itemId;
-	}
-
-	/**
-	 * Method for get menu item id of cart page
-	 *
-	 * @return  integer
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getCartItemId()
-	{
-		$itemId           = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
-		$shopperGroupData = RedshopHelperUser::getShopperGroupData();
-
-		if (count($shopperGroupData) > 0 && $shopperGroupData->shopper_group_cart_itemid != 0)
-		{
-			$itemId = $shopperGroupData->shopper_group_cart_itemid;
-		}
-
-		return $itemId;
-	}
-
-	/**
 	 * Method for check if ProductFinder is available or not.
 	 *
 	 * @return  boolean
@@ -1264,7 +1164,7 @@ class RedshopHelperUtility
 	 */
 	public static function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('ea.*')
 			->select($db->qn('ea.accountgroup_id', 'value'))

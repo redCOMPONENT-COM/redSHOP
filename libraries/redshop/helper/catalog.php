@@ -94,7 +94,7 @@ class RedshopHelperCatalog
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, "catalog_first_reminder");
+		$mailData = Redshop\Mail\Helper::getTemplate(0, "catalog_first_reminder");
 
 		if (count($mailData) > 0)
 		{
@@ -110,9 +110,10 @@ class RedshopHelperCatalog
 
 		$body = str_replace("{name}", $catalog->name, $mailBody);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
-		$body = RedshopHelperMail::imgInMail($body);
 
-		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, $mode = 1, null, $mailBcc))
+		Redshop\Mail\Helper::imgInMail($body);
+
+		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, 1, null, $mailBcc))
 		{
 			$db = JFactory::getDbo();
 
@@ -162,7 +163,7 @@ class RedshopHelperCatalog
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, "catalog_second_reminder");
+		$mailData = Redshop\Mail\Helper::getTemplate(0, "catalog_second_reminder");
 
 		if (count($mailData) > 0)
 		{
@@ -180,7 +181,7 @@ class RedshopHelperCatalog
 		$body = str_replace("{days}", Redshop::getConfig()->get('DISCOUNT_DURATION'), $body);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 		$body = str_replace("{coupon_code}", $token, $body);
-		$body = RedshopHelperMail::imgInMail($body);
+		Redshop\Mail\Helper::imgInMail($body);
 
 		$db = JFactory::getDbo();
 
@@ -195,7 +196,7 @@ class RedshopHelperCatalog
 			->insert($db->qn('#__redshop_coupons'))
 			->columns(
 				$db->qn(
-					array('coupon_code', 'percent_or_total', 'coupon_value', 'start_date', 'end_date', 'coupon_type', 'userid', 'published')
+					array('code', 'type', 'value', 'start_date', 'end_date', 'effect', 'userid', 'published')
 				)
 			)
 			->values(
@@ -205,7 +206,7 @@ class RedshopHelperCatalog
 
 		$db->setQuery($query)->execute();
 
-		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, $mode = 1, null, $mailBcc))
+		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, 1, null, $mailBcc))
 		{
 			$query->clear()
 				->update($db->qn('#__redshop_catalog_request'))
@@ -270,7 +271,7 @@ class RedshopHelperCatalog
 		$mailBody = "";
 		$subject  = "";
 		$mailBcc  = null;
-		$mailData = RedshopHelperMail::getMailTemplate(0, "catalog_coupon_reminder");
+		$mailData = Redshop\Mail\Helper::getTemplate(0, "catalog_coupon_reminder");
 
 		if (count($mailData) > 0)
 		{
@@ -287,9 +288,9 @@ class RedshopHelperCatalog
 		$body = str_replace("{name}", $catalog->name, $mailBody);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 		$body = str_replace("{coupon_code}", $couponCode, $body);
-		$body = RedshopHelperMail::imgInMail($body);
+		Redshop\Mail\Helper::imgInMail($body);
 
-		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, $mode = 1, null, $mailBcc))
+		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, 1, null, $mailBcc))
 		{
 			$query->clear()
 				->update($db->qn('#__redshop_catalog_request'))

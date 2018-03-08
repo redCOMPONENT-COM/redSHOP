@@ -30,7 +30,7 @@ if (count($relptemplate) > 0)
 	$extra_field = extraField::getInstance();
 	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
 
-	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);
+	$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
 	/************************************************************ **********************************************/
 	for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 	{
@@ -95,13 +95,13 @@ if (count($relptemplate) > 0)
 		$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
 		$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
 
-		$manufacturer = $producthelper->getSection("manufacturer", $related_product [$r]->manufacturer_id);
+		$manufacturer = RedshopEntityManufacturer::getInstance($related_product[$r]->manufacturer_id)->getItem();
 
 		if (count($manufacturer) > 0)
 		{
 			$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $this->itemId);
 			$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-			$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
+			$related_template_data = str_replace("{manufacturer_name}", $manufacturer->name, $related_template_data);
 			$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
 		}
 		else
@@ -150,9 +150,9 @@ if (count($relptemplate) > 0)
 		$attributes = array_merge($attributes, $attributes_set);
 
 		$related_template_data = $producthelper->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
-		$related_template_data = $producthelper->replaceCartTemplate($related_product[$r]->mainproduct_id, $this->data->category_id, 0, $related_product[$r]->product_id, $related_template_data, false, 0, count($attributes), 0, 0);
-		$related_template_data = $producthelper->replaceCompareProductsButton($related_product[$r]->product_id, $this->data->category_id, $related_template_data, 1);
-		$related_template_data = $producthelper->replaceProductInStock($related_product[$r]->product_id, $related_template_data);
+		$related_template_data = Redshop\Cart\Render::replace($related_product[$r]->mainproduct_id, $this->data->category_id, 0, $related_product[$r]->product_id, $related_template_data, false, array(), count($attributes));
+		$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($related_product[$r]->product_id, $this->data->category_id, $related_template_data, 1);
+		$related_template_data = Redshop\Product\Stock::replaceInStock($related_product[$r]->product_id, $related_template_data);
 
 		$related_template_data = $producthelper->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
 

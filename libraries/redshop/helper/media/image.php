@@ -21,21 +21,27 @@ class RedshopHelperMediaImage
 	/**
 	 * Render Drag n Drop template in site
 	 *
-	 * @param   string  $id            ID of media input name
-	 * @param   string  $type          Type of item want to show gallery
-	 * @param   string  $sectionId     Section ID to show
-	 * @param   string  $mediaSection  Section type to show
-	 * @param   string  $image         URL of featured image
-	 * @param   bool    $showMedia     Show pop-up of media or not.
+	 * @param   string   $id            ID of media input name
+	 * @param   string   $type          Type of item want to show gallery
+	 * @param   string   $sectionId     Section ID to show
+	 * @param   string   $mediaSection  Section type to show
+	 * @param   string   $image         URL of featured image
+	 * @param   boolean  $showMedia     Show pop-up of media or not.
+	 * @param   boolean  $useMediaPath  Use new structure of media folder or not.
+	 * @param   integer  $mediaId       Media ID
 	 *
 	 * @return  string
 	 */
-	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true)
+	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true, $useMediaPath = false, $mediaId = 0)
 	{
 		self::requireDependencies();
 
-		$imgUrl  = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
-		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+		$imgUrl = $useMediaPath ? '/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image
+			: '/components/com_redshop/assets/images/' . $type . '/' . $image;
+		$imgUrl = JRoute::_($imgUrl);
+
+		$imgFile = $useMediaPath ? REDSHOP_MEDIA_IMAGE_RELPATH . $type . '/' . $sectionId . '/' . $image
+			: REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
 		$file = array();
 
@@ -57,7 +63,8 @@ class RedshopHelperMediaImage
 				'sectionId'    => $sectionId,
 				'mediaSection' => $mediaSection,
 				'file'         => $file,
-				'showMedia'    => $showMedia
+				'showMedia'    => $showMedia,
+				'mediaId'      => $mediaId
 			)
 		);
 	}
@@ -70,15 +77,15 @@ class RedshopHelperMediaImage
 	 */
 	public static function requireDependencies()
 	{
-		JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
-		JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
-		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
-		JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
+		JHtml::stylesheet('com_redshop/dropzone.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/cropper.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/redshop.media.min.css', array(), true);
 
-		JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
-		JHtml::script('com_redshop/cropper/cropper.js', false, true);
-		JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
-		JHtml::script('com_redshop/redshop.media.js', false, true);
+		JHtml::script('com_redshop/dropzone.min.js', false, true);
+		JHtml::script('com_redshop/cropper.min.js', false, true);
+		JHtml::script('com_redshop/lightbox2.min.js', false, true);
+		JHtml::script('com_redshop/redshop.media.min.js', false, true);
 
 		return true;
 	}
@@ -86,11 +93,11 @@ class RedshopHelperMediaImage
 	/**
 	 * Render gallery pop-up for media
 	 *
-	 * @param   string  $id            ID of media input name
-	 * @param   string  $type          Type of item want to show gallery
-	 * @param   string  $sectionId     Section ID to show
-	 * @param   string  $mediaSection  Section type to show
-	 * @param   string  $image         URL of featured image
+	 * @param   string $id           ID of media input name
+	 * @param   string $type         Type of item want to show gallery
+	 * @param   string $sectionId    Section ID to show
+	 * @param   string $mediaSection Section type to show
+	 * @param   string $image        URL of featured image
 	 *
 	 * @return  void
 	 */
@@ -102,7 +109,7 @@ class RedshopHelperMediaImage
 		$file = array();
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-		$media     = JModelLegacy::getInstance('Media', 'RedshopModel');
+		$media = JModelLegacy::getInstance('Media', 'RedshopModel');
 
 		$listMedia = $media->all();
 		$gallery   = array();
@@ -122,7 +129,7 @@ class RedshopHelperMediaImage
 						$dimension = $dimension[0] . ' x ' . $dimension[1];
 					}
 
-					$tmpImg    = array(
+					$tmpImg = array(
 						'id'        => $lm->media_id,
 						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
 						'name'      => $lm->media_name,
@@ -173,7 +180,7 @@ class RedshopHelperMediaImage
 	/**
 	 * Show file size in KB, MB, GB...
 	 *
-	 * @param   integer  $bytes  Volume of item
+	 * @param   integer $bytes Volume of item
 	 *
 	 * @return  string
 	 */
@@ -192,7 +199,7 @@ class RedshopHelperMediaImage
 	/**
 	 * Method for get all media files of redSHOP
 	 *
-	 * @param   string  $selectedImage  Selected file.
+	 * @param   string $selectedImage Selected file.
 	 *
 	 * @return  array                   List of media files.
 	 *
@@ -209,7 +216,7 @@ class RedshopHelperMediaImage
 			return array();
 		}
 
-		$gallery   = array();
+		$gallery = array();
 
 		foreach ($listMedia as $lk => $lm)
 		{
@@ -224,7 +231,7 @@ class RedshopHelperMediaImage
 					$dimension = $dimension[0] . ' x ' . $dimension[1];
 				}
 
-				$tmpImg    = array(
+				$tmpImg = array(
 					'id'        => $lm->media_id,
 					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
 					'name'      => $lm->media_name,
@@ -254,7 +261,7 @@ class RedshopHelperMediaImage
 	/**
 	 * Method for get MIME Type of specific file.
 	 *
-	 * @param   string  $path  Path of file.
+	 * @param   string $path Path of file.
 	 *
 	 * @return  mixed          Mime type of file.
 	 *

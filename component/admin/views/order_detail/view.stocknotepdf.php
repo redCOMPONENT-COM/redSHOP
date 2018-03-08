@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Order\Template;
+
 defined('_JEXEC') or die;
 
 /**
@@ -65,37 +67,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		ob_start();
 
-		if (strpos($pdfTemplate, "{product_loop_start}") !== false && strpos($pdfTemplate, "{product_loop_end}") !== false)
-		{
-			$template_sdata = explode('{product_loop_start}', $pdfTemplate);
-			$template_start = $template_sdata[0];
-			$template_edata = explode('{product_loop_end}', $template_sdata[1]);
-			$template_end = $template_edata[1];
-			$template_middle = $template_edata[0];
-
-			$middle_data = '';
-
-			for ($p = 0, $pn = count($products); $p < $pn; $p++)
-			{
-				$middle_data .= $template_middle;
-
-				$product_detail = Redshop::product((int) $products[$p]->product_id);
-				$middle_data = str_replace("{product_number}", $product_detail->product_number, $middle_data);
-				$middle_data = str_replace("{product_name}", $products[$p]->order_item_name, $middle_data);
-
-				$middle_data = RedshopTagsReplacer::_(
-						'attribute',
-						$middle_data,
-						array(
-							'product_attribute' 	=> $products[$p]->product_attribute,
-						)
-					);
-
-				$middle_data = str_replace("{product_quantity}", $products[$p]->product_quantity, $middle_data);
-			}
-
-			$pdfTemplate = $template_start . $middle_data . $template_end;
-		}
+		$pdfTemplate = Template::replaceTemplate($detail, $pdfTemplate);
 
 		$pdfTemplate = str_replace("{order_id_lbl}", JText::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
 		$pdfTemplate = str_replace("{order_id}", $detail->order_id, $pdfTemplate);
@@ -107,7 +79,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		$billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
 		$shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
-		$pdfTemplate = $cartHelper->replaceShippingAddress($pdfTemplate, $shipping);
+		$pdfTemplate = Redshop\Shipping\Tag::replaceShippingAddress($pdfTemplate, $shipping);
 		$pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);
 		$pdfTemplate = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $pdfTemplate);
 

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -53,7 +55,7 @@ abstract class JHtmlRedshopjquery
 				$debug  = (boolean) $config->get('debug');
 			}
 
-			JHtml::script('com_redshop/jquery.js', false, true, false, false, $debug);
+			JHtml::script('com_redshop/jquery.min.js', false, true, false, false, $debug);
 
 			// Check if we are loading in noConflict
 			if ($noConflict)
@@ -64,7 +66,7 @@ abstract class JHtmlRedshopjquery
 			// Check if we are loading Migrate
 			if ($migrate)
 			{
-				JHtml::_('script', 'com_redshop/jquery-migrate.js', false, true, false, false, $debug);
+				JHtml::_('script', 'com_redshop/jquery-migrate.min.js', false, true, false, false, $debug);
 			}
 		}
 		else
@@ -92,9 +94,9 @@ abstract class JHtmlRedshopjquery
 			return;
 		}
 
-		JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.css', array(), true);
+		JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', array(), true);
 		self::framework();
-		JHtml::script('com_redshop/jquery-ui/jquery-ui.js', false, true, false, false);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery-ui.min.js', false, true, false, false);
 
 		if (version_compare(JVERSION, '3.0', '>='))
 		{
@@ -142,8 +144,8 @@ abstract class JHtmlRedshopjquery
 
 		self::framework();
 
-		JHtml::script('com_redshop/flexslider/flexslider.js', false, true);
-		JHtml::stylesheet('com_redshop/flexslider/flexslider.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/flexslider.min.js', false, true);
+		JHtml::stylesheet('com_redshop/flexslider/flexslider.min.css', array(), true);
 
 		$options = static::options2Jregistry($options);
 
@@ -245,7 +247,7 @@ abstract class JHtmlRedshopjquery
 
 		self::framework();
 
-		JHtml::script('com_redshop/select2/select2.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/select2.min.js', false, true);
 		JHtml::stylesheet('com_redshop/select2/select2.css', array(), true);
 
 		if (version_compare(JVERSION, '3.0', '>='))
@@ -383,152 +385,6 @@ abstract class JHtmlRedshopjquery
 		}
 
 		return $options;
-	}
-
-	/**
-	 * Displays a calendar control field
-	 *
-	 * @param   string  $value    The date value
-	 * @param   string  $name     The name of the text field
-	 * @param   string  $id       The id of the text field
-	 * @param   string  $format   The date format
-	 * @param   mixed   $attribs  Additional HTML attributes
-	 *
-	 * @return  string  HTML markup for a calendar field
-	 *
-	 * @since   1.5
-	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
-	{
-		static $done;
-
-		if ($done === null)
-		{
-			$done = array();
-		}
-
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-		$html = '';
-		$jInput = JFactory::getApplication()->input;
-		$isAjax = false;
-
-		if ($jInput->getCmd('format', 'html') != 'html' || $jInput->getCmd('tmpl', '') == 'component')
-		{
-			$isAjax = true;
-		}
-
-		if (is_array($attribs))
-		{
-			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs = JArrayHelper::toString($attribs);
-		}
-
-		if (version_compare(JVERSION, '3.0', '>='))
-		{
-			// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
-			if ((int) $value)
-			{
-				$tz = date_default_timezone_get();
-				date_default_timezone_set('UTC');
-				$inputvalue = strftime($format, strtotime($value));
-				date_default_timezone_set($tz);
-			}
-			else
-			{
-				$inputvalue = '';
-			}
-
-			// Load the calendar behavior
-			JHtml::_('behavior.calendar');
-
-			// Only display the triggers once for each control.
-			if (!in_array($id, $done))
-			{
-				$script = 'jQuery(document).ready(function($) {Calendar.setup({
-					// Id of the input field
-					inputField: "' . $id . '",
-					// Format of the input field
-					ifFormat: "' . $format . '",
-					// Trigger for the calendar (button ID)
-					button: "' . $id . '_img",
-					// Alignment (defaults to "Bl")
-					align: "Tl",
-					singleClick: true,
-					firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-					});});';
-
-				if ($isAjax)
-				{
-					$html .= '<script type="text/javascript">' . $script . '</script>';
-				}
-				else
-				{
-					$document = JFactory::getDocument();
-					$document->addScriptDeclaration($script);
-				}
-
-				$done[] = $id;
-			}
-
-			// Hide button using inline styles for readonly/disabled fields
-			$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-			$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
-
-			return $html . '<div' . $div_class . '>'
-			. '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value, null, null) : '')
-			. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-			. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
-			. '</div>';
-		}
-		else
-		{
-			if (!$readonly && !$disabled)
-			{
-				// Load the calendar behavior
-				JHtml::_('behavior.calendar');
-
-				// Only display the triggers once for each control.
-				if (!in_array($id, $done))
-				{
-					$script = 'window.addEvent(\'domready\', function() {Calendar.setup({
-							// Id of the input field
-							inputField: "' . $id . '",
-							// Format of the input field
-							ifFormat: "' . $format . '",
-							// Trigger for the calendar (button ID)
-							button: "' . $id . '_img",
-							// Alignment (defaults to "Bl")
-							align: "Tl",
-							singleClick: true,
-							firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-							});});';
-
-					if ($isAjax)
-					{
-						$html .= '<script type="text/javascript">' . $script . '</script>';
-					}
-					else
-					{
-						$document = JFactory::getDocument();
-						$document->addScriptDeclaration($script);
-					}
-
-					$done[] = $id;
-				}
-
-				return $html
-				. '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
-				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
-			}
-			else
-			{
-				return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? JHtml::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
-			}
-		}
 	}
 
 	/**

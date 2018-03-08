@@ -31,7 +31,7 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function addState($countryName = 'Test Country', $stateName = 'Test State', $twoCode = '12', $threeCode = '123')
 	{
-		$client = $this;
+		$client           = $this;
 		$stateManagerPage = new \StatePage;
 
 		$client->amOnPage(\StatePage::$url);
@@ -90,8 +90,8 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\StatePage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\StatePage::$messageItemDeleteSuccess, 60, \StatePage::$selectorSuccess);
-		$client->see(\StatePage::$messageItemDeleteSuccess, \StatePage::$selectorSuccess);
+//		$client->waitForText(\StatePage::$messageDeleteSuccess, 60, \StatePage::$selectorSuccess);
+//		$client->see(\StatePage::$messageDeleteSuccess, \StatePage::$selectorSuccess);
 		$client->fillField(\StatePage::$searchField, $stateName);
 		$client->pressKey(\StatePage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($stateName, \StatePage::$resultRow);

@@ -19,36 +19,22 @@ defined('_JEXEC') or die;
 class RedshopControllerImport extends RedshopControllerAdmin
 {
 	/**
-	 * Method for start import
-	 *
-	 * @return  void
-	 *
-	 * @since  2.0.3
-	 */
-	public function importdata()
-	{
-		ob_clean();
-		$model = $this->getModel('import');
-		$model->importdata();
-	}
-
-	/**
 	 * Method for upload csv file.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since  2.0.3
 	 */
 	public function uploadFile()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		// Init response
 		$response = array('status' => 1, 'msg' => JText::_('COM_REDSHOP_IMPORT_MESSAGE_UPLOAD_FILE_SUCCESS'));
-
 		$plugin   = $this->input->getCmd('plugin_name', '');
 		$file     = $this->input->files->get('csv_file', null);
 		$data     = $this->input->post->getArray();
+
 
 		JPluginHelper::importPlugin('redshop_import');
 		$result = RedshopHelperUtility::getDispatcher()->trigger('onUploadFile', array($plugin, $file, $data));
@@ -60,8 +46,8 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		}
 		else
 		{
-			// Merge array to response. Because we'll need extra data in $result
-			$response = array_merge($response, $result[0]);
+			$response['folder'] = $result[0]['folder'];
+			$response['lines']  = $result[0]['lines'];
 		}
 
 		echo json_encode($response);

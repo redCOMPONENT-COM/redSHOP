@@ -21,7 +21,7 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$cfg = JFactory::getConfig();
+		$cfg   = JFactory::getConfig();
 		$lists = array();
 
 		$model = $this->getModel('attribute_set_detail');
@@ -33,20 +33,19 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 		$document->addScriptDeclaration("
 			var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
-		");
+		"
+		);
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
-			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
+			/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
 		}
 
-		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
-		$document->addScript('components/com_redshop/assets/js/fields.js');
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$detail = $this->get('data');
 
@@ -69,12 +68,12 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['attributes'] = $attributes;
 
-		$this->model = $model;
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->model       = $model;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

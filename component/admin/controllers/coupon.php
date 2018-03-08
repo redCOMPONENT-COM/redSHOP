@@ -9,55 +9,30 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerCoupon extends RedshopController
+/**
+ * Controller Coupon Detail
+ *
+ * @package      RedSHOP.Backend
+ * @subpackage  Controller
+ * @since        2.1.0
+ */
+class RedshopControllerCoupon extends RedshopControllerForm
 {
-	public function cancel()
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   2.1.0
+	 */
+	public function getModel($name = 'Coupon', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
-		$this->setRedirect('index.php');
-	}
+		$model = parent::getModel($name, $prefix, $config);
 
-	public function publish()
-	{
-
-
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('coupon_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
-	}
-
-	public function unpublish()
-	{
-
-
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('coupon_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
+		return $model;
 	}
 }

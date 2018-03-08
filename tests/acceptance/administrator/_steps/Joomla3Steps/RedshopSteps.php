@@ -19,10 +19,13 @@ class RedshopSteps
 		$this->clearAllOrders();
 		$this->clearTaxRate();
 		$this->clearAllMassDiscount();
-		$this->clearAllVocher();
+		$this->clearAllVoucher();
 		$this->clearAllDiscountOnProduct();
 	}
 
+	/**
+	 * Function clear all data categories at database
+	 */
 	public function clearAllCategories()
 	{
 		$db = \JFactory::getDbo();
@@ -33,6 +36,9 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Function clear all data products at database
+	 */
 	public function clearAllProducts(){
 
 		$db = \JFactory::getDbo();
@@ -41,9 +47,11 @@ class RedshopSteps
 			->where('1');
 
 		$db->setQuery($query)->execute();
-
 	}
 
+	/**
+	 * Function clear all data coupons at database
+	 */
 	public function clearAllCoupons(){
 
 		$db= \JFactory::getDbo();
@@ -54,6 +62,9 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Function clear all mass discount at database
+	 */
 	public function clearAllMassDiscount(){
 
 		$db= \JFactory::getDbo();
@@ -64,6 +75,9 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Function clear all discount on product at database
+	 */
 	public function clearAllDiscountOnProduct(){
 
 		$db= \JFactory::getDbo();
@@ -74,6 +88,9 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Function clear all discount total at database
+	 */
 	public function clearAllDiscountTotal(){
 
 		$db= \JFactory::getDbo();
@@ -84,7 +101,10 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
-	public function clearAllVocher(){
+	/**
+	 * Function clear all data voucher at database
+	 */
+	public function clearAllVoucher(){
 
 		$db= \JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -94,6 +114,9 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Function clear all data tax rate at database
+	 */
 	public function clearTaxRate(){
 
 		$db= \JFactory::getDbo();
@@ -104,6 +127,9 @@ class RedshopSteps
 		$db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Function clear all data orders at database
+	 */
 	public function clearAllOrders(){
 
 		$db= \JFactory::getDbo();
@@ -113,5 +139,5 @@ class RedshopSteps
 
 		$db->setQuery($query)->execute();
 	}
-
+	
 }

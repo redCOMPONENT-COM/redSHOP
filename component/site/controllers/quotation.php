@@ -42,6 +42,7 @@ class RedshopControllerQuotation extends RedshopController
 			die();
 		}
 
+		/** @var RedshopModelQuotation $model */
 		$model                  = $this->getModel('quotation');
 		$session                = JFactory::getSession();
 		$cart                   = $session->get('cart');

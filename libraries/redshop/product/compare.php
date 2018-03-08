@@ -112,7 +112,7 @@ class RedshopProductCompare implements Countable
 	 *
 	 * @param   object  $item  Compare Item info
 	 *
-	 * @throws  exception      Throw exception if not valid items and not unique keys
+	 * @throws  Exception      Throw exception if not valid items and not unique keys
 	 *
 	 * @return  void
 	 */
@@ -121,7 +121,7 @@ class RedshopProductCompare implements Countable
 		$this->item  = $item;
 		$productData = RedshopHelperProduct::getProductById($this->item->productId);
 
-		// Throw an exception for invalid entried
+		// Throw an exception for invalid entry
 		if (!$this->validItem())
 		{
 			throw new Exception(JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE'), 1);
@@ -317,7 +317,7 @@ class RedshopProductCompare implements Countable
 	/**
 	 * Get category id stored in compare list
 	 *
-	 * @return  integer  Category Id
+	 * @return  array  Category Id
 	 */
 	public function getCategoryIds()
 	{

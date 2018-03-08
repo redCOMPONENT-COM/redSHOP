@@ -10,20 +10,34 @@
 defined('_JEXEC') or die;
 
 /**
- * Class account_shiptoModelaccount_shipto
+ * Class RedshopModelAccount_Shipto
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelAccount_shipto extends RedshopModel
+class RedshopModelAccount_Shipto extends RedshopModel
 {
+	/**
+	 * @var integer
+	 */
 	public $_id = null;
 
+	/**
+	 * @var mixed
+	 */
 	public $_data = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * RedshopModelAccount_Shipto constructor.
+	 *
+	 * @throws Exception
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,12 +48,24 @@ class RedshopModelAccount_shipto extends RedshopModel
 		$this->setId($infoid);
 	}
 
+	/**
+	 * Method for set Id
+	 *
+	 * @param   integer $id ID
+	 *
+	 * @return  void
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * Method for get data
+	 *
+	 * @return mixed|null
+	 */
 	public function &getData()
 	{
 		if (!$this->_loadData())
@@ -50,11 +76,17 @@ class RedshopModelAccount_shipto extends RedshopModel
 		return $this->_data;
 	}
 
+	/**
+	 * Method for init data
+	 *
+	 * @return  boolean
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail                = new stdClass;
+			$detail = new stdClass;
+
 			$detail->users_info_id = 0;
 			$detail->user_id       = 0;
 			$detail->firstname     = null;
@@ -66,30 +98,32 @@ class RedshopModelAccount_shipto extends RedshopModel
 			$detail->city          = null;
 			$detail->zipcode       = null;
 			$detail->phone         = 0;
-			$this->_data           = $detail;
 
-			return (boolean) $this->_data;
+			$this->_data = $detail;
+
+			return true;
 		}
 
 		return true;
 	}
 
-	public function _loadData($users_info_id = 0)
+	/**
+	 * Method for load data
+	 *
+	 * @param   integer $userInfoId User infor Id
+	 *
+	 * @return  mixed
+	 */
+	public function _loadData($userInfoId = 0)
 	{
-		if ($users_info_id)
+		if ($userInfoId)
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . (int) $users_info_id;
-			$this->_db->setQuery($query);
-			$list = $this->_db->loadObject();
-
-			return $list;
+			return RedshopEntityUser::getInstance((int) $userInfoId)->getItem();
 		}
 
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . (int) $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$this->_data = RedshopEntityUser::getInstance((int) $this->_id)->getItem();
 
 			return $this->_data;
 		}
@@ -97,35 +131,37 @@ class RedshopModelAccount_shipto extends RedshopModel
 		return true;
 	}
 
-	public function delete($infoid = array())
+	/**
+	 * Method for delete shipping data
+	 *
+	 * @param   integer  $infoid  Infor data
+	 *
+	 * @return  boolean
+	 */
+	public function delete($infoid)
 	{
-		// Initialiase variables.
+		// Init variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->delete()
-					->from($db->qn('#__redshop_users_info'))
-					->where($db->qn('users_info_id') . ' = ' . (int) $infoid);
+			->delete($db->qn('#__redshop_users_info'))
+			->where($db->qn('users_info_id') . ' = ' . (int) $infoid);
 
 		// Set the query and execute the delete.
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
-		}
-
-		return true;
+		return $db->setQuery($query)->execute();
 	}
 
+	/**
+	 * Method for store shipping data
+	 *
+	 * @param   array  $post  Infor data
+	 *
+	 * @return  boolean|Tableuser_detail
+	 * @throws  Exception
+	 */
 	public function store($post)
 	{
 		$post['user_email'] = $post['email1'] = $post['email'];
-		$reduser            = RedshopHelperUser::storeRedshopUserShipping($post);
 
-		return $reduser;
+		return RedshopHelperUser::storeRedshopUserShipping($post);
 	}
 }

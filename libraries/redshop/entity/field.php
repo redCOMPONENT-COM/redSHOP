@@ -43,6 +43,23 @@ class RedshopEntityField extends RedshopEntity
 	}
 
 	/**
+	 * Method for get group of this field
+	 *
+	 * @return  null|RedshopEntityField_Group
+	 *
+	 * @since   2.1.0
+	 */
+	public function getGroup()
+	{
+		if (!$this->hasId() || $this->get('groupId') === null)
+		{
+			return null;
+		}
+
+		return RedshopEntityField_Group::getInstance((int) $this->get('groupId'));
+	}
+
+	/**
 	 * Method for load field values
 	 *
 	 * @return  self
@@ -61,7 +78,7 @@ class RedshopEntityField extends RedshopEntity
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_fields_value'))
-			->where($db->qn('field_id') . ' = ' . $this->getId())
+			->where($db->qn('field_id') . ' = ' . (int) $this->getId())
 			->order($db->qn('value_id') . ' ASC');
 
 		$this->fieldValues = $db->setQuery($query)->loadObjectList();

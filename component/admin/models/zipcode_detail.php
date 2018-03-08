@@ -30,7 +30,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -67,11 +67,11 @@ class RedshopModelZipcode_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->zipcode_id = 0;
-			$detail->city_name = null;
-			$detail->state_code = null;
+			$detail->zipcode_id   = 0;
+			$detail->city_name    = null;
+			$detail->state_code   = null;
 			$detail->country_code = null;
-			$detail->zipcode = null;
+			$detail->zipcode      = null;
 
 			$this->_data = $detail;
 

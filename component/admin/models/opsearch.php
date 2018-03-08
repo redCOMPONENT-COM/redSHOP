@@ -47,9 +47,9 @@ class RedshopModelOpsearch extends RedshopModel
 	 */
 	protected function populateState($ordering = 'order_item_name', $direction = '')
 	{
-		$filter_user = $this->getUserStateFromRequest($this->context . '.filter_user', 'filter_user', 0);
+		$filter_user    = $this->getUserStateFromRequest($this->context . '.filter_user', 'filter_user', 0);
 		$filter_product = $this->getUserStateFromRequest($this->context . '.filter_product', 'filter_product', 0);
-		$filter_status = $this->getUserStateFromRequest($this->context . '.filter_status', 'filter_status', 0);
+		$filter_status  = $this->getUserStateFromRequest($this->context . '.filter_status', 'filter_status', 0);
 
 		$this->setState('filter_user', $filter_user);
 		$this->setState('filter_product', $filter_product);
@@ -60,10 +60,10 @@ class RedshopModelOpsearch extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter_user = $this->getState('filter_user', '');
+		$orderby        = $this->_buildContentOrderBy();
+		$filter_user    = $this->getState('filter_user', '');
 		$filter_product = $this->getState('filter_product', '');
-		$filter_status = $this->getState('filter_status', '');
+		$filter_status  = $this->getState('filter_status', '');
 
 		$where = '';
 
@@ -93,12 +93,12 @@ class RedshopModelOpsearch extends RedshopModel
 
 	public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM #__redshop_users_info AS uf "
+		$query              = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM #__redshop_users_info AS uf "
 			. "WHERE uf.address_type='BT' "
 			. "ORDER BY text ";
-		$userlist = $this->_getList($query);
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_USER') . ' -');
-		$types = array_merge($types, $userlist);
+		$userlist           = $this->_getList($query);
+		$types[]            = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_USER') . ' -');
+		$types              = array_merge($types, $userlist);
 		$mylist['userlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['userlist'];

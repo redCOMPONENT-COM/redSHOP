@@ -15,7 +15,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $redhelper = redhelper::getInstance();
-$Itemid = RedshopHelperUtility::getCheckoutItemId();
+$Itemid = RedshopHelperRouter::getCheckoutItemId();
 
 if ($Itemid == 0)
 {
@@ -87,12 +87,12 @@ $billingaddresses = $model->billingaddresses();
 		<tr>
 			<td width="100" align="left"><label for="contact_info"><?php echo JText::_('COM_REDSHOP_COUNTRY');?>
 					:</label></td>
-			<td><?php echo JText::_($order_functions->getCountryName($billingaddresses->country_code));?></td>
+			<td><?php echo JText::_(RedshopHelperOrder::getCountryName($billingaddresses->country_code));?></td>
 		</tr>
 	<?php
 	}
 
-	$state = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+	$state = RedshopHelperOrder::getStateName($billingaddresses->state_code, $billingaddresses->country_code);
 
 	if ($state != "")
 	{
@@ -194,11 +194,11 @@ $billingaddresses = $model->billingaddresses();
 
 	if ($billingaddresses->is_company == 1)
 	{
-		echo $extrafields = $extra_field->list_all_field_display(8, $billingaddresses->users_info_id);
+		echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $billingaddresses->users_info_id);
 	}
 	else
 	{
-		echo $extrafields = $extra_field->list_all_field_display(7, $billingaddresses->users_info_id);
+		echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $billingaddresses->users_info_id);
 	}
 	?>
 </table>

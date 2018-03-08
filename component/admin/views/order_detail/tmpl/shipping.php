@@ -156,11 +156,11 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
 					$field = extra_field::getInstance();
 					if ($shipping->is_company == 1)
 					{
-						echo $extrafields = $field->list_all_field(15, $shipping->users_info_id);
+						echo $extrafields = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $shipping->users_info_id);
 					}
 					else
 					{
-						echo $extrafields = $field->list_all_field(14, $shipping->users_info_id);
+						echo $extrafields = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shipping->users_info_id);
 					}
 					?>
                 </tr>

@@ -15,8 +15,11 @@
  */
 abstract class AdminJ3Page
 {
-
+	/**
+	 * @var array
+	 */
 	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
+
 	/**
 	 * @var string
 	 */
@@ -25,7 +28,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $url;
+	public static $url = 'index.php?option=com_redshop';
 
 	/**
 	 * @var string
@@ -35,17 +38,42 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $messageError = "Error";
+
+	/**
+	 * @var string
+	 */
 	public static $messageItemSaveSuccess = "Item saved.";
 
 	/**
 	 * @var string
 	 */
-	public static $messageItemDeleteSuccess = "1 item successfully deleted";
+	public static $messageDeleteSuccess = "successfully deleted";
 
 	/**
 	 * @var string
 	 */
-	public static $resultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+	public static $messageUnpublishSuccess = 'successfully unpublished';
+
+	/**
+	 * @var string
+	 */
+	public static $messagePublishSuccess = 'successfully published';
+
+	/**
+	 * @var string
+	 */
+	public static $messageCheckInSuccess = 'successfully checked in';
+
+	/**
+	 * @var array
+	 */
+	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
+
+	/**
+	 * @var string
+	 */
+	public static $resultRow = "//tbody/tr[1]";
 
 	/**
 	 * @var array
@@ -53,14 +81,41 @@ abstract class AdminJ3Page
 	public static $searchField = ['id' => 'filter_search'];
 
 	/**
+	 * @var array
+	 */
+	public static $idFieldName = ['id' => 'jform_name'];
+
+	/**
 	 * @var string
 	 */
 	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
 	/**
+	 * @var array
+	 */
+	public static $listId = ['id' => 's2id_list_limit'];
+
+	/**
+	 * @var array
+	 */
+	public static $listSearchId = ['id' => 's2id_autogen1_search'];
+
+	/**
+	 * Unpublish button.
+	 *
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(@class, \'btn-checkin\')]'];
+
+	/**
+	 * @var array
+	 */
+	public static $stateCheckInPath = ['xpath' => '//a[contains(@class, \'btn-edit-item\')]'];
 
 	/**
 	 * @var array
@@ -75,7 +130,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $selectorError=".alert-error";
+	public static $selectorError = ".alert-error";
 
 	/**
 	 * @var string
@@ -85,7 +140,22 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $selectorMessage = '.alert-message';
+
+	/**
+	 * @var string
+	 */
 	public static $selectorPageTitle = '.page-title';
+
+	/**
+	 * @var string
+	 */
+	public static $selectorHeading = '.alert-heading';
+	
+	/**
+	 * @var string
+	 */
+	public static $selectorToolBar = '.btn-toolbar';
 
 	/**
 	 * @var string
@@ -96,6 +166,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonSave = "Save";
+
+	/**
+	 * @var string
+	 */
+	public static $buttonSaveNew = "Save & New";
 
 	/**
 	 * @var string
@@ -115,6 +190,11 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $buttonReview = 'Preview';
+
+	/**
+	 * @var string
+	 */
 	public static $buttonPublish = "Publish";
 
 	/**
@@ -126,6 +206,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonEdit = "Edit";
+
+	/**
+	 * @var string
+	 */
+	public static $buttonCopy = 'Copy';
 
 	/**
 	 * @var string
@@ -142,15 +227,23 @@ abstract class AdminJ3Page
 	 */
 	public static $buttonClose = "Close";
 
+	/**
+	 * @var string
+	 */
+	public static $buttonSaveCopy = "Save & Copy";
+
 // Include url of current page
 // Fontend checkout first name
 
 	/**
 	 * @var string
 	 */
-	public static $URL = '/index.php?option=com_redshop';
-
 	public static $URLLoginAdmin = '/administrator/index.php';
+
+	/**
+	 * @var string
+	 */
+	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
 	/**
 	 * @var string
 	 */
@@ -171,10 +264,21 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
+
+	/**
+	 * @var array
+	 */
+	public static $productFirst = ['xpath' => '//div[@class=\'product_name\']/a'];
+
 	/**
 	 * @var string
 	 */
-	public static $addressEmail = "#email1";
+	public static $fieldName = "Field required: Name";
+
+	/**
+	 * @var string
+	 */
+	public static $addressEmail = "#private-email1";
 
 	/**
 	 * @var string
@@ -229,10 +333,20 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $checkoutButton = "//input[@value='Checkout']";
+
+	/**
+	 * @var array
+	 */
+	public static $saveInfoUser = ['xpath'=> '//input[@name=\'submitbtn\']'];
 	/**
 	 * @var array
 	 */
 	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']"];
+
+	/**
+	 * @var array
+	 */
+	public static $bankTransfer = ['xpath' => '//div[@id=\'rs_payment_banktransfer\']'];
 	/**
 	 * @var array
 	 */
@@ -240,16 +354,18 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-//	public static $priceTotal = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[1]/div";
 
 	public static $priceTotal = "//div[@class='form-group'][1]//div[1]";
-	//
+
 	/**
 	 * @var string
 	 */
-//	public static $priceDiscount = "//div[@id='redshopcomponent']/div[2]/div/div/div[1]/div[2]/div/div[2]/div";
-
 	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+
+	/**
+	 * @var array
+	 */
+	public static $priceVAT = ['xpath' => '//div[@class=\'form-group\'][3]//div[1]'];
 	/**
 	 * @var array
 	 */
@@ -258,15 +374,19 @@ abstract class AdminJ3Page
 	public static $shippingRate=['id'=>'spnShippingrate'];
 
 	/**
-	 *
+	 * @var string
+	 */
+	public static $messageErrorFieldRequired = 'Field required';
+
+	/**
 	 * Function get value
-	 * @param $value
+	 *
+	 * @param   string  $value  Value string
+	 *
 	 * @return array
 	 */
 	public static function returnChoice($value)
 	{
-		$path = ['xpath' => "//span[contains(text(), '" . $value . "')]"];
-		return $path;
+		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 	}
-
 }

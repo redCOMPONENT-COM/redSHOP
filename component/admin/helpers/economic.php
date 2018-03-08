@@ -9,7 +9,7 @@
 
 jimport('joomla.filesystem.file');
 
-use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Library for Redshop E-conomic.
@@ -107,13 +107,13 @@ class economic
 	/**
 	 * Create product in E-conomic
 	 *
-	 * @param   array  $row  Data to create
+	 * @param   object  $row  Data to create
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::createProductInEconomic() instead
 	 */
-	public function createProductInEconomic($row = array())
+	public function createProductInEconomic($row)
 	{
 		return RedshopEconomic::createProductInEconomic($row);
 	}
@@ -165,13 +165,13 @@ class economic
 	/**
 	 * Import Stock from Economic
 	 *
-	 * @param   array  $prdrow  Product Info
+	 * @param   object  $prdrow  Product Info
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::importStockFromEconomic() instead
 	 */
-	public function importStockFromEconomic($prdrow = array())
+	public function importStockFromEconomic($prdrow = null)
 	{
 		return RedshopEconomic::importStockFromEconomic($prdrow);
 	}
@@ -308,7 +308,8 @@ class economic
 	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceDiscountLineInEconomic() instead
 	 */
 	public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0,
-		$isVatDiscount = 0)
+		$isVatDiscount = 0
+	)
 	{
 		RedshopEconomic::createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, $isPaymentDiscount, $isVatDiscount);
 	}
@@ -316,7 +317,7 @@ class economic
 	/**
 	 * Method to create Invoice and send mail in E-conomic
 	 *
-	 * @param   array  $orderdata  Order data
+	 * @param   object  $orderdata  Order data
 	 *
 	 * @return  array
 	 *
@@ -344,7 +345,7 @@ class economic
 	/**
 	 * Method to check invoice is draft or booked in E-conomic
 	 *
-	 * @param   array  $orderdetail  Order detail
+	 * @param   object  $orderdetail  Order detail
 	 *
 	 * @return  array
 	 *
@@ -361,7 +362,7 @@ class economic
 	 * @param   array    $orderdetail      Order detail
 	 * @param   integer  $bookinvoicedate  Booking invoice date
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @deprecated  2.0.3 Use RedshopEconomic::updateInvoiceDateInEconomic() instead
 	 */
@@ -398,7 +399,7 @@ class economic
 	 */
 	public function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
 	{
-		return RedshopEconomic::updateInvoiceNumber($orderId, $invoiceNo);
+		RedshopEconomic::updateInvoiceNumber($orderId, $invoiceNo);
 	}
 
 	/**
@@ -412,7 +413,7 @@ class economic
 	 */
 	public function updateBookInvoice($orderId = 0)
 	{
-		return RedshopEconomic::updateBookInvoice($orderId);
+		RedshopEconomic::updateBookInvoice($orderId);
 	}
 
 	/**
@@ -427,7 +428,7 @@ class economic
 	 */
 	public function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
 	{
-		return RedshopEconomic::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
+		RedshopEconomic::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
 	}
 
 	/**
@@ -481,9 +482,9 @@ class economic
 	/**
 	 * Create Attribute Invoice Line In Economic
 	 *
-	 * @param   string $invoiceNo           Invoice number
-	 * @param   array  $orderItem           Order Item
-	 * @param   array  $orderAttributeItems Ordere Attribute Item
+	 * @param   string  $invoiceNo           Invoice number
+	 * @param   object  $orderItem           Order Item
+	 * @param   array   $orderAttributeItems Ordere Attribute Item
 	 *
 	 * @return  void
 	 *
@@ -491,7 +492,7 @@ class economic
 	 */
 	public function createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems)
 	{
-		return RedshopEconomic::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems);
+		RedshopEconomic::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttributeItems);
 	}
 
 	/**

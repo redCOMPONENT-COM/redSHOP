@@ -35,15 +35,14 @@ class RedshopModelRegistration extends RedshopModel
 
 	public function store(&$data)
 	{
-		$userhelper = rsUserHelper::getInstance();
-		$captcha    = $userhelper->checkCaptcha($data);
+		$captcha = Redshop\Helper\Utility::checkCaptcha($data);
 
 		if (!$captcha)
 		{
 			return false;
 		}
 
-		$joomlauser = $userhelper->createJoomlaUser($data, 1);
+		$joomlauser = RedshopHelperJoomla::createJoomlaUser($data, 1);
 
 		if (!$joomlauser)
 		{

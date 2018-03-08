@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $dispatcher    = RedshopHelperUtility::getDispatcher();
 $producthelper = productHelper::getInstance();
@@ -27,14 +26,14 @@ $model   = $this->getModel('cart');
 $session = JFactory::getSession();
 $user    = JFactory::getUser();
 $print   = JFactory::getApplication()->input->getInt('print');
-$Itemid  = RedshopHelperUtility::getCheckoutItemId();
+$Itemid  = RedshopHelperRouter::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display
 $cart_data = $this->data [0]->template_desc;
 
 // Process the product plugin before cart template replace tag
 JPluginHelper::importPlugin('redshop_product');
-$results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
+$results = $dispatcher->trigger('onStartCartTemplateReplace', array(&$cart_data, &$cart));
 
 // End
 
@@ -144,7 +143,7 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
-	elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
+	elseif ($catItemId = RedshopHelperRouter::getCategoryItemid())
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 	}
@@ -180,7 +179,7 @@ $empty_cart = '<form style="padding:0px;margin:0px;" name="empty_cart" method="P
 
 $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
-$discount = $producthelper->getDiscountId(0);
+$discount = RedshopHelperDiscount::getDiscount(0);
 
 if (is_object($discount))
 {
@@ -274,7 +273,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
 
-$cart_data = $redTemplate->parseredSHOPplugin($cart_data);
+$cart_data = RedshopHelperTemplate::parseRedshopPlugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");
 ?>
 <script type="text/javascript" language="javascript">

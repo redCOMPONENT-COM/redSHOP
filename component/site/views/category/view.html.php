@@ -36,12 +36,13 @@ class RedshopViewCategory extends RedshopView
 	 *
 	 * @see     fetch()
 	 * @since   11.1
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
-		$objhelper     = redhelper::getInstance();
 		$prodhelperobj = productHelper::getInstance();
 
 		// Request variables
@@ -82,7 +83,7 @@ class RedshopViewCategory extends RedshopView
 		}
 
 		$document = JFactory::getDocument();
-		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
+		JHtml::stylesheet('com_redshop/redshop.priceslider.min.css', array(), true);
 
 		$lists   = array();
 		$minmax  = array(0, 0);
@@ -99,7 +100,7 @@ class RedshopViewCategory extends RedshopView
 
 		if (count($maincat) > 0 && $maincat->canonical_url != "")
 		{
-			$main_url  = JURI::root() . $maincat->canonical_url;
+			$main_url  = JUri::root() . $maincat->canonical_url;
 			$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 			$document->addCustomTag($canonical);
 		}
@@ -147,7 +148,7 @@ class RedshopViewCategory extends RedshopView
 
 			while ($parentid != 0)
 			{
-				$parentdetail = $prodhelperobj->getSection("category", $parentid);
+				$parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
 				$parentcat    = $parentdetail->name . "  " . $parentcat;
 				$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
 			}
@@ -361,8 +362,8 @@ class RedshopViewCategory extends RedshopView
 		{
 			$temps = array(
 				(object) array(
-					'manufacturer_id'   => 0,
-					'manufacturer_name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+					'id'   => 0,
+					'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
 				)
 			);
 			$manufacturers = array_merge($temps, $manufacturers);
@@ -371,8 +372,8 @@ class RedshopViewCategory extends RedshopView
 				$manufacturers,
 				'manufacturer_id',
 				'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
-				'manufacturer_id',
-				'manufacturer_name',
+				'id',
+				'name',
 				$manufacturerId
 			);
 		}
@@ -384,8 +385,8 @@ class RedshopViewCategory extends RedshopView
 				$allCategoryTemplate,
 				'category_template',
 				'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
-				'template_id',
-				'template_name',
+				'id',
+				'name',
 				$categoryTemplateId
 			);
 		}

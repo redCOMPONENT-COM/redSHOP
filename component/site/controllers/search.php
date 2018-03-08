@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 
@@ -33,40 +35,45 @@ class RedshopControllerSearch extends RedshopController
 	/**
 	 * loadProducts function
 	 *
+	 * @return
+	 *
 	 * @access public
-	 * @return manufacturer select box
 	 */
 	public function loadProducts()
 	{
-		$app = JFactory::getApplication();
-		$get = $app->input->get->getArray();
-		$taskid = $get['taskid'];
+		$app    = JFactory::getApplication();
+		$get    = $app->input->get->getArray();
+		$taskId = $get['taskid'];
 
+		/** @var RedshopModelSearch $model */
 		$model = $this->getModel('search');
 
-		$brands = $model->loadCatProductsManufacturer($taskid);
+		$brands = $model->loadCatProductsManufacturer($taskId);
 
-		// Manufacture Select Id
-		$manufac_data = ($app->input->getInt('manufacture_id', 0));
+		// Manufacturer Select Id
+		$manufacturer = $app->input->getInt('manufacture_id', 0);
 
 		JLoader::import('joomla.application.module.helper');
-		$module           = JModuleHelper::getModule('redshop_search');
-		$params           = new JRegistry($module->params);
-		$enableAjaxsearch = $params->get('enableAjaxsearch');
-		$javaFun          = "";
 
-		if ($enableAjaxsearch)
-		{
-			$javaFun = "makeUrl();";
-		}
+		$module  = JModuleHelper::getModule('redshop_search');
+		$params  = new Registry($module->params);
+		$javaFun = $params->get('enableAjaxsearch') ? 'makeUrl();' : '';
 
 		if (count($brands) > 0)
 		{
-			$manufac     = array();
-			$manufac[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
-			$manufacdata = @array_merge($manufac, $brands);
+			$manufacturerOptions   = array();
+			$manufacturerOptions[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+			$manufacturerOptions   = @array_merge($manufacturerOptions, $brands);
 
-			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox span12" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
+			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>'
+				. JHtml::_(
+					'select.genericlist',
+					$manufacturerOptions,
+					'manufacture_id', 'class="inputbox span12" size="1" onChange="' . $javaFun . '" ',
+					'value',
+					'text',
+					$manufacturer
+				);
 		}
 
 		$app->close();
@@ -76,28 +83,31 @@ class RedshopControllerSearch extends RedshopController
 	 * ajaxsearch function
 	 *
 	 * @access public
-	 * @return search product results
+	 *
+	 * @return void
 	 */
 	public function ajaxsearch()
 	{
+		/** @var RedshopModelSearch $model */
 		$model  = $this->getModel('Search');
 		$detail = $model->getajaxData();
 
 		$encoded = json_encode($detail);
 		ob_clean();
 		echo "{\"results\": " . $encoded . "}";
+
 		JFactory::getApplication()->close();
 	}
 
 	/**
 	 * AJAX Task to get states list
 	 *
-	 * @return  string  JSON encoded string of states list.
+	 * @return  void
 	 */
 	public function getStatesAjax()
 	{
 		// Only verify token for frontend
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$app = JFactory::getApplication();
 
@@ -117,6 +127,8 @@ class RedshopControllerSearch extends RedshopController
 	{
 		$app   = JFactory::getApplication();
 		$input = $app->input;
+
+		/** @var RedshopModelSearch $model */
 		$model = $this->getModel('Search');
 		$post  = $input->post->getArray();
 		$data  = $post['redform'];
@@ -125,15 +137,15 @@ class RedshopControllerSearch extends RedshopController
 		$list       = $model->getItem();
 		$pagination = $model->getFilterPagination();
 		$total      = $model->getFilterTotal();
-		$url = JRoute::_(
+		$url        = JRoute::_(
 			'index.php?option=' . $post['option']
 			. '&view=' . $post['view']
 			. '&layout=' . $post['layout']
 			. '&cid=' . $data['cid']
 			. '&manufacturer_id=' . $data['mid']
 			. '&Itemid=' . $post['Itemid']
-			. '&categories=' . implode(',', $data['category'])
-			. '&manufacturers=' . implode(',', $data['manufacturer'])
+			. '&categories=' . (isset($data['category']) ? implode(',', $data['category']) : '')
+			. '&manufacturers=' . (isset($data['manufacturer']) ? implode(',', $data['manufacturer']) : '')
 			. '&filterprice[min]=' . $data['filterprice']['min']
 			. '&filterprice[max]=' . $data['filterprice']['max']
 			. '&template_id=' . $data['template_id']
@@ -143,9 +155,12 @@ class RedshopControllerSearch extends RedshopController
 			. '&limitstart=' . $post['limitstart']
 		);
 
-		foreach ($data['custom_field'] as $fieldId => $fieldValues)
+		if (!empty($data['custom_field']))
 		{
-			$url .= '&custom_field[' . $fieldId . ']=' . implode(',', $fieldValues);
+			foreach ($data['custom_field'] as $fieldId => $fieldValues)
+			{
+				$url .= '&custom_field[' . $fieldId . ']=' . implode(',', $fieldValues);
+			}
 		}
 
 		// Get layout HTML
@@ -167,6 +182,142 @@ class RedshopControllerSearch extends RedshopController
 				'templateId' => $data['template_id'],
 				'url'        => $url,
 				'keyword'    => $data['keyword']
+			),
+			'',
+			array(
+				'component' => 'com_redshop'
+			)
+		);
+
+		$app->close();
+	}
+
+	/**
+	 * AJAX Task to restricted data
+	 *
+	 * @return  void
+	 */
+	public function restrictedData()
+	{
+		JLoader::register('ModRedshopFilter', JPATH_SITE . '/modules/mod_redshop_filter/helper.php');
+
+		$app    = JFactory::getApplication();
+		$input  = $app->input;
+		$params = new Registry($input->post->getString('params', ''));
+		$pids   = explode(',', $input->post->getString('pids', ''));
+		$form   = urldecode(stripslashes($input->post->get('form', '', 'RAW')));
+		parse_str($form, $formData);
+
+		$cid           = $formData['redform']['cid'];
+		$mid           = $formData['redform']['mid'];
+		$rootCategory  = $params->get('root_category', 0);
+		$productFields = $params->get('product_fields', array());
+		$manufacturers = array();
+		$categories    = array();
+		$productList   = array();
+
+		if (!empty($cid))
+		{
+			$productList = array();
+
+			foreach ($pids as $key => $product)
+			{
+				$detail        = RedshopHelperProduct::getProductById($product);
+				$productList[] = $detail;
+			}
+
+			$manuList = array();
+			$catList  = array();
+
+			foreach ($productList as $k => $value)
+			{
+				$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+				$catList       = array_merge($catList, $tmpCategories);
+
+				if ($value->manufacturer_id && $value->manufacturer_id != $mid)
+				{
+					$manuList[] = $value->manufacturer_id;
+				}
+			}
+
+			$catList       = array_unique($catList);
+			$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
+			$categories    = ModRedshopFilter::getCategories($catList, $rootCategory, $cid);
+			$rangePrice    = ModRedshopFilter::getRange($pids);
+		}
+		elseif (!empty($mid))
+		{
+			$productList = array();
+
+			foreach ($pids as $key => $product)
+			{
+				$detail        = RedshopHelperProduct::getProductById($product);
+				$productList[] = $detail;
+			}
+
+			$manuList = array();
+			$catList  = array();
+
+			foreach ($productList as $k => $value)
+			{
+				$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+				$catList       = array_merge($catList, $tmpCategories);
+
+				if ($value->manufacturer_id && $value->manufacturer_id != $mid)
+				{
+					$manuList[] = $value->manufacturer_id;
+				}
+			}
+
+			$manufacturers = array();
+			$pids          = ModRedshopFilter::getProductByManufacturer($mid);
+			$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory);
+			$rangePrice    = ModRedshopFilter::getRange($pids);
+		}
+		elseif ($formData['view'] == 'search')
+		{
+			$productList = array();
+
+			foreach ($pids as $key => $product)
+			{
+				$detail        = RedshopHelperProduct::getProductById($product);
+				$productList[] = $detail;
+			}
+
+			$manuList = array();
+			$catList  = array();
+
+			foreach ($productList as $k => $value)
+			{
+				$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+				$catList       = array_merge($catList, $tmpCategories);
+
+				if ($value->manufacturer_id && $value->manufacturer_id != $mid)
+				{
+					$manuList[] = $value->manufacturer_id;
+				}
+			}
+
+			$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
+			$categories    = ModRedshopFilter::getSearchCategories(array_unique($catList));
+			$rangePrice    = ModRedshopFilter::getRange($pids);
+		}
+
+		$customFields = ModRedshopFilter::getCustomFields($pids, $productFields);
+		$rangeMin     = $formData['redform']['filterprice']['min'] ? $formData['redform']['filterprice']['min'] : $rangePrice['min'];
+		$rangeMax     = $formData['redform']['filterprice']['max'] ? $formData['redform']['filterprice']['max'] : $rangePrice['max'];
+
+		echo RedshopLayoutHelper::render(
+			'filter.restricted',
+			array(
+				"params"        => $params->toObject(),
+				"manufacturers" => $manufacturers,
+				"categories"    => $categories,
+				"rangeMin"      => $rangeMin,
+				"rangeMax"      => $rangeMax,
+				"customFields"  => $customFields,
+				'formData'      => $formData,
+				"productList"   => $productList
 			),
 			'',
 			array(

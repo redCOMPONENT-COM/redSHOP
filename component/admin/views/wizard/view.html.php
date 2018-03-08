@@ -18,7 +18,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		// Try to get temporary wizard config from config
-		$session = JFactory::getSession();
+		$session      = JFactory::getSession();
 		$wizardConfig = $session->get('redshop.wizard', false);
 
 		// If it's not created than use distribute config file
@@ -34,7 +34,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 					require_once $config;
 				}
 
-				$distConfig = new RedshopConfig;
+				$distConfig   = new RedshopConfig;
 				$wizardConfig = get_object_vars($distConfig);
 			}
 			else
@@ -49,18 +49,19 @@ class RedshopViewWizard extends RedshopViewAdmin
 		// Set to view variable to use in tmpl files
 		$this->temparray = $wizardConfig;
 
-		$uri         = JFactory::getURI();
-		$db          = JFactory::getDbo();
-		$redhelper   = redhelper::getInstance();
-		$config      = Redconfiguration::getInstance();
-		$extra_field = extra_field::getInstance();
-		$model       = $this->getModel();
-		$document    = JFactory::getDocument();
+		$uri      = JUri::getInstance();
+		$db       = JFactory::getDbo();
+		$config   = Redconfiguration::getInstance();
+		$model    = $this->getModel();
+		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		JHtml::stylesheet('com_redshop/redshop.css', array(), true);
-		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::stylesheet('com_redshop/redshop.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::stylesheet('com_redshop/redshop.wizard.min.css', array(), true);
 
 		// Shop country
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
@@ -68,120 +69,120 @@ class RedshopViewWizard extends RedshopViewAdmin
 		$countries = $db->loadObjectList();
 		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
-		$lists['shop_country'] = JHTML::_('select.genericlist', $countries, 'shop_country',
+		$lists['shop_country'] = JHtml::_('select.genericlist', $countries, 'shop_country',
 			'class="inputbox" size="1" ', 'value', 'text', $this->temparray['SHOP_COUNTRY']
 		);
 
 		// Shipping Country Start
-		$lists['default_shipping_country'] = JHTML::_('select.genericlist', $countries, 'default_shipping_country',
+		$lists['default_shipping_country'] = JHtml::_('select.genericlist', $countries, 'default_shipping_country',
 			'class="inputbox" size="1" ', 'value', 'text', $this->temparray['DEFAULT_SHIPPING_COUNTRY']
 		);
 
 		// Date Formats
-		$default_dateformat = $config->getDateFormat();
-		$lists['default_dateformat'] = JHTML::_('select.genericlist', $default_dateformat, 'default_dateformat',
+		$default_dateformat          = $config->getDateFormat();
+		$lists['default_dateformat'] = JHtml::_('select.genericlist', $default_dateformat, 'default_dateformat',
 			'class="inputbox" ', 'value', 'text', $this->temparray['DEFAULT_DATEFORMAT']
 		);
 
 		// Country lists
-		$country_list = explode(',', $this->temparray['COUNTRY_LIST']);
-		$lists['country_list'] = JHTML::_('select.genericlist', $countries, 'country_list[]',
+		$country_list          = explode(',', $this->temparray['COUNTRY_LIST']);
+		$lists['country_list'] = JHtml::_('select.genericlist', $countries, 'country_list[]',
 			'class="inputbox disableBootstrapChosen" multiple="multiple" size="5"', 'value', 'text', $country_list
 		);
 
 		// Invoice mail enable
-		$lists['invoice_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'invoice_mail_enable',
+		$lists['invoice_mail_enable'] = JHtml::_('redshopselect.booleanlist', 'invoice_mail_enable',
 			'class="inputbox" onchange="enableInvoice(this.value);"', $this->temparray['INVOICE_MAIL_ENABLE']
 		);
 
 		// Invoice mail send type
-		$invoice_mail_send_option = array();
-		$invoice_mail_send_option[0] = new stdClass;
+		$invoice_mail_send_option           = array();
+		$invoice_mail_send_option[0]        = new stdClass;
 		$invoice_mail_send_option[0]->value = 0;
-		$invoice_mail_send_option[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$invoice_mail_send_option[0]->text  = JText::_('COM_REDSHOP_SELECT');
 
-		$invoice_mail_send_option[1] = new stdClass;
+		$invoice_mail_send_option[1]        = new stdClass;
 		$invoice_mail_send_option[1]->value = 1;
-		$invoice_mail_send_option[1]->text = JText::_('COM_REDSHOP_ADMINISTRATOR');
+		$invoice_mail_send_option[1]->text  = JText::_('COM_REDSHOP_ADMINISTRATOR');
 
-		$invoice_mail_send_option[2] = new stdClass;
+		$invoice_mail_send_option[2]        = new stdClass;
 		$invoice_mail_send_option[2]->value = 2;
-		$invoice_mail_send_option[2]->text = JText::_('COM_REDSHOP_CUSTOMER');
+		$invoice_mail_send_option[2]->text  = JText::_('COM_REDSHOP_CUSTOMER');
 
-		$invoice_mail_send_option[3] = new stdClass;
+		$invoice_mail_send_option[3]        = new stdClass;
 		$invoice_mail_send_option[3]->value = 3;
-		$invoice_mail_send_option[3]->text = JText::_('COM_REDSHOP_BOTH');
+		$invoice_mail_send_option[3]->text  = JText::_('COM_REDSHOP_BOTH');
 
-		$lists['invoice_mail_send_option'] = JHTML::_('select.genericlist', $invoice_mail_send_option, 'invoice_mail_send_option',
+		$lists['invoice_mail_send_option'] = JHtml::_('select.genericlist', $invoice_mail_send_option, 'invoice_mail_send_option',
 			'class="inputbox" ', 'value', 'text', $this->temparray['INVOICE_MAIL_SEND_OPTION']
 		);
 
 		// Registration methods
-		$register_methods = array();
-		$register_methods[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_REGISTER_WITH_ACCOUNT_CREATION'));
-		$register_methods[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_REGISTER_WITHOUT_ACCOUNT_CREATION'));
-		$register_methods[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_REGISTER_ACCOUNT_OPTIONAL'));
-		$register_methods[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_REGISTER_ACCOUNT_SILENT'));
-		$lists['register_method'] = JHTML::_('select.genericlist', $register_methods, 'register_method',
+		$register_methods         = array();
+		$register_methods[]       = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_REGISTER_WITH_ACCOUNT_CREATION'));
+		$register_methods[]       = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_REGISTER_WITHOUT_ACCOUNT_CREATION'));
+		$register_methods[]       = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_REGISTER_ACCOUNT_OPTIONAL'));
+		$register_methods[]       = JHtml::_('select.option', '3', JText::_('COM_REDSHOP_REGISTER_ACCOUNT_SILENT'));
+		$lists['register_method'] = JHtml::_('select.genericlist', $register_methods, 'register_method',
 			'class="inputbox" id="register_method"', 'value', 'text', $this->temparray['REGISTER_METHOD']
 		);
 		unset($register_methods);
 
 		// Currency data
-		$currency_data = $model->getCurrency();
-		$lists['currency_data'] = JHTML::_('select.genericlist', $currency_data, 'currency_code',
+		$currency_data          = $model->getCurrency();
+		$lists['currency_data'] = JHtml::_('select.genericlist', $currency_data, 'currency_code',
 			'class="inputbox" size="1" ', 'value', 'text', $this->temparray['CURRENCY_CODE']
 		);
 
 		// Discount
 		$discount_type = array();
 
-		$discount_type[0] = new stdClass;
+		$discount_type[0]        = new stdClass;
 		$discount_type[0]->value = 0;
-		$discount_type[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$discount_type[0]->text  = JText::_('COM_REDSHOP_SELECT');
 
-		$discount_type[1] = new stdClass;
+		$discount_type[1]        = new stdClass;
 		$discount_type[1]->value = 1;
-		$discount_type[1]->text = JText::_('COM_REDSHOP_DISCOUNT_OR_VOUCHER_OR_COUPON');
+		$discount_type[1]->text  = JText::_('COM_REDSHOP_DISCOUNT_OR_VOUCHER_OR_COUPON');
 
-		$discount_type[2] = new stdClass;
+		$discount_type[2]        = new stdClass;
 		$discount_type[2]->value = 2;
-		$discount_type[2]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_OR_COUPON');
+		$discount_type[2]->text  = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_OR_COUPON');
 
-		$discount_type[3] = new stdClass;
+		$discount_type[3]        = new stdClass;
 		$discount_type[3]->value = 3;
-		$discount_type[3]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON');
+		$discount_type[3]->text  = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON');
 
-		$discount_type[4] = new stdClass;
+		$discount_type[4]        = new stdClass;
 		$discount_type[4]->value = 4;
-		$discount_type[4]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
+		$discount_type[4]->text  = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
 
-		$lists['discount_type'] = JHTML::_('select.genericlist', $discount_type, 'discount_type',
+		$lists['discount_type']   = JHtml::_('select.genericlist', $discount_type, 'discount_type',
 			'class="inputbox" ', 'value', 'text', $this->temparray['DISCOUNT_TYPE']
 		);
-		$lists['discount_enable'] = JHTML::_('redshopselect.booleanlist', 'discount_enable', 'class="inputbox" ', $this->temparray['DISCOUNT_ENABLE']);
-		$lists['coupons_enable'] = JHTML::_('redshopselect.booleanlist', 'coupons_enable', 'class="inputbox" ', $this->temparray['COUPONS_ENABLE']);
-		$lists['vouchers_enable'] = JHTML::_('redshopselect.booleanlist', 'vouchers_enable', 'class="inputbox" ', $this->temparray['VOUCHERS_ENABLE']);
+		$lists['discount_enable'] = JHtml::_('redshopselect.booleanlist', 'discount_enable', 'class="inputbox" ', $this->temparray['DISCOUNT_ENABLE']);
+		$lists['coupons_enable']  = JHtml::_('redshopselect.booleanlist', 'coupons_enable', 'class="inputbox" ', $this->temparray['COUPONS_ENABLE']);
+		$lists['vouchers_enable'] = JHtml::_('redshopselect.booleanlist', 'vouchers_enable', 'class="inputbox" ', $this->temparray['VOUCHERS_ENABLE']);
 
 		// Discount after Shipping
-		$shipping_after = $this->temparray['SHIPPING_AFTER'];
-		$lists['shipping_after'] = $extra_field->rs_booleanlist('shipping_after', 'class="inputbox"', $shipping_after,
+		$shipping_after          = $this->temparray['SHIPPING_AFTER'];
+		$lists['shipping_after'] = RedshopHelperExtrafields::rsBooleanList('shipping_after', 'class="inputbox"', $shipping_after,
 			$yes = JText::_('COM_REDSHOP_TOTAL'), $no = JText::_('COM_REDSHOP_SUBTOTAL_LBL'), '', 'total', 'subtotal'
 		);
 
 		// Vat Country
-		$tmp = array();
-		$tmp[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
-		$default_vat_country = @array_merge($tmp, $countries);
-		$lists['default_vat_country'] = JHTML::_('select.genericlist', $default_vat_country, 'default_vat_country',
+		$tmp                          = array();
+		$tmp[]                        = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
+		$default_vat_country          = @array_merge($tmp, $countries);
+		$lists['default_vat_country'] = JHtml::_('select.genericlist', $default_vat_country, 'default_vat_country',
 			'class="inputbox" onchange="changeStateList();"', 'value', 'text', $this->temparray['DEFAULT_VAT_COUNTRY']
 		);
 
 		// VAT States
-		$country_list_name = 'default_vat_country';
-		$state_list_name = 'default_vat_state';
+		$country_list_name     = 'default_vat_country';
+		$state_list_name       = 'default_vat_state';
 		$selected_country_code = $this->temparray['DEFAULT_VAT_COUNTRY'];
-		$selected_state_code = $this->temparray['DEFAULT_VAT_STATE'];
+		$selected_state_code   = $this->temparray['DEFAULT_VAT_STATE'];
 
 		if (empty($selected_state_code))
 		{
@@ -196,16 +197,17 @@ class RedshopViewWizard extends RedshopViewAdmin
 						FROM #__redshop_country c
 						LEFT JOIN #__redshop_state s
 						ON c.id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.id, s.state_name");
+						ORDER BY c.id, s.state_name"
+		);
 
 		$states = $db->loadObjectList();
 
 		// Build the State lists for each Country
-		$script = "<script>";
-		$script .= "var originalOrder = '1';\n";
-		$script .= "var originalPos = '$selected_country_code';\n";
-		$script .= "var states = new Array();	// array in the format [key,value,text]\n";
-		$i = 0;
+		$script       = "<script>";
+		$script       .= "var originalOrder = '1';\n";
+		$script       .= "var originalPos = '$selected_country_code';\n";
+		$script       .= "var states = new Array();	// array in the format [key,value,text]\n";
+		$i            = 0;
 		$prev_country = '';
 
 		for ($j = 0, $jn = count($states); $j < $jn; $j++)
@@ -231,7 +233,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 			}
 		}
 
-		$script .= "
+		$script                     .= "
 		function changeStateList() {
 		  var selected_country = null;
 
@@ -276,12 +278,12 @@ class RedshopViewWizard extends RedshopViewAdmin
 		</script>";
 		$lists['default_vat_state'] = $script;
 
-		$lists['apply_vat_on_discount'] = JHTML::_('redshopselect.booleanlist', 'apply_vat_on_discount',
+		$lists['apply_vat_on_discount'] = JHtml::_('redshopselect.booleanlist', 'apply_vat_on_discount',
 			'class="inputbox" size="1"', $this->temparray['APPLY_VAT_ON_DISCOUNT']
 		);
 
-		$calculate_vat_on = $this->temparray['CALCULATE_VAT_ON'];
-		$lists['calculate_vat_on'] = $extra_field->rs_booleanlist('calculate_vat_on',
+		$calculate_vat_on          = $this->temparray['CALCULATE_VAT_ON'];
+		$lists['calculate_vat_on'] = RedshopHelperExtrafields::rsBooleanList('calculate_vat_on',
 			'class="inputbox"', $calculate_vat_on,
 			$yes = JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),
 			$no = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'), '', 'BT', 'ST'

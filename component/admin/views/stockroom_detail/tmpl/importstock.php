@@ -112,7 +112,7 @@ defined('_JEXEC') or die;
 				<tr>
 					<td>
 						<div id="divLoading" style="display: none;"><img
-								src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>preloader.gif"></div>
+								src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>preloader.gif"></div>
 					</td>
 				</tr>
 			</table>

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $editor = JFactory::getEditor();
-JHTML::_('behavior.tooltip');
 $model = $this->getModel('newsletter_detail');
 ?>
 <script language="javascript" type="text/javascript">
@@ -83,7 +82,7 @@ $model = $this->getModel('newsletter_detail');
 						{
 							?>
 							<span style="width:10%;">
-					<a href="index.php?option=com_redshop&task=template.edit&template_id=<?php echo $this->detail->template_id ?>" target="_blank">
+					<a href="index.php?option=com_redshop&task=template.edit&id=<?php echo $this->detail->template_id ?>" target="_blank">
 						<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE') ?>
 					</a>
 				</span>
@@ -106,7 +105,7 @@ $model = $this->getModel('newsletter_detail');
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS'); ?></legend>
 			<table class="admintable table">
 				<tr>
-					<td><?php echo Redtemplate::getTemplateValues('newsletter', 'mail'); ?></td>
+					<td><?php echo RedshopHelperTemplate::getTemplateValues('newsletter', 'mail'); ?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -127,10 +126,10 @@ $model = $this->getModel('newsletter_detail');
 						?>
 						<tr>
 							<td width="100" align="right" class="key">
-								<?php echo $tags[$i]->text_desc; ?>:
+								<?php echo $tags[$i]->desc ?>:
 							</td>
 							<td>
-								<?php echo "{" . $tags[$i]->text_name . "}"; ?>
+								<?php echo "{" . $tags[$i]->name . "}"; ?>
 							</td>
 						</tr>
 					<?php } ?>

@@ -16,12 +16,24 @@ defined('_JEXEC') or die;
  */
 class RedshopAdminProduct
 {
+	/**
+	 * @var  mixed
+	 */
 	public $_data = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * @var integer
+	 */
 	public $_product_level = 0;
 
+	/**
+	 * @var self
+	 */
 	protected static $instance = null;
 
 	/**
@@ -86,7 +98,7 @@ class RedshopAdminProduct
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
-		return RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
+		return RedshopHelperProductTag::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
 	}
 
 	/**
@@ -115,6 +127,7 @@ class RedshopAdminProduct
 	 * @param   int     $newProductPrice  New product price
 	 *
 	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId,
 	 *  $newProductPrice) instead
@@ -145,13 +158,13 @@ class RedshopAdminProduct
 	 *
 	 * @param   array  $post  Data
 	 *
-	 * @return array
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::redesignProductItem($post) instead
 	 */
 	public function redesignProductItem($post = array())
 	{
-		return RedshopHelperProduct::redesignProductItem($post);
+		return Redshop\Order\Helper::redesignProductItem($post);
 	}
 
 	/**
@@ -161,13 +174,14 @@ class RedshopAdminProduct
 	 * @param   int     $templateId  Template id
 	 * @param   string  $uniqueId    Unique id
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId) instead
 	 */
 	public function replaceUserfield($productId = 0, $templateId = 0, $uniqueId = "")
 	{
-		return RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId);
+		return RedshopHelperProduct::replaceUserField($productId, $templateId, $uniqueId);
 	}
 
 	/**
@@ -178,7 +192,7 @@ class RedshopAdminProduct
 	 * @param   int     $sectionId    Section id
 	 * @param   string  $value        Unique id
 	 *
-	 * @return boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct::insertProductUserField($fieldId, $orderItemId, $sectionId,
 	 * $value) instead

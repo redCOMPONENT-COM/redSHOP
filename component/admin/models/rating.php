@@ -58,7 +58,7 @@ class RedshopModelRating extends RedshopModel
 
 		if ($comment_filter)
 		{
-			$where = " WHERE u.username LIKE '%" . $comment_filter . "%' ";
+			$where  = " WHERE u.username LIKE '%" . $comment_filter . "%' ";
 			$where .= " OR r.comment LIKE '%" . $comment_filter . "%' ";
 			$where .= " OR p.product_name LIKE '%" . $comment_filter . "%' ";
 		}

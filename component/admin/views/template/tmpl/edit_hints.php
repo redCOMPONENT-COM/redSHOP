@@ -103,7 +103,7 @@ $newShippingTags = array(
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="tags">
 							<?php
-							switch ($this->item->template_section)
+							switch ($this->item->section)
 							{
 								case 'category':
 									echo RedshopHelperTemplate::renderFieldTagHints(
@@ -117,7 +117,7 @@ $newShippingTags = array(
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
 										array(
-											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->template_section),
+											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
 											'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT')
 										)
 									);
@@ -125,7 +125,7 @@ $newShippingTags = array(
 									$addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
 									$tags               = array();
 									foreach ($addToCartAvailable as $tag):
-										$tags['form_addtocart:' . $tag->template_name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
+										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint',
 										array(
@@ -137,8 +137,8 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('related_product');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-                                        $key = 'related_product_lightbox:' . $tag->template_name . '[:lightboxwidth][:lightboxheight]';
-										$tags[$key] = JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE") . ': {related_product_lightbox:' . $tag->template_name . ':600:300}';
+                                        $key = 'related_product_lightbox:' . $tag->name . '[:lightboxwidth][:lightboxheight]';
+										$tags[$key] = JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE") . ': {related_product_lightbox:' . $tag->name . ':600:300}';
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT')));
 									?>
@@ -157,7 +157,7 @@ $newShippingTags = array(
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
 										array(
-											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->template_section),
+											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
 											'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_GIFTCARD_HINT')
 										)
 									);
@@ -175,7 +175,7 @@ $newShippingTags = array(
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
 										array(
-											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->template_section),
+											'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
 											'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT')
 										)
 									);
@@ -183,35 +183,35 @@ $newShippingTags = array(
 									$addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
 									$tags               = array();
 									foreach ($addToCartAvailable as $tag):
-										$tags['form_addtocart:' . $tag->template_name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
+										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_ADD_TO_CART')));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('attribute_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['attribute_template:' . $tag->template_name] = JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE');
+										$tags['attribute_template:' . $tag->name] = JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_ATTRIBUTE_HINT')));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('attributewithcart_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['attributewithcart_template:' . $tag->template_name] = JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE');
+										$tags['attributewithcart_template:' . $tag->name] = JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_ATTRIBUTE_WITH_CART_HINT')));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('related_product');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['related_product:' . $tag->template_name] = JText::_('COM_REDSHOP_RELATED_PRODUCT_TEMPLATE');
+										$tags['related_product:' . $tag->name] = JText::_('COM_REDSHOP_RELATED_PRODUCT_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_RELATED_PRODUCT_HINT')));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('wrapper_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['wrapper_template:' . $tag->template_name] = JText::_('COM_REDSHOP_WRAPPER_TEMPLATE');
+										$tags['wrapper_template:' . $tag->name] = JText::_('COM_REDSHOP_WRAPPER_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_WRAPPER_HINT')));
 
@@ -221,7 +221,7 @@ $newShippingTags = array(
 
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									break;
@@ -230,20 +230,20 @@ $newShippingTags = array(
 
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									break;
 								case 'manufacturer_products':
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									$addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
 									$tags               = array();
 									foreach ($addToCartAvailable as $tag):
-										$tags['form_addtocart:' . $tag->template_name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
+										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_ADD_TO_CART')));
 
@@ -375,7 +375,7 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('add_to_cart');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['form_addtocart:' . $tag->template_name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
+										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_ADD_TO_CART')));
 									break;
@@ -429,7 +429,7 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('add_to_cart');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['form_addtocart:' . $tag->template_name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
+										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_ADD_TO_CART')));
 
@@ -443,7 +443,7 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('add_to_cart');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['form_addtocart:' . $tag->template_name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
+										$tags['form_addtocart:' . $tag->name] = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_ADD_TO_CART')));
 
@@ -474,28 +474,28 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('checkout');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['checkout_template:' . $tag->template_name] = JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE');
+										$tags['checkout_template:' . $tag->name] = JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('shippingbox');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['shippingbox_template:' . $tag->template_name] = JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE');
+										$tags['shippingbox_template:' . $tag->name] = JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('redshop_shipping');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['shipping_template:' . $tag->template_name] = JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE');
+										$tags['shipping_template:' . $tag->name] = JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('redshop_payment');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['payment_template:' . $tag->template_name] = JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE');
+										$tags['payment_template:' . $tag->name] = JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags));
 
@@ -509,14 +509,14 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('attribute_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['attribute_template:' . $tag->template_name] = JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE');
+										$tags['attribute_template:' . $tag->name] = JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('attributewithcart_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['attributewithcart_template:' . $tag->template_name] = JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE');
+										$tags['attributewithcart_template:' . $tag->name] = JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags));
 
@@ -537,14 +537,14 @@ $newShippingTags = array(
 									$availableTags = RedshopHelperTemplate::getTemplate('private_billing_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['private_billing_template:' . $tag->template_name] = JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE');
+										$tags['private_billing_template:' . $tag->name] = JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE')));
 
 									$availableTags = RedshopHelperTemplate::getTemplate('company_billing_template');
 									$tags          = array();
 									foreach ($availableTags as $tag):
-										$tags['company_billing_template:' . $tag->template_name] = JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE');
+										$tags['company_billing_template:' . $tag->name] = JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE');
 									endforeach;
 									echo RedshopLayoutHelper::render('templates.tags_hint', array('tags' => $tags, 'header' => JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE')));
 
@@ -594,7 +594,7 @@ $newShippingTags = array(
 								default:
 									echo RedshopLayoutHelper::render(
 										'templates.tags_hint',
-										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->template_section))
+										array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
 									);
 
 									break;
@@ -603,82 +603,7 @@ $newShippingTags = array(
                         </div>
                         <div role="tabpanel" class="tab-pane" id="default_template">
 							<?php
-							switch ($this->item->template_section)
-							{
-								case 'product_sample':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('catalog_sample', true);
-									break;
-								case 'manufacturer':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('manufacturer_listings', true);
-									break;
-								case 'categoryproduct':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('category_product_template', true);
-									break;
-								case 'giftcard_list':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('giftcard_listing', true);
-									break;
-								case 'quotation_request':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('quotation_request_template', true);
-									break;
-								case 'newsletter':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('newsletter1', true);
-									break;
-								case 'newsletter_product':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('newsletter_products', true);
-									break;
-								case 'related_product':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('related_products', true);
-									break;
-								case 'add_to_cart':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('add_to_cart1', true);
-									break;
-								case 'attribute_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('attributes', true);
-									break;
-								case 'attributewithcart_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('attributes_listing1', true);
-									break;
-								case 'accessory_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('accessory', true);
-									break;
-								case 'wrapper_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('wrapper', true);
-									break;
-								case 'wishlist_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('wishlist_list', true);
-									break;
-								case 'wishlist_mail_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('wishlist_mail', true);
-									break;
-								case 'ask_question_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('ask_question', true);
-									break;
-								case 'account_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('my_account_template', true);
-									break;
-								case 'redshop_payment':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('payment_method', true);
-									break;
-								case 'redshop_shipping':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('shipping_method', true);
-									break;
-								case 'shippingbox':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('shipping_box', true);
-									break;
-								case 'change_cart_attribute':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('change_cart_attribute_template', true);
-									break;
-								case 'product_content_template':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('product_content', true);
-									break;
-								case 'quotation_cart':
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate('quotation_cart_template', true);
-									break;
-
-								default:
-									$templateContent = RedshopHelperTemplate::getInstallSectionTemplate($this->item->template_section, true);
-									break;
-							}
+							$templateContent = RedshopHelperTemplate::getDefaultTemplateContent($this->item->section, true);
 							?>
 							<?php if (!empty($templateContent)): ?>
 								<?php echo $templateContent ?>
@@ -691,8 +616,8 @@ $newShippingTags = array(
                                         <tbody>
 										<?php foreach ($texts as $text): ?>
                                             <tr>
-                                                <td width="30%"><strong class="text-info">{<?php echo $text->text_name ?>}</strong></td>
-                                                <td><?php echo $text->text_desc ?></td>
+                                                <td width="30%"><strong class="text-info">{<?php echo $text->name ?>}</strong></td>
+                                                <td><?php echo $text->desc ?></td>
                                             </tr>
 										<?php endforeach; ?>
                                         </tbody>

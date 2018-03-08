@@ -54,15 +54,18 @@ class RedshopHelperCartDiscount
 	/**
 	 * Method for apply coupon to cart.
 	 *
-	 * @param   array  $cartData  Cart data
+	 * @param   array   $cartData    Cart data
+	 * @param   string  $couponCode  Coupon code for apply
 	 *
-	 * @return  array|bool        Array of cart or boolean value.
+	 * @return  array|bool           Array of cart or boolean value.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
-	public static function applyCoupon($cartData = array())
+	public static function applyCoupon($cartData = array(), $couponCode = '')
 	{
-		$couponCode = JFactory::getApplication()->input->getString('discount_code', '');
+		$couponCode = empty($couponCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $couponCode;
 		$cart       = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
 		if (empty($couponCode))
@@ -75,13 +78,13 @@ class RedshopHelperCartDiscount
 		$db     = JFactory::getDbo();
 		$return = false;
 
-		$coupon = rsCarthelper::getInstance()->getcouponData($couponCode, $cart['product_subtotal']);
+		$coupon = rsCarthelper::getInstance()->getCouponData($couponCode, $cart['product_subtotal']);
 
 		if (!empty($coupon))
 		{
-			$discountType = $coupon->percent_or_total;
-			$couponId     = $coupon->coupon_id;
-			$couponType   = $coupon->coupon_type;
+			$discountType = $coupon->type;
+			$couponId     = $coupon->id;
+			$couponType   = $coupon->effect;
 			$couponUser   = $coupon->userid;
 			$userType     = false;
 			$return       = true;
@@ -95,7 +98,7 @@ class RedshopHelperCartDiscount
 				}
 			}
 
-			if ($coupon->coupon_left <= $counter)
+			if ($coupon->amount_left <= $counter)
 			{
 				return false;
 			}
@@ -153,11 +156,11 @@ class RedshopHelperCartDiscount
 					$avgVAT = $subTotal / $cart['product_subtotal_excl_vat'];
 				}
 
-				$couponValue = $avgVAT * $coupon->coupon_value;
+				$couponValue = $avgVAT * $coupon->value;
 			}
 			else
 			{
-				$couponValue = ($subTotal * $coupon->coupon_value) / (100);
+				$couponValue = ($subTotal * $coupon->value) / (100);
 			}
 
 			$key = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
@@ -182,7 +185,7 @@ class RedshopHelperCartDiscount
 
 			if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
 			{
-				$couponValue = rsCarthelper::getInstance()->calcAlreadyDiscount($couponValue, $cart);
+				$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
 			}
 
 			$couponRemaining = 0;
@@ -200,7 +203,7 @@ class RedshopHelperCartDiscount
 
 			$valueExist = is_array($cart['coupon']) ? rsCarthelper::getInstance()->rs_recursiveArraySearch($cart['coupon'], $couponCode) : 0;
 
-			switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
+			switch (Redshop::getConfig()->getInt('DISCOUNT_TYPE'))
 			{
 				case 4:
 					if ($valueExist)
@@ -214,7 +217,6 @@ class RedshopHelperCartDiscount
 					if ($valueExist && $key)
 					{
 						$return = false;
-
 					}
 
 					break;
@@ -265,7 +267,7 @@ class RedshopHelperCartDiscount
 				RedshopHelperCartSession::setCart($cart);
 			}
 		}
-		elseif (Redshop::getConfig()->get('VOUCHERS_ENABLE'))
+		elseif (Redshop::getConfig()->getBool('VOUCHERS_ENABLE') === true)
 		{
 			$return = self::applyVoucher();
 		}
@@ -281,15 +283,18 @@ class RedshopHelperCartDiscount
 	/**
 	 * Method for apply voucher to cart.
 	 *
-	 * @param   array  $cartData  Cart data
+	 * @param   array   $cartData     Cart data
+	 * @param   string  $voucherCode  Voucher code
 	 *
-	 * @return  array|bool        Array of cart or boolean value.
+	 * @return  array|bool             Array of cart or boolean value.
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
-	public static function applyVoucher($cartData = array())
+	public static function applyVoucher($cartData = array(), $voucherCode = '')
 	{
-		$voucherCode = JFactory::getApplication()->input->getString('discount_code', '');
+		$voucherCode = empty($voucherCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $voucherCode;
 		$cart        = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
 		if (empty($voucherCode))
@@ -319,11 +324,10 @@ class RedshopHelperCartDiscount
 			return false;
 		}
 
-		$return    = true;
-		$type      = $voucher->type;
-		$voucherId = $voucher->id;
-
-		$productId  = $voucher->nproduct;
+		$return     = true;
+		$type       = $voucher->type;
+		$voucherId  = $voucher->id;
+		$productId  = isset($voucher->nproduct) ? $voucher->nproduct : 0;
 		$productArr = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart, $voucher->voucher_left);
 
 		if (empty($productArr['product_ids']))
@@ -339,7 +343,7 @@ class RedshopHelperCartDiscount
 		if ($type != 'Percentage')
 		{
 			$voucher->total *= $productQuantity;
-			$voucherValue   = $voucher->total;
+			$voucherValue    = $voucher->total;
 		}
 		else
 		{
@@ -363,7 +367,7 @@ class RedshopHelperCartDiscount
 
 		if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
 		{
-			$voucherValue = rsCarthelper::getInstance()->calcAlreadyDiscount($voucherValue, $cart);
+			$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
 		}
 
 		$remainingVoucherDiscount = 0;

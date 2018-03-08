@@ -103,7 +103,8 @@ class RedshopModelWishlist extends RedshopModel
 				return array();
 			}
 
-			JArrayHelper::toInteger($productIds);
+			$productIds = ArrayHelper::toInteger($productIds);
+
 			$query = $db->getQuery(true)
 				->select('DISTINCT *')
 				->from($db->qn('#__redshop_product'))
@@ -275,7 +276,7 @@ class RedshopModelWishlist extends RedshopModel
 			$input = JFactory::getApplication()->input;
 
 			$wishlistIds     = $input->get('wishlist_id', array(), 'Array');
-			$productId       = $input->getInt('product_id', 0);
+			$productIds       = $input->getString('product_id', '');
 			$attributeIds    = $input->getString('attribute_id', 0);
 			$propertyIds     = $input->getString('property_id', 0);
 			$subAttributeIds = $input->getString('subattribute_id', 0);
@@ -283,11 +284,14 @@ class RedshopModelWishlist extends RedshopModel
 		else
 		{
 			$wishlistIds     = isset($data['wishlist_id']) ? $data['wishlist_id'] : array();
-			$productId       = isset($data['product_id']) ? $data['product_id'] : 0;
+			$productIds       = isset($data['product_id']) ? $data['product_id'] : '';
 			$attributeIds    = isset($data['attribute_id']) ? $data['attribute_id'] : '';
 			$propertyIds     = isset($data['property_id']) ? $data['property_id'] : '';
 			$subAttributeIds = isset($data['subattribute_id']) ? $data['subattribute_id'] : '';
 		}
+
+		$productIds = explode(',', $productIds);
+		$productIds = array_filter($productIds);
 
 		if (empty($wishlistIds))
 		{
@@ -298,78 +302,84 @@ class RedshopModelWishlist extends RedshopModel
 
 		foreach ($wishlistIds as $wishlistId)
 		{
-			/** @var RedshopTableWishlist_Product $table */
-			$wishlistProductTable = JTable::getInstance('Wishlist_Product', 'RedshopTable');
-
-			$tmpData = array(
-				'wishlist_id' => $wishlistId,
-				'product_id'  => $productId
-			);
-
-			/*
-			 * Check: If there are already has product in this wishlist. Continue with:
-			 *        1. In case "Add to cart per product"   -> Skip this process.
-			 *        2. In case "Add to cart per attribute" -> Check on product attributes exist. If not, start create new wishlist item.
-			 */
-			if ($wishlistProductTable->load($tmpData)
-				&& (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') == 0
-				|| $this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds)))
+			foreach ($productIds as $productId)
 			{
-				continue;
-			}
-
-			$attributeIds    = explode('##', $attributeIds);
-			$propertyIds     = explode('##', $propertyIds);
-			$subAttributeIds = explode('##', $subAttributeIds);
-
-			$wishlistProductTable->reset();
-			$wishlistProductTable->set('wishlist_product_id', null);
-			$wishlistProductTable->set('wishlist_id', $wishlistId);
-			$wishlistProductTable->set('product_id', $productId);
-			$wishlistProductTable->set('cdate', time());
-
-			if (!$wishlistProductTable->store())
-			{
-				throw new Exception($wishlistProductTable->getError());
-			}
-
-			$attributeIds = array_filter($attributeIds);
-
-			// If there are not attribute with product.
-			if (empty($attributeIds))
-			{
-				return true;
-			}
-
-			foreach ($attributeIds as $index => $attributeId)
-			{
-				/** @var RedshopTableWishlist_Product_Item $table */
-				$wishlistProductItemTable = JTable::getInstance('Wishlist_Product_Item', 'RedshopTable');
+				/** @var RedshopTableWishlist_Product $table */
+				$wishlistProductTable = JTable::getInstance('Wishlist_Product', 'RedshopTable');
 
 				$tmpData = array(
-					'ref_id'       => (int) $wishlistProductTable->get('wishlist_product_id'),
-					'attribute_id' => $attributeId
+					'wishlist_id' => $wishlistId,
+					'product_id'  => $productId
 				);
 
-				if (!empty($propertyIds[$index]))
-				{
-					$tmpData['property_id'] = (int) $propertyIds[$index];
-				}
-
-				if (!empty($subAttributeIds[$index]))
-				{
-					$tmpData['subattribute_id'] = (int) $subAttributeIds[$index];
-				}
-
-				// If wishlist product item has already exist. Skip it.
-				if ($wishlistProductItemTable->load($tmpData))
+				/*
+				 * Check: If there are already has product in this wishlist. Continue with:
+				 *        1. In case "Add to cart per product"   -> Skip this process.
+				 *        2. In case "Add to cart per attribute" -> Check on product attributes exist. If not, start create new wishlist item.
+				 */
+				if ($wishlistProductTable->load($tmpData)
+					&& (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') == 0
+						|| $this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds)))
 				{
 					continue;
 				}
 
-				if (!$wishlistProductItemTable->save($tmpData))
+				$attributeIds    = explode('##', $attributeIds);
+				$attributeIds    = ArrayHelper::toInteger($attributeIds);
+				$propertyIds     = explode('##', $propertyIds);
+				$propertyIds    = ArrayHelper::toInteger($propertyIds);
+				$subAttributeIds = explode('##', $subAttributeIds);
+				$subAttributeIds    = ArrayHelper::toInteger($subAttributeIds);
+
+				$wishlistProductTable->reset();
+				$wishlistProductTable->set('wishlist_product_id', null);
+				$wishlistProductTable->set('wishlist_id', $wishlistId);
+				$wishlistProductTable->set('product_id', $productId);
+				$wishlistProductTable->set('cdate', time());
+
+				if (!$wishlistProductTable->store())
 				{
-					throw new Exception($wishlistProductItemTable->getError());
+					throw new Exception($wishlistProductTable->getError());
+				}
+
+				$attributeIds = array_filter($attributeIds);
+
+				// If there are not attribute with product.
+				if (empty($attributeIds))
+				{
+					continue;
+				}
+
+				foreach ($attributeIds as $index => $attributeId)
+				{
+					/** @var RedshopTableWishlist_Product_Item $table */
+					$wishlistProductItemTable = JTable::getInstance('Wishlist_Product_Item', 'RedshopTable');
+
+					$tmpData = array(
+						'ref_id'       => (int) $wishlistProductTable->get('wishlist_product_id'),
+						'attribute_id' => $attributeId
+					);
+
+					if (!empty($propertyIds[$index]))
+					{
+						$tmpData['property_id'] = (int) $propertyIds[$index];
+					}
+
+					if (!empty($subAttributeIds[$index]))
+					{
+						$tmpData['subattribute_id'] = (int) $subAttributeIds[$index];
+					}
+
+					// If wishlist product item has already exist. Skip it.
+					if ($wishlistProductItemTable->load($tmpData))
+					{
+						continue;
+					}
+
+					if (!$wishlistProductItemTable->save($tmpData))
+					{
+						throw new Exception($wishlistProductItemTable->getError());
+					}
 				}
 			}
 		}

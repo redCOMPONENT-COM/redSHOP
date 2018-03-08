@@ -76,7 +76,6 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TemplatePage::$url);
 		$client->searchTemplate($name);
-		$client->wait(3);
 		$client->see($name, \TemplatePage::$resultRow);
 		$client->click(\TemplatePage::$statePath);
 	}
@@ -108,7 +107,6 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TemplatePage::$url);
 		$client->searchTemplate($name);
-		$client->wait(3);
 		$client->see($name, \TemplatePage::$resultRow);
 		$text = $client->grabAttributeFrom(\TemplatePage::$statePath, 'onclick');
 		echo "Get status text " . $text;
@@ -143,8 +141,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\TemplatePage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\TemplatePage::$messageItemDeleteSuccess, 60, \TemplatePage::$selectorSuccess);
-		$client->see(\TemplatePage::$messageItemDeleteSuccess, \TemplatePage::$selectorSuccess);
+		$client->waitForText(\TemplatePage::$messageDeleteSuccess, 60, \TemplatePage::$selectorSuccess);
+		$client->see(\TemplatePage::$messageDeleteSuccess, \TemplatePage::$selectorSuccess);
 		$client->fillField(\TemplatePage::$searchField, $templateName);
 		$client->pressKey(\TemplatePage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($templateName, \TemplatePage::$resultRow);
