@@ -177,8 +177,8 @@ class RedshopMenuLeft_Menu
 				return array('SHIPPING', 'shipping_method');
 
 			case "shipping_box":
-			case "shipping_box_detail":
-				return array('SHIPPING', 'shipping_box');
+			case "shipping_boxes":
+				return array('SHIPPING', 'shipping_boxes');
 
 			case "wrapper":
 			case "wrapper_detail":
@@ -529,9 +529,9 @@ class RedshopMenuLeft_Menu
 		}
 
 		self::$menu->addItem(
-			'index.php?option=com_redshop&view=shipping_box',
+			'index.php?option=com_redshop&view=shipping_boxes',
 			'COM_REDSHOP_SHIPPING_BOXES',
-			(self::$view == 'shipping_box') ? true : false
+			(self::$view == 'shipping_boxes') ? true : false
 		)
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper',

@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * The Shipping box controller
+ * The Shipping Boxes controller
  *
  * @package     RedSHOP.Backend
- * @subpackage  Controller.Shipping_Box
+ * @subpackage  Controller.Shipping_Boxes
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerShipping_Box extends RedshopControllerForm
+class RedshopControllerShipping_Boxes extends RedshopControllerAdmin
 {
 	/**
 	 * Proxy for getModel.
