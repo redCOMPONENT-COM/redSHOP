@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-class VoucherManagerPage
+class VoucherManagerPage extends AdminJ3Page
 {
 
     //name pag

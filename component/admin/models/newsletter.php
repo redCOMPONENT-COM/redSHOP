@@ -349,10 +349,10 @@ class RedshopModelNewsletter extends RedshopModel
 
 			if (!empty($product->product_full_image))
 			{
-				$thumbUrl   = RedshopHelperMedia::getImagePath(
+				$thumbUrl    = RedshopHelperMedia::getImagePath(
 					$product->product_full_image, '', 'thumb', 'product', $imgWidth, $imgHeight, $sizeSwapping
 				);
-				$thumbImage = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
+				$thumbImage  = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 					. $product->product_full_image . "' title='' rel=\"lightbox[product7]\">";
 				$thumbImage .= "<img id='main_image' src='" . $thumbUrl . "'>";
 				$thumbImage .= "</a>";
@@ -369,7 +369,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		// Replacing the Text library texts
 		$content = RedshopHelperText::replaceTexts($content);
-		$content = RedshopHelperMail::imgInMail($content);
+		Redshop\Mail\Helper::imgInMail($content);
 
 		$subscribers = array();
 		$db          = JFactory::getDbo();
@@ -409,8 +409,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 			// Replacing the tags with the values
 			$message .= str_replace("{username}", $subscriber->username, $content);
-			$message = str_replace("{email}", $subscribeEmail, $message);
-
+			$message  = str_replace("{email}", $subscribeEmail, $message);
 
 			$unSubscribeLink = "<a href='" . $unSubscribeLink . "'>" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>";
 			$message         = str_replace("{unsubscribe_link}", $unSubscribeLink, $message);
@@ -423,8 +422,8 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getnewsletter_content($newsletter_id)
 	{
-		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM #__redshop_newsletter AS n '
-			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.template_id '
+		$query = 'SELECT n.template_id,n.body,n.subject FROM #__redshop_newsletter AS n '
+			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.id '
 			. 'WHERE n.published=1 '
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 		$this->_db->setQuery($query);

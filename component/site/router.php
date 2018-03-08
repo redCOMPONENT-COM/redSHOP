@@ -212,6 +212,10 @@ class RedshopRouter extends JComponentRouterBase
 						$segments[] = $wishlistId;
 					}
 				}
+				elseif (!empty($layout))
+				{
+					$segments[] = $layout;
+				}
 
 				break;
 
@@ -506,7 +510,7 @@ class RedshopRouter extends JComponentRouterBase
 						}
 						else
 						{
-							$segments[] = str_replace($specialChars, '-', $manufacturer->get('manufacturer_name'));
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('name'));
 						}
 					}
 				}

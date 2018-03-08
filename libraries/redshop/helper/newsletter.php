@@ -28,7 +28,9 @@ class RedshopHelperNewsletter
 	 *
 	 * @return  boolean             True on success. False otherwise.
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function subscribe($userId = 0, $data = array(), $sendMail = false, $isNew = null)
 	{
@@ -103,7 +105,7 @@ class RedshopHelperNewsletter
 
 		if ($needSendMail)
 		{
-			RedshopHelperMail::sendNewsletterConfirmationMail($row->subscription_id);
+			Redshop\Mail\Newsletter::sendConfirmationMail($row->subscription_id);
 		}
 
 		return true;
@@ -147,7 +149,7 @@ class RedshopHelperNewsletter
 
 		$db->setQuery($query)->execute();
 
-		RedshopHelperMail::sendNewsletterCancellationMail($email);
+		Redshop\Mail\Newsletter::sendCancellationMail($email);
 
 		return true;
 	}

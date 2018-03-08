@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-
 
 $config        = Redconfiguration::getInstance();
 $producthelper = productHelper::getInstance();
@@ -30,7 +28,7 @@ if (!$user->id)
 	{
 		// Send mail link
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
-		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
+		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
 		display_products($rows);
 		$reglink = JURI::root() . "index.php?option=com_redshop&view=registration";
 		echo "<br /><div><a href=" . $reglink . "><input type='button' value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "></a></div>";
@@ -49,7 +47,7 @@ else // If user logged in than display this code.
 	if (count($this->wish_session) > 0)
 	{
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
-		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
+		echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
 		display_products($this->wish_session);
 		echo "<br />";
 		$mywishlist_link = "index.php?option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component";
@@ -66,7 +64,7 @@ else // If user logged in than display this code.
 		{
 			$rows  = $wish_products[$wishlists[$j]->wishlist_id];
 			$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlists[$j]->wishlist_id;
-			echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" >' . $wishlists[$j]->wishlist_name . '</a></div>';
+			echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" >' . $wishlists[$j]->wishlist_name . '</a></div>';
 
 			display_products($rows);
 			echo "<br />";
@@ -92,7 +90,7 @@ function display_products($rows)
 		$row           = $rows[$i];
 		$Itemid        = $this->redHelper->getItemid($row->product_id);
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
-		$product_price = $producthelper->getProductPrice($row->product_id);
+		$product_price = Redshop\Product\Price::getPrice($row->product_id);
 
 		$productArr             = $producthelper->getProductNetPrice($row->product_id);
 		$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
@@ -137,7 +135,7 @@ function display_products($rows)
 
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
-		echo $addtocartdata = $producthelper->replaceCartTemplate($row->product_id);
+		echo $addtocartdata = Redshop\Cart\Render::replace($row->product_id);
 
 		echo "<div>" . $addtocartdata . "</div>";
 	}

@@ -34,6 +34,26 @@ class RedshopTableOrder_Status extends RedshopTable
 	protected $_tableKey = 'order_status_id';
 
 	/**
+	 * @var  integer
+	 */
+	public $order_status_id;
+
+	/**
+	 * @var  string
+	 */
+	public $order_status_name;
+
+	/**
+	 * @var  string
+	 */
+	public $order_status_code;
+
+	/**
+	 * @var  integer
+	 */
+	public $published;
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -43,13 +63,23 @@ class RedshopTableOrder_Status extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->order_status_name))
+		{
+			return false;
+		}
+
+		if (empty($this->order_status_code))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;
 		}
 
 		// Check status code.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(' . $db->qn('order_status_code') . ') AS ' . $db->qn('count'))
 			->from($db->qn('#__' . $this->_tableName))
@@ -79,7 +109,7 @@ class RedshopTableOrder_Status extends RedshopTable
 	 */
 	protected function doDelete($pk = null)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->qn(['s.order_status_id', 's.order_status_code']))

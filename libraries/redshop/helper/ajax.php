@@ -21,12 +21,13 @@ abstract class RedshopHelperAjax
 	/**
 	 * Check if we have received an AJAX request for security reasons
 	 *
-	 * @return  boolean
+	 * @deprecated  Use \Redshop\Helper\Ajax::isAjaxRequest()
+	 *
+	 * @return      boolean
 	 */
 	public static function isAjaxRequest()
 	{
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+		return \Redshop\Helper\Ajax::isAjaxRequest();
 	}
 
 	/**
@@ -34,15 +35,14 @@ abstract class RedshopHelperAjax
 	 *
 	 * @param   string  $method  Method to validate the ajax request
 	 *
+	 * @deprecated  Use \Redshop\Helper\Ajax::validateAjaxRequest()
+	 *
 	 * @return  void
 	 *
 	 * @throws  Exception
 	 */
 	public static function validateAjaxRequest($method = 'post')
 	{
-		if (!JSession::checkToken($method) || !static::isAjaxRequest())
-		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-		}
+		\Redshop\Helper\Ajax::validateAjaxRequest($method);
 	}
 }

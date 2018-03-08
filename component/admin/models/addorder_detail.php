@@ -8,8 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
-
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopModelAddorder_detail extends RedshopModel
@@ -27,25 +26,20 @@ class RedshopModelAddorder_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
-		$this->_order_functions = order_functions::getInstance();
 		$this->_db = JFactory::getDbo();
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
@@ -55,11 +49,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions;
-
 		if (empty($this->_data))
 		{
-			$this->_data = $order_functions->getOrderDetails($this->_id);
+			$this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
 
 			return (boolean) $this->_data;
 		}
@@ -71,26 +63,26 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		$post = JFactory::getApplication()->input->post->getArray();
 
-		$is_company = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
-		$detail = new stdClass;
-		$detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
-		$detail->address_type = (isset($post['address_type'])) ? $post['address_type'] : "";
-		$detail->company_name = (isset($post['company_name'])) ? $post['company_name'] : null;
-		$detail->firstname = (isset($post['firstname'])) ? $post['firstname'] : null;
-		$detail->lastname = (isset($post['lastname'])) ? $post['lastname'] : null;
-		$detail->country_code = (isset($post['country_code'])) ? $post['country_code'] : null;
-		$detail->state_code = (isset($post['state_code'])) ? $post['state_code'] : null;
-		$detail->zipcode = (isset($post['zipcode'])) ? $post['zipcode'] : null;
-		$detail->user_email = (isset($post['user_email'])) ? $post['user_email'] : null;
-		$detail->address = (isset($post['address'])) ? $post['address'] : null;
-		$detail->is_company = (isset($post['is_company'])) ? $post['is_company'] : $is_company;
-		$detail->city = (isset($post['city'])) ? $post['city'] : null;
-		$detail->phone = (isset($post['phone'])) ? $post['phone'] : null;
-		$detail->vat_number = (isset($post['vat_number'])) ? $post['vat_number'] : null;
-		$detail->tax_exempt_approved = (isset($post['tax_exempt_approved'])) ? $post['tax_exempt_approved'] : null;
+		$is_company                    = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
+		$detail                        = new stdClass;
+		$detail->users_info_id         = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
+		$detail->address_type          = (isset($post['address_type'])) ? $post['address_type'] : "";
+		$detail->company_name          = (isset($post['company_name'])) ? $post['company_name'] : null;
+		$detail->firstname             = (isset($post['firstname'])) ? $post['firstname'] : null;
+		$detail->lastname              = (isset($post['lastname'])) ? $post['lastname'] : null;
+		$detail->country_code          = (isset($post['country_code'])) ? $post['country_code'] : null;
+		$detail->state_code            = (isset($post['state_code'])) ? $post['state_code'] : null;
+		$detail->zipcode               = (isset($post['zipcode'])) ? $post['zipcode'] : null;
+		$detail->user_email            = (isset($post['user_email'])) ? $post['user_email'] : null;
+		$detail->address               = (isset($post['address'])) ? $post['address'] : null;
+		$detail->is_company            = (isset($post['is_company'])) ? $post['is_company'] : $is_company;
+		$detail->city                  = (isset($post['city'])) ? $post['city'] : null;
+		$detail->phone                 = (isset($post['phone'])) ? $post['phone'] : null;
+		$detail->vat_number            = (isset($post['vat_number'])) ? $post['vat_number'] : null;
+		$detail->tax_exempt_approved   = (isset($post['tax_exempt_approved'])) ? $post['tax_exempt_approved'] : null;
 		$detail->requesting_tax_exempt = (isset($post['requesting_tax_exempt'])) ? $post['requesting_tax_exempt'] : null;
-		$detail->ean_number = (isset($post['ean_number'])) ? $post['ean_number'] : null;
-		$detail->tax_exempt = (isset($post['tax_exempt'])) ? $post['tax_exempt'] : null;
+		$detail->ean_number            = (isset($post['ean_number'])) ? $post['ean_number'] : null;
+		$detail->tax_exempt            = (isset($post['tax_exempt'])) ? $post['tax_exempt'] : null;
 
 		return $detail;
 	}
@@ -99,17 +91,17 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		$post = JFactory::getApplication()->input->post->getArray();
 
-		$detail = new stdClass;
-		$detail->billisship = (isset($post['billisship'])) ? $post['billisship'] : 1;
+		$detail                = new stdClass;
+		$detail->billisship    = (isset($post['billisship'])) ? $post['billisship'] : 1;
 		$detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
-		$detail->firstname = (isset($post['firstname_ST'])) ? $post['firstname_ST'] : null;
-		$detail->lastname = (isset($post['lastname_ST'])) ? $post['lastname_ST'] : null;
-		$detail->country_code = (isset($post['country_code_ST'])) ? $post['country_code_ST'] : null;
-		$detail->state_code = (isset($post['state_code_ST'])) ? $post['state_code_ST'] : null;
-		$detail->zipcode = (isset($post['zipcode_ST'])) ? $post['zipcode_ST'] : null;
-		$detail->address = (isset($post['address_ST'])) ? $post['address_ST'] : null;
-		$detail->city = (isset($post['city_ST'])) ? $post['city_ST'] : null;
-		$detail->phone = (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
+		$detail->firstname     = (isset($post['firstname_ST'])) ? $post['firstname_ST'] : null;
+		$detail->lastname      = (isset($post['lastname_ST'])) ? $post['lastname_ST'] : null;
+		$detail->country_code  = (isset($post['country_code_ST'])) ? $post['country_code_ST'] : null;
+		$detail->state_code    = (isset($post['state_code_ST'])) ? $post['state_code_ST'] : null;
+		$detail->zipcode       = (isset($post['zipcode_ST'])) ? $post['zipcode_ST'] : null;
+		$detail->address       = (isset($post['address_ST'])) ? $post['address_ST'] : null;
+		$detail->city          = (isset($post['city_ST'])) ? $post['city_ST'] : null;
+		$detail->phone         = (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
 
 		return $detail;
 	}
@@ -118,46 +110,46 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->order_id = 0;
-			$detail->user_id = null;
-			$detail->order_number = null;
-			$detail->user_info_id = null;
-			$detail->order_total = null;
-			$detail->order_subtotal = null;
-			$detail->order_tax = null;
-			$detail->order_tax_details = null;
-			$detail->order_shipping = null;
+			$detail                     = new stdClass;
+			$detail->order_id           = 0;
+			$detail->user_id            = null;
+			$detail->order_number       = null;
+			$detail->user_info_id       = null;
+			$detail->order_total        = null;
+			$detail->order_subtotal     = null;
+			$detail->order_tax          = null;
+			$detail->order_tax_details  = null;
+			$detail->order_shipping     = null;
 			$detail->order_shipping_tax = null;
-			$detail->coupon_discount = null;
-			$detail->payment_discount = null;
-			$detail->order_discount = null;
-			$detail->order_status = null;
-			$detail->cdate = null;
-			$detail->mdate = null;
-			$detail->ship_method_id = null;
-			$detail->customer_note = null;
-			$detail->ip_address = null;
-			$this->_data = $detail;
+			$detail->coupon_discount    = null;
+			$detail->payment_discount   = null;
+			$detail->order_discount     = null;
+			$detail->order_status       = null;
+			$detail->cdate              = null;
+			$detail->mdate              = null;
+			$detail->ship_method_id     = null;
+			$detail->customer_note      = null;
+			$detail->ip_address         = null;
+			$this->_data                = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
 	public function storeShipping($data)
 	{
-		$userhelper = rsUserHelper::getInstance();
-		$data['address_type'] = 'BT';
+		$data['address_type']  = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
-		$data['user_email'] = $data['email1'] = $data['email'];
+		$data['user_email']    = $data['email1'] = $data['email'];
 		$data['sameasbilling'] = (isset($data['billisship']) && $data['billisship'] == 1) ? 1 : 0;
-		$data['billisship'] = 1;
-		$data['groups'] = array("Registered" => "2");
+		$data['billisship']    = 1;
+		$data['groups']        = array("Registered" => "2");
 
 		if ($data['guestuser'] && !$data['user_id'])
 		{
-			$joomlauser = $userhelper->updateJoomlaUser($data);
+			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
 
 			if (!$joomlauser)
 			{
@@ -165,21 +157,21 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 		}
 
-		$reduser = $userhelper->storeRedshopUser($data, $joomlauser->id, 1);
+		$reduser = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id, 1);
 
 		if ($reduser)
 		{
 			if ($data['sameasbilling'] != 1)
 			{
-				$data['users_info_id'] = ($data['shipp_users_info_id'] != "") ? $data['shipp_users_info_id'] : 0;
-				$data['user_email'] = $reduser->user_email;
-				$data['user_id'] = $reduser->user_id;
-				$data['tax_exempt'] = $reduser->tax_exempt;
+				$data['users_info_id']         = ($data['shipp_users_info_id'] != "") ? $data['shipp_users_info_id'] : 0;
+				$data['user_email']            = $reduser->user_email;
+				$data['user_id']               = $reduser->user_id;
+				$data['tax_exempt']            = $reduser->tax_exempt;
 				$data['requesting_tax_exempt'] = $reduser->requesting_tax_exempt;
-				$data['shopper_group_id'] = $reduser->shopper_group_id;
-				$data['tax_exempt_approved'] = $reduser->tax_exempt_approved;
-				$data['company_name'] = $reduser->company_name;
-				$data['vat_number'] = $reduser->vat_number;
+				$data['shopper_group_id']      = $reduser->shopper_group_id;
+				$data['tax_exempt_approved']   = $reduser->tax_exempt_approved;
+				$data['company_name']          = $reduser->company_name;
+				$data['vat_number']            = $reduser->vat_number;
 
 				if ($data['firstname_ST'] == "")
 				{
@@ -221,7 +213,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$data['phone_ST'] = $data['phone'];
 				}
 
-				$rowsh = $userhelper->storeRedshopUserShipping($data);
+				$rowsh = RedshopHelperUser::storeRedshopUserShipping($data);
 
 				return $rowsh;
 			}
@@ -239,10 +231,8 @@ class RedshopModelAddorder_detail extends RedshopModel
 	public function store($postdata)
 	{
 		$order_functions = order_functions::getInstance();
-		$producthelper = productHelper::getInstance();
-		$rsCarthelper = rsCarthelper::getInstance();
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
+		$producthelper   = productHelper::getInstance();
+		$rsCarthelper    = rsCarthelper::getInstance();
 
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
@@ -270,14 +260,14 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$rowOrderStatus = $this->getTable('order_status_log');
-		$rowOrderStatus->order_id = $row->order_id;
-		$rowOrderStatus->order_status = $row->order_status;
-		$rowOrderStatus->date_changed = time();
+		$rowOrderStatus                = $this->getTable('order_status_log');
+		$rowOrderStatus->order_id      = $row->order_id;
+		$rowOrderStatus->order_status  = $row->order_status;
+		$rowOrderStatus->date_changed  = time();
 		$rowOrderStatus->customer_note = $row->customer_note;
 		$rowOrderStatus->store();
 
-		$billingaddresses = $order_functions->getBillingAddress($row->user_id);
+		$billingaddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
 		{
@@ -285,8 +275,8 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 		else
 		{
-			$key = 0;
-			$shippingaddresses = $order_functions->getShippingAddress($row->user_id);
+			$key                 = 0;
+			$shippingaddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
 			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
 
 			if ($shipp_users_info_id != 0)
@@ -307,28 +297,28 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// ORDER DELIVERY TIME IS REMAINING
 
 		$user_id = $row->user_id;
-		$item = $postdata['order_item'];
+		$item    = $postdata['order_item'];
 
 		for ($i = 0, $in = count($item); $i < $in; $i++)
 		{
-			$product_id = $item[$i]->product_id;
-			$quantity = $item[$i]->quantity;
+			$product_id         = $item[$i]->product_id;
+			$quantity           = $item[$i]->quantity;
 			$product_excl_price = $item[$i]->prdexclprice;
-			$product_price = $item[$i]->productprice;
+			$product_price      = $item[$i]->productprice;
 
 			// Attribute price added
-			$generateAttributeCart = $rsCarthelper->generateAttributeArray((array) $item[$i], $user_id);
-			$retAttArr = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
-			$product_attribute = $retAttArr[0];
+			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
+			$retAttArr             = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
+			$product_attribute     = $retAttArr[0];
 
 			// Accessory price
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
-			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
-			$product_accessory = $retAccArr[0];
-			$accessory_vat_price = $retAccArr[2];
+			$retAccArr             = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
+			$product_accessory     = $retAccArr[0];
+			$accessory_vat_price   = $retAccArr[2];
 
 			$wrapper_price = 0;
-			$wrapper_vat = 0;
+			$wrapper_vat   = 0;
 
 			if ($item[$i]->wrapper_data != 0 && $item[$i]->wrapper_data != '')
 			{
@@ -357,31 +347,31 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 
 			// STOCKROOM update
-			$updatestock = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
-			$stockroom_id_list = $updatestock['stockroom_list'];
-			$stockroom_quantity_list = $updatestock['stockroom_quantity_list'];
-			$rowitem->stockroom_id = $stockroom_id_list;
-			$rowitem->stockroom_quantity = $stockroom_quantity_list;
-			$rowitem->order_item_id = 0;
-			$rowitem->order_id = $row->order_id;
-			$rowitem->user_info_id = $row->user_info_id;
-			$rowitem->supplier_id = $product->manufacturer_id;
-			$rowitem->product_id = $product_id;
-			$rowitem->order_item_sku = $product->product_number;
-			$rowitem->order_item_name = $product->product_name;
-			$rowitem->product_quantity = $quantity;
-			$rowitem->product_item_price = $product_price;
+			$updatestock                          = RedshopHelperStockroom::updateStockroomQuantity($product_id, $quantity);
+			$stockroom_id_list                    = $updatestock['stockroom_list'];
+			$stockroom_quantity_list              = $updatestock['stockroom_quantity_list'];
+			$rowitem->stockroom_id                = $stockroom_id_list;
+			$rowitem->stockroom_quantity          = $stockroom_quantity_list;
+			$rowitem->order_item_id               = 0;
+			$rowitem->order_id                    = $row->order_id;
+			$rowitem->user_info_id                = $row->user_info_id;
+			$rowitem->supplier_id                 = $product->manufacturer_id;
+			$rowitem->product_id                  = $product_id;
+			$rowitem->order_item_sku              = $product->product_number;
+			$rowitem->order_item_name             = $product->product_name;
+			$rowitem->product_quantity            = $quantity;
+			$rowitem->product_item_price          = $product_price;
 			$rowitem->product_item_price_excl_vat = $product_excl_price;
-			$rowitem->product_final_price = $product_price * $quantity;
-			$rowitem->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
-			$rowitem->order_status = $row->order_status;
-			$rowitem->cdate = $row->cdate;
-			$rowitem->mdate = $row->cdate;
-			$rowitem->product_attribute = $product_attribute;
-			$rowitem->product_accessory = $product_accessory;
-			$rowitem->wrapper_id = $item[$i]->wrapper_data;
-			$rowitem->wrapper_price = $wrapper_price;
-			$rowitem->is_giftcard = 0;
+			$rowitem->product_final_price         = $product_price * $quantity;
+			$rowitem->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+			$rowitem->order_status                = $row->order_status;
+			$rowitem->cdate                       = $row->cdate;
+			$rowitem->mdate                       = $row->cdate;
+			$rowitem->product_attribute           = $product_attribute;
+			$rowitem->product_accessory           = $product_accessory;
+			$rowitem->wrapper_id                  = $item[$i]->wrapper_data;
+			$rowitem->wrapper_price               = $wrapper_price;
+			$rowitem->is_giftcard                 = 0;
 
 			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
@@ -413,9 +403,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
-					$accessory_id = $attArr[$a]['accessory_id'];
-					$accessory_name = $attArr[$a]['accessory_name'];
-					$accessory_price = $attArr[$a]['accessory_price'];
+					$accessory_id        = $attArr[$a]['accessory_id'];
+					$accessory_name      = $attArr[$a]['accessory_name'];
+					$accessory_price     = $attArr[$a]['accessory_price'];
 					$accessory_org_price = $accessory_price;
 
 					if ($accessory_price > 0)
@@ -427,17 +417,17 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$attribute_id = $attchildArr[$j]['attribute_id'];
+						$attribute_id        = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = $this->getTable('order_attribute_item');
+						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id = $rowitem->order_item_id;
-						$rowattitem->section_id = $attribute_id;
-						$rowattitem->section = "attribute";
+						$rowattitem->order_item_id     = $rowitem->order_item_id;
+						$rowattitem->section_id        = $attribute_id;
+						$rowattitem->section           = "attribute";
 						$rowattitem->parent_section_id = $accessory_id;
-						$rowattitem->section_name = $attchildArr[$j]['attribute_name'];
-						$rowattitem->is_accessory_att = 1;
+						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
+						$rowattitem->is_accessory_att  = 1;
 
 						if ($attribute_id > 0)
 						{
@@ -460,23 +450,23 @@ class RedshopModelAddorder_detail extends RedshopModel
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
-							$property_id = $propArr[$k]['property_id'];
+							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " ("
 								. $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
-							$subpropArr = $propArr[$k]['property_childs'];
+							$subpropArr          = $propArr[$k]['property_childs'];
 
-							$rowattitem = $this->getTable('order_attribute_item');
+							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
-							$rowattitem->order_item_id = $rowitem->order_item_id;
-							$rowattitem->section_id = $property_id;
-							$rowattitem->section = "property";
+							$rowattitem->order_item_id     = $rowitem->order_item_id;
+							$rowattitem->section_id        = $property_id;
+							$rowattitem->section           = "property";
 							$rowattitem->parent_section_id = $attribute_id;
-							$rowattitem->section_name = $propArr[$k]['property_name'];
-							$rowattitem->section_price = $propArr[$k]['property_price'];
-							$rowattitem->section_vat = $section_vat;
-							$rowattitem->section_oprand = $propArr[$k]['property_oprand'];
-							$rowattitem->is_accessory_att = 1;
+							$rowattitem->section_name      = $propArr[$k]['property_name'];
+							$rowattitem->section_price     = $propArr[$k]['property_price'];
+							$rowattitem->section_vat       = $section_vat;
+							$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
+							$rowattitem->is_accessory_att  = 1;
 
 							if ($property_id > 0)
 							{
@@ -497,22 +487,22 @@ class RedshopModelAddorder_detail extends RedshopModel
 									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
-								$subproperty_id = $subpropArr[$l]['subproperty_id'];
+								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem = $this->getTable('order_attribute_item');
+								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
-								$rowattitem->order_item_id = $rowitem->order_item_id;
-								$rowattitem->section_id = $subproperty_id;
-								$rowattitem->section = "subproperty";
+								$rowattitem->order_item_id     = $rowitem->order_item_id;
+								$rowattitem->section_id        = $subproperty_id;
+								$rowattitem->section           = "subproperty";
 								$rowattitem->parent_section_id = $property_id;
-								$rowattitem->section_name = $subpropArr[$l]['subproperty_name'];
-								$rowattitem->section_price = $subpropArr[$l]['subproperty_price'];
-								$rowattitem->section_vat = $section_vat;
-								$rowattitem->section_oprand = $subpropArr[$l]['subproperty_oprand'];
-								$rowattitem->is_accessory_att = 1;
+								$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
+								$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
+								$rowattitem->section_vat       = $section_vat;
+								$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
+								$rowattitem->is_accessory_att  = 1;
 
 								if ($subproperty_id > 0)
 								{
@@ -534,19 +524,19 @@ class RedshopModelAddorder_detail extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo = Redshop::product((int) $accdata->child_product_id);
-					$rowaccitem = $this->getTable('order_acc_item');
-					$rowaccitem->order_item_acc_id = 0;
-					$rowaccitem->order_item_id = $rowitem->order_item_id;
-					$rowaccitem->product_id = $accessory_id;
-					$rowaccitem->order_acc_item_sku = $accProductinfo->product_number;
-					$rowaccitem->order_acc_item_name = $accessory_name;
-					$rowaccitem->order_acc_price = $accessory_org_price;
-					$rowaccitem->order_acc_vat = $accessory_vat_price;
-					$rowaccitem->product_quantity = $quantity;
-					$rowaccitem->product_acc_item_price = $accessory_price;
+					$accProductinfo                      = Redshop::product((int) $accdata->child_product_id);
+					$rowaccitem                          = $this->getTable('order_acc_item');
+					$rowaccitem->order_item_acc_id       = 0;
+					$rowaccitem->order_item_id           = $rowitem->order_item_id;
+					$rowaccitem->product_id              = $accessory_id;
+					$rowaccitem->order_acc_item_sku      = $accProductinfo->product_number;
+					$rowaccitem->order_acc_item_name     = $accessory_name;
+					$rowaccitem->order_acc_price         = $accessory_org_price;
+					$rowaccitem->order_acc_vat           = $accessory_vat_price;
+					$rowaccitem->product_quantity        = $quantity;
+					$rowaccitem->product_acc_item_price  = $accessory_price;
 					$rowaccitem->product_acc_final_price = ($accessory_price * $quantity);
-					$rowaccitem->product_attribute = $accessory_attribute;
+					$rowaccitem->product_attribute       = $accessory_attribute;
 
 					if ($accessory_id > 0)
 					{
@@ -569,14 +559,14 @@ class RedshopModelAddorder_detail extends RedshopModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = $this->getTable('order_attribute_item');
+					$rowattitem                    = $this->getTable('order_attribute_item');
 					$rowattitem->order_att_item_id = 0;
-					$rowattitem->order_item_id = $rowitem->order_item_id;
-					$rowattitem->section_id = $attribute_id;
-					$rowattitem->section = "attribute";
+					$rowattitem->order_item_id     = $rowitem->order_item_id;
+					$rowattitem->section_id        = $attribute_id;
+					$rowattitem->section           = "attribute";
 					$rowattitem->parent_section_id = $rowitem->product_id;
-					$rowattitem->section_name = $attArr[$j]['attribute_name'];
-					$rowattitem->is_accessory_att = 0;
+					$rowattitem->section_name      = $attArr[$j]['attribute_name'];
+					$rowattitem->is_accessory_att  = 0;
 
 					if ($attribute_id > 0)
 					{
@@ -601,19 +591,19 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
-						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
+						RedshopHelperStockroom::updateStockroomQuantity($property_id, $quantity, "property");
 
-						$rowattitem = $this->getTable('order_attribute_item');
+						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id = $rowitem->order_item_id;
-						$rowattitem->section_id = $property_id;
-						$rowattitem->section = "property";
+						$rowattitem->order_item_id     = $rowitem->order_item_id;
+						$rowattitem->section_id        = $property_id;
+						$rowattitem->section           = "property";
 						$rowattitem->parent_section_id = $attribute_id;
-						$rowattitem->section_name = $propArr[$k]['property_name'];
-						$rowattitem->section_price = $propArr[$k]['property_price'];
-						$rowattitem->section_vat = $section_vat;
-						$rowattitem->section_oprand = $propArr[$k]['property_oprand'];
-						$rowattitem->is_accessory_att = 0;
+						$rowattitem->section_name      = $propArr[$k]['property_name'];
+						$rowattitem->section_price     = $propArr[$k]['property_price'];
+						$rowattitem->section_vat       = $section_vat;
+						$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
+						$rowattitem->is_accessory_att  = 0;
 
 						if ($property_id > 0)
 						{
@@ -638,19 +628,19 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
-							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
+							RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-							$rowattitem = $this->getTable('order_attribute_item');
+							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
-							$rowattitem->order_item_id = $rowitem->order_item_id;
-							$rowattitem->section_id = $subproperty_id;
-							$rowattitem->section = "subproperty";
+							$rowattitem->order_item_id     = $rowitem->order_item_id;
+							$rowattitem->section_id        = $subproperty_id;
+							$rowattitem->section           = "subproperty";
 							$rowattitem->parent_section_id = $property_id;
-							$rowattitem->section_name = $subpropArr[$l]['subproperty_name'];
-							$rowattitem->section_price = $subpropArr[$l]['subproperty_price'];
-							$rowattitem->section_vat = $section_vat;
-							$rowattitem->section_oprand = $subpropArr[$l]['subproperty_oprand'];
-							$rowattitem->is_accessory_att = 0;
+							$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
+							$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
+							$rowattitem->section_vat       = $section_vat;
+							$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
+							$rowattitem->is_accessory_att  = 0;
 
 							if ($subproperty_id > 0)
 							{
@@ -669,12 +659,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 			// Store userfields
 			if (isset($item[$i]->extrafieldname) && isset($item[$i]->extrafieldId))
 			{
-				$userfields = $item[$i]->extrafieldname;
+				$userfields    = $item[$i]->extrafieldname;
 				$userfields_id = $item[$i]->extrafieldId;
 
 				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
-					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
+					RedshopHelperProduct::insertProductUserField($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
 			}
 		}
@@ -688,10 +678,10 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$rowpayment->order_id = $row->order_id;
-		$rowpayment->payment_method_id = $postdata['payment_method_class'];
+		$rowpayment->order_id             = $row->order_id;
+		$rowpayment->payment_method_id    = $postdata['payment_method_class'];
 		$rowpayment->order_payment_amount = $row->order_total;
-		$rowpayment->order_payment_name = $postdata['order_payment_name'];
+		$rowpayment->order_payment_name   = $postdata['order_payment_name'];
 		$rowpayment->payment_method_class = $postdata['payment_method_class'];
 
 		if (!$rowpayment->store())
@@ -713,7 +703,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id = $row->order_id;
+		$orderuserrow->order_id     = $row->order_id;
 		$orderuserrow->address_type = 'BT';
 
 		if (!$orderuserrow->store())
@@ -740,7 +730,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id = $row->order_id;
+		$orderuserrow->order_id     = $row->order_id;
 		$orderuserrow->address_type = 'ST';
 
 		if (!$orderuserrow->store())
@@ -759,10 +749,10 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
-			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];
-			$economicdata['economic_is_creditcard'] = $postdata['economic_is_creditcard'];
-			$payment_name = $postdata['payment_method_class'];
-			$paymentArr = explode("rs_payment_", $postdata['payment_method_class']);
+			$economicdata['economic_design_layout']    = $postdata['economic_design_layout'];
+			$economicdata['economic_is_creditcard']    = $postdata['economic_is_creditcard'];
+			$payment_name                              = $postdata['payment_method_class'];
+			$paymentArr                                = explode("rs_payment_", $postdata['payment_method_class']);
 
 			if (count($paymentArr) > 0)
 			{
@@ -771,28 +761,28 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
+			RedshopEconomic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
 				$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($postdata['payment_method_class']);
 
-				$checkOrderStatus          = ($isBankTransferPaymentType) ? 0 : 1;
+				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
+		if ($postdata['task'] != "save_without_sendmail")
 		{
-			RedshopHelperMail::sendOrderMail($row->order_id);
+			Redshop\Mail\Order::sendMail($row->order_id);
 		}
 
 		return $row;
@@ -800,14 +790,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function sendRegistrationMail($post)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$redshopMail->sendRegistrationMail($post);
+		Redshop\Mail\User::sendRegistrationMail($post);
 	}
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
-		$extra_field = extra_field::getInstance();
-
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
 			. 'AND user_id = ' . (int) $user_id . ' '
@@ -825,7 +812,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		$allowCustomer = '';
-		$allowCompany = '';
+		$allowCompany  = '';
 
 		if ($is_company)
 		{
@@ -836,40 +823,47 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$allowCompany = 'style="display:none;"';
 		}
 
-		// Field_section 7 :Customer Address
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shipping->users_info_id);
+		$lists = array(
+			// Field_section 7 :Customer Address
+			'shipping_customer_field' => RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
+				$shipping->users_info_id
+			),
+			// Field_section 8 :Company Address
+			'shipping_company_field'  => RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
+				$shipping->users_info_id
+			)
+		);
 
-		// Field_section 8 :Company Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id);
+		$countries                 = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
+		$shipping->country_code_ST = $shipping->country_code = $countries['country_code_ST'];
+		$lists['country_code_ST']  = $countries['country_dropdown'];
 
-		$countryarray = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
-		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
-		$lists['country_code_ST'] = $countryarray['country_dropdown'];
+		$states                 = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
+		$lists['state_code_ST'] = $states['state_dropdown'];
 
-		$statearray = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
-		$lists['state_code_ST'] = $statearray['state_dropdown'];
+		$html = '<table class="adminlist" border="0" width="100%">';
+		$html .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
+		$html .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
+		$html .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
+		$html .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
+		$html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>';
+		$html .= '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
+		$html .= '</table>';
 
-		$htmlshipping = '<table class="adminlist" border="0" width="100%">';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
-		$htmlshipping .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
-		$htmlshipping .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
-		$htmlshipping .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
-		$htmlshipping .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
-		$htmlshipping .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>
-							<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
-		$htmlshipping .= '</table>';
-
-		return $htmlshipping;
+		return $html;
 	}
 }

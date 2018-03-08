@@ -29,7 +29,7 @@ class RedshopModelCountry extends RedshopModelForm
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_redshop.edit.country.data', array());
 
 		if (empty($data))

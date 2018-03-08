@@ -24,19 +24,20 @@ class RedshopControllerBarcode extends RedshopController
 		}
 		else
 		{
-			$model = $this->getModel('barcode');
+			/** @var RedshopModelBarcode $model */
+			$model   = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
 			$user = JFactory::getUser();
-			$uid = $user->get('id');
-			$row = $model->checkorder($barcode);
+			$uid  = $user->get('id');
+			$row  = $model->checkorder($barcode);
 
 			if ($row)
 			{
 				$post['search_date'] = date("y-m-d H:i:s");
-				$post['user_id'] = $uid;
-				$post['order_id'] = $row->order_id;
+				$post['user_id']     = $uid;
+				$post['order_id']    = $row->order_id;
 
 				if ($model->save($post))
 				{
@@ -71,7 +72,8 @@ class RedshopControllerBarcode extends RedshopController
 
 		else
 		{
-			$model = $this->getModel('barcode');
+			/** @var RedshopModelBarcode $model */
+			$model   = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 

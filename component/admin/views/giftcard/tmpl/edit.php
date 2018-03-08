@@ -77,7 +77,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<div class="col-md-10">
 							<?php
 							$value = $this->item->giftcard_bgimage;
-							$giftCardImagePath = RedShopHelperImages::getImagePath(
+							$giftCardImagePath = RedshopHelperMedia::getImagePath(
 								$value,
 								'',
 								'thumb',
@@ -100,7 +100,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<div class="col-md-10">
 							<?php
 							$value = $this->item->giftcard_image;
-							$giftCardImagePath = RedShopHelperImages::getImagePath(
+							$giftCardImagePath = RedshopHelperMedia::getImagePath(
 								$value,
 								'',
 								'thumb',

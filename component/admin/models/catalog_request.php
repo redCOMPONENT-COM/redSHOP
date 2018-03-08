@@ -26,12 +26,12 @@ class RedshopModelCatalog_request extends RedshopModel
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
-		$this->_context = 'catalog_user_id';
+		$app                 = JFactory::getApplication();
+		$this->_context      = 'catalog_user_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -42,7 +42,7 @@ class RedshopModelCatalog_request extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -53,7 +53,7 @@ class RedshopModelCatalog_request extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -83,7 +83,7 @@ class RedshopModelCatalog_request extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'catalog_user_id');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'catalog_user_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
@@ -106,7 +106,6 @@ class RedshopModelCatalog_request extends RedshopModel
 
 				return false;
 			}
-
 		}
 
 		return true;

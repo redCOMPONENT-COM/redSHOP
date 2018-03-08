@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 		<?php echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this)) ?>
     </div>
     <div class="col-md-6">
-		<?php if ($this->item->template_section): ?>
+		<?php if ($this->item->section): ?>
 			<?php echo $this->loadTemplate('hints') ?>
 		<?php endif; ?>
     </div>

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 
 class RedshopControllerStockroom_detail extends RedshopController
@@ -56,6 +56,8 @@ class RedshopControllerStockroom_detail extends RedshopController
 		$cid                    = $this->input->post->get('cid', array(0), 'array');
 		$post ['stockroom_id']  = $cid [0];
 		$post ['creation_date'] = strtotime($post ['creation_date']);
+
+		/** @var RedshopModelStockroom_detail $model */
 		$model                  = $this->getModel('stockroom_detail');
 		$post['stockroom_name'] = htmlspecialchars($post['stockroom_name']);
 
@@ -87,11 +89,12 @@ class RedshopControllerStockroom_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelStockroom_detail $model */
 		$model = $this->getModel('stockroom_detail');
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_DELETED_SUCCESSFULLY');
@@ -106,7 +109,9 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid   = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelStockroom_detail $model */
 		$model = $this->getModel('stockroom_detail');
 
 		if ($model->copy($cid))
@@ -129,23 +134,22 @@ class RedshopControllerStockroom_detail extends RedshopController
 		$totalprd     = 0;
 		$msg          = '';
 
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+		if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
-				. 'LIMIT ' . $cnt . ', 10 ';
+			$query = 'SELECT p.* FROM #__redshop_product AS p LIMIT ' . $cnt . ', 10 ';
+
 			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
+			$prd         = $db->loadObjectlist();
+			$totalprd    = count($prd);
 			$responcemsg = '';
 
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
-				$ecoProductNumber = Economic::importStockFromEconomic($prd[$i]);
-				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
+				$ecoProductNumber = RedshopEconomic::importStockFromEconomic($prd[$i]);
+				$responcemsg      .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && isset($ecoProductNumber[0]))
 				{
@@ -163,7 +167,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 					if (JError::isError(JError::getError()))
 					{
-						$error = JError::getError();
+						$error  = JError::getError();
 						$errmsg = $error->getMessage();
 					}
 
@@ -184,6 +188,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 		}
 
 		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
-		die();
+
+		JFactory::getApplication()->close();
 	}
 }

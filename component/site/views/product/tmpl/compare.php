@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\ExtraFields;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
@@ -26,7 +28,7 @@ if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
 		'compare_product',
-		$producthelper->getCategoryCompareTemplate($compareCategoryId)
+		Redshop\Product\Compare::getCategoryCompareTemplate($compareCategoryId)
 	);
 }
 else
@@ -84,7 +86,7 @@ if ($total > 0)
 
 	if (count($compareTemplate) > 0)
 	{
-		$product_tag = $producthelper->product_tag($compareTemplate[0]->template_id, "1", $template);
+		$product_tag = Redshop\Helper\Utility::getProductTags(1, $template);
 	}
 
 	$i = 0;
@@ -116,12 +118,12 @@ if ($total > 0)
 		else
 		{
 			$catidmain = $product->cat_in_sefurl;
-			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+			$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
 		}
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid);
 
-		$thumbUrl = RedShopHelperImages::getImagePath(
+		$thumbUrl = RedshopHelperMedia::getImagePath(
 							$product->product_full_image,
 							'',
 							'thumb',
@@ -148,16 +150,9 @@ if ($total > 0)
 
 		if (strstr($template, "{manufacturer_name}"))
 		{
-			if ($manufacturer = $producthelper->getSection('manufacturer', $product->manufacturer_id))
-			{
-				$manufacturerName = $manufacturer->manufacturer_name;
-			}
-			else
-			{
-				$manufacturerName = '';
-			}
-
-			$template     = str_replace('{manufacturer_name}', $exp_div . $manufacturerName . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
+			$manufacturer     = RedshopEntityManufacturer::getInstance($product->manufacturer_id);
+			$manufacturerName = $manufacturer->get('name');
+			$template         = str_replace('{manufacturer_name}', $exp_div . $manufacturerName . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
 		}
 
 		if (strstr($template, "{discount_start_date}"))
@@ -216,16 +211,16 @@ if ($total > 0)
 
 		if (strstr($template, "{product_rating_summary}"))
 		{
-			$final_avgreview_data = $producthelper->getProductRating($data['item']->productId);
+			$final_avgreview_data = Redshop\Product\Rating::getRating($data['item']->productId);
 			$template             = str_replace('{product_rating_summary}', $exp_div . $final_avgreview_data . $div_end . $td_end . $td_start . "{product_rating_summary}", $template);
 		}
 
 		if (strstr($template, "{products_in_stock}") || strstr($template, "{product_stock_amount_image}"))
 		{
-			$product_stock = $stockroomhelper->getStockAmountwithReserve($data['item']->productId);
+			$product_stock = RedshopHelperStockroom::getStockAmountWithReserve($data['item']->productId);
 			$template      = str_replace('{products_in_stock}', $exp_div . $product_stock . $div_end . $td_end . $td_start . "{products_in_stock}", $template);
 
-			$stockamountList  = $stockroomhelper->getStockAmountImage($data['item']->productId, "product", $product_stock);
+			$stockamountList  = RedshopHelperStockroom::getStockAmountImage($data['item']->productId, "product", $product_stock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
@@ -259,8 +254,8 @@ if ($total > 0)
 
 		if (strstr($template, "{product_category}"))
 		{
-			$category = $producthelper->getSection('category', $data['item']->categoryId);
-			$template = str_replace('{product_category}', $exp_div . $category->name . $div_end . $td_end . $td_start . "{product_category}", $template);
+			$category = RedshopEntityCategory::getInstance($data['item']->categoryId);
+			$template = str_replace('{product_category}', $exp_div . $category->get('name') . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
 		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->id . '&Itemid=' . $this->itemId . '&tmpl=component';
@@ -270,7 +265,7 @@ if ($total > 0)
 
 		if (strstr($template, "{add_to_cart}"))
 		{
-			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
+			$addtocart = Redshop\Cart\Render::replace($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 
@@ -288,7 +283,7 @@ if ($total > 0)
 				);
 			}
 
-			$template = $field->extra_field_display("1", $product->product_id, $str, $template);
+			$template = ExtraFields::displayExtraFields("1", $product->product_id, $str, $template);
 			$template = str_replace('{addedext_tag}', '{' . $product_tag[$tag] . '}', $template);
 		}
 

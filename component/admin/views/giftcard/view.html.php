@@ -34,9 +34,9 @@ class RedshopViewGiftcard extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

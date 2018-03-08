@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerAttribute_set extends RedshopController
+/**
+ * Attribute Set controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.6
+ */
+class RedshopControllerAttribute_Set extends RedshopController
 {
 	public function cancel()
 	{
@@ -26,6 +32,7 @@ class RedshopControllerAttribute_set extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if (!$model->publish($cid, 1))
@@ -46,6 +53,7 @@ class RedshopControllerAttribute_set extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if (!$model->publish($cid, 0))

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
 JPluginHelper::importPlugin('redshop_shipping');
@@ -237,7 +236,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             </tr>
                             <?php //}?>
                             <?php
-                            $partialPaid        = $orderFunctions->getOrderPartialPayment($orderId);
+                            $partialPaid        = RedshopHelperOrder::getOrderPartialPayment($orderId);
                             $sendMailToCustomer = 0;
                             if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
                             {
@@ -318,7 +317,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
+                                        <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -326,7 +325,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
+                                        <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -346,7 +345,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     </td>
                                 </tr>
                                 <?php
-                                $details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
+                                $details = Redshop\Shipping\Rate::decrypt($this->detail->ship_method_id);
 
                                 if (count($details) <= 1)
                                 {
@@ -355,7 +354,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
                                 $disp_style = '';
 
-                                if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+                                if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls')
                                 {
                                     $disp_style = "style=display:none";
                                 }
@@ -465,11 +464,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <td align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
                                         <td><?php echo $billing->ean_number; ?></td>
                                     </tr>
-                                    <?php $fields = $extraFieldHelper->list_all_field_display(8, $billing->users_info_id);
+                                    <?php $fields = RedshopHelperExtrafields::listAllFieldDisplay(8, $billing->users_info_id);
                                 }
                                 else
                                 {
-                                    $fields = $extraFieldHelper->list_all_field_display(7, $billing->users_info_id);
+                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(7, $billing->users_info_id);
                                 }
                                 echo $fields;
                                 ?>
@@ -512,11 +511,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-                                    <td><?php echo JText::_($orderFunctions->getCountryName($shipping->country_code)); ?></td>
+                                    <td><?php echo JText::_(RedshopHelperOrder::getCountryName($shipping->country_code)); ?></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-                                    <td><?php echo $orderFunctions->getStateName($shipping->state_code, $shipping->country_code); ?></td>
+                                    <td><?php echo RedshopHelperOrder::getStateName($shipping->state_code, $shipping->country_code); ?></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
@@ -526,11 +525,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
                                 if ($isCompany)
                                 {
-                                    $fields = $extraFieldHelper->list_all_field_display(15, $shipping->users_info_id);
+                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(15, $shipping->users_info_id);
                                 }
                                 else
                                 {
-                                    $fields = $extraFieldHelper->list_all_field_display(14, $shipping->users_info_id);
+                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(14, $shipping->users_info_id);
                                 }
                                 echo $fields; ?>
                             </table>
@@ -593,7 +592,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             $p_userfield      = $productHelper->getuserfield($order_item_id);
                             $subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
                             $catId            = $productHelper->getCategoryProduct($product_id);
-                            $res              = $productHelper->getSection("category", $catId);
+                            $res              = RedshopEntityCategory::getInstance((int) $catId)->getItem();
                             $cname            = '';
 
                             if (count($res) > 0)
@@ -620,7 +619,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 else
                                 {
                                     $objhelper = redhelper::getInstance();
-                                    $pItemid   = RedshopHelperUtility::getItemId($productdetail->product_id, $catIdMain);
+                                    $pItemid   = RedshopHelperRouter::getItemId($productdetail->product_id, $catIdMain);
                                 }
 
                                 $productFrontendLink = JUri::root();
@@ -718,7 +717,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                             </td>
                                                             <td width="20%">
                                                                 <?php
-                                                                echo $orderFunctions->getstatuslist('status', $products[$i]->order_status, "class=\"form-control\" size=\"1\" ");
+                                                                echo RedshopHelperOrder::getStatusList('status', $products[$i]->order_status, "class=\"form-control\" size=\"1\" ");
                                                                 ?>
                                                                 <br/><br/>
                                                                 <textarea cols="30" rows="3" class="form-control"

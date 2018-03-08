@@ -87,6 +87,7 @@ abstract class RedshopPayment extends JPlugin
 	 * @param   integer  $orderId  Order Id
 	 *
 	 * @return  string             Notify url
+	 * @throws  Exception
 	 */
 	protected function getNotifyUrl($orderId)
 	{
@@ -102,6 +103,7 @@ abstract class RedshopPayment extends JPlugin
 	 * @param   integer  $orderId  Order Id
 	 *
 	 * @return  string   Return Url
+	 * @throws  Exception
 	 */
 	protected function getReturnUrl($orderId)
 	{

@@ -93,7 +93,7 @@ $model = $this->getModel('quotation');
 					}
 				}
 				$link = JRoute::_('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
-				$status = $quotationHelper->getQuotationStatusName($row->quotation_status);
+				$status = RedshopHelperQuotation::getQuotationStatusName($row->quotation_status);
 				if ($row->quotation_status == 5)
 				{
 					$status .= " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";

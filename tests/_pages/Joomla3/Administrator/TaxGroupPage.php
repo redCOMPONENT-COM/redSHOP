@@ -43,7 +43,7 @@ class TaxGroupPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $pathStatus = "//table[@id='table-tax_groups']/tbody/tr/td[5]/a";
+	public static $pathStatus = "//tr/td[5]/a";
 
 	/**
 	 * @var string

@@ -26,12 +26,12 @@ class RedshopModelXmlimport extends RedshopModel
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
+		$app            = JFactory::getApplication();
 		$this->_context = 'xmlimport_id';
 
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
@@ -42,7 +42,7 @@ class RedshopModelXmlimport extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -53,9 +53,10 @@ class RedshopModelXmlimport extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -73,7 +74,7 @@ class RedshopModelXmlimport extends RedshopModel
 	public function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_import ";
-		$list = $this->_data = $this->_getList($query);
+		$list  = $this->_data = $this->_getList($query);
 
 		return $list;
 	}
@@ -94,7 +95,7 @@ class RedshopModelXmlimport extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'xmlimport_date');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'xmlimport_date');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$orderby = " ORDER BY " . $db->escape($filter_order . " " . $filter_order_Dir);

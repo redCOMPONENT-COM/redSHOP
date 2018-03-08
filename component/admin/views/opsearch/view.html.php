@@ -25,15 +25,13 @@ class RedshopViewOpsearch extends RedshopViewAdmin
 	{
 		$model = $this->getModel('opsearch');
 
-		$uri      = JFactory::getURI();
+		$uri      = JUri::getInstance();
 		$document = JFactory::getDocument();
-
-		$order_function = order_functions::getInstance();
 
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
 
-		$this->state = $this->get('State');
+		$this->state        = $this->get('State');
 		$lists['order']     = $this->state->get('list.ordering', 'order_item_name');
 		$lists['order_Dir'] = $this->state->get('list.direction', '');
 
@@ -43,15 +41,14 @@ class RedshopViewOpsearch extends RedshopViewAdmin
 		$products   = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-
-		$lists['filter_user'] = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
-		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
+		$lists['filter_user']   = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
+		$lists['filter_status'] = RedshopHelperOrder::getStatusList('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 
-		$this->lists = $lists;
-		$this->products = $products;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->products    = $products;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

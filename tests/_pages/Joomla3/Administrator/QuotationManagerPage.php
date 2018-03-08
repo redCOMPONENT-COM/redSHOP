@@ -13,15 +13,14 @@
  *
  * @since  1.4
  */
-class QuotationManagerPage
+class QuotationManagerPage extends AdminJ3Page
 {
 
     //page name
     public static $pageManagementName = "User Management";
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=quotation';
-
-
+    
     public static $userId = ['id' => 's2id_user_id'];
 
     public static $userSearch = ['id' => 's2id_autogen1_search'];
@@ -29,34 +28,23 @@ class QuotationManagerPage
     public static $productId = ['id' => 's2id_product1'];
 
     public static $productsSearch = ['id' => 's2id_autogen2_search'];
+    
+    public static $newProductLink = ['link' => 'New'];
 
     public static $quanlityFirst = ['id' => 'quantityproduct1'];
 
     public static $quantityp1 = ['id' => 'quantityp1'];
 
+    public static $quotationStatusDropDown = ['id' => 's2id_quotation_status'];
 
-    public static $quotationId = "//div[@id='editcell']/div[2]/table/tbody/tr[1]/td[3]/a";
+    public static $quotationStatusSearch = ['id' => 's2id_autogen2_search'];
+    
+    public static $quotationId = ['xpath' => '//tr[@class=\'row0\']/td[3]/a'];
+
+    public static $quotationStatus = ['xpath' => '//tr[@class=\'row0\']/td[6]'];
     //button
 
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
+    public static $buttonSend = "Send";
 
 
     //selector

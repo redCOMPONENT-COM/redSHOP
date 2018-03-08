@@ -112,6 +112,8 @@ class RedshopViewList extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -141,6 +143,8 @@ class RedshopViewList extends AbstractView
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	protected function checkPermission()
 	{
@@ -281,7 +285,7 @@ class RedshopViewList extends AbstractView
 				$this->hasOrdering = true;
 			}
 
-			$this->columns[] = array(
+			$column = array(
 				// This column is sortable?
 				'sortable'  => isset($field['table-sortable']) ? (bool) $field['table-sortable'] : false,
 				// Text for column
@@ -297,19 +301,29 @@ class RedshopViewList extends AbstractView
 				// Type of column
 				'type'      => (string) $field['type'],
 			);
+
+			if ($field['type'] == 'number' || ($field['type'] == 'redshop.text'
+				&& isset($field['filter']) && ($field['filter'] == 'integer' || $field['filter'] == 'float')))
+			{
+				$column['type'] = 'number';
+			}
+
+			$this->columns[] = $column;
 		}
 	}
 
 	/**
 	 * Method for render 'Published' column
 	 *
-	 * @param   array  $config Row config.
-	 * @param   int    $index  Row index.
-	 * @param   object $row    Row data.
+	 * @param   array    $config  Row config.
+	 * @param   integer  $index   Row index.
+	 * @param   object   $row     Row data.
 	 *
 	 * @return  string
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -324,7 +338,7 @@ class RedshopViewList extends AbstractView
 		{
 			if ($this->canEdit)
 			{
-				return JHtml::_('jgrid.published', $row->published, $index);
+				return JHtml::_('redshopgrid.published', $row->published, $index);
 			}
 			else
 			{

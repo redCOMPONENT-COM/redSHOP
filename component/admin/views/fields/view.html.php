@@ -26,11 +26,19 @@ class RedshopViewFields extends RedshopViewList
 	public $hasOrdering = true;
 
 	/**
+	 * @var  array
+	 *
+	 * @since  2.1.0
+	 */
+	public $fieldGroups = array();
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -55,6 +63,7 @@ class RedshopViewFields extends RedshopViewList
 	 * @param   object  $row     Row data.
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -68,7 +77,38 @@ class RedshopViewFields extends RedshopViewList
 		{
 			return RedshopHelperTemplate::getFieldSections($row->section);
 		}
+		elseif ($config['dataCol'] == 'groupId')
+		{
+			return $row->groupName;
+		}
 
 		return parent::onRenderColumn($config, $index, $row);
+	}
+
+	/**
+	 * Method for add toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function addToolbar()
+	{
+		parent::addToolbar();
+
+		$filterSection = (int) $this->state->get('filter.field_section');
+
+		if ($filterSection)
+		{
+			/** @var RedshopModelField_Groups $model */
+			$model = RedshopModel::getInstance('Field_Groups', 'RedshopModel', array('ignore_request' => true));
+			$model->setState('filter.section', $filterSection);
+			$model->setState('list.limit', 99);
+
+			$fieldGroups       = $model->getItems();
+			$this->fieldGroups = $fieldGroups === false ? array() : $fieldGroups;
+
+			JToolbarHelper::modal('fieldsAssignGroup', 'fa fa-list', 'COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP');
+		}
 	}
 }

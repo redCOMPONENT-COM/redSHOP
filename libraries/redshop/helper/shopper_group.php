@@ -38,9 +38,9 @@ class RedshopHelperShopper_Group
 	public static function listAll($name, $shopperGroupId, $selectedGroups = array(), $size = 1, $topLevel = true, $multiple = false,
 		$disabledFields = array())
 	{
-		$db   = JFactory::getDbo();
-		$query  = $db->getQuery(true);
-		$html = '';
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$html  = '';
 
 		$query->select($db->qn('parent_id'))
 			->select($db->qn('shopper_group_id'))
@@ -61,7 +61,7 @@ class RedshopHelperShopper_Group
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html     .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html    .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
 		if ($topLevel)
 		{
@@ -90,7 +90,7 @@ class RedshopHelperShopper_Group
 	 */
 	public static function listTree($shopperGroupId = 0, $cid = 0, $level = 0, $selectedGroups = array(), $disabledFields = array(), $html = '')
 	{
-		$db  = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$level++;
 
@@ -104,7 +104,7 @@ class RedshopHelperShopper_Group
 
 		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
 		{
-			$group = $groups[$x];
+			$group   = $groups[$x];
 			$childId = $group->shopper_group_id;
 
 			$selected = "";
@@ -147,41 +147,49 @@ class RedshopHelperShopper_Group
 	 * @param   integer  $cid             Parent ID
 	 * @param   integer  $level           Position
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getShopperGroupListArray($shopperGroupId = 0, $cid = 0, $level = 0)
 	{
-		$db  = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$level++;
 
+		$app = JFactory::getApplication();
+
+        $filterOrder    = $app->getUserStateFromRequest('filter_order', 'filter_order', 'shopper_group_id');
+        $filterOrderDir = $app->getUserStateFromRequest('filter_order_Dir', 'filter_order_Dir', '');
+
 		$query->select('*')
 			->from($db->qn('#__redshop_shopper_group'))
-			->where($db->qn('parent_id') . ' = ' . (int) $cid);
+			->where($db->qn('parent_id') . ' = ' . (int) $cid)
+			->order($filterOrder . ' ' . $filterOrderDir);
 
 		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
 		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
 		{
-			$html = '';
-			$group = $groups[$x];
+			$html    = '';
+			$group   = $groups[$x];
 			$childId = $group->shopper_group_id;
 
 			if ($childId != $cid)
 			{
 				for ($i = 0; $i < $level; $i++)
 				{
-					$html .= "&nbsp;&nbsp;&nbsp;";
+					$html .= "|&nbsp;—&nbsp;";
 				}
 
-				$html .= "&nbsp;" . $group->shopper_group_name;
+				$html .= $group->shopper_group_name;
 			}
 
 			$group->shopper_group_name = $html;
-			$GLOBALS['grouplist'][] = $group;
+			$GLOBALS['grouplist'][]    = $group;
 			self::getShopperGroupListArray($shopperGroupId, $childId, $level);
 		}
 
@@ -204,7 +212,7 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getCategoryListReverceArray($cid = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->qn(array('c.shopper_group_id', 'cx.shopper_group_categories', 'cx.shopper_group_id', 'cx.parent_id')))
@@ -221,8 +229,9 @@ class RedshopHelperShopper_Group
 
 		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
 		{
-			$group = $groups[$x];
+			$group     = $groups[$x];
 			$parent_id = $group->parent_id;
+
 			$GLOBALS['catlist_reverse'][] = $group;
 			self::getCategoryListReverceArray($parent_id);
 		}
@@ -239,15 +248,12 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getShopperGroupPortal()
 	{
-		$user = JFactory::getUser();
+		$user           = JFactory::getUser();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 
-		if ($result = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
-		{
-			return $result[0];
-		}
+		$result = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
-		return false;
+		return !empty($result) ? $result[0] : false;
 	}
 
 	/**
@@ -261,10 +267,11 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getShopperGroupCategory($cid = 0)
 	{
-		$user = JFactory::getUser();
-		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
+		$user             = JFactory::getUser();
+		$shopperGroupId   = RedshopHelperUser::getShopperGroup($user->id);
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
-		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
+		if (!empty($shopperGroupData))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{
@@ -291,7 +298,7 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getShopperGroupProductCategory($productId = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('p.product_id'))
 			->select($db->qn('cx.category_id'))

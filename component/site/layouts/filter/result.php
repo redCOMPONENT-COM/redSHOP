@@ -55,12 +55,12 @@ $dispatcher         = RedshopHelperUtility::getDispatcher();
 $params             = $app->getParams('com_redshop');
 $itemId             = $input->get('Itemid', 0, "int");
 $fieldArray         = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
-$extraFieldProduct  = $extraField->getSectionFieldNameArray(1, 1, 1);
-$extraFieldCategory = $extraField->getSectionFieldNameArray(2, 1, 1);
+$extraFieldProduct  = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+$extraFieldCategory = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
-$attributeTemplate = $productHelper->getAttributeTemplate($templateDesc);
+$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateDesc);
 
 // Begin replace template
 $templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
@@ -77,8 +77,8 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 		$template,
 		'category_template',
 		'class="inputbox" size="1" onchange="loadTemplate(this);"',
-		'template_id',
-		'template_name',
+		'id',
+		'name',
 		$templateId
 	);
 
@@ -96,7 +96,7 @@ $templateDesc = $productHelper->getExtraSectionTag($extraFieldCategory, $cid, "2
 
 if (strpos($templateDesc, "{load_more}") !== false)
 {
-	$loadMore = '<button class="btn btn-success" name="load-more" id="load-more" total="' . $displayData['total'] . '" onclick="loadMore(this);">' . JText::_('COM_REDSHOP_LOAD_MORE') . '</button>';
+	$loadMore     = '<button class="btn btn-success" name="load-more" id="load-more" total="' . $displayData['total'] . '" onclick="loadMore(this);">' . JText::_('COM_REDSHOP_LOAD_MORE') . '</button>';
 	$templateDesc = str_replace("{load_more}", $loadMore, $templateDesc);
 }
 
@@ -132,7 +132,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 		$wThumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$catDetail = "";
+	$catDetail                     = "";
 	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldCategory, $subcatTemplate);
 
 	for ($i = 0, $nc = count($categoryData); $i < $nc; $i++)
@@ -156,7 +156,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		$dataAdd = $subcatTemplate;
 
-		$categoryItemId = RedshopHelperUtility::getCategoryItemid($row->id);
+		$categoryItemId = RedshopHelperRouter::getCategoryItemid($row->id);
 
 		$link = JRoute::_(
 			'index.php?option=com_redshop&view=category&cid='
@@ -225,7 +225,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		$catThumb .= "<img src='" . $productImage . "' " . $alt . $title . ">";
 		$catThumb .= "</a>";
-		$dataAdd = str_replace($tag, $catThumb, $dataAdd);
+		$dataAdd  = str_replace($tag, $catThumb, $dataAdd);
 
 		if (strpos($dataAdd, '{category_name}') !== false)
 		{
@@ -258,14 +258,14 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
 			);
 
-			$dataAdd   = str_replace("{category_short_desc}", $catShortDesc, $dataAdd);
+			$dataAdd = str_replace("{category_short_desc}", $catShortDesc, $dataAdd);
 		}
 
 		if (strpos($dataAdd, '{category_total_product}') !== false)
 		{
 			$totalprd = $producthelper->getProductCategory($row->id);
-			$dataAdd = str_replace("{category_total_product}", count($totalprd), $dataAdd);
-			$dataAdd = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
+			$dataAdd  = str_replace("{category_total_product}", count($totalprd), $dataAdd);
+			$dataAdd  = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
 		}
 
 		/*
@@ -274,7 +274,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(2, $row->id, $extraFieldsForCurrentTemplate, $dataAdd);
+			$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $dataAdd);
 		}
 
 		$catDetail .= $dataAdd;
@@ -368,7 +368,7 @@ $catMainThumb = "";
 
 if ($mainCategory->category_full_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $mainCategory->category_full_image))
 {
-	$waterCatImg  = RedshopHelperMedia::watermark(
+	$waterCatImg = RedshopHelperMedia::watermark(
 		'category',
 		$mainCategory->category_full_image,
 		$cwThumb,
@@ -378,7 +378,7 @@ if ($mainCategory->category_full_image && JFile::exists(REDSHOP_FRONT_IMAGES_REL
 	);
 
 	$catMainThumb = "<a href='" . $link . "' title='" . $mainCategoryName .
-						"'><img src='" . $waterCatImg . "' alt='" . $mainCategoryName . "' title='" . $mainCategoryName . "'></a>";
+		"'><img src='" . $waterCatImg . "' alt='" . $mainCategoryName . "' title='" . $mainCategoryName . "'></a>";
 }
 
 $templateDesc = str_replace($cTag, $catMainThumb, $templateDesc);
@@ -398,7 +398,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateD2      = explode("{product_loop_end}", $templateD1[1]);
 	$templateProduct = $templateD2[0];
 
-	$attributeTemplate = $productHelper->getAttributeTemplate($templateProduct);
+	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
 
 	// Loop product lists
 	foreach ($products as $k => $pid)
@@ -417,7 +417,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// ProductFinderDatepicker Extra Field Start
 		$dataAdd  = $productHelper->getProductFinderDatepickerValue($templateProduct, $product->product_id, $fieldArray);
 		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperUtility::getItemId($product->product_id, $cid);
+		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
 		$dataAdd = str_replace("{product_price}", $productHelper->getProductFormattedPrice($productPrice), $dataAdd);
 		$dataAdd = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
@@ -450,8 +450,8 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		if (strstr($dataAdd, '{product_name}'))
 		{
-			$productName   = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $productName . "</a>";
-			$dataAdd = str_replace("{product_name}", $productName, $dataAdd);
+			$productName = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $productName . "</a>";
+			$dataAdd     = str_replace("{product_name}", $productName, $dataAdd);
 		}
 
 		if (strstr($dataAdd, '{category_product_link}'))
@@ -505,14 +505,14 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		if (strstr($dataAdd, '{product_rating_summary}'))
 		{
 			// Product Review/Rating Fetching reviews
-			$finalAvgReviewData = $productHelper->getProductRating($product->product_id);
+			$finalAvgReviewData = Redshop\Product\Rating::getRating($product->product_id);
 			$dataAdd            = str_replace("{product_rating_summary}", $finalAvgReviewData, $dataAdd);
 		}
 
 		if (strstr($dataAdd, '{manufacturer_link}'))
 		{
 			$manufacturerLinkHref = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id . '&Itemid=' . $itemId);
-			$manufacturerLink = '';
+			$manufacturerLink     = '';
 
 			if ($product->manufacturer_name != '')
 			{
@@ -545,7 +545,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			}
 		}
 
-		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $templateProduct, 1);
+		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldProduct, $templateProduct, 1);
 
 		/*
 		 * Product loop template extra field
@@ -555,12 +555,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(
+			$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(
 				1,
 				$product->product_id,
 				$extraFieldsForCurrentTemplate,
 				$dataAdd,
-				1
+				true
 			);
 		}
 
@@ -643,9 +643,9 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 			{
 				$previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/"
-				. $product->product_preview_image . "&newxsize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH')
-				. "&newysize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT')
-				. "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+					. $product->product_preview_image . "&newxsize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH')
+					. "&newysize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT')
+					. "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
 				$previewImg     = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
 				$dataAdd        = str_replace("{product_preview_img}", $previewImg, $dataAdd);
 			}
@@ -663,17 +663,17 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			if ($product->product_preview_image)
 			{
 				$mainPreviewSrcPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_preview_image
-				. "&newxsize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH') . "&newysize="
-				. Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT')
-				. "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+					. "&newxsize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH') . "&newysize="
+					. Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT')
+					. "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
 			}
 
 			if ($product->product_preview_back_image)
 			{
 				$backPreviewSrcPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
-				. $product->product_preview_back_image . "&newxsize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH')
-				. "&newysize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT')
-				. "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+					. $product->product_preview_back_image . "&newxsize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH')
+					. "&newysize=" . Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT')
+					. "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
 			}
 
 			$productFrontImageLink = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $mainPreviewSrcPath . "\");'>" . JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
@@ -704,7 +704,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$dataAdd = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $dataAdd);
 
 		// Replace compare product button
-		$dataAdd = $productHelper->replaceCompareProductsButton($product->product_id, $catid, $dataAdd);
+		$dataAdd = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $catid, $dataAdd);
 
 		if (strstr($dataAdd, "{stockroom_detail}"))
 		{
@@ -712,7 +712,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Checking for child products
-		$childProducts = $productHelper->getChildProduct($product->product_id);
+		$childProducts = RedshopHelperProduct::getChildProduct($product->product_id);
 
 		if (count($childProducts) > 0)
 		{
@@ -772,7 +772,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Check product for not for sale
 		$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
 
-		$dataAdd = $productHelper->replaceProductInStock(
+		$dataAdd = Redshop\Product\Stock::replaceInStock(
 			$product->product_id,
 			$dataAdd,
 			$attributes,
@@ -790,9 +790,9 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		);
 
 		// Replace attribute with null value if it exist
-		if (isset($attributeTemplate))
+		if (!empty($attributeTemplate))
 		{
-			$templateAttribute = "{attributeTemplate:" . $attributeTemplate->template_name . "}";
+			$templateAttribute = "{attributeTemplate:" . $attributeTemplate->name . "}";
 
 			if (strstr($dataAdd, $templateAttribute))
 			{
@@ -801,7 +801,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Get cart template
-		$dataAdd = $productHelper->replaceCartTemplate(
+		$dataAdd = Redshop\Cart\Render::replace(
 			$product->product_id,
 			$catid,
 			0,
@@ -810,9 +810,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$isChilds,
 			$userfieldArr,
 			$totalatt,
-			$totacc,
-			0,
-			""
+			$totacc
 		);
 
 		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);
@@ -870,10 +868,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateDesc = str_replace("{redproductfinderfilter_formend}", "", $templateDesc);
 	$templateDesc = str_replace("{redproductfinderfilter:rp_myfilter}", "", $templateDesc);
 
-	 // Trigger plugin for content redshop
+	// Trigger plugin for content redshop
 	$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
 	$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
 	$templateDesc .= '<div id="new-url" style="display: none">' . $displayData['url'] . '</div>';
+	$templateDesc .= '<input type="hidden" name="pids" value="' . implode(',', $products) . '"/>';
 }
 
 // End Replace Products

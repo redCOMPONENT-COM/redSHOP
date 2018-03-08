@@ -58,7 +58,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
 		$this->setLayout($layoutId);
 		$this->basePath = $basePath;
 
-		// Init Enviroment
+		// Init Environment
 		$this->setComponent($this->options->get('component', 'auto'));
 		$this->setClient($this->options->get('client', 'auto'));
 	}
@@ -66,9 +66,9 @@ class RedshopLayoutFile extends RedshopLayoutBase
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  List properties are used inside the layout file to build displayed output
 	 *
-	 * @return  string  The necessary HTML to display the layout
+	 * @return  string               The necessary HTML to display the layout
 	 */
 	public function render($displayData)
 	{
@@ -241,7 +241,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
 	 *
 	 * @param   string  $option  URL Option of the component. Example: com_content
 	 *
-	 * @return  mixed            Component option string | null for none
+	 * @return  void
 	 */
 	public function setComponent($option)
 	{
@@ -373,6 +373,18 @@ class RedshopLayoutFile extends RedshopLayoutBase
 
 			// (4) Plugins template overrides path
 			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/plugins/' . $plugin);
+		}
+
+		// Modules layouts & overrides if exist
+		$module = $this->options->get('module', null);
+
+		if (!empty($module))
+		{
+			// (3) Modules path
+			$this->addIncludePaths(JPATH_SITE . '/modules/' . $module . '/layouts');
+
+			// (4) Modules template overrides path
+			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/modules/' . $module);
 		}
 
 		// (5 - highest priority) Received a custom high priority path ?

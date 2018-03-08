@@ -30,10 +30,12 @@ class RedshopHelperBilling
 	 *
 	 * @return  string                    HTML content layout.
 	 *
-	 * @since version
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function render($post = array(), $isCompany = 0, $lists, $showShipping = 0, $showNewsletter = 0,
-	                              $createAccount = 1)
+		$createAccount = 1)
 	{
 		$billingIsShipping = "";
 
@@ -63,16 +65,16 @@ class RedshopHelperBilling
 
 		if (empty($privateTemplates))
 		{
-			$tmpTemplate                = new stdClass;
-			$tmpTemplate->template_name = 'private_billing_template';
-			$tmpTemplate->template_id   = 0;
+			$tmpTemplate       = new stdClass;
+			$tmpTemplate->name = 'private_billing_template';
+			$tmpTemplate->id   = 0;
 
 			$privateTemplates = array($tmpTemplate);
 		}
 
 		foreach ($privateTemplates as $privateTemplate)
 		{
-			if (strpos($templateHtml, "{private_billing_template:" . $privateTemplate->template_name . "}") === false)
+			if (strpos($templateHtml, "{private_billing_template:" . $privateTemplate->name . "}") === false)
 			{
 				continue;
 			}
@@ -84,14 +86,14 @@ class RedshopHelperBilling
 				$html = !empty($privateTemplate->template_desc) ?
 					$privateTemplate->template_desc : self::getDefaultPrivateTemplate();
 
-				$html = RsUserHelper::getInstance()->replacePrivateCustomer($html, $post, $lists);
+				$html = self::replacePrivateCustomer($html, $post, $lists);
 			}
 
 			$html = '<div id="tblprivate_customer">' . $html . '</div>'
-				. '<div id="divPrivateTemplateId" style="display:none;">' . $privateTemplate->template_id . '</div>';
+				. '<div id="divPrivateTemplateId" style="display:none;">' . $privateTemplate->id . '</div>';
 
 			$templateHtml = str_replace(
-				'{private_billing_template:' . $privateTemplate->template_name . '}',
+				'{private_billing_template:' . $privateTemplate->name . '}',
 				$html,
 				$templateHtml
 			);
@@ -106,16 +108,16 @@ class RedshopHelperBilling
 
 		if (empty($companyTemplates))
 		{
-			$tmpTemplate                = new stdClass;
-			$tmpTemplate->template_name = 'company_billing_template';
-			$tmpTemplate->template_id   = 0;
+			$tmpTemplate       = new stdClass;
+			$tmpTemplate->name = 'company_billing_template';
+			$tmpTemplate->id   = 0;
 
 			$companyTemplates = array($tmpTemplate);
 		}
 
 		foreach ($companyTemplates as $companyTemplate)
 		{
-			if (strpos($templateHtml, "{company_billing_template:" . $companyTemplate->template_name . "}") === false)
+			if (strpos($templateHtml, "{company_billing_template:" . $companyTemplate->name . "}") === false)
 			{
 				continue;
 			}
@@ -127,14 +129,14 @@ class RedshopHelperBilling
 				$html = !empty($companyTemplate->template_desc) ?
 					$companyTemplate->template_desc : self::getDefaultCompanyTemplate();
 
-				$html = RsUserHelper::getInstance()->replaceCompanyCustomer($html, $post, $lists);
+				$html = self::replaceCompanyCustomer($html, $post, $lists);
 			}
 
 			$html = '<div id="tblcompany_customer">' . $html . '</div>'
-				. '<div id="divCompanyTemplateId" style="display:none;">' . $companyTemplate->template_id . '</div>';
+				. '<div id="divCompanyTemplateId" style="display:none;">' . $companyTemplate->id . '</div>';
 
 			$templateHtml = str_replace(
-				'{company_billing_template:' . $companyTemplate->template_name . '}',
+				'{company_billing_template:' . $companyTemplate->name . '}',
 				$html,
 				$templateHtml
 			);
@@ -228,15 +230,16 @@ class RedshopHelperBilling
 	/**
 	 * Method for replace billing common fields
 	 *
-	 * @param   string $templateHtml Html content
-	 * @param   array  $data         Data
-	 * @param   array  $lists        Array select
+	 * @param   string  $templateHtml  Html content
+	 * @param   array   $data          Data
+	 * @param   array   $lists         Array select
+	 * @param   string  $prefix        Prefix for DOM ID
 	 *
 	 * @return  string
 	 *
 	 * @since   2.0.7
 	 */
-	public static function replaceCommonFields($templateHtml, $data, $lists)
+	public static function replaceCommonFields($templateHtml, $data, $lists, $prefix = '')
 	{
 		$data = is_null($data) || !is_array($data) ? array() : $data;
 
@@ -245,7 +248,7 @@ class RedshopHelperBilling
 		$lists['country_code'] = $countries['country_dropdown'];
 		$states                = RedshopHelperWorld::getStateList($data);
 		$lists['state_code']   = $states['state_dropdown'];
-		$countryStyle          = (count($countries['countrylist']) == 1 && count($states['statelist']) == 0) ? 'display:none;' : '';
+		$countryStyle          = count($countries['countrylist']) == 1 && count($states['statelist']) == 0 ? 'display:none;' : '';
 		$stateStyle            = ($states['is_states'] <= 0) ? 'display:none;' : '';
 
 		$readOnly = "";
@@ -254,7 +257,7 @@ class RedshopHelperBilling
 		$templateHtml = str_replace(
 			"{email}",
 			'<input class="inputbox required" type="text" title="' . JText::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" name="email1" '
-			. 'id="email1" size="32" maxlength="250" value="' . (isset($data["email1"]) ? $data["email1"] : '') . '" />',
+			. 'id="' . $prefix . 'email1" size="32" maxlength="250" value="' . (isset($data["email1"]) ? $data["email1"] : '') . '" />',
 			$templateHtml
 		);
 
@@ -270,7 +273,7 @@ class RedshopHelperBilling
 				$htmlContent = str_replace("{retype_email_lbl}", JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL'), $htmlContent);
 				$htmlContent = str_replace(
 					'{retype_email}',
-					'<input type="text" id="email2" name="email2" size="32" maxlength="250" value="" class="inputbox required" required />',
+					'<input type="text" id="' . $prefix . 'email2" name="email2" size="32" maxlength="250" value="" class="inputbox required" required />',
 					$htmlContent
 				);
 			}
@@ -282,7 +285,7 @@ class RedshopHelperBilling
 
 		$templateHtml = str_replace(
 			"{company_name}",
-			'<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" '
+			'<input class="inputbox required" type="text" name="company_name" id="' . $prefix . 'company_name" size="32" maxlength="250" '
 			. 'value="' . (isset($data["company_name"]) ? $data["company_name"] : '') . '" />',
 			$templateHtml
 		);
@@ -291,7 +294,7 @@ class RedshopHelperBilling
 
 		$templateHtml = str_replace(
 			"{firstname}",
-			'<input class="inputbox required" type="text" name="firstname" id="firstname" size="32" maxlength="250" '
+			'<input class="inputbox required" type="text" name="firstname" id="' . $prefix . 'firstname" size="32" maxlength="250" '
 			. 'value="' . (isset($data["firstname"]) ? $data["firstname"] : '') . '" />',
 			$templateHtml
 		);
@@ -300,7 +303,7 @@ class RedshopHelperBilling
 
 		$templateHtml = str_replace(
 			"{lastname}",
-			'<input class="inputbox required" type="text" name="lastname" id="lastname" size="32" maxlength="250" '
+			'<input class="inputbox required" type="text" name="lastname" id="' . $prefix . 'lastname" size="32" maxlength="250" '
 			. 'value="' . (isset($data["lastname"]) ? $data["lastname"] : '') . '" />',
 			$templateHtml
 		);
@@ -309,7 +312,7 @@ class RedshopHelperBilling
 
 		$templateHtml = str_replace(
 			"{address}",
-			'<input class="inputbox required" type="text" name="address" id="address" size="32" maxlength="250" '
+			'<input class="inputbox required" type="text" name="address" id="' . $prefix . 'address" size="32" maxlength="250" '
 			. 'value="' . (isset($data["address"]) ? $data["address"] : '') . '" />',
 			$templateHtml
 		);
@@ -318,7 +321,7 @@ class RedshopHelperBilling
 
 		$templateHtml = str_replace(
 			"{zipcode}",
-			'<input class="inputbox required"  type="text" name="zipcode" id="zipcode" size="32" maxlength="10" '
+			'<input class="inputbox required"  type="text" name="zipcode" id="' . $prefix . 'zipcode" size="32" maxlength="10" '
 			. 'value="' . (isset($data["zipcode"]) ? $data["zipcode"] : '') . '" onblur="return autoFillCity(this.value,\'BT\');" />',
 			$templateHtml
 		);
@@ -327,7 +330,7 @@ class RedshopHelperBilling
 
 		$templateHtml = str_replace(
 			"{city}",
-			'<input class="inputbox required" type="text" name="city" ' . $readOnly . ' id="city" '
+			'<input class="inputbox required" type="text" name="city" ' . $readOnly . ' id="' . $prefix . 'city" '
 			. 'value="' . (isset($data["city"]) ? $data["city"] : '') . '" size="32" maxlength="250" />',
 			$templateHtml
 		);
@@ -337,7 +340,7 @@ class RedshopHelperBilling
 		$templateHtml    = str_replace("{phone_optional}", '', $templateHtml);
 		$templateHtml    = str_replace(
 			"{phone}",
-			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" '
+			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="' . $prefix . 'phone" size="32" maxlength="250" '
 			. 'value="' . (isset($data["phone"]) ? $data["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
 			$templateHtml
 		);
@@ -369,7 +372,7 @@ class RedshopHelperBilling
 	 */
 	public static function replacePrivateCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
-		$templateHtml = self::replaceCommonFields($templateHtml, $post, $lists);
+		$templateHtml = self::replaceCommonFields($templateHtml, $post, $lists, 'private-');
 
 		if (strpos($templateHtml, "{private_extrafield}") === false)
 		{
@@ -391,24 +394,25 @@ class RedshopHelperBilling
 	 *
 	 * @return  string                 Html content after replace
 	 *
-	 * @since  2.0.7
+	 * @since   2.0.7
 	 */
 	public static function replaceCompanyCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
-		$templateHtml = self::replaceCommonFields($templateHtml, $post, $lists);
-
+		$templateHtml = self::replaceCommonFields($templateHtml, $post, $lists, 'company-');
 		$templateHtml = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $templateHtml);
 		$templateHtml = str_replace(
 			"{company_name}",
-			'<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" '
-			. 'value="' . (!empty($post["company_name"]) ? $post['company_name'] : '') . '" />',
+			'<input class="inputbox form-control required" type="text" name="company_name" id="company_name"'
+			. ' size="32" maxlength="250"'
+			. ' value="' . (!empty($post["company_name"]) ? $post['company_name'] : '') . '" />',
 			$templateHtml
 		);
 		$templateHtml = str_replace("{ean_number_lbl}", JText::_('COM_REDSHOP_EAN_NUMBER'), $templateHtml);
 		$templateHtml = str_replace(
 			"{ean_number}",
-			'<input class="inputbox" type="text" name="ean_number" id="ean_number" size="32" maxlength="250" '
-			. 'value="' . (!empty($post["ean_number"]) ? $post['ean_number'] : '') . '" />',
+			'<input class="inputbox form-control" type="text" name="ean_number" id="ean_number"'
+			. ' size="32" maxlength="250"'
+			. ' value="' . (!empty($post["ean_number"]) ? $post['ean_number'] : '') . '" />',
 			$templateHtml
 		);
 
@@ -425,7 +429,9 @@ class RedshopHelperBilling
 				$htmlMiddle    = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $htmlMiddle);
 				$htmlMiddle    = str_replace(
 					"{vat_number}",
-					'<input type="text" class="inputbox ' . $classRequired . '" name="vat_number" id="vat_number" size="32" maxlength="250" '
+					'<input type="text" class="inputbox form-control ' . $classRequired . '" name="vat_number"'
+					. ' id="vat_number" size="32" maxlength="250" '
+					. ' title="' . JText::_('COM_REDSHOP_REGISTRATION_INVALID_VAT_NUMBER')
 					. 'value="' . (!empty($post["vat_number"]) ? $post['vat_number'] : '') . '" />',
 					$htmlMiddle
 				);
@@ -439,10 +445,10 @@ class RedshopHelperBilling
 			$allowCompany = isset($post['is_company']) && 1 != (int) $post['is_company'] ? 'style="display:none;"' : '';
 			$taxExempt    = isset($post["tax_exempt"]) ? $post["tax_exempt"] : '';
 
-			$taxExemptHtml   = JHtml::_(
+			$taxExemptHtml = JHtml::_(
 				'select.booleanlist',
 				'tax_exempt',
-				'class="inputbox" ',
+				'class="inputbox form-control" ',
 				$taxExempt,
 				JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'),
 				JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED')
@@ -454,7 +460,11 @@ class RedshopHelperBilling
 				$templateHtml
 			);
 
-			$templateHtml = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $taxExemptHtml . '</div>', $templateHtml);
+			$templateHtml = str_replace(
+				"{tax_exempt}",
+				'<div id="trTaxExempt" ' . $allowCompany . '>' . $taxExemptHtml . '</div>',
+				$templateHtml
+			);
 		}
 		else
 		{

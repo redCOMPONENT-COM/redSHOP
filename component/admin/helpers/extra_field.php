@@ -11,16 +11,19 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
 
 /**
  * Redshop Helper for Extra Fields
  *
+ * @since   1.6.0
  * @deprecated  2.0.3  Use RedshopHelperExtrafields instead
  */
 class extra_field
 {
+	/**
+	 * @var self
+	 */
 	protected static $instance = null;
 
 	/**
@@ -46,11 +49,11 @@ class extra_field
 	 *
 	 * @param   integer  $section  Section product
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllFieldInProduct() instead
 	 */
-	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
+	public function list_all_field_in_product($section = RedshopHelperExtrafields::SECTION_PRODUCT)
 	{
 		return RedshopHelperExtrafields::listAllFieldInProduct($section);
 	}
@@ -61,16 +64,15 @@ class extra_field
 	 * @param   string   $field_section  Field Section
 	 * @param   integer  $section_id     Section ID
 	 * @param   string   $field_name     Field Name
-	 * @param   string   $table          Table
 	 * @param   string   $template_desc  Template
 	 *
 	 * @return  string   HTML <td></td>
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllField() instead
 	 */
-	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
+	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $template_desc = "")
 	{
-		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $table, $template_desc);
+		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $template_desc);
 	}
 
 	/**
@@ -82,6 +84,7 @@ class extra_field
 	 * @param   string   $user_email     User to match by email
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::extraFieldSave() instead
 	 */
@@ -127,18 +130,19 @@ class extra_field
 	/**
 	 * List all user fields
 	 *
-	 * @param   string  $field_section  Field Section
-	 * @param   int     $section_id     Section ID
-	 * @param   string  $field_type     Field type
-	 * @param   string  $unique_id      Unique ID
+	 * @param   string $fieldSection Field Section
+	 * @param   int    $sectionId    Section ID
+	 * @param   string $fieldType    Field type
+	 * @param   string $uniqueId     Unique ID
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */
-	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id = '')
+	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
+		$fieldType = '', $uniqueId = '')
 	{
-		return RedshopHelperExtrafields::listAllUserFields($field_section, $section_id, $field_type, $unique_id);
+		return RedshopHelperExtrafields::listAllUserFields($fieldSection, $sectionId, $fieldType, $uniqueId);
 	}
 
 	/**
@@ -157,7 +161,7 @@ class extra_field
 	 */
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
-		RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
+		return RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
 	}
 
 	/**
@@ -177,7 +181,8 @@ class extra_field
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::rsBooleanList() instead
 	 */
 	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
-		$yes_value = 'Days', $no_value = 'Weeks')
+		$yes_value = 'Days', $no_value = 'Weeks'
+	)
 	{
 		return RedshopHelperExtrafields::rsBooleanList($name, $attribs, $selected, $yes, $no, $id, $yes_value, $no_value);
 	}
@@ -187,7 +192,7 @@ class extra_field
 	 *
 	 * @param   integer  $id  ID of field
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getFieldValue() instead
 	 */
@@ -199,14 +204,14 @@ class extra_field
 	/**
 	 * Get Section Field List
 	 *
-	 * @param   string   $section  [description]
+	 * @param   integer  $section  [description]
 	 * @param   integer  $front    [description]
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getSectionFieldList() instead
 	 */
-	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
+	public function getSectionFieldList($section = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $front = 1)
 	{
 		return RedshopHelperExtrafields::getSectionFieldList($section, $front);
 	}

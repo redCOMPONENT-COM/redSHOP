@@ -30,9 +30,9 @@ class RedshopModelStatistic extends RedshopModelList
 	public function __construct()
 	{
 		parent::__construct();
-		$input                 = JFactory::getApplication()->input;
-		$this->_filteroption   = $input->getInt('filteroption', 0);
-		$this->_typeoption     = $input->getInt('typeoption', 2);
+		$input               = JFactory::getApplication()->input;
+		$this->_filteroption = $input->getInt('filteroption', 0);
+		$this->_typeoption   = $input->getInt('typeoption', 2);
 
 		if (!$this->_filteroption && $input->getString('view', '') == "")
 		{
@@ -83,8 +83,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('pv.created_date') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('pv.created_date') . ' <= ' . $db->q(strtotime($today)));
 
@@ -155,8 +155,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('oi.cdate') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('oi.cdate') . ' <= ' . $db->q(strtotime($today)));
 
@@ -218,8 +218,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while (strtotime($minDate) < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('publish_date') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('publish_date') . ' <= ' . $db->q(strtotime($today)));
 
@@ -256,9 +256,9 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getNewOrders()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
+		$result  = array();
 		$db      = $this->getDbo();
 		$query   = $db->getQuery(true)
 			->select($db->qn('cdate'))
@@ -283,8 +283,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
 
@@ -341,11 +341,11 @@ class RedshopModelStatistic extends RedshopModelList
 		}
 
 		$query = $db->getQuery(true)
-					->clear()
-					->from($db->qn('#__redshop_orders', 'o'))
-					->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
-					->order($db->qn('o.cdate') . ' DESC')
-					->group('viewdate');
+			->clear()
+			->from($db->qn('#__redshop_orders', 'o'))
+			->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->order($db->qn('o.cdate') . ' DESC')
+			->group('viewdate');
 
 		if (!empty($minDate))
 		{
@@ -388,7 +388,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getTotalSalesCpanel()
 	{
-		$db    = JFactory::getDbo();
+		$db           = JFactory::getDbo();
 		$defaultQuery = $db->getQuery(true)
 			->select('SUM(' . $db->qn('o.order_total') . ') AS total')
 			->select('COUNT(' . $db->qn('o.order_total') . ') AS orders')
@@ -448,7 +448,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
 			->order($db->qn('cdate') . ' ASC');
-		$minDate = $db->setQuery($query)->loadResult();
+		$minDate  = $db->setQuery($query)->loadResult();
 
 		$query = $db->getQuery(true)
 			->clear()
@@ -468,9 +468,9 @@ class RedshopModelStatistic extends RedshopModelList
 			{
 				$list = $this->getNextInterval($today);
 
-				$query2 = clone($query);
+				$query2 = clone $query;
 				$query2->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($list->preday)))
-					  ->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
+					->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
 
 				$rs = $db->setQuery($query2)->loadObjectList();
 
@@ -515,7 +515,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
 			->order($db->qn('cdate') . ' ASC');
-		$minDate = $db->setQuery($query)->loadResult();
+		$minDate     = $db->setQuery($query)->loadResult();
 
 		$query = $db->getQuery(true)
 			->clear()
@@ -529,8 +529,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
@@ -571,18 +571,18 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getAmountPrice()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$db          = JFactory::getDbo();
-		$query       = $db->getQuery(true)
+		$result  = array();
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true)
 			->select('cdate')
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
 			->order($db->qn('cdate') . ' ASC');
 		$minDate = $db->setQuery($query)->loadResult();
 
-		$query = $db->getQuery(true)
+		$query       = $db->getQuery(true)
 			->clear()
 			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ',' . $db->q($formate) . ') AS viewdate')
 			->select($db->qn('uf.firstname'))
@@ -600,8 +600,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
@@ -637,18 +637,18 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getAmountSpentInTotal()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$db          = JFactory::getDbo();
-		$query       = $db->getQuery(true)
+		$result  = array();
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true)
 			->select('cdate')
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
 			->order($db->qn('cdate') . ' ASC');
 		$minDate = $db->setQuery($query)->loadResult();
 
-		$query = $db->getQuery(true)
+		$query       = $db->getQuery(true)
 			->clear()
 			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ',' . $db->q($formate) . ') AS viewdate')
 			->select($db->qn('uf.firstname'))
@@ -666,8 +666,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
@@ -703,18 +703,18 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getAmountOrder()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$db          = JFactory::getDbo();
-		$query       = $db->getQuery(true)
+		$result  = array();
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true)
 			->select('cdate')
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
 			->order($db->qn('cdate') . ' ASC');
 		$minDate = $db->setQuery($query)->loadResult();
 
-		$query = $db->getQuery(true)
+		$query       = $db->getQuery(true)
 			->clear()
 			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ',' . $db->q($formate) . ') AS viewdate')
 			->select($db->qn('uf.firstname'))
@@ -734,8 +734,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
@@ -771,11 +771,11 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getPageViewer()
 	{
-		$today = $this->getStartDate();
+		$today   = $this->getStartDate();
 		$formate = $this->getDateFormate();
-		$result = array();
-		$db          = JFactory::getDbo();
-		$query       = $db->getQuery(true)
+		$result  = array();
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true)
 			->select('created_date')
 			->from($db->qn('#__redshop_pageviewer'))
 			->order($db->qn('created_date') . ' ASC');
@@ -799,8 +799,8 @@ class RedshopModelStatistic extends RedshopModelList
 		{
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('created_date') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('created_date') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
@@ -845,7 +845,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->select('created_date')
 			->from($db->qn('#__redshop_siteviewer'))
 			->order($db->qn('created_date') . ' ASC');
-		$minDate = $db->setQuery($query)->loadResult();
+		$minDate    = $db->setQuery($query)->loadResult();
 
 		$query = $db->getQuery(true)
 			->clear()
@@ -863,8 +863,8 @@ class RedshopModelStatistic extends RedshopModelList
 
 			while ($minDate < strtotime($today))
 			{
-				$list = $this->getNextInterval($today);
-				$query2 = clone($query);
+				$list   = $this->getNextInterval($today);
+				$query2 = clone $query;
 				$query2->where($db->qn('created_date') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('created_date') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
@@ -904,8 +904,8 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getNextInterval($today)
 	{
-		$list = array();
-		$db = $this->getDbo();
+		$list  = array();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		switch ($this->_filteroption)
@@ -920,7 +920,7 @@ class RedshopModelStatistic extends RedshopModelList
 				break;
 			case 3:
 				$query->select('LAST_DAY(SUBDATE(' . $db->q($today) . ', INTERVAL 1 MONTH)) AS preday');
-				$list = $db->setQuery($query)->loadObject();
+				$list         = $db->setQuery($query)->loadObject();
 				$list->preday = $list->preday . " 23:59:59";
 				break;
 			case 4:
@@ -942,29 +942,29 @@ class RedshopModelStatistic extends RedshopModelList
 	public function getStartDate()
 	{
 		$return = "";
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true);
 
 		switch ($this->_filteroption)
 		{
 			case 1:
 				$query->select('CURDATE() AS date');
-				$list = $db->setQuery($query)->loadObject();
+				$list   = $db->setQuery($query)->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 			case 2:
 				$query->select('ADDDATE(CURDATE(), INTERVAL 6-weekday(CURDATE()) DAY) AS date');
-				$list = $db->setQuery($query)->loadObject();
+				$list   = $db->setQuery($query)->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 			case 3:
 				$query->select('LAST_DAY(CURDATE()) AS date');
-				$list = $db->setQuery($query)->loadObject();
+				$list   = $db->setQuery($query)->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 			case 4:
 				$query->select('LAST_DAY(' . $db->q(date("Y-12-d")) . ') AS date');
-				$list = $db->setQuery($query)->loadObject();
+				$list   = $db->setQuery($query)->loadObject();
 				$return = $list->date . " 23:59:59";
 				break;
 		}
@@ -1018,8 +1018,8 @@ class RedshopModelStatistic extends RedshopModelList
 	public function getSectionDetail($section, $sectionId)
 	{
 		$return = array();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true);
 
 		switch ($section)
 		{
@@ -1041,10 +1041,10 @@ class RedshopModelStatistic extends RedshopModelList
 				break;
 			case "manufacturers":
 				$query
-					->select($db->qn('manufacturer_name', 'sname'))
-					->select($db->qn('manufacturer_id', 'id'))
+					->select($db->qn('name', 'sname'))
+					->select($db->qn('id', 'id'))
 					->from($db->qn('#__redshop_manufacturer'))
-					->where($db->qn('manufacturer_id') . ' = ' . $db->q((int) $sectionId));
+					->where($db->qn('id') . ' = ' . $db->q((int) $sectionId));
 				$return = $db->setQuery($query)->loadObject();
 				break;
 		}

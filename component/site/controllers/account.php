@@ -21,11 +21,13 @@ class RedshopControllerAccount extends RedshopController
 	/**
 	 * Method to edit created Tag
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function editTag()
 	{
-		$app   = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		/** @var RedshopModelAccount $model */
 		$model = $this->getModel('account');
@@ -48,15 +50,13 @@ class RedshopControllerAccount extends RedshopController
 	 * Method to send created wishlist
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function sendWishlist()
 	{
 		$input      = JFactory::getApplication()->input->post;
 		$itemId     = $input->get('Itemid');
 		$wishListId = $input->get('wishlist_id');
-
-		/** @var RedshopModelAccount $model */
-		$model = $this->getModel('account');
 
 		if ($input->get('emailto') == "")
 		{
@@ -74,7 +74,7 @@ class RedshopControllerAccount extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
 		}
-		elseif ($model->sendWishlist($input->getArray()))
+		elseif (Redshop\Account\Wishlist::send($input->getArray()))
 		{
 			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
 		}
@@ -93,10 +93,11 @@ class RedshopControllerAccount extends RedshopController
 	 * Method to subscribe newsletter
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function newsletterSubscribe()
 	{
-		RedshopHelperNewsletter::subscribe(0, array(), 1);
+		RedshopHelperNewsletter::subscribe(0, array(), true);
 
 		$itemId = JFactory::getApplication()->input->getInt('Itemid');
 		$this->setRedirect(
@@ -109,6 +110,7 @@ class RedshopControllerAccount extends RedshopController
 	 *  Method to unsubscribe newsletter
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function newsletterUnsubscribe()
 	{

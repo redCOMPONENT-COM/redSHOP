@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-
 $editor = JFactory::getEditor();
-JHTML::_('behavior.tooltip');
+
 $user = JFactory::getUser();
 $url = JURI::base();
 $jinput = JFactory::getApplication()->input;
@@ -70,37 +69,37 @@ $productHelper = productHelper::getInstance();
 						<table cellpadding="3" cellspacing="3" align="left">
 							<tr>
 								<td align="center">
-									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/5.gif" border="0"
+									<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>star_rating/5.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating5"
 									       value="5" <?php if ($this->detail->user_rating == 5) echo "checked='checked'"; ?>>
 								</td>
 								<td align="center">
-									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/4.gif" border="0"
+									<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>star_rating/4.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating4"
 									       value="4" <?php if ($this->detail->user_rating == 4) echo "checked='checked'"; ?>>
 								</td>
 								<td align="center">
-									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>/star_rating/3.gif" border="0"
+									<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>/star_rating/3.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating3"
 									       value="3" <?php if ($this->detail->user_rating == 3) echo "checked='checked'"; ?>>
 								</td>
 								<td align="center">
-									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/2.gif" border="0"
+									<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>star_rating/2.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating2"
 									       value="2" <?php if ($this->detail->user_rating == 2) echo "checked='checked'"; ?>>
 								</td>
 								<td align="center">
-									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/1.gif" border="0"
+									<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>star_rating/1.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating1"
 									       value="1" <?php if ($this->detail->user_rating == 1) echo "checked='checked'"; ?>>
 								</td>
 								<td align="center">
-									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/0.gif" border="0"
+									<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>star_rating/0.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating0"
 									       value="0" <?php if ($this->detail->user_rating == 0) echo "checked='checked'"; ?>>

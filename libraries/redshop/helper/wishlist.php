@@ -121,8 +121,8 @@ class RedshopHelperWishlist
 				}
 
 				$wishlistProduct->product_items = array();
-				$wishlistProduct->attributes = array();
-				$wishlistProduct->properties = array();
+				$wishlistProduct->attributes    = array();
+				$wishlistProduct->properties    = array();
 				$wishlistProduct->subAttributes = array();
 
 				foreach ($wishlistProductItems as $key => $wishlistProductItem)
@@ -221,16 +221,29 @@ class RedshopHelperWishlist
 	 */
 	public static function checkWishlistExist($productId = 0)
 	{
-		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->qn('#__redshop_wishlist', 'w'))
-			->leftjoin($db->qn('#__redshop_wishlist_product', 'wp') . ' ON ' . $db->qn('w.wishlist_id') . ' = ' . $db->qn('wp.wishlist_id'))
-			->where($db->qn('wp.product_id') . ' = ' . $db->q((int) $productId))
-			->where($db->qn('w.user_id') . ' = ' . $db->q((int) $user->id));
+		$productId = (int) $productId;
 
-		return $db->setQuery($query)->loadResult();
+		if (!$productId)
+		{
+			return false;
+		}
+
+		$userWishlists = self::getUserWishlist();
+
+		if (empty($userWishlists))
+		{
+			return false;
+		}
+
+		foreach ($userWishlists as $wishListId => $userWishlist)
+		{
+			if (!empty($userWishlist->products) && array_key_exists($productId, $userWishlist->products))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -304,10 +317,10 @@ class RedshopHelperWishlist
 
 		$db = JFactory::getDbo();
 
-		$wishlist                = new stdClass();
+		$wishlist                = new stdClass;
 		$wishlist->wishlist_name = 'Default';
-		$wishlist->user_id       =$userId;
-		$wishlist->cdate         =$db->quote(time());
+		$wishlist->user_id       = $userId;
+		$wishlist->cdate         = $db->quote(time());
 
 		// Insert the object into the user profile table.
 		if ($db->insertObject('#__redshop_wishlist', $wishlist))

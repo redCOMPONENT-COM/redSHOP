@@ -25,10 +25,12 @@ class RedshopHelperCurrency
 	 * @return  mixed
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public static function init()
 	{
-		return Currency::getInstance()->init();
+		Currency::getInstance()->init();
 	}
 
 	/**
@@ -44,6 +46,14 @@ class RedshopHelperCurrency
 	 */
 	public static function convert($amountA, $currA = '', $currB = '')
 	{
+		JPluginHelper::importPlugin('redshop_product');
+		$result = RedshopHelperUtility::getDispatcher()->trigger('onConverCurrency', array(&$amountA, $currA, $currB));
+
+		if (in_array(true, $result, true))
+		{
+			return $amountA;
+		}
+
 		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
 		{
 			return CurrencyLayer::getInstance()->convert($amountA, $currA, $currB);
@@ -61,7 +71,7 @@ class RedshopHelperCurrency
 	 *
 	 * @todo    Add numeric code into table #_redshop_currency "redSHOP Currency Detail"
 	 *
-	 * @return  int     Currency Numeric Code
+	 * @return  string         Currency Numeric Code
 	 *
 	 * @since   2.0.6  Use Redshop\Currency\Currency instead.
 	 */

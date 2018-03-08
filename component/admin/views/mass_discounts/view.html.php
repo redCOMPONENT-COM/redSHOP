@@ -34,6 +34,7 @@ class RedshopViewMass_Discounts extends RedshopViewList
 	 * @param   object  $row     Row data.
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -82,7 +83,7 @@ class RedshopViewMass_Discounts extends RedshopViewList
 					return '';
 				}
 
-				return $this->generateList($value, 'Manufacturer', 'manufacturer_name');
+				return $this->generateList($value, 'Manufacturer', 'name');
 
 			default:
 				return parent::onRenderColumn($config, $index, $row);

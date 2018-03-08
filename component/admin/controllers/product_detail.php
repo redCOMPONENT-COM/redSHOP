@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Joomla\Utilities\ArrayHelper;
+use Redshop\Economic\RedshopEconomic;
 
 jimport('joomla.filesystem.file');
 
@@ -24,12 +25,22 @@ jimport('joomla.filesystem.file');
  */
 class RedshopControllerProduct_Detail extends RedshopController
 {
+	/**
+	 * @var JApplicationCms
+	 */
 	public $app;
+
+	/**
+	 * @var  string
+	 */
+	public $option;
 
 	/**
 	 * Constructor to set the right model
 	 *
-	 * @param   array  $default  Optional  configuration parameters
+	 * @param   array $default Optional  configuration parameters
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct($default = array())
 	{
@@ -138,10 +149,10 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
-    
+
 		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
- 		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
-    
+		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
+
 		if ($post['discount_stratdate'])
 		{
 			$startDate                  = new JDate($post['discount_stratdate']);
@@ -176,7 +187,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->store($post))
@@ -187,19 +198,17 @@ class RedshopControllerProduct_Detail extends RedshopController
 			// Add product to economic
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				Economic::createProductInEconomic($row);
+				RedshopEconomic::createProductInEconomic($row);
 			}
-
-			$field = extra_field::getInstance();
 
 			// Field_section 1 :Product
 			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
 
 			// Field_section 12 :Product Userfield
-			$field->extra_field_save($post, 12, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, 12, $row->product_id);
 
 			// Field_section 12 :Productfinder datepicker
-			$field->extra_field_save($post, 17, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, 17, $row->product_id);
 
 			$this->attribute_save($post, $row);
 
@@ -246,6 +255,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_DELETED_SUCCESSFULLY');
@@ -277,6 +287,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'error');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if (!$model->publish($cid, 1))
@@ -302,6 +313,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if (!$model->publish($cid, 0))
@@ -334,7 +346,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save2copy()
 	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->copy($cid, true))
@@ -356,6 +370,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$cid = $this->input->post->get('cid', array(), 'array');
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($model->copy($cid))
@@ -380,13 +395,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function attribute_save($post, $row)
 	{
-		$economic = null;
-
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
-		{
-			$economic = economic::getInstance();
-		}
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$attribute_save   = array();
@@ -469,7 +478,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (empty($property[$p]['property_id']))
 				{
-					$listImages = $model->GetimageInfo($property_id, 'property');
+					$listImages = $model->getImageInfor($property_id, 'property');
 
 					for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 					{
@@ -487,7 +496,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
-					Economic::createPropertyInEconomic($row, $property_array);
+					RedshopEconomic::createPropertyInEconomic($row, $property_array);
 				}
 
 				// Set trigger to save Attribute Property Plugin Data
@@ -550,7 +559,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
-						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
+						$listsubpropImages     = $model->getImageInfor($subproperty_id, 'subproperty');
 						$countSubpropertyImage = count($listsubpropImages);
 
 						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
@@ -569,7 +578,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
-						Economic::createSubpropertyInEconomic($row, $subproperty_array);
+						RedshopEconomic::createSubpropertyInEconomic($row, $subproperty_array);
 					}
 				}
 			}
@@ -810,9 +819,10 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 		$model->saveorder($cid, $order);
 
@@ -910,7 +920,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function getChildProducts()
 	{
-		RedshopHelperAjax::validateAjaxRequest('GET');
+		\Redshop\Helper\Ajax::validateAjaxRequest('GET');
 
 		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
@@ -990,40 +1000,45 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Function DeleteMergeImages.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function DeleteMergeImages()
 	{
 		$dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
 
-		if (is_dir($dirname))
+		if (!is_dir($dirname))
 		{
-			$dir_handle = opendir($dirname);
+			return true;
+		}
 
-			if ($dir_handle)
+		$dirHandle = opendir($dirname);
+
+		if ($dirHandle === false)
+		{
+			return true;
+		}
+
+		while ($file = readdir($dirHandle))
+		{
+			if ($file == '..' || $file == '.' || $file == '' || $file == 'index.html')
 			{
-				while ($file = readdir($dir_handle))
-				{
-					if ($file != '..' && $file != '.' && $file != '')
-					{
-						if ($file != 'index.html')
-						{
-							if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-							{
-								if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-								{
-									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
-								}
-
-								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
-							}
-						}
-					}
-				}
+				continue;
 			}
 
-			closedir($dir_handle);
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+			{
+				continue;
+			}
+
+			if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+			{
+				chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
+			}
+
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 		}
+
+		closedir($dirHandle);
 
 		return true;
 	}
@@ -1041,7 +1056,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		echo implode(',', RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
+		echo json_encode(RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
 
 		$app->close();
 	}

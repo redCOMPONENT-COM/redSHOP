@@ -15,15 +15,12 @@ class RedshopViewCheckout extends RedshopView
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$shippinghelper  = shipping::getInstance();
-		$order_functions = order_functions::getInstance();
-
-		$params  = $app->getParams('com_redshop');
 		$Itemid  = $app->input->getInt('Itemid');
 		$issplit = $app->input->getBool('issplit');
 		$ccinfo  = $app->input->getInt('ccinfo');
 		$task    = $app->input->getCmd('task');
 
+		/** @var RedshopModelCheckout $model */
 		$model   = $this->getModel('checkout');
 		$session = JFactory::getSession();
 
@@ -42,7 +39,7 @@ class RedshopViewCheckout extends RedshopView
 		}
 
 		$shipping_rate_id = $app->input->getString('shipping_rate_id');
-		$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
+		$shippingdetail   = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 
 		if (count($shippingdetail) < 4)
 		{
@@ -87,7 +84,7 @@ class RedshopViewCheckout extends RedshopView
 			$app->redirect(JRoute::_($link), $msg, 'error');
 		}
 
-		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentinfo     = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 		$paymentinfo     = $paymentinfo[0];
 		$paymentpath     = JPATH_SITE . '/plugins/redshop_payment/' . $paymentinfo->element . '/' . $paymentinfo->element . '.xml';
 		$paymentparams   = new JRegistry($paymentinfo->params);
@@ -96,7 +93,7 @@ class RedshopViewCheckout extends RedshopView
 
 		if (@$is_creditcard == 1)
 		{
-			JHtml::script('com_redshop/credit_card.js', false, true);
+			/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
 		}
 
 		if ($is_subscription)

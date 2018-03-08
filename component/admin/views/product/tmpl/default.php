@@ -291,7 +291,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
         {
-            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
+            $field_arr = RedshopHelperExtrafields::getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
             $field_value = '';
             if (count($field_arr) > 0)
             {
@@ -305,7 +305,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
             <a class="joom-box"
                href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
                rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
-                    src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
+                    src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
                     alt="media"> (<?php  echo count($mediadetail);?>)</a>
         </td>
         <td align="center">
@@ -313,7 +313,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
             <a class="joom-box"
                href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
                rel="{handler: 'iframe', size: {x: 700, y: 450}}">
-                <img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
+                <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
                      alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count($wrapper) . ")";?></a>
         </td>
         <td align="center">
@@ -329,7 +329,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			?>
 		</td>
 		<td>
-			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('manufacturer_name', ''); ?>
+			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name', ''); ?>
 		</td>
 		<td>
 			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>

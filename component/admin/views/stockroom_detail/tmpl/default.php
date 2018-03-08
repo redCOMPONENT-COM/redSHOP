@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 $editor = JFactory::getEditor();
 $date   = JFactory::getDate();
 ?>

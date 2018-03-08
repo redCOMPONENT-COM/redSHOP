@@ -79,7 +79,7 @@ $productHelper = producthelper::getInstance();
 									$accessoryMainPrice = 0;
 
 									if ($accessoryProduct[$f]->product_id && $accessoryProduct[$f]->accessory_id) :
-										$accessoryMainPrice = $productHelper->getAccessoryPrice($accessoryProduct[$f]->product_id, $accessoryProduct[$f]->newaccessory_price, $accessoryProduct[$f]->accessory_main_price, 1);
+										$accessoryMainPrice = \Redshop\Product\Accessory::getPrice($accessoryProduct[$f]->product_id, $accessoryProduct[$f]->newaccessory_price, $accessoryProduct[$f]->accessory_main_price, 1);
 									endif;
 
 									//$checked = ($accessoryProduct[$f]->setdefault_selected) ? "checked" : "";

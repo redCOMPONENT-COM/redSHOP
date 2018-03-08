@@ -6,14 +6,15 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+defined('_JEXEC') or die;
 
 $productHelper = productHelper::getInstance();
 
 global $context;
 
-$app    = JFactory::getApplication();
-$config = Redconfiguration::getInstance();
-
+$app             = JFactory::getApplication();
+$config          = Redconfiguration::getInstance();
+$calendarFormat  = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 $lists           = $this->lists;
 $model           = $this->getModel('order');
 $stockroomHelper = rsstockroomhelper::getInstance();
@@ -29,17 +30,17 @@ JPluginHelper::importPlugin('redshop_product');
     jQuery(document).ready(function ($) {
 
         jQuery("#search").click(function (event) {
-            document.adminForm.task.value = '';
+            document.adminForm.task.value = "";
         });
 
-        jQuery('#filter_by, #filter_payment_status, #filter_status').change(function (e) {
-            document.adminForm.task.value = '';
+        jQuery("#filter_by, #filter_payment_status, #filter_status").change(function (e) {
+            document.adminForm.task.value = "";
         });
 
-        jQuery('.order_status_change').click(function (event) {
+        jQuery(".order_status_change").click(function (event) {
             event.preventDefault();
-            var target = jQuery(this).attr('data-target');
-            jQuery('#' + target).slideToggle();
+            var target = jQuery(this).attr("data-target");
+            jQuery("#" + target).slideToggle();
         });
     });
 
@@ -50,22 +51,22 @@ JPluginHelper::importPlugin('redshop_product');
             form.task.value = pressbutton;
         }
 
-        if (pressbutton == 'add') {
+        if (pressbutton == "add") {
 			<?php $link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>
             window.location = '<?php echo $link;?>';
             return;
         }
 
         switch (pressbutton) {
-            case 'edit':
+            case "edit":
                 form.view.value = "order_detail";
                 break;
-            case 'multiprint_order':
+            case "multiprint_order":
                 form.view.value = "order";
                 break;
-            case 'remove':
+            case "remove":
                 form.view.value = "order_detail";
-                var r = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
+                var r           = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
 
                 if (r == false) {
                     return false;
@@ -82,29 +83,32 @@ JPluginHelper::importPlugin('redshop_product');
         }
 
         form.submit();
-    }
+
+        form.task.value = "";
+        jQuery("#adminForm input[type='checkbox'][name='cid[]']").prop("checked", false);
+    };
 
     resetFilter = function () {
-        document.adminForm.task.value = '';
-        document.getElementById('filter').value = '';
-        document.getElementById('filter_by').value = '';
-        document.getElementById('filter_payment_status').value = '';
-        document.getElementById('filter_status').value = '0';
-        document.getElementById('filter_from_date').value = '';
-        document.getElementById('filter_to_date').value = '';
+        document.adminForm.task.value                          = "";
+        document.getElementById("filter").value                = "";
+        document.getElementById("filter_by").value             = "";
+        document.getElementById("filter_payment_status").value = "";
+        document.getElementById("filter_status").value         = "0";
+        document.getElementById("filter_from_date").value      = "";
+        document.getElementById("filter_to_date").value        = "";
         document.adminForm.submit();
-    }
+    };
 </script>
 <script type="text/javascript">
     function massStatusChange(option) {
         (function ($) {
-            var form = document.adminForm;
-            var massStatus = $("#massOrderStatusChange select[name=mass_change_order_status]").val();
+            var form        = document.adminForm;
+            var massStatus  = $("#massOrderStatusChange select[name=mass_change_order_status]").val();
             var massPayment = $("#massOrderStatusChange select[name=mass_change_payment_status]").val();
-            var massSend = $("#massOrderStatusChange input[name=mass_mail_sending]");
+            var massSend    = $("#massOrderStatusChange input[name=mass_mail_sending]");
 
-            form.task.value = option;
-            form.mass_change_order_status.value = massStatus;
+            form.task.value                       = option;
+            form.mass_change_order_status.value   = massStatus;
             form.mass_change_payment_status.value = massPayment;
             if ($(massSend).is(":checked")) {
                 form.mass_mail_sending.value = 1;
@@ -124,13 +128,13 @@ JPluginHelper::importPlugin('redshop_product');
 
     function massPacsoftStatusChange(option) {
         (function ($) {
-            var form = document.adminForm;
-            var massStatus = $("#massOrderStatusPacsoft select[name=mass_change_order_status]").val();
+            var form        = document.adminForm;
+            var massStatus  = $("#massOrderStatusPacsoft select[name=mass_change_order_status]").val();
             var massPayment = $("#massOrderStatusPacsoft select[name=mass_change_payment_status]").val();
-            var massSend = $("#massOrderStatusPacsoft input[name=mass_mail_sending]");
+            var massSend    = $("#massOrderStatusPacsoft input[name=mass_mail_sending]");
 
-            form.task.value = option;
-            form.mass_change_order_status.value = massStatus;
+            form.task.value                       = option;
+            form.mass_change_order_status.value   = massStatus;
             form.mass_change_payment_status.value = massPayment;
             if ($(massSend).is(":checked")) {
                 form.mass_mail_sending.value = 1;
@@ -151,8 +155,8 @@ JPluginHelper::importPlugin('redshop_product');
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
-            $("#massOrderStatusChange").on('show.bs.modal', function (event) {
-                var checks = [];
+            $("#massOrderStatusChange").on("show.bs.modal", function (event) {
+                var checks  = [];
                 var checked = $("input[type='checkbox'][id^='cb'][name^='cid']:checked");
 
                 if (!checked.length) {
@@ -431,7 +435,7 @@ JPluginHelper::importPlugin('redshop_product');
                         </div>
                     </div>
 
-                    <?php echo $data->highlight->toHighlightGrid; ?>
+					<?php echo $data->highlight->toHighlightGrid; ?>
                 </td>
 				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
 					<?php
@@ -462,7 +466,7 @@ JPluginHelper::importPlugin('redshop_product');
                     <td align="center">
 						<?php
 						$carthelper = rsCarthelper::getInstance();
-						echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($row, "{shipping_method}");
+						echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($row, "{shipping_method}");
 						echo "<br />";
 
 						if (!empty($stockroomIds))
@@ -473,7 +477,7 @@ JPluginHelper::importPlugin('redshop_product');
 							$stamp         = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
 							$delivery_date = date('d/m/Y', $stamp);
 							$current_date  = date('d/m/Y');
-							$dateDiff      = $stockroomHelper->getdateDiff($stamp, time());
+							$dateDiff      = RedshopHelperStockroom::getDateDiff($stamp, time());
 
 							if ($dateDiff < 0)
 							{
@@ -511,7 +515,15 @@ JPluginHelper::importPlugin('redshop_product');
 									$confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
 								}
 
-								echo JHTML::_('calendar', date('Y-m-d'), 'bookDate' . $i, 'bookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19')); ?>
+								echo JHtml::_(
+									'redshopcalendar.calendar',
+									date($calendarFormat),
+									'bookDate' . $i,
+									'bookDate' . $i,
+									$calendarFormat,
+									array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+								);
+								?>
                                 <br/>
                                 <input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
                                        onclick="javascript:<?php echo $confirm; ?>"><br/>
@@ -525,7 +537,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php
 				if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 				{
-					$details        = RedshopShippingRate::decrypt($row->ship_method_id);
+					$details        = Redshop\Shipping\Rate::decrypt($row->ship_method_id);
 					$shippingParams = new JRegistry;
 
 					if (!empty($details[0]))
@@ -554,7 +566,15 @@ JPluginHelper::importPlugin('redshop_product');
 						}
 						else
 						{
-							echo JHTML::_('calendar', date('Y-m-d'), 'specifiedDate' . $i, 'specifiedDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19')); ?>
+							echo JHtml::_(
+								'redshopcalendar.calendar',
+								date($calendarFormat),
+								'specifiedDate' . $i,
+								'specifiedDate' . $i,
+								$calendarFormat,
+								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							);
+							?>
                             <input type="button" class="button"
                                    value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
                                    onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
@@ -762,11 +782,11 @@ JPluginHelper::importPlugin('redshop_product');
 <?php endif; ?>
 <script type="text/javascript">
     jQuery(document).ready(function () {
-        jQuery(document).on('keydown', '#filter', function (e) {
+        jQuery(document).on("keydown", "#filter", function (e) {
             if (e.keyCode == 13) {
-                jQuery('input[name=task]').val('');
-                jQuery('#adminForm').submit();
+                jQuery("input[name=task]").val("");
+                jQuery("#adminForm").submit();
             }
-        })
+        });
     });
 </script>

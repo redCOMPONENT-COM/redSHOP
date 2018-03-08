@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
-JHtmlBehavior::modal();
+JHtml::_('behavior.modal');
 
 $producthelper = productHelper::getInstance();
 $extraField = extraField::getInstance();
@@ -19,13 +18,13 @@ $url = JURI::base();
 
 $layout             = $this->input->getString('layout', '');
 $relatedprd_id      = $this->input->getInt('relatedprd_id', 0);
-$ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
+$ajaxdetal_template = \Redshop\Template\Helper::getAjaxDetailBox($this->data);
 
 ?>
 	<script type="text/javascript" language="javascript">//var J=jQuery.noConflict();</script>
 	<div style="clear:both"></div>
 <?php
-if (count($ajaxdetal_template) > 0)
+if (null !== $ajaxdetal_template)
 {
 	$ajaxdetal_templatedata = $ajaxdetal_template->template_desc;
 	$data_add               = $ajaxdetal_templatedata;
@@ -44,7 +43,7 @@ if (count($ajaxdetal_template) > 0)
 	{
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 		{
-			$thumbUrl = RedShopHelperImages::getImagePath(
+			$thumbUrl = RedshopHelperMedia::getImagePath(
 						$this->data->product_full_image,
 						'',
 						'thumb',
@@ -112,7 +111,7 @@ if (count($ajaxdetal_template) > 0)
 				$cart_id = "";
 			}
 
-			$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
+			$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
 			$ufield .= $productUserFields[0];
 
 			if ($productUserFields[0] != "")
@@ -168,7 +167,7 @@ if (count($ajaxdetal_template) > 0)
 		$count_no_user_field = 0;
 	}
 
-	$childproduct = $producthelper->getChildProduct($this->data->product_id);
+	$childproduct = RedshopHelperProduct::getChildProduct($this->data->product_id);
 
 	if (count($childproduct) > 0 && Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 0)
 	{
@@ -188,7 +187,7 @@ if (count($ajaxdetal_template) > 0)
 		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
-	$attribute_template = $producthelper->getAttributeTemplate($data_add);
+	$attribute_template = \Redshop\Template\Helper::getAttribute($data_add);
 	$attributes         = $producthelper->getProductAttribute($this->data->product_id);
 	$attributes         = array_merge($attributes, $attributes_set);
 	$totalatt           = count($attributes);
@@ -200,12 +199,12 @@ if (count($ajaxdetal_template) > 0)
 	$accessory      = $producthelper->getProductAccessory(0, $this->data->product_id);
 	$totalAccessory = count($accessory);
 
-	$data_add = $producthelper->replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);
+	$data_add = RedshopHelperProductAccessory::replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);
 
 	// Product accessory End /////////////////////////////////
 
 	// Cart
-	$data_add = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+	$data_add = Redshop\Cart\Render::replace($this->data->product_id, $this->data->category_id, 0, $relatedprd_id, $data_add, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 	$data_add = $data_add . "<input type='hidden' name='isAjaxBoxOpen' id='isAjaxBoxOpen' value='" . $layout . "' />";
 

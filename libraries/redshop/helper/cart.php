@@ -19,6 +19,11 @@ use Joomla\Utilities\ArrayHelper;
 abstract class RedshopHelperCart
 {
 	/**
+	 * @var array
+	 */
+	public static $cart = array();
+
+	/**
 	 * Method for remove cart from Database
 	 *
 	 * @param   int  $cartId  ID of cart.
@@ -115,9 +120,10 @@ abstract class RedshopHelperCart
 	/**
 	 * Store Cart to Database
 	 *
-	 * @param   array $cart Cart data.
+	 * @param   array  $cart  Cart data.
 	 *
 	 * @return  boolean       True on success. False otherwise.
+	 * @throws  Exception
 	 *
 	 * @since   2.0.3
 	 */
@@ -371,25 +377,32 @@ abstract class RedshopHelperCart
 			$userId = $user->id;
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+
 		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		if (!array_key_exists($userId, self::$cart))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
-		$query->select(
+			$query->select(
 				$db->qn(
 					array(
 						'ci.cart_item_id', 'ci.cart_idx', 'ci.product_id', 'ci.product_quantity',
 						'ci.product_wrapper_id', 'ci.product_subscription_id', 'ci.giftcard_id', 'ci.attribs')
-					)
 				)
-			->from($db->qn('#__redshop_usercart_item', 'ci'))
-			->leftJoin($db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id'))
-			->where($db->qn('c.user_id') . ' = ' . $userId)
-			->order($db->qn('ci.cart_idx'));
+			)
+				->from($db->qn('#__redshop_usercart_item', 'ci'))
+				->leftJoin($db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id'))
+				->where($db->qn('c.user_id') . ' = ' . $userId)
+				->order($db->qn('ci.cart_idx'));
 
-		$cartItems = $db->setQuery($query)->loadObjectList();
+			self::$cart[$userId] = $db->setQuery($query)->loadObjectList();
+		}
+
+		$cartItems = self::$cart[$userId];
 
 		if (empty($cartItems))
 		{
@@ -401,6 +414,8 @@ abstract class RedshopHelperCart
 
 		foreach ($cartItems as $cartItem)
 		{
+			RedshopHelperUtility::getDispatcher()->trigger('onDatabaseToCart', array(&$cartItem));
+
 			$setCartItem           = true;
 			$quantity              = $cartItem->product_quantity;
 			$calcOutput            = "";
@@ -421,8 +436,9 @@ abstract class RedshopHelperCart
 				$section       = 13;
 				$giftCardId    = $cartItem->giftcard_id;
 				$giftCardPrice = 0;
+				$giftCardData  = RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
 
-				if ($giftCardData = $productHelper->getGiftcardData($giftCardId))
+				if (!empty($giftCardData))
 				{
 					if ($giftCardData->customer_amount)
 					{
@@ -567,7 +583,7 @@ abstract class RedshopHelperCart
 				{
 					foreach ($fields as $field)
 					{
-						$dataTxt = (isset($attributes[$field->field_name])) ? $attributes[$field->field_name] : '';
+						$dataTxt = (isset($attributes[$field->name])) ? $attributes[$field->name] : '';
 						$text    = strpbrk($dataTxt, '`');
 
 						if ($text)
@@ -580,7 +596,7 @@ abstract class RedshopHelperCart
 							}
 						}
 
-						$cart[$idx][$field->field_name] = $dataTxt;
+						$cart[$idx][$field->name] = $dataTxt;
 					}
 				}
 
@@ -707,24 +723,21 @@ abstract class RedshopHelperCart
 					$cartItemId, $isAccessory, "subproperty", $cartProperties[$p]->section_id
 				);
 
-				for ($sp = 0; $sp < count($cartSubProperties); $sp++)
+				foreach ($cartSubProperties as $index => $cartSubProperty)
 				{
-					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperties[$sp]->section_id);
-					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
+					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperty->section_id);
+					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperty->section_id, $quantity, 'subproperty');
+					$subPropertyPrice = $subProperty[0]->subattribute_color_price;
 
-					if (count($price) > 0)
+					if (!empty($price))
 					{
 						$subPropertyPrice = $price->product_price;
 					}
-					else
-					{
-						$subPropertyPrice = $subProperty[0]->subattribute_color_price;
-					}
 
-					$generateSubProperties[$sp]['subproperty_id']     = $cartSubProperties[$sp]->section_id;
-					$generateSubProperties[$sp]['subproperty_name']   = $subProperty[0]->text;
-					$generateSubProperties[$sp]['subproperty_oprand'] = $subProperty[0]->oprand;
-					$generateSubProperties[$sp]['subproperty_price']  = $subPropertyPrice;
+					$generateSubProperties[$index]['subproperty_id']     = $cartSubProperty->section_id;
+					$generateSubProperties[$index]['subproperty_name']   = $subProperty[0]->text;
+					$generateSubProperties[$index]['subproperty_oprand'] = $subProperty[0]->oprand;
+					$generateSubProperties[$index]['subproperty_price']  = $subPropertyPrice;
 				}
 
 				$generateProperties[$p]['property_childs'] = $generateSubProperties;
@@ -739,16 +752,18 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for calculate final price of cart.
 	 *
-	 * @param   bool $isModify Is modify cart?
+	 * @param   bool  $isModify  Is modify cart?
 	 *
 	 * @return  array
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function cartFinalCalculation($isModify = true)
 	{
 		$ajax = JFactory::getApplication()->input->get('ajax_cart_box');
-		$cart = JFactory::getSession()->get('cart');
+		$cart = RedshopHelperCartSession::getCart();
 
 		if ($isModify === true)
 		{
@@ -760,7 +775,7 @@ abstract class RedshopHelperCart
 
 		$cartOutput['cart_output']    = $carts[0];
 		$cartOutput['total_quantity'] = $carts[1];
-		$text                         = RedshopHelperShipping::getFreeShippingRate();
+		$text                         = Redshop\Shipping\Rate::getFreeShippingRate();
 
 		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{
@@ -785,29 +800,14 @@ abstract class RedshopHelperCart
 		$return           = array();
 		$totalQuantity    = 0;
 		$idx              = $cart['idx'];
-		$showWithVAT      = 0;
-		$html             = 'simple';
-		$showShippingLine = 0;
-		$cartParams       = rsCarthelper::getInstance()->GetCartParameters();
-
-		if (array_key_exists('cart_output', $cartParams))
-		{
-			$html = $cartParams['cart_output'];
-		}
-
-		if (array_key_exists('show_shipping_line', $cartParams))
-		{
-			$showShippingLine = $cartParams['show_shipping_line'];
-		}
+		$cartParams       = \Redshop\Cart\Module::getParams();
+		$html             = (string) $cartParams->get('cart_output', 'simple');
+		$showShippingLine = (int) $cartParams->get('show_shipping_line', 0);
+		$showWithVAT      = (int) $cartParams->get('show_with_vat', 0);
 
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$totalQuantity += $cart[$i]['quantity'];
-
-			if (array_key_exists('show_with_vat', $cartParams))
-			{
-				$showWithVAT = $cartParams['show_with_vat'];
-			}
 		}
 
 		// Load cart module language
@@ -865,8 +865,8 @@ abstract class RedshopHelperCart
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer $userId                User Information Id - Login user id
-	 * @param   boolean $isShowButtonAddToCart Display Add to cart button for tax exemption user
+	 * @param   integer  $userId                 User Information Id - Login user id
+	 * @param   boolean  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
 	 *
 	 * @return  boolean                          True if VAT applied else false
 	 *

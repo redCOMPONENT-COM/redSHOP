@@ -48,20 +48,15 @@ class TaxRatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
+	public static $stateDropdown = ['xpath' => '//div[@id=\'s2id_rs_state_jformtax_state\']'];
+	/**
+	 * @var array
+	 */
 	public static $fieldCountry = ['id' => 'jform_tax_country'];
 
 	/**
 	 * @var array
 	 */
 	public static $fieldGroup = ['id' => 'jform_tax_group_id'];
-
-	/**
-	 * @var string
-	 */
-	public static $messageError = "Error";
-
-	/**
-	 * @var string
-	 */
-	public static $messageSuccess = "Message";
+	
 }

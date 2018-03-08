@@ -9,16 +9,20 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal');
+/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.onestep.min.js', false, true);
 
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('onRenderCustomField');
 
-$url = JURI::base();
+$url  = JUri::base();
 $user = JFactory::getUser();
-$app = JFactory::getApplication();
+$app  = JFactory::getApplication();
+
+$session = JFactory::getSession();
+$auth    = $session->get('auth');
 
 $carthelper      = rsCarthelper::getInstance();
 $producthelper   = productHelper::getInstance();
@@ -30,47 +34,49 @@ $session         = JFactory::getSession();
 $document        = JFactory::getDocument();
 
 // Get redshop helper
-$Itemid = $redhelper->getCheckoutItemid();
+$itemId = $redhelper->getCheckoutItemid();
+
+/** @var RedshopModelCheckout $model */
 $model = $this->getModel('checkout');
-$cart = $session->get('cart');
+$cart  = RedshopHelperCartSession::getCart();
 
-JHtml::script('com_redshop/credit_card.js', false, true);
+$billingAddresses = $model->billingaddresses();
 
-$billingaddresses = $model->billingaddresses();
+$paymentMethods          = RedshopHelperUtility::getPlugins('redshop_payment');
+$selectedPaymentMethodId = 0;
 
-$paymentmethod = $redhelper->getPlugins('redshop_payment');
-$selpayment_method_id = 0;
-
-if (count($paymentmethod) > 0)
+if (count($paymentMethods) > 0)
 {
-	$selpayment_method_id = $paymentmethod[0]->element;
+	$selectedPaymentMethodId = $paymentMethods[0]->element;
 }
 
-$shippingBoxes = $shippinghelper->getShippingBox();
-$selshipping_box_post_id = 0;
+$shippingBoxes         = RedshopHelperShipping::getShippingBox();
+$selectedShippingBoxId = 0;
 
 if (count($shippingBoxes) > 0)
 {
-	$selshipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
+	$selectedShippingBoxId = $shippingBoxes[0]->shipping_box_id;
 }
 
-$users_info_id        = $app->input->getInt('users_info_id', $this->users_info_id);
-$payment_method_id    = $app->input->getCmd('payment_method_id', $selpayment_method_id);
-$shipping_box_post_id = $app->input->getInt('shipping_box_id', $selshipping_box_post_id);
-$shipping_rate_id     = $app->input->getInt('shipping_rate_id', 0);
+$usersInfoId       = $app->input->getInt('users_info_id', $this->users_info_id);
+$paymentMethodId   = $app->input->getCmd('payment_method_id', $selectedPaymentMethodId);
+$shippingBoxPostId = $app->input->getInt('shipping_box_id', $selectedShippingBoxId);
+$shippingRateId    = $app->input->getInt('shipping_rate_id', 0);
 
-if (!empty($billingaddresses) && $users_info_id == 0)
+if ($usersInfoId == 0 && !empty($billingAddresses) && !empty($billingAddresses->users_info_id))
 {
-	$users_info_id = $billingaddresses->users_info_id;
+	$usersInfoId = $billingAddresses->users_info_id;
 }
 
 $loginTemplate = "";
 
-if (!$users_info_id && Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
+$input = JFactory::getApplication()->input;
+
+if (!$usersInfoId && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1 && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3)
 {
 	$loginTemplate = RedshopLayoutHelper::render(
 		'checkout.login',
-		array(),
+		null,
 		'',
 		array(
 			'component' => 'com_redshop'
@@ -78,322 +84,406 @@ if (!$users_info_id && Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Reds
 	);
 }
 
-$onestep_template_desc = "";
-$onesteptemplate = $redTemplate->getTemplate("onestep_checkout");
+$oneStepTemplateHtml = "";
+$oneStepTemplate     = RedshopHelperTemplate::getTemplate("onestep_checkout");
 
-if (count($onesteptemplate) > 0 && $onesteptemplate[0]->template_desc)
+if (count($oneStepTemplate) > 0 && $oneStepTemplate[0]->template_desc)
 {
-	$onestep_template_desc = "<div id='divOnestepCheckout'>" . $onesteptemplate[0]->template_desc . "</div>";
+	$oneStepTemplateHtml = "<div id='divOnestepCheckout'>" . $oneStepTemplate[0]->template_desc . "</div>";
 }
 else
 {
-	$onestep_template_desc = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
+	$oneStepTemplateHtml = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
 }
 
-if (strpos($onestep_template_desc, '{billing_address_information_lbl}') !== false)
+if (strpos($oneStepTemplateHtml, '{billing_address_information_lbl}') !== false)
 {
-	$onestep_template_desc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $onestep_template_desc);
-}
-
-if (!$users_info_id && strpos($onestep_template_desc, '{billing_template}') !== false)
-{
-	$billingTemplate = RedshopLayoutHelper::render(
-		'checkout.billing',
-		array(),
-		'',
-		array(
-			'component' => 'com_redshop'
-		)
+	$oneStepTemplateHtml = str_replace(
+		"{billing_address_information_lbl}",
+		JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'),
+		$oneStepTemplateHtml
 	);
-	$onestep_template_desc = str_replace('{billing_template}', $billingTemplate, $onestep_template_desc);
-}
-else
-{
-	$onestep_template_desc = str_replace('{billing_template}', "", $onestep_template_desc);
 }
 
-$payment_template = "";
-$payment_template_desc = "";
-$templatelist = $redTemplate->getTemplate("redshop_payment");
+$paymentTemplate     = "";
+$paymentTemplateHtml = "";
+$templates           = RedshopHelperTemplate::getTemplate("redshop_payment");
 
-for ($i = 0, $in = count($templatelist); $i < $in; $i++)
+foreach ($templates as $template)
 {
-	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->template_name . "}"))
+	if (strpos($oneStepTemplateHtml, "{payment_template:" . $template->name . "}") === false)
 	{
-		$payment_template      = "{payment_template:" . $templatelist[$i]->template_name . "}";
-		$payment_template_desc = $templatelist[$i]->template_desc;
-		$onestep_template_desc = str_replace($payment_template, "<div id='divPaymentMethod'>" . $payment_template . "</div>", $onestep_template_desc);
+		continue;
 	}
+
+	$paymentTemplate     = "{payment_template:" . $template->name . "}";
+	$paymentTemplateHtml = $template->template_desc;
+	$oneStepTemplateHtml = str_replace($paymentTemplate, "<div id='divPaymentMethod'>" . $paymentTemplate . "</div>", $oneStepTemplateHtml);
 }
 
-$templatelist = $redTemplate->getTemplate("checkout");
+$templates = RedshopHelperTemplate::getTemplate("checkout");
 
-for ($i = 0, $in = count($templatelist); $i < $in; $i++)
+foreach ($templates as $template)
 {
-	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->template_name . "}"))
+	if (strpos($oneStepTemplateHtml, "{checkout_template:" . $template->name . "}") === false)
 	{
-		$cart_template         = "{checkout_template:" . $templatelist[$i]->template_name . "}";
-		$onestep_template_desc = str_replace($cart_template, "<div id='divRedshopCart'>" . $cart_template . "</div><div id='divRedshopCartTemplateId' style='display:none'>" . $templatelist[$i]->template_id . "</div>", $onestep_template_desc);
-		$onestep_template_desc = str_replace($cart_template, $templatelist[$i]->template_desc, $onestep_template_desc);
+		continue;
 	}
+
+	$cartTemplate        = "{checkout_template:" . $template->name . "}";
+	$oneStepTemplateHtml = str_replace(
+		$cartTemplate,
+		'<div id="divRedshopCart">' . $cartTemplate . '</div>'
+		. '<div id="divRedshopCartTemplateId" style="display:none">' . $template->id . '</div>',
+		$oneStepTemplateHtml
+	);
+	$oneStepTemplateHtml = str_replace($cartTemplate, $template->template_desc, $oneStepTemplateHtml);
 }
 
 // For shipping template
-$shippingbox_template = "";
-$shippingbox_template_desc = "";
-$shipping_template = "";
-$shipping_template_desc = "";
+$shippingBoxTemplate     = "";
+$shippingBoxTemplateHtml = "";
+$shippingTemplate        = "";
+$shippingTemplateHtml    = "";
 
-$templatelist = $redTemplate->getTemplate("shippingbox");
+$templates = RedshopHelperTemplate::getTemplate("shippingbox");
 
-for ($i = 0, $in = count($templatelist); $i < $in; $i++)
+foreach ($templates as $template)
 {
-	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->template_name . "}"))
+	if (strpos($oneStepTemplateHtml, "{shippingbox_template:" . $template->name . "}") === false)
 	{
-		$shippingbox_template      = "{shippingbox_template:" . $templatelist[$i]->template_name . "}";
-		$shippingbox_template_desc = $templatelist[$i]->template_desc;
+		continue;
 	}
+
+	$shippingBoxTemplate     = "{shippingbox_template:" . $template->name . "}";
+	$shippingBoxTemplateHtml = $template->template_desc;
 }
 
-$templatelist = $redTemplate->getTemplate("redshop_shipping");
+$templates = RedshopHelperTemplate::getTemplate("redshop_shipping");
 
-for ($i = 0, $in = count($templatelist); $i < $in; $i++)
+foreach ($templates as $template)
 {
-	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->template_name . "}"))
+	if (strpos($oneStepTemplateHtml, "{shipping_template:" . $template->name . "}") === false)
 	{
-		$shipping_template      = "{shipping_template:" . $templatelist[$i]->template_name . "}";
-		$shipping_template_desc = $templatelist[$i]->template_desc;
-
-		$onestep_template_desc  = str_replace($shipping_template, "<div id='divShippingRate'>" . $shipping_template . "</div><div id='divShippingRateTemplateId' style='display:none'>" . $templatelist[$i]->template_id . "</div>", $onestep_template_desc);
+		continue;
 	}
+
+	$shippingTemplate     = "{shipping_template:" . $template->name . "}";
+	$shippingTemplateHtml = $template->template_desc;
+	$oneStepTemplateHtml  = str_replace(
+		$shippingTemplate,
+		'<div id="divShippingRate">' . $shippingTemplate . '</div>'
+		. '<div id="divShippingRateTemplateId" style="display:none">' . $template->id . '</div>',
+		$oneStepTemplateHtml
+	);
 }
 
-if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 {
-	$ordertotal     = $cart['total'];
-	$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-	$order_subtotal = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+	$orderTotal    = $cart['total'];
+	$totalDiscount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
+	$orderSubTotal = Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ?
+		$cart['product_subtotal'] - $totalDiscount : $cart['product_subtotal'];
 
-	$shippingbox_template_desc = $carthelper->replaceShippingBoxTemplate($shippingbox_template_desc, $shipping_box_post_id);
-	$onestep_template_desc     = str_replace($shippingbox_template, $shippingbox_template_desc, $onestep_template_desc);
+	$shippingBoxTemplateHtml = $carthelper->replaceShippingBoxTemplate($shippingBoxTemplateHtml, $shippingBoxPostId);
+	$oneStepTemplateHtml     = str_replace($shippingBoxTemplate, $shippingBoxTemplateHtml, $oneStepTemplateHtml);
 
-	$returnarr              = $carthelper->replaceShippingTemplate($shipping_template_desc, $shipping_rate_id, $shipping_box_post_id, $user->id, $users_info_id, $ordertotal, $order_subtotal);
-	$shipping_template_desc = $returnarr['template_desc'];
-	$shipping_rate_id       = $returnarr['shipping_rate_id'];
+	$return = $carthelper->replaceShippingTemplate(
+		$shippingTemplateHtml,
+		$shippingRateId,
+		$shippingBoxPostId,
+		$user->id,
+		$usersInfoId,
+		$orderTotal,
+		$orderSubTotal
+	);
 
-	if ($shipping_rate_id)
+	$shippingTemplateHtml = $return['template_desc'];
+	$shippingRateId       = $return['shipping_rate_id'];
+
+	if ($shippingRateId)
 	{
-		$shipArr              = $model->calculateShipping($shipping_rate_id);
-		$cart['shipping']     = $shipArr['order_shipping_rate'];
-		$cart['shipping_vat'] = $shipArr['shipping_vat'];
+		$shippingList         = $model->calculateShipping($shippingRateId);
+		$cart['shipping']     = $shippingList['order_shipping_rate'];
+		$cart['shipping_vat'] = $shippingList['shipping_vat'];
 		$cart                 = $carthelper->modifyDiscount($cart);
 	}
 
-	$onestep_template_desc = str_replace($shipping_template, $shipping_template_desc, $onestep_template_desc);
+	$oneStepTemplateHtml = str_replace($shippingTemplate, $shippingTemplateHtml, $oneStepTemplateHtml);
 }
 else
 {
-	$onestep_template_desc = str_replace($shippingbox_template, "", $onestep_template_desc);
-	$onestep_template_desc = str_replace($shipping_template, "", $onestep_template_desc);
+	$oneStepTemplateHtml = str_replace($shippingBoxTemplate, "", $oneStepTemplateHtml);
+	$oneStepTemplateHtml = str_replace($shippingTemplate, "", $oneStepTemplateHtml);
 }
 
-$ean_number = 0;
+$eanNumber = 0;
 
-if (!empty($billingaddresses) && $billingaddresses->ean_number != "")
+if (!empty($billingAddresses) && !empty($billingAddresses->ean_number))
 {
-	$ean_number = 1;
+	$eanNumber = 1;
 }
 
-if (strstr($onestep_template_desc, "{edit_billing_address}") && $users_info_id)
+if (strpos($oneStepTemplateHtml, "{edit_billing_address}") !== false && $usersInfoId)
 {
-	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&Itemid=' . $Itemid);
-	$edit_billing          = '<a class="modal btn btn-primary" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
-	$onestep_template_desc = str_replace("{edit_billing_address}", $edit_billing, $onestep_template_desc);
-}
-else
-{
-	$onestep_template_desc = str_replace("{edit_billing_address}", "", $onestep_template_desc);
-}
-
-if ($users_info_id)
-{
-	$onestep_template_desc = $carthelper->replaceBillingAddress($onestep_template_desc, $billingaddresses);
+	$editBillingLink     = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $itemId);
+	$editBilling         = '<a class="modal btn btn-primary" href="' . $editBillingLink . '"'
+		. 'rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
+	$oneStepTemplateHtml = str_replace("{edit_billing_address}", $editBilling, $oneStepTemplateHtml);
 }
 else
 {
-	$onestep_template_desc = str_replace("{billing_address}", "", $onestep_template_desc);
+	$oneStepTemplateHtml = str_replace("{edit_billing_address}", "", $oneStepTemplateHtml);
 }
 
-$isCompany = isset($billingaddresses->is_company) ? $billingaddresses->is_company : 0;
-
-if (strstr($onestep_template_desc, "{shipping_address}"))
+if ($usersInfoId)
 {
-	if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+	$oneStepTemplateHtml = RedshopHelperBillingTag::replaceBillingAddress($oneStepTemplateHtml, $billingAddresses);
+}
+else
+{
+	$oneStepTemplateHtml = str_replace("{billing_address}", "", $oneStepTemplateHtml);
+}
+
+if (strpos($oneStepTemplateHtml, '{billing_template}') !== false)
+{
+	$billingTemplate     = null === $billingAddresses || $billingAddresses == new stdClass ? RedshopLayoutHelper::render(
+		'checkout.onestep.billing',
+		array(),
+		'',
+		array(
+			'component' => 'com_redshop'
+		)
+	) : '';
+	$oneStepTemplateHtml = str_replace('{billing_template}', $billingTemplate, $oneStepTemplateHtml);
+}
+
+$isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
+
+if (strpos($oneStepTemplateHtml, "{shipping_address}") !== false)
+{
+	if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 	{
-		$shipp = '';
+		$shippingHtml = '';
 
-		if ($users_info_id)
+		if ($usersInfoId)
 		{
-			$shippingaddresses = $model->shippingaddresses();
+			$shippingAddresses = $model->shippingaddresses();
 
-			if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
+			if ($billingAddresses)
 			{
-				$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
-				$shipp .= '<div class="radio"><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
+				$shippingCheck = $usersInfoId == $billingAddresses->users_info_id ? 'checked="checked"' : '';
+				$shippingHtml  .= '<div class="radio"><label class="radio">'
+					. '<input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');"'
+					. ' name="users_info_id" value="' . $billingAddresses->users_info_id . '" ' . $shippingCheck . ' />'
+					. JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
 			}
 
-			for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
+			foreach ($shippingAddresses as $shippingAddress)
 			{
-				$shipinfo = $shippingaddresses[$i];
+				$addShippingLink = JRoute::_(
+					'index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
+					. '&return=checkout&Itemid=' . $itemId . '&infoid=' . $shippingAddress->users_info_id,
+					false
+				);
 
-				$edit_addlink = JRoute::_('index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping&return=checkout&Itemid=' . $Itemid . '&infoid=' . $shipinfo->users_info_id);
+				$removeShippingLink = JRoute::_($url .
+					'index.php?option=com_redshop&view=account_shipto&return=checkout'
+					. '&tmpl=component&task=remove&infoid=' . $shippingAddress->users_info_id . '&Itemid=' . $itemId,
+					false
+				);
 
-				$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
-				$ship_check     = ($users_info_id == $shipinfo->users_info_id) ? 'checked="checked"' : '';
+				$shippingCheck = $usersInfoId == $shippingAddress->users_info_id ? 'checked="checked"' : '';
 
-				$shipp .= '<div class="radio"><label class="radio inline"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $shipinfo->users_info_id . '" ' . $ship_check . ' />' . $shipinfo->firstname . " " . $shipinfo->lastname . "</label> ";
-				$shipp .= '<a class="modal" href="' . $edit_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}">(' . JText::_('COM_REDSHOP_EDIT_LBL') . ')</a> ';
-				$shipp .= '<a href="' . $delete_addlink . '" title="">(' . JText::_('COM_REDSHOP_DELETE_LBL') . ')</a></div>';
+				$shippingHtml .= '<div class="radio"><label class="radio inline">'
+					. '<input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');"'
+					. ' name="users_info_id" value="' . $shippingAddress->users_info_id . '" ' . $shippingCheck . ' />'
+					. $shippingAddress->firstname . " " . $shippingAddress->lastname . '</label>'
+					. '<a class="modal" href="' . $addShippingLink . '" '
+					. 'rel="{handler: \'iframe\', size: {x: 570, y: 470}}">'
+					. '(' . JText::_('COM_REDSHOP_EDIT_LBL') . ')</a> '
+					. '<a href="' . $removeShippingLink . '" title="">'
+					. '(' . JText::_('COM_REDSHOP_DELETE_LBL') . ')</a></div>';
 			}
 
-			$add_addlink = JRoute::_('index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping&return=checkout&Itemid=' . $Itemid . '&infoid=0&is_company=' . $billingaddresses->is_company);
-			$shipp .= '<a class="modal btn btn-primary" href="' . $add_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}"> ' . JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
+			$addLink = JRoute::_(
+				'index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
+				. '&return=checkout&Itemid=' . $itemId . '&infoid=0&is_company=' . $billingAddresses->is_company,
+				false
+			);
 
+			$shippingHtml .= '<a class="modal btn btn-primary" href="' . $addLink . '" '
+				. 'rel="{handler: \'iframe\', size: {x: 570, y: 470}}">'
+				. JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
 		}
 		else
 		{
-			$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(14);
-			$lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(15);
+			$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
+			$lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
 
-			$shipp = '<div class="form-group"><label for="billisship"><input class="toggler" type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" checked="" />' .  JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') . '</label></div><div id="divShipping" style="display: none">' . rsUserHelper::getInstance()->getShippingTable(array(), $isCompany, $lists) . '</div>';
+			$shippingHtml = '<div class="form-group"><label for="billisship">'
+				. '<input class="toggler" type="checkbox" id="billisship" name="billisship" value="1" '
+				. 'onclick="billingIsShipping(this);" checked="" />'
+				. JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') . '</label></div>'
+				. '<div id="divShipping" style="display: none">'
+				. RedshopHelperShipping::getShippingTable(array(), $isCompany, $lists) . '</div>';
 		}
 
-		$onestep_template_desc = str_replace('{shipping_address}', $shipp, $onestep_template_desc);
-		$onestep_template_desc = str_replace('{shipping_address_information_lbl}', JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL'), $onestep_template_desc);
+		$oneStepTemplateHtml = str_replace('{shipping_address}', $shippingHtml, $oneStepTemplateHtml);
+		$oneStepTemplateHtml = str_replace(
+			'{shipping_address_information_lbl}',
+			JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL'),
+			$oneStepTemplateHtml
+		);
 	}
 	else
 	{
-		$onestep_template_desc = str_replace('{shipping_address}', '', $onestep_template_desc);
-		$onestep_template_desc = str_replace('{shipping_address_information_lbl}', '', $onestep_template_desc);
+		$oneStepTemplateHtml = str_replace('{shipping_address}', '', $oneStepTemplateHtml);
+		$oneStepTemplateHtml = str_replace('{shipping_address_information_lbl}', '', $oneStepTemplateHtml);
 	}
 }
 
 JPluginHelper::importPlugin('redshop_checkout');
-JDispatcher::getInstance()->trigger('onRenderInvoiceOnstepCheckout', array (&$onestep_template_desc));
+$dispatcher->trigger('onRenderInvoiceOneStepCheckout', array(&$oneStepTemplateHtml));
 
-$payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $isCompany, $ean_number);
-$onestep_template_desc = str_replace($payment_template, $payment_template_desc, $onestep_template_desc);
+if ($usersInfoId && !empty($billingAddresses))
+{
+	$paymentTemplateHtml = $carthelper->replacePaymentTemplate(
+		$paymentTemplateHtml, $paymentMethodId, $isCompany, $eanNumber
+	);
+	$oneStepTemplateHtml = str_replace($paymentTemplate, $paymentTemplateHtml, $oneStepTemplateHtml);
+}
+else
+{
+	$oneStepTemplateHtml = str_replace($paymentTemplate, "", $oneStepTemplateHtml);
+}
 
-$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid);
-
-$onestep_template_desc = $loginTemplate . '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
-
-$onestep_template_desc = $redTemplate->parseredSHOPplugin($onestep_template_desc);
-echo eval("?>" . $onestep_template_desc . "<?php ");?>
+$oneStepTemplateHtml = $model->displayShoppingCart($oneStepTemplateHtml, $usersInfoId, $shippingRateId, $paymentMethodId, $itemId);
+$oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplateHtml);
+?>
+<?php if (!$user->id && empty($auth['users_info_id'])): ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS') ?></h3>
+        </div>
+        <div class="panel-body">
+			<?php echo $loginTemplate ?>
+        </div>
+    </div>
+<?php endif; ?>
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>" method="post"
+      name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
+	<?php echo $oneStepTemplateHtml ?>
+    <div style="display:none" id="responceonestep"></div>
+</form>
 <script type="text/javascript">
-	jQuery(document).ready(function($){
-		jQuery('input[name="togglerchecker"]').each(function(idx, el){
-			if (jQuery(el).is(':checked'))
-			{
-				getBillingTemplate(jQuery(el));
-			}
-		});
-	});
-	function validation()
-	{
-		var email     = jQuery('input[name="email1"]').val();
-		var email2    = jQuery('input[name="email2"]').val();
-		var company   = jQuery('input[name="company_name"]').val();
-		var firstname = jQuery('input[name="firstname"]').val();
-		var lastname  = jQuery('input[name="lastname"]').val();
-		var address   = jQuery('input[name="address"]').val();
-		var zipcode   = jQuery('input[name="zipcode"]').val();
-		var city      = jQuery('input[name="city"]').val();
-		var phone     = jQuery('input[name="phone"]').val();
-		var eanNumber = jQuery('input[name="ean_number"]').val();
+    (function ($) {
+        $(document).ready(function () {
+            $("input[name='togglerchecker']").each(function (idx, el) {
+                if ($(el).is(':checked')) {
+                    getBillingTemplate($(el));
+                }
+            });
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript">
+    function validation() {
+        var email = jQuery('input[name="email1"]').val();
+        var email2 = jQuery('input[name="email2"]').val();
+        var company = jQuery('input[name="company_name"]').val();
+        var firstname = jQuery('input[name="firstname"]').val();
+        var lastname = jQuery('input[name="lastname"]').val();
+        var address = jQuery('input[name="address"]').val();
+        var zipcode = jQuery('input[name="zipcode"]').val();
+        var city = jQuery('input[name="city"]').val();
+        var phone = jQuery('input[name="phone"]').val();
+        var eanNumber = jQuery('input[name="ean_number"]').val();
 
-		if (jQuery.type(eanNumber) != 'undefined'){
-			if (eanNumber == ""){
-				alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
-				return false;
-			}
-			else if (eanNumber.length < 13){
-				alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
-				return false;
-			}
-			else if (isNaN(eanNumber) == true){
-				alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
-				return false;
-			}
-		}
+        if (jQuery.type(eanNumber) != 'undefined') {
+            if (eanNumber == "") {
+                alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
+                return false;
+            }
+            else if (eanNumber.length < 13) {
+                alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
+                return false;
+            }
+            else if (isNaN(eanNumber) == true) {
+                alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
+                return false;
+            }
+        }
 
-		if (jQuery.type(email) != 'undefined' && email == ""){
-			alert(Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS'));
-			return false;
-		}
-		else if (redSHOP.RSConfig._('SHOW_EMAIL_VERIFICATION') && email != email2){
-			alert(Joomla.JText._('COM_REDSHOP_EMAIL_NOT_MATCH'));
-			return false;
-		}
-		else if (jQuery.type(company) != 'undefined' && company == ""){
-			alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'));
-			return false;
-		}
-		else if (jQuery.type(firstname) != 'undefined' && firstname == ""){
-			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'));
-			return false;
-		}
-		else if (jQuery.type(lastname) != 'undefined' && lastname == ""){
-			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'));
-			return false;
-		}
-		else if (jQuery.type(address) != 'undefined' && address == ""){
-			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'));
-			return false;
-		}
-		else if (jQuery.type(zipcode) != 'undefined' && zipcode == ""){
-			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'));
-			return false;
-		}
-		else if (jQuery.type(city) != 'undefined' && city == ""){
-			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'));
-			return false;
-		}
-		else if (jQuery.type(phone) != 'undefined' && phone == ""){
-			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE'));
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
-	function chkvalidaion() {
+        if (jQuery.type(email) != 'undefined' && email == "") {
+            alert(Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS'));
+            return false;
+        }
+        else if (redSHOP.RSConfig._('SHOW_EMAIL_VERIFICATION') && email != email2) {
+            alert(Joomla.JText._('COM_REDSHOP_EMAIL_NOT_MATCH'));
+            return false;
+        }
+        else if (jQuery.type(company) != 'undefined' && company == "") {
+            alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'));
+            return false;
+        }
+        else if (jQuery.type(firstname) != 'undefined' && firstname == "") {
+            alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'));
+            return false;
+        }
+        else if (jQuery.type(lastname) != 'undefined' && lastname == "") {
+            alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'));
+            return false;
+        }
+        else if (jQuery.type(address) != 'undefined' && address == "") {
+            alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'));
+            return false;
+        }
+        else if (jQuery.type(zipcode) != 'undefined' && zipcode == "") {
+            alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'));
+            return false;
+        }
+        else if (jQuery.type(city) != 'undefined' && city == "") {
+            alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'));
+            return false;
+        }
+        else if (jQuery.type(phone) != 'undefined' && phone == "") {
+            alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE'));
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function chkvalidaion() {
 		<?php
-			if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
-			{
-			?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
-		return false;
+		if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
+		{
+		?>
+        alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
+        return false;
 		<?php
-			}	?>
-		if (document.getElementById('termscondition')) {
-			var termscondition = document.getElementById('termscondition').checked;
+		}    ?>
+        if (document.getElementById('termscondition')) {
+            var termscondition = document.getElementById('termscondition').checked;
 
-			if (!termscondition) {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
-				return false;
-			}
-		}
-		return true;
-	}
-	function checkout_disable(val) {
-		document.adminForm.submit();
-		document.getElementById(val).disabled = true;
-		var op = document.getElementById(val);
-		op.setAttribute("style", "opacity:0.3;");
+            if (!termscondition) {
+                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
+                return false;
+            }
+        }
+        return true;
+    }
 
-		if (op.style.setAttribute) //For IE
-			op.style.setAttribute("filter", "alpha(opacity=30);");
+    function checkout_disable(val) {
+        document.adminForm.submit();
+        document.getElementById(val).disabled = true;
+        var op = document.getElementById(val);
+        op.setAttribute("style", "opacity:0.3;");
 
-	}
+        if (op.style.setAttribute) //For IE
+            op.style.setAttribute("filter", "alpha(opacity=30);");
+
+    }
 </script>
