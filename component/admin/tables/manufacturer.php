@@ -147,7 +147,8 @@ class RedshopTableManufacturer extends RedshopTable
 	/**
 	 * Method for store fields data.
 	 *
-	 * @throws Exception
+	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since  2.1.0
 	 */
