@@ -78,11 +78,9 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<?php if (!$enableAjaxsearch):?>
-			<div class="product_search_button">
-				<input type="submit" name="Search" value=<?php echo JText::_('MOD_REDSHOP_SEARCH_SEARCH'); ?> id="Search" />
-			</div>
-		<?php endif; ?>
+		<div class="product_search_button">
+			<input type="submit" name="Search" value=<?php echo JText::_('MOD_REDSHOP_SEARCH_SEARCH'); ?> id="Search" />
+		</div>
 	</div>
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="search"/>
