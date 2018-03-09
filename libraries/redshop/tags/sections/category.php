@@ -206,6 +206,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			{
 				$categoryTemplate = $subTemplate['template'];
 				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate);
+				$categoryTemplate = $this->replaceSubCategoriesLevel2($category, $categoryTemplate);
 				$template[]       = $categoryTemplate;
 			}
 
@@ -214,6 +215,78 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		}
 
 		return $this->template;
+	}
+
+	/**
+	 * Replace sub categories level 2
+	 *
+	 * @param   object  $category          Category
+	 * @param   string  $categoryTemplate  Template
+	 *
+	 * @return  string
+	 * @throws  Exception
+	 *
+	 * @since   2.0.0.6
+	 */
+	private function replaceSubCategoriesLevel2($category, $categoryTemplate)
+	{
+		if (strstr($categoryTemplate, "{subcategory_loop_start}") && strstr($categoryTemplate, "{subcategory_loop_end}"))
+		{
+			$template = array();
+
+			$templateStart       = explode("{subcategory_loop_start}", $categoryTemplate);
+			$templateEnd         = explode("{subcategory_loop_end}", $templateStart[1]);
+			$templateSubCategory = $templateEnd[0];
+
+			$subCategories = RedshopHelperCategory::getCategoryListArray($category->id);
+
+			if (count($subCategories) > 0)
+			{
+				foreach ($subCategories as $row)
+				{
+					if ($row->parent_id != $category->id)
+					{
+						continue;
+					}
+
+					$dataAdd = $templateSubCategory;
+
+					if (strstr($dataAdd, "{subcategory_name}"))
+					{
+						$dataAdd  = str_replace("{subcategory_name}", $row->name, $dataAdd);
+					}
+
+					if (strstr($dataAdd, "{subcategory_id}"))
+					{
+						$dataAdd = str_replace("{subcategory_id}", $row->id, $dataAdd);
+					}
+
+					if (strstr($dataAdd, '{subcategory_name}'))
+					{
+						$dataAdd = str_replace("{subcategory_name}", $row->name, $dataAdd);
+					}
+
+					if (strstr($dataAdd, '{subcategory_link}'))
+					{
+						$link  = JRoute::_('index.php?option=com_redshop' .
+							'&view=category&cid=' . $category->id .
+							'&layout=detail&Itemid=' . $this->data['itemId']
+						);
+						$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
+
+						$dataAdd = str_replace("{subcategory_link}", $link, $dataAdd);
+					}
+
+					$template[] = $dataAdd;
+				}
+			}
+
+			$categoryTemplate = str_replace("{subcategory_loop_start}", "", $categoryTemplate);
+			$categoryTemplate = str_replace("{subcategory_loop_end}", "", $categoryTemplate);
+			$categoryTemplate = str_replace($templateSubCategory, implode(PHP_EOL, $template), $categoryTemplate);
+		}
+
+		return $categoryTemplate;
 	}
 
 	/**
