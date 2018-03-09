@@ -610,7 +610,7 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'xmlexport') ? true : false
 			);
 
-		if (JComponentHelper::isEnabled('com_virtuemart'))
+		if (JComponentHelper::isInstalled('com_virtuemart') && JComponentHelper::isEnabled('com_virtuemart'))
 		{
 			self::$menu->addItem(
 				'index.php?option=com_redshop&view=import_vm',
