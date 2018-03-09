@@ -837,7 +837,7 @@ trait HasAutoEvents
 		// Optional modified_by field updated when present
 		if (property_exists($tableInstance, $tableFieldModifiedBy))
 		{
-			if (!isset($user))
+			if (null === $user)
 			{
 				$user = \JFactory::getUser();
 			}

@@ -311,6 +311,7 @@ class App
 	 * Try to find if temp configuration file is available. This function is for wizard.
 	 *
 	 * @return  boolean  True when file is exist.
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -332,6 +333,7 @@ class App
 	 * Check if temp file is write-able or not.
 	 *
 	 * @return  boolean  True if file is write-able.
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */

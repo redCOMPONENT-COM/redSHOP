@@ -38,7 +38,7 @@ class Helper
 
 			foreach ($orderItemData as $orderItemDatum)
 			{
-				$accessoryQuantity  = " [" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemDatum->product_quantity . "] ";
+				$accessoryQuantity  = " [" . \JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemDatum->product_quantity . "] ";
 				$accessoryHtml      .= "<div class='checkout_accessory_title'>"
 					. urldecode($orderItemDatum->order_acc_item_name)
 					. " ("

@@ -478,10 +478,8 @@ class Cart
 			{
 				return urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 			}
-			elseif (!$isPreOrderStock)
-			{
-				return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
-			}
+
+			return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
@@ -554,10 +552,8 @@ class Cart
 				{
 					return \JText::_('COM_REDSHOP_ACCESSORY_HAS_REQUIRED_ATTRIBUTES');
 				}
-				elseif (!$generateAccessoryCart)
-				{
-					return false;
-				}
+
+				return false;
 			}
 		}
 
@@ -740,14 +736,10 @@ class Cart
 
 						return true;
 					}
-					else
-					{
-						$msg = (\Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '' && \Redshop::getConfig()->get('IS_PRODUCT_RESERVE'))
-							? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
-							: urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 
-						return $msg;
-					}
+					return (\Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') !== '' && \Redshop::getConfig()->get('IS_PRODUCT_RESERVE'))
+						? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
+						: urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 				}
 			}
 		}

@@ -1435,10 +1435,8 @@ class productHelper
 			{
 				return is_array($result->categories) ? implode(',', $result->categories) : $result->categories;
 			}
-			elseif (!empty($result->category_id))
-			{
-				return $result->category_id;
-			}
+
+			return $result->category_id;
 		}
 
 		return '';

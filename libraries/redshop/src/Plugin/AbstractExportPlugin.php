@@ -68,8 +68,9 @@ class AbstractExportPlugin extends \JPlugin
 	 * @param   resource  &$handle  Resource handle if necessary.
 	 *
 	 * @return  boolean      True on success. False otherwise.
+	 * @throws  \Exception
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
 	 */
 	protected function writeData($row, $mode = 'a+', &$handle = null)
 	{
@@ -87,7 +88,7 @@ class AbstractExportPlugin extends \JPlugin
 			$row[$index] = '"' . str_replace('"', '""', $column) . '"';
 		}
 
-		if (is_null($handle))
+		if (null === $handle)
 		{
 			$fileHandle = fopen($this->getFilePath(), $mode);
 			fwrite($fileHandle, implode($separator, $row) . "\r\n");
@@ -157,8 +158,7 @@ class AbstractExportPlugin extends \JPlugin
 	protected function getData($start, $limit)
 	{
 		$query = $this->getQuery();
-		$query->setLimit($limit, $start);
-		$data  = $this->db->setQuery($query)->loadObjectList();
+		$data  = $this->db->setQuery($query, $limit, $start)->loadObjectList();
 
 		$this->processData($data);
 
