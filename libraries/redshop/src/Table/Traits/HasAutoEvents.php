@@ -812,12 +812,11 @@ trait HasAutoEvents
 		$tableFieldModifiedBy   = $tableInstance->get('_tableFieldModifiedBy');
 		$tableFieldModifiedDate = $tableInstance->get('_tableFieldModifiedDate');
 		$auditDateFormat        = $tableInstance->get('_auditDateFormat');
+		$user                   = \JFactory::getUser();
 
 		// Optional created_by field updated when present
 		if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedBy))
 		{
-			$user = \JFactory::getUser();
-
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldCreatedBy} = $user->id;
@@ -837,11 +836,6 @@ trait HasAutoEvents
 		// Optional modified_by field updated when present
 		if (property_exists($tableInstance, $tableFieldModifiedBy))
 		{
-			if (null === $user)
-			{
-				$user = \JFactory::getUser();
-			}
-
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldModifiedBy} = $user->id;
