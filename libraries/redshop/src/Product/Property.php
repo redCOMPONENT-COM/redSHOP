@@ -11,6 +11,8 @@ namespace Redshop\Product;
 
 defined('_JEXEC') or die;
 
+use \JText;
+
 /**
  * Product property helper
  *
