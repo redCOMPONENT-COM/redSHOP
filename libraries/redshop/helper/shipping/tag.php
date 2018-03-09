@@ -24,7 +24,7 @@ class RedshopHelperShippingTag
 	 *
 	 * @return  string
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function replaceShippingMethod($shipping, $content = "")
 	{
@@ -41,7 +41,7 @@ class RedshopHelperShippingTag
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function replaceShippingAddress($templateHtml, $shippingAddress, $sendMail = false)
 	{

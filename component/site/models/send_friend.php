@@ -114,7 +114,7 @@ class RedshopModelSend_Friend extends RedshopModel
 		$productLink = JRoute::_(JUri::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId, false);
 		$productLink = "<a href=" . $productLink . ">" . $productLink . "</a>";
 		$mailBody    = str_replace("{product_url}", $productLink, $mailBody);
-		$mailBody    = RedshopHelperMail::imgInMail($mailBody);
+		Redshop\Mail\Helper::imgInMail($mailBody);
 
 		$config   = JFactory::getConfig();
 		$from     = (string) $config->get('mailfrom');

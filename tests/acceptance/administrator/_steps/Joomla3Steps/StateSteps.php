@@ -31,7 +31,7 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function addState($countryName = 'Test Country', $stateName = 'Test State', $twoCode = '12', $threeCode = '123')
 	{
-		$client = $this;
+		$client           = $this;
 		$stateManagerPage = new \StatePage;
 
 		$client->amOnPage(\StatePage::$url);

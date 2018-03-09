@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopControllerImport_Vm extends RedshopControllerAdmin
 {
@@ -29,7 +29,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncCategory()
 	{
@@ -42,7 +42,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncManufacturer()
 	{
@@ -55,7 +55,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncShopperGroup()
 	{
@@ -68,7 +68,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncUser()
 	{
@@ -81,7 +81,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncOrderStatus()
 	{
@@ -94,7 +94,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncProduct()
 	{
@@ -107,7 +107,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function syncOrder()
 	{
@@ -122,7 +122,7 @@ class RedshopControllerImport_Vm extends RedshopControllerAdmin
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	private function sync($method = '')
 	{

@@ -131,6 +131,7 @@ class RedshopControllerUser_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelUser_detail $model */
 		$model = $this->getModel('user_detail');
 
 		if (!$model->publish($cid, 1))
@@ -152,6 +153,7 @@ class RedshopControllerUser_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelUser_detail $model */
 		$model = $this->getModel('user_detail');
 
 		if (!$model->publish($cid, 0))
@@ -199,9 +201,12 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function validation()
 	{
-		$json             = $this->input->get('json', '');
-		$decoded          = json_decode($json);
-		$model            = $this->getModel('user_detail');
+		$json    = $this->input->get('json', '');
+		$decoded = json_decode($json);
+
+		/** @var RedshopModelUser_detail $model */
+		$model = $this->getModel('user_detail');
+
 		$username         = $model->validate_user($decoded->username, $decoded->userid);
 		$email            = $model->validate_email($decoded->email, $decoded->userid);
 		$json             = array();
@@ -226,6 +231,7 @@ class RedshopControllerUser_detail extends RedshopController
 		$username = $this->input->getString('username', '');
 		$user_id  = $this->input->getInt('user_id', 0);
 
+		/** @var RedshopModelUser_detail $model */
 		$model                = $this->getModel('user_detail');
 		$usernameAvailability = $model->validate_user($username, $user_id);
 

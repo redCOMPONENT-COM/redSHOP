@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Stockroom helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Stockroom
 {
@@ -25,7 +25,7 @@ class Stockroom
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAttributePropertyWithStock($properties = array())
 	{
@@ -72,7 +72,7 @@ class Stockroom
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAttributeSubPropertyWithStock($subProperties)
 	{
@@ -105,7 +105,7 @@ class Stockroom
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceProductStockData($productId, $propertyId, $subPropertyId, $html, $stockStatuses)
 	{

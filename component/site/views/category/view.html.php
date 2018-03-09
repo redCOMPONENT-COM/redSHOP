@@ -362,8 +362,8 @@ class RedshopViewCategory extends RedshopView
 		{
 			$temps = array(
 				(object) array(
-					'manufacturer_id'   => 0,
-					'manufacturer_name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+					'id'   => 0,
+					'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
 				)
 			);
 			$manufacturers = array_merge($temps, $manufacturers);
@@ -372,8 +372,8 @@ class RedshopViewCategory extends RedshopView
 				$manufacturers,
 				'manufacturer_id',
 				'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
-				'manufacturer_id',
-				'manufacturer_name',
+				'id',
+				'name',
 				$manufacturerId
 			);
 		}

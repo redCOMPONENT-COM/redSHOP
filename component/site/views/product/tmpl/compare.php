@@ -151,7 +151,7 @@ if ($total > 0)
 		if (strstr($template, "{manufacturer_name}"))
 		{
 			$manufacturer     = RedshopEntityManufacturer::getInstance($product->manufacturer_id);
-			$manufacturerName = $manufacturer->get('manufacturer_name');
+			$manufacturerName = $manufacturer->get('name');
 			$template         = str_replace('{manufacturer_name}', $exp_div . $manufacturerName . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
 		}
 

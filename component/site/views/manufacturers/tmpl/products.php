@@ -52,7 +52,7 @@ $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
 <?php
 // Page title end
 
-$manufacturertemplate = RedshopHelperTemplate::getTemplate("manufacturer_products", $manufacturer->manufacturer_id);
+$manufacturertemplate = RedshopHelperTemplate::getTemplate("manufacturer_products", $manufacturer->id);
 
 if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
@@ -71,7 +71,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->manufacturer_id . "&print=1&tmpl=component&Itemid=" . $itemId;
+	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->id . "&print=1&tmpl=component&Itemid=" . $itemId;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
@@ -259,10 +259,10 @@ $template_desc = $template_start . $cart_mdata . $template_end;
 if (strstr($template_desc, "{manufacturer_image}"))
 {
 	$thumbImage = '';
-	$media      = RedshopEntityManufacturer::getInstance($manufacturer->manufacturer_id)->getMedia();
+	$media      = RedshopEntityManufacturer::getInstance($manufacturer->id)->getMedia();
 
 	if ($media->isValid() && !empty($media->get('media_name'))
-		&& JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->manufacturer_id . '/' . $media->get('media_name')))
+		&& JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name')))
 	{
 		$thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
 		$thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
@@ -288,31 +288,31 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$thumbHeight,
 				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
 				'manufacturer',
-				$manufacturer->manufacturer_id
+				$manufacturer->id
 			);
 		}
 
-		$altText = $media->get('media_alternate_text', $manufacturer->manufacturer_name);
+		$altText = $media->get('media_alternate_text', $manufacturer->name);
 
-		$thumbImage = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->manufacturer_id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
+		$thumbImage = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $imagePath . "'></a>";
 	}
 
 	$template_desc = str_replace("{manufacturer_image}", $thumbImage, $template_desc);
 }
 
-$manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $itemId);
+$manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->id . '&Itemid=' . $itemId);
 
-$manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $itemId);
+$manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->id . '&Itemid=' . $itemId);
 
-$template_desc = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $template_desc);
+$template_desc = str_replace("{manufacturer_name}", $manufacturer->name, $template_desc);
 
 // Extra field display
 $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
-$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->manufacturer_id, "10", $template_desc);
-$template_desc  = str_replace("{manufacturer_description}", $manufacturer->manufacturer_desc, $template_desc);
+$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->id, "10", $template_desc);
+$template_desc  = str_replace("{manufacturer_description}", $manufacturer->description, $template_desc);
 
-$manufacturer_extra_fields = RedshopHelperExtrafields::listAllFieldDisplay(10, $manufacturer->manufacturer_id);
+$manufacturer_extra_fields = RedshopHelperExtrafields::listAllFieldDisplay(10, $manufacturer->id);
 $template_desc             = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $template_desc);
 
 $template_desc = str_replace("{manufacturer_link}", $manlink, $template_desc);

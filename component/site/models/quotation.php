@@ -619,7 +619,7 @@ class RedshopModelQuotation extends RedshopModel
 		$mailbody = str_replace('{link}', $link, $mailbody);
 		$mailbody = str_replace('{username}', $name, $mailbody);
 		$mailbody = str_replace('{password}', $name, $mailbody);
-		$mailbody = RedshopHelperMail::imgInMail($mailbody);
+		Redshop\Mail\Helper::imgInMail($mailbody);
 
 		JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, null, $mailbcc);
 

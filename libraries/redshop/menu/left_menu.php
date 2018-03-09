@@ -103,6 +103,7 @@ class RedshopMenuLeft_Menu
 				return array('SHOP', 'categories');
 
 			case "manufacturer":
+			case "manufacturers":
 				return array('PRODUCT_LISTING', 'manufacturer');
 
 			case "media":
@@ -176,8 +177,8 @@ class RedshopMenuLeft_Menu
 				return array('SHIPPING', 'shipping_method');
 
 			case "shipping_box":
-			case "shipping_box_detail":
-				return array('SHIPPING', 'shipping_box');
+			case "shipping_boxes":
+				return array('SHIPPING', 'shipping_boxes');
 
 			case "wrapper":
 			case "wrapper_detail":
@@ -335,9 +336,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'product' && self::$layout == 'listing') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=manufacturer',
+				'index.php?option=com_redshop&view=manufacturers',
 				'COM_REDSHOP_MANUFACTURER_LISTING',
-				(self::$view == 'manufacturer') ? true : false
+				(self::$view == 'manufacturers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=suppliers',
@@ -528,9 +529,9 @@ class RedshopMenuLeft_Menu
 		}
 
 		self::$menu->addItem(
-			'index.php?option=com_redshop&view=shipping_box',
+			'index.php?option=com_redshop&view=shipping_boxes',
 			'COM_REDSHOP_SHIPPING_BOXES',
-			(self::$view == 'shipping_box') ? true : false
+			(self::$view == 'shipping_boxes') ? true : false
 		)
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper',

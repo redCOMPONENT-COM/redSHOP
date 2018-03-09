@@ -935,7 +935,7 @@ class RedshopHelperUtility
 		$order[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
 
 		$order[1]        = new stdClass;
-		$order[1]->value = "mn.manufacturer_id DESC";
+		$order[1]->value = "mn.id DESC";
 		$order[1]->text  = JText::_('COM_REDSHOP_NEWEST');
 
 		$order[2]        = new stdClass;

@@ -53,14 +53,14 @@ abstract class ModRedshopSearch
 		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 		$db               = JFactory::getDbo();
 		$query            = $db->getQuery(true)
-			->select($db->qn('manufacturer_id', 'value'))
-			->select($db->qn('manufacturer_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'))
 			->where($db->qn('published') . ' = 1');
 
 		if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures)
 		{
-			$query->where($db->qn('manufacturer_id') . ' IN(' . $shopperGroupData[0]->shopper_group_manufactures . ')');
+			$query->where($db->qn('id') . ' IN(' . $shopperGroupData[0]->shopper_group_manufactures . ')');
 		}
 
 		return $db->setQuery($query)->loadObjectList();

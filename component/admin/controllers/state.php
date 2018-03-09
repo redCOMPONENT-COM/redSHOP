@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * The state controller
  *
@@ -29,7 +27,7 @@ class RedshopControllerState extends RedshopControllerForm
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getModel($name = 'State', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{

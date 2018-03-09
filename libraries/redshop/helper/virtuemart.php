@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 
 defined('_JEXEC') or die;
@@ -14,21 +14,21 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Virtue Mart integrate
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class RedshopHelperVirtuemart
 {
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static $vmShopperGroups = array();
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static $shopperGroups = array();
 
@@ -39,7 +39,7 @@ class RedshopHelperVirtuemart
 	 *
 	 * @return  string        Name of virtue mart.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function getVirtuemartShopperGroups($id)
 	{
@@ -64,7 +64,7 @@ class RedshopHelperVirtuemart
 	 *
 	 * @return  string         Name of redshop shopper group.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public static function getRedshopShopperGroups($name = '')
 	{

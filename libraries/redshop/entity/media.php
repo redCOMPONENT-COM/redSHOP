@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.0
  */
 class RedshopEntityMedia extends RedshopEntity
 {
@@ -28,7 +28,7 @@ class RedshopEntityMedia extends RedshopEntity
 	 *
 	 * @return  RedshopEntity
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getSection()
 	{
@@ -45,7 +45,7 @@ class RedshopEntityMedia extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function loadSectionEntity()
 	{

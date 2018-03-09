@@ -25,8 +25,8 @@ class RedshopControllerCategory extends RedshopController
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean $cachable  If true, the view output will be cached
+	 * @param   array   $urlparams An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
@@ -34,6 +34,24 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
+		$urlparams['Itemid']           = 'INT';
+		$urlparams['cid']              = 'INT';
+		$urlparams['lang']             = 'STRING';
+		$urlparams['manufacturer_id']  = 'INT';
+		$urlparams['view']             = 'STRING';
+		$urlparams['layout']           = 'STRING';
+		$urlparams['xmlexport_id']     = 'INT';
+		$urlparams['q']                = 'STRING';
+		$urlparams['limit']            = 'UINT';
+		$urlparams['limitstart']       = 'UINT';
+		$urlparams['showall']          = 'INT';
+		$urlparams['return']           = 'BASE64';
+		$urlparams['filter']           = 'STRING';
+		$urlparams['filter_order']     = 'CMD';
+		$urlparams['filter_order_Dir'] = 'CMD';
+		$urlparams['filter-search']    = 'STRING';
+		$urlparams['print']            = 'BOOLEAN';
+
 		parent::display(true, $urlparams);
 
 		return $this;

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Cart class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Cart
 {
@@ -26,7 +26,7 @@ class Cart
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function modify($cart = array(), $userId = 0)
 	{
@@ -197,7 +197,7 @@ class Cart
 	 * @return  mixed         True on success. Error message string if fail.
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function addProduct($data = array())
 	{
@@ -264,7 +264,7 @@ class Cart
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function addGiftCardProduct(&$cart, $idx, $data = array())
 	{
@@ -325,7 +325,7 @@ class Cart
 	 * @return  mixed
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function addNormalProduct(&$cart, $idx, $data = array())
 	{

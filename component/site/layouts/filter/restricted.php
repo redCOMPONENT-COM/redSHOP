@@ -48,16 +48,16 @@ extract($displayData);
 					<?php foreach ($manufacturers as $m => $manu) : ?>
                         <li style="list-style: none">
                             <label>
-								<span class='taginput' data-aliases='manu-<?php echo $manu->manufacturer_id; ?>'>
+								<span class='taginput' data-aliases='manu-<?php echo $manu->id; ?>'>
 								<input type="checkbox" name="redform[manufacturer][]"
-                                       value="<?php echo $manu->manufacturer_id ?>"
-									<?php if (in_array($manu->manufacturer_id, $manufacturersValue)) : ?>
+                                       value="<?php echo $manu->id ?>"
+									<?php if (in_array($manu->id, $manufacturersValue)) : ?>
 										<?php echo "checked='checked'"; ?>
 									<?php endif; ?>
                                        onchange="javascript:submitform(this)"
                                 >
 								</span>
-                                <span class='tagname'><?php echo $manu->manufacturer_name; ?></span>
+                                <span class='tagname'><?php echo $manu->name; ?></span>
                             </label>
                         </li>
 					<?php endforeach; ?>

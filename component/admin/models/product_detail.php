@@ -301,7 +301,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
-		if (isset($data['image_delete']) || !empty($file['name']) || $data['product_full_image'] != null)
+		if (isset($data['image_delete']) || !empty($file['name']) || !empty($data['product_full_image']))
 		{
 			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image']);
 
@@ -330,45 +330,23 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if (isset($data['product_full_image_delete']))
+		if (isset($data['product_full_image_delete']) && boolval($data['product_full_image_delete']) === true)
 		{
-			$row->product_thumb_image = '';
-
-			if (!empty($data['product_full_image']))
+			if (!empty($row->product_full_image))
 			{
-				$oldImage = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image']);
+				$oldImage = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $row->product_full_image);
 
 				if (JFile::exists($oldImage))
 				{
 					JFile::delete($oldImage);
 				}
 			}
+
+			$row->product_full_image = '';
 		}
 
-		if (!empty($file['name']))
-		{
-			$filename                = RedshopHelperMedia::cleanFileName($file['name'], $row->product_id);
-			$row->product_full_image = $filename;
-
-			// Image Upload
-			$src  = $file['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
-
-			JFile::upload($src, $dest);
-		}
-		elseif ($data['product_full_image'] != null)
-		{
-			$filename                = basename($data['product_full_image']);
-			$row->product_full_image = $filename;
-
-			$src  = JPATH_ROOT . '/' . $data['product_full_image'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
-
-			if (JFile::exists($src))
-			{
-				JFile::copy($src, $dest);
-			}
-		}
+		// Media: Store product full image
+		$mediaFullImage = $this->storeMedia($row, 'product_full_image');
 
 		if (isset($data['back_thumb_image_delete']))
 		{
@@ -499,6 +477,19 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		$dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
+
+		// Upgrade media reference Id if needed
+		if ($isNew && $mediaFullImage !== false)
+		{
+			/** @var Tablemedia_detail $mediaTable */
+			$mediaTable = $this->getTable('media_detail');
+
+			if ($mediaTable->load($mediaFullImage))
+			{
+				$mediaTable->set('section_id', $row->product_id);
+				$mediaTable->store();
+			}
+		}
 
 		if (isset($data['copy_attribute']))
 		{
@@ -1790,8 +1781,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->table_prefix . 'manufacturer
-				  WHERE published=1 ORDER BY `manufacturer_name`';
+		$query = 'SELECT id as value,name as text FROM ' . $this->table_prefix . 'manufacturer
+				  WHERE published=1 ORDER BY `name`';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -4854,5 +4845,102 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method for store media.
+	 *
+	 * @param   object   $row         Product data
+	 * @param   string   $mediaField  Media field name
+	 *
+	 * @return  boolean|integer       Id of media row if success. False otherwise.
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	protected function storeMedia($row, $mediaField = 'product_full_image')
+	{
+		$input    = JFactory::getApplication()->input;
+		$dropzone = $input->post->get('dropzone', array(), 'array');
+		$dropzone = isset($dropzone[$mediaField]) ? $dropzone[$mediaField] : null;
+
+		$dropzoneAlternateText = $input->post->get('dropzone_alternate_text', array(), '');
+		$dropzoneAlternateText = isset($dropzoneAlternateText[$mediaField]) ? $dropzoneAlternateText[$mediaField] : null;
+
+		if (null === $dropzone || empty($dropzone))
+		{
+			return false;
+		}
+
+		$mediaId = false;
+
+		foreach ($dropzone as $key => $value)
+		{
+			/** @var RedshopTableMedia $mediaTable */
+			$mediaTable = JTable::getInstance('Media', 'RedshopTable');
+
+			if (strpos($key, 'media-') !== false)
+			{
+				$mediaTable->load(str_replace('media-', '', $key));
+
+				// Delete old image.
+				$oldMediaFile = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaTable->media_name);
+
+				if (JFile::exists($oldMediaFile))
+				{
+					JFile::delete($oldMediaFile);
+				}
+
+				if (empty($value))
+				{
+					$mediaTable->delete();
+
+					continue;
+				}
+			}
+			else
+			{
+				if (!empty($row->product_id))
+				{
+					$mediaTable->set('section_id', $row->product_id);
+				}
+
+				$mediaTable->set('media_section', 'product');
+			}
+
+			if (!JFile::exists(JPATH_ROOT . '/' . $value))
+			{
+				continue;
+			}
+
+			$alternateText = isset($dropzoneAlternateText[$key]) ? $dropzoneAlternateText[$key] : $row->product_name;
+
+			$mediaTable->set('media_alternate_text', $alternateText);
+			$mediaTable->set('media_type', 'images');
+			$mediaTable->set('published', 1);
+
+			// Copy new image for this media
+			$fileName = basename($value);
+			$file     = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+
+			JFile::move(JPATH_ROOT . '/' . $value, $file);
+
+			$mediaTable->set('media_name', $fileName);
+
+			if (!$mediaTable->store())
+			{
+				continue;
+			}
+
+			$mediaId            = (int) $mediaTable->media_id;
+			$row->{$mediaField} = $fileName;
+
+				// Optimize image
+			$factory   = new \ImageOptimizer\OptimizerFactory;
+			$optimizer = $factory->get();
+			$optimizer->optimize($file);
+		}
+
+		return $mediaId;
 	}
 }

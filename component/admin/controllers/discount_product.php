@@ -27,7 +27,7 @@ class RedshopControllerDiscount_Product extends RedshopControllerForm
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getModel($name = 'Discount_Product', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{

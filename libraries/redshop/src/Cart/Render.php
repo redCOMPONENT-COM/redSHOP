@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Render class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Render
 {
@@ -37,7 +37,7 @@ class Render
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replace($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0, $content = "", $isChild = false, $userFields = array(), $totalAttr = 0, $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0, $giftcardId = 0)
 	{

@@ -161,7 +161,7 @@ class RedshopTableCategory extends RedshopTableNested
 	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
 	 * @return  boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function doStore($updateNulls = false)
 	{
@@ -199,7 +199,7 @@ class RedshopTableCategory extends RedshopTableNested
 	 * @return  boolean  True on success.
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function doCheck()
 	{

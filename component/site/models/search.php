@@ -318,7 +318,7 @@ class RedshopModelSearch extends RedshopModel
 				->select($db->qn('c.id', 'category_id'))
 				->select($db->qn('c.name', 'category_name'))
 				->leftJoin('#__redshop_category AS c ON c.id = pc.category_id')
-				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+				->leftJoin('#__redshop_manufacturer AS m ON m.id = p.manufacturer_id');
 
 			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
@@ -448,7 +448,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query = $db->getQuery(true)
 				->select('DISTINCT(p.product_id)')
-				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id')
+				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.id = p.manufacturer_id')
 				->order($db->escape($orderBy));
 		}
 
@@ -1155,8 +1155,8 @@ class RedshopModelSearch extends RedshopModel
 		// Sanitize ids
 		$mids = ArrayHelper::toInteger($mids);
 
-		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
-			. "WHERE manufacturer_id IN ('" . implode(",", $mids) . "')";
+		$query = "SELECT id AS value,name AS text FROM #__redshop_manufacturer "
+			. "WHERE id IN ('" . implode(",", $mids) . "')";
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
@@ -1373,10 +1373,9 @@ class RedshopModelSearch extends RedshopModel
 			$search = $db->q('%' . $db->escape(trim($keyword, true) . '%'));
 			$query->leftJoin(
 				$db->qn('#__redshop_manufacturer', 'm') . ' ON '
-				. $db->qn('m.manufacturer_id') . ' = '
-				. $db->qn('p.manufacturer_id')
+				. $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id')
 			)
-				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
+				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.name') . ' LIKE ' . $search . ')');
 		}
 
 		$catList  = RedshopHelperCategory::getCategoryListArray($categoryForSale);

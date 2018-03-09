@@ -16,7 +16,7 @@ use \JText;
 /**
  * Product property helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Property
 {
@@ -35,7 +35,7 @@ class Property
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceAddToCart($productId = 0, $propertyId = 0, $categoryId = 0, $commonId = "", $propertyStock = 0, $propertyData = "", $cartTemplate = null, $content = "")
 	{

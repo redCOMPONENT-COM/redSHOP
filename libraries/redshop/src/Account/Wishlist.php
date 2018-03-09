@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Account wishlist
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Wishlist
 {
@@ -26,7 +26,7 @@ class Wishlist
 	 * @return  boolean
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function send($post)
 	{
