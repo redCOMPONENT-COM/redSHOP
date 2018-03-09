@@ -148,7 +148,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
 }
 
-$template_desc = $carthelper->replaceLabel($template_desc);
+$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
 
 if (strstr($template_desc, "{pagination}"))
 {
