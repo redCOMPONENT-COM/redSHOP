@@ -1842,7 +1842,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $orderItemId  Order Item ID
 	 *
-	 * @return  null/array
+	 * @return  null|array
 	 *
 	 * @since   2.0.3
 	 */

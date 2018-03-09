@@ -265,7 +265,7 @@ class Quotation
 		$message = str_replace('{total_lbl}', $totalLbl, $message);
 		$message = str_replace('{quotation_subtotal_lbl}', $subTotalLbl, $message);
 		$message = str_replace('{quotation_vat_lbl}', $vatLbl, $message);
-		$message = \rsCarthelper::getInstance()->replaceLabel($message);
+		$message = \Redshop\Cart\Render\Label::replace($message);
 
 		$search[]  = "{quotation_note}";
 		$replace[] = $quotation->quotation_note;

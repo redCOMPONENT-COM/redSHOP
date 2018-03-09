@@ -70,7 +70,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_desc   = $template_start . $template_middle . $template_end;
 }
 
-$template_desc = $carthelper->replaceLabel($template_desc);
+$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
 
 if ($user->id)
 {
