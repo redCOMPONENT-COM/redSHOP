@@ -351,6 +351,11 @@ class RedshopHelperExtrafields
 	public static function getDataByName($name, $section, $sectionItem)
 	{
 		// Get Field id
+		if (!self::getField($name))
+		{
+			return null;
+		}
+
 		$fieldId = self::getField($name)->id;
 
 		return self::getData($fieldId, $section, $sectionItem);
