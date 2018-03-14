@@ -1272,6 +1272,8 @@ class RedshopModelSearch extends RedshopModel
 			}
 		}
 
+		$this->preprocessData($this->context, $data);
+
 		return $data;
 	}
 
