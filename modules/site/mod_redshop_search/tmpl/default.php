@@ -146,7 +146,7 @@ if ($enableAjaxsearch)
 
 			urlArgstring = urlArg.join('&');
 			new bsn.AutoSuggest('keyword', {
-				script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
+				script: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
 				varname: 'keyword',
 				json: true,
 				cache: false,
