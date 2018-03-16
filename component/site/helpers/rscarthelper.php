@@ -249,7 +249,7 @@ class rsCarthelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Redshop\Cart\Render\Label::replace
+	 * @deprecated 2.1.0 Redshop\Cart\Render\Label::replace
 	 * @see Redshop\Cart\Render\Label::replace
 	 */
 	public function replaceLabel($data)
