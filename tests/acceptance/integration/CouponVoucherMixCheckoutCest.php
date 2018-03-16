@@ -27,7 +27,7 @@ class CouponCheckoutMixCheckoutCest
 	 */
 	public function __construct()
 	{
-		$this->faker               = Faker\Factory::create();
+        $this->faker               = Faker\Factory::create();
 		$this->dataCoupon = array();
 		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
 		$this->dataCoupon['type']        = 'Total';

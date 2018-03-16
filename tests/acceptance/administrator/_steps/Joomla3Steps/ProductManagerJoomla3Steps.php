@@ -393,6 +393,51 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
 
+
+	/**
+	 * @param       $productName
+	 * @param       $category
+	 * @param       $productNumber
+	 * @param       $price
+	 * @param array $attributes
+	 *
+	 * @throws \Exception
+	 */
+	public function productMultiAttribute($productName, $category, $productNumber, $price, $attributes = array())
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->waitForElement(ProductManagerPage::$productPrice, 30);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+
+		$length = count($attributes);
+		$I->wantToTest($length);
+
+		for($x = 0;  $x < $length; $x ++ )
+		{
+
+			$position = $x+1;
+			$I->click(ProductManagerPage::$addAttribute);
+			$attribute  = $attributes[$x];
+			$I->fillField($usePage->addAttributeName($position), $attribute['name']);
+			$I->attributeValueProperty($position, $attribute['attributeName'], $attribute['attributePrice']);
+		}
+
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
 	public function deleteAttributeValue($productName)
 	{
 		$I = $this;
@@ -500,6 +545,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\ProductManagerPage::$messageSaveSuccess, 30, \ProductManagerPage::$selectorSuccess);
 	}
 
+
 	// The test case for product used stockroom
 
 	private function selectRelatedProduct($relatedProduct)
@@ -511,4 +557,14 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($usePage->returnChoice($relatedProduct), 60);
 		$I->click($usePage->returnChoice($relatedProduct));
 	}
+
+	public function attributeValueProperty($position, $name, $price)
+	{
+		$I = $this;
+		$usePage = new ProductManagerPage();
+
+		$I->fillField($usePage->attributeNameProperty($position), $name);
+		$I->fillField($usePage->attributePriceProperty($position), $price);
+    }
+
 }

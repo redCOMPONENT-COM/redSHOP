@@ -7,21 +7,37 @@ class ShopperGroupCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
+
 		$this->shopperName = $this->faker->bothify(' Testing shopper ##??');
+
 		$this->shopperNameSaveClose = $this->faker->bothify(' Name Close ##??');
+
 		$this->shopperType = 'Default Private';
+
 		$this->categoryName = 'Testing Category ' . $this->faker->randomNumber();
+
 		$this->customerType = 'Company customer';
+
 		$this->shippingRate = $this->faker->numberBetween(1, 100);
+
 		$this->shippingCheckout = $this->faker->numberBetween(1, 100);
+
 		$this->catalog = 'Yes';
+
 		$this->showPrice = 'Yes';
+
 		$this->nameShopperEdit = $this->shopperType . 'edit';
+
 		$this->idShopperChange = '1';
-		$this->shipping='no';
-		$this->enableQuotation='yes';
-		$this->showVat='no';
-		$this->shopperGroupPortal='no';
+
+		$this->shipping = 'no';
+
+		$this->enableQuotation = 'yes';
+
+		$this->showVat = 'no';
+
+		$this->shopperGroupPortal = 'no';
+
 
 	}
 

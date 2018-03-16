@@ -183,6 +183,28 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $idCompanyLastName = ['xpath' => '//input[@id=\'company-lastname\']'];
 
+	/**
+	 * @param $position
+	 *
+	 * @return array
+	 */
+	public function attributeDropdown($position)
+	{
+		$xpath = ['xpath' => '//span[@id=\'select2-chosen-'.$position.'\']'];
+
+		return $xpath;
+	}
+
+	public function attributeDropdownSeach($position)
+	{
+		$xpath = ['xpath' => '//input[@id=\'s2id_autogen'.$position.'_search\']'];
+
+		return $xpath;
+	}
+	/**
+	 * @var array
+	 */
+	public static $attributeSearchFirst = ['xpath' => '//input[@id=\'s2id_autogen1_search\']'];
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
