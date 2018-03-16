@@ -5,7 +5,25 @@
 namespace AcceptanceTester;
 class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-    public function addShopperGroups($shopperName, $shopperType, $shopperCustomer,$shopperGroupPortal, $category, $shipping,$shippingRate, $shippingCheckout, $showVat, $catalog, $showPrice, $enableQuotation,$function)
+	/**
+	 * @param $shopperName
+	 * @param $shopperType
+	 * @param $shopperCustomer
+	 * @param $shopperGroupPortal
+	 * @param $category
+	 * @param $shipping
+	 * @param $shippingRate
+	 * @param $shippingCheckout
+	 * @param $showVat
+	 * @param $catalog
+	 * @param $showPrice
+	 * @param $enableQuotation
+	 * @param $function
+	 *
+	 * @throws \Exception
+	 */
+	public function addShopperGroups($shopperName, $shopperType, $shopperCustomer, $shopperGroupPortal, $category,
+	                                    $shipping, $shippingRate, $shippingCheckout, $showVat, $catalog, $showPrice, $enableQuotation, $function)
     {
         $I = $this;
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
@@ -22,14 +40,15 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\ShopperGroupJ3Page::$customerType);
         $I->waitForElement(\ShopperGroupJ3Page::$customerTypeSearch);
         $I->fillField(\ShopperGroupJ3Page::$customerTypeSearch, $shopperCustomer);
-        $I->pressKey(\ShopperGroupJ3Page::$customerTypeSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->pressKey(\ShopperGroupJ3Page::$customerTypeSearch,
+	        \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
         if ($shopperGroupPortal=='yes'){
             $I->click(\ShopperGroupJ3Page::$shopperGroupPortalYes);
         }else{
             $I->click(\ShopperGroupJ3Page::$shopperGroupPortalNo);
         }
         $I->click(\ShopperGroupJ3Page::$categoryFiled);
-       
+
         $I->fillField(\ShopperGroupJ3Page::$categoryFill, $category);
         $I->pressKey(\ShopperGroupJ3Page::$categoryFill, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->waitForElement(\ShopperGroupJ3Page::$shippingYes,30);
@@ -46,19 +65,26 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $I->click(\ShopperGroupJ3Page::$vatNo);
         }
         $I->click(\ShopperGroupJ3Page::$showPrice);
-        $I->waitForElement(\ShopperGroupJ3Page::$showPriceSearch);
+        $I->waitForElement(\ShopperGroupJ3Page::$showPriceSearch, 30);
         $I->fillField(\ShopperGroupJ3Page::$showPriceSearch, $showPrice);
         $I->pressKey(\ShopperGroupJ3Page::$showPriceSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->click(\ShopperGroupJ3Page::$catalogId);
-        $I->waitForElement(\ShopperGroupJ3Page::$catalogSearch);
-        $I->fillField(\ShopperGroupJ3Page::$catalogSearch, $catalog);
-        $I->pressKey(\ShopperGroupJ3Page::$catalogSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+        if($catalog != null){
+            $I->click(\ShopperGroupJ3Page::$catalogId);
+            $I->waitForElement(\ShopperGroupJ3Page::$catalogSearch);
+            $I->fillField(\ShopperGroupJ3Page::$catalogSearch, $catalog);
+	        $I->pressKey(\ShopperGroupJ3Page::$catalogSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        }
+
+
         if($enableQuotation=='yes'){
             $I->click(\ShopperGroupJ3Page::$quotationYes);
         }else{
             $I->click(\ShopperGroupJ3Page::$quoationNo);
         }
+
         $I->click(\ShopperGroupJ3Page::$publishYes);
+
         switch ($function){
             case 'save':
                 $I->click(\ShopperGroupJ3Page::$buttonSave);
@@ -76,7 +102,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
-       
+
         $I->click(\ShopperGroupJ3Page::$shopperFirstStatus);
     }
     public function changeStateShopperGroup($status){
@@ -100,7 +126,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
-       
+
         $I->click(\ShopperGroupJ3Page::$nameShopperGroupsFirst);
         $URLEdit = \ShopperGroupJ3Page::$URLEdit . $idShopperGroups;
         $I->amOnPage($URLEdit);
@@ -126,7 +152,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\ShopperGroupJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
-       
+
         $I->click(\ShopperGroupJ3Page::$shopperFirst);
         $I->click(\ShopperGroupJ3Page::$buttonDelete);
         $I->cancelPopup();

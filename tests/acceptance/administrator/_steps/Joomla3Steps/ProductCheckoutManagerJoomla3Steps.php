@@ -720,16 +720,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
@@ -788,4 +785,33 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->seeElement(['link' => $productName]);
 	}
+
+	public function checkoutAttributeShopperUser($userName, $product,$attributes = array(), $category, $subTotal, $vatPrice, $total, $shipping)
+    {
+		$I = $this;
+		$I->doFrontEndLogin($userName, $userName);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($category));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($product));
+		$length = count($attributes);
+		$I->wantToTest($length);
+		$usePage = new \FrontEndProductManagerJoomla3Page();
+		$attribute  = $attributes[0];
+		$I->waitForElement($usePage->attributeDropdown(1), 30);
+		$I->click($usePage->attributeDropdown(1));
+		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
+		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
+		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
+			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $product]);
+	    $I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+	    $I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
+	    $I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+    }
 }
