@@ -29,7 +29,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $productList = "//div[@id='redcatproducts']";
 
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
-	
+
 	public static $addToCompare = ['xpath' => '//label[@class=\'checkbox\']'];
 
 	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
@@ -38,7 +38,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 
-	public static $alterOutOfStock="Sorry, This product is out of stock....";
+	public static $alterOutOfStock = "Sorry, This product is out of stock....";
 
 	public static $addQuotationSuccess = 'Quotation detail has been sent successfully';
 
@@ -47,9 +47,9 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $headBilling = 'Billing Address Information';
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
-	
+
 	public static $addressEmail = "#private-email1";
-	
+
 	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
 
 	public static $addressFirstName = "//input[@id='private-firstname']";
@@ -79,7 +79,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $shippingCity = "//input[@id='city_ST']";
 
 	public static $countryId = ['id' => 'rs_country_country_code'];
-	
+
 	public static $selectSecondCountry = ['xpath' => '//select[@id=\'rs_country_country_code\']/option[2]'];
 
 	public static $shippingCountry = "//select[@id='country_code_ST']";
@@ -142,7 +142,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 */
 	public static $idCompanyAddressOnePage = ['xpath' => '//input[@id=\'company-address\']'];
-	
+
 	/**
 	 * @var array
 	 */
@@ -176,12 +176,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $idCompanyFirstName  =   ['xpath' => '//input[@id=\'company-firstname\']'];
+	public static $idCompanyFirstName = ['xpath' => '//input[@id=\'company-firstname\']'];
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyLastName  =   ['xpath' => '//input[@id=\'company-lastname\']'];
+	public static $idCompanyLastName = ['xpath' => '//input[@id=\'company-lastname\']'];
 
 
 	/**
@@ -228,6 +228,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @param $productName
+	 *
 	 * @return string
 	 */
 	public function productName($productName)

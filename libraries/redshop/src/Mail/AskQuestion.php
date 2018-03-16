@@ -101,12 +101,7 @@ class AskQuestion
 
 		Helper::imgInMail($dataAdd);
 
-		if ($email && Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args()))
-		{
-			return true;
-		}
-
-		return false;
+		return $email && Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args());
 	}
 
 	/**

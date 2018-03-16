@@ -32,7 +32,7 @@ class RedshopEconomic
 	 *
 	 * @var  \JEventDispatcher
 	 */
-	public static $dispatcher = null;
+	public static $dispatcher;
 
 	/**
 	 * Import Stock from Economic
@@ -1666,7 +1666,7 @@ class RedshopEconomic
 							$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $orderId . '.pdf';
 							\JFile::write($file, $bookInvoicePdf);
 
-							if (JFile::exists($file))
+							if (\JFile::exists($file))
 							{
 								self::updateBookInvoice($orderId);
 							}

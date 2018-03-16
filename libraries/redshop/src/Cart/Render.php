@@ -219,10 +219,8 @@ class Render
 
 						break;
 					}
-					else
-					{
-						$propertyIds[] = $attributeProperties->property_id;
-					}
+
+					$propertyIds[] = $attributeProperties->property_id;
 				}
 
 				if (!$isStockExist)
@@ -292,18 +290,16 @@ class Render
 						{
 							break;
 						}
-						else
-						{
-							$isPropertyStockExist = \RedshopHelperStockroom::isPreorderStockExists(
-								$attributeProperty->property_id,
-								"property"
-							);
 
-							if ($isPropertyStockExist)
-							{
-								$isPreorderStockExists = $isPropertyStockExist;
-								break;
-							}
+						$isPropertyStockExist = \RedshopHelperStockroom::isPreorderStockExists(
+							$attributeProperty->property_id,
+							"property"
+						);
+
+						if ($isPropertyStockExist)
+						{
+							$isPreorderStockExists = $isPropertyStockExist;
+							break;
 						}
 					}
 				}
@@ -931,7 +927,7 @@ class Render
 			else
 			{
 				$cartIconPreorder = '<span class="preordercart_order_m" id="preordercart' . $stockId . '" ' . $preOrderStyle
-					. '><a href="javascript:;" ' . $onclick . '>' . \JTEXT::_('COM_REDSHOP_PREORDER_BTN') . '</a></span>';
+					. '><a href="javascript:;" ' . $onclick . '>' . \JText::_('COM_REDSHOP_PREORDER_BTN') . '</a></span>';
 			}
 
 			$cartForm = str_replace(

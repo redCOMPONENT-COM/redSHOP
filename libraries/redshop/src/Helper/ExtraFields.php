@@ -128,8 +128,7 @@ class ExtraFields
 			$templateIfMain    = $templateEndData[0];
 			$hasIfTag          = true;
 
-			unset($templateEndData);
-			unset($templateStartData);
+			unset($templateEndData, $templateStartData);
 		}
 
 		if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication()->isClient('site')))
