@@ -36,9 +36,9 @@ class RedshopControllerPrices_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$product_id           = $this->input->get('product_id');
-		$price_quantity_start = $this->input->get('price_quantity_start');
-		$price_quantity_end   = $this->input->get('price_quantity_end');
+		$productId           = $this->input->get('product_id');
+		$priceQuantityStart = $this->input->get('price_quantity_start');
+		$priceQuantityEnd   = $this->input->get('price_quantity_end');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate']            = time();
@@ -58,7 +58,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 		$row = $model->store($post);
 
-		if ($price_quantity_start == 0 && $price_quantity_end == 0)
+		if ($priceQuantityStart == 0 && $priceQuantityEnd == 0)
 		{
 			if ($row)
 			{
@@ -71,7 +71,7 @@ class RedshopControllerPrices_detail extends RedshopController
 		}
 		else
 		{
-			if ($price_quantity_start < $price_quantity_end)
+			if ($priceQuantityStart < $priceQuantityEnd)
 			{
 				if ($row)
 				{
@@ -90,15 +90,17 @@ class RedshopControllerPrices_detail extends RedshopController
 
 		if ($apply == 0)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
+
+			return;
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $product_id . '&cid[]=' . $row->price_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $productId . '&cid[]=' . $row->price_id, $msg);
 	}
 
 	public function remove()
 	{
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -115,14 +117,14 @@ class RedshopControllerPrices_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
 	}
 
 	public function cancel()
 	{
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
 	}
 }
