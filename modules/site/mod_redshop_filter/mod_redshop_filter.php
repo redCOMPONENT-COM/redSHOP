@@ -48,8 +48,8 @@ if (!empty($cid))
 	foreach ($productList as $k => $value)
 	{
 		$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
-		$catList = array_merge($catList, $tmpCategories);
-		$pids[]  = $value->product_id;
+		$catList       = array_merge($catList, $tmpCategories);
+		$pids[]        = $value->product_id;
 
 		if ($value->manufacturer_id && $value->manufacturer_id != $mid)
 		{
@@ -66,15 +66,8 @@ elseif (!empty($mid))
 {
 	$manufacturerModel = JModelLegacy::getInstance('Manufacturers', 'RedshopModel');
 	$manufacturerModel->setId($mid);
-	$products = $manufacturerModel->getManufacturerProducts();
-	$productList = array();
-
-	foreach ($products as $key => $product)
-	{
-		$detail = RedshopHelperProduct::getProductById($product->product_id);
-		$productList[] = $detail;
-	}
-
+	$products      = $manufacturerModel->getManufacturerProducts();
+	$productList   = RedshopHelperProduct::getProductsByIds($products);
 	$manufacturers = array();
 	$pids          = ModRedshopFilter::getProductByManufacturer($mid);
 	$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory);
@@ -86,14 +79,7 @@ elseif ($view == 'search')
 	$modelSearch = JModelLegacy::getInstance("Search", "RedshopModel");
 	$query       = $modelSearch->_buildQuery($input->post->getArray());
 	$productIds  = $db->setQuery($query)->loadColumn();
-	$productList = array();
-
-	foreach ($productIds as $key => $product)
-	{
-		$detail = RedshopHelperProduct::getProductById($product);
-		$productList[] = $detail;
-	}
-
+	$productList = RedshopHelperProduct::getProductsByIds($productIds);
 	$manuList    = array();
 	$catList     = array();
 	$pids        = array();
@@ -101,8 +87,8 @@ elseif ($view == 'search')
 	foreach ($productList as $k => $value)
 	{
 		$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
-		$catList = array_merge($catList, $tmpCategories);
-		$pids[]  = $value->product_id;
+		$catList       = array_merge($catList, $tmpCategories);
+		$pids[]        = $value->product_id;
 
 		if ($value->manufacturer_id && $value->manufacturer_id != $mid)
 		{
@@ -125,7 +111,8 @@ $pids = array_filter(array_unique($pids));
 if ($enablePrice)
 {
 	JHtml::stylesheet('mod_redshop_filter/jquery-ui.min.css', false, true);
-	/** @scrutinizer ignore-deprecated */JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
+	/** @scrutinizer ignore-deprecated */
+	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
 }
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
