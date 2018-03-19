@@ -320,6 +320,8 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
+		JPluginHelper::importPlugin('redshop_product');
+
 		$db      = JFactory::getDbo();
 		$user    = JFactory::getUser();
 		$orderBy = $this->buildProductOrderBy();
@@ -388,6 +390,8 @@ class RedshopModelCategory extends RedshopModel
 			$finderCondition = str_replace("AND", "", $finderCondition);
 			$query->where($finderCondition);
 		}
+
+		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
 
 		$queryCount = clone $query;
 		$queryCount->clear('select')->clear('group')
