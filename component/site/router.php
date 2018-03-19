@@ -26,6 +26,7 @@ class RedshopRouter extends JComponentRouterBase
 	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array          The URL arguments to use to assemble the subsequent URL.
+	 * @throws  Exception
 	 */
 	public function build(&$query)
 	{

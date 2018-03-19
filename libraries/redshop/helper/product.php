@@ -80,7 +80,7 @@ class RedshopHelperProduct
 	 * @param   int      $userId      User id
 	 * @param   boolean  $setRelated  Is need to set related or not
 	 *
-	 * @return  mixed
+	 * @return  array
 	 * @throws  Exception
 	 *
 	 * @since   2.1.0
