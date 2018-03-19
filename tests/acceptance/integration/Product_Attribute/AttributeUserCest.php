@@ -157,6 +157,8 @@ class AttributeUserCest
 	/**
 	 * @param AcceptanceTester $client
 	 * @param                  $scenario
+	 *
+	 * @throws Exception
 	 */
 	public function checkoutWithAttributeProduct(AcceptanceTester $client, $scenario)
 	{
