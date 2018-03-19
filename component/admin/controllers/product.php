@@ -233,7 +233,7 @@ class RedshopControllerProduct extends RedshopController
 		$model->saveDiscountPrices($productIds, $discountPrices);
 		$msg   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
 
-		if (!$model->savePrices($productIds, $discountPrices))
+		if (!$model->saveDiscountPrices($productIds, $discountPrices))
 		{
 			$msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
 		}
