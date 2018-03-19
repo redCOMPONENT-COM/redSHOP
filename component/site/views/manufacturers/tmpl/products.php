@@ -215,7 +215,7 @@ if ($template_middle != "")
 			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH');
 		}
 
-		$prod_thumb_image = $producthelper->getProductImage($manufacturer_products[$i]->product_id, $link, $w_thumb, $h_thumb);
+		$prod_thumb_image = Redshop\Product\Image\Image::getImage($manufacturer_products[$i]->product_id, $link, $w_thumb, $h_thumb);
 		$cart_mdata       = str_replace($tag, $prod_thumb_image, $cart_mdata);
 		$redmore          = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$cart_mdata       = str_replace("{read_more}", $redmore, $cart_mdata);

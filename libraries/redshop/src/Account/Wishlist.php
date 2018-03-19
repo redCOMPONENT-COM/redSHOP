@@ -99,7 +99,7 @@ class Wishlist
 
 				$productName = $row->product_name;
 				$link        = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $itemId, false);
-				$thumbImage  = $productHelper->getProductImage(
+				$thumbImage  = Redshop\Product\Image\Image::getImage(
 					$row->product_id,
 					$link,
 					\Redshop::getConfig()->get('THUMB_WIDTH'),
@@ -171,7 +171,7 @@ class Wishlist
 					true,
 					-1
 				);
-				$thumbImage   = \productHelper::getInstance()->getProductImage($row->product_id, $link, $thumbWidth, $thumbHeight);
+				$thumbImage   = \Redshop\Product\Image\Image::getImage($row->product_id, $link, $thumbWidth, $thumbHeight);
 				$productName  = $row->product_name;
 				$wishlistData = str_replace($tag, $thumbImage, $wishlistDescription);
 				$wishlistData = str_replace('{product_name}', $productName, $wishlistData);

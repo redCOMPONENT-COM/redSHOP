@@ -64,7 +64,7 @@ if (count($relptemplate) > 0)
 		}
 
 		$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='" . $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='" . $rph_thumb . "'>";
-		$relimage              = $producthelper->getProductImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
+		$relimage              = Redshop\Product\Image\Image::getImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
 		$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
 
 		if (strstr($related_template_data, "{relproduct_link}"))

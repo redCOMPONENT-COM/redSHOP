@@ -187,7 +187,7 @@ function display_products($rows)
 			if ($row->product_full_image)
 			{
 				echo $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'>" .
-					$thum_image = $producthelper->getProductImage($row->product_id, $link, "85", "63") . "</div></div>";
+					$thum_image = Redshop\Product\Image\Image::getImage($row->product_id, $link, "85", "63") . "</div></div>";
 			}
 			else
 			{
@@ -265,7 +265,7 @@ function display_products($rows)
 
 			if ($row->product_full_image)
 			{
-				$thum_image    = $producthelper->getProductImage($row->product_id, $link, $pw_thumb, $ph_thumb);
+				$thum_image    = Redshop\Product\Image\Image::getImage($row->product_id, $link, $pw_thumb, $ph_thumb);
 				$wishlist_data = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
 			}
 			else
