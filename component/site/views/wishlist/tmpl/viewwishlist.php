@@ -186,13 +186,13 @@ function display_products($rows)
 
 			if ($row->product_full_image)
 			{
-				echo $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'>" .
-					$thum_image = Redshop\Product\Image\Image::getImage($row->product_id, $link, "85", "63") . "</div></div>";
+				echo "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'>"
+					. Redshop\Product\Image\Image::getImage($row->product_id, $link, "85", "63") . "</div></div>";
 			}
 			else
 			{
 				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
-				echo  $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
+				echo "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
 			}
 
 			echo "<div class='wishlist_center'><div class='wishlist_title'><a href='" . $link . "'>" . $row->product_name . "</a></div><br>";

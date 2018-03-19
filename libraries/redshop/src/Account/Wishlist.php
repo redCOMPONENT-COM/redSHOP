@@ -30,16 +30,15 @@ class Wishlist
 	 */
 	public static function send($post)
 	{
-		$userId        = \JFactory::getUser()->id;
-		$wishlistId    = \JFactory::getApplication()->input->getInt('wishlist_id');
-		$emailTo       = $post['emailto'];
-		$sender        = $post['sender'];
-		$email         = $post['email'];
-		$subject       = $post['subject'];
-		$itemId        = $post['Itemid'];
-		$db            = \JFactory::getDbo();
-		$query         = $db->getQuery(true);
-		$productHelper = \productHelper::getInstance();
+		$userId     = \JFactory::getUser()->id;
+		$wishlistId = \JFactory::getApplication()->input->getInt('wishlist_id');
+		$emailTo    = $post['emailto'];
+		$sender     = $post['sender'];
+		$email      = $post['email'];
+		$subject    = $post['subject'];
+		$itemId     = $post['Itemid'];
+		$db         = \JFactory::getDbo();
+		$query      = $db->getQuery(true);
 
 		// Get data from database if not than fetch from session
 		if ($userId && $wishlistId)
@@ -56,7 +55,7 @@ class Wishlist
 			// Add this code to send wishlist while user is not loged in ...
 			$productIds = array();
 
-			for ($index = 1; $index < $_SESSION["no_of_prod"]; $index++)
+			for ($index = 1; $index < $_SESSION['no_of_prod']; $index++)
 			{
 				$productIds[] = (int) $_SESSION['wish_' . $index]->product_id;
 			}
@@ -99,7 +98,7 @@ class Wishlist
 
 				$productName = $row->product_name;
 				$link        = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $itemId, false);
-				$thumbImage  = Redshop\Product\Image\Image::getImage(
+				$thumbImage  = \Redshop\Product\Image\Image::getImage(
 					$row->product_id,
 					$link,
 					\Redshop::getConfig()->get('THUMB_WIDTH'),
@@ -107,7 +106,7 @@ class Wishlist
 				);
 
 				$dataAdd .= $thumbImage;
-				$dataAdd .= "<div><a href='" . $link . "' >" . $productName . "</a></div>";
+				$dataAdd .= "<div><a href='" . $link . "' >" . $productName . '</a></div>';
 				$dataAdd .= '</div>';
 			}
 		}
