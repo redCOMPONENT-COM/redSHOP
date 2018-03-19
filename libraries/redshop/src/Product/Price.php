@@ -26,6 +26,8 @@ class Price
 	 * @param   integer $userId    User ID
 	 *
 	 * @return  float
+	 * @throws  \Exception
+	 *
 	 * @since   2.1.0
 	 */
 	public static function getPrice($productId, $withVAT = true, $userId = 0)

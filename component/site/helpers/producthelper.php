@@ -756,7 +756,6 @@ class productHelper
 
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$redhelper  = redhelper::getInstance();
 		$result     = RedshopHelperProduct::getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
@@ -4388,9 +4387,6 @@ class productHelper
 
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
-		$url                 = JUri::base();
-		$product             = RedshopHelperProduct::getProductById($product_id);
-		$redhelper           = redhelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';

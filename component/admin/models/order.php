@@ -508,9 +508,10 @@ class RedshopModelOrder extends RedshopModel
 	/**
 	 * Get Product weight
 	 *
-	 * @param   integer $productId Product Id
+	 * @param   integer  $productId  Product Id
 	 *
 	 * @return  integer              Product Weight
+	 * @throws  Exception
 	 */
 	public function getProductWeight($productId)
 	{
