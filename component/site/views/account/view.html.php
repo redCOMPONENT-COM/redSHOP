@@ -9,19 +9,48 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Account  view
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  View
+ * @since       1.6.0
+ */
 class RedshopViewAccount extends RedshopView
 {
 	/**
-	 * @param   string  $tpl  Layout
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * @var  mixed
+	 */
+	public $userdata;
+
+	/**
+	 * @var  Joomla\Registry\Registry
+	 */
+	public $params;
+
+	/**
+	 * Execute and display a template script.
 	 *
-	 * @return  void
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a JError object.
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		/** @var JApplicationSite $app */
+		$app    = JFactory::getApplication();
+		$input  = $app->input;
 		$params = $app->getParams('com_redshop');
 
 		RedshopHelperBreadcrumb::generate();
@@ -33,9 +62,9 @@ class RedshopViewAccount extends RedshopView
 		$model = $this->getModel();
 		$user  = JFactory::getUser();
 
-		$userdata = $model->getUserAccountInfo($user->id);
+		$userData = $model->getUserAccountInfo($user->id);
 
-		if (!count($userdata) && $layout != 'mywishlist')
+		if (!count($userData) && $layout != 'mywishlist')
 		{
 			$app->redirect(
 				JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
@@ -49,9 +78,7 @@ class RedshopViewAccount extends RedshopView
 		// Preform security checks. Give permission to send wishlist while not logged in
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail)))
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId));
-
-			return;
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
 		}
 
 		if ($layout == 'mytags')
@@ -66,11 +93,11 @@ class RedshopViewAccount extends RedshopView
 				$model->removeTag();
 			}
 
-			$maxcategory = $params->get('maxcategory', 5);
-			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = $input->getInt('limitstart', 0, '', 'int');
-			$total       = $this->get('total');
-			$pagination  = new JPagination($total, $limitstart, $limit);
+			$maxcategory      = $params->get('maxcategory', 5);
+			$limit            = $app->getUserStateFromRequest($model->context . 'limit', 'limit', $maxcategory, 5);
+			$limitstart       = $input->getInt('limitstart', 0, '', 'int');
+			$total            = $this->get('total');
+			$pagination       = new JPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
 		}
 
@@ -83,7 +110,13 @@ class RedshopViewAccount extends RedshopView
 				$usersWishlist = RedshopHelperWishlist::getUserWishlist();
 				$usersWishlist = reset($usersWishlist);
 
-				$app->redirect(JRoute::_("index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=" . $usersWishlist->wishlist_id . "&Itemid=" . $itemId));
+				$app->redirect(
+					JRoute::_(
+						"index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id="
+						. $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
+						false
+					)
+				);
 			}
 
 			// If wishlist Id is not set then redirect to it's main page
@@ -103,11 +136,11 @@ class RedshopViewAccount extends RedshopView
 				$model->removeWishlistProduct();
 			}
 
-			$maxcategory = $params->get('maxcategory', 5);
-			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = $input->getInt('limitstart', 0, '', 'int');
-			$total       = $this->get('total');
-			$pagination  = new JPagination($total, $limitstart, $limit);
+			$maxcategory      = $params->get('maxcategory', 5);
+			$limit            = $app->getUserStateFromRequest($model->context . 'limit', 'limit', $maxcategory, 5);
+			$limitstart       = $input->getInt('limitstart', 0, '', 'int');
+			$total            = $this->get('total');
+			$pagination       = new JPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
 		}
 
@@ -125,7 +158,7 @@ class RedshopViewAccount extends RedshopView
 		}
 
 		$this->user     = $user;
-		$this->userdata = $userdata;
+		$this->userdata = $userData;
 		$this->params   = $params;
 
 		parent::display($tpl);

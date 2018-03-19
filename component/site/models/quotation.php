@@ -581,6 +581,14 @@ class RedshopModelQuotation extends RedshopModel
 
 		$email = $user->email;
 
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart');
+
+		$cart['user_id']      = $user_id;
+		$user_data            = RedshopHelperUser::getUserInformation($user_id);
+		$cart['user_info_id'] = $user_data->users_info_id;
+		$quotationDetail      = $this->store($cart);
+
 		$quotation_id       = $quotationDetail->quotation_id;
 		$quotationdetailurl = JURI::root() . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr=' . $quotationDetail->quotation_encrkey;
 
@@ -604,14 +612,6 @@ class RedshopModelQuotation extends RedshopModel
 			}
 		}
 
-		$session       = JFactory::getSession();
-		$cart          = $session->get('cart');
-
-		$cart['user_id']      = $user_id;
-		$user_data            = RedshopHelperUser::getUserInformation($user_id);
-		$cart['user_info_id'] = $user_data->users_info_id;
-		$quotationDetail      = $this->store($cart);
-
 		$this->sendQuotationMail($quotationDetail->quotation_id);
 
 		$link = "<a href='" . $quotationdetailurl . "'>" . JText::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
@@ -619,7 +619,7 @@ class RedshopModelQuotation extends RedshopModel
 		$mailbody = str_replace('{link}', $link, $mailbody);
 		$mailbody = str_replace('{username}', $name, $mailbody);
 		$mailbody = str_replace('{password}', $name, $mailbody);
-		$mailbody = RedshopHelperMail::imgInMail($mailbody);
+		Redshop\Mail\Helper::imgInMail($mailbody);
 
 		JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $mailbody, 1, null, $mailbcc);
 

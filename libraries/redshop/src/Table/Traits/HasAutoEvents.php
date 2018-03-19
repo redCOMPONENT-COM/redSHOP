@@ -417,20 +417,20 @@ trait HasAutoEvents
 		}
 
 		// Auto-fill created_by and modified_by information
-		$now = \JDate::getInstance();
+		$now          = \JDate::getInstance();
 		$nowFormatted = $now->toSql();
-		$userId = \JFactory::getUser()->get('id');
+		$userId       = \JFactory::getUser()->get('id');
 
 		if (property_exists($this, 'created_by')
 			&& empty($src['created_by']) && (is_null($this->created_by) || empty($this->created_by)))
 		{
-			$src['created_by']   = $userId;
+			$src['created_by'] = $userId;
 		}
 
 		if (property_exists($this, 'created_user_id')
 			&& empty($src['created_user_id']) && empty($this->created_user_id))
 		{
-			$src['created_user_id']   = $userId;
+			$src['created_user_id'] = $userId;
 		}
 
 		if (property_exists($this, 'created_date')
@@ -449,12 +449,12 @@ trait HasAutoEvents
 
 		if (property_exists($this, 'modified_by') && empty($src['modified_by']))
 		{
-			$src['modified_by']   = $userId;
+			$src['modified_by'] = $userId;
 		}
 
 		if (property_exists($this, 'modified_user_id') && empty($src['modified_user_id']))
 		{
-			$src['modified_user_id']   = $userId;
+			$src['modified_user_id'] = $userId;
 		}
 
 		if (property_exists($this, 'modified_date')
@@ -602,16 +602,15 @@ trait HasAutoEvents
 	{
 		$instanceName   = strtolower($this->getInstanceName());
 		$instancePrefix = strtolower($this->getInstancePrefix());
-
-		$eventsPrefix = 'on' . ucfirst($instancePrefix) . 'Table';
-		$eventsSuffix = ucfirst($instanceName);
+		$eventsPrefix   = 'on' . ucfirst($instancePrefix) . 'Table';
+		$eventsSuffix   = ucfirst($instanceName);
 
 		foreach ($this->availableEvents as $eventKey => &$event)
 		{
 			if (null === $event)
 			{
 				$eventParts = explode('_', str_replace('event_', '', $eventKey));
-				$eventName = implode('', array_map("ucfirst", $eventParts));
+				$eventName  = implode('', array_map("ucfirst", $eventParts));
 
 				$event = $eventsPrefix . ucfirst($eventName) . $eventsSuffix;
 			}
@@ -813,12 +812,11 @@ trait HasAutoEvents
 		$tableFieldModifiedBy   = $tableInstance->get('_tableFieldModifiedBy');
 		$tableFieldModifiedDate = $tableInstance->get('_tableFieldModifiedDate');
 		$auditDateFormat        = $tableInstance->get('_auditDateFormat');
+		$user                   = \JFactory::getUser();
 
 		// Optional created_by field updated when present
 		if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedBy))
 		{
-			$user = \JFactory::getUser();
-
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldCreatedBy} = $user->id;
@@ -838,11 +836,6 @@ trait HasAutoEvents
 		// Optional modified_by field updated when present
 		if (property_exists($tableInstance, $tableFieldModifiedBy))
 		{
-			if (!isset($user))
-			{
-				$user = \JFactory::getUser();
-			}
-
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldModifiedBy} = $user->id;

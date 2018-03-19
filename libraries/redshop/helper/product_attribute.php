@@ -266,7 +266,7 @@ abstract class RedshopHelperProduct_Attribute
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function defaultAttributePrice($productId = 0, $showPrice = 0.0, $templateHtml = '', $userId = 0, $applyTax = 0, $attributes = array())
 	{
@@ -381,12 +381,12 @@ abstract class RedshopHelperProduct_Attribute
 	/**
 	 * Get Attribute Properties of specific product.
 	 *
-	 * @param   int $propertyId     Property id
-	 * @param   int $attributeId    Attribute id
-	 * @param   int $productId      Product id
-	 * @param   int $attributeSetId Attribute set id
-	 * @param   int $required       Required
-	 * @param   int $notPropertyId  Not property id
+	 * @param   integer  $propertyId      Property id
+	 * @param   integer  $attributeId     Attribute id
+	 * @param   integer  $productId       Product id
+	 * @param   string   $attributeSetId  Attribute set id
+	 * @param   integer  $required        Required
+	 * @param   integer  $notPropertyId   Not property id
 	 *
 	 * @return  mixed
 	 */

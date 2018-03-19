@@ -370,33 +370,59 @@ class RedshopModelForm extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if ($table->load($pk, true))
-			{
-				// Reset the id to create a new record.
-				$table->{$table->getKeyName()} = 0;
-
-				// Unpublish duplicate module
-				$table->published = 0;
-
-				if (!empty($this->copyUniqueColumns))
-				{
-					foreach ($this->copyUniqueColumns as $copyColumn)
-					{
-						$table->{$copyColumn} = $this->renameToUniqueValue($copyColumn, $table->{$copyColumn}, $this->copyIncrement);
-					}
-				}
-
-				if (!$table->check() || !$table->store())
-				{
-					throw new Exception($table->getError());
-				}
-			}
-			else
+			if (!$table->load($pk, true))
 			{
 				throw new Exception($table->getError());
 			}
+
+			$source = clone $table;
+
+			// Reset the id to create a new record.
+			$table->{$table->getKeyName()} = 0;
+
+			// Unpublish duplicate module
+			if (property_exists($table, 'published'))
+			{
+				$table->published = 0;
+			}
+			elseif (property_exists($table, 'state'))
+			{
+				$table->state = 0;
+			}
+
+			if (!empty($this->copyUniqueColumns))
+			{
+				foreach ($this->copyUniqueColumns as $copyColumn)
+				{
+					$table->{$copyColumn} = $this->renameToUniqueValue($copyColumn, $table->{$copyColumn}, $this->copyIncrement);
+				}
+			}
+
+			if (!$table->check())
+			{
+				throw new Exception($table->getError());
+			}
+
+			if (!$table->store())
+			{
+				throw new Exception($table->getError());
+			}
+
+			$this->afterCopy($source, clone $table);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for run after success copy record
+	 *
+	 * @param   JTable  $source  Source record
+	 * @param   JTable  $target  Target record
+	 *
+	 * @return  void
+	 */
+	public function afterCopy($source, $target)
+	{
 	}
 }

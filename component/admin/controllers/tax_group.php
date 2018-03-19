@@ -27,7 +27,7 @@ class RedshopControllerTax_Group extends RedshopControllerForm
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function getModel($name = 'Tax_Group', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{

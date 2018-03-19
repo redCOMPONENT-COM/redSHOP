@@ -839,7 +839,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	for ($a = 0, $an = count($attributes); $a < $an; $a++)
 	{
 		$selectedId = array();
-		$property   = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+		$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id);
 
 		if ($attributes[$a]->text != "" && count($property) > 0)
 		{
@@ -860,7 +860,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 			if (count($selectedId) > 0)
 			{
 				$selectedpropertyId = $selectedId[count($selectedId) - 1];
-				$subproperty        = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+				$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
 				$selectedId         = array();
 
 				for ($sp = 0; $sp < count($subproperty); $sp++)
@@ -975,7 +975,7 @@ if (strstr($template_desc, $mpimg_tag))
 	}
 	else
 	{
-		$media_image = $producthelper->getAdditionMediaImage($this->data->product_id, "product");
+		$media_image = RedshopHelperMedia::getAdditionMediaImage($this->data->product_id, "product");
 		$more_images = '';
 
 		for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
@@ -1139,14 +1139,14 @@ if (strstr($template_desc, $mpimg_tag))
 // More videos (youtube)
 if (strstr($template_desc, "{more_videos}"))
 {
-	$media_product_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+	$media_product_videos = RedshopHelperMedia::getAdditionMediaImage($this->data->product_id, "product", "youtube");
 
 	if (count($attributes) > 0 && count($attribute_template) > 0)
 	{
 		for ($a = 0, $an = count($attributes); $a < $an; $a++)
 		{
 			$selectedId = array();
-			$property   = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+			$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id);
 
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{
@@ -1154,7 +1154,7 @@ if (strstr($template_desc, "{more_videos}"))
 				{
 					if ($property[$i]->setdefault_selected)
 					{
-						$media_property_videos = $producthelper->getAdditionMediaImage($property[$i]->property_id, "property", "youtube");
+						$media_property_videos = RedshopHelperMedia::getAdditionMediaImage($property[$i]->property_id, "property", "youtube");
 						$selectedId[]          = $property[$i]->property_id;
 					}
 				}
@@ -1162,14 +1162,14 @@ if (strstr($template_desc, "{more_videos}"))
 				if (count($selectedId) > 0)
 				{
 					$selectedpropertyId = $selectedId[count($selectedId) - 1];
-					$subproperty        = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+					$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
 					$selectedId         = array();
 
 					for ($sp = 0; $sp < count($subproperty); $sp++)
 					{
 						if ($subproperty[$sp]->setdefault_selected)
 						{
-							$media_subproperty_videos = $producthelper->getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", "youtube");
+							$media_subproperty_videos = RedshopHelperMedia::getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", "youtube");
 							$selectedId[]             = $subproperty[$sp]->subattribute_color_id;
 						}
 					}
@@ -1209,7 +1209,7 @@ if (strstr($template_desc, "{more_videos}"))
 // More documents
 if (strstr($template_desc, "{more_documents}"))
 {
-	$media_documents = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "document");
+	$media_documents = RedshopHelperMedia::getAdditionMediaImage($this->data->product_id, "product", "document");
 	$more_doc        = '';
 
 	for ($m = 0, $mn = count($media_documents); $m < $mn; $m++)

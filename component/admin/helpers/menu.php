@@ -20,6 +20,9 @@ defined('_JEXEC') or die;
  */
 class RedshopAdminMenu extends RedshopMenu
 {
+	/**
+	 * @var  self
+	 */
 	protected static $instance = null;
 
 	/**

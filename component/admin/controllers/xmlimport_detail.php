@@ -113,6 +113,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
+		/** @var RedshopModelXmlimport_detail $model */
 		$model = $this->getModel('xmlimport_detail');
 
 		if (!$model->auto_syncpublish($cid, 1))
@@ -134,6 +135,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
+		/** @var RedshopModelXmlimport_detail $model */
 		$model = $this->getModel('xmlimport_detail');
 
 		if (!$model->auto_syncpublish($cid, 0))
@@ -160,6 +162,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelXmlimport_detail $model */
 		$model = $this->getModel('xmlimport_detail');
 
 		if (!$model->publish($cid, 1))
@@ -186,6 +189,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelXmlimport_detail $model */
 		$model = $this->getModel('xmlimport_detail');
 
 		if (!$model->publish($cid, 0))

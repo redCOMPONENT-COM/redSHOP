@@ -399,23 +399,23 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateProduct = $templateD2[0];
 
 	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
+	$products = RedshopHelperProduct::getProductsByIds($products);
 
 	// Loop product lists
-	foreach ($products as $k => $pid)
+	foreach ($products as $product)
 	{
-		$product = RedshopHelperProduct::getProductById($pid);
-		$catid   = $product->category_id;
+		$catid = $product->category_id;
 
 		// Count accessory
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 		$totacc        = count($accessorylist);
-		$netPrice      = $productHelper->getProductNetPrice($pid);
+		$netPrice      = $productHelper->getProductNetPrice($product->product_id);
 		$productPrice  = $netPrice['productPrice'];
 
 		$dataAdd = $templateProduct;
 
 		// ProductFinderDatepicker Extra Field Start
-		$dataAdd  = $productHelper->getProductFinderDatepickerValue($templateProduct, $product->product_id, $fieldArray);
+		$dataAdd  = $productHelper->getProductFinderDatepickerValue($dataAdd, $product->product_id, $fieldArray);
 		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
@@ -813,7 +813,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$totacc
 		);
 
-		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);
+		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 

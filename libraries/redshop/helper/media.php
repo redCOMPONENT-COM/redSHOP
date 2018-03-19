@@ -743,7 +743,7 @@ class RedshopHelperMedia
 				case 'manufacturer':
 					$query->select('p.*')
 						->leftJoin(
-							$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.section_id')
+							$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn('m.section_id')
 						);
 					break;
 
@@ -994,7 +994,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getMedia($section = '', $sectionId = 0, $scope = '', $type = '')
 	{

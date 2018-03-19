@@ -17,16 +17,16 @@ defined('_JEXEC') or die;
 class RedshopMenuLeft_Menu
 {
 	/**
-	 * @var  null
+	 * @var null
 	 */
 	protected static $view = null;
 
 	/**
-	 * @var  null
+	 * @var null
 	 */
 	protected static $layout = null;
 
-	/**
+	/*
 	 * @var  RedshopMenu
 	 */
 	protected static $menu = null;
@@ -34,11 +34,9 @@ class RedshopMenuLeft_Menu
 	/**
 	 * Method for render left menu
 	 *
-	 * @param   bool $disableMenu True for return list of menu. False for return HTML rendered code.
+	 * @param   bool  $disableMenu  True for return list of menu. False for return HTML rendered code.
 	 *
 	 * @return  mixed               Array of menu / HTML code of menu.
-	 *
-	 * @throws  Exception
 	 */
 	public static function render($disableMenu = false)
 	{
@@ -81,7 +79,7 @@ class RedshopMenuLeft_Menu
 		return RedshopLayoutHelper::render(
 			'component.full.sidebar.menu',
 			array(
-				'items'  => self::$menu->items,
+				'items' => self::$menu->items,
 				'active' => $active
 			)
 		);
@@ -105,6 +103,7 @@ class RedshopMenuLeft_Menu
 				return array('SHOP', 'categories');
 
 			case "manufacturer":
+			case "manufacturers":
 				return array('PRODUCT_LISTING', 'manufacturer');
 
 			case "media":
@@ -178,8 +177,8 @@ class RedshopMenuLeft_Menu
 				return array('SHIPPING', 'shipping_method');
 
 			case "shipping_box":
-			case "shipping_box_detail":
-				return array('SHIPPING', 'shipping_box');
+			case "shipping_boxes":
+				return array('SHIPPING', 'shipping_boxes');
 
 			case "wrapper":
 			case "wrapper_detail":
@@ -218,7 +217,7 @@ class RedshopMenuLeft_Menu
 			case "importexport":
 			case "import":
 			case "export":
-			case "vmimport":
+			case "import_vm":
 				return array('IMPORT_EXPORT', 'importexport');
 
 			case "xmlimport":
@@ -337,9 +336,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'product' && self::$layout == 'listing') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=manufacturer',
+				'index.php?option=com_redshop&view=manufacturers',
 				'COM_REDSHOP_MANUFACTURER_LISTING',
-				(self::$view == 'manufacturer') ? true : false
+				(self::$view == 'manufacturers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=suppliers',
@@ -530,9 +529,9 @@ class RedshopMenuLeft_Menu
 		}
 
 		self::$menu->addItem(
-			'index.php?option=com_redshop&view=shipping_box',
+			'index.php?option=com_redshop&view=shipping_boxes',
 			'COM_REDSHOP_SHIPPING_BOXES',
-			(self::$view == 'shipping_box') ? true : false
+			(self::$view == 'shipping_boxes') ? true : false
 		)
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper',
@@ -601,10 +600,6 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'export') ? true : false
 			)
 			->addItem(
-				'javascript:vmImport();',
-				'COM_REDSHOP_IMPORT_FROM_VM'
-			)
-			->addItem(
 				'index.php?option=com_redshop&view=xmlimport',
 				'COM_REDSHOP_XML_IMPORT',
 				(self::$view == 'xmlimport') ? true : false
@@ -615,12 +610,21 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'xmlexport') ? true : false
 			);
 
-		JFactory::getDocument()->addScriptDeclaration('
-			function vmImport() {
-				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM') . '") == true)
-					window.location = "index.php?option=com_redshop&view=import&vm=1";
-			}'
-		);
+		if (JComponentHelper::isInstalled('com_virtuemart') && JComponentHelper::isEnabled('com_virtuemart'))
+		{
+			self::$menu->addItem(
+				'index.php?option=com_redshop&view=import_vm',
+				'COM_REDSHOP_IMPORT_FROM_VM',
+				(self::$view == 'import_vm') ? true : false
+			);
+
+			JFactory::getDocument()->addScriptDeclaration(
+				'function vmImport() {
+					if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM') . '") == true)
+						window.location = "index.php?option=com_redshop&view=import_vm";
+				}'
+			);
+		}
 
 		self::$menu->group('IMPORT_EXPORT');
 	}

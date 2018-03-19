@@ -330,8 +330,8 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer
-		WHERE published=1 ORDER BY `manufacturer_name`';
+		$query = 'SELECT id as value,name as text FROM ' . $this->_table_prefix . 'manufacturer
+		WHERE published=1 ORDER BY `name`';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();

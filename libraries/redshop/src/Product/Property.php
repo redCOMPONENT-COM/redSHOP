@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Product property helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Property
 {
@@ -33,7 +33,7 @@ class Property
 	 * @return  mixed|string
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceAddToCart($productId = 0, $propertyId = 0, $categoryId = 0, $commonId = "", $propertyStock = 0, $propertyData = "", $cartTemplate = null, $content = "")
 	{
@@ -117,9 +117,9 @@ class Property
 			<input type='hidden' name='productprice_notvat' id='productprice_notvat' value='0'>
 
 			<input type='hidden' name='min_quantity' id='min_quantity' value='" . $quantityMin . "' requiredtext='"
-			. JText::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "'>
+			. \JText::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "'>
 			<input type='hidden' name='max_quantity' id='max_quantity' value='" . $quantityMax . "' requiredtext='"
-			. JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "'>
+			. \JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "'>
 
 			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attributeId . "'>
 			<input type='hidden' name='property_data' id='property_data' value='" . $propertyId . "'>

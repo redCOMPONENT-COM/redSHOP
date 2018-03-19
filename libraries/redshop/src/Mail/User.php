@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail User helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class User
 {
@@ -27,7 +27,7 @@ class User
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendRegistrationMail(&$data)
 	{
@@ -116,7 +116,7 @@ class User
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendRequestTaxExempt($data, $username = "")
 	{
@@ -174,7 +174,7 @@ class User
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendSubscriptionRenewal($data = array())
 	{
@@ -262,7 +262,7 @@ class User
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendTaxExempt($mailSection, $userInfo = array(), $email = "")
 	{

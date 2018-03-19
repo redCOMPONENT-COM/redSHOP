@@ -55,8 +55,9 @@ else
 	$templateId   = 0;
 }
 
-$row      = $this->detail[0];
-$category = $model->getmanufacturercategory($row->manufacturer_id, $row);
+$row            = !empty($this->detail) ? $this->detail[0] : null;
+$manufacturerId = null !== $row ? $row->id : 0;
+$category       = $model->getmanufacturercategory($manufacturerId, $row);
 
 if (strstr($templateHtml, '{category_loop_start}') && strstr($templateHtml, '{category_loop_end}'))
 {
@@ -73,7 +74,7 @@ if (strstr($templateHtml, '{category_loop_start}') && strstr($templateHtml, '{ca
 		for ($i = 0, $in = count($category); $i < $in; $i++)
 		{
 			$cart_mdata .= $template_middle;
-			$catlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]->id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $itemId);
+			$catlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]->id . '&manufacturer_id=' . $manufacturerId . '&Itemid=' . $itemId);
 			$alink      = "<a href='" . $catlink . "'>" . $category[$i]->name . "</a>";
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->description, $cart_mdata);
@@ -98,43 +99,47 @@ if (strstr($templateHtml, '{category_loop_start}') && strstr($templateHtml, '{ca
 
 if (strpos($templateHtml, "{manufacturer_image}") !== false)
 {
-	$thumbImage     = '';
-	$media          = RedshopEntityManufacturer::getInstance($row->manufacturer_id)->getMedia();
-	$mediaImagePath = $media->getAbsImagePath();
+	$thumbImage = '';
+	$media      = null !== $row ? RedshopEntityManufacturer::getInstance($manufacturerId)->getMedia() : null;
 
-	if (!empty($mediaImagePath))
+	if (null !== $media)
 	{
-		$thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
-		$thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
+		$mediaImagePath = $media->getAbsImagePath();
 
-		if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
+		if (!empty($mediaImagePath))
 		{
-			$imagePath = RedshopHelperMedia::watermark(
-				'manufacturer',
-				$media->get('media_name'),
-				$thumbWidth,
-				$thumbHeight,
-				Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
-			);
-		}
-		else
-		{
-			$imagePath = $media->generateThumb($thumbWidth, $thumbHeight);
-		}
+			$thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+			$thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 
-		$altText = $media->get('media_alternate_text', $row->manufacturer_name);
+			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
+			{
+				$imagePath = RedshopHelperMedia::watermark(
+					'manufacturer',
+					$media->get('media_name'),
+					$thumbWidth,
+					$thumbHeight,
+					Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+				);
+			}
+			else
+			{
+				$imagePath = $media->generateThumb($thumbWidth, $thumbHeight);
+			}
 
-		$thumbImage = '<a title="' . $altText . '" class="modal"'
-			. 'href="' . $mediaImagePath . '" rel="{handler: \'image\', size: {}}\">'
-			. '<img alt="' . $altText . '" title="' . $altText . '" src="' . $imagePath['abs'] . '"></a>';
+			$altText = $media->get('media_alternate_text', $row->name);
+
+			$thumbImage = '<a title="' . $altText . '" class="modal"'
+				. 'href="' . $mediaImagePath . '" rel="{handler: \'image\', size: {}}\">'
+				. '<img alt="' . $altText . '" title="' . $altText . '" src="' . $imagePath['abs'] . '"></a>';
+		}
 	}
 
 	$templateHtml = str_replace("{manufacturer_image}", $thumbImage, $templateHtml);
 }
 
-$manufacturerLink     = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $itemId);
-$manufacturerProducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $itemId);
-$templateHtml         = str_replace("{manufacturer_name}", $row->manufacturer_name, $templateHtml);
+$manufacturerLink     = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturerId . '&Itemid=' . $itemId);
+$manufacturerProducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturerId . '&Itemid=' . $itemId);
+$templateHtml         = str_replace("{manufacturer_name}", null !== $row ? $row->name : '', $templateHtml);
 
 // Replace Manufacturer URL
 if (strstr($templateHtml, "{manufacturer_url}"))
@@ -149,13 +154,13 @@ if (strstr($templateHtml, "{manufacturer_url}"))
 // Extra field display
 $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
 $templateHtml   = RedshopHelperProductTag::getExtraSectionTag(
-	$extraFieldName, $row->manufacturer_id, RedshopHelperExtrafields::SECTION_MANUFACTURER, $templateHtml
+	$extraFieldName, $manufacturerId, RedshopHelperExtrafields::SECTION_MANUFACTURER, $templateHtml
 );
-$templateHtml   = str_replace("{manufacturer_description}", $row->manufacturer_desc, $templateHtml);
+$templateHtml   = str_replace("{manufacturer_description}", null !== $row ? $row->description : '', $templateHtml);
 
 if (strstr($templateHtml, "{manufacturer_extra_fields}"))
 {
-	$manufacturerExtraFields = RedshopHelperExtrafields::listAllFieldDisplay(RedshopHelperExtrafields::SECTION_MANUFACTURER, $row->manufacturer_id);
+	$manufacturerExtraFields = RedshopHelperExtrafields::listAllFieldDisplay(RedshopHelperExtrafields::SECTION_MANUFACTURER, $manufacturerId);
 	$templateHtml            = str_replace("{manufacturer_extra_fields}", $manufacturerExtraFields, $templateHtml);
 }
 

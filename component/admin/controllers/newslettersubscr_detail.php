@@ -24,6 +24,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		$this->input->set('layout', 'default');
 		$this->input->set('hidemainmenu', 1);
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		$userlist = $model->getuserlist();
@@ -172,6 +173,8 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 	public function export_acy_data()
 	{
 		ob_clean();
+
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$data  = $model->getnewslettersbsc($cid);

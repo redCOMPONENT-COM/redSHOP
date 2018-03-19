@@ -43,13 +43,13 @@ if ($showbuttons == 1)
 			$directory              = $media_section;
 			break;
 		case "property";
-			$sectionadata           = $producthelper->getAttibuteProperty($section_id);
+			$sectionadata           = RedshopHelperProduct_Attribute::getAttributeProperties($section_id);
 			$section_name           = $sectionadata[0]->property_name;
 			$sectiona_primary_image = $sectionadata[0]->property_main_image;
 			$directory              = 'property';
 			break;
 		case "subproperty";
-			$sectionadata           = $producthelper->getAttibuteSubProperty($section_id);
+			$sectionadata           = RedshopHelperProduct_Attribute::getAttributeSubProperties($section_id);
 			$section_name           = $sectionadata[0]->subattribute_color_name;
 			$sectiona_primary_image = $sectionadata[0]->subattribute_color_main_image;
 			$directory              = 'subproperty';
@@ -140,7 +140,7 @@ else
                 </th>
 				<?php if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')): ?>
 					<?php $countTd++; ?>
-                    <th width="5%" class="title">' . JText::_('COM_REDSHOP_PRIMARY_MEDIA') . '</th>
+                    <th width="5%" class="title"><?php echo JText::_('COM_REDSHOP_PRIMARY_MEDIA') ?></th>
 				<?php endif; ?>
 
 				<?php if ($showbuttons == 1): ?>
@@ -185,7 +185,7 @@ else
                         <a class="joom-box img-thumbnail" href="<?php echo $media->getAbsImagePath() ?>"
                            title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
                            rel="{handler: 'image', size: {}}">
-                            <img src="<?php echo $mediaFile['abs'] ?>" height="50" width="50"/></a>
+                            <img src="<?php echo $mediaFile['abs'] ?>" /></a>
 					<?php else: ?>
 						<?php $filetype = strtolower(JFile::getExt(trim($row->media_name))); ?>
 						<?php if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images'): ?>

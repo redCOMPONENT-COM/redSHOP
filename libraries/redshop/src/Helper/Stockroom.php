@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Stockroom helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Stockroom
 {
@@ -25,7 +25,7 @@ class Stockroom
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAttributePropertyWithStock($properties = array())
 	{
@@ -38,7 +38,7 @@ class Stockroom
 
 		foreach ($properties as $property)
 		{
-			if (\RedshopHelperStockroom::isStockExists($property->property_id, "property"))
+			if (\RedshopHelperStockroom::isStockExists($property->property_id, 'property'))
 			{
 				$propertiesWithStock[] = $property;
 
@@ -72,7 +72,7 @@ class Stockroom
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getAttributeSubPropertyWithStock($subProperties)
 	{
@@ -104,12 +104,13 @@ class Stockroom
 	 * @param   array   $stockStatuses Stock status data.
 	 *
 	 * @return  string
+	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceProductStockData($productId, $propertyId, $subPropertyId, $html, $stockStatuses)
 	{
-		if (strpos($html, "{stock_status") !== false)
+		if (strpos($html, '{stock_status') !== false)
 		{
 			$product = \RedshopProduct::getInstance($productId);
 

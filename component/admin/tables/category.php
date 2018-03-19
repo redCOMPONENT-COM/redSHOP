@@ -41,9 +41,49 @@ class RedshopTableCategory extends RedshopTableNested
 	public $category_thumb_image;
 
 	/**
+	 * @var  string
+	 */
+	public $description;
+
+	/**
+	 * @var  string
+	 */
+	public $category_full_image;
+
+	/**
+	 * @var  string
+	 */
+	public $metakey;
+
+	/**
+	 * @var  string
+	 */
+	public $metadesc;
+
+	/**
 	 * @var  integer
 	 */
 	public $template;
+
+	/**
+	 * @var  integer
+	 */
+	public $published;
+
+	/**
+	 * @var  integer
+	 */
+	public $category_pdate;
+
+	/**
+	 * @var  integer
+	 */
+	public $products_per_page;
+
+	/**
+	 * @var  integer
+	 */
+	public $ordering;
 
 	/**
 	 * Called delete().
@@ -121,7 +161,7 @@ class RedshopTableCategory extends RedshopTableNested
 	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
 	 * @return  boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function doStore($updateNulls = false)
 	{
@@ -159,7 +199,7 @@ class RedshopTableCategory extends RedshopTableNested
 	 * @return  boolean  True on success.
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected function doCheck()
 	{

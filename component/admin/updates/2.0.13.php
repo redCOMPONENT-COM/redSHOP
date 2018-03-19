@@ -22,6 +22,7 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
 	 * Method for migrate manufacturer images.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.13
 	 */

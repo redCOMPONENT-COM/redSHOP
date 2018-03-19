@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 /**
  * A Helper Class for Product Category
  *
+ * @since  1.0.0
+ *
  * @deprecated  2.0.0.3  Use RedshopHelperCategory instead
  */
 class product_category

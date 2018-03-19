@@ -47,11 +47,16 @@ class RedshopControllerNewsletter extends RedshopController
 		return;
 	}
 
+	/**
+	 * @return  void
+	 * @throws  Exception
+	 */
 	public function sendRecursiveNewsletter()
 	{
-		$session       = JFactory::getSession();
-		$newsletter_id = $this->input->get('newsletter_id');
+		$session      = JFactory::getSession();
+		$newsletterId = $this->input->get('newsletter_id');
 
+		/** @var RedshopModelNewsletter $model */
 		$model = $this->getModel('newsletter');
 
 		$subscribers      = $session->get('subscribers');
@@ -90,7 +95,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
-			$subscriber   = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
+			$subscriber   = $model->getNewsletterSubscriber($newsletterId, $cid[$i]);
 			$responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";
 
 			if ($retuser[$i])
@@ -139,7 +144,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if (!$model->publish($cid, 1))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_PUBLISHED_SUCCESFULLY');
@@ -160,7 +165,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_UNPUBLISHED_SUCCESFULLY');

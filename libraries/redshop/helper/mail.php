@@ -27,7 +27,7 @@ class RedshopHelperMail
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Mail\Helper::getTemplate
 	 */
 	public static function getMailTemplate($templateId = 0, $section = '', $extraCond = '')
@@ -44,7 +44,7 @@ class RedshopHelperMail
 	 * @return  boolean
 	 * @throws  \Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Mail\Order::sendMail
 	 */
 	public static function sendOrderMail($orderId, $onlyAdmin = false)
@@ -60,7 +60,7 @@ class RedshopHelperMail
 	 * @return  boolean
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Mail\Order::sendOrderSpecialDiscountMail
 	 */
 	public static function sendOrderSpecialDiscountMail($orderId)
@@ -92,7 +92,7 @@ class RedshopHelperMail
 	 * @return  object  Object having mail body and subject. subject can be null for PDF type.
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Mail\Invoice::replaceTemplate
 	 */
 	public static function replaceInvoiceMailTemplate($orderId, $html, $subject = null)
@@ -111,7 +111,7 @@ class RedshopHelperMail
 	 * @return  boolean           True on sending email successfully.
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Mail\Invoice::sendMail
 	 */
 	public static function sendInvoiceMail($orderId, $email = null)
@@ -128,7 +128,7 @@ class RedshopHelperMail
 	 *
 	 * @throws  Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function sendRegistrationMail(&$data)
 	{
@@ -146,7 +146,7 @@ class RedshopHelperMail
 	 *
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 */
 	public static function sendTaxExemptMail($mailSection, $userInfo = array(), $email = "")
 	{
@@ -162,7 +162,7 @@ class RedshopHelperMail
 	 *
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 */
 	public static function sendSubscriptionRenewalMail($data = array())
 	{
@@ -175,7 +175,7 @@ class RedshopHelperMail
 	 * @param   string  $message  Text message
 	 *
 	 * @return  string
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Mail\Helper::imgInMail
 	 */
 	public static function imgInMail($message)
@@ -194,7 +194,7 @@ class RedshopHelperMail
 	 * @return  boolean
 	 * @throws  Exception
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Mail\Quotation::sendQuotationMail
 	 */
 	public static function sendQuotationMail($quotationId, $status = 0)
@@ -209,7 +209,7 @@ class RedshopHelperMail
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function sendNewsletterConfirmationMail($subscriptionId)
 	{
@@ -223,7 +223,7 @@ class RedshopHelperMail
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function sendNewsletterCancellationMail($email = "")
 	{
@@ -237,7 +237,7 @@ class RedshopHelperMail
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function sendAskQuestionMail($answerId)
 	{
@@ -252,7 +252,7 @@ class RedshopHelperMail
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function sendEconomicBookInvoiceMail($orderId = 0, $bookInvoicePdf = "")
 	{
@@ -266,7 +266,7 @@ class RedshopHelperMail
 	 * @param   string $username Username
 	 *
 	 * @return  boolean
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 */
 	public static function sendRequestTaxExemptMail($data, $username = "")
 	{
@@ -280,7 +280,7 @@ class RedshopHelperMail
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Mail\Catalog::sendRequest
 	 */
 	public static function sendCatalogRequest($catalog = array())
@@ -304,7 +304,7 @@ class RedshopHelperMail
 	 * @param   array   $argList     Function arguments
 	 *
 	 * @return  boolean          True on success. False otherwise.
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Mail\Helper::sendEmail
 	 */
 	public static function sendEmail($from, $fromName, $receiver, $subject, $body, $isHtml = true, $mailCC = null,

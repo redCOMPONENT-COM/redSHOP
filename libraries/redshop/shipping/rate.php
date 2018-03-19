@@ -23,7 +23,7 @@ class RedshopShippingRate
 	 *
 	 * @return  string        Encrypted string.
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::encrypt
 	 */
 	public static function encrypt($data)
@@ -38,7 +38,7 @@ class RedshopShippingRate
 	 *
 	 * @return  array            Decrypted info in array
 	 *
-	 * @deprecated __DEPLOY_VERSION__
+	 * @deprecated 2.1.0
 	 * @see Redshop\Shipping\Rate::decrypt
 	 */
 	public static function decrypt($string)

@@ -89,7 +89,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		if ($val == 1)
@@ -114,7 +114,9 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid   = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if ($model->copy($cid))

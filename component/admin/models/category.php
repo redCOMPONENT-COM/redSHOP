@@ -405,7 +405,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public function storeMedia($category, $data, $scope)
 	{

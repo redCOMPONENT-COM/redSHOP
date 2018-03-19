@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Ask Question helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class AskQuestion
 {
@@ -25,7 +25,7 @@ class AskQuestion
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($answerId)
 	{
@@ -101,12 +101,7 @@ class AskQuestion
 
 		Helper::imgInMail($dataAdd);
 
-		if ($email && Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args()))
-		{
-			return true;
-		}
-
-		return false;
+		return $email && Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args());
 	}
 
 	/**

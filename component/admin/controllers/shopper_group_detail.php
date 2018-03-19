@@ -96,17 +96,14 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
 		}
-
 		elseif (in_array(1, $cid))
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
 		}
-
 		elseif (in_array(2, $cid))
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
 		}
-
 		else
 		{
 			/** @var RedshopModelShopper_group_detail $model */
@@ -114,7 +111,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 			if (!$model->delete($cid))
 			{
-				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+				echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 			}
 
 			$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_DELETED_SUCCESSFULLY');

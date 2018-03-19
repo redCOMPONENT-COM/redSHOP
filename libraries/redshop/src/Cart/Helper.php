@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Cart helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Helper
 {
@@ -31,7 +31,7 @@ class Helper
 	 * @return  array
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculation($cart = array(), $userId = 0)
 	{
@@ -69,7 +69,7 @@ class Helper
 
 		$view = \JFactory::getApplication()->input->getCmd('view');
 
-		if (key_exists('shipping', $cart) && $view != 'cart')
+		if (array_key_exists('shipping', $cart) && $view != 'cart')
 		{
 			$shipping = $cart['shipping'];
 
@@ -95,7 +95,7 @@ class Helper
 			{
 				$vatData = \RedshopHelperTax::getVatRates();
 
-				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+				if (null !== $vatData && !empty($vatData->tax_rate))
 				{
 					$discountVAT = 0;
 
@@ -134,7 +134,7 @@ class Helper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculateShipping(&$shipping, &$shippingVat, &$cart, $subTotal = 0.0, $userId = 0)
 	{
@@ -180,7 +180,7 @@ class Helper
 
 		if (isset($cart['free_shipping']) && $cart['free_shipping'] > 0)
 		{
-			$shipping = 0;
+			$shipping = 0.0;
 
 			return;
 		}
@@ -213,7 +213,7 @@ class Helper
 	 * @return  integer
 	 * @throws \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getDefaultQuantity($productId = 0, $html = "")
 	{
@@ -259,7 +259,7 @@ class Helper
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getDiscountAmount($cart = array(), $userId = 0)
 	{
@@ -367,7 +367,7 @@ class Helper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function generateAttribute($data, $userId = 0)
 	{

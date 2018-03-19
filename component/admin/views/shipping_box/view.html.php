@@ -9,56 +9,24 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewShipping_box extends RedshopViewAdmin
+/**
+ * The Shipping Box view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Shipping_Box.View
+ * @since       2.0.0.4
+ */
+class RedshopViewShipping_Box extends RedshopViewForm
 {
 	/**
-	 * The current user.
+	 * Method for get page title.
 	 *
-	 * @var  JUser
-	 */
-	public $user;
-
-	/**
-	 * The request url.
+	 * @return  string
 	 *
-	 * @var  string
+	 * @since   2.1.0
 	 */
-	public $request_url;
-
-	public function display($tpl = null)
+	public function getTitle()
 	{
-		$context = 'shipping_box_id';
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
-
-		$document->setTitle(JText::_('COM_REDSHOP_BOXES'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_shipping_box48');
-
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList('', 'shipping_box.remove');
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_box_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-
-		$shipping_box = $this->get('Data');
-		$pagination   = $this->get('Pagination');
-
-		$this->user         = JFactory::getUser();
-		$this->lists        = $lists;
-		$this->shipping_box = $shipping_box;
-		$this->pagination   = $pagination;
-		$this->request_url  = $uri->toString();
-
-		parent::display($tpl);
+		return JText::_('COM_REDSHOP_SHIPPING_BOX') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
 }

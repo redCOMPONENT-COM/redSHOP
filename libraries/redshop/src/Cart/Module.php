@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * Cart module helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Module
 {
@@ -33,7 +33,7 @@ class Module
 	 * @return  float
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function calculate($cart = array())
 	{
@@ -79,7 +79,7 @@ class Module
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getParams()
 	{

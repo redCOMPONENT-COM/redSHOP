@@ -54,7 +54,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			$post['element_name']      = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
 			$post['xmlexport_filetag'] = $childelement['orderdetail'][1];
 		}
-		elseif (isset($childelement['productdetail']))
+        elseif (isset($childelement['productdetail']))
 		{
 			$post['element_name']      = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
 			$post['xmlexport_filetag'] = $childelement['productdetail'][1];
@@ -156,16 +156,18 @@ class RedshopControllerXmlexport_detail extends RedshopController
 
 		$childelement[$post['parentsection']] = array($post['element_name'], implode(";", $resarray));
 
-		$session->set('childelement', $childelement);    ?>
-			<script language="javascript">
-				window.parent.SqueezeBox.close();
-			</script>
+		$session->set('childelement', $childelement); ?>
+        <script language="javascript">
+            window.parent.SqueezeBox.close();
+        </script>
 		<?php
 	}
+
 	public function removeIpAddress()
 	{
 		$xmlexport_ip_id = $this->input->get('xmlexport_ip_id', 0);
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 		$model->deleteIpAddress($xmlexport_ip_id);
 		die();
@@ -215,6 +217,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->auto_syncpublish($cid, 1))
@@ -241,6 +244,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->auto_syncpublish($cid, 0))
@@ -267,6 +271,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->usetoallpublish($cid, 1))
@@ -293,6 +298,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->usetoallpublish($cid, 0))
@@ -319,6 +325,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 1))
@@ -345,11 +352,12 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_UNPUBLISHED_SUCCESSFULLY');

@@ -1334,7 +1334,7 @@ class RedshopModelCheckout extends RedshopModel
 			$from                = $config->get('mailfrom');
 			$fromname            = $config->get('fromname');
 			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
-			$giftcardmail_body = RedshopHelperMail::imgInMail($giftcardmail_body);
+			Redshop\Mail\Helper::imgInMail($giftcardmail_body);
 
 			JFactory::getMailer()->sendMail(
 				$from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment
@@ -2276,7 +2276,7 @@ class RedshopModelCheckout extends RedshopModel
 			$template_desc = str_replace("{coupon_code_lbl}", $coupon, $template_desc);
 		}
 
-		$template_desc = $this->_carthelper->replaceLabel($template_desc);
+		$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
 		$template_desc = str_replace("{print}", '', $template_desc);
 
 		RedshopHelperCartSession::setCart((array) $cart);

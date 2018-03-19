@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Shipping tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Tag
 {
@@ -26,7 +26,7 @@ class Tag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceShippingMethod($shipping, $content = "")
 	{
@@ -96,7 +96,7 @@ class Tag
 	 * @param   array  $shippingDetail Decrypted shipping detail
 	 *
 	 * @return  string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function getShopLocation($shipping, $shippingDetail)
 	{
@@ -172,7 +172,7 @@ class Tag
 	 * @return  string
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceShippingAddress($templateHtml, $shippingAddress, $sendMail = false)
 	{
@@ -205,7 +205,7 @@ class Tag
 	 * @return  void
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceShippingAddressBlock(&$templateHtml, $shippingAddress, $sendMail, $shippingEnable)
 	{
@@ -252,7 +252,7 @@ class Tag
 	 * @return  void
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceShippingAddressStartEnd(&$templateHtml, $shippingAddress, $shippingEnable)
 	{
@@ -387,11 +387,11 @@ class Tag
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceTag(&$html, $condition = '', $search = array(), $replace = array())
 	{
-		$replace = !empty($condition) ? $replace : '';
+		$replace = !empty($condition) ? $replace : array('');
 		$html    = str_replace($search, $replace, $html);
 	}
 }

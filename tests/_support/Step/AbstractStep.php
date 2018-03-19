@@ -209,6 +209,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 					break;
 
 				case 'redshop.mail_section':
+				case 'redshop.template':
 				case 'categories':
 				case 'template':
 				case 'shoppergrouplist':

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Price helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Price
 {
@@ -26,7 +26,9 @@ class Price
 	 * @param   integer $userId    User ID
 	 *
 	 * @return  float
-	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 *
+	 * @since   2.1.0
 	 */
 	public static function getPrice($productId, $withVAT = true, $userId = 0)
 	{

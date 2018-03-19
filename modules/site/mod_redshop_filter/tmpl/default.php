@@ -51,15 +51,15 @@ defined('_JEXEC') or die;
 						<?php foreach ($manufacturers as $m => $manu) : ?>
 							<li style="list-style: none">
 									<label>
-										<span class='taginput' data-aliases='manu-<?php echo $manu->manufacturer_id;?>'>
-										<input type="checkbox" name="redform[manufacturer][]" value="<?php echo $manu->manufacturer_id ?>"
-										<?php if (in_array($manu->manufacturer_id, $manufacturersValue)) : ?>
+										<span class='taginput' data-aliases='manu-<?php echo $manu->id;?>'>
+										<input type="checkbox" name="redform[manufacturer][]" value="<?php echo $manu->id ?>"
+										<?php if (in_array($manu->id, $manufacturersValue)) : ?>
 											<?php echo "checked='checked'"; ?>
 										<?php endif; ?>
 										onchange="javascript:submitform(this)"
 										>
 										</span>
-										<span class='tagname'><?php echo $manu->manufacturer_name; ?></span>
+										<span class='tagname'><?php echo $manu->name; ?></span>
 									</label>
 								</li>
 						<?php endforeach; ?>
@@ -258,7 +258,7 @@ defined('_JEXEC') or die;
 			var check = jQuery('input[name="check_list"]').val();
 			var check_list = jQuery.parseJSON(check);
 			jQuery.each(arr, function(i, value){
-				if (value.manufacturer_name.toLowerCase().indexOf(keyword.toLowerCase()) > -1){
+				if (value.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1){
 					new_arr.push(value);
 				}
 			});
@@ -274,10 +274,10 @@ defined('_JEXEC') or die;
 					    var is_check = '';
 					}
 					html += '<li style="list-style: none"><label>';
-					html += '<span class="taginput" data-aliases="'+data.manufacturer_id+'">';
-					html += '<input type="checkbox" '+is_check+' value="'+data.manufacturer_id+'" name="redform[manufacturer][]" />';
+					html += '<span class="taginput" data-aliases="'+data.id+'">';
+					html += '<input type="checkbox" '+is_check+' value="'+data.id+'" name="redform[manufacturer][]" />';
 					html += '</span>'
-					html += '<span class="tagname">'+data.manufacturer_name+'</span>';
+					html += '<span class="tagname">'+data.name+'</span>';
 					html += '</label></li>';
 				}
 			});

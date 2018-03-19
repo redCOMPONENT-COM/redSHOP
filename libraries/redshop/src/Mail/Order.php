@@ -17,7 +17,7 @@ use Redshop\Order\Template;
 /**
  * Mail Order helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Order
 {
@@ -29,7 +29,7 @@ class Order
 	 *
 	 * @return  boolean
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($orderId, $onlyAdmin = false)
 	{
@@ -244,7 +244,7 @@ class Order
 	 * @return  boolean
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendSpecialDiscountMail($orderId)
 	{

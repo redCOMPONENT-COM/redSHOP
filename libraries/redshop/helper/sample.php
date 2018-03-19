@@ -106,7 +106,7 @@ class RedshopHelperSample
 		}
 
 		$body = str_replace("{name}", $sampleRequest->name, $mailBody);
-		$body = RedshopHelperMail::imgInMail($body);
+		Redshop\Mail\Helper::imgInMail($body);
 
 		if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 		{
@@ -169,7 +169,7 @@ class RedshopHelperSample
 		}
 
 		$body = str_replace("{name}", $sampleRequest->name, $mailBody);
-		$body = RedshopHelperMail::imgInMail($body);
+		Redshop\Mail\Helper::imgInMail($body);
 
 		if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 		{
@@ -239,7 +239,7 @@ class RedshopHelperSample
 			$body = str_replace("{days}", Redshop::getConfig()->get('COLOUR_COUPON_DURATION'), $body);
 			$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 			$body = str_replace("{coupon_code}", $token, $body);
-			$body = RedshopHelperMail::imgInMail($body);
+			Redshop\Mail\Helper::imgInMail($body);
 
 			$query = $db->getQuery(true)
 				->select($db->qn('id'))
@@ -316,7 +316,7 @@ class RedshopHelperSample
 			$body = str_replace("{days}", Redshop::getConfig()->get('COLOUR_COUPON_DURATION'), $body);
 			$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 			$body = str_replace("{coupon_code}", $couponCode, $body);
-			$body = RedshopHelperMail::imgInMail($body);
+			Redshop\Mail\Helper::imgInMail($body);
 
 			if (JFactory::getMailer()->sendMail($from, $fromName, $sampleRequest->email, $subject, $body, 1, null, $mailBcc))
 			{

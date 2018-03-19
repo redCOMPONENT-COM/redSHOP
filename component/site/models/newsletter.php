@@ -19,12 +19,20 @@ defined('_JEXEC') or die;
  */
 class RedshopModelNewsletter extends RedshopModel
 {
+	/**
+	 * @var null|string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * @var JDatabaseDriver|null
+	 */
 	public $_db = null;
 
 	/**
 	 * Constructor
+	 *
+	 * @throws Exception
 	 */
 	public function __construct()
 	{
@@ -32,64 +40,84 @@ class RedshopModelNewsletter extends RedshopModel
 
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
-		$sub_id              = JFactory::getApplication()->input->getInt('sid', '');
+		$subId               = JFactory::getApplication()->input->getInt('sid', '');
 
-		if ($sub_id)
+		if ($subId)
 		{
-			$this->confirmsubscribe($sub_id);
+			$this->confirmSubscribe($subId);
 		}
 	}
 
-	public function checksubscriptionbymail($email)
+	/**
+	 * Check is email is subscription
+	 *
+	 * @param   string $email Email
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 */
+	public function checkSubscriptionByEmail($email)
 	{
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
+		$db   = $this->getDbo();
+		$link = JUri::root() . 'index.php?option=com_redshop&view=newsletter';
+
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__redshop_newsletter'));
+		$count = (int) $db->setQuery($query)->loadResult();
+
+		if (!$count)
+		{
+			// If there are no newsletter, redirect with message.
+			$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+		}
+
 		$user = JFactory::getUser();
-		$and  = "";
 
 		if ($user->id)
 		{
-			$and .= "AND `user_id` = " . (int) $user->id . " ";
 			$email = $user->email;
 		}
 
-		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "newsletter";
-		$this->_db->setQuery($query);
-		$newsletter = $this->_db->loadResult();
-		$url        = JURI::root();
-		$link       = $url . 'index.php?option=com_redshop&view=newsletter';
+		$query->clear()
+			->select($db->qn('subscription_id'))
+			->from($db->qn('#__redshop_newsletter_subscription'))
+			->where($db->qn('email') . ' = ' . $db->quote($email))
+			->where($db->qn('newsletter_id') . ' = ' . Redshop::getConfig()->getInt('DEFAULT_NEWSLETTER'))
+			->where($db->qn('user_id') . ' = ' . $user->id);
 
-		if ($newsletter != 0)
-		{
-			$query = "SELECT subscription_id FROM  " . $this->_table_prefix . "newsletter_subscription "
-				. "WHERE email = " . $this->_db->quote($email) . " "
-				. "AND newsletter_id = " . (int) Redshop::getConfig()->get('DEFAULT_NEWSLETTER') . " "
-				. $and;
-			$this->_db->setQuery($query);
-			$alreadysub = $this->_db->loadResult();
+		$hasSubscribed = $db->setQuery($query)->loadResult();
 
-			if ($alreadysub)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
+		if ($hasSubscribed)
 		{
-			$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+			return true;
 		}
+
+		return false;
 	}
 
-	public function confirmsubscribe($sub_id)
+	/**
+	 * Check is email is subscription
+	 *
+	 * @param   integer $subscriptionId Subscribe ID
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function confirmSubscribe($subscriptionId)
 	{
-		$app = JFactory::getApplication();
-		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . (int) $sub_id . "' ";
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-		$url  = JURI::root();
-		$link = $url . 'index.php?option=com_redshop&view=newsletter';
-		$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
+		$app   = JFactory::getApplication();
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_newsletter_subscription'))
+			->set($db->qn('published') . ' = 1')
+			->where($db->qn('subscription_id') . ' = ' . (int) $subscriptionId);
+		$db->setQuery($query)->execute();
+
+		$app->redirect(
+			JRoute::_(JUri::root() . 'index.php?option=com_redshop&view=newsletter'),
+			JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE')
+		);
 	}
 }

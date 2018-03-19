@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Accessory helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Accessory
 {
@@ -29,7 +29,7 @@ class Accessory
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getPrice($productId = 0, $accessoryPrice = 0, $accessoryMainPrice = 0, $hasVAT = 0, $userId = 0)
 	{

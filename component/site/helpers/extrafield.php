@@ -92,7 +92,7 @@ class extraField
 	 * @param   integer  $addWish       Add wish
 	 *
 	 * @return  array
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.1.0
 	 * @see Redshop\Fields\SiteHelper::listAllUserFields
 	 */
 	public function list_all_user_fields($fieldSection = "", $sectionId = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $fieldType = '', $idx = 'NULL', $isAtt = 0, $productId, $myWish = '', $addWish = 0)

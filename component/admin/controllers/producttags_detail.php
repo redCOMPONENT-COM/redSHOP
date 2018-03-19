@@ -62,7 +62,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_DELETED_SUCCESSFULLY');
@@ -83,7 +83,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 
 		if (!$model->publish($cid, 1))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_PUBLISHED_SUCCESSFULLY');
@@ -99,11 +99,12 @@ class RedshopControllerProducttags_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelProducttags_detail $model */
 		$model = $this->getModel('producttags_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_UNPUBLISHED_SUCCESSFULLY');

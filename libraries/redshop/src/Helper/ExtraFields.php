@@ -45,34 +45,35 @@ class ExtraFields
 	{
 		$db = \JFactory::getDbo();
 
-		if (!isset(self::$extraFieldDisplay[$fieldSection]) || !array_key_exists($fieldName, self::$extraFieldDisplay[$fieldSection]))
+		if (!isset(self::$extraFieldDisplay[$fieldSection]))
 		{
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->qn('#__redshop_fields'))
 				->where($db->qn('section') . ' = ' . $db->quote($fieldSection));
 
-			if ($fieldName != "")
-			{
-				$query->where($db->qn('name') . ' IN (' . $fieldName . ')');
-			}
-
-			$db->setQuery($query);
-
-			if (!isset(self::$extraFieldDisplay[$fieldSection]))
-			{
-				self::$extraFieldDisplay[$fieldSection] = array();
-			}
-
-			self::$extraFieldDisplay[$fieldSection][$fieldName] = $db->loadObjectList();
+			self::$extraFieldDisplay[$fieldSection] = $db->setQuery($query)->loadObjectList('name');
 		}
 
-		$rowsData = self::$extraFieldDisplay[$fieldSection][$fieldName];
+		$fieldName = explode(',', str_replace('\'', '', $fieldName));
+		$rows      = array();
 
-		foreach ($rowsData as $row)
+		foreach ($fieldName as $field)
+		{
+			if (isset(self::$extraFieldDisplay[$fieldSection][$field]))
+			{
+				$rows[] = self::$extraFieldDisplay[$fieldSection][$field];
+			}
+		}
+
+		if (empty($rows))
+		{
+			return $templateContent;
+		}
+
+		foreach ($rows as $row)
 		{
 			$dataValue = \RedshopHelperExtrafields::getData($row->id, $fieldSection, $sectionId);
-
 			self::replaceFieldTag($templateContent, $row, $dataValue, $categoryPage);
 		}
 
@@ -127,11 +128,10 @@ class ExtraFields
 			$templateIfMain    = $templateEndData[0];
 			$hasIfTag          = true;
 
-			unset($templateEndData);
-			unset($templateStartData);
+			unset($templateEndData, $templateStartData);
 		}
 
-		if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication()->isSite()))
+		if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication()->isClient('site')))
 		{
 			if ($hasIfTag)
 			{

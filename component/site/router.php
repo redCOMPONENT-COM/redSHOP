@@ -26,6 +26,7 @@ class RedshopRouter extends JComponentRouterBase
 	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array          The URL arguments to use to assemble the subsequent URL.
+	 * @throws  Exception
 	 */
 	public function build(&$query)
 	{
@@ -510,7 +511,7 @@ class RedshopRouter extends JComponentRouterBase
 						}
 						else
 						{
-							$segments[] = str_replace($specialChars, '-', $manufacturer->get('manufacturer_name'));
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('name'));
 						}
 					}
 				}

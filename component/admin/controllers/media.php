@@ -152,7 +152,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!$model->saveorder($cid, $order))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -165,12 +165,12 @@ class RedshopControllerMedia extends RedshopController
 				. '&media_section=' . $mediaSection, $msg
 			);
 		}
-        elseif (null !== $this->input->post->get('set', null) && $mediaSection == 'manufacturer')
+		elseif (null !== $this->input->post->get('set', null) && $mediaSection == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = "<?php echo $link; ?>";
+			</script><?php
 		}
 		else
 		{
@@ -205,7 +205,7 @@ class RedshopControllerMedia extends RedshopController
 		{
 			if (!$model->defaultmedia($cid[0], $section_id, $media_section))
 			{
-				$msg = $model->getError();
+				$msg = /** @scrutinizer ignore-deprecated */ $model->getError();
 			}
 		}
 
@@ -216,13 +216,13 @@ class RedshopControllerMedia extends RedshopController
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$app->enqueueMessage($msg);
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = "<?php echo $link; ?>";
+			</script><?php
 		}
 		else
 		{
@@ -359,7 +359,8 @@ class RedshopControllerMedia extends RedshopController
 	/**
 	 * AJAX delete a file
 	 *
-	 * @return void
+	 * @return  void
+     * @throws  Exception
 	 */
 	public function ajaxDelete()
 	{
@@ -367,6 +368,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!empty($id))
 		{
+			/** @var RedshopModelMedia $model */
 			$model = $this->getModel('media');
 
 			if ($model->deleteFile($id))
@@ -393,7 +395,7 @@ class RedshopControllerMedia extends RedshopController
 	/**
 	 * Publish Media
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function publish()
 	{
@@ -426,12 +428,12 @@ class RedshopControllerMedia extends RedshopController
 			);
 		}
 
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = "<?php echo $link; ?>";
+			</script><?php
 		}
 		else
 		{
@@ -442,7 +444,7 @@ class RedshopControllerMedia extends RedshopController
 	/**
 	 * Unpublish Media
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function unpublish()
 	{
@@ -474,12 +476,12 @@ class RedshopControllerMedia extends RedshopController
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
-            <script language="javascript" type="text/javascript">
-                window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = "<?php echo $link; ?>";
+			</script><?php
 		}
 		else
 		{
