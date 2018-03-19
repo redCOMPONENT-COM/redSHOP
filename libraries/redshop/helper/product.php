@@ -74,14 +74,113 @@ class RedshopHelperProduct
 	}
 
 	/**
-	 * Get product information
+	 * Get product information base on list of Ids
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $userId     User id
+	 * @param   array    $productIds  Product ids
+	 * @param   int      $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
 	 *
 	 * @return  mixed
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
 	 */
-	public static function getProductById($productId, $userId = 0)
+	public static function getProductsByIds($productIds = array(), $userId = 0, $setRelated = true)
+	{
+		if (!$userId)
+		{
+			$user   = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
+
+		if (empty($productIds))
+		{
+			return array();
+		}
+
+		$results       = array();
+		$newProductIds = array();
+
+		foreach ($productIds as $productId)
+		{
+			$key = $productId . '.' . $userId;
+
+			// Load from static cache if already exist.
+			if (array_key_exists($key, static::$products))
+			{
+				$results[] = static::$products[$key];
+
+				if ($setRelated)
+				{
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			// Check if data is already loaded while getting list
+			if (array_key_exists($productId, static::$allProducts))
+			{
+				static::$products[$key] = static::$allProducts[$productId];
+
+				if ($setRelated)
+				{
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			$newProductIds[] = $productId;
+		}
+
+		if (empty($newProductIds))
+		{
+			return $results;
+		}
+
+		// Otherwise load product info
+		$db    = JFactory::getDbo();
+		$query = self::getMainProductQuery(false, $userId);
+
+		// Select product
+		$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')');
+
+		$items = (array) $db->setQuery($query)->loadObjectList();
+
+		if (empty($items))
+		{
+			return $results;
+		}
+
+		foreach ($items as $item)
+		{
+			$key                    = $item->product_id . '.' . $userId;
+			static::$products[$key] = $item;
+			$results[]              = $item;
+
+			if ($setRelated === true)
+			{
+				self::setProductRelates(array($key => static::$products[$key]), $userId);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Get product information
+	 *
+	 * @param   integer  $productId   Product id
+	 * @param   integer  $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
+	 *
+	 * @return  mixed
+	 * @throws  Exception
+	 */
+	public static function getProductById($productId, $userId = 0, $setRelated = true)
 	{
 		if (!$userId)
 		{
@@ -98,8 +197,7 @@ class RedshopHelperProduct
 			{
 				static::$products[$key] = static::$allProducts[$productId];
 			}
-
-			// Otheriwise load product info
+			// Otherwise load product info
 			else
 			{
 				$db    = JFactory::getDbo();
@@ -112,7 +210,7 @@ class RedshopHelperProduct
 				static::$products[$key] = $db->loadObject();
 			}
 
-			if (static::$products[$key])
+			if ($setRelated === true && static::$products[$key])
 			{
 				self::setProductRelates(array($key => static::$products[$key]), $userId);
 			}
