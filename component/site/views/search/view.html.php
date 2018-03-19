@@ -494,7 +494,7 @@ class RedshopViewSearch extends RedshopView
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
-				$thum_image         = $producthelper->getProductImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
+				$thum_image         = Redshop\Product\Image\Image::getImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
 				$data_add           = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
 				// More documents

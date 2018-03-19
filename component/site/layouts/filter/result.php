@@ -590,10 +590,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		$hiddenThumbImage = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pwThumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
-		$thumbImage       = $productHelper->getProductImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1);
+		$thumbImage       = Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1);
 
 		// Product image flying addwishlist time start
-		$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $productHelper->getProductImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) . "</span>";
+		$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) . "</span>";
 
 		// Product image flying addwishlist time end
 		$dataAdd = str_replace($pImgTag, $thumbImage . $hiddenThumbImage, $dataAdd);
