@@ -95,9 +95,6 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $addAttribute = '+ Add Attribute parameter';
     
-    public static $attributeNamePropertyFirst = ['xpath'=>'//input[@name="attribute[1][property][0][name]"]'];
-    
-    public static $attributePricePropertyFirst = ['xpath'=>'//input[@name="attribute[1][property][0][price]"]'];
 
 	/**
 	 * @param $position

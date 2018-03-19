@@ -107,6 +107,8 @@ class AttributeUserCest
 	/**
 	 * @param AcceptanceTester $client
 	 * @param                  $scenario
+	 *
+	 * @throws Exception
 	 */
 	public function testProductAdministrator(AcceptanceTester $client, $scenario)
 	{
@@ -160,6 +162,7 @@ class AttributeUserCest
 	{
 		$client->wantTo('checkout with attribute');
 		$client = new ProductCheckoutSteps($scenario);
-		$client->checkoutAttributeShopperUser($this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal, $this->vatPrice, $this->total, $this->shippingPrice);
+		$client->checkoutAttributeShopperUser($this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
+			$this->vatPrice, $this->total, $this->shippingPrice);
 	}
 }
