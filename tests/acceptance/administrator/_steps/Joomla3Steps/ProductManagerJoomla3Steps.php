@@ -501,7 +501,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->waitForElement(ProductManagerPage::$productPrice, 30);
-		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
