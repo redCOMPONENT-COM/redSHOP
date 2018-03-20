@@ -391,7 +391,7 @@ class Tag
 	 */
 	protected static function replaceTag(&$html, $condition = '', $search = array(), $replace = array())
 	{
-		$replace = !empty($condition) ? $replace : '';
+		$replace = !empty($condition) ? $replace : array('');
 		$html    = str_replace($search, $replace, $html);
 	}
 }

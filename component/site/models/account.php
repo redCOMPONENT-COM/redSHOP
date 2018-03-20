@@ -190,7 +190,7 @@ class RedshopModelAccount extends RedshopModel
 				->from($db->qn('#__redshop_wishlist', 'w'))
 				->leftJoin($db->qn('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
-				->where('w.user_id = ' . (int) $userId)
+				->where('w.user_id = ' . (int) $userId->id)
 				->where('w.wishlist_id = ' . (int) $wishListId)
 				->where('pw.wishlist_id = ' . (int) $wishListId);
 

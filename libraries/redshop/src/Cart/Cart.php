@@ -213,7 +213,7 @@ class Cart
 		$idx = (int) $cart['idx'];
 
 		// Set session for giftcard
-		if (isset($data['giftcard_id']) && $data['giftcard_id'])
+		if (!empty($data['giftcard_id']))
 		{
 			self::addGiftCardProduct($cart, $idx, $data);
 		}
@@ -478,15 +478,13 @@ class Cart
 			{
 				return urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 			}
-			elseif (!$isPreOrderStock)
-			{
-				return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
-			}
+
+			return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
 
-		if ($product->product_type == 'subscription')
+		if ($product->product_type === 'subscription')
 		{
 			if (isset($data['subscription_id']) && $data['subscription_id'] != "")
 			{
@@ -518,7 +516,7 @@ class Cart
 			if (isset($data['accessory_data']))
 			{
 				// Append previously added accessories as products
-				if ($cart['AccessoryAsProduct'][0] != '')
+				if (!empty($cart['AccessoryAsProduct'][0]))
 				{
 					$data['accessory_data']       = $cart['AccessoryAsProduct'][0] . '@@' . $data['accessory_data'];
 					$data['acc_quantity_data']    = $cart['AccessoryAsProduct'][1] . '@@' . $data['acc_quantity_data'];
@@ -554,10 +552,8 @@ class Cart
 				{
 					return \JText::_('COM_REDSHOP_ACCESSORY_HAS_REQUIRED_ATTRIBUTES');
 				}
-				elseif (!$generateAccessoryCart)
-				{
-					return false;
-				}
+
+				return false;
 			}
 		}
 
@@ -602,7 +598,7 @@ class Cart
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			if ($cart[$i]['product_id'] == $data['product_id'])
+			if ($cart[$i]['product_id'] === $data['product_id'])
 			{
 				$sameProduct = true;
 
@@ -627,8 +623,8 @@ class Cart
 				}
 
 				if (!empty($discounts)
-					&& ($cart[$i]["discount_calc"]["calcWidth"] != $data["calcWidth"]
-					|| $cart[$i]["discount_calc"]["calcDepth"] != $data["calcDepth"])
+					&& ($cart[$i]["discount_calc"]["calcWidth"] !== $data["calcWidth"]
+					|| $cart[$i]["discount_calc"]["calcDepth"] !== $data["calcDepth"])
 				)
 				{
 					$sameProduct = false;
@@ -690,15 +686,15 @@ class Cart
 					foreach ($rows as $row)
 					{
 						$productUserField = $row->name;
-						$addedUserField   = $data[$productUserField];
+						$addedUserField   = isset($data[$productUserField]) ?: '';
 
-						if (isset($cart[$i][$productUserField]) && $addedUserField != $cart[$i][$productUserField])
+						if (isset($cart[$i][$productUserField]) && $addedUserField !== $cart[$i][$productUserField])
 						{
 							$puf = 0;
 						}
 					}
 
-					if ($puf != 1)
+					if ($puf !== 1)
 					{
 						$sameProduct = false;
 					}
@@ -711,11 +707,11 @@ class Cart
 
 					if ($newQuantity > $newCartQuantity)
 					{
-						$cart['notice_message'] = $newCartQuantity . " " . \JText::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
+						$cart['notice_message'] = $newCartQuantity . ' ' . \JText::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
 					}
 					else
 					{
-						$cart['notice_message'] = "";
+						$cart['notice_message'] = '';
 					}
 
 					if ($newCartQuantity != $cart[$i]['quantity'])
@@ -740,14 +736,10 @@ class Cart
 
 						return true;
 					}
-					else
-					{
-						$msg = (\Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '' && \Redshop::getConfig()->get('IS_PRODUCT_RESERVE'))
-							? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
-							: urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 
-						return $msg;
-					}
+					return \Redshop::getConfig()->getString('CART_RESERVATION_MESSAGE') !== '' && \Redshop::getConfig()->getBool('IS_PRODUCT_RESERVE')
+						? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
+						: urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 				}
 			}
 		}

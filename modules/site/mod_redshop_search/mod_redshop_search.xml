@@ -165,6 +165,7 @@
                         default=""
                         label="MOD_REDSHOP_SEARCH_EXCLUDE_CATEGORIES_LBL"
                         description="MOD_REDSHOP_SEARCH_EXCLUDE_CATEGORIES_DESC"
+                        multiple="true"
                 />
             </fieldset>
             <fieldset name="advanced">

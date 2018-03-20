@@ -182,7 +182,7 @@ class RedshopHelperProductTag
 			$productImgThumbHeight = $mainImgHeight;
 		}
 
-		$imageAttributes = productHelper::getInstance()->getdisplaymainImage(
+		$imageAttributes = Redshop\Product\Image\Image::getDisplayMain(
 			$productId, $propertyId, $subPropertyId, $productImgThumbWidth, $productImgThumbHeight, $redView
 		);
 

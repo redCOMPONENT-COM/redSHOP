@@ -35,10 +35,10 @@ class RedshopModelLogin extends RedshopModel
 		// Perform the login action
 		$error = $app->login($credentials);
 
-		if (!empty($error->getMessage()))
+		if ($error instanceof JException && !empty($error->getMessage()))
 		{
 			$msg = "<a href='" . JRoute::_('index.php?option=com_users&view=reset') . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
-			$app->enqueuemessage($msg);
+			$app->enqueueMessage($msg);
 		}
 
 		return $error;
