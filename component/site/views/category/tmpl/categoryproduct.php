@@ -12,13 +12,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 $objhelper       = redhelper::getInstance();
-$config          = Redconfiguration::getInstance();
 $producthelper   = productHelper::getInstance();
 $extraField      = extraField::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
-
-$url    = JURI::base();
+$url             = JURI::base();
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = RedshopHelperTemplate::getTemplate('categoryproduct');
@@ -140,13 +138,21 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
-			$product_img = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+			$product_img = RedshopHelperMedia::watermark(
+				'category', $row->id . '/' . $row->category_id, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
+			);
+			$linkimage   = RedshopHelperMedia::watermark(
+				'category', $row->id . '/' . $row->category_id, 0, 0, Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE')
+			);
 		}
 		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
-			$product_img = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+			$product_img = RedshopHelperMedia::watermark(
+				'category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
+			);
+			$linkimage   = RedshopHelperMedia::watermark(
+				'category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), 0, 0, Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE')
+			);
 		}
 
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
@@ -176,13 +182,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		if (strstr($data_add, '{category_description}'))
 		{
-			$cat_desc = $config->maxchar($row->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+			$cat_desc = RedshopHelperUtility::maxChars($row->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_short_desc}'))
 		{
-			$cat_s_desc = $config->maxchar($row->short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+			$cat_s_desc = RedshopHelperUtility::maxChars($row->short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
 
@@ -197,7 +203,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		 * category template extra field
 		 * "2" argument is set for category
 		 */
-		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
+		$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $row->id, RedshopHelperExtrafields::SECTION_CATEGORY, $data_add);
 
 		if (strstr($data_add, "{product_loop_start}") && strstr($data_add, "{product_loop_end}"))
 		{
@@ -224,7 +230,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$count_no_user_field = 0;
 
 				// Counting accessory
-				$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
+				$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 				$totacc        = count($accessorylist);
 
 				$prddata_add .= $template_product;
@@ -343,7 +349,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$strToInsert  = $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit;
 				$prddata_add  = str_replace("{product_height}", $strToInsert, $prddata_add);
 
-				$prddata_add = $producthelper->replaceVatinfo($prddata_add);
+				$prddata_add = RedshopHelperTax::replaceVatInformation($prddata_add);
 				$this->catid = $row->category_id;
 				$link        = JRoute::_(
 											'index.php?option=com_redshop&view=product&pid=' .
@@ -352,7 +358,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_name}'))
 				{
-					$pname       = $config->maxchar($product->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
+					$pname       = RedshopHelperUtility::maxChars($product->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 					$pname       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
 					$prddata_add = str_replace("{product_name}", $pname, $prddata_add);
 				}
@@ -370,13 +376,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_s_desc}'))
 				{
-					$p_s_desc    = $config->maxchar($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
+					$p_s_desc    = RedshopHelperUtility::maxChars($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
 					$prddata_add = str_replace("{product_s_desc}", $p_s_desc, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{product_desc}'))
 				{
-					$p_desc      = $config->maxchar($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
+					$p_desc      = RedshopHelperUtility::maxChars($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 					$prddata_add = str_replace("{product_desc}", $p_desc, $prddata_add);
 				}
 
@@ -467,7 +473,9 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				 */
 				if (count($loadCategorytemplate) > 0)
 				{
-					$prddata_add = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $prddata_add, 1);
+					$prddata_add = RedshopHelperProductTag::getExtraSectionTag(
+						$extraFieldName, $product->product_id, RedshopHelperExtrafields::SECTION_PRODUCT, $prddata_add, 1
+					);
 				}
 
 				/************************************
@@ -503,10 +511,10 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 					if ($product->attribute_set_id > 0)
 					{
-						$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $producthelper->getProductAttribute($product->product_id);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
@@ -518,7 +526,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				$prddata_add = Redshop\Product\Stock::replaceInStock($product->product_id, $prddata_add, $attributes, $attribute_template);
 
-				$prddata_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
+				$prddata_add = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, 0, $attributes, $prddata_add, $attribute_template, $isChilds);
 
 				// Get cart tempalte.
 				$prddata_add = Redshop\Cart\Render::replace(

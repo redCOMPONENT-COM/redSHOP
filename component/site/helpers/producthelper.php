@@ -498,11 +498,11 @@ class productHelper
 	/**
 	 * Method for get category image of specific product
 	 *
-	 * @param   integer $product_id   Product Id
-	 * @param   string  $category_img Category image
-	 * @param   string  $link         Link
-	 * @param   integer $width        Width
-	 * @param   integer $height       Height
+	 * @param   integer  $product_id    Product Id
+	 * @param   integer  $category_img  Category image
+	 * @param   string   $link          Link
+	 * @param   integer  $width         Width
+	 * @param   integer  $height        Height
 	 *
 	 * @return  string
 	 * @throws  Exception
@@ -510,7 +510,7 @@ class productHelper
 	 * @deprecated __DEPLOY_VERSION__ Use Redshop\Product\Image\Image::getCategoryImage
 	 * @see Redshop\Product\Image\Image::getCategoryImage
 	 */
-	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
+	public function getProductCategoryImage($product_id = 0, $category_img = 0, $link = '', $width = 0, $height = 0)
 	{
 		return Redshop\Product\Image\Image::getCategoryImage($product_id, $category_img, $link, $width, $height);
 	}

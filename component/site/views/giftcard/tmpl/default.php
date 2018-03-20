@@ -76,8 +76,8 @@ if ($gid != 0)
 
 	if (strstr($template, "{giftcard_image}"))
 	{
-		$product_img = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, Redshop::getConfig()->get('GIFTCARD_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
-		$linkimage   = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, '', '', Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'), '0');
+		$product_img = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, Redshop::getConfig()->get('GIFTCARD_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'));
+		$linkimage   = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, 0, 0, Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'));
 		$thum_image = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
 		$thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
 		$thum_image .= "</a>";
@@ -85,7 +85,7 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_image}", $thum_image, $template);
 	}
 
-	$template = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail->giftcard_value), $template);
+	$template = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_value), $template);
 	$template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
 	if ($detail->customer_amount != 1)
@@ -99,7 +99,7 @@ if ($gid != 0)
 
 	if ($detail->customer_amount != 1)
 	{
-		$template = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail->giftcard_price), $template);
+		$template = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_price), $template);
 	}
 	else
 	{
@@ -221,7 +221,7 @@ if ($gid != 0)
 
 		$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
-		if ($ufield != "")
+		if (!empty($ufield))
 		{
 			$template = str_replace("{if giftcard_userfield}", $productUserFieldsForm, $template);
 			$template = str_replace("{giftcard_userfield end if}", "</form>", $template);
@@ -291,10 +291,10 @@ else
 			}
 
 			$data_add = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
-			$data_add = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_value), $data_add);
+			$data_add = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_value), $data_add);
 
 			$data_add = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
-			$data_add = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_price), $data_add);
+			$data_add = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
 
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);

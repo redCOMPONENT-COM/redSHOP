@@ -19,7 +19,17 @@ class redhelper
 	/**
 	 * @var  self
 	 */
-	protected static $instance = null;
+	protected static $instance;
+
+	/**
+	 * @var string
+	 */
+	public $_table_prefix;
+
+	/**
+	 * @var JDatabaseDriver
+	 */
+	public $_db;
 
 	/**
 	 * Returns the redHelper object, only creating it
@@ -257,7 +267,7 @@ class redhelper
 	/**
 	 * Shopper Group portal info
 	 *
-	 * @return  object  Shopper Group Ids Object
+	 * @return  mixed   Shopper Group Ids Object
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperShopper_Group::getShopperGroupPortal instead
 	 */
@@ -450,15 +460,16 @@ class redhelper
 	 *
 	 * @param   string   $section          Image section
 	 * @param   string   $imageName        Image name
-	 * @param   string   $thumbWidth       Thumb width
-	 * @param   string   $thumbHeight      Thumb height
+	 * @param   integer  $thumbWidth       Thumb width
+	 * @param   integer  $thumbHeight      Thumb height
 	 * @param   integer  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperUtility::watermark instead
 	 */
-	public function watermark($section, $imageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = -1)
+	public function watermark($section, $imageName = '', $thumbWidth = 0, $thumbHeight = 0, $enableWatermark = -1)
 	{
 		return RedshopHelperMedia::watermark($section, $imageName, $thumbWidth, $thumbHeight, $enableWatermark);
 	}

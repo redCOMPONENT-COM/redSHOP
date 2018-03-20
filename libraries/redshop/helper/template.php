@@ -172,7 +172,7 @@ class RedshopHelperTemplate
 	 * Method to get Template
 	 *
 	 * @param   string $section    Set section Template
-	 * @param   int    $templateId Template Id
+	 * @param   string $templateId Template Id
 	 * @param   string $name       Template Name
 	 *
 	 * @return  array              Template Array
@@ -181,7 +181,7 @@ class RedshopHelperTemplate
 	 *
 	 * @throws  Exception
 	 */
-	public static function getTemplate($section = '', $templateId = 0, $name = "")
+	public static function getTemplate($section = '', $templateId = '', $name = '')
 	{
 		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
 
@@ -197,7 +197,7 @@ class RedshopHelperTemplate
 				->where($db->qn('published') . ' = 1')
 				->order($db->qn('id') . ' ASC');
 
-			if ($templateId != 0)
+			if (!empty($templateId))
 			{
 				// Sanitize ids
 				$arrayTid = explode(',', $templateId);
@@ -206,14 +206,12 @@ class RedshopHelperTemplate
 				$query->where('id IN (' . implode(',', $arrayTid) . ')');
 			}
 
-			if ($name != '')
+			if (!empty($name))
 			{
 				$query->where('name = ' . $db->quote($name));
 			}
 
-			$db->setQuery($query);
-
-			self::$templates[$key] = $db->loadObjectList();
+			self::$templates[$key] = (array) $db->setQuery($query)->loadObjectList();
 
 			foreach (self::$templates[$key] as $index => $template)
 			{

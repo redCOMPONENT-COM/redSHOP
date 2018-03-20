@@ -789,12 +789,16 @@ class RedshopHelperMedia
 		if (in_array($section, array('category', 'manufacturer')))
 		{
 			// Image name must have id of section. Ex: <id>/<image>.jpg
-			$sectionId         = explode('/', $imageName);
-			$sectionId         = (int) $sectionId[0];
-			$imageRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
-			$imagePath         = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/' . $sectionId . '/' . $imageName;
-			$thumbRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/';
-			$thumbPath         = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/';
+			$sectionId = explode('/', $imageName);
+
+			if (count($sectionId) > 1)
+			{
+				$sectionId         = (int) $sectionId[0];
+				$imageRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
+				$imagePath         = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/' . $sectionId . '/' . $imageName;
+				$thumbRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/';
+				$thumbPath         = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/';
+			}
 		}
 
 		$watermarkImage  = Redshop::getConfig()->getString('WATERMARK_IMAGE');
@@ -805,7 +809,8 @@ class RedshopHelperMedia
 			// If main image not exists - display noimage
 			if (!JFile::exists($imageRelativePath))
 			{
-				$mainImage = 'noimage.jpg';
+				$imageRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . 'noimage.jpg';
+				$imagePath         = REDSHOP_MEDIA_IMAGE_ABSPATH . 'noimage.jpg';
 				throw new Exception;
 			}
 
