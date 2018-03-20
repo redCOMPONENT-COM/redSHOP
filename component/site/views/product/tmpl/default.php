@@ -28,9 +28,7 @@ $user  = JFactory::getUser();
 
 $extraField      = extraField::getInstance();
 $producthelper   = productHelper::getInstance();
-$redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
-$config          = Redconfiguration::getInstance();
 
 $template = $this->template;
 
@@ -328,7 +326,7 @@ if ($this->redHelper->isredProductfinder())
 	}
 }
 
-$template_desc = $producthelper->replaceVatinfo($template_desc);
+$template_desc = RedshopHelperTax::replaceVatInformation($template_desc);
 $template_desc = str_replace("{associate_tag}", $ass_tag, $template_desc);
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
 $template_desc = str_replace("{product_name}", $this->data->product_name, $template_desc);
@@ -427,11 +425,11 @@ else
 
 $template_desc = RedshopHelperStockroom::replaceStockroomAmountDetail($template_desc, $this->data->product_id);
 
-$template_desc = str_replace("{update_date}", $redshopconfig->convertDateFormat(strtotime($this->data->update_date)), $template_desc);
+$template_desc = str_replace("{update_date}", RedshopHelperDatetime::convertDateFormat(strtotime($this->data->update_date)), $template_desc);
 
 if ($this->data->publish_date != '0000-00-00 00:00:00')
 {
-	$template_desc = str_replace("{publish_date}", $redshopconfig->convertDateFormat(strtotime($this->data->publish_date)), $template_desc);
+	$template_desc = str_replace("{publish_date}", RedshopHelperDatetime::convertDateFormat(strtotime($this->data->publish_date)), $template_desc);
 }
 else
 {
@@ -493,8 +491,10 @@ if (strstr($template_desc, "{product_delivery_time}"))
 // Facebook I like Button
 if (strstr($template_desc, "{facebook_like_button}"))
 {
-	$uri           = JFactory::getURI();
-	$facebook_link = urlencode(JFilterOutput::cleanText($uri->toString()));
+	$uri           = JUri::getInstance();
+	$facebook_link = $uri->toString();
+	JFilterOutput::cleanText($facebook_link);
+	$facebook_link = urlencode($facebook_link);
 	$facebook_like = '<iframe src="' . $Scheme . '://www.facebook.com/plugins/like.php?href=' . $facebook_link . '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>';
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
@@ -509,8 +509,8 @@ if (strstr($template_desc, "{facebook_like_button}"))
 // Google I like Button
 if (strstr($template_desc, "{googleplus1}"))
 {
-	JHTML::script('https://apis.google.com/js/plusone.js');
-	$uri           = JFactory::getURI();
+	JHtml::script('https://apis.google.com/js/plusone.js');
+	$uri           = JUri::getInstance();
 	$google_like   = '<g:plusone></g:plusone>';
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
 }
@@ -624,7 +624,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				if ($wrapper[$i]->wrapper_price > 0 && !strstr($template_desc, "{without_vat}"))
 				{
-					$wrapper_vat = $producthelper->getProducttax($this->data->product_id, $wrapper[$i]->wrapper_price);
+					$wrapper_vat = RedshopHelperProduct::getProductTax($this->data->product_id, $wrapper[$i]->wrapper_price);
 				}
 
 				$wp            = $wrapper[$i]->wrapper_price + $wrapper_vat;
@@ -636,7 +636,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 				{
-					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($wp) . ")";
+					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . RedshopHelperProductPrice::formattedPrice($wp) . ")";
 				}
 
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
@@ -663,7 +663,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 					{
-						$wrapperimage_div .= $producthelper->getProductFormattedPrice($wp);
+						$wrapperimage_div .= RedshopHelperProductPrice::formattedPrice($wp);
 					}
 
 					$wrapperimage_div .= "</div>";
@@ -736,7 +736,7 @@ if (strstr($template_desc, "{child_products}"))
 
 	if ($parentproductid != 0)
 	{
-		$productInfo = $producthelper->getProductById($parentproductid);
+		$productInfo = RedshopHelperProduct::getProductById($parentproductid);
 
 		// Get child products
 		$childproducts = $this->model->getAllChildProductArrayList(0, $parentproductid);
@@ -785,10 +785,10 @@ if (count($childproduct) > 0)
 
 		if ($this->data->attribute_set_id > 0)
 		{
-			$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 		}
 
-		$attributes = $producthelper->getProductAttribute($this->data->product_id);
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 	}
 	else
@@ -804,10 +804,10 @@ else
 
 	if ($this->data->attribute_set_id > 0)
 	{
-		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+		$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
-	$attributes = $producthelper->getProductAttribute($this->data->product_id);
+	$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
 	$attributes = array_merge($attributes, $attributes_set);
 }
 
@@ -1254,7 +1254,7 @@ $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
 // ProductFinderDatepicker Extra Field Start
 
-$fieldArray    = $extraField->getSectionFieldList(17, 0, 0);
+$fieldArray    = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 $template_desc = $producthelper->getProductFinderDatepickerValue($template_desc, $this->data->product_id, $fieldArray);
 
 // ProductFinderDatepicker Extra Field End
@@ -1360,13 +1360,14 @@ if (strstr($template_desc, "{category_product_img}"))
 	$template_desc = str_replace("{category_back_img_link}", $product_back_image_link, $template_desc);
 
 	// Display category front image
-	$thum_catimage = $producthelper->getProductCategoryImage(
+	$thum_catimage = Redshop\Product\Image\Image::getCategoryImage(
 		$this->data->product_id,
-		$this->data->category_full_image,
+		$this->data->category_id,
 		'',
-		$pw_thumb, $ph_thumb,
-		Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')
+		$pw_thumb,
+        $ph_thumb
 	);
+
 	$template_desc = str_replace("{category_product_img}", $thum_catimage, $template_desc);
 
 	// Category front-back image tag end
@@ -1627,7 +1628,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data1 = str_replace("{title}", $reviews [$j]->title, $reviews_data1);
 			$reviews_data1 = str_replace("{comment}", nl2br($reviews [$j]->comment), $reviews_data1);
 			$reviews_data1 = str_replace("{stars}", $starimage, $reviews_data1);
-			$reviews_data1 = str_replace("{reviewdate}", $redshopconfig->convertDateFormat($reviews [$j]->time), $reviews_data1);
+			$reviews_data1 = str_replace("{reviewdate}", RedshopHelperDatetime::convertDateFormat($reviews [$j]->time), $reviews_data1);
 			$reviews_data  .= $reviews_data1;
 		}
 
@@ -1653,7 +1654,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data2 = str_replace("{title}", $reviews [$k]->title, $reviews_data2);
 			$reviews_data2 = str_replace("{comment}", nl2br($reviews [$k]->comment), $reviews_data2);
 			$reviews_data2 = str_replace("{stars}", $starimage2, $reviews_data2);
-			$reviews_data2 = str_replace("{reviewdate}", $redshopconfig->convertDateFormat($reviews [$k]->time), $reviews_data2);
+			$reviews_data2 = str_replace("{reviewdate}", RedshopHelperDatetime::convertDateFormat($reviews [$k]->time), $reviews_data2);
 			$reviews_data  .= $reviews_data2;
 		}
 
@@ -1751,7 +1752,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 		for ($q = 0, $qn = count($product_question); $q < $qn; $q++)
 		{
 			$qloop = str_replace("{question}", $product_question [$q]->question, $qmiddle);
-			$qloop = str_replace("{question_date}", $config->convertDateFormat($product_question [$q]->question_date), $qloop);
+			$qloop = str_replace("{question_date}", RedshopHelperDatetime::convertDateFormat($product_question [$q]->question_date), $qloop);
 			$qloop = str_replace("{question_owner}", $product_question [$q]->user_name, $qloop);
 
 			$astart       = $qloop;
@@ -1777,7 +1778,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 			for ($a = 0, $an = count($product_answer); $a < $an; $a++)
 			{
 				$aloop = str_replace("{answer}", $product_answer [$a]->question, $amiddle);
-				$aloop = str_replace("{answer_date}", $config->convertDateFormat($product_answer [$a]->question_date), $aloop);
+				$aloop = str_replace("{answer_date}", RedshopHelperDatetime::convertDateFormat($product_answer [$a]->question_date), $aloop);
 				$aloop = str_replace("{answer_owner}", $product_answer [$a]->user_name, $aloop);
 
 				$answerloop .= $aloop;

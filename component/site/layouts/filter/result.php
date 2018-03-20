@@ -9,15 +9,18 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
+/** @var JApplicationSite $app */
+$app = JFactory::getApplication();
+
 $products   = $displayData["products"];
 $templateId = $displayData['templateId'];
 $pk         = $displayData["post"];
 $cid        = $pk["cid"] ? $pk["cid"] : 0;
 $keyword    = $displayData['keyword'];
 $model      = $displayData["model"];
-$app        = JFactory::getApplication();
 $input      = $app->input;
 
+/** @var RedshopModelCategory $categoryModel */
 $categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 $categoryModel->setId($cid);
 $categoryData = $categoryModel->getData();
@@ -29,7 +32,6 @@ $objHelper        = redhelper::getInstance();
 $extraField       = extraField::getInstance();
 $stockroomHelper  = rsstockroomhelper::getInstance();
 $redTemplate      = Redtemplate::getInstance();
-$redconfiguration = Redconfiguration::getInstance();
 
 $list = array(
 	JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT')),
@@ -65,7 +67,7 @@ $attributeTemplate = \Redshop\Template\Helper::getAttribute($templateDesc);
 // Begin replace template
 $templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
 $templateDesc   = str_replace("{total_product}", $displayData['total'], $templateDesc);
-$categoryDetail = RedshopHelperCategory::getCategoryById($cid);
+$categoryDetail = RedshopEntityCategory::getInstance($cid)->getItem();
 
 if (strpos($templateDesc, "{template_selector_category}") !== false)
 {
@@ -92,7 +94,7 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 	$templateDesc = str_replace("{template_selector_category}", "", $templateDesc);
 }
 
-$templateDesc = $productHelper->getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
+$templateDesc = RedshopHelperProductTag::getExtraSectionTag($extraFieldCategory, $cid, RedshopHelperExtrafields::SECTION_CATEGORY, $templateDesc);
 
 if (strpos($templateDesc, "{load_more}") !== false)
 {
@@ -176,20 +178,18 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 			$categoryFullImage = $row->category_full_image;
 			$productImage      = RedshopHelperMedia::watermark(
 				'category',
-				$row->category_full_image,
+				$row->id . '/' . $row->category_full_image,
 				$wThumb,
 				$hThumb,
-				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'),
-				'0'
+				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
 			);
 
 			$linkImage = RedshopHelperMedia::watermark(
 				'category',
-				$row->category_full_image,
-				'',
-				'',
-				Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'),
-				'0'
+				$row->id . '/' . $row->category_full_image,
+				0,
+				0,
+				Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE')
 			);
 		}
 		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
@@ -200,17 +200,15 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 				Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'),
 				$wThumb,
 				$hThumb,
-				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'),
-				'0'
+				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
 			);
 
 			$linkImage = RedshopHelperMedia::watermark(
 				'category',
 				Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'),
-				'',
-				'',
-				Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'),
-				'0'
+				0,
+				0,
+				Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE')
 			);
 		}
 
@@ -241,7 +239,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		if (strpos($dataAdd, '{category_description}') !== false)
 		{
-			$catDesc = $redconfiguration->maxchar(
+			$catDesc = RedshopHelperUtility::maxChars(
 				$row->description,
 				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
 				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
@@ -252,7 +250,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		if (strpos($dataAdd, '{category_short_desc}') !== false)
 		{
-			$catShortDesc = $redconfiguration->maxchar(
+			$catShortDesc = RedshopHelperUtility::maxChars(
 				$row->short_description,
 				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
 				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
@@ -306,7 +304,7 @@ if (strpos($templateDesc, "{if subcats}") !== false && strpos($templateDesc, "{s
 // Replace Main Category
 if (strpos($templateDesc, '{category_main_description}') !== false)
 {
-	$mainCategoryDesc = $redconfiguration->maxchar(
+	$mainCategoryDesc = RedshopHelperUtility::maxChars(
 		$mainCategory->description,
 		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
 		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
@@ -317,7 +315,7 @@ if (strpos($templateDesc, '{category_main_description}') !== false)
 
 if (strpos($templateDesc, '{category_main_short_desc}') !== false)
 {
-	$mainCategoryShortDesc = $redconfiguration->maxchar(
+	$mainCategoryShortDesc = RedshopHelperUtility::maxChars(
 		$mainCategory->short_description,
 		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
 		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
@@ -330,7 +328,7 @@ $mainCategoryName = "";
 
 if (strpos($templateDesc, '{category_main_name}') !== false)
 {
-	$mainCategoryName = $redconfiguration->maxchar(
+	$mainCategoryName = RedshopHelperUtility::maxChars(
 		$mainCategory->name,
 		Redshop::getConfig()->get('CATEGORY_TITLE_MAX_CHARS'),
 		Redshop::getConfig()->get('CATEGORY_TITLE_END_SUFFIX')
@@ -370,11 +368,10 @@ if ($mainCategory->category_full_image && JFile::exists(REDSHOP_FRONT_IMAGES_REL
 {
 	$waterCatImg = RedshopHelperMedia::watermark(
 		'category',
-		$mainCategory->category_full_image,
+		$mainCategory->id . '/' . $mainCategory->category_full_image,
 		$cwThumb,
 		$chThumb,
-		Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'),
-		'0'
+		Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
 	);
 
 	$catMainThumb = "<a href='" . $link . "' title='" . $mainCategoryName .
@@ -776,7 +773,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$product->product_id,
 			$dataAdd,
 			$attributes,
-			$attributeTemplate
+			(array) $attributeTemplate
 		);
 
 		$dataAdd = RedshopHelperAttribute::replaceAttributeData(
@@ -840,7 +837,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 	if (strstr($templateDesc, "{product_display_limit}"))
 	{
-		if ($usePerPageLimit == false)
+		if (!$usePerPageLimit)
 		{
 			$limitBox = '';
 		}

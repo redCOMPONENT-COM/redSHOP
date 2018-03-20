@@ -11,41 +11,97 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
+/**
+ * Class productHelper
+ *
+ * @since  1.6.0
+ */
 class productHelper
 {
-	public $_db = null;
+	/**
+	 * @var JDatabaseDriver
+	 */
+	public $_db;
 
-	public $_table_prefix = null;
+	/**
+	 * @var string
+	 */
+	public $_table_prefix;
 
-	public $_userhelper = null;
+	/**
+	 * @var RsUserHelper
+	 */
+	public $_userhelper;
 
-	public $_session = null;
+	/**
+	 * @var JSession
+	 */
+	public $_session;
 
-	public $_cartTemplateData = null;
+	/**
+	 * @var mixed
+	 */
+	public $_cartTemplateData;
 
-	public $_ajaxdetail_templatedata = null;
+	/**
+	 * @var mixed
+	 */
+	public $_ajaxdetail_templatedata;
 
-	public $_vatCountry = null;
+	/**
+	 * @var mixed
+	 */
+	public $_vatCountry;
 
-	public $_vatState = null;
+	/**
+	 * @var mixed
+	 */
+	public $_vatState;
 
-	public $_vatGroup = null;
+	/**
+	 * @var mixed
+	 */
+	public $_vatGroup;
 
+	/**
+	 * @var array
+	 */
 	public $_taxData = array();
 
-	public $_cart_template = null;
+	/**
+	 * @var string
+	 */
+	public $_cart_template;
 
-	public $_acc_template = null;
+	/**
+	 * @var string
+	 */
+	public $_acc_template;
 
-	public $_attribute_template = null;
+	/**
+	 * @var string
+	 */
+	public $_attribute_template;
 
-	public $_attributewithcart_template = null;
+	/**
+	 * @var string
+	 */
+	public $_attributewithcart_template;
 
+	/**
+	 * @var array
+	 */
 	protected static $productSpecialIds = array();
 
+	/**
+	 * @var array
+	 */
 	protected static $productDateRange = array();
 
-	protected static $instance = null;
+	/**
+	 * @var self
+	 */
+	protected static $instance;
 
 	/**
 	 * Returns the productHelper object, only creating it
@@ -133,6 +189,7 @@ class productHelper
 	 * @deprecated  1.5 Use RedshopHelperProduct::getProductById instead
 	 *
 	 * @return mixed
+	 * @throws Exception
 	 */
 	public function getProductById($productId, $userId = 0)
 	{
@@ -203,56 +260,16 @@ class productHelper
 	/**
 	 * Get Product Special Id
 	 *
-	 * @param   int  $userId  User Id
+	 * @param   integer  $userId  User Id
 	 *
 	 * @return  string
+	 * @throws  Exception
+	 * @deprecated __DEPLOY_VERSION__ Use Redshop\User\Product::getSpecials
+	 * @see Redshop\User\Product::getSpecials
 	 */
 	public function getProductSpecialId($userId)
 	{
-		if (array_key_exists($userId, self::$productSpecialIds))
-		{
-			return self::$productSpecialIds[$userId];
-		}
-
-		$db = JFactory::getDbo();
-
-		if ($userId)
-		{
-			$query = $db->getQuery(true)
-				->select('ps.discount_product_id')
-				->from($db->qn('#__redshop_discount_product_shoppers', 'ps'))
-				->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = ps.shopper_group_id')
-				->where('ui.user_id = ' . (int) $userId)
-				->where('ui.address_type = ' . $db->q('BT'));
-		}
-		else
-		{
-			$userArr = $this->_session->get('rs_user');
-
-			if (empty($userArr))
-			{
-				$userArr = RedshopHelperUser::createUserSession($userId);
-			}
-
-			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ?
-				$userArr['rs_user_shopperGroup'] : RedshopHelperUser::getShopperGroup($userId);
-
-			$query = $db->getQuery(true)
-				->select('dps.discount_product_id')
-				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
-				->where('dps.shopper_group_id =' . (int) $shopperGroupId);
-		}
-
-		$result = $db->setQuery($query)->loadColumn();
-
-		self::$productSpecialIds[$userId] = '0';
-
-		if (count($result) > 0)
-		{
-			self::$productSpecialIds[$userId] .= ',' . implode(',', $result);
-		}
-
-		return self::$productSpecialIds[$userId];
+		return \Redshop\User\Product::getSpecials($userId);
 	}
 
 	/**
@@ -416,16 +433,20 @@ class productHelper
 		return RedshopHelperProductPrice::priceRound($productPrice);
 	}
 
+	/**
+	 * Method for get product parent image
+	 *
+	 * @param   integer  $product_parent_id  Product parent ID
+	 *
+	 * @return  mixed
+	 * @throws  \Exception
+	 *
+	 * @deprecated __DEPLOY_VERSION__ Use Redshop\Product\Image\Image::getParentImage
+	 * @see Redshop\Product\Image\Image::getParentImage
+	 */
 	public function getProductparentImage($product_parent_id)
 	{
-		$result = RedshopHelperProduct::getProductById($product_parent_id);
-
-		if ($result->product_full_image == '' && $result->product_parent_id > 0)
-		{
-			$result = $this->getProductparentImage($result->product_parent_id);
-		}
-
-		return $result;
+		return Redshop\Product\Image\Image::getParentImage($product_parent_id);
 	}
 
 	/**
@@ -441,6 +462,7 @@ class productHelper
 	 * @param   array    $preselectedresult        Preselected result
 	 *
 	 * @return  string   Product Image
+	 * @throws  Exception
 	 *
 	 * @deprecated 2.1.0 Use Redshop\Product\Image\Image::getImage()
 	 * @see Redshop\Product\Image\Image::getImage
@@ -473,36 +495,24 @@ class productHelper
 		return Redshop\Product\Image\Render::replace($product, $imagename, $linkimagename, $link, $width, $height, $Product_detail_is_light, $enableHover, $preselectedResult, $suffixid);
 	}
 
-	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
+	/**
+	 * Method for get category image of specific product
+	 *
+	 * @param   integer  $product_id    Product Id
+	 * @param   integer  $category_img  Category image
+	 * @param   string   $link          Link
+	 * @param   integer  $width         Width
+	 * @param   integer  $height        Height
+	 *
+	 * @return  string
+	 * @throws  Exception
+	 *
+	 * @deprecated __DEPLOY_VERSION__ Use Redshop\Product\Image\Image::getCategoryImage
+	 * @see Redshop\Product\Image\Image::getCategoryImage
+	 */
+	public function getProductCategoryImage($product_id = 0, $category_img = 0, $link = '', $width = 0, $height = 0)
 	{
-		$result     = RedshopHelperProduct::getProductById($product_id);
-		$thum_image = "";
-		$title      = " title='" . $result->product_name . "' ";
-		$alt        = " alt='" . $result->product_name . "' ";
-
-		if ($category_img && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $category_img))
-		{
-			if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
-			{
-				$product_img       = RedshopHelperMedia::watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$product_hover_img = RedshopHelperMedia::watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$linkimage         = RedshopHelperMedia::watermark('category', $category_img, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $linkimage . "' " . $title . "  rel=\"myallimg\">";
-				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
-
-				$thum_image .= "</a>";
-			}
-			else
-			{
-				$product_img       = RedshopHelperMedia::watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$product_hover_img = RedshopHelperMedia::watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $link . "' " . $title . ">";
-				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
-				$thum_image .= "</a>";
-			}
-		}
-
-		return $thum_image;
+		return Redshop\Product\Image\Image::getCategoryImage($product_id, $category_img, $link, $width, $height);
 	}
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)

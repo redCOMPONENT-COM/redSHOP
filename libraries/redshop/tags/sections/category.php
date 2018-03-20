@@ -276,7 +276,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			{
 				$productImg = RedshopHelperMedia::watermark(
 					'category',
-					$category->category_full_image,
+					$category->id . '/' . $category->category_full_image,
 					$width,
 					$height,
 					Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')

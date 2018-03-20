@@ -199,15 +199,15 @@ class RedshopHelperMedia
 	/**
 	 * Get redSHOP images live thumbnail path
 	 *
-	 * @param   string   $imageName    Image Name
-	 * @param   string   $dest         Image Destination path
-	 * @param   string   $command      Commands like thumb, upload etc...
-	 * @param   string   $type         Thumbnail for types like, product, category, subcolor etc...
-	 * @param   integer  $width        Thumbnail Width
-	 * @param   integer  $height       Thumbnail Height
-	 * @param   integer  $proportional Thumbnail Proportional sizing enable / disable.
-	 * @param   string   $section      Use on new structure of media folders.
-	 * @param   integer  $sectionId    Use on new structure of media folders. ID of section.
+	 * @param   string  $imageName    Image Name
+	 * @param   string  $dest         Image Destination path
+	 * @param   string  $command      Commands like thumb, upload etc...
+	 * @param   string  $type         Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer $width        Thumbnail Width
+	 * @param   integer $height       Thumbnail Height
+	 * @param   integer $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string  $section      Use on new structure of media folders.
+	 * @param   integer $sectionId    Use on new structure of media folders. ID of section.
 	 *
 	 * @return  string   Thumbnail Live path
 	 * @throws  Exception
@@ -215,7 +215,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-		$height = 50, $proportional = -1, $section = '', $sectionId = 0)
+	                                    $height = 50, $proportional = -1, $section = '', $sectionId = 0)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -443,7 +443,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-		$deleteOriginal = true, $useLinuxCommands = false)
+	                                   $deleteOriginal = true, $useLinuxCommands = false)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -457,10 +457,10 @@ class RedshopHelperMedia
 		}
 
 		// Setting defaults and meta
-		$info                       = getimagesize($file);
+		$info = getimagesize($file);
 		list($widthOld, $heightOld) = $info;
-		$horizontalCenter           = 0;
-		$verticalCenter             = 0;
+		$horizontalCenter = 0;
+		$verticalCenter   = 0;
 
 		// Calculating proportionality resize
 		switch ($proportional)
@@ -760,72 +760,92 @@ class RedshopHelperMedia
 	/**
 	 *  Generate thumb image with watermark
 	 *
-	 * @param   string   $section          Image section
-	 * @param   string   $imageName        Image name
-	 * @param   string   $thumbWidth       Thumb width
-	 * @param   string   $thumbHeight      Thumb height
-	 * @param   integer  $enableWatermark  Enable watermark
+	 * @param   string  $section         Image section
+	 * @param   string  $imageName       Image name
+	 * @param   integer $thumbWidth      Thumb width
+	 * @param   integer $thumbHeight     Thumb height
+	 * @param   integer $enableWatermark Enable watermark
 	 *
 	 * @return  string
 	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
-	public static function watermark($section, $imageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = -1)
+	public static function watermark($section, $imageName = '', $thumbWidth = 0, $thumbHeight = 0, $enableWatermark = -1)
 	{
-		if ($enableWatermark == -1)
+		if ($enableWatermark === -1)
 		{
 			$enableWatermark = Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE');
 		}
 
-		$pathMainImage = $section . '/' . $imageName;
+		$thumbWidth        = (int) $thumbWidth;
+		$thumbHeight       = (int) $thumbHeight;
+		$imageRelativePath = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $imageName;
+		$imagePath         = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/' . $imageName;
+		$thumbRelativePath = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/';
+		$thumbPath         = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/';
+
+		// For new media structure
+		if (in_array($section, array('category', 'manufacturer')))
+		{
+			// Image name must have id of section. Ex: <id>/<image>.jpg
+			$sectionId = explode('/', $imageName);
+
+			if (count($sectionId) > 1)
+			{
+				$sectionId         = (int) $sectionId[0];
+				$imageRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
+				$imagePath         = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/' . $sectionId . '/' . $imageName;
+				$thumbRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/';
+				$thumbPath         = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/';
+			}
+		}
+
+		$watermarkImage  = Redshop::getConfig()->getString('WATERMARK_IMAGE');
+		$useSizeSwapping = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
 
 		try
 		{
 			// If main image not exists - display noimage
-			if (!file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
+			if (!JFile::exists($imageRelativePath))
 			{
-				$pathMainImage = 'noimage.jpg';
+				$imageRelativePath = REDSHOP_MEDIA_IMAGE_RELPATH . 'noimage.jpg';
+				$imagePath         = REDSHOP_MEDIA_IMAGE_ABSPATH . 'noimage.jpg';
 				throw new Exception;
 			}
 
 			// If watermark not exists or disable - display simple thumb
 			if ($enableWatermark <= 0
-				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE'))
+				|| !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $watermarkImage)
 			)
 			{
 				throw new Exception;
 			}
 
 			// If width and height not set - use with and height original image
-			if (((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
-				|| ((int) $thumbWidth != 0 && (int) $thumbHeight == 0)
-				|| ((int) $thumbWidth == 0 && (int) $thumbHeight != 0)
-			)
+			if ((!$thumbWidth && !$thumbHeight) || ($thumbWidth && !$thumbHeight) || (!$thumbWidth && $thumbHeight))
 			{
-				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage);
+				list($thumbWidth, $thumbHeight) = getimagesize($imageRelativePath);
 			}
 
 			$imageNameWithPrefix = JFile::stripExt($imageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
-				. JFile::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . JFile::getExt($imageName);
+				. JFile::stripExt(basename($watermarkImage)) . '.' . JFile::getExt($imageName);
 
-			$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
+			$destinationFile = $thumbRelativePath . $imageNameWithPrefix;
 
 			if (JFile::exists($destinationFile))
 			{
-				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
+				return $thumbPath . $imageNameWithPrefix;
 			}
 
-			$filePath = JPATH_SITE . '/components/com_redshop/assets/images/product/' . Redshop::getConfig()->get('WATERMARK_IMAGE');
-
-			$fileName = self::generateImages($filePath, '', $thumbWidth, $thumbHeight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'));
-
+			$filePath  = JPATH_SITE . '/components/com_redshop/assets/images/product/' . $watermarkImage;
+			$fileName  = self::generateImages($filePath, '', $thumbWidth, $thumbHeight, 'thumb', $useSizeSwapping);
 			$fileInfo  = pathinfo($fileName);
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $fileInfo['basename'];
 
 			ob_start();
 			self::resizeImage(
-				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage,
+				$imageRelativePath,
 				$thumbWidth,
 				$thumbHeight,
 				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
@@ -837,10 +857,10 @@ class RedshopHelperMedia
 
 			if (!JFile::write($destinationFile, $contents))
 			{
-				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $imageName;
+				return $imagePath . $imageName;
 			}
 
-			switch (JFile::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE')))
+			switch (JFile::getExt($watermarkImage))
 			{
 				case 'gif':
 					$dest = imagecreatefromjpeg($destinationFile);
@@ -910,7 +930,7 @@ class RedshopHelperMedia
 					throw new Exception;
 			}
 
-			return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
+			return $thumbPath . $imageNameWithPrefix;
 		}
 		catch (Exception $e)
 		{
@@ -919,18 +939,16 @@ class RedshopHelperMedia
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
 			}
 
-			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+			if (!$thumbWidth && !$thumbHeight)
 			{
-				$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
+				$fileName = $imagePath;
 			}
 			else
 			{
-				$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
-				$fileName = self::generateImages(
-					$filePath, '', $thumbWidth, $thumbHeight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-				);
+				$filePath = $imageRelativePath;
+				$fileName = self::generateImages($filePath, '', $thumbWidth, $thumbHeight, 'thumb', $useSizeSwapping);
 				$fileInfo = pathinfo($fileName);
-				$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $fileInfo['basename'];
+				$fileName = $thumbPath . $fileInfo['basename'];
 			}
 
 			return $fileName;
@@ -940,13 +958,14 @@ class RedshopHelperMedia
 	/**
 	 * Get alternative text for media
 	 *
-	 * @param   string  $mediaSection  Media section
-	 * @param   int     $sectionId     Section id
-	 * @param   string  $mediaName     Media name
-	 * @param   int     $mediaId       Media id
-	 * @param   string  $mediaType     Media type
+	 * @param   string $mediaSection Media section
+	 * @param   int    $sectionId    Section id
+	 * @param   string $mediaName    Media name
+	 * @param   int    $mediaId      Media id
+	 * @param   string $mediaType    Media type
 	 *
 	 * @return  string                 Alternative text from media
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -987,10 +1006,10 @@ class RedshopHelperMedia
 	/**
 	 * Method for get list of medias
 	 *
-	 * @param   string   $section    Media section (product, category,...)
-	 * @param   integer  $sectionId  Media section ID
-	 * @param   string   $scope      Scope of media
-	 * @param   string   $type       Media type.
+	 * @param   string  $section   Media section (product, category,...)
+	 * @param   integer $sectionId Media section ID
+	 * @param   string  $scope     Scope of media
+	 * @param   string  $type      Media type.
 	 *
 	 * @return  mixed
 	 *
@@ -1030,7 +1049,7 @@ class RedshopHelperMedia
 	/**
 	 * Method for clean up image resource.
 	 *
-	 * @param   resource  $res  Image resource
+	 * @param   resource $res Image resource
 	 *
 	 * @return  boolean
 	 * @throws  Exception

@@ -292,7 +292,7 @@ class RedshopHelperProductPrice
 		}
 
 		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
-		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
+		$specialPrice = self::getProductSpecialPrice($newPrice, Redshop\User\Product::getSpecials($userId), $productId);
 
 		if (!is_null($specialPrice))
 		{

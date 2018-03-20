@@ -337,4 +337,95 @@ class Image
 
 		return '';
 	}
+
+	/**
+	 * Method for get product parent image
+	 *
+	 * @param   integer $productParentId Product parent ID
+	 *
+	 * @return  mixed
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getParentImage($productParentId)
+	{
+		$result = \RedshopHelperProduct::getProductById($productParentId);
+
+		if (empty($result->product_full_image) && $result->product_parent_id > 0)
+		{
+			$result = self::getParentImage($result->product_parent_id);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Method for get category image of specific product
+	 *
+	 * @param   integer $productId  Product Id
+	 * @param   integer $categoryId Category id
+	 * @param   string  $link       Link
+	 * @param   integer $width      Width
+	 * @param   integer $height     Height
+	 *
+	 * @return  string
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getCategoryImage($productId, $categoryId = 0, $link = '', $width = 0, $height = 0)
+	{
+		if (!$productId || !$categoryId)
+		{
+			return '';
+		}
+
+		$category = \RedshopEntityCategory::getInstance($categoryId);
+		$media    = $category->getMedia();
+
+		if ($media->isEmpty())
+		{
+			return '';
+		}
+
+		$categoryFull = null;
+
+		/** @var \RedshopEntityMediaImage $item */
+		foreach ($media->getAll() as $item)
+		{
+			if ($item->get('scope') === 'full')
+			{
+				$categoryFull = $item;
+
+				break;
+			}
+		}
+
+		if (null === $categoryFull || !$categoryFull->isImageExist())
+		{
+			return '';
+		}
+
+		$result = \RedshopHelperProduct::getProductById($productId);
+		$title  = " title='" . $result->product_name . "' ";
+		$alt    = " alt='" . $result->product_name . "' ";
+		$image  = $category->getId() . '/' . $categoryFull->get('media_name');
+
+		if (\Redshop::getConfig()->getBool('PRODUCT_IS_LIGHTBOX'))
+		{
+			$productImage = \RedshopHelperMedia::watermark('category', $image, $width, $height);
+
+			return "<a id='a_main_image" . $productId . "' href='" . \RedshopHelperMedia::watermark('category', $image) . "' "
+				. $title . " rel='myallimg'>"
+				. "<img id='main_image" . $productId . "' src='" . $productImage . "' " . $title . $alt . ' />'
+				. '</a>';
+		}
+
+		$productImage = \RedshopHelperMedia::watermark('category', $image, $width, $height);
+
+		return '<a id="a_main_image' . $productId . '" href="' . $link . '" ' . $title . '>'
+			. '<img id="main_image' . $productId . '" src="' . $productImage . '" ' . $title . $alt . ' />'
+			. '</a>';
+	}
 }

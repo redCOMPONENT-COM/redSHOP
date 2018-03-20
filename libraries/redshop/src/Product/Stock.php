@@ -27,6 +27,7 @@ class Stock
 	 * @param   array   $attributeTemplate Attribute template
 	 *
 	 * @return  mixed
+	 * @throws  \Exception
 	 *
 	 * @since   2.1.0
 	 */
