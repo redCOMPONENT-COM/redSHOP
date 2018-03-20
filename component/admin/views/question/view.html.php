@@ -66,10 +66,9 @@ class RedshopViewQuestion extends RedshopViewAdmin
 
 		$isNew = ($this->item->id < 1);
 
-		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title($title, 'redshop_question_48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_DETAIL') . ': <small>>[ ' . $text . ' ]</small>', 'redshop_question_48');
 		JToolBarHelper::apply('question.apply');
 		JToolBarHelper::save('question.save');
 
