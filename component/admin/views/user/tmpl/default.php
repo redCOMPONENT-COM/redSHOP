@@ -8,9 +8,9 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = productHelper::getInstance();
-$redhelper     = redhelper::getInstance();
-$userhelper    = rsUserHelper::getInstance();
+$productHelper = productHelper::getInstance();
+$redHelper     = redhelper::getInstance();
+$userHelper    = rsUserHelper::getInstance();
 $filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
 ?>
@@ -25,9 +25,7 @@ $model         = $this->getModel('user');
             return;
         }
 
-        if (pressbutton == 'add' || pressbutton == 'edit') {
-            form.view.value = "user_detail";
-        }
+        form.view.value = "user_detail";
 
         form.submit();
     }
@@ -96,37 +94,35 @@ $model         = $this->getModel('user');
 					'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id
 				);
 
-				$iscompany = JText::_('COM_REDSHOP_USER_CUSTOMER');
+				$isCompany = JText::_('COM_REDSHOP_USER_CUSTOMER');
 
 				if ($row->is_company)
 				{
-					$iscompany = JText::_('COM_REDSHOP_USER_COMPANY');
+					$isCompany = JText::_('COM_REDSHOP_USER_COMPANY');
 				}
 
-				$fisrt_name = '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_EDIT_USER') . '">' . $row->firstname . '</a>';
-				$last_name = $row->lastname;
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->users_info_id);?></td>
-					<td><?php echo $fisrt_name;?></td>
-					<td><?php echo $last_name;?> </td>
-					<td align="center"><?php echo $iscompany?></td>
+					<td><?php echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_EDIT_USER') . '">' . $row->firstname . '</a>';?></td>
+					<td><?php echo $row->lastname;?> </td>
+					<td align="center"><?php echo $isCompany?></td>
 					<td><?php echo $row->username;?></td>
 					<td>
 						<?php
-						$shoppergroup = Redshop\Helper\ShopperGroup::generateList($row->shopper_group_id);
+						$shopperGroup = Redshop\Helper\ShopperGroup::generateList($row->shopper_group_id);
 
-						if (count($shoppergroup) > 0)
+						if (count($shopperGroup) > 0)
 						{
-							echo $shoppergroup[0]->text;
+							echo $shopperGroup[0]->text;
 						}
 						?>
 					</td>
 					<td align="center" class="nowrap">
 						<?php
-							$totalsales = RedshopHelperUser::totalSales($row->users_info_id);
-							echo $producthelper->getProductFormattedPrice($totalsales);
+							$totalSales = RedshopHelperUser::totalSales($row->users_info_id);
+							echo $productHelper->getProductFormattedPrice($totalSales);
 						?>
 					</td>
 					<td align="center" width="5%"><?php echo $row->users_info_id;?></td>
