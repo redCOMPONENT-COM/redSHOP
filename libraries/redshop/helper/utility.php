@@ -832,7 +832,7 @@ class RedshopHelperUtility
 	 */
 	public static function getOrderByList()
 	{
-		return array(
+		$orderBy =  array(
 			JHtml::_('select.option', 'name', JText::_('COM_REDSHOP_PRODUCT_NAME_ASC')),
 			JHtml::_('select.option', 'name_desc', JText::_('COM_REDSHOP_PRODUCT_NAME_DESC')),
 			JHtml::_('select.option', 'price', JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
@@ -843,6 +843,11 @@ class RedshopHelperUtility
 			JHtml::_('select.option', 'ordering', JText::_('COM_REDSHOP_ORDERING_ASC')),
 			JHtml::_('select.option', 'ordering_desc', JText::_('COM_REDSHOP_ORDERING_DESC'))
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onGetOrderByList', array(&$orderBy));
+
+		return $orderBy;
 	}
 
 	/**
@@ -915,6 +920,9 @@ class RedshopHelperUtility
 
 				break;
 		}
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onPrepareOrderBy', array(&$orderBy, $case));
 
 		return $orderBy;
 	}
