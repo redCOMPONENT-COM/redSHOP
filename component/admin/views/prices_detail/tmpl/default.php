@@ -18,6 +18,12 @@ $producthelper  = productHelper::getInstance();
             submitform(pressbutton);
             return;
         }
+        if (form.price_quantity_start.value > form.price_quantity_end.value)
+        {
+            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START', true ); ?>");
+            form.price_quantity_start.focus();
+            return;
+        }
         if (form.discount_start_date.value > form.discount_end_date.value)
         {
             alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE', true ); ?>");

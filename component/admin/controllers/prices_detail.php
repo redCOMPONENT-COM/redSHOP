@@ -27,18 +27,29 @@ class RedshopControllerPrices_detail extends RedshopController
 		parent::display();
 	}
 
+	/**
+	 * Apply function
+	 *
+	 * @return void
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * Save function
+	 *
+	 * @param   int $apply stay in current page or not
+	 * @return  void
+	 */
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
 
-		$productId           = $this->input->get('product_id');
-		$priceQuantityStart = $this->input->get('price_quantity_start');
-		$priceQuantityEnd   = $this->input->get('price_quantity_end');
+		$productId          = $this->input->getInt('product_id');
+		$priceQuantityStart = $this->input->getInt('price_quantity_start');
+		$priceQuantityEnd   = $this->input->getInt('price_quantity_end');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate']            = time();
