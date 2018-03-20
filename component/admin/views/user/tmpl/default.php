@@ -15,37 +15,22 @@ $filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-		if (pressbutton == 'add')
-		{
-			<?php
-				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=user_detail');
-			?>
+    Joomla.submitbutton = function (pressbutton) {
+        var form = document.adminForm;
+        if (pressbutton) {
+            form.task.value = pressbutton;
+        }
 
-			window.location = '<?php echo $link;?>';
-			return;
-		}
-		else if (
-			pressbutton == 'edit' || pressbutton == 'publish' || pressbutton == 'unpublish' || pressbutton == 'remove' || pressbutton == 'copy'
-		) {
-			if (pressbutton == 'remove' && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
-			{
-				form.delete_joomla_users.value = true;
-			}
+        if (pressbutton == 'remove' && !confirm('<?php echo JText::_("COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS")?>')) {
+            return;
+        }
 
-			form.view.value = "user_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-		form.submit();
-	}
+        if (pressbutton == 'add' || pressbutton == 'edit') {
+            form.view.value = "user_detail";
+        }
+
+        form.submit();
+    }
 
 	resetfilter = function()
 	{
