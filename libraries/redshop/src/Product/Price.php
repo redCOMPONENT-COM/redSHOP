@@ -43,7 +43,7 @@ class Price
 			$row->product_price = $tmpProductPrice;
 		}
 
-		$discountId = \productHelper::getInstance()->getProductSpecialId($userId);
+		$discountId = \Redshop\User\Product::getSpecials($userId);
 		$result     = \RedshopHelperProductPrice::getProductSpecialPrice($row->product_price, $discountId);
 
 		if (!empty($result))

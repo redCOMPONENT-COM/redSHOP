@@ -41,7 +41,8 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	/**
 	 * Method get image path
 	 *
-	 * @return string
+	 * @return  string
+	 * @throws  Exception
 	 */
 	public function getImagePath()
 	{
@@ -73,6 +74,19 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	}
 
 	/**
+	 * Method for check if image exist
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 */
+	public function isImageExist()
+	{
+		$imagePath = $this->getImagePath();
+
+		return empty($imagePath) && JFile::exists($imagePath);
+	}
+
+	/**
 	 * Method for generate thumbnail
 	 *
 	 * @param   integer  $width   Width of thumbnail
@@ -81,6 +95,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	 * @param   boolean  $force   Force create image.
 	 *
 	 * @return  array             List of relative and absolute path
+	 * @throws  Exception
 	 *
 	 * @since   2.1.0
 	 */

@@ -1360,7 +1360,7 @@ if (strstr($template_desc, "{category_product_img}"))
 	$template_desc = str_replace("{category_back_img_link}", $product_back_image_link, $template_desc);
 
 	// Display category front image
-	$thum_catimage = $producthelper->getProductCategoryImage(
+	$thum_catimage = Redshop\Product\Image\Image::getCategoryImage(
 		$this->data->product_id,
 		$this->data->category_full_image,
 		'',

@@ -173,6 +173,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 * Method for get medias of current category
 	 *
 	 * @return  RedshopEntitiesCollection
+	 * @throws  Exception
 	 *
 	 * @since   2.1.0
 	 */
@@ -190,6 +191,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 * Method for load medias
 	 *
 	 * @return  self
+	 * @throws  Exception
 	 *
 	 * @since   2.1.0
 	 */
@@ -209,7 +211,7 @@ class RedshopEntityCategory extends RedshopEntity
 			->where($db->qn('media_section') . ' = ' . $db->quote('category'))
 			->where($db->qn('section_id') . ' = ' . $db->quote($this->getId()));
 
-		$results = $db->setQuery($query)->loadColumn();
+		$results = (array) $db->setQuery($query)->loadColumn();
 
 		if (empty($results))
 		{
