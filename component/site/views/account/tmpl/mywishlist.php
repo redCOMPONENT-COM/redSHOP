@@ -164,7 +164,7 @@ if ($mail == 0)
 
 			$link_remove = JRoute::_($link_remove . '&Itemid=' . $Itemid, false);
 
-			$thum_image             = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
+			$thum_image             = Redshop\Product\Image\Image::getImage($row->product_id, $link, $w_thumb, $h_thumb);
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 

@@ -487,7 +487,7 @@ class Render
 					}
 				}
 
-				$preSelectedAttrImage = \productHelper::getInstance()->get_hidden_attribute_cartimage(
+				$preSelectedAttrImage = \Redshop\Product\Image\Image::getHiddenAttributeCartImage(
 					$productId,
 					$selectedPropertyId,
 					$selectedSubPropertyId
