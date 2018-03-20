@@ -29,9 +29,8 @@ $itemId = $input->getInt('Itemid', 0);
 ?>
 <div id="newwishlist" style="display:<?php echo $hasWishlist ? 'none' : 'block'; ?>">
 	<?php if ($this->params->get('show_page_heading', 1)): ?>
-		<?php $pageTitle = JText ::_('COM_REDSHOP_CREATE_NEWWISHLIST'); ?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo $pageTitle; ?>
+			<?php echo JText ::_('COM_REDSHOP_CREATE_NEWWISHLIST'); ?>
 		</h1>
 	<?php endif; ?>
 	<form name="newwishlistForm" method="post" action="">
@@ -49,10 +48,7 @@ $itemId = $input->getInt('Itemid', 0);
 			<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
 						   onclick="checkValidation()"/>&nbsp;
 			<?php if (JFactory::getApplication()->input->getInt('loginwishlist') == 1) : ?>
-				<?php
-				$myWishlistLink = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $itemId);
-				?>
-				<a href="<?PHP echo $myWishlistLink; ?>">
+				<a href="<?PHP echo JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $itemId); ?>">
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/>
 				</a>
 			<?php else : ?>
@@ -74,10 +70,8 @@ $itemId = $input->getInt('Itemid', 0);
 <?php if ($hasWishlist) : ?>
 	<div id="wishlist">
 		<?php if ($this->params->get('show_page_heading', 1)): ?>
-			<?php $pageTitle = JText::_('COM_REDSHOP_MY_WISHLIST'); ?>
-			<br/>
 			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-				<?php echo $pageTitle; ?>
+				<?php echo JText::_('COM_REDSHOP_MY_WISHLIST'); ?>
 			</h1>
 			<div>&nbsp;</div>
 		<?php endif; ?>
