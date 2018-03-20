@@ -33,6 +33,11 @@ class RedshopViewFields extends RedshopViewList
 	public $fieldGroups = array();
 
 	/**
+	 * @var  array
+	 */
+	public $filterFormOptions = array('filtersHidden' => false);
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
 	 * @param   string  $tpl  Template name

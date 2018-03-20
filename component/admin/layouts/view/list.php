@@ -24,6 +24,17 @@ $singleName = $data->getInstanceName();
 $search     = $data->state->get('filter.search');
 $user       = JFactory::getUser();
 
+$filterOptions = array(
+	'searchField'         => 'search',
+	'searchFieldSelector' => '#filter_search',
+	'limitFieldSelector'  => '#list_' . $viewName . '_limit',
+	'activeOrder'         => $listOrder,
+	'activeDirection'     => $listDirn,
+	'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
+);
+
+$filterOptions = array_merge($filterOptions, $data->filterFormOptions);
+
 if ($data->hasOrdering)
 {
 	$saveOrderUrl   = 'index.php?option=com_redshop&task=' . $viewName . '.saveOrderAjax&tmpl=component';
@@ -68,14 +79,7 @@ if ($data->hasOrdering)
 			'searchtools.default',
 			array(
 				'view'    => $data,
-				'options' => array(
-					'searchField'         => 'search',
-					'searchFieldSelector' => '#filter_search',
-					'limitFieldSelector'  => '#list_' . $viewName . '_limit',
-					'activeOrder'         => $listOrder,
-					'activeDirection'     => $listDirn,
-					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
-				)
+				'options' => $filterOptions
 			)
 		);
 		?>

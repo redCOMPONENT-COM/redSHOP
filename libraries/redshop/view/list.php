@@ -48,6 +48,11 @@ class RedshopViewList extends AbstractView
 	public $filterForm;
 
 	/**
+	 * @var  array
+	 */
+	public $filterFormOptions = array();
+
+	/**
 	 * @var  boolean
 	 *
 	 * @since  2.0.6
