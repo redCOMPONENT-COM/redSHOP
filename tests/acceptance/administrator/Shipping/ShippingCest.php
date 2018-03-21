@@ -3,21 +3,65 @@
  * Shipping rate page .
  */
 
+/**
+ * Class ShippingCest
+ *
+ * @package  AcceptanceTester
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage
+ *
+ * @since    2.1.0
+ */
 class ShippingCest
 {
+	/**
+	 * @var string
+	 */
+	public $shippingMethod;
+
+	/**
+	 * @var array
+	 */
+	public $shipping;
+
+	/**
+	 * @var array
+	 */
+	public $shippingSaveClose;
+
+	/**
+	 * @var string
+	 */
+	public $shippingNameEdit;
+
+	/**
+	 * @var string
+	 */
+	public $shippingNameSaveClose;
+
+	/**
+	 * @var int
+	 */
+	public $shippingRateEdit;
+
+	/**
+	 * ShippingCest constructor.
+	 */
 	public function __construct()
 	{
 		// Shipping info
-		$this->shippingMethod           = 'redSHOP - Standard Shipping';
-		$this->shipping                 = array();
-		$this->shipping['shippingName'] = 'TestingShippingRate' . rand(99, 999);
-		$this->shipping['shippingRate'] = 10;
+		$this->shippingMethod = 'redSHOP - Standard Shipping';
+		$this->shipping       = array(
+			'shippingName' => 'TestingShippingRate' . rand(99, 999),
+			'shippingRate' => 10
+		);
 
-		$this->shippingSaveClose                 = array();
-		$this->shippingSaveClose['shippingName'] = 'TestingShippingRate' . rand(99, 999);
-		$this->shippingSaveClose['shippingRate'] = 10;
+		$this->shippingSaveClose = array(
+			'shippingName' => 'TestingShippingRate' . rand(99, 999),
+			'shippingRate' => 10
+		);
 
-		$this->shippingNameEdit      = $this->shipping['shippingName'] . "edit";
+		$this->shippingNameEdit      = $this->shipping['shippingName'] . ' edit';
 		$this->shippingNameSaveClose = "TestingSave" . rand(1, 100);
 		$this->shippingRateEdit      = rand(100, 1000);
 	}

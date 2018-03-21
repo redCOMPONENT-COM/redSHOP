@@ -99,21 +99,21 @@ class AttributeUserCest
 	{
 		$this->faker = Faker\Factory::create();
 
-		$this->category        = $this->faker->bothify("Category Attribute ??####?");
+		$this->category        = $this->faker->bothify('Category Attribute ??####?');
 		$this->noPage          = $this->faker->randomNumber();
-		$this->productName     = 'Testing Products ?###?';
+		$this->productName     = $this->faker->bothify('Testing Products ??####?');
 		$this->productNumber   = $this->faker->numberBetween(999, 9999);
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
 		$this->attributes      = array(
 			array(
-				'name' => $this->faker->bothify('Attribute Name ??###?'),
-				'attributeName' => $this->faker->bothify('AttributeName ??###?'),
+				'name'           => $this->faker->bothify('Attribute Name ??###?'),
+				'attributeName'  => $this->faker->bothify('AttributeName ??###?'),
 				'attributePrice' => 10
 			),
 			array(
-				'name' => $this->faker->bothify('attributeSecond Name ??###?'),
-				'attributeName' => $this->faker->bothify('attributeSecond ??###?'),
+				'name'           => $this->faker->bothify('attributeSecond Name ??###?'),
+				'attributeName'  => $this->faker->bothify('attributeSecond ??###?'),
 				'attributePrice' => 20
 			),
 		);
@@ -135,7 +135,7 @@ class AttributeUserCest
 		$this->email     = $this->faker->email;
 		$this->group     = 'Administrator';
 		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
-		$this->lastName  = "LastName ?####?";
+		$this->lastName  = $this->faker->bothify('LastName ?####?');
 
 		// Order info
 		$this->subTotal      = 'DKK 80,00';
@@ -146,10 +146,10 @@ class AttributeUserCest
 		// Shipping info
 		$this->shippingMethod           = 'redSHOP - Standard Shipping';
 		$this->shipping                 = array();
-		$this->shipping['shippingName'] = 'TestingShippingRate ?###?';
+		$this->shipping['shippingName'] = $this->faker->bothify('TestingShippingRate ?###?');
 		$this->shipping['shippingRate'] = 10;
 
-		$this->taxRateName          = 'Testing Tax Rates Groups ?###?';
+		$this->taxRateName          = $this->faker->bothify('Testing Tax Rates Groups ?###?');
 		$this->taxGroupName         = $this->faker->bothify(' ?###? TaxGroupsNam');
 		$this->taxRateValue         = 0.1;
 		$this->countryName          = 'Denmark';
@@ -162,6 +162,18 @@ class AttributeUserCest
 		$this->vatNumber       = 0;
 		$this->calculationBase = 'billing';
 		$this->requiVAT        = 'no';
+	}
+
+	/**
+	 * Method delete data at database
+	 *
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 */
+	public function deleteData($scenario)
+	{
+		(new RedshopSteps($scenario))->clearAllData();
 	}
 
 	/**
