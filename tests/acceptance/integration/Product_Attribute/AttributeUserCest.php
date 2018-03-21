@@ -17,13 +17,44 @@ use AcceptanceTester\TaxRateSteps as TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
 use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
 
+/**
+ * Class AttributeUserCest
+ */
 class AttributeUserCest
 {
+	/**
+	 * @var string
+	 */
+	public $category;
+
+	/**
+	 * @var string
+	 */
+	public $shopperName;
+
+	/**
+	 * @var string
+	 */
+	public $shopperType;
+
+	/**
+	 * @var string
+	 */
+	public $customerType;
+
+	/**
+	 * @var string
+	 */
+	public $shopperGroupPortal;
+
 	/**
 	 * @var \Faker\Generator
 	 */
 	public $faker;
 
+	/**
+	 * AttributeUserCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
@@ -96,7 +127,7 @@ class AttributeUserCest
 		$this->taxRateValueNegative = -1;
 		$this->taxRateValueString   = 'Test';
 
-		// vat setting
+		// Vat setting
 		$this->vatCalculation  = 'Webshop';
 		$this->vatAfter        = 'after';
 		$this->vatNumber       = 0;
@@ -105,12 +136,14 @@ class AttributeUserCest
 	}
 
 	/**
-	 * @param AcceptanceTester $client
-	 * @param                  $scenario
+	 * @param   AcceptanceTester       $client
+	 * @param   \Codeception\Scenario  $scenario
+	 *
+	 * @return  void
 	 *
 	 * @throws Exception
 	 */
-	public function testProductAdministrator(AcceptanceTester $client, $scenario)
+	public function testProductAdministrator(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
 		$client->doAdministratorLogin();
 
@@ -130,19 +163,21 @@ class AttributeUserCest
 		$client->wantTo('Configuration for apply VAT');
 		$client = new ConfigurationSteps($scenario);
 		$client->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation,
-			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT
+		);
 
 		$client->wantTo('Create new product with attribute');
 		$client = new ProductSteps($scenario);
 		$client->productMultiAttribute($this->productName, $this->category,
-			$this->productNumber, $this->productPrice, $this->attributes);
-
+			$this->productNumber, $this->productPrice, $this->attributes
+		);
 
 		$client = new ShopperGroupSteps($scenario);
 		$client->wantTo('Create a Category Save button');
 		$client->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType,
 			$this->shopperGroupPortal, $this->category, $this->shipping, $this->shippingRate, $this->shippingCheckout,
-			$this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, 'save');
+			$this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, 'save'
+		);
 
 		$client->wantTo('Test User creation with save button in Administrator');
 		$client = new UserSteps($scenario);
