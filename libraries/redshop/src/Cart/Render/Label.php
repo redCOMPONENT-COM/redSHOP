@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Render Label class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Label
 {
@@ -25,7 +25,7 @@ class Label
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replace($content)
 	{
@@ -101,7 +101,7 @@ class Label
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function checkTag(&$search, &$replace, $html, $tag, $content)
 	{

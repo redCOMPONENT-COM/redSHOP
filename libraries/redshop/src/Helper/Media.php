@@ -225,10 +225,8 @@ class Media
 			{
 				return true;
 			}
-			else
-			{
-				\JFolder::delete($folder);
-			}
+
+			\JFolder::delete($folder);
 		}
 
 		if (!\JFolder::create($folder))

@@ -811,7 +811,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		// Product image flying addwishlist time start
 		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
-						$producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) .
+			Redshop\Product\Image\Image::getImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) .
 					"</span>";
 
 		// Product image flying addwishlist time end

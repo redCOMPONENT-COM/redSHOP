@@ -13,7 +13,7 @@ echo JText::_('COM_REDSHOP_RESET_TEMPLATE_DESC');
 ?>
 
 <form action="<?php echo 'index.php?option=com_redshop&task=configuration.resetTemplate'; ?>" method="post"
-      name="adminForm2">
+      name="adminForm2" id="adminForm">
     <input type="submit" value="<?php echo JTEXT::_("COM_REDSHOP_GO"); ?>"
            onclick="return confirm('<?php echo JText::_("COM_REDSHOP_ARE_YOU_SURE_YOU_WANT_TO_CONTINUE"); ?>')" />
     <input type="hidden" name="view" value="configuration"/>

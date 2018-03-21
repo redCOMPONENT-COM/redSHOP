@@ -399,23 +399,23 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateProduct = $templateD2[0];
 
 	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
+	$products = RedshopHelperProduct::getProductsByIds($products);
 
 	// Loop product lists
-	foreach ($products as $k => $pid)
+	foreach ($products as $product)
 	{
-		$product = RedshopHelperProduct::getProductById($pid);
-		$catid   = $product->category_id;
+		$catid = $product->category_id;
 
 		// Count accessory
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 		$totacc        = count($accessorylist);
-		$netPrice      = $productHelper->getProductNetPrice($pid);
+		$netPrice      = $productHelper->getProductNetPrice($product->product_id);
 		$productPrice  = $netPrice['productPrice'];
 
 		$dataAdd = $templateProduct;
 
 		// ProductFinderDatepicker Extra Field Start
-		$dataAdd  = $productHelper->getProductFinderDatepickerValue($templateProduct, $product->product_id, $fieldArray);
+		$dataAdd  = $productHelper->getProductFinderDatepickerValue($dataAdd, $product->product_id, $fieldArray);
 		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
@@ -590,10 +590,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		$hiddenThumbImage = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pwThumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
-		$thumbImage       = $productHelper->getProductImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1);
+		$thumbImage       = Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1);
 
 		// Product image flying addwishlist time start
-		$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $productHelper->getProductImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) . "</span>";
+		$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) . "</span>";
 
 		// Product image flying addwishlist time end
 		$dataAdd = str_replace($pImgTag, $thumbImage . $hiddenThumbImage, $dataAdd);
@@ -813,7 +813,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$totacc
 		);
 
-		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);
+		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 

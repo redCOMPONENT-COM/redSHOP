@@ -97,9 +97,8 @@ function display_products($rows)
 
 		if ($row->product_full_image)
 		{
-			echo $thum_image = "<div class='mod_wishlist_product_image' >" .
-				$thum_image = $producthelper->getProductImage($row->product_id, $link, "100", "100") . "
-			</div>";
+			echo "<div class='mod_wishlist_product_image' >"
+				. Redshop\Product\Image\Image::getImage($row->product_id, $link, "100", "100") . '</div>';
 		}
 
 		echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
