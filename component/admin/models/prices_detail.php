@@ -113,7 +113,7 @@ class RedshopModelPrices_detail extends RedshopModel
 
 	public function store($data)
 	{
-		if (($data['price_quantity_start'] < $data['price_quantity_end']) || ($data['discount_start_date'] < $data['discount_end_date']))
+		if (($data['price_quantity_start'] > $data['price_quantity_end']) || ($data['discount_start_date'] > $data['discount_end_date']))
 		{
 			return false;
 		}
