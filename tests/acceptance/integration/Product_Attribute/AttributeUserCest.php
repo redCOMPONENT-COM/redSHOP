@@ -53,41 +53,70 @@ class AttributeUserCest
 	public $faker;
 
 	/**
+	 * @var string
+	 */
+	public $taxGroupName;
+
+	/**
+	 * @var integer
+	 */
+	public $noPage;
+
+	/**
+	 * @var string
+	 */
+	public $productName;
+
+	/**
+	 * @var integer
+	 */
+	public $productPrice = 70;
+
+	/**
+	 * @var string
+	 */
+	public $minimumPerProduct = '1';
+
+	/**
+	 * @var int|string
+	 */
+	public $productNumber = '1';
+
+	/**
+	 * @var integer
+	 */
+	public $minimumQuantity = 1;
+
+	/**
+	 * @var array
+	 */
+	public $attributes;
+
+	/**
 	 * AttributeUserCest constructor.
 	 */
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
 
-		$this->category          = $this->faker->bothify("Category Attribute ??####?");
-		$this->noPage            = $this->faker->randomNumber();
-		$this->productName       = 'Testing Products' . rand(99, 999);
-		$this->productNumber     = $this->faker->numberBetween(999, 9999);
-		$this->productPrice      = 70;
-		$this->minimumPerProduct = '1';
-		$this->minimumQuantity   = 1;
-		$this->maximumQuantity   = $this->faker->numberBetween(11, 100);
-		$this->attributes        = array();
-
-		$this->attribute = array();
-
-		$this->attribute['name'] = $this->faker->bothify('Attribute Name ??###?');
-
-		$this->attribute['attributeName'] = $this->faker->bothify('AttributeName ??###?');
-
-		$this->attribute['attributePrice'] = 10;
-
-		$this->attributes[] = $this->attribute;
-
-		$this->attributeSecond = array();
-
-		$this->attributeSecond['name'] = $this->faker->bothify('attributeSecond Name ??###?');
-
-		$this->attributeSecond['attributeName'] = $this->faker->bothify('attributeSecond ??###?');
-
-		$this->attributeSecond['attributePrice'] = 20;
-
-		$this->attributes[] = $this->attributeSecond;
+		$this->category        = $this->faker->bothify("Category Attribute ??####?");
+		$this->noPage          = $this->faker->randomNumber();
+		$this->productName     = 'Testing Products' . rand(99, 999);
+		$this->productNumber   = $this->faker->numberBetween(999, 9999);
+		$this->minimumQuantity = 1;
+		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
+		$this->attributes      = array(
+			array(
+				'name' => $this->faker->bothify('Attribute Name ??###?'),
+				'attributeName' => $this->faker->bothify('AttributeName ??###?'),
+				'attributePrice' => 10
+			),
+			array(
+				'name' => $this->faker->bothify('attributeSecond Name ??###?'),
+				'attributeName' => $this->faker->bothify('attributeSecond ??###?'),
+				'attributePrice' => 20
+			),
+		);
 
 		$this->shopperName        = $this->faker->bothify(' Testing shopper ##??');
 		$this->shopperType        = null;
@@ -148,12 +177,10 @@ class AttributeUserCest
 		$client->doAdministratorLogin();
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
-		$client = new TaxGroupSteps($scenario);
-		$client->addVATGroupsSave($this->taxGroupName);
+		(new TaxGroupSteps($scenario))->addVATGroupsSave($this->taxGroupName);
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
+		(new TaxRateSteps($scenario))->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
 
 		$client->wantTo('Create Category in Administrator');
 		$client = new CategorySteps($scenario);
@@ -161,32 +188,28 @@ class AttributeUserCest
 		$client->addCategorySave($this->category);
 
 		$client->wantTo('Configuration for apply VAT');
-		$client = new ConfigurationSteps($scenario);
-		$client->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation,
+		(new ConfigurationSteps($scenario))->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation,
 			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT
 		);
 
 		$client->wantTo('Create new product with attribute');
-		$client = new ProductSteps($scenario);
-		$client->productMultiAttribute($this->productName, $this->category,
+		(new ProductSteps($scenario))->productMultiAttribute($this->productName, $this->category,
 			$this->productNumber, $this->productPrice, $this->attributes
 		);
 
-		$client = new ShopperGroupSteps($scenario);
 		$client->wantTo('Create a Category Save button');
-		$client->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType,
+		(new ShopperGroupSteps($scenario))->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType,
 			$this->shopperGroupPortal, $this->category, $this->shipping, $this->shippingRate, $this->shippingCheckout,
 			$this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, 'save'
 		);
 
 		$client->wantTo('Test User creation with save button in Administrator');
-		$client = new \AcceptanceTester\UserManagerJoomla3Steps($scenario);
-		$client->addUser($this->userName, $this->userName, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+		(new \AcceptanceTester\UserManagerJoomla3Steps($scenario))->addUser(
+			$this->userName, $this->userName, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save'
+		);
 
 		$client->wantTo('Add shipping rate');
-		$client = new \AcceptanceTester\ShippingSteps($scenario);
-		$client->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
-
+		(new \AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
 	}
 
 	/**
@@ -200,8 +223,7 @@ class AttributeUserCest
 	public function checkoutWithAttributeProduct(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
 		$client->wantTo('checkout with attribute');
-		$client = new ProductCheckoutSteps($scenario);
-		$client->checkoutAttributeShopperUser(
+		(new ProductCheckoutSteps($scenario))->checkoutAttributeShopperUser(
 			$this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
 			$this->vatPrice, $this->total, $this->shippingPrice
 		);
