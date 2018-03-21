@@ -101,7 +101,7 @@ class AttributeUserCest
 
 		$this->category        = $this->faker->bothify("Category Attribute ??####?");
 		$this->noPage          = $this->faker->randomNumber();
-		$this->productName     = 'Testing Products' . rand(99, 999);
+		$this->productName     = 'Testing Products ?###?';
 		$this->productNumber   = $this->faker->numberBetween(999, 9999);
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
@@ -138,18 +138,18 @@ class AttributeUserCest
 		$this->lastName  = "LastName ?####?";
 
 		// Order info
-		$this->subTotal      = "DKK 80,00";
-		$this->vatPrice      = "DKK 8,00";
-		$this->total         = "DKK 88,00";
-		$this->shippingPrice = "DKK 0,00";
+		$this->subTotal      = 'DKK 80,00';
+		$this->vatPrice      = 'DKK 8,00';
+		$this->total         = 'DKK 88,00';
+		$this->shippingPrice = 'DKK 0,00';
 
 		// Shipping info
 		$this->shippingMethod           = 'redSHOP - Standard Shipping';
 		$this->shipping                 = array();
-		$this->shipping['shippingName'] = 'TestingShippingRate' . rand(99, 999);
+		$this->shipping['shippingName'] = 'TestingShippingRate ?###?';
 		$this->shipping['shippingRate'] = 10;
 
-		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
+		$this->taxRateName          = 'Testing Tax Rates Groups ?###?';
 		$this->taxGroupName         = $this->faker->bothify(' ?###? TaxGroupsNam');
 		$this->taxRateValue         = 0.1;
 		$this->countryName          = 'Denmark';
@@ -209,7 +209,7 @@ class AttributeUserCest
 		);
 
 		$client->wantTo('Add shipping rate');
-		(new \AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
+		(new \AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
 	}
 
 	/**
