@@ -10,15 +10,15 @@
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupSteps;
-use AcceptanceTester\UserManagerJoomla3Steps as UserSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
-use AcceptanceTester\ShippingSteps as ShippingSteps;
 use AcceptanceTester\TaxRateSteps as TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
 use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
 
 /**
  * Class AttributeUserCest
+ *
+ * @since  2.1.0
  */
 class AttributeUserCest
 {
@@ -136,12 +136,12 @@ class AttributeUserCest
 	}
 
 	/**
-	 * @param   AcceptanceTester       $client
-	 * @param   \Codeception\Scenario  $scenario
+	 * @param   AcceptanceTester      $client   Client
+	 * @param   \Codeception\Scenario $scenario Scenario
 	 *
 	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function testProductAdministrator(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
@@ -180,26 +180,30 @@ class AttributeUserCest
 		);
 
 		$client->wantTo('Test User creation with save button in Administrator');
-		$client = new UserSteps($scenario);
+		$client = new \AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$client->addUser($this->userName, $this->userName, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 
 		$client->wantTo('Add shipping rate');
-		$client = new ShippingSteps($scenario);
+		$client = new \AcceptanceTester\ShippingSteps($scenario);
 		$client->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
 
 	}
 
 	/**
-	 * @param AcceptanceTester $client
-	 * @param                  $scenario
+	 * @param   AcceptanceTester      $client   Acceptance tester
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
 	 *
 	 * @throws Exception
 	 */
-	public function checkoutWithAttributeProduct(AcceptanceTester $client, $scenario)
+	public function checkoutWithAttributeProduct(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
 		$client->wantTo('checkout with attribute');
 		$client = new ProductCheckoutSteps($scenario);
-		$client->checkoutAttributeShopperUser($this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
-			$this->vatPrice, $this->total, $this->shippingPrice);
+		$client->checkoutAttributeShopperUser(
+			$this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
+			$this->vatPrice, $this->total, $this->shippingPrice
+		);
 	}
 }

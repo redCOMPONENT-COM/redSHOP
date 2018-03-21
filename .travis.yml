@@ -8,10 +8,10 @@ dist:
   trusty
 
 node_js:
-  - 8
+  - 9
 
 php:
-  - 5.6
+  #- 5.6
   - 7.0
 
 addons:
@@ -25,8 +25,8 @@ cache:
 
 env:
   matrix:
-      - ACCEPTANCE=false
-      - ACCEPTANCE=acceptance/administrator
+      #- ACCEPTANCE=false
+      #- ACCEPTANCE=acceptance/administrator
       - ACCEPTANCE=acceptance/integration
 
   global:

@@ -19,7 +19,7 @@ $redhelper     = redhelper::getInstance();
 $carthelper    = rsCarthelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
-$url     = JURI::base();
+$url     = JUri::base();
 $cart    = $this->cart;
 $idx     = $cart['idx'];
 $model   = $this->getModel('cart');
@@ -29,7 +29,7 @@ $print   = JFactory::getApplication()->input->getInt('print');
 $Itemid  = RedshopHelperRouter::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display
-$cart_data = $this->data [0]->template_desc;
+$cart_data = $this->data[0]->template_desc;
 
 // Process the product plugin before cart template replace tag
 JPluginHelper::importPlugin('redshop_product');
@@ -156,15 +156,15 @@ if (strstr($cart_data, "{shop_more}"))
 	$cart_data = str_replace("{shop_more}", $shop_more, $cart_data);
 }
 
-$update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
+if (Redshop::getConfig()->getBool('QUANTITY_TEXT_DISPLAY'))
+{
+	$update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
 		<input class="inputbox" type="hidden" value="" name="quantity_all" id="quantity_all">
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="Itemid" value="' . $Itemid . '">
 		<input type=button class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
 		</form>';
 
-if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
-{
 	$cart_data = str_replace("{update}", $update_all, $cart_data);
 }
 else
