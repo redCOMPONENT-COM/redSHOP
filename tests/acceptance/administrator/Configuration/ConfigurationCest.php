@@ -36,7 +36,6 @@ class ConfigurationCest
 		$this->quantityInCart   = 0;
 		$this->minimunOrder     = 0;
 		$this->enableQuation    = 'no';
-
 	}
 
 

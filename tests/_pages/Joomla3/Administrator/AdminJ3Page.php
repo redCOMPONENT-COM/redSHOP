@@ -360,7 +360,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+	public static $priceDiscount = "//div[@class='form-group'][2]//div[1]";
 
 	/**
 	 * @var array
@@ -371,7 +371,10 @@ abstract class AdminJ3Page
 	 */
 	public static $priceEnd = ['id' => 'spnTotal'];
 
-	public static $shippingRate=['id'=>'spnShippingrate'];
+	/**
+	 * @var array
+	 */
+	public static $shippingRate = ['xpath' => '//span[@id=\'spnShippingrate\']'];
 
 	/**
 	 * @var string
@@ -389,4 +392,13 @@ abstract class AdminJ3Page
 	{
 		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 	}
+
+    /**
+     * @param $value
+     * @return array
+     */
+	public static function xPathATag($value)
+    {
+        return ['xpath' => "//a[contains(text(), '" . $value . "')]"];
+    }
 }
