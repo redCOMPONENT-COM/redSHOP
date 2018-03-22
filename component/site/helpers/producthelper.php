@@ -2789,7 +2789,7 @@ class productHelper
 			$subPropertiesPriceWithVat = array();
 			$subPropertiesVat          = array();
 
-			$properties = $attributes[$i]['attribute_childs'];
+			$properties = !empty($attributes[$i]['attribute_childs']) ? $attributes[$i]['attribute_childs'] : array();
 
 			if (count($properties) > 0)
 			{

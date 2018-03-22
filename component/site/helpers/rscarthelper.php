@@ -490,7 +490,11 @@ class rsCarthelper
 		}
 
 		$cart_data = RedshopHelperCartTag::replaceTax(
-			$cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+			$cart_data,
+			$tax + $shippingVat,
+			$discount_amount + $tmp_discount,
+			0,
+			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
 
 		return $cart_data;

@@ -8,7 +8,7 @@ dist:
   trusty
 
 node_js:
-  - 8
+  - 9
 
 php:
   - 5.6
