@@ -126,13 +126,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->name))
 		{
-			$link  = JRoute::_('index.php?option=com_redshop' .
+			$link  = 'index.php?option=com_redshop' .
 				'&view=category&cid=' . $category->id .
-				'&layout=detail&Itemid=' . $this->data['itemId']
-			);
+				'&layout=detail&Itemid=' . $this->data['itemId'];
+
 			$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
 
-			$categoryName = '<a href="' . $link . '" title="' . $category->name . '">' . $category->name . '</a>';
+			$categoryName = '<a href="' . JRoute::_($link) . '" title="' . $category->name . '">' . $category->name . '</a>';
 			$template     = str_replace("{category_name}", $categoryName, $template);
 		}
 
@@ -268,10 +268,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 					if (strstr($dataAdd, '{subcategory_link}'))
 					{
-						$link  = JRoute::_('index.php?option=com_redshop' .
-							'&view=category&cid=' . $category->id .
-							'&layout=detail&Itemid=' . $this->data['itemId']
-						);
+						$link  = 'index.php?option=com_redshop' .
+									'&view=category&cid=' . $category->id .
+									'&layout=detail&Itemid=' . $this->data['itemId'];
+
 						$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
 
 						$dataAdd = str_replace("{subcategory_link}", $link, $dataAdd);
