@@ -251,6 +251,8 @@ class AttributeUserCest
 	 */
 	public function clearAllDate(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
+		$client->doAdministratorLogin();
+
 		$client->wantTo('Delete Test TAX Rates in Administrator');
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 
