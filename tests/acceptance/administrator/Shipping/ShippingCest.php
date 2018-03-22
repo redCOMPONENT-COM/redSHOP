@@ -3,62 +3,135 @@
  * Shipping rate page .
  */
 
+/**
+ * Class ShippingCest
+ *
+ * @package  AcceptanceTester
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage
+ *
+ * @since    2.1.0
+ */
 class ShippingCest
 {
-    public function __construct()
-    {
-        $this->shippingName = 'TestingShippingRate' . rand(99, 999);
-        $this->shippingNameEdit = $this->shippingName . "edit";
-        $this->shippingNameSaveClose = "TestingSave" . rand(1, 100);
-        $this->shippingRate = rand(1, 100);
-        $this->shippingRateEdit = rand(100, 1000);
-        $this->weightStart = "";
-        $this->weightEnd = "";
-        $this->volumeStart = "";
-        $this->volumeEnd = "";
-        $this->shippingRateLenghtStart = "";
-        $this->shippingRateLegnhtEnd = "";
-        $this->shippingRateWidthStart = "";
-        $this->shippingRateWidthEnd = "";
-        $this->shippingRateHeightStart = "";
-        $this->shippingRateHeightEnd = "";
-        $this->orderTotalStart = "";
-        $this->orderTotalEnd = "";
-        $this->zipCodeStart = "";
-        $this->zipCodeEnd = "";
-        $this->country = "";
-        $this->shippingRateProduct = "";
-        $this->shippingCategory = "";
-        $this->shippingShopperGroups = "";
-        $this->shippingPriority = "";
-        $this->shippingRateFor = "";
-        $this->shippingVATGroups = "";
-        $this->pickup = "pick";
+	/**
+	 * @var string
+	 */
+	public $shippingMethod;
 
-    }
+	/**
+	 * @var array
+	 */
+	public $shipping;
 
-    public function createShippingRate(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Create a shipping Rate');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\ShippingSteps($scenario);
-        $I->createShippingRateStandard($this->shippingName, $this->shippingRate, $this->weightStart, $this->weightEnd, $this->volumeStart, $this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, $this->shippingRateHeightStart, $this->shippingRateHeightEnd
-            , $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->country, $this->shippingRateProduct, $this->shippingCategory,
-            $this->shippingShopperGroups, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'save');
+	/**
+	 * @var array
+	 */
+	public $shippingSaveClose;
 
-        $I->createShippingRateStandard($this->shippingNameSaveClose, $this->shippingRate, $this->weightStart, $this->weightEnd, $this->volumeStart, $this->volumeEnd, $this->shippingRateLenghtStart, $this->shippingRateLegnhtEnd, $this->shippingRateWidthStart, $this->shippingRateWidthEnd, $this->shippingRateHeightStart, $this->shippingRateHeightEnd
-            , $this->orderTotalStart, $this->orderTotalEnd, $this->zipCodeStart, $this->zipCodeEnd, $this->country, $this->shippingRateProduct, $this->shippingCategory,
-            $this->shippingShopperGroups, $this->shippingPriority, $this->shippingRateFor, $this->shippingVATGroups, 'saveclose');
-    }
+	/**
+	 * @var string
+	 */
+	public $shippingNameEdit;
 
-    public function editShippingRateStandard(AcceptanceTester $I, $scenario)
-    {
+	/**
+	 * @var string
+	 */
+	public $shippingNameSaveClose;
 
-        $I->wantTo('Edit a shipping Rate');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\ShippingSteps($scenario);
-        $I->editShippingRateStandard($this->shippingName, $this->shippingNameEdit, $this->shippingRateEdit, 'save');
-        $I->editShippingRateStandard($this->shippingNameEdit, $this->shippingName, $this->shippingRate, 'saveclose');
-    }
+	/**
+	 * @var integer
+	 */
+	public $shippingRateEdit;
 
+	/**
+	 * @var \Faker\Generator
+	 */
+	public $faker;
+
+	/**
+	 * ShippingCest constructor.
+	 */
+	public function __construct()
+	{
+		$this->faker = Faker\Factory::create();
+
+		// Shipping info
+		$this->shippingMethod = 'redSHOP - Standard Shipping';
+		$this->shipping       = array(
+			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
+			'shippingRate' => 10
+		);
+
+		$this->shippingSaveClose = array(
+			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
+			'shippingRate' => 10
+		);
+
+		$this->shippingNameEdit      = $this->shipping['shippingName'] . ' edit';
+		$this->shippingNameSaveClose = "TestingSave" . rand(1, 100);
+		$this->shippingRateEdit      = rand(100, 1000);
+	}
+
+	/**
+	 * @param   AcceptanceTester      $I        Tester
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function createShippingRate(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	{
+		$I->wantTo('Check create new Shipping rate with save button');
+		$I->doAdministratorLogin();
+		(new AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
+	}
+
+	/**
+	 * @param   AcceptanceTester      $I        Tester
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function createShippingRateSaveClose(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	{
+		$I->wantTo('Check create new Shipping rate with save & close button');
+		$I->doAdministratorLogin();
+		(new AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard(
+			$this->shippingMethod, $this->shippingSaveClose, 'saveclose'
+		);
+	}
+
+	/**
+	 * @param   AcceptanceTester      $I        Tester
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function editShippingRateStandard(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	{
+		$I->wantTo('Edit a shipping Rate');
+		$I->doAdministratorLogin();
+		(new AcceptanceTester\ShippingSteps($scenario))->editShippingRateStandard(
+			$this->shipping['shippingName'], $this->shippingNameEdit, $this->shippingRateEdit, 'save'
+		);
+	}
+
+	/**
+	 * @param   AcceptanceTester      $I        Tester
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function editShippingRateStandardSaveClose(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	{
+		$I->wantTo('Edit a shipping Rate with Save Close');
+		$I->doAdministratorLogin();
+		(new AcceptanceTester\ShippingSteps($scenario))->editShippingRateStandard(
+			$this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose'
+		);
+	}
 }

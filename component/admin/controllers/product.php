@@ -206,8 +206,14 @@ class RedshopControllerProduct extends RedshopController
 		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('Product');
 		$model->savePrices($productIds, $discountPrices);
+		$msg   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
 
-		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
+		if (!$model->savePrices($productIds, $discountPrices))
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing', $msg);
 	}
 
 	/**
@@ -225,8 +231,14 @@ class RedshopControllerProduct extends RedshopController
 		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('Product');
 		$model->saveDiscountPrices($productIds, $discountPrices);
+		$msg   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
 
-		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
+		if (!$model->saveDiscountPrices($productIds, $discountPrices))
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing', $msg);
 	}
 
 	public function template()

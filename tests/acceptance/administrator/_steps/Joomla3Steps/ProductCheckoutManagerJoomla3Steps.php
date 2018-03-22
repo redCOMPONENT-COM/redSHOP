@@ -30,6 +30,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $categoryName   Name of the Product Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
@@ -70,6 +71,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   Array $addressDetail Address Detail Array
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function addressInformation($addressDetail)
 	{
@@ -93,6 +95,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   Array $shippingDetail Shipping Information Array
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function shippingInformation($shippingDetail)
 	{
@@ -119,6 +122,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $categoryName        Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function checkoutProductWithPayPalPayment($addressDetail, $shipmentDetail, $payPalAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
@@ -173,6 +177,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $categoryName          Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function checkoutProductWith2CheckoutPayment($addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
@@ -227,6 +232,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $categoryName          Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function checkoutProductWithBraintreePayment($addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
@@ -277,6 +283,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $categoryName          Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function checkoutProductWithBeanStreamPayment($addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
@@ -317,6 +324,18 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 
+	/**
+	 * @param       $userName
+	 * @param       $password
+	 * @param       $productName
+	 * @param       $categoryName
+	 * @param array $discount
+	 * @param array $orderInfo
+	 * @param       $applyDiscount
+	 * @param array $orderInfoSecond
+	 *
+	 * @throws \Exception
+	 */
 	public function checkoutProductCouponOrVoucherOrDiscount($userName, $password, $productName, $categoryName, $discount = array(), $orderInfo = array(), $applyDiscount, $orderInfoSecond = array())
 	{
 		$I = $this;
@@ -469,6 +488,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param string $total
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function checkoutWithDiscount($productName, $categoryName, $subTotal, $discount, $total)
 	{
@@ -490,6 +510,16 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
+	/**
+	 * @param $userName
+	 * @param $password
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $ShippingRate
+	 * @param $Total
+	 *
+	 * @throws \Exception
+	 */
 	public function checkoutSpecificShopperGroup($userName, $password, $productName, $categoryName, $ShippingRate, $Total)
 	{
 		$I = $this;
@@ -524,7 +554,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
-
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $subtotal
+	 * @param $Total
+	 *
+	 * @throws \Exception
+	 */
 	public function checkProductInsideStockRoom($productName, $categoryName, $subtotal, $Total)
 	{
 		$I = $this;
@@ -547,6 +584,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $userEmail
+	 *
+	 * @throws \Exception
+	 */
 	public function checkoutQuotation($productName, $categoryName, $userEmail)
 	{
 		$I = $this;
@@ -567,6 +611,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\FrontEndProductManagerJoomla3Page::$addQuotationSuccess, \FrontEndProductManagerJoomla3Page::$alertMessageDiv);
 	}
 
+	/**
+	 * @param $categoryName
+	 * @param $productFirst
+	 * @param $productSecond
+	 *
+	 * @throws \Exception
+	 */
 	public function comparesProducts($categoryName, $productFirst, $productSecond)
 	{
 		$I       = $this;
@@ -600,18 +651,19 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $userName
-	 * @param $password
-	 * @param $productName
-	 * @param $categoryName
-	 * @param $subtotal
-	 * @param $total
-	 * @param $customerInformation
-	 * @param $function
+	 * @param        $userName
+	 * @param        $password
+	 * @param        $productName
+	 * @param        $categoryName
+	 * @param        $subtotal
+	 * @param        $total
+	 * @param        $customerInformation
+	 * @param        $function
 	 * @param string $account
 	 *
 	 * Method test one page step checkout is business or private
 	 *
+	 * @throws \Exception
 	 */
 	public function onePageCheckout($userName, $password, $productName,$categoryName,$subtotal,$total,$customerInformation, $function, $account = 'yes')
 	{
@@ -702,8 +754,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $ShippingRate
 	 * @param $Total
 	 *
-	 * Method one page checkout when user login
-	 *
+	 * @throws \Exception
 	 */
 	public function checkoutOnePageWithLogin($userName, $password, $productName, $categoryName, $ShippingRate, $Total)
 	{
@@ -720,16 +771,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
@@ -750,6 +798,17 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 	}
 
+	/**
+	 * @param $userName
+	 * @param $password
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $subTotal
+	 * @param $vatPrice
+	 * @param $total
+	 *
+	 * @throws \Exception
+	 */
 	public function testProductWithVatCheckout($userName, $password, $productName, $categoryName, $subTotal, $vatPrice, $total)
 	{
 		$I = $this;
@@ -788,4 +847,46 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->seeElement(['link' => $productName]);
 	}
+
+	/**
+	 * @param       $userName
+	 * @param       $product
+	 * @param array $attributes
+	 * @param       $category
+	 * @param       $subTotal
+	 * @param       $vatPrice
+	 * @param       $total
+	 * @param       $shipping
+	 *
+	 * @throws \Exception
+	 */
+	public function checkoutAttributeShopperUser($userName, $product,$attributes = array(), $category, $subTotal, $vatPrice, $total, $shipping)
+    {
+		$I = $this;
+		$I->doFrontEndLogin($userName, $userName);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($category));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($product));
+		$length = count($attributes);
+		$I->wantToTest($length);
+		$usePage = new \FrontEndProductManagerJoomla3Page();
+		$attribute  = $attributes[0];
+		$I->waitForElement($usePage->attributeDropdown(1), 30);
+		$I->click($usePage->attributeDropdown(1));
+		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
+		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
+		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
+			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $product]);
+	    $I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+	    $I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
+	    $I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+    }
 }

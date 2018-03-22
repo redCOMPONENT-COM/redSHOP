@@ -114,7 +114,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $country
+	 * @param   string $country
 	 * @param $state
 	 * @param $vatDefault
 	 * @param $vatCalculation
@@ -141,8 +141,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->click($userConfigurationPage->returnChoice($country));
 		}
 
-		//get state
-		if(isset($state))
+		// Get state
+		if (isset($state))
 		{
 			$I->click(\ConfigurationPage::$statePrice);
 			$I->waitForElement(\ConfigurationPage::$stateSearchPrice, 5);
@@ -151,7 +151,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
 		
-		//get default vat
+		// Get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
 		$I->fillField(\ConfigurationPage::$vatSearchGroup, $vatDefault);
