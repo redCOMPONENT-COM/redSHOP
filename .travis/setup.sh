@@ -62,5 +62,9 @@ else
 
 	npm install
 	mv gulp-config.sample.json gulp-config.json
+	# Create folder for avoid permission error in Docker
+	mkdir ./tests/releases
+	mkdir ./tests/releases/plugins
+	mkdir ./tests/releases/modules
 	node_modules/.bin/gulp release --skip-version
 fi
