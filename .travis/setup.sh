@@ -61,11 +61,13 @@ else
 	composer install --prefer-dist
 
 	# Create folder for avoid permission error in Docker
+	pwd
 	sudo mkdir -p ./tests/joomla-cms3/releases
 	sudo mkdir -p ./tests/joomla-cms3/releases/plugins
 	sudo mkdir -p ./tests/joomla-cms3/releases/modules
 	sudo chown -R $(whoami):$(id -g -n) ./tests/joomla-cms3/releases
 	touch ./tests/joomla-cms3/releases/index.html
+	ls ./tests/joomla-cms3/releases
 
 	npm install
 	mv gulp-config.sample.json gulp-config.json
