@@ -60,11 +60,13 @@ else
 	cd ../../../..
 	composer install --prefer-dist
 
+	# Create folder for avoid permission error in Docker
+	sudo mkdir -p ./tests/releases
+	sudo mkdir -p ./tests/releases/plugins
+	sudo mkdir -p ./tests/releases/modules
+	sudo chown -R $(whoami):$(id -g -n) ./tests/releases
+
 	npm install
 	mv gulp-config.sample.json gulp-config.json
-	# Create folder for avoid permission error in Docker
-	mkdir -p ./tests/releases
-	mkdir -p ./tests/releases/plugins
-	mkdir -p ./tests/releases/modules
 	node_modules/.bin/gulp release --skip-version
 fi
