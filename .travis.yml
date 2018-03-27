@@ -44,12 +44,12 @@ env:
     - REPO=redSHOP
 
 before_script:
-  - docker --version
+  #- docker --version
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - docker-compose --version
+  #- docker-compose --version
   - docker-compose pull
   - docker-compose build
   - docker-compose up -d
@@ -57,8 +57,6 @@ before_script:
   - ./.travis/setup.sh
 
 script:
-  - ls ./tests/joomla-cms3 -la
-  - ls ./tests/joomla-cms3/releases -la
   - ./.travis/script.sh
 
 after_script:
