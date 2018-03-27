@@ -19,6 +19,9 @@ php:
 
 addons:
   chrome: stable
+  apt:
+    packages:
+      - docker-ce
 
 cache:
   apt: true
@@ -41,6 +44,8 @@ env:
     - REPO=redSHOP
 
 before_script:
+  - docker --version
+  - docker-composer --version
   - docker pull mysql:5.7
   - docker run -d --name db-php70 mysql:5.7
   - docker container ps
