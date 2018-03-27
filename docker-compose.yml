@@ -7,6 +7,8 @@ services:
       - joomladb:mysql
     ports:
       - 8070:80
+    volumes:
+      - "/home/travis/build/redCOMPONENT-COM/redSHOP/tests/releases:/var/www/html/releases"
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root

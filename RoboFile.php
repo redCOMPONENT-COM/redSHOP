@@ -692,7 +692,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function checkTravisWebserver()
 	{
-		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
+		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost:8070/installation/index.php');
 	}
 
 	/**
@@ -705,7 +705,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis($testCase)
 	{
-		$this->prepareSiteForSystemTests(1);
+		// $this->prepareSiteForSystemTests(1);
 
 		$this->checkTravisWebserver();
 
