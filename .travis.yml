@@ -44,12 +44,12 @@ env:
     - REPO=redSHOP
 
 before_script:
-  - docker --version
-  - docker-compose --version
+  # - docker --version
+  # - docker-compose --version
   - docker-compose pull
   - docker-compose build
   - docker-compose up -d
-  - docker ps
+  # - docker ps
   - ./.travis/setup.sh
 
 script:

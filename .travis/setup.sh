@@ -64,7 +64,7 @@ else
 	sudo mkdir -p ./tests/joomla-cms3/releases
 	sudo mkdir -p ./tests/joomla-cms3/releases/plugins
 	sudo mkdir -p ./tests/joomla-cms3/releases/modules
-	sudo chown -R $(whoami):$(id -g -n) ./tests/releases
+	sudo chown -R $(whoami):$(id -g -n) ./tests/joomla-cms3/releases
 
 	npm install
 	mv gulp-config.sample.json gulp-config.json
