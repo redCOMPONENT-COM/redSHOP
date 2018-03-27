@@ -141,8 +141,8 @@ class CheckoutDiscountOnProductCest
 	 */
 	public function deleteData($scenario)
 	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
+		/*$I = new RedshopSteps($scenario);
+		$I->clearAllData();*/
 	}
 
 	/**

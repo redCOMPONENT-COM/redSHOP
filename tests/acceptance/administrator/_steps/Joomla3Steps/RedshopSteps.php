@@ -28,7 +28,7 @@ class RedshopSteps
 	 */
 	public function clearAllCategories()
 	{
-		$db = \JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_category'))
 			->where($db->qn('parent_id') . ' != 0');
@@ -117,8 +117,8 @@ class RedshopSteps
 	/**
 	 * Function clear all data tax rate at database
 	 */
-	public function clearTaxRate(){
-
+	public function clearTaxRate()
+	{
 		$db= \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_tax_rate'))
@@ -130,14 +130,13 @@ class RedshopSteps
 	/**
 	 * Function clear all data orders at database
 	 */
-	public function clearAllOrders(){
-
-		$db= \JFactory::getDbo();
+	public function clearAllOrders()
+	{
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__redshop_orders'))
 			->where('1');
 
 		$db->setQuery($query)->execute();
 	}
-	
 }
