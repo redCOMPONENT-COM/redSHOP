@@ -58,7 +58,8 @@ before_script:
   - ./.travis/setup.sh
 
 script:
-  - ls ./tests/joomla-cms3
+  - ls ./tests/joomla-cms3 -la
+  - ls ./tests/joomla-cms3/releases -la
   # - ./.travis/script.sh
 
 after_script:
