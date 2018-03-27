@@ -61,9 +61,9 @@ else
 	composer install --prefer-dist
 
 	# Create folder for avoid permission error in Docker
-	sudo mkdir -p ./tests/releases
-	sudo mkdir -p ./tests/releases/plugins
-	sudo mkdir -p ./tests/releases/modules
+	sudo mkdir -p ./tests/joomla-cms3/releases
+	sudo mkdir -p ./tests/joomla-cms3/releases/plugins
+	sudo mkdir -p ./tests/joomla-cms3/releases/modules
 	sudo chown -R $(whoami):$(id -g -n) ./tests/releases
 
 	npm install
