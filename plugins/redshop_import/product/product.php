@@ -1208,6 +1208,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					return false;
 				}
 
+				$propertyId = $propertyTable->property_id;
+
 				// Property stock
 				if (!empty($data['property_stock']))
 				{
