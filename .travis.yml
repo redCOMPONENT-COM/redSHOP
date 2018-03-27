@@ -41,6 +41,11 @@ env:
     - REPO=redSHOP
 
 before_script:
+  - docker pull mysql:5.7
+  - docker run -d --name db-php70 mysql:5.7
+  - docker container ps
+  - docker run -d -p 127.0.0.1:80:8070 --link db-php70:mysql --name joomla-php70 joomla:3.8-php7.0
+  - docker container ps
   - ./.travis/setup.sh
 
 script:

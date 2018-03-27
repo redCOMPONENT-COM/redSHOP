@@ -40,9 +40,6 @@ else
 	#sudo sed -e "s?%TRAVIS_BUILD_PHP%?$(phpenv version-name)?g" --in-place /etc/apache2/sites-available/000-default.conf
 	#sudo service apache2 restart
 
-	docker run --name db -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
-	docker run --name joomla -p 8080:80 --link mysqldb:mysql --rm -d joomla:3.8.6-php7.0
-
 	# Get ChromeDriver for headless mode
 	driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
 	wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
