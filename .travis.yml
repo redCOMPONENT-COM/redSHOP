@@ -42,24 +42,17 @@ env:
 
 jobs:
   include:
-    - stage: prepare docker image
-      script:
-      - docker pull mysql:latest
-      - docker pull joomla:3.8.6-php7.0
-      - docker pull joomla:3.8.6-php5.6
     - stage: run docker container for PHP 7.0
       script:
       - docker run --name db -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
       - docker run --name j70 --link -p 8070:80 --link db:mysql --rm -d joomla:3.8.6-php7.0
-
-before_script:
-  - ./.travis/setup.sh
-
-script:
-  - ./.travis/script.sh
-
-after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+    - stage: test
+      before_script:
+        - ./.travis/setup.sh
+      script:
+        - ./.travis/script.sh
+      after_script:
+        - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
