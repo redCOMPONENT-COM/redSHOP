@@ -59,8 +59,8 @@ before_script:
   - docker-compose pull
   - docker-compose build
   - docker-compose up -d
-  #- docker ps
-  #- docker exec -it test-container docker-php-ext-install exif
+  - docker ps
+  - docker exec -it test-container docker-php-ext-install exif
   # Get ChromeDriver for headless mode
   - driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
   - wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
