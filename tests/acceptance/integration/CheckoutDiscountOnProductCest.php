@@ -112,6 +112,24 @@ class CheckoutDiscountOnProductCest
 	 */
 	public function __construct()
 	{
+		$conf = JFactory::getApplication();
+		$host = $conf->get('host');
+		$user = $conf->get('user');
+		$password = $conf->get('password');
+		$database = $conf->get('db');
+		$prefix = $conf->get('dbprefix');
+		$driver = $conf->get('dbtype');
+		$debug = $conf->get('debug');
+
+		var_dump($host);
+		var_dump($user);
+		var_dump($password);
+		var_dump($database);
+		var_dump($prefix);
+		var_dump($driver);
+		var_dump($debug);
+		die;
+
 		$this->faker               = Faker\Factory::create();
 		$this->productName         = 'ProductName' . rand(100, 999);
 		$this->categoryName        = "CategoryName" . rand(1, 100);
