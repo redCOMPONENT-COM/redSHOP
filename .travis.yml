@@ -27,10 +27,10 @@ cache:
     - $HOME/.composer/cache/files
 
 env:
-  #matrix:
+  matrix:
       #- ACCEPTANCE=false
       #- ACCEPTANCE=acceptance/administrator
-      #- ACCEPTANCE=acceptance/integration
+      - ACCEPTANCE=acceptance/integration
 
   global:
     - CLOUD_NAME=redcomponent
@@ -40,53 +40,24 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 
-stages:
-  - check coding standard
-  - builder docker
-  - test
+before_script:
+  - ./.travis/setup.sh
+  - docker --version
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+  - docker-compose pull
+  - docker-compose build
+  - docker-compose up -d
+  - docker ps
 
-jobs:
-  include:
-    - stage: check coding standard
-      #php: 7.0
-      env:
-        - ACCEPTANCE=false
-      before_script:
-        - ./.travis/setup.sh
-      script:
-        - ./.travis/script.sh
-    - stage: builder docker
-      before_script:
-        - docker --version
-        - sudo rm /usr/local/bin/docker-compose
-        - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-        - chmod +x docker-compose
-        - sudo mv docker-compose /usr/local/bin
-        - docker-compose --version
-      script:
-        - docker-compose pull
-        - docker-compose build
-        - docker-compose up -d
-        - docker ps
-    - stage: test
-      #php: 7.0
-      env:
-        - ACCEPTANCE=acceptance/integration
-      before_script:
-        - ./.travis/setup.sh
-      script:
-        - ./.travis/script.sh
-      after_script:
-        - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+script:
+  - ./.travis/script.sh
 
-#before_script:
-  #- ./.travis/setup.sh
-
-#script:
-  #- ./.travis/script.sh
-
-#after_script:
-  #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+after_script:
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
