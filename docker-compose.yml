@@ -12,7 +12,7 @@ services:
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root
-    command: [sh, -c, "docker-php-ext-install exif"]
+    container_name: redshop-php7.0-container
 
   joomladb:
     image: mysql:5.7
