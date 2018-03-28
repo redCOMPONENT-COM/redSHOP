@@ -12,6 +12,24 @@ class RedshopSteps
 	 */
 	public function clearAllData()
 	{
+		$conf = JFactory::getApplication();
+		$host = $conf->get('host');
+		$user = $conf->get('user');
+		$password = $conf->get('password');
+		$database = $conf->get('db');
+		$prefix = $conf->get('dbprefix');
+		$driver = $conf->get('dbtype');
+		$debug = $conf->get('debug');
+
+		var_dump($host);
+		var_dump($user);
+		var_dump($password);
+		var_dump($database);
+		var_dump($prefix);
+		var_dump($driver);
+		var_dump($debug);
+		die;
+
 		$this->clearAllCategories();
 		$this->clearAllProducts();
 		$this->clearAllCoupons();
