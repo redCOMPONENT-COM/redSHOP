@@ -8,7 +8,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - type: bind
+      - type: local
         source: ./tests/joomla-cms3
         target: /var/www/html
     environment:
@@ -19,9 +19,3 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-
-networks:
-  webnet:
-
-volumes:
-  mydata:
