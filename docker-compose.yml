@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.4"
 services:
   joomla:
     image: joomla:3.8-php7.0
@@ -6,13 +6,12 @@ services:
     links:
       - joomladb:mysql
     ports:
-      - 80:80
+      - 8080:80
     volumes:
       - "/home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3:/var/www/html"
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root
-    container_name: redshop-php7.0-container
 
   joomladb:
     image: mysql:5.7

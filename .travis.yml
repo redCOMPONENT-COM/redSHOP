@@ -50,15 +50,17 @@ before_script:
   - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   - docker-compose --version
+  - docker-compose build
   - docker-compose up -d
   - docker ps
-  - docker exec -it redshop-php7.0-container docker-php-ext-install exif
+  - php tests/checkers/traviswebserverckecker.php http://localhost/installation/index.php
+  #- docker exec -it redshop-php7.0-container docker-php-ext-install exif
 
 script:
-  - ./.travis/script.sh
+  #- ./.travis/script.sh
 
 after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
