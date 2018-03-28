@@ -28,14 +28,8 @@ cache:
   directories:
     - "node_modules"
     - $HOME/.composer/cache/files
-    - $HOME/.packages
 
 env:
-  matrix:
-      #- ACCEPTANCE=false
-      #- ACCEPTANCE=acceptance/administrator
-      - ACCEPTANCE=acceptance/integration
-
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -45,6 +39,7 @@ env:
     - REPO=redSHOP
 
 before_script:
+  - echo $(phpenv version-name)
   #- sudo service apache2 stop
   - docker --version
   - sudo rm /usr/local/bin/docker-compose
@@ -55,17 +50,36 @@ before_script:
   - docker-compose build
   - docker-compose up -d
   - docker ps
-  - ./.travis/setup.sh
-  #- sleep 5 #Wait for docker successfully run
-  #- docker exec -it redshop-php7.0-container docker-php-ext-install exif
+  - # Get ChromeDriver for headless mode
+  - driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+  - wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
+  - unzip "chromedriver_linux64.zip"
+  - mkdir -p /usr/local/bin
+  - sudo cp -a chromedriver /usr/local/bin
+  - sudo chmod +x /usr/local/bin/chromedriver
+  # Install composer dependency
+  - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+  - composer global require hirak/prestissimo
+  - composer install --working-dir ./libraries/redshop --ansi
+  - composer install --working-dir ./plugins/redshop_pdf/tcpdf/helper --ansi
+  - composer install
+  # Create folder for avoid permission error in Docker
+  - sudo mkdir -p ./tests/joomla-cms3/releases
+  - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
+  - sudo mkdir -p ./tests/joomla-cms3/releases/modules
+  - sudo chown -R $(whoami):$(id -g -n) ./tests/joomla-cms3/releases
+  # Create redshop package
+  - npm install
+  - mv gulp-config.sample.json gulp-config.json
+  - node_modules/.bin/gulp release --skip-version
 
 script:
-  #- php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php
-  #- ls -la ./tests/joomla-cms3
-  - ./.travis/script.sh
+  - mv ./tests/RoboFile.ini.dist tests/RoboFile.ini # Create Robo Config file.
+  - mv ./tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
+  - php vendor/bin/robo run:travis "${ACCEPTANCE}" # Run Acceptance test
 
 after_script:
-  #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
