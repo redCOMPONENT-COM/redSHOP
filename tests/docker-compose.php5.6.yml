@@ -16,6 +16,8 @@ services:
       JOOMLA_DB_USER: "root"
       JOOMLA_DB_NAME: "testredshop1j3"
     container_name: test-container
+    depends_on:
+      - joomladb
   joomladb:
     image: mysql:5.7
     restart: always
