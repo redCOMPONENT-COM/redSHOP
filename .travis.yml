@@ -28,7 +28,7 @@ cache:
   directories:
     - "node_modules"
     - $HOME/.composer/cache/files
-    - ~/docker-images
+    - $HOME/docker
 
 env:
   matrix:
@@ -43,13 +43,15 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 
+before_cache:
+  - mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+  - ls $HOME/docker
+
+before_install:
+  # Load cached docker images
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+
 before_script:
-  # Create docker image cache
-  - mkdir -p ~/docker-images
-  - [[ -f ~/docker-images/j3.8.6-php7.0.tgz ]] && docker load -i ~/docker-images/j3.8.6-php7.0.tgz
-  - docker save joomla:3.8.6-php7.0 | gzip -c > ~/docker-images/j3.8.6-php7.0.tgz
-  - [[ -f ~/docker-images/mysql5.7.tgz ]] && docker load -i ~/docker-images/mysql5.7.tgz
-  - docker save mysql:5.7 | gzip -c > ~/docker-images/mysql5.7.tgz
   # Install latest docker compose
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -82,9 +84,9 @@ before_script:
   - node_modules/.bin/gulp release --skip-version
 
 script:
-  - mv ./tests/RoboFile.ini.dist tests/RoboFile.ini # Create Robo Config file.
-  - mv ./tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
-  - php vendor/bin/robo run:travis $ACCEPTANCE # Run Acceptance test
+  - mv ./tests/RoboFile.ini.dist tests/RoboFile.ini
+  - mv ./tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
+  - php vendor/bin/robo run:travis $ACCEPTANCE
 
 after_script:
   - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
