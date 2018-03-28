@@ -12,6 +12,7 @@ node_js:
 
 services:
   - docker
+  - mysql
 
 php:
   #- 5.6
@@ -20,7 +21,11 @@ php:
 addons:
   chrome: stable
   apt:
+    sources:
+      - mysql-5.7-trusty
     packages:
+      - mysql-server
+      - mysql-client
       - docker-ce
 
 cache:
@@ -51,8 +56,6 @@ before_install:
   - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 before_script:
-  - sudo netstat -nlpt | grep 3306
-  - docker ps
   - mkdir -p /usr/local/bin
   # Install latest docker compose
   - sudo rm /usr/local/bin/docker-compose
