@@ -10,9 +10,6 @@ dist:
 node_js:
   - 9
 
-services:
-  - docker
-
 php:
   #- 5.6
   - 7.0
@@ -58,8 +55,10 @@ jobs:
         - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then ./.travis/script.sh; fi
       before_cache:
         - mkdir -p $HOME/.packages
-        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms/release/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
+        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
     - stage: test
+      services:
+        - docker
       env:
         matrix:
           #- ACCEPTANCE=acceptance/administrator
@@ -94,7 +93,7 @@ jobs:
         #- php vendor/bin/robo run:travis $ACCEPTANCE
       before_cache:
         - mkdir -p $HOME/.packages
-        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms/release/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
+        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
       after_script:
         #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
       after_success:
