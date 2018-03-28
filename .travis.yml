@@ -44,7 +44,7 @@ env:
     - REPO=redSHOP
 
 before_script:
-  - ./.travis/build.sh
+  - ./.travis/script.sh
   - sudo /etc/init.d/mysql stop #Stop Travis MySQL service
   - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
   - mkdir -p /usr/local/bin
