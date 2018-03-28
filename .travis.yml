@@ -19,9 +19,6 @@ php:
 
 addons:
   chrome: stable
-  apt:
-    packages:
-      - docker-ce
 
 cache:
   apt: true
