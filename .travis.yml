@@ -28,9 +28,6 @@ cache:
     - $HOME/.packages
 
 env:
-  matrix:
-    - ACCEPTANCE=acceptance/administrator
-    - ACCEPTANCE=acceptance/integration
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -51,6 +48,10 @@ jobs:
     - stage: build
       script: true
     - stage: test
+      env:
+        matrix:
+          - ACCEPTANCE=acceptance/administrator
+          - ACCEPTANCE=acceptance/integration
       script: true
       services: docker
 
