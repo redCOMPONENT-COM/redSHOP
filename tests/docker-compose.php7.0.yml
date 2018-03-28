@@ -10,11 +10,17 @@ services:
     volumes:
       - ./tests/joomla-cms3:/var/www/html
     environment:
+      MYSQL_PORT_3306_TCP: 3306
       JOOMLA_DB_HOST: joomladb
-      JOOMLA_DB_PASSWORD: root
-
+      JOOMLA_DB_PASSWORD: "root"
+      JOOMLA_DB_USER: "root"
+      JOOMLA_DB_NAME: "testredshop1j3"
+    container_name: test-container
   joomladb:
     image: mysql:5.7
     restart: always
+    ports:
+      - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "testredshop1j3"

@@ -12,20 +12,15 @@ node_js:
 
 services:
   - docker
-  - mysql
 
 php:
-  #- 5.6
+  - 5.6
   - 7.0
 
 addons:
   chrome: stable
   apt:
-    sources:
-      - mysql-5.7-trusty
     packages:
-      - mysql-server
-      - mysql-client
       - docker-ce
 
 cache:
@@ -52,10 +47,11 @@ before_cache:
   - mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
 
 before_install:
-  # Load cached docker images
   - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 before_script:
+  - sudo service mysqld stop
+  - cp test/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
   - mkdir -p /usr/local/bin
   # Install latest docker compose
   - sudo rm /usr/local/bin/docker-compose
@@ -94,7 +90,7 @@ script:
   - php vendor/bin/robo run:travis $ACCEPTANCE
 
 after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
