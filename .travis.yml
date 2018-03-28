@@ -62,7 +62,7 @@ jobs:
       php: 5.6
       script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
       before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
-    - stage: build
+    - stage: build package
       php: 7.0
       script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
       before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
@@ -98,9 +98,8 @@ jobs:
         #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
       before_cache:
         - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
-
-after_success:
-  #- if [[ -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then rm $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip fi
+      after_success:
+        #- if [[ -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then rm $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip fi
 
 notifications:
   slack:
