@@ -50,10 +50,11 @@ before_script:
   - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   - docker-compose --version
+  - docker-compose pull
   - docker-compose build
   - docker-compose up -d
   - docker ps
-  - while [[ $(curl -s -w "%{http_code}" http://localhost:8080 -o /dev/null) != "200" ]]; do  sleep 2; done; #Wait for docker successfully run
+  - sleep 5 #Wait for docker successfully run
   - php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php
   #- docker exec -it redshop-php7.0-container docker-php-ext-install exif
 
