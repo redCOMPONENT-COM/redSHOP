@@ -36,23 +36,28 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 
+stages:
+  #- check coding standard
+  - build
+  - test
+
 jobs:
   include:
-    - stage: check coding standard
-      php: 7.0
-      before_script:
+    #- stage: check coding standard
+      #php: 7.0
+      #before_script:
         #- git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
         #- git submodule update --init --recursive
         #- cd tests/checkers/phpcs
         #- git checkout -b redweb-phpcs-2
         #- cd ../../..
-      script: true
+      #script: true
         #- php tests/checkers/debugcode.php # Check missed debug code
         #- php tests/checkers/phppec.php # Check PHP Parse
         #- php tests/checkers/phpcs.php # Check PHP Codestyle.
     - stage: build
       script:
-        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then ./.travis/script.sh; fi
+        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms/releases && ./.travis/script.sh; fi
       before_cache:
         - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
     - stage: test
