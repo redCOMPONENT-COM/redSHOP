@@ -14,7 +14,7 @@ services:
   - docker
 
 php:
-  - 5.6
+  #- 5.6
   - 7.0
 
 addons:
@@ -48,7 +48,7 @@ stages:
 jobs:
   include:
     - stage: check coding standard
-      php: 7.0
+      #php: 7.0
       env:
         - ACCEPTANCE=false
       before_script:
