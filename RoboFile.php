@@ -692,7 +692,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function checkTravisWebserver()
 	{
-		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/installation/index.php');
+		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php');
 	}
 
 	/**
