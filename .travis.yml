@@ -53,7 +53,7 @@ before_script:
   - docker-compose build
   - docker-compose up -d
   - docker ps
-  - sleep 10
+  - sleep 1 #Wait for docker successfully run
   - php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php
   #- docker exec -it redshop-php7.0-container docker-php-ext-install exif
 
