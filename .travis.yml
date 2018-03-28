@@ -59,7 +59,7 @@ before_script:
   - docker-compose pull
   - docker-compose build
   - docker-compose up -d
-  - docker ps
+  #- docker ps
   - docker exec -it test-container docker-php-ext-install exif
   # Get ChromeDriver for headless mode
   - driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
@@ -78,7 +78,7 @@ before_script:
   - sudo mkdir -p ./tests/joomla-cms3/releases
   - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
   - sudo mkdir -p ./tests/joomla-cms3/releases/modules
-  - sudo chown -R $(whoami):$(id -g -n) ./tests/joomla-cms3/releases
+  - sudo chown -R travis:travis ./tests/joomla-cms3/releases
   # Create redshop package
   - npm install
   - mv gulp-config.sample.json gulp-config.json
