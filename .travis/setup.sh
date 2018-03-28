@@ -51,14 +51,9 @@ else
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	composer global require hirak/prestissimo
 
-	cd libraries/redshop
-	composer install --prefer-dist
-
-	cd ../../plugins/redshop_pdf/tcpdf/helper
-	composer install --prefer-dist
-
-	cd ../../../..
-	composer install --prefer-dist
+	composer install --working-dir ./libraries/redshop --ansi
+	composer install --working-dir ./plugins/redshop_pdf/tcpdf/helper --ansi
+	composer install
 
 	# Create folder for avoid permission error in Docker
 	sudo mkdir -p ./tests/joomla-cms3/releases

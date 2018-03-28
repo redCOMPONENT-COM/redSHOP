@@ -6,7 +6,7 @@ services:
     links:
       - joomladb:mysql
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./tests/joomla-cms3:/var/www/html
     environment:
