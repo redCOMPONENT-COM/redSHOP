@@ -15,7 +15,7 @@ services:
 
 php:
   - 5.6
-  #- 7.0
+  - 7.0
 
 addons:
   chrome: stable
@@ -28,7 +28,7 @@ cache:
   directories:
     - "node_modules"
     - $HOME/.composer/cache/files
-    - $HOME/docker
+    #- $HOME/docker
 
 env:
   matrix:
@@ -44,10 +44,10 @@ env:
     - REPO=redSHOP
 
 before_cache:
-  - mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+  #- mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
 
 before_install:
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+  #- if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 before_script:
   - sudo /etc/init.d/mysql stop #Stop Travis MySQL service
