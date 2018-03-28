@@ -1,4 +1,4 @@
-version: "3"
+version: "3.6"
 services:
   joomla:
     image: joomla:3.8-php7.0
@@ -6,16 +6,22 @@ services:
     links:
       - joomladb:mysql
     ports:
-      - 8080:80
+      - "8080:80"
     volumes:
-      - "/home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3:/var/www/html"
+      - type: bind
+        source: ./tests/joomla-cms3
+        target: /var/www/html
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root
-    command: [sh, -c, "docker-php-ext-install exif"]
-
   joomladb:
     image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
+
+networks:
+  webnet:
+
+volumes:
+  mydata:
