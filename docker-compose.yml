@@ -2,6 +2,7 @@ version: "3.6"
 services:
   joomla:
     image: joomla:3.8.6-php7.0
+    restart: always
     links:
       - joomladb:mysql
     ports:
@@ -17,6 +18,7 @@ services:
     container_name: test-container
   joomladb:
     image: mysql:5.7
+    restart: always
     ports:
       - "3306:3306"
     environment:
