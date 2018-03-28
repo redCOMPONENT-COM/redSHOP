@@ -69,8 +69,7 @@ jobs:
         - docker-compose up -d
         - docker ps
     - stage: test
-      php:
-        - 7.0
+      #php: 7.0
       env:
         - ACCEPTANCE=acceptance/integration
       before_script:
@@ -79,8 +78,6 @@ jobs:
         - ./.travis/script.sh
       after_script:
         - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
-
-
 
 #before_script:
   #- ./.travis/setup.sh
