@@ -12,7 +12,7 @@ services:
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root
-    command: [sh, -c, "docker-php-ext-install install exif"]
+    container_name: test-container
   joomladb:
     image: mysql:5.7
     restart: always
