@@ -50,7 +50,7 @@ before_install:
   - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 before_script:
-  - sudo service mysqld stop
+  - sudo /etc/init.d/mysql stop #Stop Travis MySQL service
   - cp test/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
   - mkdir -p /usr/local/bin
   # Install latest docker compose
