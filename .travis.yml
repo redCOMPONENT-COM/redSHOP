@@ -44,7 +44,6 @@ env:
     - REPO=redSHOP
 
 before_script:
-  - ./.travis/setup.sh
   - docker --version
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -54,12 +53,13 @@ before_script:
   - docker-compose build
   - docker-compose up -d
   - docker ps
+  - ./.travis/setup.sh
   #- sleep 5 #Wait for docker successfully run
   #- docker exec -it redshop-php7.0-container docker-php-ext-install exif
 
 script:
-  - php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php
-  #- ./.travis/script.sh
+  #- php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php
+  - ./.travis/script.sh
 
 after_script:
   #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
