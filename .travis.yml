@@ -67,10 +67,9 @@ jobs:
 
     - stage: test
       env:
-        matrix:
-          #- ACCEPTANCE=acceptance/administrator
-          #- ACCEPTANCE=acceptance/integration
-          - ACCEPTANCE=acceptance/install
+        #- ACCEPTANCE=acceptance/administrator
+        #- ACCEPTANCE=acceptance/integration
+        - ACCEPTANCE=acceptance/install
       before_script:
         - sudo /etc/init.d/mysql stop
         - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
