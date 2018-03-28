@@ -33,7 +33,7 @@ cache:
 env:
   matrix:
     #- ACCEPTANCE=acceptance/administrator
-    #- ACCEPTANCE=acceptance/integration
+    - ACCEPTANCE=acceptance/integration
     - ACCEPTANCE=acceptance/install
   global:
     - CLOUD_NAME=redcomponent
@@ -64,6 +64,7 @@ jobs:
         #- php tests/checkers/phpcs.php # Check PHP Codestyle.
 
     - stage: build
+      env: ACCEPTANCE=false
       script:
         - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
       before_cache:
