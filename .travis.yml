@@ -59,7 +59,7 @@ before_script:
 
 script:
   #- php tests/checkers/traviswebserverckecker.php http://localhost:8080/installation/index.php
-  - ls -la ./tests/joomla-cms3
+  #- ls -la ./tests/joomla-cms3
   - ./.travis/script.sh
 
 after_script:

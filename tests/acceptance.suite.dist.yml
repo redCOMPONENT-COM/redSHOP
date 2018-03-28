@@ -19,7 +19,7 @@ modules:
         - Asserts
     config:
         JoomlaBrowser:
-            url: 'http://localhost'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://localhost:8080'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
             window_size: 1024x768
             restart: true
@@ -44,6 +44,6 @@ modules:
             repo folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             install demo data: 'Yes'              # If you wish to Download Demo Data for the Extension then Keep this to Yes
-            host: 'http://localhost'  #Something important
+            host: 'http://localhost:8080'  #Something important
             redshop packages url: 'http://localhost/releases/'     # the url that points to the extension .zip package defined in your properties.dist file at the root of the repo
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
