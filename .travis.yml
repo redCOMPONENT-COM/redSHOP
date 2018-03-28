@@ -32,7 +32,7 @@ cache:
 
 env:
   matrix:
-      - ACCEPTANCE=false
+      #- ACCEPTANCE=false
       #- ACCEPTANCE=acceptance/administrator
       - ACCEPTANCE=acceptance/integration
 
@@ -45,7 +45,7 @@ env:
     - REPO=redSHOP
 
 before_script:
-  - sudo service apache2 stop
+  #- sudo service apache2 stop
   - docker --version
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
