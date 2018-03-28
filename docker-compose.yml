@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   joomla:
-    image: joomla:3.8-php7.0
+    image: joomla:3.8.6-php7.0
     restart: always
     links:
       - joomladb:mysql
@@ -12,6 +12,7 @@ services:
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root
+    command: [sh, -c, "docker-php-ext-install install exif"]
   joomladb:
     image: mysql:5.7
     restart: always
