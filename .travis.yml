@@ -51,7 +51,7 @@ before_install:
 
 before_script:
   - sudo /etc/init.d/mysql stop #Stop Travis MySQL service
-  - cp test/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
+  - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
   - mkdir -p /usr/local/bin
   # Install latest docker compose
   - sudo rm /usr/local/bin/docker-compose
