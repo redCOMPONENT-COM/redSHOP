@@ -8,9 +8,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - type: local
-        source: ./tests/joomla-cms3
-        target: /var/www/html
+      - ./tests/joomla-cms3:/var/www/html
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: root
