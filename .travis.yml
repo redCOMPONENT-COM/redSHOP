@@ -50,7 +50,7 @@ before_script:
   #- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   #- docker-compose up -d
   - docker pull joomla:3.8.6-php$(phpenv version-name)
-  - docker run -d --name test-container --network=host --mount type=bind,source=$(pwd)/tests/joomla-cms3,target=/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
+  - docker run -d --name test-container --network=host -v $(pwd)/tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
   - docker ps
   # Install google chrome driver
   - mkdir -p /usr/local/bin
@@ -60,6 +60,8 @@ before_script:
   - sudo cp -a chromedriver /usr/local/bin
   - sudo chmod +x /usr/local/bin/chromedriver
   # Install required package for PHP
+  - docker ps
+  - docker container logs test-container
   - docker exec -it test-container docker-php-ext-install exif
   # Release redSHOP package
   - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
