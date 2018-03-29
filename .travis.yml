@@ -33,40 +33,6 @@ env:
 matrix:
   fast_finish: true
 
-before_script:
-- sudo /etc/init.d/mysql stop
-- cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
-- mkdir -p /usr/local/bin
-- sudo rm /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
-- docker-compose up -d
-- docker ps
-- docker exec -it test-container docker-php-ext-install exif
-- driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-- wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
-- unzip "chromedriver_linux64.zip"
-- sudo cp -a chromedriver /usr/local/bin
-- sudo chmod +x /usr/local/bin/chromedriver
-- composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-- composer global require hirak/prestissimo
-- composer install
-- sudo mkdir -p ./tests/joomla-cms3/releases
-- sudo mkdir -p ./tests/joomla-cms3/releases/plugins
-- sudo mkdir -p ./tests/joomla-cms3/releases/modules
-- sudo chown -R travis:travis ./tests/joomla-cms3/releases
-- if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then ./.travis/script.sh; else cp $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ./tests/joomla-cms3/releases/redshop.zip; fi
-script:
-- mv ./tests/RoboFile.ini.dist tests/RoboFile.ini
-- mv ./tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
-- php vendor/bin/robo run:travis $ACCEPTANCE
-after_script:
-#- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
-before_cache:
-- mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
-after_success:
-#- if [[ -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then rm $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip fi
-
 stages:
   - check coding standard
   - build package
@@ -108,6 +74,40 @@ jobs:
       before_cache:
         - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
       after_success: skip
+    - stage: test
+      before_script:
+        - sudo /etc/init.d/mysql stop
+        - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
+        - mkdir -p /usr/local/bin
+        - sudo rm /usr/local/bin/docker-compose
+        - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+        - chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
+        - docker-compose up -d
+        - docker ps
+        - docker exec -it test-container docker-php-ext-install exif
+        - driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+        - wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
+        - unzip "chromedriver_linux64.zip"
+        - sudo cp -a chromedriver /usr/local/bin
+        - sudo chmod +x /usr/local/bin/chromedriver
+        - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+        - composer global require hirak/prestissimo
+        - composer install
+        - sudo mkdir -p ./tests/joomla-cms3/releases
+        - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
+        - sudo mkdir -p ./tests/joomla-cms3/releases/modules
+        - sudo chown -R travis:travis ./tests/joomla-cms3/releases
+        - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then ./.travis/script.sh; else cp $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ./tests/joomla-cms3/releases/redshop.zip; fi
+      script:
+        - mv ./tests/RoboFile.ini.dist tests/RoboFile.ini
+        - mv ./tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
+        - php vendor/bin/robo run:travis $ACCEPTANCE
+      after_script:
+        #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+      before_cache:
+        - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
+      after_success:
+        #- if [[ -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then rm $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip fi
 
 notifications:
   slack:
