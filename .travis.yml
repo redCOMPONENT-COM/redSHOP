@@ -37,27 +37,28 @@ stages:
   - test
 
 before_script:
+  # Create folder avoid Docker permission
+  - sudo mkdir -p ./tests/joomla-cms3/releases
+  - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
+  - sudo mkdir -p ./tests/joomla-cms3/releases/modules
+  - sudo chown -R travis:travis ./tests/joomla-cms3
   #- sudo /etc/init.d/mysql stop
   #- cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
-  - mkdir -p /usr/local/bin
+  #- mkdir -p /usr/local/bin
   #- sudo rm /usr/local/bin/docker-compose
   #- curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   #- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   #- docker-compose up -d
-  - docker run -d --name test-container --network=host --volume ./tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
+  - docker run -d --name test-container --network=host -v ./tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
   - docker ps
   - docker exec -it test-container docker-php-ext-install exif
   # Install google chrome driver
+  - mkdir -p /usr/local/bin
   - driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
   - wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
   - unzip "chromedriver_linux64.zip"
   - sudo cp -a chromedriver /usr/local/bin
   - sudo chmod +x /usr/local/bin/chromedriver
-  # Create folder avoid Docker permission
-  - sudo mkdir -p ./tests/joomla-cms3/releases
-  - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
-  - sudo mkdir -p ./tests/joomla-cms3/releases/modules
-  - sudo chown -R travis:travis ./tests/joomla-cms3/releases
   # Release redSHOP package
   - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
   - composer global require hirak/prestissimo
