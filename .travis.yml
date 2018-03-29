@@ -49,7 +49,7 @@ jobs:
         - cd tests/checkers/phpcs
         - git checkout -b redweb-phpcs-2
         - cd ../../..
-      script: true
+      script:
         - php tests/checkers/debugcode.php # Check missed debug code
         - php tests/checkers/phppec.php # Check PHP Parse
         - php tests/checkers/phpcs.php # Check PHP Codestyle.
