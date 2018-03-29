@@ -50,7 +50,7 @@ before_script:
   #- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   #- docker-compose up -d
   - docker pull joomla:3.8.6-php$(phpenv version-name)
-  - docker run -d --name test-container --network=host -v $(pwd)/tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
+  - docker run -d --name test-container --network=host -v $(pwd)/tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD_ALLOW_EMPTY="yes" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
   - docker ps
   # Install google chrome driver
   - mkdir -p /usr/local/bin
