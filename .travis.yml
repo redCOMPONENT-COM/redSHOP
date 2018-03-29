@@ -37,11 +37,6 @@ stages:
   - test
 
 before_script:
-  # Create folder avoid Docker permission
-  - sudo mkdir -p ./tests/joomla-cms3/releases
-  - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
-  - sudo mkdir -p ./tests/joomla-cms3/releases/modules
-  - sudo chown -R travis:travis ./tests/joomla-cms3
   #- sudo /etc/init.d/mysql stop
   #- cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
   #- mkdir -p /usr/local/bin
@@ -50,7 +45,7 @@ before_script:
   #- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   #- docker-compose up -d
   - docker pull joomla:3.8.6-php$(phpenv version-name)
-  - docker run -d --name test-container --network=host -p 80:80 -v $(pwd)/tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD_ALLOW_EMPTY="yes" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
+  - docker run -d --name test-container --network=host -v $(pwd)/tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD_ALLOW_EMPTY="yes" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
   - docker ps
   # Install google chrome driver
   - mkdir -p /usr/local/bin
@@ -64,6 +59,11 @@ before_script:
   - docker container logs test-container
   - docker exec -it test-container docker-php-ext-install exif
   - curl http://localhost
+  # Create folder avoid Docker permission
+  - sudo mkdir -p ./tests/joomla-cms3/releases
+  - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
+  - sudo mkdir -p ./tests/joomla-cms3/releases/modules
+  - sudo chown -R travis:travis ./tests/joomla-cms3
   # Release redSHOP package
   - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
   - composer global require hirak/prestissimo
