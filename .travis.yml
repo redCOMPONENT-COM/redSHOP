@@ -74,7 +74,8 @@ jobs:
   include:
     - stage: check and build
       php: 7.0
-      env: ACCEPTANCE=false
+      env: ACCEPTANCE=Check Coding Style
+      addons: null
       before_script:
         - git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
         - git submodule update --init --recursive
@@ -83,6 +84,7 @@ jobs:
         - cd ../../..
         - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
         - composer global require hirak/prestissimo
+        - composer install --prefer-dist
       script:
         - php tests/checkers/debugcode.php # Check missed debug code
         - php tests/checkers/phppec.php # Check PHP Parse
@@ -92,19 +94,23 @@ jobs:
       after_success: skip
     - stage: check and build
       php: 5.6
-      env: ACCEPTANCE=false
-      after_script: skip
+      env: ACCEPTANCE=Build
+      addons: null
+      before_script: skip
       script:
         - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
+      after_script: skip
       before_cache:
         - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
       after_success: skip
     - stage: check and build
       php: 7.0
-      env: ACCEPTANCE=false
-      after_script: skip
+      env: ACCEPTANCE=Build
+      addons: null
+      before_script: skip
       script:
         - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
+      after_script: skip
       before_cache:
         - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
       after_success: skip
