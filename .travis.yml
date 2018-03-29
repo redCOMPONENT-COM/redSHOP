@@ -28,7 +28,7 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
   matrix:
-    - ACCEPTANCE=acceptance/administrator
+    #- ACCEPTANCE=acceptance/administrator
     - ACCEPTANCE=acceptance/integration
 matrix:
   fast_finish: true
@@ -49,7 +49,7 @@ before_script:
   #- curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   #- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
   #- docker-compose up -d
-  - docker run -d --name test-container --network=host -v ./tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
+  - docker run -d --name test-container --network=host --mount type=bind,source=./tests/joomla-cms3,target=/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
   - docker ps
   - docker exec -it test-container docker-php-ext-install exif
   # Install google chrome driver
