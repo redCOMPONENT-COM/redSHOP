@@ -41,36 +41,6 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 
-stages:
-  #- check coding standard
-  - build package
-  - test
-
-jobs:
-  include:
-    #- stage: check coding standard
-      #php: 7.0
-      #before_script:
-        #- git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
-        #- git submodule update --init --recursive
-        #- cd tests/checkers/phpcs
-        #- git checkout -b redweb-phpcs-2
-        #- cd ../../..
-      #script: true
-        #- php tests/checkers/debugcode.php # Check missed debug code
-        #- php tests/checkers/phppec.php # Check PHP Parse
-        #- php tests/checkers/phpcs.php # Check PHP Codestyle.
-    - stage: build package
-      php: 5.6
-      env: ACCEPTANCE=false
-      script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
-      before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
-    - stage: build package
-      php: 7.0
-      env: ACCEPTANCE=false
-      script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
-      before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
-
 before_script:
   - sudo /etc/init.d/mysql stop
   - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
@@ -104,6 +74,48 @@ before_cache:
   - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
 after_success:
   #- if [[ -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then rm $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip fi
+
+stages:
+  - check coding standard
+  - build package
+  - test
+
+jobs:
+  include:
+    - stage: check coding standard
+      php: 7.0
+      env: ACCEPTANCE=false
+      before_script:
+        - git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
+        - git submodule update --init --recursive
+        - cd tests/checkers/phpcs
+        - git checkout -b redweb-phpcs-2
+        - cd ../../..
+      script: true
+        - php tests/checkers/debugcode.php # Check missed debug code
+        - php tests/checkers/phppec.php # Check PHP Parse
+        - php tests/checkers/phpcs.php # Check PHP Codestyle.
+      after_script: skip
+      before_cache: skip
+      after_success: skip
+    - stage: build package
+      php: 5.6
+      env: ACCEPTANCE=false
+      after_script: skip
+      script:
+      - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
+      before_cache:
+      - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
+      after_success: skip
+    - stage: build package
+      php: 7.0
+      env: ACCEPTANCE=false
+      after_script: skip
+      script:
+      - if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
+      before_cache:
+      - mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
+      after_success: skip
 
 notifications:
   slack:
