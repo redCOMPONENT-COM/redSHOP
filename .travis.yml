@@ -44,7 +44,7 @@ env:
 stages:
   #- check coding standard
   - build package
-  - automation test
+  - test
 
 jobs:
   include:
@@ -68,7 +68,7 @@ jobs:
       php: 7.0
       script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
       before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
-    - stage: automation test
+    - stage: test
       before_script:
         - sudo /etc/init.d/mysql stop
         - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
