@@ -27,8 +27,3 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "testredshop1j3"
-  selenium:
-    image: selenium/hub
-    restart: always
-    ports:
-      - "4444:4444"
