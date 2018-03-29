@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * The Catalog view
+ * The Catalogs view
  *
  * @package     RedSHOP.Backend
- * @subpackage  View.Catalog
+ * @subpackage  View.Catalogs
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewCatalog extends RedshopViewForm
+class RedshopViewCatalogs extends RedshopViewList
 {
 }
