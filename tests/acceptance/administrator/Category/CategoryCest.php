@@ -23,19 +23,6 @@ class CategoryCest extends AbstractCest
 	use  Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
 
 	/**
-	 * Clean up data.
-	 *
-	 * @param   \Codeception\Scenario  $scenario  Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$tester = new RedshopSteps;
-		$tester->clearAllData();
-	}
-
-	/**
 	 * Name field, which is use for search
 	 *
 	 * @var string
@@ -60,6 +47,33 @@ class CategoryCest extends AbstractCest
 	}
 
 	/**
+	 * @return array
+	 */
+	protected function prepareEditData()
+	{
+		return array(
+			'name'        => 'New' . $this->dataNew['name'],
+			'type'        => 'Total',
+			'value'       => '100',
+			'effect'      => 'Global',
+			'amount_left' => '10'
+		);
+	}
+
+	/**
+	 * Clean up data.
+	 *
+	 * @param   \Codeception\Scenario  $scenario  Scenario
+	 *
+	 * @return  void
+	 */
+	public function deleteData($scenario)
+	{
+		$tester = new RedshopSteps;
+		$tester->clearAllData();
+	}
+
+	/**
 	 * Abstract method for run after complete create item.
 	 *
 	 * @param   \AcceptanceTester      $tester    Tester
@@ -71,7 +85,7 @@ class CategoryCest extends AbstractCest
 	 */
 	public function deleteDataSave(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
 	{
-		$tester->wantTo('Run after create item with save button ');
+		$tester->wantTo(__METHOD__);
 		$stepClass = $this->stepClass;
 
 		/** @var CategorySteps $tester */
@@ -92,7 +106,7 @@ class CategoryCest extends AbstractCest
 	 */
 	public function deleteDataSaveClose(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
 	{
-		$tester->wantTo('Run after create item with save button ');
+		$tester->wantTo(__METHOD__);
 		$stepClass = $this->stepClass;
 
 		/** @var CategorySteps $tester */
@@ -108,12 +122,13 @@ class CategoryCest extends AbstractCest
 	 * @param   \Codeception\Scenario  $scenario  Scenario
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @depends testItemCreateSaveNew
 	 */
 	public function afterTestItemCreate(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
 	{
-		$tester->wantTo('Run after create category test suite');
+		$tester->wantTo(__METHOD__);
 		$stepClass = $this->stepClass;
 
 		/** @var CategorySteps $tester */
@@ -145,19 +160,5 @@ class CategoryCest extends AbstractCest
 		/** @var CategorySteps $tester */
 		$tester = new $stepClass($scenario);
 		$tester->deleteItem($nameCategoryChild);
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function prepareEditData()
-	{
-		return array(
-			'name'        => 'New' . $this->dataNew['name'],
-			'type'        => 'Total',
-			'value'       => '100',
-			'effect'      => 'Global',
-			'amount_left' => '10'
-		);
 	}
 }

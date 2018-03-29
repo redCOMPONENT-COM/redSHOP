@@ -6,7 +6,7 @@ node_js:
 services:
   - docker
 php:
-  - 5.6
+  #- 5.6
   - 7.0
 addons:
   chrome: stable
@@ -32,7 +32,7 @@ env:
 matrix:
   fast_finish: true
 stages:
-  - check coding standard
+  #- check coding standard
   - test
 
 before_script:

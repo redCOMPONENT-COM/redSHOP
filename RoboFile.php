@@ -717,14 +717,14 @@ class RoboFile extends \Robo\Tasks
 			$testCase .= 'Cest.php';
 		}
 
-		$this->taskSeleniumStandaloneServer()
+		/*$this->taskSeleniumStandaloneServer()
 			->setURL('http://localhost:4444')
 			->runSelenium()
 			->waitForSelenium()
 			->run()
-			->stopOnFail();
+			->stopOnFail();*/
 
-		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		// Make sure to Run the Build Command to Generate AcceptanceTester
 		$this->_exec('vendor/bin/codecept build');
 
 		// Install Joomla + redSHOP
@@ -740,8 +740,8 @@ class RoboFile extends \Robo\Tasks
 		// Run specific task
 		$this->taskCodecept()
 			->test('tests/' . $testCase)
-			// ->arg('--steps')
-			// ->arg('--debug')
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->run()
