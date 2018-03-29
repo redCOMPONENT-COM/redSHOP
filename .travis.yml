@@ -75,27 +75,27 @@ script:
 after_script:
   - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
-jobs:
-  include:
-    - stage: check coding standard
-      php: 7.0
-      env: ACCEPTANCE=Check Coding Style
-      addons: null
-      services: null
-      before_script:
-        - git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
-        - git submodule update --init --recursive
-        - cd tests/checkers/phpcs
-        - git checkout -b redweb-phpcs-2
-        - cd ../../..
-        - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-        - composer global require hirak/prestissimo
-        - composer install --prefer-dist
-      script:
-        - php tests/checkers/debugcode.php # Check missed debug code
-        - php tests/checkers/phppec.php # Check PHP Parse
-        - php tests/checkers/phpcs.php # Check PHP Codestyle.
-      after_script: skip
+#jobs:
+  #include:
+    #- stage: check coding standard
+      #php: 7.0
+      #env: ACCEPTANCE=Check Coding Style
+      #addons: null
+      #services: null
+      #before_script:
+        #- git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
+        #- git submodule update --init --recursive
+        #- cd tests/checkers/phpcs
+        #- git checkout -b redweb-phpcs-2
+        #- cd ../../..
+        #- composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+        #- composer global require hirak/prestissimo
+        #- composer install --prefer-dist
+      #script:
+        #- php tests/checkers/debugcode.php # Check missed debug code
+        #- php tests/checkers/phppec.php # Check PHP Parse
+        #- php tests/checkers/phpcs.php # Check PHP Codestyle.
+      #after_script: skip
 
 notifications:
   slack:
