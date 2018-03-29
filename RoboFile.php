@@ -717,12 +717,12 @@ class RoboFile extends \Robo\Tasks
 			$testCase .= 'Cest.php';
 		}
 
-		/*$this->taskSeleniumStandaloneServer()
+		$this->taskSeleniumStandaloneServer()
 			->setURL('http://localhost:4444')
 			->runSelenium()
 			->waitForSelenium()
 			->run()
-			->stopOnFail();*/
+			->stopOnFail();
 
 		// Make sure to Run the Build Command to Generate AcceptanceTester
 		$this->_exec('vendor/bin/codecept build');
