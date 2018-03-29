@@ -5,6 +5,7 @@ node_js:
   - 9
 services:
   - docker
+  - mysql
 php:
   #- 5.6
   - 7.0
@@ -36,13 +37,14 @@ stages:
   - test
 
 before_script:
-  - sudo /etc/init.d/mysql stop
-  - cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
+  #- sudo /etc/init.d/mysql stop
+  #- cp tests/docker-compose.php$(phpenv version-name).yml ./docker-compose.yml
   - mkdir -p /usr/local/bin
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
-  - docker-compose up -d
+  #- sudo rm /usr/local/bin/docker-compose
+  #- curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+  #- chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
+  #- docker-compose up -d
+  - docker run -d --name test-container --network=host --volume ./tests/joomla-cms3:/var/www/html -e JOOMLA_DB_HOST="localhost" -e JOOMLA_DB_PASSWORD="" -e JOOMLA_DB_USER="root" -e JOOMLA_DB_NAME="testredshop1j3" joomla:3.8.6-php$(phpenv version-name)
   - docker ps
   - docker exec -it test-container docker-php-ext-install exif
   # Install google chrome driver
@@ -78,6 +80,7 @@ jobs:
       php: 7.0
       env: ACCEPTANCE=Check Coding Style
       addons: null
+      services: null
       before_script:
         - git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
         - git submodule update --init --recursive
