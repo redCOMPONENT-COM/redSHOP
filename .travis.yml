@@ -10,10 +10,6 @@ dist:
 node_js:
   - 9
 
-php:
-  - 5.6
-  - 7.0
-
 services:
   - docker
 
@@ -31,8 +27,6 @@ cache:
     - $HOME/.packages
 
 env:
-  matrix:
-    - ACCEPTANCE=acceptance/integration
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -48,6 +42,12 @@ stages:
 
 jobs:
   include:
+    php:
+      - 5.6
+      - 7.0
+    env:
+      - ACCEPTANCE=acceptance/administrator
+      - ACCEPTANCE=acceptance/integration
     #- stage: check coding standard
       #php: 7.0
       #before_script:
@@ -62,10 +62,12 @@ jobs:
         #- php tests/checkers/phpcs.php # Check PHP Codestyle.
     - stage: build package
       php: 5.6
+      env: ACCEPTANCE=false
       script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
       before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
     - stage: build package
       php: 7.0
+      env: ACCEPTANCE=false
       script: if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then mkdir -p ./tests/joomla-cms3/releases/ && ./.travis/script.sh; fi
       before_cache: mkdir -p $HOME/.packages && if [[ ! -f $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip ]]; then cp ./tests/joomla-cms3/releases/redshop.zip $HOME/.packages/$TRAVIS_PULL_REQUEST-$TRAVIS_COMMIT.zip; fi
     - stage: test
