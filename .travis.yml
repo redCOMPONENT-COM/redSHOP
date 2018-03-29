@@ -31,8 +31,9 @@ cache:
     - $HOME/.packages
 
 env:
-  - ACCEPTANCE=acceptance/administrator
-  - ACCEPTANCE=acceptance/integration
+  matrix:
+    - ACCEPTANCE=acceptance/administrator
+    - ACCEPTANCE=acceptance/integration
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -40,6 +41,8 @@ env:
     - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
+matrix:
+  fast_finish: true
 
 before_script:
   - sudo /etc/init.d/mysql stop
@@ -86,11 +89,11 @@ jobs:
       php: 7.0
       env: ACCEPTANCE=false
       before_script:
-        - git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
-        - git submodule update --init --recursive
-        - cd tests/checkers/phpcs
-        - git checkout -b redweb-phpcs-2
-        - cd ../../..
+      - git submodule add https://github.com/redCOMPONENT-COM/coding-standards tests/checkers/phpcs
+      - git submodule update --init --recursive
+      - cd tests/checkers/phpcs
+      - git checkout -b redweb-phpcs-2
+      - cd ../../..
       script: true
         - php tests/checkers/debugcode.php # Check missed debug code
         - php tests/checkers/phppec.php # Check PHP Parse
