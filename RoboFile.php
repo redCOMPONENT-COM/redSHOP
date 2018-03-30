@@ -739,7 +739,7 @@ class RoboFile extends \Robo\Tasks
 
 		// Run specific task
 		$this->taskCodecept()
-			->test('tests/' . $testCase)
+			 ->test('tests/' . $testCase)
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--tap')

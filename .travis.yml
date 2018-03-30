@@ -56,7 +56,7 @@ before_script:
   - sudo mkdir -p ./tests/joomla-cms3/releases
   - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
   - sudo mkdir -p ./tests/joomla-cms3/releases/modules
-  - sudo chown -R travis:travis ./tests/joomla-cms3
+  - sudo chown -R travis:travis ./tests/joomla-cms3/releases
   # Release redSHOP package
   - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
   - composer global require hirak/prestissimo
@@ -71,7 +71,7 @@ script:
   - mv ./tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
   - php vendor/bin/robo run:travis $ACCEPTANCE
 after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 #jobs:
   #include:
