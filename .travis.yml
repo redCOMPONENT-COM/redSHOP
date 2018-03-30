@@ -45,6 +45,7 @@ before_script:
   - docker-compose up -d
   - docker ps
   - docker exec -it test-container docker-php-ext-install exif
+  - docker exec -it test-container ls -la /var/www/html
   # Install google chrome driver
   - mkdir -p /usr/local/bin
   - driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
@@ -57,6 +58,7 @@ before_script:
   - sudo mkdir -p ./tests/joomla-cms3/releases/plugins
   - sudo mkdir -p ./tests/joomla-cms3/releases/modules
   - sudo chown -R travis:travis ./tests/joomla-cms3
+  - ls -la ./tests/joomla-cms3
   # Release redSHOP package
   - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
   - composer global require hirak/prestissimo
