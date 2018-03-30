@@ -729,8 +729,8 @@ class RoboFile extends \Robo\Tasks
 
 		// Install Joomla + redSHOP
 		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
+			//->arg('--steps')
+			//->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -740,8 +740,8 @@ class RoboFile extends \Robo\Tasks
 		// Run specific task
 		$this->taskCodecept()
 			 ->test('tests/' . $testCase)
-			->arg('--steps')
-			->arg('--debug')
+			//->arg('--steps')
+			//->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->run()

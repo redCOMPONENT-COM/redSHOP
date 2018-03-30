@@ -27,7 +27,7 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
   matrix:
-    #- ACCEPTANCE=acceptance/administrator
+    - ACCEPTANCE=acceptance/administrator
     - ACCEPTANCE=acceptance/integration
 matrix:
   fast_finish: true
