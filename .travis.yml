@@ -72,7 +72,6 @@ script:
   - php vendor/bin/robo run:travis $ACCEPTANCE
 after_script:
   - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
-
 jobs:
   include:
     - stage: check coding standard
@@ -94,7 +93,6 @@ jobs:
         - php tests/checkers/phppec.php # Check PHP Parse
         - php tests/checkers/phpcs.php # Check PHP Codestyle.
       after_script: skip
-
 notifications:
   slack:
     secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
