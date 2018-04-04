@@ -244,23 +244,39 @@ if (!$slide)
 
 	$cat_main_thumb = "";
 
-	if ($this->maincat->category_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->maincat->category_full_image))
+	$medias = RedshopEntityCategory::getInstance($this->maincat->id)->getMedia();
+
+	/** @var RedshopEntityMediaImage $fullImage */
+	$fullImage = null;
+
+	foreach ($medias->getAll() as $media)
 	{
-		$water_cat_img  = RedshopHelperMedia::watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
-							"'><img src='" . $water_cat_img . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
+		/** @var RedshopEntityMedia $media */
+		if ($media->get('scope') == 'full')
+		{
+			$fullImage = RedshopEntityMediaImage::getInstance($media->getId());
+
+			break;
+		}
 	}
+
+	if (null !== $fullImage)
+    {
+        $water_cat_img = $fullImage->generateThumb($cw_thumb, $ch_thumb);
+	    $cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
+		    "'><img src='" . $water_cat_img['abs'] . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
+    }
 
 	$template_desc = str_replace($ctag, $cat_main_thumb, $template_desc);
 
 	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
-	$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $this->catid, "2", $template_desc, 0);
+	$template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->catid, RedshopHelperExtrafields::SECTION_CATEGORY, $template_desc);
 
 	if (strpos($template_desc, "{compare_product_div}") !== false)
 	{
 		$compare_product_div = "";
 
-		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != "")
+		if (!empty(Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE')))
 		{
 			$comparediv           = Redshop\Product\Compare::generateCompareProduct();
 			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
@@ -478,9 +494,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $template_product;
 
 		// ProductFinderDatepicker Extra Field Start
-
-		$data_add = $producthelper->getProductFinderDatepickerValue($template_product, $product->product_id, $fieldArray);
-
+		$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $product->product_id, $fieldArray);
 		// ProductFinderDatepicker Extra Field End
 
 		/*
