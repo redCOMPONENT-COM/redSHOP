@@ -183,10 +183,10 @@ class RedshopHelperProductPrice
 	 */
 	public static function formattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
-		$currencySymbol = $currencySymbol == '_NON_' ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL') : $currencySymbol;
+		$currencySymbol = $currencySymbol === '_NON_' ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL') : $currencySymbol;
 
 		// Get Current Currency of SHOP
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 
 		// If convert set true than use conversation
 		if ($convert && $session->get('product_currency'))
@@ -196,15 +196,6 @@ class RedshopHelperProductPrice
 			$currencySymbol  = (int) $productCurrency;
 			$currencySymbol  = !$currencySymbol ?
 				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
-
-			if (Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION') == 'behind')
-			{
-				$currencySymbol = " " . (string) $currencySymbol;
-			}
-			else
-			{
-				$currencySymbol = (string) $currencySymbol . " ";
-			}
 		}
 
 		if (!is_numeric($productPrice))
@@ -212,13 +203,25 @@ class RedshopHelperProductPrice
 			return '';
 		}
 
-		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
-		$priceSeperator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
-		$thousandSeperator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
-		$productPrice      = (double) $productPrice;
-		$productPrice      = number_format($productPrice, $priceDecimal, $priceSeperator, $thousandSeperator);
+		// Prepare currency symbol
+		$position = Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION', 'front');
 
-		switch (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'))
+		if ($position === 'behind')
+		{
+			$currencySymbol = ' <span>' . (string) $currencySymbol . '</span>';
+		}
+		else
+		{
+			$currencySymbol = '<span>' . (string) $currencySymbol . '</span> ';
+		}
+
+		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
+		$priceSeparator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
+		$thousandSeparator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
+		$productPrice      = (double) $productPrice;
+		$productPrice      = number_format($productPrice, $priceDecimal, $priceSeparator, $thousandSeparator);
+
+		switch ($position)
 		{
 			case 'behind':
 				return $productPrice . $currencySymbol;
@@ -256,6 +259,7 @@ class RedshopHelperProductPrice
 	 * @param   array    $attributes    Attributes list.
 	 *
 	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
