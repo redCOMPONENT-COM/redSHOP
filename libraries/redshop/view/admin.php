@@ -50,6 +50,10 @@ class RedshopViewAdmin extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		JPluginHelper::importPlugin('system');
+
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array($this));
+
 		$render = RedshopLayoutHelper::render(
 			$this->componentLayout,
 			array(
@@ -60,7 +64,6 @@ class RedshopViewAdmin extends JViewLegacy
 			)
 		);
 
-		JPluginHelper::importPlugin('system');
 		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
 
 		if ($render instanceof Exception)
