@@ -248,12 +248,9 @@ class RedshopHelperCategory
 		$db->setQuery($query);
 		$cats = $db->loadObjectList();
 
-		if ($cats)
+		if ($cats && Redshop::getConfig()->getBool('PRODUCT_DEFAULT_CATEGORY'))
 		{
-			if (Redshop::getConfig()->getBool('PRODUCT_DEFAULT_CATEGORY'))
-			{
-				$selectedCategories[] = $cats[0]->parent_id;
-			}
+			$selectedCategories[] = $cats[0]->parent_id;
 		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
