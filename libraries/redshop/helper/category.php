@@ -250,7 +250,10 @@ class RedshopHelperCategory
 
 		if ($cats)
 		{
-			$selectedCategories[] = $cats[0]->parent_id;
+			if (Redshop::getConfig()->getBool('PRODUCT_DEFAULT_CATEGORY'))
+			{
+				$selectedCategories[] = $cats[0]->parent_id;
+			}
 		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
