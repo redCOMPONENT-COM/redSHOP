@@ -65,18 +65,20 @@ class RedshopControllerCart extends RedshopController
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
+		$isAjaxCartBox = Redshop::getConfig()->getBool('AJAX_CART_BOX');
+
 		$result = Redshop\Cart\Cart::addProduct($post);
 
 		if (!is_bool($result) || (is_bool($result) && !$result))
 		{
-			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+			$errorMessage = $result ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			// Set Error Message
 			$app->enqueueMessage($errorMessage, 'error');
 
-			if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1)
+			if ($isAjaxCartBox)
 			{
-				echo "`0`" . $errorMessage;
+				echo '`0`' . $errorMessage;
 				$app->close();
 			}
 			else
@@ -103,10 +105,12 @@ class RedshopControllerCart extends RedshopController
 			}
 		}
 
-		$session = JFactory::getSession();
-		$cart    = RedshopHelperCartSession::getCart();
+		$session              = JFactory::getSession();
+		$cart                 = RedshopHelperCartSession::getCart();
+		$isQuotationMode      = Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE');
+		$isShowQuotationPrice = Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE');
 
-		if (isset($cart['AccessoryAsProduct']) && $post['accessory_data'] != '')
+		if (isset($cart['AccessoryAsProduct']) && !empty($post['accessory_data']))
 		{
 			$attArr = $cart['AccessoryAsProduct'];
 
@@ -141,8 +145,7 @@ class RedshopControllerCart extends RedshopController
 						$cartData['accessory_id']                = $accessories[$i];
 
 						$result = Redshop\Cart\Cart::addProduct($cartData);
-
-						$cart = $session->get('cart');
+						$cart   = RedshopHelperCartSession::getCart();;
 
 						if (is_bool($result) && $result)
 						{
@@ -160,9 +163,9 @@ class RedshopControllerCart extends RedshopController
 								$app->enqueueMessage(/** @scrutinizer ignore-deprecated */$this->getError(), 'error');
 							}
 
-							if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1)
+							if ($isAjaxCartBox)
 							{
-								echo "`0`" . $errorMessage;
+								echo '`0`' . $errorMessage;
 								die();
 							}
 							else
@@ -190,8 +193,7 @@ class RedshopControllerCart extends RedshopController
 				}
 			}
 
-			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-				|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
+			if (!$isQuotationMode || ($isQuotationMode && $isShowQuotationPrice))
 			{
 				RedshopHelperCart::addCartToDatabase();
 			}
@@ -201,8 +203,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-				|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
+			if (!$isQuotationMode || ($isQuotationMode && $isShowQuotationPrice))
 			{
 				RedshopHelperCart::addCartToDatabase();
 			}
@@ -217,7 +218,7 @@ class RedshopControllerCart extends RedshopController
 
 		if (!$userfield)
 		{
-			if (Redshop::getConfig()->getInt('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
+			if ($isAjaxCartBox && isset($post['ajax_cart_box']))
 			{
 				$link = JRoute::_(
 					'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $itemId,
@@ -226,13 +227,13 @@ class RedshopControllerCart extends RedshopController
 			}
 			else
 			{
-				if (Redshop::getConfig()->get('ADDTOCART_BEHAVIOUR') == 1)
+				if (Redshop::getConfig()->getInt('ADDTOCART_BEHAVIOUR') === 1)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 				}
 				else
 				{
-					if (isset($cart['notice_message']) && $cart['notice_message'] != "")
+					if (isset($cart['notice_message']) && !empty($cart['notice_message']))
 					{
 						$this->setMessage($cart['notice_message'], 'warning');
 					}

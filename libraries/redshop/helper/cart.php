@@ -145,7 +145,7 @@ abstract class RedshopHelperCart
 		JPluginHelper::importPlugin('redshop_product');
 		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
 
-		$idx = isset($cart['idx']) ? (int) ($cart['idx']) : 0;
+		$idx = isset($cart['idx']) ? (int) $cart['idx'] : 0;
 
 		$db = JFactory::getDbo();
 
@@ -163,6 +163,7 @@ abstract class RedshopHelperCart
 
 			if (!$cartId)
 			{
+				/** @var Tableusercart $row */
 				$row          = JTable::getInstance('usercart', 'Table');
 				$row->user_id = $user->id;
 				$row->cdate   = time();
@@ -186,6 +187,7 @@ abstract class RedshopHelperCart
 
 			for ($i = 0; $i < $idx; $i++)
 			{
+				/** @var Tableusercart_item $rowItem */
 				$rowItem = JTable::getInstance('usercart_item', 'Table');
 
 				$rowItem->cart_idx   = $i;
@@ -219,29 +221,28 @@ abstract class RedshopHelperCart
 					throw new Exception($rowItem->getError());
 				}
 
-				$cartItemId = $rowItem->cart_item_id;
-
-				$cart_attribute = array();
+				$cartItemId     = $rowItem->cart_item_id;
+				$cartAttributes = array();
 
 				if (isset($cart[$i]['cart_attribute']))
 				{
-					$cart_attribute = $cart[$i]['cart_attribute'];
+					$cartAttributes = $cart[$i]['cart_attribute'];
 				}
 
-				/* Store attribute in db */
-				self::addCartAttributeToDatabase($cart_attribute, $cartItemId, $rowItem->product_id);
+				// Store attribute in db
+				self::addCartAttributeToDatabase($cartAttributes, $cartItemId, $rowItem->product_id);
 
-				$cart_accessory = array();
+				$cartAccessories = array();
 
 				if (isset($cart[$i]['cart_accessory']))
 				{
-					$cart_accessory = $cart[$i]['cart_accessory'];
+					$cartAccessories = $cart[$i]['cart_accessory'];
 				}
 
-				for ($j = 0, $jn = count($cart_accessory); $j < $jn; $j++)
+				for ($j = 0, $jn = count($cartAccessories); $j < $jn; $j++)
 				{
 					$rowAcc               = JTable::getInstance('usercart_accessory_item', 'Table');
-					$rowAcc->accessory_id = $cart_accessory[$j]['accessory_id'];
+					$rowAcc->accessory_id = $cartAccessories[$j]['accessory_id'];
 
 					// Store product quantity as accessory quantity.
 					$rowAcc->accessory_quantity = $cart[$i]['quantity'];
@@ -251,7 +252,7 @@ abstract class RedshopHelperCart
 						throw new Exception($rowAcc->getError());
 					}
 
-					$accessory_childs = $cart_accessory[$j]['accessory_childs'];
+					$accessory_childs = $cartAccessories[$j]['accessory_childs'];
 
 					self::addCartAttributeToDatabase($accessory_childs, $cartItemId, $rowAcc->accessory_id, true);
 				}
