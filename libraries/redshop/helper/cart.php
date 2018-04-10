@@ -33,6 +33,7 @@ abstract class RedshopHelperCart
 	 * @return  boolean
 	 *
 	 * @since   2.0.3
+	 * @throws  Exception
 	 */
 	public static function removeCartFromDatabase($cartId = 0, $userId = 0, $delCart = false)
 	{
@@ -137,45 +138,40 @@ abstract class RedshopHelperCart
 			return false;
 		}
 
-		if (empty($cart))
-		{
-			$cart = JFactory::getSession()->get('cart');
-		}
+		$cart = empty($cart) ? RedshopHelperCartSession::getCart() : $cart;
 
 		JPluginHelper::importPlugin('redshop_product');
 		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
 
 		$idx = isset($cart['idx']) ? (int) $cart['idx'] : 0;
+		$db  = JFactory::getDbo();
 
-		$db = JFactory::getDbo();
+		// Get cart ID.
+
+		/** @var RedshopTableUsercart $userCartTable */
+		$userCartTable = RedshopTable::getInstance('Usercart', 'RedshopTable');
+
+		if (!$userCartTable->load(array('user_id' => $user->id)))
+		{
+			$userCartTable->user_id = $user->id;
+			$userCartTable->cdate   = time();
+			$userCartTable->mdate   = time();
+
+			if (!$userCartTable->store())
+			{
+				return false;
+			}
+
+			$cartId = $userCartTable->cart_id;
+		}
+		else
+		{
+			$cartId = $userCartTable->cart_id;
+		}
 
 		try
 		{
 			$db->transactionStart();
-
-			// Get cart ID.
-			$query = $db->getQuery(true)
-				->select($db->qn('cart_id'))
-				->from($db->qn('#__redshop_usercart'))
-				->where($db->qn('user_id') . ' = ' . (int) $user->id);
-
-			$cartId = $db->setQuery($query)->loadResult();
-
-			if (!$cartId)
-			{
-				/** @var Tableusercart $row */
-				$row          = JTable::getInstance('usercart', 'Table');
-				$row->user_id = $user->id;
-				$row->cdate   = time();
-				$row->mdate   = time();
-
-				if (!$row->store())
-				{
-					throw new Exception($row->getError());
-				}
-
-				$cartId = $row->cart_id;
-			}
 
 			$delCart = (!$idx) ? true : false;
 
@@ -187,13 +183,13 @@ abstract class RedshopHelperCart
 
 			for ($i = 0; $i < $idx; $i++)
 			{
-				/** @var Tableusercart_item $rowItem */
-				$rowItem = JTable::getInstance('usercart_item', 'Table');
+				/** @var RedshopTableUsercart_Item $userCartItem */
+				$userCartItem = RedshopTable::getAdminInstance('Usercart_Item', 'RedshopTable');
 
-				$rowItem->cart_idx   = $i;
-				$rowItem->cart_id    = $cartId;
-				$rowItem->product_id = $cart[$i]['product_id'];
-				$rowItem->attribs    = serialize($cart[$i]);
+				$userCartItem->cart_idx   = $i;
+				$userCartItem->cart_id    = $cartId;
+				$userCartItem->product_id = $cart[$i]['product_id'];
+				$userCartItem->attribs    = serialize($cart[$i]);
 
 				if (isset($cart[$i]['giftcard_id']) === false)
 				{
@@ -205,23 +201,23 @@ abstract class RedshopHelperCart
 					$cart[$i]['wrapper_id'] = 0;
 				}
 
-				$rowItem->giftcard_id        = $cart[$i]['giftcard_id'];
-				$rowItem->product_quantity   = $cart[$i]['quantity'];
-				$rowItem->product_wrapper_id = $cart[$i]['wrapper_id'];
+				$userCartItem->giftcard_id        = $cart[$i]['giftcard_id'];
+				$userCartItem->product_quantity   = $cart[$i]['quantity'];
+				$userCartItem->product_wrapper_id = $cart[$i]['wrapper_id'];
 
 				if (isset($cart[$i]['subscription_id']) === false)
 				{
 					$cart[$i]['subscription_id'] = 0;
 				}
 
-				$rowItem->product_subscription_id = $cart[$i]['subscription_id'];
+				$userCartItem->product_subscription_id = $cart[$i]['subscription_id'];
 
-				if (!$rowItem->store())
+				if (!$userCartItem->store())
 				{
-					throw new Exception($rowItem->getError());
+					throw new Exception($userCartItem->getError());
 				}
 
-				$cartItemId     = $rowItem->cart_item_id;
+				$cartItemId     = $userCartItem->cart_item_id;
 				$cartAttributes = array();
 
 				if (isset($cart[$i]['cart_attribute']))
@@ -230,31 +226,27 @@ abstract class RedshopHelperCart
 				}
 
 				// Store attribute in db
-				self::addCartAttributeToDatabase($cartAttributes, $cartItemId, $rowItem->product_id);
+				self::addCartAttributeToDatabase($cartAttributes, $cartItemId, $userCartItem->product_id);
 
-				$cartAccessories = array();
+				$cartAccessories = !empty($cart[$i]['cart_accessory']) ? (array) $cart[$i]['cart_accessory'] : array();
 
-				if (isset($cart[$i]['cart_accessory']))
+				foreach ($cartAccessories as $cartAccessory)
 				{
-					$cartAccessories = $cart[$i]['cart_accessory'];
-				}
-
-				for ($j = 0, $jn = count($cartAccessories); $j < $jn; $j++)
-				{
-					$rowAcc               = JTable::getInstance('usercart_accessory_item', 'Table');
-					$rowAcc->accessory_id = $cartAccessories[$j]['accessory_id'];
+					/** @var RedshopTableUsercart_Accessory_Item $userCartItemAccessory */
+					$userCartItemAccessory               = RedshopTable::getAdminInstance('Usercart_Accessory_Item', 'RedshopTable');
+					$userCartItemAccessory->accessory_id = $cartAccessory['accessory_id'];
 
 					// Store product quantity as accessory quantity.
-					$rowAcc->accessory_quantity = $cart[$i]['quantity'];
+					$userCartItemAccessory->accessory_quantity = $cart[$i]['quantity'];
 
-					if (!$rowAcc->store())
+					if (!$userCartItemAccessory->store())
 					{
-						throw new Exception($rowAcc->getError());
+						throw new Exception($userCartItemAccessory->getError());
 					}
 
-					$accessory_childs = $cartAccessories[$j]['accessory_childs'];
-
-					self::addCartAttributeToDatabase($accessory_childs, $cartItemId, $rowAcc->accessory_id, true);
+					self::addCartAttributeToDatabase(
+						$cartAccessory['accessory_childs'], $cartItemId, $userCartItemAccessory->accessory_id, true
+					);
 				}
 			}
 
@@ -273,18 +265,19 @@ abstract class RedshopHelperCart
 	/**
 	 * Store Cart Attribute to Database
 	 *
-	 * @param   array   $attributes  Cart attribute data.
-	 * @param   int     $cartItemId  Cart item ID
-	 * @param   int     $productId   Cart product ID.
-	 * @param   boolean $isAccessory Is this accessory?
+	 * @param   array    $attributes   Cart attribute data.
+	 * @param   integer  $cartItemId   Cart item ID
+	 * @param   integer  $productId    Cart product ID.
+	 * @param   boolean  $isAccessory  Is this accessory?
 	 *
-	 * @return  boolean       True on success. False otherwise.
+	 * @return  boolean                True on success. False otherwise.
 	 *
 	 * @since   2.0.3
+	 * @throws  Exception
 	 */
 	public static function addCartAttributeToDatabase($attributes = array(), $cartItemId = 0, $productId = 0, $isAccessory = false)
 	{
-		if ($cartItemId == 0)
+		if (!$cartItemId)
 		{
 			return false;
 		}
@@ -297,7 +290,8 @@ abstract class RedshopHelperCart
 
 			foreach ($attributes as $attribute)
 			{
-				$table = JTable::getInstance('usercart_attribute_item', 'Table');
+				/** @var RedshopTableUsercart_Attribute_Item $table */
+				$table = RedshopTable::getAdminInstance('Usercart_Attribute_Item', 'RedshopTable');
 
 				$table->cart_item_id      = $cartItemId;
 				$table->section_id        = $attribute['attribute_id'];
@@ -310,11 +304,12 @@ abstract class RedshopHelperCart
 					throw new Exception($table->getError());
 				}
 
-				$attributeChildren = $attribute['attribute_childs'];
+				$attributeChildren = (array) $attribute['attribute_childs'];
 
 				foreach ($attributeChildren as $attributeChild)
 				{
-					$itemTable = JTable::getInstance('usercart_attribute_item', 'Table');
+					/** @var RedshopTableUsercart_Attribute_Item $itemTable */
+					$itemTable = RedshopTable::getAdminInstance('Usercart_Attribute_Item', 'RedshopTable');
 
 					$itemTable->cart_item_id      = $cartItemId;
 					$itemTable->section_id        = $attributeChild['property_id'];
@@ -334,7 +329,8 @@ abstract class RedshopHelperCart
 
 					foreach ($attributeChild['property_childs'] as $property)
 					{
-						$propertyTable = JTable::getInstance('usercart_attribute_item', 'Table');
+						/** @var RedshopTableUsercart_Attribute_Item $propertyTable */
+						$propertyTable = RedshopTable::getAdminInstance('usercart_attribute_item', 'RedshopTable');
 
 						$propertyTable->section_id        = $property['subproperty_id'];
 						$propertyTable->section           = 'subproperty';
@@ -368,7 +364,8 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  void
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 * @throws  Exception
 	 */
 	public static function databaseToCart($userId = 0)
 	{
@@ -685,26 +682,34 @@ abstract class RedshopHelperCart
 	 */
 	public static function generateAttributeFromCart($cartItemId = 0, $isAccessory = 0, $parentSectionId = 0, $quantity = 1)
 	{
-		$cartHelper         = rsCarthelper::getInstance();
+		$cartAttributes = (array) rsCarthelper::getInstance()->getCartItemAttributeDetail(
+			$cartItemId, $isAccessory, 'attribute', $parentSectionId
+		);
+
+		if (empty($cartAttributes))
+		{
+			return array();
+		}
+
 		$generateAttributes = array();
 
-		$cartAttributes = $cartHelper->getCartItemAttributeDetail($cartItemId, $isAccessory, "attribute", $parentSectionId);
-
-		for ($i = 0, $in = count($cartAttributes); $i < $in; $i++)
+		foreach ($cartAttributes as $i => $cartAttribute)
 		{
-			$attribute          = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $cartAttributes[$i]->section_id);
+			$attribute          = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $cartAttribute->section_id);
 			$generateProperties = array();
 
-			$generateAttributes[$i]['attribute_id']   = $cartAttributes[$i]->section_id;
+			$generateAttributes[$i]['attribute_id']   = $cartAttribute->section_id;
 			$generateAttributes[$i]['attribute_name'] = $attribute[0]->text;
 
-			$cartProperties = $cartHelper->getCartItemAttributeDetail($cartItemId, $isAccessory, "property", $cartAttributes[$i]->section_id);
+			$cartProperties = (array) rsCarthelper::getInstance()->getCartItemAttributeDetail(
+				$cartItemId, $isAccessory, 'property', $cartAttribute->section_id
+			);
 
-			for ($p = 0, $pn = count($cartProperties); $p < $pn; $p++)
+			foreach ($cartProperties as $p => $cartProperty)
 			{
 				$generateSubProperties = array();
-				$property              = RedshopHelperProduct_Attribute::getAttributeProperties($cartProperties[$p]->section_id);
-				$priceList             = RedshopHelperProduct_Attribute::getPropertyPrice($cartProperties[$p]->section_id, $quantity, 'property');
+				$property              = RedshopHelperProduct_Attribute::getAttributeProperties($cartProperty->section_id);
+				$priceList             = RedshopHelperProduct_Attribute::getPropertyPrice($cartProperty->section_id, $quantity, 'property');
 
 				if (!empty($priceList->product_price))
 				{
@@ -715,19 +720,19 @@ abstract class RedshopHelperCart
 					$propertyPrice = $property[0]->property_price;
 				}
 
-				$generateProperties[$p]['property_id']     = $cartProperties[$p]->section_id;
+				$generateProperties[$p]['property_id']     = $cartProperty->section_id;
 				$generateProperties[$p]['property_name']   = $property[0]->text;
 				$generateProperties[$p]['property_oprand'] = $property[0]->oprand;
 				$generateProperties[$p]['property_price']  = $propertyPrice;
 
-				$cartSubProperties = $cartHelper->getCartItemAttributeDetail(
-					$cartItemId, $isAccessory, "subproperty", $cartProperties[$p]->section_id
+				$cartSubProperties = (array) rsCarthelper::getInstance()->getCartItemAttributeDetail(
+					$cartItemId, $isAccessory, 'subproperty', $cartProperty->section_id
 				);
 
 				foreach ($cartSubProperties as $index => $cartSubProperty)
 				{
-					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperty->section_id);
-					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperty->section_id, $quantity, 'subproperty');
+					$subProperty      = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperty->section_id);
+					$price            = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperty->section_id, $quantity, 'subproperty');
 					$subPropertyPrice = $subProperty[0]->subattribute_color_price;
 
 					if (!empty($price))
@@ -875,12 +880,7 @@ abstract class RedshopHelperCart
 	 */
 	public static function taxExemptAddToCart($userId = 0, $isShowButtonAddToCart = false)
 	{
-		$user = JFactory::getUser();
-
-		if ($userId == 0)
-		{
-			$userId = $user->id;
-		}
+		$userId = !$userId ? JFactory::getUser()->id : $userId;
 
 		if (!$userId)
 		{
@@ -889,30 +889,34 @@ abstract class RedshopHelperCart
 
 		$userInformation = RedshopHelperUser::getUserInformation($userId);
 
-		if (!empty($userInformation->user_id))
+		if (empty($userInformation->user_id))
 		{
-			if ($userInformation->requesting_tax_exempt == 0)
-			{
-				return true;
-			}
-			elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 0)
-			{
-				if ($isShowButtonAddToCart)
-				{
-					return false;
-				}
+			return true;
+		}
 
-				return true;
-			}
-			elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 1)
-			{
-				if ($isShowButtonAddToCart)
-				{
-					return true;
-				}
+		if ($userInformation->requesting_tax_exempt === 0)
+		{
+			return true;
+		}
 
+		if ($userInformation->requesting_tax_exempt === 1 && $userInformation->tax_exempt_approved === 0)
+		{
+			if ($isShowButtonAddToCart)
+			{
 				return false;
 			}
+
+			return true;
+		}
+
+		if ($userInformation->requesting_tax_exempt === 1 && $userInformation->tax_exempt_approved === 1)
+		{
+			if ($isShowButtonAddToCart)
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		return true;

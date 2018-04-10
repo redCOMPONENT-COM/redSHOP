@@ -200,9 +200,9 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function getShippingInformation()
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$plugin = $input->getCmd('plugin', '');
+		$app    = JFactory::getApplication();
+		$plugin = $app->input->getCmd('plugin', '');
+
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
