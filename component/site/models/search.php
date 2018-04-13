@@ -378,37 +378,38 @@ class RedshopModelSearch extends RedshopModel
 	 * Get Search Condition
 	 *
 	 * @param   array|string $fields     Fields
-	 * @param   array|string $conditions Conditions
+	 * @param   array|string $condition  Condition
 	 * @param   string       $glue       Glue
 	 *
 	 * @return  string
 	 */
-	public function getSearchCondition($fields, $conditions, $glue = 'OR')
+	public function getSearchCondition($fields, $condition, $glue = 'OR')
 	{
 		$where        = array();
 		$db           = JFactory::getDbo();
-		$conditions   = explode(' ', $conditions);
-		$hasCondition = false;
+		$conditions   = explode(' ', trim($condition));
 
 		foreach ((array) $fields as $field)
 		{
 			$glueOneField = array();
 
-			foreach ((array) $conditions as $condition)
+			foreach ((array) $conditions as $con)
 			{
-				$condition = trim($condition);
+				$con = trim($con);
 
-				if ($condition != '')
+				if ($con != '')
 				{
-					$hasCondition   = true;
-					$glueOneField[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
+					$glueOneField[] = $db->qn($field) . ' LIKE ' . $db->quote($con . '%');
 				}
 			}
 
 			$where[] = '(' . implode(' AND ', $glueOneField) . ')';
+
+			// Full condition
+			$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 		}
 
-		if ($hasCondition)
+		if (count($where) > 0)
 		{
 			return '(' . implode(' ' . $glue . ' ', $where) . ')';
 		}
@@ -1271,6 +1272,8 @@ class RedshopModelSearch extends RedshopModel
 				);
 			}
 		}
+
+		$this->preprocessData($this->context, $data);
 
 		return $data;
 	}
