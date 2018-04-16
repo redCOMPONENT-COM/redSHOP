@@ -19,17 +19,17 @@ class RedshopMenuLeft_Menu
 	/**
 	 * @var null
 	 */
-	protected static $view = null;
+	protected static $view;
 
 	/**
 	 * @var null
 	 */
-	protected static $layout = null;
+	protected static $layout;
 
 	/**
 	 * @var  RedshopMenu
 	 */
-	protected static $menu = null;
+	protected static $menu;
 
 	/**
 	 * Method for render left menu
@@ -930,7 +930,7 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setStockroom()
 	{
-		if (Redshop::getConfig()->getBool('USE_STOCKROOM'))
+		if (!Redshop::getConfig()->getBool('USE_STOCKROOM'))
 		{
 			return;
 		}

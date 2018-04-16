@@ -61,7 +61,7 @@ abstract class RedshopHelperAttribute
 				$templateContent = str_replace("{attribute_template:$attributeTemplate->name}", "", $templateContent);
 			}
 
-			return self::replaceAttributewithCartData(
+			return self::replaceAttributeWithCartData(
 				$productId, $accessoryId, $relatedProductId, $attributes, $templateContent, $attributeTemplate, $isChild, $onlySelected
 			);
 		}

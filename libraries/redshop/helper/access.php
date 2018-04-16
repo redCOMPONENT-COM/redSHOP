@@ -33,6 +33,7 @@ class RedshopHelperAccess
 	 * @return  boolean
 	 *
 	 * @since   2.0.3
+	 * @throws  Exception
 	 */
 	public static function checkPortalProductPermission($pid = 0)
 	{
