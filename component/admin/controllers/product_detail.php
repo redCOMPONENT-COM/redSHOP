@@ -126,7 +126,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 *
 	 * @param   int $apply Task is apply or common save.
 	 *
-	 * @return void
+	 * @return  void
+     * @throws  Exception
 	 */
 	public function save($apply = 0)
 	{
@@ -202,15 +203,20 @@ class RedshopControllerProduct_Detail extends RedshopController
 			}
 
 			// Field_section 1 :Product
-			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_PRODUCT, $row->product_id);
 
 			// Field_section 12 :Product Userfield
-			RedshopHelperExtrafields::extraFieldSave($post, 12, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $row->product_id);
 
 			// Field_section 12 :Productfinder datepicker
-			RedshopHelperExtrafields::extraFieldSave($post, 17, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, $row->product_id);
 
 			$this->attribute_save($post, $row);
+
+			JPluginHelper::importPlugin('redshop_product');
+			JPluginHelper::importPlugin('redshop_product_type');
+
+			RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row));
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
@@ -412,7 +418,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
 		{
 			$attribute_save['attribute_id']          = $attribute[$a]['id'];
-			$tmpordering                             = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
+			$tmpordering                             = !empty($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
 			$attribute_save['product_id']            = $row->product_id;
 			$attribute_save['attribute_name']        = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering']              = $attribute[$a]['ordering'];
@@ -449,7 +455,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
 				$property_save['setmulti_selected']   = isset($property[$p]['multi_sub_att'])
 				&& ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
-				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
+				$property_save['setdefault_selected'] = !empty($property[$p]['default_sel']) && ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
 				$property_save['setdisplay_type']     = $property[$p]['setdisplay_type'];
 				$property_save['property_published']  = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
 				$property_save['extra_field']         = $property[$p]['extra_field'];

@@ -643,27 +643,30 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// Insert product_payment
-		$payments = array_unique($data['payment_method']);
-
-		// Building product payments relationship
-		foreach ($payments as $index => $paymentMethod)
+		if (!empty($data['payment_method']))
 		{
-			$query   = $this->_db->getQuery(true);
-			$columns = array('payment_id', 'product_id');
-			$values  = array($this->_db->q($paymentMethod), $this->_db->q($prodid));
+			$payments = array_unique($data['payment_method']);
 
-			// Prepare the insert query.
-			$query
-				->insert($this->_db->qn($this->table_prefix . 'product_payment_xref'))
-				->columns($this->_db->qn($columns))
-				->values(implode(',', $values));
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
+			// Building product payments relationship
+			foreach ($payments as $index => $paymentMethod)
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$query   = $this->_db->getQuery(true);
+				$columns = array('payment_id', 'product_id');
+				$values  = array($this->_db->q($paymentMethod), $this->_db->q($prodid));
 
-				return false;
+				// Prepare the insert query.
+				$query
+					->insert($this->_db->qn($this->table_prefix . 'product_payment_xref'))
+					->columns($this->_db->qn($columns))
+					->values(implode(',', $values));
+				$this->_db->setQuery($query);
+
+				if (!$this->_db->execute())
+				{
+					$this->setError($this->_db->getErrorMsg());
+
+					return false;
+				}
 			}
 		}
 
@@ -716,7 +719,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// Building product categories relationship end.
-		if (count($data['product_accessory']) > 0 && is_array($data['product_accessory']))
+		if (!empty($data['product_accessory']))
 		{
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
@@ -1004,8 +1007,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$tagsHelper            = new JHelperTags;
 		$tagsHelper->typeAlias = $this->typeAlias;
 
-		$tagsHelper->preStoreProcess($row, $data['jtags']);
-		$tagsHelper->postStoreProcess($row, $data['jtags']);
+		$jtags = !empty($data['jtags']) ? $data['jtags'] : array();
+
+		$tagsHelper->preStoreProcess($row, $jtags);
+		$tagsHelper->postStoreProcess($row, $jtags);
 
 		return $row;
 	}
