@@ -1278,6 +1278,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			JPluginHelper::importPlugin('redshop_product');
+			JPluginHelper::importPlugin('redshop_product_type');
 			JDispatcher::getInstance()->trigger('onAfterProductDelete', array($cid));
 		}
 
