@@ -411,10 +411,11 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string $key    The name of the primary key of the URL variable.
-	 * @param   string $urlVar The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return  boolean  True if successful, false otherwise.
+	 * @return  boolean          True if successful, false otherwise.
+	 * @throws  Exception
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -431,13 +432,13 @@ class RedshopControllerForm extends JControllerForm
 		$task    = $this->getTask();
 
 		// Determine the name of the primary key for the data.
-		if (empty($key))
+		if (null === $key)
 		{
 			$key = $table->getKeyName();
 		}
 
 		// To avoid data collisions the urlVar may be different from the primary key.
-		if (empty($urlVar))
+		if (null === $urlVar)
 		{
 			$urlVar = $key;
 		}
@@ -462,7 +463,7 @@ class RedshopControllerForm extends JControllerForm
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
+		if ($task === 'save2copy')
 		{
 			// Check-in the original row.
 			if ($checkin && $model->checkin($data[$key]) === false)
