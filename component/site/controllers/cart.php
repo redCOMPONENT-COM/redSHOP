@@ -145,12 +145,9 @@ class RedshopControllerCart extends RedshopController
 						$cartData['accessory_id']                = $accessories[$i];
 
 						$result = Redshop\Cart\Cart::addProduct($cartData);
-						$cart   = RedshopHelperCartSession::getCart();;
+						$cart   = RedshopHelperCartSession::getCart();
 
-						if (is_bool($result) && $result)
-						{
-						}
-						else
+						if (!is_bool($result) || !$result)
 						{
 							$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
@@ -166,28 +163,26 @@ class RedshopControllerCart extends RedshopController
 							if ($isAjaxCartBox)
 							{
 								echo '`0`' . $errorMessage;
-								die();
+								$app->close();
+							}
+
+							$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+
+							if (count($itemData) > 0)
+							{
+								$prdItemid = $itemData->id;
 							}
 							else
 							{
-								$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
-
-								if (count($itemData) > 0)
-								{
-									$prdItemid = $itemData->id;
-								}
-								else
-								{
-									$prdItemid = RedshopHelperRouter::getItemId($post['product_id']);
-								}
-
-								$app->redirect(
-									JRoute::_(
-										'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $prdItemid,
-										false
-									)
-								);
+								$prdItemid = RedshopHelperRouter::getItemId($post['product_id']);
 							}
+
+							$app->redirect(
+								JRoute::_(
+									'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $prdItemid,
+									false
+								)
+							);
 						}
 					}
 				}

@@ -184,7 +184,7 @@ abstract class RedshopHelperCart
 			for ($i = 0; $i < $idx; $i++)
 			{
 				/** @var RedshopTableUsercart_Item $userCartItem */
-				$userCartItem = RedshopTable::getAdminInstance('Usercart_Item', 'RedshopTable');
+				$userCartItem = RedshopTable::getAdminInstance('Usercart_Item', array(), 'RedshopTable');
 
 				$userCartItem->cart_idx   = $i;
 				$userCartItem->cart_id    = $cartId;
@@ -214,7 +214,7 @@ abstract class RedshopHelperCart
 
 				if (!$userCartItem->store())
 				{
-					throw new Exception($userCartItem->getError());
+					throw new Exception(/** @scrutinizer ignore-deprecated */ $userCartItem->getError());
 				}
 
 				$cartItemId     = $userCartItem->cart_item_id;
@@ -241,7 +241,7 @@ abstract class RedshopHelperCart
 
 					if (!$userCartItemAccessory->store())
 					{
-						throw new Exception($userCartItemAccessory->getError());
+						throw new Exception(/** @scrutinizer ignore-deprecated */ $userCartItemAccessory->getError());
 					}
 
 					self::addCartAttributeToDatabase(
@@ -291,13 +291,13 @@ abstract class RedshopHelperCart
 			foreach ($attributes as $attribute)
 			{
 				/** @var RedshopTableUsercart_Attribute_Item $table */
-				$table = RedshopTable::getAdminInstance('Usercart_Attribute_Item', 'RedshopTable');
+				$table = RedshopTable::getAdminInstance('Usercart_Attribute_Item', array(), 'RedshopTable');
 
 				$table->cart_item_id      = $cartItemId;
 				$table->section_id        = $attribute['attribute_id'];
 				$table->section           = 'attribute';
 				$table->parent_section_id = $productId;
-				$table->is_accessory_att  = $isAccessory;
+				$table->is_accessory_att  = (int) $isAccessory;
 
 				if (!$table->store())
 				{
@@ -309,13 +309,13 @@ abstract class RedshopHelperCart
 				foreach ($attributeChildren as $attributeChild)
 				{
 					/** @var RedshopTableUsercart_Attribute_Item $itemTable */
-					$itemTable = RedshopTable::getAdminInstance('Usercart_Attribute_Item', 'RedshopTable');
+					$itemTable = RedshopTable::getAdminInstance('Usercart_Attribute_Item', array(), 'RedshopTable');
 
 					$itemTable->cart_item_id      = $cartItemId;
 					$itemTable->section_id        = $attributeChild['property_id'];
 					$itemTable->section           = 'property';
 					$itemTable->parent_section_id = $attribute['attribute_id'];
-					$itemTable->is_accessory_att  = $isAccessory;
+					$itemTable->is_accessory_att  = (int) $isAccessory;
 
 					if (!$itemTable->store())
 					{
