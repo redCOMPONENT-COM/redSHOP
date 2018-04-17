@@ -483,7 +483,7 @@ class RedshopHelperProductTag
 		$productAddingIsLightbox           = Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX');
 		$defaultProductImage               = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 		$isAdditionalHoverImage            = Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE');
-		$productFUllImage                  = null;
+		$productFullImage                  = null;
 
 		// Process image list
 		foreach ($images as $index => $image)
@@ -506,13 +506,13 @@ class RedshopHelperProductTag
 					continue;
 				}
 
-				$productFUllImage = $image;
+				$productFullImage = $image;
 			}
 		}
 
-		if (null !== $productFUllImage && $includeProductFullImage)
+		if (null !== $productFullImage && $includeProductFullImage)
 		{
-			array_unshift($images, $productFUllImage);
+			array_unshift($images, $productFullImage);
 		}
 
 		$images = array_values($images);
