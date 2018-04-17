@@ -796,7 +796,7 @@ class Cart
 			}
 
 			$cart[$idx]['category_id']   = $data['category_id'];
-			$cart[$idx]['wrapper_id']    = $data['sel_wrapper_id'];
+			$cart[$idx]['wrapper_id']    = !empty($data['sel_wrapper_id']) ? $data['sel_wrapper_id'] : 0;
 			$cart[$idx]['wrapper_price'] = $wrapperPrice + $wrapperVat;
 
 			/**
