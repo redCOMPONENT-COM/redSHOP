@@ -56,7 +56,8 @@ abstract class RedshopHelperProduct_Attribute
 	 * @param   int $attributeRequired Attribute required
 	 * @param   int $notAttributeId    Not attribute id
 	 *
-	 * @return mixed
+	 * @return  array
+	 * @throws  Exception
 	 */
 	public static function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
 	                                           $notAttributeId = 0)
