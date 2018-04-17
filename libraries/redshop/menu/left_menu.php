@@ -46,7 +46,7 @@ class RedshopMenuLeft_Menu
 
 		$active = self::getActive();
 
-		if (self::$menu !== null)
+		if (self::$menu === null)
 		{
 			self::$menu = new RedshopMenu;
 
