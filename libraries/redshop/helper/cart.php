@@ -45,7 +45,7 @@ abstract class RedshopHelperCart
 
 		$db = JFactory::getDbo();
 
-		if ($cartId == 0)
+		if ($cartId === 0)
 		{
 			$query = $db->getQuery(true)
 				->select($db->qn('cart_id'))
@@ -233,7 +233,7 @@ abstract class RedshopHelperCart
 				foreach ($cartAccessories as $cartAccessory)
 				{
 					/** @var RedshopTableUsercart_Accessory_Item $userCartItemAccessory */
-					$userCartItemAccessory               = RedshopTable::getAdminInstance('Usercart_Accessory_Item', 'RedshopTable');
+					$userCartItemAccessory               = RedshopTable::getAdminInstance('Usercart_Accessory_Item', array(), 'RedshopTable');
 					$userCartItemAccessory->accessory_id = $cartAccessory['accessory_id'];
 
 					// Store product quantity as accessory quantity.
@@ -330,12 +330,12 @@ abstract class RedshopHelperCart
 					foreach ($attributeChild['property_childs'] as $property)
 					{
 						/** @var RedshopTableUsercart_Attribute_Item $propertyTable */
-						$propertyTable = RedshopTable::getAdminInstance('usercart_attribute_item', 'RedshopTable');
+						$propertyTable = RedshopTable::getAdminInstance('usercart_attribute_item', array(), 'RedshopTable');
 
 						$propertyTable->section_id        = $property['subproperty_id'];
 						$propertyTable->section           = 'subproperty';
 						$propertyTable->parent_section_id = $attributeChild['property_id'];
-						$propertyTable->is_accessory_att  = $isAccessory;
+						$propertyTable->is_accessory_att  = (int) $isAccessory;
 
 						if (!$propertyTable->store())
 						{
@@ -465,7 +465,7 @@ abstract class RedshopHelperCart
 				$productPrice = 0;
 				$productData  = RedshopHelperProduct::getProductById($productId);
 
-				if ($productData->published == 0)
+				if ($productData->published === 0)
 				{
 					continue;
 				}
@@ -488,11 +488,11 @@ abstract class RedshopHelperCart
 					$msg         = JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 				}
 
-				if ($productData->product_type == 'subscription')
+				if ($productData->product_type === 'subscription')
 				{
 					$productSubscription = $productHelper->getProductSubscriptionDetail($productId, $cartItem->product_subscription_id);
 
-					if ($productSubscription->subscription_id != "")
+					if (!empty($productSubscription->subscription_id))
 					{
 						$subscriptionId    = $productSubscription->subscription_id;
 						$subscriptionPrice = $productSubscription->subscription_price;
@@ -505,7 +505,7 @@ abstract class RedshopHelperCart
 
 						$productVatPrice      += $subscriptionVAT;
 						$productPrice         += $subscriptionPrice + $subscriptionVAT;
-						$productOldPrice      = $productOldPrice + $subscriptionPrice + $subscriptionVAT;
+						$productOldPrice       = $productOldPrice + $subscriptionPrice + $subscriptionVAT;
 						$productOldPriceNoVat += $subscriptionPrice;
 						$productPriceNoVat    += $subscriptionPrice;
 					}
@@ -526,7 +526,7 @@ abstract class RedshopHelperCart
 				$productPrice         += $accessoryTotalPrice + $accessoryVATPrice;
 				$productOldPrice      += $accessoryTotalPrice + $accessoryVATPrice;
 				$productOldPriceNoVat += $accessoryTotalPrice;
-				$productVatPrice      = $productVatPrice + $accessoryVATPrice;
+				$productVatPrice       = $productVatPrice + $accessoryVATPrice;
 
 				// Check if required attribute is filled or not
 				if (count($selectedAttributeId) > 0)
@@ -534,7 +534,9 @@ abstract class RedshopHelperCart
 					$selectedAttributeId = implode(",", $selectedAttributeId);
 				}
 
-				$requiredAttributeData = RedshopHelperProduct_Attribute::getProductAttribute($productId, 0, 0, 0, 1, $selectedAttributeId);
+				$requiredAttributeData = RedshopHelperProduct_Attribute::getProductAttribute(
+					$productId, 0, 0, 0, 1, $selectedAttributeId
+				);
 
 				if (count($requiredAttributeData) > 0)
 				{
@@ -545,7 +547,7 @@ abstract class RedshopHelperCart
 						$requiredAttributes = $requiredAttribute->attribute_name;
 					}
 
-					$requiredAttributeName = implode(", ", $requiredAttributes);
+					$requiredAttributeName = implode(', ', $requiredAttributes);
 
 					// Throw an error as first attribute is required
 					$msg         = $requiredAttributeName . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
@@ -581,7 +583,7 @@ abstract class RedshopHelperCart
 				{
 					foreach ($fields as $field)
 					{
-						$dataTxt = (isset($attributes[$field->name])) ? $attributes[$field->name] : '';
+						$dataTxt = isset($attributes[$field->name]) ? $attributes[$field->name] : '';
 						$text    = strpbrk($dataTxt, '`');
 
 						if ($text)
@@ -638,7 +640,7 @@ abstract class RedshopHelperCart
 				{
 					$msg = JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 
-					if (Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '')
+					if (!empty(Redshop::getConfig()->getString('CART_RESERVATION_MESSAGE')))
 					{
 						$msg = Redshop::getConfig()->get('CART_RESERVATION_MESSAGE');
 					}
@@ -665,18 +667,19 @@ abstract class RedshopHelperCart
 
 		JFactory::getSession()->set('cart', $cart);
 
-		RedshopHelperCart::cartFinalCalculation();
+		self::cartFinalCalculation();
 	}
 
 	/**
 	 * Method for generate attribute from cart.
 	 *
-	 * @param   int $cartItemId      ID of cart item.
-	 * @param   int $isAccessory     Is accessory?
-	 * @param   int $parentSectionId ID of parent section
-	 * @param   int $quantity        Quantity of product.
+	 * @param   integer  $cartItemId       ID of cart item.
+	 * @param   integer  $isAccessory      Is accessory?
+	 * @param   integer  $parentSectionId  ID of parent section
+	 * @param   integer  $quantity         Quantity of product.
 	 *
 	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @since  2.0.3
 	 */
@@ -768,7 +771,7 @@ abstract class RedshopHelperCart
 	 */
 	public static function cartFinalCalculation($isModify = true)
 	{
-		$ajax = JFactory::getApplication()->input->get('ajax_cart_box');
+		$ajax = JFactory::getApplication()->input->getInt('ajax_cart_box');
 		$cart = RedshopHelperCartSession::getCart();
 
 		if ($isModify === true)
@@ -783,9 +786,9 @@ abstract class RedshopHelperCart
 		$cartOutput['total_quantity'] = $carts[1];
 		$text                         = Redshop\Shipping\Rate::getFreeShippingRate();
 
-		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
+		if ($ajax === 1 &&Redshop::getConfig()->getBool('AJAX_CART_BOX'))
 		{
-			echo "`" . $carts[0] . "`" . $text;
+			echo '`' . $carts[0] . '`' . $text;
 			JFactory::getApplication()->close();
 		}
 
@@ -934,7 +937,7 @@ abstract class RedshopHelperCart
 		$cart = RedshopHelperCartSession::getCart();
 		unset($cart);
 
-		setcookie("redSHOPcart", "", time() - 3600, "/");
+		setcookie('redSHOPcart', '', time() - 3600, '/');
 
 		$cart['idx'] = 0;
 		RedshopHelperCartSession::setCart($cart);
