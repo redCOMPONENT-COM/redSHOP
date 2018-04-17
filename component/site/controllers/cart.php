@@ -48,6 +48,13 @@ class RedshopControllerCart extends RedshopController
 		$post                     = $app->input->post->getArray();
 		$parentAccessoryProductId = $post['product_id'];
 
+		// Invalid request then redirect to dashboard
+		if (empty($app->input->post->getInt('product_id')) || empty($app->input->post->getInt('quantity')))
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop'));
+		}
+
 		$productHelper = productHelper::getInstance();
 		$itemId        = RedshopHelperRouter::getCartItemId();
 
