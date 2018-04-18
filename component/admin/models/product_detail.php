@@ -4282,7 +4282,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_subprop($sp, $subattribute_id)
 	{
-		$subPropertyList = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $subattribute_id);
+		$subPropertyList = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $subattribute_id, 0);
 
 		if ($sp)
 		{
@@ -4310,7 +4310,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (count($subPropertyList) <= 1)
 		{
-			$query = "UPDATE #__redshop_product_attribute_property
+			$query = "UPDATE `" . $this->table_prefix . "product_attribute_property`
 						SET `setrequire_selected` = '0'
 						WHERE `property_id` = " . (int) $subattribute_id;
 			$this->_db->setQuery($query);
@@ -4328,7 +4328,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_prop($attribute_id, $property_id)
 	{
-		$propertyList = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
+		$propertyList = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id, 0, '', 0, 0, 0);
 
 		if ($property_id)
 		{
@@ -4360,7 +4360,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (count($propertyList) <= 1)
 		{
-			$query = "UPDATE #__redshop_product_attribute
+			$query = "UPDATE `" . $this->table_prefix . "product_attribute`
 						SET `attribute_required` = '0'
 						WHERE `attribute_id` = " . (int) $attribute_id;
 			$this->_db->setQuery($query);

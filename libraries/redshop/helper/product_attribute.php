@@ -397,8 +397,7 @@ abstract class RedshopHelperProduct_Attribute
 	 * @return  mixed
 	 * @throws  Exception
 	 */
-	public static function getAttributeProperties($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = '', $required = 0,
-	                                              $notPropertyId = 0)
+	public static function getAttributeProperties($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = '', $required = 0, $notPropertyId = 0, $published = 1)
 	{
 		$key = md5($propertyId . '_' . $attributeId . '_' . $productId . '_' . $attributeSetId . '_' . $required . '_' . $notPropertyId);
 
@@ -482,7 +481,7 @@ abstract class RedshopHelperProduct_Attribute
 					->select(array('ap.property_id AS value', 'ap.property_name AS text', 'ap.*', 'a.attribute_name'))
 					->from($db->qn('#__redshop_product_attribute_property', 'ap'))
 					->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
-					->where('ap.property_published = 1')
+					->where('ap.property_published = ' . $published)
 					->order('ap.ordering ASC')
 					->order('ap.property_name ASC');
 
@@ -555,7 +554,7 @@ abstract class RedshopHelperProduct_Attribute
 	 *
 	 * @throws  Exception
 	 */
-	public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0)
+	public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0, $published = 1)
 	{
 		$subPropertyId = (int) $subPropertyId;
 		$propertyId    = (int) $propertyId;
@@ -579,7 +578,7 @@ abstract class RedshopHelperProduct_Attribute
 					$db->qn('#__redshop_product_attribute_property', 'p')
 					. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 				)
-				->where($db->qn('sp.subattribute_published') . ' = 1')
+				->where($db->qn('sp.subattribute_published') . ' = ' . $published)
 				->order($db->qn('sp.ordering') . ' ASC')
 				->order($db->qn('sp.subattribute_color_name') . ' ASC');
 
