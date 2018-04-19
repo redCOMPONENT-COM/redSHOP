@@ -85,51 +85,18 @@ class ShippingCest
 		$I->wantTo('Check create new Shipping rate with save button');
 		$I->doAdministratorLogin();
 		(new AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
-	}
 
-	/**
-	 * @param   AcceptanceTester      $I        Tester
-	 * @param   \Codeception\Scenario $scenario Scenario
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 */
-	public function createShippingRateSaveClose(AcceptanceTester $I, \Codeception\Scenario $scenario)
-	{
 		$I->wantTo('Check create new Shipping rate with save & close button');
-		$I->doAdministratorLogin();
 		(new AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard(
 			$this->shippingMethod, $this->shippingSaveClose, 'saveclose'
 		);
-	}
 
-	/**
-	 * @param   AcceptanceTester      $I        Tester
-	 * @param   \Codeception\Scenario $scenario Scenario
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 */
-	public function editShippingRateStandard(AcceptanceTester $I, \Codeception\Scenario $scenario)
-	{
 		$I->wantTo('Edit a shipping Rate');
-		$I->doAdministratorLogin();
 		(new AcceptanceTester\ShippingSteps($scenario))->editShippingRateStandard(
 			$this->shipping['shippingName'], $this->shippingNameEdit, $this->shippingRateEdit, 'save'
 		);
-	}
 
-	/**
-	 * @param   AcceptanceTester      $I        Tester
-	 * @param   \Codeception\Scenario $scenario Scenario
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 */
-	public function editShippingRateStandardSaveClose(AcceptanceTester $I, \Codeception\Scenario $scenario)
-	{
 		$I->wantTo('Edit a shipping Rate with Save Close');
-		$I->doAdministratorLogin();
 		(new AcceptanceTester\ShippingSteps($scenario))->editShippingRateStandard(
 			$this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose'
 		);

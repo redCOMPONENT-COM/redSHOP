@@ -93,84 +93,25 @@ class OrderCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->addCategorySave($this->randomCategoryName);
-	}
 
-	/**
-	 *
-	 * Function create product for quotation
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * @depends createCategory
-	 */
-	public function createProductSave(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Product Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-	}
 
-	/**
-	 *
-	 * Function create uer for quotation
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 */
-	public function createUser(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test User creation in Administrator');
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 		$I->searchUser($this->firstName);
-	}
 
-	/**
-	 * Function create new Order
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 *
-	 * depends createUser
-	 */
-	public function createOrder(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Order creation in Administrator');
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
 		$I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
-	}
 
-	/**
-	 *
-	 * Function edit status of order
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * depends createOrder
-	 *
-	 */
-	public function editOrder(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Order Edit status and payment in Administrator');
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
 		$I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
-	}
 
-	/**
-	 *
-	 * Function delete order by user
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * depends editOrder
-	 */
-	public function deleteOrder(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Order delete by user  in Administrator');
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->firstName);
