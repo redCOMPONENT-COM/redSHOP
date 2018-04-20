@@ -21,7 +21,7 @@ JHtml::_('redshopjquery.ui');
  * @var   string $requiredLabel   Extra field required label
  * @var   string $errorMsg        Extra field error message
  * @var   array  $dataTxt         Extra field data text
- * @var   string $dataValue       Extra field data
+ * @var   object $dataValue       Extra field data
  */
 extract($displayData);
 ?>

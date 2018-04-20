@@ -1111,7 +1111,7 @@ class RedshopHelperExtrafields
 				if (!empty($list))
 				{
 					$sql->update($db->qn('#__redshop_fields_data'))
-						->set($db->qn('data_txt') . ' = ' . $db->quote($data['imgFieldId' . $row->id]))
+						->set($db->qn('data_txt') . ' = ' . $db->quote((string) $data['imgFieldId' . $row->id]))
 						->where($db->qn('itemid') . ' = ' . (int) $sectionId)
 						->where($db->qn('section') . ' = ' . $db->quote($fieldSection))
 						->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
@@ -1144,7 +1144,7 @@ class RedshopHelperExtrafields
 			{
 				foreach ($sections as $section)
 				{
-					$list = self::getSectionFieldDataList($row->id, $section, $sectionId, $userEmail);
+					$list = self::getSectionFieldDataList($row->id, (int) $section, (int) $sectionId, $userEmail);
 					$sql  = $db->getQuery(true);
 
 					if (!empty($list))
