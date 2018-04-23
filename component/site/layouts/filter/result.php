@@ -399,12 +399,14 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateProduct = $templateD2[0];
 
 	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
-	$products = RedshopHelperProduct::getProductsByIds($products);
+	$products          = RedshopHelperProduct::getProductsByIds($products);
+	$productIds        = array();
 
 	// Loop product lists
 	foreach ($products as $product)
 	{
-		$catid = $product->category_id;
+		$catid        = $product->category_id;
+		$productIds[] = $product->product_id;
 
 		// Count accessory
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
@@ -872,7 +874,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
 	$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
 	$templateDesc .= '<div id="new-url" style="display: none">' . $displayData['url'] . '</div>';
-	$templateDesc .= '<input type="hidden" name="pids" value="' . implode(',', $products) . '"/>';
+	$templateDesc .= '<input type="hidden" name="pids" value="' . implode(',', $productIds) . '"/>';
 }
 
 // End Replace Products

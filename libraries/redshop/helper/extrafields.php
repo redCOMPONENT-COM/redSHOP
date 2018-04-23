@@ -1142,7 +1142,12 @@ class RedshopHelperExtrafields
 			}
 			else
 			{
-				foreach ($sections as $section)
+                if ($row->type == self::TYPE_CHECK_BOX || $row->type == self::TYPE_RADIO_BUTTON)
+                {
+                    $dataTxt = urldecode($dataTxt);
+                }
+
+                foreach ($sections as $section)
 				{
 					$list = self::getSectionFieldDataList($row->id, (int) $section, (int) $sectionId, $userEmail);
 					$sql  = $db->getQuery(true);
