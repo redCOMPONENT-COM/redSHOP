@@ -49,7 +49,7 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $productPrice =  ['id' => 'product_price'];
 
-    public static $productName  =   ['id' => "product_name"];
+    public static $productName = ['id' => 'product_name'];
     
     public static $categoryId = ['id' => "s2id_product_category"];
     
@@ -63,6 +63,10 @@ class ProductManagerPage extends AdminJ3Page
 
     //stockroom for product
     public static $stockroomTab = ['xpath'=> '//a[contains(text(), \'Stockroom\')]'];
+
+    /**
+     * @var array
+     */
 
     public static $quantityInStock = ['xpath'=>'//input[@name="quantity[]"]'];
 
@@ -91,12 +95,31 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $addAttribute = '+ Add Attribute parameter';
     
-    public static $attributeNameFirst = ['xpath' => '//input[@name="attribute[1][name]"]'];
-    
-    public static $attributeNamePropertyFirst = ['xpath'=>'//input[@name="attribute[1][property][0][name]"]'];
-    
-    public static $attributePricePropertyFirst = ['xpath'=>'//input[@name="attribute[1][property][0][price]"]'];
-    
+
+	/**
+	 * @param $position
+	 */
+    public function addAttributeName($position)
+    {
+    	$xpath = ['xpath' => '//input[@name="attribute['.$position.'][name]"]'];
+
+    	return $xpath;
+    }
+
+    public function attributeNameProperty($position)
+    {
+    	$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][name]"]'];
+
+    	return $xpath;
+    }
+
+	public function attributePriceProperty($position)
+	{
+		$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][price]"]'];
+
+		return $xpath;
+	}
+
     // tab acc
     public static $accessoryTab = 'Accessory/Related Product';
     

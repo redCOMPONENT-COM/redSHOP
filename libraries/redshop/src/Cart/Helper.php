@@ -69,7 +69,7 @@ class Helper
 
 		$view = \JFactory::getApplication()->input->getCmd('view');
 
-		if (key_exists('shipping', $cart) && $view != 'cart')
+		if (array_key_exists('shipping', $cart) && $view != 'cart')
 		{
 			$shipping = $cart['shipping'];
 
@@ -95,7 +95,7 @@ class Helper
 			{
 				$vatData = \RedshopHelperTax::getVatRates();
 
-				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+				if (null !== $vatData && !empty($vatData->tax_rate))
 				{
 					$discountVAT = 0;
 
@@ -180,7 +180,7 @@ class Helper
 
 		if (isset($cart['free_shipping']) && $cart['free_shipping'] > 0)
 		{
-			$shipping = 0;
+			$shipping = 0.0;
 
 			return;
 		}
@@ -413,7 +413,7 @@ class Helper
 					}
 
 					$accPropertyCart[$propIndex] = array(
-						'property_id'     => $accessoriesProperty[$propIndex],
+						'property_id'     => $property[0]->property_id,
 						'attribute_id'    => $property[0]->attribute_id,
 						'property_name'   => $property[0]->text,
 						'property_oprand' => $property[0]->oprand,

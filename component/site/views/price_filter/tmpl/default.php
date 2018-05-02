@@ -47,7 +47,7 @@ $producthelper = productHelper::getInstance();?>
 			$count--;?>
 			<tr>
 				<td>
-					<?php    $thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
+					<?php    $thum_image = Redshop\Product\Image\Image::getImage($row->product_id, $link, $thumbwidth, $thumbheight);
 					echo "<div class='mod_redshop_pricefilter'>";
 
 					if ($image)

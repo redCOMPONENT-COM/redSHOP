@@ -320,6 +320,8 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
+		JPluginHelper::importPlugin('redshop_product');
+
 		$db      = JFactory::getDbo();
 		$user    = JFactory::getUser();
 		$orderBy = $this->buildProductOrderBy();
@@ -354,7 +356,7 @@ class RedshopModelCategory extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		$query->select($db->qn('p.product_id'))
+		$query->select('DISTINCT(p.product_id)')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
 			->where($db->qn('p.published') . ' = 1')
@@ -388,6 +390,8 @@ class RedshopModelCategory extends RedshopModel
 			$finderCondition = str_replace("AND", "", $finderCondition);
 			$query->where($finderCondition);
 		}
+
+		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
 
 		$queryCount = clone $query;
 		$queryCount->clear('select')->clear('group')

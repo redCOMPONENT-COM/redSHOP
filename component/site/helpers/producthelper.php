@@ -441,322 +441,40 @@ class productHelper
 	 * @param   array    $preselectedresult        Preselected result
 	 *
 	 * @return  string   Product Image
+	 *
+	 * @deprecated 2.1.0 Use Redshop\Product\Image\Image::getImage()
+	 * @see Redshop\Product\Image\Image::getImage
 	 */
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0, $preselectedresult = array())
 	{
-		$thum_image    = '';
-		$result        = RedshopHelperProduct::getProductById($product_id);
-		$isStockExists = RedshopHelperStockroom::isStockExists($product_id);
-		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
-
-		if ($result->product_full_image == '' && $result->product_parent_id > 0)
-		{
-			$result = $this->getProductparentImage($result->product_parent_id);
-		}
-
-		$cat_product_hover = false;
-
-		if ($enableHover && Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_ENABLE'))
-		{
-			$cat_product_hover = true;
-		}
-
-		$product_image = $result->product_full_image;
-
-		if ($Product_detail_is_light != 2)
-		{
-			if ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
-			{
-				$product_image = $result->product_thumb_image;
-			}
-		}
-
-		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
-		// Trigger to change product image.
-		$dispatcher->trigger('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
-
-		if (!empty($thum_image))
-		{
-			return $thum_image;
-		}
-
-		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
-		{
-			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
-			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE'),
-					"",
-					$link,
-					$width,
-					$height,
-					$Product_detail_is_light,
-					$enableHover,
-					$preselectedresult,
-					$suffixid
-				);
-			}
-			elseif ($product_image && file_exists($middlepath . $product_image))
-			{
-				if ($result->product_full_image && file_exists($middlepath . $result->product_full_image)
-					&& ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image)))
-				{
-					$thum_image = $this->replaceProductImage(
-						$result,
-						$product_image,
-						$result->product_thumb_image,
-						$link,
-						$width,
-						$height,
-						$Product_detail_is_light,
-						$enableHover,
-						$preselectedresult,
-						$suffixid
-					);
-				}
-				elseif ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
-				{
-					$thum_image = $this->replaceProductImage(
-						$result,
-						$product_image,
-						"",
-						$link,
-						$width,
-						$height,
-						$Product_detail_is_light,
-						$enableHover,
-						$preselectedresult,
-						$suffixid
-					);
-				}
-				elseif ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
-				{
-					$thum_image = $this->replaceProductImage(
-						$result,
-						$product_image,
-						"",
-						$link,
-						$width,
-						$height,
-						$Product_detail_is_light,
-						$enableHover,
-						$preselectedresult,
-						$suffixid
-					);
-				}
-			}
-			else
-			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					"",
-					"",
-					$link,
-					$width,
-					$height,
-					$Product_detail_is_light,
-					$enableHover,
-					$preselectedresult,
-					$suffixid
-				);
-			}
-		}
-		elseif ($product_image && file_exists($middlepath . $product_image))
-		{
-			if ($result->product_full_image && file_exists($middlepath . $result->product_full_image)
-				&& ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image)))
-			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					$product_image,
-					$result->product_thumb_image,
-					$link,
-					$width,
-					$height,
-					$Product_detail_is_light,
-					$enableHover,
-					$preselectedresult,
-					$suffixid
-				);
-			}
-			elseif ($result->product_thumb_image && file_exists($middlepath . $result->product_thumb_image))
-			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					$product_image,
-					"",
-					$link,
-					$width,
-					$height,
-					$Product_detail_is_light,
-					$enableHover,
-					$preselectedresult,
-					$suffixid
-				);
-			}
-			elseif ($result->product_full_image && file_exists($middlepath . $result->product_full_image))
-			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					$product_image,
-					"",
-					$link,
-					$width,
-					$height,
-					$Product_detail_is_light,
-					$enableHover,
-					$preselectedresult,
-					$suffixid
-				);
-			}
-		}
-		else
-		{
-			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
-			{
-				$thum_image = $this->replaceProductImage(
-					$result,
-					Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
-					"",
-					$link,
-					$width,
-					$height,
-					$Product_detail_is_light,
-					$enableHover,
-					$preselectedresult,
-					$suffixid
-				);
-			}
-		}
-
-		return $thum_image;
+		return Redshop\Product\Image\Image::getImage($product_id, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid, $preselectedresult);
 	}
 
+	/**
+	 * @param   stdClass  $product                  Product data
+	 * @param   string    $imagename                Image name
+	 * @param   string    $linkimagename            Link image name
+	 * @param   string    $link                     Link
+	 * @param   integer   $width                    Width
+	 * @param   integer   $height                   Height
+	 * @param   integer   $Product_detail_is_light  Product detail is light
+	 * @param   integer   $enableHover              Enable hover or not
+	 * @param   array     $preselectedResult        Pre selected results
+	 * @param   integer   $suffixid                 Suffix ID
+	 *
+	 * @return  string                              Html content with replaced.
+	 * @throws  Exception
+	 *
+	 * @deprecated 2.1.0 Use Redshop\Product\Image\Render()
+	 * @see Redshop\Product\Image\Render
+	 */
 	public function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
-		$url           = JUri::root();
-		$imagename     = trim($imagename);
-		$linkimagename = trim($linkimagename);
-		$product_id    = $product->product_id;
-		$redhelper     = redhelper::getInstance();
-		$dispatcher    = RedshopHelperUtility::getDispatcher();
-
-		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
-		$product_image = $product->product_full_image;
-
-		if ($Product_detail_is_light != 2)
-		{
-			if ($product->product_thumb_image && file_exists($middlepath . $product->product_thumb_image))
-			{
-				$product_image = $product->product_thumb_image;
-			}
-		}
-
-		$altText = RedshopHelperMedia::getAlternativeText('product', $product_id, $product_image);
-		$altText = empty($altText) ? $product->product_name : $altText;
-
-		$dispatcher    = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
-
-		$title = " title='" . $altText . "' ";
-		$alt   = " alt='" . $altText . "' ";
-
-		$cat_product_hover = false;
-
-		if ($enableHover && Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_ENABLE'))
-		{
-			$cat_product_hover = true;
-		}
-
-		$noimage = "noimage.jpg";
-
-		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . $noimage;
-
-		$product_hover_img = REDSHOP_FRONT_IMAGES_ABSPATH . $noimage;
-		$linkimage         = REDSHOP_FRONT_IMAGES_ABSPATH . $noimage;
-
-		if ($imagename != "")
-		{
-			$product_img = RedshopHelperMedia::watermark('product', $imagename, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
-
-			if ($cat_product_hover)
-				$product_hover_img = RedshopHelperMedia::watermark('product',
-					$imagename,
-					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'),
-					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'),
-					Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'),
-					'2');
-
-			if ($linkimagename != "")
-			{
-				$linkimage = RedshopHelperMedia::watermark('product', $linkimagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-			}
-			else
-			{
-				$linkimage = RedshopHelperMedia::watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-			}
-		}
-
-		if (count($preselectedResult) > 0)
-		{
-			$product_img = $preselectedResult['product_mainimg'];
-			$title       = " title='" . $preselectedResult['aTitleImageResponse'] . "' ";
-			$linkimage   = $preselectedResult['aHrefImageResponse'];
-		}
-
-		$commonid = ($suffixid) ? $product_id . '_' . $suffixid : $product_id;
-
-		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1)
-		{
-			$thum_image = "<img id='main_image" . $commonid . "' src='" . $product_img . "' " . $title . $alt . " />";
-		}
-		else
-		{
-			if ($Product_detail_is_light == 1)
-			{
-				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
-			}
-			elseif (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
-			{
-				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage
-					. "' class=\"modal\" rel=\"{handler: 'image', size: {}}\">";
-			}
-			else
-			{
-				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $link . "'>";
-			}
-
-			$thum_image .= "<img id='main_image" . $commonid . "' src='" . $product_img . "' " . $title . $alt . " />";
-
-			if ($cat_product_hover)
-			{
-				$thum_image .= "<img id='main_image" . $commonid . "' src='" . $product_hover_img . "' "
-					. $title . $alt . " class='redImagepreview' />";
-			}
-
-			$thum_image .= "</a>";
-		}
-
-		if ($cat_product_hover)
-		{
-			$thum_image = "<div class='redhoverImagebox'>" . $thum_image . "</div>";
-		}
-		else
-		{
-			$thum_image = "<div>" . $thum_image . "</div>";
-		}
-
-		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
-
-		return $thum_image;
+		return Redshop\Product\Image\Render::replace($product, $imagename, $linkimagename, $link, $width, $height, $Product_detail_is_light, $enableHover, $preselectedResult, $suffixid);
 	}
 
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$redhelper  = redhelper::getInstance();
 		$result     = RedshopHelperProduct::getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
@@ -1435,10 +1153,8 @@ class productHelper
 			{
 				return is_array($result->categories) ? implode(',', $result->categories) : $result->categories;
 			}
-			elseif (!empty($result->category_id))
-			{
-				return $result->category_id;
-			}
+
+			return $result->category_id;
 		}
 
 		return '';
@@ -2340,32 +2056,21 @@ class productHelper
 			$attributeTemplate, $isChild, $onlySelected);
 	}
 
+	/**
+	 * Method for get hidden attributes cart image
+	 *
+	 * @param   integer  $product_id      Product Id
+	 * @param   integer  $property_id     Property Id
+	 * @param   integer  $subproperty_id  Sub-property Id
+	 *
+	 * @return  string
+	 *
+	 * @deprecated 2.1.0 Use Redshop\Product\Image\Image::getHiddenAttributeCartImage
+	 * @see Redshop\Product\Image\Image::getHiddenAttributeCartImage
+	 */
 	public function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
 	{
-		$attrbimg = "";
-
-		if ($property_id > 0)
-		{
-			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
-
-			//Display attribute image in cart
-			if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
-			{
-				$attrbimg = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $property[0]->property_image;
-			}
-		}
-
-		if ($subproperty_id > 0)
-		{
-			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($subproperty_id);
-
-			if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
-			{
-				$attrbimg = REDSHOP_FRONT_IMAGES_ABSPATH . "subcolor/" . $subproperty[0]->subattribute_color_image;
-			}
-		}
-
-		return $attrbimg;
+		return Redshop\Product\Image\Image::getHiddenAttributeCartImage($product_id, $property_id, $subproperty_id);
 	}
 
 	/**
@@ -3084,7 +2789,7 @@ class productHelper
 			$subPropertiesPriceWithVat = array();
 			$subPropertiesVat          = array();
 
-			$properties = $attributes[$i]['attribute_childs'];
+			$properties = !empty($attributes[$i]['attribute_childs']) ? $attributes[$i]['attribute_childs'] : array();
 
 			if (count($properties) > 0)
 			{
@@ -4388,146 +4093,25 @@ class productHelper
 		return $prodCatsObjectArray;
 	}
 
+	/**
+	 * Method for get display main image
+	 *
+	 * @param   integer $product_id      Product Id
+	 * @param   integer $property_id     Property Id
+	 * @param   integer $subproperty_id  Sub-property Id
+	 * @param   integer $pw_thumb        Width of thumb
+	 * @param   integer $ph_thumb        Height of thumb
+	 * @param   string  $redview         Red view
+	 *
+	 * @return  array
+	 * @throws  Exception
+	 *
+	 * @deprecated    2.1.0 Redshop\Product\Image\Image::getDisplayMain()
+	 * @see Redshop\Product\Image\Image::getDisplayMain
+	 */
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
-		$url                 = JUri::base();
-		$product             = RedshopHelperProduct::getProductById($product_id);
-		$redhelper           = redhelper::getInstance();
-		$aHrefImageResponse  = '';
-		$imagename           = '';
-		$aTitleImageResponse = '';
-		$mainImageResponse   = '';
-		$productmainimg      = '';
-		$Arrreturn           = array();
-		$product             = RedshopHelperProduct::getProductById($product_id);
-		$type                = '';
-		$pr_number           = $product->product_number;
-		$attrbimg            = '';
-		//$refererpath=explode("view=",$_SERVER['HTTP_REFERER']);
-		//$getview=explode("&",$refererpath[1]);
-
-		if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_thumb_image))
-		{
-			$type                = 'product';
-			$imagename           = $product->product_thumb_image;
-			$aTitleImageResponse = $product->product_name;
-			$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_thumb_image;
-		}
-		elseif (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
-		{
-			$altText = $product->product_name;
-			$dispatcher    = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
-
-			$type                = 'product';
-			$imagename           = $product->product_full_image;
-			$aTitleImageResponse = $altText;
-			$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image;
-		}
-		else
-		{
-			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
-			{
-				$type                = 'product';
-				$imagename           = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
-				$aTitleImageResponse = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
-				$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
-			}
-		}
-
-		if ($property_id > 0)
-		{
-			$property  = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
-			$pr_number = $property[0]->property_number;
-
-			if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "property/"
-					. $property[0]->property_main_image))
-			{
-				$type                = 'property';
-				$imagename           = $property[0]->property_main_image;
-				$aTitleImageResponse = $property[0]->text;
-			}
-			//Display attribute image in cart
-			if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/"
-					. $property[0]->property_image))
-			{
-				$attrbimg = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $property[0]->property_image;
-			}
-		}
-
-		if ($subproperty_id > 0)
-		{
-			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($subproperty_id);
-			$pr_number   = $subproperty[0]->subattribute_color_number;
-			//Display Sub-Property Number
-			if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/"
-					. $subproperty[0]->subattribute_color_main_image))
-			{
-				$type                = 'subproperty';
-				$imagename           = $subproperty[0]->subattribute_color_main_image;
-				$aTitleImageResponse = $subproperty[0]->text;
-				//$attrbimg=REDSHOP_FRONT_IMAGES_ABSPATH."subproperty/".$subproperty[0]->subattribute_color_image;
-			}
-			//Subproperty image in cart
-			if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/"
-					. $subproperty[0]->subattribute_color_image))
-			{
-				$attrbimg = REDSHOP_FRONT_IMAGES_ABSPATH . "subcolor/" . $subproperty[0]->subattribute_color_image;
-			}
-
-		}
-
-		if (!empty($imagename) && !empty($type))
-		{
-			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
-			{
-				$productmainimg = RedshopHelperMedia::watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
-			}
-			else
-			{
-				$productmainimg = RedshopHelperMedia::getImagePath(
-					$imagename,
-					'',
-					'thumb',
-					$type,
-					$pw_thumb,
-					$ph_thumb,
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-				);
-			}
-
-			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE')) && $type == 'product')
-			{
-				$aHrefImageResponse = RedshopHelperMedia::watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-			}
-			else
-			{
-				$aHrefImageResponse = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;
-			}
-
-			$altText = $product->product_name;
-
-			$dispatcher    = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
-
-			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
-				. $altText . "' title='" . $altText . "'>";
-
-			if ((!Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX') || !Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) || $redview == "category")
-				$mainImageResponse = $productmainimg;
-		}
-
-		$Arrreturn['aHrefImageResponse'] = $aHrefImageResponse;
-		$Arrreturn['mainImageResponse']  = $mainImageResponse;
-		$Arrreturn['productmainimg']     = $productmainimg;
-
-		$Arrreturn['aTitleImageResponse'] = $aTitleImageResponse;
-		$Arrreturn['imagename']           = $imagename;
-		$Arrreturn['type']                = $type;
-		$Arrreturn['attrbimg']            = $attrbimg;
-		$Arrreturn['pr_number']           = $pr_number;
-
-		return $Arrreturn;
+		return Redshop\Product\Image\Image::getDisplayMain($product_id, $property_id, $subproperty_id, $pw_thumb, $ph_thumb, $redview);
 	}
 
 	/**
@@ -4674,7 +4258,7 @@ class productHelper
 					$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
 						. $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
 						. $rph_thumb . "'>";
-					$relimage              = $this->getProductImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
+					$relimage              = Redshop\Product\Image\Image::getImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
 					$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
 
 					if (strpos($related_template_data, "{relproduct_link}") !== false)

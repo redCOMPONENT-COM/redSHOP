@@ -39,7 +39,8 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 		<?php if (count($turnover) > 0) {?>
 			<?php $turnover = array_reverse($turnover); ?>
 			<?php foreach ($turnover as $row) { ?>
-				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>', '<?php echo $producthelper->getProductFormattedPrice($row[1]) . ' in ' . $row[0]; ?>']);
+                <?php $price = strip_tags(RedshopHelperProductPrice::formattedPrice($row[1])); ?>
+				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $price ?>', '<?php echo $price . ' in ' . $row[0]; ?>']);
 			<?php } ?>
 		<?php } ?>
 

@@ -1244,7 +1244,7 @@ $link               = JRoute::_('index.php?option=com_redshop&view=product&pid='
 
 // Product image
 $thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-	$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
+	Redshop\Product\Image\Image::getImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
 	"</div>";
 
 $template_desc = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $template_desc);

@@ -57,7 +57,7 @@ class Tag
 
 		if (count($shippingDetail) > 0)
 		{
-			$element = strtolower(str_replace('plgredshop_shipping', '', $shippingDetail[0]));
+			$element = str_replace('plgredshop_shipping', '', strtolower($shippingDetail[0]));
 
 			// Load language file of the shipping plugin
 			\JFactory::getLanguage()->load('plg_redshop_shipping_' . $element, JPATH_ADMINISTRATOR);
@@ -391,7 +391,7 @@ class Tag
 	 */
 	protected static function replaceTag(&$html, $condition = '', $search = array(), $replace = array())
 	{
-		$replace = !empty($condition) ? $replace : '';
+		$replace = !empty($condition) ? $replace : array('');
 		$html    = str_replace($search, $replace, $html);
 	}
 }

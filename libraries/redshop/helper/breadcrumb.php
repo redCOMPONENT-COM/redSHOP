@@ -31,8 +31,11 @@ class RedshopHelperBreadcrumb
 	 */
 	public static function generate($sectionId = 0)
 	{
-		$app            = JFactory::getApplication();
-		$pathway        = $app->getPathway();
+		$app = JFactory::getApplication();
+
+		/** @var JPathway $pathway */
+		$pathway = $app->getPathway();
+
 		$view           = $app->input->getCmd('view');
 		$layout         = $app->input->getCmd('layout');
 		$itemId         = $app->input->getInt('Itemid');
@@ -70,16 +73,16 @@ class RedshopHelperBreadcrumb
 				}
 
 				$customPathways = array();
-				$newLink        = "index.php?option=com_redshop&view=category";
+				$newLink        = 'index.php?option=com_redshop&view=category';
 
-				if ($layout == "categoryproduct")
+				if ($layout === 'categoryproduct')
 				{
-					$newLink = "index.php?option=com_redshop&view=category&layout=" . $layout;
+					$newLink = 'index.php?option=com_redshop&view=category&layout=' . $layout;
 				}
 
 				$menu = productHelper::getInstance()->getMenuDetail($newLink);
 
-				if (count($menu) > 0 && $menu->home != 1)
+				if (count($menu) > 0 && $menu->home !== 1)
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;

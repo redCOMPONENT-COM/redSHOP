@@ -182,7 +182,7 @@ class RedshopHelperProductTag
 			$productImgThumbHeight = $mainImgHeight;
 		}
 
-		$imageAttributes = productHelper::getInstance()->getdisplaymainImage(
+		$imageAttributes = Redshop\Product\Image\Image::getDisplayMain(
 			$productId, $propertyId, $subPropertyId, $productImgThumbWidth, $productImgThumbHeight, $redView
 		);
 
@@ -207,7 +207,7 @@ class RedshopHelperProductTag
 
 		// Prepare additional media images.
 		$productAdditionalImages = self::prepareAdditionalImages(
-			$mediaImages, $product, $productImgThumbWidth, $productImgThumbHeight, $moreProductsImgThumbWidth, $moreProductsImgThumbHeight
+			$mediaImages, $product, $productImgThumbWidth, $productImgThumbHeight, $moreProductsImgThumbWidth, $moreProductsImgThumbHeight, true
 		);
 		$tmpProductImages        = $productAdditionalImages;
 
@@ -454,18 +454,19 @@ class RedshopHelperProductTag
 	/**
 	 * Method for prepare additional images for product.
 	 *
-	 * @param   array    $images           Array of media images.
-	 * @param   object   $product          Product data.
-	 * @param   integer  $thumbWidth       Product image thumb width.
-	 * @param   integer  $thumbHeight      Product image thumb height.
-	 * @param   integer  $moreThumbWidth   More image thumb width.
-	 * @param   integer  $moreThumbHeight  More image thumb height.
+	 * @param   array    $images                   Array of media images.
+	 * @param   object   $product                  Product data.
+	 * @param   integer  $thumbWidth               Product image thumb width.
+	 * @param   integer  $thumbHeight              Product image thumb height.
+	 * @param   integer  $moreThumbWidth           More image thumb width.
+	 * @param   integer  $moreThumbHeight          More image thumb height.
+	 * @param   boolean  $includeProductFullImage  Include product full images in list?
 	 *
 	 * @return  string
 	 *
 	 * @since   2.0.7
 	 */
-	public static function prepareAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
+	public static function prepareAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight, $includeProductFullImage = false)
 	{
 		if (empty($images))
 		{
@@ -482,17 +483,44 @@ class RedshopHelperProductTag
 		$productAddingIsLightbox           = Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX');
 		$defaultProductImage               = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 		$isAdditionalHoverImage            = Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE');
+		$productFullImage                  = null;
 
-		// Prepare additional media images.
-		foreach ($images as $image)
+		// Process image list
+		foreach ($images as $index => $image)
 		{
 			$thumb = $image->media_name;
 
-			if (empty($thumb) || $thumb == $image->product_full_image || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $thumb))
+			if (empty($thumb) || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $thumb))
 			{
+				unset($images[$index]);
+
 				continue;
 			}
 
+			if ($thumb === $image->product_full_image)
+			{
+				unset($images[$index]);
+
+				if (!$includeProductFullImage)
+				{
+					continue;
+				}
+
+				$productFullImage = $image;
+			}
+		}
+
+		if (null !== $productFullImage && $includeProductFullImage)
+		{
+			array_unshift($images, $productFullImage);
+		}
+
+		$images = array_values($images);
+
+		// Prepare additional media images.
+		foreach ($images as $index => $image)
+		{
+			$thumb   = $image->media_name;
 			$altText = RedshopHelperMedia::getAlternativeText('product', $image->section_id, '', $image->media_id);
 			$altText = !$altText ? $image->media_name : $altText;
 

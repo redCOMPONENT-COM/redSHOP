@@ -87,7 +87,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 RedshopHelperUtility::defineDynamicVariables();
 
 // Load backward compatible php defined config.
-if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_PHP') == 1)
+if (Redshop::getConfig()->getBool('BACKWARD_COMPATIBLE_PHP'))
 {
 	$configs = Redshop::getConfig()->toArray();
 
