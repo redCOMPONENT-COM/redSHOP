@@ -49,17 +49,18 @@ abstract class RedshopHelperProduct_Attribute
 	/**
 	 * Get Product Attribute
 	 *
-	 * @param   int $productId         Product id
-	 * @param   int $attributeSetId    Attribute set id
-	 * @param   int $attributeId       Attribute id
-	 * @param   int $published         Published attribute set
-	 * @param   int $attributeRequired Attribute required
-	 * @param   int $notAttributeId    Not attribute id
+	 * @param   integer  $productId          Product id
+	 * @param   integer  $attributeSetId     Attribute set id
+	 * @param   integer  $attributeId        Attribute id
+	 * @param   integer  $published          Published attribute set
+	 * @param   integer  $attributeRequired  Attribute required
+	 * @param   string   $notAttributeId     Not attribute id
 	 *
-	 * @return mixed
+	 * @return  array
+	 * @throws  Exception
 	 */
 	public static function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
-	                                           $notAttributeId = 0)
+	                                           $notAttributeId = '')
 	{
 		$key = md5($productId . '_' . $attributeSetId . '_' . $attributeId . '_' . $published . '_' . $attributeRequired . '_' . $notAttributeId);
 
@@ -74,11 +75,11 @@ abstract class RedshopHelperProduct_Attribute
 				{
 					foreach ($productData->attributes as $attribute)
 					{
-						if (($attributeSetId && ($attributeSetId != $attribute->attribute_set_id))
-							|| ($attributeId && ($attributeId != $attribute->attribute_id))
-							|| ($published && ($published != $attribute->attribute_published))
-							|| ($published && $attributeSetId && ($published != $attribute->attribute_set_published))
-							|| ($attributeRequired && ($attributeRequired != $attribute->attribute_required)))
+						if (($attributeSetId && $attributeSetId !== $attribute->attribute_set_id)
+							|| ($attributeId && $attributeId !== $attribute->attribute_id)
+							|| ($published && $published !== $attribute->attribute_published)
+							|| ($published && $attributeSetId && $published !== $attribute->attribute_set_published)
+							|| ($attributeRequired && $attributeRequired !== $attribute->attribute_required))
 						{
 							continue;
 						}
@@ -88,7 +89,7 @@ abstract class RedshopHelperProduct_Attribute
 							$notAttributeIds = explode(',', $notAttributeId);
 							$notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
 
-							if (in_array($attribute->attribute_id, $notAttributeIds))
+							if (in_array($attribute->attribute_id, $notAttributeIds, false))
 							{
 								continue;
 							}
@@ -112,22 +113,22 @@ abstract class RedshopHelperProduct_Attribute
 					->order('a.ordering ASC')
 					->order('a.attribute_name ASC');
 
-				if ($attributeSetId != 0)
+				if ($attributeSetId !== 0)
 				{
 					$query->where('a.attribute_set_id = ' . (int) $attributeSetId);
 				}
 
-				if ($attributeId != 0)
+				if ($attributeId !== 0)
 				{
 					$query->where('a.attribute_id = ' . (int) $attributeId);
 				}
 
-				if ($published != 0)
+				if ($published !== 0)
 				{
 					$query->where('ast.published = ' . (int) $published);
 				}
 
-				if ($attributeRequired != 0)
+				if ($attributeRequired !== 0)
 				{
 					$query->where('a.attribute_required = ' . (int) $attributeRequired);
 				}
@@ -160,10 +161,11 @@ abstract class RedshopHelperProduct_Attribute
 	 * @param   integer  $userId     User ID
 	 *
 	 * @return  object
+	 * @throws  Exception
 	 *
 	 * @since  2.0.4
 	 */
-	public static function getPropertyPrice($sectionId = '', $quantity = '', $section = '', $userId = 0)
+	public static function getPropertyPrice($sectionId = 0, $quantity = '', $section = '', $userId = 0)
 	{
 		$key = md5($sectionId . '_' . $quantity . '_' . $section . '_' . $userId);
 
@@ -173,7 +175,7 @@ abstract class RedshopHelperProduct_Attribute
 			$session = JFactory::getSession();
 			$user    = JFactory::getUser();
 
-			if ($userId == 0)
+			if ($userId === 0)
 			{
 				$userId = $user->id;
 			}
@@ -233,14 +235,15 @@ abstract class RedshopHelperProduct_Attribute
 
 			$db->setQuery($query, 0, 1);
 
-			$result = $db->loadObject();
+			$result  = $db->loadObject();
+			$current = time();
 
 			if ($result && $result->discount_price != 0
 				&& $result->discount_start_date != 0
 				&& $result->discount_end_date != 0
-				&& $result->discount_start_date <= time()
-				&& $result->discount_end_date >= time()
-				&& $result->discount_price < $result->product_price)
+				&& $result->discount_price < $result->product_price
+				&& $result->discount_start_date <= $current
+				&& $result->discount_end_date >= $current)
 			{
 				$result->product_price = $result->discount_price;
 			}
@@ -248,7 +251,9 @@ abstract class RedshopHelperProduct_Attribute
 			static::$propertyPrice[$key] = $result;
 
 			JPluginHelper::importPlugin('redshop_product');
-			RedshopHelperUtility::getDispatcher()->trigger('onGetPropertyPrice', array(&static::$propertyPrice[$key], $sectionId, $section, $userId));
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onGetPropertyPrice', array(&static::$propertyPrice[$key], $sectionId, $section, $userId)
+			);
 		}
 
 		return static::$propertyPrice[$key];
@@ -265,6 +270,7 @@ abstract class RedshopHelperProduct_Attribute
 	 * @param   array    $attributes    Attributes data.
 	 *
 	 * @return  float
+	 * @throws  Exception
 	 *
 	 * @since   2.1.0
 	 */
@@ -389,8 +395,9 @@ abstract class RedshopHelperProduct_Attribute
 	 * @param   integer  $notPropertyId   Not property id
 	 *
 	 * @return  mixed
+	 * @throws  Exception
 	 */
-	public static function getAttributeProperties($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = 0, $required = 0,
+	public static function getAttributeProperties($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = '', $required = 0,
 	                                              $notPropertyId = 0)
 	{
 		$key = md5($propertyId . '_' . $attributeId . '_' . $productId . '_' . $attributeSetId . '_' . $required . '_' . $notPropertyId);
@@ -539,12 +546,14 @@ abstract class RedshopHelperProduct_Attribute
 	/**
 	 * Method for get sub properties
 	 *
-	 * @param   int $subPropertyId Sub-Property ID
-	 * @param   int $propertyId    Property ID
+	 * @param   integer  $subPropertyId  Sub-Property ID
+	 * @param   integer  $propertyId     Property ID
 	 *
-	 * @return  mixed                List of sub-properties data.
+	 * @return  mixed                    List of sub-properties data.
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0)
 	{
@@ -567,7 +576,8 @@ abstract class RedshopHelperProduct_Attribute
 				->select($db->qn('p.setdisplay_type'))
 				->from($db->qn('#__redshop_product_subattribute_color', 'sp'))
 				->leftJoin(
-					$db->qn('#__redshop_product_attribute_property', 'p') . ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('sp.subattribute_id')
+					$db->qn('#__redshop_product_attribute_property', 'p')
+					. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 				)
 				->where($db->qn('sp.subattribute_published') . ' = 1')
 				->order($db->qn('sp.ordering') . ' ASC')
@@ -583,10 +593,11 @@ abstract class RedshopHelperProduct_Attribute
 				$query->where($db->qn('sp.subattribute_id') . ' = ' . $propertyId);
 			}
 
-			// Apply Lefjoin to get Product Id
+			// Apply left join to get Product Id
 			$query->select($db->qn('pa.product_id'))
 				->leftJoin(
-					$db->qn('#__redshop_product_attribute', 'pa') . ' ON ' . $db->qn('p.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
+					$db->qn('#__redshop_product_attribute', 'pa')
+					. ' ON ' . $db->qn('p.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
 				);
 
 			static::$subProperties[$key] = $db->setQuery($query)->loadObjectList();

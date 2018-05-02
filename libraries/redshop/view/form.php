@@ -126,7 +126,8 @@ class RedshopViewForm extends AbstractView
 		$app = JFactory::getApplication();
 
 		// Check permission on create new
-		if ((empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate) || (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit))
+		if ((empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate)
+			|| (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
 

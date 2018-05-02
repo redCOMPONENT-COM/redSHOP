@@ -46,7 +46,7 @@ class RedshopViewAdmin extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed         A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -57,8 +57,8 @@ class RedshopViewAdmin extends JViewLegacy
 		$render = RedshopLayoutHelper::render(
 			$this->componentLayout,
 			array(
-				'view' => $this,
-				'tpl' => $tpl,
+				'view'            => $this,
+				'tpl'             => $tpl,
 				'sidebar_display' => $this->displaySidebar,
 				'disableSidebar'  => $this->disableSidebar
 			)
