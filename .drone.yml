@@ -1,0 +1,20 @@
+pipeline:
+  clone:
+    image: plugins/git
+    depth: 1
+
+  system-tests:
+      image: jatitoam/docker-systemtests
+      commands:
+        - ls -la
+        - whoami
+        - pwd
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
