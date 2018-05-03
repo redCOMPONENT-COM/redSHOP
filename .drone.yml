@@ -5,6 +5,7 @@ pipeline:
 
   system-tests:
       image: jatitoam/docker-systemtests
+      volumes: /root/drone:/root/drone
       commands:
         - ls -la
         - whoami
