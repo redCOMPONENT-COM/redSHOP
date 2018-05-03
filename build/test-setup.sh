@@ -16,7 +16,7 @@ ln -s /usr/bin/nodejs /usr/bin/node
 cd /tests/www
 mkdir tests
 mkdir repo
-cd $WORKSPACE
+cd ${CI_BUILD_DIR}
 ln -s $(pwd)/tests/joomla-cms /tests/www/tests/
 ln -s $(pwd) /tests/www/tests/repo
 git submodule update --init --recursive
@@ -38,10 +38,10 @@ composer install --prefer-dist
 cd /tests/www
 cd tests
 mkdir releases-redshop
-cd $WORKSPACE
+cd ${CI_BUILD_DIR}
 mv gulp-config.sample.jenkins.json gulp-config.json
 gulp release --skip-version
-echo $CHANGE_ID
+echo $DRONE_PULL_REQUEST
 cp /tests/www/tests/releases-redshop/redshop.zip .
 
 #vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
@@ -68,9 +68,9 @@ mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 
 # Start Running Tests
-cd $WORKSPACE
+cd ${CI_BUILD_DIR}
 mysql --host=db-$BUILD_TAG -uroot -proot -e "DROP DATABASE IF EXISTS redshopSetupDb;"
-#vendor/bin/robo run:tests-jenkins
+vendor/bin/robo run:tests-jenkins
 
 if [ $? -eq 0 ]
 then
