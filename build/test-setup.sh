@@ -3,14 +3,13 @@
 
 touch output.log
 echo $CI_BUILD_DIR
+export CI_BUILD_DIR = $(pwd)
 echo $DRONE_PULL_REQUEST
 echo $CI_BUILD_URL
 echo $STAGE_NAME
 cp -r /vendor vendor
-echo $(git log -i | head -50)
-git log -1 | head -30 | grep 'BRANCH INDEXING'
+ls -la
 composer config -g github-oauth.github.com "4d92f9e8be0eddc0e54445ff45bf1ca5a846b609"
-composer install --prefer-dist
 vendor/bin/codecept --version
 
 vendor/bin/robo prepare:site-for-system-tests 1
