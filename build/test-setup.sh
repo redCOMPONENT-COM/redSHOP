@@ -39,7 +39,7 @@ cd /tests/www
 cd tests
 mkdir releases-redshop
 cd $WORKSPACE
-mv gulp-config.sample.json gulp-config.json
+mv gulp-config.sample.jenkins.json gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
 cp /tests/www/tests/releases-redshop/redshop.zip .
@@ -63,14 +63,14 @@ a2enmod rewrite
 service apache2 restart
 
 # Test Setup
-mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
-sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
+mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
+# sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 
 # Start Running Tests
 cd $WORKSPACE
 mysql --host=db-$BUILD_TAG -uroot -proot -e "DROP DATABASE IF EXISTS redshopSetupDb;"
-#vendor/bin/robo run:test-setup-jenkins
+#vendor/bin/robo run:tests-jenkins
 
 if [ $? -eq 0 ]
 then
