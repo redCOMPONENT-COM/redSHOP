@@ -6,7 +6,7 @@ pipeline:
   system-tests:
       image: jatitoam/docker-systemtests
       volumes:
-        - /root/drone/redshop-vendor:/vendor
+        - /root/drone/redshop-vendor:${CI_BUILD_DIR}/vendor
       commands:
         - ls -la
         - whoami

@@ -2,7 +2,7 @@
 # Script for preparing the system tests in Joomla!
 
 touch output.log
-echo $MESSAGE
+echo ${CI_BUILD_DIR}
 echo $STAGE_NAME
 echo $(git log -i | head -50)
 git log -1 | head -30 | grep 'BRANCH INDEXING'
