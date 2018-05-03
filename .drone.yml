@@ -9,6 +9,7 @@ pipeline:
         - ls -la
         - whoami
         - pwd
+        - ls -la
 
 services:
   mysql:
