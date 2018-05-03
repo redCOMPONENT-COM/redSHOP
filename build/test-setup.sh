@@ -2,15 +2,17 @@
 # Script for preparing the system tests in Joomla!
 
 touch output.log
-echo $CI_BUILD_DIR
 export CI_BUILD_DIR=$(pwd)
+echo $CI_BUILD_DIR
 echo $DRONE_PULL_REQUEST
-echo $CI_BUILD_URL
-echo $STAGE_NAME
-cp -r /vendor vendor
+cd /vendor
+ls -la
+cd ${CI_BUILD_DIR}
+cp -r /vendor cd ${CI_BUILD_DIR}/vendor
 ls -la
 cd vendor
 ls -la
+cd ${CI_BUILD_DIR}
 composer config -g github-oauth.github.com "4d92f9e8be0eddc0e54445ff45bf1ca5a846b609"
 vendor/bin/codecept --version
 
