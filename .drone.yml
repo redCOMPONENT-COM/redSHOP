@@ -4,11 +4,11 @@ pipeline:
     depth: 1
 
   system-tests:
-      image: jatitoam/docker-systemtests
+      image: docker
       volumes:
         - /root/drone/redshop-vendor:/vendor
       commands:
-        - ls -la
+        - docker run --volumes-from redshop-composer-container jatitoam/docker-systemtests
         - whoami
         - pwd
         - ls -la
