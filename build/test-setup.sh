@@ -6,12 +6,12 @@ export CI_BUILD_DIR=$(pwd)
 echo $CI_BUILD_DIR
 echo $DRONE_PULL_REQUEST
 cd ${CI_BUILD_DIR}
-composer config -g github-oauth.github.com "4d92f9e8be0eddc0e54445ff45bf1ca5a846b609"
 cp -r /vendor/redshop/vendor vendor
 ls -la
 cd vendor
 ls -la
 cd ${CI_BUILD_DIR}
+composer config -g github-oauth.github.com "58bada5d2192eecae08d54f0ce0323d37d3f3d71"
 composer install --prefer-dist
 vendor/bin/codecept --version
 
