@@ -12,6 +12,7 @@ ls -la
 cd vendor
 ls -la
 cd ${CI_BUILD_DIR}
+composer install --prefer-dist
 vendor/bin/codecept --version
 
 vendor/bin/robo prepare:site-for-system-tests 1
