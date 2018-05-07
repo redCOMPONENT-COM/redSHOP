@@ -1,6 +1,7 @@
 pipeline:
   clone:
-    image: plugins/git
+    default:
+    image: allanrenucci/custom-clone-plugins-with-retry
     depth: 1
 
   system-tests:
