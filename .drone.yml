@@ -9,7 +9,7 @@ pipeline:
         - CLOUD_NAME=redcomponent
         - API_KEY=365447364384436
         - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
-        - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
+        - GITHUB_TOKEN=72e1853aca389b4834d880cfe0b86e2af15d7fb9
         - ORGANIZATION=redCOMPONENT-COM
         - REPO=redSHOP
       volumes:
