@@ -74,24 +74,17 @@ chown -R www-data:www-data tests/joomla-cms
 
 # Start Running Tests
 cd ${CI_BUILD_DIR}
-mysql --host=db-$BUILD_TAG -uroot -proot -e "DROP DATABASE IF EXISTS redshopSetupDb;"
 vendor/bin/robo run:tests-jenkins
 
 if [ $? -eq 0 ]
 then
   echo "Tests Runs were successful"
   rm -r tests/_output/
-  mysqldump --host=db-$BUILD_TAG -uroot -proot redshopSetupDb > backup.sql
-  zip --symlinks -r joomla-cms-database.zip backup.sql > output.log 2>&1
-  cd tests
-  zip --symlinks -r joomla-cms.zip joomla-cms > output.log 2>&1
-  mv *joomla-cms.zip* ..
-  cd ../
   exit 0
 else
   echo "Tests Runs Failed" >&2
   #send screenshot of failed test to Slack
-  vendor/bin/robo send:build-report-error-slack $CLOUDINARY_CLOUD_NAME $CLOUDINARY_API_KEY $CLOUDINARY_API_SECRET $GITHUB_REPO $CHANGE_ID "$SLACK_WEBHOOK" "$SLACK_CHANNEL" "$BUILD_URL"
+  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $DRONE_PULL_REQUEST
   rm -r tests/_output/
   cd ../
   exit 1
