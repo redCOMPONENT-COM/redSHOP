@@ -15,6 +15,9 @@ composer config -g github-oauth.github.com "58bada5d2192eecae08d54f0ce0323d37d3f
 composer install --prefer-dist
 vendor/bin/codecept --version
 
+# Test Setup
+mv tests/RoboFile.ini.dist tests/RoboFile.ini
+mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
 vendor/bin/robo prepare:site-for-system-tests 1
 wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
 ln -s /usr/bin/nodejs /usr/bin/node
@@ -68,9 +71,7 @@ grep -i 'DocumentRoot' httpd.conf
 a2enmod rewrite
 service apache2 restart
 
-# Test Setup
-mv tests/RoboFile.ini.dist tests/RoboFile.ini
-mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
+
 # sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 cd /tests/www
