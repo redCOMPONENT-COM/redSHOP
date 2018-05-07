@@ -5,11 +5,21 @@ pipeline:
 
   system-tests:
       image: jatitoam/docker-systemtests
+      environment:
+        - CLOUD_NAME=redcomponent
+        - API_KEY=365447364384436
+        - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+        - GITHUB_TOKEN=72e1853aca389b4834d880cfe0b86e2af15d7fb9
+        - ORGANIZATION=redCOMPONENT-COM
+        - REPO=redSHOP
+      volumes:
+        - /root/drone/redshop-vendor:/vendor
       commands:
         - ls -la
         - whoami
         - pwd
-
+        - ls -la
+        - ./build/test-setup.sh
 services:
   mysql:
     image: mysql:5.7

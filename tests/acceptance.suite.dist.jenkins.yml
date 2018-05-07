@@ -20,19 +20,20 @@ modules:
         - Asserts
     config:
         JoomlaBrowser:
-            url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            browser: 'firefox'
-            window_size: 1024x768
+            url: 'http://localhost/tests/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            browser: 'chrome'
+            window_size: false
             restart: true
             capabilities:
-              unexpectedAlertBehaviour: 'accept'
-              elementScrollBehavior: '1'
+              chromeOptions:
+                args: ["--headless", "--disable-gpu", "--no-sandbox", "window-size=1920x1080"]
+                binary: "/usr/bin/google-chrome"
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
-            database host: 'localhost'             # place where the Application is Hosted #server Address
+            database host: 'mysql'             # place where the Application is Hosted #server Address
             database user: 'root'                  # MySQL Server user ID, usually root
-            database password: ''                  # MySQL Server password, usually empty or root
-            database name: 'testredshop1j3'            # DB Name, at the Server
+            database password: 'joomla_ut'                  # MySQL Server password, usually empty or root
+            database name: 'test_joomla'            # DB Name, at the Server
             database type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
             #database prefix: 'jos_'                # DB Prefix for tables
             install sample data: 'No'              # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes

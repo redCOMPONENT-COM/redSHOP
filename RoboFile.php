@@ -315,6 +315,153 @@ class RoboFile extends \Robo\Tasks
 		$this->killSelenium();
 	}
 
+	public function runTestsDrone()
+	{
+		$this->getComposer();
+
+		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
+			->runSelenium()
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
+
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
+
+		$this->taskCodecept()
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/install/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/administrator/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--tap')
+			->arg('--steps')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CouponVoucherMixCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
+			->run()
+			->stopOnFail();
+
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/CompareProductsCest.php')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/OnePageCheckoutCest.php')
+			->run()
+			->stopOnFail();
+
+		/*
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/checkout/')
+			->run();
+			// ->stopOnFail();
+		*/
+
+		$this->taskCodecept()
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/uninstall/')
+			->run()
+			->stopOnFail();
+
+		/* @todo: REDSHOP-2884
+		 * $this->say('preparing for update test');
+		 * $this->getDevelop();
+		 * $this->taskCodecept()
+		 * ->arg('--steps')
+		 * ->arg('--debug')
+		 * ->arg('--fail-fast')
+		 * ->arg('tests/acceptance/update/')
+		 * ->run()
+		 * ->stopOnFail();
+		 */
+
+		$this->killSelenium();
+	}
+
 	/**
 	 * Downloads Composer
 	 *
@@ -819,6 +966,7 @@ class RoboFile extends \Robo\Tasks
 			if ($reportError)
 			{
 				$this->say('Creating Github issue');
+				$this->say($body);
 				$client = new \Github\Client;
 				$client->authenticate($githubToken, \Github\Client::AUTH_HTTP_TOKEN);
 				$client
