@@ -20,7 +20,7 @@ modules:
         - Asserts
     config:
         JoomlaBrowser:
-            url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://localhost/tests/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
             window_size: false
             restart: true
