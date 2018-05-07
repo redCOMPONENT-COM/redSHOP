@@ -12,6 +12,10 @@ pipeline:
         - GITHUB_TOKEN=72e1853aca389b4834d880cfe0b86e2af15d7fb9
         - ORGANIZATION=redCOMPONENT-COM
         - REPO=redSHOP
+        - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
+        - SLACK_CHANNEL='#redshop-builds'
+        - GITHUB_REPO_OWNER='redCOMPONENT-COM'
+        - REPO=redSHOP
       volumes:
         - /root/drone/redshop-vendor:/vendor
       commands:

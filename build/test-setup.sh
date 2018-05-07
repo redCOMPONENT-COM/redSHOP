@@ -84,7 +84,7 @@ then
 else
   echo "Tests Runs Failed" >&2
   #send screenshot of failed test to Slack
-  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $DRONE_PULL_REQUEST
+  vendor/bin/robo send:build-report-error-slack $CLOUDINARY_CLOUD_NAME $CLOUDINARY_API_KEY $CLOUDINARY_API_SECRET $GITHUB_REPO $DRONE_PULL_REQUEST $SLACK_WEBHOOK $SLACK_CHANNEL $DRONE_BUILD_LINK
   rm -r tests/_output/
   cd ../
   exit 1
