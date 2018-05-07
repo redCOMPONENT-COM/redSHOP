@@ -64,6 +64,7 @@ sed -e 's/max_execution_time = 30/max_execution_time = 6000/' -i /etc/php/7.1/ap
 sed -e 's/memory_limit = 128M/memory_limit = 512M/' -i /etc/php/7.1/apache2/php.ini
 
 # Start apache
+grep -i 'DocumentRoot' httpd.conf
 a2enmod rewrite
 service apache2 restart
 
@@ -72,6 +73,11 @@ mv tests/RoboFile.ini.dist tests/RoboFile.ini
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
 # sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
+cd /tests/www
+ls -la
+cd tests
+ls -la
+
 
 # Start Running Tests
 cd ${CI_BUILD_DIR}
