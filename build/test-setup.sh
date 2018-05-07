@@ -68,6 +68,7 @@ a2enmod rewrite
 service apache2 restart
 
 # Test Setup
+mv tests/RoboFile.ini.dist tests/RoboFile.ini
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
 # sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
