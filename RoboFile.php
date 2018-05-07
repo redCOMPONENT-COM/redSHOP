@@ -692,7 +692,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function checkTravisWebserver()
 	{
-		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
+		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/installation/index.php');
 	}
 
 	/**
@@ -705,7 +705,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis($testCase)
 	{
-		$this->prepareSiteForSystemTests(1);
+		// $this->prepareSiteForSystemTests(1);
 
 		$this->checkTravisWebserver();
 
@@ -724,13 +724,13 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		// Make sure to Run the Build Command to Generate AcceptanceTester
 		$this->_exec('vendor/bin/codecept build');
 
 		// Install Joomla + redSHOP
 		$this->taskCodecept()
-			// ->arg('--steps')
-			// ->arg('--debug')
+			//->arg('--steps')
+			//->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -739,9 +739,9 @@ class RoboFile extends \Robo\Tasks
 
 		// Run specific task
 		$this->taskCodecept()
-			->test('tests/' . $testCase)
-			// ->arg('--steps')
-			// ->arg('--debug')
+			 ->test('tests/' . $testCase)
+			//->arg('--steps')
+			//->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->run()

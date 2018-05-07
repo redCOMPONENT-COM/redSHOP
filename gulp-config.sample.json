@@ -3,7 +3,7 @@
     "browserConfig" : {
         "proxy" : "redshop.local"
     },
-    "releaseDir"   : "./tests/releases/",
+    "releaseDir"   : "./tests/joomla-cms3/releases/",
     "basePaths": {
         "plugins" : "./plugins",
         "modules" : "./modules"

@@ -17,29 +17,28 @@ if [ "${ACCEPTANCE}" = "false" ]; then
 		composer install --working-dir ./libraries/redshop --ansi
 	fi
 else
-	sudo apt-get update
-	sudo apt-get install apache2 libapache2-mod-fastcgi
+	#sudo apt-get update
+	#sudo apt-get install apache2 libapache2-mod-fastcgi
 
 	# enable php-fpm
-	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+	#sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 
 	# For PHP 7.0
-	if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
-		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
-	fi;
+	#if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
+	#	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+	#fi;
 
-	sudo a2enmod rewrite actions fastcgi alias
-	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-	sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
-	sudo chown -R travis:travis /var/lib/apache2/fastcgi
-	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+	#sudo a2enmod rewrite actions fastcgi alias
+	#echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+	#sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
+	#sudo chown -R travis:travis /var/lib/apache2/fastcgi
+	#~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 
 	# configure apache virtual hosts
-	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
-	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
-	sudo sed -e "s?%TRAVIS_BUILD_PHP%?$(phpenv version-name)?g" --in-place /etc/apache2/sites-available/000-default.conf
-	sudo service apache2 restart
-
+	#sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
+	#sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+	#sudo sed -e "s?%TRAVIS_BUILD_PHP%?$(phpenv version-name)?g" --in-place /etc/apache2/sites-available/000-default.conf
+	#sudo service apache2 restart
 
 	# Get ChromeDriver for headless mode
 	driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
@@ -52,14 +51,15 @@ else
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	composer global require hirak/prestissimo
 
-	cd libraries/redshop
-	composer install --prefer-dist
+	composer install --working-dir ./libraries/redshop --ansi
+	composer install --working-dir ./plugins/redshop_pdf/tcpdf/helper --ansi
+	composer install
 
-	cd ../../plugins/redshop_pdf/tcpdf/helper
-	composer install --prefer-dist
-
-	cd ../../../..
-	composer install --prefer-dist
+	# Create folder for avoid permission error in Docker
+	sudo mkdir -p ./tests/joomla-cms3/releases
+	sudo mkdir -p ./tests/joomla-cms3/releases/plugins
+	sudo mkdir -p ./tests/joomla-cms3/releases/modules
+	sudo chown -R $(whoami):$(id -g -n) ./tests/joomla-cms3/releases
 
 	npm install
 	mv gulp-config.sample.json gulp-config.json
