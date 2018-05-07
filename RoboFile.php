@@ -819,6 +819,7 @@ class RoboFile extends \Robo\Tasks
 			if ($reportError)
 			{
 				$this->say('Creating Github issue');
+				$this->say($body);
 				$client = new \Github\Client;
 				$client->authenticate($githubToken, \Github\Client::AUTH_HTTP_TOKEN);
 				$client
