@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-use Redshop\Entity\AbstractEntity;
-use Redshop\Entity\EntityCollection;
-
 defined('_JEXEC') or die;
 
 /**
@@ -19,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityOrder_Item extends AbstractEntity
+class RedshopEntityOrder_Item extends \Redshop\Entity\AbstractEntity
 {
 	/**
-	 * @var   EntityCollection
+	 * @var   \Redshop\Entity\EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -43,7 +40,7 @@ class RedshopEntityOrder_Item extends AbstractEntity
 	/**
 	 * Method for get accessory items for this order item
 	 *
-	 * @return   EntityCollection   CoreEntityCollection if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   \Redshop\Entity\EntityCollection if success. Null otherwise.
 	 *
 	 * @since    2.0.6
 	 */
@@ -76,7 +73,7 @@ class RedshopEntityOrder_Item extends AbstractEntity
 			return $this;
 		}
 
-		$this->accessoryItems = new EntityCollection;
+		$this->accessoryItems = new \Redshop\Entity\EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

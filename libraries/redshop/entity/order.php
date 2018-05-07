@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-use Redshop\Entity\AbstractEntity;
-use Redshop\Entity\CoreEntityCollection;
-
 defined('_JEXEC') or die;
 
 /**
@@ -19,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityOrder extends AbstractEntity
+class RedshopEntityOrder extends \Redshop\Entity\AbstractEntity
 {
 	/**
-	 * @var   CoreEntityCollection
+	 * @var   \Redshop\Entity\EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -36,7 +33,7 @@ class RedshopEntityOrder extends AbstractEntity
 	protected $payment;
 
 	/**
-	 * @var    CoreEntityCollection
+	 * @var    \Redshop\Entity\EntityCollection
 	 *
 	 * @since  2.0.6
 	 */
@@ -57,7 +54,7 @@ class RedshopEntityOrder extends AbstractEntity
 	protected $shipping;
 
 	/**
-	 * @var   CoreEntityCollection
+	 * @var   \Redshop\Entity\EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -66,7 +63,7 @@ class RedshopEntityOrder extends AbstractEntity
 	/**
 	 * Get the associated table
 	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
 	 *
 	 * @return  boolean|Tableorder_detail
 	 */
@@ -78,7 +75,7 @@ class RedshopEntityOrder extends AbstractEntity
 	/**
 	 * Method for get order items for this order
 	 *
-	 * @return   CoreEntityCollection   CoreEntityCollection if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   \Redshop\Entity\EntityCollection if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -100,7 +97,7 @@ class RedshopEntityOrder extends AbstractEntity
 	/**
 	 * Method for get order status log for this order
 	 *
-	 * @return   CoreEntityCollection   CoreEntityCollection if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   \Redshop\Entity\EntityCollection if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -144,7 +141,7 @@ class RedshopEntityOrder extends AbstractEntity
 	/**
 	 * Method for get users of this order
 	 *
-	 * @return   CoreEntityCollection   Collection of users if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   Collection of users if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -221,10 +218,10 @@ class RedshopEntityOrder extends AbstractEntity
 			return $this;
 		}
 
-		$this->orderItems = new CoreEntityCollection;
+		$this->orderItems = new \Redshop\Entity\EntityCollection;
 
-		$db         = JFactory::getDbo();
-		$query      = $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_item'))
 			->where($db->qn('order_id') . ' = ' . $this->getId());
@@ -325,7 +322,7 @@ class RedshopEntityOrder extends AbstractEntity
 			return $this;
 		}
 
-		$this->users = new EntityCollection;
+		$this->users = new \Redshop\Entity\EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -374,7 +371,7 @@ class RedshopEntityOrder extends AbstractEntity
 
 		foreach ($users as $user)
 		{
-			if ($user->get('address_type') == 'BT')
+			if ($user->get('address_type') === 'BT')
 			{
 				$this->billing = $user;
 
