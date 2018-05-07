@@ -69,7 +69,7 @@ a2enmod rewrite
 service apache2 restart
 
 
-# sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
+sed -i "s/{DB_NAME}/db-$STEP_NAME-$DRONE_PULL_REQUEST/g" tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 
 # Start Running Tests

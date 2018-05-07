@@ -22,14 +22,6 @@ pipeline:
         - pwd
         - ls -la
         - ./build/test-setup.sh administrator
-      services:
-        mysql:
-          image: mysql:5.7
-          environment:
-            MYSQL_USER: joomla_ut
-            MYSQL_PASSWORD: joomla_ut
-            MYSQL_ROOT_PASSWORD: joomla_ut
-            MYSQL_DATABASE: test_joomla
 
   system-tests-integration:
         image: jatitoam/docker-systemtests
@@ -54,11 +46,11 @@ pipeline:
           - pwd
           - ls -la
           - ./build/test-setup.sh integration
-        services:
-          mysql:
-            image: mysql:5.7
-            environment:
-              MYSQL_USER: joomla_ut
-              MYSQL_PASSWORD: joomla_ut
-              MYSQL_ROOT_PASSWORD: joomla_ut
-              MYSQL_DATABASE: test_joomla
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
