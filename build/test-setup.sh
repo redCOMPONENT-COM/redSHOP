@@ -7,9 +7,6 @@ echo $CI_BUILD_DIR
 echo $DRONE_PULL_REQUEST
 cd ${CI_BUILD_DIR}
 cp -r /vendor/redshop/vendor vendor
-ls -la
-cd vendor
-ls -la
 cd ${CI_BUILD_DIR}
 composer config -g github-oauth.github.com "58bada5d2192eecae08d54f0ce0323d37d3f3d71"
 composer install --prefer-dist
@@ -74,11 +71,6 @@ service apache2 restart
 
 # sed -i "s/{dbhostname}/db-$BUILD_TAG/g" tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
-cd /tests/www
-ls -la
-cd tests
-ls -la
-
 
 # Start Running Tests
 cd ${CI_BUILD_DIR}
