@@ -74,7 +74,7 @@ chown -R www-data:www-data tests/joomla-cms
 
 # Start Running Tests
 cd ${CI_BUILD_DIR}
-vendor/bin/robo run:tests-drone
+vendor/bin/robo run:tests-drone $1
 
 if [ $? -eq 0 ]
 then
