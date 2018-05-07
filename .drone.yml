@@ -13,7 +13,7 @@ pipeline:
         - GITHUB_REPO_OWNER='redCOMPONENT-COM'
         - REPO='redSHOP'
         - GITHUB_REPO='redCOMPONENT-COM/redSHOP'
-        - STEP_NAME='admin'
+        - STEP_NAME=admin
       volumes:
         - /root/drone/redshop-vendor:/vendor
       commands:
@@ -37,7 +37,7 @@ pipeline:
           - GITHUB_REPO_OWNER='redCOMPONENT-COM'
           - REPO='redSHOP'
           - GITHUB_REPO='redCOMPONENT-COM/redSHOP'
-          - STEP_NAME='integration'
+          - STEP_NAME=integration
         volumes:
           - /root/drone/redshop-vendor:/vendor
         commands:
