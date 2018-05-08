@@ -72,8 +72,6 @@ class StockImageSteps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\StockImagePage::$URL);
-        $I->waitForElement(\StockImagePage::$resetId, 30);
-        $I->click(\StockImagePage::$resetId);
         $I->checkForPhpNoticesOrWarnings();
         $I->waitForElement(\StockImagePage::$search, 30);
         $I->searchStockImage($name);
