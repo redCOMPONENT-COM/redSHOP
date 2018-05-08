@@ -71,13 +71,13 @@ service apache2 restart
 
 
 sed -i "s/{DB_NAME}/db-$STEP_NAME-$DRONE_PULL_REQUEST/g" tests/acceptance.suite.yml
-sed -i "s/{DB_HOST}/mysql-$DRONE_BUILD_NUMBER/g" tests/acceptance.suite.yml
+#sed -i "s/{DB_HOST}/mysql-$DRONE_BUILD_NUMBER/g" tests/acceptance.suite.yml
 cat tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 
 # Start Running Tests
 cd ${CI_BUILD_DIR}
-vendor/bin/robo run:tests-drone $1
+vendor/bin/robo run:tests-setup-drone
 
 if [ $? -eq 0 ]
 then

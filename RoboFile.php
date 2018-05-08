@@ -137,7 +137,7 @@ class RoboFile extends \Robo\Tasks
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
 
-	public function runTestsDrone($folder)
+	public function runTestsSetupDrone()
 	{
 		$this->getComposer();
 
@@ -157,6 +157,23 @@ class RoboFile extends \Robo\Tasks
 			->arg('tests/acceptance/install/')
 			->run()
 			->stopOnFail();
+
+		$this->killSelenium();
+	}
+
+	public function runTestsDrone($folder)
+	{
+		$this->getComposer();
+
+		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
+			->runSelenium()
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
+
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
 
 		if($folder == 'administrator')
 		{

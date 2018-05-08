@@ -30,7 +30,7 @@ modules:
                 binary: "/usr/bin/google-chrome"
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
-            database host: '{DB_HOST}'             # place where the Application is Hosted #server Address
+            database host: 'mysql'             # place where the Application is Hosted #server Address
             database user: 'root'                  # MySQL Server user ID, usually root
             database password: 'joomla_ut'                  # MySQL Server password, usually empty or root
             database name: '{DB_NAME}'            # DB Name, at the Server

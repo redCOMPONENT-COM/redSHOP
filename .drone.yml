@@ -1,14 +1,6 @@
 pipeline:
   system-tests-setup:
-    environment:
-      - DOCKER_NETWORK=tn-${DRONE_TAG}
-      - DOCKER_DBHOST=db-${DRONE_TAG}
-    commands:
-      - docker network create $DOCKER_NETWORK
-      - docker run --name $DOCKER_DBHOST --network $DOCKER_NETWORK -e MYSQL_ROOT_PASSWORD=joomla_ut -d mysql:5.7
-  system-tests-admin:
     image: jatitoam/docker-systemtests
-    group: build
     environment:
       - CLOUD_NAME=redcomponent
       - API_KEY=365447364384436
@@ -20,7 +12,7 @@ pipeline:
       - GITHUB_REPO_OWNER='redCOMPONENT-COM'
       - REPO='redSHOP'
       - GITHUB_REPO='redCOMPONENT-COM/redSHOP'
-      - STEP_NAME=admin
+      - STEP_NAME=setup
     volumes:
       - /root/drone/redshop-vendor:/vendor
     commands:
@@ -28,9 +20,57 @@ pipeline:
       - whoami
       - pwd
       - ls -la
-      - ./build/test-setup.sh administrator
+      - ./build/test-setup.sh
+
+  system-tests-admin:
+      image: jatitoam/docker-systemtests
+      group: build
+      environment:
+        - CLOUD_NAME=redcomponent
+        - API_KEY=365447364384436
+        - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+        - GITHUB_TOKEN=72e1853aca389b4834d880cfe0b86e2af15d7fb9
+        - ORGANIZATION=redCOMPONENT-COM
+        - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
+        - SLACK_CHANNEL='#redshop-builds'
+        - GITHUB_REPO_OWNER='redCOMPONENT-COM'
+        - REPO='redSHOP'
+        - GITHUB_REPO='redCOMPONENT-COM/redSHOP'
+        - STEP_NAME=admin
+      volumes:
+        - /root/drone/redshop-vendor:/vendor
+      commands:
+        - ls -la
+        - whoami
+        - pwd
+        - ls -la
+        - ./build/system-tests.sh administrator
+
+  system-tests-integration:
+      image: jatitoam/docker-systemtests
+      group: build
+      environment:
+        - CLOUD_NAME=redcomponent
+        - API_KEY=365447364384436
+        - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+        - GITHUB_TOKEN=72e1853aca389b4834d880cfe0b86e2af15d7fb9
+        - ORGANIZATION=redCOMPONENT-COM
+        - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
+        - SLACK_CHANNEL='#redshop-builds'
+        - GITHUB_REPO_OWNER='redCOMPONENT-COM'
+        - REPO='redSHOP'
+        - GITHUB_REPO='redCOMPONENT-COM/redSHOP'
+        - STEP_NAME=integration
+      volumes:
+        - /root/drone/redshop-vendor:/vendor
+      commands:
+        - ls -la
+        - whoami
+        - pwd
+        - ls -la
+        - ./build/system-tests.sh integration
 services:
-  mysql-$$DRONE_BUILD_NUMBER:
+  mysql:
     image: mysql:5.7
     environment:
       MYSQL_USER: joomla_ut
