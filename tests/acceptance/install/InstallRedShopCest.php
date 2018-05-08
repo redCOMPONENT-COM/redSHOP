@@ -13,9 +13,8 @@
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    2.1
  */
-use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
 class InstallRedShopCest
 {
 	/**
@@ -45,18 +44,18 @@ class InstallRedShopCest
 		$I->wantTo('Install extension');
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
-		$I->wantTo('Install redSHOP extension');
-		$I->amOnPage('/administrator/index.php?option=com_installer');
-		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$I->click(['link' => 'Install from URL']);
-		$I->fillField(['id' => 'install_url'], $I->getConfig('redshop packages url') . '/redshop.zip');
-		$I->click(['id' => 'installbutton_url']);
-		$I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
+		$I->wantTo('I Install redSHOP');
+
+		$path = $I->getConfig('redshop packages url') . 'redshop.zip';
+		$I->wantToTest('Path for get redshop.zip');
+		$I->wantToTest($path);
+		$I->comment($path);
+		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'redshop.zip');
 
 		if ($I->getConfig('install demo data') == 'Yes')
 		{
-			$I->click(['id' => 'btn-demo-content']);
-			$I->waitForText('Data Installed Successfully', 10, '#system-message-container');
+			$I->click("//button[@id='installdemo']");
+			$I->waitForText('data installed successful', 10, '#system-message-container');
 		}
 	}
 }
