@@ -23,7 +23,7 @@ pipeline:
       - ls -la
       - ./build/test-setup.sh administrator
 services:
-  $$BUILD_NUMBER:
+  mysql-$$DRONE_BUILD_NUMBER:
     image: mysql:5.7
     environment:
       MYSQL_USER: joomla_ut

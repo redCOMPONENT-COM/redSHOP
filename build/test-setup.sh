@@ -2,6 +2,7 @@
 # Script for preparing the system tests in Joomla!
 
 touch output.log
+sudo apt-get -y install curl
 export CI_BUILD_DIR=$(pwd)
 echo $CI_BUILD_DIR
 echo $DRONE_PULL_REQUEST
@@ -70,7 +71,7 @@ service apache2 restart
 
 
 sed -i "s/{DB_NAME}/db-$STEP_NAME-$DRONE_PULL_REQUEST/g" tests/acceptance.suite.yml
-sed -i "s/{DB_HOST}/$DRONE_BUILD_NUMBER/g" tests/acceptance.suite.yml
+sed -i "s/{DB_HOST}/mysql-$DRONE_BUILD_NUMBER/g" tests/acceptance.suite.yml
 cat tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 
