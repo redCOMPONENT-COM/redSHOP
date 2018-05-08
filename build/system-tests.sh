@@ -1,6 +1,11 @@
 #!/bin/bash
 # Script for preparing the system tests in Joomla!
 
+# Get Chrome Headless
+mkdir -p /usr/local/bin
+unzip -o "chromedriver_linux64.zip" -d /usr/local/bin
+chmod +x /usr/local/bin/chromedriver
+
 export CI_BUILD_DIR=$(pwd)
 cd ${CI_BUILD_DIR}
 vendor/bin/robo run:tests-drone $1
