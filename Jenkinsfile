@@ -96,7 +96,6 @@ pipeline {
 							sh "build/system-tests.sh acceptance/administrator/"
 						}
 					}
-
 			}
 			post {
 				always {
