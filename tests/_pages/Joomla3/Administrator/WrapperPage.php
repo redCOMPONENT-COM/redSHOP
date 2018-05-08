@@ -69,4 +69,5 @@ class WrapperPage extends AdminJ3Page
      * @var array
      */
     public static $wrapperImage = ['id' => 'wrapper_image'];
+
 }

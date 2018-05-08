@@ -92,6 +92,6 @@ class WrapperCest
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Delete category');
         $I->deleteCategory($this->category);
-
     }
+
 }

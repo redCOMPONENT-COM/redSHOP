@@ -104,4 +104,5 @@ class WrapperSteps extends AdminManagerJoomla3Steps
         $I->click(\WrapperPage::$buttonDelete);
         $I->dontSeeElement(['link' => $nameWrapper]);
     }
+
 }
