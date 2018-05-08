@@ -70,7 +70,7 @@ service apache2 restart
 
 
 sed -i "s/{DB_NAME}/db-$STEP_NAME-$DRONE_PULL_REQUEST/g" tests/acceptance.suite.yml
-sed -i "s/{DB_HOST}/$DRONE_PULL_REQUEST/g" tests/acceptance.suite.yml
+sed -i "s/{DB_HOST}/$DRONE_BUILD_NUMBER/g" tests/acceptance.suite.yml
 cat tests/acceptance.suite.yml
 chown -R www-data:www-data tests/joomla-cms
 
