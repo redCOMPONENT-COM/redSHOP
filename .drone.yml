@@ -1,9 +1,9 @@
 pipeline:
   clone:
-    git:
-      image: plugins/git
-      recursive: true
-      depth: 1
+    image: plugins/git
+    depth: 1
+    recursive: true
+
   system-tests-setup:
     image: jatitoam/docker-systemtests
     environment:
