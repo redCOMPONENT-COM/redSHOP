@@ -2,7 +2,7 @@
 # Script for preparing the system tests in Joomla!
 
 touch output.log
-sudo apt-get -y install curl
+apt-get -y install curl
 export CI_BUILD_DIR=$(pwd)
 echo $CI_BUILD_DIR
 echo $DRONE_PULL_REQUEST

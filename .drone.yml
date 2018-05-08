@@ -1,4 +1,11 @@
 pipeline:
+  system-tests-setup:
+    environment:
+      - DOCKER_NETWORK=tn-${DRONE_TAG}
+      - DOCKER_DBHOST=db-${DRONE_TAG}
+    commands:
+      - docker network create $DOCKER_NETWORK
+      - docker run --name $DOCKER_DBHOST --network $DOCKER_NETWORK -e MYSQL_ROOT_PASSWORD=joomla_ut -d mysql:5.7
   system-tests-admin:
     image: jatitoam/docker-systemtests
     group: build
