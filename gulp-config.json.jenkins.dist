@@ -3,7 +3,7 @@
 	"browserConfig" : {
 		"proxy" : "redshop.local"
 	},
-	"release_dir"   : "/tests/www/tests/releases-redshop/",
+	"releaseDir"   : "/tests/www/tests/releases-redshop/",
 	"basePaths": {
 		 "plugins" : "./plugins",
 		 "modules" : "./modules"
