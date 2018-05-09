@@ -27,8 +27,9 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return mixed
 	 */
-	public function prepareSiteForSystemTests($use_htaccess = 1)
+	public function prepareSiteForSystemTests()
 	{
+        $use_htaccess = 1;
 		// Get Joomla Clean Testing sites
 		if (is_dir('tests/joomla-cms'))
 		{
