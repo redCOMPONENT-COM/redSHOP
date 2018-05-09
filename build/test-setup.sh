@@ -39,7 +39,7 @@ cd /tests/www
 cd tests
 mkdir releases-redshop
 
-mv gulp-config.sample.json gulp-config.json
+mv gulp-config.json.jenkins.dist gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
 cp /tests/www/tests/releases-redshop/redshop.zip .

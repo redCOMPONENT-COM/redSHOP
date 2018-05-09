@@ -1,0 +1,9 @@
+{
+    "wwwDir"        : "/tests/www/tests/joomla-cms",
+    "browserConfig" : {
+        "proxy" : "redshop.local"
+    },
+    "release_dir"   : "/tests/www/tests/releases-redshop/",
+    "php_dir" : "php"
+}
+
