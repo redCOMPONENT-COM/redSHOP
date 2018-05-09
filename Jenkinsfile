@@ -36,7 +36,7 @@ stages {
 		steps {
 			sh "build/test-setup.sh"
 			stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
-			stash includes: 'palby-tests.zip', name: 'palby-tests'
+			stash includes: 'redshop.zip', name: 'redshop'
 			stash includes: 'tests/vendor/**', name: 'vendor'
 		}
 		post {
@@ -68,7 +68,7 @@ stages {
 						env.STAGE = 'administrator'
 					}
 					unstash 'chromeD'
-					unstash 'palby-tests'
+					unstash 'redshop'
 					unstash 'vendor'
 					retry(1) {
 						sh "build/system-tests.sh acceptance/administrator/"
@@ -131,15 +131,15 @@ def dockerVolumeRemove() {
 
 def wipeWorkspaces()
 {
-dir('/var/lib/jenkins/workspace/palby-reseller-sites'){
-	sh 'pwd'
-	sh 'find -maxdepth 1 -name $(basename ${WORKSPACE})@\\* ! -name $(basename ${WORKSPACE})@tmp'
+    dir('/var/lib/jenkins/workspace'){
+        sh 'pwd'
+        sh 'find -maxdepth 1 -name $(basename ${WORKSPACE})@\\* ! -name $(basename ${WORKSPACE})@tmp'
 
-	sh 'sudo rm -rf -- $(basename ${WORKSPACE})_*/'
-	// Removes the clones & tmp folders created for parallelization
-	sh 'find -maxdepth 1 -name $(basename ${WORKSPACE})@\\* ! -name $(basename ${WORKSPACE})@tmp'
-	sh 'find -maxdepth 1 -name $(basename ${WORKSPACE})@\\* ! -name $(basename ${WORKSPACE})@tmp -exec sudo rm -rf {} \\;'
-}
-// Wipes the main workspace afterwards leaving an empty dir
-	deleteDir()
+        sh 'sudo rm -rf -- $(basename ${WORKSPACE})_*/'
+        // Removes the clones & tmp folders created for parallelization
+        sh 'find -maxdepth 1 -name $(basename ${WORKSPACE})@\\* ! -name $(basename ${WORKSPACE})@tmp -exec sudo rm -rf {} \\;'
+    }
+
+    // Wipes the main workspace afterwards leaving an empty dir
+    deleteDir()
 }
