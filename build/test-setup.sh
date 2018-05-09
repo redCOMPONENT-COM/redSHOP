@@ -6,7 +6,7 @@ echo $MESSAGE
 echo $STAGE_NAME
 echo $(git log -i | head -50)
 git log -1 | head -30 | grep 'BRANCH INDEXING'
-composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+composer config -g github-oauth.github.com "58bada5d2192eecae08d54f0ce0323d37d3f3d71"
 composer install --prefer-dist > output.log 2>&1
 vendor/bin/codecept --version
 
@@ -45,7 +45,7 @@ gulp release --skip-version
 echo $CHANGE_ID
 cp /tests/www/tests/releases-redshop/redshop.zip .
 
-vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
+#vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
 
 rm -rf /tmp/.org.chromium.Chromium*
 
