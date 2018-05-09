@@ -6,7 +6,7 @@
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    1.4
+ * @since    2.1
  */
 
 namespace AcceptanceTester;
