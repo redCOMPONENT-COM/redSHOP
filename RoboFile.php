@@ -76,7 +76,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('./acceptance/install/')
+			->arg('tests/acceptance/install/')
 			->run()
 			->stopOnFail();
 	}
