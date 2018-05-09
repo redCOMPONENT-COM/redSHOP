@@ -34,7 +34,7 @@ stages {
 			}
 		}
 		steps {
-			sh "build/tests-setup.sh"
+			sh "build/test-setup.sh"
 			stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
 			stash includes: 'palby-tests.zip', name: 'palby-tests'
 			stash includes: 'tests/vendor/**', name: 'vendor'
