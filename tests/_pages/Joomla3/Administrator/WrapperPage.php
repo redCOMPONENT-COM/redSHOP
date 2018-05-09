@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,8 +55,6 @@ class WrapperPage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $nameProducts = ['id' => 's2id_container_product'];
-//    public static $nameProducts = ['class' => 'select2-choices'];
-
 	/**
 	 * @var array
 	 */

@@ -42,7 +42,7 @@ class WrapperCest
 	 * Function to Test Wrapper Creation in Backend
 	 *
 	 */
-	public function CreateWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
+	public function CRUDWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
 	{
 		/**
 		 * Function to Test Wrapper Creation in Backend

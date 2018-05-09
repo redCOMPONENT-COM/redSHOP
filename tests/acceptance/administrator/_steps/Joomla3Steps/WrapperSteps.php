@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    1.4
+ * @since    2.1
  */
 
 class WrapperSteps extends AdminManagerJoomla3Steps
@@ -104,5 +104,4 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->click(\WrapperPage::$buttonDelete);
 		$I->dontSeeElement(['link' => $nameWrapper]);
 	}
-
 }
