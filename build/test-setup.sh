@@ -39,6 +39,7 @@ cd /tests/www
 cd tests
 mkdir releases-redshop
 
+cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
