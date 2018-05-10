@@ -15,6 +15,7 @@
  *
  * @since    2.1
  */
+use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
 class InstallRedShopCest
 {
 	/**
