@@ -11,6 +11,7 @@ composer install --prefer-dist > output.log 2>&1
 vendor/bin/codecept --version
 
 vendor/bin/robo prepare:site-for-system-tests 1
+
 wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
 ln -s /usr/bin/nodejs /usr/bin/node
 cd /tests/www

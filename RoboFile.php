@@ -20,40 +20,43 @@ class RoboFile extends \Robo\Tasks
 	// Load tasks from composer, see composer.json
 	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-	/**
-	 * Downloads and prepares a Joomla CMS site for testing
-	 *
-	 * @param   int $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
-	 *
-	 * @return mixed
-	 */
-	public function prepareSiteForSystemTests($use_htaccess = 1)
-	{
-		// Get Joomla Clean Testing sites
-		if (is_dir('tests/joomla-cms'))
-		{
-			$this->taskDeleteDir('tests/joomla-cms')->run();
-		}
+    // Load tasks from composer, see composer.json
+    use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-		$version = 'staging';
+    /**
+     * Downloads and prepares a Joomla CMS site for testing
+     *
+     * @param   int  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+     *
+     * @return mixed
+     */
+    public function prepareSiteForSystemTests($use_htaccess = 1)
+    {
+        // Get Joomla Clean Testing sites
+        if (is_dir('tests/joomla-cms'))
+        {
+            $this->taskDeleteDir('tests/joomla-cms')->run();
+        }
 
-		/*
-		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
-		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
-		 */
-		$version = '3.8.7';
+        $version = 'staging';
 
-		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
+        /*
+         * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+         * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+         */
+        $version = '3.8.7';
 
-		$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+        $this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 
-		// Optionally uses Joomla default htaccess file
-		if ($use_htaccess == 1)
-		{
-			$this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
-		}
-	}
+        $this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+
+        // Optionally uses Joomla default htaccess file
+        if ($use_htaccess == 1)
+        {
+            $this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
+            $this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
+        }
+    }
 	/**
 	 * Clone joomla
 	 */
@@ -73,7 +76,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('./acceptance/install/')
+			->arg('tests/acceptance/install/')
 			->run()
 			->stopOnFail();
 	}
