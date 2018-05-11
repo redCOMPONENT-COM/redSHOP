@@ -46,12 +46,12 @@ class InstallRedShopCest
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
 		$I->wantTo('I Install redSHOP');
-
 		$path = $I->getConfig('redshop packages url') . 'redshop.zip';
 		$I->wantToTest('Path for get redshop.zip');
 		$I->wantToTest($path);
 		$I->comment($path);
 //		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . '/redshop.zip');
+		$I->amOnPage('/administrator/index.php?option=com_installer');
 		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
 		$I->click(['link' => 'Install from URL']);
 		$I->fillField(['id' => 'install_url'], $path);

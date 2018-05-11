@@ -248,7 +248,7 @@ class RoboFile extends \Robo\Tasks
 		$errorLog = 'Selenium log:' . chr(10). chr(10);
 
 		// Loop through Codeception snapshots
-		if (file_exists('_output') && $handler = opendir('_output'))
+		if (file_exists('_output') && $handler = opendir('tests/_output'))
 		{
 
 
@@ -269,7 +269,7 @@ class RoboFile extends \Robo\Tasks
 
 			if (!$errorSelenium)
 			{
-				$handler = opendir('_output');
+				$handler = opendir('tests/_output');
 				$errorImage = '';
 
 				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
@@ -292,7 +292,7 @@ class RoboFile extends \Robo\Tasks
 
 
 
-					$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/_output/' . $errorSnapshot));
+					$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/tests//_output/' . $errorSnapshot));
 
 					$this->say($errorSnapshot . 'Image sent');
 
