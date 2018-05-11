@@ -77,14 +77,15 @@ vendor/bin/robo run:test-setup-jenkins
 
 if [ $? -eq 0 ]
 then
-	echo "Tests Run were sucessful"
-	rm -r _output/
-	mysqldump --host=db-$BUILD_TAG -uroot -proot redshopSetupDb > backup.sql
-	zip --symlinks -r joomla-cms-database.zip backup.sql > output.log 2>&1
-	mv joomla-cms-database.zip ..
-	zip --symlinks -r joomla-cms.zip joomla-cms > output.log 2>&1
-	mv *joomla-cms.zip* ..
-	cd ..
+  echo "Tests Runs were successful"
+  rm -r tests/_output/
+  mysqldump --host=db-$BUILD_TAG -uroot -proot redshopSetupDb > backup.sql
+  zip --symlinks -r joomla-cms-database.zip backup.sql > output.log 2>&1
+  cd tests
+  ls
+  zip --symlinks -r joomla-cms.zip joomla-cms > output.log 2>&1
+  mv *joomla-cms.zip* ..
+  cd ../
   exit 0
 else
 	echo "Tests Runs Failed" >&2
