@@ -72,7 +72,7 @@ stages {
 					unstash 'redshop'
 					unstash 'vendor'
 					retry(1) {
-						sh "build/system-tests.sh acceptance/administrator/"
+						sh "build/system-tests.sh tests/acceptance/administrator"
 					}
 				}
 			}
