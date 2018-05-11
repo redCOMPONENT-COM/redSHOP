@@ -133,7 +133,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @since   5.1
 	 */
-	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
+	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL)
 	{
 		$errorSelenium = true;
 		$reportError = false;
@@ -193,14 +193,12 @@ class RoboFile extends \Robo\Tasks
 
 					$this->_exec('curl'.$errorLog) ;
 
+					echo $errorLog;
+
 				}
 			}
 
-			// If it's a Selenium error log, it prints it in the regular output
-			if ($errorSelenium)
-			{
-				$this->say($errorLog);
-			}
+			echo $errorLog;
 
 			if ($reportError || $errorSelenium)
 			{

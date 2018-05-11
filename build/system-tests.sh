@@ -49,12 +49,12 @@ ln -s $(pwd)/tests/joomla-cms /tests/www/tests/
 ln -s $(pwd) /tests/www/tests/repo
 cd /tests/www
 cd tests
-mkdir releases-redshop
+mkdir releases
 
 cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
-mv redshop.zip /tests/www/tests/releases-redshop/redshop.zip
-cd /tests/www/tests/releases-redshop/
+mv redshop.zip /tests/www/tests/releases/redshop.zip
+cd /tests/www/tests/releases/
 
 # Test Setup
 cd $WORKSPACE

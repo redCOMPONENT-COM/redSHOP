@@ -38,13 +38,13 @@ composer install --prefer-dist
 
 cd /tests/www
 cd tests
-mkdir releases-redshop
+mkdir releases
 
 cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
-cp /tests/www/tests/releases-redshop/redshop.zip .
+cp /tests/www/tests/releases/redshop.zip .
 
 #vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
 
