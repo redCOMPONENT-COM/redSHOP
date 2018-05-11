@@ -196,6 +196,11 @@ class RoboFile extends \Robo\Tasks
 				}
 			}
 
+			// If it's a Selenium error log, it prints it in the regular output
+			if ($errorSelenium)
+			{
+				$this->say($errorLog);
+			}
 
 			if ($reportError || $errorSelenium)
 			{
