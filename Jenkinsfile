@@ -33,10 +33,12 @@ stages {
 			}
 		}
 		steps {
-			sh "build/test-setup.sh"
-			stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
-			stash includes: 'redshop.zip', name: 'redshop'
-			stash includes: 'tests/vendor/**', name: 'vendor'
+				sh "build/test-setup.sh"
+				stash includes: 'vendor/**', name: 'vendor'
+				stash includes: 'joomla-cms.zip', name: 'joomla-cms'
+				stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
+				stash includes: 'redshop.zip', name: 'redshop'
+				stash includes: 'joomla-cms-database.zip', name: 'database-dump'
 		}
 		post {
 			always {
