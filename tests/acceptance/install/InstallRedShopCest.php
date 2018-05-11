@@ -36,28 +36,32 @@ class InstallRedShopCest
 	/**
 	 * Test to Install redSHOP Extension on Joomla
 	 *
-	 * @param   AcceptanceTester $I Actor Class Object
+	 * @param   AcceptanceTester  $I  Actor Class Object
 	 *
 	 * @return void
-	 * @throws Exception
 	 */
 	public function testInstallRedShopExtension(AcceptanceTester $I)
 	{
 		$I->wantTo('Install extension');
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
-		$I->wantTo('Install redSHOP extension');
-		$I->amOnPage('/administrator/index.php?option=com_installer');
-		$I->waitForText('Extensions: Install', '30', ['css' => 'H1'], null);
+		$I->wantTo('I Install redSHOP');
+
+		$path = $I->getConfig('redshop packages url') . 'redshop.zip';
+		$I->wantToTest('Path for get redshop.zip');
+		$I->wantToTest($path);
+		$I->comment($path);
+//		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . '/redshop.zip');
+		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
 		$I->click(['link' => 'Install from URL']);
-		$I->fillField(['id' => 'install_url'], $I->getConfig('redshop packages url') . '/redshop.zip');
+		$I->fillField(['id' => 'install_url'], $path);
 		$I->click(['id' => 'installbutton_url']);
 		$I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
 
 		if ($I->getConfig('install demo data') == 'Yes')
 		{
-			$I->click(['id' => 'btn-demo-content']);
-			$I->waitForText('Data Installed Successfully', 10, '#system-message-container');
+			$I->click("//button[@id='installdemo']");
+			$I->waitForText('data installed successful', 10, '#system-message-container');
 		}
 	}
 }

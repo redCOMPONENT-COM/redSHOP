@@ -11,11 +11,10 @@ triggers {
 }
 stages {
 	stage('Docker Setup') {
-		steps {
-			updateGitlabCommitStatus name: 'build', state: 'pending'
-			dockerNetworkCreate("tn-${BUILD_TAG}")
-			dockerDBRun("db-${BUILD_TAG}", 'root', "tn-${BUILD_TAG}")
-		}
+			steps {
+				dockerNetworkCreate("tn-${BUILD_TAG}")
+				dockerDBRun("db-${BUILD_TAG}", 'root', "tn-${BUILD_TAG}")
+			}
 	}
 	stage ('Tests Setup') {
 		environment {
@@ -96,12 +95,6 @@ stages {
 				cleanWs()
 			}
 			wipeWorkspaces() // Always run this last
-		}
-		failure {
-			updateGitlabCommitStatus name: 'build', state: 'failed'
-		}
-		success {
-			updateGitlabCommitStatus name: 'build', state: 'success'
 		}
 	}
 }
