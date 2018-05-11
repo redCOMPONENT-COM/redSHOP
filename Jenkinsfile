@@ -33,7 +33,7 @@ stages {
 			}
 		}
 		steps {
-				sh "build/test-setup.sh"
+				sh "./build/test-setup.sh"
 				stash includes: 'vendor/**', name: 'vendor'
 				stash includes: 'joomla-cms.zip', name: 'joomla-cms'
 				stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
