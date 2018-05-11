@@ -292,12 +292,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 			JFile::upload($src, $dest);
 		}
 
-		$query = 'SELECT media_alternate_text FROM ' . $this->table_prefix . 'media
-					  WHERE media_name = "' . $data['old_image'] . '"
-					  AND media_section = "product" AND section_id = "' . $row->product_id . '" ';
-
-		$old_main_image_alternate_text = $this->_db->setQuery($query)->loadResult();
-
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
@@ -3655,6 +3649,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$rowmedia->bind($data))
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -3666,6 +3661,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$rowmedia->store())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;

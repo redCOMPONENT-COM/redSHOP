@@ -34,6 +34,13 @@ class RedshopEntityProduct extends RedshopEntity
 	protected $childProducts = null;
 
 	/**
+	 * @var    RedshopEntitiesCollection
+	 *
+	 * @since  2.1.0
+	 */
+	protected $media;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
