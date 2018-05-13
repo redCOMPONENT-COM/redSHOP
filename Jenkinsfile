@@ -71,6 +71,8 @@ stages {
 					unstash 'chromeD'
 					unstash 'redshop'
 					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
 					retry(1) {
 						sh "build/system-tests.sh tests/acceptance/administrator"
 					}
