@@ -42,26 +42,26 @@ class InstallRedShopCest
 	 */
 	public function testInstallRedShopExtension(AcceptanceTester $I)
 	{
-		$I->wantTo('Install extension');
-		$I->doAdministratorLogin();
-		$I->disableStatistics();
-		$I->wantTo('I Install redSHOP');
-		$path = $I->getConfig('redshop packages url') . 'redshop.zip';
-		$I->wantToTest('Path for get redshop.zip');
-		$I->wantToTest($path);
-		$I->comment($path);
-//		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . '/redshop.zip');
-		$I->amOnPage('/administrator/index.php?option=com_installer');
-		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$I->click(['link' => 'Install from URL']);
-		$I->fillField(['id' => 'install_url'], $path);
-		$I->click(['id' => 'installbutton_url']);
-		$I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
+        $I->wantTo('Install extension');
+        $I->doAdministratorLogin();
+        $I->disableStatistics();
+        $I->wantTo('I Install redSHOP');
+        $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
+        $I->click(['link' => 'Install from URL']);
 
-		if ($I->getConfig('install demo data') == 'Yes')
-		{
-			$I->click("//button[@id='installdemo']");
-			$I->waitForText('data installed successful', 10, '#system-message-container');
-		}
+        $path = $I->getConfig('redshop packages url') . 'redshop.zip';
+        $I->wantToTest('Path for get redshop.zip');
+        $I->wantToTest($path);
+        $I->comment($path);
+
+        $I->fillField(['id' => 'install_url'], $path);
+        $I->click(['id' => 'installbutton_url']);
+
+        if ($I->getConfig('install demo data') == 'Yes')
+        {
+            $I->click("//button[@id='installdemo']");
+            $I->waitForText('data installed successful', 10, '#system-message-container');
+        }
 	}
 }
