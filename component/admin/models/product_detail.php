@@ -241,6 +241,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		/** @var TableProduct_Detail $row */
 		$row = $this->getTable('product_detail');
 
+		if (!empty($data['product_id']))
+		{
+			$row->load($data['product_id']);
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->app->enqueueMessage($this->_db->getErrorMsg(), 'error');
@@ -493,7 +498,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->copyAttributeSetAttribute($data['attribute_set_id'], $row->product_id);
 			}
 		}
-
 
 		if (!$data['product_id'])
 		{
@@ -4868,12 +4872,20 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				if (!empty($row->product_id))
+				if (!$mediaTable->load(array(
+					'media_name' => $row->product_full_image,
+					'media_section' => 'product',
+					'section_id' => $row->product_id,
+					'media_type' => 'images'
+				)))
 				{
-					$mediaTable->set('section_id', $row->product_id);
-				}
+					if (!empty($row->product_id))
+					{
+						$mediaTable->set('section_id', $row->product_id);
+					}
 
-				$mediaTable->set('media_section', 'product');
+					$mediaTable->set('media_section', 'product');
+				}
 			}
 
 			if (!JFile::exists(JPATH_ROOT . '/' . $value))
