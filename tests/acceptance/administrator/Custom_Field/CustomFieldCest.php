@@ -22,8 +22,6 @@ class CustomFieldCest
         $this->faker = Faker\Factory::create();
 
         $this->fieldType = array(
-//            "Image",
-//            "Text Tag Content",
             "Check box",
             "Country selection box",
             "Date picker",
