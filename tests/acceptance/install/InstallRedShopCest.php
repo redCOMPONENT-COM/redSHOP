@@ -57,11 +57,10 @@ class InstallRedShopCest
 
         $I->fillField(['id' => 'install_url'], $path);
         $I->click(['id' => 'installbutton_url']);
+        $I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
 
-        if ($I->getConfig('install demo data') == 'Yes')
-        {
-            $I->click("//button[@id='installdemo']");
-            $I->waitForText('data installed successful', 10, '#system-message-container');
-        }
+        $I->wantTo('install demo data');
+        $I->click("//button[@id='installdemo']");
+        $I->waitForText('data installed successful', 10, '#system-message-container');
 	}
 }
