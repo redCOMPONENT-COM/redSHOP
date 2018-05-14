@@ -20,6 +20,11 @@ class Field_GroupPage extends AdminJ3Page
 	 */
 	public static $url = 'administrator/index.php?option=com_redshop&view=field_groups';
 
+    /**
+     * @var array
+     */
+	public static $applyFieldGroup = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('field_group.apply')\"]"];
+
 	/**
 	 * @var string
 	 */

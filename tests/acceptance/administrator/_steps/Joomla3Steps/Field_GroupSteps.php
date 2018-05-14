@@ -26,7 +26,8 @@ class Field_GroupSteps extends AbstractStep
 		$test->amOnPage(Field_GroupPage::$url);
 		$test->see(Field_GroupPage::$namePage);
 		$test->click(Field_GroupPage::$buttonNew);
-		$test->click(Field_GroupPage::$buttonSave);
+		$test->waitForElement(Field_GroupPage::$applyFieldGroup, 30);
+		$test->click(Field_GroupPage::$applyFieldGroup);
 		$test->see(Field_GroupPage::$missingName);
 	}
 }
