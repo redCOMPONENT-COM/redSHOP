@@ -5,8 +5,9 @@
  * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 /**
- * Abstract Class Core J3 Page
+ * Class Checkout Product Change Quantity Page
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
