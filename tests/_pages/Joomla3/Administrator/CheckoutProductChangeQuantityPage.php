@@ -54,11 +54,6 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
     /**
      * @var array
      */
-    public static $AddToCart = ['class' => 'pdaddtocart_link'];
-
-    /**
-     * @var array
-     */
     public static $quantityField = ['id' => 'quantitybox0'];
 
     /**
@@ -69,10 +64,10 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
     /**
      * @var array
      */
-    public static $acceptTermCheckbox = ['id' => 'termscondition'];
+//    public static $acceptTermCheckbox = ['id' => 'termscondition'];
 
     /**
      * @var array
      */
-    public static $checkOutFinal = ['id' => 'checkoutfinal'];
+//    public static $checkOutFinal = ['id' => 'checkoutfinal'];
 }

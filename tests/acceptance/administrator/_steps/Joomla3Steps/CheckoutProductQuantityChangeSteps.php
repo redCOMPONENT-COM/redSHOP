@@ -19,28 +19,27 @@ namespace AcceptanceTester;
  */
 class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 {
-	public function goOnFrontEnd($category)
-	{
-		$I = $this;
-		$I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
-		$I->waitForElement(\CheckoutProductChangeQuantityPage::$categoryTitle, 30);
-		$I->click($category);
-		$I->click(\CheckoutProductChangeQuantityPage::$AddToCart);
-//		$I->click(\CheckoutProductChangeQuantityPage::$cartPageUrL);
+    public function goOnFrontEnd($category)
+    {
+        $I = $this;
+        $I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
+        $I->waitForElement(\CheckoutProductChangeQuantityPage::$categoryTitle, 30);
+        $I->click($category);
+        $I->click(\CheckoutProductChangeQuantityPage::$addToCart);
         $I->amOnPage(\CheckoutProductChangeQuantityPage::$cartPageUrL);
-		$I->click(\CheckoutProductChangeQuantityPage::$quantityField);
-		$I->pressKey(\CheckoutProductChangeQuantityPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$quantities = 10;
-		$quantity = str_split($quantities);
-		foreach ($quantity as $char) {
-			$I->pressKey(\CheckoutProductChangeQuantityPage::$quantityField, $char);
-		}
-		$I->waitForElement(\CheckoutProductChangeQuantityPage::$updateCartButton, 30);
-		$I->click(\CheckoutProductChangeQuantityPage::$updateCartButton);
-		$I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
-		$I->waitForElement(\CheckoutProductChangeQuantityPage::$acceptTerms, 30);
-		$I->click(\CheckoutProductChangeQuantityPage::$acceptTermCheckbox);
-		$I->waitForElement(\CheckoutProductChangeQuantityPage::$checkoutFinalStep, 30);
-		$I->click(\CheckoutProductChangeQuantityPage::$checkOutFinal);
-	}
+        $I->click(\CheckoutProductChangeQuantityPage::$quantityField);
+        $I->pressKey(\CheckoutProductChangeQuantityPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+        $quantities = 10;
+        $quantity = str_split($quantities);
+        foreach ($quantity as $char) {
+            $I->pressKey(\CheckoutProductChangeQuantityPage::$quantityField, $char);
+        }
+        $I->waitForElement(\CheckoutProductChangeQuantityPage::$updateCartButton, 30);
+        $I->click(\CheckoutProductChangeQuantityPage::$updateCartButton);
+        $I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
+        $I->waitForElement(\CheckoutProductChangeQuantityPage::$termAndConditions, 30);
+        $I->click(\CheckoutProductChangeQuantityPage::$termAndConditions);
+        $I->waitForElement(\CheckoutProductChangeQuantityPage::$checkoutFinalStep, 30);
+        $I->click(\CheckoutProductChangeQuantityPage::$checkoutFinalStep);
+    }
 }
