@@ -490,7 +490,11 @@ class rsCarthelper
 		}
 
 		$cart_data = RedshopHelperCartTag::replaceTax(
-			$cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+			$cart_data,
+			$tax + $shippingVat,
+			$discount_amount + $tmp_discount,
+			0,
+			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
 
 		return $cart_data;
@@ -2130,7 +2134,7 @@ class rsCarthelper
 	{
 		$generateAccessoryCart = array();
 
-		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
+		if (!empty($data['accessory_data']))
 		{
 			$accessoryData    = explode("@@", $data['accessory_data']);
 			$accQuantityData = array();
@@ -2157,7 +2161,7 @@ class rsCarthelper
 
 				$accAttributeCart = array();
 
-				if ($data['acc_attribute_data'] != "" && $data['acc_attribute_data'] != 0)
+				if (!empty($data['acc_attribute_data']))
 				{
 					$acc_attribute_data = explode('@@', $data['acc_attribute_data']);
 
@@ -2173,7 +2177,7 @@ class rsCarthelper
 							$accAttributeCart[$ia]['attribute_id']   = $acc_attribute_data[$ia];
 							$accAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
 
-							if ($attribute[0]->text != "" && $data['acc_property_data'] != "" && $data['acc_property_data'] != 0)
+							if ($attribute[0]->text != "" && !empty($data['acc_property_data']))
 							{
 								$acc_property_data = explode('@@', $data['acc_property_data']);
 								$acc_property_data = explode('##', $acc_property_data[$i]);
@@ -2183,7 +2187,7 @@ class rsCarthelper
 									return array();
 								}
 
-								if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
+								if (!empty($acc_property_data[$ia]))
 								{
 									$acc_property_data = explode(',,', $acc_property_data[$ia]);
 									$countAccessoryProperty = count($acc_property_data);
@@ -2209,14 +2213,14 @@ class rsCarthelper
 										$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
 										$accPropertyCart[$ip]['property_price']  = $property_price;
 
-										if ($data['acc_subproperty_data'] != "" && $data['acc_subproperty_data'] != 0)
+										if (!empty($data['acc_subproperty_data']))
 										{
 											$acc_subproperty_data = explode('@@', $data['acc_subproperty_data']);
 											$acc_subproperty_data = @explode('##', $acc_subproperty_data[$i]);
 											$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);
 
 
-											if (isset($acc_subproperty_data[$ip]) && $acc_subproperty_data[$ip] != "")
+											if (!empty($acc_subproperty_data[$ip]))
 											{
 												$acc_subproperty_data = explode('::', $acc_subproperty_data[$ip]);
 												$countAccessorySubproperty = count($acc_subproperty_data);

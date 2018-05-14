@@ -75,14 +75,14 @@ class RedshopHelperBillingTag
 		{
 			$content = str_replace('{quotation_custom_field_list}', '', $content);
 
-			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+			if (Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE'))
 			{
 				$billingContent .= RedshopHelperExtrafields::listAllField(
 					RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id
 				);
 			}
 		}
-		elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+		elseif (Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE'))
 		{
 			$content = RedshopHelperExtrafields::listAllField(
 				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', $content

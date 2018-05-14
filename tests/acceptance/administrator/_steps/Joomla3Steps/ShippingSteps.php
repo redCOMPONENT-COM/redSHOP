@@ -7,20 +7,30 @@ namespace AcceptanceTester;
 
 use ShippingPage;
 
+/**
+ * Class StateSteps
+ *
+ * @package  AcceptanceTester
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
+ *
+ * @since    1.4
+ */
 class ShippingSteps extends AdminManagerJoomla3Steps
 {
 	/**
-	 * @param       $shippingMethod
-	 * @param array $shipping
-	 * @param       $function
+	 * @param   string $shippingMethod Shipping method
+	 * @param   array  $shipping       Shipping data
+	 * @param   string $function       Function
 	 *
-	 * @throws \Exception
+	 * @return  void
+	 * @throws  \Exception
 	 */
 	public function createShippingRateStandard($shippingMethod, $shipping = array(), $function = 'save')
 	{
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
-		$usePage = new ShippingPage();
+		$usePage = new ShippingPage;
 		$I->waitForElement($usePage->xPathATag($shippingMethod), 30);
 		$I->click($usePage->xPathATag($shippingMethod));
 		$I->waitForElement(ShippingPage::$shippingRate, 30);
@@ -32,10 +42,10 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		{
 			$I->fillField(ShippingPage::$shippingName, $shipping['shippingName']);
 		}
+
 		if (isset($shipping['weightStart']))
 		{
 			$I->fillField(ShippingPage::$weightStart, $shipping['weightStart']);
-
 		}
 
 		if (isset($shipping['weightEnd']))
@@ -46,26 +56,23 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		if (isset($shipping['weightStart']))
 		{
 			$I->fillField(ShippingPage::$weightStart, $shipping['$weightStart']);
-
 		}
 
 		if (isset($shipping['volumeStart']))
 		{
 			$I->fillField(ShippingPage::$volumeStart, $shipping['volumeStart']);
-
 		}
 
 		if (isset($shipping['volumeEnd']))
 		{
 			$I->fillField(ShippingPage::$volumeEnd, $shipping['volumeEnd']);
-
 		}
 
 		if (isset($shipping['shippingRateLenghtStart']))
 		{
 			$I->fillField(ShippingPage::$shippingRateLenghtStart, $shipping['shippingRateLenghtStart']);
-
 		}
+
 		$I->fillField(ShippingPage::$shippingRateValue, $shipping['shippingRate']);
 
 		if (isset($shipping['shippingRateLegnhtEnd']))
@@ -87,22 +94,27 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		{
 			$I->fillField(ShippingPage::$shippingRateHeightEnd, $shipping['shippingRateHeightEnd']);
 		}
+
 		if (isset($shipping['shippingRateHeightStart']))
 		{
 			$I->fillField(ShippingPage::$shippingRateHeightStart, $shipping['shippingRateHeightStart']);
 		}
+
 		if (isset($shipping['orderTotalStart']))
 		{
 			$I->fillField(ShippingPage::$orderTotalStart, $shipping['orderTotalStart']);
 		}
+
 		if (isset($shipping['orderTotalEnd ']))
 		{
 			$I->fillField(ShippingPage::$orderTotalEnd, $shipping['orderTotalEnd ']);
 		}
+
 		if (isset($shipping['zipCodeStart']))
 		{
 			$I->fillField(ShippingPage::$zipCodeStart, $shipping['zipCodeStart']);
 		}
+
 		if (isset($shipping['zipCodeEnd']))
 		{
 			$I->fillField(ShippingPage::$zipCodeEnd, $shipping['zipCodeEnd']);
@@ -164,14 +176,15 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
 				break;
+
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
 				$I->seeLink($shipping['shippingName']);
 				break;
+
 			default:
 				break;
 		}
-
 	}
 
 	public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
@@ -193,6 +206,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 				$I->click(ShippingPage::$buttonSave);
 				$I->seeInField(ShippingPage::$shippingName, $shippingNameEdit);
 				break;
+
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
 				$I->seeLink($shippingNameEdit);

@@ -28,9 +28,9 @@ class ProductVatCheckoutCest
 	public function __construct()
 	{
 		$this->faker                = Faker\Factory::create();
-		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
+		$this->taxRateName          = $this->faker->bothify('Testing Tax Rates Groups ?###?');
 		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
-		$this->taxGroupName         = $this->faker->bothify(' ?###? TaxGroupsNam');
+		$this->taxGroupName         = $this->faker->bothify('TaxGroupsName ?###?');
 		$this->taxRateValue         = 0.1;
 		$this->countryName          = 'Denmark';
 		$this->taxRateValueNegative = -1;
@@ -40,8 +40,7 @@ class ProductVatCheckoutCest
 		$this->randomProductNumber  = $this->faker->bothify('productNumber ?###?');
 		$this->randomProductPrice   = 100;
 
-
-		// vat setting
+		// Vat setting
 		$this->vatCalculation  = 'Webshop';
 		$this->vatAfter        = 'after';
 		$this->vatNumber       = 0;
@@ -70,15 +69,13 @@ class ProductVatCheckoutCest
 	}
 
 	/**
-	 * @param $scenario
-	 *
 	 * Method delete data at database
 	 *
+	 * @return  void
 	 */
-	public function deleteData($scenario)
+	public function deleteData()
 	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
+		(new RedshopSteps)->clearAllData();
 	}
 
 	public function _before(AcceptanceTester $I)
@@ -89,14 +86,14 @@ class ProductVatCheckoutCest
 	/**
 	 * Create VAT Group with
 	 *
-	 * @param   AcceptanceTester $client   Current user state.
-	 * @param   Scenario         $scenario Scenario for test.
+	 * @param   AcceptanceTester      $client   Current user state.
+	 * @param   \Codeception\Scenario $scenario Scenario for test.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
-
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
@@ -112,48 +109,56 @@ class ProductVatCheckoutCest
 		$client->wantTo('Create new product');
 		$client = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$client->wantTo('I Want to add product inside the category');
-		$client->createProductWithVATGroups($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName);
+		$client->createProductWithVATGroups(
+			$this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName
+		);
 
 		$client->wantTo('Configuration for apply VAT');
 		$client = new ConfigurationSteps($scenario);
-		$client->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
-
+		$client->setupVAT(
+			$this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber,
+			$this->calculationBase, $this->requiVAT
+		);
 
 		$client->wantTo('Create user for checkout');
 		$client = new UserManagerJoomla3Steps($scenario);
-		$client->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
+		$client->addUser(
+			$this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName
+		);
+
 		$client = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$client->testProductWithVatCheckout($this->userName, $this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total);
+		$client->testProductWithVatCheckout(
+			$this->userName, $this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total
+		);
 	}
 
 	/**
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
 	 * Method clear all data
 	 *
+	 * @param   AcceptanceTester      $tester   Tester
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 * @throws  Exception
 	 */
-	public function clearUp(AcceptanceTester $I, $scenario)
+	public function clearUp(AcceptanceTester $tester, $scenario)
 	{
-		$I->wantTo('Delete product');
-		$I = new \AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->productName);
+		$tester->wantTo('Delete product');
+		(new \AcceptanceTester\ProductManagerJoomla3Steps($scenario))->deleteProduct($this->productName);
 
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->categoryName);
+		$tester->wantTo('Delete Category');
+		(new CategoryManagerJoomla3Steps($scenario))->deleteCategory($this->categoryName);
 
-		$I->wantTo('Delete tax value');
-		$client = new TaxRateSteps($scenario);
-		$client->deleteTAXRatesOK($this->taxRateName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$tester->wantTo('Delete tax value');
+		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 
-		$I->wantTo('Delete user');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
+		$tester->wantTo('Delete tax group');
+		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
 
-		$I->wantTo('Test Order delete by user  in Administrator');
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder($this->firstName);
+		$tester->wantTo('Delete user');
+		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->firstName);
+
+		$tester->wantTo('Test Order delete by user  in Administrator');
+		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
 	}
 }

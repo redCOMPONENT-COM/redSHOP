@@ -81,6 +81,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 	 * @param   boolean  $force   Force create image.
 	 *
 	 * @return  array             List of relative and absolute path
+	 * @throws  Exception
 	 *
 	 * @since   2.1.0
 	 */
@@ -119,7 +120,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 				. '/' . $this->get('section_id') . '/thumb/' . $destinationFile
 		);
 
-		if (JFile::exists($result['rel']) && $force === false)
+		if ($force === false && JFile::exists($result['rel']))
 		{
 			return $result;
 		}
@@ -137,19 +138,14 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
 
 		$thumbnail->save($result['rel']);
 
-		unset($thumbnail);
-		unset($image);
-		unset($imagine);
+		unset($thumbnail, $image, $imagine);
 
 		$factory   = new OptimizerFactory;
 		$optimizer = $factory->get();
 		$optimizer->optimize($result['rel']);
 
 		// Memory limit back to normal
-		if ($originalMemoryLimit != '-1')
-		{
-			ini_set('memory_limit', $originalMemoryLimit);
-		}
+		ini_set('memory_limit', $originalMemoryLimit);
 
 		return $result;
 	}

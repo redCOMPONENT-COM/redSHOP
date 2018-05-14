@@ -236,8 +236,7 @@ class RedshopMenu
 			$item->param   = $param;
 			$item->icon    = $icon;
 			$item->disable = in_array($title, $this->menuHide);
-
-			array_push($this->items, $item);
+			$this->items[] = $item;
 		}
 
 		return $this;
