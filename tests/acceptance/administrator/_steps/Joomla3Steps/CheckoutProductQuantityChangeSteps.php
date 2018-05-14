@@ -26,7 +26,8 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutProductChangeQuantityPage::$categoryTitle, 30);
 		$I->click($category);
 		$I->click(\CheckoutProductChangeQuantityPage::$AddToCart);
-		$I->click(\CheckoutProductChangeQuantityPage::$MyCart);
+//		$I->click(\CheckoutProductChangeQuantityPage::$cartPageUrL);
+        $I->amOnPage(\CheckoutProductChangeQuantityPage::$cartPageUrL);
 		$I->click(\CheckoutProductChangeQuantityPage::$quantityField);
 		$I->pressKey(\CheckoutProductChangeQuantityPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		$quantities = 10;

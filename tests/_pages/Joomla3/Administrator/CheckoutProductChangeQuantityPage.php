@@ -16,7 +16,15 @@
 class CheckoutProductChangeQuantityPage extends AdminJ3Page
 {
     //Frontend
+    /**
+     * @var string
+     */
     public static $URL = '/index.php?option=com_redshop';
+
+    /**
+     * @var string
+     */
+    public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
 
     /**
      * @var string
@@ -47,11 +55,6 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
      * @var array
      */
     public static $AddToCart = ['class' => 'pdaddtocart_link'];
-
-    /**
-     * @var string
-     */
-    public static $MyCart = 'My Cart';
 
     /**
      * @var array
