@@ -23,7 +23,7 @@ class Field_GroupPage extends AdminJ3Page
     /**
      * @var array
      */
-	public static $applyFieldGroup = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('field_group.apply')\"]"];
+	public static $applyFieldGroup = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('field_group.apply');)\"]"];
 
 	/**
 	 * @var string
@@ -34,4 +34,9 @@ class Field_GroupPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $missingName = 'Field required: Name';
+
+	/**
+	 * @var array
+	 */
+	public static $descriptionField = ['name' => 'jform[description]'];
 }
