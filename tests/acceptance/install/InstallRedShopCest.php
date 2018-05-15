@@ -55,9 +55,10 @@ class InstallRedShopCest
         $I->wantToTest($path);
         $I->comment($path);
 
-        $I->fillField(['id' => 'install_url'], $path);
-        $I->click(['id' => 'installbutton_url']);
-        $I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
+        $I->installExtensionFromUrl($path, $type = 'Extension');
+//        $I->fillField(['id' => 'install_url'], $path);
+//        $I->click(['id' => 'installbutton_url']);
+//        $I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
 
         $I->wantTo('install demo data');
         $I->waitForElement(['id' => 'btn-demo-content'], 30);
