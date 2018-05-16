@@ -22,7 +22,7 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
     public function goOnFrontEnd($category)
     {
         $I = $this;
-        $I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
+        $I->amOnPage(\CheckoutProductChangeQuantityPage::$url);
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$categoryTitle, 30);
         $I->click($category);
         $I->click(\CheckoutProductChangeQuantityPage::$addToCart);
@@ -41,5 +41,15 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
         $I->click(\CheckoutProductChangeQuantityPage::$termAndConditions);
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$checkoutFinalStep, 30);
         $I->click(\CheckoutProductChangeQuantityPage::$checkoutFinalStep);
+    }
+
+    public function configChangeQuantityProduct()
+    {
+        $I = $this;
+        $I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
+        $I->click(\CheckoutProductChangeQuantityPage::$Cart);
+        $I->waitForElement(\CheckoutProductChangeQuantityPage::$changeQuantityButton, 30);
+        $I->click(\CheckoutProductChangeQuantityPage::$changeQuantityButton);
+        $I-> click(\CheckoutProductChangeQuantityPage::$buttonSave);
     }
 }

@@ -15,11 +15,20 @@
  */
 class CheckoutProductChangeQuantityPage extends AdminJ3Page
 {
-    //Frontend
     /**
      * @var string
      */
-    public static $URL = '/index.php?option=com_redshop';
+    public static $URL = "/administrator/index.php?option=com_redshop&view=configuration";
+
+    /**
+     * @var string
+     */
+    public static $Cart = 'Cart / Checkout';
+
+    /**
+     * @var array
+     */
+    public static $changeQuantityButton = ['id' => 'quantity_text_display1-lbl'];
 
     /**
      * @var string
@@ -60,14 +69,4 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
      * @var array
      */
     public static $updateCartButton = ['xpath' => "//img[@onclick=\"document.update_cart0.task.value='update';document.update_cart0.submit();\"]"];
-
-    /**
-     * @var array
-     */
-//    public static $acceptTermCheckbox = ['id' => 'termscondition'];
-
-    /**
-     * @var array
-     */
-//    public static $checkOutFinal = ['id' => 'checkoutfinal'];
 }
