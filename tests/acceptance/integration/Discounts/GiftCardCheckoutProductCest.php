@@ -47,7 +47,7 @@ class GiftCardCheckoutProductCest
 		$this->noPage       = $this->faker->randomNumber();
 
 		//create product
-		$this->productName         = 'Testing Products' . rand(99, 999);
+		$this->productName         = 'Testing ProductManagement' . rand(99, 999);
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = '24';
 		$this->minimumPerProduct   = '1';

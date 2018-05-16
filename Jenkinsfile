@@ -57,7 +57,7 @@ stages {
 				SLACK_CHANNEL='#redshop-builds'
 		}
 		parallel {
-			stage('administrator') {
+			stage('Communications') {
 				agent {
 					docker {
 							image 'jatitoam/docker-systemtests'
@@ -66,7 +66,7 @@ stages {
 				}
 				steps {
 					script {
-						env.STAGE = 'administrator'
+						env.STAGE = 'Communications'
 					}
 					unstash 'chromeD'
 					unstash 'redshop'
@@ -74,7 +74,49 @@ stages {
 					unstash 'joomla-cms'
 					unstash 'database-dump'
 					retry(1) {
-						sh "build/system-tests.sh tests/acceptance/administrator"
+						sh "build/system-tests.sh tests/acceptance/administrator/Communications"
+					}
+				}
+			}
+			stage('Configuration') {
+				agent {
+					docker {
+							image 'jatitoam/docker-systemtests'
+							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+					}
+				}
+				steps {
+					script {
+						env.STAGE = 'Configuration'
+					}
+					unstash 'chromeD'
+					unstash 'redshop'
+					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
+					retry(1) {
+						sh "build/system-tests.sh tests/acceptance/administrator/Configuration"
+					}
+				}
+			}
+			stage('Customizations') {
+				agent {
+					docker {
+							image 'jatitoam/docker-systemtests'
+							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+					}
+				}
+				steps {
+					script {
+						env.STAGE = 'Customizations'
+					}
+					unstash 'chromeD'
+					unstash 'redshop'
+					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
+					retry(1) {
+						sh "build/system-tests.sh tests/acceptance/administrator/Customizations"
 					}
 				}
 			}
@@ -95,7 +137,7 @@ stages {
 					unstash 'joomla-cms'
 					unstash 'database-dump'
 					retry(1) {
-						sh "build/system-tests.sh tests/acceptance/integration"
+						sh "build/system-tests.sh tests/acceptance/integration/Discounts"
 					}
 				}
 			}

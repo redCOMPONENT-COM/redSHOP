@@ -101,7 +101,7 @@ class AttributeUserCest
 
 		$this->category        = $this->faker->bothify('Category Attribute ??####?');
 		$this->noPage          = $this->faker->randomNumber();
-		$this->productName     = $this->faker->bothify('Testing Products ??####?');
+		$this->productName     = $this->faker->bothify('Testing ProductManagement ??####?');
 		$this->productNumber   = $this->faker->numberBetween(999, 9999);
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);

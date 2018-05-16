@@ -15,6 +15,31 @@
  */
 abstract class AdminJ3Page
 {
+    /**
+     * @var string
+     */
+    public static $installURL = '/administrator/index.php?option=com_installer';
+
+    /**
+     * @var array
+     */
+    public static $link = ['link' => 'Install from URL'];
+
+    /*
+     *
+     */
+    public static $urlID = ['id' => 'install_url'];
+
+    /**
+     * @var array
+     */
+    public static $installButton = ['id' => 'installbutton_url'];
+
+    /**
+     * @var array
+     */
+    public static $installDemoContent = ['id' => 'btn-demo-content'];
+
 	/**
 	 * @var array
 	 */
@@ -64,6 +89,16 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $messageCheckInSuccess = 'successfully checked in';
+
+    /**
+     * @var string
+     */
+	public static $messageInstallSuccess = 'installed successfully';
+
+    /**
+     * @var string
+     */
+	public static $messageDemoContentSuccess = 'Data Installed Successfully';
 
 	/**
 	 * @var array
@@ -156,6 +191,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $selectorToolBar = '.btn-toolbar';
+
+    /**
+     * @var array
+     */
+	public static $selector =  ['id' => '.system-message-container'];
 
 	/**
 	 * @var string
