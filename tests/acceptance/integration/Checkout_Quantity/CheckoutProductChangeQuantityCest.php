@@ -79,6 +79,9 @@ class CheckoutProductChangeQuantityCest
         $I = new CheckoutProductQuantityChangeSteps($scenario);
         $I->goOnFrontEnd($this->categoryName);
 
+        $I->wantTo('I want to login Site page with user just create');
+        $I->doFrontendLogout();
+
         $I->wantTo('Delete product');
         $I = new ProductManagerJoomla3Steps($scenario);
         $I->deleteProduct($this->productName);
