@@ -200,10 +200,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\GiftCardManagerPage::$buttonEdit);
         $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-        $I->click(\GiftCardManagerPage::$buttonSaveClose);
+        $I->click(\GiftCardManagerPage::$buttonSave);
         $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
-        $I->filterListBySearching($newCardName);
-        $I->seeElement(['link' => $newCardName]);
+        $I->seeInField(\GiftCardManagerPage::$giftCardName, $newCardName);
     }
 
     /**

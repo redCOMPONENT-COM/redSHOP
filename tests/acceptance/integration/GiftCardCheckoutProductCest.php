@@ -102,6 +102,9 @@ class GiftCardCheckoutProductCest
 		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
 		$I->wait(3);
+		$path = $I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
+		$I->comment( 'The path of payment');
+		$I->wantTo($path);
 		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->wait(5);
 		$I->enablePlugin('PayPal');
