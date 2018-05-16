@@ -37,6 +37,9 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$updateCartButton, 30);
         $I->click(\CheckoutProductChangeQuantityPage::$updateCartButton);
         $I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
+        $I->waitForElement(\CheckoutProductChangeQuantityPage::$bankTransfer);
+        $I->click(\CheckoutProductChangeQuantityPage::$bankTransfer);
+        $I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$termAndConditions, 30);
         $I->click(\CheckoutProductChangeQuantityPage::$termAndConditions);
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$checkoutFinalStep, 30);
@@ -48,11 +51,9 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
         $I->click(\CheckoutProductChangeQuantityPage::$Cart);
-        $I->waitForElement(\CheckoutProductChangeQuantityPage::$enableOnPage, 30);
-        $I->click(\CheckoutProductChangeQuantityPage::$enableOnPage);
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$enableQuantity, 30);
         $I->click(\CheckoutProductChangeQuantityPage::$enableQuantity);
-        $I-> click(\CheckoutProductChangeQuantityPage::$buttonSave);
+        $I->click(\CheckoutProductChangeQuantityPage::$buttonSave);
     }
 
     public function returnConfig()
@@ -60,10 +61,8 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
         $I->click(\CheckoutProductChangeQuantityPage::$Cart);
-        $I->waitForElement(\CheckoutProductChangeQuantityPage::$disableOnPage, 30);
-        $I->click(\CheckoutProductChangeQuantityPage::$disableOnPage);
         $I->waitForElement(\CheckoutProductChangeQuantityPage::$disableQuantity, 30);
         $I->click(\CheckoutProductChangeQuantityPage::$disableQuantity);
-        $I-> click(\CheckoutProductChangeQuantityPage::$buttonSave);
+        $I->click(\CheckoutProductChangeQuantityPage::$buttonSave);
     }
 }

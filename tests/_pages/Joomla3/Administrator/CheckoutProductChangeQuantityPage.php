@@ -26,49 +26,14 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
     public static $Cart = 'Cart / Checkout';
 
     /**
-    * @var array
-    */
-    public static $disableOnPage = ['id' => 'onestep_checkout_enable0-lbl'];
-
-    /**
      * @var array
      */
-    public static $enableOnPage = ['id' => 'onestep_checkout_enable1-lbl'];
-
-    /**
-    * @var array
-    */
     public static $disableQuantity = ['id' => 'quantity_text_display0-lbl'];
 
     /**
      * @var array
      */
     public static $enableQuantity = ['id' => 'quantity_text_display1-lbl'];
-
-    /**
-     * @var string
-     */
-    public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
-
-    /**
-     * @var string
-     */
-    public static $Home = 'Home';
-
-    /**
-     * @var string
-     */
-    public static $Product = 'Product';
-
-    /**
-     * @var array
-     */
-    public static $ProductTitle = ['class' => 'category_main_title'];
-
-    /**
-     * @var array
-     */
-    public static $pageCategoryFrontend = ['class' => 'redshopcomponent'];
 
     /**
      * @var array
