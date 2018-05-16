@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @package     RedShop
- * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
 namespace AcceptanceTester;
 
@@ -18,16 +12,21 @@ namespace AcceptanceTester;
  *
  * @since    2.1
  */
-class CheckoutDiscountVoucherCouponSteps
+class CheckoutDiscountVoucherCouponSteps extends AdminManagerJoomla3Steps
 {
     public function selectConditionDiscount()
     {
-
+        $I = $this;
+        $I->amOnPage(\CheckoutDiscountVoucherCouponPage::$URL);
+        $I->click(\CheckoutDiscountVoucherCouponPage::$Price);
+        $I->click(\CheckoutDiscountVoucherCouponPage::$enableYes);
+        $I->pauseExecution();
+        $I->click(\CheckoutDiscountVoucherCouponPage::$searchField);
+        $I->pauseExecution();
+        $I->click(\CheckoutDiscountVoucherCouponPage::$inputField);
+        $I->pauseExecution();
+        $I->click(\CheckoutDiscountVoucherCouponPage::$ConditionID);
     }
-
-
-
-
 
     public function CheckoutWithMassDiscount()
     {

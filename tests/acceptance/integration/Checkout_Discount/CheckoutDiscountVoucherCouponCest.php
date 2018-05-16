@@ -17,8 +17,14 @@ class CheckoutDiscountVoucherCouponCest
         $I->doAdministratorLogin();
     }
 
-    public function CheckoutWithMassDiscount()
+    public function CheckoutWithMassDiscount(AcceptanceTester $I, $scenario)
     {
+        $I->wantTo('I want to select condition discount');
+        $I = new CheckoutDiscountVoucherCouponSteps($scenario);
+        $I->selectConditionDiscount();
 
+//        $I->wantTo('I want to checkout product with price discount 10% of mass discount');
+//        $I = new CheckoutDiscountVoucherCouponSteps($scenario);
+//        $I->CheckoutWithMassDiscount();
     }
 }
