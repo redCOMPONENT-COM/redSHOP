@@ -21,13 +21,8 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, $toDay);
 		$I->fillField(\MassDiscountManagerPage::$fieldEndDate, $toDay);
+		$I->click(\MassDiscountManagerPage::$saveButton);
 
-
-////        $I->click(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li"]);
-////        $I->fillField(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li//input"], $nameManufacture);
-////        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-////        $I->click(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-//
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();
