@@ -15,7 +15,7 @@ class PriceProductCest
     public function __construct()
     {
         $this->randomCategoryName = 'TestingCategory' . rand(99, 999);
-        $this->randomProductName = 'Testing Products' . rand(99, 999);
+        $this->randomProductName = 'Testing ProductManagement' . rand(99, 999);
         $this->randomProductNumber = rand(999, 9999);
         $this->randomProductPrice = rand(11, 100);
         $this->randomPriceDiscount = rand(5, 10);

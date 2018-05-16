@@ -59,7 +59,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
-                $I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+                $I->see($firstName);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
                 break;

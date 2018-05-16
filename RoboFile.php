@@ -20,40 +20,43 @@ class RoboFile extends \Robo\Tasks
 	// Load tasks from composer, see composer.json
 	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-	/**
-	 * Downloads and prepares a Joomla CMS site for testing
-	 *
-	 * @param   int $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
-	 *
-	 * @return mixed
-	 */
-	public function prepareSiteForSystemTests($use_htaccess = 1)
-	{
-		// Get Joomla Clean Testing sites
-		if (is_dir('tests/joomla-cms'))
-		{
-			$this->taskDeleteDir('tests/joomla-cms')->run();
-		}
+    // Load tasks from composer, see composer.json
+    use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-		$version = 'staging';
+    /**
+     * Downloads and prepares a Joomla CMS site for testing
+     *
+     * @param   int  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+     *
+     * @return mixed
+     */
+    public function prepareSiteForSystemTests($use_htaccess = 1)
+    {
+        // Get Joomla Clean Testing sites
+        if (is_dir('tests/joomla-cms'))
+        {
+            $this->taskDeleteDir('tests/joomla-cms')->run();
+        }
 
-		/*
-		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
-		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
-		 */
-		$version = '3.8.7';
+        $version = 'staging';
 
-		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
+        /*
+         * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+         * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+         */
+        $version = '3.8.7';
 
-		$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+        $this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 
-		// Optionally uses Joomla default htaccess file
-		if ($use_htaccess == 1)
-		{
-			$this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
-		}
-	}
+        $this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+
+        // Optionally uses Joomla default htaccess file
+        if ($use_htaccess == 1)
+        {
+            $this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
+            $this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
+        }
+    }
 	/**
 	 * Clone joomla
 	 */
@@ -73,7 +76,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('./acceptance/install/')
+			->arg('tests/acceptance/install/')
 			->run()
 			->stopOnFail();
 	}
@@ -130,36 +133,31 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @since   5.1
 	 */
-	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
+	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL)
 	{
 		$errorSelenium = true;
 		$reportError = false;
-		$reportFile = 'selenium.log';
+		$reportFile = 'tests/selenium.log';
 		$errorLog = 'Selenium log:' . chr(10). chr(10);
 
 		// Loop through Codeception snapshots
-		if (file_exists('_output') && $handler = opendir('_output'))
+		if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
 		{
-
-
-			$reportFile = '_output/report.tap.log';
+			$reportFile = 'tests/_output/report.tap.log';
 			$errorLog = 'Codeception tap log:' . chr(10). chr(10);
 			$errorSelenium = false;
-			$this->_exec($reportFile);
 		}
 
 		if (file_exists($reportFile))
 		{
-
 			if ($reportFile)
 			{
 				$errorLog .= file_get_contents($reportFile, null, null, 15);
-				$this->_exec('curl'.$errorLog) ;
 			}
 
 			if (!$errorSelenium)
 			{
-				$handler = opendir('_output');
+				$handler = opendir('tests/_output');
 				$errorImage = '';
 
 				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
@@ -171,28 +169,11 @@ class RoboFile extends \Robo\Tasks
 					}
 
 					$reportError = true;
-
-					Cloudinary::config(
-						array(
-							'cloud_name' => $cloudinaryName,
-							'api_key'    => $cloudinaryApiKey,
-							'api_secret' => $cloudinaryApiSecret
-						)
-					);
-
-
-
-					$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/_output/' . $errorSnapshot));
-
-					$this->say($errorSnapshot . 'Image sent');
-
-					$errorLog .= '![Screenshot](' . $result['secure_url'] . ')';
-
-					$this->_exec('curl'.$errorLog) ;
-
+					$errorImage = __DIR__ . '/tests/_output/' . $errorSnapshot;
 				}
 			}
 
+			echo $errorImage;
 
 			if ($reportError || $errorSelenium)
 			{
@@ -210,7 +191,7 @@ class RoboFile extends \Robo\Tasks
 
 				if (!empty($errorImage))
 				{
-					$reportingTask->setImagesToUpload($errorLog)
+					$reportingTask->setImagesToUpload($errorImage)
 						->publishCloudinaryImages();
 				}
 
@@ -220,112 +201,4 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 	}
-
-	/**
-	 * Sends the build report error back to Slack
-	 *
-	 * @param   string  $cloudinaryName       Cloudinary cloud name
-	 * @param   string  $cloudinaryApiKey     Cloudinary API key
-	 * @param   string  $cloudinaryApiSecret  Cloudinary API secret
-	 * @param   string  $githubRepository     GitHub repository (owner/repo)
-	 * @param   string  $githubPRNo           GitHub PR #
-	 * @param   string  $slackWebhook         Slack Webhook URL
-	 * @param   string  $slackChannel         Slack channel
-	 * @param   string  $buildURL             Build URL
-	 *
-	 * @return  void
-	 *
-	 * @since   5.1
-	 */
-	public function sendSystemBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
-	{
-		$errorSelenium = true;
-		$reportError = false;
-		$reportFile = 'selenium.log';
-		$errorLog = 'Selenium log:' . chr(10). chr(10);
-
-		// Loop through Codeception snapshots
-		if (file_exists('_output') && $handler = opendir('_output'))
-		{
-
-
-			$reportFile = '_output';
-			$errorLog = 'Codeception tap log:' . chr(10). chr(10);
-			$errorSelenium = false;
-			$this->_exec($reportFile);
-		}
-
-		if (file_exists($reportFile))
-		{
-
-			if ($reportFile)
-			{
-				$errorLog .= file_get_contents($reportFile, null, null, 15);
-				$this->_exec('curl'.$errorLog) ;
-			}
-
-			if (!$errorSelenium)
-			{
-				$handler = opendir('_output');
-				$errorImage = '';
-
-				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
-				{
-					// Avoid sending system files or html files
-					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
-					{
-						continue;
-					}
-
-					$reportError = true;
-
-					Cloudinary::config(
-						array(
-							'cloud_name' => $cloudinaryName,
-							'api_key'    => $cloudinaryApiKey,
-							'api_secret' => $cloudinaryApiSecret
-						)
-					);
-
-
-
-					$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/_output/' . $errorSnapshot));
-
-					$this->say($errorSnapshot . 'Image sent');
-
-					$errorLog .= '![Screenshot](' . $result['secure_url'] . ')';
-
-					$this->_exec('curl'.$errorLog) ;
-
-				}
-			}
-
-
-			if ($reportError || $errorSelenium)
-			{
-				// Sends the error report to Slack
-				$reportingTask = $this->taskReporting()
-					->setCloudinaryCloudName($cloudinaryName)
-					->setCloudinaryApiKey($cloudinaryApiKey)
-					->setCloudinaryApiSecret($cloudinaryApiSecret)
-					->setGithubRepo($githubRepository)
-					->setGithubPR($githubPRNo)
-					->setBuildURL($buildURL . 'display/redirect')
-					->setSlackWebhook($slackWebhook)
-					->setSlackChannel($slackChannel)
-					->setTapLog($errorLog);
-
-				if (!empty($errorImage))
-				{
-					$reportingTask->setImagesToUpload($errorLog)
-						->publishCloudinaryImages();
-				}
-
-				$reportingTask->publishBuildReportToSlack()
-					->run()
-					->stopOnFail();
-			}
-		}
-	}
-
 }

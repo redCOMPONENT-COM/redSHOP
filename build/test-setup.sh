@@ -11,6 +11,7 @@ composer install --prefer-dist > output.log 2>&1
 vendor/bin/codecept --version
 
 vendor/bin/robo prepare:site-for-system-tests 1
+
 wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
 ln -s /usr/bin/nodejs /usr/bin/node
 cd /tests/www
@@ -37,14 +38,15 @@ composer install --prefer-dist
 
 cd /tests/www
 cd tests
-mkdir releases-redshop
+mkdir releases
 
-mv gulp-config.sample.json gulp-config.json
+cd $WORKSPACE
+mv gulp-config.json.jenkins.dist gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
-cp /tests/www/tests/releases-redshop/redshop.zip .
+cp /tests/www/tests/releases/redshop.zip .
 
-vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
+#vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
 
 rm -rf /tmp/.org.chromium.Chromium*
 
@@ -75,19 +77,20 @@ vendor/bin/robo run:test-setup-jenkins
 
 if [ $? -eq 0 ]
 then
-	echo "Tests Run were sucessful"
-	rm -r _output/
-	mysqldump --host=db-$BUILD_TAG -uroot -proot redshopSetupDb > backup.sql
-	zip --symlinks -r joomla-cms-database.zip backup.sql > output.log 2>&1
-	mv joomla-cms-database.zip ..
-	zip --symlinks -r joomla-cms.zip joomla-cms > output.log 2>&1
-	mv *joomla-cms.zip* ..
-	cd ..
+  echo "Tests Runs were successful"
+  rm -r tests/_output/
+  mysqldump --host=db-$BUILD_TAG -uroot -proot redshopSetupDb > backup.sql
+  zip --symlinks -r joomla-cms-database.zip backup.sql > output.log 2>&1
+  cd tests
+  ls
+  zip --symlinks -r joomla-cms.zip joomla-cms > output.log 2>&1
+  mv *joomla-cms.zip* ..
+  cd ../
   exit 0
 else
 	echo "Tests Runs Failed" >&2
 	#send screenshot of failed test to Slack
-	vendor/bin/robo send:build-report-error-slack $CLOUDINARY_CLOUD_NAME $CLOUDINARY_API_KEY $CLOUDINARY_API_SECRET $GITHUB_REPO $CHANGE_ID "$SLACK_WEBHOOK" "$SLACK_CHANNEL" "$BUILD_URL"
+	vendor/bin/robo send:build-report-error-slack $CLOUDINARY_CLOUD_NAME $CLOUDINARY_API_KEY $CLOUDINARY_API_SECRET $GITHUB_REPO $CHANGE_ID $SLACK_WEBHOOK $SLACK_CHANNEL $BUILD_URL
 	rm -r _output/
 	cd ../
 	exit 1
