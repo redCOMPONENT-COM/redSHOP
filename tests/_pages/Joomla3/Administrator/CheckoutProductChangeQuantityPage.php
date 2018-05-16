@@ -26,9 +26,24 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
     public static $Cart = 'Cart / Checkout';
 
     /**
+    * @var array
+    */
+    public static $disableOnPage = ['id' => 'onestep_checkout_enable0-lbl'];
+
+    /**
      * @var array
      */
-    public static $changeQuantityButton = ['id' => 'quantity_text_display1-lbl'];
+    public static $enableOnPage = ['id' => 'onestep_checkout_enable1-lbl'];
+
+    /**
+    * @var array
+    */
+    public static $disableQuantity = ['id' => 'quantity_text_display0-lbl'];
+
+    /**
+     * @var array
+     */
+    public static $enableQuantity = ['id' => 'quantity_text_display1-lbl'];
 
     /**
      * @var string

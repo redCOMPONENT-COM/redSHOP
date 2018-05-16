@@ -82,5 +82,9 @@ class CheckoutProductChangeQuantityCest
         $I->wantTo('Delete Category');
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->deleteCategory($this->categoryName);
+
+        $I->wantTo('Return Configuration in Administrator page');
+        $I = new CheckoutProductQuantityChangeSteps($scenario);
+        $I->returnConfig();
 	}
 }
