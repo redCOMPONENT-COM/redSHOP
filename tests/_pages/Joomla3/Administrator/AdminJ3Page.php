@@ -195,7 +195,7 @@ abstract class AdminJ3Page
     /**
      * @var array
      */
-	public static $selector =  ['id' => '.system-message-container'];
+	public static $idInstallSuccess =  ['id' => 'system-message-container'];
 
 	/**
 	 * @var string
