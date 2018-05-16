@@ -48,11 +48,11 @@ class InstallRedShopCest
         $I->wantTo('I Install redSHOP');
         $I = new AdminManagerJoomla3Steps($scenario);
         $I->installComponent('redshop packages url', 'redshop.zip');
-        $I->waitForText(\AdminJ3Page::$messageInstallSuccess, 120, \AdminJ3Page::$idInstallSuccess);
+        $I->waitForText(\AdminJ3Page::$messageInstallSuccess, '160', \AdminJ3Page::$idInstallSuccess);
 
         $I->wantTo('install demo data');
         $I->waitForElement(\AdminJ3Page::$installDemoContent, 30);
         $I->click(\AdminJ3Page::$installDemoContent);
-        $I->waitForText(\AdminJ3Page::$messageDemoContentSuccess, 10, \AdminJ3Page::$selector);
+        $I->waitForText(\AdminJ3Page::$messageDemoContentSuccess, 10, \AdminJ3Page::$idInstallSuccess);
 	}
 }
