@@ -42,7 +42,7 @@ class OrderCest
 		// Create product and category
 		$this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
 		$this->ramdoCategoryNameAssign      = 'CategoryAssign' . rand(99, 999);
-		$this->randomProductName            = 'Testing Products' . rand(99, 999);
+		$this->randomProductName            = 'Testing ProductManagement' . rand(99, 999);
 		$this->minimumPerProduct            = 2;
 		$this->minimumQuantity              = 3;
 		$this->maximumQuantity              = 5;

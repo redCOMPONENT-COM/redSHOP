@@ -19,7 +19,7 @@ class CheckoutWithStockroomCest
 		$this->randomCategoryName = $this->faker->bothify('TestingCategory ?##');
 
 		//create product
-		$this->productName     = 'Testing Products' . rand(99, 999);
+		$this->productName     = 'Testing ProductManagement' . rand(99, 999);
 		$this->productNumber   = rand(999, 9999);
 		$this->productPrice    = 24;
 		$this->quantityInStock = 1;
