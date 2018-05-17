@@ -706,8 +706,18 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                             <td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat; ?></td>
                                                             <td width="10%"><?php echo $productHelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
                                                             <td width="5%">
-                                                                <input type="number" min="1" name="quantity" id="quantity" class="col-sm-12"
-                                                                       value="<?php echo $quantity; ?>" size="3">
+                                                                <input
+                                                                        type="number"
+		                                                            <?php if (!Redshop::getConfig()->getBool('IS_PRODUCT_RESERVE')): ?>
+                                                                        min="1"
+		                                                            <?php endif; ?>
+                                                                        name="quantity"
+                                                                        id="quantity"
+                                                                        class="col-sm-12"
+                                                                        value="<?php echo $quantity ?>"
+                                                                        size="3"
+                                                                />
+
                                                             </td>
                                                             <td align="right" width="10%">
                                                                 <?php
@@ -1297,10 +1307,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
     function validateProductQuantity(form) {
         var itemPrice = jQuery("input[name=quantity]").val();
 
+        <?php if (!Redshop::getConfig()->getBool('IS_PRODUCT_RESERVE')): ?>
         if (itemPrice < 1) {
-            alert('<?php echo JText::_("COM_REDSHOP_ORDER_ITEM_QUANTITY_ATLEAST_ONE") ?>');
+            alert('<?php echo JText::_('COM_REDSHOP_ORDER_ITEM_QUANTITY_ATLEAST_ONE') ?>');
             return false;
         }
+        <?php endif; ?>
 
         jQuery(form).submit();
     }
