@@ -59,9 +59,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->click($templateName);
 		$client->waitForElement(\TemplatePage::$fieldName, 30);
 		$client->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
-		$client->click(\TemplatePage::$buttonSaveClose);
+		$client->click(\TemplatePage::$buttonSave);
 		$client->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
-		$client->see(\TemplatePage::$messageItemSaveSuccess, \TemplatePage::$selectorSuccess);
 	}
 
 	/**
