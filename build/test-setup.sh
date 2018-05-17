@@ -48,6 +48,7 @@ apt-get install zip
 cp /tests/www/tests/releases/redshop.zip .
 zip -r /tests/www/tests/releases/plugins.zip /tests/www/tests/releases/plugins
 cp /tests/www/tests/releases/plugins.zip .
+ls
 
 #vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
 
