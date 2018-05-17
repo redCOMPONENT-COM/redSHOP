@@ -44,13 +44,13 @@ cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
+cd tests
 ls
-cp /tests/www/tests/releases/redshop.zip .
-cd /tests/ww/tests/releases
 apt-get install zip
-sudo zip -r plugins.zip plugins
+zip -r plugins.zip plugins
+cd ..
+cp /tests/www/tests/releases/redshop.zip .
 cp /tests/www/tests/releases/plugins.zip .
-cd ../ ../ ../ ../
 
 #vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
 
