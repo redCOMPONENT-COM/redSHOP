@@ -38,7 +38,7 @@ stages {
 				stash includes: 'joomla-cms.zip', name: 'joomla-cms'
 				stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
 				stash includes: 'redshop.zip', name: 'redshop'
-				stash includes: 'plugins', name: 'plugins'
+				stash includes: 'plugins.zip', name: 'plugins'
 				stash includes: 'joomla-cms-database.zip', name: 'database-dump'
 		}
 		post {
