@@ -54,7 +54,10 @@ mkdir releases
 cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
 mv redshop.zip /tests/www/tests/releases/redshop.zip
-cd /tests/www/tests/releases/
+mv plugins.zip /tests/www/tests/releases/plugins.zip
+cd /tests/www/tests/releases
+unzip plugins.zip
+cd ..
 
 # Test Setup
 cd $WORKSPACE

@@ -38,6 +38,7 @@ stages {
 				stash includes: 'joomla-cms.zip', name: 'joomla-cms'
 				stash includes: 'chromedriver_linux64.zip', name: 'chromeD'
 				stash includes: 'redshop.zip', name: 'redshop'
+				stash includes: 'plugins.zip', name: 'plugins'
 				stash includes: 'joomla-cms-database.zip', name: 'database-dump'
 		}
 		post {
@@ -120,6 +121,27 @@ stages {
 					}
 				}
 			}
+			stage('Discount_Groups') {
+				agent {
+					docker {
+							image 'jatitoam/docker-systemtests'
+							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+					}
+				}
+				steps {
+					script {
+						env.STAGE = 'Discount_Groups'
+					}
+					unstash 'chromeD'
+					unstash 'redshop'
+					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
+					retry(1) {
+						sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups"
+					}
+				}
+			}
 			stage('integration') {
 				agent {
 					docker {
@@ -133,6 +155,7 @@ stages {
 					}
 					unstash 'chromeD'
 					unstash 'redshop'
+					unstash 'plugins'
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
