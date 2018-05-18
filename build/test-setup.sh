@@ -46,7 +46,7 @@ gulp release --skip-version
 echo $CHANGE_ID
 apt-get install zip
 cp /tests/www/tests/releases/redshop.zip .
-cd /tets/www/tests/releases
+cd /tests/www/tests/releases
 ls
 zip -r plugins.zip plugins
 cd $WORKSPACE
