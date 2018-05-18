@@ -112,7 +112,7 @@ class TemplateCest
 	 *
 	 * @return  void
 	 *
-	 * @depends updateTemplate
+	 * @depends changeTemplateStateUnpublish
 	 */
 	public function changeTemplateStatePublish(AcceptanceTester $I, $scenario)
 	{
@@ -131,7 +131,7 @@ class TemplateCest
 	 *
 	 * @return  void
 	 *
-	 * @depends changeTemplateState
+	 * @depends changeTemplateStatePublish
 	 */
 	public function deleteTemplate(AcceptanceTester $I, $scenario)
 	{
