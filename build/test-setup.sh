@@ -44,7 +44,6 @@ cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
 gulp release --skip-version
 echo $CHANGE_ID
-apt-get install zip
 cp /tests/www/tests/releases/redshop.zip .
 cd /tests/www/tests/releases
 ls

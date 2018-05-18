@@ -57,7 +57,6 @@ mv redshop.zip /tests/www/tests/releases/redshop.zip
 mv plugins.zip /tests/www/tests/releases/plugins.zip
 cd /tests/www/tests/releases
 unzip plugins.zip
-ls
 cd ..
 
 # Test Setup
