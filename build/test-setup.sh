@@ -80,7 +80,6 @@ cd $WORKSPACE
 mysql --host=db-$BUILD_TAG -uroot -proot -e "DROP DATABASE IF EXISTS redshopSetupDb;"
 vendor/bin/robo run:test-setup-jenkins
 
-
 if [ $? -eq 0 ]
 then
   echo "Tests Runs were successful"
