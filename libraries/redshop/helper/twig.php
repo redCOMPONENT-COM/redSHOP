@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use phpDocumentor\Reflection\DocBlockFactory;
 use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
@@ -25,6 +26,7 @@ class RedshopHelperTwig
 	 * @param   string $tag   Template tag
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -47,8 +49,8 @@ class RedshopHelperTwig
 			return '';
 		}
 
-		$factory           = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
-		$result            = array();
+		$factory        = DocBlockFactory::createInstance();
+		$result         = array();
 		$methodsExclude = array('get', 'loadarray', 'next', 'rewind', 'set', 'add', 'getall', 'toobjects',
 			'current', 'clear', 'key', 'tofieldarray', 'geteditlink', 'geteditlinkwithreturn');
 
@@ -91,8 +93,8 @@ class RedshopHelperTwig
 	/**
 	 * Method for get supported twig template sections
 	 *
-	 * @param   string  $section  Template section
-	 * @param   string  $content  Template content
+	 * @param   string $section Template section
+	 * @param   string $content Template content
 	 *
 	 * @return  string
 	 *

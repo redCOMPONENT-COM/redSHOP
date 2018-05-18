@@ -23,7 +23,7 @@ class RedshopUpdate2016 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.15
+	 * @since   2.0.16
 	 */
 	protected function getOldFiles()
 	{
@@ -38,7 +38,7 @@ class RedshopUpdate2016 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.15
+	 * @since   2.0.16
 	 */
 	protected function getOldFolders()
 	{
@@ -53,7 +53,7 @@ class RedshopUpdate2016 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.15
+	 * @since   2.0.16
 	 */
 	public function updateTwigTemplate()
 	{

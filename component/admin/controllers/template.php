@@ -27,7 +27,7 @@ class RedshopControllerTemplate extends RedshopControllerForm
 	 */
 	public function liveRender()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$templateSection = $this->input->getString('section', 'giftcard_list');
 		$templateContent = $this->input->get('content', '', 'Raw');

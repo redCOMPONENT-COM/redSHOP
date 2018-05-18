@@ -35,6 +35,26 @@ class RedshopTableGiftcard extends RedshopTable
 	protected $_tableKey = 'giftcard_id';
 
 	/**
+	 * @var integer
+	 */
+	public $giftcard_id;
+
+	/**
+	 * @var string
+	 */
+	public $giftcard_name;
+
+	/**
+	 * @var string
+	 */
+	public $giftcard_image;
+
+	/**
+	 * @var string
+	 */
+	public $giftcard_bgimage;
+
+	/**
 	 * Delete one or more registers
 	 *
 	 * @param   string/array  $pk  Array of ids or ids comma separated

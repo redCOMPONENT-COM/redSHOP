@@ -54,7 +54,7 @@ class RedshopEntityOrder extends \Redshop\Entity\AbstractEntity
 	protected $shipping;
 
 	/**
-	 * @var   \Redshop\Entity\EntityCollection
+	 * @var   array
 	 *
 	 * @since   2.0.6
 	 */
@@ -97,7 +97,7 @@ class RedshopEntityOrder extends \Redshop\Entity\AbstractEntity
 	/**
 	 * Method for get order status log for this order
 	 *
-	 * @return   \Redshop\Entity\EntityCollection   \Redshop\Entity\EntityCollection if success. Null otherwise.
+	 * @return   array   array if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */

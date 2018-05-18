@@ -26,6 +26,7 @@ class RedshopModelGiftcard extends RedshopModelForm
 	 * @return  boolean  True on success, False on error.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
 	 */
 	public function save($data)
 	{

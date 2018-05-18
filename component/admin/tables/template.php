@@ -53,6 +53,16 @@ class RedshopTableTemplate extends RedshopTable
 	public $section;
 
 	/**
+	 * @var integer
+	 */
+	public $twig_support = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $twig_enable = 0;
+
+	/**
 	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *
