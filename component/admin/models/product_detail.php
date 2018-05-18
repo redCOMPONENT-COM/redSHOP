@@ -323,6 +323,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -470,6 +471,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->store())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -523,6 +525,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -536,6 +539,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$db->setQuery($query)->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -568,6 +572,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -620,6 +625,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (!$this->_db->execute())
 				{
+					/** @scrutinizer ignore-deprecated */
 					$this->setError($this->_db->getErrorMsg());
 
 					return false;
@@ -699,6 +705,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (!$accdetail->store())
 				{
+					/** @scrutinizer ignore-deprecated */
 					$this->setError($this->_db->getErrorMsg());
 
 					return false;
@@ -711,6 +718,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -731,6 +739,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (!$this->_db->execute())
 				{
+					/** @scrutinizer ignore-deprecated */
 					$this->setError($this->_db->getErrorMsg());
 
 					return false;
@@ -796,6 +805,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					if (!$calcrow->store())
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -883,6 +893,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (!$sub_row->store())
 				{
+					/** @scrutinizer ignore-deprecated */
 					$this->setError($this->_db->getErrorMsg());
 
 					return false;
@@ -908,6 +919,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$sub_renewal->store())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -938,6 +950,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 							if (!$product_serial->store())
 							{
+								/** @scrutinizer ignore-deprecated */
 								$this->setError($this->_db->getErrorMsg());
 
 								return false;
@@ -1085,6 +1098,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 			}
 
@@ -1093,6 +1107,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 			}
 
@@ -1101,6 +1116,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 			}
 		}
@@ -1161,6 +1177,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1170,6 +1187,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1179,6 +1197,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1187,6 +1206,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1196,6 +1216,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1214,6 +1235,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1223,6 +1245,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1232,6 +1255,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1241,6 +1265,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 		}
 
@@ -1269,6 +1294,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -1510,6 +1536,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					if (!$rowprices_detail->bind($data))
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -1517,6 +1544,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					if (!$rowprices_detail->store())
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -1544,6 +1572,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					if (!$rowmedia->bind($data))
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -1551,6 +1580,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					if (!$rowmedia->store())
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -1621,6 +1651,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -2045,6 +2076,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -2056,6 +2088,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -2101,6 +2134,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -2113,6 +2147,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (!$this->_db->execute())
 				{
+					/** @scrutinizer ignore-deprecated */
 					$this->setError($this->_db->getErrorMsg());
 
 					return false;
@@ -2161,6 +2196,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -2204,6 +2240,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2211,6 +2248,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->store())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2232,6 +2270,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2239,6 +2278,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->store())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2260,6 +2300,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2267,6 +2308,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->store())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2352,6 +2394,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					if (!$this->_db->execute())
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -2369,6 +2412,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					if (!$this->_db->execute())
 					{
+						/** @scrutinizer ignore-deprecated */
 						$this->setError($this->_db->getErrorMsg());
 
 						return false;
@@ -2460,6 +2504,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -2585,6 +2630,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -3962,6 +4008,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -4007,6 +4054,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$this->_db->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
@@ -4105,6 +4153,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$product_detail->checkout($uid, $this->id))
 			{
+				/** @scrutinizer ignore-deprecated */
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
@@ -4581,6 +4630,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$db->setQuery($query)->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
