@@ -61,6 +61,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
 		$client->click(\TemplatePage::$buttonSave);
 		$client->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
+		$client->seeInField(\TemplatePage::$fieldName,$templateUpdatedName);
 	}
 
 	/**
