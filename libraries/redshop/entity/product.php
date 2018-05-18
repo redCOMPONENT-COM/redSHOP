@@ -37,7 +37,7 @@ class RedshopEntityProduct extends AbstractEntity
 	protected $childProducts = null;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.1.0
 	 */
@@ -317,7 +317,7 @@ class RedshopEntityProduct extends AbstractEntity
 	/**
 	 * Method for get medias of current category
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -340,7 +340,7 @@ class RedshopEntityProduct extends AbstractEntity
 	 */
 	protected function loadMedia()
 	{
-		$this->media = new RedshopEntitiesCollection;
+		$this->media = new EntityCollection;
 
 		if (!$this->hasId())
 		{
