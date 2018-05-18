@@ -55,9 +55,8 @@ cd $WORKSPACE
 mv gulp-config.json.jenkins.dist gulp-config.json
 mv redshop.zip /tests/www/tests/releases/redshop.zip
 mv plugins.zip /tests/www/tests/releases/plugins.zip
-#unzip plugins.zip -d /tests/www/tests/releases/plugins
 cd /tests/www/tests/releases
-unzip plugins.zip -d plugins
+unzip plugins.zip
 ls
 cd ..
 
