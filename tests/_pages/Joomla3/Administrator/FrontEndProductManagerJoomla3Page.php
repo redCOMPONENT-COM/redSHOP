@@ -32,7 +32,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $addToCompare = ['xpath' => '//label[@class=\'checkbox\']'];
 
-	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Product To Compare\']'];
+	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
 
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
