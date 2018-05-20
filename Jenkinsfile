@@ -372,7 +372,7 @@ stages {
 					unstash 'joomla-cms'
 					unstash 'database-dump'
 					retry(1) {
-						sh "build/system-tests.sh tests/administrator/integration/Notices"
+						sh "build/system-tests.sh tests/acceptance/administrator/Notices"
 					}
 				}
 			}
