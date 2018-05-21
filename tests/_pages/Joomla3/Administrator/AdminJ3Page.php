@@ -381,12 +381,13 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']"];
+	public static $paymentPayPad = ['xpath' => "//input[@id='rs_payment_paypal1']"];
 
 	/**
 	 * @var array
 	 */
-	public static $bankTransfer = ['id' => "rs_payment_banktransfer"];
+	public static $bankTransfer = ['xpath' => "//input[@id='rs_payment_banktransfer0']"];
+
 	/**
 	 * @var array
 	 */
