@@ -73,17 +73,20 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			default:
 				break;
 		}
-		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -111,17 +114,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonCancel);
 				break;
 			default:
 				break;
 		}
-		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
 	/**
