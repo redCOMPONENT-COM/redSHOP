@@ -97,6 +97,14 @@ class TaxRateCest
 		$client->addVATGroupsSave($this->taxGroupName);
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
+
 	/**
 	 * Create VAT Tax Rates
 	 *
@@ -110,7 +118,6 @@ class TaxRateCest
 	public function createTaxRatesSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
 	}
@@ -126,7 +133,6 @@ class TaxRateCest
 	public function addTAXRatesMissingNameSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates Save missing name creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesMissingNameSave($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
 	}
@@ -142,7 +148,6 @@ class TaxRateCest
 	public function addTAXRatesMissingGroupsSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates missing groups save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesMissingGroupsSave($this->taxRateName, $this->taxRateValue);
 	}
@@ -158,7 +163,6 @@ class TaxRateCest
 	public function addTAXRatesMissingTaxValueSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX missing tax value Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesMissingTaxValueSave($this->taxRateName, $this->taxGroupName);
 	}
@@ -174,7 +178,6 @@ class TaxRateCest
 	public function addTAXRatesValueAmountLessZeroSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX amount less zero Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesValueAmountLessZeroSave($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
 	}
@@ -190,7 +193,6 @@ class TaxRateCest
 	public function addTAXRatesValueAmountStringSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesValueAmountStringSave(
 			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
@@ -210,7 +212,6 @@ class TaxRateCest
 	public function editTAXRatesName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->editTAXRatesName($this->taxRateName, $this->taxRateNameEdit);
 	}
@@ -228,7 +229,6 @@ class TaxRateCest
 	public function editButtonTAXRatesName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates edit with Edit button Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->editTAXRatesName($this->taxRateNameEdit, $this->taxRateName);
 	}
@@ -246,7 +246,6 @@ class TaxRateCest
 	public function editTAXRatesMissingName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Edit TAX missing name in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->editTAXRatesMissingName($this->taxRateName);
 	}
@@ -262,7 +261,6 @@ class TaxRateCest
 	public function addTAXRatesSaveClose(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test TAX Rates Save and Close creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
 		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
@@ -280,7 +278,6 @@ class TaxRateCest
 	public function checkCancel(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('check Cancel creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->checkCancel();
 		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
@@ -297,7 +294,6 @@ class TaxRateCest
 	public function deleteButton(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test delete button in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->deleteButton();
 		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
@@ -314,7 +310,6 @@ class TaxRateCest
 	public function deleteTAXRates(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test delete button in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->deleteTAXRatesOK($this->taxRateName);
 		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);

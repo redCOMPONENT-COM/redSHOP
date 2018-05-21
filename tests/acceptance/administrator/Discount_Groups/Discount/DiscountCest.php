@@ -85,7 +85,13 @@ class DiscountCest
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
 	}
-
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
 	/**
 	 * Function to Test Discount Creation in Backend
 	 *
@@ -96,7 +102,6 @@ class DiscountCest
 	 */
 	public function createDiscount(AcceptanceTester $client, $scenario)
 	{
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscount(
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition
@@ -117,7 +122,6 @@ class DiscountCest
 	public function deleteDiscount(AcceptanceTester $client, $scenario)
 	{
 		$client->wantToTest('Deletion of Discount in Administrator');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->deleteDiscount($this->discountName);
 	}
@@ -135,7 +139,6 @@ class DiscountCest
 	public function addDiscountSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Discount creation with save button in Administrator');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
 	}
@@ -153,7 +156,6 @@ class DiscountCest
 	public function changeChangeDiscountState(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test if State of a Discount gets Updated in Administrator');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->changeDiscountState($this->discountName);
 		$client->verifyState('unpublished', $client->getDiscountState($this->discountName));
@@ -172,7 +174,6 @@ class DiscountCest
 	public function addDiscountStartThanEnd(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Discount creation with start date higher than end date.');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountStartThanEnd(
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
@@ -192,7 +193,6 @@ class DiscountCest
 	public function addDiscountMissingName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Discount creation with missing name.');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountMissingName(
 			$this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
@@ -212,7 +212,6 @@ class DiscountCest
 	public function addDiscountMissingAmount(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Discount creation with missing amount.');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountMissingAmount(
 			$this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
@@ -232,7 +231,6 @@ class DiscountCest
 	public function addDiscountMissingShopperGroups(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Discount creation with missing shopper groups.');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountMissingShopperGroups(
 			$this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate
@@ -252,7 +250,6 @@ class DiscountCest
 	public function addDiscountWithAllFieldsEmpty(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Discount creation with missing all fields.');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountWithAllFieldsEmpty();
 	}
@@ -270,7 +267,6 @@ class DiscountCest
 	public function updateDiscount(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test if Discount gets updated in Administrator');
-		$client->doAdministratorLogin();
 		$client = new DiscountSteps($scenario);
 		$client->wantTo('Update Existing Discount');
 		$client->editDiscount($this->discountName, $this->amount, $this->newAmount);

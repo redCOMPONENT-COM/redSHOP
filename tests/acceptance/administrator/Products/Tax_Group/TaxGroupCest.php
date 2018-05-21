@@ -45,6 +45,14 @@ class TaxGroupCest
 		$this->taxGroupNameEdit      = "Testing VAT Edit";
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
+
 	/**
 	 * Test delete button
 	 *
@@ -56,7 +64,6 @@ class TaxGroupCest
 	public function deleteButton(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test Delete button without choice vat creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->deleteButton();
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -73,7 +80,6 @@ class TaxGroupCest
 	public function publishButton(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test check publish button without choice vat creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->publishButton();
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -90,7 +96,6 @@ class TaxGroupCest
 	public function unpublishButton(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test check unpublish button without choice vat creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->unpublishButton();
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -106,7 +111,6 @@ class TaxGroupCest
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups  Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
 		$client->see(\TaxGroupPage::$messageItemSaveSuccess, \TaxGroupPage::$selectorSuccess);
@@ -122,7 +126,6 @@ class TaxGroupCest
 	public function addVATGroupsSaveClose(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups  Save $ Close creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSaveClose($this->taxGroupNameSaveClose);
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -138,7 +141,6 @@ class TaxGroupCest
 	public function editVATGroupsWithoutName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups - Edit without name in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->editVATGroupsWithoutName($this->taxGroupNameSaveClose);
 	}
@@ -153,7 +155,6 @@ class TaxGroupCest
 	public function editVATGroupsName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups  Save $ Close creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->editVATGroupsName($this->taxGroupNameSaveClose, $this->taxGroupNameEdit);
 		$client->searchVATGroup($this->taxGroupNameEdit);
@@ -171,7 +172,6 @@ class TaxGroupCest
 	public function editVATGroupsNameSaveClose(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups  Save $ Close creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->editVATGroupsNameSaveClose($this->taxGroupNameEdit, $this->taxGroupNameSaveClose);
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -190,7 +190,6 @@ class TaxGroupCest
 	public function addVATGroupsCancel(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups  Cancel creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsCancel();
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -206,7 +205,6 @@ class TaxGroupCest
 	public function unpublishAllGroups(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Unpublish all VAT/tax Group in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->unpublishAllGroups();
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -222,7 +220,6 @@ class TaxGroupCest
 	public function publishAllVATGroups(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Publish all VAT/tax Group in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->publishAllGroups();
 		$client->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
@@ -238,7 +235,6 @@ class TaxGroupCest
 	public function unpublishVATGroupsWithName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('UnPublish all VAT/tax Group in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->changeVATGroupState($this->taxGroupNameSaveClose);
 		$currentState = $client->getVATGroupsState($this->taxGroupNameSaveClose);
@@ -255,7 +251,6 @@ class TaxGroupCest
 	public function publishAllVATGroupsWithName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Publish all VAT/tax Group in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->changeVATGroupState($this->taxGroupNameSaveClose);
 		$currentState = $client->getVATGroupsState($this->taxGroupNameSaveClose);
@@ -272,7 +267,6 @@ class TaxGroupCest
 	public function deleteVATGroupCancel(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Delete VAT/tax Group - Cancel in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->deleteVATGroupCancel($this->taxGroupNameSaveClose);
 	}
@@ -287,7 +281,6 @@ class TaxGroupCest
 	public function deleteVATGroupOK(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Delete VAT/tax Group - OK in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->deleteVATGroupOK($this->taxGroupNameSaveClose);
 	}
@@ -302,7 +295,6 @@ class TaxGroupCest
 	public function addVATGroupsMissingName(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test VAT Groups  Save (Missing Name) creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsMissingName();
 	}

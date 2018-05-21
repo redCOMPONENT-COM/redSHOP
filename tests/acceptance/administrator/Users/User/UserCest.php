@@ -37,6 +37,10 @@ class UserCest
         $this->emailMatching = $this->faker->email;
         $this->userMissing = $this->faker->bothify('ManageUserMissingAdministratorCest ?##?');
     }
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();

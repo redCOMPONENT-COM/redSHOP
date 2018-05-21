@@ -28,6 +28,10 @@ class GiftCardCest
         $this->cardValue = $this->faker->numberBetween(9, 99);
         $this->cardValidity = $this->faker->numberBetween(1, 15);
     }
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();
