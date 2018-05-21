@@ -90,7 +90,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
 		$client->fillField(\TaxGroupPage::$fieldName, "");
-		$client->click(\TaxGroupPage::$buttonSave);
+		$client->click(\TaxGroupPage::$buttonSaveTax);
 		$client->waitForText(\TaxGroupPage::$messageErrorFieldMissing, 60, \TaxGroupPage::$selectorMissing);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 	}
