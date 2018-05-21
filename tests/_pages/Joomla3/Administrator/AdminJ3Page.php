@@ -386,7 +386,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $bankTransfer = ['xpath' => '//div[@id=\'rs_payment_banktransfer\']'];
+	public static $bankTransfer = ['id' => "rs_payment_banktransfer"];
 	/**
 	 * @var array
 	 */
