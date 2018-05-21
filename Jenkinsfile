@@ -47,7 +47,7 @@ stages {
 			}
 		}
 	}
-	stage('Automated Tests - Batch 1/4') {
+	stage('Automated Tests - Batch 1/3') {
 		environment {
 				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
 				GITHUB_REPO='redCOMPONENT-COM/redshop'
@@ -143,27 +143,6 @@ stages {
 					}
 				}
 			}
-		}
-		post {
-			always {
-				cleanWs()
-				ws(pwd() + "@tmp") {
-					cleanWs()
-				}
-			}
-		}
-	}
-	stage('Automated Tests - Batch 2/4') {
-		environment {
-				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
-				GITHUB_REPO='redCOMPONENT-COM/redshop'
-				CLOUDINARY_CLOUD_NAME='redcomponent'
-				CLOUDINARY_API_KEY='365447364384436'
-				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
-				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-				SLACK_CHANNEL='#redshop-builds'
-		}
-		parallel {
 			stage('Products') {
 				agent {
 					docker {
@@ -259,7 +238,7 @@ stages {
 			}
 		}
 	}
-	stage('Automated Tests - Batch 3/4') {
+	stage('Automated Tests - Batch 2/3') {
 		environment {
 				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
 				GITHUB_REPO='redCOMPONENT-COM/redshop'
@@ -386,7 +365,7 @@ stages {
 			}
 		}
 	}
-	stage('Automated Tests - Batch 4/4') {
+	stage('Automated Tests - Batch 3/3') {
 		environment {
 				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
 				GITHUB_REPO='redCOMPONENT-COM/redshop'
