@@ -617,11 +617,6 @@ class RedshopModelAccount extends RedshopModel
 		      ->delete($db->qn('#__redshop_users_info'))
 		      ->where($db->qn('user_id') . ' = ' . $userId);
 
-		if (!$db->setQuery($query)->execute())
-		{
-			return false;
-		}
-
-		return true;
+		return (boolean) $db->setQuery($query)->execute();
 	}
 }
