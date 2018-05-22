@@ -800,7 +800,16 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
         $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+        $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
+//		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		  try{
+              $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+          }catch (Exception $e)
+          {
+              $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+          }
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
