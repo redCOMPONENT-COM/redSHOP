@@ -100,7 +100,6 @@ class UserCest
         $I->wantTo('Test if User gets updated in Administrator');
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->editUser($this->firstName, $this->updateFirstName);
-        $I->searchUser($this->updateFirstName);
     }
 
     /**

@@ -222,4 +222,32 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->waitForText(\TaxGroupPage::$namePage, 30, \TaxGroupPage::$headPage);
 		$client->filterListBySearching($VATGroupName);
 	}
+
+    public function checkButton($name)
+    {
+        $I = $this;
+        $I->amOnPage(\TaxGroupPage::$url);
+        switch ($name)
+        {
+            case 'copy':
+                $I->click(\TaxGroupPage::$buttonCopy);
+                $I->acceptPopup();
+                break;
+            case 'delete':
+                $I->click(\TaxGroupPage::$buttonDelete);
+                $I->acceptPopup();
+                break;
+            case 'publish':
+                $I->click(\TaxGroupPage::$buttonPublish);
+                $I->acceptPopup();
+                break;
+            case 'unpublish':
+                $I->click(\TaxGroupPage::$buttonUnpublish);
+                $I->acceptPopup();
+                break;
+            default:
+                break;
+        }
+        $I->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
+    }
 }
