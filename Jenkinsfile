@@ -121,7 +121,7 @@ stages {
 					}
 				}
 			}
-			stage('integration') {
+			stage('Discounts') {
 				agent {
 					docker {
 							image 'jatitoam/docker-systemtests'
@@ -130,7 +130,7 @@ stages {
 				}
 				steps {
 					script {
-						env.STAGE = 'administrator'
+						env.STAGE = 'Discounts'
 					}
 					unstash 'chromeD'
 					unstash 'redshop'
