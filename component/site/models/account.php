@@ -591,4 +591,37 @@ class RedshopModelAccount extends RedshopModel
 	{
 		return Redshop\Account\Helper::getUnusedCouponAmount($user_id, $coupone_code);
 	}
+
+	/**
+	 * Function to delete account user
+	 *
+	 * @param   int     $userId     User Id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function deleteAccount($userId)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+		            ->delete($db->qn('#__users'))
+		            ->where($db->qn('id') . ' = ' . $userId);
+
+		if (!$db->setQuery($query)->execute())
+		{
+			return false;
+		}
+
+		$query->clear()
+		      ->delete($db->qn('#__redshop_users_info'))
+		      ->where($db->qn('user_id') . ' = ' . $userId);
+
+		if (!$db->setQuery($query)->execute())
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

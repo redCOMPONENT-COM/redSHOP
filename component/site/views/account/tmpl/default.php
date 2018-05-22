@@ -32,6 +32,7 @@ $logout_link        = JRoute::_("index.php?option=com_redshop&view=login&task=lo
 $compare_link       = JRoute::_("index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $Itemid);
 $mytags_link        = JRoute::_("index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $Itemid);
 $wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
+$deleteAccountLink      = JRoute::_("index.php?option=com_redshop&view=account&task=deleteAccount&Itemid=" . $Itemid . "&userId=" . $user->id);
 
 /** @var RedshopModelAccount $model */
 $model    = $this->getModel('account');
@@ -84,6 +85,9 @@ $template_desc = $carthelper->replaceBillingAddress($template_desc, $this->userd
 
 $edit_account_link = '<a class="btn btn-primary" href="' . $accountbillto_link . '">' . JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION') . '</a>';
 $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $template_desc);
+
+$deleteAccount = '<a onclick="return confirm('. JText::_('\'COM_REDSHOP_DO_YOU_WANT_TO_DELETE\'') .');" class="btn btn-primary" href="' . $deleteAccountLink . '">' . JText::_('COM_REDSHOP_DELETE_ACCOUNT') . '</a>';
+$template_desc     = str_replace('{delete_account_link}', $deleteAccount, $template_desc);
 
 $template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);
 
