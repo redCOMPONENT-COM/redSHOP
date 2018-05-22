@@ -83,6 +83,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonCancel);
 				break;
 			default:
 				break;

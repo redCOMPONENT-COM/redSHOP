@@ -250,7 +250,8 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click($name);
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$client->fillField(\DiscountPage::$fieldAmount, $newAmount);
-		$client->click(\DiscountPage::$buttonSaveClose);
+
+		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
 		$client->searchDiscount($name);
 		$client->see($newVerifyAmount, \DiscountPage::$resultRow);
