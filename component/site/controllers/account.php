@@ -134,6 +134,10 @@ class RedshopControllerAccount extends RedshopController
 	{
 		$app = JFactory::getApplication();
 		$userId = $app->input->getInt('userId');
+
+		/**
+		 * @var RedshopModelAccount $model;
+		 */
 		$model = $this->getModel('account');
 		$itemId = JFactory::getApplication()->input->getInt('Itemid');
 
