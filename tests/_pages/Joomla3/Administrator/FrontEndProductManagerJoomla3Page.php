@@ -30,7 +30,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
 
-	public static $addToCompare = ['xpath' => '//label[@class=\'checkbox\']'];
+	public static $addToCompare = ['xpath' => '//input[@name=\'rsProductCompareChk\']'];
 
 	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
 

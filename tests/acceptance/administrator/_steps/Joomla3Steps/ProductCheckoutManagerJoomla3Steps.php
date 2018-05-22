@@ -632,6 +632,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productFirst));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        try{
+            $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }catch (Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
 		$I->waitForElement($usePage->productName($productFirst), 30);
@@ -645,8 +651,17 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
 		$I->wait(1);
+		try{
+            $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }catch (Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
+        $I->waitForElement($usePage->productName($productSecond), 30);
+        $I->wait(1);
+
 		$I->waitForElement($usePage->productName($productFirst), 30);
 		$I->waitForElement($usePage->productName($productSecond), 30);
 	}
