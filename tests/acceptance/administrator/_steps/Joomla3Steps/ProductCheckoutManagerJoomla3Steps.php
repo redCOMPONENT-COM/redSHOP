@@ -743,8 +743,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 
-				$I->selectOption(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-                $I->selectOption('input[name=frequency]', 'week');
+				$I->selectOption(\FrontEndProductManagerJoomla3Page::$bankTransfer, null);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
