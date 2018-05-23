@@ -19,6 +19,13 @@ echo JHtml::_('bootstrap.addTab', 'product-pane', 'product', JText::_('COM_REDSH
 			echo RedshopLayoutHelper::render(
 				'config.group',
 				array(
+					'title'   => JText::_('COM_REDSHOP_PRODUCT_GENERAL'),
+					'content' => $this->loadTemplate('product_general')
+				)
+			);
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
 					'title'   => JText::_('COM_REDSHOP_PRODUCT_UNIT'),
 					'content' => $this->loadTemplate('product_unit')
 				)
