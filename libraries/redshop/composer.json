@@ -8,7 +8,7 @@
     "doctrine/annotations": "1.4.0",
     "doctrine/inflector": "1.1.0",
     "behat/transliterator": "1.2",
-    "setasign/fpdf": "1.8.1",s
+    "setasign/fpdf": "1.8.1",
     "setasign/fpdi": "2.0.3",
     "whichbrowser/parser": "2.0.32",
     "imagine/imagine": "0.7.1",
