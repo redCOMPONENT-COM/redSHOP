@@ -32,7 +32,7 @@ $logout_link        = JRoute::_("index.php?option=com_redshop&view=login&task=lo
 $compare_link       = JRoute::_("index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $Itemid);
 $mytags_link        = JRoute::_("index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $Itemid);
 $wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
-$deleteAccountLink      = JRoute::_("index.php?option=com_redshop&view=account&task=deleteAccount&Itemid=" . $Itemid . "&userId=" . $user->id);
+$deleteAccountLink      = JRoute::_("index.php?option=com_redshop&view=account&task=deleteAccount&Itemid=" . $Itemid);
 
 /** @var RedshopModelAccount $model */
 $model    = $this->getModel('account');
