@@ -86,7 +86,7 @@ $template_desc = $carthelper->replaceBillingAddress($template_desc, $this->userd
 $edit_account_link = '<a class="btn btn-primary" href="' . $accountbillto_link . '">' . JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION') . '</a>';
 $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $template_desc);
 
-$deleteAccount = '<a onclick="return confirm(' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') . ');" class="btn btn-primary" href="' . $deleteAccountLink . '">' . JText::_('COM_REDSHOP_DELETE_ACCOUNT') . '</a>';
+$deleteAccount = '<a onclick="return confirm(' . JText::_("'COM_REDSHOP_DO_YOU_WANT_TO_DELETE'") . ');" class="btn btn-primary" href="' . $deleteAccountLink . '">' . JText::_('COM_REDSHOP_DELETE_ACCOUNT') . '</a>';
 $template_desc     = str_replace('{delete_account_link}', $deleteAccount, $template_desc);
 
 $template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);

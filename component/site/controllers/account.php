@@ -133,7 +133,7 @@ class RedshopControllerAccount extends RedshopController
 	public function deleteAccount()
 	{
 		$app = JFactory::getApplication();
-		$userId = $app->input->getInt('userId');
+		$userId = JFactory::getUser()->id;
 
 		/**
 		 * @var RedshopModelAccount $model;
