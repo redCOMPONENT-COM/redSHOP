@@ -79,27 +79,6 @@ stages {
 					}
 				}
 			}
-			stage('One_Steps_Checkout') {
-				agent {
-					docker {
-							image 'jatitoam/docker-systemtests'
-							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
-					}
-				}
-				steps {
-					script {
-						env.STAGE = 'One_Steps_Checkout'
-					}
-					unstash 'chromeD'
-					unstash 'redshop'
-					unstash 'vendor'
-					unstash 'joomla-cms'
-					unstash 'database-dump'
-					retry(1) {
-						sh "build/system-tests.sh tests/acceptance/integration/One_Steps_Checkout"
-					}
-				}
-			}
 			stage('Product_Attribute') {
 				agent {
 					docker {
