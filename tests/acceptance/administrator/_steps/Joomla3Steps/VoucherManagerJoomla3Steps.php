@@ -211,7 +211,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 			case 'cancel':
 				$I->click(\VoucherManagerPage::$newButton);
-				$I->wait(\VoucherManagerPage::$voucherCode, 30);
+				$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 				$I->click(\VoucherManagerPage::$cancelButton);
 
 				break;
