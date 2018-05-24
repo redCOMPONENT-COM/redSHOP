@@ -280,7 +280,7 @@ class RedshopRouter extends JComponentRouterBase
 			case 'account_shipto':
 				$segments[] = 'account_shipto';
 
-				if ($task == 'addshipping')
+				if ($task == 'addshipping' || $task == 'remove')
 				{
 					$segments[] = $task;
 

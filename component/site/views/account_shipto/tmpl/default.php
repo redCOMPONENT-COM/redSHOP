@@ -53,7 +53,7 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 					<?php echo "- <a href='" . JRoute::_($editLink) . "'>" . $this->shippingAddresses[$i]->text . "</a>"; ?>
 				</td>
 				<td>
-					<a onclick="return confirm('<?php echo JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') ?>');" href="<?php echo JRoute::_($editLink) ?>"><?php echo JText::_("JGLOBAL_FIELD_REMOVE") ?></a>
+					<a onclick="return confirm('<?php echo JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') ?>');" href="<?php echo JRoute::_($deleteLink) ?>"><?php echo JText::_("JGLOBAL_FIELD_REMOVE") ?></a>
 				</td>
 			</tr>
 		<?php endfor; ?>
