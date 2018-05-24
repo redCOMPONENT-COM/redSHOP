@@ -110,6 +110,11 @@ abstract class AdminJ3Page
 	 */
 	public static $resultRow = "//tbody/tr[1]";
 
+    /**
+     * @var array
+     */
+	public static $checkInButtonList = ['xpath' => '//td[@nowrap=\'nowrap\']/a'];
+
 	/**
 	 * @var array
 	 */

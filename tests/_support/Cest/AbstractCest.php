@@ -143,7 +143,6 @@ class AbstractCest
 	{
 		$tester->wantTo('Run after create item with save button ');
 		$tester->wantToTest('After create with save we should delete');
-
 	}
 
 	/**

@@ -10,6 +10,7 @@ namespace Step;
 
 use Codeception\Scenario;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+use TheSeer\Tokenizer\Exception;
 
 /**
  * Class Redshop
@@ -102,7 +103,6 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
-
 		$tester->searchItem($searchName);
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
@@ -151,6 +151,15 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->executeJS('window.scrollTo(0,0)');
 		$tester->fillField($searchField, $item);
 		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        try{
+            $tester->waitForText($pageClass::$buttonCheckIn,5);
+            $tester->checkAllResults();
+            $tester->click($pageClass::$buttonCheckIn);
+        }catch (Exception $e)
+        {
+            $tester->waitForElement($pageClass::$checkInButtonList, 30);
+            $tester->click($pageClass::$checkInButtonList);
+        }
 	}
 
 	/**
