@@ -103,7 +103,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
-		$tester->searchItem($searchName);
+		$tester->searchItemCheckIn($searchName);
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
@@ -151,6 +151,23 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->executeJS('window.scrollTo(0,0)');
 		$tester->fillField($searchField, $item);
 		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+	}
+
+    /**
+     * @param string $item
+     * @param array $searchField
+     */
+    public function searchItemCheckIn($item = '',  $searchField = ['id' => 'filter_search'])
+    {
+        $pageClass = $this->pageClass;
+        $tester    = $this;
+
+        $tester->amOnPage($pageClass::$url);
+        $tester->checkForPhpNoticesOrWarnings();
+        $tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
+        $tester->executeJS('window.scrollTo(0,0)');
+        $tester->fillField($searchField, $item);
+        $tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
         try{
             $tester->waitForText($pageClass::$buttonCheckIn,5);
             $tester->checkAllResults();
@@ -160,7 +177,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
             $tester->waitForElement($pageClass::$checkInButtonList, 30);
             $tester->click($pageClass::$checkInButtonList);
         }
-	}
+    }
 
 	/**
 	 * Method for click button "Delete" without choice
