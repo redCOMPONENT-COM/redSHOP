@@ -169,13 +169,11 @@ class AbstractStep extends AdminManagerJoomla3Steps
         $tester->fillField($searchField, $item);
         $tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
         try{
-            $tester->waitForText($pageClass::$buttonCheckIn,5);
-            $tester->checkAllResults();
-            $tester->click($pageClass::$buttonCheckIn);
-        }catch (Exception $e)
-        {
-            $tester->waitForElement($pageClass::$checkInButtonList, 30);
+            $tester->waitForElement($pageClass::$checkInButtonList, 2);
             $tester->click($pageClass::$checkInButtonList);
+        }catch (\Exception $e)
+        {
+
         }
     }
 

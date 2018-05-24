@@ -113,7 +113,9 @@ abstract class AdminJ3Page
     /**
      * @var array
      */
-	public static $checkInButtonList = ['xpath' => '//td[@nowrap=\'nowrap\']/a'];
+	public static $checkInButtonList = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'hasPopover\')]'];
+//        ['xpath' => '//a[@class=\'btn btn-small btn-sm btn-checkin hasPopover\']'];
+
 
 	/**
 	 * @var array
