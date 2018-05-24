@@ -20,7 +20,7 @@ class StockRoomCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->name = $this->faker->bothify('ManageStockRoomAdministratorCest ?##?');
+		$this->name = $this->faker->bothify('StockRoomCest ?##?');
 		$this->newName = 'Updated ' . $this->name;
 		$this->amount = $this->faker->numberBetween(1,100);
 	}

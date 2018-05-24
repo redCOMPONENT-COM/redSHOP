@@ -206,7 +206,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
-				$I->scrollTo(0,0);
+				$I->scrollTo(ShippingPage::$shippingName);
 				$I->seeInField(ShippingPage::$shippingName, $shippingNameEdit);
 				break;
 

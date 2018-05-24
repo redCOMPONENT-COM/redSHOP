@@ -159,6 +159,10 @@ class OnePageCheckoutCest
 	public function onePageCheckout(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
+
+		$I->wantTo('Disable paypal plugin');
+		$I->disablePlugin('PayPal');
+
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
