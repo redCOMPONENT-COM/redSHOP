@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\DocBlock;
 use Redshop\Entity\EntityCollection;
 
 defined('_JEXEC') or die;
@@ -49,7 +49,6 @@ class RedshopHelperTwig
 			return '';
 		}
 
-		$factory        = DocBlockFactory::createInstance();
 		$result         = array();
 		$methodsExclude = array('get', 'loadarray', 'next', 'rewind', 'set', 'add', 'getall', 'toobjects',
 			'current', 'clear', 'key', 'tofieldarray', 'geteditlink', 'geteditlinkwithreturn');
@@ -68,9 +67,8 @@ class RedshopHelperTwig
 				continue;
 			}
 
-			$docBlock = $factory->create($method->getDocComment());
-
-			$key = $isCollection ? $methodName : substr($methodName, 3);
+			$docBlock = new DocBlock($method->getDocComment());
+			$key      = $isCollection ? $methodName : substr($methodName, 3);
 
 			$result[strtolower($key)] = array('doc' => $docBlock, 'params' => $method->getParameters());
 		}

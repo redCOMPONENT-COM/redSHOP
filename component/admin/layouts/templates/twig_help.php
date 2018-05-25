@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use phpDocumentor\Reflection\DocBlock;
+
 defined('_JEXEC') or die;
 
 /*
@@ -22,6 +25,7 @@ extract($displayData);
     <tbody>
 	<?php foreach ($methods as $method => $data): ?>
 		<?php
+		/** @var DocBlock $doc */
 		$doc    = $data['doc'];
 		$params = $data['params'];
 		?>
@@ -35,7 +39,7 @@ extract($displayData);
 						<?php
 						/** @var ReflectionParameter $param */
 						/** @var ReflectionType $paramType */
-						$paramType = $param->getType();
+						$paramType     = $param->getType();
 						$parameteres[] = $paramType === null ? $param->getName() . ' : NULL' : $param->getName() . ' : ' . $paramType;
 						?>
 					<?php endforeach; ?>
@@ -43,7 +47,7 @@ extract($displayData);
 				<?php endif; ?>
             </td>
             <td>
-				<?php echo $doc->getSummary() ?>
+				<?php echo $doc->getLongDescription() ?>
             </td>
         </tr>
 	<?php endforeach; ?>
