@@ -103,7 +103,7 @@ class EntityCollection extends CoreEntityCollection
 
 		$orderedCollection = new EntityCollection;
 
-		foreach ($sorted as $id => $property)
+		foreach ($sorted as $id => $data)
 		{
 			$orderedCollection->add($this->entities[$id]);
 		}
@@ -114,16 +114,16 @@ class EntityCollection extends CoreEntityCollection
 	/**
 	 * Shit function to try to search a property on an entity.
 	 *
-	 * @param   EntityInterface  $entity    Entity where we want to search the propery
-	 * @param   string           $property  Property to search. Examples: `created_date` | `data.duration_start_date`.
+	 * @param   EntityInterface  $entity            Entity where we want to search the propery
+	 * @param   string           $searchProperties  Property to search. Examples: `created_date` | `data.duration_start_date`.
 	 *
 	 * @return  string
 	 *
 	 * @since   4.1.1
 	 */
-	private function searchEntityProperty(EntityInterface $entity, $property)
+	private function searchEntityProperty(EntityInterface $entity, $searchProperties)
 	{
-		$properties   = explode('.', $property);
+		$properties   = explode('.', $searchProperties);
 		$searchObject = $entity->getItem();
 
 		foreach ($properties as $position => $property)

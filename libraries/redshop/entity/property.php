@@ -25,7 +25,7 @@ class RedshopEntityProperty extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableattribute_property
+	 * @return  boolean|Tableattribute_property
 	 */
 	public function getTable($name = null)
 	{

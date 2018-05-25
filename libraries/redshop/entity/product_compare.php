@@ -25,7 +25,7 @@ class RedshopEntityProduct_Compare extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableproduct_compare
+	 * @return  boolean|Tableproduct_compare
 	 */
 	public function getTable($name = null)
 	{

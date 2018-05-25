@@ -25,7 +25,7 @@ class RedshopEntityPrice extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableprices_detail
+	 * @return  boolean|Tableprices_detail
 	 */
 	public function getTable($name = null)
 	{

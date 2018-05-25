@@ -25,7 +25,7 @@ class RedshopEntityOrder_User extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableorder_user_detail
+	 * @return  boolean|Tableorder_user_detail
 	 */
 	public function getTable($name = null)
 	{

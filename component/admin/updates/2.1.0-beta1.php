@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Update
  *
- * @since       2.0.16
+ * @since       2.1.0-beta1
  */
 class RedshopUpdate2016 extends RedshopInstallUpdate
 {
@@ -23,7 +23,7 @@ class RedshopUpdate2016 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.16
+	 * @since   2.1.0-beta1
 	 */
 	protected function getOldFiles()
 	{
@@ -38,7 +38,7 @@ class RedshopUpdate2016 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.16
+	 * @since   2.1.0-beta1
 	 */
 	protected function getOldFolders()
 	{
@@ -53,7 +53,7 @@ class RedshopUpdate2016 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.16
+	 * @since   2.1.0-beta1
 	 */
 	public function updateTwigTemplate()
 	{

@@ -27,7 +27,7 @@ class RedshopEntityOrder_Payment extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableorder_payment
+	 * @return  boolean|Tableorder_payment
 	 */
 	public function getTable($name = null)
 	{

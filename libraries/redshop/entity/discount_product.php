@@ -85,7 +85,7 @@ class RedshopEntityDiscount_Product extends AbstractEntity
 
 		foreach ($categoryIds as $categoryId)
 		{
-			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
+			$this->categories->add(RedshopEntityCategory::getInstance((int) $categoryId));
 		}
 
 		return $this;

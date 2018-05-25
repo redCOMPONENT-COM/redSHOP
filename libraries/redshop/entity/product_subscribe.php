@@ -25,7 +25,7 @@ class RedshopEntityProduct_Subscribe extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableproduct_subscribe_detail
+	 * @return  boolean|Tableproduct_subscribe_detail
 	 */
 	public function getTable($name = null)
 	{

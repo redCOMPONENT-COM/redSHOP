@@ -124,7 +124,7 @@ class RedshopHelperTwig
 		$twig = Redshop::getTwig($loader);
 
 		$items = new EntityCollection;
-		$items->loadArray($giftcards, 'RedshopEntityGiftcard', 'giftcard_id');
+		$items->loadArray((array) $giftcards, 'RedshopEntityGiftcard', 'giftcard_id');
 
 		return $twig->render(
 			'giftcard-list-demo.html',

@@ -12,6 +12,7 @@ namespace Redshop\Layout;
 defined('JPATH_BASE') or die;
 
 use Joomla\Registry\Registry;
+use JRegistry;
 
 /**
  * Base class for rendering a display layout
@@ -26,9 +27,9 @@ abstract class AbstractLayoutFile
 	/**
 	 * Options object
 	 *
-	 * @var   Registry
+	 * @var   Registry|JRegistry
 	 */
-	protected $options = null;
+	protected $options;
 
 	/**
 	 * Debug information messages
@@ -132,7 +133,7 @@ abstract class AbstractLayoutFile
 	 */
 	public function renderDebugMessages()
 	{
-		return implode($this->debugMessages, "\n");
+		return implode("\n", $this->debugMessages);
 	}
 
 	/**

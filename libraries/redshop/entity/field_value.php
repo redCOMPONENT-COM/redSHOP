@@ -25,7 +25,7 @@ class RedshopEntityField_Value extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tablefields_value
+	 * @return  boolean|Tablefields_value
 	 */
 	public function getTable($name = null)
 	{

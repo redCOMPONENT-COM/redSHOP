@@ -25,7 +25,7 @@ class RedshopEntityProduct_Serial extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableproduct_serial_number
+	 * @return  boolean|Tableproduct_serial_number
 	 */
 	public function getTable($name = null)
 	{

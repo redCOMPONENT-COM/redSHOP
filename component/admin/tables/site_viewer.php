@@ -24,4 +24,24 @@ class RedshopTableSite_Viewer extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_siteviewer';
+
+	/**
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 * @var integer
+	 */
+	public $user_id;
+
+	/**
+	 * @var integer
+	 */
+	public $section_id;
+
+	/**
+	 * @var string
+	 */
+	public $created_date;
 }

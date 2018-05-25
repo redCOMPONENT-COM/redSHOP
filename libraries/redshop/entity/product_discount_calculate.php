@@ -25,7 +25,7 @@ class RedshopEntityProduct_Discount_Calculate extends AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableproduct_discount_calc
+	 * @return  boolean|Tableproduct_discount_calc
 	 */
 	public function getTable($name = null)
 	{

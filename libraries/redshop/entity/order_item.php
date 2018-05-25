@@ -30,7 +30,7 @@ class RedshopEntityOrder_Item extends \Redshop\Entity\AbstractEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Tableorder_item_detail
+	 * @return  boolean|Tableorder_item_detail
 	 */
 	public function getTable($name = null)
 	{

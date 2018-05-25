@@ -260,7 +260,7 @@ class RedshopEntityCategory extends AbstractEntity
 
 		if (!$table instanceof RedshopTableCategory)
 		{
-			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+			JLog::add('Table for instance ' . $this->getInstanceName() . ' could not be loaded', JLog::ERROR, 'entity');
 
 			return false;
 		}

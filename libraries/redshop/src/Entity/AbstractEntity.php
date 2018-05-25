@@ -968,7 +968,7 @@ abstract class AbstractEntity implements EntityInterface
 	{
 		if (!$this->processBeforeSaving($item))
 		{
-			return false;
+			return 0;
 		}
 
 		if (null === $item)
@@ -994,14 +994,14 @@ abstract class AbstractEntity implements EntityInterface
 
 		if (!$table->save((array) $item))
 		{
-			\JLog::add($table->getError(), \JLog::ERROR, 'entity');
+			\JLog::add(/** @scrutinizer ignore-deprecated */ $table->getError(), \JLog::ERROR, 'entity');
 
 			return 0;
 		}
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
-		static::loadFromTable($table);
+		$this->loadFromTable($table);
 
 		$this->processAfterSaving($table);
 

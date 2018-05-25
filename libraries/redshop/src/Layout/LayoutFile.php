@@ -33,9 +33,9 @@ class LayoutFile extends AbstractLayoutFile
 	protected $basePath = null;
 
 	/**
-	 * @var    string  Full path to actual layout files, after possible template override check
+	 * @var    string|boolean  Full path to actual layout files, after possible template override check
 	 */
-	protected $fullPath = null;
+	protected $fullPath;
 
 	/**
 	 * Paths to search for layouts
