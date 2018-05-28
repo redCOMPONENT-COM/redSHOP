@@ -131,7 +131,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save($apply = 0)
 	{
-		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
+		//@TODO This is potentially unsafe because $_POST elements are not sanitized.
 		$post                 = $this->input->post->getArray();
 		$cid                  = $this->input->post->get('cid', array(), 'array');
 		$post ['product_id']  = $cid[0];
@@ -226,7 +226,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-			elseif ($apply == 1)
+            elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -250,7 +250,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Remove task.
 	 *
-	 * @return void
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function remove()
 	{
@@ -338,6 +339,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function cancel()
 	{
+		/** @var RedshopModelProduct_Detail $model */
 		$model    = $this->getModel('product_detail');
 		$recordId = $this->input->get('cid');
 		$model->checkin($recordId);
@@ -359,11 +361,17 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		if ($row = $model->copy($cid, true))
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id,
+				JText::_('COM_REDSHOP_PRODUCT_COPIED')
+			);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0],
+				JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED')
+			);
 		}
 	}
 
@@ -394,8 +402,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Function attribute_save.
 	 *
-	 * @param   array   $post  Array of input data.
-	 * @param   object  $row   Array of row data.
+	 * @param   array  $post Array of input data.
+	 * @param   object $row  Array of row data.
 	 *
 	 * @return void
 	 */
@@ -453,9 +461,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$propertiesSave['setdisplay_type']     = $property['setdisplay_type'];
 				$propertiesSave['property_published']  = ($property['published'] == 'on' || $property['published'] == '1') ? '1' : '0';
 				$propertiesSave['extra_field']         = $property['extra_field'];
-				$property_array                       = $model->store_pro($propertiesSave);
-				$property_id                          = $property_array->property_id;
-				$property_image                       = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$pIndex] . '_image', array(), 'array');
+				$property_array                        = $model->store_pro($propertiesSave);
+				$property_id                           = $property_array->property_id;
+				$property_image                        = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$pIndex] . '_image', array(), 'array');
 
 				if (empty($property['mainImage']))
 				{
@@ -463,7 +471,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 					{
 						$propertiesSave['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_id);
 						$propertiesSave['property_id']    = $property_id;
-						$property_array                  = $model->store_pro($propertiesSave);
+						$property_array                   = $model->store_pro($propertiesSave);
 						$this->DeleteMergeImages();
 					}
 				}
@@ -472,7 +480,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				{
 					$propertiesSave['property_image'] = $model->copy_image_from_path($property['mainImage'], 'product_attributes', $property_id);
 					$propertiesSave['property_id']    = $property_id;
-					$property_array                  = $model->store_pro($propertiesSave);
+					$property_array                   = $model->store_pro($propertiesSave);
 					$this->DeleteMergeImages();
 				}
 
@@ -536,7 +544,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						array(),
 						'array'
 					);
-					$subproperty_id                                = $subproperty_array->subattribute_color_id;
+					$subproperty_id                                 = $subproperty_array->subattribute_color_id;
 
 					if (empty($subproperty[$sp]['mainImage']))
 					{
@@ -544,7 +552,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						{
 							$subPropertiesSave['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_id);
 							$subPropertiesSave['subattribute_color_id']    = $subproperty_id;
-							$subproperty_array                            = $model->store_sub($subPropertiesSave);
+							$subproperty_array                             = $model->store_sub($subPropertiesSave);
 							$this->DeleteMergeImages();
 						}
 					}
@@ -553,7 +561,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 					{
 						$subPropertiesSave['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
 						$subPropertiesSave['subattribute_color_id']    = $subproperty_id;
-						$subproperty_array                            = $model->store_sub($subPropertiesSave);
+						$subproperty_array                             = $model->store_sub($subPropertiesSave);
 						$this->DeleteMergeImages();
 					}
 
@@ -658,9 +666,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-			<script language="javascript" type="text/javascript">
-				window.parent.SqueezeBox.close();
-			</script>
+            <script language="javascript" type="text/javascript">
+                window.parent.SqueezeBox.close();
+            </script>
 			<?php
 		}
 	}
@@ -714,9 +722,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-		<script language="javascript" type="text/javascript">
-			window.parent.SqueezeBox.close();
-		</script>
+        <script language="javascript" type="text/javascript">
+            window.parent.SqueezeBox.close();
+        </script>
 		<?php
 	}
 

@@ -133,7 +133,7 @@ class RedshopControllerSearch extends RedshopController
 		$post  = $input->post->getArray();
 		$data  = $post['redform'];
 
-		$model->setState("filter.data", $post);
+		$model->setState('filter.data', $post);
 		$list       = $model->getItem();
 		$pagination = $model->getFilterPagination();
 		$total      = $model->getFilterTotal();
@@ -146,8 +146,8 @@ class RedshopControllerSearch extends RedshopController
 			. '&Itemid=' . $post['Itemid']
 			. '&categories=' . (isset($data['category']) ? implode(',', $data['category']) : '')
 			. '&manufacturers=' . (isset($data['manufacturer']) ? implode(',', $data['manufacturer']) : '')
-			. '&filterprice[min]=' . $data['filterprice']['min']
-			. '&filterprice[max]=' . $data['filterprice']['max']
+			. '&filterprice[min]=' . (isset($data['manufacturer']) ? $data['filterprice']['min'] : '')
+			. '&filterprice[max]=' . (isset($data['manufacturer']) ? $data['filterprice']['max'] : '')
 			. '&template_id=' . $data['template_id']
 			. '&keyword=' . $data['keyword']
 			. '&order_by=' . $post['order_by']
