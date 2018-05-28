@@ -141,7 +141,7 @@ class RedshopViewProduct extends RedshopView
 				$this->setLayout('default');
 			}
 
-			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($this->data->product_id);
+			$prodhelperobj_array_main = RedshopHelperProductPrice::getNetPrice($this->data->product_id);
 
 			if ($this->data->published == 0)
 			{
@@ -169,7 +169,7 @@ class RedshopViewProduct extends RedshopView
 				$pagetitletag = str_replace("{productnumber}", $this->data->product_number, $pagetitletag);
 				$pagetitletag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagetitletag);
 				$pagetitletag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagetitletag);
-				$pagetitletag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagetitletag);
+				$pagetitletag = str_replace("{saleprice}", RedshopHelperProductPrice::formattedPrice($prodhelperobj_array_main['product_price']), $pagetitletag);
 
 				$parentcat = "";
 				$parentid  = $prodhelperobj->getParentCategory($this->data->category_id);
@@ -278,7 +278,7 @@ class RedshopViewProduct extends RedshopView
 				$pagekeywordstag = str_replace("{productnumber}", $this->data->product_number, $pagekeywordstag);
 				$pagekeywordstag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagekeywordstag);
 				$pagekeywordstag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagekeywordstag);
-				$pagekeywordstag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagekeywordstag);
+				$pagekeywordstag = str_replace("{saleprice}", RedshopHelperProductPrice::formattedPrice($prodhelperobj_array_main['product_price']), $pagekeywordstag);
 				$pagekeywordstag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagekeywordstag);
 
 				$this->document->setMetaData('keywords', $pagekeywordstag);
@@ -366,8 +366,8 @@ class RedshopViewProduct extends RedshopView
 				$pagedesctag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagedesctag);
 				$pagedesctag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagedesctag);
 				$pagedesctag = str_replace("{productdesc}", strip_tags($this->data->product_desc), $pagedesctag);
-				$pagedesctag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagedesctag);
-				$pagedesctag = str_replace("{saving}", $prodhelperobj->getProductFormattedPrice($product_price_saving_main), $pagedesctag);
+				$pagedesctag = str_replace("{saleprice}", RedshopHelperProductPrice::formattedPrice($prodhelperobj_array_main['product_price']), $pagedesctag);
+				$pagedesctag = str_replace("{saving}", RedshopHelperProductPrice::formattedPrice($product_price_saving_main), $pagedesctag);
 				$pagedesctag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagedesctag);
 			}
 
@@ -409,11 +409,11 @@ class RedshopViewProduct extends RedshopView
 				}
 				else
 				{
-					$prodhelperobj_array = $prodhelperobj->getProductNetPrice($this->data->product_id);
+					$prodhelperobj_array = RedshopHelperProductPrice::getNetPrice($this->data->product_id);
 
 					if ($prodhelperobj_array['product_price_saving'] != '')
 					{
-						$product_price_saving_main = $prodhelperobj->getProductFormattedPrice($prodhelperobj_array['product_price_saving']);
+						$product_price_saving_main = RedshopHelperProductPrice::formattedPrice($prodhelperobj_array['product_price_saving']);
 					}
 					else
 					{
@@ -423,13 +423,13 @@ class RedshopViewProduct extends RedshopView
 					$this->document->setMetaData(
 											'description',
 											JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
-											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj->getProductFormattedPrice($prodhelperobj_array['product_price']) . ' ' .
+											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . RedshopHelperProductPrice::formattedPrice($prodhelperobj_array['product_price']) . ' ' .
 											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
 										);
 					$this->document->setMetaData(
 											'og:description',
 											JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
-											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj->getProductFormattedPrice($prodhelperobj_array['product_price']) . ' ' .
+											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . RedshopHelperProductPrice::formattedPrice($prodhelperobj_array['product_price']) . ' ' .
 											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
 										);
 				}

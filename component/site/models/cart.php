@@ -287,7 +287,7 @@ class RedshopModelCart extends RedshopModel
 
 					if ($subscription_price)
 					{
-						$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
+						$subscription_vat = RedshopHelperProduct::getProductTax($cart[$cartElement]['product_id'], $subscription_price);
 					}
 
 					$product_vat_price += $subscription_vat;
@@ -364,9 +364,9 @@ class RedshopModelCart extends RedshopModel
 						$accessoryAsProdutWithoutVat = '{without_vat}';
 						$accessoryPrice              = (float) $accessoryAsProdut->accessory[$cart[$i]['product_id']]->newaccessory_price;
 
-						$productPriceInit                   = $productHelper->productPriceRound($accessoryPrice);
+						$productPriceInit                   = RedshopHelperProductPrice::priceRound($accessoryPrice);
 						$cart[$i]['product_vat']            = 0;
-						$cart[$i]['product_price_excl_vat'] = $productHelper->productPriceRound($accessoryPrice);
+						$cart[$i]['product_price_excl_vat'] = RedshopHelperProductPrice::priceRound($accessoryPrice);
 					}
 
 					$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
@@ -431,7 +431,7 @@ class RedshopModelCart extends RedshopModel
 
 						if ($subscription_price)
 						{
-							$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+							$subscription_vat = RedshopHelperProduct::getProductTax($product_id, $subscription_price);
 						}
 
 						$product_vat_price += $subscription_vat;
@@ -655,7 +655,7 @@ class RedshopModelCart extends RedshopModel
 
 				for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 				{
-					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+					$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
 
 					if (count($pricelist) > 0)
 					{
@@ -671,7 +671,7 @@ class RedshopModelCart extends RedshopModel
 
 					for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 					{
-						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+						$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
 
 						if (count($pricelist) > 0)
 						{
@@ -706,7 +706,7 @@ class RedshopModelCart extends RedshopModel
 
 			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 			{
-				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+				$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
 
 				if (count($pricelist) > 0)
 				{
@@ -722,7 +722,7 @@ class RedshopModelCart extends RedshopModel
 
 				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 				{
-					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+					$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
 
 					if (count($pricelist) > 0)
 					{

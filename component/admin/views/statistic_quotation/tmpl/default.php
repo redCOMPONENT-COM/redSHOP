@@ -25,7 +25,7 @@ $producthelper = productHelper::getInstance();
 			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>', {role: 'style'}, {role: 'annotation'}],
 			<?php if (count($this->quotations) > 0) :?>
 				<?php foreach ($this->quotations as $row) : ?>
-	         		['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo $producthelper->getProductFormattedPrice($row->quotation_total); ?>'],
+	         		['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice($row->quotation_total); ?>'],
 	       	 	<?php endforeach; ?>
 	       	 <?php else: ?>
 	       	 	[0, 0, 'blue', 0],
@@ -152,7 +152,7 @@ $producthelper = productHelper::getInstance();
 				<tr>
 					<td align="center"><?php echo $row->viewdate; ?></td>
 					<td align="center"><?php echo $row->count; ?></td>
-					<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->quotation_total);?></td>
+					<td align="center"><?php  echo RedshopHelperProductPrice::formattedPrice($row->quotation_total);?></td>
 				</tr>
 			<?php endforeach; ?>
 		</table>

@@ -500,7 +500,7 @@ abstract class RedshopHelperCart
 
 						if ($subscriptionPrice)
 						{
-							$subscriptionVAT = $productHelper->getProductTax($productId, $subscriptionPrice);
+							$subscriptionVAT = RedshopHelperProduct::getProductTax($productId, $subscriptionPrice);
 						}
 
 						$productVatPrice      += $subscriptionVAT;

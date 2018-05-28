@@ -49,7 +49,7 @@ $end = $this->pagination->limit;
 				<tr>
 					<td align="center"><?php echo $i + 1; ?></td>
 					<td align="center"><?php echo $row->firstname . ' ' . $row->lastname; ?></td>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->order_total);?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->order_total);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

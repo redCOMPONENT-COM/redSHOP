@@ -92,7 +92,7 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 	$templateDesc = str_replace("{template_selector_category}", "", $templateDesc);
 }
 
-$templateDesc = $productHelper->getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
+$templateDesc = RedshopHelperProductTag::getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
 
 if (strpos($templateDesc, "{load_more}") !== false)
 {
@@ -411,7 +411,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Count accessory
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 		$totacc        = count($accessorylist);
-		$netPrice      = $productHelper->getProductNetPrice($product->product_id);
+		$netPrice      = RedshopHelperProductPrice::getNetPrice($product->product_id);
 		$productPrice  = $netPrice['productPrice'];
 
 		$dataAdd = $templateProduct;
@@ -421,7 +421,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
-		$dataAdd = str_replace("{product_price}", $productHelper->getProductFormattedPrice($productPrice), $dataAdd);
+		$dataAdd = str_replace("{product_price}", RedshopHelperProductPrice::formattedPrice($productPrice), $dataAdd);
 		$dataAdd = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
 		$dataAdd = str_replace("{product_id}", $product->product_id, $dataAdd);
 		$dataAdd = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $dataAdd);
@@ -815,7 +815,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$totacc
 		);
 
-		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
+		$dataAdd = RedshopHelperProductTag::getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 

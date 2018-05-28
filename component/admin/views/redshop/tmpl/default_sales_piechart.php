@@ -99,7 +99,7 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 			<?php foreach($sales as $sale) : ?>
 				<tr>
 					<td><?php echo $sale[2]; ?></td>
-					<td><?php echo $producthelper->getProductFormattedPrice($sale[0]); ?></td>
+					<td><?php echo RedshopHelperProductPrice::formattedPrice($sale[0]); ?></td>
 					<td><?php echo $sale[1]; ?></td>
 				</tr>
 			<?php endforeach; ?>

@@ -32,7 +32,7 @@ $quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
 $quotationProducts = RedshopHelperQuotation::getQuotationProduct($quoid);
 
-$fieldArray = $extra_field_new->getSectionFieldList(17, 0, 0);
+$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 
 $template = RedshopHelperTemplate::getTemplate("quotation_detail");
 
@@ -210,7 +210,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 		if (count($wrapper) > 0)
 		{
-			$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->wrapper_price) . ")";
+			$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . RedshopHelperProductPrice::formattedPrice($quotationProducts[$i]->wrapper_price) . ")";
 		}
 	}
 
@@ -225,7 +225,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 	{
 		$productUserFields = RedshopHelperQuotation::displayQuotationUserField($quotationProducts[$i]->quotation_item_id, 12);
 
-		$product = $producthelper->getProductById($quotationProducts[$i]->product_id);
+		$product = RedshopHelperProduct::getProductById($quotationProducts[$i]->product_id);
 
 		$product_number = $product->product_number;
 
@@ -274,8 +274,8 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 	$product_name       = "<div class='product_name'>" . $quotationProducts[$i]->product_name . "</div>";
 	$product_note       = "<div  class='product_note'>" . $wrapper_name . "</div>";
-	$product_price      = "<div class='product_price'>" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->product_price) . "</div>";
-	$product_excl_price = "<div class='product_excl_price'>" . $producthelper->getProductFormattedPrice($quotationProducts[$i]->product_excl_price) . "</div>";
+	$product_price      = "<div class='product_price'>" . RedshopHelperProductPrice::formattedPrice($quotationProducts[$i]->product_price) . "</div>";
+	$product_excl_price = "<div class='product_excl_price'>" . RedshopHelperProductPrice::formattedPrice($quotationProducts[$i]->product_excl_price) . "</div>";
 	$product_quantity   = '<div class="product_quantity">' . $quotationProducts[$i]->product_quantity . '</div>';
 
 	$product_total_price      = $quotationProducts[$i]->product_quantity * $quotationProducts[$i]->product_price;
@@ -316,9 +316,9 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 	else
 	{
 		$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
-		$cart_mdata = str_replace("{product_total_price}", $producthelper->getProductFormattedPrice($product_total_price), $cart_mdata);
+		$cart_mdata = str_replace("{product_total_price}", RedshopHelperProductPrice::formattedPrice($product_total_price), $cart_mdata);
 		$cart_mdata = str_replace("{product_price_excl_vat}", $product_excl_price, $cart_mdata);
-		$cart_mdata = str_replace("{product_total_price_excl_vat}", $producthelper->getProductFormattedPrice($product_total_excl_price), $cart_mdata);
+		$cart_mdata = str_replace("{product_total_price_excl_vat}", RedshopHelperProductPrice::formattedPrice($product_total_excl_price), $cart_mdata);
 	}
 
 	$cart_mdata = str_replace("{product_quantity}", $product_quantity, $cart_mdata);
@@ -335,10 +335,10 @@ if ($quotationDetail->quotation_status == 1)
 }
 else
 {
-	$quotation_total    = $producthelper->getProductFormattedPrice($quotationDetail->quotation_total);
-	$quotation_subtotal = $producthelper->getProductFormattedPrice($quotationDetail->quotation_subtotal);
-	$quotation_tax      = $producthelper->getProductFormattedPrice($quotationDetail->quotation_tax);
-	$quotation_discount = $producthelper->getProductFormattedPrice($quotationDetail->quotation_discount);
+	$quotation_total    = RedshopHelperProductPrice::formattedPrice($quotationDetail->quotation_total);
+	$quotation_subtotal = RedshopHelperProductPrice::formattedPrice($quotationDetail->quotation_subtotal);
+	$quotation_tax      = RedshopHelperProductPrice::formattedPrice($quotationDetail->quotation_tax);
+	$quotation_discount = RedshopHelperProductPrice::formattedPrice($quotationDetail->quotation_discount);
 }
 
 $search []  = "{quotation_discount}";

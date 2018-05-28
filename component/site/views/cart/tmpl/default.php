@@ -201,7 +201,7 @@ if (is_object($discount))
 
 	if ($diff > 0)
 	{
-		$text = sprintf(JText::_('COM_REDSHOP_DISCOUNT_TEXT'), $producthelper->getProductFormattedPrice($diff, true), $producthelper->getProductFormattedPrice($discount_amount, true), $price . $discount_sign);
+		$text = sprintf(JText::_('COM_REDSHOP_DISCOUNT_TEXT'), RedshopHelperProductPrice::formattedPrice($diff, true), RedshopHelperProductPrice::formattedPrice($discount_amount, true), $price . $discount_sign);
 	}
 
 	/*

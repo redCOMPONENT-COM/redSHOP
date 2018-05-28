@@ -34,7 +34,7 @@ $texpricemin = $minmax[0];
 $texpricemax = $minmax[1];
 
 $loadCategorytemplate = $this->loadCategorytemplate;
-$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
+$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
@@ -479,10 +479,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 	$attribute_template = \Redshop\Template\Helper::getAttribute($template_product);
 
 	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-	$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
+	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
 	$product_data   = '';
 	list($template_userfield, $userfieldArr) = $producthelper->getProductUserfieldFromTemplate($template_product);
-	$template_product = $producthelper->replaceVatinfo($template_product);
+	$template_product = RedshopHelperTax::replaceVatInformation($template_product);
 
 	foreach ($this->product as $product)
 	{
@@ -953,10 +953,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 				if ($product->attribute_set_id > 0)
 				{
-					$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 				}
 
-				$attributes = $producthelper->getProductAttribute($product->product_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 			else
@@ -974,10 +974,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
 
-			$attributes = $producthelper->getProductAttribute($product->product_id);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 

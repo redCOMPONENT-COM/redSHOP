@@ -120,7 +120,7 @@ $url = $uri->root(); ?>
 								<?php echo $row->wrapper_image; ?></a>
 						<?php } ?>
 					</td>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->wrapper_price);//CURRENCY_SYMBOL.number_format($row->wrapper_price,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->wrapper_price);//CURRENCY_SYMBOL.number_format($row->wrapper_price,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 						?></td>
 					<td align="center"><?php echo $enable_default; ?></td>
 					<td align="center"><?php echo $published; ?></td>

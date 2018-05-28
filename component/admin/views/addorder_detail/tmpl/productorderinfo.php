@@ -19,7 +19,7 @@ $productarr          = $post['productarr'];
 $qntarr              = $post['qntarr'];
 $user_id             = $post['order_user_id'];
 $shipp_users_info_id = $post['shipp_users_info_id'];
-$userinfo            = $producthelper->getUserInformation($user_id, "BT");
+$userinfo            = RedshopHelperUser::getUserInformation($user_id, "BT");
 
 if ($shipp_users_info_id == 0 && count($userinfo) > 0)
 {

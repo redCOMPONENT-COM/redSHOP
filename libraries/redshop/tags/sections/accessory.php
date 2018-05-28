@@ -42,7 +42,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		for ($a = 0; $a < $count; $a++)
 		{
 			$accessoryId = $accessory[$a]->child_product_id;
-			$productInfo = $productHelper->getProductById($accessoryId);
+			$productInfo = RedshopHelperProduct::getProductById($accessoryId);
 			$imageUrl    = RedshopHelperMedia::getImagePath(
 				$productInfo->product_preview_image,
 				'',

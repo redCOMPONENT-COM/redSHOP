@@ -42,10 +42,10 @@ $model = $this->getModel('redshop');
 					<td align="center"><a href="<?php echo $link; ?>"
 					                      style="color:black;"><?php echo $order->tot_order ?></a></td>
 					<td align="center"><a href="<?php echo $link; ?>"
-					                      style="color:black;"><?php echo $producthelper->getProductFormattedPrice($avg_amount); ?></a>
+					                      style="color:black;"><?php echo RedshopHelperProductPrice::formattedPrice($avg_amount); ?></a>
 					</td>
 					<td align="center"><a href="<?php echo $link; ?>"
-					                      style="color:black;"><?php echo $producthelper->getProductFormattedPrice($order->order_total);?></a>
+					                      style="color:black;"><?php echo RedshopHelperProductPrice::formattedPrice($order->order_total);?></a>
 					</td>
 				</tr>
 				<?php    $k = 1 - $k;

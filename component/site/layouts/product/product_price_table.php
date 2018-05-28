@@ -30,8 +30,8 @@ $productHelper = productHelper::getInstance();
 			<?php $value->product_price = $value->discount_price; ?>
 		<?php endif; ?>
 		<?php 
-		$tax = $productHelper->getProductTax($productId, $value->product_price, $userId);
-		$price = $productHelper->getProductFormattedPrice($value->product_price + $tax);
+		$tax   = RedshopHelperProduct::getProductTax($productId, $value->product_price, $userId);
+		$price = RedshopHelperProductPrice::formattedPrice($value->product_price + $tax);
 		?>
 		<tr>
 			<td><?php echo $value->price_quantity_start; ?> - <?php echo $value->price_quantity_end; ?></td>

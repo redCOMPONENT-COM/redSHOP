@@ -197,7 +197,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		 * category template extra field
 		 * "2" argument is set for category
 		 */
-		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
+		$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
 
 		if (strstr($data_add, "{product_loop_start}") && strstr($data_add, "{product_loop_end}"))
 		{
@@ -224,7 +224,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$count_no_user_field = 0;
 
 				// Counting accessory
-				$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
+				$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 				$totacc        = count($accessorylist);
 
 				$prddata_add .= $template_product;
@@ -343,7 +343,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$strToInsert  = $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit;
 				$prddata_add  = str_replace("{product_height}", $strToInsert, $prddata_add);
 
-				$prddata_add = $producthelper->replaceVatinfo($prddata_add);
+				$prddata_add = RedshopHelperTax::replaceVatInformation($prddata_add);
 				$this->catid = $row->category_id;
 				$link        = JRoute::_(
 											'index.php?option=com_redshop&view=product&pid=' .
@@ -467,7 +467,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				 */
 				if (count($loadCategorytemplate) > 0)
 				{
-					$prddata_add = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $prddata_add, 1);
+					$prddata_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $prddata_add, 1);
 				}
 
 				/************************************
@@ -503,10 +503,10 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 					if ($product->attribute_set_id > 0)
 					{
-						$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $producthelper->getProductAttribute($product->product_id);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 

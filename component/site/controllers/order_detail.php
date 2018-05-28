@@ -260,7 +260,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		}
 		else
 		{
-			$product_data = $this->_producthelper->getProductById($row['product_id']);
+			$product_data = RedshopHelperProduct::getProductById($row['product_id']);
 
 			if ($product_data->product_type == 'subscription')
 			{

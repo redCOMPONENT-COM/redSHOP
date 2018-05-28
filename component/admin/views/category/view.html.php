@@ -52,7 +52,7 @@ class RedshopViewCategory extends RedshopViewForm
 
 		if ($this->item->id)
 		{
-			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->item->id);
+			$categoryAccessoryProduct = RedshopHelperAccessory::getProductAccessories(0, 0, 0, $this->item->id);
 		}
 
 		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;

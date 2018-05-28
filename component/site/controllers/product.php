@@ -120,7 +120,7 @@ class RedshopControllerProduct extends RedshopController
 		$cartdata  = Redshop\Cart\Helper::generateAttribute($data);
 		$retAttArr = $producthelper->makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
 
-		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
+		$ProductPriceArr = RedshopHelperProductPrice::getNetPrice($product_id, 0, $quantity);
 
 		$acccartdata     = $carthelper->generateAccessoryArray($data);
 		$retAccArr       = $producthelper->makeAccessoryCart($acccartdata, $product_id);
@@ -280,19 +280,19 @@ class RedshopControllerProduct extends RedshopController
 	/**
 	 * Add to wishlist function
 	 *
-	 * @access public
-	 * @return void
+	 * @access  public
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function addtowishlist()
 	{
 		$app           = JFactory::getApplication();
-		$extraField    = extraField::getInstance();
 		$productHelper = productHelper::getInstance();
 		$user          = JFactory::getUser();
 
 		ob_clean();
-		$section  = 12;
-		$row_data = $extraField->getSectionFieldList($section);
+		$section  = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section);
 
 		// GetVariables
 		$cid             = $this->input->getInt('cid', 0);
@@ -447,7 +447,7 @@ class RedshopControllerProduct extends RedshopController
 		if ($ajaxOn == 1)
 		{
 			sleep(2);
-			$getproductimage = $productHelper->getProductById($post['product_id']);
+			$getproductimage = RedshopHelperProduct::getProductById($post['product_id']);
 			$finalproductimgname = $getproductimage->product_full_image;
 
 			if ($finalproductimgname != '')

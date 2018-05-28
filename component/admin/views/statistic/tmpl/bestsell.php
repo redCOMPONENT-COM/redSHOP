@@ -63,7 +63,7 @@ $end = $this->pagination->limit;
 						<td align="center"><?php echo $i + 1; ?></td>
 						<td><a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
 								<?php echo $row->product_name; ?></a></td>
-						<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->product_price);?></td>
+						<td align="center"><?php  echo RedshopHelperProductPrice::formattedPrice($row->product_price);?></td>
 						<td align="center"><?php  echo $row->totalproduct;?></td>
 					</tr>
 				<?php

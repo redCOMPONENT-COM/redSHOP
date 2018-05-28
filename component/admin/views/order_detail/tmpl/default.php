@@ -97,12 +97,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                 <i class="fa fa-money" aria-hidden="true"></i>
             </span>
 
-			<div class="info-box-content">
-				<span class="info-box-text"><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?></span>
-				<span class="info-box-number"><?php echo $productHelper->getProductFormattedPrice($this->detail->order_total); ?></span>
-			</div>
-		</div>
-	</div>
+            <div class="info-box-content">
+                <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?></span>
+                <span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice($this->detail->order_total); ?></span>
+            </div>
+        </div>
+    </div>
 
 	<div class="col-md-3 col-sm-6 col-xs-12">
 		<div class="info-box">
@@ -600,10 +600,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$quantity               = $products[$i]->product_quantity;
 							$product_id             = $products[$i]->product_id;
 
-							if ($productdetail = $productHelper->getProductById($product_id))
-							{
-								$ordervolume = $ordervolume + $productdetail->product_volume;
-							}
+                            if ($productdetail = RedshopHelperProduct::getProductById($product_id))
+                            {
+                                $ordervolume = $ordervolume + $productdetail->product_volume;
+                            }
 
 							$order_item_id   = $products[$i]->order_item_id;
 							$order_item_name = $products[$i]->order_item_name;

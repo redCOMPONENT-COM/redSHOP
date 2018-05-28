@@ -722,7 +722,7 @@ class RedshopModelCheckout extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $this->_producthelper->getProductTax($rowitem->product_id, $accessory_price);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($rowitem->product_id, $accessory_price);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -769,11 +769,11 @@ class RedshopModelCheckout extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
+								$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
 							$property_id = $propArr[$k]['property_id'];
-							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $this->_producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr                    = $propArr[$k]['property_childs'];
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -803,11 +803,11 @@ class RedshopModelCheckout extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
-								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $this->_producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id     = $rowitem->order_item_id;
@@ -868,7 +868,7 @@ class RedshopModelCheckout extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo                      = $this->_producthelper->getProductById($accdata->child_product_id);
+					$accProductinfo                      = RedshopHelperProduct::getProductById($accdata->child_product_id);
 					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
 					$rowaccitem->order_item_id           = $rowitem->order_item_id;
@@ -932,7 +932,7 @@ class RedshopModelCheckout extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
+								$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
 							$property_id = $propArr[$k]['property_id'];
@@ -974,7 +974,7 @@ class RedshopModelCheckout extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
@@ -1245,14 +1245,14 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$giftcardmailsub   = $giftcardmail->mail_subject;
 			$giftcardData      = RedshopEntityGiftcard::getInstance($eachorders->product_id)->getItem();
-			$giftcard_value    = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
+			$giftcard_value    = RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
 			$giftcard_price    = $eachorders->product_final_price;
 			$giftcardmail_body = $giftcardmail->mail_body;
 			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
 			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
 			$giftcardmail_body = str_replace("{product_userfields}", $user_fields, $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_price}", $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmail_body);
+			$giftcardmail_body = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($giftcard_price), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_reciver_email}", $eachorders->giftcard_user_email, $giftcardmail_body);
@@ -1263,7 +1263,7 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmail_body = str_replace("{giftcard_desc}", $giftcardData->giftcard_desc, $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_validity}", $giftcardData->giftcard_validity, $giftcardmail_body);
 			$giftcardmailsub   = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_price}', $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmailsub);
+			$giftcardmailsub   = str_replace('{giftcard_price}', RedshopHelperProductPrice::formattedPrice($giftcard_price), $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
 			$gift_code         = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
@@ -2226,8 +2226,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
-			$shippinPrice        = $this->_producthelper->getProductFormattedPrice($cart ['shipping'] - $cart['shipping_vat']);
+			$shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
+			$shippinPrice        = RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
 		}
 		else
 		{

@@ -164,7 +164,7 @@ $productHelper = productHelper::getInstance();
 							$productObject->value = $product_data->product_id;
 							$listAttributes = array('disabled' => 'disabled');
 						}
-						elseif (isset($this->detail->product_id) && ($productInfo = $productHelper->getProductById($this->detail->product_id)))
+						elseif (isset($this->detail->product_id) && ($productInfo = RedshopHelperProduct::getProductById($this->detail->product_id)))
 						{
 							$productObject->text = $productInfo->product_name;
 							$productObject->value = $this->detail->product_id;

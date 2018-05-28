@@ -295,7 +295,7 @@ class RedshopViewSearch extends RedshopView
 			}
 
 			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
+			$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template            = \Redshop\Template\Helper::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
@@ -305,7 +305,7 @@ class RedshopViewSearch extends RedshopView
 			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
-			$fieldArray          = $extraField->getSectionFieldList(17, 0, 0);
+			$fieldArray          = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 
 			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
@@ -456,7 +456,7 @@ class RedshopViewSearch extends RedshopView
 					$data_add = str_replace($rtlntag, $rtlna, $data_add);
 				}
 
-				$data_add = $producthelper->replaceVatinfo($data_add);
+				$data_add = RedshopHelperTax::replaceVatInformation($data_add);
 
 				/************************************
 				 *  Conditional tag
@@ -666,10 +666,10 @@ class RedshopViewSearch extends RedshopView
 
 					if ($this->search[$i]->attribute_set_id > 0)
 					{
-						$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->search[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
@@ -686,7 +686,7 @@ class RedshopViewSearch extends RedshopView
 				// Cart Template
 				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field);
 
-				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
+				$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
 
 				$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
 				$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");

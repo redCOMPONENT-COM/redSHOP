@@ -101,7 +101,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		if ($data->product_excl_price)
 		{
-			$getprotax                   = $producthelper->getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
+			$getprotax                   = RedshopHelperProduct::getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
 			$cart[$idx]['product_price'] = $data->product_excl_price + $getprotax;
 			$cart[$idx]['product_price'] += $data->wrapper_price;
 			$cart[$idx]['product_subtotal'] = $cart[$idx]['quantity'] * $cart[$idx]['product_price'];

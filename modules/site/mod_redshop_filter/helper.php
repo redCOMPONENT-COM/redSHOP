@@ -35,7 +35,7 @@ abstract class ModRedshopFilter
 			// Get product price
 			foreach ($pids as $k => $id)
 			{
-				$productprices      = $producthelper->getProductNetPrice($id);
+				$productprices      = RedshopHelperProductPrice::getNetPrice($id);
 				$allProductPrices[] = $productprices['product_price'];
 			}
 

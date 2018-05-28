@@ -41,7 +41,7 @@ $end = $this->pagination->limit;
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }        ?>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->avg_order);?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->avg_order);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

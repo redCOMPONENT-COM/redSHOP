@@ -3134,7 +3134,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($this->id)
 		{
-			$attributes = $producthelper->getProductAttribute($this->id);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->id);
 
 			for ($i = 0, $in = count($attributes); $i < $in; $i++)
 			{
@@ -4406,11 +4406,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			if ($product_id)
 			{
-				$attributes = $producthelper->getProductAttribute($product_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
 			}
 			else
 			{
-				$attributes = $producthelper->getProductAttribute(0, $attribute_set_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute(0, $attribute_set_id);
 			}
 		}
 

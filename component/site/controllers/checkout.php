@@ -532,7 +532,7 @@ class RedshopControllerCheckout extends RedshopController
 					$labelClass = 'label-success';
 				}
 
-				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, RedshopHelperProductPrice::formattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
 				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();

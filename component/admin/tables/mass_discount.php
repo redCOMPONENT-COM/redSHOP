@@ -354,7 +354,7 @@ class RedshopTableMass_Discount extends RedshopTable
 					$price = $productData->product_price - $this->amount;
 				}
 
-				$price = $productHelper->productPriceRound($price);
+				$price = RedshopHelperProductPrice::priceRound($price);
 
 				$query->clear()
 					->update($db->qn('#__redshop_product'))
@@ -448,7 +448,7 @@ class RedshopTableMass_Discount extends RedshopTable
 					$price = $productData->product_price - $this->amount;
 				}
 
-				$price = $productHelper->productPriceRound($price);
+				$price = RedshopHelperProductPrice::priceRound($price);
 
 				$query->clear()
 					->update($db->qn('#__redshop_product'))
@@ -617,7 +617,7 @@ class RedshopTableMass_Discount extends RedshopTable
 					$price = $productData->product_price - $this->amount;
 				}
 
-				$price = $productHelper->productPriceRound($price);
+				$price = RedshopHelperProductPrice::priceRound($price);
 				$query->clear();
 
 				// Update fields

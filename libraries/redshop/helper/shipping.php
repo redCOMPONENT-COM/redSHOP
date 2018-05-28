@@ -860,7 +860,7 @@ class RedshopHelperShipping
 			return array();
 		}
 
-		$result = $productHelper->getUserInformation($userId);
+		$result = RedshopHelperUser::getUserInformation($userId);
 
 		if (!empty($result) && $result->default_shipping == 1)
 		{
