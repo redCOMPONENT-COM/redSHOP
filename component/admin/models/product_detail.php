@@ -3129,8 +3129,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function attribute_empty()
 	{
-		$producthelper = productHelper::getInstance();
-		$database      = JFactory::getDbo();
+		$database = JFactory::getDbo();
 
 		if ($this->id)
 		{
@@ -4389,8 +4388,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_attibute($product_id, $attribute_id, $attribute_set_id)
 	{
-		$producthelper = productHelper::getInstance();
-
 		if (empty($attribute_set_id) && empty($product_id))
 		{
 			return;

@@ -845,9 +845,8 @@ class RedshopHelperShipping
 	 */
 	public static function getShopperGroupDefaultShipping($userId = 0)
 	{
-		$productHelper = productHelper::getInstance();
-		$shippingArr   = array();
-		$user          = JFactory::getUser();
+		$shippingArr = array();
+		$user        = JFactory::getUser();
 
 		// FOR OFFLINE ORDER
 		if ($userId == 0)

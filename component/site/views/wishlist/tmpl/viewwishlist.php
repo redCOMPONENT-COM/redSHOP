@@ -181,6 +181,7 @@ function display_products($rows)
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
+			$product_price_discount = $product_price_discount['product_discount_price'];
 
 			echo "<div id='wishlist_box'>";
 

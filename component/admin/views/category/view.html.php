@@ -34,8 +34,6 @@ class RedshopViewCategory extends RedshopViewForm
 	 */
 	public function display($tpl = null)
 	{
-		$producthelper = productHelper::getInstance();
-
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.fields.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);

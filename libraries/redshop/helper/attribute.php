@@ -620,8 +620,7 @@ class RedshopHelperAttribute
 	public static function replaceAttributeWithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
 	                                                    $templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
-		$user_id       = 0;
-		$productHelper = productHelper::getInstance();
+		$user_id = 0;
 
 		if (empty($attributeTemplate))
 		{

@@ -286,9 +286,8 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function addtowishlist()
 	{
-		$app           = JFactory::getApplication();
-		$productHelper = productHelper::getInstance();
-		$user          = JFactory::getUser();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		ob_clean();
 		$section  = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;

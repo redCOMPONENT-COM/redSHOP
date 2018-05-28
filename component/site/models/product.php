@@ -218,9 +218,7 @@ class RedshopModelProduct extends RedshopModel
 			return false;
 		}
 
-		$producthelper = productHelper::getInstance();
-		$user          = JFactory::getUser();
-
+		$user       = JFactory::getUser();
 		$url        = JURI::base();
 		$Itemid     = $this->input->get('Itemid');
 		$mailbcc    = null;

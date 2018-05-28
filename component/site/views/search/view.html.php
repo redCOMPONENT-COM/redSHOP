@@ -116,7 +116,6 @@ class RedshopViewSearch extends RedshopView
 			$dispatcher       = RedshopHelperUtility::getDispatcher();
 			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
-			$extraField       = extraField::getInstance();
 			$objhelper        = redhelper::getInstance();
 
 			$Itemid         = $app->input->getInt('Itemid');

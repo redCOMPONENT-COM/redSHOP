@@ -61,8 +61,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function &getuserdata()
 	{
-		$producthelper = productHelper::getInstance();
-
 		if ($this->_data->user_id)
 		{
 			$userdata                = RedshopHelperUser::getUserInformation($this->_data->user_id);
@@ -756,10 +754,9 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function storeOrder($data)
 	{
-		$producthelper = productHelper::getInstance();
-		$db            = $this->getDbo();
-		$orderNumber   = RedshopHelperOrder::generateOrderNumber();
-		$encrKey       = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
+		$db          = $this->getDbo();
+		$orderNumber = RedshopHelperOrder::generateOrderNumber();
+		$encrKey     = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
 
 		$row                          = $this->getTable('order_detail');
 		$row->user_id                 = (int) $data['user_id'];

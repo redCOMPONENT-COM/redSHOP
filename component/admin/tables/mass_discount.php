@@ -547,7 +547,6 @@ class RedshopTableMass_Discount extends RedshopTable
 		$query              = $db->getQuery(true);
 		$isChangeProduct    = false;
 		$isNewChangeProduct = false;
-		$productHelper      = productHelper::getInstance();
 
 		$discountProducts    = $isNew ? array() : explode(',', $oldItem->discount_product);
 		$newDiscountProducts = explode(',', $this->discount_product);

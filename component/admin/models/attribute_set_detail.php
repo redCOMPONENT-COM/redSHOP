@@ -245,7 +245,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$db             = $this->_db;
 		$attribute_data = array();
-		$producthelper  = productHelper::getInstance();
 		$attr           = RedshopHelperProduct_Attribute::getProductAttribute(0, $data);
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
@@ -723,8 +722,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function attribute_empty()
 	{
-		$database      = JFactory::getDbo();
-		$producthelper = productHelper::getInstance();
+		$database = JFactory::getDbo();
 
 		if ($this->_id)
 		{

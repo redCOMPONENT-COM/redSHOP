@@ -313,11 +313,9 @@ class RedshopModelCart extends RedshopModel
 	public function update_all($data)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher    = RedshopHelperUtility::getDispatcher();
-		$productHelper = productHelper::getInstance();
-
-		$cart = RedshopHelperCartSession::getCart();
-		$user = JFactory::getUser();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$cart       = RedshopHelperCartSession::getCart();
+		$user       = JFactory::getUser();
 
 		if (empty($cart))
 		{

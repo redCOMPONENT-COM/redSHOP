@@ -31,13 +31,14 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 	 * @return  void
 	 *
 	 * @since   2.1
+	 *
+	 * @throws  Exception
 	 */
 	public function init()
 	{
-		$productHelper = productHelper::getInstance();
-		$accessory     = $this->data['accessory'];
-		$count         = count($accessory);
-		$previewImage  = '';
+		$accessory    = $this->data['accessory'];
+		$count        = count($accessory);
+		$previewImage = '';
 
 		for ($a = 0; $a < $count; $a++)
 		{
