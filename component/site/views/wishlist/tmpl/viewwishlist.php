@@ -181,7 +181,7 @@ function display_products($rows)
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
-			$product_price_discount = $product_price_discount['product_discount_price'];
+			$product_price_discount = is_array($product_price_discount) ? $product_price_discount['product_discount_price'] : $product_price_discount;
 
 			echo "<div id='wishlist_box'>";
 
@@ -263,6 +263,7 @@ function display_products($rows)
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
 			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
+			$product_price_discount = is_array($product_price_discount) ? $product_price_discount['product_discount_price'] : $product_price_discount;
 
 			if ($row->product_full_image)
 			{
@@ -363,11 +364,11 @@ function display_products($rows)
 				if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 				{
 					$isChilds       = false;
-					$attributes_set = array();
+					$attributeSets = array();
 
 					if ($row->attribute_set_id > 0)
 					{
-						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
+						$attributeSets = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
 					}
 
 					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($row->product_id);
@@ -381,16 +382,11 @@ function display_products($rows)
 			}
 			else
 			{
-				$isChilds       = false;
-				$attributes_set = array();
+				$isChilds      = false;
+				$attributeSets = $row->attribute_set_id > 0 ?
+					RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1) : array();
 
-				if ($row->attribute_set_id > 0)
-				{
-					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
-				}
-
-				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($row->product_id);
-				$attributes = array_merge($attributes, $attributes_set);
+				$attributes = array_merge(RedshopHelperProduct_Attribute::getProductAttribute($row->product_id), $attributeSets);
 			}
 
 			if (empty($row->product_items))

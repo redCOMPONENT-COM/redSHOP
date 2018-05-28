@@ -301,10 +301,9 @@ class RedshopViewSearch extends RedshopView
 			$endlimit      = $model->getState('list.limit');
 			$start         = $model->getState('list.start');
 
-			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
-			$data                = "";
-			$count_no_user_field = 0;
-			$fieldArray          = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
+			$tagarray   = RedshopHelperText::getTextLibraryTagArray();
+			$data       = '';
+			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 
 			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
