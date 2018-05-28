@@ -32,6 +32,7 @@ $view               = $input->getCmd('view', '');
 $layout             = $input->getCmd('layout', '');
 $itemId             = $input->getInt('Itemid', 0);
 $keyword            = $input->getString('keyword', '');
+$enableClearButton  = $input->getBool('show_clear', true);
 $action             = JRoute::_('index.php?option=com_redshop&view=search');
 $getData            = $input->getArray();
 

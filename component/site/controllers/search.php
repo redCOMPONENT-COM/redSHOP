@@ -173,11 +173,11 @@ class RedshopControllerSearch extends RedshopController
 		echo RedshopLayoutHelper::render(
 			'filter.result',
 			array(
-				"products"   => $list,
-				"model"      => $model,
-				"post"       => $data,
-				"pagination" => $pagination,
-				"orderBy"    => $post['order_by'],
+				'products'   => $list,
+				'model'      => $model,
+				'post'       => $data,
+				'pagination' => $pagination,
+				'orderBy'    => $post['order_by'],
 				'total'      => $total,
 				'templateId' => $data['template_id'],
 				'url'        => $url,

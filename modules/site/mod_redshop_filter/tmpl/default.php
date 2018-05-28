@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="<?php echo $moduleClassSfx; ?>">
+<div class="<?php echo $moduleClassSfx ?>">
     <form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id; ?>"
           id="redproductfinder-form-<?php echo $module->id; ?>" class="form-validate form-vertical">
         <div class="form-horizontal">
@@ -132,12 +132,13 @@ defined('_JEXEC') or die;
                     </div>
                 </div>
 			<?php endif; ?>
+            <?php if ($enableClearButton): ?>
             <div class="row-fluid">
-                <button id="clear-btn" class="clear-btn btn btn-default clearfix"
-                        onclick="clearAll();">
+                <button id="clear-btn" class="clear-btn btn btn-default clearfix">
 					<?php echo JText::_('MOD_REDSHOP_FILTER_CLEAR_LABEL') ?>
                 </button>
             </div>
+            <?php endif; ?>
         </div>
         <input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>"/>
         <input type="hidden" name="redform[mid]" value="<?php echo !empty($mid) ? $mid : 0; ?>"/>
@@ -215,7 +216,7 @@ defined('_JEXEC') or die;
                 }
 
                 $mainContent.html(data);
-                jQuery('select#orderBy').select2();
+                jQuery('select').select2();
 
                 url = jQuery(jQuery.parseHTML(data)).find("#new-url").text();
                 window.history.pushState("", "", url);
@@ -250,17 +251,6 @@ defined('_JEXEC') or die;
     function pagination(start) {
         jQuery('input[name="limitstart"]').val(start);
         submitpriceform();
-    }
-
-    function clearAll() {
-        jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').prop('checked', false);
-        jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').each(function () {
-            checkclick(jQuery(this))
-        });
-        jQuery('input[name="redform[filterprice][min]"]').val('<?php echo $rangeMin;?>');
-        jQuery('input[name="redform[filterprice][max]"]').val('<?php echo $rangeMax;?>');
-        range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $currentMin ?>, <?php echo $currentMax ?>, submitpriceform);
-        submitpriceform(null);
     }
 
     function loadTemplate(el) {
@@ -338,14 +328,25 @@ defined('_JEXEC') or die;
         });
 
         jQuery("#<?php echo $module->id ?>-keyword").on("keypress", function (event) {
-            console.log(event.keyCode);
-
             if (event.keyCode === 13) {
-                console.log("submitpriceform");
                 submitpriceform();
+
+                return false;
             }
 
             return true;
-        })
+        });
+
+        jQuery("#clear-btn").on("click", function(event){
+            event.preventDefault();
+            jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').prop('checked', false);
+            jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').each(function () {
+                checkclick(jQuery(this))
+            });
+            jQuery('input[name="redform[filterprice][min]"]').val('<?php echo $rangeMin;?>');
+            jQuery('input[name="redform[filterprice][max]"]').val('<?php echo $rangeMax;?>');
+            range_slide(<?php echo $rangeMin ?>, <?php echo $rangeMax ?>, <?php echo $currentMin ?>, <?php echo $currentMax ?>, submitpriceform);
+            submitpriceform(null);
+        });
     });
 </script>
