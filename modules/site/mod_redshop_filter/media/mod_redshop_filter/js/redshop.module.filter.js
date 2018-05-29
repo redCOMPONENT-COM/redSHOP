@@ -4,6 +4,7 @@
     redSHOP.Module.Filter = redSHOP.Module.Filter || {};
     redSHOP.Module.Filter.form = null;
     redSHOP.Module.Filter.options = {};
+    redSHOP.Module.Filter.resetMode = false;
     redSHOP.Module.Filter.setup = function (options) {
         redSHOP.Module.Filter.options = options;
         redSHOP.Module.Filter.form = $("#redproductfinder-form-" + redSHOP.Module.Filter.options.domId);
@@ -80,6 +81,7 @@
         if (options.showClearBtn) {
             redSHOP.Module.Filter.form.find("#clear-btn").on("click", function (event) {
                 event.preventDefault();
+                redSHOP.Module.Filter.resetMode = true;
                 redSHOP.Module.Filter.form.find('input[type="checkbox"]').prop('checked', false);
                 redSHOP.Module.Filter.form.find('input[type="checkbox"]').each(function () {
                     redSHOP.Module.Filter.checkClick($(this));
@@ -87,7 +89,10 @@
                 redSHOP.Module.Filter.form.find('input[name="redform[filterprice][min]"]').val(options.rangeMin);
                 redSHOP.Module.Filter.form.find('input[name="redform[filterprice][max]"]').val(options.rangeMax);
                 $("#" + options.domId + "-keyword").val("");
-                redSHOP.Module.Filter.rangeSlide(options.rangeMin, options.rangeMax, options.currentMin, options.currentMax);
+                redSHOP.Module.Filter.rangeSlide(options.rangeMin, options.rangeMax, options.currentMin, options.currentMax, redSHOP.Module.Filter.submitFormAjax);
+
+                // Submit form
+                redSHOP.Module.Filter.resetMode = false;
                 redSHOP.Module.Filter.submitFormAjax(null);
             });
         }
@@ -128,35 +133,37 @@
         });
     };
     redSHOP.Module.Filter.submitFormAjax = function () {
-        $.ajax({
-            type: "POST",
-            url: redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&task=search.findProducts",
-            data: redSHOP.Module.Filter.form.serialize(),
-            beforeSend: function () {
-                $('#wait').css('display', 'block');
-            },
-            success: function (data) {
-                var $mainContent = $("#main #redshopcomponent");
+        if (redSHOP.Module.Filter.resetMode === false) {
+            $.ajax({
+                type: "POST",
+                url: redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&task=search.findProducts",
+                data: redSHOP.Module.Filter.form.serialize(),
+                beforeSend: function () {
+                    $('#wait').css('display', 'block');
+                },
+                success: function (data) {
+                    var $mainContent = $("#main #redshopcomponent");
 
-                if (!$mainContent.length) {
-                    $mainContent = jQuery("#redshopcomponent");
+                    if (!$mainContent.length) {
+                        $mainContent = jQuery("#redshopcomponent");
+                    }
+
+                    $mainContent.html(data);
+                    $('select').select2();
+
+                    url = $($.parseHTML(data)).find("#new-url").text();
+                    window.history.pushState("", "", url);
+                },
+                complete: function () {
+                    $('#wait').css('display', 'none');
+
+                    if (redSHOP.Module.Filter.options.isRestricted) {
+                        var pids = jQuery('input[name="pids"]').val();
+                        restricted(redSHOP.Module.Filter.form.serialize(), pids, redSHOP.Module.Filter.options.moduleParams);
+                    }
                 }
-
-                $mainContent.html(data);
-                $('select').select2();
-
-                url = $($.parseHTML(data)).find("#new-url").text();
-                window.history.pushState("", "", url);
-            },
-            complete: function () {
-                $('#wait').css('display', 'none');
-
-                if (redSHOP.Module.Filter.options.isRestricted) {
-                    var pids = jQuery('input[name="pids"]').val();
-                    restricted(redSHOP.Module.Filter.form.serialize(), pids, redSHOP.Module.Filter.options.moduleParams);
-                }
-            }
-        });
+            });
+        }
     };
     redSHOP.Module.Filter.submitForm = function () {
         redSHOP.Module.Filter.form.find('input[name="limitstart"]').val(0);

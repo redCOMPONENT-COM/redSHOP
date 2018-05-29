@@ -35,6 +35,8 @@ $keyword            = $input->getString('keyword', '');
 $enableClearButton  = $input->getBool('show_clear', true);
 $action             = JRoute::_('index.php?option=com_redshop&view=search');
 $getData            = $input->getArray();
+$pids               = array();
+$rangePrice         = array('min' => 0.0, 'max' => 0.0);
 
 if (!empty($cid))
 {
@@ -84,7 +86,6 @@ elseif ($view == 'search')
 	$productList = RedshopHelperProduct::getProductsByIds($productIds);
 	$manuList    = array();
 	$catList     = array();
-	$pids        = array();
 
 	foreach ($productList as $k => $value)
 	{
@@ -118,6 +119,7 @@ if ($enablePrice)
 	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
 }
 
-JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', false, true, false, false);
+// JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', false, true, false, false);
+JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', array('relative' => true, 'detectBrowser' => false, 'version' => true));
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
