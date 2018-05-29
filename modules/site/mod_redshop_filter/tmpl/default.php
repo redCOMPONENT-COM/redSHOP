@@ -83,8 +83,7 @@ defined('_JEXEC') or die;
 											<?php if (in_array($manu->id, $manufacturersValue)) : ?>
 												<?php echo "checked='checked'"; ?>
 											<?php endif; ?>
-                                               onchange="javascript:redSHOP.Module.Filter.submitForm(this)"
-                                        >
+                                            />
 										</span>
                                         <span class='tagname'><?php echo $manu->name; ?></span>
                                     </label>

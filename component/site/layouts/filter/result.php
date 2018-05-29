@@ -42,7 +42,7 @@ $list = array(
 $orderBy = JHtml::_(
 	'select.genericlist',
 	$list, 'orderBy',
-	'class="inputbox" size="1" onchange="order(this);" ',
+	'class="inputbox form-control" size="1" onchange="setSliderMinMax(this);" ',
 	'value',
 	'text',
 	$displayData['orderBy']

@@ -10,8 +10,7 @@
         redSHOP.Module.Filter.checkList();
 
         redSHOP.Module.Filter.form.find('input[name="keyword-manufacturer"]').on('keyup', function () {
-            var json = redSHOP.Module.Filter.options.manufacturers;
-            var arr = $.parseJSON(json);
+            var arr = redSHOP.Module.Filter.options.manufacturers;
             var keyword = $(this).val();
             var new_arr = [];
             var check = $('input[name="check_list"]').val();
@@ -35,7 +34,7 @@
                     html += '<li style="list-style: none"><label>';
                     html += '<span class="taginput" data-aliases="' + data.id + '">';
                     html += '<input type="checkbox" ' + is_check + ' value="' + data.id + '" name="redform[manufacturer][]" />';
-                    html += '</span>'
+                    html += '</span>';
                     html += '<span class="tagname">' + data.name + '</span>';
                     html += '</label></li>';
                 }
@@ -98,6 +97,7 @@
 
         redSHOP.Module.Filter.form.find('#manu #manufacture-list input').on('change', function () {
             check.push($(this).val());
+            redSHOP.Module.Filter.submitForm(this);
         });
 
         $('input[name="check_list"]').val(JSON.stringify(check));
