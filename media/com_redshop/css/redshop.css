@@ -192,7 +192,7 @@ th {
     box-shadow: none !important;
     text-shadow: none !important; }
   a,
-  a:visited {
+  a:visited {git
     text-decoration: underline; }
   a[href]:after {
     content: " (" attr(href) ")"; }
