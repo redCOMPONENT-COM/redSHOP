@@ -26,7 +26,7 @@ $productFields      = $params->get('product_fields');
 $enableKeyword      = $params->get('keyword');
 $template           = $params->get('template_id');
 $limit              = $params->get('limit', 0);
-$restricted         = $params->get('restricted', 0);
+$restricted         = (boolean) $params->get('restricted', false);
 $option             = $input->getCmd('option', '');
 $view               = $input->getCmd('view', '');
 $layout             = $input->getCmd('layout', '');
@@ -117,5 +117,7 @@ if ($enablePrice)
 	/** @scrutinizer ignore-deprecated */
 	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
 }
+
+JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', false, true, false, false);
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));

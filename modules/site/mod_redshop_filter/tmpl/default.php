@@ -9,6 +9,17 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @var  array   $manufacturers     List of manufacturer Id
+ * @var  boolean $enableKeyword     Enable keyword
+ * @var  boolean $enableClearButton Enable show clear button
+ * @var  boolean $restricted        Enable restricted mode
+ * @var  float   $rangeMin          Range min
+ * @var  float   $rangeMax          Range max
+ * @var  float   $currentMin        Current min
+ * @var  float   $currentMax        Current min
+ */
+
 ?>
 <div class="<?php echo $moduleClassSfx ?>">
     <form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id; ?>"
@@ -37,11 +48,11 @@ defined('_JEXEC') or die;
 											<span class='taginput' data-aliases='cat-<?php echo $cat->id; ?>'>
 												<input type="checkbox" name="redform[category][]"
                                                        value="<?php echo $cat->id ?>"
-                                                       onclick="javascript: checkclick(this);"
+                                                       onclick="javascript: redSHOP.Module.Filter.checkClick(this);"
 													<?php if (in_array($cat->id, $categoriesValues)): ?>
 														<?php echo "checked='checked'"; ?>
 													<?php endif; ?>
-                                                       onchange="javascript:submitform(this)"
+                                                       onchange="javascript:redSHOP.Module.Filter.submitForm(this)"
                                                 />
 												<span class='tagname'><?php echo $cat->name; ?></span>
 											</span>
@@ -72,7 +83,7 @@ defined('_JEXEC') or die;
 											<?php if (in_array($manu->id, $manufacturersValue)) : ?>
 												<?php echo "checked='checked'"; ?>
 											<?php endif; ?>
-                                               onchange="javascript:submitform(this)"
+                                               onchange="javascript:redSHOP.Module.Filter.submitForm(this)"
                                         >
 										</span>
                                         <span class='tagname'><?php echo $manu->name; ?></span>
@@ -102,7 +113,7 @@ defined('_JEXEC') or die;
 															<?php echo "checked='checked'"; ?>
 														<?php endif; ?>
 													<?php endforeach; ?>
-                                                       onchange="javascript:submitform(this)"
+                                                       onchange="javascript:redSHOP.Module.Filter.submitForm(this)"
                                                 />
 												<span class='tagname'><?php echo $name; ?></span>
 											</span>
@@ -132,13 +143,13 @@ defined('_JEXEC') or die;
                     </div>
                 </div>
 			<?php endif; ?>
-            <?php if ($enableClearButton): ?>
-            <div class="row-fluid">
-                <button id="clear-btn" class="clear-btn btn btn-default clearfix">
-					<?php echo JText::_('MOD_REDSHOP_FILTER_CLEAR_LABEL') ?>
-                </button>
-            </div>
-            <?php endif; ?>
+			<?php if ($enableClearButton): ?>
+                <div class="row-fluid">
+                    <button id="clear-btn" class="clear-btn btn btn-default clearfix">
+						<?php echo JText::_('MOD_REDSHOP_FILTER_CLEAR_LABEL') ?>
+                    </button>
+                </div>
+			<?php endif; ?>
         </div>
         <input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>"/>
         <input type="hidden" name="redform[mid]" value="<?php echo !empty($mid) ? $mid : 0; ?>"/>
@@ -159,75 +170,11 @@ defined('_JEXEC') or die;
     </form>
 </div>
 <script type="text/javascript">
-    function range_slide(min_range, max_range, cur_min, cur_max, callback) {
-        jQuery.ui.slider.prototype.widgetEventPrefix = 'slider';
-        jQuery("#slider-range").slider({
-            range: true,
-            min: min_range,
-            max: max_range,
-            step: 1,
-            values: [cur_min, cur_max],
-            slide: function (event, ui) {
-                jQuery('[name="redform[filterprice][min]"]').attr('value', ui.values[0]);
-                jQuery('[name="redform[filterprice][max]"]').attr('value', ui.values[1]);
-            }, change: function (event, ui) {
-                if (callback && typeof(callback) === "function") {
-                    jQuery('input[name="limitstart"]').val(0);
-                    callback();
-                }
-            }
-        });
-    }
-
     function modalCompare() {
         redSHOP = window.redSHOP || {};
         redSHOP.compareAction(jQuery('[id^="rsProductCompareChk"]'), "getItems");
         jQuery('[id^="rsProductCompareChk"]').click(function (event) {
             redSHOP.compareAction(jQuery(this), "add");
-        });
-    }
-
-    function checkclick(obj) {
-        if (jQuery(obj).prop("checked") == true) {
-            jQuery(obj).prev('.icon').addClass('active');
-        } else {
-            jQuery(obj).prev('.icon').removeClass('active');
-        }
-    }
-
-    function submitform(argument) {
-        jQuery('input[name="limitstart"]').val(0);
-        submitpriceform();
-    }
-
-    function submitpriceform(argument) {
-        jQuery.ajax({
-            type: "POST",
-            url: "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.findProducts",
-            data: jQuery('#redproductfinder-form-<?php echo $module->id;?>').serialize(),
-            beforeSend: function () {
-                jQuery('#wait').css('display', 'block');
-            },
-            success: function (data) {
-                var $mainContent = jQuery("#main #redshopcomponent");
-
-                if (!$mainContent.length) {
-                    $mainContent = jQuery("#redshopcomponent");
-                }
-
-                $mainContent.html(data);
-                jQuery('select').select2();
-
-                url = jQuery(jQuery.parseHTML(data)).find("#new-url").text();
-                window.history.pushState("", "", url);
-            },
-            complete: function () {
-                jQuery('#wait').css('display', 'none');
-				<?php if ($restricted) : ?>
-                var pids = jQuery('input[name="pids"]').val();
-                restricted(jQuery('#redproductfinder-form-<?php echo $module->id;?>').serialize(), pids, '<?php echo json_encode($params); ?>');
-				<?php endif; ?>
-            }
         });
     }
 
@@ -245,108 +192,32 @@ defined('_JEXEC') or die;
     function order(select) {
         var value = jQuery(select).val();
         jQuery('input[name="order_by"]').val(value);
-        submitpriceform();
+        redSHOP.Module.Filter.submitFormAjax();
     }
 
     function pagination(start) {
         jQuery('input[name="limitstart"]').val(start);
-        submitpriceform();
+        redSHOP.Module.Filter.submitFormAjax();
     }
 
     function loadTemplate(el) {
         id = jQuery(el).val();
         jQuery('input[name="redform[template_id]"]').val(id);
-        submitpriceform();
+        redSHOP.Module.Filter.submitFormAjax();
     }
 
     jQuery(document).ready(function () {
-        var check = [];
-
-        function checkList() {
-            jQuery('#redproductfinder-form-<?php echo $module->id;?> #manu #manufacture-list input').on('change', function () {
-                var id = jQuery(this).val();
-                check.push(id);
-                jQuery('input[name="check_list"]').val(JSON.stringify(check));
-            });
-        }
-
-        checkList();
-
-        jQuery('input[name="keyword-manufacturer"]').on('keyup', function () {
-            var json = '<?php echo json_encode($manufacturers); ?>';
-            var arr = jQuery.parseJSON(json);
-            var keyword = jQuery(this).val();
-            var new_arr = [];
-            var check = jQuery('input[name="check_list"]').val();
-            var check_list = jQuery.parseJSON(check);
-            jQuery.each(arr, function (i, value) {
-                if (value.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1) {
-                    new_arr.push(value);
-                }
-            });
-
-            var html = '';
-
-            jQuery.each(new_arr, function (key, data) {
-                var check = Object.keys(data).length;
-                if (check > 0) {
-                    if (jQuery.inArray(data.manufacturer_id, check_list) != -1) {
-                        var is_check = 'checked="checked"';
-                    } else {
-                        var is_check = '';
-                    }
-                    html += '<li style="list-style: none"><label>';
-                    html += '<span class="taginput" data-aliases="' + data.id + '">';
-                    html += '<input type="checkbox" ' + is_check + ' value="' + data.id + '" name="redform[manufacturer][]" />';
-                    html += '</span>'
-                    html += '<span class="tagname">' + data.name + '</span>';
-                    html += '</label></li>';
-                }
-            });
-
-            jQuery('#redproductfinder-form-<?php echo $module->id;?> #manu #manufacture-list').html('');
-            jQuery('#redproductfinder-form-<?php echo $module->id;?> #manu #manufacture-list').append(html);
-            checkList();
-        });
-
-        jQuery('#redproductfinder-form-<?php echo $module->id;?> [type="checkbox"]').each(function () {
-            checkclick(jQuery(this))
-        });
-
-        jQuery('#redproductfinder-form-<?php echo $module->id;?>').html(function () {
-            jQuery('span.label_alias').click(function (event) {
-                if (jQuery(this).hasClass('active')) {
-                    jQuery(this).removeClass('active').next('ul.collapse').removeClass('in');
-                } else {
-                    var ultab = redfinderform.find('ul.collapse.in');
-                    ultab.removeClass('in').prev('span').removeClass('active');
-
-                    jQuery(this).addClass('active').next('ul.collapse').addClass('in');
-                }
-            });
-            range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $currentMin ?>, <?php echo $currentMax ?>, submitpriceform);
-        });
-
-        jQuery("#<?php echo $module->id ?>-keyword").on("keypress", function (event) {
-            if (event.keyCode === 13) {
-                submitpriceform();
-
-                return false;
-            }
-
-            return true;
-        });
-
-        jQuery("#clear-btn").on("click", function(event){
-            event.preventDefault();
-            jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').prop('checked', false);
-            jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').each(function () {
-                checkclick(jQuery(this))
-            });
-            jQuery('input[name="redform[filterprice][min]"]').val('<?php echo $rangeMin;?>');
-            jQuery('input[name="redform[filterprice][max]"]').val('<?php echo $rangeMax;?>');
-            range_slide(<?php echo $rangeMin ?>, <?php echo $rangeMax ?>, <?php echo $currentMin ?>, <?php echo $currentMax ?>, submitpriceform);
-            submitpriceform(null);
+        redSHOP.Module.Filter.setup({
+            "domId": "<?php echo $module->id ?>",
+            "showKeyword": <?php echo $enableKeyword ? 'true' : 'false' ?>,
+            "showClearBtn": <?php echo $enableClearButton ? 'true' : 'false' ?>,
+            "isRestricted": <?php echo $restricted ? 'true' : 'false' ?>,
+            "moduleParams": <?php echo $params->toString(); ?>,
+            "manufacturers": <?php echo json_encode($manufacturers) ?>,
+            "rangeMin": <?php echo $rangeMin; ?>,
+            "rangeMax": <?php echo $rangeMax; ?>,
+            "currentMin": <?php echo $currentMin ?>,
+            "currentMax": <?php echo $currentMax ?>
         });
     });
 </script>
