@@ -30,6 +30,8 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
                 $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+                $I->waitForElement(\GiftCardManagerPage::$buttonClose,30);
+                $I->click(\GiftCardManagerPage::$buttonClose);
                 break;
             case 'saveclose':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
@@ -147,6 +149,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
+
         $I->click(['link' => $cardName]);
         switch ($function){
             case 'save':
