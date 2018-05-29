@@ -30,8 +30,8 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
                 $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
-                $I->waitForElement(\GiftCardManagerPage::$buttonClose,30);
-                $I->click(\GiftCardManagerPage::$buttonClose);
+                $I->waitForElement(\GiftCardManagerPage::$giftCardCancelButton,30);
+                $I->click(\GiftCardManagerPage::$giftCardCancelButton);
                 break;
             case 'saveclose':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
