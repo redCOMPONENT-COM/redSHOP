@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
 use Joomla\Registry\Registry;
+use Redshop\Mail\GiftCard;
 
 /**
  * Class checkoutModelcheckout
@@ -1232,114 +1233,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function sendGiftCard($order_id)
 	{
-		$giftcardmail = Redshop\Mail\Helper::getTemplate(0, "giftcard_mail");
-
-		if (count($giftcardmail) > 0)
-		{
-			$giftcardmail = $giftcardmail[0];
-		}
-
-		$giftCards = RedshopHelperOrder::giftCardItems((int) $order_id);
-
-		foreach ($giftCards as $eachorders)
-		{
-			$giftcardmailsub   = $giftcardmail->mail_subject;
-			$giftcardData      = RedshopEntityGiftcard::getInstance($eachorders->product_id)->getItem();
-			$giftcard_value    = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
-			$giftcard_price    = $eachorders->product_final_price;
-			$giftcardmail_body = $giftcardmail->mail_body;
-			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
-			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
-			$giftcardmail_body = str_replace("{product_userfields}", $user_fields, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_price}", $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_email}", $eachorders->giftcard_user_email, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_name}", $eachorders->giftcard_user_name, $giftcardmail_body);
-			$giftcardmail_body = $this->_producthelper->getValidityDate($giftcardData->giftcard_validity, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_value}", $giftcard_value, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_desc}", $giftcardData->giftcard_desc, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_validity}", $giftcardData->giftcard_validity, $giftcardmail_body);
-			$giftcardmailsub   = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_price}', $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
-			$gift_code         = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
-
-			/** @var RedshopTableCoupon $couponItems */
-			$couponItems = RedshopTable::getAdminInstance('Coupon');
-
-			if ($giftcardData->customer_amount)
-			{
-				$giftcardData->giftcard_value = $eachorders->product_final_price;
-			}
-
-			$couponEndDate = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
-
-			$couponItems->code          = $gift_code;
-			$couponItems->type          = 0;
-			$couponItems->value         = $giftcardData->giftcard_value;
-			$couponItems->start_date    = JFactory::getDate()->toSql();
-			$couponItems->end_date      = $couponEndDate === false ? JFactory::getDbo()->getNullDate() : JFactory::getDate($couponEndDate)->toSql();
-			$couponItems->effect        = 0;
-			$couponItems->userid        = 0;
-			$couponItems->amount_left   = 1;
-			$couponItems->published     = 1;
-			$couponItems->free_shipping = $giftcardData->free_shipping;
-
-			if (!$couponItems->store())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return;
-			}
-
-			$giftcardmail_body = str_replace("{giftcard_code_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_CODE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_code}", $gift_code, $giftcardmail_body);
-			ob_flush();
-			ob_clean();
-			echo "<div id='redshopcomponent' class='redshop'>";
-			$is_giftcard = 1;
-			$giftcard_attachment = null;
-			$pdfImage = "";
-			$mailImage = '';
-
-			if ($giftcardData->giftcard_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image))
-			{
-				$pdfImage = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
-				$mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
-			}
-
-			if (RedshopHelperPdf::isAvailablePdfPlugins())
-			{
-				$pdfMailBody = $giftcardmail_body;
-				$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
-
-				JPluginHelper::importPlugin('redshop_pdf');
-
-				$pdfFile = RedshopHelperUtility::getDispatcher()->trigger(
-					'onRedshopCreateGiftCardPdf',
-					array($giftcardData, $pdfMailBody, $backgroundImage)
-				);
-
-				if (!empty($pdfFile))
-				{
-					$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $pdfFile[0] . ".pdf";
-				}
-			}
-
-			$config              = JFactory::getConfig();
-			$from                = $config->get('mailfrom');
-			$fromname            = $config->get('fromname');
-			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
-			Redshop\Mail\Helper::imgInMail($giftcardmail_body);
-
-			JFactory::getMailer()->sendMail(
-				$from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment
-			);
-		}
+		GiftCard::sendMail($order_id);
 	}
 
 	/**
