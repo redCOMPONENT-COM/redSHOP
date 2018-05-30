@@ -146,8 +146,8 @@ class RedshopControllerSearch extends RedshopController
 			. '&Itemid=' . $post['Itemid']
 			. '&categories=' . (isset($data['category']) ? implode(',', $data['category']) : '')
 			. '&manufacturers=' . (isset($data['manufacturer']) ? implode(',', $data['manufacturer']) : '')
-			. '&filterprice[min]=' . (isset($data['manufacturer']) ? $data['filterprice']['min'] : '')
-			. '&filterprice[max]=' . (isset($data['manufacturer']) ? $data['filterprice']['max'] : '')
+			. '&filterprice[min]=' . (isset($data['filterprice']) ? $data['filterprice']['min'] : '')
+			. '&filterprice[max]=' . (isset($data['filterprice']) ? $data['filterprice']['max'] : '')
 			. '&template_id=' . $data['template_id']
 			. '&keyword=' . $data['keyword']
 			. '&order_by=' . $post['order_by']

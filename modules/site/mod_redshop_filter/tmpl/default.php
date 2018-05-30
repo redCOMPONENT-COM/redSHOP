@@ -132,12 +132,12 @@ defined('_JEXEC') or die;
                         <div id="amount-min">
                             <div><?php echo Redshop::getConfig()->get('CURRENCY_CODE') ?></div>
                             <input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]"
-                                   value="<?php echo $rangeMin ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+                                   value="<?php echo $rangeMin ?>" min="<?php echo $rangeMin ?>" max="<?php echo $rangeMax; ?>" required/>
                         </div>
                         <div id="amount-max">
                             <div><?php echo Redshop::getConfig()->get('CURRENCY_CODE') ?></div>
                             <input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]"
-                                   value="<?php echo $rangeMax ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+                                   value="<?php echo $rangeMax ?>" min="<?php echo $rangeMin ?>" max="<?php echo $rangeMax; ?>" required/>
                         </div>
                     </div>
                 </div>
@@ -208,9 +208,6 @@ defined('_JEXEC') or die;
     jQuery(document).ready(function () {
         redSHOP.Module.Filter.setup({
             "domId": "<?php echo $module->id ?>",
-            "showKeyword": <?php echo $enableKeyword ? 'true' : 'false' ?>,
-            "showClearBtn": <?php echo $enableClearButton ? 'true' : 'false' ?>,
-            "isRestricted": <?php echo $restricted ? 'true' : 'false' ?>,
             "moduleParams": <?php echo $params->toString(); ?>,
             "manufacturers": <?php echo json_encode($manufacturers) ?>,
             "rangeMin": <?php echo $rangeMin; ?>,
