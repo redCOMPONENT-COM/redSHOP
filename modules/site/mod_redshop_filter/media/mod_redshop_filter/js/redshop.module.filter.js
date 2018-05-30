@@ -13,7 +13,13 @@
 
         // Setup for Manufacturer filter
         if (options.moduleParams.manufacturer === "1") {
-            redSHOP.Module.Filter.form.find('input[name="keyword-manufacturer"]').on('keyup', function () {
+            redSHOP.Module.Filter.form.find('input[name="keyword-manufacturer"]').on('keyup', function (event) {
+                console.log(event.keyCode);
+
+                if (event.keyCode === 13) {
+                    return false;
+                }
+
                 redSHOP.Module.Filter.populateManufacturerOptions();
             });
         }
@@ -36,13 +42,25 @@
 
             if (options.moduleParams.price === "1") {
                 redSHOP.Module.Filter.rangeSlide(options.rangeMin, options.rangeMax, options.currentMin, options.currentMax, redSHOP.Module.Filter.submitFormAjax);
-                redSHOP.Module.Filter.form.find("input[name='redform[filterprice][min]']").on("change", function(){
-                    var val = [$(this).val(), redSHOP.Module.Filter.form.find("input[name='redform[filterprice][max]']").val()];
-                    redSHOP.Module.Filter.form.find("#slider-range").slider("values", val);
+                redSHOP.Module.Filter.form.find("input[name='redform[filterprice][min]']").on("keypress", function(event){
+                    if (event.keyCode === 13) {
+                        var val = [$(this).val(), redSHOP.Module.Filter.form.find("input[name='redform[filterprice][max]']").val()];
+                        redSHOP.Module.Filter.form.find("#slider-range").slider("values", val);
+
+                        return false;
+                    }
+
+                    return true;
                 });
-                redSHOP.Module.Filter.form.find("input[name='redform[filterprice][max]']").on("change", function(){
-                    var val = [redSHOP.Module.Filter.form.find("input[name='redform[filterprice][min]']").val(), $(this).val()];
-                    redSHOP.Module.Filter.form.find("#slider-range").slider("values", val);
+                redSHOP.Module.Filter.form.find("input[name='redform[filterprice][max]']").on("keypress", function(event){
+                    if (event.keyCode === 13) {
+                        var val = [redSHOP.Module.Filter.form.find("input[name='redform[filterprice][min]']").val(), $(this).val()];
+                        redSHOP.Module.Filter.form.find("#slider-range").slider("values", val);
+
+                        return false;
+                    }
+
+                    return true;
                 });
             }
         });
