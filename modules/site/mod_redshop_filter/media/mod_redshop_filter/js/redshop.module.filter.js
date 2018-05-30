@@ -14,13 +14,13 @@
         // Setup for Manufacturer filter
         if (options.moduleParams.manufacturer === "1") {
             redSHOP.Module.Filter.form.find('input[name="keyword-manufacturer"]').on('keyup', function (event) {
-                console.log(event.keyCode);
-
                 if (event.keyCode === 13) {
                     return false;
                 }
 
                 redSHOP.Module.Filter.populateManufacturerOptions();
+
+                return true;
             });
         }
 
