@@ -66,7 +66,7 @@ else
 	$template_desc = '<table border="0">\r\n<tbody>\r\n<tr>\r\n<th>Change Attribute</th>\r\n</tr>\r\n<tr>\r\n<td>{attribute_template:attributes}</td>\r\n</tr>\r\n<tr>\r\n<td>{apply_button} {cancel_button}</td>\r\n</tr>\r\n</tbody>\r\n</table>';
 }
 
-$product = $producthelper->getProductById($product_id);
+$product = RedshopHelperProduct::getProductById($product_id);
 
 // Checking for child products
 $childproduct = RedshopHelperProduct::getChildProduct($product_id);
@@ -92,14 +92,14 @@ else
 
 	if ($product->attribute_set_id > 0)
 	{
-		$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+		$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 	}
 
 	$bool                              = (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) ? false : true;
 	$attribute_template                = \Redshop\Template\Helper::getAttribute($template_desc, $bool);
 	$attribute_template->template_desc = str_replace("{property_image_scroller}", "", $attribute_template->template_desc);
 	$attribute_template->template_desc = str_replace("{subproperty_image_scroller}", "", $attribute_template->template_desc);
-	$attributes                        = $producthelper->getProductAttribute($product_id);
+	$attributes                        = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
 	$attributes                        = array_merge($attributes, $attributes_set);
 
 	$selectAtt = $carthelper->getSelectedCartAttributeArray($cart[$cart_index]['cart_attribute']);

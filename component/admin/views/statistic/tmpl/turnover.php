@@ -53,7 +53,7 @@ $end = $this->pagination->limit;
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }    ?>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->turnover);?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->turnover);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

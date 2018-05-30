@@ -133,6 +133,8 @@ class productHelper
 	 * @deprecated  1.5 Use RedshopHelperProduct::getProductById instead
 	 *
 	 * @return mixed
+	 *
+	 * @throws  Exception
 	 */
 	public function getProductById($productId, $userId = 0)
 	{
@@ -650,6 +652,7 @@ class productHelper
 	 * @return  array
 	 *
 	 * @deprecated  2.0.7
+	 * @throws  Exception
 	 */
 	public function getProductNetPrice($productId, $userId = 0, $quantity = 1, $dataAdd = '', $attributes = array())
 	{
@@ -840,6 +843,7 @@ class productHelper
 	 * @return  object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct_Attribute::getPropertyPrice() instead.
+	 * @throws  Exception
 	 */
 	public function getPropertyPrice($sectionId = '', $quantity = '', $section = '', $userId = 0)
 	{
@@ -1564,6 +1568,7 @@ class productHelper
 	 * @return mixed
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
+	 * @throws  Exception
 	 */
 	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
 	                                    $notAttributeId = 0)
@@ -2274,7 +2279,7 @@ class productHelper
 					{
 						$attributes_subproperty_oldprice = $subproperty [$i]->subattribute_color_price;
 
-						$pricelist = $this->getPropertyPrice($subproperty[$i]->value, 1, 'subproperty');
+						$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subproperty[$i]->value, 1, 'subproperty');
 
 						if (count($pricelist) > 0)
 						{
@@ -4180,13 +4185,13 @@ class productHelper
 	 * @todo    Move this functionality to library helper and convert this code into JLayout
 	 *
 	 * @return  string   Parsed Template HTML
+	 * @throws  Exception
 	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = extraField::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = \Redshop\Template\Helper::getRelatedProduct($template_desc);
-		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
+		$fieldArray       = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -4348,7 +4353,7 @@ class productHelper
 					$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
 
 					//  Extra field display
-					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, $isCategorypage);
+					$related_template_data = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, $isCategorypage);
 
 					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);

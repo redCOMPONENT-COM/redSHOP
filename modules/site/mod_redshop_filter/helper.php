@@ -21,13 +21,13 @@ abstract class ModRedshopFilter
 	 *
 	 * @param   array $pids product array list
 	 *
-	 * @return array
+	 * @return  array
+	 * @throws  Exception
 	 */
 	public static function getRange($pids = array())
 	{
 		$max              = 0;
 		$min              = 0;
-		$producthelper    = producthelper::getInstance();
 		$allProductPrices = array();
 
 		if (!empty($pids))
@@ -35,7 +35,7 @@ abstract class ModRedshopFilter
 			// Get product price
 			foreach ($pids as $k => $id)
 			{
-				$productprices      = $producthelper->getProductNetPrice($id);
+				$productprices      = RedshopHelperProductPrice::getNetPrice($id);
 				$allProductPrices[] = $productprices['product_price'];
 			}
 

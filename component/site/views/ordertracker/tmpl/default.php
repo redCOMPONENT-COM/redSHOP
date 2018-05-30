@@ -85,7 +85,7 @@ if ($this->params->get('show_page_heading', 1))
 			<td><?php echo $order_id;?></td>
 			<td><?php echo $order_detail->order_number;?></td>
 			<td><?php echo $itemlist;?></td>
-			<td><?php echo $producthelper->getProductFormattedPrice($order_detail->order_total);?></td>
+			<td><?php echo RedshopHelperProductPrice::formattedPrice($order_detail->order_total);?></td>
 			<td><?php echo $redconfig->convertDateFormat($order_detail->cdate); ?></td>
 
 			<td><?php echo $statusname; ?></td>

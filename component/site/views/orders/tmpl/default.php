@@ -89,12 +89,12 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		if ($paymentmethod->order_transfee > 0)
 		{
-			$orderTransFee = $producthelper->getProductFormattedPrice(
+			$orderTransFee = RedshopHelperProductPrice::formattedPrice(
 				$paymentmethod->order_transfee
 			);
 		}
 
-		$orderTotalInclTraferfee = $producthelper->getProductFormattedPrice(
+		$orderTotalInclTraferfee = RedshopHelperProductPrice::formattedPrice(
 				$paymentmethod->order_transfee + $this->detail[$i]->order_total
 			);
 
@@ -108,7 +108,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$order_products = "<div class='order_products'>" . implode(',<br/>', $order_item_name) . "</div>";
 
-		$order_total = "<div class='order_total'>" . $producthelper->getProductFormattedPrice($this->detail[$i]->order_total) . "</div>";
+		$order_total = "<div class='order_total'>" . RedshopHelperProductPrice::formattedPrice($this->detail[$i]->order_total) . "</div>";
 
 		$order_date = "<div class='order_date'>" . $redconfig->convertDateFormat($this->detail[$i]->cdate) . "</div>";
 

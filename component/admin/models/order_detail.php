@@ -304,7 +304,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				{
 					if ($wrapper[0]->wrapper_price > 0)
 					{
-						$wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
+						$wrapper_vat = RedshopHelperProduct::getProductTax($product_id, $wrapper[0]->wrapper_price, $user_id);
 					}
 
 					$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
@@ -378,7 +378,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($product_id, $accessory_price, $user_id);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -415,12 +415,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProductTax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
 							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
-								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+								. RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr          = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
@@ -451,13 +451,13 @@ class RedshopModelOrder_detail extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+									$section_vat = RedshopHelperProduct::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
 								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " ("
 									. $subpropArr[$l]['subproperty_oprand']
-									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
+									. RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
 									. ")<br/>";
 
 								$rowattitem                    = $this->getTable('order_attribute_item');
@@ -554,7 +554,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 						if ($propArr[$k]['property_price'] > 0)
 						{
-							$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price']);
+							$section_vat = RedshopHelperProduct::getProductTax($product_id, $propArr[$k]['property_price']);
 						}
 
 						$property_id = $propArr[$k]['property_id'];
@@ -591,7 +591,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 							if ($subpropArr[$l]['subproperty_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];

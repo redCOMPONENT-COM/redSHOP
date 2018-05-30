@@ -28,7 +28,7 @@ if (count($relptemplate) > 0)
 	$tempdata_div_end    = $product_end [1];
 
 	$extra_field = extraField::getInstance();
-	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
+	$fieldArray  = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 
 	$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
 	/************************************************************ **********************************************/
@@ -143,10 +143,10 @@ if (count($relptemplate) > 0)
 
 		if ($related_product [$r]->attribute_set_id > 0)
 		{
-			$attributes_set = $producthelper->getProductAttribute(0, $related_product [$r]->attribute_set_id);
+			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product [$r]->attribute_set_id);
 		}
 
-		$attributes = $producthelper->getProductAttribute($relid);
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
 		$attributes = array_merge($attributes, $attributes_set);
 
 		$related_template_data = $producthelper->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);

@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					[
 						'<?php echo $row->product_name ?>',
 						<?php echo $row->total_sale ?>,
-						"<?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?>"
+						"<?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale) ?>"
 					],
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -104,7 +104,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<td align="center"><?php echo $row->manufacturer_name ?></td>
 				<td align="center"><?php echo $row->order_count ?></td>
 				<td align="center"><?php echo $row->unit_sold ?></td>
-				<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
+				<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale); ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

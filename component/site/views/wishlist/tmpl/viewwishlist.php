@@ -180,7 +180,8 @@ function display_products($rows)
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
-			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
+			$product_price_discount = is_array($product_price_discount) ? $product_price_discount['product_discount_price'] : $product_price_discount;
 
 			echo "<div id='wishlist_box'>";
 
@@ -207,25 +208,25 @@ function display_products($rows)
 
 						if ($this->show_discountpricelayout)
 						{
-							echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
+							echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</span></div>";
 							$product_price = $product_price_discount;
-							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-							echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
+							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price_discount) . "</div>";
+							echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
 						}
 						else
 						{
 							$product_price = $product_price_discount;
-							echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+							echo "<div class='mod_redproducts_price wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 						}
 					}
 					else
 					{
-						echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+						echo "<div class='mod_redproducts_price wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 					}
 				}
 				else
 				{
-					echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+					echo "<div class='mod_redproducts_price wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 				}
 			}
 
@@ -261,7 +262,8 @@ function display_products($rows)
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
-			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
+			$product_price_discount = is_array($product_price_discount) ? $product_price_discount['product_discount_price'] : $product_price_discount;
 
 			if ($row->product_full_image)
 			{
@@ -301,7 +303,7 @@ function display_products($rows)
 
 				if ($parentproductid != 0)
 				{
-					$productInfo = $producthelper->getProductById($parentproductid);
+					$productInfo = RedshopHelperProduct::getProductById($parentproductid);
 
 					// Get child products
 					$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
@@ -362,14 +364,14 @@ function display_products($rows)
 				if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 				{
 					$isChilds       = false;
-					$attributes_set = array();
+					$attributeSets = array();
 
 					if ($row->attribute_set_id > 0)
 					{
-						$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
+						$attributeSets = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $producthelper->getProductAttribute($row->product_id);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($row->product_id);
 					$attributes = array_merge($attributes, $wishlist_data);
 				}
 				else
@@ -380,16 +382,11 @@ function display_products($rows)
 			}
 			else
 			{
-				$isChilds       = false;
-				$attributes_set = array();
+				$isChilds      = false;
+				$attributeSets = $row->attribute_set_id > 0 ?
+					RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1) : array();
 
-				if ($row->attribute_set_id > 0)
-				{
-					$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
-				}
-
-				$attributes = $producthelper->getProductAttribute($row->product_id);
-				$attributes = array_merge($attributes, $attributes_set);
+				$attributes = array_merge(RedshopHelperProduct_Attribute::getProductAttribute($row->product_id), $attributeSets);
 			}
 
 			if (empty($row->product_items))
@@ -442,26 +439,26 @@ function display_products($rows)
 
 						if ($this->show_discountpricelayout)
 						{
-							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 							$product_price     = $product_price_discount;
-							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price_discount);
 
 						}
 						else
 						{
 							$product_price     = $product_price_discount;
-							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 						}
 					}
 					else
 					{
-						$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+						$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 
 					}
 				}
 				else
 				{
-					$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+					$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 
 				}
 
@@ -559,7 +556,7 @@ function display_products($rows)
 			// Product User Field End
 
 			/////////////////////////////////// Product accessory Start /////////////////////////////////
-			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
+			$accessory      = RedshopHelperAccessory::getProductAccessories(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = RedshopHelperProductAccessory::replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
@@ -570,7 +567,7 @@ function display_products($rows)
 			$wishlist_data = str_replace('{product_number}', $pnumber, $wishlist_data);
 			$wishlist_data = str_replace('{product_s_desc}', $pdesc, $wishlist_data);
 
-			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
+			$wishlist_data = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 			$wishlist_data = Redshop\Cart\Render::replace($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 			$rmore         = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";

@@ -302,7 +302,7 @@ class RedshopHelperAttribute
 						{
 							$attributes_property_oldprice = $property [$i]->property_price;
 
-							$pricelist = $productHelper->getPropertyPrice($property[$i]->value, 1, 'property');
+							$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($property[$i]->value, 1, 'property');
 
 							if (count($pricelist) > 0)
 							{
@@ -322,8 +322,8 @@ class RedshopHelperAttribute
 							{
 								if ($property [$i]->oprand != '*' && $property [$i]->oprand != '/')
 								{
-									$attributes_property_vat_show     = $productHelper->getProducttax($productId, $property [$i]->property_price, $userId);
-									$attributes_property_oldprice_vat = $productHelper->getProducttax($productId, $attributes_property_oldprice, $userId);
+									$attributes_property_vat_show     = RedshopHelperProduct::getProductTax($productId, $property [$i]->property_price, $userId);
+									$attributes_property_oldprice_vat = RedshopHelperProduct::getProductTax($productId, $attributes_property_oldprice, $userId);
 								}
 							}
 
@@ -333,7 +333,7 @@ class RedshopHelperAttribute
 							/*
 							 * get product vat to include
 							 */
-							$attributes_property_vat       = $productHelper->getProducttax($productId, $property [$i]->property_price, $userId);
+							$attributes_property_vat        = RedshopHelperProduct::getProductTax($productId, $property [$i]->property_price, $userId);
 							$property [$i]->property_price += $attributes_property_vat;
 
 							if (Redshop::getConfig()->get('SHOW_PRICE')
@@ -342,7 +342,7 @@ class RedshopHelperAttribute
 								&& (!$attributes[$a]->hide_attribute_price))
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
-									. strip_tags($productHelper->getProductFormattedPrice($attributes_property_vat_show)) . ")";
+									. strip_tags(RedshopHelperProductPrice::formattedPrice($attributes_property_vat_show)) . ")";
 							}
 							else
 							{
@@ -620,8 +620,7 @@ class RedshopHelperAttribute
 	public static function replaceAttributeWithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
 	                                                    $templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
-		$user_id       = 0;
-		$productHelper = productHelper::getInstance();
+		$user_id = 0;
 
 		if (empty($attributeTemplate))
 		{
@@ -779,7 +778,7 @@ class RedshopHelperAttribute
 
 					if ($property->property_price > 0)
 					{
-						$prices = $productHelper->getPropertyPrice($property->value, 1, 'property');
+						$prices = RedshopHelperProduct_Attribute::getPropertyPrice($property->value, 1, 'property');
 
 						if (count($prices) > 0)
 						{
@@ -790,7 +789,7 @@ class RedshopHelperAttribute
 
 						if (\Redshop\Template\Helper::isApplyAttributeVat($propertyData))
 						{
-							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
+							$priceWithVat = RedshopHelperProduct::getProductTax($productId, $property->property_price, $user_id);
 						}
 
 						$priceWithVat += $property->property_price;
@@ -801,7 +800,7 @@ class RedshopHelperAttribute
 							&& !$attribute->hide_attribute_price)
 						{
 							$opRand = $property->oprand;
-							$price  = $productHelper->getProductFormattedPrice($priceWithVat);
+							$price  = RedshopHelperProductPrice::formattedPrice($priceWithVat);
 						}
 					}
 

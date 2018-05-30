@@ -218,9 +218,7 @@ class RedshopModelProduct extends RedshopModel
 			return false;
 		}
 
-		$producthelper = productHelper::getInstance();
-		$user          = JFactory::getUser();
-
+		$user       = JFactory::getUser();
 		$url        = JURI::base();
 		$Itemid     = $this->input->get('Itemid');
 		$mailbcc    = null;
@@ -247,7 +245,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
-		$product = $producthelper->getProductById($product_id);
+		$product = RedshopHelperProduct::getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
@@ -370,9 +368,8 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		ob_clean();
-		$extraField      = extraField::getInstance();
-		$section         = 12;
-		$row_data        = $extraField->getSectionFieldList($section);
+		$section         = RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
+		$row_data        = RedshopHelperExtrafields::getSectionFieldList($section);
 		$wishlistSession = $session->get('wishlist');
 
 		if (!empty($wishlistData) && !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))

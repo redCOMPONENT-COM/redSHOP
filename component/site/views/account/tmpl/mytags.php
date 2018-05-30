@@ -126,14 +126,14 @@ if ($user->id != 0)
 								$data_add .= $pname;
 
 								// For attribute price count
-								$price_add = '<span id="pr_price">' . $extra_data->getProductFormattedPrice($row->product_price) . '</span>';
+								$price_add = '<span id="pr_price">' . RedshopHelperProductPrice::formattedPrice($row->product_price) . '</span>';
 
-								$tax_amount = $extra_data->getProductTax($row->product_id);
+								$tax_amount = RedshopHelperProduct::getProductTax($row->product_id);
 
 								if ($tax_amount == 0)
 									$data_add .= '<div>' . $price_add . '</div>';
 								else
-									$data_add .= '<div>' . $extra_data->getProductFormattedPrice($tax_amount) . '</div>';
+									$data_add .= '<div>' . RedshopHelperProductPrice::formattedPrice($tax_amount) . '</div>';
 
 								// Start cart
 

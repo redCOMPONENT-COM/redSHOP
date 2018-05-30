@@ -34,8 +34,8 @@ $productHelper = productHelper::getInstance();
 			<?php if ($quotationStatus != 1 || ($quotationStatus == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1)) : ?>
 			<?php
 				$propertyOprand       = $property->section_oprand;
-				$propertyPrice        = $productHelper->getProductFormattedPrice($property->section_price);
-				$propertyPriceWithVat = $productHelper->getProductFormattedPrice($property->section_price + $property->section_vat);
+				$propertyPrice        = RedshopHelperProductPrice::formattedPrice($property->section_price);
+				$propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->section_price + $property->section_vat);
 
 				echo "(" . $propertyOprand . " " . $propertyPrice . " excl. vat / " . $propertyPriceWithVat . ")";
 			?>
@@ -58,8 +58,8 @@ $productHelper = productHelper::getInstance();
 					<?php if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1)) : ?>
 					<?php
 						$subpropertyOprand       = $subProperty->section_oprand;
-						$subpropertyPrice        = $productHelper->getProductFormattedPrice($subProperty->section_price);
-						$subpropertyPriceWithVat = $productHelper->getProductFormattedPrice($subProperty->section_price + $subProperty->section_vat);
+						$subpropertyPrice        = RedshopHelperProductPrice::formattedPrice($subProperty->section_price);
+						$subpropertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($subProperty->section_price + $subProperty->section_vat);
 
 						echo "(" . $subpropertyOprand . " " . $subpropertyPrice . " excl. vat / " . $subpropertyPriceWithVat . ")";
 					?>

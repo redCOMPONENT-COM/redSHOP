@@ -57,7 +57,7 @@ $producthelper = productHelper::getInstance();?>
 
 					echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
 
-					$productArr = $producthelper->getProductNetPrice($row->product_id);
+					$productArr = RedshopHelperProductPrice::getNetPrice($row->product_id);
 					$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
 					$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart();
@@ -68,11 +68,11 @@ $producthelper = productHelper::getInstance();?>
 						{
 							if (!$product_price)
 							{
-								$product_price_dis = $producthelper->getPriceReplacement($product_price);
+								$product_price_dis = RedshopHelperProductPrice::priceReplacement($product_price);
 							}
 							else
 							{
-								$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
+								$product_price_dis = RedshopHelperProductPrice::formattedPrice($product_price);
 							}
 
 							$pricetext   = "";
@@ -89,13 +89,13 @@ $producthelper = productHelper::getInstance();?>
 									if ($show_discountpricelayout)
 									{
 										$pricetext = "<div id='mod_redoldprice' class='mod_redoldprice'>";
-										$pricetext .= "<span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
-										$pricetext .= "<div id='mod_redmainprice' class='mod_redmainprice'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-										$pricetext .= "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
+										$pricetext .= "<span style='text-decoration:line-through;'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</span></div>";
+										$pricetext .= "<div id='mod_redmainprice' class='mod_redmainprice'>" . RedshopHelperProductPrice::formattedPrice($product_price_discount) . "</div>";
+										$pricetext .= "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
 									}
 									else
 									{
-										$pricetext = "<div class='mod_redproducts_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+										$pricetext = "<div class='mod_redproducts_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 									}
 								}
 							}
@@ -104,7 +104,7 @@ $producthelper = productHelper::getInstance();?>
 						}
 						else
 						{
-							$product_price_dis = $producthelper->getPriceReplacement($product_price);
+							$product_price_dis = RedshopHelperProductPrice::priceReplacement($product_price);
 							echo "<div class='mod_redproducts_price'>" . $product_price_dis . "</div>";
 						}
 					}

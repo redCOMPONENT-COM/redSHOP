@@ -145,10 +145,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 
 						<td class="center">
-							<?php echo $productHelper->getProductFormattedPrice($item->giftcard_price);?>
+							<?php echo RedshopHelperProductPrice::formattedPrice($item->giftcard_price);?>
 						</td>
 						<td class="center">
-							<?php echo $productHelper->getProductFormattedPrice($item->giftcard_value);?>
+							<?php echo RedshopHelperProductPrice::formattedPrice($item->giftcard_value);?>
 						</td>
 						<td class="center hidden-phone">
 							<?php echo $item->giftcard_validity;?>

@@ -44,14 +44,10 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function addtocart($data = array())
 	{
-		$session = JFactory::getSession();
-
-		$carthelper      = rsCarthelper::getInstance();
-		$producthelper   = productHelper::getInstance();
-
-		$cart = $session->get('cart');
-
-		$idx = (int) ($cart['idx']);
+		$session    = JFactory::getSession();
+		$carthelper = rsCarthelper::getInstance();
+		$cart       = $session->get('cart');
+		$idx        = (int) ($cart['idx']);
 
 		$row_data           = RedshopHelperQuotation::getQuotationUserField($data->quotation_item_id);
 		$quotation_acc_data = RedshopHelperQuotation::getQuotationItemAccessoryDetail($data->quotation_item_id);
@@ -101,7 +97,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		if ($data->product_excl_price)
 		{
-			$getprotax                   = $producthelper->getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
+			$getprotax                   = RedshopHelperProduct::getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
 			$cart[$idx]['product_price'] = $data->product_excl_price + $getprotax;
 			$cart[$idx]['product_price'] += $data->wrapper_price;
 			$cart[$idx]['product_subtotal'] = $cart[$idx]['quantity'] * $cart[$idx]['product_price'];

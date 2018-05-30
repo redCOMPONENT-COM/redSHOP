@@ -33,7 +33,7 @@ foreach ($this->productVariants as $itemId => $data)
 				<?php foreach ($this->productVariants as $row) : ?>
 					<?php $row = (object) $row; ?>
 					<?php if (!empty($row->total_sale)) : ?>
-	         		['<?php echo $row->product_name . '(' . $row->product_attribute . ')'; ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?>'],
+	         		['<?php echo $row->product_name . '(' . $row->product_attribute . ')'; ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale); ?>'],
 	         		<?php endif; ?>
 	       	 	<?php endforeach; ?>
 	       	 <?php else: ?>
@@ -172,7 +172,7 @@ foreach ($this->productVariants as $itemId => $data)
 						<td align="center"><?php echo $row->product_attribute; ?></td>
 						<td align="center"><?php echo $row->product_attribute_sku; ?></td>
 						<td align="center"><?php echo $row->unit_sold; ?></td>
-						<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
+						<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale); ?></td>
 					</tr>
 					<?php endif; ?>
 				<?php endforeach; ?>

@@ -201,7 +201,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 * category template extra field
 		 * "2" argument is set for category
 		 */
-		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
+		$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
 
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);

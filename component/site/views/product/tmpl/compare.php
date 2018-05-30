@@ -202,8 +202,8 @@ if ($total > 0)
 
 			if (Redshop::getConfig()->get('SHOW_PRICE') && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 			{
-				$productPrices = $producthelper->getProductNetPrice($product->product_id);
-				$price = $producthelper->getProductFormattedPrice($productPrices['product_price']);
+				$productPrices = RedshopHelperProductPrice::getNetPrice($product->product_id);
+				$price = RedshopHelperProductPrice::formattedPrice($productPrices['product_price']);
 			}
 
 			$template = str_replace('{product_price}', $exp_div . $price . $div_end . $td_end . $td_start . "{product_price}", $template);

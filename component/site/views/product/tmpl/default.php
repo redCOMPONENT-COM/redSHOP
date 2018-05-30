@@ -328,7 +328,7 @@ if ($this->redHelper->isredProductfinder())
 	}
 }
 
-$template_desc = $producthelper->replaceVatinfo($template_desc);
+$template_desc = RedshopHelperTax::replaceVatInformation($template_desc);
 $template_desc = str_replace("{associate_tag}", $ass_tag, $template_desc);
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
 $template_desc = str_replace("{product_name}", $this->data->product_name, $template_desc);
@@ -624,7 +624,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				if ($wrapper[$i]->wrapper_price > 0 && !strstr($template_desc, "{without_vat}"))
 				{
-					$wrapper_vat = $producthelper->getProducttax($this->data->product_id, $wrapper[$i]->wrapper_price);
+					$wrapper_vat = RedshopHelperProduct::getProductTax($this->data->product_id, $wrapper[$i]->wrapper_price);
 				}
 
 				$wp            = $wrapper[$i]->wrapper_price + $wrapper_vat;
@@ -636,7 +636,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 				{
-					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($wp) . ")";
+					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . RedshopHelperProductPrice::formattedPrice($wp) . ")";
 				}
 
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
@@ -663,7 +663,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 					{
-						$wrapperimage_div .= $producthelper->getProductFormattedPrice($wp);
+						$wrapperimage_div .= RedshopHelperProductPrice::formattedPrice($wp);
 					}
 
 					$wrapperimage_div .= "</div>";
@@ -736,7 +736,7 @@ if (strstr($template_desc, "{child_products}"))
 
 	if ($parentproductid != 0)
 	{
-		$productInfo = $producthelper->getProductById($parentproductid);
+		$productInfo = RedshopHelperProduct::getProductById($parentproductid);
 
 		// Get child products
 		$childproducts = $this->model->getAllChildProductArrayList(0, $parentproductid);
@@ -785,10 +785,10 @@ if (count($childproduct) > 0)
 
 		if ($this->data->attribute_set_id > 0)
 		{
-			$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 		}
 
-		$attributes = $producthelper->getProductAttribute($this->data->product_id);
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 	}
 	else
@@ -804,10 +804,10 @@ else
 
 	if ($this->data->attribute_set_id > 0)
 	{
-		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+		$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
-	$attributes = $producthelper->getProductAttribute($this->data->product_id);
+	$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
 	$attributes = array_merge($attributes, $attributes_set);
 }
 
@@ -1254,7 +1254,7 @@ $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
 // ProductFinderDatepicker Extra Field Start
 
-$fieldArray    = $extraField->getSectionFieldList(17, 0, 0);
+$fieldArray    = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, 0, 0);
 $template_desc = $producthelper->getProductFinderDatepickerValue($template_desc, $this->data->product_id, $fieldArray);
 
 // ProductFinderDatepicker Extra Field End
@@ -1697,7 +1697,7 @@ if (strstr($template_desc, "{subscription}") || strstr($template_desc, "{product
 		{
 			$subscription_data .= "<tr>";
 			$subscription_data .= "<td>" . $subscription [$sub]->subscription_period . " " . $subscription [$sub]->period_type . "</td>";
-			$subscription_data .= "<td>" . $producthelper->getProductFormattedPrice($subscription [$sub]->subscription_price) . "</td>";
+			$subscription_data .= "<td>" . RedshopHelperProductPrice::formattedPrice($subscription [$sub]->subscription_price) . "</td>";
 			$subscription_data .= "<td>";
 			$subscription_data .= "<input type='hidden'
 			 								id='hdn_subscribe_" . $subscription [$sub]->subscription_id . "'

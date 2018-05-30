@@ -14,7 +14,7 @@ $productHelper = productHelper::getInstance();
 $orderFunctions   = order_functions::getInstance();
 ?>
 <?php for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++) : ?>
-	<?php $attribute = $productHelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id); ?>
+	<?php $attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id); ?>
 	<?php $hideAttributePrice = 0; ?>
 	<?php if (count($attribute) > 0) : ?>
 		<?php $hideAttributePrice = $attribute[0]->hide_attribute_price; ?>
@@ -39,7 +39,7 @@ $orderFunctions   = order_functions::getInstance();
 		<?php else: ?>
 			<?php $disPrice = ""; ?>
 			<?php if (!$hideAttributePrice) : ?>
-				<?php $disPrice = " (" . $orderPropdata[$p]->section_oprand . $productHelper->getProductFormattedPrice($propertyPrice) . ")"; ?>
+				<?php $disPrice = " (" . $orderPropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($propertyPrice) . ")"; ?>
 			<?php endif; ?>
 			<?php $propertyOperand = $orderPropdata[$p]->section_oprand; ?>
 			<?php if (strpos($data, '{product_attribute_price}') === false) : ?>
@@ -71,7 +71,7 @@ $orderFunctions   = order_functions::getInstance();
 			<?php else: ?>
 				<?php $disPrice = ""; ?>
 				<?php if (!$hideAttributePrice) : ?>
-					<?php $disPrice = " (" . $orderSubpropdata[$p]->section_oprand . $productHelper->getProductFormattedPrice($subPropertyPrice) . ")"; ?>
+					<?php $disPrice = " (" . $orderSubpropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($subPropertyPrice) . ")"; ?>
 				<?php endif; ?>
 				<?php $subPropertyOperand = $orderSubpropdata[$p]->section_oprand; ?>
 				<?php if (strpos($data, '{product_attribute_price}') === false) : ?>

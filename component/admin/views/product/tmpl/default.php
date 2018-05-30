@@ -286,7 +286,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
             <?php echo $row->product_number;?>
         </td>
         <td class="nowrap">
-            <?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
+            <?php echo RedshopHelperProductPrice::formattedPrice($row->product_price);?>
         </td>
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)

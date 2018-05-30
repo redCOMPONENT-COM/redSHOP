@@ -153,10 +153,10 @@ if ($template_middle != "")
 
 			if ($manufacturer_products[$i]->attribute_set_id > 0)
 			{
-				$attributes_set = $producthelper->getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
+				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
 			}
 
-			$attributes = $producthelper->getProductAttribute($product_id);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 
@@ -164,7 +164,7 @@ if ($template_middle != "")
 		$totalatt = count($attributes);
 
 		// Check product for not for sale
-		$cart_mdata = $producthelper->getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
+		$cart_mdata = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
 
 		$attribute_template = \Redshop\Template\Helper::getAttribute($cart_mdata);
 		$cart_mdata         = Redshop\Product\Stock::replaceInStock($product_id, $cart_mdata, $attributes, $attribute_template);
@@ -227,7 +227,7 @@ if ($template_middle != "")
 		}
 
 		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-		$cart_mdata     = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
+		$cart_mdata     = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $manufacturer_products[$i]->product_id, "1", $cart_mdata);
 
 		$productAvailabilityDate = strstr($cart_mdata, "{product_availability_date}");
 		$stockNotifyFlag         = strstr($cart_mdata, "{stock_notify_flag}");
@@ -309,7 +309,7 @@ $template_desc = str_replace("{manufacturer_name}", $manufacturer->name, $templa
 
 // Extra field display
 $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
-$template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->id, "10", $template_desc);
+$template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $manufacturer->id, "10", $template_desc);
 $template_desc  = str_replace("{manufacturer_description}", $manufacturer->description, $template_desc);
 
 $manufacturer_extra_fields = RedshopHelperExtrafields::listAllFieldDisplay(10, $manufacturer->id);

@@ -49,7 +49,7 @@ $user->gid      = $user->groups[$user->usertype];
 
 			<div class="info-box-content">
 				<span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_SALES');?></span>
-				<span class="info-box-number"><?php echo $producthelper->getProductFormattedPrice($statistic[0]); ?></span>
+				<span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice($statistic[0]); ?></span>
 			</div>
 		</div>
 	</div>
