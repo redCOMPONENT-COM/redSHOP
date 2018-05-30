@@ -443,7 +443,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		if (!empty($keyword))
 		{
-			$productName = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productName);
+			$productName = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productName);
 		}
 
 		if (strstr($dataAdd, '{product_name_nolink}'))
