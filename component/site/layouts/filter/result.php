@@ -483,7 +483,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if (!empty($keyword))
 			{
-				$productShortDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productShortDesc);
+				$productShortDesc = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productShortDesc);
 			}
 
 			$dataAdd = str_replace("{product_s_desc}", $productShortDesc, $dataAdd);
@@ -499,7 +499,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if (!empty($keyword))
 			{
-				$productDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productDesc);
+				$productDesc = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productDesc);
 			}
 
 			$dataAdd = str_replace("{product_desc}", $productDesc, $dataAdd);
