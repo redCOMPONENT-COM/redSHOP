@@ -9,8 +9,6 @@
 
 namespace Redshop\Mail;
 
-use function str_replace;
-
 defined('_JEXEC') or die;
 
 /**
