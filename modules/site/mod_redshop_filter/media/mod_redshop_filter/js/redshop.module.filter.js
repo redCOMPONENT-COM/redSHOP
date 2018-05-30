@@ -27,11 +27,12 @@
             $.each(new_arr, function (key, data) {
                 var check = Object.keys(data).length;
                 if (check > 0) {
+                    var is_check = '';
+
                     if ($.inArray(data.manufacturer_id, check_list) != -1) {
-                        var is_check = 'checked="checked"';
-                    } else {
-                        var is_check = '';
+                        is_check = 'checked="checked"';
                     }
+
                     html += '<li style="list-style: none"><label>';
                     html += '<span class="taginput" data-aliases="' + data.id + '">';
                     html += '<input type="checkbox" ' + is_check + ' value="' + data.id + '" name="redform[manufacturer][]" />';
@@ -51,7 +52,7 @@
         });
 
         redSHOP.Module.Filter.form.html(function () {
-            $('span.label_alias').click(function (event) {
+            $('span.label_alias').click(function () {
                 if ($(this).hasClass('active')) {
                     $(this).removeClass('active').next('ul.collapse').removeClass('in');
                 } else {
@@ -124,7 +125,7 @@
             slide: function (event, ui) {
                 redSHOP.Module.Filter.form.find('[name="redform[filterprice][min]"]').attr('value', ui.values[0]);
                 redSHOP.Module.Filter.form.find('[name="redform[filterprice][max]"]').attr('value', ui.values[1]);
-            }, change: function (event, ui) {
+            }, change: function () {
                 if (callback && typeof(callback) === "function") {
                     $('input[name="limitstart"]').val(0);
                     callback();
@@ -150,16 +151,17 @@
 
                     $mainContent.html(data);
                     $('select').select2();
-
-                    url = $($.parseHTML(data)).find("#new-url").text();
-                    window.history.pushState("", "", url);
+                    window.history.pushState("", "", $($.parseHTML(data)).find("#new-url").text());
                 },
                 complete: function () {
                     $('#wait').css('display', 'none');
 
                     if (redSHOP.Module.Filter.options.isRestricted) {
-                        var pids = jQuery('input[name="pids"]').val();
-                        restricted(redSHOP.Module.Filter.form.serialize(), pids, redSHOP.Module.Filter.options.moduleParams);
+                        restricted(
+                            redSHOP.Module.Filter.form.serialize(),
+                            $('input[name="pids"]').val(),
+                            redSHOP.Module.Filter.options.moduleParams
+                        );
                     }
                 }
             });

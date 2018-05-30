@@ -44,7 +44,7 @@ if (!empty($cid))
 	$categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 	$categoryModel->setId($cid);
 	$categoryModel->setState('include_sub_categories_products', true);
-	$productList = $categoryModel->getCategoryProduct(true, true);
+	$productList = $categoryModel->getCategoryProduct(1, true);
 	$catList     = array();
 	$manuList    = array();
 	$pids        = ModRedshopFilter::getProductByCategory($cid);
@@ -68,6 +68,7 @@ if (!empty($cid))
 }
 elseif (!empty($mid))
 {
+	/** @var RedshopModelManufacturers $manufacturerModel */
 	$manufacturerModel = JModelLegacy::getInstance('Manufacturers', 'RedshopModel');
 	$manufacturerModel->setId($mid);
 	$products      = $manufacturerModel->getManufacturerProducts();
@@ -114,12 +115,10 @@ $pids         = array_filter(array_unique($pids));
 
 if ($enablePrice)
 {
-	JHtml::stylesheet('mod_redshop_filter/jquery-ui.min.css', false, true);
-	/** @scrutinizer ignore-deprecated */
-	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
+	/** @scrutinizer ignore-deprecated */JHtml::stylesheet('mod_redshop_filter/jquery-ui.min.css', false, true);
+	/** @scrutinizer ignore-deprecated */JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
 }
 
-// JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', false, true, false, false);
-JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', array('relative' => true, 'detectBrowser' => false, 'version' => true));
+/** @scrutinizer ignore-deprecated */ JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', false, true, false, false);
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
