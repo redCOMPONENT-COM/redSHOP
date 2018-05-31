@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     Redshop.Libraries
+ * @package     Redshop.Library
  * @subpackage  Entity
  *
  * @copyright   Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
  * Collection of entities.
  *
- * @since  2.0.3
+ * @since  __DEPLOY_VERSION__
  */
-class RedshopEntitiesCollection implements Countable, Iterator
+class CoreEntityCollection implements \Countable, \Iterator
 {
 	/**
 	 * @var  array
@@ -26,7 +28,7 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	 *
 	 * @param   array  $entities  Entities to initialise the collection
 	 */
-	public function __construct(array $entities = array())
+	public function __construct($entities = array())
 	{
 		$this->entities = $entities;
 	}
@@ -34,11 +36,11 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	/**
 	 * Adds an entity to the collection. It won't add any entity that already exists
 	 *
-	 * @param   RedshopEntity  $entity  Entity going to be added
+	 * @param   EntityInterface  $entity  Entity going to be added
 	 *
 	 * @return  self
 	 */
-	public function add(RedshopEntity $entity)
+	public function add(EntityInterface $entity)
 	{
 		if ($entity->hasId() && !$this->has($entity->getId()))
 		{
@@ -67,14 +69,14 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	 */
 	public function count()
 	{
-		return count($this->entities);
+		return (int) count($this->entities);
 	}
 
 	/**
 	 * Get the active entity.
 	 * Iterator implementation.
 	 *
-	 * @return  mixed  RedshopEntity | FALSE if no entities
+	 * @return  mixed  EntityInterface | FALSE if no entities
 	 */
 	public function current()
 	{
@@ -86,9 +88,9 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	 *
 	 * @param   integer  $id  Item's identifier
 	 *
-	 * @return  mixed  RedshopEntity if item exists. Null otherwise
+	 * @return  mixed  EntityInterface if item exists. Null otherwise
 	 */
-	public function get($id)
+	public function get($id = 0)
 	{
 		if ($this->has($id))
 		{
@@ -152,10 +154,47 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	}
 
 	/**
+	 * Load a collection from an array.
+	 *
+	 * @param   array   $items        Array containing entities data
+	 * @param   string  $entityClass  Class to use for items
+	 * @param   string  $idKey        ID key
+	 *
+	 * @return  self
+	 *
+	 * @since   3.1.6
+	 *
+	 * @throws  \RuntimeException  When associated entity class cannot be found
+	 */
+	public function loadArray($items = array(), $entityClass, $idKey = 'id')
+	{
+		if (!class_exists($entityClass))
+		{
+			throw new \RuntimeException(\JText::sprintf("LIB_REDSHOP_COLLECTION_ERROR_LOAD_CLASS_NOT_FOUND", $entityClass));
+		}
+
+		foreach ($items as $item)
+		{
+			$item = (object) $item;
+
+			if (!property_exists($item, $idKey))
+			{
+				throw new \RuntimeException(\JText::_('LIB_REDSHOP_COLLECTION_ERROR_LOAD_ARRAY_REQUIRES_ID_PROPERTY'));
+			}
+
+			$entity = $entityClass::getInstance($item->{$idKey})->bind($item);
+
+			$this->add($entity);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Gets the next entity.
 	 * Iterator implementation.
 	 *
-	 * @return  mixed  RedshopEntity | FALSE if no entities
+	 * @return  mixed  EntityInterface | FALSE if no entities
 	 */
 	public function next()
 	{
@@ -185,7 +224,7 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	 * Method to get the first entity.
 	 * Iterator implementation.
 	 *
-	 * @return  mixed  RedshopEntity | FALSE if no entities
+	 * @return  mixed  EntityInterface | FALSE if no entities
 	 */
 	public function rewind()
 	{
@@ -195,12 +234,12 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	/**
 	 * Sets an item. This removes previous item if it already exists
 	 *
-	 * @param   integer        $id      Entity identifier
-	 * @param   RedshopEntity  $entity  Entity
+	 * @param   integer          $id      Entity identifier
+	 * @param   EntityInterface  $entity  Entity
 	 *
 	 * @return  self
 	 */
-	public function set($id, RedshopEntity $entity)
+	public function set($id, EntityInterface $entity)
 	{
 		$this->entities[$id] = $entity;
 
@@ -237,7 +276,7 @@ class RedshopEntitiesCollection implements Countable, Iterator
 
 		foreach ($this->entities as $id => $entity)
 		{
-			$fields[] = $entity->getItem()->$fieldName;
+			$fields[$id] = $entity->getItem()->{$fieldName};
 		}
 
 		return $fields;

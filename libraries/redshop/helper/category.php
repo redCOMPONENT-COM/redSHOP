@@ -428,7 +428,7 @@ class RedshopHelperCategory
 	/**
 	 * Get category product list
 	 *
-	 * @param   string  $cid  Category ID
+	 * @param   integer  $cid  Category ID
 	 *
 	 * @return  array
 	 *
@@ -438,7 +438,7 @@ class RedshopHelperCategory
 	 */
 	public static function getCategoryProductList($cid)
 	{
-		return RedshopEntityCategory::getInstance($cid)->getProducts();
+		return RedshopEntityCategory::getInstance((int) $cid)->getProducts();
 	}
 
 	/**

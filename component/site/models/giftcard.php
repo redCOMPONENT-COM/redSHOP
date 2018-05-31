@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Class GiftcardModelGiftcard
  *
@@ -79,17 +78,16 @@ class RedshopModelGiftcard extends RedshopModel
 		return $this->_data;
 	}
 
+	/**
+	 * Method for get template data.
+	 *
+	 * @return  array
+	 *
+	 * @throws  Exception
+	 */
 	public function getGiftcardTemplate()
 	{
-		if (!$this->_id)
-		{
-			$carttemplate = RedshopHelperTemplate::getTemplate("giftcard_list");
-		}
-		else
-		{
-			$carttemplate = RedshopHelperTemplate::getTemplate("giftcard");
-		}
-
-		return $carttemplate;
+		return !$this->_id ? RedshopHelperTemplate::getTemplate('giftcard_list')
+			: RedshopHelperTemplate::getTemplate('giftcard');
 	}
 }

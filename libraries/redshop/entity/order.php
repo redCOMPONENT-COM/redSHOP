@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityOrder extends RedshopEntity
+class RedshopEntityOrder extends \Redshop\Entity\AbstractEntity
 {
 	/**
-	 * @var   RedshopEntitiesCollection
+	 * @var   \Redshop\Entity\EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -33,7 +33,7 @@ class RedshopEntityOrder extends RedshopEntity
 	protected $payment;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    \Redshop\Entity\EntityCollection
 	 *
 	 * @since  2.0.6
 	 */
@@ -63,7 +63,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Get the associated table
 	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
 	 *
 	 * @return  boolean|Tableorder_detail
 	 */
@@ -75,7 +75,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Method for get order items for this order
 	 *
-	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   \Redshop\Entity\EntityCollection if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -97,7 +97,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Method for get order status log for this order
 	 *
-	 * @return   array   RedshopEntitiesCollection if success. Null otherwise.
+	 * @return   array   array if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -141,7 +141,7 @@ class RedshopEntityOrder extends RedshopEntity
 	/**
 	 * Method for get users of this order
 	 *
-	 * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   Collection of users if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -218,13 +218,14 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$this->orderItems = new RedshopEntitiesCollection;
+		$this->orderItems = new \Redshop\Entity\EntityCollection;
 
-		$db         = JFactory::getDbo();
-		$query      = $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_item'))
 			->where($db->qn('order_id') . ' = ' . $this->getId());
+
 		$orderItems = $db->setQuery($query)->loadObjectList();
 
 		if (empty($orderItems))
@@ -321,14 +322,14 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$this->users = new RedshopEntitiesCollection;
+		$this->users = new \Redshop\Entity\EntityCollection;
 
-		$db = JFactory::getDbo();
-
-		$query   = $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_users_info'))
 			->where($db->qn('order_id') . ' = ' . (int) $this->getId());
+
 		$results = $db->setQuery($query)->loadObjectList();
 
 		if (empty($results))
@@ -370,7 +371,7 @@ class RedshopEntityOrder extends RedshopEntity
 
 		foreach ($users as $user)
 		{
-			if ($user->get('address_type') == 'BT')
+			if ($user->get('address_type') === 'BT')
 			{
 				$this->billing = $user;
 

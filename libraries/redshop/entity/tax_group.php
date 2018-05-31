@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,12 +19,12 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.4
  */
-class RedshopEntityTax_Group extends RedshopEntity
+class RedshopEntityTax_Group extends AbstractEntity
 {
 	/**
 	 * List of tax rates belong to this tax group
 	 *
-	 * @var    RedshopEntitiesCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.0.4
 	 */
@@ -30,7 +33,7 @@ class RedshopEntityTax_Group extends RedshopEntity
 	/**
 	 * Method for get all associated tax rates
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.0.4
 	 */
@@ -53,14 +56,14 @@ class RedshopEntityTax_Group extends RedshopEntity
 	 */
 	protected function loadTaxRates()
 	{
-		/** @var RedshopEntitiesCollection taxRates */
-		$this->taxRates = new RedshopEntitiesCollection;
+		$this->taxRates = new EntityCollection;
 
 		if (!$this->hasId())
 		{
 			return $this;
 		}
 
+		/** @var RedshopModelTax_Rates $model */
 		$model = RedshopModel::getInstance('Tax_Rates', 'RedshopModel', array('ignore_request' => true));
 		$model->setState('filter.tax_group', $this->getId());
 

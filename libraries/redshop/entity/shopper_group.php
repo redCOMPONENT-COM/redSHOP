@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,10 +19,10 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityShopper_Group extends RedshopEntity
+class RedshopEntityShopper_Group extends AbstractEntity
 {
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -40,7 +43,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
 	/**
 	 * Method for get discounts of this shopper group
 	 *
-	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+	 * @return   EntityCollection   EntityCollection if success. Null otherwise.
 	 *
 	 * @since   2.0.6
 	 */
@@ -73,13 +76,14 @@ class RedshopEntityShopper_Group extends RedshopEntity
 			return $this;
 		}
 
-		$this->discounts = new RedshopEntitiesCollection;
+		$this->discounts = new EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('discount_id'))
 			->from($db->qn('#__redshop_discount_shoppers'))
 			->where($db->qn('shopper_group_id') . ' = ' . $this->getId());
+
 		$discounts = $db->setQuery($query)->loadColumn();
 
 		if (empty($discounts))

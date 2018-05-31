@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
@@ -18,14 +20,14 @@ use Joomla\Registry\Registry;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityOrder_Payment extends RedshopEntity
+class RedshopEntityOrder_Payment extends AbstractEntity
 {
 	/**
 	 * Get the associated table
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  boolean|Tableorder_payment
 	 */
 	public function getTable($name = null)
 	{

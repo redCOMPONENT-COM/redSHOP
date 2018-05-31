@@ -9,29 +9,24 @@
 
 defined('_JEXEC') or die;
 
-class RedshopTableRating_detail extends JTable
+/**
+ * Table rating
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopTableRating_detail extends RedshopTable
 {
 	/**
-	 * Constructor
+	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
-	 *
-	 * @since  11.1
+	 * @var  string
 	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__redshop_product_rating', 'rating_id', $db);
-	}
+	protected $_tableName = 'redshop_product_rating';
 
-	public function bind($array, $ignore = '')
-	{
-		if (array_key_exists('params', $array) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-
-		return parent::bind($array, $ignore);
-	}
+	/**
+	 * @var string
+	 */
+	protected $_tableKey = 'rating_id';
 }

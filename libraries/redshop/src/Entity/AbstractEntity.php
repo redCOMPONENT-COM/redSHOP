@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.0.3
  */
-abstract class RedshopEntityBase
+abstract class AbstractEntity implements EntityInterface
 {
 	/**
 	 * @const  integer
@@ -62,7 +64,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Cached table.
 	 *
-	 * @var  JTable
+	 * @var  \JTable
 	 */
 	protected $table;
 
@@ -71,7 +73,7 @@ abstract class RedshopEntityBase
 	 *
 	 * @var  string
 	 */
-	protected $component;
+	protected $component = 'com_redshop';
 
 	/**
 	 * Translations for items that support them
@@ -114,9 +116,9 @@ abstract class RedshopEntityBase
 	 */
 	public function __get($property)
 	{
-		if (null != $this->item && property_exists($this->item, $property))
+		if (null !== $this->item && property_exists($this->item, $property))
 		{
-			return $this->item->$property;
+			return $this->item->{$property};
 		}
 
 		return null;
@@ -136,10 +138,10 @@ abstract class RedshopEntityBase
 	{
 		if (null === $this->item)
 		{
-			$this->item = new stdClass;
+			$this->item = new \stdClass;
 		}
 
-		$this->item->$property = $value;
+		$this->item->{$property} = $value;
 
 		return $this;
 	}
@@ -161,11 +163,11 @@ abstract class RedshopEntityBase
 	 *
 	 * @param   string  $name  Property name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function __isset($name)
 	{
-		return isset($this->item->$name);
+		return isset($this->item->{$name});
 	}
 
 	/**
@@ -284,7 +286,7 @@ abstract class RedshopEntityBase
 	 */
 	public function canDo($action)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		return $user->authorise($action, $this->getAssetName());
 	}
@@ -343,7 +345,7 @@ abstract class RedshopEntityBase
 			return $url;
 		}
 
-		return JRoute::_($url, $xhtml);
+		return \JRoute::_($url, $xhtml);
 	}
 
 	/**
@@ -360,7 +362,7 @@ abstract class RedshopEntityBase
 
 		if (!empty($item) && property_exists($item, $property))
 		{
-			return ($item->$property !== null && $item->$property !== '') ? $item->$property : $default;
+			return ($item->{$property} !== null && $item->{$property} !== '') ? $item->{$property} : $default;
 		}
 
 		return $default;
@@ -425,7 +427,7 @@ abstract class RedshopEntityBase
 	 */
 	public function getAddLinkWithReturn($itemId = 'inherit', $routed = true, $xhtml = true)
 	{
-		$url = $this->getAddLink($itemId, false, false) . '&return=' . base64_encode(JUri::getInstance()->toString());
+		$url = $this->getAddLink($itemId, false, false) . '&return=' . base64_encode(\JUri::getInstance()->toString());
 
 		return $this->formatUrl($url, $routed, $xhtml);
 	}
@@ -503,20 +505,20 @@ abstract class RedshopEntityBase
 
 		if ($format && $translateFormat)
 		{
-			$format = JText::_($format);
+			$format = \JText::_($format);
 		}
 
-		return JHtml::_('date', $item->{$itemProperty}, $format);
+		return \JHtml::_('date', $item->{$itemProperty}, $format);
 	}
 
 	/**
 	 * Local proxy for JFactory::getDbo()
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  \JDatabaseDriver
 	 */
 	protected function getDbo()
 	{
-		return JFactory::getDbo();
+		return \JFactory::getDbo();
 	}
 
 	/**
@@ -535,7 +537,7 @@ abstract class RedshopEntityBase
 			return null;
 		}
 
-		$urlToken = '&' . JSession::getFormToken() . '=1';
+		$urlToken = '&' . \JSession::getFormToken() . '=1';
 
 		$url = $this->getBaseUrl() . '&task=' . $this->getInstanceName()
 			. '.delete&id=' . $this->getSlug() . $urlToken . $this->getLinkItemIdString($itemId);
@@ -559,7 +561,7 @@ abstract class RedshopEntityBase
 			return null;
 		}
 
-		$url = $this->getDeleteLink($itemId, false, false) . '&return=' . base64_encode(JUri::getInstance()->toString());
+		$url = $this->getDeleteLink($itemId, false, false) . '&return=' . base64_encode(\JUri::getInstance()->toString());
 
 		return $this->formatUrl($url, $routed, $xhtml);
 	}
@@ -604,7 +606,7 @@ abstract class RedshopEntityBase
 			return null;
 		}
 
-		$url = $this->getEditLink($itemId, false, false) . '&return=' . base64_encode(JUri::getInstance()->toString());
+		$url = $this->getEditLink($itemId, false, false) . '&return=' . base64_encode(\JUri::getInstance()->toString());
 
 		return $this->formatUrl($url, $routed, $xhtml);
 	}
@@ -757,7 +759,7 @@ abstract class RedshopEntityBase
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  \RedshopTable
 	 */
 	public function getTable($name = null)
 	{
@@ -769,7 +771,7 @@ abstract class RedshopEntityBase
 
 		$name = str_replace('Entity', '', $name);
 
-		return RedshopTable::getAdminInstance($name, array(), $this->getComponent());
+		return \RedshopTable::getAdminInstance($name, array(), $this->getComponent());
 	}
 
 	/**
@@ -808,7 +810,7 @@ abstract class RedshopEntityBase
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($user->get('guest'))
 		{
@@ -822,7 +824,7 @@ abstract class RedshopEntityBase
 			return false;
 		}
 
-		return ($item->created_by == $user->get('id'));
+		return ($item->created_by === $user->get('id'));
 	}
 
 	/**
@@ -864,7 +866,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Load the item already loaded in a table
 	 *
-	 * @param   RedshopTable|JTable  $table  Table with the item loaded
+	 * @param   \RedshopTable  $table  Table with the item loaded
 	 *
 	 * @return  self
 	 */
@@ -966,7 +968,7 @@ abstract class RedshopEntityBase
 	{
 		if (!$this->processBeforeSaving($item))
 		{
-			return false;
+			return 0;
 		}
 
 		if (null === $item)
@@ -976,30 +978,30 @@ abstract class RedshopEntityBase
 
 		if (!$item)
 		{
-			JLog::add("Nothing to save", JLog::ERROR, 'entity');
+			\JLog::add("Nothing to save", \JLog::ERROR, 'entity');
 
 			return 0;
 		}
 
 		$table = $this->getTable();
 
-		if (!$table instanceof JTable)
+		if (!$table instanceof \JTable)
 		{
-			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+			\JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", \JLog::ERROR, 'entity');
 
 			return 0;
 		}
 
 		if (!$table->save((array) $item))
 		{
-			JLog::add($table->getError(), JLog::ERROR, 'entity');
+			\JLog::add(/** @scrutinizer ignore-deprecated */ $table->getError(), \JLog::ERROR, 'entity');
 
 			return 0;
 		}
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
-		static::loadFromTable($table);
+		$this->loadFromTable($table);
 
 		$this->processAfterSaving($table);
 
@@ -1043,7 +1045,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Process data after saving.
 	 *
-	 * @param   JTable  $table  JTable instance data.
+	 * @param   \JTable  $table  JTable instance data.
 	 *
 	 * @return  boolean
 	 */

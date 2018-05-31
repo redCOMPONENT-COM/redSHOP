@@ -81,16 +81,18 @@ abstract class RedshopHelperStatistic
 	/**
 	 * Method for store visitor.
 	 *
-	 * @return  bool  True on success. False otherwise.
+	 * @return  boolean  True on success. False otherwise.
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
+	 * @throws  Exception
 	 */
 	public static function recordVisitor()
 	{
 		$sessionId = JFactory::getSession()->getId();
 		$user      = JFactory::getUser();
 
-		$table = RedshopTable::getInstance('Site_Viewer', 'RedshopTable');
+		/** @var RedshopTableSite_Viewer $table */
+		$table = RedshopTable::getAdminInstance('Site_Viewer', array('ignore_request' => true), 'com_redshop');
 
 		if ($table->load(array('session_id' => $sessionId)))
 		{

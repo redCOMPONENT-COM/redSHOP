@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Twig\Environment;
+
 /**
  * Redshop
  *
@@ -99,5 +101,41 @@ abstract class Redshop
 	public static function product($id)
 	{
 		return RedshopProduct::getInstance($id);
+	}
+
+	/**
+	 * Get the twig renderer.
+	 *
+	 * @param   Twig_LoaderInterface  $loader   Twig loader
+	 * @param   array                 $options  Options for the environment
+	 *
+	 * @return  Environment
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTwig(Twig_LoaderInterface $loader, array $options = array())
+	{
+		if (!isset($options['debug']))
+		{
+			// @TODO: Add confg for Twig debug
+			$options['debug'] = (bool) self::getConfig()->get('twig_debug', false);
+		}
+
+		if (!isset($options['cache']) && (bool) static::getConfig()->get('twig_cache', false))
+		{
+			// @TODO: Add confg for Twig cache
+			$options['cache'] = JPATH_ROOT . '/cache/redshop_twig/';
+		}
+
+		$options['debug'] = true;
+
+		$twig = new Environment($loader, $options);
+
+		if ($options['debug'])
+		{
+			$twig->loadDebugExtension();
+		}
+
+		return $twig;
 	}
 }

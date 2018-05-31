@@ -41,9 +41,14 @@ class RedshopViewTemplates extends RedshopViewList
 	{
 		if ($config['dataCol'] === 'section')
 		{
-			$return = RedshopHelperTemplate::getTemplateSections($row->section);
+			$content = RedshopHelperTemplate::getTemplateSections($row->section);
 
-			return is_string($return) ? $return : '';
+			if (in_array($row->section, RedshopHelperTwig::getSupportedTemplateSections()))
+			{
+				$content .= '&nbsp;&nbsp;<span class="badge label-success">Twig</span>';
+			}
+
+			return $content;
 		}
 
 		return parent::onRenderColumn($config, $index, $row);

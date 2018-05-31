@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\Twig;
+use Redshop\Entity\TwigableEntityInterface;
+
 /**
  * Giftcard Entity
  *
@@ -16,6 +20,17 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityGiftcard extends RedshopEntity
+class RedshopEntityGiftcard extends AbstractEntity implements TwigableEntityInterface
 {
+	/**
+	 * Method for get Twig Entity
+	 *
+	 * @return \Redshop\Entity\Twig\Giftcard
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getTwigEntity()
+	{
+		return new Twig\Giftcard($this);
+	}
 }

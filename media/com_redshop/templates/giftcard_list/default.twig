@@ -1,0 +1,13 @@
+{% if giftcards.count %}
+    {% for giftcard in giftcards %}
+        <div>
+            <h3>{{ giftcard.name }}</h3>
+            {% if giftcard.desc %}
+                <div>{{ giftcard.description|raw }}</div>
+            {% endif %}
+            {% if giftcard.validity %}
+                <div>{{ giftcard.validity }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}

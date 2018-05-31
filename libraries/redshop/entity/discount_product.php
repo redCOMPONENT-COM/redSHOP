@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,22 +19,22 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.1.0
  */
-class RedshopEntityDiscount_Product extends RedshopEntity
+class RedshopEntityDiscount_Product extends AbstractEntity
 {
 	/**
-	 * @var RedshopEntitiesCollection
+	 * @var EntityCollection
 	 */
 	protected $shopperGroups;
 
 	/**
-	 * @var RedshopEntitiesCollection
+	 * @var EntityCollection
 	 */
 	protected $categories;
 
 	/**
 	 * Method for get shopper groups associate with this discount
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -48,7 +51,7 @@ class RedshopEntityDiscount_Product extends RedshopEntity
 	/**
 	 * Method for get categories associate with this discount
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -71,7 +74,7 @@ class RedshopEntityDiscount_Product extends RedshopEntity
 	 */
 	protected function loadCategories()
 	{
-		$this->categories = new RedshopEntitiesCollection;
+		$this->categories = new EntityCollection;
 
 		if (!$this->hasId() || empty($this->get('category_ids')))
 		{
@@ -82,7 +85,7 @@ class RedshopEntityDiscount_Product extends RedshopEntity
 
 		foreach ($categoryIds as $categoryId)
 		{
-			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
+			$this->categories->add(RedshopEntityCategory::getInstance((int) $categoryId));
 		}
 
 		return $this;
@@ -97,7 +100,7 @@ class RedshopEntityDiscount_Product extends RedshopEntity
 	 */
 	protected function loadShopperGroups()
 	{
-		$this->shopperGroups = new RedshopEntitiesCollection;
+		$this->shopperGroups = new EntityCollection;
 
 		if (!$this->hasId())
 		{

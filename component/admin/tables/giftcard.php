@@ -35,6 +35,26 @@ class RedshopTableGiftcard extends RedshopTable
 	protected $_tableKey = 'giftcard_id';
 
 	/**
+	 * @var integer
+	 */
+	public $giftcard_id;
+
+	/**
+	 * @var string
+	 */
+	public $giftcard_name;
+
+	/**
+	 * @var string
+	 */
+	public $giftcard_image;
+
+	/**
+	 * @var string
+	 */
+	public $giftcard_bgimage;
+
+	/**
 	 * Delete one or more registers
 	 *
 	 * @param   string/array  $pk  Array of ids or ids comma separated
@@ -67,42 +87,6 @@ class RedshopTableGiftcard extends RedshopTable
 	{
 		$productHelper = productHelper::getInstance();
 
-		// Get input
-		$app   = JFactory::getApplication();
-		$input = $app->input;
-
-		$giftCardFile = $input->files->get('jform');
-		$image        = $giftCardFile['giftcard_image_file'];
-
-		if ($image['name'] != '' && $this->giftcard_image != '')
-		{
-			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
-			$this->giftcard_image = '';
-		}
-
-		if ($image['name'] != '')
-		{
-			$image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
-			$this->giftcard_image = $image['name'];
-			JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
-		}
-
-		// Get background image file
-		$bgImage = $giftCardFile['giftcard_bgimage_file'];
-
-		if (($bgImage['name'] != '' && $this->giftcard_bgimage != ''))
-		{
-			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
-			$this->giftcard_bgimage = '';
-		}
-
-		if ($bgImage['name'] != '')
-		{
-			$bgImage['name']        = RedshopHelperMedia::cleanFileName($bgImage['name']);
-			$this->giftcard_bgimage = $bgImage['name'];
-			JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
-		}
-
 		$this->giftcard_price = $productHelper->redpriceDecimal($this->giftcard_price);
 		$this->giftcard_value = $productHelper->redpriceDecimal($this->giftcard_value);
 
@@ -111,7 +95,7 @@ class RedshopTableGiftcard extends RedshopTable
 			return false;
 		}
 
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+		if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1)
 		{
 			$giftData                  = new stdClass;
 			$giftData->product_id      = $this->giftcard_id;

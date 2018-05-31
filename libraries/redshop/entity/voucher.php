@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,10 +19,11 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityVoucher extends RedshopEntity
+class RedshopEntityVoucher extends AbstractEntity
 {
 	/**
-	 * @var  RedshopEntitiesCollection
+	 * @var  EntityCollection
+	 *
 	 * @since  2.0.7
 	 */
 	protected $products;
@@ -27,7 +31,7 @@ class RedshopEntityVoucher extends RedshopEntity
 	/**
 	 * Method for get products available with this voucher
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since  2.0.7
 	 */
@@ -50,18 +54,19 @@ class RedshopEntityVoucher extends RedshopEntity
 	 */
 	protected function loadProducts()
 	{
-		$this->products = new RedshopEntitiesCollection;
+		$this->products = new EntityCollection;
 
 		if (!$this->hasId())
 		{
 			return $this;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product_voucher_xref'))
 			->where($db->qn('voucher_id') . ' = ' . $this->getId());
+
 		$result = $db->setQuery($query)->loadColumn();
 
 		if (empty($result))

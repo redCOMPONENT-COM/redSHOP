@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityOrder_Item extends RedshopEntity
+class RedshopEntityOrder_Item extends \Redshop\Entity\AbstractEntity
 {
 	/**
-	 * @var   RedshopEntitiesCollection
+	 * @var   \Redshop\Entity\EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -30,7 +30,7 @@ class RedshopEntityOrder_Item extends RedshopEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  boolean|Tableorder_item_detail
 	 */
 	public function getTable($name = null)
 	{
@@ -40,9 +40,9 @@ class RedshopEntityOrder_Item extends RedshopEntity
 	/**
 	 * Method for get accessory items for this order item
 	 *
-	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+	 * @return   \Redshop\Entity\EntityCollection   \Redshop\Entity\EntityCollection if success. Null otherwise.
 	 *
-	 * @since   2.0.6
+	 * @since    2.0.6
 	 */
 	public function getAccessoryItems()
 	{
@@ -73,13 +73,14 @@ class RedshopEntityOrder_Item extends RedshopEntity
 			return $this;
 		}
 
-		$this->accessoryItems = new RedshopEntitiesCollection;
+		$this->accessoryItems = new \Redshop\Entity\EntityCollection;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_acc_item'))
 			->where($db->qn('order_item_id') . ' = ' . $this->getId());
+
 		$items = $db->setQuery($query)->loadObjectList();
 
 		if (empty($items))

@@ -53,6 +53,16 @@ class RedshopTableTemplate extends RedshopTable
 	public $section;
 
 	/**
+	 * @var integer
+	 */
+	public $twig_support = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $twig_enable = 0;
+
+	/**
 	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *
@@ -71,7 +81,9 @@ class RedshopTableTemplate extends RedshopTable
 
 		if ($this->id && !empty($this->file_name))
 		{
-			$file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
+			$fileName = $this->twig_enable ? $this->file_name . '.twig' : $this->file_name . '.php';
+
+			$file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName);
 
 			if (JFile::exists($file))
 			{
@@ -130,6 +142,31 @@ class RedshopTableTemplate extends RedshopTable
 	}
 
 	/**
+	 * Called before store(). Overriden to send isNew to plugins.
+	 *
+	 * @param   boolean $updateNulls True to update null values as well.
+	 * @param   boolean $isNew       True if we are adding a new item.
+	 * @param   mixed   $oldItem     null for new items | JTable otherwise
+	 *
+	 * @return  boolean  True on success.
+	 */
+	protected function beforeStore($updateNulls = false, $isNew = false, $oldItem = null)
+	{
+		if (!parent::beforeStore($updateNulls, $isNew, $oldItem))
+		{
+			return false;
+		}
+
+		// Auto-enable twig support for new template
+		if ($isNew && in_array($this->section, RedshopHelperTwig::getSupportedTemplateSections()))
+		{
+			$this->twig_support = 1;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Do the database store.
 	 *
 	 * @param   boolean $updateNulls True to update null values as well.
@@ -181,9 +218,11 @@ class RedshopTableTemplate extends RedshopTable
 			$fileName = $this->file_name;
 		}
 
+		$fileName .= $this->twig_enable ? '.twig' : '.php';
+
 		// Write template file
 		JFile::write(
-			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName . '.php'),
+			JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName),
 			$this->getOption('content', '')
 		);
 
@@ -204,7 +243,9 @@ class RedshopTableTemplate extends RedshopTable
 			return false;
 		}
 
-		$templatePath = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
+		$templatePath = JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name;
+		$templatePath = $this->twig_enable ? $templatePath . '.twig' : $templatePath . '.php';
+		$templatePath = JPath::clean($templatePath);
 
 		if (JFile::exists($templatePath))
 		{

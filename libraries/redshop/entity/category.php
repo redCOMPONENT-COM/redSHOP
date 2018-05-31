@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Entity\AbstractEntity;
+use Redshop\Entity\EntityCollection;
+
 /**
  * Category Entity
  *
@@ -16,7 +19,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityCategory extends RedshopEntity
+class RedshopEntityCategory extends AbstractEntity
 {
 	/**
 	 * Product count
@@ -33,14 +36,14 @@ class RedshopEntityCategory extends RedshopEntity
 	protected $products;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.0.6
 	 */
 	protected $childCategories;
 
 	/**
-	 * @var    RedshopEntitiesCollection
+	 * @var    EntityCollection
 	 *
 	 * @since  2.1.0
 	 */
@@ -117,7 +120,7 @@ class RedshopEntityCategory extends RedshopEntity
 	/**
 	 * Method for get child categories of current category
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.0.6
 	 */
@@ -145,7 +148,7 @@ class RedshopEntityCategory extends RedshopEntity
 			return $this;
 		}
 
-		$this->childCategories = new RedshopEntitiesCollection;
+		$this->childCategories = new EntityCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -172,7 +175,7 @@ class RedshopEntityCategory extends RedshopEntity
 	/**
 	 * Method for get medias of current category
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  EntityCollection
 	 *
 	 * @since   2.1.0
 	 */
@@ -195,7 +198,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 */
 	protected function loadMedia()
 	{
-		$this->media = new RedshopEntitiesCollection;
+		$this->media = new EntityCollection;
 
 		if (!$this->hasId())
 		{
@@ -255,9 +258,9 @@ class RedshopEntityCategory extends RedshopEntity
 		/** @var RedshopTableCategory $table */
 		$table = $this->getTable();
 
-		if (!$table instanceof JTable)
+		if (!$table instanceof RedshopTableCategory)
 		{
-			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+			JLog::add('Table for instance ' . $this->getInstanceName() . ' could not be loaded', JLog::ERROR, 'entity');
 
 			return false;
 		}

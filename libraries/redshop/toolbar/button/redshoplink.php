@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Layout\LayoutFile;
+
 /**
  * Renders a link button
  *
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  Toolbar
  * @since       1.5
  */
-class JButtonRedshopLink extends JButton
+class JButtonRedshopLink extends JToolbarButton
 {
 	/**
 	 * Button type
@@ -49,7 +51,7 @@ class JButtonRedshopLink extends JButton
 		$options['target'] = $target;
 
 		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new RedshopLayoutFile('toolbar.redshoplink', null, array('suffixes' => array($this->joomlaSuffix)));
+		$layout = new Redshop\Layout\LayoutFile('toolbar.redshoplink', null, array('suffixes' => array($this->joomlaSuffix)));
 
 		return $layout->render($options);
 	}
