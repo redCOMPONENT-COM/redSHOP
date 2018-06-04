@@ -262,7 +262,7 @@ class RedshopHelperMedia
 			return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . basename($physicalPath);
 		}
 
-		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
+		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . rawurlencode(basename($physicalPath));
 	}
 
 	/**
