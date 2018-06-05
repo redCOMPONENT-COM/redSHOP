@@ -155,6 +155,7 @@ class DiscountProductCest
 	public function addDiscountProductMissingAmountSaveClose(AcceptanceTester $client, $scenario)
 	{
 		$client = new DiscountProductSteps($scenario);
+		$client->wantTo('Add product discount missing amount then clicks on save and close button');
 		$client->addDiscountProductMissingAmountSaveClose(
 			$this->productPrice,
 			$this->condition,
@@ -164,6 +165,30 @@ class DiscountProductCest
 			$this->dataCategory['name'],
 			$this->groupName
 		);
+
+        $client = new DiscountProductSteps($scenario);
+        $client->wantTo('Add product discount missing shopper group then clicks on save and close button');
+        $client->addDiscountProductMissingShopperGroupSaveClose(
+            $this->productPrice,
+            $this->condition,
+            $this->type,
+            $this->discountAmount,
+            $this->startDate,
+            $this->endDate,
+            $this->dataCategory['name']
+        );
+
+        $client->wantTo('Add discount product strt more than end ');
+        $client->addDiscountProductStartMoreThanEnd(
+            $this->productPrice,
+            $this->condition,
+            $this->type,
+            $this->discountAmount,
+            $this->endDate,
+            $this->startDate,
+            $this->dataCategory['name'],
+            $this->groupName
+        );
 	}
 
 	/**
@@ -179,41 +204,7 @@ class DiscountProductCest
 	 */
 	public function addDiscountProductMissingShopperGroupSaveClose(AcceptanceTester $client, $scenario)
 	{
-		$client = new DiscountProductSteps($scenario);
-		$client->addDiscountProductMissingShopperGroupSaveClose(
-			$this->productPrice,
-			$this->condition,
-			$this->type,
-			$this->discountAmount,
-			$this->startDate,
-			$this->endDate,
-			$this->dataCategory['name']
-		);
-	}
 
-	/**
-	 * Function add discount product have start day more than end day
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends addDiscountProductMissingShopperGroupSaveClose
-	 */
-	public function addDiscountProductStartMoreThanEnd(AcceptanceTester $client, $scenario)
-	{
-		$client = new DiscountProductSteps($scenario);
-		$client->addDiscountProductStartMoreThanEnd(
-			$this->productPrice,
-			$this->condition,
-			$this->type,
-			$this->discountAmount,
-			$this->endDate,
-			$this->startDate,
-			$this->dataCategory['name'],
-			$this->groupName
-		);
 	}
 
 	/**
