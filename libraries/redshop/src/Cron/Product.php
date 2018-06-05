@@ -27,7 +27,7 @@ class Product
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__redshop_product'))
 			->set($db->quoteName('product_on_sale') . ' = 0')
-			->where($db->quoteName('discount_enddate') . ' < ' . time());
+			->where($db->quoteName('discount_enddate') . ' <= ' . time());
 
 		return $db->setQuery($query)->execute();
 	}
