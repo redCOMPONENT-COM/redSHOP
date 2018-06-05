@@ -164,17 +164,17 @@ class AttributeUserCest
 		$this->requiVAT        = 'no';
 	}
 
-	/**
-	 * Method delete data at database
-	 *
-	 * @param   \Codeception\Scenario $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		(new RedshopSteps($scenario))->clearAllData();
-	}
+//	/**
+//	 * Method delete data at database
+//	 *
+//	 * @param   \Codeception\Scenario $scenario Scenario
+//	 *
+//	 * @return  void
+//	 */
+//	public function deleteData($scenario)
+//	{
+//		(new RedshopSteps($scenario))->clearAllData();
+//	}
 
 	/**
 	 * @param   AcceptanceTester      $client   Client
