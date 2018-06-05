@@ -1,17 +1,22 @@
 <?php
 /**
  * @package     Redshop\Product\Utilities
- * @subpackage
+ * @subpackage  General
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Redshop\Product\Utilities;
 
-
 use Joomla\String\StringHelper;
 
+/**
+ * Class General
+ * @package Redshop\Product\Utilities
+ *
+ * @since   2.1.0
+ */
 class General
 {
 	/**
@@ -26,9 +31,9 @@ class General
 	 *
 	 * @since   1.5
 	 */
-	public static function renameToUniqueValue($fieldName, $fieldValue, $style = 'default', $tableName = '')
+	public static function renameToUniqueValue($fieldName, $fieldValue, $style = 'default', $tableName = 'Product_Detail')
 	{
-		$table = \JTable::getInstance('Product_Detail', 'Table');
+		$table = \JTable::getInstance($tableName, 'Table');
 
 		while ($table->load(array($fieldName => $fieldValue)))
 		{
