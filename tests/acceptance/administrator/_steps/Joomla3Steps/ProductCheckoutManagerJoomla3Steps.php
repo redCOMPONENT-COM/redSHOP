@@ -646,20 +646,20 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productSecond));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
-		$I->wait(1);
-		try{
-            $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$addToCompare);
-        }catch (Exception $e)
-        {
-            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
-        }
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
-        $I->waitForElement($usePage->productName($productSecond), 30);
-        $I->wait(1);
-
-		$I->waitForElement($usePage->productName($productFirst), 30);
-		$I->waitForElement($usePage->productName($productSecond), 30);
+//		$I->wait(1);
+//		try{
+//            $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$addToCompare);
+//        }catch (Exception $e)
+//        {
+//            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+//        }
+//		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
+//		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
+//        $I->waitForElement($usePage->productName($productSecond), 30);
+//        $I->wait(1);
+//
+//		$I->waitForElement($usePage->productName($productFirst), 30);
+//		$I->waitForElement($usePage->productName($productSecond), 30);
 	}
 
 	/**
@@ -896,8 +896,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
-			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+//		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
+//			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $product]);
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
