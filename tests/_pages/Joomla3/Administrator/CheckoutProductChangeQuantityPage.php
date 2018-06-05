@@ -25,11 +25,6 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
 	 */
 	public static $quantityField = ['id' => 'quantitybox0'];
 
-    /**
-     * @var array
-     */
-    public static $termAndConditions = "//input[@id='termscondition']";
-
 	/**
 	 * @var array
 	 */
