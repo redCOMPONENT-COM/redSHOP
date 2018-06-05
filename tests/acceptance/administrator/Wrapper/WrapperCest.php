@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
@@ -15,7 +15,7 @@ use AcceptanceTester\WrapperSteps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    2.1
  */
 class WrapperCest
 {
@@ -42,7 +42,7 @@ class WrapperCest
 	 * Function to Test Wrapper Creation in Backend
 	 *
 	 */
-	public function CRUDWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
+	public function createUpdateDeleteWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
 	{
 		/**
 		 * Function to Test Wrapper Creation in Backend
@@ -93,5 +93,4 @@ class WrapperCest
 		$I->wantTo('Delete category');
 		$I->deleteCategory($this->category);
 	}
-
 }
