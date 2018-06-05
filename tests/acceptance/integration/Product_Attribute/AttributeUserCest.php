@@ -138,9 +138,9 @@ class AttributeUserCest
 		$this->lastName  = $this->faker->bothify('LastName ?####?');
 
 		// Order info
-		$this->subTotal      = 'DKK 80,00';
-		$this->vatPrice      = 'DKK 8,00';
-		$this->total         = 'DKK 88,00';
+		$this->subTotal      = 'DKK 100,00';
+		$this->vatPrice      = 'DKK 10,00';
+		$this->total         = 'DKK 110,00';
 		$this->shippingPrice = 'DKK 0,00';
 
 		// Shipping info
@@ -164,17 +164,17 @@ class AttributeUserCest
 		$this->requiVAT        = 'no';
 	}
 
-//	/**
-//	 * Method delete data at database
-//	 *
-//	 * @param   \Codeception\Scenario $scenario Scenario
-//	 *
-//	 * @return  void
-//	 */
-//	public function deleteData($scenario)
-//	{
-//		(new RedshopSteps($scenario))->clearAllData();
-//	}
+	/**
+	 * Method delete data at database
+	 *
+	 * @param   \Codeception\Scenario $scenario Scenario
+	 *
+	 * @return  void
+	 */
+	public function deleteData($scenario)
+	{
+		(new RedshopSteps($scenario))->clearAllData();
+	}
 
 	/**
 	 * @param   AcceptanceTester      $client   Client
