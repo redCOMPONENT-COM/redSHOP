@@ -8,6 +8,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CheckoutProductQuantityChangeSteps;
+use AcceptanceTester\ConfigurationSteps;
 
 /**
  * Class CheckoutChangeQuantityCest
@@ -61,7 +62,7 @@ class CheckoutProductChangeQuantityCest
 	public function changeQuantityInCart(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Enable Quantity Change in Cart');
-		$I = new CheckoutProductQuantityChangeSteps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->configChangeQuantityProduct();
 
 		$I->wantTo('Create Category in Administrator');
@@ -77,7 +78,7 @@ class CheckoutProductChangeQuantityCest
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutProductQuantityChangeSteps($scenario);
-		$I->goOnFrontEnd($this->categoryName);
+		$I->checkoutChangeQuantity($this->categoryName);
 
 		$I->wantTo('I want to login Site page with user just create');
 		$I->doFrontendLogout();
@@ -91,7 +92,7 @@ class CheckoutProductChangeQuantityCest
 		$I->deleteCategory($this->categoryName);
 
 		$I->wantTo('Return Configuration in Administrator page');
-		$I = new CheckoutProductQuantityChangeSteps($scenario);
-		$I->returnConfig();
+		$I = new ConfigurationSteps($scenario);
+		$I->returnConfigChangeQuantityProduct();
 	}
 }

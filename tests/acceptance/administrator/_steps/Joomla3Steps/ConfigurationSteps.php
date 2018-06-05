@@ -316,7 +316,29 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
-	
+
+    public function configChangeQuantityProduct($quantity ='3')
+    {
+        $I = $this;
+        $I->amOnPage(\ConfigurationPage::$URL);
+        $I->click(\ConfigurationPage::$cartCheckout);
+        $I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 30);
+        $I->click(\ConfigurationPage::$quantityChangeInCartYes);
+        $I->click(\ConfigurationPage::$quantityInCart);
+        $I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
+        $I->click(\ConfigurationPage::$buttonSave);
+    }
+
+    public function returnConfigChangeQuantityProduct()
+    {
+        $I = $this;
+        $I->amOnPage(\ConfigurationPage::$URL);
+        $I->click(\ConfigurationPage::$cartCheckout);
+        $I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
+        $I->click(\ConfigurationPage::$quantityChangeInCartNo);
+        $I->click(\ConfigurationPage::$buttonSave);
+    }
+
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;

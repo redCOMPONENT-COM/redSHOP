@@ -19,18 +19,7 @@ namespace AcceptanceTester;
  */
 class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 {
-
-	public function configChangeQuantityProduct()
-	{
-		$I = $this;
-		$I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
-		$I->click(\CheckoutProductChangeQuantityPage::$Cart);
-		$I->waitForElement(\CheckoutProductChangeQuantityPage::$enableQuantity, 30);
-		$I->click(\CheckoutProductChangeQuantityPage::$enableQuantity);
-		$I->click(\CheckoutProductChangeQuantityPage::$buttonSave);
-	}
-
-	public function goOnFrontEnd($category)
+	public function checkoutChangeQuantity($category)
 	{
 		$I = $this;
 		$I->amOnPage(\CheckoutProductChangeQuantityPage::$url);
@@ -50,17 +39,7 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
 		$I->click(\CheckoutProductChangeQuantityPage::$bankTransfer);
 		$I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
-		$I->click(\CheckoutProductChangeQuantityPage::$Term);
+		$I->click(\CheckoutProductChangeQuantityPage::$termAndConditions);
 		$I->click(\CheckoutProductChangeQuantityPage::$checkoutFinalStep);
-	}
-
-	public function returnConfig()
-	{
-		$I = $this;
-		$I->amOnPage(\CheckoutProductChangeQuantityPage::$URL);
-		$I->click(\CheckoutProductChangeQuantityPage::$Cart);
-		$I->waitForElement(\CheckoutProductChangeQuantityPage::$disableQuantity, 30);
-		$I->click(\CheckoutProductChangeQuantityPage::$disableQuantity);
-		$I->click(\CheckoutProductChangeQuantityPage::$buttonSave);
 	}
 }
