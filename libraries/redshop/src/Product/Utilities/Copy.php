@@ -137,7 +137,7 @@ class Copy
 				// mime re-detect
 				$mediaFile = REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $newProductMedia->media_name;
 
-				if (\JFile::exists($mediaFile))
+				if (\JFile::exists((string) $mediaFile))
 				{
 					$originalProductMedia->media_mimetype = trim(mime_content_type($mediaFile));
 				}
@@ -384,8 +384,8 @@ class Copy
 	}
 
 	/**
-	 * @param   integer $sectionId
-	 * @param   string  $mediaSection
+	 * @param   integer $sectionId    Section ID
+	 * @param   string  $mediaSection Section name
 	 *
 	 * @return mixed
 	 */
@@ -401,6 +401,12 @@ class Copy
 		return $db->setQuery($query)->loadObjectList();
 	}
 
+	/**
+	 * @param   integer $productId Product ID
+	 *
+	 * @return mixed
+	 * @since   2.1.0
+	 */
 	private function getProductAttributes($productId)
 	{
 		$db    = \JFactory::getDbo();
