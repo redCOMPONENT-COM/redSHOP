@@ -1329,7 +1329,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		foreach ($originalProducts as $originalProduct)
 		{
 			$utilities = new \Redshop\Product\Utilities\Copy;
-			$row       = $utilities->copy($originalProduct);
+			$row       = $utilities->process($originalProduct);
 		}
 
 		return $row;

@@ -24,7 +24,7 @@ class Copy
 	private $originalProduct;
 
 	/**
-	 * @var   \RedshopEntityProduct
+	 * @var   \RedshopEntityProduct|\stdClass
 	 * @since 2.1.0
 	 */
 	private $copiedProduct;
@@ -36,7 +36,7 @@ class Copy
 	 * @throws  \Exception
 	 * @since   2.1.0
 	 */
-	public function copy($originalProduct)
+	public function process($originalProduct)
 	{
 		$this->originalProduct = $originalProduct;
 		$this->copiedProduct   = clone $originalProduct;
