@@ -362,7 +362,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($row = $model->copy($cid))
 		{
 			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id,
+				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . (int) $row->getId(),
 				JText::_('COM_REDSHOP_PRODUCT_COPIED')
 			);
 		}
