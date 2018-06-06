@@ -126,6 +126,9 @@ class Copy
 
 		foreach ($originalProductMedias as $originalProductMedia)
 		{
+			/**
+			 * @var \stdClass $originalProductMedia
+			 */
 			$newProductMedia             = clone $originalProductMedia;
 			$newProductMedia->media_id   = null;
 			$newProductMedia->section_id = (int) $this->copiedProduct->getId();
@@ -135,9 +138,9 @@ class Copy
 				$newProductMedia->media_name = $this->copyImageFile(REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $originalProductMedia->media_name);
 
 				// mime re-detect
-				$mediaFile = REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $newProductMedia->media_name;
+				$mediaFile = REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . (string) $newProductMedia->media_name;
 
-				if (\JFile::exists((string) $mediaFile))
+				if (\JFile::exists($mediaFile))
 				{
 					$originalProductMedia->media_mimetype = trim(mime_content_type($mediaFile));
 				}
