@@ -65,24 +65,24 @@ class Directory extends \JFolder
 			return array($totalFile, $totalDir);
 		}
 
-		$d = dir($dir);
+		$it = new \DirectoryIterator($dir);
 
-		while (false !== ($entry = $d->read()))
+		foreach ($it as $fileinfo)
 		{
-			if (substr($entry, 0, 1) != '.' && \JFile::exists($dir . DIRECTORY_SEPARATOR . $entry)
-				&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
-			)
+			if ($fileinfo->isDot())
+			{
+				continue;
+			}
+
+			if ($fileinfo->isFile())
 			{
 				$totalFile++;
 			}
-
-			if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
+			elseif ($fileinfo->isDir())
 			{
 				$totalDir++;
 			}
 		}
-
-		$d->close();
 
 		return array($totalFile, $totalDir);
 	}
