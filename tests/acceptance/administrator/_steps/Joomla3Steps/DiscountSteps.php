@@ -103,7 +103,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\DiscountPage::$buttonNew);
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$client->click(\DiscountPage::$buttonSave);
+		$client->click(\DiscountPage::$saveDiscount);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
 		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
 	}

@@ -107,7 +107,7 @@ class VoucherCheckoutProductCest
 		$this->randomCategoryName = $this->faker->bothify('TestingCategory ?##');
 
 		//create product
-		$this->productName         = 'Testing Products' . rand(99, 999);
+		$this->productName         = 'Testing ProductManagement' . rand(99, 999);
 		$this->minimumPerProduct   = 1;
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = 5;

@@ -25,7 +25,7 @@ class ProductsCest
 		$this->fake                         = Faker\Factory::create();
 		$this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
 		$this->ramdoCategoryNameAssign      = 'CategoryAssign' . rand(99, 999);
-		$this->randomProductName            = 'Testing Products' . rand(99, 999);
+		$this->randomProductName            = 'Testing ProductManagement' . rand(99, 999);
 		$this->minimumPerProduct            = 2;
 		$this->minimumQuantity              = 3;
 		$this->maximumQuantity              = 5;
@@ -62,7 +62,7 @@ class ProductsCest
 	}
 
 	/**
-	 * Function to test Products Manager in Administrator
+	 * Function to test ProductManagement Manager in Administrator
 	 *
 	 * @param   AcceptanceTester $I        Tester Object
 	 * @param   String           $scenario Scenario Name
@@ -239,7 +239,7 @@ class ProductsCest
 
 	public function unPublishAllProducts(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Products Unpublish all products in Administrator');
+		$I->wantTo('Test ProductManagement Unpublish all products in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Unpublish all products');
 		$I->unPublishAllProducts();

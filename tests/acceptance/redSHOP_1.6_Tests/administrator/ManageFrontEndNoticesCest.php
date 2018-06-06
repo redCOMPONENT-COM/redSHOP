@@ -21,7 +21,7 @@ class ManageFrontEndNoticesCest
     {
         $this->allFrontEndPages = array (
             "Account Menu Type" => "/index.php?option=com_redshop&view=account",
-            "All Categorised Products From a Category Menu Type" => "/index.php?option=com_redshop&view=category&layout=categoryproduct",
+            "All Categorised ProductManagement From a Category Menu Type" => "/index.php?option=com_redshop&view=category&layout=categoryproduct",
             "All Wish Lists Menu Type" => "/index.php?option=com_redshop&view=wishlist&layout=viewwishlist",
             "Cart Menu Type" => "/index.php?option=com_redshop&view=cart",
             "Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog",
@@ -30,7 +30,7 @@ class ManageFrontEndNoticesCest
             "Category Detailed CCK and e-Commerce Menu Type" => "/index.php?option=com_redshop&view=category&layout=detail&cid=3&manufacturer_id=0",
             "Category Detailed Events and Forms Menu Type" => "/index.php?option=com_redshop&view=category&layout=detail&cid=2&manufacturer_id=0",
             "Checkout Menu Type" => "/index.php?option=com_redshop&view=checkout",
-            "Compare Products Menu Type" => "/index.php?option=com_redshop&view=product&layout=compare",
+            "Compare ProductManagement Menu Type" => "/index.php?option=com_redshop&view=product&layout=compare",
             "Create Wish List Menu Type" => "/index.php?option=com_redshop&view=wishlist",
             "Gift Cards List Menu Type" => "/index.php?option=com_redshop&view=giftcard",
             "Login Layout Menu Type" => "/index.php?option=com_redshop&view=login",
