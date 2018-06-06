@@ -138,6 +138,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		$this->replaceCategoryProperties($template, $category);
 
+		$this->getDispatcher()->trigger('onReplaceCategory', array(&$template, &$category));
+
 		return $template;
 	}
 
