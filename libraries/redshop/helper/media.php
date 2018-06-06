@@ -910,7 +910,6 @@ class RedshopHelperMedia
 					break;
 
 				default:
-
 					throw new Exception;
 			}
 
