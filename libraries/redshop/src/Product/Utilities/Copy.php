@@ -87,7 +87,7 @@ class Copy
 		$table = $this->getTable();
 		$table->bind($copiedProduct);
 
-		if ($table->check() === false)
+		if (!$table->check())
 		{
 			return false;
 		}
@@ -455,7 +455,7 @@ class Copy
 	 * @param   string $table  Table class
 	 * @param   string $prefix Prefix
 	 *
-	 * @return  boolean|\JTable
+	 * @return  boolean|\JTable|\TableProduct_Detail
 	 *
 	 * @since   2.1.0
 	 */
