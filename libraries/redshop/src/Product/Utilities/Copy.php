@@ -24,7 +24,7 @@ class Copy
 	private $originalProduct;
 
 	/**
-	 * @var   \RedshopEntityProduct|\stdClass
+	 * @var   \RedshopEntityProduct
 	 * @since 2.1.0
 	 */
 	private $copiedProduct;
@@ -39,53 +39,53 @@ class Copy
 	public function process($originalProduct)
 	{
 		$this->originalProduct = $originalProduct;
-		$this->copiedProduct   = clone $originalProduct;
+		$copiedProduct         = clone $originalProduct;
 
-		$this->copiedProduct->product_id = null;
-		$this->copiedProduct->published  = 0;
+		$copiedProduct->product_id = null;
+		$copiedProduct->published  = 0;
 
 		// Update information
-		$this->copiedProduct->product_name   = General::renameToUniqueValue('product_name', $this->originalProduct->product_name);
-		$this->copiedProduct->product_number = General::renameToUniqueValue('product_number', $this->originalProduct->product_number, 'dash');
-		$this->copiedProduct->publish_date   = \JFactory::getDate()->toSql();
-		$this->copiedProduct->update_date    = '0000-00-00 00:00:00';
+		$copiedProduct->product_name   = General::renameToUniqueValue('product_name', $this->originalProduct->product_name);
+		$copiedProduct->product_number = General::renameToUniqueValue('product_number', $this->originalProduct->product_number, 'dash');
+		$copiedProduct->publish_date   = \JFactory::getDate()->toSql();
+		$copiedProduct->update_date    = '0000-00-00 00:00:00';
 
 		// Reset data
-		$this->copiedProduct->visited          = 0;
-		$this->copiedProduct->checked_out      = 0;
-		$this->copiedProduct->checked_out_time = '0000-00-00 00:00:00';
+		$copiedProduct->visited          = 0;
+		$copiedProduct->checked_out      = 0;
+		$copiedProduct->checked_out_time = '0000-00-00 00:00:00';
 
-		if (!empty($this->copiedProduct->sef_url))
+		if (!empty($copiedProduct->sef_url))
 		{
-			$this->copiedProduct->sef_url = General::renameToUniqueValue('sef_url', $this->copiedProduct->sef_url, 'dash');
+			$copiedProduct->sef_url = General::renameToUniqueValue('sef_url', $copiedProduct->sef_url, 'dash');
 		}
 
-		if (!empty($this->copiedProduct->canonical_url))
+		if (!empty($copiedProduct->canonical_url))
 		{
-			$this->copiedProduct->canonical_url = General::renameToUniqueValue('canonical_url', $this->copiedProduct->canonical_url, 'dash');
+			$copiedProduct->canonical_url = General::renameToUniqueValue('canonical_url', $copiedProduct->canonical_url, 'dash');
 		}
 
-		$this->copiedProduct->product_thumb_image        = $this->copyImageFile(
+		$copiedProduct->product_thumb_image        = $this->copyImageFile(
 			REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $this->originalProduct->product_thumb_image
 		);
-		$this->copiedProduct->product_full_image         = $this->copyImageFile(
+		$copiedProduct->product_full_image         = $this->copyImageFile(
 			REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $this->originalProduct->product_full_image
 		);
-		$this->copiedProduct->product_back_full_image    = $this->copyImageFile(
+		$copiedProduct->product_back_full_image    = $this->copyImageFile(
 			REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $this->originalProduct->product_back_full_image
 		);
-		$this->copiedProduct->product_back_thumb_image   = $this->copyImageFile(
+		$copiedProduct->product_back_thumb_image   = $this->copyImageFile(
 			REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $this->originalProduct->product_back_thumb_image
 		);
-		$this->copiedProduct->product_preview_image      = $this->copyImageFile(
+		$copiedProduct->product_preview_image      = $this->copyImageFile(
 			REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $this->originalProduct->product_preview_image
 		);
-		$this->copiedProduct->product_preview_back_image = $this->copyImageFile(
+		$copiedProduct->product_preview_back_image = $this->copyImageFile(
 			REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT . $this->originalProduct->product_preview_back_image
 		);
 
 		$table = $this->getTable();
-		$table->bind($this->copiedProduct);
+		$table->bind($copiedProduct);
 
 		if ($table->check() === false)
 		{
