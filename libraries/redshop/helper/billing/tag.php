@@ -66,7 +66,7 @@ class RedshopHelperBillingTag
 
 		$billingContent = RedshopLayoutHelper::render(
 			$billingLayout,
-			array('billingaddresses' => $billingAddress),
+			array('billingAddresses' => $billingAddress),
 			null,
 			array('client' => 0)
 		);

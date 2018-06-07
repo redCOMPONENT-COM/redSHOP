@@ -77,7 +77,7 @@ defined('_JEXEC') or die;
 
 				$published = JHTML::_('grid.published', $row, $j);
 
-				$link_adddis = JRoute::_('index.php?option=com_redshop&view=discount&spgrpdis_filter=' . $row->shopper_group_id);
+				$link_adddis = JRoute::_('index.php?option=com_redshop&view=discount&layout=edit&spgrpdis_filter=' . $row->shopper_group_id);
 
 				?>
                 <tr class="<?php echo "row$k"; ?>">
