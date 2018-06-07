@@ -60,7 +60,10 @@ class ProductsCheckoutFrontEndCest
 		$I->clearAllData();
 	}
 
-
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();

@@ -108,6 +108,12 @@ class QuotationFrontendCest
 		$I->checkoutQuotation($this->ProductName, $this->CategoryName, $this->email);
 	}
 
+    /**
+     * Function delete all data
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
 	public function clearDatabase(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Edit quotation');
@@ -120,12 +126,8 @@ class QuotationFrontendCest
 		$I->wantTo('Delete quotation');
 		$I->deleteQuotation();
 
-		$I->wantTo('Delete Product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
-
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->CategoryName);
+		$I->wantTo('Delete all database');
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
 	}
 }

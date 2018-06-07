@@ -66,14 +66,7 @@ class CompareProductsCest
 
     public function deleteDataEnd(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Delete 2 products');
-        $I = new ProductSteps($scenario);
-        $I->deleteProduct($this->ProductName);
-        $I->deleteProduct($this->productNameCompares);
-
-        $I->wantTo('Delete Category');
-        $I = new CategorySteps($scenario);
-        $I->deleteCategory($this->CategoryName);
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
     }
-    
 }

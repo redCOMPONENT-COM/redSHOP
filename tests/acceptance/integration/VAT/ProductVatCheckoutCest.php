@@ -144,24 +144,23 @@ class ProductVatCheckoutCest
 	 * @return  void
 	 * @throws  Exception
 	 */
-	public function clearUp(AcceptanceTester $tester, $scenario)
+	public function clearUp(AcceptanceTester $client, $scenario)
 	{
-		$tester->wantTo('Delete product');
-		(new \AcceptanceTester\ProductManagerJoomla3Steps($scenario))->deleteProduct($this->productName);
-
-		$tester->wantTo('Delete Category');
-		(new CategoryManagerJoomla3Steps($scenario))->deleteCategory($this->categoryName);
-
-		$tester->wantTo('Delete tax value');
+        $client->wantTo('Delete tax value');
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 
-		$tester->wantTo('Delete tax group');
+        $client->wantTo('Delete tax group');
 		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
 
-		$tester->wantTo('Delete user');
+        $client->wantTo('Delete user');
 		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->firstName);
 
-		$tester->wantTo('Test Order delete by user  in Administrator');
+        $client->wantTo('Test Order delete by user  in Administrator');
 		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
-	}
+
+        $client->wantTo('Delete all data');
+        $client= new RedshopSteps($scenario);
+        $client->clearAllData();
+
+    }
 }

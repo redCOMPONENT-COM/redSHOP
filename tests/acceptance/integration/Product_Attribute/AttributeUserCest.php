@@ -240,4 +240,11 @@ class AttributeUserCest
 			$this->vatPrice, $this->total, $this->shippingPrice
 		);
 	}
+
+	public function clearUpDatabase(AcceptanceTester $client, $scenario)
+    {
+        $client->wantTo('Delete all data');
+        $client= new RedshopSteps($scenario);
+        $client->clearAllData();
+    }
 }

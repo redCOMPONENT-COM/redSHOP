@@ -128,16 +128,8 @@ class CheckoutDiscountTotalCest
 	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
-
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->CategoryName);
-
-		$I->wantTo('Delete discount total');
-		$I = new DiscountSteps($scenario);
-		$I->deleteDiscount($this->discountName);
+		$I->wantTo('Delete all data');
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
 	}
 }
