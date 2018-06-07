@@ -46,7 +46,7 @@ gulp release --skip-version
 echo $CHANGE_ID
 cp /tests/www/tests/releases/redshop.zip .
 cd /tests/www/tests/releases
-zip -r plugins.zip pluginsJenki
+zip -r plugins.zip plugins
 
 cd $WORKSPACE
 cp /tests/www/tests/releases/plugins.zip .
