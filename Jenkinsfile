@@ -24,7 +24,7 @@ stages {
 				CLOUDINARY_API_KEY='365447364384436'
 				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
 				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-				SLACK_CHANNEL='#redshop-builds'
+				SLACK_CHANNEL='#redshop-notifications'
 		}
 		agent {
 			docker {
@@ -55,7 +55,7 @@ stages {
 				CLOUDINARY_API_KEY='365447364384436'
 				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
 				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-				SLACK_CHANNEL='#redshop-builds'
+				SLACK_CHANNEL='#redshop-notifications'
 		}
 		parallel {
 			stage('Compare') {
@@ -74,7 +74,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Compare_Products"
 					}
 				}
@@ -95,7 +95,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/One_Steps_Checkout"
 					}
 				}
@@ -116,7 +116,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Product_Attribute"
 					}
 				}
@@ -138,7 +138,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Discounts"
 					}
 				}
@@ -159,7 +159,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Products"
 					}
 				}
@@ -180,7 +180,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Quotations"
 					}
 				}
@@ -201,7 +201,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Shopper_Groups"
 					}
 				}
@@ -223,7 +223,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Stockroom"
 					}
 				}
@@ -246,7 +246,7 @@ stages {
 				CLOUDINARY_API_KEY='365447364384436'
 				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
 				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-				SLACK_CHANNEL='#redshop-builds'
+				SLACK_CHANNEL='#redshop-notifications'
 		}
 		parallel {
 			stage('Communications') {
@@ -265,7 +265,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Communications"
 					}
 				}
@@ -286,7 +286,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Configuration"
 					}
 				}
@@ -307,7 +307,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Customizations"
 					}
 				}
@@ -328,7 +328,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups"
 					}
 				}
@@ -350,7 +350,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Notices"
 					}
 				}
@@ -373,7 +373,7 @@ stages {
 				CLOUDINARY_API_KEY='365447364384436'
 				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
 				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-				SLACK_CHANNEL='#redshop-builds'
+				SLACK_CHANNEL='#redshop-notifications'
 		}
 		parallel {
 			stage('Orders') {
@@ -392,7 +392,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Orders"
 					}
 				}
@@ -413,7 +413,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Products"
 					}
 				}
@@ -434,7 +434,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Shippings"
 					}
 				}
@@ -455,7 +455,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Stockrooms"
 					}
 				}
@@ -477,7 +477,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(1) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Users"
 					}
 				}
