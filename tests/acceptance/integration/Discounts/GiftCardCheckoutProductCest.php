@@ -100,9 +100,11 @@ class GiftCardCheckoutProductCest
 		$path = $I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
 		$I->comment( 'The path of payment');
 		$I->wantTo($path);
+		$I->wait(1);
 		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->enablePlugin('PayPal');
 
+        $I->wait(1);
 		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
