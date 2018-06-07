@@ -27,7 +27,7 @@ class CouponCheckoutMixCheckoutCest
 	 */
 	public function __construct()
 	{
-        $this->faker               = Faker\Factory::create();
+		$this->faker               = Faker\Factory::create();
 		$this->dataCoupon = array();
 		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
 		$this->dataCoupon['type']        = 'Total';
@@ -272,8 +272,8 @@ class CouponCheckoutMixCheckoutCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 
-        $I->wantTo('Delete all data');
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 }

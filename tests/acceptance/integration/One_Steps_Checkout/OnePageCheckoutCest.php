@@ -243,8 +243,8 @@ class OnePageCheckoutCest
 		$I->deleteUser($this->customerBussinesInformationSecond['firstName']);
 		$I->deleteUser($this->firstName);
 
-        $I->wantTo('Delete all data');
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 }

@@ -27,44 +27,44 @@ class ProductVatCheckoutCest
 {
 	public function __construct()
 	{
-		$this->faker                = Faker\Factory::create();
-		$this->taxRateName          = $this->faker->bothify('Testing Tax Rates Groups ?###?');
-		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
-		$this->taxGroupName         = $this->faker->bothify('TaxGroupsName ?###?');
-		$this->taxRateValue         = 0.1;
-		$this->countryName          = 'Denmark';
+		$this->faker = Faker\Factory::create();
+		$this->taxRateName = $this->faker->bothify('Testing Tax Rates Groups ?###?');
+		$this->taxRateNameEdit = $this->taxRateName . 'Edit';
+		$this->taxGroupName = $this->faker->bothify('TaxGroupsName ?###?');
+		$this->taxRateValue = 0.1;
+		$this->countryName = 'Denmark';
 		$this->taxRateValueNegative = -1;
-		$this->taxRateValueString   = 'Test';
-		$this->productName          = $this->faker->bothify('NameProductVAT ?###?');
-		$this->categoryName         = $this->faker->bothify('CategoryNameVAT ?###?');
-		$this->randomProductNumber  = $this->faker->bothify('productNumber ?###?');
-		$this->randomProductPrice   = 100;
+		$this->taxRateValueString = 'Test';
+		$this->productName = $this->faker->bothify('NameProductVAT ?###?');
+		$this->categoryName = $this->faker->bothify('CategoryNameVAT ?###?');
+		$this->randomProductNumber = $this->faker->bothify('productNumber ?###?');
+		$this->randomProductPrice = 100;
 
 		// Vat setting
-		$this->vatCalculation  = 'Webshop';
-		$this->vatAfter        = 'after';
-		$this->vatNumber       = 0;
+		$this->vatCalculation = 'Webshop';
+		$this->vatAfter = 'after';
+		$this->vatNumber = 0;
 		$this->calculationBase = 'billing';
-		$this->requiVAT        = 'no';
+		$this->requiVAT = 'no';
 
 		$this->subtotal = "DKK 100,00";
 		$this->vatPrice = "DKK 10,00";
-		$this->total    = "DKK 110,00";
+		$this->total = "DKK 110,00";
 
 		//create user for quotation
-		$this->faker           = Faker\Factory::create();
-		$this->userName        = $this->faker->bothify('ManageUserAdministratorCest ?####?');
-		$this->password        = $this->faker->bothify('Password ?##?');
-		$this->email           = $this->faker->email;
-		$this->shopperGroup    = 'Default Private';
-		$this->group           = 'Registered';
-		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->faker = Faker\Factory::create();
+		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?####?');
+		$this->password = $this->faker->bothify('Password ?##?');
+		$this->email = $this->faker->email;
+		$this->shopperGroup = 'Default Private';
+		$this->group = 'Registered';
+		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
 		$this->updateFirstName = 'Updating ' . $this->firstName;
-		$this->lastName        = $this->faker->bothify('LastName ?####?');
-		$this->address         = '14 Phan Ton';
-		$this->zipcode         = 7000;
-		$this->city            = 'Ho Chi Minh';
-		$this->phone           = 010101010;
+		$this->lastName = $this->faker->bothify('LastName ?####?');
+		$this->address = '14 Phan Ton';
+		$this->zipcode = 7000;
+		$this->city = 'Ho Chi Minh';
+		$this->phone = 010101010;
 
 	}
 
@@ -86,7 +86,7 @@ class ProductVatCheckoutCest
 	/**
 	 * Create VAT Group with
 	 *
-	 * @param   AcceptanceTester      $client   Current user state.
+	 * @param   AcceptanceTester $client Current user state.
 	 * @param   \Codeception\Scenario $scenario Scenario for test.
 	 *
 	 * @return  void
@@ -94,8 +94,8 @@ class ProductVatCheckoutCest
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
-	    $client->wantTo('Enable PayPal');
-	    $client->enablePlugin('PayPal');
+		$client->wantTo('Enable PayPal');
+		$client->enablePlugin('PayPal');
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
@@ -138,7 +138,7 @@ class ProductVatCheckoutCest
 	/**
 	 * Method clear all data
 	 *
-	 * @param   AcceptanceTester      $tester   Tester
+	 * @param   AcceptanceTester $tester Tester
 	 * @param   \Codeception\Scenario $scenario Scenario
 	 *
 	 * @return  void
@@ -146,20 +146,20 @@ class ProductVatCheckoutCest
 	 */
 	public function clearUp(AcceptanceTester $client, $scenario)
 	{
-        $client->wantTo('Delete tax value');
+		$client->wantTo('Delete tax value');
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 
-        $client->wantTo('Delete tax group');
+		$client->wantTo('Delete tax group');
 		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
 
-        $client->wantTo('Delete user');
+		$client->wantTo('Delete user');
 		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->firstName);
 
-        $client->wantTo('Test Order delete by user  in Administrator');
+		$client->wantTo('Test Order delete by user  in Administrator');
 		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
 
-        $client->wantTo('Delete all data');
-        $client= new RedshopSteps($scenario);
-        $client->clearAllData();
-    }
+		$client->wantTo('Delete all data');
+		$client = new RedshopSteps($scenario);
+		$client->clearAllData();
+	}
 }

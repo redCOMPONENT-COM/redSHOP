@@ -60,16 +60,16 @@ class ProductsCheckoutFrontEndCest
 		$I->clearAllData();
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-        $I->wantTo('Enable PayPal');
-        $I->enablePlugin('PayPal');
-        $I->wantTo('Create Category in Administrator');
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
+		$I->wantTo('Create Category in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->addCategorySave($this->categoryName);

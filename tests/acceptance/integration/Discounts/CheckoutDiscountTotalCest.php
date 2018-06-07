@@ -129,7 +129,7 @@ class CheckoutDiscountTotalCest
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete all data');
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 }

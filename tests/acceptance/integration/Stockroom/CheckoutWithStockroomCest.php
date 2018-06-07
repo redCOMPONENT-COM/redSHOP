@@ -75,21 +75,20 @@ class CheckoutWithStockroomCest
 
 	}
 
-    /**
-     * Function delete data
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
+	/**
+	 * Function delete data
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Stop stockroom ');
 		$I->featureOffStockRoom();
 
-        $I->wantTo('Delete all data');
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
-
-    }
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 }
