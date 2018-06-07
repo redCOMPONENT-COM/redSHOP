@@ -104,6 +104,10 @@ class CheckoutSpecificShopperGroupsCest
 		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
 	public function clearData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete discount total');
