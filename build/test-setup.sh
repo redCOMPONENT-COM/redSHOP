@@ -46,11 +46,12 @@ gulp release --skip-version
 echo $CHANGE_ID
 cp /tests/www/tests/releases/redshop.zip .
 cd /tests/www/tests/releases
-zip -r plugins.zip plugins
+zip -r plugins.zip pluginsJenki
+
 cd $WORKSPACE
 cp /tests/www/tests/releases/plugins.zip .
 
-vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
+vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $REPO_OWNER $REPO $PULL
 
 rm -rf /tmp/.org.chromium.Chromium*
 
