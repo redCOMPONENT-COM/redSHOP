@@ -73,7 +73,6 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskCodecept()
 			->arg('--steps')
-			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -94,7 +93,6 @@ class RoboFile extends \Robo\Tasks
 			$this->taskCodecept()
 				->arg('--tap')
 				->arg('--steps')
-				->arg('--debug')
 				->arg('--fail-fast')
 				->arg( $folder . '/')
 				->run()

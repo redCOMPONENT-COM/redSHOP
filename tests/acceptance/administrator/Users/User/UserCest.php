@@ -37,6 +37,10 @@ class UserCest
         $this->emailMatching = $this->faker->email;
         $this->userMissing = $this->faker->bothify('ManageUserMissingAdministratorCest ?##?');
     }
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();
@@ -96,7 +100,6 @@ class UserCest
         $I->wantTo('Test if User gets updated in Administrator');
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->editUser($this->firstName, $this->updateFirstName);
-        $I->searchUser($this->updateFirstName);
     }
 
     /**

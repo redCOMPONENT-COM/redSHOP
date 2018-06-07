@@ -74,6 +74,13 @@ class StateCest
 		$this->randomThreeCode        = $this->faker->numberBetween(100, 999);
 		$this->randomCountry          = 'Country ' . $this->faker->numberBetween(99, 999);
 	}
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
 
 	/**
 	 * Function to Test State Creation in Backend
@@ -86,7 +93,6 @@ class StateCest
 	public function createState(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test State creation in Administrator');
-		$client->doAdministratorLogin();
 
 		/** @var CountrySteps $client */
 		$client = new CountrySteps($scenario);
@@ -115,7 +121,6 @@ class StateCest
 	public function updateState(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test if State gets updated in Administrator');
-		$client->doAdministratorLogin();
 		$client = new StateSteps($scenario);
 		$client->updateState($this->randomStateName, $this->updatedRandomStateName);
 	}
@@ -133,7 +138,6 @@ class StateCest
 	public function deleteState(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Deletion of State in Administrator');
-		$client->doAdministratorLogin();
 		$client = new StateSteps($scenario);
 		$client->deleteState($this->updatedRandomStateName);
 		/**

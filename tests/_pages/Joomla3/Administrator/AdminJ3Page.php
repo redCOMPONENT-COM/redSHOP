@@ -110,6 +110,13 @@ abstract class AdminJ3Page
 	 */
 	public static $resultRow = "//tbody/tr[1]";
 
+    /**
+     * @var array
+     */
+	public static $checkInButtonList = ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'hasPopover\')]'];
+//        ['xpath' => '//a[@class=\'btn btn-small btn-sm btn-checkin hasPopover\']'];
+
+
 	/**
 	 * @var array
 	 */
@@ -381,12 +388,28 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']"];
+	public static $paymentPayPad = ['xpath' => "//input[@id='rs_payment_paypal1']"];
+
+    /**
+     * @var array
+     */
+	public static $paymentId = ['rs_payment_paypal1'];
 
 	/**
 	 * @var array
 	 */
-	public static $bankTransfer = ['xpath' => '//div[@id=\'rs_payment_banktransfer\']'];
+	public static $bankTransfer = ['xpath' => "//input[@id='rs_payment_banktransfer0']"];
+
+    /**
+     * @var string
+     */
+	public static $bankTransferId = 'rs_payment_banktransfer0';
+
+    /**
+     * @var string
+     */
+	public static $scriftClickTransfer = 'document.getElementById("rs_payment_banktransfer0").checked = true;';
+
 	/**
 	 * @var array
 	 */
@@ -440,5 +463,13 @@ abstract class AdminJ3Page
 	public static function xPathATag($value)
     {
         return ['xpath' => "//a[contains(text(), '" . $value . "')]"];
+    }
+
+    /**
+     * @param $id
+     */
+    public static function radioCheckID($id)
+    {
+	    return "document.getElementById('".$id."').checked = true;";
     }
 }

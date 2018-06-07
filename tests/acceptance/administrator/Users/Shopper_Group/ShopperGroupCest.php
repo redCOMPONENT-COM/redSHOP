@@ -41,6 +41,9 @@ class ShopperGroupCest
 
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();

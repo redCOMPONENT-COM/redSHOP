@@ -95,25 +95,12 @@ class TaxRateCest
 		$client->doAdministratorLogin();
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
-	}
 
-	/**
-	 * Create VAT Tax Rates
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends createVATGroupSave
-	 */
-	public function createTaxRatesSave(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
-	}
+        $client->wantTo('Test TAX Rates Save creation in Administrator');
+        $client = new TaxRateSteps($scenario);
+        $client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+
+    }
 
 	/**
 	 * Create TAX Rates missing name
@@ -125,77 +112,27 @@ class TaxRateCest
 	 */
 	public function addTAXRatesMissingNameSave(AcceptanceTester $client, $scenario)
 	{
+        $client->doAdministratorLogin();
 		$client->wantTo('Test TAX Rates Save missing name creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesMissingNameSave($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
-	}
 
-	/**
-	 * Create Tax Rates missing groups
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function addTAXRatesMissingGroupsSave(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test TAX Rates missing groups save creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesMissingGroupsSave($this->taxRateName, $this->taxRateValue);
-	}
+        $client->wantTo('Test TAX Rates missing groups save creation in Administrator');
+        $client->addTAXRatesMissingGroupsSave($this->taxRateName, $this->taxRateValue);
 
-	/**
-	 * Create Tax Rates missing tax value
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function addTAXRatesMissingTaxValueSave(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test TAX missing tax value Save creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesMissingTaxValueSave($this->taxRateName, $this->taxGroupName);
-	}
+        $client->wantTo('Test TAX missing tax value Save creation in Administrator');
+        $client->addTAXRatesMissingTaxValueSave($this->taxRateName, $this->taxGroupName);
 
-	/**
-	 * Create Tax Rates with value amount less zero
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function addTAXRatesValueAmountLessZeroSave(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test TAX amount less zero Save creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesValueAmountLessZeroSave($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
-	}
+        $client->wantTo('Test TAX amount less zero Save creation in Administrator');
+        $client->addTAXRatesValueAmountLessZeroSave($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
 
-	/**
-	 * Creat TAX Rates with amount is string
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function addTAXRatesValueAmountStringSave(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesValueAmountStringSave(
-			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
-		);
-	}
+        $client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
+        $client->addTAXRatesValueAmountStringSave(
+            $this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
+        );
+
+
+    }
 
 	/**
 	 * Edit Tax Rates name try to clicks on name of TAX Rates
@@ -205,50 +142,20 @@ class TaxRateCest
 	 *
 	 * @return  void
 	 *
-	 * @depends createTaxRatesSave
+	 * @depends createVATGroupSave
 	 */
 	public function editTAXRatesName(AcceptanceTester $client, $scenario)
 	{
+        $client->doAdministratorLogin();
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->editTAXRatesName($this->taxRateName, $this->taxRateNameEdit);
-	}
 
-	/**
-	 * Edit Tax Rates name by Edit button
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends editTAXRatesName
-	 */
-	public function editButtonTAXRatesName(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test TAX Rates edit with Edit button Save creation in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->editTAXRatesName($this->taxRateNameEdit, $this->taxRateName);
-	}
+        $client->wantTo('Test TAX Rates edit with Edit button Save creation in Administrator');
+        $client->editTAXRatesName($this->taxRateNameEdit, $this->taxRateName);
 
-	/**
-	 * Edit Tax Rates missing name
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends editButtonTAXRatesName
-	 */
-	public function editTAXRatesMissingName(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Edit TAX missing name in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->editTAXRatesMissingName($this->taxRateName);
+        $client->wantTo('Edit TAX missing name in Administrator');
+        $client->editTAXRatesMissingName($this->taxRateName);
 	}
 
 	/**
@@ -261,8 +168,8 @@ class TaxRateCest
 	 */
 	public function addTAXRatesSaveClose(AcceptanceTester $client, $scenario)
 	{
+        $client->doAdministratorLogin();
 		$client->wantTo('Test TAX Rates Save and Close creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
 		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
@@ -279,84 +186,18 @@ class TaxRateCest
 	 */
 	public function checkCancel(AcceptanceTester $client, $scenario)
 	{
+        $client->doAdministratorLogin();
 		$client->wantTo('check Cancel creation in Administrator');
-		$client->doAdministratorLogin();
 		$client = new TaxRateSteps($scenario);
 		$client->checkCancel();
 		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
-	}
 
-	/**
-	 * Check delete button
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function deleteButton(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test delete button in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->deleteButton();
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
-	}
+        $client->wantTo('Test delete button in Administrator');
+        $client->deleteButton();
+        $client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
 
-	/**
-	 * Delete taxRate
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function deleteTAXRates(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test delete button in Administrator');
-		$client->doAdministratorLogin();
-		$client = new TaxRateSteps($scenario);
-		$client->deleteTAXRatesOK($this->taxRateName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+        $client->wantTo('Test delete button in Administrator');
+        $client->deleteTAXRatesOK($this->taxRateName);
+        $client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
 	}
-
-	/**
-	 * codeception use for show dialog delete VAT/TAX rates
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	/**
-	public function deleteTAXRatesCancel(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test delete button in Administrator');
-		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-		$client->wantTo(' Delete  button');
-		$client->deleteTAXRatesCancel($this->TAXRatesName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
-	}
-	*/
-
-	/**
-	 * codeception use for show dialog delete VAT/TAX rates
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	/**
-	public function deleteTAXRatesOK(AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Test delete button in Administrator');
-		$client->doAdministratorLogin();
-		$client = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
-		$client->wantTo(' Delete  button');
-		$client->deleteTAXRatesOK($this->TAXRatesName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
-	}
-	*/
 }

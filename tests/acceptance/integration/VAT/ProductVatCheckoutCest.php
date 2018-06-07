@@ -94,6 +94,9 @@ class ProductVatCheckoutCest
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
+	    $client->wantTo('Enable PayPal');
+	    $client->enablePlugin('PayPal');
+
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);

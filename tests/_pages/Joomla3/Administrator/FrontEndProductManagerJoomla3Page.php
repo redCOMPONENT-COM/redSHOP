@@ -30,9 +30,9 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
 
-	public static $addToCompare = ['xpath' => '//label[@class=\'checkbox\']'];
+	public static $addToCompare = ['xpath' => '//input[@name=\'rsProductCompareChk\']'];
 
-	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show ProductManagement To Compare\']'];
+	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
 
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
@@ -92,6 +92,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $termAndConditions = "//input[@id='termscondition']";
 
+	public static $termAndConditionsId = 'termscondition';
+
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
 
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
@@ -101,7 +103,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $idAddAccount = ['xpath' => '//input[@id=\'createaccount\']'];
+	public static $idAddAccount = ['id' => "createaccount"];
 
 	/**
 	 * @var array
