@@ -161,6 +161,5 @@ class ProductVatCheckoutCest
         $client->wantTo('Delete all data');
         $client= new RedshopSteps($scenario);
         $client->clearAllData();
-
     }
 }

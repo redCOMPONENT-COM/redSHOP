@@ -113,6 +113,5 @@ class CheckoutSpecificShopperGroupsCest
         $I->wantTo('Delete all data');
         $I= new RedshopSteps($scenario);
         $I->clearAllData();
-
     }
 }
