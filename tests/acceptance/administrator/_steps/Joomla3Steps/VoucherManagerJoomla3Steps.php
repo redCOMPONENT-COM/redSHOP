@@ -197,10 +197,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
 		switch ($buttonName) {
-			case 'edit':
-				$I->click(\VoucherManagerPage::$editButton);
-				$I->acceptPopup();
-				break;
 			case 'delete':
 				$I->click(\VoucherManagerPage::$deleteButton);
 				$I->acceptPopup();
@@ -215,6 +211,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 			case 'cancel':
 				$I->click(\VoucherManagerPage::$newButton);
+				$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 				$I->click(\VoucherManagerPage::$cancelButton);
 
 				break;

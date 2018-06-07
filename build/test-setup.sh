@@ -12,7 +12,7 @@ vendor/bin/codecept --version
 
 vendor/bin/robo prepare:site-for-system-tests 1
 
-wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
+wget "https://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip" > output.log 2>&1
 ln -s /usr/bin/nodejs /usr/bin/node
 cd /tests/www
 mkdir tests
@@ -79,7 +79,6 @@ chown -R www-data:www-data tests/joomla-cms
 cd $WORKSPACE
 mysql --host=db-$BUILD_TAG -uroot -proot -e "DROP DATABASE IF EXISTS redshopSetupDb;"
 vendor/bin/robo run:test-setup-jenkins
-
 
 if [ $? -eq 0 ]
 then

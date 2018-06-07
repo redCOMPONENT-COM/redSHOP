@@ -146,7 +146,7 @@ class GiftCardCheckoutProductCest
 	{
 		$I->wantTo('Test User creation in Administrator');
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
 		$I->searchUser($this->firstName);
 	}
 

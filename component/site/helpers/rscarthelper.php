@@ -957,6 +957,9 @@ class rsCarthelper
 							$displayPayment = "";
 							include_once JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
 
+							$lang = JFactory::getLanguage();
+							$lang->load('plg_redshop_payment_' . $oneMethod->name, JPATH_ADMINISTRATOR, $lang->getTag(), true);
+
 							$privatePerson = $oneMethod->params->get('private_person', '');
 							$business      = $oneMethod->params->get('business', '');
 							$isCreditCard  = (boolean) $oneMethod->params->get('is_creditcard', 0);

@@ -51,6 +51,14 @@ class TemplateCest
 		$this->newName = 'updated' . $this->name;
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
+
 	/**
 	 * Function to Test Template Creation in Backend
 	 *
@@ -62,7 +70,6 @@ class TemplateCest
 	public function createTemplate(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Template creation in Administrator');
-		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->addTemplate($this->name, $this->section);
 	}
@@ -80,7 +87,6 @@ class TemplateCest
 	public function updateTemplate(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if Template gets updated in Administrator');
-		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->editTemplate($this->name, $this->newName);
 	}
@@ -98,7 +104,6 @@ class TemplateCest
 	public function changeTemplateStateUnpublish(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if update status to unpublish of Template gets Updated in Administrator');
-		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->changeTemplateState($this->newName);
 		$I->verifyState('unpublished', $I->getTemplateState($this->newName));
@@ -117,7 +122,6 @@ class TemplateCest
 	public function changeTemplateStatePublish(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test change publish Template gets Updated in Administrator');
-		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->changeTemplateState($this->newName);
 		$I->verifyState('published', $I->getTemplateState($this->newName));
@@ -136,7 +140,6 @@ class TemplateCest
 	public function deleteTemplate(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Template in Administrator');
-		$I->doAdministratorLogin();
 		$I = new TemplateSteps($scenario);
 		$I->deleteTemplate($this->newName);
 	}

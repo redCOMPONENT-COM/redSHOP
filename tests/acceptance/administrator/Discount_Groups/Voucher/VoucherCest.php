@@ -54,6 +54,9 @@ class VoucherCest
 		$this->priceProductForThan          = 10;
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -196,7 +199,6 @@ class VoucherCest
 		$I->checkButtons('cancel');
 		$I->checkButtons('publish');
 		$I->checkButtons('unpublish');
-		$I->checkButtons('cancel');
 	}
 
 	public function voucherMissingFieldValidValidation(AcceptanceTester $I, $scenario)

@@ -345,9 +345,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\UserManagerJoomla3Page::$saveCloseButton);
         $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
         $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
-        $I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(\UserManagerJoomla3Page::$linkUser);
+        $I->see($updatedName);
     }
 
     public function editUserReady($firstName = 'Test', $updatedName = 'Updated Name')

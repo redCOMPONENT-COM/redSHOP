@@ -78,6 +78,9 @@ class CheckoutSpecificShopperGroupsCest
 	 */
 	public function checkoutWithSpecificShopperGroups(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
+	    $I->wantTo('Enable PayPal');
+	    $I->enablePlugin('PayPal');
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->CategoryName);

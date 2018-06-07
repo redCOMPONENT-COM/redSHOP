@@ -27,6 +27,14 @@ class PriceProductCest
     }
 
     /**
+     * @param AcceptanceTester $I
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
+
+    /**
      *
      * Function create category
      *
@@ -36,7 +44,6 @@ class PriceProductCest
     public function testProductAdministrator(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Create Category in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategorySave($this->randomCategoryName);
@@ -52,7 +59,6 @@ class PriceProductCest
     public function createProductSaveClose(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Save Close Manager in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSaveClose($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
@@ -68,7 +74,6 @@ class PriceProductCest
     public function addDiscountPrice(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Change Price of Product in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addDiscountPrice($this->randomProductName, $this->randomPriceDiscount);
