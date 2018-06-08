@@ -2559,6 +2559,15 @@ class RedshopHelperOrder
 			Redshop\Mail\Helper::imgInMail($mailBody);
 			$mailSubject = str_replace($search, $replace, $mailSubject);
 
+			JPluginHelper::importPlugin('redshop_mail');
+			$attachments = RedshopHelperUtility::getDispatcher()->trigger(
+				'onAddingAttachmentToChangeOrderStatusMail',
+				array(
+					$orderId,
+					$newStatus
+				)
+			);
+
 			if ('' != $userDetail->thirdparty_email && $mailBody)
 			{
 				JFactory::getMailer()->sendMail(
@@ -2568,7 +2577,9 @@ class RedshopHelperOrder
 					$mailSubject,
 					$mailBody,
 					1,
-					null
+					null,
+					null,
+					$attachments
 				);
 			}
 
@@ -2582,7 +2593,8 @@ class RedshopHelperOrder
 					$mailBody,
 					1,
 					null,
-					$mailBcc
+					$mailBcc,
+					$attachments
 				);
 			}
 		}
