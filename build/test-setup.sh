@@ -51,7 +51,7 @@ zip -r plugins.zip plugins
 cd $WORKSPACE
 cp /tests/www/tests/releases/plugins.zip .
 
-vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $REPO_OWNER $REPO $PULL
+#vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $REPO_OWNER $REPO $PULL
 
 rm -rf /tmp/.org.chromium.Chromium*
 

@@ -43,7 +43,7 @@ class FrontEndNoticesCest
 			"Orders Menu Type" => "/index.php?option=com_redshop&view=orders",
 			"Order Tracker Menu Type" => "/index.php?option=com_redshop&view=ordertracker",
 			"Portal Detail Layout For Shopper Group Menu Type" => "/index.php?option=com_redshop&view=login&layout=portals",
-			"Product Download Menu Type" => "/index.php?option=com_redshop&view=product&layout=downloadproduct",
+//			"Product Download Menu Type" => "/index.php?option=com_redshop&view=product&layout=downloadproduct",
 //			"Product Search Menu Type" => "/index.php?option=com_redshop&view=search",
 //			"Product From Selected Manufacturer Menu  Type" => "/index.php?option=com_redshop&view=manufacturers&layout=products",
 			"Quotation Menu Type" => "/index.php?option=com_redshop&view=quotation",
