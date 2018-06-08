@@ -21,8 +21,8 @@ class FrontEndNoticesCest
 	public function __construct()
 	{
 		$this->allFrontEndPages = array (
-			"Account Menu Type" => "/index.php?option=com_redshop&view=account",
-			"All Categorised ProductManagement From a Category Menu Type" => "/index.php?option=com_redshop&view=category&layout=categoryproduct",
+//			"Account Menu Type" => "/index.php?option=com_redshop&view=account",
+//			"All Categorised ProductManagement From a Category Menu Type" => "/index.php?option=com_redshop&view=category&layout=categoryproduct",
 			"All Wish Lists Menu Type" => "/index.php?option=com_redshop&view=wishlist&layout=viewwishlist",
 			"Cart Menu Type" => "/index.php?option=com_redshop&view=cart",
 			"Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog",
@@ -44,12 +44,13 @@ class FrontEndNoticesCest
 			"Order Tracker Menu Type" => "/index.php?option=com_redshop&view=ordertracker",
 			"Portal Detail Layout For Shopper Group Menu Type" => "/index.php?option=com_redshop&view=login&layout=portals",
 			"Product Download Menu Type" => "/index.php?option=com_redshop&view=product&layout=downloadproduct",
-			"Product Search Menu Type" => "/index.php?option=com_redshop&view=search",
-			"Product From Selected Manufacturer Menu  Type" => "/index.php?option=com_redshop&view=manufacturers&layout=products",
+//			"Product Search Menu Type" => "/index.php?option=com_redshop&view=search",
+//			"Product From Selected Manufacturer Menu  Type" => "/index.php?option=com_redshop&view=manufacturers&layout=products",
 			"Quotation Menu Type" => "/index.php?option=com_redshop&view=quotation",
 			"Registration Menu Type" => "/index.php?option=com_redshop&view=registration",
 			"Sample Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog&layout=sample",
-			"redFILTER Menu Type" => "/index.php?option=com_redshop&view=search&layout=redfilter"
+			"Sample Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog&layout=sample",
+//			"redFILTER Menu Type" => "/index.php?option=com_redshop&view=search&layout=redfilter"
 		);
 	}
 
@@ -60,8 +61,8 @@ class FrontEndNoticesCest
 	public function verifyNotices(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Presence of Notices, Warnings on FrontEnd Menus');
+		$I->pauseExecution();
 		$I->doFrontEndLogin();
-
 		foreach ($this->allFrontEndPages as $pageName => $url)
 		{
 			$I->checkForPhpNoticesOrWarnings($url);
