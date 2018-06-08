@@ -47,7 +47,8 @@ _b.AutoSuggest = function(id, param) {
         noresults: "No results!",
         maxheight: 250,
         cache: true,
-        maxentries: 25
+        maxentries: 25,
+        getrawresults: false
     };
     for (k in def) {
         if (typeof(this.oP[k]) != typeof(def[k]))
@@ -251,7 +252,13 @@ _b.AutoSuggest.prototype.setSuggestions = function(req, input) {
         var jsondata = eval('(' + req.responseText + ')');
 
         for (var i = 0; i < jsondata.results.length; i++) {
+            if (this.oP.getrawresults) {
+                this.aSug.push(jsondata.results[i]);
+                continue;
+            }
+
             var val = jsondata.results[i].value;
+
             if (jsondata.results[i].value_number) {
                 var val = jsondata.results[i].value + '(' + jsondata.results[i].value_number + ')';
             }
