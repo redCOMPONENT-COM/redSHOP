@@ -2561,7 +2561,7 @@ class RedshopHelperOrder
 
 			JPluginHelper::importPlugin('redshop_mail');
 			$attachments = RedshopHelperUtility::getDispatcher()->trigger(
-				'onAttachmentOfChangeOrderStatusMail',
+				'onAddingAttachmentToChangeOrderStatusMail',
 				array(
 					$orderId,
 					$newStatus
