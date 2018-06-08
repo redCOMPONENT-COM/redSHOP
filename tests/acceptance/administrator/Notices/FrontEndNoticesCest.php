@@ -48,8 +48,8 @@ class FrontEndNoticesCest
 //			"Product From Selected Manufacturer Menu  Type" => "/index.php?option=com_redshop&view=manufacturers&layout=products",
 			"Quotation Menu Type" => "/index.php?option=com_redshop&view=quotation",
 			"Registration Menu Type" => "/index.php?option=com_redshop&view=registration",
-			"Sample Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog&layout=sample",
-			"Sample Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog&layout=sample",
+//			"Sample Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog&layout=sample",
+//			"Sample Catalogue Menu Type" => "/index.php?option=com_redshop&view=catalog&layout=sample",
 //			"redFILTER Menu Type" => "/index.php?option=com_redshop&view=search&layout=redfilter"
 		);
 	}
