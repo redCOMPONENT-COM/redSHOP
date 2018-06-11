@@ -228,14 +228,6 @@ class OnePageCheckoutCest
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
-		$I->wantTo('Delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
-
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->CategoryName);
-
 		$I->wantTo('Test Order delete by user  in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
@@ -250,5 +242,9 @@ class OnePageCheckoutCest
 		$I->deleteUser($this->customerInformationSecond['firstName']);
 		$I->deleteUser($this->customerBussinesInformationSecond['firstName']);
 		$I->deleteUser($this->firstName);
+
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 }

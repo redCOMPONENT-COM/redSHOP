@@ -55,6 +55,7 @@ class StockRoomCest
         $I->wantTo('Test if State of a Stock Room gets Updated in Administrator');
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
         $I->changeStockRoomState($this->newName);
+        $I->searchStockRoom($this->newName);
         $I->verifyState('unpublished', $I->getStockRoomState($this->newName));
     }
 

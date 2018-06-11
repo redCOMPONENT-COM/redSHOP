@@ -104,18 +104,18 @@ class CheckoutSpecificShopperGroupsCest
 		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
 	public function clearData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
-
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->CategoryName);
-
 		$I->wantTo('Delete discount total');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
-	}
+
+        $I->wantTo('Delete all data');
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
 }

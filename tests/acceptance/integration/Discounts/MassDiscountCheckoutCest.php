@@ -72,16 +72,12 @@ class MassDiscountCheckoutCest
 
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->ProductName);
-
-		$I->wantTo('Delete Category');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->CategoryName);
-
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Test check add Mass discount ');
 		$I->deleteMassDiscountOK($this->MassDiscountName);
-	}
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+
+    }
 }

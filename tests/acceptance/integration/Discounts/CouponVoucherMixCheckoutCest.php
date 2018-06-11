@@ -27,7 +27,7 @@ class CouponCheckoutMixCheckoutCest
 	 */
 	public function __construct()
 	{
-        $this->faker               = Faker\Factory::create();
+		$this->faker               = Faker\Factory::create();
 		$this->dataCoupon = array();
 		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
 		$this->dataCoupon['type']        = 'Total';
@@ -268,21 +268,12 @@ class CouponCheckoutMixCheckoutCest
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new CouponSteps($scenario);
-		$I->wantTo('Delete a Coupon');
-		$I->deleteItem($this->dataCoupon['code']);
-
-		$I->wantTo('Delete product');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->productName);
-
-		$I->wantTo('Delete Category');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->categoryName);
-
 		$I->wantToTest('Delete user');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
+
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 }
