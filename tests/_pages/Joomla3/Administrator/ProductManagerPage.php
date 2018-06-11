@@ -133,6 +133,20 @@ class ProductManagerPage extends AdminJ3Page
 
     // relate product
     public static $relatedProductId = ['id' => 's2id_related_product'];
-   
-    
+
+    // product not for sale in frontend
+    public static $selectCategory = ['class' => 'select2-match'];
+
+    public static $saleYes = ['xpath' => '//input[@id="not_for_sale1"]'];
+
+    public static $saleNo = ['id' => 'not_for_sale0'];
+
+    public static $showPriceYes = ['id' => 'not_for_sale_showprice1'];
+
+    public static $showPriceNo = ['id' => 'not_for_sale_showprice0'];
+
+    public static $categoryID = ['class' => 'category_front_inside' ];
+
+    public static $productID = ['class' => 'category_box_inside'];
+
 }
