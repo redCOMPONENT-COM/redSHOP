@@ -1,7 +1,6 @@
 #!/bin/bash
 # Script for preparing the system tests in Joomla!
 
-
 touch output.log
 rm -rf tests/joomla-cms
 unzip -o joomla-cms.zip -d tests/ >output.log 2>&1

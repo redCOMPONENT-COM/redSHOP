@@ -135,40 +135,16 @@ class VoucherCheckoutProductCest
 		$I->wantTo('Test Voucher creation in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->randomCategoryName);
-	}
 
-	/**
-	 *
-	 * Function create product
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * @depends createCategory
-	 *
-	 */
-	public function createProduct(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Voucher creation in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->createProductSave($this->productName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-	}
 
-	/**
-	 * Function create voucher and checkout
-	 *
-	 * @param AcceptanceTester $I
-	 *
-	 * @param                  $scenario
-	 *
-	 * @depends createProduct
-	 */
-	public function addVoucher(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Voucher creation in Administrator');
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
 		$this->checkoutProductWithVoucherCode($I, $this->productName, $this->randomCategoryName, $this->randomVoucherCode);
+
 	}
 
 	/**
@@ -217,7 +193,9 @@ class VoucherCheckoutProductCest
 		$I->wantTo('Deletion of Voucher in Administrator');
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
 		$I->deleteVoucher($this->randomVoucherCode);
+
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
-
-
 }

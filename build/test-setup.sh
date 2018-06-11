@@ -46,13 +46,12 @@ gulp release --skip-version
 echo $CHANGE_ID
 cp /tests/www/tests/releases/redshop.zip .
 cd /tests/www/tests/releases
-ls
 zip -r plugins.zip plugins
+
 cd $WORKSPACE
 cp /tests/www/tests/releases/plugins.zip .
-ls
 
-#vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $GITHUB_REPO_OWNER $REPO $CHANGE_ID
+#vendor/bin/robo upload:patch-from-jenkins-to-test-server $GITHUB_TOKEN $REPO_OWNER $REPO $PULL
 
 rm -rf /tmp/.org.chromium.Chromium*
 
@@ -87,7 +86,6 @@ then
   mysqldump --host=db-$BUILD_TAG -uroot -proot redshopSetupDb > backup.sql
   zip --symlinks -r joomla-cms-database.zip backup.sql > output.log 2>&1
   cd tests
-  ls
   zip --symlinks -r joomla-cms.zip joomla-cms > output.log 2>&1
   mv *joomla-cms.zip* ..
   cd ../

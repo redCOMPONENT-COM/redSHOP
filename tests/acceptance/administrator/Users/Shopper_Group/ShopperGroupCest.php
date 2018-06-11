@@ -75,7 +75,6 @@ class ShopperGroupCest
 		$I->wantTo('Create a Category Save button');
 		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->shopperGroupPortal,$this->categoryName, $this->shipping,$this->shippingRate, $this->shippingCheckout, $this->catalog,$this->showVat, $this->showPrice, $this->enableQuotation,'save');
 		$I->addShopperGroups($this->shopperNameSaveClose, $this->shopperType, $this->customerType, $this->shopperGroupPortal,$this->categoryName,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
-
 	}
 
 	/**
@@ -149,5 +148,4 @@ class ShopperGroupCest
 		$I->wantTo('Edit Name of Shopper groups');
 		$I->addShopperGroupsMissingName();
 	}
-
 }

@@ -88,94 +88,48 @@ class GiftCardCheckoutProductCest
 		$I->clearAllData();
 	}
 
-	public function _before(AcceptanceTester $I)
-	{
-		$I->doAdministratorLogin();
-	}
-
 	/**
 	 * Function install payment_paypal and enable
 	 */
-	public function enablePayment(AcceptanceTester $I, $scenario)
+	public function checkoutWithPayment(AcceptanceTester $I, $scenario)
 	{
+		$I->doAdministratorLogin();
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using paypal payment plugin for purchasing gift card');
 		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
-		$I->wait(3);
 		$path = $I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
 		$I->comment( 'The path of payment');
 		$I->wantTo($path);
+		$I->wait(1);
 		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
-		$I->wait(5);
 		$I->enablePlugin('PayPal');
-	}
 
-	/**
-	 *
-	 * Create category
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 */
-	public function createCategory(AcceptanceTester $I, $scenario)
-	{
+        $I->wait(1);
 		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
 		$I->addCategorySave($this->categoryName);
-	}
 
-	/**
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 */
-	public function createProductSave(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test Product Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-	}
 
-	/**
-	 * Function to Test User Creation in Backend
-	 *
-	 */
-	public function createUser(AcceptanceTester $I, $scenario)
-	{
 		$I->wantTo('Test User creation in Administrator');
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
 		$I->searchUser($this->firstName);
-	}
 
-	/**
-	 * Function to Test Gift Cards Creation in Backend
-	 *
-	 */
-	public function createGiftCard(AcceptanceTester $I, $scenario)
-	{
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Gift Card creation in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->addCardNew($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity, 'save');
-	}
 
-	/**
-	 * Test to Verify the Gift Card Checkout
-	 *
-	 * @param   AcceptanceTester $I        Actor Class Object
-	 * @param   String           $scenario Scenario Variable
-	 *
-	 * @return void
-	 */
-	public function testProductsGiftCardFrontEnd(AcceptanceTester $I, $scenario)
-	{
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$this->checkoutGiftCardWithAuthorizePayment($I, $this->userInformation, $this->randomCardName);
+
 	}
 
 	/**
@@ -238,7 +192,8 @@ class GiftCardCheckoutProductCest
 	 */
 	public function changeStatusOrder(AcceptanceTester $I, $scenario)
 	{
-		$I = new AcceptanceTester($scenario);
+		$I->doAdministratorLogin();
+		$I->wantTo('Change order status');
 		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
 		$I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
 	}
@@ -253,6 +208,7 @@ class GiftCardCheckoutProductCest
 	 */
 	public function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
+		$I->doAdministratorLogin();
 		$I = new AcceptanceTester($scenario);
 		$I->amOnPage(\CouponPage::$url);
 		$I->executeJS('window.scrollTo(0,0)');
@@ -263,6 +219,13 @@ class GiftCardCheckoutProductCest
 		$this->couponCode = $I->grabValueFrom(\CouponPage::$idFromCode);
 	}
 
+	/**
+	 *
+	 * Checkout with gift cart
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
 	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
@@ -313,8 +276,13 @@ class GiftCardCheckoutProductCest
 	 */
 	private function deleteGiftCard(AcceptanceTester $I, $scenario)
 	{
+		$I->doAdministratorLogin();
 		$I->wantTo('Deletion of Gift Card in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->randomCardName);
+
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
 	}
 }
