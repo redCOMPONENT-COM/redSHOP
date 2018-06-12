@@ -27,7 +27,7 @@ modules:
             window_size: 1024x768
             restart: true
             capabilities:
-              chromeOption:
+              chromeOptions:
                 args: ["--headless", "--disable-gpu"]
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
