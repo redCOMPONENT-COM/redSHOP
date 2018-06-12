@@ -79,7 +79,7 @@ stages {
 					}
 				}
 			}
-			stage('Products') {
+			stage('ad-Products') {
 				agent {
 					docker {
 							image 'jatitoam/docker-systemtests'
