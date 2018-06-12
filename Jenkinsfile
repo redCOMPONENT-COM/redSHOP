@@ -79,6 +79,27 @@ stages {
 					}
 				}
 			}
+			stage('Products') {
+				agent {
+					docker {
+							image 'jatitoam/docker-systemtests'
+							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+					}
+				}
+				steps {
+					script {
+						env.STAGE = 'Products'
+					}
+					unstash 'chromeD'
+					unstash 'redshop'
+					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
+					retry(2) {
+						sh "build/system-tests.sh tests/acceptance/administrator/Products"
+					}
+				}
+			}
 			stage('One_Steps_Checkout') {
 				agent {
 					docker {
@@ -224,27 +245,6 @@ stages {
 					unstash 'database-dump'
 					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Shopper_Groups"
-					}
-				}
-			}
-			stage('Products') {
-				agent {
-					docker {
-							image 'jatitoam/docker-systemtests'
-							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
-					}
-				}
-				steps {
-					script {
-						env.STAGE = 'Products'
-					}
-					unstash 'chromeD'
-					unstash 'redshop'
-					unstash 'vendor'
-					unstash 'joomla-cms'
-					unstash 'database-dump'
-					retry(2) {
-						sh "build/system-tests.sh tests/acceptance/administrator/Products"
 					}
 				}
 			}
