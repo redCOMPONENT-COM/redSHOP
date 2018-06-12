@@ -17,136 +17,136 @@ class ProductManagerPage extends AdminJ3Page
 {
 
 
-	public static $namePage="Product Management";
+	public static $namePage = "Product Management";
 
-    public static $URL = 'administrator/index.php?option=com_redshop&view=product';
+	public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
-    public static $categorySearch = ['id' => 's2id_category_id'];
-    
-    public static $categorySearchField = ['id' => 's2id_autogen2_search'];
-    
-    public static $searchStatusId = ['id' => 's2id_product_sort'];
-    
-    public static $searchStatusField = ['id' => 's2id_autogen3_search'];
-    
-    public static $namePageXpath = ['xpath' => "//h1"];
+	public static $categorySearch = ['id' => 's2id_category_id'];
 
-    public static $productFilter = ['id' => 'keyword'];
+	public static $categorySearchField = ['id' => 's2id_autogen2_search'];
 
-    public static $discountStart = ['id' => "discount_stratdate"];
+	public static $searchStatusId = ['id' => 's2id_product_sort'];
 
-    public static $discountEnd = ['id' => "discount_enddate"];
+	public static $searchStatusField = ['id' => 's2id_autogen3_search'];
 
-    public static $discountPrice = ['id' => "discount_price"];
+	public static $namePageXpath = ['xpath' => "//h1"];
 
-    public static $minimumPerProduct = ['id' => "minimum_per_product_total"];
+	public static $productFilter = ['id' => 'keyword'];
 
-    public static $minimumQuantity = ['id' => "min_order_product_quantity"];
+	public static $discountStart = ['id' => "discount_stratdate"];
 
-    public static $maximumQuantity = ['id' => "max_order_product_quantity"];
+	public static $discountEnd = ['id' => "discount_enddate"];
 
-    public static $productNumber = ['id'=>'product_number'];
+	public static $discountPrice = ['id' => "discount_price"];
 
-    public static $productPrice =  ['id' => 'product_price'];
+	public static $minimumPerProduct = ['id' => "minimum_per_product_total"];
 
-    public static $productName = ['id' => 'product_name'];
-    
-    public static $categoryId = ['id' => "s2id_product_category"];
-    
-    public static $categoryFile = ['id' => 's2id_autogen4'];
+	public static $minimumQuantity = ['id' => "min_order_product_quantity"];
 
-    public static $vatDropdownList = ['xpath' => '//div[@id=\'s2id_product_tax_group_id\']'];
+	public static $maximumQuantity = ['id' => "max_order_product_quantity"];
 
-    public static $vatSearchField = ['id' => 's2id_autogen8_search'];
-    
+	public static $productNumber = ['id' => 'product_number'];
+
+	public static $productPrice = ['id' => 'product_price'];
+
+	public static $productName = ['id' => 'product_name'];
+
+	public static $categoryId = ['id' => "s2id_product_category"];
+
+	public static $categoryFile = ['id' => 's2id_autogen4'];
+
+	public static $vatDropdownList = ['xpath' => '//div[@id=\'s2id_product_tax_group_id\']'];
+
+	public static $vatSearchField = ['id' => 's2id_autogen8_search'];
+
 //    public static 
 
-    //stockroom for product
-    public static $stockroomTab = ['xpath'=> '//a[contains(text(), \'Stockroom\')]'];
+	//stockroom for product
+	public static $stockroomTab = ['xpath' => '//a[contains(text(), \'Stockroom\')]'];
 
-    /**
-     * @var array
-     */
+	/**
+	 * @var array
+	 */
 
-    public static $quantityInStock = ['xpath'=>'//input[@name="quantity[]"]'];
+	public static $quantityInStock = ['xpath' => '//input[@name="quantity[]"]'];
 
-	public static $preOrderStock = ['xpath'=>'//input[@name="preorder_stock[]"]'];
+	public static $preOrderStock = ['xpath' => '//input[@name="preorder_stock[]"]'];
 
 	public static $messageSaveSuccess = "Product details saved";
-    
-    public static $messageDeleteProductSuccess = 'Product deleted successfully';
-    
-    public static $messageCopySuccess = 'Product Copied';
-    
-    public static $messageCancel  =  'Product detail editing cancelled';
-    
-    // button 
-    public static $buttonAssignNewCategory = 'Assign new Category';
-    
-    public static $buttonRemoveCategory = 'Remove Category';
 
-    public static $buttonDeleteAttribute = 'Delete attribute';
-    
-    public static $buttonProductAttribute = 'Product Attributes';
-    
-    
-    //tab 
-     public static $attributeTab = ['xpath' => '//h3[text()=\'Product Attributes\']'];
-    
-    public static $addAttribute = '+ Add Attribute parameter';
-    
+	public static $messageDeleteProductSuccess = 'Product deleted successfully';
+
+	public static $messageCopySuccess = 'Product Copied';
+
+	public static $messageCancel = 'Product detail editing cancelled';
+
+	// button
+	public static $buttonAssignNewCategory = 'Assign new Category';
+
+	public static $buttonRemoveCategory = 'Remove Category';
+
+	public static $buttonDeleteAttribute = 'Delete attribute';
+
+	public static $buttonProductAttribute = 'Product Attributes';
+
+
+	//tab
+	public static $attributeTab = ['xpath' => '//h3[text()=\'Product Attributes\']'];
+
+	public static $addAttribute = '+ Add Attribute parameter';
+
 
 	/**
 	 * @param $position
 	 */
-    public function addAttributeName($position)
-    {
-    	$xpath = ['xpath' => '//input[@name="attribute['.$position.'][name]"]'];
-
-    	return $xpath;
-    }
-
-    public function attributeNameProperty($position)
-    {
-    	$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][name]"]'];
-
-    	return $xpath;
-    }
-
-	public function attributePriceProperty($position)
+	public function addAttributeName($position)
 	{
-		$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][price]"]'];
+		$xpath = ['xpath' => '//input[@name="attribute[' . $position . '][name]"]'];
 
 		return $xpath;
 	}
 
-    // tab acc
-    public static $accessoryTab = 'Accessory/Related Product';
-    
-    public static $accessoriesValue= ['xpath' => "//h3[text()='Accessories']"];
-    
-    public static $relatedProduct = ['xpath' => "//h3[text()='Related product']"];
-    
-    public static $accessorySearchID = ['id' => 's2id_product_accessory_search'];
-    
-    public static $accessSearchField = ['id' => 's2id_autogen3_search'];
+	public function attributeNameProperty($position)
+	{
+		$xpath = ['xpath' => '//input[@name="attribute[' . $position . '][property][0][name]"]'];
 
-    // relate product
-    public static $relatedProductId = ['id' => 's2id_related_product'];
+		return $xpath;
+	}
 
-    // product not for sale in frontend
-    public static $selectCategory = ['class' => 'select2-match'];
+	public function attributePriceProperty($position)
+	{
+		$xpath = ['xpath' => '//input[@name="attribute[' . $position . '][property][0][price]"]'];
 
-    public static $saleYes = ['xpath' => '//input[@id="not_for_sale1"]'];
+		return $xpath;
+	}
 
-    public static $saleNo = ['id' => 'not_for_sale0'];
+	// tab acc
+	public static $accessoryTab = 'Accessory/Related Product';
 
-    public static $showPriceYes = ['id' => 'not_for_sale_showprice1'];
+	public static $accessoriesValue = ['xpath' => "//h3[text()='Accessories']"];
 
-    public static $showPriceNo = ['id' => 'not_for_sale_showprice0'];
+	public static $relatedProduct = ['xpath' => "//h3[text()='Related product']"];
 
-    public static $categoryID = ['class' => 'category_front_inside' ];
+	public static $accessorySearchID = ['id' => 's2id_product_accessory_search'];
 
-    public static $productID = ['class' => 'category_box_inside'];
+	public static $accessSearchField = ['id' => 's2id_autogen3_search'];
+
+	// relate product
+	public static $relatedProductId = ['id' => 's2id_related_product'];
+
+	// product not for sale in frontend
+	public static $selectCategory = ['class' => 'select2-match'];
+
+	public static $saleYes = ['xpath' => '//input[@id="not_for_sale1"]'];
+
+	public static $saleNo = ['id' => 'not_for_sale0'];
+
+	public static $showPriceYes = ['id' => 'not_for_sale_showprice1'];
+
+	public static $showPriceNo = ['id' => 'not_for_sale_showprice0'];
+
+	public static $categoryID = ['class' => 'category_front_inside'];
+
+	public static $productID = ['class' => 'category_box_inside'];
 
 }
