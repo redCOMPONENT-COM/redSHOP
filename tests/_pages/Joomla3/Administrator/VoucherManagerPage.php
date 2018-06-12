@@ -99,7 +99,7 @@ class VoucherManagerPage extends AdminJ3Page
 
     public static $invalidCode = 'Field required: Code';
 
-    public static $invalidProduct = 'Invalid field:  Voucher Products';
+    public static $invalidProduct = 'Invalid field:  Voucher ProductManagement';
 
     public static $messagePublishSuccess = '1 item successfully published';
 

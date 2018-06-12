@@ -38,10 +38,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($userOrderPage->returnSearch($nameUser));
 		$I->resizeWindow(1920, 1080);
 		$I->waitForElement(\OrderManagerPage::$address, 30);
-		$I->fillField(\OrderManagerPage::$address, $address);
+
 		$I->fillField(\OrderManagerPage::$zipcode, $zipcode);
 		$I->fillField(\OrderManagerPage::$city, $city);
 		$I->fillField(\OrderManagerPage::$phone, $phone);
+        $I->fillField(\OrderManagerPage::$address, $address);
 
 		$I->click(\OrderManagerPage::$applyUser);
 		$I->scrollTo(\OrderManagerPage::$productId);

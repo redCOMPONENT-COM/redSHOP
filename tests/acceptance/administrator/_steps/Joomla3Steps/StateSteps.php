@@ -69,9 +69,8 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\StatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->fillField(\StatePage::$fieldName, $stateNewName);
-		$client->click(\StatePage::$buttonSaveClose);
+		$client->click(\StatePage::$buttonSave);
 		$client->waitForText(\StatePage::$messageItemSaveSuccess, 60, \StatePage::$selectorSuccess);
-		$client->see(\StatePage::$messageItemSaveSuccess, \StatePage::$selectorSuccess);
 	}
 
 	/**

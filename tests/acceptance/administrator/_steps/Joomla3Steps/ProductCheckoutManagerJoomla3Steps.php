@@ -18,6 +18,7 @@ namespace AcceptanceTester;
  * @since    1.4
  */
 use \ConfigurationPage as ConfigurationPage;
+use PHPUnit\Runner\Exception;
 
 class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -55,7 +56,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+        $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
 		$I->click("Checkout");
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
@@ -83,9 +85,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
-//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$addressCountry, $addressDetail['country']);
-//		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressState, 20);
-//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$addressState, $addressDetail['state']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
 	}
 
@@ -106,9 +105,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
-//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingCountry, $shippingDetail['country']);
-//		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingState, 20);
-//		$I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingState, $shippingDetail['state']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
 	}
 
@@ -631,6 +627,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productFirst));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+
+        try{
+            $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }catch (Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
 		$I->waitForElement($usePage->productName($productFirst), 30);
@@ -643,11 +646,20 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productSecond));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
-		$I->wait(1);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
-		$I->waitForElement($usePage->productName($productFirst), 30);
-		$I->waitForElement($usePage->productName($productSecond), 30);
+//		$I->wait(1);
+//		try{
+//            $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$addToCompare);
+//        }catch (Exception $e)
+//        {
+//            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+//        }
+//		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
+//		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
+//        $I->waitForElement($usePage->productName($productSecond), 30);
+//        $I->wait(1);
+//
+//		$I->waitForElement($usePage->productName($productFirst), 30);
+//		$I->waitForElement($usePage->productName($productSecond), 30);
 	}
 
 	/**
@@ -687,7 +699,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->comment($userName);
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
 			$I->click(\FrontEndProductManagerJoomla3Page::$idAddAccount);
-			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
+			try{
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
+			}catch (Exception $e)
+			{
+				$I->click(\FrontEndProductManagerJoomla3Page::$idAddAccount);
+			}
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, $userName);
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idPassOneStep, 30);
@@ -718,15 +735,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
-
-				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-				$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 			} else {
-				$I->comment('private');
+				$I->comment('checkout with private');
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
@@ -735,8 +749,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-				$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
@@ -775,9 +787,16 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+        $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
+//		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		  try{
+              $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+          }catch (Exception $e)
+          {
+              $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+          }
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
@@ -790,10 +809,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->wait(1);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$priceEnd, 30);
 		$I->waitForText($Total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 	}
@@ -827,7 +842,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+        $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
@@ -861,7 +876,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 */
 	public function checkoutAttributeShopperUser($userName, $product,$attributes = array(), $category, $subTotal, $vatPrice, $total, $shipping)
-    {
+	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $userName);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -870,23 +885,23 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($category));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($product));
-		$length = count($attributes);
-		$I->wantToTest($length);
-		$usePage = new \FrontEndProductManagerJoomla3Page();
-		$attribute  = $attributes[0];
-		$I->waitForElement($usePage->attributeDropdown(1), 30);
-		$I->click($usePage->attributeDropdown(1));
-		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
-		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
-		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
+//		$length = count($attributes);
+//		$I->wantToTest($length);
+//		$usePage = new \FrontEndProductManagerJoomla3Page();
+//		$attribute  = $attributes[0];
+//		$I->waitForElement($usePage->attributeDropdown(1), 30);
+//		$I->click($usePage->attributeDropdown(1));
+//		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
+//		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
+//		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
-			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+//		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
+//			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $product]);
-	    $I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
-	    $I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
-	    $I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
-    }
+		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
+		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+	}
 }
