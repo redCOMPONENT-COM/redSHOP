@@ -185,6 +185,27 @@ stages {
 					}
 				}
 			}
+			stage('Customizations') {
+                agent {
+                    docker {
+                            image 'jatitoam/docker-systemtests'
+                            args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+                    }
+                }
+                steps {
+                    script {
+                        env.STAGE = 'Customizations'
+                    }
+                    unstash 'chromeD'
+                    unstash 'redshop'
+                    unstash 'vendor'
+                    unstash 'joomla-cms'
+                    unstash 'database-dump'
+                    retry(2) {
+                        sh "build/system-tests.sh tests/acceptance/administrator/Customizations"
+                    }
+                }
+            }
 			stage('Shopper_Groups') {
 				agent {
 					docker {
@@ -228,6 +249,27 @@ stages {
 					}
 				}
 			}
+			stage('Discount_Groups') {
+                agent {
+                    docker {
+                            image 'jatitoam/docker-systemtests'
+                            args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+                    }
+                }
+                steps {
+                    script {
+                        env.STAGE = 'Discount_Groups'
+                    }
+                    unstash 'chromeD'
+                    unstash 'redshop'
+                    unstash 'vendor'
+                    unstash 'joomla-cms'
+                    unstash 'database-dump'
+                    retry(2) {
+                        sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups"
+                    }
+                }
+            }
 		}
 		post {
 			always {
@@ -288,48 +330,6 @@ stages {
 					unstash 'database-dump'
 					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Configuration"
-					}
-				}
-			}
-			stage('Customizations') {
-				agent {
-					docker {
-							image 'jatitoam/docker-systemtests'
-							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
-					}
-				}
-				steps {
-					script {
-						env.STAGE = 'Customizations'
-					}
-					unstash 'chromeD'
-					unstash 'redshop'
-					unstash 'vendor'
-					unstash 'joomla-cms'
-					unstash 'database-dump'
-					retry(2) {
-						sh "build/system-tests.sh tests/acceptance/administrator/Customizations"
-					}
-				}
-			}
-			stage('Discount_Groups') {
-				agent {
-					docker {
-							image 'jatitoam/docker-systemtests'
-							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
-					}
-				}
-				steps {
-					script {
-						env.STAGE = 'Discount_Groups'
-					}
-					unstash 'chromeD'
-					unstash 'redshop'
-					unstash 'vendor'
-					unstash 'joomla-cms'
-					unstash 'database-dump'
-					retry(2) {
-						sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups"
 					}
 				}
 			}
