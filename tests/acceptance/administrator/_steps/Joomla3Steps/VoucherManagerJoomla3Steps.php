@@ -155,6 +155,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchVoucherCode($voucherCode);
+		$I->checkAllResults();
+		$I->click(\VoucherManagerPage::$checkInButton);
 		$I->click($voucherCode);
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 		$I->checkForPhpNoticesOrWarnings();
