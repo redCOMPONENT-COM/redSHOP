@@ -138,7 +138,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			 * $I->see(\VoucherManagerPage::$invalidProduct, \VoucherManagerPage::$xPathInvalid);
 			 * break;*/
 		}
-        $I->click(\VoucherManagerPage::$closeButton);
+		$I->click(\VoucherManagerPage::$closeButton);
 	}
 
 	/**
@@ -199,7 +199,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
 		switch ($buttonName)
-        {
+		{
 			case 'delete':
 				$I->click(\VoucherManagerPage::$deleteButton);
 				$I->acceptPopup();
@@ -217,8 +217,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 				$I->click(\VoucherManagerPage::$cancelButton);
 				break;
-            default:
-                break;
+			default:
+				break;
 		}
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
 	}
