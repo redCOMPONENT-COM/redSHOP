@@ -522,7 +522,7 @@ class Copy
 		$query->select('*')
 			->from($db->quoteName('#__redshop_media'))
 			->where($db->quoteName('section_id') . ' = ' . (int) $sectionId)
-			->where($db->quoteName('media_section') . '=' . $db->quote($mediaSection));
+			->where($db->quoteName('media_section') . '=' . (string) $db->quote($mediaSection));
 
 		return $db->setQuery($query)->loadObjectList();
 	}
