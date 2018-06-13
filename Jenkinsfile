@@ -47,6 +47,197 @@ stages {
 			}
 		}
 	}
+	stage('Automated Tests - Batch 1/3') {
+    		environment {
+    				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
+    				GITHUB_REPO='redCOMPONENT-COM/redshop'
+    				CLOUDINARY_CLOUD_NAME='redcomponent'
+    				CLOUDINARY_API_KEY='365447364384436'
+    				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
+    				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
+    				SLACK_CHANNEL='#redshop-notifications'
+    		}
+    		parallel {
+    			stage('Compare') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Compare'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Compare_Products"
+    					}
+    				}
+    			}
+    			stage('One_Steps_Checkout') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'One_Steps_Checkout'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(3) {
+    						sh "build/system-tests.sh tests/acceptance/integration/One_Steps_Checkout"
+    					}
+    				}
+    			}
+    			stage('Product_Attribute') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Product_Attribute'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Product_Attribute"
+    					}
+    				}
+    			}
+    			stage('Discounts') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Discounts'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'plugins'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Discounts"
+    					}
+    				}
+    			}
+    			stage('Products') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Products'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Products"
+    					}
+    				}
+    			}
+    			stage('Quotations') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Quotations'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Quotations"
+    					}
+    				}
+    			}
+    			stage('Shopper_Groups') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Shopper_Groups'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Shopper_Groups"
+    					}
+    				}
+    			}
+    			stage('Stockroom') {
+    				agent {
+    					docker {
+    							image 'jatitoam/docker-systemtests'
+    							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+    					}
+    				}
+    				steps {
+    					script {
+    						env.STAGE = 'Stockroom'
+    					}
+    					unstash 'chromeD'
+    					unstash 'redshop'
+    					unstash 'plugins'
+    					unstash 'vendor'
+    					unstash 'joomla-cms'
+    					unstash 'database-dump'
+    					retry(2) {
+    						sh "build/system-tests.sh tests/acceptance/integration/Stockroom"
+    					}
+    				}
+    			}
+    		}
+    		post {
+    			always {
+    				cleanWs()
+    				ws(pwd() + "@tmp") {
+    					cleanWs()
+    				}
+    			}
+    		}
+    	}
 	stage('Automated Tests - Batch 2/3') {
 		environment {
 				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
