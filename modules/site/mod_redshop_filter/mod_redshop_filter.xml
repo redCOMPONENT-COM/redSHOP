@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_FILTER</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <redshop>2.1.0</redshop>
-    <creationDate>December 2017</creationDate>
+    <creationDate>May 2018</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
@@ -110,8 +110,9 @@
                         field_type="3,4,5,6"
                         multiple="true"
                         label="MOD_REDSHOP_FILTER_PRODUCT_FIELD"
-                        description="MOD_REDSHOP_FILTER_PRODUCT_FIELD_DESC">
-                </field>
+                        description="MOD_REDSHOP_FILTER_PRODUCT_FIELD_DESC"
+                        showon="custom_field:1"
+                />
                 <field
                         name="restricted"
                         type="radio"
@@ -119,6 +120,16 @@
                         default="0"
                         label="MOD_REDSHOP_FILTER_ENABLE_RESTRICTED"
                         description="MOD_REDSHOP_FILTER_ENABLE_RESTRICTED_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="show_clear"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="MOD_REDSHOP_FILTER_ENABLE_CLEAR_BUTTON"
+                        description="MOD_REDSHOP_FILTER_ENABLE_CLEAR_BUTTON_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
