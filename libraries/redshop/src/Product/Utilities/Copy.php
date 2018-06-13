@@ -100,12 +100,19 @@ class Copy
 		$this->copiedProduct = \RedshopEntityProduct::getInstance($table->get('product_id'));
 		$this->copiedProduct->loadItem();
 
-		$this->copyProductMedias();
+		if ($this->copiedProduct->hasId())
+		{
+			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_COPIED_SUCCESS', $this->originalProduct->product_name));
+		}
+
 		$this->copyPrices();
+		$this->copyProductMedias();
+		$this->copyProductAttributes();
 		$this->copyCategories();
+		$this->copyRelated();
+		$this->copyExtraFields();
 		$this->copyStockroom();
 		$this->copyAccesories();
-		$this->copyProductAttributes();
 
 		return $this->copiedProduct;
 	}
@@ -115,12 +122,57 @@ class Copy
 	 * @throws  \Exception
 	 * @since   2.1.0
 	 */
+	protected function copyPrices()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_product_price'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
+		$db->setQuery($query);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_price', 'price_id');
+
+		// Discount calculate
+		$query->clear()
+			->select('*')
+			->from($db->quoteName('#__redshop_product_discount_calc'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_discount_calc', 'id');
+
+		// Discount calculate extra
+		$query->clear()
+			->select('*')
+			->from($db->quoteName('#__redshop_product_discount_calc_extra'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_discount_calc_extra', 'pdcextra_id');
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('The price of product %s was copied successfully', $this->originalProduct->product_name));
+	}
+
+	/**
+	 * @return  void
+	 * @throws  \Exception
+	 * @since   2.1.0
+	 */
 	protected function copyProductMedias()
 	{
-		$originalProductMedias = $this->getMedias($this->originalProduct->product_id);
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_media'))
+			->where($db->quoteName('section_id') . ' = ' . (int) $this->originalProduct->product_id)
+			->where($db->quoteName('media_section') . '=' . $db->quote('product'));
+
+		$originalProductMedias = $db->setQuery($query)->loadObjectList();
 
 		if (!$originalProductMedias)
 		{
+
+			\JFactory::getApplication()->enqueueMessage('There are no media files to copy for this product', 'notice');
+
 			return;
 		}
 
@@ -148,138 +200,8 @@ class Copy
 
 			\JFactory::getDbo()->insertObject('#__redshop_media', $newProductMedia);
 		}
-	}
 
-	/**
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   2.1.0
-	 */
-	protected function copyPrices()
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*')
-			->from($db->quoteName('#__redshop_product_price'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
-		$db->setQuery($query);
-
-		$originalProductPrices = $db->setQuery($query)->loadObjectList();
-
-		if (!$originalProductPrices)
-		{
-			return;
-		}
-
-		foreach ($originalProductPrices as $originalProductPrice)
-		{
-			$originalProductPrice->price_id   = null;
-			$originalProductPrice->product_id = (int) $this->copiedProduct->getId();
-
-			\JFactory::getDbo()->insertObject('#__redshop_product_price', $newProductMedia);
-		}
-	}
-
-	/**
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   2.1.0
-	 */
-	protected function copyCategories()
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select(array(
-				$db->quoteName('category_id'),
-				$db->quoteName('ordering'),
-			)
-		)
-			->from($db->quoteName('#__redshop_product_category_xref'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
-
-		$originalProductCategories = $db->setQuery($query)->loadObjectList();
-
-		if (!$originalProductCategories)
-		{
-			return;
-		}
-
-		foreach ($originalProductCategories as $originalProductCategory)
-		{
-			$originalProductCategory->product_id = (int) $this->copiedProduct->getId();
-
-			\JFactory::getDbo()->insertObject('#__redshop_product_category_xref', $originalProductCategory);
-		}
-	}
-
-	/**
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   2.1.0
-	 */
-	protected function copyStockroom()
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select(array(
-				$db->quoteName('stockroom_id'),
-				$db->quoteName('quantity'),
-				$db->quoteName('preorder_stock'),
-				$db->quoteName('ordered_preorder')
-			)
-		)
-			->from($db->quoteName('#__redshop_product_stockroom_xref'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
-
-		$originalProductStookrooms = $db->setQuery($query)->loadObjectList();
-
-		if (!$originalProductStookrooms)
-		{
-			return;
-		}
-
-		foreach ($originalProductStookrooms as $originalProductStookroom)
-		{
-			$originalProductStookroom->product_id = (int) $this->copiedProduct->getId();
-
-			\JFactory::getDbo()->insertObject('#__redshop_product_stockroom_xref', $originalProductStookroom);
-		}
-	}
-
-	/**
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   2.1.0
-	 */
-	protected function copyAccesories()
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select(array(
-				$db->quoteName('child_product_id'),
-				$db->quoteName('accessory_price'),
-				$db->quoteName('oprand'),
-				$db->quoteName('setdefault_selected'),
-				$db->quoteName('ordering'),
-				$db->quoteName('category_id')
-			)
-		)
-			->from($db->quoteName('#__redshop_product_accessory'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
-
-		$originalProductAccesories = $db->setQuery($query)->loadObjectList();
-
-		if (!$originalProductAccesories)
-		{
-			return;
-		}
-
-		foreach ($originalProductAccesories as $originalProductAccesory)
-		{
-			$originalProductAccesory->product_id = (int) $this->copiedProduct->getId();
-
-			\JFactory::getDbo()->insertObject('#__redshop_product_accessory', $originalProductAccesory);
-		}
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('Product media of product %s was copied successfully', $this->originalProduct->product_name));
 	}
 
 	/**
@@ -289,10 +211,18 @@ class Copy
 	 */
 	protected function copyProductAttributes()
 	{
-		$originalProductAttributes = $this->getProductAttributes($this->originalProduct->product_id);
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_product_attribute'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
 
-		if (empty($originalProductAttributes))
+		$originalProductAttributes = $db->setQuery($query)->loadObjectList();
+
+		if (!($originalProductAttributes))
 		{
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_PRODUCT_NO_PRODUCT_ATTRIBUTES_FOR_COPY'), 'notice');
+
 			return;
 		}
 
@@ -316,6 +246,13 @@ class Copy
 					->where($db->quoteName('attribute_id') . ' = ' . (int) $originalProductAttribute->attribute_id);
 
 				$originalProductAttributeProperties = $db->setQuery($query)->loadObjectList();
+
+				if (!$originalProductAttributeProperties)
+				{
+					\JFactory::getApplication()->enqueueMessage('There are no product\'s properties to copy for this product', 'notice');
+
+					continue;
+				}
 
 				foreach ($originalProductAttributeProperties as $originalProductAttributeProperty)
 				{
@@ -355,6 +292,13 @@ class Copy
 
 					$originalProductSubAttributeColors = $db->setQuery($query)->loadObjectList();
 
+					if (!$originalProductSubAttributeColors)
+					{
+						\JFactory::getApplication()->enqueueMessage('There are no product\'s sub attributes to copy for this product', 'notice');
+
+						continue;
+					}
+
 					foreach ($originalProductSubAttributeColors as $originalProductSubAttributeColor)
 					{
 						$newProductSubAttributeColor                                = clone $originalProductSubAttributeColor;
@@ -384,47 +328,131 @@ class Copy
 				}
 			}
 		}
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_ATTRIBUTES_COPIED_SUCCESS', $this->originalProduct->product_name));
 	}
 
 	/**
-	 * @param   integer $sectionId    Section ID
-	 * @param   string  $mediaSection Section name
-	 *
-	 * @return mixed
-	 */
-	private function getMedias($sectionId, $mediaSection = 'product')
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*')
-			->from($db->quoteName('#__redshop_media'))
-			->where($db->quoteName('section_id') . ' = ' . (int) $sectionId)
-			->where($db->quoteName('media_section') . '=' . $db->quote($mediaSection));
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
-	 * @param   integer $productId Product ID
-	 *
-	 * @return mixed
+	 * @return  void
+	 * @throws  \Exception
 	 * @since   2.1.0
 	 */
-	private function getProductAttributes($productId)
+	protected function copyCategories()
 	{
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
-			->from($db->quoteName('#__redshop_product_attribute'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $productId);
+			->from($db->quoteName('#__redshop_product_category_xref'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
 
-		return $db->setQuery($query)->loadObjectList();
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_category_xref');
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_CATEGORIES_COPIED_SUCCESS', $this->originalProduct->product_name));
+	}
+
+	/**
+	 *
+	 * @since   2.1.0
+	 */
+	protected function copyRelated()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_product_related'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_related', 'related_id');
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_RELATED_COPIED_SUCCESS', $this->originalProduct->product_name));
+	}
+
+	/**
+	 *
+	 * @since   2.1.0
+	 */
+	protected function copyExtraFields()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_fields_data'))
+			->where($db->quoteName('itemid') . ' = ' . (int) $this->originalProduct->product_id)
+			->where(
+				'(' . $db->quoteName('section') . ' = ' . $db->quote('1')
+				. ' OR ' . $db->quoteName('section') . ' = ' . $db->quote('12')
+				. ' OR ' . $db->quoteName('section') . ' = ' . $db->quote('17') . ')'
+			);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('itemid' => (int) $this->copiedProduct->getId()), '#__redshop_fields_data', 'data_id');
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_EXTRA_FIELDS_COPIED_SUCCESS', $this->originalProduct->product_name));
+	}
+
+	/**
+	 * @return  void
+	 * @throws  \Exception
+	 * @since   2.1.0
+	 */
+	protected function copyStockroom()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select(array(
+				$db->quoteName('stockroom_id'),
+				$db->quoteName('quantity'),
+				$db->quoteName('preorder_stock'),
+				$db->quoteName('ordered_preorder')
+			)
+		)
+			->from($db->quoteName('#__redshop_product_stockroom_xref'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_stockroom_xref');
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_STOCKROOM_COPIED_SUCCESS', $this->originalProduct->product_name));
+	}
+
+	/**
+	 * @return  void
+	 * @throws  \Exception
+	 * @since   2.1.0
+	 */
+	protected function copyAccesories()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Delete any accesories with copied product before clone it
+		$query->clear();
+		$query->delete($db->quoteName('#__redshop_product_accessory'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->copiedProduct->getId());
+		$db->setQuery($query)->execute();
+
+		$query->clear()
+			->select(array(
+					$db->quoteName('child_product_id'),
+					$db->quoteName('accessory_price'),
+					$db->quoteName('oprand'),
+					$db->quoteName('setdefault_selected'),
+					$db->quoteName('ordering'),
+					$db->quoteName('category_id')
+				)
+			)
+			->from($db->quoteName('#__redshop_product_accessory'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
+
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_accessory', 'accessory_id');
+
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_ACCESSORIES_COPIED_SUCCESS', $this->originalProduct->product_name));
 	}
 
 	/**
 	 * @param   string $from Copy image from
 	 *
 	 * @return  boolean|null|string
+	 *
+	 * @since   2.1.0
 	 */
 	private function copyImageFile($from)
 	{
@@ -449,6 +477,54 @@ class Copy
 		}
 
 		return null;
+	}
+
+	/**
+	 *
+	 * @since   2.1.0
+	 */
+	private function copyRecords($originalRecords, $replaceData, $table, $primaryKey = null)
+	{
+		if (!$originalRecords)
+		{
+			return;
+		}
+
+		foreach ($originalRecords as $originalRecord)
+		{
+			foreach ($replaceData as $key => $value)
+			{
+				if (!property_exists($originalRecord, $key))
+				{
+					continue;
+				}
+
+				$originalRecord->{$key} = $value;
+
+				if ($primaryKey)
+				{
+					$originalRecord->{$primaryKey} = null;
+				}
+			}
+
+			\JFactory::getDbo()->insertObject($table, $originalRecord);
+		}
+	}
+
+	/**
+	 *
+	 * @since   2.1.0
+	 */
+	private function getMedias($sectionId, $mediaSection = 'product')
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__redshop_media'))
+			->where($db->quoteName('section_id') . ' = ' . (int) $sectionId)
+			->where($db->quoteName('media_section') . '=' . $db->quote($mediaSection));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
