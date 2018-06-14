@@ -48,6 +48,7 @@ class ManufacturerSteps extends AbstractStep
 		$client->click(\ManufacturerPage::$buttonSave);
 		$client->waitForText(\ManufacturerPage::$fieldMissing, 60, \ManufacturerPage::$selectorMissing);
 		$client->waitForElement(\ManufacturerPage::$fieldName, 30);
+		$client->click(\ManufacturerPage::$buttonCancel);
 	}
 
 	/**
@@ -69,5 +70,6 @@ class ManufacturerSteps extends AbstractStep
 		$client->click(\ManufacturerPage::$buttonSave);
 		$client->waitForText(\ManufacturerPage::$fieldEmailInvalid, 60, \ManufacturerPage::$selectorMissing);
 		$client->waitForElement(\ManufacturerPage::$fieldName, 30);
+        $client->click(\ManufacturerPage::$buttonCancel);
 	}
 }
