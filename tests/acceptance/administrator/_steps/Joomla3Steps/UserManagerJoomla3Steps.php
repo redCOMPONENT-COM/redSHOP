@@ -78,6 +78,10 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
                 $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->fillField(\UserManagerJoomla3Page::$address, 'address');
+                $I->fillField(\UserManagerJoomla3Page::$city, 'city');
+                $I->fillField(\UserManagerJoomla3Page::$zipcode,'5000');
+                $I->fillField(\UserManagerJoomla3Page::$phone, '4234324');
                 $I->click(\UserManagerJoomla3Page::$saveButton);
                 $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);

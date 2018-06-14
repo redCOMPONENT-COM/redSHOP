@@ -65,6 +65,8 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\StatePage::$url);
 		$client->searchState($stateName);
+		$client->checkAllResults();
+		$client->click(\StatePage::$buttonCheckIn);
 		$client->click($stateName);
 		$client->waitForElement(\StatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();

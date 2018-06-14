@@ -44,8 +44,6 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->filterListBySearching($cardName);
                 $I->seeElement(['link' => $cardName]);
                 break;
-
-
         }
     }
     /**
@@ -155,21 +153,17 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
             case 'save':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-                $I->click(\GiftCardManagerPage::$buttonSaveClose);
+                $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 30, \GiftCardManagerPage::$selectorSuccess);
-                $I->filterListBySearching($newCardName);
-                $I->seeElement(['link' => $newCardName]);
+                $I->seeInField(\GiftCardManagerPage::$giftCardName, $newCardName);
+                $I->click(\GiftCardManagerPage::$buttonClose);
                 break;
             case 'saveclose':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-                $I->click(\GiftCardManagerPage::$buttonSave);
+                $I->click(\GiftCardManagerPage::$buttonSaveClose);
                 $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
-                $I->click(\GiftCardManagerPage::$buttonClose);
-                $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorPageTitle);
                 break;
-
-
         }
     }
 
@@ -206,7 +200,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\GiftCardManagerPage::$buttonSave);
         $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
         $I->seeInField(\GiftCardManagerPage::$giftCardName, $newCardName);
-        $I->amOnPage(\GiftCardManagerPage::$URL);
+        $I->click(\GiftCardManagerPage::$buttonClose);
     }
 
     /**

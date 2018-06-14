@@ -192,22 +192,6 @@ class DiscountProductCest
 	}
 
 	/**
-	 *
-	 * Function add discount missing shopper groups
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends addDiscountProductMissingAmountSaveClose
-	 */
-	public function addDiscountProductMissingShopperGroupSaveClose(AcceptanceTester $client, $scenario)
-	{
-
-	}
-
-	/**
 	 * Function check delete button
 	 *
 	 * @param   AcceptanceTester $client   Acceptance Tester case.
@@ -215,7 +199,7 @@ class DiscountProductCest
 	 *
 	 * @return  void
 	 *
-	 * @depends addDiscountProductStartMoreThanEnd
+	 * @depends addDiscountProductMissingAmountSaveClose
 	 */
 	public function checkDeleteButton(AcceptanceTester $client, $scenario)
 	{
