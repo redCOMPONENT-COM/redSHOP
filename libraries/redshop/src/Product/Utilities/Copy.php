@@ -385,7 +385,7 @@ class Copy
 			->from($db->quoteName('#__redshop_product_related'))
 			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
 
-		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_related', 'related_id');
+		$this->copyRecords($db->setQuery($query)->loadObjectList(), array('product_id' => (int) $this->copiedProduct->getId()), '#__redshop_product_related');
 
 		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_RELATED_COPIED_SUCCESS', $this->originalProduct->product_name));
 	}
