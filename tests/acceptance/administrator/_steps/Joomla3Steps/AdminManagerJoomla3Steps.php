@@ -20,19 +20,19 @@ use Step\Acceptance\Redshop;
 class AdminManagerJoomla3Steps extends Redshop
 {
 
-    public function installComponent($name, $package)
-    {
-        $I = $this;
-        $I->amOnPage(\AdminJ3Page::$installURL);
-        $I->waitForElement(\AdminJ3Page::$link, 30);
-        $I->click(\AdminJ3Page::$link);
-        $path = $I->getConfig($name) . $package;
-        $I->wantToTest($path);
-        $I->comment($path);
-        $I->fillField(\AdminJ3Page::$urlID, $path);
-        $I->waitForElement(\AdminJ3Page::$installButton, 30);
-        $I->click(\AdminJ3Page::$installButton);
-    }
+	public function installComponent($name, $package)
+	{
+		$I = $this;
+		$I->amOnPage(\AdminJ3Page::$installURL);
+		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->click(\AdminJ3Page::$link);
+		$path = $I->getConfig($name) . $package;
+		$I->wantToTest($path);
+		$I->comment($path);
+		$I->fillField(\AdminJ3Page::$urlID, $path);
+		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->click(\AdminJ3Page::$installButton);
+	}
 	/**
 	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
 	 *
@@ -119,7 +119,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
-        $I->fillField($searchField, $text);
+		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
@@ -199,7 +199,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
-	
+
 	public function addValueForField($xpath, $prices)
 	{
 		$I = $this;
