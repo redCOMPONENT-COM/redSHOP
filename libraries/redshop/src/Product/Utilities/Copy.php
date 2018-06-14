@@ -272,17 +272,7 @@ class Copy
 					\JFactory::getDbo()->insertObject('#__redshop_product_attribute_property', $newProductAttributeProperty, 'property_id');
 
 					// Copy media
-					$originalProductAttributePropertyMedias = $this->getMedias($originalProductAttributeProperty->property_id, 'property');
-
-					foreach ($originalProductAttributePropertyMedias as $originalProductAttributePropertyMedia)
-					{
-						$newProductAttributePropertyMedia             = clone $originalProductAttributePropertyMedia;
-						$newProductAttributePropertyMedia->media_id   = null;
-						$newProductAttributePropertyMedia->section_id = (int) $newProductAttributeProperty->property_id;
-						$newProductAttributePropertyMedia->media_name = $this->copyImageFile(REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $originalProductAttributePropertyMedia->media_name);
-
-						\JFactory::getDbo()->insertObject('#__redshop_media', $newProductAttributePropertyMedia);
-					}
+					$this->copyAttributePropertyMedias($this->getMedias($originalProductAttributeProperty->property_id, 'property'), $newProductAttributeProperty);
 
 					// Sub attribute level #3
 					$query->clear();
@@ -311,25 +301,58 @@ class Copy
 						\JFactory::getDbo()->insertObject('#__redshop_product_subattribute_color', $newProductSubAttributeColor, 'subattribute_color_id');
 
 						// Copy media
-						$originalProductSubAttributeColorMedias = $this->getMedias($originalProductSubAttributeColor->subattribute_color_id, 'subproperty');
-
-						foreach ($originalProductSubAttributeColorMedias as $originalProductSubAttributeColorMedia)
-						{
-							$newProductSubAttributeColorMedia             = clone $originalProductSubAttributeColorMedia;
-							$newProductSubAttributeColorMedia->media_id   = null;
-							$newProductSubAttributeColorMedia->section_id = (int) $newProductSubAttributeColor->subattribute_color_id;
-							$newProductSubAttributeColorMedia->media_name = $this->copyImageFile(REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $originalProductSubAttributeColorMedia->media_name);
-
-							// @TODO Another media types
-
-							\JFactory::getDbo()->insertObject('#__redshop_media', $newProductSubAttributeColorMedia);
-						}
+						$this->copySubAttributeColorMedia($this->getMedias($originalProductSubAttributeColor->subattribute_color_id, 'subproperty'), $newProductSubAttributeColor);
 					}
 				}
 			}
 		}
 
 		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_REDSHOP_PRODUCT_ATTRIBUTES_COPIED_SUCCESS', $this->originalProduct->product_name));
+	}
+
+	private function copyAttributePropertyMedias($originalProductAttributePropertyMedias, $newProductAttributeProperty)
+	{
+		if (!$originalProductAttributePropertyMedias)
+		{
+			return;
+		}
+
+		foreach ($originalProductAttributePropertyMedias as $originalProductAttributePropertyMedia)
+		{
+			$newProductAttributePropertyMedia             = clone $originalProductAttributePropertyMedia;
+			$newProductAttributePropertyMedia->media_id   = null;
+			$newProductAttributePropertyMedia->section_id = (int) $newProductAttributeProperty->property_id;
+			$newProductAttributePropertyMedia->media_name = $this->copyImageFile(REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $originalProductAttributePropertyMedia->media_name);
+
+			\JFactory::getDbo()->insertObject('#__redshop_media', $newProductAttributePropertyMedia);
+		}
+	}
+
+	/**
+	 * @param $originalProductSubAttributeColorMedias
+	 * @param $newProductSubAttributeColor
+	 *
+	 *
+	 * @since  2.1.0
+	 */
+	private function copySubAttributeColorMedia($originalProductSubAttributeColorMedias, $newProductSubAttributeColor)
+	{
+		if (!$originalProductSubAttributeColorMedias)
+		{
+			return;
+		}
+
+		foreach ($originalProductSubAttributeColorMedias as $originalProductSubAttributeColorMedia)
+		{
+			$newProductSubAttributeColorMedia             = clone $originalProductSubAttributeColorMedia;
+			$newProductSubAttributeColorMedia->media_id   = null;
+			$newProductSubAttributeColorMedia->section_id = (int) $newProductSubAttributeColor->subattribute_color_id;
+			$newProductSubAttributeColorMedia->media_name = $this->copyImageFile(REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $originalProductSubAttributeColorMedia->media_name);
+
+			// @TODO Another media types
+
+			\JFactory::getDbo()->insertObject('#__redshop_media', $newProductSubAttributeColorMedia);
+		}
 	}
 
 	/**
