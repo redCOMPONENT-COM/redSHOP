@@ -596,18 +596,18 @@ class RedshopHelperOrder
 	 */
 	public static function updateOrderStatus($orderId, $newStatus)
 	{
-		$db = JFactory::getDbo();
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$query = $db->getQuery(true)
-			->update($db->qn('#__redshop_orders'))
-			->set($db->qn('order_status') . ' = ' . $db->quote($newStatus))
-			->set($db->qn('mdate') . ' = ' . (int) time())
-			->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
+		if ($order->isValid())
+		{
+			$order->set('order_status', $newStatus)
+				->set('mdate', (int) time())
+				->save();
+		}
 
 		self::generateInvoiceNumber($orderId);
 
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->qn(
