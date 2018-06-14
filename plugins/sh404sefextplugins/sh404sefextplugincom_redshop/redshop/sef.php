@@ -840,6 +840,46 @@ switch ($view)
 		}
 
 		break;
+	case 'tickets':
+
+		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_TICKETS'];
+		shRemoveFromGETVarsList('view');
+
+		if ($task)
+		{
+			$title[] = $task;
+			shRemoveFromGETVarsList('task');
+		}
+
+		if ($msg)
+		{
+			$title[] = $msg;
+			shRemoveFromGETVarsList('msg');
+		}
+
+		break;
+
+	case 'ticketslibrary':
+
+		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_TICKETSLIBRARY'];
+		shRemoveFromGETVarsList('view');
+
+		if ($task)
+		{
+			$title[] = $task;
+			shRemoveFromGETVarsList('task');
+		}
+
+		if ($msg)
+		{
+			$title[] = $msg;
+			shRemoveFromGETVarsList('msg');
+		}
+
+		break;
+
+	default:
+		break;
 }
 
 if ($limitstart)
