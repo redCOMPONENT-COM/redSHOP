@@ -209,8 +209,6 @@ class AbstractCest
 
 		$step->wantToTest('edit this item with save &close button');
 		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit, 'save&new');
-
-
 	}
 	
 	/**
