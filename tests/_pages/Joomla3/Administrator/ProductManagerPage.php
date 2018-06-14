@@ -75,8 +75,11 @@ class ProductManagerPage extends AdminJ3Page
 	public static $messageSaveSuccess = "Product details saved";
     
     public static $messageDeleteProductSuccess = 'Product deleted successfully';
-    
-    public static $messageCopySuccess = 'Product Copied';
+
+    /**
+     * @var string
+     */
+    public static $messageCopySuccess = 'Product was copied successfully';
     
     public static $messageCancel  =  'Product detail editing cancelled';
     
