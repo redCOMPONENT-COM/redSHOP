@@ -106,7 +106,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountPage::$saveDiscount);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
 		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
-        $client->click(\DiscountPage::$buttonCancel);
+		$client->click(\DiscountPage::$buttonCancel);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
 		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
-        $client->click(\DiscountPage::$buttonCancel);
+		$client->click(\DiscountPage::$buttonCancel);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
 		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
-        $client->click(\DiscountPage::$buttonCancel);
+		$client->click(\DiscountPage::$buttonCancel);
 	}
 
 	/**
@@ -199,7 +199,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
 		$client->waitForText(\DiscountPage::$messageError, 60, \DiscountPage::$selectorMissing);
-        $client->click(\DiscountPage::$buttonCancel);
+		$client->click(\DiscountPage::$buttonCancel);
 	}
 
 	/**
