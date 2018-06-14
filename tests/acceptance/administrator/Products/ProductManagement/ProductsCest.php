@@ -85,7 +85,7 @@ class ProductsCest
         $I->checkButton('removeCategory');
     }
 
-	public function testProductAdministrator(AcceptanceTester $I, $scenario)
+	public function addCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);

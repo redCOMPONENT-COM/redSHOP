@@ -206,6 +206,8 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MassDiscountManagerPage::$URL);
 		$I->searchMassDiscount($massDiscountName);
+		$I->checkAllResults();
+		$I->click(\MassDiscountManagerPage::$buttonCheckIn);
 		$I->click(\MassDiscountManagerPage::$checkFirstItems);
 		$I->click(\MassDiscountManagerPage::$editButton);
 		$I->waitForElement(\MassDiscountManagerPage::$name, 30);
@@ -220,6 +222,8 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MassDiscountManagerPage::$URL);
 		$I->searchMassDiscount($massDiscountName);
+		$I->checkAllResults();
+		$I->click(\MassDiscountManagerPage::$buttonCheckIn);
 		$I->click(['link' => $massDiscountName]);
 		$I->waitForElement(\MassDiscountManagerPage::$name, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
