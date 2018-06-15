@@ -421,13 +421,7 @@ class Copy
 	{
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select(array(
-				$db->quoteName('stockroom_id'),
-				$db->quoteName('quantity'),
-				$db->quoteName('preorder_stock'),
-				$db->quoteName('ordered_preorder')
-			)
-		)
+		$query->select('*')
 			->from($db->quoteName('#__redshop_product_stockroom_xref'))
 			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
 
@@ -453,15 +447,7 @@ class Copy
 		$db->setQuery($query)->execute();
 
 		$query->clear()
-			->select(array(
-					$db->quoteName('child_product_id'),
-					$db->quoteName('accessory_price'),
-					$db->quoteName('oprand'),
-					$db->quoteName('setdefault_selected'),
-					$db->quoteName('ordering'),
-					$db->quoteName('category_id')
-				)
-			)
+			->select('*')
 			->from($db->quoteName('#__redshop_product_accessory'))
 			->where($db->quoteName('product_id') . ' = ' . (int) $this->originalProduct->product_id);
 
