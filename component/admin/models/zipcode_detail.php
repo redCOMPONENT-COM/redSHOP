@@ -149,9 +149,9 @@ class RedshopModelZipcode_detail extends RedshopModel
 	/**
 	 * Get list state of country
 	 *
-	 * @param   String or String List $countryCodes Country Codes
+	 * @param   string $countryCodes Country Codes
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -162,7 +162,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 			->select(array($db->quoteName('s.state_name', 'text'), $db->quoteName('s.state_2_code', 'value')))
 			->from($db->quoteName('#__redshop_state', 's'))
 			->join('LEFT', $db->quoteName('#__redshop_country', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('s.country_id'))
-			->where('FIND_IN_SET (' . $db->quoteName('c.country_3_code') . ', "' . $countryCodes . '")')
+			->where('FIND_IN_SET (' . $db->quoteName('c.country_3_code') . ', "' . $db->quote($countryCodes) . '")')
 			->order($db->quoteName('s.state_name'), 'ASC');
 
 		return $this->_db->setQuery($query)->loadObjectList();

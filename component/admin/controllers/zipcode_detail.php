@@ -110,7 +110,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @return mixed
+	 * @return  void
 	 */
 	public function getStateDropdown()
 	{
