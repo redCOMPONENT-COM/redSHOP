@@ -49,6 +49,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
 				$I->click(\VoucherManagerPage::$saveButton);
 				$I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
+				$I->click(\VoucherManagerPage::$closeButton);
 
 				break;
 			case 'saveclose':
