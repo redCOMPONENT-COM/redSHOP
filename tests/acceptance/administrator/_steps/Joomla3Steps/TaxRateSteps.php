@@ -104,7 +104,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->click(\TaxRatePage::$buttonSave);
 		$client->waitForElement(\TaxGroupPage::$selectorSuccess,30);
 		$client->see(\TaxRatePage::$messageItemSaveSuccess, \TaxRatePage::$selectorSuccess);
-        $client->click(\TaxRatePage::$buttonCancel);
+        $client->click(\TaxRatePage::$buttonClose);
 	}
 
 	public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue)
