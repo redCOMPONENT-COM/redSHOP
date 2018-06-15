@@ -69,34 +69,15 @@ class RedshopControllerPrices_detail extends RedshopController
 
 		$row = $model->store($post);
 
-		if ($priceQuantityStart == 0 && $priceQuantityEnd == 0)
+		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
+
+		if ($priceQuantityStart == 0 && $priceQuantityEnd == 0 && $row)
 		{
-			if ($row)
-			{
-				$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
-			}
-			else
-			{
-				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
-			}
+			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
 		}
-		else
+		elseif (($priceQuantityStart < $priceQuantityEnd) && $row)
 		{
-			if ($priceQuantityStart < $priceQuantityEnd)
-			{
-				if ($row)
-				{
-					$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
-				}
-				else
-				{
-					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
-				}
-			}
-			else
-			{
-				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
-			}
+			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
 		}
 
 		if ($apply == 0)
