@@ -99,39 +99,6 @@ class TaxRateCest
         $client->wantTo('Test TAX Rates Save creation in Administrator');
         $client = new TaxRateSteps($scenario);
         $client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
-
-    }
-
-	/**
-	 * Create TAX Rates missing name
-	 *
-	 * @param   AcceptanceTester  $client    Current user state.
-	 * @param   Scenario          $scenario  Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function addTAXRatesMissingNameSave(AcceptanceTester $client, $scenario)
-	{
-        $client->doAdministratorLogin();
-		$client->wantTo('Test TAX Rates Save missing name creation in Administrator');
-		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesMissingNameSave($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
-
-        $client->wantTo('Test TAX Rates missing groups save creation in Administrator');
-        $client->addTAXRatesMissingGroupsSave($this->taxRateName, $this->taxRateValue);
-
-        $client->wantTo('Test TAX missing tax value Save creation in Administrator');
-        $client->addTAXRatesMissingTaxValueSave($this->taxRateName, $this->taxGroupName);
-
-        $client->wantTo('Test TAX amount less zero Save creation in Administrator');
-        $client->addTAXRatesValueAmountLessZeroSave($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
-
-        $client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
-        $client->addTAXRatesValueAmountStringSave(
-            $this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
-        );
-
-
     }
 
 	/**
@@ -200,4 +167,34 @@ class TaxRateCest
         $client->deleteTAXRatesOK($this->taxRateName);
         $client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
 	}
+
+    /**
+     * Create TAX Rates missing name
+     *
+     * @param   AcceptanceTester  $client    Current user state.
+     * @param   Scenario          $scenario  Scenario for test.
+     *
+     * @return  void
+     */
+    public function addTAXRatesMissingNameSave(AcceptanceTester $client, $scenario)
+    {
+        $client->doAdministratorLogin();
+        $client->wantTo('Test TAX Rates Save missing name creation in Administrator');
+        $client = new TaxRateSteps($scenario);
+        $client->addTAXRatesMissingNameSave($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+
+        $client->wantTo('Test TAX Rates missing groups save creation in Administrator');
+        $client->addTAXRatesMissingGroupsSave($this->taxRateName, $this->taxRateValue);
+
+        $client->wantTo('Test TAX missing tax value Save creation in Administrator');
+        $client->addTAXRatesMissingTaxValueSave($this->taxRateName, $this->taxGroupName);
+
+        $client->wantTo('Test TAX amount less zero Save creation in Administrator');
+        $client->addTAXRatesValueAmountLessZeroSave($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
+
+        $client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
+        $client->addTAXRatesValueAmountStringSave(
+            $this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
+        );
+    }
 }
