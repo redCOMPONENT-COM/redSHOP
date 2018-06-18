@@ -101,7 +101,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->checkForPhpNoticesOrWarnings();
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
 		$client->click(\TaxRatePage::$buttonSave);
-		$client->click(\TaxRatePage::$buttonSave);
 		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
 		$client->click(\TaxRatePage::$buttonCancel);
 	}
