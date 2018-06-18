@@ -38,7 +38,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$namePageXpath);
 
 		switch ($name)
-        {
+		{
 			case 'edit':
 				$I->click(ProductManagerPage::$buttonEdit);
 				$I->acceptPopup();
@@ -148,7 +148,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 
 		switch ($function)
-        {
+		{
 			case 'category':
 				$I->fillField(ProductManagerPage::$productName, $productName);
 				$I->fillField(ProductManagerPage::$productNumber, $productNumber);
@@ -204,11 +204,13 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($usePage->returnChoice($product['category']));
 
 		$I->wantToTest('check discount start date before discount end ');
-		if (isset($product['discountStart'])){
+		if (isset($product['discountStart']))
+		{
 			$I->fillField(ProductManagerPage::$discountStart, $product['discountEnd']);
 		}
 
-		if (isset($product['discountEnd'])){
+		if (isset($product['discountEnd']))
+		{
 			$I->fillField(ProductManagerPage::$discountEnd, $product['discountStart']);
 		}
 		$I->click(ProductManagerPage::$buttonSave);
@@ -219,11 +221,13 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->wantTo('create Product Quantity Start More Than Quantity End');
 
-		if (isset($product['minimumQuantity'])){
+		if (isset($product['minimumQuantity']))
+		{
 			$I->fillField(ProductManagerPage::$minimumQuantity, $product['maximumQuantity']);
 		}
 
-		if (isset($product['maximumQuantity'])){
+		if (isset($product['maximumQuantity']))
+		{
 			$I->fillField(ProductManagerPage::$maximumQuantity, $product['minimumQuantity']);
 		}
 
@@ -234,7 +238,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$maximumQuantity, 0);
 
 		$I->wantToTest('create Discount Price More Than Price');
-		if (isset($product['discountPrice'])){
+		if (isset($product['discountPrice']))
+		{
 			$I->fillField(\ProductManagerPage::$discountPrice, $product['discountPrice']);
 		}
 		$I->click(ProductManagerPage::$buttonSave);
@@ -507,9 +512,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$length = count($attributes);
 		$I->wantToTest($length);
-		for ($x = 0; $x < $length; $x++)
+		for($x = 0;  $x < $length; $x ++ )
 		{
-			$position = $x + 1;
+			$position = $x+1;
 			$I->click(ProductManagerPage::$addAttribute);
 			$attribute  = $attributes[$x];
 			$I->fillField($usePage->addAttributeName($position), $attribute['name']);
