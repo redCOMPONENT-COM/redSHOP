@@ -42,6 +42,10 @@ class CompareProductsCest
 		$I->doAdministratorLogin();
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
