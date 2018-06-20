@@ -1306,11 +1306,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 	/**
 	 * @param array $cid
+	 * @param array $data
 	 *
 	 * @return boolean|null|RedshopEntityProduct
 	 * @throws Exception
 	 */
-	public function copy($cid = array())
+	public function copy($cid = array(), $data = array())
 	{
 		if (empty($cid))
 		{
@@ -1329,7 +1330,27 @@ class RedshopModelProduct_Detail extends RedshopModel
 		foreach ($originalProducts as $originalProduct)
 		{
 			$utilities = new \Redshop\Product\Utilities\Copy;
-			$row       = $utilities->process($originalProduct);
+
+			if (empty($data))
+			{
+				continue;
+			}
+
+			// "Save" current data as copied
+			unset($data['product_id']);
+
+			foreach ($data as $key => $value)
+			{
+				if ($key == 'discount_stratdate' || $key == 'discount_enddate')
+				{
+					$date  = new JDate($value);
+					$value = $date->toUnix();
+				}
+
+				$originalProduct->{$key} = $value;
+			}
+
+			$row = $utilities->process($originalProduct);
 		}
 
 		return $row;
