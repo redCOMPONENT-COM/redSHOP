@@ -78,6 +78,7 @@ $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
+$requestId    	= isset($requestId) ? @$requestId : null;
 
 // Get variables for pagination in category
 $category_template = isset($category_template) ? @$category_template : null;
@@ -849,6 +850,25 @@ switch ($view)
 		{
 			$title[] = $task;
 			shRemoveFromGETVarsList('task');
+		}
+
+		if ($msg)
+		{
+			$title[] = $msg;
+			shRemoveFromGETVarsList('msg');
+		}
+
+		break;
+
+	case 'ticket':
+
+		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_TICKET'];
+		shRemoveFromGETVarsList('view');
+
+		if ($requestId)
+		{
+			$title[] = $requestId;
+			shRemoveFromGETVarsList('requestId');
 		}
 
 		if ($msg)
