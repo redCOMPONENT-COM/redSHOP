@@ -274,6 +274,7 @@ if ($total > 0)
 					{
 						$categories_name[] =  $category->get('name');
 					}
+					
 				}
 
 				$category_name = implode(' ,', $categories_name);
