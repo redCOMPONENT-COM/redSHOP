@@ -268,7 +268,7 @@ if ($total > 0)
 				
 				for ($j = 0; $j < count($categoriesId); $j++)
 				{
-					$category = RedshopEntityCategory::getInstance($categoriesId[$j]);
+					$category = RedshopEntityCategory::getInstance((int) $categoriesId[$j]);
 
 					if (!in_array($category->get('name'), $categories_name))
 					{
