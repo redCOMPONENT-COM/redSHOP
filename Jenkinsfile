@@ -74,7 +74,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(3) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/Compare_Products"
 					}
 				}
@@ -95,7 +95,7 @@ stages {
 					unstash 'vendor'
 					unstash 'joomla-cms'
 					unstash 'database-dump'
-					retry(3) {
+					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/integration/One_Steps_Checkout"
 					}
 				}
