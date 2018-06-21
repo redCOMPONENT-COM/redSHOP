@@ -19,6 +19,17 @@ namespace AcceptanceTester;
  */
 class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 {
+    public function userLoginFrontend($firstName, $password)
+    {
+        $I = $this;
+        $I->amOnPage(\CheckoutProductChangeQuantityPage::$url);
+        $I->click(\CheckoutProductChangeQuantityPage::$fillUserName);
+        $I->fillField(\CheckoutProductChangeQuantityPage::$fillUserName, $firstName);
+        $I->click(\CheckoutProductChangeQuantityPage::$fillPassWord);
+        $I->fillField(\CheckoutProductChangeQuantityPage::$fillPassWord, $password);
+        $I->click(\CheckoutProductChangeQuantityPage::$submitButton);
+    }
+
 	public function checkoutChangeQuantity($category)
 	{
 		$I = $this;

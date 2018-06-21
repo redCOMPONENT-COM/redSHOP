@@ -48,7 +48,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\UserManagerJoomla3Page::$email, $email);
                 $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
                 $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+//                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
                 $I->click($userManagerPage->shopperGroup($shopperGroup));
                 $I->click(\UserManagerJoomla3Page::$billingInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
@@ -459,5 +459,37 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         } else {
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
+    }
+
+    public function createUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $address, $city, $phone, $zipcode)
+    {
+        $I = $this;
+        $I->wantTo('Create New User ');
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $userManagerPage = new \UserManagerJoomla3Page;
+        $I->click(\UserManagerJoomla3Page::$newButton);
+        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+        $I->fillField(\UserManagerJoomla3Page::$email, $email);
+        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+        $I->click($userManagerPage->shopperGroup($shopperGroup));
+        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+        $I->click(\UserManagerJoomla3Page::$address);
+        $I->fillField(\UserManagerJoomla3Page::$address, $address);
+        $I->click(\UserManagerJoomla3Page::$city);
+        $I->fillField(\UserManagerJoomla3Page::$city, $city);
+        $I->click(\UserManagerJoomla3Page::$phone);
+        $I->fillField(\UserManagerJoomla3Page::$phone, $phone);
+        $I->click(\UserManagerJoomla3Page::$zipcode);
+        $I->fillField(\UserManagerJoomla3Page::$zipcode, $zipcode);
+        $I->click(\UserManagerJoomla3Page::$saveCloseButton);
     }
 }

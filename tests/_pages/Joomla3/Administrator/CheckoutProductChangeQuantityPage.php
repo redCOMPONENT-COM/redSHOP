@@ -20,6 +20,12 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
 	 */
 	public static $categoryTitle = ['class' => 'category_front_inside'];
 
+	public static $fillUserName = ['id' => 'modlgn-username'];
+
+	public static $fillPassWord = ['id' => 'modlgn-passwd'];
+
+	public static $submitButton = "Login";
+
 	/**
 	 * @var array
 	 */
