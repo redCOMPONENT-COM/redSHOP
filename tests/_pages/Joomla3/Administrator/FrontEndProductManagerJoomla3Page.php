@@ -103,7 +103,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $idAddAccount = ['id' => "createaccount"];
+	public static $idAddAccount = ['xpath' => "//label//input[@id='createaccount']"];
 
 	/**
 	 * @var array
