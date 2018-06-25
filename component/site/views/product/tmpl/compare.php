@@ -23,7 +23,6 @@ $stockroomhelper = rsstockroomhelper::getInstance();
 $compare         = new RedshopProductCompare;
 
 $compareCategoryId = $compare->getCategoryId();
-$compareCategoryIds = $compare->getCategoryIds();
 if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
