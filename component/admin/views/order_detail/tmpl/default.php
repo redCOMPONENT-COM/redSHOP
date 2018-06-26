@@ -14,7 +14,6 @@ JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
-$cartHelper       = rsCarthelper::getInstance();
 $orderFunctions   = order_functions::getInstance();
 $redHelper        = redhelper::getInstance();
 $extraFieldHelper = extra_field::getInstance();
@@ -590,13 +589,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 						</tr>
 						<?php
 						$ordervolume       = 0;
-						$cart              = array();
 						$subtotal_excl_vat = 0;
 
 						for ($i = 0, $in = count($products); $i < $in; $i++)
 						{
-							$cart[$i]['product_id'] = $products[$i]->product_id;
-							$cart[$i]['quantity']   = $products[$i]->product_quantity;
 							$quantity               = $products[$i]->product_quantity;
 							$product_id             = $products[$i]->product_id;
 
@@ -900,8 +896,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							</tr>
 							<?php
 						}
-						$cart['idx'] = count($cart);
-						RedshopHelperCartSession::setCart($cart); ?>
+						?>
 						<tr>
 							<td>
 								<div class="row-fluid">
