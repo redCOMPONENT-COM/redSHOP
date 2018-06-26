@@ -61,6 +61,8 @@ class RedshopHelperDiscount
 
 			$startDate = $discount->get('start_date', 0);
 			$endDate   = $discount->get('end_date', 0);
+			$condition = $discount->get('condition', 0);
+			$amount    = $discount->get('amount', 0);
 
 			/**
 			 * Discount condition
@@ -74,7 +76,16 @@ class RedshopHelperDiscount
 				|| (!$startDate && $endDate && $endDate >= $currentTime)
 				|| ($startDate && $startDate <= $currentTime && $endDate && $endDate >= $currentTime))
 			{
-				$potentialDiscount = $discount;
+				if (($condition == 1 && $amount >= $subTotal)
+					|| ($condition == 2 && $amount == $subTotal)
+					|| ($condition == 3 && $amount <= $subTotal))
+				{
+					$potentialDiscount = $discount;
+				}
+				else
+				{
+					continue;
+				}
 			}
 			else
 			{
