@@ -187,7 +187,7 @@ $calendarFormat = '%d-%m-%Y';
 							<div class="input-group" >
 								<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span>
 								<input class="form-control" type="text" name="product_price" id="product_price"
-									   size="10" maxlength="10" value="<?php echo $this->detail->product_price ?>" />
+									   size="10" maxlength="100" value="<?php echo $this->detail->product_price ?>" />
 							</div >
 						</div >
 
@@ -212,7 +212,7 @@ $calendarFormat = '%d-%m-%Y';
 							<div class="input-group" >
 								<span class="input-group-addon" ><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span >
 								<input class="form-control" type="text" name="discount_price" id="discount_price" size="10"
-									   maxlength="10" style="text-align: left;" value="<?php echo $this->detail->discount_price; ?>" />
+									   maxlength="100" style="text-align: left;" value="<?php echo $this->detail->discount_price; ?>" />
 							</div >
 						</div >
 
