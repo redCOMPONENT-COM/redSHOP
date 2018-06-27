@@ -21,7 +21,7 @@ extract($displayData);
 $app = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid', 0);
 $category_id = $app->input->getInt('cid', 0);
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 JHtml::_('redshopjquery.radiobutton');

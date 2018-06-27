@@ -38,6 +38,8 @@ class RedshopControllerXmlexport_detail extends RedshopController
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post['xmlexport_id'] = $cid [0];
+
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if ($post['xmlexport_id'] == 0)
@@ -49,12 +51,12 @@ class RedshopControllerXmlexport_detail extends RedshopController
 
 		if (isset($childelement['orderdetail']))
 		{
-			$post['element_name'] = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
+			$post['element_name']      = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
 			$post['xmlexport_filetag'] = $childelement['orderdetail'][1];
 		}
-		elseif (isset($childelement['productdetail']))
+        elseif (isset($childelement['productdetail']))
 		{
-			$post['element_name'] = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
+			$post['element_name']      = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
 			$post['xmlexport_filetag'] = $childelement['productdetail'][1];
 		}
 
@@ -118,51 +120,54 @@ class RedshopControllerXmlexport_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
-function setChildElement()
-{
-	JHTMLBehavior::modal();
-
-	$xmlhelper    = new xmlHelper;
-	$post         = $this->input->post->getArray();
-	$session      = JFactory::getSession();
-	$childelement = $session->get('childelement');
-	$resarray     = array();
-	$uarray       = array();
-	$columns      = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
-
-	for ($i = 0, $in = count($columns); $i < $in; $i++)
+	function setChildElement()
 	{
-		if (trim($post[$columns[$i]->Field]) != "")
+		JHTMLBehavior::modal();
+
+		$xmlhelper    = new xmlHelper;
+		$post         = $this->input->post->getArray();
+		$session      = JFactory::getSession();
+		$childelement = $session->get('childelement');
+		$resarray     = array();
+		$uarray       = array();
+		$columns      = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
+
+		for ($i = 0, $in = count($columns); $i < $in; $i++)
 		{
-			$xmltag = str_replace(" ", "_", strtolower(trim($post[$columns[$i]->Field])));
-			$uarray[] = $xmltag;
-			$resarray[] = $columns[$i]->Field . "=" . $xmltag;
+			if (trim($post[$columns[$i]->Field]) != "")
+			{
+				$xmltag     = str_replace(" ", "_", strtolower(trim($post[$columns[$i]->Field])));
+				$uarray[]   = $xmltag;
+				$resarray[] = $columns[$i]->Field . "=" . $xmltag;
+			}
 		}
+
+		$firstlen = count($uarray);
+		$uarray1  = array_unique($uarray);
+		sort($uarray1);
+		$seclen = count($uarray1);
+
+		if ($seclen != $firstlen)
+		{
+			echo JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
+
+			return;
+		}
+
+		$childelement[$post['parentsection']] = array($post['element_name'], implode(";", $resarray));
+
+		$session->set('childelement', $childelement); ?>
+        <script language="javascript">
+            window.parent.SqueezeBox.close();
+        </script>
+		<?php
 	}
-	$firstlen = count($uarray);
-	$uarray1 = array_unique($uarray);
-	sort($uarray1);
-	$seclen = count($uarray1);
 
-	if ($seclen != $firstlen)
-	{
-		echo JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
-
-		return;
-	}
-
-	$childelement[$post['parentsection']] = array($post['element_name'], implode(";", $resarray));
-
-	$session->set('childelement', $childelement);    ?>
-	<script language="javascript">
-		window.parent.SqueezeBox.close();
-	</script>
-<?php
-}
 	public function removeIpAddress()
 	{
 		$xmlexport_ip_id = $this->input->get('xmlexport_ip_id', 0);
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 		$model->deleteIpAddress($xmlexport_ip_id);
 		die();
@@ -177,6 +182,7 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->delete($cid))
@@ -211,6 +217,7 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->auto_syncpublish($cid, 1))
@@ -237,6 +244,7 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->auto_syncpublish($cid, 0))
@@ -263,6 +271,7 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->usetoallpublish($cid, 1))
@@ -289,6 +298,7 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->usetoallpublish($cid, 0))
@@ -315,6 +325,7 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 1))
@@ -341,11 +352,12 @@ function setChildElement()
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelXmlexport_detail $model */
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_UNPUBLISHED_SUCCESSFULLY');

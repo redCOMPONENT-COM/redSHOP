@@ -20,11 +20,6 @@ defined('_JEXEC') or die;
 class RedshopControllerProduct extends RedshopController
 {
 	/**
-	 * @var JInput
-	 */
-	protected $input;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -32,6 +27,7 @@ class RedshopControllerProduct extends RedshopController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
 	 * @since   1.5
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -40,7 +36,7 @@ class RedshopControllerProduct extends RedshopController
 		// Article frontpage Editor product proxying:
 		if ($this->input->get('layout') === 'element')
 		{
-			JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
+			JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 
@@ -63,6 +59,33 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		parent::__construct($config);
+	}
+
+	/**
+	 * Typical view method for MVC based architecture
+	 *
+	 * This function is provide as a default implementation, in most cases
+	 * you will need to override it in your own controllers.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 *
+	 * @since   3.0
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		$urlparams['Itemid'] = 'INT';
+		$urlparams['cid']    = 'INT';
+		$urlparams['lang']   = 'STRING';
+		$urlparams['pid']    = 'INT';
+		$urlparams['view']   = 'STRING';
+		$urlparams['layout'] = 'STRING';
+
+		parent::display(true, $urlparams);
+
+		return $this;
 	}
 
 	/**
@@ -94,7 +117,7 @@ class RedshopControllerProduct extends RedshopController
 		$data['acc_subproperty_data'] = str_replace("::", "##", $get['acc_subproperty_data']);
 		$data['quantity']             = $quantity;
 
-		$cartdata  = $carthelper->generateAttributeArray($data);
+		$cartdata  = Redshop\Cart\Helper::generateAttribute($data);
 		$retAttArr = $producthelper->makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
 
 		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
@@ -840,13 +863,18 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$productId = $this->input->getInt('product_id', 0);
-		$name      = $this->input->getCmd('mname', '') . '_' . $productId;
+		$name       = $this->input->getCmd('mname', '');
+
+		if (!empty($productId))
+		{
+			$name = $name . '_' . $productId;
+		}
 
 		if ($this->input->files)
 		{
 			$uploadFileData = $this->input->files->get($name);
 			$fileExtension = JFile::getExt($uploadFileData['name']);
-			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
+			$fileName = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
 
 			$uploadFilePath = JPath::clean($uploadDir . $fileName);
 
@@ -960,8 +988,6 @@ class RedshopControllerProduct extends RedshopController
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
 
-			$downloadname = substr(basename($fpath), 11);
-
 			switch ($tmp_type)
 			{
 				case "pdf":
@@ -1005,7 +1031,7 @@ class RedshopControllerProduct extends RedshopController
 			header('Expires: 0');
 			header("Content-Type: $ctype", false);
 			header('Content-Length: ' . filesize($fpath));
-			header('Content-Disposition: attachment; filename=' . $downloadname);
+			header('Content-Disposition: attachment; filename=' . $fname);
 
 			// Red file using chunksize
 			$this->readfile_chunked($fpath);

@@ -109,8 +109,10 @@ abstract class AbstractView extends \JViewLegacy
 	{
 		$this->generatePermission();
 
+		$errors = $this->getErrors();
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (!empty($errors))
 		{
 			throw new \Exception(implode('<br />', $errors));
 		}
@@ -153,7 +155,7 @@ abstract class AbstractView extends \JViewLegacy
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
 	 *
@@ -161,7 +163,6 @@ abstract class AbstractView extends \JViewLegacy
 	 */
 	public function beforeDisplay(&$tpl)
 	{
-		return;
 	}
 
 	/**
@@ -197,7 +198,6 @@ abstract class AbstractView extends \JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		return;
 	}
 
 	/**
@@ -260,6 +260,8 @@ abstract class AbstractView extends \JViewLegacy
 	 * @return  string
 	 *
 	 * @since   2.0.7
+	 *
+	 * @throws  \Exception
 	 */
 	public function getPrimaryKey()
 	{

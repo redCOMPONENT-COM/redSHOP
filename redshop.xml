@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
     <name>COM_REDSHOP</name>
-    <creationDate>November 2017</creationDate>
+    <creationDate>January 2018</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
@@ -33,7 +33,6 @@
         <folder>helpers</folder>
         <folder>layouts</folder>
         <folder>models</folder>
-        <folder>templates</folder>
         <folder>views</folder>
         <filename>controller.php</filename>
         <filename>index.html</filename>
@@ -51,6 +50,8 @@
         <folder>fonts</folder>
         <folder>images</folder>
         <folder>js</folder>
+        <folder>templates</folder>
+        <folder>translations</folder>
         <filename>index.html</filename>
     </media>
 
@@ -89,12 +90,19 @@
     <!-- Modules to install with the component -->
     <modules>
         <module name="mod_redshop_cart" client="site"/>
+        <module name="mod_redshop_filter" client="site"/>
+        <module name="mod_redshop_search" client="site"/>
     </modules>
 
     <!-- Plugins to install with the component -->
     <plugins>
+        <!-- Finder plugin -->
         <plugin group="finder" name="redshop"/>
 
+        <!-- Quick Icon plugin -->
+        <plugin group="quickicon" name="redshop"/>
+
+        <!-- Alert plugin -->
         <plugin group="redshop_alert" name="alert"/>
 
         <!-- Redshop Export plugins -->
@@ -123,16 +131,25 @@
         <plugin group="redshop_import" name="product_stockroom_data" published="published"/>
         <plugin group="redshop_import" name="related_product" published="published"/>
 
+        <!-- Payments plugins -->
         <plugin group="redshop_payment" name="rs_payment_banktransfer"/>
         <plugin group="redshop_payment" name="rs_payment_paypal"/>
 
+        <!-- PDF library plugins -->
         <plugin group="redshop_pdf" name="tcpdf" published="published"/>
 
+        <!-- Shipping plugins -->
         <plugin group="redshop_shipping" name="default_shipping"/>
 
+        <!-- Joomla Search plugins -->
+        <plugin group="search" name="redshop_categories"/>
+        <plugin group="search" name="redshop_products"/>
+
+        <!-- sh404sef plugins -->
         <plugin group="sh404sefextplugins" name="sh404sefextplugincom_redshop" published="published"/>
 
-        <plugin group="system" name="redshop"/>
+        <!-- System plugins -->
+        <plugin group="system" name="redshop" published="published"/>
         <plugin group="system" name="redgoogleanalytics"/>
     </plugins>
 </extension>

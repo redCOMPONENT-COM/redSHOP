@@ -32,8 +32,8 @@ class RedshopModelPrices extends RedshopModel
 		$this->_context = 'price';
 
 		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -46,7 +46,7 @@ class RedshopModelPrices extends RedshopModel
 	{
 		// Set employees_detail id and wipe data
 		$this->_prodid = $id;
-		$this->_data = null;
+		$this->_data   = null;
 	}
 
 	public function getProductId()
@@ -58,7 +58,7 @@ class RedshopModelPrices extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -69,7 +69,7 @@ class RedshopModelPrices extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 

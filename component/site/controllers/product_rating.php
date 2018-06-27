@@ -26,18 +26,17 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 	public function submit()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
-		$data = $app->input->post->get('jform', array(), 'array');
+		$app   = JFactory::getApplication();
+		$data  = $app->input->post->get('jform', array(), 'array');
 		$model = $this->getModel('product_rating');
 
 		$productId   = $app->input->getInt('product_id', 0);
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$modal       = $app->input->getInt('modal', 0);
 		$category_id = $app->input->getInt('category_id', 0);
-		$userHelper  = rsUserHelper::getInstance();
-		$user = JFactory::getUser();
+		$user        = JFactory::getUser();
 
 		if ($modal)
 		{
@@ -74,7 +73,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		// Check captcha only for guests
 		if (JFactory::getUser()->guest)
 		{
-			if (!$userHelper->checkCaptcha($data, false))
+			if (!Redshop\Helper\Utility::checkCaptcha($data, false))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
 				$this->setRedirect($link);
@@ -89,13 +88,12 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 		else
 		{
-			$userHelper = rsUserHelper::getInstance();
 			$data['userid'] = $user->id;
 
-			if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
+			if ($userInfo = RedshopHelperUser::getUserInformation($user->id))
 			{
 				$data['username'] = $userInfo->firstname . " " . $userInfo->lastname;
-				$data['email'] = $userInfo->user_email;
+				$data['email']    = $userInfo->user_email;
 
 				if ($userInfo->is_company)
 				{
@@ -105,7 +103,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			else
 			{
 				$data['username'] = $user->name;
-				$data['email'] = $user->email;
+				$data['email']    = $user->email;
 			}
 		}
 
@@ -148,11 +146,11 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			return false;
 		}
 
-		$data['published'] = 0;
-		$data['favoured'] = 0;
-		$data['time'] = time();
+		$data['published']  = 0;
+		$data['favoured']   = 0;
+		$data['time']       = time();
 		$data['product_id'] = $productId;
-		$data['Itemid'] = $Itemid;
+		$data['Itemid']     = $Itemid;
 
 		if ($model->sendMailForReview($data))
 		{

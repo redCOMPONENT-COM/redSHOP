@@ -44,14 +44,14 @@ class RedshopTableMass_Discount extends RedshopTable
 		// Bind: Start Date unix
 		if (isset($src['start_date']) && !empty($src['start_date']) && !is_numeric($src['start_date']))
 		{
-			$date = JFactory::getDate($src['start_date']);
+			$date              = JFactory::getDate($src['start_date']);
 			$src['start_date'] = $date->toUnix();
 		}
 
 		// Bind: End Date unix
 		if (isset($src['end_date']) && !empty($src['end_date']) && !is_numeric($src['end_date']))
 		{
-			$date = JFactory::getDate($src['end_date']);
+			$date            = JFactory::getDate($src['end_date']);
 			$src['end_date'] = $date->toUnix();
 		}
 
@@ -195,7 +195,8 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * This method checks that the parent_id is non-zero and exists in the database.
 	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
 	 *
-	 * @return  boolean  True if all checks pass.
+	 * @return  boolean  True if all checks pass
+	 * @throws  Exception
 	 */
 	protected function doCheck()
 	{
@@ -232,18 +233,18 @@ class RedshopTableMass_Discount extends RedshopTable
 			return false;
 		}
 
+		// Convert start date to same day but at early morning
+		$this->start_date = RedshopHelperDatetime::generateTimestamp($this->start_date, false);
+
+		// Convert end date to same day but at middle night
+		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
+
 		if ($this->start_date > $this->end_date)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
 
 			return false;
 		}
-
-		// Convert startdate to same day but at early morning
-		$this->start_date = RedshopHelperDatetime::generateTimestamp($this->start_date, false);
-
-		// Convert enddate to same day but at middle night
-		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
 
 		return true;
 	}
@@ -256,6 +257,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * @param   mixed    $oldItem      null for new items | JTable otherwise
 	 *
 	 * @return  boolean  True on success.
+	 * @throws  Exception
 	 */
 	protected function beforeStore($updateNulls = false, $isNew = false, $oldItem = null)
 	{
@@ -489,7 +491,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		$productIds = ArrayHelper::toInteger($productIds);
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->qn('#__redshop_product'))
 			->set($db->qn('product_on_sale') . ' = 0')
@@ -535,16 +537,17 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * @param   mixed    $oldItem  Old data
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @since   2.0.3
 	 */
 	protected function updateProductsBaseDiscountProduct($data, $isNew = false, $oldItem = null)
 	{
-		$db = $this->_db;
-		$query = $db->getQuery(true);
-		$isChangeProduct = false;
+		$db                 = $this->_db;
+		$query              = $db->getQuery(true);
+		$isChangeProduct    = false;
 		$isNewChangeProduct = false;
-		$productHelper = productHelper::getInstance();
+		$productHelper      = productHelper::getInstance();
 
 		$discountProducts    = $isNew ? array() : explode(',', $oldItem->discount_product);
 		$newDiscountProducts = explode(',', $this->discount_product);

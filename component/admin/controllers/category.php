@@ -21,32 +21,33 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string $key    The name of the primary key of the URL variable.
+	 * @param   string $urlVar The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   2.0.6
+	 *
+	 * @throws  Exception
 	 */
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app   = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
+		$app  = JFactory::getApplication();
+		$lang = JFactory::getLanguage();
+
+		/** @var RedshopModelCategory $model */
 		$model = $this->getModel();
-		$table = $model->getTable();
-		$data  = $this->input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, 'checked_out');
-		$context = "$this->option.edit.$this->context";
-		$task = $this->getTask();
 
-		$data['old_image']                = $this->input->post->getString('old_image');
-		$data['image_delete']             = $this->input->post->getString('image_delete');
-		$data['image_back_delete']        = $this->input->post->getString('image_back_delete');
-		$data['category_full_image']      = $this->input->post->getString('category_full_image');
-		$data['category_back_full_image'] = $this->input->post->getString('category_back_full_image');
+		/** @var RedshopTableCategory $table */
+		$table = $model->getTable();
+
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$checkin = property_exists($table, 'checked_out');
+		$context = $this->option . '.edit.' . $this->context;
+		$task    = $this->getTask();
 
 		if (!empty($data["more_template"]) && is_array($data["more_template"]))
 		{
@@ -70,8 +71,8 @@ class RedshopControllerCategory extends RedshopControllerForm
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect to the list screen
 			$this->setRedirect(
@@ -103,16 +104,16 @@ class RedshopControllerCategory extends RedshopControllerForm
 			}
 
 			// Reset the ID, the multilingual associations and then treat the request as for Apply.
-			$data[$key] = 0;
+			$data[$key]           = 0;
 			$data['associations'] = array();
-			$task = 'apply';
+			$task                 = 'apply';
 		}
 
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect to the list screen
 			$this->setRedirect(
@@ -128,7 +129,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'error');
+			$app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $model->getError(), 'error');
 
 			return false;
 		}
@@ -140,7 +141,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 		if ($validData === false)
 		{
 			// Get the validation messages.
-			$errors = $model->getErrors();
+			$errors = /** @scrutinizer ignore-deprecated */ $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -178,8 +179,8 @@ class RedshopControllerCategory extends RedshopControllerForm
 			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -196,8 +197,8 @@ class RedshopControllerCategory extends RedshopControllerForm
 			$app->setUserState($context . '.data', $validData);
 
 			// Check-in failed, so go back to the record and display a notice.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -263,12 +264,16 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to copy record.
 	 *
-	 * @return  mixed
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function copy()
 	{
 		$input = JFactory::getApplication()->input;
 		$cid   = $input->post->get('cid', array(), 'array');
+
+		/** @var RedshopModelCategory $model */
 		$model = $this->getModel();
 
 		if ($model->copy($cid))

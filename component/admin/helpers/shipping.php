@@ -12,11 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Class shipping Helper
  *
+ * @since  2.0.0.3
+ *
  * @deprecated  2.0.0.3
  */
 class shipping
 {
-	protected static $instance = null;
+	/**
+	 * @var self
+	 */
+	protected static $instance;
 
 	/**
 	 * Returns the shipping object, only creating it
@@ -43,11 +48,13 @@ class shipping
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getDefaultShipping($d) instead
+	 * @deprecated  2.0.0.3
+	 *
+	 * @see RedshopHelperCartShipping::getDefault
 	 */
 	public function getDefaultShipping($data)
 	{
-		return RedshopHelperShipping::getDefaultShipping($data);
+		return RedshopHelperCartShipping::getDefault($data);
 	}
 
 	/**
@@ -65,16 +72,18 @@ class shipping
 	}
 
 	/**
-	 * Return only one shipping rate on cart page...
-	 * this function is called by ajax
+	 * Return only one shipping rate on cart page... This function is called by ajax
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRateCalc() instead
+	 * @deprecated  2.1.0  Use Redshop\Shipping\Rate::calculate() instead
+	 * @see Redshop\Shipping\Rate::calculate
+	 *
+	 * @throws  Exception
 	 */
 	public function getShippingrate_calc()
 	{
-		return RedshopHelperShipping::getShippingRateCalc();
+		return Redshop\Shipping\Rate::calculate();
 	}
 
 	/**
@@ -82,15 +91,14 @@ class shipping
 	 *
 	 * @param   string  $strMessage  String to encrypt
 	 *
-	 * @deprecated 1.6  Use RedshopShippingRate::encrypt(array);
-	 *
 	 * @return  string  Encrypt shipping rate
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::encryptShipping($strMessage) instead
+	 * @deprecated 2.1.0
+	 * @see Redshop\Shipping\Rate::encrypt
 	 */
 	public function encryptShipping($strMessage)
 	{
-		return RedshopHelperShipping::encryptShipping($strMessage);
+		return Redshop\Shipping\Rate::encrypt(array($strMessage));
 	}
 
 	/**
@@ -98,15 +106,14 @@ class shipping
 	 *
 	 * @param   string  $strMessage  String to decrypt
 	 *
-	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
+	 * @return  array  Encrypt shipping rate
 	 *
-	 * @return  string  Encrypt shipping rate
-	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::decryptShipping($strMessage) instead
+	 * @deprecated  2.0.0.3
+	 * @see Redshop\Shipping\Rate::decrypt
 	 */
 	public function decryptShipping($strMessage)
 	{
-		return RedshopHelperShipping::decryptShipping($strMessage);
+		return Redshop\Shipping\Rate::decrypt($strMessage);
 	}
 
 	/**
@@ -156,7 +163,7 @@ class shipping
 	 *
 	 * @param   string  $shippingClass  Shipping class
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRates($shippingClass) instead
 	 */
@@ -173,23 +180,28 @@ class shipping
 	 *
 	 * @return  float  Shipping Rate
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::applyVatOnShippingRate($shippingRate, $data) instead
+	 * @deprecated  2.1.0
+	 * @see Redshop\Shipping\Rate::applyVat
 	 */
 	public function applyVatOnShippingRate($shippingRate, $data)
 	{
-		return RedshopHelperShipping::applyVatOnShippingRate($shippingRate, $data);
+		return Redshop\Shipping\Rate::applyVat($shippingRate, $data);
 	}
 
 	/**
 	 * List shipping rates
 	 *
-	 * @param   object  $shippingClass  Shipping class
-	 * @param   int     $usersInfoId    User info id
-	 * @param   array   &$data          Shipping data
+	 * @param   object   $shippingClass  Shipping class
+	 * @param   integer  $usersInfoId    User info id
+	 * @param   array    $data           Shipping data
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  array                   Shipping Rate
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::listShippingRates($shippingClass, $usersInfoId, &$data) instead
+	 *
+	 * @see RedshopHelperShipping::listShippingRates
+	 *
+	 * @throws  Exception
 	 */
 	public function listshippingrates($shippingClass, $usersInfoId, &$data)
 	{
@@ -250,11 +262,12 @@ class shipping
 	 *
 	 * @return array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::filterRatesByPriority($shippingRates) instead
+	 * @deprecated 2.1.0
+	 * @see Redshop\Shipping\Rate::filterRatesByPriority
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
-		return RedshopHelperShipping::filterRatesByPriority($shippingRates);
+		return Redshop\Shipping\Rate::filterRatesByPriority($shippingRates);
 	}
 
 	/**
@@ -284,9 +297,11 @@ class shipping
 	/**
 	 * Get available shipping boxes according to cart items
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingBox() instead
+	 *
+	 * @see RedshopHelperShipping::getShippingBox()
 	 */
 	public function getShippingBox()
 	{
@@ -310,7 +325,7 @@ class shipping
 	/**
 	 * Get Shipping rate error
 	 *
-	 * @param   array  &$data  Shipping rate data
+	 * @param   array  $data  Shipping rate data
 	 *
 	 * @return  string  error text
 	 *
@@ -324,7 +339,7 @@ class shipping
 	/**
 	 * Check cart dimension is matched
 	 *
-	 * @param   array  &$data  Cart data
+	 * @param   array  $data  Cart data
 	 *
 	 * @return  boolean
 	 *
@@ -338,7 +353,7 @@ class shipping
 	/**
 	 * Check user info is matched
 	 *
-	 * @param   array  &$data  Cart data
+	 * @param   array  $data  Cart data
 	 *
 	 * @return  boolean
 	 *
@@ -368,10 +383,13 @@ class shipping
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getFreeShippingRate($shippingRateId) instead
+	 * @deprecated  2.1.0
+	 * @see Redshop\Shipping\Rate::getFreeShippingRate
+	 *
+	 * @throws  Exception
 	 */
 	public function getfreeshippingRate($shippingRateId = 0)
 	{
-		return RedshopHelperShipping::getFreeShippingRate($shippingRateId);
+		return Redshop\Shipping\Rate::getFreeShippingRate($shippingRateId);
 	}
 }

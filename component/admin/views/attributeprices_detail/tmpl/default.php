@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JHTML::_('behavior.tooltip');
+defined('_JEXEC') or die;
 
 $section = JFactory::getApplication()->input->get('section');
 $producthelper = productHelper::getInstance();
@@ -105,7 +105,17 @@ $producthelper = productHelper::getInstance();
 							$sdate = date("d-m-Y", $this->detail->discount_start_date);
 						endif;
 
-						echo JHTML::_('calendar', $sdate, 'discount_start_date', 'discount_start_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));?></td>
+						echo JHtml::_(
+							'redshopcalendar.calendar',
+							$sdate,
+							'discount_start_date',
+							'discount_start_date',
+							null,
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+						);
+
+						?>
+                    </td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?>
@@ -119,7 +129,17 @@ $producthelper = productHelper::getInstance();
 							$sdate = date("d-m-Y", $this->detail->discount_end_date);
 						endif;
 
-						echo JHTML::_('calendar', $sdate, 'discount_end_date', 'discount_end_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));?></td>
+                        echo JHtml::_(
+                            'redshopcalendar.calendar',
+                            $sdate,
+                            'discount_end_date',
+                            'discount_end_date',
+                            null,
+                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                        );
+
+						?>
+                    </td>
 				</tr>
 			</table>
 		</fieldset>

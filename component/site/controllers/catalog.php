@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Catalog Controller.
  *
@@ -22,23 +21,28 @@ class RedshopControllerCatalog extends RedshopController
 	/**
 	 * Method to send catalog
 	 *
-	 * @return void
+	 * @throws  Exception
+	 *
+	 * @return  void
 	 */
 	public function catalog_send()
 	{
 		$input  = JFactory::getApplication()->input;
 		$post   = $input->post->getArray();
-		$Itemid = $input->get('Itemid');
+		$itemId = $input->get('Itemid');
 
-		$model  = $this->getModel('catalog');
+		/** @var RedshopModelCatalog $model */
+		$model = $this->getModel('catalog');
+
 		$post["registerDate"] = time();
 		$post["email"]        = $post["email_address"];
 		$post["name"]         = $post["name_2"];
 
-		if ($row = $model->catalogStore($post))
+		$row = $model->catalogStore($post);
+
+		if ($row)
 		{
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendCatalogRequest($row);
+			Redshop\Mail\Catalog::sendRequest($row);
 			$msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
 		}
 		else
@@ -46,35 +50,39 @@ class RedshopControllerCatalog extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=catalog&Itemid=' . $Itemid, $msg);
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=catalog&Itemid=' . $itemId, false), $msg);
 	}
 
 	/**
 	 * Method to send catalog sample
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function catalogsample_send()
 	{
 		$input  = JFactory::getApplication()->input;
 		$post   = $input->post->getArray();
-		$Itemid = $input->get('Itemid');
-		$model  = $this->getModel('catalog');
+		$itemId = $input->get('Itemid');
+
+		/** @var RedshopModelCatalog $model */
+		$model = $this->getModel('catalog');
 
 		if (isset($post["sample_code"]))
 		{
-			$colour_id = implode(",", $post["sample_code"]);
-			$post ['colour_id'] = $colour_id;
+			$colourId           = implode(",", $post["sample_code"]);
+			$post ['colour_id'] = $colourId;
 		}
 
 		$post["registerdate"] = time();
 		$post["email"]        = $post["email_address"];
 		$post["name"]         = $post["name_2"];
+		$row                  = $model->catalogSampleStore($post);
 
-		if ($row = $model->catalogSampleStore($post))
+		if ($row)
 		{
-			$extra_field = extra_field::getInstance();
-			$extra_field->extra_field_save($post, 9, $row->request_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_COLOR_SAMPLE, $post['request_id']);
 			$msg = JText::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
 		}
 		else
@@ -82,6 +90,6 @@ class RedshopControllerCatalog extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=catalog&layout=sample&Itemid=' . $itemId, false), $msg);
 	}
 }

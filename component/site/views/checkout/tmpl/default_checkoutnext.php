@@ -26,8 +26,7 @@ defined('_JEXEC') or die;
 <?php
 $url = JURI::base();
 $user = JFactory::getUser();
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $app             = JFactory::getApplication();
 $carthelper = rsCarthelper::getInstance();
@@ -65,7 +64,7 @@ $cart_data = "";
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
-	$carttempdata = $redTemplate->getTemplate("catalogue_cart");
+	$carttempdata = RedshopHelperTemplate::getTemplate("catalogue_cart");
 
 	if ($carttempdata[0]->template_desc != "")
 	{
@@ -74,7 +73,7 @@ if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 }
 else
 {
-	$carttempdata = $redTemplate->getTemplate("checkout");
+	$carttempdata = RedshopHelperTemplate::getTemplate("checkout");
 
 	if ($carttempdata[0]->template_desc != "")
 	{

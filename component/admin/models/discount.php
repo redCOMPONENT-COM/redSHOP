@@ -9,138 +9,99 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelDiscount extends RedshopModel
+/**
+ * Model Discount
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.1.0
+ */
+class RedshopModelDiscount extends RedshopModelForm
 {
 	/**
-	 * Constructor.
+	 * Method to save the form data.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $data The form data.
 	 *
-	 * @see     JModelLegacy
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function save($data)
 	{
-		// Different context depending on the view
-		if (empty($this->context))
+		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
 		{
-			$this->input = JFactory::getApplication()->input;
-			$view = $this->input->getCmd('view', '');
-			$layout = $this->input->getCmd('layout', '');
-			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
+			$data['start_date'] = JFactory::getDate($data['start_date'] . ' 00:00:00')->toUnix();
 		}
 
-		parent::__construct($config);
+		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
+		{
+			$data['end_date'] = JFactory::getDate($data['end_date'] . ' 23:59:59')->toUnix();
+		}
+
+		$data['start_date'] = (int) $data['start_date'];
+		$data['end_date']   = (int) $data['end_date'];
+
+		return parent::save($data);
 	}
 
 	/**
-	 * Method to get a store id based on model configuration state.
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
+	 * @return  mixed  The data for the form.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @since   2.1.0
 	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
+	 * @throws  Exception
 	 */
-	protected function getStoreId($id = '')
+	protected function loadFormData()
 	{
-		$id .= ':' . $this->getState('spgrpdis_filter');
-		$id .= ':' . $this->getState('discount_type');
-		$id .= ':' . $this->getState('name_filter');
+		// Check the session for previously entered form data.
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.discount.data', array());
 
-		return parent::getStoreId($id);
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		$this->preprocessData('com_redshop.discount', $data);
+
+		return $data;
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to get a single record.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   integer $pk The id of the primary key.
 	 *
-	 * @return  void
+	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   2.1.0
 	 */
-	protected function populateState($ordering = 'discount_id', $direction = '')
+	public function getItem($pk = null)
 	{
-		$spgrpdis_filter = $this->getUserStateFromRequest($this->context . '.spgrpdis_filter', 'spgrpdis_filter', 0);
-		$discount_type   = $this->getUserStateFromRequest($this->context . '.discount_type', 'discount_type', 'select');
-		$name_filter     = $this->getUserStateFromRequest($this->context . '.name_filter', 'name_filter', '');
-		$this->setState('spgrpdis_filter', $spgrpdis_filter);
-		$this->setState('discount_type', $discount_type);
-		$this->setState('name_filter', $name_filter);
-		$layout = $this->input->getCmd('layout', '');
+		$item = parent::getItem();
 
-		if ($layout == 'product')
+		if (false === $item)
 		{
-			$ordering = 'discount_product_id';
+			return false;
 		}
 
-		parent::populateState($ordering, $direction);
-	}
+		$dateFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 
-	public function _buildQuery()
-	{
-		$where = "";
-		$orderby = $this->_buildContentOrderBy();
-		$layout = $this->input->getCmd('layout', '');
-		$spgrpdis_filter = $this->getState('spgrpdis_filter');
-		$discount_type = $this->getState('discount_type');
-		$name_filter = $this->getState('name_filter');
+		$item->shopper_group = RedshopEntityDiscount::getInstance($item->discount_id)->getShopperGroups()->ids();
 
-		if (isset($layout) && $layout == 'product')
+		$spgrpdisFilter = JFactory::getApplication()->input->getInt('spgrpdis_filter', 0);
+
+		if (empty($item->shopper_group) && !empty($spgrpdisFilter))
 		{
-			$query = ' SELECT * FROM #__redshop_discount_product ' . $orderby;
-		}
-		else
-		{
-			if ($name_filter)
-			{
-				$where .= " and d.name like '%" . $name_filter . "%' ";
-			}
-
-			if ($discount_type != 'select')
-			{
-				$where .= " and d.discount_type = '" . $discount_type . "' ";
-			}
-
-			$query = ' SELECT * FROM #__redshop_discount d WHERE 1=1 ' . $where . $orderby;
-
-			if ($spgrpdis_filter)
-			{
-				$where .= " and ds.shopper_group_id = '" . $spgrpdis_filter . "' ";
-
-				$query = ' SELECT d.* FROM #__redshop_discount d left outer join #__redshop_discount_shoppers ds on d.discount_id=ds.discount_id WHERE 1=1 '
-					. $where
-					. $orderby;
-			}
-		}
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db = JFactory::getDbo();
-
-		$layout = $this->input->getCmd('layout', '');
-
-		if (isset($layout) && $layout == 'product')
-		{
-			$filter_order = $this->getState('list.ordering', 'discount_product_id');
-		}
-		else
-		{
-			$filter_order = $this->getState('list.ordering', 'discount_id');
+			$item->shopper_group = $spgrpdisFilter;
 		}
 
-		$filter_order_Dir = $this->getState('list.direction');
+		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
+		$item->end_date      = !empty($item->end_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return $item;
 	}
 }

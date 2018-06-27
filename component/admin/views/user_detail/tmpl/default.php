@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 $jinput                = JFactory::getApplication()->input;
 $this->producthelper   = productHelper::getInstance();
 $this->order_functions = order_functions::getInstance();

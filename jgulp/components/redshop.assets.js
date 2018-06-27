@@ -24,42 +24,40 @@
  */
 
 /// Define gulp and its config
-var gulp = require('gulp');
+var gulp   = require('gulp');
 var config = require('../../gulp-config.json');
 
 /// Define dependencies
-var del = require('del');
-var sass = require('gulp-sass');
-var rename = require('gulp-rename');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var path = require("path");
-var fs = require('fs');
+var del     = require('del');
+var sass    = require('gulp-sass');
+var rename  = require('gulp-rename');
+var concat  = require('gulp-concat');
+var uglify  = require('gulp-uglify');
+var path    = require("path");
+var fs      = require('fs');
 var changed = require('gulp-changed');
+var gutil   = require('gulp-util');
 
 /// Define component tasks
 var componentName = 'com_redshop';
-var baseTask = 'components.redshop';
+var baseTask      = 'components.redshop';
 
 /// Define paths of source and destination
-var extPath = '.';
-var mediaPath = extPath + '/media/' + componentName;
+var extPath    = '.';
+var mediaPath  = extPath + '/media/' + componentName;
 var assetsPath = extPath + '/src/assets/' + componentName;
 
 /// Minified and deploy from Src to Media.
 gulp.task('scripts:' + baseTask, function () {
     return gulp.src([
-        assetsPath + '/js/*.js',
-        assetsPath + '/js/**/*.js'
-    ])
-        .pipe(changed(mediaPath + "/js"))
-        .pipe(rename(function (path) {
-            path.basename += '-uncompressed';
-        }))
+            assetsPath + '/js/*.js',
+            assetsPath + '/js/**/*.js'
+        ])
         .pipe(gulp.dest(mediaPath + '/js'))
         .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(rename(function (path) {
-            path.basename = path.basename.replace('-uncompressed', '');
+            path.basename += '.min';
         }))
         .pipe(gulp.dest(mediaPath + '/js'));
 });
@@ -67,21 +65,17 @@ gulp.task('scripts:' + baseTask, function () {
 /// Sass Compiler
 gulp.task('sass:' + baseTask, function () {
     return gulp.src([
-        assetsPath + "/scss/*.scss",
-        assetsPath + "/scss/**/*.scss"
-    ])
-        .pipe(changed(mediaPath + "/css"))
-        .pipe(rename(function (path) {
-            path.basename += '-uncompressed';
-        }))
+            assetsPath + "/scss/*.scss",
+            assetsPath + "/scss/**/*.scss"
+        ])
         .pipe(sass())
         .pipe(gulp.dest(mediaPath + "/css"))
         .pipe(sass({
-            outputStyle: "compressed",
+            outputStyle    : "compressed",
             errLogToConsole: true
         }))
         .pipe(rename(function (path) {
-            path.basename = path.basename.replace('-uncompressed', '');
+            path.basename += '.min';
         }))
         .pipe(gulp.dest(mediaPath + "/css"));
 });
@@ -97,7 +91,7 @@ gulp.task('watch:' + baseTask + '.assets',
 
 /// Watcher will watching for scss changes in Src/assets,
 /// then minify its and copy to Media
-gulp.task('watch:' + baseTask + ':asset:sass', function() {
+gulp.task('watch:' + baseTask + ':asset:sass', function () {
     gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], ['sass:' + baseTask]);
 });
 
@@ -107,4 +101,6 @@ gulp.task('watch:' + baseTask + ':asset:script', function () {
     gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], ['scripts:' + baseTask]);
 });
 
-gulp.task('copy:' + baseTask + '.assets', function() { return true; });
+gulp.task('copy:' + baseTask + '.assets', function () {
+    return true;
+});

@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
 JHTML::_('behavior.modal');
 
 $app = JFactory::getApplication();
@@ -38,7 +38,7 @@ $producthelper = productHelper::getInstance();?>
 
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id);
 		$pricetext     = '';
-		$product_price = $producthelper->getProductPrice($row->product_id);
+		$product_price = Redshop\Product\Price::getPrice($row->product_id);
 		$tmpprcie      = $product_price;
 
 		if ($product_price >= $texpricemin && $product_price <= $texpricemax && $count > 0)
@@ -47,7 +47,7 @@ $producthelper = productHelper::getInstance();?>
 			$count--;?>
 			<tr>
 				<td>
-					<?php    $thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
+					<?php    $thum_image = Redshop\Product\Image\Image::getImage($row->product_id, $link, $thumbwidth, $thumbheight);
 					echo "<div class='mod_redshop_pricefilter'>";
 
 					if ($image)
@@ -60,7 +60,7 @@ $producthelper = productHelper::getInstance();?>
 					$productArr = $producthelper->getProductNetPrice($row->product_id);
 					$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
-					$taxexempt_addtocart = $producthelper->taxexempt_addtocart();
+					$taxexempt_addtocart = RedshopHelperCart::taxExemptAddToCart();
 
 					if (!$row->not_for_sale && $show_price && $taxexempt_addtocart)
 					{
@@ -116,7 +116,7 @@ $producthelper = productHelper::getInstance();?>
 
 					if ($show_addtocart)
 					{
-						$addtocartform = $producthelper->replaceCartTemplate($row->product_id);
+						$addtocartform = Redshop\Cart\Render::replace($row->product_id);
 						echo "<div>" . $addtocartform . "<div>";
 					}
 

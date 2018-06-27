@@ -31,6 +31,11 @@ class RedshopHelperUtility
 	protected static $isRedProductFinder;
 
 	/**
+	 * @var  array
+	 */
+	protected static $menuItemAssociation = array();
+
+	/**
 	 * Get SSL link for backend or applied for ssl link
 	 *
 	 * @param   string  $link     Link to be converted into ssl
@@ -197,7 +202,7 @@ class RedshopHelperUtility
 	{
 		$user           = JFactory::getUser();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroups  = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
+		$shopperGroups  = \Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroups))
 		{
@@ -386,7 +391,7 @@ class RedshopHelperUtility
 				}
 				else
 				{
-					$truncate    .= $tag[3];
+					$truncate   .= $tag[3];
 					$totalLength = $contentLength;
 				}
 
@@ -592,6 +597,185 @@ class RedshopHelperUtility
 	}
 
 	/**
+	 * Check Menu Query
+	 *
+	 * @param   object $oneMenuItem Values current menu item
+	 * @param   array  $queryItems  Name query check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
+	 */
+	public static function checkMenuQuery($oneMenuItem, $queryItems)
+	{
+		if (empty($oneMenuItem) || empty($queryItems))
+		{
+			return false;
+		}
+
+		foreach ($queryItems as $key => $value)
+		{
+			if (!isset($oneMenuItem->query[$key])
+				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
+				|| (!is_array($value) && $oneMenuItem->query[$key] != $value)
+			)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get RedShop Menu Item
+	 *
+	 * @param   array $queryItems Values query
+	 *
+	 * @return  mixed
+	 * @throws  Exception
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getRedShopMenuItem($queryItems)
+	{
+		$serializeItem = md5(serialize($queryItems));
+
+		if (!array_key_exists($serializeItem, self::$menuItemAssociation))
+		{
+			self::$menuItemAssociation[$serializeItem] = false;
+
+			foreach (RedshopHelperRouter::getRedshopMenuItems() as $oneMenuItem)
+			{
+				if (self::checkMenuQuery($oneMenuItem, $queryItems))
+				{
+					self::$menuItemAssociation[$serializeItem] = $oneMenuItem->id;
+					break;
+				}
+			}
+		}
+
+		return self::$menuItemAssociation[$serializeItem];
+	}
+
+	/**
+	 * Get Item Id
+	 *
+	 * @param   int $productId  Product Id
+	 * @param   int $categoryId Category Id
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getItemId($productId = 0, $categoryId = 0)
+	{
+		// Get Itemid from Product detail
+		if ($productId)
+		{
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId));
+
+			if ($result)
+			{
+				return $result;
+			}
+		}
+
+		// Get Itemid from Category detail
+		if ($categoryId)
+		{
+			$result = self::getCategoryItemid($categoryId);
+
+			if ($result)
+			{
+				return $result;
+			}
+		}
+
+		$input = JFactory::getApplication()->input;
+
+		if ($input->getCmd('option', '') != 'com_redshop')
+		{
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+
+			if ($result)
+			{
+				return $result;
+			}
+
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop'));
+
+			if ($result)
+			{
+				return $result;
+			}
+		}
+
+		return $input->getInt('Itemid', 0);
+	}
+
+	/**
+	 * Get Category Itemid
+	 *
+	 * @param   int  $categoryId  Category id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getCategoryItemid($categoryId = 0)
+	{
+		if (!$categoryId)
+		{
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+
+			if ($result)
+			{
+				return $result;
+			}
+
+			return null;
+		}
+
+		$categories = explode(',', $categoryId);
+
+		if (!empty($categories))
+		{
+			foreach ($categories as $category)
+			{
+				$result = self::getRedShopMenuItem(
+					array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $category)
+				);
+
+				if ($result)
+				{
+					return $result;
+				}
+			}
+		}
+
+		// Get from Parents
+		$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
+
+		if (!empty($categories))
+		{
+			foreach ($categories as $category)
+			{
+				$result = self::getCategoryItemid($category->id);
+
+				if ($result)
+				{
+					return $result;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Method for convert array of string
 	 *
 	 * @param   array $data Language array
@@ -648,7 +832,7 @@ class RedshopHelperUtility
 	 */
 	public static function getOrderByList()
 	{
-		return array(
+		$orderBy =  array(
 			JHtml::_('select.option', 'name', JText::_('COM_REDSHOP_PRODUCT_NAME_ASC')),
 			JHtml::_('select.option', 'name_desc', JText::_('COM_REDSHOP_PRODUCT_NAME_DESC')),
 			JHtml::_('select.option', 'price', JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
@@ -659,6 +843,11 @@ class RedshopHelperUtility
 			JHtml::_('select.option', 'ordering', JText::_('COM_REDSHOP_ORDERING_ASC')),
 			JHtml::_('select.option', 'ordering_desc', JText::_('COM_REDSHOP_ORDERING_DESC'))
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onGetOrderByList', array(&$orderBy));
+
+		return $orderBy;
 	}
 
 	/**
@@ -732,6 +921,9 @@ class RedshopHelperUtility
 				break;
 		}
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onPrepareOrderBy', array(&$orderBy, $case));
+
 		return $orderBy;
 	}
 
@@ -751,7 +943,7 @@ class RedshopHelperUtility
 		$order[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
 
 		$order[1]        = new stdClass;
-		$order[1]->value = "mn.manufacturer_id DESC";
+		$order[1]->value = "mn.id DESC";
 		$order[1]->text  = JText::_('COM_REDSHOP_NEWEST');
 
 		$order[2]        = new stdClass;
@@ -980,7 +1172,7 @@ class RedshopHelperUtility
 	 */
 	public static function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('ea.*')
 			->select($db->qn('ea.accountgroup_id', 'value'))

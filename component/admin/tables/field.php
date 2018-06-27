@@ -26,6 +26,31 @@ class RedshopTableField extends RedshopTable
 	protected $_tableName = 'redshop_fields';
 
 	/**
+	 * @var integer
+	 */
+	public $id;
+
+	/**
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * @var integer
+	 */
+	public $type;
+
+	/**
+	 * @var integer
+	 */
+	public $groupId;
+
+	/**
+	 * @var integer
+	 */
+	public $ordering;
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -35,6 +60,16 @@ class RedshopTableField extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->name))
+		{
+			return false;
+		}
+
+		if (empty($this->title))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;
@@ -71,7 +106,7 @@ class RedshopTableField extends RedshopTable
 		if (!$this->id)
 		{
 			$query = $db->getQuery(true)
-				->select('COUNT(*)+1')
+				->select('COUNT(*) + 1')
 				->from($db->qn('#__redshop_fields'));
 
 			$this->ordering = (int) $db->setQuery($query)->loadResult();
@@ -86,15 +121,21 @@ class RedshopTableField extends RedshopTable
 	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 */
 	protected function doStore($updateNulls = false)
 	{
+		if (!$this->groupId)
+		{
+			$this->groupId = null;
+		}
+
 		if (!parent::doStore($updateNulls))
 		{
 			return false;
 		}
 
-		if ($this->type == 0 || $this->type == 1 || $this->type == 2)
+		if ($this->type == 0 || $this->type == RedshopHelperExtrafields::TYPE_TEXT || $this->type == RedshopHelperExtrafields::TYPE_TEXT_AREA)
 		{
 			$id[] = (int) $this->id;
 			$this->deleteFieldValues($id, 'field_id');
@@ -178,6 +219,7 @@ class RedshopTableField extends RedshopTable
 	 * @param   int  $id  Id of field.
 	 *
 	 * @return  boolean   True if successful, false if an error occurs.
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -198,42 +240,49 @@ class RedshopTableField extends RedshopTable
 			$extraValues = $post->getString('extra_value', '');
 			$valueIds    = $post->get('value_id', array(), 'array');
 
-			if ($this->type == 11 || $this->type == 13)
+			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
-				$extraNames = JRequest::getVar('extra_name_file', '', 'files', 'array');
+				$extraNames = JFactory::getApplication()->input->files->get('extra_name_file', array(), 'array');
 				$total      = count($extraNames['name']);
 			}
 			else
 			{
 				$extraNames = $post->get('extra_name', '', 'raw');
-				$total      = count($extraNames);
+				$total      = count((array) $extraNames);
 			}
 		}
 
-		$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
+		// Do not reset values if we are ordering
+		$task = $app->input->get('task');
 
-		if (count($fieldDataIds) > 0)
+		if ($task != 'fields.saveOrderAjax' && $task != 'saveOrderAjax')
 		{
-			$fid = array();
+			$fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
 
-			foreach ($fieldDataIds as $fieldDataId)
+			if (count($fieldDataIds) > 0)
 			{
-				$fid[] = $fieldDataId->value_id;
-			}
+				$fid = array();
 
-			$delFieldIds = array_diff($fid, $valueIds);
+				foreach ($fieldDataIds as $fieldDataId)
+				{
+					$fid[] = $fieldDataId->value_id;
+				}
 
-			if (count($delFieldIds) > 0)
-			{
-				$this->deleteFieldValues($delFieldIds, 'value_id');
+				$delFieldIds = array_diff($fid, $valueIds);
+
+				if (count($delFieldIds) > 0)
+				{
+					$this->deleteFieldValues($delFieldIds, 'value_id');
+				}
 			}
 		}
 
 		for ($j = 0; $j < $total; $j++)
 		{
-			$set = "";
+			$filename = $extraNames[$j];
+			$set      = " field_name='" . $filename . "', ";
 
-			if ($this->type == 11 || $this->type == 13)
+			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
 				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
 				{
@@ -246,11 +295,6 @@ class RedshopTableField extends RedshopTable
 
 					$set = " field_name='" . $filename . "', ";
 				}
-			}
-			else
-			{
-				$filename = $extraNames[$j];
-				$set      = " field_name='" . $filename . "', ";
 			}
 
 			if ($valueIds[$j] == "")

@@ -99,7 +99,7 @@ if (isset($post['import_end']))
 				</tr>
 				<tr>
 					<td>
-						<div id="divLoading"><img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>preloader.gif"></div>
+						<div id="divLoading"><img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>preloader.gif"></div>
 					</td>
 				</tr>
 			</table>

@@ -25,19 +25,21 @@ class RedshopViewCategory extends RedshopViewForm
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  mixed         A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		$producthelper = productHelper::getInstance();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/fields.js');
-		$document->addScript('components/com_redshop/assets/js/json.js');
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
 
 		$model = $this->getModel('category');
 
@@ -61,8 +63,6 @@ class RedshopViewCategory extends RedshopViewForm
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors));
-
-			return false;
 		}
 
 		parent::display($tpl);
@@ -74,6 +74,7 @@ class RedshopViewCategory extends RedshopViewForm
 	 * @return  object  Tab menu
 	 *
 	 * @since   1.7
+	 * @throws  Exception
 	 */
 	private function getTabMenu()
 	{
@@ -81,28 +82,28 @@ class RedshopViewCategory extends RedshopViewForm
 
 		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
-					->title('COM_REDSHOP_CATEGORY_INFORMATION')
-					->addItem(
-						'#information',
-						'COM_REDSHOP_CATEGORY_INFORMATION',
-						true,
-						'information'
-					)->addItem(
-						'#seo',
-						'COM_REDSHOP_META_DATA_TAB',
-						false,
-						'seo'
-					)->addItem(
-						'#extrafield',
-						'COM_REDSHOP_FIELDS',
-						false,
-						'extrafield'
-					)->addItem(
-						'#accessory',
-						'COM_REDSHOP_ACCESSORY_PRODUCT',
-						false,
-						'accessory'
-					);
+			->title('COM_REDSHOP_CATEGORY_INFORMATION')
+			->addItem(
+				'#information',
+				'COM_REDSHOP_CATEGORY_INFORMATION',
+				true,
+				'information'
+			)->addItem(
+				'#seo',
+				'COM_REDSHOP_META_DATA_TAB',
+				false,
+				'seo'
+			)->addItem(
+				'#extrafield',
+				'COM_REDSHOP_FIELDS',
+				false,
+				'extrafield'
+			)->addItem(
+				'#accessory',
+				'COM_REDSHOP_ACCESSORY_PRODUCT',
+				false,
+				'accessory'
+			);
 
 		return $tabMenu;
 	}
@@ -118,12 +119,7 @@ class RedshopViewCategory extends RedshopViewForm
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = ($this->item->id < 1);
-		$user       = JFactory::getUser();
-
-		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_CATEGORY') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-
-		JToolbarHelper::title($title, 'redshop_categories48');
+		$user  = JFactory::getUser();
 
 		if ($isNew && (count($user->authorise('com_redshop', 'core.create')) > 0))
 		{
@@ -149,9 +145,9 @@ class RedshopViewCategory extends RedshopViewForm
 
 			JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$itemId    = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
+			$itemId = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
 
-			$link  = JURI::root() . 'index.php?option=com_redshop'
+			$link = JURI::root() . 'index.php?option=com_redshop'
 					. '&view=&view=category&layout=detail'
 					. '&cid=' . $this->item->id
 					. '&Itemid=' . $itemId;

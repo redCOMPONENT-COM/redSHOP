@@ -17,13 +17,13 @@ $url = JURI::base();
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $order_id = JFactory::getApplication()->input->getInt('oid');
 
-$order     = $order_functions->getOrderDetails($order_id);
-$orderitem = $order_functions->getOrderItemDetail($order_id);
+$order     = RedshopEntityOrder::getInstance($order_id)->getItem();
+$orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
-	$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
+	$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
 	$paymentmethod = $paymentmethod[0];
 
 	$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
@@ -45,7 +45,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			if (isset($billingaddresses->country_code))
 			{
-				$billingaddresses->country_2_code = $configobj->getCountryCode2($billingaddresses->country_code);
+				$billingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
 			}
 
 			if (isset($billingaddresses->state_code))
@@ -60,7 +60,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			if (isset($shippingaddresses->country_code))
 			{
-				$shippingaddresses->country_2_code = $configobj->getCountryCode2($shippingaddresses->country_code);
+				$shippingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($shippingaddresses->country_code);
 			}
 
 			if (isset($shippingaddresses->state_code))

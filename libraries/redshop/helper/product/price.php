@@ -59,16 +59,16 @@ class RedshopHelperProductPrice
 
 			// Secure discount ids
 			$discountIds = !empty($discountStringIds) ? ArrayHelper::toInteger(explode(',', $discountStringIds)) : array();
-			$discountIds = array_filter($discountIds);
+			$discountIds = array_values(array_filter($discountIds));
 
 			// Secure category ids
 			$catIds = !empty($categoryProduct) ? ArrayHelper::toInteger(explode(',', $categoryProduct)) : array();
-			$catIds = array_filter($catIds);
+			$catIds = array_values(array_filter($catIds));
 
 			$query = $db->getQuery(true)
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
-				->where('dp.published = 1');
+				->where($db->qn('dp.published') . ' = 1');
 
 			if (!empty($catIds))
 			{
@@ -98,9 +98,9 @@ class RedshopHelperProductPrice
 				$query->where('dp.discount_product_id IN (' . implode(',', $discountIds) . ')');
 			}
 
-			$query->where('dp.start_date <= ' . (int) $time)
-				->where('dp.end_date >= ' . (int) $time)
-				->order('dp.amount DESC');
+			$query->where('(' . $db->qn('dp.start_date') . ' = 0 OR ' . $db->qn('dp.start_date') . ' <= ' . (int) $time . ')')
+				->where('(' . $db->qn('dp.end_date') . ' = 0 OR ' . $db->qn('dp.end_date') . ' >= ' . (int) $time . ')')
+				->order($db->qn('dp.amount') . ' DESC');
 
 			// Get all discount based on current shopper group
 			$subQuery = $db->getQuery(true)
@@ -109,7 +109,7 @@ class RedshopHelperProductPrice
 				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
 
 			// Filter by requested discounts only
-			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
+			$query->where($db->qn('dp.discount_product_id') . ' IN (' . $subQuery . ')');
 
 			self::$productSpecialPrices[$key] = $db->setQuery($query)->loadObjectList();
 		}
@@ -183,10 +183,10 @@ class RedshopHelperProductPrice
 	 */
 	public static function formattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
-		$currencySymbol = $currencySymbol == '_NON_' ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL') : $currencySymbol;
+		$currencySymbol = $currencySymbol === '_NON_' ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL') : $currencySymbol;
 
 		// Get Current Currency of SHOP
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 
 		// If convert set true than use conversation
 		if ($convert && $session->get('product_currency'))
@@ -195,16 +195,7 @@ class RedshopHelperProductPrice
 			$productCurrency = $session->get('product_currency');
 			$currencySymbol  = (int) $productCurrency;
 			$currencySymbol  = !$currencySymbol ?
-				$productCurrency : RedshopEntityCurrency::getInstance($productCurrency)->get('currency_code');
-
-			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
-			{
-				$currencySymbol = " " . $currencySymbol;
-			}
-			else
-			{
-				$currencySymbol = $currencySymbol . " ";
-			}
+				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
 		}
 
 		if (!is_numeric($productPrice))
@@ -212,26 +203,35 @@ class RedshopHelperProductPrice
 			return '';
 		}
 
-		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
-		$priceSeperator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
-		$thousandSeperator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
-		$productPrice      = (double) $productPrice;
-		$productPrice      = number_format($productPrice, $priceDecimal, $priceSeperator, $thousandSeperator);
+		// Prepare currency symbol
+		$position = Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION', 'front');
 
-		switch (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'))
+		if ($position === 'behind')
+		{
+			$currencySymbol = ' <span class="product-currency-symbol">' . (string) $currencySymbol . '</span>';
+		}
+		else
+		{
+			$currencySymbol = '<span class="product-currency-symbol">' . (string) $currencySymbol . '</span> ';
+		}
+
+		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
+		$priceSeparator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
+		$thousandSeparator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
+		$productPrice      = (double) $productPrice;
+		$productPrice      = number_format($productPrice, $priceDecimal, $priceSeparator, $thousandSeparator);
+
+		switch ($position)
 		{
 			case 'behind':
 				return $productPrice . $currencySymbol;
-				break;
 
 			case 'none':
 				return $productPrice;
-				break;
 
 			case 'front':
 			default:
 				return $currencySymbol . $productPrice;
-				break;
 		}
 	}
 
@@ -259,6 +259,7 @@ class RedshopHelperProductPrice
 	 * @param   array    $attributes    Attributes list.
 	 *
 	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -277,7 +278,7 @@ class RedshopHelperProductPrice
 		$priceSavingLabel   = '';
 		$oldPriceExcludeVat = '';
 
-		$result = productHelper::getInstance()->getProductPrices($productId, $userId, $quantity);
+		$result = RedshopHelperProduct::getProductPrices($productId, $userId, $quantity);
 
 		if (!empty($result))
 		{
@@ -294,7 +295,7 @@ class RedshopHelperProductPrice
 			$newPrice = $results[0];
 		}
 
-		$isApplyTax   = productHelper::getInstance()->getApplyVatOrNot($templateHtml, $userId);
+		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
 		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
 
 		if (!is_null($specialPrice))
@@ -311,12 +312,6 @@ class RedshopHelperProductPrice
 				$regPrice = $row->product_price + $priceTax;
 			}
 
-			/**
-			 * @TODO: Need to check here why system force
-			 * $priceTax  = $this->getProductTax($productId, $row->product_price, $userId);
-			 * $reg_price = $row->product_price;
-			 */
-
 			$formattedPrice = self::formattedPrice($regPrice);
 			$productPrice   = $newPrice - $discountAmount;
 			$productPrice   = $productPrice < 0 ? 0 : $productPrice;
@@ -331,7 +326,7 @@ class RedshopHelperProductPrice
 
 		$dispatcher->trigger('onSetProductPrice', array(&$productPrice, $productId));
 
-		$excludeVat     = productHelper::getInstance()->defaultAttributeDataPrice($productId, $productPrice, $templateHtml, $userId, 0, $attributes);
+		$excludeVat     = RedshopHelperProduct_Attribute::defaultAttributePrice($productId, $productPrice, $templateHtml, $userId, 0, $attributes);
 		$formattedPrice = self::formattedPrice($excludeVat);
 		$priceText      = $priceText . '<span id="display_product_price_without_vat' . $productId . '">' . $formattedPrice . '</span>'
 			. '<input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price' . $productId . '" '
@@ -349,7 +344,7 @@ class RedshopHelperProductPrice
 
 		$productPrice = $productPrice < 0 ? 0 : $productPrice;
 
-		if (Redshop::getConfig()->get('SHOW_PRICE'))
+		if (Redshop::getConfig()->getBool('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
 			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
@@ -370,7 +365,7 @@ class RedshopHelperProductPrice
 
 				if ($productPrice < $productDiscountPriceTemp)
 				{
-					$productPrice = productHelper::getInstance()->defaultAttributeDataPrice(
+					$productPrice = RedshopHelperProduct_Attribute::defaultAttributePrice(
 						$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
 					);
 
@@ -400,11 +395,11 @@ class RedshopHelperProductPrice
 
 					$productPriceIncludingVat = $productDiscountPriceTemp + $taxAmount;
 
-					$oldPrice = productHelper::getInstance()->defaultAttributeDataPrice(
-						$productId, $oldPriceExcludeVat, $templateHtml, $userId, intval($isApplyTax), $attributes
+					$oldPrice = RedshopHelperProduct_Attribute::defaultAttributePrice(
+						$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
 					);
 
-					$productDiscountPriceTemp = productHelper::getInstance()->defaultAttributeDataPrice(
+					$productDiscountPriceTemp = RedshopHelperProduct_Attribute::defaultAttributePrice(
 						$productId, $productDiscountPriceTemp, $templateHtml, $userId, intval($isApplyTax), $attributes
 					);
 
@@ -412,7 +407,7 @@ class RedshopHelperProductPrice
 					$mainPrice     = $productDiscountPriceTemp;
 					$productPrice  = $productDiscountPriceTemp;
 
-					$priceNoVAT = productHelper::getInstance()->defaultAttributeDataPrice(
+					$priceNoVAT = RedshopHelperProduct_Attribute::defaultAttributePrice(
 						$productId, $discountPriceExcludingVat, $templateHtml, $userId, 0, $attributes
 					);
 
@@ -427,7 +422,7 @@ class RedshopHelperProductPrice
 			{
 				$mainPrice = $productPrice;
 
-				$productPrice = productHelper::getInstance()->defaultAttributeDataPrice(
+				$productPrice = RedshopHelperProduct_Attribute::defaultAttributePrice(
 					$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
 				);
 
@@ -497,7 +492,8 @@ class RedshopHelperProductPrice
 	 * @param   boolean  $isRel         Is Rel
 	 * @param   array    $attributes    Attributes
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -522,7 +518,7 @@ class RedshopHelperProductPrice
 		$userId    = !$userId ? JFactory::getUser()->id : $userId;
 		$relPrefix = !$isRel ? '' : 'rel';
 
-		$defaultQuantity = productHelper::getInstance()->GetDefaultQuantity($productId, $templateHtml);
+		$defaultQuantity = \Redshop\Cart\Helper::getDefaultQuantity($productId, $templateHtml);
 		$productPrices   = self::getNetPrice($productId, $userId, $defaultQuantity, $templateHtml, $attributes);
 
 		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')

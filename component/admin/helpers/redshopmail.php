@@ -93,7 +93,7 @@ class redshopMail
 	 */
 	public function getMailtemplate($tId = 0, $section = '', $extraCond = '')
 	{
-		return RedshopHelperMail::getMailTemplate($tId, $section, $extraCond);
+		return Redshop\Mail\Helper::getTemplate($tId, $section, $extraCond);
 	}
 
 	/**
@@ -103,12 +103,13 @@ class redshopMail
 	 * @param   boolean  $onlyAdmin  send mail only to admin
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendOrderMail($orderId, $onlyAdmin) instead
 	 */
 	public function sendOrderMail($orderId, $onlyAdmin = false)
 	{
-		return RedshopHelperMail::sendOrderMail($orderId, $onlyAdmin);
+		return Redshop\Mail\Order::sendMail($orderId, $onlyAdmin);
 	}
 
 	/**
@@ -117,12 +118,13 @@ class redshopMail
 	 * @param   int  $orderId  Order ID.
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendOrderSpecialDiscountMail($orderId) instead
 	 */
 	public function sendOrderSpecialDiscountMail($orderId)
 	{
-		return RedshopHelperMail::sendOrderSpecialDiscountMail($orderId);
+		return Redshop\Mail\Order::sendSpecialDiscountMail($orderId);
 	}
 
 	/**
@@ -148,12 +150,13 @@ class redshopMail
 	 * @param   string   $type     Either 'html' or 'pdf'
 	 *
 	 * @return  object  Object having mail body and subject. subject can be null for PDF type.
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::replaceInvoiceMailTemplate($orderId, $html, $subject, $type) instead
 	 */
 	protected function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
 	{
-		return RedshopHelperMail::replaceInvoiceMailTemplate($orderId, $html, $subject, $type);
+		return Redshop\Mail\Invoice::replaceTemplate($orderId, $html, $subject);
 	}
 
 	/**
@@ -164,26 +167,28 @@ class redshopMail
 	 * @param   integer  $orderId  Order Information Id
 	 *
 	 * @return  boolean  True on sending email successfully.
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendInvoiceMail($orderId) instead
 	 */
 	public function sendInvoiceMail($orderId)
 	{
-		return RedshopHelperMail::sendInvoiceMail($orderId);
+		return Redshop\Mail\Invoice::sendMail($orderId);
 	}
 
 	/**
 	 * Send registration mail
 	 *
-	 * @param   array  &$data  registration data
+	 * @param   array  $data  registration data
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendRegistrationMail(&$data) instead
 	 */
 	public function sendRegistrationMail(&$data)
 	{
-		return RedshopHelperMail::sendRegistrationMail($data);
+		return Redshop\Mail\User::sendRegistrationMail($data);
 	}
 
 	/**
@@ -194,12 +199,13 @@ class redshopMail
 	 * @param   string  $email     User email
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendTaxExemptMail($section, $userInfo, $email) instead
 	 */
 	public function sendTaxExemptMail($section, $userInfo = array(), $email = "")
 	{
-		return RedshopHelperMail::sendTaxExemptMail($section, $userInfo, $email);
+		return Redshop\Mail\User::sendTaxExempt($section, $userInfo, $email);
 	}
 
 	/**
@@ -208,12 +214,13 @@ class redshopMail
 	 * @param   array  $data  Mail data
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendSubscriptionRenewalMail($data) instead
 	 */
 	public function sendSubscriptionRenewalMail($data = array())
 	{
-		return RedshopHelperMail::sendSubscriptionRenewalMail($data);
+		return Redshop\Mail\User::sendSubscriptionRenewal($data);
 	}
 
 	/**
@@ -223,11 +230,14 @@ class redshopMail
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperMail::imgInMail($message) instead
+	 * @deprecated  2.0.0.3  Use Redshop\Mail\Helper::imgInMail
+	 * @see Redshop\Mail\Helper::imgInMail
 	 */
 	public function imginmail($message)
 	{
-		return RedshopHelperMail::imgInMail($message);
+		Redshop\Mail\Helper::imgInMail($message);
+
+		return $message;
 	}
 
 	/**
@@ -237,12 +247,13 @@ class redshopMail
 	 * @param   int  $status       Status
 	 *
 	 * @return  boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendQuotationMail($quotationId, $status) instead
 	 */
 	public function sendQuotationMail($quotationId, $status = 0)
 	{
-		return RedshopHelperMail::sendQuotationMail($quotationId, $status);
+		return Redshop\Mail\Quotation::sendMail($quotationId, $status);
 	}
 
 	/**
@@ -256,7 +267,7 @@ class redshopMail
 	 */
 	public function sendNewsletterConfirmationMail($subscriptionId)
 	{
-		return RedshopHelperMail::sendNewsletterConfirmationMail($subscriptionId);
+		return Redshop\Mail\Newsletter::sendConfirmationMail($subscriptionId);
 	}
 
 	/**
@@ -270,7 +281,7 @@ class redshopMail
 	 */
 	public function sendNewsletterCancellationMail($email = "")
 	{
-		return RedshopHelperMail::sendNewsletterCancellationMail($email);
+		return Redshop\Mail\Newsletter::sendCancellationMail($email);
 	}
 
 	/**
@@ -284,7 +295,7 @@ class redshopMail
 	 */
 	public function sendAskQuestionMail($ansid)
 	{
-		return RedshopHelperMail::sendAskQuestionMail($ansid);
+		return Redshop\Mail\AskQuestion::sendMail($ansid);
 	}
 
 	/**
@@ -299,7 +310,7 @@ class redshopMail
 	 */
 	public function sendEconomicBookInvoiceMail($orderId = 0, $bookInvoicePdf = "")
 	{
-		return RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
+		return Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 	}
 
 	/**
@@ -314,7 +325,7 @@ class redshopMail
 	 */
 	public function sendRequestTaxExemptMail($data, $username = "")
 	{
-		return RedshopHelperMail::sendRequestTaxExemptMail($data, $username);
+		return Redshop\Mail\User::sendRequestTaxExempt($data, $username);
 	}
 
 	/**
@@ -328,6 +339,6 @@ class redshopMail
 	 */
 	public function sendCatalogRequest($catalog = array())
 	{
-		return RedshopHelperMail::sendCatalogRequest($catalog);
+		return Redshop\Mail\Catalog::sendRequest($catalog);
 	}
 }

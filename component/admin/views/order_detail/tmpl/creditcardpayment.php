@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
-JHTML::_('behavior.tooltip');
 
 $carthelper = rsCarthelper::getInstance();
 $producthelper = productHelper::getInstance();
@@ -26,7 +25,7 @@ $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $cart = $session->get('cart');
 
 $payment_method_id = $app->input->getCmd('payment_method_id', '');
-$paymentinfo = $order_functions->getPaymentMethodInfo($payment_method_id);
+$paymentinfo = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 $paymentinfo = $paymentinfo[0];
 
 $order_id = $app->input->getInt('order_id', 0);
@@ -35,14 +34,14 @@ JPluginHelper::importPlugin('redshop_product');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('getStockroomStatus', array($order_id));
 
-$order = $order_functions->getOrderDetails($order_id);
+$order = RedshopEntityOrder::getInstance($order_id)->getItem();
 
 // Add Plugin support
 $dispatcher->trigger('afterOrderPlace', array($cart, $order));
 
 $plugin = $app->input->getCmd('plugin', '');
 
-$getparameters = $order_functions->getparameters($plugin);
+$getparameters = RedshopHelperOrder::getParameters($plugin);
 
 $paymentinfo = $getparameters[0];
 
@@ -72,7 +71,7 @@ else
 	$paymentAmount = $order->order_total;
 }
 
-$paymentArray = $carthelper->calculatePayment($paymentAmount, $paymentinfo, $order->order_total);
+$paymentArray = RedshopHelperPayment::calculate($paymentAmount, $paymentinfo, $order->order_total);
 $total = $paymentArray[0];
 $payment_amount = $paymentArray[1];
 

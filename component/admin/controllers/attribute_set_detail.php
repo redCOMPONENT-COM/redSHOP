@@ -46,6 +46,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 		$msg   = '';
 
@@ -210,11 +211,13 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */
+				$model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY');
@@ -263,10 +266,10 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$post = $this->input->post->getArray();
 
-		$main_img = $this->input->files->get('property_main_img', 'array', 'array');
+		$main_img = (array) $this->input->files->get('property_main_img', array(), 'array');
+		$sub_img  = (array) $this->input->files->get('property_sub_img', array(), 'array');
 
-		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$filetype = strtolower(JFile::getExt($main_img['name']));
@@ -304,6 +307,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		$section_id = $this->input->get('section_id');
 		$cid        = $this->input->get('cid');
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($model->deletesubimage($mediaid))
@@ -319,6 +323,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$subattr_id = implode("','", $post['subattribute_color_id']);
@@ -344,6 +349,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$pid = $get['pid'];
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->removepropertyImage($pid))
@@ -360,6 +366,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		$pid = $get['pid'];
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->removesubpropertyImage($pid))
@@ -374,6 +381,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->SaveAttributeStockroom($post))
@@ -393,7 +401,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 	public function copy()
 	{
-		$cid   = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->copy($cid))

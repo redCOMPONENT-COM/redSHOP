@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 /**
  * A Helper Class for Product Category
  *
+ * @since  1.0.0
+ *
  * @deprecated  2.0.0.3  Use RedshopHelperCategory instead
  */
 class product_category
@@ -41,44 +43,47 @@ class product_category
 	/**
 	 * List all categories and return HTML format
 	 *
-	 * @param   string   $name                 Name of list
-	 * @param   integer  $category_id          Only category to show
-	 * @param   array    $selected_categories  Only select categories from this
-	 * @param   integer  $size                 Size of dropdown
-	 * @param   boolean  $toplevel             Add option '-Top-'
-	 * @param   boolean  $multiple             Dropdown is multiple or not
-	 * @param   array    $disabledFields       Fields need to be disabled
-	 * @param   integer  $width                Width in pixel
+	 * @param   string  $name               Name of list
+	 * @param   integer $categoryId         Only category to show
+	 * @param   array   $selectedCategories Only select categories from this
+	 * @param   integer $size               Size of dropdown
+	 * @param   boolean $toplevel           Add option '-Top-'
+	 * @param   boolean $multiple           Dropdown is multiple or not
+	 * @param   array   $disabledFields     Fields need to be disabled
+	 * @param   integer $width              Width in pixel
 	 *
 	 * @return  string   HTML of dropdown
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
 	 */
-	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false,
-		$multiple = false, $disabledFields = array(), $width = 250)
+	public function list_all($name, $categoryId, $selectedCategories = Array(), $size = 1, $toplevel = false,
+	                         $multiple = false, $disabledFields = array(), $width = 250
+	)
 	{
-		return RedshopHelperCategory::listAll($name, $category_id, $selected_categories, $size, $toplevel, $multiple, $disabledFields, $width);
+		return RedshopHelperCategory::listAll($name, $categoryId, $selectedCategories, $size, $toplevel, $multiple, $disabledFields, $width);
 	}
 
 	/**
 	 * List children of category into dropdown with level,
 	 * this is a function will be called resursively.
 	 *
-	 * @param   string  $category_id          Exclude this category ID
-	 * @param   string  $cid                  Parent category ID
-	 * @param   string  $level                Default is 0
-	 * @param   array   $selected_categories  Only show selected categories
-	 * @param   array   $disabledFields       Didable fields
-	 * @param   string  $html                 Before HTML
+	 * @param   string $categoryId         Exclude this category ID
+	 * @param   string $cid                Parent category ID
+	 * @param   string $level              Default is 0
+	 * @param   array  $selectedCategories Only show selected categories
+	 * @param   array  $disabledFields     Didable fields
+	 * @param   string $html               Before HTML
 	 *
-	 * @return String   HTML of <option></option>
+	 * @return  string   HTML of <option></option>
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listTree() instead
+	 *
+	 * @throws  Exception
 	 */
-	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(),
-		$disabledFields = Array(), $html = '')
+	public function list_tree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = Array(), $disabledFields = Array(), $html = '')
 	{
-		return RedshopHelperCategory::listTree($category_id, $cid, $level, $selected_categories, $disabledFields, $html);
+		return RedshopHelperCategory::listTree($selectedCategories, $disabledFields);
 	}
 
 	/**
@@ -87,7 +92,8 @@ class product_category
 	 * @param   int  $category_id  First category level in filter
 	 * @param   int  $cid          Current category id
 	 *
-	 * @return array|mixed
+	 * @return  array|mixed
+	 * @throws  Exception
 	 *
 	 * @deprecated  1.5 Use RedshopHelperCategory::getCategoryListArray instead
 	 */
@@ -113,7 +119,8 @@ class product_category
 	/**
 	 * Build content order by user state from request
 	 *
-	 * @return string
+	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::buildContentOrderBy() instead
 	 */
@@ -153,7 +160,7 @@ class product_category
 	 *
 	 * @param   string  $cid  Category ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryProductList() instead
 	 */

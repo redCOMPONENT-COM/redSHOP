@@ -295,6 +295,8 @@ class RedshopHelperConfig
 	 * Load previous configuration
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
 	protected function loadOldConfig()
 	{
@@ -354,7 +356,7 @@ class RedshopHelperConfig
 	 * @param   string  $key    The Javascript config string key.
 	 * @param   string  $value  The Javascript config string value.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   1.5
 	 */
@@ -383,7 +385,7 @@ class RedshopHelperConfig
 		}
 
 		// Load redshop script
-		JHtml::script('com_redshop/redshop.js', false, true);
+		JHtml::script('com_redshop/redshop.min.js', false, true);
 
 		JFactory::getDocument()->addScriptDeclaration('
 			(function($) {
@@ -432,12 +434,7 @@ class RedshopHelperConfig
 	 */
 	public function get($name = '', $default = null)
 	{
-		if (empty($this->config))
-		{
-			return $default;
-		}
-
-		return $this->config->get($name, $default);
+		return empty($this->config) ? $default : $this->config->get($name, $default);
 	}
 
 	/**
@@ -463,21 +460,16 @@ class RedshopHelperConfig
 	/**
 	 * Method for get config force boolean variable of redshop
 	 *
-	 * @param   string  $name     Name of variable.
-	 * @param   mixed   $default  Default data if not found.
+	 * @param   string   $name     Name of variable.
+	 * @param   boolean  $default  Default data if not found.
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
-	 * @since  2.0.3
+	 * @since   2.0.3
 	 */
 	public function getBool($name = '', $default = false)
 	{
-		if (empty($this->config))
-		{
-			return boolval($default);
-		}
-
-		return boolval($this->config->get($name, $default));
+		return empty($this->config) ? boolval($default) : boolval($this->config->get($name, $default));
 	}
 
 	/**
@@ -495,5 +487,50 @@ class RedshopHelperConfig
 		}
 
 		return $this->config->toArray();
+	}
+
+	/**
+	 * Method for get config force integer variable of redshop
+	 *
+	 * @param   string   $name     Name of variable.
+	 * @param   integer  $default  Default data if not found.
+	 *
+	 * @return  integer
+	 *
+	 * @since   2.1.0
+	 */
+	public function getInt($name = '', $default = 0)
+	{
+		return empty($this->config) ? (int) $default : (int) $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for get config force string variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   string  $default  Default data if not found.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 */
+	public function getString($name = '', $default = '')
+	{
+		return empty($this->config) ? (string) $default : (string) $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for get config force float variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   float   $default  Default data if not found.
+	 *
+	 * @return  float
+	 *
+	 * @since   2.1.0
+	 */
+	public function getFloat($name = '', $default = 0.0)
+	{
+		return empty($this->config) ? (float) $default : (float) $this->config->get($name, $default);
 	}
 }

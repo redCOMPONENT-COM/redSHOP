@@ -34,15 +34,15 @@ class TemplatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_template_name'];
+	public static $fieldName = ['id' => 'jform_name'];
 
 	/**
 	 * @var array
 	 */
-	public static $fieldSection = ['id' => 'jform_template_section'];
+	public static $fieldSection = ['id' => 'jform_section'];
 
 	/**
 	 * @var string
 	 */
-	public static $statePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
+	public static $statePath = "//tr/td[6]/a";
 }

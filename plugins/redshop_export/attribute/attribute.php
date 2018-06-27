@@ -32,7 +32,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	public function onAjaxAttribute_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		// Prepare categories list.
 		$products = RedshopHelperProduct::getList();
@@ -66,7 +66,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	public function onAjaxAttribute_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$this->writeData($this->getHeader(), 'w+');
 
@@ -82,7 +82,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	public function onAjaxAttribute_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);
@@ -268,7 +268,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 
 		if (!empty($products))
 		{
-			ArrayHelper::toInteger($products);
+			$products = ArrayHelper::toInteger($products);
 			$attributeQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
 			$propertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
 			$subPropertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');

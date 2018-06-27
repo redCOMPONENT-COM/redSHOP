@@ -31,7 +31,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function)
+    public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function = 'save')
     {
         $I = $this;
         $I->amOnPage(\UserManagerJoomla3Page::$URL);
@@ -39,6 +39,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\UserManagerJoomla3Page::$newButton);
         switch ($function) {
             case 'save':
+	        default:
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -82,7 +83,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 break;
         }
-
     }
 
 
@@ -154,6 +154,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->acceptPopup();
                 break;
             case 'readyUser':
+                $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);

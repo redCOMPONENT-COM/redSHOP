@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 $redTemplate = Redtemplate::getInstance();
 $carthelper  = rsCarthelper::getInstance();
 $app         = JFactory::getApplication();
@@ -23,7 +22,7 @@ $detail     = $this->detail;
 $user       = JFactory::getUser();
 $extraField = extraField::getInstance();
 
-$quotation_template = $redTemplate->getTemplate("quotation_request");
+$quotation_template = RedshopHelperTemplate::getTemplate("quotation_request");
 
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {
@@ -67,11 +66,11 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_end    = $template_edata[1];
 	$template_middle = $template_edata[0];
 
-	$template_middle = $carthelper->replaceCartItem($template_middle, $cart, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
+	$template_middle = RedshopHelperCartTag::replaceCartItem($template_middle, $cart, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 	$template_desc   = $template_start . $template_middle . $template_end;
 }
 
-$template_desc = $carthelper->replaceLabel($template_desc);
+$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
 
 if ($user->id)
 {
@@ -99,12 +98,12 @@ else
 
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
-		$billing .= $extraField->list_all_field(16, $detail->user_info_id, "", "tbl");
+		$billing      .= Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "tbl");
 		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
 	}
 	else
 	{
-		$template_desc = $extraField->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
+		$template_desc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", $template_desc);
 	}
 
 	$billing .= '</div>';

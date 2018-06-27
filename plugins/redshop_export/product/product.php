@@ -50,7 +50,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 */
 	public function onAjaxProduct_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		// Radio for load extra fields
 		$configs[] = '<div class="form-group">
@@ -131,7 +131,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 */
 	public function onAjaxProduct_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 
@@ -157,7 +157,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 */
 	public function onAjaxProduct_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);
@@ -221,7 +221,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			)
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
-			->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.manufacturer_id'))
+			->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.id'))
 			->group($db->qn('p.product_id'))
 			->order($db->qn('p.product_id') . ' asc');
 
@@ -252,13 +252,13 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		if (!empty($categories))
 		{
-			ArrayHelper::toInteger($categories);
+			$categories = ArrayHelper::toInteger($categories);
 			$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')');
 		}
 
 		if (!empty($manufacturers))
 		{
-			ArrayHelper::toInteger($manufacturers);
+			$manufacturers = ArrayHelper::toInteger($manufacturers);
 			$query->where($db->qn('p.manufacturer_id') . ' IN (' . implode(',', $manufacturers) . ')');
 		}
 

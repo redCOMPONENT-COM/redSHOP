@@ -22,6 +22,11 @@ function moduleRelease(group, name) {
 
     if (!argv.skipVersion) {
         fs.readFile('./modules/' + group + '/' + name + '/' + name + '.xml', function(err, data) {
+            if (data === undefined)
+            {
+                return false;
+            }
+
             parser.parseString(data, function (err, result) {
                 var version = result.extension.version[0];
 

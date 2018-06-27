@@ -24,6 +24,17 @@ $singleName = $data->getInstanceName();
 $search     = $data->state->get('filter.search');
 $user       = JFactory::getUser();
 
+$filterOptions = array(
+	'searchField'         => 'search',
+	'searchFieldSelector' => '#filter_search',
+	'limitFieldSelector'  => '#list_' . $viewName . '_limit',
+	'activeOrder'         => $listOrder,
+	'activeDirection'     => $listDirn,
+	'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
+);
+
+$filterOptions = array_merge($filterOptions, $data->filterFormOptions);
+
 if ($data->hasOrdering)
 {
 	$saveOrderUrl   = 'index.php?option=com_redshop&task=' . $viewName . '.saveOrderAjax&tmpl=component';
@@ -68,14 +79,7 @@ if ($data->hasOrdering)
 			'searchtools.default',
 			array(
 				'view'    => $data,
-				'options' => array(
-					'searchField'         => 'search',
-					'searchFieldSelector' => '#filter_search',
-					'limitFieldSelector'  => '#list_' . $viewName . '_limit',
-					'activeOrder'         => $listOrder,
-					'activeDirection'     => $listDirn,
-					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
-				)
+				'options' => $filterOptions
 			)
 		);
 		?>
@@ -170,12 +174,12 @@ if ($data->hasOrdering)
 					<?php if (!empty($row->checked_out)): ?>
 						<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
 					<?php elseif ($data->canEdit == false): ?>
-                        <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary disabled">
+                        <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary btn-edit-item disabled">
                             <i class="fa fa-edit"></i>
                         </a>
 					<?php else: ?>
                         <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&<?php echo $data->getPrimaryKey() ?>=<?php echo $rowId ?>"
-                           class="btn btn-small btn-sm btn-primary">
+                           class="btn btn-small btn-sm btn-primary btn-edit-item">
                             <i class="fa fa-edit"></i>
                         </a>
 					<?php endif; ?>

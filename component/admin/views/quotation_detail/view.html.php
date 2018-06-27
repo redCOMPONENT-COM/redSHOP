@@ -22,18 +22,17 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$quotationHelper = quotationHelper::getInstance();
-
 		$layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
-		$document->addScript('components/com_redshop/assets/js/json.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.order.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
-		$uri = JFactory::getURI();
+		$uri   = JUri::getInstance();
 		$lists = array();
 
 		if ($layout != 'default')
@@ -41,8 +40,8 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 			$this->setLayout($layout);
 		}
 
-		$detail = $this->get('data');
-		$isNew = ($detail->quotation_id < 1);
+		$detail  = $this->get('data');
+		$isNew   = ($detail->quotation_id < 1);
 		$userarr = $this->get('userdata');
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -61,15 +60,15 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$status = $quotationHelper->getQuotationStatusList();
+		$status                    = RedshopHelperQuotation::getQuotationStatusList();
 		$lists['quotation_status'] = JHTML::_('select.genericlist', $status, 'quotation_status',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->quotation_status
 		);
 
-		$this->lists = $lists;
-		$this->quotation = $detail;
+		$this->lists         = $lists;
+		$this->quotation     = $detail;
 		$this->quotationuser = $userarr;
-		$this->request_url = $uri->toString();
+		$this->request_url   = $uri->toString();
 
 		parent::display($tpl);
 	}

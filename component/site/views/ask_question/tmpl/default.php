@@ -13,10 +13,9 @@ $app = JFactory::getApplication();
 
 if (!$app->input->getInt('questionSend', 0))
 {
-	$ask = $app->input->getInt('ask', 0);
 	$displayData = array(
 		'form' => $this->form,
-		'ask' => $ask
+		'ask' => $app->input->getInt('ask', 0)
 	);
 	echo RedshopLayoutHelper::render('product.ask_question', $displayData);
 }

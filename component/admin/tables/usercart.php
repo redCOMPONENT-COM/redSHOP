@@ -9,32 +9,46 @@
 
 defined('_JEXEC') or die;
 
-class Tableusercart extends JTable
+/**
+ * Table Usercart
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
+ * @since       2.0.7
+ */
+class RedshopTableUsercart extends \Redshop\Table\AbstractTable
 {
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_usercart';
+
+	/**
+	 * The table key column. Usually: id
+	 *
+	 * @var  string
+	 */
+	protected $_tableKey = 'cart_id';
+
+	/**
+	 * @var integer
+	 */
 	public $cart_id = 0;
 
+	/**
+	 * @var integer
+	 */
 	public $user_id = 0;
 
+	/**
+	 * @var integer
+	 */
 	public $cdate = 0;
 
+	/**
+	 * @var integer
+	 */
 	public $mdate = 0;
-
-	public function __construct(&$db)
-	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'usercart', 'cart_id', $db);
-	}
-
-	public function bind($array, $ignore = '')
-	{
-		if (array_key_exists('params', $array) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-
-		return parent::bind($array, $ignore);
-	}
 }

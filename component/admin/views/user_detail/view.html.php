@@ -64,9 +64,8 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
 		JPluginHelper::importPlugin('redshop_product');
 		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
 		$this->setLayout('default');
 
@@ -131,23 +130,23 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
 		$this->lists['sendEmail'] = JHtml::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->detail->sendEmail);
 
 		$this->lists['extra_field'] = RedshopHelperExtrafields::listAllField(
-			RedshopHelperExtrafields::SECTION_USER_INFORMATIONS, $this->detail->users_info_id, "", "notable"
+			RedshopHelperExtrafields::SECTION_USER_INFORMATIONS, $this->detail->users_info_id
 		);
 
 		$this->lists['customer_field'] = RedshopHelperExtrafields::listAllField(
-			RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, $this->detail->users_info_id, "", "notable"
+			RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, $this->detail->users_info_id
 		);
 
 		$this->lists['company_field'] = RedshopHelperExtrafields::listAllField(
-			RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $this->detail->users_info_id, "", "notable"
+			RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $this->detail->users_info_id
 		);
 
 		$this->lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(
-			RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $this->detail->users_info_id, "", "notable"
+			RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $this->detail->users_info_id
 		);
 
 		$this->lists['shipping_company_field'] = RedshopHelperExtrafields::listAllField(
-			RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $this->detail->users_info_id, "", "notable"
+			RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $this->detail->users_info_id
 		);
 
 		$countries                   = RedshopHelperWorld::getCountryList((array) $this->detail);

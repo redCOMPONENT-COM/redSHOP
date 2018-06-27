@@ -24,6 +24,23 @@ class RedshopEntityProduct extends RedshopEntity
 	protected $categories = null;
 
 	/**
+	 * @var   RedshopEntitiesCollection  Collections of related products
+	 */
+	protected $relatedProducts = null;
+
+	/**
+	 * @var   RedshopEntitiesCollection  Collections of child products
+	 */
+	protected $childProducts = null;
+
+	/**
+	 * @var    RedshopEntitiesCollection
+	 *
+	 * @since  2.1.0
+	 */
+	protected $media;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
@@ -53,6 +70,44 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
+	 * @param   boolean  $reload  Force reload even it's cached
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   2.1.0
+	 */
+	public function getRelatedProducts($reload = false)
+	{
+		if (null === $this->relatedProducts || $reload === true)
+		{
+			$this->loadRelated();
+		}
+
+		return $this->relatedProducts;
+	}
+
+	/**
+	 * Method for get child products
+	 *
+	 * @param   boolean  $reload  Force reload even it's cached
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   2.1.0
+	 */
+	public function getChildProducts($reload = false)
+	{
+		if (null === $this->childProducts || $reload === true)
+		{
+			$this->loadChild();
+		}
+
+		return $this->childProducts;
+	}
+
+	/**
+	 * Method for set categories to this product
+	 *
 	 * @param   array    $ids             Array of categories' ids
 	 * @param   boolean  $removeAssigned  Remove all assigned categories
 	 *
@@ -103,6 +158,18 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
+	 * Method for check if this product exist in category.
+	 *
+	 * @param   integer  $id  ID of category
+	 *
+	 * @return  boolean
+	 */
+	public function inCategory($id)
+	{
+		return in_array($id, is_array($this->getCategories()->ids()) ? $this->getCategories()->ids() : array());
+	}
+
+	/**
 	 * Method for load child categories
 	 *
 	 * @return  self
@@ -122,7 +189,7 @@ class RedshopEntityProduct extends RedshopEntity
 		$query = $db->getQuery(true)
 			->select($db->qn('category_id'))
 			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->get('product_id'));
+			->where($db->qn('product_id') . ' = ' . (int) $this->getId());
 
 		$results = $db->setQuery($query)->loadColumn();
 
@@ -134,6 +201,166 @@ class RedshopEntityProduct extends RedshopEntity
 		foreach ($results as $categoryId)
 		{
 			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to get related products
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadRelated()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->relatedProducts = new RedshopEntitiesCollection;
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('related_id'))
+			->from($db->quoteName('#__redshop_product_related'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $this->getId());
+
+		$productIds = $db->setQuery($query)->loadColumn();
+
+		foreach ($productIds as $productId)
+		{
+			$this->relatedProducts->add(self::getInstance($productId));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to load child product
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadChild()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->childProducts = new RedshopEntitiesCollection;
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('product_id'))
+			->from($db->quoteName('#__redshop_product'))
+			->where($db->quoteName('product_parent_id') . ' = ' . (int) $this->getId());
+
+		$productIds = $db->setQuery($query)->loadColumn();
+
+		foreach ($productIds as $productId)
+		{
+			$this->childProducts->add(self::getInstance($productId));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Assign a product with a custom field
+	 *
+	 * @param   integer  $fieldId  Field id
+	 * @param   string   $value    Field value
+	 *
+	 * @return boolean
+	 */
+	public function assignCustomField($fieldId, $value)
+	{
+		// Try to load this custom field data
+		/** @var RedshopEntityField_Data $entity */
+		$entity = RedshopEntityField_Data::getInstance()->loadItemByArray(
+			array
+			(
+				'fieldid' => $fieldId,
+				'itemid'  => $this->id,
+				// Product section
+				'section' => 1
+			)
+		);
+
+		// This custom field data is not linked with this product than create it
+		if ($entity->hasId())
+		{
+			return true;
+		}
+
+		return (boolean) $entity->save(
+			array
+			(
+				'fieldid'  => $fieldId,
+				'data_txt' => $value,
+				'itemid'   => $this->id,
+				'section'  => 1
+			)
+		);
+	}
+
+	/**
+	 * Method for get medias of current category
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   2.1.0
+	 */
+	public function getMedia()
+	{
+		if (null === $this->media)
+		{
+			$this->loadMedia();
+		}
+
+		return $this->media;
+	}
+
+	/**
+	 * Method for load medias
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadMedia()
+	{
+		$this->media = new RedshopEntitiesCollection;
+
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('media_id')
+			->from($db->qn('#__redshop_media'))
+			->where($db->qn('media_section') . ' = ' . $db->quote('product'))
+			->where($db->qn('section_id') . ' = ' . $db->quote($this->getId()));
+
+		$results = $db->setQuery($query)->loadColumn();
+
+		if (empty($results))
+		{
+			return $this;
+		}
+
+		foreach ($results as $mediaId)
+		{
+			$this->media->add(RedshopEntityMedia::getInstance($mediaId));
 		}
 
 		return $this;

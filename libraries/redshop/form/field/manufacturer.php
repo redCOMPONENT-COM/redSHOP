@@ -41,8 +41,8 @@ class RedshopFormFieldManufacturer extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('manufacturer_id', 'value'))
-			->select($db->qn('manufacturer_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'));
 		$options = $db->setQuery($query)->loadObjectList();
 

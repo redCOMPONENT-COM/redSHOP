@@ -27,14 +27,14 @@ class RedshopControllerNewsletter extends RedshopController
 	{
 		$session = JFactory::getSession();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
-		$userid = $this->input->post->get('userid', array(0), 'array');
+		$cid      = $this->input->post->get('cid', array(0), 'array');
+		$userid   = $this->input->post->get('userid', array(0), 'array');
 		$username = $this->input->post->get('username', array(0), 'array');
 
 		$newsletter_id = $this->input->get('newsletter_id');
 
-		$tmpcid = array_chunk($cid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
-		$tmpuserid = array_chunk($userid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
+		$tmpcid      = array_chunk($cid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
+		$tmpuserid   = array_chunk($userid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
 		$tmpusername = array_chunk($username, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
 
 		$session->set('subscribers', $tmpcid);
@@ -47,20 +47,25 @@ class RedshopControllerNewsletter extends RedshopController
 		return;
 	}
 
+	/**
+	 * @return  void
+	 * @throws  Exception
+	 */
 	public function sendRecursiveNewsletter()
 	{
-		$session = JFactory::getSession();
-		$newsletter_id = $this->input->get('newsletter_id');
+		$session      = JFactory::getSession();
+		$newsletterId = $this->input->get('newsletter_id');
 
+		/** @var RedshopModelNewsletter $model */
 		$model = $this->getModel('newsletter');
 
-		$subscribers = $session->get('subscribers');
-		$subscribersuid = $session->get('subscribersuid');
+		$subscribers      = $session->get('subscribers');
+		$subscribersuid   = $session->get('subscribersuid');
 		$subscribersuname = $session->get('subscribersuname');
-		$incNo = $session->get('incNo');
+		$incNo            = $session->get('incNo');
 
-		$cid = array();
-		$user_id = array();
+		$cid      = array();
+		$user_id  = array();
 		$username = array();
 
 		if (count($subscribers) > 0)
@@ -90,7 +95,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
-			$subscriber = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
+			$subscriber   = $model->getNewsletterSubscriber($newsletterId, $cid[$i]);
 			$responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";
 
 			if ($retuser[$i])
@@ -134,11 +139,12 @@ class RedshopControllerNewsletter extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if (!$model->publish($cid, 1))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_PUBLISHED_SUCCESFULLY');
@@ -154,11 +160,12 @@ class RedshopControllerNewsletter extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_UNPUBLISHED_SUCCESFULLY');

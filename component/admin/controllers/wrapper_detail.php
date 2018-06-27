@@ -49,6 +49,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['wrapper_id'] = $cid [0];
 
+		/** @var RedshopModelWrapper_detail $model */
 		$model = $this->getModel('wrapper_detail');
 
 		if ($row = $model->store($post))

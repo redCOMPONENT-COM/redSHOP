@@ -40,18 +40,19 @@ class RedshopHelperAccessory
 		}
 
 		// Check the accessory as product ids are not null
-		if ($data[0] != "" && $data[0] != 0)
+		if (!empty($data[0]))
 		{
 			$collection->accessory_data       = explode("@@", $data[0]);
 			$collection->acc_quantity_data    = explode("@@", $data[1]);
 			$collection->acc_attribute_data   = explode("@@", $data[2]);
 			$collection->acc_property_data    = explode("@@", $data[3]);
 			$collection->acc_subproperty_data = explode("@@", $data[4]);
-			$productHelper = productHelper::getInstance();
+
+			$info = array();
 
 			foreach ($collection->accessory_data as $key => $accessoryId)
 			{
-				$accessoryDetail       = $productHelper->getProductAccessory($accessoryId);
+				$accessoryDetail       = self::getProductAccessories($accessoryId);
 				$object                = $accessoryDetail[0];
 				$object->quantity      = $collection->acc_quantity_data[$key];
 				$object->attributes    = $collection->acc_attribute_data[$key];

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 
 $app = JFactory::getApplication();
@@ -777,7 +776,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 		<input type="hidden" name="ip_address" value="<?php echo $ip; ?>"/>
 		<input type="hidden" name="cdate" value="<?php echo time(); ?>"/>
 		<input type="hidden" name="mdate" value="<?php echo time(); ?>"/>
-		<input type="hidden" name="encr_key" value="<?php echo RedshopHelperOrder::randomGenerateEncryptKey(); ?>"/>
+		<input type="hidden" name="encr_key" value="<?php echo \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(); ?>"/>
 		<input type="hidden" name="token" value="<?php echo JSession::getFormToken(); ?>"/>
 		<input type="hidden" name="cid[]" value="<?php echo $this->detail->order_id; ?>"/>
 		<input type="hidden" name="task" value=""/>

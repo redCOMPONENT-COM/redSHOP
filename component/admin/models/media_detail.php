@@ -25,13 +25,13 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -68,16 +68,16 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->media_id = 0;
-			$detail->media_title = null;
-			$detail->media_type = null;
-			$detail->media_name = null;
+			$detail                       = new stdClass;
+			$detail->media_id             = 0;
+			$detail->media_title          = null;
+			$detail->media_type           = null;
+			$detail->media_name           = null;
 			$detail->media_alternate_text = null;
-			$detail->media_section = null;
-			$detail->section_id = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->media_section        = null;
+			$detail->section_id           = null;
+			$detail->published            = 1;
+			$this->_data                  = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -88,6 +88,12 @@ class RedshopModelMedia_detail extends RedshopModel
 	public function store($data)
 	{
 		$row = $this->getTable();
+
+		if (empty($data['media_alternate_text'])  && $data['media_type'] == 'images')
+		{
+			$sectionItem = $this->getSection($data['section_id'], $data['media_section']);
+			$data['media_alternate_text'] = $sectionItem->name;
+		}
 
 		if (!$row->bind($data))
 		{
@@ -103,7 +109,7 @@ class RedshopModelMedia_detail extends RedshopModel
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		$db        = JFactory::getDbo();
 		$condition = 'section_id = ' . $db->q($row->section_id) . ' AND media_section = ' . $db->q($row->media_section);
 		$row->reorder($condition);
 
@@ -124,7 +130,7 @@ class RedshopModelMedia_detail extends RedshopModel
 			{
 				$ntsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
 					. $mediadata->media_section . '/thumb/' . $mediadata->media_name;
-				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
+				$nsrc  = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
 					. $mediadata->media_section . '/' . $mediadata->media_name;
 
 				if (JFile::exists($nsrc))
@@ -183,8 +189,8 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function getSection($id, $type)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true);
 		$search = ' = ' . (int) $id;
 
 		switch ($type)
@@ -222,12 +228,12 @@ class RedshopModelMedia_detail extends RedshopModel
 			case 'manufacturer':
 				$query->select(
 					array(
-						$db->qn('manufacturer_id', 'id'),
-						$db->qn('manufacturer_name', 'name')
+						$db->qn('id', 'id'),
+						$db->qn('name', 'name')
 					)
 				)
 					->from($db->qn('#__redshop_manufacturer'))
-					->where($db->qn('manufacturer_id') . $search);
+					->where($db->qn('id') . $search);
 				break;
 			case 'catalog':
 				$query->select(
@@ -327,8 +333,8 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row = $this->getTable();
-		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		$row        = $this->getTable();
+		$order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
 		$conditions = array();
 
 		// Update ordering values
@@ -350,7 +356,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				// Remember to updateOrder this group
 				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
-				$found = false;
+				$found     = false;
 
 				foreach ($conditions as $cond)
 				{

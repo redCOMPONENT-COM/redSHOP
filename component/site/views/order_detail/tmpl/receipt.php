@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Order\Template;
+
 defined('_JEXEC') or die;
 
 $carthelper      = rsCarthelper::getInstance();
@@ -44,12 +46,12 @@ if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
-	$ReceiptTemplate = $redTemplate->getTemplate("catalogue_order_receipt");
+	$ReceiptTemplate = RedshopHelperTemplate::getTemplate("catalogue_order_receipt");
 	$ReceiptTemplate = $ReceiptTemplate[0]->template_desc;
 }
 else
 {
-	$ReceiptTemplate = $redTemplate->getTemplate("order_receipt");
+	$ReceiptTemplate = RedshopHelperTemplate::getTemplate("order_receipt");
 
 	if (count($ReceiptTemplate) > 0 && $ReceiptTemplate[0]->template_desc)
 	{
@@ -61,7 +63,7 @@ else
 	}
 }
 
-$orderitem = $order_functions->getOrderItemDetail($order_id);
+$orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
 
 // Replace Reorder Button
 $this->replaceReorderButton($ReceiptTemplate);
@@ -87,7 +89,7 @@ $ReceiptTemplate = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODU
 $ReceiptTemplate = str_replace("{price_lbl}", JText::_('COM_REDSHOP_PRICE_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'), $ReceiptTemplate);
-$ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
+$ReceiptTemplate = Template::replaceTemplate($order, $ReceiptTemplate);
 
 // Added new tag
 /**
@@ -110,7 +112,7 @@ $ReceiptTemplate = str_replace("{txtextra_info}", $txtextra_info, $ReceiptTempla
 
 // End
 
-$ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
+$ReceiptTemplate = RedshopHelperTemplate::parseRedshopPlugin($ReceiptTemplate);
 
 /**
  *

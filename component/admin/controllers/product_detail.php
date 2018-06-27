@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Joomla\Utilities\ArrayHelper;
+use Redshop\Economic\RedshopEconomic;
 
 jimport('joomla.filesystem.file');
 
@@ -24,12 +25,22 @@ jimport('joomla.filesystem.file');
  */
 class RedshopControllerProduct_Detail extends RedshopController
 {
+	/**
+	 * @var JApplicationCms
+	 */
 	public $app;
+
+	/**
+	 * @var  string
+	 */
+	public $option;
 
 	/**
 	 * Constructor to set the right model
 	 *
-	 * @param   array  $default  Optional  configuration parameters
+	 * @param   array $default Optional  configuration parameters
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct($default = array())
 	{
@@ -115,11 +126,12 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 *
 	 * @param   int $apply Task is apply or common save.
 	 *
-	 * @return void
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function save($apply = 0)
 	{
-		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
+		//@TODO This is potentially unsafe because $_POST elements are not sanitized.
 		$post                 = $this->input->post->getArray();
 		$cid                  = $this->input->post->get('cid', array(), 'array');
 		$post ['product_id']  = $cid[0];
@@ -140,7 +152,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
- 		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
+		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
 
 		if ($post['discount_stratdate'])
 		{
@@ -176,7 +188,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->store($post))
@@ -185,23 +197,26 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$model->SaveAssociations($row->product_id, $post);
 
 			// Add product to economic
-			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+			if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') === 1)
 			{
-				Economic::createProductInEconomic($row);
+				RedshopEconomic::createProductInEconomic($row);
 			}
 
-			$field = extra_field::getInstance();
-
 			// Field_section 1 :Product
-			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_PRODUCT, $row->product_id);
 
 			// Field_section 12 :Product Userfield
-			$field->extra_field_save($post, 12, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, $row->product_id);
 
 			// Field_section 12 :Productfinder datepicker
-			$field->extra_field_save($post, 17, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER, $row->product_id);
 
 			$this->attribute_save($post, $row);
+
+			JPluginHelper::importPlugin('redshop_product');
+			JPluginHelper::importPlugin('redshop_product_type');
+
+			RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row));
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
@@ -235,7 +250,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Remove task.
 	 *
-	 * @return void
+	 * @return  void
+	 * @throws  Exception
 	 */
 	public function remove()
 	{
@@ -246,6 +262,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_DELETED_SUCCESSFULLY');
@@ -277,6 +294,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'error');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if (!$model->publish($cid, 1))
@@ -302,6 +320,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
 		}
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if (!$model->publish($cid, 0))
@@ -320,6 +339,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function cancel()
 	{
+		/** @var RedshopModelProduct_Detail $model */
 		$model    = $this->getModel('product_detail');
 		$recordId = $this->input->get('cid');
 		$model->checkin($recordId);
@@ -334,16 +354,24 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save2copy()
 	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->copy($cid, true))
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id,
+				JText::_('COM_REDSHOP_PRODUCT_COPIED')
+			);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0],
+				JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED')
+			);
 		}
 	}
 
@@ -356,6 +384,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$cid = $this->input->post->get('cid', array(), 'array');
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
 		if ($model->copy($cid))
@@ -380,96 +409,84 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function attribute_save($post, $row)
 	{
-		$economic = null;
-
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
-		{
-			$economic = economic::getInstance();
-		}
-
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 
-		$attribute_save   = array();
-		$property_save    = array();
-		$subproperty_save = array();
+		$attributesSave    = array();
+		$propertiesSave    = array();
+		$subPropertiesSave = array();
 
 		if (!is_array($post['attribute']))
 		{
 			return;
 		}
 
-		$attribute = array_merge(array(), $post['attribute']);
+		$attributes = array_merge(array(), $post['attribute']);
 
-		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
+		foreach ($attributes as $a => $attribute)
 		{
-			$attribute_save['attribute_id']          = $attribute[$a]['id'];
-			$tmpordering                             = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
-			$attribute_save['product_id']            = $row->product_id;
-			$attribute_save['attribute_name']        = htmlspecialchars($attribute[$a]['name']);
-			$attribute_save['ordering']              = $attribute[$a]['ordering'];
-			$attribute_save['attribute_published']   = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
-			$attribute_save['attribute_description'] = $attribute[$a]['attribute_description'];
+			$attributesSave['attribute_id']             = $attribute['id'];
+			$tmpordering                                = !empty($attribute['tmpordering']) ? $attribute['tmpordering'] : $a;
+			$attributesSave['product_id']               = $row->product_id;
+			$attributesSave['attribute_name']           = htmlspecialchars($attribute['name']);
+			$attributesSave['ordering']                 = $attribute['ordering'];
+			$attributesSave['attribute_published']      = ($attribute['published'] == 'on' || $attribute['published'] == '1') ? '1' : '0';
+			$attributesSave['attribute_description']    = $attribute['attribute_description'];
+			$attributesSave['attribute_required']       = isset($attribute['required']) && ($attribute['required'] == 'on' || $attribute['required'] == '1') ? '1' : '0';
+			$attributesSave['allow_multiple_selection'] = isset($attribute['allow_multiple_selection']) && ($attribute['allow_multiple_selection'] == 'on' || $attribute['allow_multiple_selection'] == '1') ? '1' : '0';
+			$attributesSave['hide_attribute_price']     = isset($attribute['hide_attribute_price']) && ($attribute['hide_attribute_price'] == 'on' || $attribute['hide_attribute_price'] == '1') ? '1' : '0';
+			$attributesSave['display_type']             = $attribute['display_type'];
 
-			$attribute_save['attribute_required']       = isset($attribute[$a]['required'])
-			&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = isset($attribute[$a]['allow_multiple_selection'])
-			&& ($attribute[$a]['allow_multiple_selection'] == 'on'
-				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price']     = isset($attribute[$a]['hide_attribute_price'])
-			&& ($attribute[$a]['hide_attribute_price'] == 'on'
-				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
-			$attribute_save['display_type']             = $attribute[$a]['display_type'];
+			$attribute_array = $model->store_attr($attributesSave);
+			$properties      = array_merge(array(), $attribute['property']);
 
-			$attribute_array = $model->store_attr($attribute_save);
-			$property        = array_merge(array(), $attribute[$a]['property']);
-
-			$propertyImage      = array_keys($attribute[$a]['property']);
+			$propertyImage      = array_keys($attribute['property']);
 			$tmpproptyimagename = array_merge(array(), $propertyImage);
 
-			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
+			foreach ($properties as $pIndex => $property)
 			{
-				$property_save['property_id']         = $property[$p]['property_id'];
-				$property_save['attribute_id']        = $attribute_array->attribute_id;
-				$property_save['property_name']       = htmlspecialchars($property[$p]['name']);
-				$property_save['property_price']      = $property[$p]['price'];
-				$property_save['oprand']              = $property[$p]['oprand'];
-				$property_save['property_number']     = isset($property[$p]['number']) ? $property[$p]['number'] : '';
-				$property_save['property_image']      = isset($property[$p]['property_image']) ? $property[$p]['property_image'] : '';
-				$property_save['ordering']            = $property[$p]['order'];
-				$property_save['setrequire_selected'] = isset($property[$p]['req_sub_att'])
-				&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
-				$property_save['setmulti_selected']   = isset($property[$p]['multi_sub_att'])
-				&& ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
-				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
-				$property_save['setdisplay_type']     = $property[$p]['setdisplay_type'];
-				$property_save['property_published']  = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
-				$property_save['extra_field']         = $property[$p]['extra_field'];
-				$property_array                       = $model->store_pro($property_save);
-				$property_id                          = $property_array->property_id;
-				$property_image                       = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$p] . '_image', array(), 'array');
+				$propertiesSave['property_id']         = $property['property_id'];
+				$propertiesSave['attribute_id']        = $attribute_array->attribute_id;
+				$propertiesSave['property_name']       = htmlspecialchars($property['name']);
+				$propertiesSave['property_price']      = $property['price'];
+				$propertiesSave['oprand']              = $property['oprand'];
+				$propertiesSave['property_number']     = isset($property['number']) ? $property['number'] : '';
+				$propertiesSave['property_image']      = isset($property['property_image']) ? $property['property_image'] : '';
+				$propertiesSave['ordering']            = $property['order'];
+				$propertiesSave['setrequire_selected'] = isset($property['req_sub_att'])
+				&& ($property['req_sub_att'] == 'on' || $property['req_sub_att'] == '1') ? '1' : '0';
+				$propertiesSave['setmulti_selected']   = isset($property['multi_sub_att'])
+				&& ($property['multi_sub_att'] == 'on' || $property['multi_sub_att'] == '1') ? '1' : '0';
+				$propertiesSave['setdefault_selected'] = !empty($property['default_sel']) && ($property['default_sel'] == 'on' || $property['default_sel'] == '1') ? '1' : '0';
+				$propertiesSave['setdisplay_type']     = $property['setdisplay_type'];
+				$propertiesSave['property_published']  = ($property['published'] == 'on' || $property['published'] == '1') ? '1' : '0';
+				$propertiesSave['extra_field']         = $property['extra_field'];
+				$property_array                        = $model->store_pro($propertiesSave);
+				$property_id                           = $property_array->property_id;
+				$property_image                        = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$pIndex] . '_image', array(), 'array');
 
-				if (empty($property[$p]['mainImage']))
+				if (empty($property['mainImage']))
 				{
 					if (!empty($property_image['name']))
 					{
-						$property_save['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_id);
-						$property_save['property_id']    = $property_id;
-						$property_array                  = $model->store_pro($property_save);
+						$propertiesSave['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_id);
+						$propertiesSave['property_id']    = $property_id;
+						$property_array                   = $model->store_pro($propertiesSave);
 						$this->DeleteMergeImages();
 					}
 				}
 
-				if (!empty($property[$p]['mainImage']))
+				if (!empty($property['mainImage']))
 				{
-					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
-					$property_save['property_id']    = $property_id;
-					$property_array                  = $model->store_pro($property_save);
+					$propertiesSave['property_image'] = $model->copy_image_from_path($property['mainImage'], 'product_attributes', $property_id);
+					$propertiesSave['property_id']    = $property_id;
+					$property_array                   = $model->store_pro($propertiesSave);
 					$this->DeleteMergeImages();
 				}
 
-				if (empty($property[$p]['property_id']))
+				if (empty($property['property_id']))
 				{
-					$listImages = $model->GetimageInfo($property_id, 'property');
+					$listImages = $model->getImageInfor($property_id, 'property');
 
 					for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 					{
@@ -487,7 +504,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
-					Economic::createPropertyInEconomic($row, $property_array);
+					RedshopEconomic::createPropertyInEconomic($row, $property_array);
 				}
 
 				// Set trigger to save Attribute Property Plugin Data
@@ -497,60 +514,60 @@ class RedshopControllerProduct_Detail extends RedshopController
 					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
-					$dispatcher->trigger('onAttributePropertySaveLoop', array($row, &$property[$p], &$property_array));
+					$dispatcher->trigger('onAttributePropertySaveLoop', array($row, &$property, &$property_array));
 				}
 
-				$subproperty       = array_merge(array(), $property[$p]['subproperty']);
-				$subproperty_title = $property[$p]['subproperty']['title'];
-				$subpropertyImage  = array_keys($property[$p]['subproperty']);
+				$subproperty       = array_merge(array(), $property['subproperty']);
+				$subproperty_title = $property['subproperty']['title'];
+				$subpropertyImage  = array_keys($property['subproperty']);
 				unset($subpropertyImage[0]);
 				$tmpimagename = array_merge(array(), $subpropertyImage);
 
 				for ($sp = 0; $sp < count($subproperty) - 1; $sp++)
 				{
-					$subproperty_save['subattribute_color_id']     = $subproperty[$sp]['subproperty_id'];
-					$subproperty_save['subattribute_color_name']   = $subproperty[$sp]['name'];
-					$subproperty_save['subattribute_color_title']  = $subproperty_title;
-					$subproperty_save['subattribute_color_price']  = $subproperty[$sp]['price'];
-					$subproperty_save['oprand']                    = $subproperty[$sp]['oprand'];
-					$subproperty_save['subattribute_color_image']  = $subproperty[$sp]['image'];
-					$subproperty_save['subattribute_id']           = $property_id;
-					$subproperty_save['ordering']                  = $subproperty[$sp]['order'];
-					$subproperty_save['subattribute_color_number'] = $subproperty[$sp]['number'];
-					$subproperty_save['setdefault_selected']       = ($subproperty[$sp]['chk_propdselected'] == 'on'
+					$subPropertiesSave['subattribute_color_id']     = $subproperty[$sp]['subproperty_id'];
+					$subPropertiesSave['subattribute_color_name']   = $subproperty[$sp]['name'];
+					$subPropertiesSave['subattribute_color_title']  = $subproperty_title;
+					$subPropertiesSave['subattribute_color_price']  = $subproperty[$sp]['price'];
+					$subPropertiesSave['oprand']                    = $subproperty[$sp]['oprand'];
+					$subPropertiesSave['subattribute_color_image']  = $subproperty[$sp]['image'];
+					$subPropertiesSave['subattribute_id']           = $property_id;
+					$subPropertiesSave['ordering']                  = $subproperty[$sp]['order'];
+					$subPropertiesSave['subattribute_color_number'] = $subproperty[$sp]['number'];
+					$subPropertiesSave['setdefault_selected']       = ($subproperty[$sp]['chk_propdselected'] == 'on'
 						|| $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
-					$subproperty_save['subattribute_published']    = ($subproperty[$sp]['published'] == 'on'
+					$subPropertiesSave['subattribute_published']    = ($subproperty[$sp]['published'] == 'on'
 						|| $subproperty[$sp]['published'] == '1') ? '1' : '0';
-					$subproperty_save['extra_field']               = $subproperty[$sp]['extra_field'];
-					$subproperty_array                             = $model->store_sub($subproperty_save);
-					$subproperty_image                             = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image',
+					$subPropertiesSave['extra_field']               = $subproperty[$sp]['extra_field'];
+					$subproperty_array                              = $model->store_sub($subPropertiesSave);
+					$subproperty_image                              = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $pIndex . '_subproperty_' . $tmpimagename[$sp] . '_image',
 						array(),
 						'array'
 					);
-					$subproperty_id                                = $subproperty_array->subattribute_color_id;
+					$subproperty_id                                 = $subproperty_array->subattribute_color_id;
 
 					if (empty($subproperty[$sp]['mainImage']))
 					{
 						if (!empty($subproperty_image['name']))
 						{
-							$subproperty_save['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_id);
-							$subproperty_save['subattribute_color_id']    = $subproperty_id;
-							$subproperty_array                            = $model->store_sub($subproperty_save);
+							$subPropertiesSave['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_id);
+							$subPropertiesSave['subattribute_color_id']    = $subproperty_id;
+							$subproperty_array                             = $model->store_sub($subPropertiesSave);
 							$this->DeleteMergeImages();
 						}
 					}
 
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
-						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
-						$subproperty_save['subattribute_color_id']    = $subproperty_id;
-						$subproperty_array                            = $model->store_sub($subproperty_save);
+						$subPropertiesSave['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
+						$subPropertiesSave['subattribute_color_id']    = $subproperty_id;
+						$subproperty_array                             = $model->store_sub($subPropertiesSave);
 						$this->DeleteMergeImages();
 					}
 
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
-						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
+						$listsubpropImages     = $model->getImageInfor($subproperty_id, 'subproperty');
 						$countSubpropertyImage = count($listsubpropImages);
 
 						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
@@ -567,15 +584,14 @@ class RedshopControllerProduct_Detail extends RedshopController
 						}
 					}
 
-					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
+					if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') === 1
+						&& Redshop::getConfig()->getInt('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') !== 0)
 					{
-						Economic::createSubpropertyInEconomic($row, $subproperty_array);
+						RedshopEconomic::createSubpropertyInEconomic($row, $subproperty_array);
 					}
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -810,9 +826,10 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
+		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
 		$model->saveorder($cid, $order);
 
@@ -910,7 +927,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function getChildProducts()
 	{
-		RedshopHelperAjax::validateAjaxRequest('GET');
+		\Redshop\Helper\Ajax::validateAjaxRequest('GET');
 
 		/** @var RedshopModelProduct_Detail $model */
 		$model = $this->getModel('product_detail');
@@ -990,40 +1007,45 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Function DeleteMergeImages.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function DeleteMergeImages()
 	{
 		$dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
 
-		if (is_dir($dirname))
+		if (!is_dir($dirname))
 		{
-			$dir_handle = opendir($dirname);
+			return true;
+		}
 
-			if ($dir_handle)
+		$dirHandle = opendir($dirname);
+
+		if ($dirHandle === false)
+		{
+			return true;
+		}
+
+		while ($file = readdir($dirHandle))
+		{
+			if ($file == '..' || $file == '.' || $file == '' || $file == 'index.html')
 			{
-				while ($file = readdir($dir_handle))
-				{
-					if ($file != '..' && $file != '.' && $file != '')
-					{
-						if ($file != 'index.html')
-						{
-							if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-							{
-								if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
-								{
-									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
-								}
-
-								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
-							}
-						}
-					}
-				}
+				continue;
 			}
 
-			closedir($dir_handle);
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+			{
+				continue;
+			}
+
+			if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+			{
+				chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
+			}
+
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 		}
+
+		closedir($dirHandle);
 
 		return true;
 	}

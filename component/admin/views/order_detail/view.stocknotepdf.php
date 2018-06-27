@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Order\Template;
+
 defined('_JEXEC') or die;
 
 /**
@@ -65,7 +67,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		ob_start();
 
-		$pdfTemplate = $cartHelper->replaceOrderTemplate($detail, $pdfTemplate);
+		$pdfTemplate = Template::replaceTemplate($detail, $pdfTemplate);
 
 		$pdfTemplate = str_replace("{order_id_lbl}", JText::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
 		$pdfTemplate = str_replace("{order_id}", $detail->order_id, $pdfTemplate);
@@ -77,7 +79,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		$billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
 		$shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
-		$pdfTemplate = $cartHelper->replaceShippingAddress($pdfTemplate, $shipping);
+		$pdfTemplate = Redshop\Shipping\Tag::replaceShippingAddress($pdfTemplate, $shipping);
 		$pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);
 		$pdfTemplate = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $pdfTemplate);
 

@@ -7,7 +7,7 @@
  */
 
 /**
- * Class SupplierManagerPage
+ * Class SupplierPage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
@@ -43,5 +43,5 @@ class SupplierPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $fieldEmailInvalid = 'Invalid field:  Supplier Email';
+	public static $fieldEmailInvalid = 'Invalid field: Email';
 }

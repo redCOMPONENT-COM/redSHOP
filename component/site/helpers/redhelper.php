@@ -113,11 +113,12 @@ class redhelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  2.0.6  Use RedshopShippingRate::removeShippingRate instead
+	 * @deprecated  2.0.6
+	 * @see Redshop\Shipping\Rate::removeShippingRate
 	 */
 	public function removeShippingRate()
 	{
-		RedshopShippingRate::removeShippingRate();
+		Redshop\Shipping\Rate::removeShippingRate();
 	}
 
 	/**
@@ -423,6 +424,7 @@ class redhelper
 	 * Method for get menu item id of checkout page
 	 *
 	 * @return  integer
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperUtility::getCheckoutItemId instead
 	 */

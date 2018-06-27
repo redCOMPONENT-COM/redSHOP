@@ -58,7 +58,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupName);
-		$client->wait(3);
 		$client->click($VATGroupName);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
@@ -73,7 +72,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupName);
-		$client->wait(3);
 		$client->click($VATGroupName);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
@@ -88,7 +86,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupName);
-		$client->wait(3);
 		$client->click($VATGroupName);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
@@ -103,7 +100,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupName);
-		$client->wait(3);
 		$client->click($VATGroupName);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
@@ -115,7 +111,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupsName);
-		$client->wait(3);
 		$client->see($VATGroupsName, \TaxGroupPage::$resultRow);
 		$client->click(\TaxGroupPage::$pathStatus);
 	}
@@ -125,7 +120,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupsName);
-		$client->wait(3);
 		$client->see($VATGroupsName, \TaxGroupPage::$resultRow);
 		$text = $client->grabAttributeFrom(\TaxGroupPage::$pathStatus, 'onclick');
 
@@ -146,7 +140,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupsName);
-		$client->wait(3);
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->cancelPopup();
 
@@ -157,12 +150,11 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->searchVATGroup($VATGroupsName);
-		$client->wait(3);
 		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForElement(\TaxGroupPage::$searchField,30);
-		$client->see(\TaxGroupPage::$messageItemDeleteSuccess, \TaxGroupPage::$selectorSuccess);
+		$client->waitForElement(\TaxGroupPage::$searchField, 30);
+		$client->see(\TaxGroupPage::$messageDeleteSuccess, \TaxGroupPage::$selectorSuccess);
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
 		$client->pressKey(\TaxGroupPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($VATGroupsName, \TaxGroupPage::$pathName);
@@ -204,7 +196,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonPublish);
-		$client->waitForText("Message", 30, \TaxGroupPage::$selectorSuccess);
 	}
 
 
@@ -222,7 +213,6 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TaxGroupPage::$url);
 		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonUnpublish);
-		$client->waitForText("Message", 30, \TaxGroupPage::$selectorSuccess);
 	}
 
 	public function searchVATGroup($VATGroupName)

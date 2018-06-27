@@ -74,18 +74,117 @@ class RedshopHelperProduct
 	}
 
 	/**
-	 * Get product information
+	 * Get product information base on list of Ids
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $userId     User id
+	 * @param   array    $productIds  Product ids
+	 * @param   int      $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
 	 *
-	 * @return mixed
+	 * @return  array
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
 	 */
-	public static function getProductById($productId, $userId = 0)
+	public static function getProductsByIds($productIds = array(), $userId = 0, $setRelated = true)
 	{
 		if (!$userId)
 		{
-			$user = JFactory::getUser();
+			$user   = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
+
+		if (empty($productIds))
+		{
+			return array();
+		}
+
+		$results       = array();
+		$newProductIds = array();
+
+		foreach ($productIds as $productId)
+		{
+			$key = $productId . '.' . $userId;
+
+			// Load from static cache if already exist.
+			if (array_key_exists($key, static::$products))
+			{
+				$results[] = static::$products[$key];
+
+				if ($setRelated)
+				{
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			// Check if data is already loaded while getting list
+			if (array_key_exists($productId, static::$allProducts))
+			{
+				static::$products[$key] = static::$allProducts[$productId];
+
+				if ($setRelated)
+				{
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			$newProductIds[] = $productId;
+		}
+
+		if (empty($newProductIds))
+		{
+			return $results;
+		}
+
+		// Otherwise load product info
+		$db    = JFactory::getDbo();
+		$query = self::getMainProductQuery(false, $userId);
+
+		// Select product
+		$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')');
+
+		$items = (array) $db->setQuery($query)->loadObjectList();
+
+		if (empty($items))
+		{
+			return $results;
+		}
+
+		foreach ($items as $item)
+		{
+			$key                    = $item->product_id . '.' . $userId;
+			static::$products[$key] = $item;
+			$results[]              = $item;
+
+			if ($setRelated === true)
+			{
+				self::setProductRelates(array($key => static::$products[$key]), $userId);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Get product information
+	 *
+	 * @param   integer  $productId   Product id
+	 * @param   integer  $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
+	 *
+	 * @return  mixed
+	 * @throws  Exception
+	 */
+	public static function getProductById($productId, $userId = 0, $setRelated = true)
+	{
+		if (!$userId)
+		{
+			$user   = JFactory::getUser();
 			$userId = $user->id;
 		}
 
@@ -98,11 +197,10 @@ class RedshopHelperProduct
 			{
 				static::$products[$key] = static::$allProducts[$productId];
 			}
-
-			// Otheriwise load product info
+			// Otherwise load product info
 			else
 			{
-				$db = JFactory::getDbo();
+				$db    = JFactory::getDbo();
 				$query = self::getMainProductQuery(false, $userId);
 
 				// Select product
@@ -112,7 +210,7 @@ class RedshopHelperProduct
 				static::$products[$key] = $db->loadObject();
 			}
 
-			if (static::$products[$key])
+			if ($setRelated === true && static::$products[$key])
 			{
 				self::setProductRelates(array($key => static::$products[$key]), $userId);
 			}
@@ -143,7 +241,7 @@ class RedshopHelperProduct
 			->from($db->qn('#__redshop_product', 'p'));
 
 		// Require condition
-		$query->group('p.product_id');
+		$query->group($db->qn('p.product_id'));
 
 		// Select price
 		$query->select(
@@ -253,21 +351,17 @@ class RedshopHelperProduct
 	 */
 	public static function setProductRelates($products, $userId = 0)
 	{
-		if (!$userId)
-		{
-			$user   = JFactory::getUser();
-			$userId = $user->id;
-		}
-
-		if (empty($products))
+		if (empty($products) || !is_array($products))
 		{
 			return;
 		}
 
+		$userId = !$userId ? JFactory::getUser()->id : $userId;
+
 		$getAttributeKeys  = array();
 		$getExtraFieldKeys = array();
 
-		foreach ((array) $products  as $product)
+		foreach ($products as $product)
 		{
 			if (!isset($product->product_id))
 			{
@@ -298,84 +392,8 @@ class RedshopHelperProduct
 			}
 		}
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		if (!empty($getAttributeKeys))
-		{
-			$query->clear()
-				->select($db->qn('a.attribute_id', 'value'))
-				->select($db->qn('a.attribute_name', 'text'))
-				->select('a.*')
-				->select($db->qn('ast.attribute_set_name'))
-				->select($db->qn('ast.published', 'attribute_set_published'))
-				->from($db->qn('#__redshop_product_attribute', 'a'))
-				->leftJoin(
-					$db->qn('#__redshop_attribute_set', 'ast') . ' ON ' . $db->qn('ast.attribute_set_id') . ' = ' . $db->qn('a.attribute_set_id')
-				)
-				->where($db->qn('a.attribute_name') . ' != ' . $db->quote(''))
-				->where($db->qn('a.attribute_published') . ' = 1')
-				->where($db->qn('a.product_id') . ' IN (' . implode(',', $getAttributeKeys) . ')')
-				->order($db->qn('a.ordering') . ' ASC');
-
-			if ($attributes = $db->setQuery($query)->loadObjectList())
-			{
-				foreach ($attributes as $attribute)
-				{
-					$key = $attribute->product_id . '.' . $userId;
-					static::$products[$key]->attributes[$attribute->attribute_id] = $attribute;
-					static::$products[$key]->attributes[$attribute->attribute_id]->properties = array();
-				}
-
-				$query->clear()
-					->select($db->qn('ap.property_id', 'value'))
-					->select($db->qn('ap.property_name', 'text'))
-					->select('ap.*')
-					->select('a.attribute_name')
-					->select('a.attribute_id')
-					->select('a.product_id')
-					->select('a.attribute_set_id')
-					->from($db->qn('#__redshop_product_attribute_property', 'ap'))
-					->leftJoin(
-						$db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
-					)
-					->where($db->qn('a.product_id') . ' IN (' . implode(',', $getAttributeKeys) . ')')
-					->where($db->qn('ap.property_published') . ' = 1')
-					->where($db->qn('a.attribute_published') . ' = 1')
-					->where($db->qn('a.attribute_name') . ' != ' . $db->quote(''))
-					->order($db->qn('ap.ordering') . ' ASC');
-				$db->setQuery($query);
-
-				if ($properties = $db->loadObjectList())
-				{
-					foreach ($properties as $property)
-					{
-						$key = $property->product_id . '.' . $userId;
-						static::$products[$key]->attributes[$property->attribute_id]->properties[$property->property_id] = $property;
-					}
-				}
-			}
-		}
-
-		if (!empty($getExtraFieldKeys))
-		{
-			$query->clear()
-				->select('fd.*')
-				->select($db->qn('f.title'))
-				->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX (idx_itemid)')
-				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
-				->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
-				->where($db->qn('fd.section') . ' = 1');
-
-			if ($extraFields = $db->setQuery($query)->loadObjectList())
-			{
-				foreach ($extraFields as $extraField)
-				{
-					$key = $extraField->itemid . '.' . $userId;
-					static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
-				}
-			}
-		}
+		self::setProductAttributes($getAttributeKeys, $userId);
+		self::setProductExtraFields($getExtraFieldKeys, $userId);
 	}
 
 	/**
@@ -405,10 +423,8 @@ class RedshopHelperProduct
 	 */
 	public static function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
-		$redConfig = Redconfiguration::getInstance();
-		$productHelper = productHelper::getInstance();
 		$totalAccessory = count($accessory);
-		$accessoryList = "";
+		$accessoryList  = "";
 
 		if (!$totalAccessory)
 		{
@@ -419,28 +435,28 @@ class RedshopHelperProduct
 
 		for ($a = 0, $an = count($accessory); $a < $an; $a++)
 		{
-			$acId = $accessory[$a]->child_product_id;
+			$acId   = $accessory[$a]->child_product_id;
 			$cpData = Redshop::product((int) $acId);
 
-			$accessoryName = $redConfig->maxchar(
+			$accessoryName = RedshopHelperUtility::maxChars(
 				$accessory[$a]->product_name,
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
-				Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
+				Redshop::getConfig()->getInt('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+				Redshop::getConfig()->getString('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
 			);
 
 			// Get accessory final price with VAT rules
-			$accessoryPriceList = $productHelper->getAccessoryPrice(
+			$accessoryPriceList = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price
 			);
 
 			$accessoryPrice = $accessoryPriceList[0];
 
-			$accessoryPriceWithoutvat = $productHelper->getAccessoryPrice(
+			$accessoryPriceWithoutvat = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price,
 				$accessory[$a]->accessory_main_price, 1
 			);
 			$accessoryPriceWithoutVat = $accessoryPriceWithoutvat[0];
-			$accessoryPriceVat = $accessoryPrice - $accessoryPriceWithoutVat;
+			$accessoryPriceVat        = $accessoryPrice - $accessoryPriceWithoutVat;
 
 			$commonid = $productId . '_' . $accessory[$a]->accessory_id . $uniqueId;
 
@@ -449,10 +465,10 @@ class RedshopHelperProduct
 
 			if ($cpData->attribute_set_id > 0)
 			{
-				$attributesSet = $productHelper->getProductAttribute(0, $cpData->attribute_set_id);
+				$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $cpData->attribute_set_id);
 			}
 
-			$attributes = $productHelper->getProductAttribute($acId);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($acId);
 			$attributes = array_merge($attributes, $attributesSet);
 
 			$accessoryCheckbox = "<input onClick='calculateOfflineTotalPrice(\"" . $uniqueId . "\");' type='checkbox' name='accessory_id_"
@@ -461,9 +477,11 @@ class RedshopHelperProduct
 				. $commonid . "' value='" . $accessory[$a]->accessory_id . "' />";
 
 			$accessoryList .= "<tr><td>" . $accessoryCheckbox . "&nbsp;" . $accessoryName . ' : '
-				. $productHelper->getProductFormattedPrice($accessoryPrice) . "</td></tr>";
+				. RedshopHelperProductPrice::formattedPrice($accessoryPrice) . "</td></tr>";
 
-			$accessoryList .= self::replaceAttributeData($productId, $accessory[$a]->accessory_id, $attributes, $userId, $uniqueId);
+			$accessoryList .= RedshopHelperProductTag::replaceAttributeData(
+				$productId, $accessory[$a]->accessory_id, $attributes, $userId, $uniqueId
+			);
 		}
 
 		return $accessoryList;
@@ -478,137 +496,15 @@ class RedshopHelperProduct
 	 * @param   int     $userId       User id
 	 * @param   string  $uniqueId     Unique id
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
 	 * @since   2.0.3
+	 *
+	 * @deprecated  2.1.0
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
-		$productHelper = productHelper::getInstance();
-		$attributeList = "";
-
-		if ($accessoryId != 0)
-		{
-			$prefix = $uniqueId . "acc_";
-		}
-		else
-		{
-			$prefix = $uniqueId . "prd_";
-		}
-
-		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
-
-		for ($a = 0, $an = count($attributes); $a < $an; $a++)
-		{
-			$property = $productHelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
-
-			if (empty($attributes[$a]->text) || empty($property))
-			{
-				continue;
-			}
-
-			$commonId = $prefix . $productId . '_' . $accessoryId . '_' . $attributes[$a]->attribute_id;
-			$hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
-			$propertyId = 'property_id_' . $commonId;
-
-			for ($i = 0, $in = count($property); $i < $in; $i++)
-			{
-				$attributesPropertyVat = 0;
-
-				if ($property[$i]->property_price > 0)
-				{
-					$propertyOprand = $property[$i]->oprand;
-
-					$propertyPrice = $productHelper->getProductFormattedPrice($property[$i]->property_price);
-
-					// Get product vat to include.
-					$attributesPropertyVat = self::getProductTax($productId, $property[$i]->property_price, $userId);
-					$property[$i]->property_price += $attributesPropertyVat;
-
-					$propertyPriceWithVat = $productHelper->getProductFormattedPrice($property[$i]->property_price);
-
-					$property[$i]->text = urldecode($property[$i]->property_name)
-						. " (" . $propertyOprand
-						. " " . $propertyPrice
-						. "excl. vat / "
-						. $propertyPriceWithVat . ")";
-				}
-				else
-				{
-					$property[$i]->text = urldecode($property[$i]->property_name);
-				}
-
-				$attributeList .= '<input type="hidden" id="'
-					. $propertyId . '_oprand' . $property[$i]->value . '" value="'
-					. $property [$i]->oprand . '" />';
-				$attributeList .= '<input type="hidden" id="'
-					. $propertyId . '_protax' . $property[$i]->value . '" value="'
-					. $attributesPropertyVat . '" />';
-				$attributeList .= '<input type="hidden" id="'
-					. $propertyId . '_proprice' . $property[$i]->value . '" value="'
-					. $property [$i]->property_price . '" />';
-			}
-
-			$tmpArray = array();
-			$tmpArray[0] = new stdClass;
-			$tmpArray[0]->value = 0;
-			$tmpArray[0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
-
-			$newProperty = array_merge($tmpArray, $property);
-			$chklist = "";
-
-			if ($attributes[$a]->allow_multiple_selection)
-			{
-				for ($chk = 0; $chk < count($property); $chk++)
-				{
-					if ($attributes[$a]->attribute_required == 1)
-					{
-						$required = "required='" . $attributes[$a]->attribute_required . "'";
-					}
-					else
-					{
-						$required = "";
-					}
-
-					$chklist .= "<br /><input type='checkbox' value='" . $property[$chk]->value . "' name='"
-						. $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
-						. $attributes[$a]->attribute_name . "' required='" . $attributes[$a]->attribute_required
-						. "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
-						. "\",\"" . $attributes[$a]->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property[$chk]->text;
-				}
-			}
-			else
-			{
-				$chklist = JHTML::_(
-					'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
-					. '"  class="inputbox" size="1" attribute_name="' . $attributes[$a]->attribute_name . '" required="'
-					. $attributes[$a]->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
-					. $productId . '\',\'' . $accessoryId . '\',\'' . $attributes[$a]->attribute_id . '\',\'' . $uniqueId
-					. '\');" ', 'value', 'text', ''
-				);
-			}
-
-			$lists ['property_id'] = $chklist;
-
-			$attributeList .= "<input type='hidden' name='" . $hiddenAttId . "[]' value='" . $attributes[$a]->value . "' />";
-
-			if ($attributes[$a]->attribute_required > 0)
-			{
-				$pos = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes[$a]->text)
-					. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
-					. urldecode($attributes[$a]->text);
-				$attrTitle = $pos;
-			}
-			else
-			{
-				$attrTitle = urldecode($attributes[$a]->text);
-			}
-
-			$attributeList .= "<tr><td>" . $attrTitle . " : " . $lists['property_id'] . "</td></tr>";
-			$attributeList .= "<tr><td><div id='property_responce" . $commonId . "' style='display:none;'></td></tr>";
-		}
-
-		return $attributeList;
+		return RedshopHelperProductTag::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
 	}
 
 	/**
@@ -650,8 +546,9 @@ class RedshopHelperProduct
 			}
 
 			$wrapper[$i]->wrapper_price += $wrapperVat;
-			$wrapper [$i]->wrapper_name = $wrapper [$i]->wrapper_name . " ("
-				. $productHelper->getProductFormattedPrice($wrapper[$i]->wrapper_price) . ")";
+			$wrapper[$i]->wrapper_name   = $wrapper [$i]->wrapper_name . " ("
+				. RedshopHelperProductPrice::formattedPrice($wrapper[$i]->wrapper_price) . ")";
+
 			$wrapperList .= "<input type='hidden' id='wprice_" . $commonId . "_"
 				. $wrapper [$i]->wrapper_id . "' value='" . $wrapper[$i]->wrapper_price . "' />";
 			$wrapperList .= "<input type='hidden' id='wprice_tax_" . $commonId . "_"
@@ -659,7 +556,8 @@ class RedshopHelperProduct
 		}
 
 		$wrapper = array_merge($wArray, $wrapper);
-		$lists ['wrapper_id'] = JHtml::_(
+
+		$lists['wrapper_id'] = JHtml::_(
 			'select.genericlist',
 			$wrapper, 'wrapper_id_' . $commonId . '[]',
 			'id="wrapper_id_' . $commonId . '" class="inputbox" onchange="calculateOfflineTotalPrice(\'' . $uniqueId . '\');" ',
@@ -675,20 +573,20 @@ class RedshopHelperProduct
 	/**
 	 * Get product item info
 	 *
-	 * @param   int     $productId        Product id
-	 * @param   int     $quantity         Product quantity
-	 * @param   string  $uniqueId         Unique id
-	 * @param   int     $userId           User id
-	 * @param   int     $newProductPrice  New product price
+	 * @param   integer  $productId        Product id
+	 * @param   integer  $quantity         Product quantity
+	 * @param   string   $uniqueId         Unique id
+	 * @param   integer  $userId           User id
+	 * @param   integer  $newProductPrice  New product price
 	 *
 	 * @return  mixed
 	 *
 	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = "", $userId = 0, $newProductPrice = 0)
 	{
-		$productHelper = productHelper::getInstance();
-
 		$wrapperList = "";
 		$accessoryList = "";
 		$attributeList = "";
@@ -703,40 +601,40 @@ class RedshopHelperProduct
 			if ($newProductPrice != 0)
 			{
 				$productPriceExclVat = $newProductPrice;
-				$productTax = $productHelper->getProductTax($productId, $newProductPrice, $userId);
+				$productTax          = self::getProductTax($productId, $newProductPrice, $userId);
 			}
 
 			else
 			{
-				$productArr = $productHelper->getProductNetPrice($productId, $userId, $quantity);
+				$productArr          = RedshopHelperProductPrice::getNetPrice($productId, $userId, $quantity);
 				$productPriceExclVat = $productArr['productPrice'];
-				$productTax = $productArr['productVat'];
+				$productTax          = $productArr['productVat'];
 
 				// Attribute start
 				$attributesSet = array();
 
 				if ($productInfo->attribute_set_id > 0)
 				{
-					$attributesSet = $productHelper->getProductAttribute(0, $productInfo->attribute_set_id, 0, 1);
+					$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $productInfo->attribute_set_id, 0, 1);
 				}
 
-				$attributes = $productHelper->getProductAttribute($productId);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($productId);
 				$attributes = array_merge($attributes, $attributesSet);
-				$attributeList = self::replaceAttributeData($productId, 0, $attributes, $userId, $uniqueId);
+				$attributeList = RedshopHelperProductTag::replaceAttributeData($productId, 0, $attributes, $userId, $uniqueId);
 
 				// Accessory start
-				$accessory = $productHelper->getProductAccessory(0, $productId);
+				$accessory     = RedshopHelperAccessory::getProductAccessories(0, $productId);
 				$accessoryList = self::replaceAccessoryData($productId, $accessory, $userId, $uniqueId);
 
 				// Wrapper selection box generate
-				$wrapperList = self::replaceWrapperData($productId, $userId, $uniqueId);
+				$wrapperList      = self::replaceWrapperData($productId, $userId, $uniqueId);
 				$productUserField = self::replaceUserField($productId, $productInfo->product_template, $uniqueId);
 			}
 		}
 
 		$productPrice = $productPriceExclVat + $productTax;
-		$total_price = $productPrice * $quantity;
-		$totalTax = $productTax * $quantity;
+		$total_price  = $productPrice * $quantity;
+		$totalTax     = $productTax * $quantity;
 
 		$displayRespoce = "";
 		$displayRespoce .= "<div id='product_price_excl_vat'>" . $productPriceExclVat . "</div>";
@@ -765,8 +663,6 @@ class RedshopHelperProduct
 	 */
 	public static function replaceShippingMethod($data = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
 	{
-		$productHelper = productHelper::getInstance();
-
 		if (!$shippUsersInfoId)
 		{
 			return '<div class="shipnotice">' . JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS') . '</div>';
@@ -798,7 +694,7 @@ class RedshopHelperProduct
 			{
 				for ($i = 0, $in = count($rate); $i < $in; $i++)
 				{
-					$displayrate = ($rate[$i]->rate > 0) ? " (" . $productHelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
+					$displayrate = ($rate[$i]->rate > 0) ? " (" . RedshopHelperProductPrice::formattedPrice($rate[$i]->rate) . " )" : "";
 					$rateArr[$r] = new stdClass;
 					$rateArr[$r]->text = JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate;
 					$rateArr[$r]->value = $rate[$i]->value;
@@ -832,106 +728,15 @@ class RedshopHelperProduct
 	 *
 	 * @param   array  $post  Data
 	 *
-	 * @return array
+	 * @return  array
 	 *
 	 * @since   2.0.3
+	 *
+	 * @deprecated  2.1.0
 	 */
 	public static function redesignProductItem($post = array())
 	{
-		$orderItem = array();
-		$i = -1;
-
-		foreach ($post as $key => $value)
-		{
-			if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10)
-			{
-				$i++;
-
-				if (!isset($orderItem[$i]))
-				{
-					$orderItem[$i] = new stdClass;
-				}
-
-				$orderItem[$i]->product_id = $value;
-			}
-
-			if (!strcmp("attribute_dataproduct", substr($key, 0, 21)))
-			{
-				$orderItem[$i]->attribute_data = $value;
-			}
-
-			if (!strcmp("property_dataproduct", substr($key, 0, 20)))
-			{
-				$orderItem[$i]->property_data = $value;
-			}
-
-			if (!strcmp("subproperty_dataproduct", substr($key, 0, 23)))
-			{
-				$orderItem[$i]->subproperty_data = $value;
-			}
-
-			if (!strcmp("accessory_dataproduct", substr($key, 0, 21)))
-			{
-				$orderItem[$i]->accessory_data = $value;
-			}
-
-			if (!strcmp("acc_attribute_dataproduct", substr($key, 0, 25)))
-			{
-				$orderItem[$i]->acc_attribute_data = $value;
-			}
-
-			if (!strcmp("acc_property_dataproduct", substr($key, 0, 24)))
-			{
-				$orderItem[$i]->acc_property_data = $value;
-			}
-
-			if (!strcmp("acc_subproperty_dataproduct", substr($key, 0, 27)))
-			{
-				$orderItem[$i]->acc_subproperty_data = $value;
-			}
-
-			if (!strcmp("extrafieldId", substr($key, 0, 12)))
-			{
-				$orderItem[$i]->extrafieldId = $value;
-			}
-
-			if (!strcmp("extrafieldname", substr($key, 0, 14)))
-			{
-				$orderItem[$i]->extrafieldname = $value;
-			}
-
-			if (!strcmp("wrapper_dataproduct", substr($key, 0, 19)))
-			{
-				$orderItem[$i]->wrapper_data = $value;
-			}
-
-			if (!strcmp("quantityproduct", substr($key, 0, 15)))
-			{
-				$orderItem[$i]->quantity = $value;
-			}
-
-			if (!strcmp("prdexclpriceproduct", substr($key, 0, 19)))
-			{
-				$orderItem[$i]->prdexclprice = $value;
-			}
-
-			if (!strcmp("taxpriceproduct", substr($key, 0, 15)))
-			{
-				$orderItem[$i]->taxprice = $value;
-			}
-
-			if (!strcmp("productpriceproduct", substr($key, 0, 19)))
-			{
-				$orderItem[$i]->productprice = $value;
-			}
-
-			if (!strcmp("requiedAttributeproduct", substr($key, 0, 23)))
-			{
-				$orderItem[$i]->requiedAttributeproduct = $value;
-			}
-		}
-
-		return $orderItem;
+		return Redshop\Order\Helper::redesignProductItem($post);
 	}
 
 	/**
@@ -941,17 +746,18 @@ class RedshopHelperProduct
 	 * @param   int     $templateId  Template id
 	 * @param   string  $uniqueId    Unique id
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
 	 * @since   2.0.3
+	 *
+	 * @throws  Exception
 	 */
 	public static function replaceUserField($productId = 0, $templateId = 0, $uniqueId = "")
 	{
 		$productHelper = productHelper::getInstance();
-		$templateDesc = RedshopHelperTemplate::getTemplate("product", $templateId);
-		$returnArr = $productHelper->getProductUserfieldFromTemplate($templateDesc[0]->template_desc);
-
-		$commonId = $productId . $uniqueId;
+		$templateDesc  = RedshopHelperTemplate::getTemplate("product", $templateId);
+		$returnArr     = $productHelper->getProductUserfieldFromTemplate($templateDesc[0]->template_desc);
+		$commonId      = $productId . $uniqueId;
 
 		if (empty($returnArr[1]))
 		{
@@ -960,20 +766,22 @@ class RedshopHelperProduct
 
 		$productUserFields = "<table>";
 
-		for ($ui = 0; $ui < count($returnArr[1]); $ui++)
+		foreach ($returnArr[1] as $index => $return)
 		{
-			$resultArr = RedshopHelperExtrafields::listAllUserFields($returnArr[1][$ui], 12, "", $commonId);
-			$hiddenArr = RedshopHelperExtrafields::listAllUserFields($returnArr[1][$ui], 12, "hidden", $commonId);
+			$resultArr = RedshopHelperExtrafields::listAllUserFields(
+				$return, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, "", $commonId
+			);
+			$hiddenArr = RedshopHelperExtrafields::listAllUserFields(
+				$return, RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD, "hidden", $commonId
+			);
 
-			if ($resultArr[0] != "")
+			if (!empty($resultArr[0]))
 			{
 				$productUserFields .= "<tr><td>" . $resultArr[0] . "</td><td>" . $resultArr[1] . $hiddenArr[1] . "</td></tr>";
 			}
 		}
 
-		$productUserFields .= "</table>";
-
-		return $productUserFields;
+		return $productUserFields . "</table>";
 	}
 
 	/**
@@ -990,7 +798,7 @@ class RedshopHelperProduct
 	 */
 	public static function insertProductUserField($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
 	{
-		$db = JFactory::getDbo();
+		$db      = JFactory::getDbo();
 		$columns = array('fieldid', 'data_txt', 'itemid', 'section');
 		$values  = array($db->q((int) $fieldId), $db->q($value), $db->q((int) $orderItemId), $db->q((int) $sectionId));
 
@@ -1052,6 +860,31 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Method for get all payment method of this product set in backend
+	 *
+	 * @param   integer  $productId  If exist.
+	 *
+	 * @return  array            List of payment method
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getAllAvailableProductPayment($productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('payment_id'))
+			->from($db->qn('#__redshop_product_payment_xref'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' = ' . $db->quote($productId));
+		}
+
+		// Set the query and load the result.
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
 	 * Method for get all product number exist in system
 	 *
 	 * @param   int  $productId  If exist. Exclude product number from this product Id from list
@@ -1090,11 +923,10 @@ class RedshopHelperProduct
 	{
 		$db      = JFactory::getDbo();
 		$userArr = JFactory::getSession()->get('rs_user');
-		$userHelper = rsUserHelper::getInstance();
 
 		if (empty($userArr))
 		{
-			$userArr = $userHelper->createUserSession($userId);
+			RedshopHelperUser::createUserSession($userId);
 		}
 
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
@@ -1104,7 +936,7 @@ class RedshopHelperProduct
 			$query = $db->getQuery(true)
 				->select('p.*')
 				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftjoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
+				->leftJoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
 				->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
 				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
 				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
@@ -1127,7 +959,7 @@ class RedshopHelperProduct
 			return '';
 		}
 
-		return	RedshopLayoutHelper::render(
+		return RedshopLayoutHelper::render(
 			'product.product_price_table',
 			array(
 					'result'    => $result,
@@ -1145,7 +977,7 @@ class RedshopHelperProduct
 	 * Method for get product tax
 	 *
 	 * @param   integer  $productId     Product Id
-	 * @param   integer  $productPrice  Product price
+	 * @param   float    $productPrice  Product price
 	 * @param   integer  $userId        User ID
 	 * @param   integer  $taxExempt     Tax exempt
 	 *
@@ -1153,7 +985,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   2.0.6
 	 */
-	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
+	public static function getProductTax($productId = 0, $productPrice = 0.0, $userId = 0, $taxExempt = 0)
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
 
@@ -1163,77 +995,46 @@ class RedshopHelperProduct
 			$userId = $user->id;
 		}
 
-		$productInfor = array();
-
-		if ($productId != 0)
-		{
-			$productInfor = self::getProductById($productId);
-		}
-
+		$productInfor = $productId != 0 ? self::getProductById($productId) : array();
 		$productTax   = 0;
-		$taxRate = 0;
-
-		if (empty($redshopUser))
-		{
-			$redshopUser                     = array();
-			$redshopUser['rs_is_user_login'] = 0;
-		}
+		$redshopUser  = empty($redshopUser) ? array('rs_is_user_login' => 0) : $redshopUser;
 
 		if ($redshopUser['rs_is_user_login'] == 0 && $userId != 0)
 		{
 			RedshopHelperUser::createUserSession($userId);
 		}
 
-		$vatRateData = productHelper::getInstance()->getVatRates($productId, $userId);
+		$vatRateData = RedshopHelperTax::getVatRates($productId, $userId);
+		$taxRate     = !empty($vatRateData) ? $vatRateData->tax_rate : 0;
 
-		if ($vatRateData)
-		{
-			$taxRate = $vatRateData->tax_rate;
-		}
-
-		if ($productPrice <= 0 && isset($productInfor->product_price))
-		{
-			$productPrice = $productInfor->product_price;
-		}
-
-		$productPrice = productHelper::getInstance()->productPriceRound($productPrice);
+		$productPrice = $productPrice <= 0 && isset($productInfor->product_price) ? $productInfor->product_price : $productPrice;
+		$productPrice = RedshopHelperProductPrice::priceRound($productPrice);
 
 		if ($taxExempt)
 		{
-			$productTax = $productPrice * $taxRate;
-
-			return $productTax;
+			return $productPrice * $taxRate;
 		}
 
-		if ($taxRate)
+		if (!$taxRate)
 		{
-			if ($userId)
-			{
-				$userInformation = RedshopHelperUser::getUserInformation($userId);
+			return RedshopHelperProductPrice::priceRound($productTax);
+		}
 
-				if (count($userInformation) > 0)
-				{
-					if ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved)
-					{
-						$productTax = $productTax;
-					}
-					else
-					{
-						$productTax = $productPrice * $taxRate;
-					}
-				}
-				else
-				{
-					$productTax = $productPrice * $taxRate;
-				}
-			}
-			else
+		if (!$userId)
+		{
+			$productTax = $productPrice * $taxRate;
+		}
+		else
+		{
+			$userInformation = RedshopHelperUser::getUserInformation($userId);
+
+			if (null === $userInformation || $userInformation->requesting_tax_exempt !== 1 || !$userInformation->tax_exempt_approved)
 			{
 				$productTax = $productPrice * $taxRate;
 			}
 		}
 
-		return productHelper::getInstance()->productPriceRound($productTax);
+		return RedshopHelperProductPrice::priceRound($productTax);
 	}
 
 	/**
@@ -1269,6 +1070,7 @@ class RedshopHelperProduct
 		if ($quantity != 1)
 		{
 			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
 				->select(
 					$db->qn(array(
@@ -1290,26 +1092,27 @@ class RedshopHelperProduct
 			}
 
 			$query->where('p.product_id = ' . (int) $productId)
-				->where('((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
-					. (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))')
+				->where(
+					'((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
+					. (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))'
+				)
 				->order('p.price_quantity_start ASC');
 
 			$result = $db->setQuery($query)->loadObject();
 		}
 		else
 		{
-			if ($productData = RedshopHelperProduct::getProductById($productId, $userId))
+			$productData = self::getProductById($productId, $userId);
+
+			if (null !== $productData && isset($productData->price_id))
 			{
-				if (isset($productData->price_id))
-				{
-					$result = new stdClass;
-					$result->price_id = $productData->price_id;
-					$result->product_price = $productData->price_product_price;
-					$result->discount_price = $productData->price_discount_price;
-					$result->product_currency = $productData->price_product_currency;
-					$result->discount_start_date = $productData->price_discount_start_date;
-					$result->discount_end_date = $productData->price_discount_end_date;
-				}
+				$result = new stdClass;
+				$result->price_id            = $productData->price_id;
+				$result->product_price       = $productData->price_product_price;
+				$result->discount_price      = $productData->price_discount_price;
+				$result->product_currency    = $productData->price_product_currency;
+				$result->discount_start_date = $productData->price_discount_start_date;
+				$result->discount_end_date   = $productData->price_discount_end_date;
 			}
 		}
 
@@ -1325,5 +1128,157 @@ class RedshopHelperProduct
 		self::$productPrices[$key] = $result;
 
 		return self::$productPrices[$key];
+	}
+
+	/**
+	 * Method for set product attributes
+	 *
+	 * @param   array    $getAttributeKeys  Attributes key
+	 * @param   integer  $userId            Current user ID
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public static function setProductAttributes($getAttributeKeys = array(), $userId = 0)
+	{
+		if (empty($getAttributeKeys))
+		{
+			return;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('a.attribute_id', 'value'))
+			->select($db->qn('a.attribute_name', 'text'))
+			->select('a.*')
+			->select($db->qn('ast.attribute_set_name'))
+			->select($db->qn('ast.published', 'attribute_set_published'))
+			->from($db->qn('#__redshop_product_attribute', 'a'))
+			->leftJoin(
+				$db->qn('#__redshop_attribute_set', 'ast') . ' ON ' . $db->qn('ast.attribute_set_id') . ' = ' . $db->qn('a.attribute_set_id')
+			)
+			->where($db->qn('a.attribute_name') . ' != ' . $db->quote(''))
+			->where($db->qn('a.attribute_published') . ' = 1')
+			->where($db->qn('a.product_id') . ' IN (' . implode(',', $getAttributeKeys) . ')')
+			->order($db->qn('a.ordering') . ' ASC');
+
+		$attributes = $db->setQuery($query)->loadObjectList();
+
+		if (empty($attributes))
+		{
+			return;
+		}
+
+		foreach ($attributes as $attribute)
+		{
+			$key = $attribute->product_id . '.' . $userId;
+
+			static::$products[$key]->attributes[$attribute->attribute_id]             = $attribute;
+			static::$products[$key]->attributes[$attribute->attribute_id]->properties = array();
+		}
+
+		$query->clear()
+			->select($db->qn('ap.property_id', 'value'))
+			->select($db->qn('ap.property_name', 'text'))
+			->select('ap.*')
+			->select('a.attribute_name')
+			->select('a.attribute_id')
+			->select('a.product_id')
+			->select('a.attribute_set_id')
+			->from($db->qn('#__redshop_product_attribute_property', 'ap'))
+			->leftJoin(
+				$db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+			)
+			->where($db->qn('a.product_id') . ' IN (' . implode(',', $getAttributeKeys) . ')')
+			->where($db->qn('ap.property_published') . ' = 1')
+			->where($db->qn('a.attribute_published') . ' = 1')
+			->where($db->qn('a.attribute_name') . ' != ' . $db->quote(''))
+			->order($db->qn('ap.ordering') . ' ASC');
+
+		$properties = $db->setQuery($query)->loadObjectList();
+
+		if (empty($properties))
+		{
+			return;
+		}
+
+		foreach ($properties as $property)
+		{
+			$key = $property->product_id . '.' . $userId;
+
+			static::$products[$key]->attributes[$property->attribute_id]->properties[$property->property_id] = $property;
+		}
+	}
+
+	/**
+	 * Method for set product extra fields
+	 *
+	 * @param   array    $getExtraFieldKeys  Attributes key
+	 * @param   integer  $userId             Current user ID
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public static function setProductExtraFields($getExtraFieldKeys = array(), $userId = 0)
+	{
+		if (empty($getExtraFieldKeys))
+		{
+			return;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('fd.*')
+			->select($db->qn('f.title'))
+			->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX(' . $db->qn('#__field_data_common') . ')')
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
+			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
+			->where($db->qn('fd.section') . ' = 1');
+
+		$extraFields = $db->setQuery($query)->loadObjectList();
+
+		if (empty($extraFields))
+		{
+			return;
+		}
+
+		foreach ($extraFields as $extraField)
+		{
+			$key = $extraField->itemid . '.' . $userId;
+
+			static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
+		}
+	}
+
+	/**
+	 * Method for get child products of specific product
+	 *
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  array
+	 * @since   2.1.0
+	 */
+	public static function getChildProduct($productId = 0)
+	{
+		$childProducts = RedshopEntityProduct::getInstance($productId)->getChildProducts();
+
+		if ($childProducts->isEmpty())
+		{
+			return array();
+		}
+
+		$results = array();
+
+		foreach ($childProducts->getAll() as $child)
+		{
+			/** @var  RedshopEntityProduct $child */
+			$results[] = $child->getItem();
+		}
+
+		return $results;
 	}
 }

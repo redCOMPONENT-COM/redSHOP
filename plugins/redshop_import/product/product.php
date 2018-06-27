@@ -53,9 +53,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 */
 	public function onAjaxProduct_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -67,7 +67,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 */
 	public function onAjaxProduct_Import()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
 		$this->encoding  = $input->getString('encoding', 'UTF-8');
@@ -112,7 +112,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query = $db->getQuery(true)
 				->select($db->qn("manufacturer_id"))
 				->from($db->qn('#__redshop_manufacturer'))
-				->where($db->qn('manufacturer_name') . ' = ' . $db->quote($data['manufacturer_name']));
+				->where($db->qn('name') . ' = ' . $db->quote($data['manufacturer_name']));
 
 			$manufacturerId = (int) $db->setQuery($query)->loadResult();
 
@@ -124,11 +124,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-				$manufacturer                    = RedshopTable::getInstance('Manufacturer', 'RedshopTable');
-				$manufacturer->manufacturer_name = $data['manufacturer_name'];
-				$manufacturer->published         = 1;
+				/** @var RedshopTableManufacturer $manufacturer */
+				$manufacturer            = RedshopTable::getInstance('Manufacturer', 'RedshopTable');
+				$manufacturer->name      = $data['manufacturer_name'];
+				$manufacturer->published = 1;
 				$manufacturer->store();
-				$data['manufacturer_id'] = $manufacturer->manufacturer_id;
+				$data['manufacturer_id'] = $manufacturer->id;
 			}
 		}
 
@@ -797,7 +798,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					else
 					{
 						$imageName = basename($image);
-						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
 						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 						JFile::write($dest, $binaryData);
 						$data['product_preview_image'] = $fileName;
@@ -1168,7 +1169,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if ($hasPropertyName)
 		{
 			// Get Property ID
-			$query = $db->getQuery(true)
+			$query      = $db->getQuery(true)
 				->select($db->qn('property_id'))
 				->from($db->qn('#__redshop_product_attribute_property'))
 				->where($db->qn('attribute_id') . ' = ' . $db->quote($attributeId))
@@ -1206,6 +1207,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				{
 					return false;
 				}
+
+				$propertyId = $propertyTable->property_id;
 
 				// Property stock
 				if (!empty($data['property_stock']))
@@ -1255,7 +1258,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 								->where($db->qn('stockroom_id') . ' = ' . $db->quote($propertyStock[0]))
 								->where($db->qn('section') . ' = ' . $db->quote('property'))
 								->where($db->qn('section_id') . ' = ' . $db->quote($propertyId));
-							$db->setQuery($query)->clear();
+							$db->setQuery($query)->execute();
 						}
 						else
 						{
@@ -1373,7 +1376,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if ($hasSubPropertyName)
 		{
 			// Get Sub-property ID
-			$query         = $db->getQuery(true)
+			$query = $db->getQuery(true)
 				->select($db->qn('subattribute_color_id'))
 				->from($db->qn('#__redshop_product_subattribute_color'))
 				->where($db->qn('subattribute_id') . ' = ' . $db->quote($propertyId))

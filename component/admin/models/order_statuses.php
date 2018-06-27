@@ -92,8 +92,8 @@ class RedshopModelOrder_Statuses extends RedshopModelList
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_order_status'));
+			->select('*')
+			->from($db->qn('#__redshop_order_status'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search', '');

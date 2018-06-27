@@ -36,7 +36,7 @@ class RedshopHelperTax
 	{
 		if (strpos($templateData, "{vat_info}") !== false)
 		{
-			$strVat = productHelper::getInstance()->getApplyVatOrNot($templateData) ?
+			$strVat = \Redshop\Template\Helper::isApplyVat($templateData) ?
 				Redshop::getConfig()->get('WITH_VAT_TEXT_INFO') : Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
 
 			$templateData = str_replace("{vat_info}", $strVat, $templateData);
@@ -63,23 +63,20 @@ class RedshopHelperTax
 		$session     = JFactory::getSession();
 		$userData    = RedshopHelperUser::getVatUserInformation($userId);
 		$userArr     = $session->get('rs_user');
-		$taxGroup    = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
+		$taxGroup    = Redshop::getConfig()->getInt('DEFAULT_VAT_GROUP');
 
-		if (!empty($userArr))
+		if (!empty($userArr) && array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
 		{
-			if (array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
+			if (empty($productInfo->product_tax_group_id))
 			{
-				if (empty($productInfo->product_tax_group_id))
-				{
-					$productInfo->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
-				}
+				$productInfo->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
+			}
 
-				if ($userArr['vatCountry'] == $userData->country_code
-					&& $userArr['vatState'] == $userData->state_code
-					&& $userArr['vatGroup'] == $productInfo->product_tax_group_id)
-				{
-					return $userArr['taxData'];
-				}
+			if ($userArr['vatCountry'] == $userData->country_code
+				&& $userArr['vatState'] == $userData->state_code
+				&& $userArr['vatGroup'] == $productInfo->product_tax_group_id)
+			{
+				return $userArr['taxData'];
 			}
 		}
 
@@ -98,11 +95,16 @@ class RedshopHelperTax
 				->from($db->qn('#__redshop_tax_rate', 'tr'))
 				->leftJoin($db->qn('#__redshop_tax_group', 'tg') . ' ON ' . $db->qn('tg.id') . ' = ' . $db->qn('tr.tax_group_id'))
 				->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('tr.tax_country') . ' = ' . $db->qn('c.country_3_code')
-					. ' AND ' . $db->qn('c.country_3_code') . ' = ' . $db->quote($userData->country_code))
+					. ' AND ' . $db->qn('c.country_3_code') . ' = ' . $db->quote($userData->country_code)
+				)
 				->leftJoin($db->qn('#__redshop_state', 's') . ' ON ' . $db->qn('tr.tax_state') . ' = ' . $db->qn('s.state_3_code'))
-				->where('tg.published = 1')
-				->where('tr.tax_country = ' . $db->quote($userData->country_code))
-				->where('(s.state_2_code = ' . $db->quote($userData->state_code) . ' OR tr.tax_state = ' . $db->quote('') . ')')
+				->where($db->qn('tg.published') . ' = 1')
+				->where(
+					'(' . $db->qn('s.state_2_code') . ' = ' . $db->quote($userData->state_code) . ' OR '
+					. '(' . $db->qn('tr.tax_state') . ' = ' . $db->quote('')
+					. ' OR ' . $db->qn('tr.tax_state') . ' IS NULL))'
+				)
+				->where($db->qn('tr.tax_country') . ' = ' . $db->quote($userData->country_code))
 				->where('tr.tax_group_id = ' . (int) $taxGroup)
 				->order('tax_rate');
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidator');
 
 $editor = JEditor::getInstance();
@@ -42,7 +41,9 @@ $editor = JEditor::getInstance();
                 alert("<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_TITLE', true); ?>");
                 document.getElementById("jform_title").focus();
                 return false;
-            } else if ((document.getElementById("jform_section").value == 13) && (document.getElementById("jform_type").value == 8 || document.getElementById("jform_type").value == 9 || document.getElementById("jform_type").value == 10)) {
+            } else if ((document.getElementById("jform_section").value == 13) &&
+                (document.getElementById("jform_type").value == 8 || document.getElementById("jform_type").value == 9 ||
+                    document.getElementById("jform_type").value == 10)) {
                 alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD', true);?>");
                 return false;
             } else if (document.getElementById("jform_section").value == 0) {
@@ -74,15 +75,46 @@ $editor = JEditor::getInstance();
         }
     };
 
-    function sectionValidation() {
-        var field_type    = document.getElementById("jform_type").value;
-        var field_section = document.getElementById("jform_section").value;
+    function loadFieldGroup() {
+        (function($){
+            var $fieldGroup = $("#jform_groupId");
 
-        // Field_section
-        if ((field_section == 13) && (field_type == 8 || field_type == 9 || field_type == 10)) {
-            alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD') ?>");
-            return false;
-        }
+            $.ajax({
+                url   : "index.php?option=com_redshop&task=field_groups.ajaxGetFieldsGroup",
+                method: "POST",
+                data  : {
+                    "<?php echo JSession::getFormToken() ?>": 1,
+                    "section"                               : $("#jform_section").val(),
+                    "selected"                              : <?php echo (int) $this->item->groupId ?>
+                },
+                beforeSend: function(){
+                    $fieldGroup.prop("disabled", true).addClass("disabled");
+                }
+            })
+            .done(function (response) {
+                $("#jform_groupId option").remove();
+                $fieldGroup.html(response);
+            })
+            .always(function(){
+                $fieldGroup.prop("disabled", false).removeClass("disabled");
+                $fieldGroup.select2({width: "auto"});
+            });
+        })(jQuery);
+    }
+
+    function sectionValidation() {
+        (function ($) {
+            var field_type    = $("#jform_type").val();
+            var field_section = $("#jform_section").val();
+
+            // Field_section
+            if ((field_section == 13) && (field_type == 8 || field_type == 9 || field_type == 10)) {
+                alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD') ?>");
+                return false;
+            }
+
+            loadFieldGroup();
+        })(jQuery);
     }
 
     function isAlphabet(elem, helperMsg) {
@@ -168,6 +200,10 @@ $editor = JEditor::getInstance();
 
                 return !fieldNames.contains(value);
             });
+
+            <?php if (!empty($this->item->id) && !empty($this->item->section)): ?>
+            loadFieldGroup();
+            <?php endif; ?>
         });
     })(jQuery);
 </script>
@@ -182,6 +218,7 @@ $editor = JEditor::getInstance();
                 <div class="box-body">
 					<?php echo $this->form->renderField('type') ?>
 					<?php echo $this->form->renderField('section') ?>
+					<?php echo $this->form->renderField('groupId') ?>
 					<?php echo $this->form->renderField('name') ?>
 					<?php echo $this->form->renderField('title') ?>
 					<?php echo $this->form->renderField('class') ?>

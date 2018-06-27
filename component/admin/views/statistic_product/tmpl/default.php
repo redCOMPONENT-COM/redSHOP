@@ -88,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<tr>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_NAME'), 'p.product_name', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_SKU'), 'p.product_number', $listDirn, $listOrder) ?></th>
-			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'), 'm.manufacturer_name', $listDirn, $listOrder) ?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'), 'manufacturer_name', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_COUNT'), 'order_count', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_UNIT'), 'unit_sold', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'), 'total_sale', $listDirn, $listOrder) ?></th>

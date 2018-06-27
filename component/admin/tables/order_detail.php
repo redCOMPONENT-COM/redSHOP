@@ -87,6 +87,8 @@ class Tableorder_detail extends JTable
 
 	public $referral_code = null;
 
+	public $tax_after_discount;
+
 	public function __construct(& $db)
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -97,7 +99,7 @@ class Tableorder_detail extends JTable
 	/**
 	 * Validate all table fields before saving
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  2.0.0.4
 	 */

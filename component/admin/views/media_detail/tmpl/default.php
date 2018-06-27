@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $editor = JFactory::getEditor();
@@ -210,7 +209,7 @@ if ($showbuttons)
 
 									if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
 									{
-										$thumbUrl = RedShopHelperImages::getImagePath(
+										$thumbUrl = RedshopHelperMedia::getImagePath(
 											$this->detail->media_name,
 											'',
 											'thumb',

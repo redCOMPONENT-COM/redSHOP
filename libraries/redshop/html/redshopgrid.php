@@ -16,14 +16,14 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  HTML
  * @since       1.5
  */
-abstract class JHtmlRedshopGrid
+class JHtmlRedshopGrid extends JHtmlJGrid
 {
 	/**
 	 * Method to check all checkboxes in a grid
 	 *
-	 * @param   string  $name    The name of the form element
-	 * @param   string  $tip     The text shown as tooltip title instead of $tip
-	 * @param   string  $action  The action to perform on clicking the checkbox
+	 * @param   string $name   The name of the form element
+	 * @param   string $tip    The text shown as tooltip title instead of $tip
+	 * @param   string $action The action to perform on clicking the checkbox
 	 *
 	 * @return  string
 	 *
@@ -47,8 +47,8 @@ abstract class JHtmlRedshopGrid
 	/**
 	 * Method for render text with slide if length is longer than count.
 	 *
-	 * @param   string  $data   String data
-	 * @param   int     $count  Count of maximum length
+	 * @param   string $data  String data
+	 * @param   int    $count Count of maximum length
 	 *
 	 * @return  string
 	 *
@@ -79,11 +79,11 @@ abstract class JHtmlRedshopGrid
 	/**
 	 * Method for render HTML of inline edit field.
 	 *
-	 * @param   string  $name     DOM name of field
-	 * @param   string  $value    Value of field
-	 * @param   string  $display  Value of field
-	 * @param   int     $id       DOM ID of field
-	 * @param   string  $type     Field type (text)
+	 * @param   string $name    DOM name of field
+	 * @param   string $value   Value of field
+	 * @param   string $display Value of field
+	 * @param   int    $id      DOM ID of field
+	 * @param   string $type    Field type (text)
 	 *
 	 * @return  string
 	 *
@@ -96,31 +96,36 @@ abstract class JHtmlRedshopGrid
 			return $value;
 		}
 
-		JHtml::script('com_redshop/redshop.inline.js', false, true, false, false);
+		JHtml::script('com_redshop/redshop.inline.min.js', false, true, false, false);
 		JText::script('COM_REDSHOP_SUCCESS');
 		JText::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
 		JText::script('COM_REDSHOP_FAIL');
 		JText::script('COM_REDSHOP_DATA_UPDATE_FAIL');
 
-		$html = '<input type="' . $type . '" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
-			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" '
-			. ' data-original-value="' . $value . '" disabled="disabled" style="display: none;" />';
-		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" data-id="' . $id . '" '
-			. 'class="label-edit-inline">' . $display . '</div>';
-
-		return $html;
+		return RedshopLayoutHelper::render(
+			'inline.text',
+			array(
+				'type'    => $type,
+				'name'    => $name,
+				'id'      => $id,
+				'value'   => $value,
+				'display' => $display
+			),
+			null,
+			array('option' => 'com_redshop')
+		);
 	}
 
 	/**
 	 * Returns a checked-out icon
 	 *
-	 * @param   integer       $i           The row index.
-	 * @param   string        $editorName  The name of the editor.
-	 * @param   string        $time        The time that the object was checked out.
-	 * @param   string|array  $prefix      An optional task prefix or an array of options
-	 * @param   boolean       $enabled     True to enable the action.
-	 * @param   string        $checkbox    An optional prefix for checkboxes.
-	 * @param   string        $formId      An optional form id
+	 * @param   integer      $i          The row index.
+	 * @param   string       $editorName The name of the editor.
+	 * @param   string       $time       The time that the object was checked out.
+	 * @param   string|array $prefix     An optional task prefix or an array of options
+	 * @param   boolean      $enabled    True to enable the action.
+	 * @param   string       $checkbox   An optional prefix for checkboxes.
+	 * @param   string       $formId     An optional form id
 	 *
 	 * @return  string  The required HTML.
 	 */
@@ -191,17 +196,30 @@ abstract class JHtmlRedshopGrid
 			JHtml::_('redshopjquery.popover');
 		}
 
+		$iconClass = $active_class;
+
+		if ($active_class === 'publish')
+		{
+			$iconClass = 'check-circle';
+		}
+		elseif ($active_class === 'unpublish')
+		{
+			$iconClass = 'minus-circle';
+		}
+
 		if ($enabled)
 		{
+			$buttonClass = 'btn-' . str_replace(' ', '-', strtolower($task));
+
 			// Prepare the class.
-			if ($active_class === 'plus')
+			if ($active_class === 'publish')
 			{
-				$buttonClass = 'published';
+				$buttonClass .= ' btn-success btn-state-item';
 			}
 
-			elseif ($active_class === 'minus')
+			elseif ($active_class === 'unpublish')
 			{
-				$buttonClass = 'unpublished';
+				$buttonClass .= ' btn-danger btn-state-item';
 			}
 
 			$buttonClass .= $tip ? ' hasPopover' : '';
@@ -210,7 +228,7 @@ abstract class JHtmlRedshopGrid
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\''
 				. $prefix . $task . '\',\'' . $formId . '\')"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
-			$html[] = '<i class="fa fa-' . $active_class . '">';
+			$html[] = '<i class="fa fa-' . $iconClass . '">';
 			$html[] = '</i>';
 			$html[] = '</a>';
 		}
@@ -225,7 +243,7 @@ abstract class JHtmlRedshopGrid
 			}
 			else
 			{
-				$html[] = '<i class="fa fa-' . $active_class . '"></i>';
+				$html[] = '<i class="fa fa-' . $iconClass . '"></i>';
 			}
 
 			$html[] = '</a>';

@@ -73,6 +73,8 @@ class CurrencyLayer
 	{
 		$session = \JFactory::getSession();
 
+		$convertedCurrencies = array();
+
 		if (!$sourceCurrency)
 		{
 			$sourceCurrency = \Redshop::getConfig()->get('CURRENCY_CODE');
@@ -80,7 +82,7 @@ class CurrencyLayer
 
 		if (!$targetCurrency)
 		{
-			$targetCurrency = RedshopEntityCurrency::getInstance($session->get('product_currency'))->get('currency_code');
+			$targetCurrency = RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
 
 			// If both currency codes match, do nothing
 			if ($sourceCurrency == $targetCurrency)
@@ -108,6 +110,7 @@ class CurrencyLayer
 	 * Method for get converted currencies list
 	 *
 	 * @return  array
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -127,6 +130,7 @@ class CurrencyLayer
 	 * @return  void
 	 *
 	 * @since   2.0.6
+	 * @throws  \Exception
 	 */
 	public function init()
 	{

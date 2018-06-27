@@ -32,18 +32,18 @@ class RedshopViewQuestion extends RedshopViewAdmin
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
 
-		$this->form       = $this->get('Form');
-		$this->detail     = $this->get('Item');
-		$this->item       = $this->detail;
-		$this->state      = $this->get('State');
+		$this->form   = $this->get('Form');
+		$this->detail = $this->get('Item');
+		$this->item   = $this->detail;
+		$this->state  = $this->get('State');
 
-		$model = $this->getModel('Question');
-		$this->answers = $model->getAnswers($this->item->id);
+		$model            = $this->getModel('Question');
+		$this->answers    = $model->getAnswers($this->item->id);
 		$this->requestUrl = JUri::getInstance()->toString();
 
 		if (!$this->item->id)
 		{
-			$user = JFactory::getUser();
+			$user                   = JFactory::getUser();
 			$this->item->user_email = $user->email;
 			$this->item->user_name 	= $user->username;
 		}
@@ -66,10 +66,9 @@ class RedshopViewQuestion extends RedshopViewAdmin
 
 		$isNew = ($this->item->id < 1);
 
-		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title($title, 'redshop_question_48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>>[ ' . $text . ' ]</small>', 'redshop_question_48');
 		JToolBarHelper::apply('question.apply');
 		JToolBarHelper::save('question.save');
 

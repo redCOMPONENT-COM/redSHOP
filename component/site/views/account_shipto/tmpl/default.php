@@ -20,19 +20,19 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
 		setTimeout(function(){
-			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $Itemid); ?>';
+			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $itemId); ?>';
 		}, 3000);
 
 	<?php endif; ?>
 </script>
 <?php if ($this->params->get('show_page_heading', 1)): ?>
-	<?php if ($this->params->get('page_title') != $pagetitle): ?>
+	<?php if ($this->params->get('page_title') != $pageTitle): ?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<?php echo $this->escape(JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL')); ?>
 		</h1>
 	<?php else: ?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo $pagetitle; ?></h1>
+			<?php echo $pageTitle; ?></h1>
 	<?php endif; ?>
 <?php endif; ?>
 <fieldset class="adminform">
@@ -47,9 +47,13 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 
 		<?php for ($i = 0; $i < count($this->shippingAddresses); $i++): ?>
 			<?php $editLink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
+			<?php $deleteLink = "index.php?option=com_redshop&view=account_shipto&task=remove&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
 			<tr>A
 				<td>
 					<?php echo "- <a href='" . JRoute::_($editLink) . "'>" . $this->shippingAddresses[$i]->text . "</a>"; ?>
+				</td>
+				<td>
+					<a onclick="return confirm('<?php echo JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') ?>');" href="<?php echo JRoute::_($deleteLink) ?>"><?php echo JText::_("JGLOBAL_FIELD_REMOVE") ?></a>
 				</td>
 			</tr>
 		<?php endfor; ?>

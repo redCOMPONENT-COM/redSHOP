@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
-JHTML::_('behavior.tooltip');
 
 $model = $this->getModel('xmlexport_detail');
 
@@ -166,7 +165,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=orderdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_ORDER_DETAIL'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_ORDER_DETAIL'); ?>">
 						</a></td>
@@ -176,7 +175,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=billingdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_ORDER_USER_BILLING_INFORMATION'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_ORDER_USER_BILLING_INFORMATION'); ?>">
 						</a></td>
@@ -186,7 +185,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=shippingdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_ORDER_USER_SHIPPING_INFORMATION'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_ORDER_USER_SHIPPING_INFORMATION'); ?>">
 						</a></td>
@@ -196,7 +195,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=orderitem"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_ORDERITEMDETAIL'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_ORDERITEMDETAIL'); ?>">
 						</a></td>
@@ -213,7 +212,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=product&parentsection=productdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_DETAIL'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_DETAIL'); ?>">
 						</a></td>
@@ -223,7 +222,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=product&parentsection=stockdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_STOCK_DETAIL'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_STOCK_DETAIL'); ?>">
 						</a></td>
@@ -233,7 +232,7 @@ switch ($this->detail->section_type)
 					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=product&parentsection=prdextrafield"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
-							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg'; ?>"
 							     title="<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_FIELD_DETAIL'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_FIELD_DETAIL'); ?>">
 						</a></td>

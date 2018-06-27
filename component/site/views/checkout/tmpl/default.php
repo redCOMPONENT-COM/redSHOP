@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.modal');
 
@@ -26,7 +25,7 @@ $userhelper      = rsUserHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 
-$telesearch = $order_functions->getparameters('rs_telesearch');
+$telesearch = RedshopHelperOrder::getParameters('rs_telesearch');
 $Itemid     = RedshopHelperRouter::getCheckoutItemId();
 $auth       = $session->get('auth');
 $jinput     = JFactory::getApplication()->input;
@@ -48,7 +47,7 @@ $dispatcher->trigger('onRenderCustomField');
 // Actually need know and determine which variables we want to use
 $post = $jinput->post->getArray();
 
-$login_template = $redTemplate->getTemplate("login");
+$login_template = RedshopHelperTemplate::getTemplate("login");
 
 if (count($login_template) > 0 && $login_template[0]->template_desc)
 {
@@ -202,7 +201,7 @@ else
             <fieldset>
                 <legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
-				<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')); ?>
+				<?php echo RedshopHelperBilling::render($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')); ?>
             </fieldset>
 
 			<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
