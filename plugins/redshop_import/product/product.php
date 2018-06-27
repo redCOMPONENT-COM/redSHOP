@@ -695,9 +695,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return;
 		}
 
-		$relatedIds = explode("###", $data['related_products']);
+		$relatedNumbers = explode("###", $data['related_products']);
 
-		if (empty($relatedIds))
+		if (empty($relatedNumbers))
 		{
 			return;
 		}
@@ -711,14 +711,23 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 		$db->setQuery($query)->execute();
 
-
-		foreach ($relatedIds as $relatedId)
+		foreach ($relatedNumbers as $relatedNumber)
 		{
-			$insert             = new stdClass;
-			$insert->related_id = $relatedId;
-			$insert->product_id = $productId;
+			$query->clear()
+				->select($db->qn('product_id'))
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_number') . ' = ' . $db->quote($relatedNumber));
 
-			$db->insertObject('#__redshop_product_related', $insert);
+			$relatedId = $db->setQuery($query)->loadresult();
+
+			if ($relatedId)
+			{
+				$insert             = new stdClass;
+				$insert->related_id = $relatedId;
+				$insert->product_id = $productId;
+
+				$db->insertObject('#__redshop_product_related', $insert);
+			}
 		}
 	}
 
