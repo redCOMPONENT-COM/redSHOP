@@ -472,7 +472,14 @@ $template_desc = str_replace("{manufacturer_link}", $manufacturerLink, $template
 $template_desc = str_replace("{manufacturer_product_link}", $manufacturerPLink, $template_desc);
 $template_desc = str_replace("{manufacturer_name}", $this->data->manufacturer_name, $template_desc);
 
-$template_desc = str_replace("{supplier_name}", "", $template_desc);
+$supplier_name = '';
+
+if ($this->data->supplier_id)
+{
+	$supplier_name = $this->model->getNameSupplierById($this->data->supplier_id);
+}
+
+$template_desc = str_replace("{supplier_name}", $supplier_name, $template_desc);
 
 if (strstr($template_desc, "{product_delivery_time}"))
 {
