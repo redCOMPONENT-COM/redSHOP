@@ -40,33 +40,13 @@ class PriceProductCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategorySave($this->randomCategoryName);
-    }
 
-    /**
-     *
-     * Function create product
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function createProductSaveClose(AcceptanceTester $I, $scenario)
-    {
         $I->wantTo('Test Product Save Close Manager in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSaveClose($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
-    }
-    /**
-     *
-     * add Discount Price for product
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    //search product then insert discount price
-    public function addDiscountPrice(AcceptanceTester $I, $scenario)
-    {
+
         $I->wantTo('Test Change Price of Product in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);

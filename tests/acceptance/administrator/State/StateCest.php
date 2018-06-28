@@ -100,41 +100,11 @@ class StateCest
 		);
 		$client = new StateSteps($scenario);
 		$client->addState($this->randomCountryName, $this->randomStateName, $this->randomTwoCode, $this->randomThreeCode);
-	}
 
-	/**
-	 * Function to Test State Update in the Administrator
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   Scenario         $scenario Scenario object.
-	 *
-	 * @return  void
-	 *
-	 * @depends createState
-	 */
-	public function updateState(AcceptanceTester $client, $scenario)
-	{
 		$client->wantTo('Test if State gets updated in Administrator');
-		$client->doAdministratorLogin();
-		$client = new StateSteps($scenario);
 		$client->updateState($this->randomStateName, $this->updatedRandomStateName);
-	}
 
-	/**
-	 * Function to Test State Deletion
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   Scenario         $scenario Scenario object.
-	 *
-	 * @return  void
-	 *
-	 * @depends updateState
-	 */
-	public function deleteState(AcceptanceTester $client, $scenario)
-	{
 		$client->wantTo('Deletion of State in Administrator');
-		$client->doAdministratorLogin();
-		$client = new StateSteps($scenario);
 		$client->deleteState($this->updatedRandomStateName);
 		/**
 		 * @TODO: Why delete country here?
