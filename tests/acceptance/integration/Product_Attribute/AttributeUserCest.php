@@ -14,6 +14,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
 use AcceptanceTester\TaxRateSteps as TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
 use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+use AcceptanceTester\ShippingSteps as ShippingSteps;
 
 /**
  * Class AttributeUserCest
@@ -216,12 +218,12 @@ class AttributeUserCest
 		);
 
 		$client->wantTo('Test User creation with save button in Administrator');
-		(new \AcceptanceTester\UserManagerJoomla3Steps($scenario))->addUser(
+		(new UserManagerJoomla3Steps($scenario))->addUser(
 			$this->userName, $this->userName, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save'
 		);
 
 		$client->wantTo('Add shipping rate');
-		(new \AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
+		(new ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
 	}
 
 	/**
@@ -239,5 +241,37 @@ class AttributeUserCest
 			$this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
 			$this->vatPrice, $this->total, $this->shippingPrice
 		);
+	}
+
+	/**
+	 * @param AcceptanceTester      $client
+	 * @param \Codeception\Scenario $scenario
+	 *
+	 * @throws Exception
+	 */
+	public function clearAllDate(AcceptanceTester $client, \Codeception\Scenario $scenario)
+	{
+		$client->doAdministratorLogin();
+
+		$client->wantTo('Delete Test TAX Rates in Administrator');
+		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
+
+		$client->wantTo(' Delete VAT Groups - In Administrator');
+		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
+
+		$client->wantTo('Delete product with attribute');
+		$client = new ProductSteps($scenario);
+		$client->deleteProduct($this->productName);
+
+		$client->wantTo('Delete Category in Administrator');
+		$client = new CategorySteps($scenario);
+		$client->deleteCategory($this->category);
+
+		$client->wantTo('Delete User creation in Administrator');
+		(new UserManagerJoomla3Steps($scenario))->deleteUser( $this->firstName);
+
+		$client->wantTo('Test Order delete by user  in Administrator');
+		$client = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$client->deleteOrder($this->firstName);
 	}
 }
