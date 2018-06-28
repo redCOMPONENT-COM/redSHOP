@@ -1,0 +1,50 @@
+language:
+  php
+
+sudo:
+  required
+
+dist:
+  trusty
+
+node_js:
+  - 9
+
+php:
+  - 5.6
+
+addons:
+  chrome: stable
+
+cache:
+  apt: true
+  directories:
+    - "node_modules"
+    - $HOME/.composer/cache/files
+
+env:
+  matrix:
+      - ACCEPTANCE=false
+      - ACCEPTANCE=acceptance/administrator
+      - ACCEPTANCE=acceptance/integration
+
+  global:
+    - CLOUD_NAME=redcomponent
+    - API_KEY=365447364384436
+    - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+    - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
+    - ORGANIZATION=redCOMPONENT-COM
+    - REPO=redSHOP
+
+before_script:
+  - ./.travis/setup.sh
+
+script:
+  - ./.travis/script.sh
+
+after_script:
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+
+notifications:
+  slack:
+    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
