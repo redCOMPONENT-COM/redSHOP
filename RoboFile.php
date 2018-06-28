@@ -100,6 +100,69 @@ class RoboFile extends \Robo\Tasks
 	}
 
     /**
+     * Method for run specific scenario
+     *
+     * @param   string $testCase  Scenario case.
+     *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
+     *
+     * @return  void
+     */
+    public function runTravis($testCase)
+    {
+        $this->prepareSiteForSystemTests(1);
+
+        $this->checkTravisWebserver();
+
+        $testPath = __DIR__ . '/tests/' . $testCase;
+
+        // Populate test case. In case this path is not an exist folder.
+        if (!file_exists($testPath) || !is_dir($testPath))
+        {
+            $testCase .= 'Cest.php';
+        }
+
+        $this->taskSeleniumStandaloneServer()
+            ->setURL('http://localhost:4444')
+            ->runSelenium()
+            ->waitForSelenium()
+            ->run()
+            ->stopOnFail();
+
+        // Make sure to Run the B uild Command to Generate AcceptanceTester
+        $this->_exec('vendor/bin/codecept build');
+
+        // Install Joomla + redSHOP
+        $this->taskCodecept()
+            // ->arg('--steps')
+            // ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/install/')
+            ->run()
+            ->stopOnFail();
+
+        // Run specific task
+        $this->taskCodecept()
+            ->test('tests/' . $testCase)
+            // ->arg('--steps')
+            // ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->run()
+            ->stopOnFail();
+
+        // Uninstall after test.
+        $this->taskCodecept()
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/uninstall/')
+            ->run()
+            ->stopOnFail();
+
+        $this->killSelenium();
+    }
+
+    /**
      * @param $githubToken
      * @param $repoOwner
      * @param $repo
