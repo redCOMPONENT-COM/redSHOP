@@ -20,43 +20,43 @@ class RoboFile extends \Robo\Tasks
 	// Load tasks from composer, see composer.json
 	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-    // Load tasks from composer, see composer.json
-    use Joomla\Testing\Robo\Tasks\LoadTasks;
+	// Load tasks from composer, see composer.json
+	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-    /**
-     * Downloads and prepares a Joomla CMS site for testing
-     *
-     * @param   int  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
-     *
-     * @return mixed
-     */
-    public function prepareSiteForSystemTests($use_htaccess = 1)
-    {
-        // Get Joomla Clean Testing sites
-        if (is_dir('tests/joomla-cms'))
-        {
-            $this->taskDeleteDir('tests/joomla-cms')->run();
-        }
+	/**
+	 * Downloads and prepares a Joomla CMS site for testing
+	 *
+	 * @param   int  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 *
+	 * @return mixed
+	 */
+	public function prepareSiteForSystemTests($use_htaccess = 1)
+	{
+		// Get Joomla Clean Testing sites
+		if (is_dir('tests/joomla-cms'))
+		{
+			$this->taskDeleteDir('tests/joomla-cms')->run();
+		}
 
-        $version = 'staging';
+		$version = 'staging';
 
-        /*
-         * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
-         * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
-         */
-        $version = '3.8.8';
+		/*
+		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+		 */
+		$version = '3.8.8';
 
-        $this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
+		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 
-        $this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+		$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
 
-        // Optionally uses Joomla default htaccess file
-        if ($use_htaccess == 1)
-        {
-            $this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
-            $this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
-        }
-    }
+		// Optionally uses Joomla default htaccess file
+		if ($use_htaccess == 1)
+		{
+			$this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
+		}
+	}
 	/**
 	 * Clone joomla
 	 */
@@ -99,75 +99,95 @@ class RoboFile extends \Robo\Tasks
 				->stopOnFail();
 	}
 
-    /**
-     * Method for run specific scenario
-     *
-     * @param   string $testCase  Scenario case.
-     *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
-     *
-     * @return  void
-     */
-    public function runTravis($testCase)
-    {
-        $this->prepareSiteForSystemTests(1);
+	/**
+	 * Method for run specific scenario
+	 *
+	 * @param   string $testCase  Scenario case.
+	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
+	 *
+	 * @return  void
+	 */
+	public function runTravis($testCase)
+	{
+		$this->prepareSiteForSystemTests(1);
 
-        $this->checkTravisWebserver();
+		$this->checkTravisWebserver();
 
-        $testPath = __DIR__ . '/tests/' . $testCase;
+		$testPath = __DIR__ . '/tests/' . $testCase;
 
-        // Populate test case. In case this path is not an exist folder.
-        if (!file_exists($testPath) || !is_dir($testPath))
-        {
-            $testCase .= 'Cest.php';
-        }
+		// Populate test case. In case this path is not an exist folder.
+		if (!file_exists($testPath) || !is_dir($testPath))
+		{
+			$testCase .= 'Cest.php';
+		}
 
-        $this->taskSeleniumStandaloneServer()
-            ->setURL('http://localhost:4444')
-            ->runSelenium()
-            ->waitForSelenium()
-            ->run()
-            ->stopOnFail();
+		$this->taskSeleniumStandaloneServer()
+			->setURL('http://localhost:4444')
+			->runSelenium()
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
 
-        // Make sure to Run the B uild Command to Generate AcceptanceTester
-        $this->_exec('vendor/bin/codecept build');
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		$this->_exec('vendor/bin/codecept build');
 
-        // Install Joomla + redSHOP
-        $this->taskCodecept()
-            // ->arg('--steps')
-            // ->arg('--debug')
-            ->arg('--tap')
-            ->arg('--fail-fast')
-            ->arg('tests/acceptance/install/')
-            ->run()
-            ->stopOnFail();
+		// Install Joomla + redSHOP
+		$this->taskCodecept()
+			// ->arg('--steps')
+			// ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/install/')
+			->run()
+			->stopOnFail();
 
-        // Run specific task
-        $this->taskCodecept()
-            ->test('tests/' . $testCase)
-            // ->arg('--steps')
-            // ->arg('--debug')
-            ->arg('--tap')
-            ->arg('--fail-fast')
-            ->run()
-            ->stopOnFail();
+		// Run specific task
+		$this->taskCodecept()
+			->test('tests/' . $testCase)
+			// ->arg('--steps')
+			// ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->run()
+			->stopOnFail();
 
-        // Uninstall after test.
-        $this->taskCodecept()
-            ->arg('--tap')
-            ->arg('--fail-fast')
-            ->arg('tests/acceptance/uninstall/')
-            ->run()
-            ->stopOnFail();
+		// Uninstall after test.
+		$this->taskCodecept()
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/uninstall/')
+			->run()
+			->stopOnFail();
 
-        $this->killSelenium();
-    }
+		$this->killSelenium();
+	}
 
-    /**
-     * @param $githubToken
-     * @param $repoOwner
-     * @param $repo
-     * @param $pull
-     */
+	/**
+	 * Looks for Travis Webserver
+	 *
+	 * @return  void
+	 */
+	public function checkTravisWebserver()
+	{
+		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
+	}
+
+	/**
+	 * Stops Selenium Standalone Server
+	 *
+	 * @return void
+	 */
+	public function killSelenium()
+	{
+		$this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
+	}
+
+	/**
+	 * @param $githubToken
+	 * @param $repoOwner
+	 * @param $repo
+	 * @param $pull
+	 */
 	public function uploadPatchFromJenkinsToTestServer($githubToken, $repoOwner, $repo, $pull)
 	{
 		$body = 'Please Download the Patch Package for testing from the following Path: http://test.redcomponent.com/redshop/PR/' . $pull . '/redshop.zip';
