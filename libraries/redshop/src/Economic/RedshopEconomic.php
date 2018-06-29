@@ -419,7 +419,16 @@ class RedshopEconomic
 			}
 			else
 			{
-				$eco['newuserFlag'] = true;
+				$debtorVatHandle = \RedshopHelperUtility::getDispatcher()->trigger('Debtor_FindByVAT', array($eco));
+
+				if (!empty($debtorVatHandle[0]))
+				{
+					$eco['eco_user_number'] = $debtorVatHandle[0]->Number;
+				}
+				else
+				{
+					$eco['newuserFlag'] = true;
+				}
 			}
 		}
 
