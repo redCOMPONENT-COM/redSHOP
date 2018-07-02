@@ -174,6 +174,7 @@ abstract class ModRedshopFilter
 			->select($db->qn('id'))
 			->select($db->qn('name'))
 			->from($db->qn("#__redshop_category"))
+			->where($db->qn("published") . " = 1")
 			->where($db->qn('id') . ' IN (' . implode(',', $mainCat) . ')');
 
 		if ($rootCategory != 0)
@@ -205,6 +206,7 @@ abstract class ModRedshopFilter
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'category_id'))
 			->select($db->qn('name', 'category_name'))
+			->where($db->qn("published") . " = 1")
 			->from($db->qn("#__redshop_category"));
 
 		if (!empty($catList)) {
@@ -239,6 +241,7 @@ abstract class ModRedshopFilter
 		{
 			$query->select('id')
 				->from($db->qn('#__redshop_category'))
+				->where($db->qn("published") . " = 1")
 				->where($db->qn("parent_id") . ' = ' . $db->q((int) $rootCategory));
 			$root = $db->setQuery($query)->loadColumn();
 
@@ -254,6 +257,7 @@ abstract class ModRedshopFilter
 				->clear()
 				->select($db->qn('c.id', 'category_id'))
 				->select($db->qn('c.name', 'category_name'))
+				->where($db->qn("c.published") . " = 1")
 				->from($db->qn("#__redshop_category", "c"));
 
 			if (count($cids) != $containsAllValues)
@@ -307,7 +311,8 @@ abstract class ModRedshopFilter
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product'))
-			->where($db->qn('manufacturer_id') . ' = ' . $db->q((int) $mid));
+			->where($db->qn('manufacturer_id') . ' = ' . $db->q((int) $mid))
+			->where($db->qn('published') . ' = 1');
 
 		return $db->setQuery($query)->loadColumn();
 	}
@@ -435,6 +440,7 @@ abstract class ModRedshopFilter
 			->select($db->qn('c.id', 'category_id'))
 			->select($db->qn('c.name', 'category_name'))
 			->from($db->qn("#__redshop_category", "c"))
+			->where($db->qn("c.published") . " = 1")
 			->where($db->qn("c.parent_id") . ' = ' . $db->q((int) $rootCategory));
 
 		if (!empty($catList))
