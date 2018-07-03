@@ -66,7 +66,7 @@ JPluginHelper::importPlugin('redshop_product');
                 break;
             case "remove":
                 form.view.value = "order_detail";
-                var r           = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
+                var r = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
 
                 if (r == false) {
                     return false;
@@ -89,26 +89,26 @@ JPluginHelper::importPlugin('redshop_product');
     };
 
     resetFilter = function () {
-        document.adminForm.task.value                          = "";
-        document.getElementById("filter").value                = "";
-        document.getElementById("filter_by").value             = "";
+        document.adminForm.task.value = "";
+        document.getElementById("filter").value = "";
+        document.getElementById("filter_by").value = "";
         document.getElementById("filter_payment_status").value = "";
-        document.getElementById("filter_status").value         = "0";
-        document.getElementById("filter_from_date").value      = "";
-        document.getElementById("filter_to_date").value        = "";
+        document.getElementById("filter_status").value = "0";
+        document.getElementById("filter_from_date").value = "";
+        document.getElementById("filter_to_date").value = "";
         document.adminForm.submit();
     };
 </script>
 <script type="text/javascript">
     function massStatusChange(option) {
         (function ($) {
-            var form        = document.adminForm;
-            var massStatus  = $("#massOrderStatusChange select[name=mass_change_order_status]").val();
+            var form = document.adminForm;
+            var massStatus = $("#massOrderStatusChange select[name=mass_change_order_status]").val();
             var massPayment = $("#massOrderStatusChange select[name=mass_change_payment_status]").val();
-            var massSend    = $("#massOrderStatusChange input[name=mass_mail_sending]");
+            var massSend = $("#massOrderStatusChange input[name=mass_mail_sending]");
 
-            form.task.value                       = option;
-            form.mass_change_order_status.value   = massStatus;
+            form.task.value = option;
+            form.mass_change_order_status.value = massStatus;
             form.mass_change_payment_status.value = massPayment;
             if ($(massSend).is(":checked")) {
                 form.mass_mail_sending.value = 1;
@@ -128,13 +128,13 @@ JPluginHelper::importPlugin('redshop_product');
 
     function massPacsoftStatusChange(option) {
         (function ($) {
-            var form        = document.adminForm;
-            var massStatus  = $("#massOrderStatusPacsoft select[name=mass_change_order_status]").val();
+            var form = document.adminForm;
+            var massStatus = $("#massOrderStatusPacsoft select[name=mass_change_order_status]").val();
             var massPayment = $("#massOrderStatusPacsoft select[name=mass_change_payment_status]").val();
-            var massSend    = $("#massOrderStatusPacsoft input[name=mass_mail_sending]");
+            var massSend = $("#massOrderStatusPacsoft input[name=mass_mail_sending]");
 
-            form.task.value                       = option;
-            form.mass_change_order_status.value   = massStatus;
+            form.task.value = option;
+            form.mass_change_order_status.value = massStatus;
             form.mass_change_payment_status.value = massPayment;
             if ($(massSend).is(":checked")) {
                 form.mass_mail_sending.value = 1;
@@ -156,7 +156,7 @@ JPluginHelper::importPlugin('redshop_product');
     (function ($) {
         $(document).ready(function () {
             $("#massOrderStatusChange").on("show.bs.modal", function (event) {
-                var checks  = [];
+                var checks = [];
                 var checked = $("input[type='checkbox'][id^='cb'][name^='cid']:checked");
 
                 if (!checked.length) {
@@ -175,15 +175,18 @@ JPluginHelper::importPlugin('redshop_product');
     })(jQuery);
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
+      id="adminForm">
     <div id="editcell">
         <div class="filterTool">
             <div class="filterItem">
                 <div class="btn-wrapper input-append">
                     <input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
                            placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
-                    <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
-                    <input type="button" class="btn reset" onclick="resetFilter();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
+                    <button class="btn"
+                            onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+                    <input type="button" class="btn reset" onclick="resetFilter();"
+                           value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
                 </div>
             </div>
             <div class="filterItem">
@@ -226,7 +229,8 @@ JPluginHelper::importPlugin('redshop_product');
 				);
 				?>
             </div>
-            <input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO'); ?>"/>
+            <input name="search" class="btn" type="submit" id="search"
+                   value="<?php echo JText::_('COM_REDSHOP_GO'); ?>"/>
             <div class="filterItem">
 				<?php echo $lists['filter_payment_status']; ?>
             </div>
@@ -270,8 +274,10 @@ JPluginHelper::importPlugin('redshop_product');
             <th width="10%">
 				<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_TOTAL', 'order_total', $this->lists['order_Dir'], $this->lists['order']); ?>
             </th>
-            <th width="1"></th>
-			<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1): ?>
+	        <?php if ($this->canEdit): ?>
+                <th width="1"></th>
+	        <?php endif ?>
+            <?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1): ?>
                 <th width="10%">
 					<?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
                 </th>
@@ -318,7 +324,13 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php echo JHtml::_('grid.id', $i, $row->id); ?>
                 </td>
                 <td align="center">
-                    <a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>"><?php echo $row->order_id ?></a>
+	                <?php if ($this->canEdit): ?>
+                        <a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
+                            <?php echo $row->order_id ?>
+                        </a>
+	                <?php else: ?>
+		                <?php echo $row->order_id ?>
+	                <?php endif ?>
                 </td>
 				<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
 					&& $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number
@@ -326,9 +338,13 @@ JPluginHelper::importPlugin('redshop_product');
                     <td align="center"><?php echo $row->bookinvoice_number ?></td>
 				<?php endif; ?>
                 <td>
-                    <a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
-						<?php echo $row->firstname . ' ' . $row->lastname ?>
-                    </a>
+                    <?php if ($this->canEdit): ?>
+						<a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
+							<?php echo $row->firstname . ' ' . $row->lastname ?>
+						</a>
+					<?php else: ?>
+					    <?php echo $row->firstname . ' ' . $row->lastname ?>
+                    <?php endif ?>
                 </td>
                 <td>
                     <a href="mailto:<?php echo $row->user_email ?>" target="_blank"><?php echo $row->user_email ?></a>
@@ -361,82 +377,87 @@ JPluginHelper::importPlugin('redshop_product');
                 <td>
 					<?php echo $productHelper->getProductFormattedPrice($row->order_total); ?>
                 </td>
-                <td>
-					<?php
-					$linkUpdate = 'index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id;
-					?>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#order_status_form<?php echo $row->id ?>">
-                        <i class="icon icon-edit"></i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
-                    </button>
-                    <div class="modal fade" id="order_status_form<?php echo $row->id ?>" role="dialog"
-                         aria-labelledby="order_status_form_label_<?php echo $row->id ?>">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    <h3 class="modal-title" id="order_status_form_label_<?php echo $row->id ?>">
-										<?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
-                                    </h3>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
-													<?php echo RedshopHelperOrder::getStatusList(
-														'order_status' . $row->order_id,
-														$row->order_status,
-														"class=\"form-control inputbox\" size=\"1\" "
-													); ?>
+                <?php if ($this->canEdit): ?>
+                    <td>
+                        <?php
+                        $linkUpdate = 'index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id;
+                        ?>
+                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                data-target="#order_status_form<?php echo $row->id ?>">
+                            <i class="icon icon-edit"></i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
+                        </button>
+                        <div class="modal fade" id="order_status_form<?php echo $row->id ?>" role="dialog"
+                             aria-labelledby="order_status_form_label_<?php echo $row->id ?>">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span></button>
+                                        <h3 class="modal-title" id="order_status_form_label_<?php echo $row->id ?>">
+                                            <?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
+                                        </h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
+                                                        <?php echo RedshopHelperOrder::getStatusList(
+                                                            'order_status' . $row->order_id,
+                                                            $row->order_status,
+                                                            "class=\"form-control inputbox\" size=\"1\" "
+                                                        ); ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
+                                                        <?php echo RedshopHelperOrder::getPaymentStatusList(
+                                                            'order_paymentstatus' . $row->order_id,
+                                                            $row->order_payment_status,
+                                                            "class=\"form-control inputbox\" size=\"1\" "
+                                                        ); ?>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
-													<?php echo RedshopHelperOrder::getPaymentStatusList(
-														'order_paymentstatus' . $row->order_id,
-														$row->order_payment_status,
-														"class=\"form-control inputbox\" size=\"1\" "
-													); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label><?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'); ?></label>
-                                                    <textarea class="form-control" name="customer_note<?php echo $row->order_id ?>"
-                                                              style="resize: none;"><?php echo $row->customer_note ?></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>
-                                                        <input type="checkbox" <?php echo $send_mail_to_customer ?> value="1"
-                                                               name="sendordermail<?php echo $row->order_id ?>"/> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
-                                                    </label>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label><?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'); ?></label>
+                                                        <textarea class="form-control"
+                                                                  name="customer_note<?php echo $row->order_id ?>"
+                                                                  style="resize: none;"><?php echo $row->customer_note ?></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <input type="checkbox" <?php echo $send_mail_to_customer ?>
+                                                                   value="1"
+                                                                   name="sendordermail<?php echo $row->order_id ?>"/> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-										<?php echo JText::_('JTOOLBAR_CANCEL') ?>
-                                    </button>
-                                    <button type="button" class="button btn btn-primary"
-                                            onclick="location.href='<?php echo JRoute::_($linkUpdate, false) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
-                                            value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>">
-										<?php echo JText::_('JTOOLBAR_SAVE') ?>
-                                    </button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                            <?php echo JText::_('JTOOLBAR_CANCEL') ?>
+                                        </button>
+                                        <button type="button" class="button btn btn-primary"
+                                                onclick="location.href='<?php echo JRoute::_($linkUpdate, false) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
+                                                value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>">
+                                            <?php echo JText::_('JTOOLBAR_SAVE') ?>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-					<?php echo $data->highlight->toHighlightGrid; ?>
-                </td>
+                        <?php echo $data->highlight->toHighlightGrid; ?>
+                    </td>
+                <?php endif ?>
 				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
 					<?php
 					$orderItems   = RedshopHelperOrder::getOrderItemDetail($row->order_id);
@@ -494,7 +515,8 @@ JPluginHelper::importPlugin('redshop_product');
                 </td>
                 <td>
 					<?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
-                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank">
+                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
+                           target="_blank">
                             <i class="fa fa-file-pdf-o"></i>
                         </a>
 					<?php else: ?>
@@ -502,37 +524,41 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php endif; ?>
                 </td>
                 <td>
-					<?php if ($row->invoice_no != ''): ?>
-						<?php if ($row->is_booked == 0 && $row->bookinvoice_date <= 0): ?>
-							<?php if ($row->is_company == 1 && $row->ean_number != ""): ?>
-								<?php echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC') ?>
-							<?php else: ?>
-								<?php
-								$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
+                    <?php if ($row->invoice_no != ''): ?>
+                        <?php if ($row->is_booked == 0 && $row->bookinvoice_date <= 0): ?>
+                            <?php if ($row->is_company == 1 && $row->ean_number != ""): ?>
+                                <?php echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC') ?>
+                            <?php else: ?>
+                                <?php
+                                    if ($this->canEdit)
+                                    {
+                                        $confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
 
-								if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
-								{
-									$confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
-								}
+                                        if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
+                                        {
+                                            $confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
+                                        }
 
-								echo JHtml::_(
-									'redshopcalendar.calendar',
-									date($calendarFormat),
-									'bookDate' . $i,
-									'bookDate' . $i,
-									$calendarFormat,
-									array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
-								);
-								?>
-                                <br/>
-                                <input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
-                                       onclick="javascript:<?php echo $confirm; ?>"><br/>
-							<?php endif; ?>
-						<?php elseif ($row->bookinvoice_date > 0): ?>
-							<?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') ?><br/>
-							<?php echo $config->convertDateFormat($row->bookinvoice_date) ?>
-						<?php endif; ?>
-					<?php endif; ?>
+                                        echo JHtml::_(
+                                            'redshopcalendar.calendar',
+                                            date($calendarFormat),
+                                            'bookDate' . $i,
+                                            'bookDate' . $i,
+                                            $calendarFormat,
+                                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                        );
+                                ?>
+                                    <br/>
+                                    <input type="button" class="button"
+                                           value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
+                                           onclick="javascript:<?php echo $confirm; ?>"><br/>
+                                <?php } ?>
+                            <?php endif; ?>
+                        <?php elseif ($row->bookinvoice_date > 0): ?>
+                            <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') ?><br/>
+                            <?php echo $config->convertDateFormat($row->bookinvoice_date) ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </td>
 				<?php
 				if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
@@ -566,21 +592,25 @@ JPluginHelper::importPlugin('redshop_product');
 						}
 						else
 						{
-							echo JHtml::_(
-								'redshopcalendar.calendar',
-								date($calendarFormat),
-								'specifiedDate' . $i,
-								'specifiedDate' . $i,
-								$calendarFormat,
-								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
-							);
-							?>
-                            <input type="button" class="button"
-                                   value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
-                                   onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
-                                           document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
-                                           document.parcelFrm.submit();">
-							<?php
+						    if ($this->canEdit)
+						    {
+
+							    echo JHtml::_(
+								    'redshopcalendar.calendar',
+								    date($calendarFormat),
+								    'specifiedDate' . $i,
+								    'specifiedDate' . $i,
+								    $calendarFormat,
+								    array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							    );
+							    ?>
+                                <input type="button" class="button"
+                                       value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
+                                       onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
+                                               document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
+                                               document.parcelFrm.submit();">
+							    <?php
+						    }
 						}
 
 						echo "</td>";
@@ -632,95 +662,24 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="option" value="com_redshop" type="hidden">
     <input name="task" value="generateParcel" type="hidden">
 </form>
-<!-- Mass Order Status modal -->
-<div class="modal fade" id="massOrderStatusChange" role="dialog" aria-labelledby="massOrderStatusChangelabel" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title" id="massOrderStatusChangelabel"><?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL') ?></h3>
-            </div>
-            <div class="modal-body form-vertical">
-                <div class="container-fluid">
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="control-label col-md-12">
-								<?php echo JText::_('COM_REDSHOP_ORDER') ?>:
-                                <div style="display: inline;" id="checked_orders"></div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="control-label"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
-								<?php
-								echo JHtml::_(
-									'select.genericlist',
-									RedshopHelperOrder::getOrderStatusList(), 'mass_change_order_status',
-									' class="form-control" size="1" ',
-									'value',
-									'text',
-									'C'
-								);
-								?>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="control-label"><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
-								<?php
-								$massChangePaymentStatus[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
-								$massChangePaymentStatus[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
-								$massChangePaymentStatus[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
-								echo JHtml::_(
-									'select.genericlist',
-									$massChangePaymentStatus,
-									'mass_change_payment_status',
-									' class="form-control" size="1" ',
-									'value',
-									'text',
-									''
-								);
-								?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row-fluid">
-                            <label class="radio col-md-12">
-                                <input type="checkbox" value="1" name="mass_mail_sending"/> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">
-					<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CLOSE') ?>
-                </button>
-                <button type="button" class="btn btn-primary" onclick="massStatusChange('allStatusExceptPacsoft');">
-					<?php echo JText::_('COM_REDSHOP_APPLY'); ?>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
-    <div class="modal fade" id="massOrderStatusPacsoft" role="dialog" aria-labelledby="massOrderStatusPacsoftLabel" tabindex="-1">
+<?php if ($this->canEdit): ?>
+    <!-- Mass Order Status modal -->
+    <div class="modal fade" id="massOrderStatusChange" role="dialog" aria-labelledby="massOrderStatusChangelabel"
+         tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title" id="massOrderStatusPacsoftLabel">
-						<?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL') ?>
-                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title"
+                        id="massOrderStatusChangelabel"><?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL') ?></h3>
                 </div>
                 <div class="modal-body form-vertical">
                     <div class="container-fluid">
                         <div class="form-group">
                             <div class="row">
                                 <label class="control-label col-md-12">
-									<?php echo JText::_('COM_REDSHOP_ORDER') ?>:
+                                    <?php echo JText::_('COM_REDSHOP_ORDER') ?>:
                                     <div style="display: inline;" id="checked_orders"></div>
                                 </label>
                             </div>
@@ -729,40 +688,41 @@ JPluginHelper::importPlugin('redshop_product');
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="control-label"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
-									<?php
-									echo JHtml::_(
-										'select.genericlist',
-										RedshopHelperOrder::getOrderStatusList(), 'mass_change_order_status',
-										' class="form-control" size="1" ',
-										'value',
-										'text',
-										'C'
-									);
-									?>
+                                    <?php
+                                    echo JHtml::_(
+                                        'select.genericlist',
+                                        RedshopHelperOrder::getOrderStatusList(), 'mass_change_order_status',
+                                        ' class="form-control" size="1" ',
+                                        'value',
+                                        'text',
+                                        'C'
+                                    );
+                                    ?>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="control-label"><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
-									<?php
-									$massChangePaymentStatus[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
-									$massChangePaymentStatus[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
-									$massChangePaymentStatus[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
-									echo JHtml::_(
-										'select.genericlist',
-										$massChangePaymentStatus,
-										'mass_change_payment_status',
-										' class="form-control" size="1" ',
-										'value',
-										'text',
-										''
-									);
-									?>
+                                    <?php
+                                    $massChangePaymentStatus[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
+                                    $massChangePaymentStatus[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
+                                    $massChangePaymentStatus[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
+                                    echo JHtml::_(
+                                        'select.genericlist',
+                                        $massChangePaymentStatus,
+                                        'mass_change_payment_status',
+                                        ' class="form-control" size="1" ',
+                                        'value',
+                                        'text',
+                                        ''
+                                    );
+                                    ?>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="row-fluid">
                                 <label class="radio col-md-12">
-                                    <input type="checkbox" value="1" name="mass_mail_sending"/> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
+                                    <input type="checkbox" value="1"
+                                           name="mass_mail_sending"/> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
                                 </label>
                             </div>
                         </div>
@@ -770,16 +730,95 @@ JPluginHelper::importPlugin('redshop_product');
                 </div>
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">
-						<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CLOSE') ?>
+                        <?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CLOSE') ?>
                     </button>
-                    <button type="button" class="btn btn-primary" onclick="massPacsoftStatusChange('allstatus');">
-						<?php echo JText::_('COM_REDSHOP_APPLY'); ?>
+                    <button type="button" class="btn btn-primary" onclick="massStatusChange('allStatusExceptPacsoft');">
+                        <?php echo JText::_('COM_REDSHOP_APPLY'); ?>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-<?php endif; ?>
+
+    <?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
+        <div class="modal fade" id="massOrderStatusPacsoft" role="dialog" aria-labelledby="massOrderStatusPacsoftLabel"
+             tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title" id="massOrderStatusPacsoftLabel">
+                            <?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL') ?>
+                        </h3>
+                    </div>
+                    <div class="modal-body form-vertical">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="control-label col-md-12">
+                                        <?php echo JText::_('COM_REDSHOP_ORDER') ?>:
+                                        <div style="display: inline;" id="checked_orders"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
+                                        <?php
+                                        echo JHtml::_(
+                                            'select.genericlist',
+                                            RedshopHelperOrder::getOrderStatusList(), 'mass_change_order_status',
+                                            ' class="form-control" size="1" ',
+                                            'value',
+                                            'text',
+                                            'C'
+                                        );
+                                        ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label"><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
+                                        <?php
+                                        $massChangePaymentStatus[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
+                                        $massChangePaymentStatus[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
+                                        $massChangePaymentStatus[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
+                                        echo JHtml::_(
+                                            'select.genericlist',
+                                            $massChangePaymentStatus,
+                                            'mass_change_payment_status',
+                                            ' class="form-control" size="1" ',
+                                            'value',
+                                            'text',
+                                            ''
+                                        );
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row-fluid">
+                                    <label class="radio col-md-12">
+                                        <input type="checkbox" value="1"
+                                               name="mass_mail_sending"/> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            <?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CLOSE') ?>
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="massPacsoftStatusChange('allstatus');">
+                            <?php echo JText::_('COM_REDSHOP_APPLY'); ?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif ?>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery(document).on("keydown", "#filter", function (e) {

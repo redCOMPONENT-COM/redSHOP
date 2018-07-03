@@ -42,6 +42,14 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
+		$canDo   = \RedshopHelperAccess::canCreate('order');
+
+		if (!$canDo)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			JFactory::getApplication()->redirect('index.php?option=com_redshop');
+		}
+
 		$input = JFactory::getApplication()->input;
 
 		$document = JFactory::getDocument();

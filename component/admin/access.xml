@@ -49,6 +49,10 @@
         <action name="mass_discount.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="mass_discount.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
         <action name="mass_discount.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="order.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="order.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="order.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="order.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <action name="order_status.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
         <action name="order_status.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="order_status.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
@@ -95,10 +99,6 @@
         <action name="wrapping.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="wrapping.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
         <action name="wrapping.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
-        <action name="order.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
-        <action name="order.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
-        <action name="order.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
-        <action name="order.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <action name="quotation.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
         <action name="quotation.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="quotation.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
