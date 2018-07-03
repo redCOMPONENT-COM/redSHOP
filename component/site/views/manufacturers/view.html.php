@@ -38,7 +38,10 @@ class RedshopViewManufacturers extends RedshopView
 
 		/** @var RedshopModelManufacturers $model */
 		$model  = $this->getModel('manufacturers');
-		$detail = $this->get('data');
+		$model  = $this->getModel('manufacturers');
+		$model->setState('com_redshop.manufacturers.default' . 'limit', 0);
+		$model->setState('com_redshop.manufacturers.default' . 'limitstart', 0);
+		$detail = $model->getData();
 		$limit  = $params->get('maxproduct');
 
 		$detail = array_filter(array_values($detail));
