@@ -28,6 +28,8 @@ class InstallRedShopCest
 	public function testInstallJoomla(AcceptanceTester $I)
 	{
 		$I->wantTo('Execute Joomla Installation');
+		$I->amOnPage('/');
+		$I->see('Main Configuration');
 		$I->installJoomlaRemovingInstallationFolder();
 		$I->doAdministratorLogin();
 		$I->setErrorReportingtoDevelopment();
