@@ -35,6 +35,8 @@ env:
     - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
+    - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
+    - SLACK_CHANNEL='#redshop-notifications'
 
 before_script:
   - ./.travis/setup.sh
@@ -43,7 +45,7 @@ script:
   - ./.travis/script.sh
 
 after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:build-report-error-slack $CLOUD_NAME $API_KEY $API_SECRET $REPO 11 $SLACK_WEBHOOK $SLACK_CHANNEL $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
