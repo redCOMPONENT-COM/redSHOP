@@ -62,6 +62,6 @@ else
 	composer install --prefer-dist
 
 	npm install
-	mv gulp-config.sample.json gulp-config.json
+	mv gulp-config.json.jenkins.dist gulp-config.json
 	node_modules/.bin/gulp release --skip-version
 fi
