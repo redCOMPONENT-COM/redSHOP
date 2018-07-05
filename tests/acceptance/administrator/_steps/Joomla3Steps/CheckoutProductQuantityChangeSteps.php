@@ -19,21 +19,15 @@ namespace AcceptanceTester;
  */
 class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 {
-    public function userLoginFrontend($firstName, $password)
-    {
-        $I = $this;
-        $I->amOnPage(\CheckoutProductChangeQuantityPage::$url);
-        $I->click(\CheckoutProductChangeQuantityPage::$fillUserName);
-        $I->fillField(\CheckoutProductChangeQuantityPage::$fillUserName, $firstName);
-        $I->click(\CheckoutProductChangeQuantityPage::$fillPassWord);
-        $I->fillField(\CheckoutProductChangeQuantityPage::$fillPassWord, $password);
-        $I->click(\CheckoutProductChangeQuantityPage::$submitButton);
-    }
-
-	public function checkoutChangeQuantity($category)
+	public function checkoutChangeQuantity($category, $userName, $password)
 	{
 		$I = $this;
 		$I->amOnPage(\CheckoutProductChangeQuantityPage::$url);
+        $I->click(\CheckoutProductChangeQuantityPage::$fillUserName);
+        $I->fillField(\CheckoutProductChangeQuantityPage::$fillUserName, $userName);
+        $I->click(\CheckoutProductChangeQuantityPage::$fillPassWord);
+        $I->fillField(\CheckoutProductChangeQuantityPage::$fillPassWord, $password);
+        $I->click(\CheckoutProductChangeQuantityPage::$submitButton);
 		$I->waitForElement(\CheckoutProductChangeQuantityPage::$categoryTitle, 30);
 		$I->click($category);
 		$I->click(\CheckoutProductChangeQuantityPage::$addToCart);
@@ -49,7 +43,7 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutProductChangeQuantityPage::$updateCartButton);
 		$I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
 		$I->click(\CheckoutProductChangeQuantityPage::$bankTransfer);
-		$I->click(\CheckoutProductChangeQuantityPage::$checkoutButton);
+		$I->waitForElement(\CheckoutProductChangeQuantityPage::$termAndConditions);
 		$I->click(\CheckoutProductChangeQuantityPage::$termAndConditions);
 		$I->click(\CheckoutProductChangeQuantityPage::$checkoutFinalStep);
 	}

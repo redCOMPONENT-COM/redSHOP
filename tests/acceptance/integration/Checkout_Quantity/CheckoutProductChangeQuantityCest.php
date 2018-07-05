@@ -43,14 +43,11 @@ class CheckoutProductChangeQuantityCest
 		$this->randomProductPrice = 100;
 		//User
         $this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
-        $this->password = $this->faker->bothify('Password ?##?');
+        $this->password = $this->faker->bothify('123456');
         $this->email = $this->faker->email;
         $this->shopperGroup = 'Default Private';
-        $this->group = 'Public';
+        $this->group = 'Super User';
         $this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-//        $this->updateFirstName = 'Updating ' . $this->firstName;
-        $this->lastName = 'Last';
-        $this->firstName = "FirstName";
         $this->lastName = "LastName";
         $this->address = "449 Tran Hung Dao";
         $this->city = "Thanh pho Ho Chi Minh";
@@ -64,13 +61,14 @@ class CheckoutProductChangeQuantityCest
 	}
 
 	/**
-	 * Step1 : Enable Quantity change
+	 * Step1 : Enable Configuration change (One step checkout, quantity, shipping default same address)
 	 * Step2 : Create category
 	 * Step3 : Create product have price is 100
      * Step4 : Create User
 	 * Step4 : Goes on frontend
 	 * Step5 : Click "Add to cart", change, checkout for product
 	 * Step6 : Delete data
+     * Step7 : Disable Configuration change
 	 *
 	 * @param  AcceptanceTester $I
 	 * @param  mixed $scenario
@@ -91,21 +89,13 @@ class CheckoutProductChangeQuantityCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
-//		$I->wantTo('I want to create user to login frontend and change quantity product checkout');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->createUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->address, $this->city, $this->phone, $this->zipcode);
-//
         $I->wantTo('Test User creation with save button in Administrator');
         $I = new UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->firstName, $this->lastName, 'save');
-
-		$I->wantTo('I want to login Site page with user just create');
-		$I = new CheckoutProductChangeQuantitySteps($scenario);
-		$I->userLoginFrontend($this->firstName, $this->password);
+        $I->createUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->address, $this->city, $this->phone, $this->zipcode);
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutProductQuantityChangeSteps($scenario);
-		$I->checkoutChangeQuantity($this->categoryName);
+		$I->checkoutChangeQuantity($this->categoryName, $this->userName, $this->password);
 
 		$I->wantTo('I want to login Site page with user just create');
 		$I->doFrontendLogout();
@@ -117,6 +107,10 @@ class CheckoutProductChangeQuantityCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+
+//        $I->wantTo('Delete discount total');
+//        $I = new UserManagerJoomla3Steps($scenario);
+//        $I->deleteUser($this->firstName);
 
 		$I->wantTo('Return Configuration in Administrator page');
 		$I = new ConfigurationSteps($scenario);

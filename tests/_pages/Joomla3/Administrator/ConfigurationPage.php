@@ -117,6 +117,10 @@ class ConfigurationPage extends AdminJ3Page
 
 	public static $showShippingCartYes = ['id' => 'show_shipping_in_cart1-lbl'];
 
+	public static $showSameAddressForBillingYes = ['id' => 'optional_shipping_address1-lbl'];
+
+    public static $showSameAddressForBillingNo = ['id' => 'optional_shipping_address0-lbl'];
+
 	public static $attributeImageInCartYes = ['id' => 'wanttoshowattributeimage1-lbl'];
 
 	public static $attributeImageInCartNo = ['id' => 'wanttoshowattributeimage0-lbl'];

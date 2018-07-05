@@ -24,7 +24,7 @@ class CheckoutProductChangeQuantityPage extends AdminJ3Page
 
 	public static $fillPassWord = ['id' => 'modlgn-passwd'];
 
-	public static $submitButton = "Login";
+	public static $submitButton = "Log in";
 
 	/**
 	 * @var array
