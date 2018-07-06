@@ -37,6 +37,7 @@ env:
     - REPO=redSHOP
     - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
     - SLACK_CHANNEL='#redshop-notifications'
+    - BUILD_URL='https://travis-ci.com/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID'
 
 before_script:
   - ./.travis/setup.sh
@@ -45,7 +46,9 @@ script:
   - ./.travis/script.sh
 
 after_script:
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:build-report-error-slack $CLOUD_NAME $API_KEY $API_SECRET $REPO $TRAVIS_PULL_REQUEST $SLACK_WEBHOOK $SLACK_CHANNEL $TRAVIS_PULL_REQUEST; fi
+  - echo $PULL_REQUEST_NUMBER
+  - echo $BUILD_URL
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:build-report-error-travis-to-slack $CLOUD_NAME $API_KEY $API_SECRET $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $SLACK_WEBHOOK $SLACK_CHANNEL $BUILD_URL; fi
 
 notifications:
   slack:
