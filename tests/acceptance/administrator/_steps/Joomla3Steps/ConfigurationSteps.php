@@ -327,9 +327,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$quantityChangeInCartYes);
 		$I->click(\ConfigurationPage::$quantityInCart);
 		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
-		$I->click(\ConfigurationPage::$showShippingCartYes);
+		$I->click(\ConfigurationPage::$showSameAddressForBillingYes);
 		$I->click(\ConfigurationPage::$buttonSave);
-
 	}
 
 	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
@@ -338,10 +337,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$cartCheckout);
-        $I->click(\ConfigurationPage::$onePageNo);
+		$I->click(\ConfigurationPage::$onePageNo);
 		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
 		$I->click(\ConfigurationPage::$quantityChangeInCartNo);
-        $I->click(\ConfigurationPage::$showShippingCartNo);
+		$I->click(\ConfigurationPage::$showSameAddressForBillingNo);
 		$I->click(\ConfigurationPage::$buttonSave);
 	}
 

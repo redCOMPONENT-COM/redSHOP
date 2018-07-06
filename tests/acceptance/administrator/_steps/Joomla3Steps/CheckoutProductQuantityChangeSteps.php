@@ -23,11 +23,11 @@ class CheckoutProductQuantityChangeSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CheckoutProductChangeQuantityPage::$url);
-        $I->click(\CheckoutProductChangeQuantityPage::$fillUserName);
-        $I->fillField(\CheckoutProductChangeQuantityPage::$fillUserName, $userName);
-        $I->click(\CheckoutProductChangeQuantityPage::$fillPassWord);
-        $I->fillField(\CheckoutProductChangeQuantityPage::$fillPassWord, $password);
-        $I->click(\CheckoutProductChangeQuantityPage::$submitButton);
+		$I->click(\CheckoutProductChangeQuantityPage::$fillUserName);
+		$I->fillField(\CheckoutProductChangeQuantityPage::$fillUserName, $userName);
+		$I->click(\CheckoutProductChangeQuantityPage::$fillPassWord);
+		$I->fillField(\CheckoutProductChangeQuantityPage::$fillPassWord, $password);
+		$I->click(\CheckoutProductChangeQuantityPage::$submitButton);
 		$I->waitForElement(\CheckoutProductChangeQuantityPage::$categoryTitle, 30);
 		$I->click($category);
 		$I->click(\CheckoutProductChangeQuantityPage::$addToCart);

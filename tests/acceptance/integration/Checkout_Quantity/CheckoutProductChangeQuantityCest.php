@@ -33,7 +33,7 @@ class CheckoutProductChangeQuantityCest
 
 	public function __construct()
 	{
-	    //Product & Category
+		//Product & Category
 		$this->faker = Faker\Factory::create();
 		$this->productName = $this->faker->bothify('Product Name ?##?');;
 		$this->categoryName = $this->faker->bothify('Category Name ?##?');
@@ -42,17 +42,17 @@ class CheckoutProductChangeQuantityCest
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = 100;
 		//User
-        $this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
-        $this->password = $this->faker->bothify('123456');
-        $this->email = $this->faker->email;
-        $this->shopperGroup = 'Default Private';
-        $this->group = 'Super User';
-        $this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-        $this->lastName = "LastName";
-        $this->address = "449 Tran Hung Dao";
-        $this->city = "Thanh pho Ho Chi Minh";
-        $this->phone = "0123456789";
-        $this->zipcode = "1";
+		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->password = $this->faker->bothify('123456');
+		$this->email = $this->faker->email;
+		$this->shopperGroup = 'Default Private';
+		$this->group = 'Super User';
+		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName = "LastName";
+		$this->address = "449 Tran Hung Dao";
+		$this->city = "Thanh pho Ho Chi Minh";
+		$this->phone = "0123456789";
+		$this->zipcode = "1";
 	}
 
 	public function _before(AcceptanceTester $I)
@@ -64,11 +64,11 @@ class CheckoutProductChangeQuantityCest
 	 * Step1 : Enable Configuration change (One step checkout, quantity, shipping default same address)
 	 * Step2 : Create category
 	 * Step3 : Create product have price is 100
-     * Step4 : Create User
+	 * Step4 : Create User
 	 * Step4 : Goes on frontend
 	 * Step5 : Click "Add to cart", change, checkout for product
 	 * Step6 : Delete data
-     * Step7 : Disable Configuration change
+	 * Step7 : Disable Configuration change
 	 *
 	 * @param  AcceptanceTester $I
 	 * @param  mixed $scenario
@@ -89,9 +89,9 @@ class CheckoutProductChangeQuantityCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
-        $I->wantTo('Test User creation with save button in Administrator');
-        $I = new UserManagerJoomla3Steps($scenario);
-        $I->createUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->address, $this->city, $this->phone, $this->zipcode);
+		$I->wantTo('Test User creation with save button in Administrator');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->createUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->address, $this->city, $this->phone, $this->zipcode);
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutProductQuantityChangeSteps($scenario);
@@ -108,8 +108,8 @@ class CheckoutProductChangeQuantityCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 
-//        $I->wantTo('Delete discount total');
-//        $I = new UserManagerJoomla3Steps($scenario);
+//        $I->wantTo('Delete account in redSHOP and Joomla');
+//        $I = new CheckoutProductQuantityChangeSteps($scenario);
 //        $I->deleteUser($this->firstName);
 
 		$I->wantTo('Return Configuration in Administrator page');
