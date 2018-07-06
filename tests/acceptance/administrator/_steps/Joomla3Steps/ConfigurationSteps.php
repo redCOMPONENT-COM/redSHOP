@@ -316,7 +316,34 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
-	
+	// Enable Quantity in Configuration (Allow user change quantity product in checkout page)
+	public function configChangeQuantityProduct($quantity ='3')
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$I->click(\ConfigurationPage::$cartCheckout);
+		$I->click(\ConfigurationPage::$onePageYes);
+		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 30);
+		$I->click(\ConfigurationPage::$quantityChangeInCartYes);
+		$I->click(\ConfigurationPage::$quantityInCart);
+		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
+		$I->click(\ConfigurationPage::$showSameAddressForBillingYes);
+		$I->click(\ConfigurationPage::$buttonSave);
+	}
+
+	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
+	public function returnConfigChangeQuantityProduct()
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$I->click(\ConfigurationPage::$cartCheckout);
+		$I->click(\ConfigurationPage::$onePageNo);
+		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
+		$I->click(\ConfigurationPage::$quantityChangeInCartNo);
+		$I->click(\ConfigurationPage::$showSameAddressForBillingNo);
+		$I->click(\ConfigurationPage::$buttonSave);
+	}
+
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
