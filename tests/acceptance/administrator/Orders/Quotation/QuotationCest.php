@@ -98,58 +98,15 @@ class QuotationCest
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
         $I->searchUser($this->firstName);
+
+        $I->wantTo('Test Quotation creation in Administrator');
+        $I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
+        $I->addQuotation($this->userName, $this->randomProductName, $this->quantity);
+
+        $I->wantTo('Test Quotation creation in Administrator');
+        $I->editQuotation($this->newQuantity);
+
+        $I->wantTo('Test Quotation creation in Administrator');
+        $I->deleteQuotation();
     }
-	/**
-	 *
-	 * Functrion create Quotation
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * @depends createData
-	 *
-	 */
-	public function createQuotation(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Quotation creation in Administrator');
-		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
-		$I->addQuotation($this->userName, $this->randomProductName, $this->quantity);
-	}
-
-	/**
-	 *
-	 * Function edit quotation
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * @depends createQuotation
-	 *
-	 */
-	public function editQuotation(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Quotation creation in Administrator');
-		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
-		$I->editQuotation($this->newQuantity);
-
-	}
-
-	/**
-	 *
-	 * Function delete quotation
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * @depends editQuotation
-	 *
-	 */
-	public function deleteQuotation(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Quotation creation in Administrator');
-		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
-		$I->deleteQuotation();
-	}
-
-
 }
