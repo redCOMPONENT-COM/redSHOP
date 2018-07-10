@@ -59,7 +59,7 @@ class CheckoutSpecificShopperGroupsCest
 		$I->clearAllData();
 	}
 
-	public function _before(AcceptanceTester $I)
+	public function _before(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 	}
@@ -78,8 +78,13 @@ class CheckoutSpecificShopperGroupsCest
 	 */
 	public function checkoutWithSpecificShopperGroups(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
-	    $I->wantTo('Enable PayPal');
-	    $I->enablePlugin('PayPal');
+		$I->wantTo('Test enable Stockroom in Administrator');
+		$I = new AcceptanceTester\ConfigurationSteps($scenario);
+		$I->wantTo('Test off Stockroom in Administrator');
+		$I->featureOffStockRoom();
+
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -104,18 +109,18 @@ class CheckoutSpecificShopperGroupsCest
 		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
 	public function clearData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete discount total');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 
-        $I->wantTo('Delete all data');
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
-    }
+		$I->wantTo('Delete all data');
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 }
