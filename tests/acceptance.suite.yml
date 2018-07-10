@@ -1,0 +1,4 @@
+actor: AcceptanceTester
+modules:
+    enabled:
+        - \Helper\Acceptance
