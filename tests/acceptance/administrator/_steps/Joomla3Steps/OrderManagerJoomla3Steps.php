@@ -36,7 +36,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 
 		$I->click($userOrderPage->returnSearch($nameUser));
-		$I->resizeWindow(1920, 1080);
 		$I->waitForElement(\OrderManagerPage::$address, 30);
 
 		$I->click(\OrderManagerPage::$applyUser);
