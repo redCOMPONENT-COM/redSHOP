@@ -106,54 +106,15 @@ class OrderCest
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
         $I->searchUser($this->firstName);
+
+        $I->wantTo('Test Order creation in Administrator');
+        $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+        $I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
+
+        $I->wantTo('Test Order Edit status and payment in Administrator');
+        $I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
+
+        $I->wantTo('Test Order delete by user  in Administrator');
+        $I->deleteOrder($this->firstName);
     }
-
-	/**
-	 * Function create new Order
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 *
-	 * depends createData
-	 */
-	public function createOrder(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Order creation in Administrator');
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
-	}
-
-	/**
-	 *
-	 * Function edit status of order
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * depends createOrder
-	 *
-	 */
-	public function editOrder(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Order Edit status and payment in Administrator');
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
-	}
-
-	/**
-	 *
-	 * Function delete order by user
-	 *
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * depends editOrder
-	 */
-	public function deleteOrder(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Order delete by user  in Administrator');
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder($this->firstName);
-	}
 }
