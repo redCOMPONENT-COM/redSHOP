@@ -46,7 +46,8 @@ class QuotationFrontendCest
 		$this->quantityChange   = 'no';
 		$this->quantityInCart   = 0;
 		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'yes';
+		$this->enableQuationYes    = 'yes';
+		$this->enableQuationNo    = 'no';
 
 		//user
 		$this->userName     = $this->faker->bothify('UserNameCheckoutProductCest ?##?');
@@ -101,7 +102,7 @@ class QuotationFrontendCest
 
 		$I->wantTo(' Enable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuationYes, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Create Quotation at frontend ');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
@@ -125,6 +126,11 @@ class QuotationFrontendCest
 
 		$I->wantTo('Delete quotation');
 		$I->deleteQuotation();
+
+		$I->wantTo(' Disable Quotation at configuration ');
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuationNo, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
 
 		$I->wantTo('Delete all database');
 		$I= new RedshopSteps($scenario);
