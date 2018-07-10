@@ -569,8 +569,13 @@ class RedshopControllerProduct extends RedshopController
 		$item = new stdClass;
 
 		$item->productId  = $this->input->getInt('pid', null);
+		
+		$product = RedshopHelperProduct::getProductById($item->productId);
+
 		$item->categoryId = $this->input->getInt('cid', null);
 
+		$item->categoriesId = implode(',', $product->categories);
+		
 		$compare = new RedshopProductCompare();
 
 		//ob_clean();
