@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `category_back_full_image` VARCHAR(250) NOT NULL,
   `compare_template_id` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
-  `alias` VARCHAR(400) NOT NULL,
+  `alias` VARCHAR(255) NOT NULL,
   `path` VARCHAR(255) NOT NULL,
   `asset_id` INT(11) UNSIGNED NULL COMMENT 'FK to the #__assets table.',
   `parent_id` INT(11) NULL DEFAULT 0,

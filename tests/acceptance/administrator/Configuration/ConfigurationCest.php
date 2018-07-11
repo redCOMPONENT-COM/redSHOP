@@ -38,7 +38,9 @@ class ConfigurationCest
 		$this->enableQuation    = 'no';
 	}
 
-
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
