@@ -216,7 +216,7 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 				$count_no_user_field = 0;
 
 				// Counting accessory
-				$accessorylist = $productHelper->getProductAccessory(0, $productId);
+				$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $productId);
 				$totacc        = count($accessorylist);
 
 				$prddata_add .= $template_product;
@@ -495,10 +495,10 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 
 					if ($product->attribute_set_id > 0)
 					{
-						$attributes_set = $productHelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $productHelper->getProductAttribute($productId);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($productId);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
