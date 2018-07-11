@@ -1028,7 +1028,7 @@ class RedshopControllerProduct extends RedshopController
 		$productHelper = productHelper::getInstance();
 		$cid           = $productHelper->getCategoryProduct($pid);
 		$ItemData      = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $pid);
-		$pItemid       = RedshopHelperRouter::getItemId($pid, $cid);
+		$pItemid       = RedshopHelperRouter::getItemId($pid, (int) $cid);
 
 		if (!empty($ItemData))
 		{
@@ -1051,7 +1051,7 @@ class RedshopControllerProduct extends RedshopController
 		$productHelper = productHelper::getInstance();
 		$cid           = $productHelper->getCategoryProduct($pid);
 		$ItemData      = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $pid);
-		$pItemid       = RedshopHelperRouter::getItemId($pid, $cid);
+		$pItemid       = RedshopHelperRouter::getItemId($pid, (int) $cid);
 
 		if (!empty($ItemData))
 		{
@@ -1075,7 +1075,12 @@ class RedshopControllerProduct extends RedshopController
 		$propertyId    = $post['property_id'];
 		$subPropertyId = $post['subproperty_id'];
 
-		if ($this->getModel('product')->addNotifystock($productId, $propertyId, $subPropertyId))
+		/**
+		 * @var RedshopModelProduct $model
+		 */
+		$model = $this->getModel('product');
+
+		if ($model->addNotifystock($productId, $propertyId, $subPropertyId))
 		{
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
