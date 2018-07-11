@@ -35,23 +35,22 @@ class RedshopControllerAccount_Shipto extends RedshopController
 
 		$post['users_info_id'] = $input->post->getInt('cid', 1);
 		$post['id']            = $post['user_id'];
-		$post['address_type']  = "ST";
+		$post['address_type']  = REDSHOP_ADDRESS_TYPE_SHIPPING;
 
 		/** @var RedshopModelAccount_shipto $model */
 		$model   = $this->getModel('account_shipto');
 		$redUser = $model->store($post);
+
+		$msg  = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
+		$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
 		if (false !== $redUser)
 		{
 			$post['users_info_id'] = $redUser->users_info_id;
 			$msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
 		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
-		}
 
-		if ($return != "")
+		if (!empty($return))
 		{
 			$link = JRoute::_(
 				'index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $itemId,
@@ -62,10 +61,6 @@ class RedshopControllerAccount_Shipto extends RedshopController
 			{
 				$app->redirect('index.php?option=com_redshop&view=account_shipto&tmpl=component&is_edit=1&return=' . $return, $msg);
 			}
-		}
-		else
-		{
-			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -98,14 +93,11 @@ class RedshopControllerAccount_Shipto extends RedshopController
 
 		$msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
 		$return = $input->get('return');
+		$link   = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
-		if ($return != "")
+		if (!empty($return))
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
-		}
-		else
-		{
-			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -125,6 +117,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
 		$msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
 		$return                = $input->get('return');
 		$setexit               = $input->getInt('setexit', 1);
+		$link                  = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
 		if ($return != "")
 		{
@@ -142,10 +135,6 @@ class RedshopControllerAccount_Shipto extends RedshopController
 				<?php
 				JFactory::getApplication()->close();
 			}
-		}
-		else
-		{
-			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 		}
 
 		$this->setRedirect($link, $msg);
