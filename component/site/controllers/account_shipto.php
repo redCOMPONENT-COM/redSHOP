@@ -111,32 +111,31 @@ class RedshopControllerAccount_Shipto extends RedshopController
 	 */
 	public function cancel()
 	{
-		$input                 = JFactory::getApplication()->input;
-		$itemId                = $input->getInt('Itemid');
-		$post['users_info_id'] = $input->getInt('cid');
-		$msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
-		$return                = $input->get('return');
-		$setexit               = $input->getInt('setexit', 1);
-		$link                  = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
+		$input   = JFactory::getApplication()->input;
+		$itemId  = $input->getInt('Itemid');
+		$return  = $input->get('return');
+		$message = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
 
-		if ($return != "")
+		if (empty($return))
 		{
-			$link = JRoute::_(
-				'index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $itemId . '',
-				false
-			);
-
-			if (!isset($setexit) || $setexit != 0)
-			{
-				?>
-                <script language="javascript">
-                    window.parent.location.href = "<?php echo $link ?>";
-                </script>
-				<?php
-				JFactory::getApplication()->close();
-			}
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false), $message);
+			$this->redirect();
 		}
 
-		$this->setRedirect($link, $msg);
+		$setExit = $input->getInt('setexit', 1);
+		$link = JRoute::_(
+			'index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $input->getInt('cid') . '&Itemid=' . $itemId . '',
+			false
+		);
+
+		if ($setExit != 1)
+		{
+			$this->setRedirect($link, $message);
+			$this->redirect();
+		}
+		?>
+        <script language="javascript">window.parent.location.href = "<?php echo $link ?>";</script>
+		<?php
+		JFactory::getApplication()->close();
 	}
 }
