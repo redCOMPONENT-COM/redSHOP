@@ -23,7 +23,6 @@ $stockroomhelper = rsstockroomhelper::getInstance();
 $compare         = new RedshopProductCompare;
 
 $compareCategoryId = $compare->getCategoryId();
-
 if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
@@ -254,11 +253,37 @@ if ($total > 0)
 
 		if (strstr($template, "{product_category}"))
 		{
-			$category = RedshopEntityCategory::getInstance($data['item']->categoryId);
-			$template = str_replace('{product_category}', $exp_div . $category->get('name') . $div_end . $td_end . $td_start . "{product_category}", $template);
+			$categoriesId = explode(',', $data['item']->categoriesId);
+
+			if (count($categoriesId) <= 1)
+			{
+				$category = RedshopEntityCategory::getInstance($data['item']->categoryId);
+				$category_name = $category->get('name');
+
+			}
+			else 
+			{
+				$categories_name = array();
+				
+				for ($j = 0; $j < count($categoriesId); $j++)
+				{
+					$category = RedshopEntityCategory::getInstance((int) $categoriesId[$j]);
+
+					if (!in_array($category->get('name'), $categories_name))
+					{
+						$categories_name[] =  $category->get('name');
+					}
+					
+				}
+
+				$category_name = implode(' ,', $categories_name);
+
+			}
+
+			$template = str_replace('{product_category}', $exp_div . $category_name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
-		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->id . '&Itemid=' . $this->itemId . '&tmpl=component';
+		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $categoriesId[0] . '&Itemid=' . $this->itemId . '&tmpl=component';
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 		$template = str_replace('{remove}', $exp_div . $remove . $div_end . $td_end . $td_start . "{remove}", $template);
