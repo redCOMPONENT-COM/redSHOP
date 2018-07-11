@@ -48,10 +48,11 @@ abstract class JHtmlRedshopcalendar
 
 		JHtml::_('bootstrap.tooltip');
 
+		$tz = date_default_timezone_get();
+
 		// Format value when not null date ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if (!empty($value) && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
-			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
 			$inputvalue = strftime($format, strtotime($value));
 			date_default_timezone_set($tz);
@@ -62,6 +63,7 @@ abstract class JHtmlRedshopcalendar
 		}
 
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment-timezone-with-data.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
@@ -80,6 +82,7 @@ abstract class JHtmlRedshopcalendar
 			'(function($){
 				$(document).ready(function(){
 					$("#' . $id . '_wrapper").datetimepicker({
+						timeZone: "' . $tz . '",
 						collapse: true,
 						sideBySide: true,
 						showTodayButton: false,
