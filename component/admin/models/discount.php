@@ -29,17 +29,14 @@ class RedshopModelDiscount extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		$tz  = date_default_timezone_get();
-		$UTC = new DateTimeZone('UTC');
-
 		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
 		{
-			$data['start_date'] = JFactory::getDate($data['start_date'], $tz)->setTimezone($UTC)->toUnix();
+			$data['start_date'] = JFactory::getDate($data['start_date'] . ' 00:00:00')->toUnix();
 		}
 
 		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
 		{
-			$data['end_date'] = JFactory::getDate($data['end_date'], $tz)->setTimezone($UTC)->toUnix();
+			$data['end_date'] = JFactory::getDate($data['end_date'] . ' 23:59:59')->toUnix();
 		}
 
 		$data['start_date'] = (int) $data['start_date'];
