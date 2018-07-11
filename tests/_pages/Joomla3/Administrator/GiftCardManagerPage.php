@@ -21,6 +21,8 @@ class GiftCardManagerPage extends AdminJ3Page
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=giftcards';
 
+    public static $giftCardCancelButton = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('giftcard.cancel');\"]"];
+
     public static $giftCardName = "//input[@id='jform_giftcard_name']";
 
     public static $giftCardPrice = "//input[@id='jform_giftcard_price']";
