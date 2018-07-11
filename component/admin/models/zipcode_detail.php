@@ -163,7 +163,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 			->from($db->quoteName('#__redshop_state', 's'))
 			->join('LEFT', $db->quoteName('#__redshop_country', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('s.country_id'))
 			->where('FIND_IN_SET (' . $db->quoteName('c.country_3_code') . ', ' . $db->quote($countryCodes) . ')')
-			->order($db->quoteName('s.state_name'), 'ASC');
+			->order($db->quoteName('s.state_name') . ' ASC');
 
 		return $this->_db->setQuery($query)->loadObjectList();
 	}
@@ -173,7 +173,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 	 *
 	 * @param   array $data Data
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

@@ -73,7 +73,7 @@ $url = $uri->root();
 				</td>
 				<td>
 					<?php
-					if($this->detail->zipcode=="")
+					if (empty($this->detail->zipcode))
 					{
 					    echo JText::_('COM_REDSHOP_FROM');?>
                         <input class="text_area" type="text" name="zipcode" id="zipcode" size="15" maxlength="10"
