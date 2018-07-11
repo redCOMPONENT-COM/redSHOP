@@ -23,6 +23,8 @@ class RedshopHelperCron
 	 */
 	public static function init()
 	{
+		Redshop\Cron\Product::removeExpiredSales();
+
 		$today      = time();
 		$formatDate = date('Y-m-d', $today);
 
