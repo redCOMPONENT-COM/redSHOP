@@ -80,8 +80,8 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	/**
 	 * Process import data.
 	 *
-	 * @param   \JTable  $table  Header array
-	 * @param   array    $data   Data array
+	 * @param   \JTable $table Header array
+	 * @param   array   $data  Data array
 	 *
 	 * @return  boolean
 	 *
@@ -89,7 +89,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
-		$db = $this->db;
+		$db            = $this->db;
 		$shopperGroups = $this->getShopperGroupInfo();
 
 		if (array_key_exists(trim($data['shopper_group_name']), $shopperGroups->name))
@@ -111,7 +111,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 			$shopperGroupId = $shopper->shopper_group_id;
 		}
 
-		$userInfo = $this->getUsersInfoByEmail();
+		$userInfo    = $this->getUsersInfoByEmail();
 		$csvRSUserId = 0;
 
 		if (isset($data['users_info_id']))
@@ -165,7 +165,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 
 		if (isset($data['password']) && '' != trim($data['password']))
 		{
-			$jUserInfo['password'] = trim($data['password']);
+			$jUserInfo['password']  = trim($data['password']);
 			$jUserInfo['password2'] = trim($data['password']);
 		}
 
@@ -178,21 +178,23 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 		}
 
 		// Save user information
-		if ($user->save())
+		if (!$user->save())
 		{
-			// Assign user id from table
-			$jUserId = $user->id;
+			return false;
 		}
+
+		// Assign user id from table
+		$jUserId = $user->id;
 
 		if (!empty($data['email']))
 		{
 			$data['user_email'] = $data['email'];
 		}
 
-		$data['user_id'] = $jUserId;
-		$data['address_type'] = 'BT';
+		$data['user_id']          = $jUserId;
+		$data['address_type']     = 'BT';
 		$data['shopper_group_id'] = $shopperGroupId;
-		$isNew = false;
+		$isNew                    = false;
 
 		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
 		{

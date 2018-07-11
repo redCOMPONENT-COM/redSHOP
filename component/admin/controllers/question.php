@@ -52,6 +52,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	{
 		$post = $this->input->post->getArray();
 		$data = $post['jform'];
+		$task = $post['task'];
 
 		$model = $this->getModel('Question');
 
@@ -81,7 +82,15 @@ class RedshopControllerQuestion extends RedshopControllerForm
 			Redshop\Mail\AskQuestion::sendMail($data['id']);
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
+		if ($task == 'question.apply')
+		{
+			$questionId = $model->getState('question.id');
+			$this->setRedirect('index.php?option=com_redshop&view=question&layout=edit&id=' . $questionId, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
+		}
 	}
 
 	/**
