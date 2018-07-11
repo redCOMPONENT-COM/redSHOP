@@ -2295,7 +2295,7 @@ class productHelper
 
 						if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && (!$attributes->hide_attribute_price))
 						{
-							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . RedshopHelperProductPrice::formattedPrice($attributes_subproperty_vat_show) . ")";
+							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . strip_tags(RedshopHelperProductPrice::formattedPrice($attributes_subproperty_vat_show)) . ")";
 						}
 						else
 						{
