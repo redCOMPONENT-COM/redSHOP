@@ -228,6 +228,48 @@ stages {
 					}
 				}
 			}
+			stage('Customizations') {
+				agent {
+					docker {
+							image 'jatitoam/docker-systemtests'
+							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+					}
+				}
+				steps {
+					script {
+						env.STAGE = 'Customizations'
+					}
+					unstash 'chromeD'
+					unstash 'redshop'
+					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
+					retry(2) {
+						sh "build/system-tests.sh tests/acceptance/administrator/Customizations"
+					}
+				}
+			}
+			stage('ad-Products') {
+				agent {
+					docker {
+							image 'jatitoam/docker-systemtests'
+							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
+					}
+				}
+				steps {
+					script {
+						env.STAGE = 'Products'
+					}
+					unstash 'chromeD'
+					unstash 'redshop'
+					unstash 'vendor'
+					unstash 'joomla-cms'
+					unstash 'database-dump'
+					retry(2) {
+						sh "build/system-tests.sh tests/acceptance/administrator/Products"
+					}
+				}
+			}
 		}
 		post {
 			always {
@@ -291,7 +333,7 @@ stages {
 					}
 				}
 			}
-			stage('Customizations') {
+			stage('Discounts') {
 				agent {
 					docker {
 							image 'jatitoam/docker-systemtests'
@@ -300,7 +342,7 @@ stages {
 				}
 				steps {
 					script {
-						env.STAGE = 'Customizations'
+						env.STAGE = 'Discounts'
 					}
 					unstash 'chromeD'
 					unstash 'redshop'
@@ -308,11 +350,11 @@ stages {
 					unstash 'joomla-cms'
 					unstash 'database-dump'
 					retry(2) {
-						sh "build/system-tests.sh tests/acceptance/administrator/Customizations"
+						sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups/Discounts"
 					}
 				}
 			}
-			stage('Discount_Groups') {
+			stage('Rewards') {
 				agent {
 					docker {
 							image 'jatitoam/docker-systemtests'
@@ -321,7 +363,7 @@ stages {
 				}
 				steps {
 					script {
-						env.STAGE = 'Discount_Groups'
+						env.STAGE = 'Rewards'
 					}
 					unstash 'chromeD'
 					unstash 'redshop'
@@ -329,7 +371,7 @@ stages {
 					unstash 'joomla-cms'
 					unstash 'database-dump'
 					retry(2) {
-						sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups"
+						sh "build/system-tests.sh tests/acceptance/administrator/Discount_Groups/Rewards"
 					}
 				}
 			}
@@ -355,27 +397,6 @@ stages {
 					}
 				}
 			}
-		}
-		post {
-			always {
-				cleanWs()
-				ws(pwd() + "@tmp") {
-					cleanWs()
-				}
-			}
-		}
-	}
-	stage('Automated Tests - Batch 3/3') {
-		environment {
-				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
-				GITHUB_REPO='redCOMPONENT-COM/redshop'
-				CLOUDINARY_CLOUD_NAME='redcomponent'
-				CLOUDINARY_API_KEY='365447364384436'
-				CLOUDINARY_API_SECRET='Q94UM5kjZkZIrau8MIL93m0dN6U'
-				SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-				SLACK_CHANNEL='#redshop-notifications'
-		}
-		parallel {
 			stage('Orders') {
 				agent {
 					docker {
@@ -394,27 +415,6 @@ stages {
 					unstash 'database-dump'
 					retry(2) {
 						sh "build/system-tests.sh tests/acceptance/administrator/Orders"
-					}
-				}
-			}
-			stage('Products') {
-				agent {
-					docker {
-							image 'jatitoam/docker-systemtests'
-							args  "--network tn-${BUILD_TAG} --user 0 --privileged=true"
-					}
-				}
-				steps {
-					script {
-						env.STAGE = 'Products'
-					}
-					unstash 'chromeD'
-					unstash 'redshop'
-					unstash 'vendor'
-					unstash 'joomla-cms'
-					unstash 'database-dump'
-					retry(2) {
-						sh "build/system-tests.sh tests/acceptance/administrator/Products"
 					}
 				}
 			}
@@ -492,7 +492,7 @@ stages {
 			}
 		}
 	}
-}
+	}
 	post {
 		always {
 			dockerDBRemove("db-${BUILD_TAG}");

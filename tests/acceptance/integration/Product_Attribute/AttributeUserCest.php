@@ -101,7 +101,7 @@ class AttributeUserCest
 
 		$this->category        = $this->faker->bothify('Category Attribute ??####?');
 		$this->noPage          = $this->faker->randomNumber();
-		$this->productName     = $this->faker->bothify('Testing Products ??####?');
+		$this->productName     = $this->faker->bothify('Testing ProductManagement ??####?');
 		$this->productNumber   = $this->faker->numberBetween(999, 9999);
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
@@ -138,9 +138,9 @@ class AttributeUserCest
 		$this->lastName  = $this->faker->bothify('LastName ?####?');
 
 		// Order info
-		$this->subTotal      = 'DKK 80,00';
-		$this->vatPrice      = 'DKK 8,00';
-		$this->total         = 'DKK 88,00';
+		$this->subTotal      = 'DKK 100,00';
+		$this->vatPrice      = 'DKK 10,00';
+		$this->total         = 'DKK 110,00';
 		$this->shippingPrice = 'DKK 0,00';
 
 		// Shipping info
@@ -239,5 +239,12 @@ class AttributeUserCest
 			$this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
 			$this->vatPrice, $this->total, $this->shippingPrice
 		);
+	}
+
+	public function clearUpDatabase(AcceptanceTester $client, $scenario)
+	{
+		$client->wantTo('Delete all data');
+		$client= new RedshopSteps($scenario);
+		$client->clearAllData();
 	}
 }
