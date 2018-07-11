@@ -18,7 +18,7 @@ $extraField      = extraField::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 
-$url    = JURI::base();
+$url = JURI::base();
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = RedshopHelperTemplate::getTemplate('categoryproduct');
@@ -29,7 +29,7 @@ if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc 
 }
 else
 {
-	$template_desc  = "<div><div>{print}</div>";
+	$template_desc = "<div><div>{print}</div>";
 	$template_desc .= "<div>{filter_by_lbl}{filter_by}</div>";
 	$template_desc .= "<div>{order_by_lbl}{order_by}</div>";
 	$template_desc .= "<p>{category_loop_start}</p>";
@@ -68,10 +68,10 @@ else
 	$onclick = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
-$print_tag  = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
+$print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" .
-				JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" .
-				JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
+	JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" .
+	JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
@@ -160,7 +160,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
 		$cat_thumb .= "</a>";
-		$data_add = str_replace($tag, $cat_thumb, $data_add);
+		$data_add  = str_replace($tag, $cat_thumb, $data_add);
 
 		if (strstr($data_add, '{category_name}'))
 		{
@@ -242,7 +242,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
 						$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
-						$ufield .= $productUserFields[1];
+						$ufield            .= $productUserFields[1];
 
 						if ($productUserFields[1] != "")
 						{
@@ -254,8 +254,8 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					}
 
 					$productUserFieldsForm = "<form method='post' action='' id='user_fields_form_" .
-												$product->product_id . "' name='user_fields_form_" .
-												$product->product_id . "'>";
+						$product->product_id . "' name='user_fields_form_" .
+						$product->product_id . "'>";
 
 					if ($ufield != "")
 					{
@@ -289,7 +289,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						for ($ui = 0; $ui < count($userfieldArr); $ui++)
 						{
 							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
-							$ufield .= $productUserFields[1];
+							$ufield            .= $productUserFields[1];
 
 							if ($productUserFields[1] != "")
 							{
@@ -303,8 +303,8 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						if ($ufield != "")
 						{
 							$hidden_userfield = "<div style='display:none;'><form method='post' action='' id='user_fields_form_" .
-													$product->product_id . "' name='user_fields_form_" . $product->product_id . "'>" .
-													$template_userfield . "</form></div>";
+								$product->product_id . "' name='user_fields_form_" . $product->product_id . "'>" .
+								$template_userfield . "</form></div>";
 						}
 					}
 				}
@@ -331,24 +331,24 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add           = str_replace("{product_number}", $product_number_output, $prddata_add);
 
 				$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
-				$strToInsert = $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
-				$prddata_add = str_replace("{product_size}", $strToInsert, $prddata_add);
+				$strToInsert         = $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
+				$prddata_add         = str_replace("{product_size}", $strToInsert, $prddata_add);
 
 				$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 				$strToInsert  = $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit;
 				$prddata_add  = str_replace("{product_length}", $strToInsert, $prddata_add);
 
-				$prddata_add  = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $prddata_add);
+				$prddata_add = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $prddata_add);
 
-				$strToInsert  = $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit;
-				$prddata_add  = str_replace("{product_height}", $strToInsert, $prddata_add);
+				$strToInsert = $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit;
+				$prddata_add = str_replace("{product_height}", $strToInsert, $prddata_add);
 
 				$prddata_add = $producthelper->replaceVatinfo($prddata_add);
-				$this->catid = $row->category_id;
+				$this->catid = isset($row->category_id) ? $row->category_id : '';
 				$link        = JRoute::_(
-											'index.php?option=com_redshop&view=product&pid=' .
-											$product->product_id . '&cid=' . $this->catid . '&Itemid=' . $pItemid
-										);
+					'index.php?option=com_redshop&view=product&pid=' .
+					$product->product_id . '&cid=' . $this->catid . '&Itemid=' . $pItemid
+				);
 
 				if (strstr($prddata_add, '{product_name}'))
 				{
@@ -390,13 +390,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if (strstr($prddata_add, '{manufacturer_link}'))
 				{
 					$manufacturer_link_href = JRoute::_(
-															'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' .
-															$product->manufacturer_id . '&Itemid=' . $this->temid
-														);
-					$manufacturer_link = '<a  class="btn btn-primary" href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' .
-											$product->manufacturer_name .
-										'</a>';
-					$prddata_add       = str_replace("{manufacturer_link}", $manufacturer_link, $prddata_add);
+						'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' .
+						$product->manufacturer_id . '&Itemid=' . $this->temid
+					);
+					$manufacturer_link      = '<a  class="btn btn-primary" href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' .
+						$product->manufacturer_name .
+						'</a>';
+					$prddata_add            = str_replace("{manufacturer_link}", $manufacturer_link, $prddata_add);
 
 					if (strstr($prddata_add, "{manufacturer_link}"))
 					{
@@ -406,13 +406,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{manufacturer_product_link}'))
 				{
-					$manuUrl = JRoute::_(
-											'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
-											'&Itemid=' . $this->itemid
-										);
+					$manuUrl           = JRoute::_(
+						'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
+						'&Itemid=' . $this->itemid
+					);
 					$manufacturerPLink = "<a  class='btn btn-primary' href='" . $manuUrl . "'>" .
-											JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name .
-										"</a>";
+						JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name .
+						"</a>";
 					$prddata_add       = str_replace("{manufacturer_product_link}", $manufacturerPLink, $prddata_add);
 				}
 
@@ -446,7 +446,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 
-				$hidden_thumb_image  = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>";
+				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>";
 				$hidden_thumb_image .= "<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 				$thum_image         = Redshop\Product\Image\Image::getImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 
