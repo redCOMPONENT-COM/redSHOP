@@ -120,6 +120,13 @@ class ProductManagerPage extends AdminJ3Page
 		return $xpath;
 	}
 
+	public function attributePreSelect($position)
+    {
+        $xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][default_sel]"]'];
+
+        return $xpath;
+    }
+
     // tab acc
     public static $accessoryTab = 'Accessory/Related Product';
     
