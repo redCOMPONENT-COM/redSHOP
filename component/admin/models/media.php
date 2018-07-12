@@ -29,56 +29,6 @@ class RedshopModelMedia extends RedshopModel
 		$this->context .= '.' . $jInput->getCmd('media_section', 'none') . '.' . $jInput->getInt('section_id', 0);
 	}
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter_media_section');
-		$id .= ':' . $this->getState('media_type');
-
-		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 */
-	protected function populateState($ordering = 'media_id', $direction = 'desc')
-	{
-		$filter_media_section = $this->getUserStateFromRequest($this->context . '.filter_media_section', 'filter_media_section', 0);
-		$this->setState('filter_media_section', $filter_media_section);
-
-		$media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
-		$this->setState('media_type', $media_type);
-
-		$folder = JFactory::getApplication()->input->getPath('folder', '');
-		$this->setState('folder', $folder);
-
-		$parent = str_replace("\\", "/", dirname($folder));
-		$parent = ($parent == '.') ? null : $parent;
-		$this->setState('parent', $parent);
-
-		parent::populateState($ordering, $direction);
-	}
-
 	public function _buildQuery()
 	{
 		$app   = JFactory::getApplication();
@@ -120,20 +70,6 @@ class RedshopModelMedia extends RedshopModel
 		return $list['images'];
 	}
 
-	public function getFolders()
-	{
-		$list = $this->getList();
-
-		return $list['folders'];
-	}
-
-	public function getDocuments()
-	{
-		$list = $this->getList();
-
-		return $list['docs'];
-	}
-
 	/**
 	 * Build imagelist
 	 *
@@ -159,8 +95,8 @@ class RedshopModelMedia extends RedshopModel
 		{
 			$current = '';
 		}
-
-		$fdownload = JRequest::getInt('fdownload');
+		$input = JFactory::getApplication()->input;
+		$fdownload = $input->getInt('fdownload', '0');
 
 		if ($fdownload != 1)
 		{
@@ -205,7 +141,7 @@ class RedshopModelMedia extends RedshopModel
 			{
 				if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
-					$tmp                = new JObject;
+					$tmp                = new stdClass();
 					$tmp->name          = $file;
 					$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -292,7 +228,7 @@ class RedshopModelMedia extends RedshopModel
 		{
 			foreach ($folderList as $folder)
 			{
-				$tmp                = new JObject;
+				$tmp                = new stdClass();
 				$tmp->name          = basename($folder);
 				$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -307,6 +243,20 @@ class RedshopModelMedia extends RedshopModel
 		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
 
 		return $list;
+	}
+
+	public function getFolders()
+	{
+		$list = $this->getList();
+
+		return $list['folders'];
+	}
+
+	public function getDocuments()
+	{
+		$list = $this->getList();
+
+		return $list['docs'];
 	}
 
 	public function store($data)
@@ -502,5 +452,55 @@ class RedshopModelMedia extends RedshopModel
 		}
 
 		return $db->insertid();
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter_media_section');
+		$id .= ':' . $this->getState('media_type');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'media_id', $direction = 'desc')
+	{
+		$filter_media_section = $this->getUserStateFromRequest($this->context . '.filter_media_section', 'filter_media_section', 0);
+		$this->setState('filter_media_section', $filter_media_section);
+
+		$media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
+		$this->setState('media_type', $media_type);
+
+		$folder = JFactory::getApplication()->input->getPath('folder', '');
+		$this->setState('folder', $folder);
+
+		$parent = str_replace("\\", "/", dirname($folder));
+		$parent = ($parent == '.') ? null : $parent;
+		$this->setState('parent', $parent);
+
+		parent::populateState($ordering, $direction);
 	}
 }
