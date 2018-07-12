@@ -204,40 +204,39 @@ class RedshopModelWishlist extends RedshopModel
 		if ($numberProduct)
 		{
 			ob_clean();
-			$extraField = extraField::getInstance();
-			$rowData    = $extraField->getSectionFieldList(12);
+			$extraField   = extraField::getInstance();
+			$rowData      = $extraField->getSectionFieldList(12);
+			$totalRowData = count($rowData);
 
 			for ($si = 1; $si <= $numberProduct; $si++)
 			{
 				$data = $session->get('wish_' . $si);
 
-				for ($k = 0, $kn = count($rowData); $k < $kn; $k++)
+				for ($k = 0, $kn = $totalRowData; $k < $kn; $k++)
 				{
 					$field = "productuserfield_" . $k;
 
-					if ($data->$field == '')
+					if (empty($data->{$field}))
 					{
 						continue;
 					}
 
-					$columns = array('wishlist_id', 'product_id', 'userfielddata');
-					$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->$field));
-					$query   = $db->getQuery(true)
-						->insert($db->qn('#__redshop_wishlist_userfielddata'))
-						->columns($db->qn($columns))
-						->values(implode(',', $values));
+					$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->{$field}));
 
+					$query = $db->getQuery(true)
+						->insert($db->qn('#__redshop_wishlist_userfielddata'))
+						->columns($db->qn(array('wishlist_id', 'product_id', 'userfielddata')))
+						->values(implode(',', $values));
 					$db->setQuery($query)->execute();
 				}
 
-				$columns = array('wishlist_id', 'product_id', 'cdate');
 				$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->cdate));
 				$query   = $db->getQuery(true)
 					->insert($db->qn('#__redshop_wishlist_product'))
-					->columns($db->qn($columns))
+					->columns($db->qn(array('wishlist_id', 'product_id', 'cdate')))
 					->values(implode(',', $values));
-
 				$db->setQuery($query)->execute();
+
 				$session->clear('wish_' . $si);
 			}
 
