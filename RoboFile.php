@@ -26,7 +26,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Downloads and prepares a Joomla CMS site for testing
 	 *
-	 * @param   int  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 * @param   int $use_htaccess (1/0) Rename and enable embedded Joomla .htaccess file
 	 *
 	 * @return mixed
 	 */
@@ -57,6 +57,7 @@ class RoboFile extends \Robo\Tasks
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
 		}
 	}
+
 	/**
 	 * Clone joomla
 	 */
@@ -90,13 +91,13 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 		$this->_exec("vendor/bin/codecept build");
 
-			$this->taskCodecept()
-				->arg('--tap')
-				->arg('--steps')
-				->arg('--fail-fast')
-				->arg( $folder . '/')
-				->run()
-				->stopOnFail();
+		$this->taskCodecept()
+			->arg('--tap')
+			->arg('--steps')
+			->arg('--fail-fast')
+			->arg($folder . '/')
+			->run()
+			->stopOnFail();
 	}
 
 	/**
@@ -208,14 +209,14 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Sends the build report error back to Slack
 	 *
-	 * @param   string  $cloudinaryName       Cloudinary cloud name
-	 * @param   string  $cloudinaryApiKey     Cloudinary API key
-	 * @param   string  $cloudinaryApiSecret  Cloudinary API secret
-	 * @param   string  $githubRepository     GitHub repository (owner/repo)
-	 * @param   string  $githubPRNo           GitHub PR #
-	 * @param   string  $slackWebhook         Slack Webhook URL
-	 * @param   string  $slackChannel         Slack channel
-	 * @param   string  $buildURL             Build URL
+	 * @param   string $cloudinaryName      Cloudinary cloud name
+	 * @param   string $cloudinaryApiKey    Cloudinary API key
+	 * @param   string $cloudinaryApiSecret Cloudinary API secret
+	 * @param   string $githubRepository    GitHub repository (owner/repo)
+	 * @param   string $githubPRNo          GitHub PR #
+	 * @param   string $slackWebhook        Slack Webhook URL
+	 * @param   string $slackChannel        Slack channel
+	 * @param   string $buildURL            Build URL
 	 *
 	 * @return  void
 	 *
@@ -224,15 +225,15 @@ class RoboFile extends \Robo\Tasks
 	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL)
 	{
 		$errorSelenium = true;
-		$reportError = false;
-		$reportFile = 'tests/selenium.log';
-		$errorLog = 'Selenium log:' . chr(10). chr(10);
+		$reportError   = false;
+		$reportFile    = 'tests/selenium.log';
+		$errorLog      = 'Selenium log:' . chr(10) . chr(10);
 
 		// Loop through Codeception snapshots
 		if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
 		{
-			$reportFile = 'tests/_output/report.tap.log';
-			$errorLog = 'Codeception tap log:' . chr(10). chr(10);
+			$reportFile    = 'tests/_output/report.tap.log';
+			$errorLog      = 'Codeception tap log:' . chr(10) . chr(10);
 			$errorSelenium = false;
 		}
 
@@ -245,7 +246,7 @@ class RoboFile extends \Robo\Tasks
 
 			if (!$errorSelenium)
 			{
-				$handler = opendir('tests/_output');
+				$handler    = opendir('tests/_output');
 				$errorImage = '';
 
 				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
@@ -257,7 +258,7 @@ class RoboFile extends \Robo\Tasks
 					}
 
 					$reportError = true;
-					$errorImage = __DIR__ . '/tests/_output/' . $errorSnapshot;
+					$errorImage  = __DIR__ . '/tests/_output/' . $errorSnapshot;
 				}
 			}
 
@@ -293,14 +294,14 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Sends the build report error back to Slack
 	 *
-	 * @param   string  $cloudinaryName       Cloudinary cloud name
-	 * @param   string  $cloudinaryApiKey     Cloudinary API key
-	 * @param   string  $cloudinaryApiSecret  Cloudinary API secret
-	 * @param   string  $githubRepository     GitHub repository (owner/repo)
-	 * @param   string  $githubPRNo           GitHub PR #
-	 * @param   string  $slackWebhook         Slack Webhook URL
-	 * @param   string  $slackChannel         Slack channel
-	 * @param   string  $buildURL             Build URL
+	 * @param   string $cloudinaryName      Cloudinary cloud name
+	 * @param   string $cloudinaryApiKey    Cloudinary API key
+	 * @param   string $cloudinaryApiSecret Cloudinary API secret
+	 * @param   string $githubRepository    GitHub repository (owner/repo)
+	 * @param   string $githubPRNo          GitHub PR #
+	 * @param   string $slackWebhook        Slack Webhook URL
+	 * @param   string $slackChannel        Slack channel
+	 * @param   string $buildURL            Build URL
 	 *
 	 * @return  void
 	 *
@@ -309,15 +310,15 @@ class RoboFile extends \Robo\Tasks
 	public function sendBuildReportErrorTravisToSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL)
 	{
 		$errorSelenium = true;
-		$reportError = false;
-		$reportFile = 'tests/selenium.log';
-		$errorLog = 'Selenium log:' . chr(10). chr(10);
+		$reportError   = false;
+		$reportFile    = 'tests/selenium.log';
+		$errorLog      = 'Selenium log:' . chr(10) . chr(10);
 
 		// Loop through Codeception snapshots
 		if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
 		{
-			$reportFile = 'tests/_output/report.tap.log';
-			$errorLog = 'Codeception tap log:' . chr(10). chr(10);
+			$reportFile    = 'tests/_output/report.tap.log';
+			$errorLog      = 'Codeception tap log:' . chr(10) . chr(10);
 			$errorSelenium = false;
 		}
 
@@ -330,7 +331,7 @@ class RoboFile extends \Robo\Tasks
 
 			if (!$errorSelenium)
 			{
-				$handler = opendir('tests/_output');
+				$handler    = opendir('tests/_output');
 				$errorImage = '';
 
 				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
@@ -342,7 +343,7 @@ class RoboFile extends \Robo\Tasks
 					}
 
 					$reportError = true;
-					$errorImage = __DIR__ . '/tests/_output/' . $errorSnapshot;
+					$errorImage  = __DIR__ . '/tests/_output/' . $errorSnapshot;
 				}
 			}
 
@@ -373,5 +374,84 @@ class RoboFile extends \Robo\Tasks
 					->stopOnFail();
 			}
 		}
+	}
+
+	/**
+	 * Nightly build
+	 *
+	 * @return  void
+	 * @since   2.1.0
+	 */
+	public function buildNightly()
+	{
+		// Read version
+		$version = $this->getVersion();
+
+		// Increase nightly build
+		$version    = explode('.', $version);
+		$version[3] = (int) $version[3] + 1;
+		$version    = implode('.', $version);
+
+		$this->updateVersion($version);
+		$this->release();
+	}
+
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since  2.1.0
+	 */
+	private function getVersion()
+	{
+		$versionFile = __DIR__ . '/version';
+		$handle      = fopen($versionFile, "r");
+		$version     = fread($handle, filesize($versionFile));
+		fclose($handle);
+
+		return $version;
+	}
+
+	/**
+	 * @param   string $version Version
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.1.0
+	 */
+	private function updateVersion($version)
+	{
+		$versionFile = __DIR__ . '/version';
+		$redShopFile = __DIR__ . '/redshop.xml';
+
+		$handle = fopen($versionFile, "w+");
+		fwrite($handle, $version);
+		fclose($handle);
+
+		$handle     = fopen($redShopFile, "r");
+		$xmlContent = fread($handle, filesize($redShopFile));
+		fclose($handle);
+
+		$xmlContent = preg_replace("/<creationDate>.*<\/creationDate>/", '<creationDate>' . date('Y-m-d H:i:s') . '</creationDate>', $xmlContent);
+		$xmlContent = preg_replace("/<version>.*<\/version>/", '<version>' . $version . '</version>', $xmlContent);
+
+		$handle = fopen($redShopFile, "w+");
+		fwrite($handle, $xmlContent);
+
+		return fclose($handle);
+	}
+
+	/**
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	private function release()
+	{
+		$this->_exec('git add redshop.xml version');
+		$this->_exec('git commit -m "Nightly build');
+		$this->_exec('git push');
+		$this->_exec('gulp composer');
+		$this->_exec('gulp release');
 	}
 }
