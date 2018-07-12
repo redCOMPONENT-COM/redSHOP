@@ -50,4 +50,9 @@ class TaxGroupPage extends AdminJ3Page
 	 */
 	public static $messageErrorFieldMissing = "Field required: VAT / Tax Group Name";
 
+    /**
+     * @var array
+     */
+	public static $buttonSaveTax = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('tax_group.apply');\"]"];
+
 }
