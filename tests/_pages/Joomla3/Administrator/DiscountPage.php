@@ -25,6 +25,11 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=discounts';
 
+    /**
+     * @var array
+     */
+	public static $saveDiscount = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('discount.apply');\"]"];
+
 	/**
 	 * @var array
 	 */
