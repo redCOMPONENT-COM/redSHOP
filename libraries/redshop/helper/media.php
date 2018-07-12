@@ -641,52 +641,45 @@ class RedshopHelperMedia
 			return $newImg;
 		}
 
-		if ($fileType === "gif")
+		switch ($fileType)
 		{
-			$im = imagecreatefromgif($destImg);
-
-			// Original picture width is stored
-			$width = imagesx($im);
-
-			// Original picture height is stored
-			$height = imagesy($im);
-			$newImg = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagegif($newImg, $srcImg);
+			case 'gif':
+				$im = imagecreatefromgif($destImg);
+				break;
+			case 'jpg':
+			case 'jpeg':
+				$im = imagecreatefromjpeg($destImg);
+				break;
+			case 'png':
+				$im = imagecreatefrompng($destImg);
+				break;
 		}
 
-		if ($fileType === "jpg" || $fileType === "jpeg")
+		if (!is_resource($im))
 		{
-			$im = imagecreatefromjpeg($destImg);
-
-			// Original picture width is stored
-			$width = imagesx($im);
-
-			// Original picture height is stored
-			$height = imagesy($im);
-			$newImg = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagejpeg($newImg, $srcImg);
+			return $newImg;
 		}
 
-		if ($fileType === "png")
+		$width  = imagesx($im);
+		$height = imagesy($im);
+		$newImg = imagecreatetruecolor($nWidth, $nHeight);
+		imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+
+		switch ($fileType)
 		{
-			$im = imagecreatefrompng($destImg);
-
-			// Original picture width is stored
-			$width = imagesx($im);
-
-			// Original picture height is stored
-			$height = imagesy($im);
-			$newImg = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagepng($newImg, $srcImg);
+			case 'gif':
+				imagegif($newImg, $srcImg);
+				break;
+			case 'jpg':
+			case 'jpeg':
+				imagejpeg($newImg, $srcImg);
+				break;
+			case 'png':
+				imagepng($newImg, $srcImg);
+				break;
 		}
 
-		if (isset($srcImg))
-		{
-			JPath::setPermissions($srcImg, '0644');
-		}
+		JPath::setPermissions($srcImg, '0644');
 
 		return $newImg;
 	}
