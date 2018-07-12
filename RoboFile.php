@@ -445,10 +445,8 @@ class RoboFile extends \Robo\Tasks
 	 */
 	private function release()
 	{
-		$this->_exec('git add redshop.xml version');
+		$this->_exec('git add redshop.xml');
 		$this->_exec('git commit -m "Nightly build"');
 		$this->_exec('git push');
-		$this->_exec('gulp composer');
-		$this->_exec('gulp release');
 	}
 }
