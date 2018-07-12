@@ -388,9 +388,18 @@ class RoboFile extends \Robo\Tasks
 		$version = $this->getVersion();
 
 		// Increase nightly build
-		$version    = explode('.', $version);
-		$version[3] = (int) $version[3] + 1;
-		$version    = implode('.', $version);
+		$version = explode('.', $version);
+
+		if (!isset($version[3]))
+		{
+			$version[3] = 0;
+		}
+		else
+		{
+			$version[3] = (int) $version[3] + 1;
+		}
+
+		$version = implode('.', $version);
 
 		$this->updateVersion($version);
 		$this->release();
@@ -404,41 +413,29 @@ class RoboFile extends \Robo\Tasks
 	 */
 	private function getVersion()
 	{
-		$versionFile = __DIR__ . '/version';
-		$handle      = fopen($versionFile, "r");
-		$version     = fread($handle, filesize($versionFile));
-		fclose($handle);
+		$versionFile = __DIR__ . '/redshop.xml';
+		$xml         = simplexml_load_file($versionFile);
 
-		return $version;
+		return (string) $xml->version;
 	}
 
 	/**
 	 * @param   string $version Version
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   2.1.0
 	 */
 	private function updateVersion($version)
 	{
-		$versionFile = __DIR__ . '/version';
 		$redShopFile = __DIR__ . '/redshop.xml';
 
-		$handle = fopen($versionFile, "w+");
-		fwrite($handle, $version);
-		fclose($handle);
+		$xml                     = simplexml_load_file($redShopFile);
+		$result                  = $xml->xpath("/extension");
+		$result[0]->creationDate = date('Y-m-d H:i:s');
+		$result[0]->version      = $version;
 
-		$handle     = fopen($redShopFile, "r");
-		$xmlContent = fread($handle, filesize($redShopFile));
-		fclose($handle);
-
-		$xmlContent = preg_replace("/<creationDate>.*<\/creationDate>/", '<creationDate>' . date('Y-m-d H:i:s') . '</creationDate>', $xmlContent);
-		$xmlContent = preg_replace("/<version>.*<\/version>/", '<version>' . $version . '</version>', $xmlContent);
-
-		$handle = fopen($redShopFile, "w+");
-		fwrite($handle, $xmlContent);
-
-		return fclose($handle);
+		$xml->asXML($redShopFile);
 	}
 
 	/**
