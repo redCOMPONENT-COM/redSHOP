@@ -50,6 +50,7 @@ class SupplierSteps extends AbstractStep
 		$client->click(\SupplierPage::$buttonSave);
 		$client->waitForText(\SupplierPage::$fieldMissing, 60, \SupplierPage::$selectorMissing);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
+		$client->click(\SupplierPage::$buttonCancel);
 	}
 
 	public function addSupplierWrongEmail($supplierName, $supplierEmail)
@@ -63,6 +64,7 @@ class SupplierSteps extends AbstractStep
 		$client->click(\SupplierPage::$buttonSave);
 		$client->waitForText(\SupplierPage::$fieldEmailInvalid, 60, \SupplierPage::$selectorMissing);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
+		$client->click(\SupplierPage::$buttonCancel);
 	}
 
 	public function editSupplierCheckCloseButton($supplierUpdatedName)
