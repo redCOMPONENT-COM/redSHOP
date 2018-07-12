@@ -1269,6 +1269,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->setError($this->_db->getErrorMsg());
 		}
 
+		$this->deleteSh404Url($cid);
+
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterProductDelete', array($cid));
 
 		return true;
@@ -4972,5 +4974,31 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		return $mediaId;
+	}
+
+	/**
+	 * Function delete the sh4sef urls when deleted the products.
+	 *
+	 * @param   $pids   array   products id
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION
+	 *
+	 */
+	public function deleteSh404Url($pids)
+	{
+		foreach ($pids as $pid)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->clear()
+			      ->delete($db->qn('#__sh404sef_urls'))
+			      ->where($db->qn('newurl') . ' LIKE ' . $db->q('%view=product%'))
+			      ->where($db->qn('newurl') . ' LIKE ' . $db->q('%option=com_redshop%'))
+			      ->where($db->qn('newurl') . ' LIKE ' . $db->q('%pid=' . (int) $pid . '%'));
+
+			$db->setQuery($query)->execute();
+		}
 	}
 }
