@@ -146,46 +146,46 @@ class RedshopModelProduct extends RedshopModelList
 		$arrayKeyword = array();
 
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName(
-			array(
-
-				'p.product_id',
-				'p.product_name',
-				'p.product_name',
-				'p.product_name',
-				'p.product_price',
-				'p.product_parent_id',
-				'p.product_parent_id',
-				'p.product_parent_id',
-				'p.published',
-				'p.visited',
-				'p.manufacturer_id',
-				'p.product_number',
-				'p.checked_out',
-				'p.checked_out_time',
-				'p.discount_price',
-				'p.product_template',
-			),
-			array(
-
-				'id',
-				'product_name',
-				'treename',
-				'title',
-				'product_price',
-				'product_parent_id',
-				'parent_id',
-				'parent',
-				'published',
-				'visited',
-				'manufacturer_id',
-				'product_number',
-				'checked_out',
-				'checked_out_time',
-				'discount_price',
-				'product_template',
+		$query->select(
+			$db->quoteName(
+				array(
+					'p.product_id',
+					'p.product_name',
+					'p.product_name',
+					'p.product_name',
+					'p.product_price',
+					'p.product_parent_id',
+					'p.product_parent_id',
+					'p.product_parent_id',
+					'p.published',
+					'p.visited',
+					'p.manufacturer_id',
+					'p.product_number',
+					'p.checked_out',
+					'p.checked_out_time',
+					'p.discount_price',
+					'p.product_template',
+				),
+				array(
+					'id',
+					'product_name',
+					'treename',
+					'title',
+					'product_price',
+					'product_parent_id',
+					'parent_id',
+					'parent',
+					'published',
+					'visited',
+					'manufacturer_id',
+					'product_number',
+					'checked_out',
+					'checked_out_time',
+					'discount_price',
+					'product_template',
+				)
 			)
-		))
+		)
 			->from($db->quoteName('#__redshop_product', 'p'));
 
 		$query->leftJoin(
@@ -195,10 +195,12 @@ class RedshopModelProduct extends RedshopModelList
 			$db->quoteName('#__redshop_category', 'c') . ' ON ' . $db->quoteName('x.category_id') . ' = ' . $db->quoteName('c.id')
 		);
 
-		$query->select(array(
-			'x.ordering',
-			'x.category_id'
-		));
+		$query->select(
+			array(
+				'x.ordering',
+				'x.category_id'
+			)
+		);
 
 		// Extra where to make sure we have at least one condition
 		$query->where($db->quoteName('p.product_id') . ' > 0');
@@ -282,16 +284,16 @@ class RedshopModelProduct extends RedshopModelList
 				{
 					$condition [] = $db->quoteName('p.product_name') . ' LIKE ' . $db->quote('%' . $keyword . '%');
 					$condition [] = $db->quoteName('p.product_number') . ' LIKE ' . $db->quote('%' . $keyword . '%');
-				}
-				else
-				{
-					if ($searchField == 'c.category_name')
-					{
-						$searchField = 'c.name';
-					}
 
-					$condition [] = $db->quoteName($searchField) . ' LIKE ' . $db->quote('%' . $keyword . '%');
+					continue;
 				}
+
+				if ($searchField == 'c.category_name')
+				{
+					$searchField = 'c.name';
+				}
+
+				$condition [] = $db->quoteName($searchField) . ' LIKE ' . $db->quote('%' . $keyword . '%');
 			}
 
 			$query->where('  ( ' . implode(' OR ', $condition) . ' ) ');
@@ -340,6 +342,13 @@ class RedshopModelProduct extends RedshopModelList
 		return $this->_db->setQuery($query_prd)->loadColumn();
 	}
 
+	/**
+	 * @param   integer $pid Product id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
 	protected function getProductMedias($pid)
 	{
 		$query = 'SELECT * FROM #__redshop_media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
@@ -348,6 +357,13 @@ class RedshopModelProduct extends RedshopModelList
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * @param   integer $pid Product id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
 	protected function getProductCategories($pid)
 	{
 		$db    = $this->getDbo();
@@ -419,7 +435,7 @@ class RedshopModelProduct extends RedshopModelList
 
 		$list_field = array();
 
-		if (count($str) > 0)
+		if (!empty($str))
 		{
 			$dbname = implode(",", $str);
 
@@ -429,12 +445,12 @@ class RedshopModelProduct extends RedshopModelList
 			}
 		}
 
-		if (count($list_field) > 0)
+		if (empty($list_field))
 		{
-			return $list_field;
+			return '';
 		}
 
-		return "";
+		return $list_field;
 	}
 
 	/**
@@ -477,8 +493,7 @@ class RedshopModelProduct extends RedshopModelList
 	 */
 	public function saveorder($cid = array(), $order = 0)
 	{
-		$category_id_my = $this->getState('category_id');
-
+		$categoryId = $this->getState('category_id');
 		$orderarray = array();
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
@@ -491,21 +506,23 @@ class RedshopModelProduct extends RedshopModelList
 		asort($orderarray);
 		$i = 1;
 
-		if (count($orderarray) > 0)
+		if (empty($orderarray))
 		{
-			foreach ($orderarray as $productid => $order)
-			{
-				if ($order >= 0)
-				{
-					// Update ordering
-					$query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int) $i
-						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
-					$this->_db->setQuery($query);
-					$this->_db->execute();
-				}
+			return true;
+		}
 
-				$i++;
+		foreach ($orderarray as $productid => $order)
+		{
+			if ($order >= 0)
+			{
+				// Update ordering
+				$query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int) $i
+					. ' WHERE product_id=' . $productid . ' AND category_id = ' . (int) $categoryId;
+				$this->_db->setQuery($query);
+				$this->_db->execute();
 			}
+
+			$i++;
 		}
 
 		return true;
