@@ -51,4 +51,61 @@ class Product
 
 		return $db->setQuery($query)->loadObjectlist();
 	}
+
+	/**
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 * @throws  \Exception
+	 */
+	public static function getTemplateList()
+	{
+		$templates      = \RedshopHelperTemplate::getTemplate('product');
+		$temps          = array();
+		$temps[0]       = new \stdClass;
+		$temps[0]->id   = "0";
+		$temps[0]->name = \JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
+		$templates      = @array_merge($temps, $templates);
+
+		return \JHtml::_('select.genericlist', $templates, 'product_template',
+			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'id', 'name', 0
+		);
+	}
+
+	/**
+	 * @param   integer $categoryId Category id
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getCategoriesList($categoryId)
+	{
+		$categories  = Categories::getCategories();
+		$categories1 = array();
+
+		foreach ($categories as $key => $value)
+		{
+			$categories1[$key]            = new \stdClass;
+			$categories1[$key]->id        = $categories[$key]->id;
+			$categories1[$key]->parent_id = $categories[$key]->parent_id;
+			$categories1[$key]->title     = $categories[$key]->title;
+			$treename                     = str_replace("&#160;&#160;&#160;&#160;&#160;&#160;", " ", $categories[$key]->treename);
+			$treename                     = str_replace("<sup>", " ", $treename);
+			$treename                     = str_replace("</sup>&#160;", " ", $treename);
+			$categories1[$key]->treename  = $treename;
+			$categories1[$key]->children  = $categories[$key]->children;
+		}
+
+		$temps              = array();
+		$temps[0]           = new \stdClass;
+		$temps[0]->id       = "0";
+		$temps[0]->treename = \JText::_('COM_REDSHOP_SELECT_CATEGORY');
+		$categories1        = @array_merge($temps, $categories1);
+
+		return \JHTML::_('select.genericlist', $categories1, 'category_id',
+			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $categoryId
+		);
+	}
 }
