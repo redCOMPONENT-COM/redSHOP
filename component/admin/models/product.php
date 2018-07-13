@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Redshop\Helper\Product;
 
 /**
  * @package     RedSHOP.Backend
@@ -117,8 +118,8 @@ class RedshopModelProduct extends RedshopModelList
 			array_push($list, $item);
 			$children[$item->parent_id] = $list;
 
-			$item->categories  = $this->getProductCategories($item->id);
-			$item->mediaDetail = $this->getProductMedias($item->id);
+			$item->categories  = Product::getProductCategories($item->id);
+			$item->mediaDetail = Product::getProductMedias($item->id);
 		}
 
 		// Second pass - get an indent list of the items
@@ -340,41 +341,6 @@ class RedshopModelProduct extends RedshopModelList
 		$query_prd = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . implode(',', $product) . ")";
 
 		return $this->_db->setQuery($query_prd)->loadColumn();
-	}
-
-	/**
-	 * @param   integer $pid Product id
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.1.0
-	 */
-	protected function getProductMedias($pid)
-	{
-		$query = 'SELECT * FROM #__redshop_media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectlist();
-	}
-
-	/**
-	 * @param   integer $pid Product id
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.1.0
-	 */
-	protected function getProductCategories($pid)
-	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
-			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
-			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
-			->order($db->qn('c.name'));
-
-		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	/**
