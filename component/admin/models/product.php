@@ -294,7 +294,8 @@ class RedshopModelProduct extends RedshopModelList
 					$searchField = 'c.name';
 				}
 
-				$condition [] = $db->quoteName($searchField) . ' LIKE ' . $db->quote('%' . $keyword . '%');
+				$condition [] = /** @scrutinizer ignore-type */
+					$db->quoteName($searchField) . ' LIKE ' . $db->quote('%' . $keyword . '%');
 			}
 
 			$query->where('  ( ' . implode(' OR ', $condition) . ' ) ');
@@ -428,8 +429,8 @@ class RedshopModelProduct extends RedshopModelList
 	 */
 	public function assignTemplate($data)
 	{
-		$cid              = $data['cid'];
-		$product_template = $data['product_template'];
+		$cid             = $data['cid'];
+		$productTemplate = $data['product_template'];
 
 		if (empty($cid))
 		{
@@ -437,11 +438,14 @@ class RedshopModelProduct extends RedshopModelList
 		}
 
 		$db    = JFactory::getDbo();
-		$query = 'UPDATE #__redshop_product' . ' SET `product_template` = "'
-			. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . implode(',', $cid) . ' )';
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__redshop_product'))
+			->set($db->quoteName('product_template') . ' = ' . (int) $productTemplate)
+			->where($db->quoteName('product_id') . ' IN ( ' . implode(',', $cid) . ' )');
 
 		if (!$db->setQuery($query)->execute())
 		{
+			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
