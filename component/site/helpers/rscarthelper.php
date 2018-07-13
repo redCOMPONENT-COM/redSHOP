@@ -323,6 +323,11 @@ class rsCarthelper
 		$shipping                  = $cart ['shipping'];
 		$shippingVat               = $cart ['shipping_tax'];
 
+		if ($total <= 0)
+		{
+			$total = 0;
+		}
+
 		if (isset($cart ['discount_type']) === false)
 		{
 			$cart ['discount_type'] = 0;
