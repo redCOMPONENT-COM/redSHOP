@@ -18,15 +18,15 @@ namespace AcceptanceTester;
  */
 class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-    /**
-     * @param $nameUser
-     * @param $address
-     * @param $zipcode
-     * @param $city
-     * @param $phone
-     * @param $nameProduct
-     * @param $quantity
-     */
+	/**
+	 * @param $nameUser
+	 * @param $address
+	 * @param $zipcode
+	 * @param $city
+	 * @param $phone
+	 * @param $nameProduct
+	 * @param $quantity
+	 */
 	public function addOrder($nameUser, $address, $zipcode, $city, $phone, $nameProduct, $quantity)
 	{
 		$I = $this;
@@ -36,29 +36,29 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
 
-        $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-        $I->waitForElement($userOrderPage->returnSearch($nameUser));
-        $I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
+		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
+		$I->waitForElement($userOrderPage->returnSearch($nameUser));
+		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 
-        $I->click($userOrderPage->returnSearch($nameUser));
-        $I->waitForElement(\OrderManagerPage::$fistName, 30);
-        try{
-            $I->seeInField(\OrderManagerPage::$fistName, $nameUser);
-            $I->waitForElement(\OrderManagerPage::$applyUser, 30);
-            $I->click(\OrderManagerPage::$applyUser);
-            $I->seeInField(\OrderManagerPage::$fistName, $nameUser);
-        }catch (\Exception $e)
-        {
-            $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-            $I->waitForElement($userOrderPage->returnSearch($nameUser));
-            $I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
+		$I->click($userOrderPage->returnSearch($nameUser));
+		$I->waitForElement(\OrderManagerPage::$fistName, 30);
+		try{
+			$I->seeInField(\OrderManagerPage::$fistName, $nameUser);
+			$I->waitForElement(\OrderManagerPage::$applyUser, 30);
+			$I->click(\OrderManagerPage::$applyUser);
+			$I->seeInField(\OrderManagerPage::$fistName, $nameUser);
+		}catch (\Exception $e)
+		{
+			$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
+			$I->waitForElement($userOrderPage->returnSearch($nameUser));
+			$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 
-            $I->click($userOrderPage->returnSearch($nameUser));
-            $I->waitForElement(\OrderManagerPage::$fistName, 30);
-            $I->waitForElement(\OrderManagerPage::$applyUser, 30);
-            $I->click(\OrderManagerPage::$applyUser);
-            $I->seeInField(\OrderManagerPage::$fistName, $nameUser);
-        }
+			$I->click($userOrderPage->returnSearch($nameUser));
+			$I->waitForElement(\OrderManagerPage::$fistName, 30);
+			$I->waitForElement(\OrderManagerPage::$applyUser, 30);
+			$I->click(\OrderManagerPage::$applyUser);
+			$I->seeInField(\OrderManagerPage::$fistName, $nameUser);
+		}
 
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
 		$I->scrollTo(\OrderManagerPage::$productId);
