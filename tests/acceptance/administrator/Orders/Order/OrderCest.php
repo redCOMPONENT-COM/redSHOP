@@ -31,9 +31,6 @@ class OrderCest
 		$this->email           = $this->faker->email;
 		$this->shopperGroup    = 'Default Private';
 		$this->group           = 'Public';
-		$this->firstName       = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->updateFirstName = 'Updating ' . $this->firstName;
-		$this->lastName        = 'Last';
 		$this->address         = '14 Phan Ton';
 		$this->zipcode         = 7000;
 		$this->city            = 'Ho Chi Minh';
@@ -104,17 +101,17 @@ class OrderCest
 
         $I->wantTo('Test User creation in Administrator');
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
-        $I->searchUser($this->firstName);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->userName, $this->userName, 'saveclose');
+        $I->searchUser($this->userName);
 
         $I->wantTo('Test Order creation in Administrator');
         $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
         $I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
 
         $I->wantTo('Test Order Edit status and payment in Administrator');
-        $I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
+        $I->editOrder($this->userName . ' ' . $this->userName, $this->status, $this->paymentStatus, $this->newQuantity);
 
         $I->wantTo('Test Order delete by user  in Administrator');
-        $I->deleteOrder($this->firstName);
+        $I->deleteOrder($this->userName);
     }
 }
