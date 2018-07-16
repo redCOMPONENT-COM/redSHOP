@@ -54,13 +54,6 @@ abstract class RedshopEntityBase extends Object
 	protected static $instances = array();
 
 	/**
-	 * Cached item
-	 *
-	 * @var  mixed
-	 */
-	protected $item = null;
-
-	/**
 	 * Cached table.
 	 *
 	 * @var  JTable
@@ -104,69 +97,6 @@ abstract class RedshopEntityBase extends Object
 		{
 			$this->tableKey = false !== $this->getTable() ? $this->getTable()->getKeyName() : 'id';
 		}
-	}
-
-	/**
-	 * Proxy item properties
-	 *
-	 * @param   string $property Property tried to access
-	 *
-	 * @return  mixed   $this->item->property if it exists
-	 */
-	public function __get($property)
-	{
-		if (null != $this->item && property_exists($this->item, $property))
-		{
-			return $this->item->$property;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Proxy item properties
-	 *
-	 * @param   string $property Property tried to access
-	 * @param   mixed  $value    Value to assign
-	 *
-	 * @return  self
-	 *
-	 * @since   1.0
-	 */
-	public function __set($property, $value)
-	{
-		if (null === $this->item)
-		{
-			$this->item = new stdClass;
-		}
-
-		$this->item->$property = $value;
-
-		return $this;
-	}
-
-	/**
-	 * Ensure that clones don't modify cached data
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0
-	 */
-	public function __clone()
-	{
-		$this->item = clone $this->item;
-	}
-
-	/**
-	 * Magic method isset for entity property
-	 *
-	 * @param   string $name Property name
-	 *
-	 * @return  bool
-	 */
-	public function __isset($name)
-	{
-		return isset($this->item->$name);
 	}
 
 	/**

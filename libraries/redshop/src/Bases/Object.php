@@ -79,7 +79,7 @@ class Object
 	 */
 	public function __isset($name)
 	{
-		return isset($this->item->$name);
+		return isset($this->item->{$name});
 	}
 
 	/**
