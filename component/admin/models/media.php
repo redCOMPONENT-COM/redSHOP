@@ -488,11 +488,11 @@ class RedshopModelMedia extends RedshopModel
 	 */
 	protected function populateState($ordering = 'media_id', $direction = 'desc')
 	{
-		$filter_media_section = $this->getUserStateFromRequest($this->context . '.filter_media_section', 'filter_media_section', 0);
-		$this->setState('filter_media_section', $filter_media_section);
+		$filterMediaSection = $this->getUserStateFromRequest($this->context . '.filter_media_section', 'filter_media_section', 0);
+		$this->setState('filter_media_section', $filterMediaSection);
 
-		$media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
-		$this->setState('media_type', $media_type);
+		$mediaType = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
+		$this->setState('media_type', $mediaType);
 
 		$folder = JFactory::getApplication()->input->getPath('folder', '');
 		$this->setState('folder', $folder);
