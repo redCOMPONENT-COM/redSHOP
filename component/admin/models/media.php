@@ -245,6 +245,9 @@ class RedshopModelMedia extends RedshopModel
 		return $list;
 	}
 
+	/**
+	 * get folders
+	 */
 	public function getFolders()
 	{
 		$list = $this->getList();
@@ -252,6 +255,9 @@ class RedshopModelMedia extends RedshopModel
 		return $list['folders'];
 	}
 
+	/**
+	 * get documents
+	 */
 	public function getDocuments()
 	{
 		$list = $this->getList();
@@ -259,6 +265,11 @@ class RedshopModelMedia extends RedshopModel
 		return $list['docs'];
 	}
 
+	/**
+	 * store data
+	 * @param  array $data [description]
+	 * @return [type]       [description]
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable('media_download');
@@ -280,6 +291,9 @@ class RedshopModelMedia extends RedshopModel
 		return $row;
 	}
 
+	/**
+	 * get additionnal Files
+	 */
 	public function getAdditionalFiles($media_id)
 	{
 		$query = "SELECT * FROM `#__redshop_media_download` "
@@ -288,6 +302,11 @@ class RedshopModelMedia extends RedshopModel
 		return $this->_getList($query);
 	}
 
+	/**
+	 * delete addtional files
+	 * 
+	 * @return 	boolean
+	 */
 	public function deleteAddtionalFiles($fileId)
 	{
 		$query = "SELECT name FROM `#__redshop_media_download` "
@@ -314,6 +333,9 @@ class RedshopModelMedia extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * save order
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row        = $this->getTable('media_detail');
