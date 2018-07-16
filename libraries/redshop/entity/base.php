@@ -889,7 +889,7 @@ abstract class RedshopEntityBase extends Object
 	 *
 	 * @param   mixed $item Object / Array to save. Null = try to store current item
 	 *
-	 * @return  integer  The item id
+	 * @return  boolean|integer  The item id
 	 *
 	 * @since   1.0
 	 */
@@ -909,7 +909,7 @@ abstract class RedshopEntityBase extends Object
 		{
 			JLog::add("Nothing to save", JLog::ERROR, 'entity');
 
-			return 0;
+			return false;
 		}
 
 		try
@@ -927,7 +927,7 @@ abstract class RedshopEntityBase extends Object
 		{
 			JLog::add($table->getError(), JLog::ERROR, 'entity');
 
-			return 0;
+			return false;
 		}
 
 		// Force entity reload / save to cache
