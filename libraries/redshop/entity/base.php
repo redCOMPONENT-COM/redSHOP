@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Redshop\Bases\Object;
 
 /**
  * Base Entity.
  *
  * @since  2.0.3
  */
-abstract class RedshopEntityBase
+abstract class RedshopEntityBase extends Object
 {
 	/**
 	 * @const  integer
@@ -90,7 +91,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Constructor
 	 *
-	 * @param   mixed  $id  Identifier of the active item
+	 * @param   mixed $id Identifier of the active item
 	 */
 	public function __construct($id = null)
 	{
@@ -108,7 +109,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Proxy item properties
 	 *
-	 * @param   string  $property  Property tried to access
+	 * @param   string $property Property tried to access
 	 *
 	 * @return  mixed   $this->item->property if it exists
 	 */
@@ -125,8 +126,8 @@ abstract class RedshopEntityBase
 	/**
 	 * Proxy item properties
 	 *
-	 * @param   string  $property  Property tried to access
-	 * @param   mixed   $value     Value to assign
+	 * @param   string $property Property tried to access
+	 * @param   mixed  $value    Value to assign
 	 *
 	 * @return  self
 	 *
@@ -159,7 +160,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Magic method isset for entity property
 	 *
-	 * @param   string  $name  Property name
+	 * @param   string $name Property name
 	 *
 	 * @return  bool
 	 */
@@ -171,7 +172,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Bind an object/array to the entity
 	 *
-	 * @param   mixed  $item  Array/Object containing the item fields
+	 * @param   mixed $item Array/Object containing the item fields
 	 *
 	 * @return  $this
 	 */
@@ -278,7 +279,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Check if current user has permission to perform an action
 	 *
-	 * @param   string  $action  The action. Example: core.create
+	 * @param   string $action The action. Example: core.create
 	 *
 	 * @return  boolean
 	 */
@@ -311,7 +312,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Remove an instance from cache
 	 *
-	 * @param   integer  $id  Identifier of the active item
+	 * @param   integer $id Identifier of the active item
 	 *
 	 * @return  void
 	 */
@@ -325,9 +326,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Format a link
 	 *
-	 * @param   string   $url     Url to format
-	 * @param   boolean  $routed  Process Url through JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   string  $url    Url to format
+	 * @param   boolean $routed Process Url through JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -349,8 +350,8 @@ abstract class RedshopEntityBase
 	/**
 	 * Get an item property
 	 *
-	 * @param   string  $property  Property to get
-	 * @param   mixed   $default   Default value to assign if property === null | property === ''
+	 * @param   string $property Property to get
+	 * @param   mixed  $default  Default value to assign if property === null | property === ''
 	 *
 	 * @return  string
 	 */
@@ -369,8 +370,8 @@ abstract class RedshopEntityBase
 	/**
 	 * Set an item property
 	 *
-	 * @param   string  $property  Property to get
-	 * @param   mixed   $data      Data for set to property
+	 * @param   string $property Property to get
+	 * @param   mixed  $data     Data for set to property
 	 *
 	 * @return  self
 	 */
@@ -401,9 +402,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item add link
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -417,9 +418,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item add link with a return link to the current page.
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -486,9 +487,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get an entity date field formatted
 	 *
-	 * @param   string   $itemProperty     Item property containing the date
-	 * @param   string   $format           Desired date format
-	 * @param   boolean  $translateFormat  Translate the format for multilanguage purposes
+	 * @param   string  $itemProperty    Item property containing the date
+	 * @param   string  $format          Desired date format
+	 * @param   boolean $translateFormat Translate the format for multilanguage purposes
 	 *
 	 * @return  string
 	 */
@@ -522,9 +523,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item delete link
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -546,9 +547,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item delete link with a return link to the current page.
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -567,9 +568,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item edit link
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -589,9 +590,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item edit link with a return link to the current page.
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 *
@@ -612,7 +613,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Create and return a cached instance
 	 *
-	 * @param   integer  $id  Identifier of the active item
+	 * @param   integer $id Identifier of the active item
 	 *
 	 * @return  $this
 	 */
@@ -636,8 +637,8 @@ abstract class RedshopEntityBase
 	/**
 	 * Create and return a cached instance by a different field of the table (UID)
 	 *
-	 * @param   string  $fieldName   Field to use
-	 * @param   string  $fieldValue  Key value
+	 * @param   string $fieldName  Field to use
+	 * @param   string $fieldValue Key value
 	 *
 	 * @return  $this
 	 */
@@ -691,9 +692,9 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the item link
 	 *
-	 * @param   mixed    $itemId  Specify a custom itemId if needed. Default: joomla way to use active itemid
-	 * @param   boolean  $routed  Process URL with JRoute?
-	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   mixed   $itemId Specify a custom itemId if needed. Default: joomla way to use active itemid
+	 * @param   boolean $routed Process URL with JRoute?
+	 * @param   boolean $xhtml  Replace & by &amp; for XML compliance.
 	 *
 	 * @return  string
 	 */
@@ -712,7 +713,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Generate the Itemid string part for URLs
 	 *
-	 * @param   mixed  $itemId  inherit or desired itemId. Use 0 to not inherit active itemId
+	 * @param   mixed $itemId inherit or desired itemId. Use 0 to not inherit active itemId
 	 *
 	 * @return  string
 	 */
@@ -755,7 +756,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Get the associated table
 	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+	 * @param   string $name Main name of the Table. Example: Article for ContentTableArticle
 	 *
 	 * @return  RedshopTable
 	 */
@@ -845,7 +846,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Load a cached instance and ensure that the item is loaded
 	 *
-	 * @param   integer  $id  Identifier of the active item
+	 * @param   integer $id Identifier of the active item
 	 *
 	 * @return  self
 	 */
@@ -864,7 +865,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Load the item already loaded in a table
 	 *
-	 * @param   RedshopTable|JTable  $table  Table with the item loaded
+	 * @param   RedshopTable|JTable $table Table with the item loaded
 	 *
 	 * @return  self
 	 */
@@ -907,8 +908,8 @@ abstract class RedshopEntityBase
 	/**
 	 * Default loading is trying to use the associated table
 	 *
-	 * @param   string  $key       Field name used as key
-	 * @param   string  $keyValue  Value used if it's not the $this->id property of the instance
+	 * @param   string $key      Field name used as key
+	 * @param   string $keyValue Value used if it's not the $this->id property of the instance
 	 *
 	 * @return  self
 	 */
@@ -932,7 +933,7 @@ abstract class RedshopEntityBase
 	}
 
 	/**
-	 * @param   array  $data  Data
+	 * @param   array $data Data
 	 *
 	 * @return  self
 	 */
@@ -956,7 +957,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Try to directly save the entity using the associated table
 	 *
-	 * @param   mixed  $item  Object / Array to save. Null = try to store current item
+	 * @param   mixed $item Object / Array to save. Null = try to store current item
 	 *
 	 * @return  integer  The item id
 	 *
@@ -1031,7 +1032,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Process $item data before saving.
 	 *
-	 * @param   mixed  $item  Array / Object of data.
+	 * @param   mixed $item Array / Object of data.
 	 *
 	 * @return  boolean       Return false will break save process
 	 */
@@ -1043,7 +1044,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Process data after saving.
 	 *
-	 * @param   JTable  $table  JTable instance data.
+	 * @param   JTable $table JTable instance data.
 	 *
 	 * @return  boolean
 	 */
