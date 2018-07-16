@@ -79,6 +79,10 @@ class RedshopModelProduct extends RedshopModel
 		return $this->_data;
 	}
 
+
+	/**
+	 * get name supplier
+	 */
 	public function getNameSupplierById($id)
 	{
 		$db = JFactory::getDbo();
@@ -86,10 +90,8 @@ class RedshopModelProduct extends RedshopModel
 			->select('name')
 			->from($db->qn('#__redshop_supplier'))
 			->where($db->qn('id') . ' = ' . $db->q((int) $id));
-		$db->setQuery($query);
-		$db->setQuery($query);
-		
-		return $db->loadResult();	
+
+		return $db->setQuery($query)->loadResult();
 	}
 
 	public function _buildQuery()
