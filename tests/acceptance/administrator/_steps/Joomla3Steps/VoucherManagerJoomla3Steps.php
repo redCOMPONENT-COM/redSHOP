@@ -49,6 +49,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
 				$I->click(\VoucherManagerPage::$saveButton);
 				$I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
+				$I->click(\VoucherManagerPage::$closeButton);
 
 				break;
 			case 'saveclose':
@@ -138,6 +139,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			 * $I->see(\VoucherManagerPage::$invalidProduct, \VoucherManagerPage::$xPathInvalid);
 			 * break;*/
 		}
+		$I->click(\VoucherManagerPage::$closeButton);
 	}
 
 	/**
@@ -154,6 +156,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchVoucherCode($voucherCode);
+		$I->checkAllResults();
+		$I->click(\VoucherManagerPage::$checkInButton);
 		$I->click($voucherCode);
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 		$I->checkForPhpNoticesOrWarnings();
@@ -175,6 +179,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\VoucherManagerPage::$voucherCode, "");
 		$I->click(\VoucherManagerPage::$saveCloseButton);
 		$I->assertSystemMessageContains(\VoucherManagerPage::$invalidCode);
+		$I->click(\VoucherManagerPage::$closeButton);
 	}
 
 	public function checkCloseButton($voucherCode)
@@ -196,11 +201,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
-		switch ($buttonName) {
-			case 'edit':
-				$I->click(\VoucherManagerPage::$editButton);
-				$I->acceptPopup();
-				break;
+		switch ($buttonName)
+		{
 			case 'delete':
 				$I->click(\VoucherManagerPage::$deleteButton);
 				$I->acceptPopup();
@@ -215,8 +217,10 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 			case 'cancel':
 				$I->click(\VoucherManagerPage::$newButton);
+				$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 				$I->click(\VoucherManagerPage::$cancelButton);
-
+				break;
+			default:
 				break;
 		}
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);

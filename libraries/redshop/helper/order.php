@@ -596,18 +596,18 @@ class RedshopHelperOrder
 	 */
 	public static function updateOrderStatus($orderId, $newStatus)
 	{
-		$db = JFactory::getDbo();
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$query = $db->getQuery(true)
-			->update($db->qn('#__redshop_orders'))
-			->set($db->qn('order_status') . ' = ' . $db->quote($newStatus))
-			->set($db->qn('mdate') . ' = ' . (int) time())
-			->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
+		if ($order->isValid())
+		{
+			$order->set('order_status', $newStatus)
+				->set('mdate', (int) time())
+				->save();
+		}
 
 		self::generateInvoiceNumber($orderId);
 
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->qn(
@@ -2391,8 +2391,9 @@ class RedshopHelperOrder
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
+		$mailSection  = "order_status";
 		$mailTemplate = Redshop\Mail\Helper::getTemplate(
-			0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"'
+			0, '', '`mail_section` LIKE "' . $mailSection . '" AND `mail_order_status` LIKE "' . $newStatus . '"'
 		);
 
 		if (count($mailTemplate) > 0)
@@ -2561,28 +2562,35 @@ class RedshopHelperOrder
 
 			if ('' != $userDetail->thirdparty_email && $mailBody)
 			{
-				JFactory::getMailer()->sendMail(
+				Redshop\Mail\Helper::sendEmail(
 					$mailFrom,
 					$fromName,
 					$userDetail->thirdparty_email,
 					$mailSubject,
 					$mailBody,
-					1,
-					null
+					true,
+					null,
+					null,
+					null,
+					$mailSection,
+					func_get_args()
 				);
 			}
 
 			if ('' != $userDetail->user_email && $mailBody)
 			{
-				JFactory::getMailer()->sendMail(
+				Redshop\Mail\Helper::sendEmail(
 					$mailFrom,
 					$fromName,
 					$userDetail->user_email,
 					$mailSubject,
 					$mailBody,
-					1,
+					true,
 					null,
-					$mailBcc
+					$mailBcc,
+					null,
+					$mailSection,
+					func_get_args()
 				);
 			}
 		}
