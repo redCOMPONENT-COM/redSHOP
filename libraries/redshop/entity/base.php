@@ -912,13 +912,15 @@ abstract class RedshopEntityBase extends Object
 			return 0;
 		}
 
-		$table = $this->getTable();
-
-		if (!$table instanceof JTable)
+		try
+		{
+			$table = $this->getTable();
+		}
+		catch (Exception $exception)
 		{
 			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 
-			return 0;
+			return false;
 		}
 
 		if (!$table->save((array) $item))
