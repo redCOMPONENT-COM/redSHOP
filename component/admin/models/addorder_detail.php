@@ -800,13 +800,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 			. 'AND user_id = ' . (int) $user_id . ' '
 			. 'AND users_info_id = ' . (int) $shippingadd_id;
 		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$shipping = $this->_db->loadObject();
 
-		if (count($list) > 0)
-		{
-			$shipping = $list;
-		}
-		else
+		if (!$shipping($shipping))
 		{
 			$shipping = $this->setShipping();
 		}

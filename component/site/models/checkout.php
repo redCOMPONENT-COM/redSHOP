@@ -2209,7 +2209,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$db->setQuery($query)->execute())
 		{
-			/** @scrutinizer ignore-deprecated */ $msg = $db->getErrorMsg();
+			$msg = /** @scrutinizer ignore-deprecated */ $db->getErrorMsg();
 			/** @scrutinizer ignore-deprecated */ $this->setError($msg);
 
 			return false;
