@@ -155,7 +155,7 @@ class RedshopModelCheckout extends RedshopModel
 	}
 
 	/**
-	 * @return Tableorder_detail
+	 * @return boolean|Tableorder_detail
 	 *
 	 * @throws Exception
 	 */

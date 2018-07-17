@@ -1456,7 +1456,7 @@ class productHelper
 			return $resultstr;
 		}
 
-		$resultstr = "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
+		return "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
 	}
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
@@ -1487,7 +1487,7 @@ class productHelper
 			return $resultstr;
 		}
 
-		$resultstr = implode("<br/>", $resultArr);
+		return implode("<br/>", $resultArr);
 	}
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
