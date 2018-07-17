@@ -2726,7 +2726,7 @@ class productHelper
 	/**
 	 * Method for get cart template
 	 *
-	 * @return  object
+	 * @return  array
 	 * @throws  \Exception
 	 *
 	 * @deprecated    2.1.0
