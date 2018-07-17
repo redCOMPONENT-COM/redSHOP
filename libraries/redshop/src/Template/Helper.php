@@ -139,7 +139,7 @@ class Helper
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -388,5 +388,25 @@ class Helper
 		$matches = \Redshop\Helper\Utility::findStringBetween($start, $end, $template);
 
 		return count($matches) > 0 ? (string) $matches[0] : '';
+	}
+
+	/**
+	 * @param   array  $tags     Array of tags
+	 * @param   string $template Template
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 */
+	public static function replaceBlank($tags, $template)
+	{
+		if (empty($tags))
+		{
+			return $template;
+		}
+
+		$replace = array_fill(0, count($tags) - 1, '');
+
+		return str_replace($tags, $replace, $template);
 	}
 }
