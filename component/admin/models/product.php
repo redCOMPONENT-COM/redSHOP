@@ -10,40 +10,33 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Redshop\Helper\Product;
 
-
-class RedshopModelProduct extends RedshopModel
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ *
+ * @since       2.1.0
+ */
+class RedshopModelProduct extends RedshopModelList
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_categorytreelist = null;
-
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
-		// Different context depending on the view
-		if (empty($this->context))
-		{
-			$input         = JFactory::getApplication()->input;
-			$view          = $input->getString('view', '');
-			$layout        = $input->getString('layout', 'none');
-			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
-		}
-
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'product_number'
+				'product_name', 'p.product_name',
+				'product_number', 'p.product_number',
+				'product_price', 'p.product_price',
+				'visited', 'p.visited',
+				'published', 'p.published'
 			);
 		}
 
@@ -101,39 +94,38 @@ class RedshopModelProduct extends RedshopModel
 		parent::populateState($ordering, $direction);
 	}
 
-	public function getData()
+	/**
+	 * @param   array|mixed $items
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   2.1.0
+	 */
+	protected function prepareItems($items)
 	{
-		if (empty($this->_data))
+		if (!is_array($items))
 		{
-			$this->_data = parent::getData();
-
-			// Product parent - child - format generation
-			$products = $this->_data;
-
-			if (!is_array($products))
-			{
-				$products = array();
-			}
-
-			// Establish the hierarchy of the menu
-			$children = array();
-
-			// First pass - collect children
-			foreach ($products as $v)
-			{
-				$pt           = $v->parent;
-				$v->parent_id = $v->parent;
-				$list         = @$children[$pt] ? $children[$pt] : array();
-				array_push($list, $v);
-				$children[$pt] = $list;
-			}
-
-			// Second pass - get an indent list of the items
-			$this->_data = JHTML::_('menu.treerecurse', 0, '', array(), $children, max(0, 9));
-			$this->_data = array_values($this->_data);
+			$items = array();
 		}
 
-		return $this->_data;
+		// Establish the hierarchy of the menu
+		$children = array();
+
+		// First pass - collect children
+		foreach ($items as $item)
+		{
+			$list = isset($children[$item->parent_id]) ? $children[$item->parent_id] : array();
+			array_push($list, $item);
+			$children[$item->parent_id] = $list;
+
+			$item->categories  = Product::getProductCategories($item->id);
+			$item->mediaDetail = Product::getProductMedias($item->id);
+		}
+
+		// Second pass - get an indent list of the items
+		$items = array_values(JHTML::_('menu.treerecurse', 0, '', array(), $children, max(0, 9)));
+
+		return $items;
 	}
 
 	/**
@@ -142,244 +134,220 @@ class RedshopModelProduct extends RedshopModel
 	 *
 	 * @since   2.0.7
 	 */
-	public function _buildQuery()
+	protected function getListQuery()
 	{
-		static $items;
-
-		if (isset($items))
-		{
-			return $items;
-		}
-
 		$db = JFactory::getDbo();
 
-		$orderby      = $this->_buildContentOrderBy();
-		$search_field = $this->getState('search_field');
-		$keyword      = $this->getState('keyword');
-		$category_id  = $this->getState('category_id');
-		$product_sort = $this->getState('product_sort');
+		$keyword     = $this->getState('keyword');
+		$searchField = $this->getState('search_field');
+		$categoryId  = $this->getState('category_id');
+		$productSort = $this->getState('product_sort');
+
 		$keyword      = addslashes($keyword);
-		$arr_keyword  = array();
+		$arrayKeyword = array();
 
-		$where = '';
-		$and   = '';
+		$query = $db->getQuery(true);
+		$query->select(
+			$db->quoteName(
+				array(
+					'p.product_id',
+					'p.product_name',
+					'p.product_name',
+					'p.product_name',
+					'p.product_price',
+					'p.product_parent_id',
+					'p.product_parent_id',
+					'p.product_parent_id',
+					'p.published',
+					'p.visited',
+					'p.manufacturer_id',
+					'p.product_number',
+					'p.checked_out',
+					'p.checked_out_time',
+					'p.discount_price',
+					'p.product_template',
+				),
+				array(
+					'id',
+					'product_name',
+					'treename',
+					'title',
+					'product_price',
+					'product_parent_id',
+					'parent_id',
+					'parent',
+					'published',
+					'visited',
+					'manufacturer_id',
+					'product_number',
+					'checked_out',
+					'checked_out_time',
+					'discount_price',
+					'product_template',
+				)
+			)
+		)
+			->from($db->quoteName('#__redshop_product', 'p'));
 
-		if (!empty($product_sort))
+		$query->leftJoin(
+			$db->quoteName('#__redshop_product_category_xref', 'x') . ' ON ' . $db->quoteName('x.product_id') . ' = ' . $db->quoteName('p.product_id')
+		);
+		$query->leftJoin(
+			$db->quoteName('#__redshop_category', 'c') . ' ON ' . $db->quoteName('x.category_id') . ' = ' . $db->quoteName('c.id')
+		);
+
+		$query->select(
+			array(
+				'x.ordering',
+				'x.category_id'
+			)
+		);
+
+		// Extra where to make sure we have at least one condition
+		$query->where($db->quoteName('p.product_id') . ' > 0');
+
+		if ($searchField == 'pa.property_number')
 		{
-			if ($product_sort == 'p.published')
+			if (!empty($keyword))
 			{
-				$and = 'AND p.published=1 ';
-			}
-			elseif ($product_sort == 'p.unpublished')
-			{
-				$and = 'AND p.published=0 ';
-			}
-			elseif ($product_sort == 'p.product_on_sale')
-			{
-				$and = 'AND p.product_on_sale=1 ';
-			}
-			elseif ($product_sort == 'p.product_special')
-			{
-				$and = 'AND p.product_special=1 ';
-			}
-			elseif ($product_sort == 'p.expired')
-			{
-				$and = 'AND p.expired=1 ';
-			}
-			elseif ($product_sort == 'p.not_for_sale')
-			{
-				$and = 'AND p.not_for_sale > 0 ';
-			}
-			elseif ($product_sort == 'p.product_not_on_sale')
-			{
-				$and = 'AND p.product_on_sale=0 ';
-			}
-			elseif ($product_sort == 'p.sold_out')
-			{
-				$query_prd           = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
-				$tot_products        = $this->_getList($query_prd);
-				$product_id_array    = '';
-				$producthelper       = productHelper::getInstance();
-				$products_stock      = $producthelper->removeOutofstockProduct($tot_products);
-				$final_product_stock = $this->getFinalProductStock($products_stock);
+				$query->leftJoin(
+					$db->quoteName('#__redshop_product_attribute', 'a') . ' ON ' . $db->quoteName('a.product_id') . ' = ' . $db->quoteName('p.product_id')
+				);
+				$query->leftJoin(
+					$db->quoteName('#__redshop_product_attribute_property', 'pa') . ' ON ' . $db->quoteName('pa.attribute_id') . ' = ' . $db->quoteName('a.attribute_id')
+				);
+				$query->leftJoin(
+					$db->quoteName('#__redshop_product_subattribute_color', 'ps') . ' ON ' . $db->quoteName('ps.subattribute_id') . ' = ' . $db->quoteName('pa.property_id')
+				);
 
-				if (count($final_product_stock) > 0)
-				{
-					$product_id_array = implode(',', $final_product_stock);
-				}
-				else
-				{
-					$product_id_array = "0";
-				}
+				$query->where(' ( '
+					. $db->quoteName('pa.property_number') . ' LIKE ' . $db->quote('%' . $keyword . '%')
+					. ' OR ' . $db->quoteName('ps.subattribute_color_number') . ' LIKE ' . $db->quote('%' . $keyword . '%')
+					. ' ) '
+				);
+			}
 
-				$and = "AND p.product_id IN (" . $product_id_array . ")";
+			$query->group($db->quoteName('p.product_id'));
+		}
+
+		if (!empty($productSort))
+		{
+			switch ($productSort)
+			{
+				case 'p.published':
+					$query->where($db->quoteName('p.published') . ' = 1');
+					break;
+				case 'p.unpublished':
+					$query->where($db->quoteName('p.published') . ' = 0');
+					break;
+				case 'p.product_on_sale':
+					$query->where($db->quoteName('p.product_on_sale') . ' = 1');
+					break;
+				case 'p.product_special':
+					$query->where($db->quoteName('p.product_special') . ' = 1');
+					break;
+				case 'p.expired':
+					$query->where($db->quoteName('p.expired') . ' = 1');
+					break;
+				case 'p.not_for_sale':
+					$query->where($db->quoteName('p.not_for_sale') . ' > 0');
+					break;
+				case 'p.product_not_on_sale':
+					$query->where($db->quoteName('p.product_on_sale') . ' = 0');
+					break;
+				case 'p.sold_out':
+					$queryProduct      = "SELECT DISTINCT(p.id),p.attribute_set_id FROM #__redshop_product AS p ";
+					$totalProducts     = $this->getDbo()->setQuery($queryProduct);
+					$productsStocks    = productHelper::getInstance()->removeOutofstockProduct($totalProducts);
+					$finalProductStock = $this->getFinalProductStock($productsStocks);
+
+					if (!empty($finalProductStock))
+					{
+						$query->where($db->quoteName('p.product_id') . ' IN ( ' . implode(',', $finalProductStock) . ' )');
+					}
+
+					break;
 			}
 		}
 
 		if (trim($keyword) != '')
 		{
-			$arr_keyword = preg_split("/[\s-]+/", $keyword);
+			$arrayKeyword = preg_split("/[\s-]+/", $keyword);
 		}
 
-		if ($search_field != 'pa.property_number')
+		if ($searchField != 'pa.property_number' && !empty($arrayKeyword))
 		{
-			for ($k = 0, $kn = count($arr_keyword); $k < $kn; $k++)
+			$condition = array();
+
+			foreach ($arrayKeyword as $index => $keyword)
 			{
-				if ($k == 0)
+				if ($searchField == 'p.name_number')
 				{
-					$where .= " AND ( ";
+					$condition [] = $db->quoteName('p.product_name') . ' LIKE ' . $db->quote('%' . $keyword . '%');
+					$condition [] = $db->quoteName('p.product_number') . ' LIKE ' . $db->quote('%' . $keyword . '%');
+
+					continue;
 				}
 
-				if ($search_field == 'p.name_number')
+				if ($searchField == 'c.category_name')
 				{
-					$where .= " p.product_name LIKE '%$arr_keyword[$k]%' OR p.product_number LIKE '%$arr_keyword[$k]%' ";
-				}
-				else
-				{
-					$where .= $search_field . " LIKE '%$arr_keyword[$k]%'  ";
+					$searchField = 'c.name';
 				}
 
-				if ($k != count($arr_keyword) - 1)
-				{
-					if ($search_field == 'p.name_number')
-					{
-						$where .= ' OR ';
-					}
-					else
-					{
-						$where .= ' AND ';
-					}
-				}
-
-				if ($k == count($arr_keyword) - 1)
-				{
-					$where .= " )  ";
-				}
+				$condition [] = /** @scrutinizer ignore-type */
+					$db->quoteName($searchField) . ' LIKE ' . $db->quote('%' . $keyword . '%');
 			}
+
+			$query->where('  ( ' . implode(' OR ', $condition) . ' ) ');
 		}
 
 		if ($this->getState('filter.product_number'))
 		{
-			$where .= " AND p.product_number = '" . $db->escape($this->getState('filter.product_number')) . "'";
+			$query->where($db->quoteName('p.product_number') . ' = ' . $db->quote($db->escape($this->getState('filter.product_number'))));
 		}
 
-		if ($category_id)
+		if ($categoryId)
 		{
-			$where .= " AND c.id = '" . $category_id . "'  ";
+			$query->where($db->quoteName('c.id') . ' = ' . (int) $categoryId);
 		}
 
-		if ($where == '' && $search_field != 'pa.property_number')
+		$filter_order_Dir = $this->getState('list.direction');
+
+		if ($categoryId)
 		{
-			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
-			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
-				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
-				. ",p.product_template "
-				. " FROM #__redshop_product AS p "
-				. "WHERE 1=1 " . $and . $orderby;
+			$query->order($db->quoteName($this->getState('list.ordering', 'x.ordering')) . ' ' . $filter_order_Dir);
+
+			return $query;
 		}
-		else
-		{
-			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
-			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
-			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
-			x.ordering , x.category_id "
-				. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
 
-			if ($search_field == 'pa.property_number' && $keyword != '')
-			{
-				$query .= "LEFT JOIN #__redshop_product_attribute AS a ON a.product_id = p.product_id "
-					. "LEFT JOIN #__redshop_product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
-					. "LEFT JOIN #__redshop_product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
-			}
-
-			$query .= "WHERE 1=1 ";
-
-			if ($search_field == 'pa.property_number' && $keyword != '')
-			{
-				$query .= "AND (pa.property_number LIKE '%$keyword%'  OR ps.subattribute_color_number LIKE '%$keyword%') ";
-			}
-
-			$query .= $where . $and . " GROUP BY p.product_id ";
-			$query .= $orderby;
-		}
+		$query->order($db->quoteName($this->getState('list.ordering', 'p.product_id')) . ' ' . $filter_order_Dir);
 
 		return $query;
 	}
 
-	public function getFinalProductStock($product_stock)
+	public function getFinalProductStock($products)
 	{
-		if (count($product_stock) > 0)
+		if (empty($products))
 		{
-			$product = array();
-
-			for ($i = 0, $in = count($product_stock); $i < $in; $i++)
-			{
-				$product[] = $product_stock[$i]->product_id;
-			}
-
-			$product_id = implode(',', $product);
-			$query_prd  = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
-			$this->_db->setQuery($query_prd);
-			$final_products = $this->_db->loadColumn();
-
-			return $final_products;
+			return;
 		}
 
-		return null;
-	}
+		$product = array();
 
-	public function _buildContentOrderBy()
-	{
-		$db = JFactory::getDbo();
-
-		$category_id      = $this->getState('category_id');
-		$filter_order_Dir = $this->getState('list.direction');
-
-		if ($category_id)
+		foreach ($products as $productStock)
 		{
-			$filter_order = $this->getState('list.ordering', 'x.ordering');
-		}
-		else
-		{
-			$filter_order = $this->getState('list.ordering', 'p.product_id');
-
-			if ($filter_order == 'x.ordering')
-			{
-				$filter_order = 'p.product_id';
-			}
+			$product[] = $productStock->product_id;
 		}
 
-		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);
+		$query_prd = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . implode(',', $product) . ")";
 
-		return $orderby;
-	}
-
-	public function MediaDetail($pid)
-	{
-		$query = 'SELECT * FROM #__redshop_media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectlist();
-	}
-
-	public function listedincats($pid)
-	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
-			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
-			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
-			->order($db->qn('c.name'));
-
-		return $db->setQuery($query)->loadObjectlist();
+		return $this->_db->setQuery($query_prd)->loadColumn();
 	}
 
 	/**
-	 * @param   integer  $template_id  Template ID
-	 * @param   integer  $product_id   Product ID
-	 * @param   integer  $section      Section
+	 * @param   integer $template_id Template ID
+	 * @param   integer $product_id  Product ID
+	 * @param   integer $section     Section
 	 *
 	 * @return  array|string|void
 	 * @throws  Exception
@@ -395,7 +363,7 @@ class RedshopModelProduct extends RedshopModel
 			$template_desc = RedshopHelperTemplate::getTemplate("category", $template_id);
 		}
 
-		if (count($template_desc) == 0)
+		if (empty($template_desc))
 		{
 			return;
 		}
@@ -434,7 +402,7 @@ class RedshopModelProduct extends RedshopModel
 
 		$list_field = array();
 
-		if (count($str) > 0)
+		if (!empty($str))
 		{
 			$dbname = implode(",", $str);
 
@@ -444,112 +412,46 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
-		if (count($list_field) > 0)
+		if (empty($list_field))
 		{
-			return $list_field;
+			return '';
 		}
 
-		else
-		{
-			return "";
-		}
+		return $list_field;
 	}
 
+	/**
+	 * @param   array $data Array of data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.1.0
+	 */
 	public function assignTemplate($data)
 	{
-		$cid = $data['cid'];
+		$cid             = $data['cid'];
+		$productTemplate = $data['product_template'];
 
-		$product_template = $data['product_template'];
-
-		if (count($cid))
+		if (empty($cid))
 		{
-			$cids  = implode(',', $cid);
-			$query = 'UPDATE #__redshop_product' . ' SET `product_template` = "'
-				. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			return true;
+		}
 
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__redshop_product'))
+			->set($db->quoteName('product_template') . ' = ' . (int) $productTemplate)
+			->where($db->quoteName('product_id') . ' IN ( ' . implode(',', $cid) . ' )');
 
-				return false;
-			}
+		if (!$db->setQuery($query)->execute())
+		{
+			/** @scrutinizer ignore-deprecated */
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
 		}
 
 		return true;
-	}
-
-	public function getCategoryList()
-	{
-		if ($this->_categorytreelist)
-		{
-			return $this->_categorytreelist;
-		}
-
-		$this->_categorytreelist = array();
-
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'parent_id', 'level')))
-			->select($db->qn('name', 'title'))
-			->from($db->qn('#__redshop_category'))
-			->where($db->qn('published') . ' = 1')
-			->where($db->qn('level') . ' > 0')
-			->order($db->qn('lft'));
-
-		$rows = $db->setQuery($query)->loadObjectList();
-
-		// Establish the hierarchy of the menu
-		$children = array();
-
-		// First pass - collect children
-		foreach ($rows as $v)
-		{
-			$pt   = $v->parent_id;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push($list, $v);
-			$children[$pt] = $list;
-		}
-
-		// Get first key to generate tree recursive
-		$firstKey = current(array_keys($children));
-
-		// Second pass - get an indent list of the items
-		$list = $this->treerecurse($firstKey, '- ', array(), $children);
-
-		if (count($list) > 0)
-		{
-			$this->_categorytreelist = $list;
-		}
-
-		return $this->_categorytreelist;
-	}
-
-	public function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0)
-	{
-		if (@$children[$id] && $level <= $maxlevel)
-		{
-			foreach ($children[$id] as $v)
-			{
-				$id = $v->id;
-
-				if ($v->parent_id == 0)
-				{
-					$txt = $v->title;
-				}
-				else
-				{
-					$txt = str_repeat($indent, $v->level) . $v->title;
-				}
-
-				$list[$id]           = $v;
-				$list[$id]->treename = $txt;
-				$list[$id]->children = count(@$children[$id]);
-				$list                = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
-			}
-		}
-
-		return $list;
 	}
 
 	/*
@@ -561,8 +463,7 @@ class RedshopModelProduct extends RedshopModel
 	 */
 	public function saveorder($cid = array(), $order = 0)
 	{
-		$category_id_my = $this->getState('category_id');
-
+		$categoryId = $this->getState('category_id');
 		$orderarray = array();
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
@@ -575,21 +476,23 @@ class RedshopModelProduct extends RedshopModel
 		asort($orderarray);
 		$i = 1;
 
-		if (count($orderarray) > 0)
+		if (empty($orderarray))
 		{
-			foreach ($orderarray as $productid => $order)
-			{
-				if ($order >= 0)
-				{
-					// Update ordering
-					$query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int) $i
-						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
-					$this->_db->setQuery($query);
-					$this->_db->execute();
-				}
+			return true;
+		}
 
-				$i++;
+		foreach ($orderarray as $productid => $order)
+		{
+			if ($order >= 0)
+			{
+				// Update ordering
+				$query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int) $i
+					. ' WHERE product_id=' . $productid . ' AND category_id = ' . (int) $categoryId;
+				$this->_db->setQuery($query);
+				$this->_db->execute();
 			}
+
+			$i++;
 		}
 
 		return true;

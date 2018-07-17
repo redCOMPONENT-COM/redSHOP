@@ -122,6 +122,29 @@ class RedshopModelList extends JModelList
 	}
 
 	/**
+	 *
+	 * @return array|mixed
+	 *
+	 * @since  2.1.0
+	 */
+	public function getItems()
+	{
+		return $this->prepareItems(parent::getItems());
+	}
+
+	/**
+	 * @param   array|mixed $items Items
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   2.1.0
+	 */
+	protected function prepareItems($items)
+	{
+		return $items;
+	}
+
+	/**
 	 * Delete items
 	 *
 	 * @param   mixed $pks id or array of ids of items to be deleted

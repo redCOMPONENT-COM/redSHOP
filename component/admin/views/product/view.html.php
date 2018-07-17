@@ -7,31 +7,48 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Helper\Product;
+
 defined('_JEXEC') or die;
 
 
 class RedshopViewProduct extends RedshopViewAdmin
 {
 	/**
-	 * The pagination object.
-	 *
-	 * @var  JPagination
+	 * @var    JObject
+	 * @since  2.1.0
 	 */
-	public $pagination;
+	protected $state;
 
 	/**
-	 * The request url.
+	 * @param   string $tpl Layout
 	 *
-	 * @var  string
+	 * @return  mixed|void
+	 *
+	 * @since   2.1.0
 	 */
-	public $request_url;
+	public function display($tpl = null)
+	{
+		$this->addToolbar();
 
-	/**
-	 * The current user.
-	 *
-	 * @var  JUser
-	 */
-	public $user;
+		$this->state = $this->get('State');
+		$categoryId  = $this->state->get('category_id');
+
+		$this->list_in_products       = RedshopHelperExtrafields::listAllFieldInProduct();
+		$this->keyword                = $this->state->get('keyword');
+		$this->search_field           = $this->state->get('search_field');
+		$this->order                  = ($categoryId) ? $this->state->get('list.ordering', 'x.ordering') : $this->state->get('list.ordering', 'p.product_id');
+		$this->orderDir               = $this->state->get('list.direction');
+		$this->product_template       = Product::getTemplateList();
+		$this->products               = $this->get('Items');
+		$this->filterCategoriesHtml   = Product::getCategoriesList($categoryId);
+		$this->filterProductsSortHtml = JHTML::_('select.genericlist', RedshopHelperProduct::getProductsSortByList(), 'product_sort',
+			'class="inputbox"  onchange="document.adminForm.submit();" ', 'value', 'text', $this->state->get('product_sort')
+		);
+		$this->pagination             = $this->get('Pagination');
+
+		parent::display($tpl);
+	}
 
 	/**
 	 * Add the page title and toolbar.
@@ -45,6 +62,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
 		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
+		if ($layout === 'element')
+		{
+			return;
+		}
+
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
 			JToolbarHelper::addNew('product_detail.addRedirect');
@@ -53,106 +75,9 @@ class RedshopViewProduct extends RedshopViewAdmin
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
+
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 		}
-	}
-
-	public function display($tpl = null)
-	{
-		global $context;
-
-		$context = 'product_id';
-
-		$GLOBALS['productlist'] = array();
-
-		$list_in_products = RedshopHelperExtrafields::listAllFieldInProduct();
-
-		$uri = JUri::getInstance();
-
-		$layout = JFactory::getApplication()->input->getCmd('layout', '');
-
-		// We don't need toolbar in the modal window.
-		if ($layout !== 'element')
-		{
-			$this->addToolbar();
-		}
-
-		$state       = $this->get('State');
-		$category_id = $state->get('category_id');
-
-		if ($category_id)
-		{
-			$filter_order = $state->get('list.ordering', 'x.ordering');
-		}
-		else
-		{
-			$filter_order = $state->get('list.ordering', 'p.product_id');
-		}
-
-		$filter_order_Dir = $state->get('list.direction');
-
-		$search_field = $state->get('search_field');
-		$keyword      = $state->get('keyword');
-
-		$categories  = $this->get('CategoryList');
-		$categories1 = array();
-
-		foreach ($categories as $key => $value)
-		{
-			$categories1[$key]            = new stdClass;
-			$categories1[$key]->id        = $categories[$key]->id;
-			$categories1[$key]->parent_id = $categories[$key]->parent_id;
-			$categories1[$key]->title     = $categories[$key]->title;
-			$treename                     = str_replace("&#160;&#160;&#160;&#160;&#160;&#160;", " ", $categories[$key]->treename);
-			$treename                     = str_replace("<sup>", " ", $treename);
-			$treename                     = str_replace("</sup>&#160;", " ", $treename);
-			$categories1[$key]->treename  = $treename;
-			$categories1[$key]->children  = $categories[$key]->children;
-		}
-
-		$temps              = array();
-		$temps[0]           = new stdClass;
-		$temps[0]->id       = "0";
-		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT_CATEGORY');
-		$categories1        = @array_merge($temps, $categories1);
-		$lists['category']  = JHTML::_('select.genericlist', $categories1, 'category_id',
-			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
-		);
-
-		$product_sort          = RedshopHelperProduct::getProductsSortByList();
-		$lists['product_sort'] = JHTML::_('select.genericlist', $product_sort, 'product_sort',
-			'class="inputbox"  onchange="document.adminForm.submit();" ', 'value', 'text', $state->get('product_sort')
-		);
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-		$products           = $this->get('Data');
-
-		$pagination = $this->get('Pagination');
-
-		// Assign template
-		$templates      = RedshopHelperTemplate::getTemplate('product');
-		$temps          = array();
-		$temps[0]       = new stdClass;
-		$temps[0]->id   = "0";
-		$temps[0]->name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
-		$templates      = @array_merge($temps, $templates);
-
-		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
-			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'id', 'name', 0
-		);
-
-		$this->state            = $state;
-		$this->list_in_products = $list_in_products;
-		$this->keyword          = $keyword;
-		$this->search_field     = $search_field;
-		$this->user             = JFactory::getUser();
-		$this->lists            = $lists;
-		$this->products         = $products;
-		$this->pagination       = $pagination;
-		$this->request_url      = $uri->toString();
-
-		parent::display($tpl);
 	}
 }
