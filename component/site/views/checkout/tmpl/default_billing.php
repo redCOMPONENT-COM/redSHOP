@@ -11,6 +11,4 @@ defined('_JEXEC') or die;
 
 $model            = $this->getModel('checkout');
 $billingAddresses = $model->billingaddresses();
-$billadd          = JLayoutHelper::render('cart.billing', array('billingAddresses' => $billingAddresses));
-
-echo $billadd;
+echo JLayoutHelper::render('cart.billing', /** @scrutinizer ignore-type */ array('billingAddresses' => $billingAddresses));

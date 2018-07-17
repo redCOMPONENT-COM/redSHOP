@@ -54,8 +54,14 @@ class Creditcard
 				$pattern = "/^([4]{1})([0-9]{12,15})$/";
 				break;
 			default:
-				$denum = '';
+				$denum   = '';
+				$pattern = '';
 				break;
+		}
+
+		if (empty($pattern))
+		{
+			return "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
 		}
 
 		if (preg_match($pattern, $number))
