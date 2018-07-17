@@ -9,12 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$model = $this->getModel('checkout');
-$billingaddresses = $model->billingaddresses();
-$billadd = JLayoutHelper::render('cart.billing', array('billingaddresses' => $billingaddresses));
+$model            = $this->getModel('checkout');
+$billingAddresses = $model->billingaddresses();
+$billadd          = JLayoutHelper::render('cart.billing', array('billingAddresses' => $billingAddresses));
 
 echo $billadd;
-
-?>
-
-

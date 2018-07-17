@@ -20,6 +20,8 @@ class Cart
 {
 	/**
 	 * @var array
+	 *
+	 * @since   2.1.0
 	 */
 	protected static $templates = array();
 
@@ -35,16 +37,14 @@ class Cart
 	{
 		if (!array_key_exists('cart', self::$templates))
 		{
-			return self::$templates['cart'];
-		}
-
-		if (\Redshop::getConfig()->get('USE_AS_CATALOG'))
-		{
-			self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('cart');
-		}
-		else
-		{
-			self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('catalogue_cart');
+			if (\Redshop::getConfig()->get('USE_AS_CATALOG'))
+			{
+				self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('cart');
+			}
+			else
+			{
+				self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('catalogue_cart');
+			}
 		}
 
 		return self::$templates['cart'];

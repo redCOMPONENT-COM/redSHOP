@@ -22,7 +22,6 @@ use Redshop\Environment;
  */
 class RedshopModelCheckout extends RedshopModel
 {
-
 	public $_id = null;
 
 	public $_data = null;
@@ -1743,118 +1742,15 @@ class RedshopModelCheckout extends RedshopModel
 		return true;
 	}
 
-	public function validateCC($cc_num, $type)
+	/**
+	 * @param   string $creditcardNumber Credit card number
+	 * @param   string $type             Type
+	 *
+	 * @since  2.1.0
+	 */
+	public function validateCC($creditcardNumber, $type)
 	{
-		if ($type == "American")
-		{
-			$denum = "American Express";
-		}
-		elseif ($type == "Dinners")
-		{
-			$denum = "Diner's Club";
-		}
-		elseif ($type == "Discover")
-		{
-			$denum = "Discover";
-		}
-		elseif ($type == "Master")
-		{
-			$denum = "Master Card";
-		}
-		elseif ($type == "Visa")
-		{
-			$denum = "Visa";
-		}
-
-		// American Express
-		if ($type == "American")
-		{
-			$pattern = "/^([34|37]{2})([0-9]{13})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-		}
-
-		// Diner's Club
-		elseif ($type == "Dinners")
-		{
-			$pattern = "/^([30|36|38]{2})([0-9]{12})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		// Discover Card
-		elseif ($type == "Discover")
-		{
-			$pattern = "/^([6011]{4})([0-9]{12})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		// Mastercard
-		elseif ($type == "Master")
-		{
-			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		// Visa
-		elseif ($type == "Visa")
-		{
-			$pattern = "/^([4]{1})([0-9]{12,15})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		if ($verified == false)
-		{
-			// Do something here in case the validation fails
-			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
-		}
-		// If it will pass...do something
-		else
-		{
-			echo "Your <em>" . $denum . "</em> credit card is valid";
-		}
+		echo \Redshop\Validation\Creditcard::isValid($creditcardNumber, $type);
 	}
 
 	public function resetcart()
@@ -1972,10 +1868,9 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function coupon($cart, $order_id = 0)
 	{
-		$session = JFactory::getSession();
-
 		$user       = JFactory::getUser();
-		$coupontype = array();
+		$db         = JFactory::getDbo();
+		$couponType = array();
 
 		if (isset($cart['coupon']))
 		{
@@ -1984,60 +1879,67 @@ class RedshopModelCheckout extends RedshopModel
 				$this->discount_type .= '@';
 			}
 
-			for ($i = 0, $countCoupon = count($cart['coupon']); $i < $countCoupon; $i++)
+			foreach ($cart['coupon'] as $coupon)
 			{
-				$coupon_id             = $cart['coupon'][$i]['coupon_id'];
-				$coupon_volume         = $cart['coupon'][$i]['used_coupon'];
+				$coupon_id             = $coupon['coupon_id'];
+				$coupon_volume         = $coupon['used_coupon'];
 				$transaction_coupon_id = 0;
-				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
+				$couponType[]          = 'c:' . $coupon['coupon_code'];
 
 				$sql = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int) $coupon_volume . " "
 					. "WHERE id = " . (int) $coupon_id;
-				$this->_db->setQuery($sql);
-				$this->_db->execute();
+				$db->setQuery($sql)->execute();
 
-				if ($cart['coupon'][$i]['remaining_coupon_discount'] > 0)
+				if ($coupon['remaining_coupon_discount'] <= 0)
 				{
-					$rowcoupon = $this->getTable('transaction_coupon_detail');
+					continue;
+				}
 
-					if (!$rowcoupon->bind($cart))
-					{
-						$this->setError($this->_db->getErrorMsg());
-					}
+				$rowcoupon = $this->getTable('transaction_coupon_detail');
 
-					if ($cart['coupon'][$i]['transaction_coupon_id'])
-					{
-						$transaction_coupon_id = $cart['coupon'][$i]['transaction_coupon_id'];
-					}
+				if (!$rowcoupon->bind($cart))
+				{
+					$this->setError($this->_db->getErrorMsg());
+				}
 
-					$rowcoupon->transaction_coupon_id = $transaction_coupon_id;
-					$rowcoupon->coupon_value          = $cart['coupon'][$i]['remaining_coupon_discount'];
-					$rowcoupon->coupon_code           = $cart['coupon'][$i]['coupon_code'];
-					$rowcoupon->userid                = $user->id;
-					$rowcoupon->coupon_id             = $coupon_id;
-					$rowcoupon->trancation_date       = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$rowcoupon->published             = 1;
+				if ($coupon['transaction_coupon_id'])
+				{
+					$transaction_coupon_id = $coupon['transaction_coupon_id'];
+				}
 
-					if (!$rowcoupon->store())
-					{
-						$this->setError($this->_db->getErrorMsg());
+				$rowcoupon->transaction_coupon_id = $transaction_coupon_id;
+				$rowcoupon->coupon_value          = $coupon['remaining_coupon_discount'];
+				$rowcoupon->coupon_code           = $coupon['coupon_code'];
+				$rowcoupon->userid                = $user->id;
+				$rowcoupon->coupon_id             = $coupon_id;
+				$rowcoupon->trancation_date       = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+				$rowcoupon->published             = 1;
 
-						return false;
-					}
+				if (!$rowcoupon->store())
+				{
+					$this->setError($this->_db->getErrorMsg());
 
+					return false;
 				}
 			}
 
-			$this->discount_type = implode('@', $coupontype);
+			$this->discount_type = implode('@', $couponType);
 		}
 
-		return;
+		return true;
 	}
 
-	public function calculateShipping($shipping_rate_id)
+	/**
+	 * @param   string $shippingRateId Shipping rate
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public function calculateShipping($shippingRateId)
 	{
 		$shipArr        = array();
-		$order_shipping = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
+		$order_shipping = Redshop\Shipping\Rate::decrypt($shippingRateId);
 
 		if (!isset($order_shipping[3]))
 		{
@@ -2296,14 +2198,16 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Delete order number track
 	 *
+	 * @return boolean
+	 *
+	 * @since  2.1.0
 	 */
 	public function deleteOrdernumberTrack()
 	{
-		$query = "TRUNCATE TABLE " . $this->_table_prefix . "ordernumber_track";
+		$db    = JFactory::getDbo();
+		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_ordernumber_track');
 
-		$this->_db->setQuery($query);
-
-		if (!$this->_db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -2317,6 +2221,8 @@ class RedshopModelCheckout extends RedshopModel
 	 * Count order number track
 	 *
 	 * @return mixed
+	 *
+	 * @since  2.1.0
 	 */
 	public function getOrdernumberTrack()
 	{
@@ -2332,6 +2238,8 @@ class RedshopModelCheckout extends RedshopModel
 	 * Insert order number track
 	 *
 	 * @return boolean
+	 *
+	 * @since  2.1.0
 	 */
 	public function insertOrdernumberTrack()
 	{
@@ -2343,7 +2251,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$db->setQuery($query)->execute())
 		{
-			$msg = /** @scrutinizer ignore-deprecated */ $db->getErrorMsg();
+			$msg = /** @scrutinizer ignore-deprecated */
+				$db->getErrorMsg();
 
 			/** @scrutinizer ignore-deprecated */
 			$this->setError($msg);
@@ -2358,6 +2267,8 @@ class RedshopModelCheckout extends RedshopModel
 	 * Get Unique order number
 	 *
 	 * @return integer
+	 *
+	 * @since  2.1.0
 	 */
 	public function getOrdernumber()
 	{

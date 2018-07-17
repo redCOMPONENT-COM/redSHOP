@@ -9,6 +9,8 @@
 
 namespace Redshop;
 
+defined('_JEXEC') or die;
+
 /**
  * @package     Redshop
  *
