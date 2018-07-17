@@ -350,26 +350,15 @@ class Helper
 	/**
 	 * Method for get cart template
 	 *
-	 * @return  object
-	 * @throws  \Exception
+	 * @return     object
+	 * @throws     \Exception
 	 *
-	 * @since   2.1.0
+	 * @since      2.1.0
+	 * @deprecated Use Redshop\Template\Cart::getCartTemplate()
 	 */
 	public static function getCart()
 	{
-		if (!array_key_exists('cart', self::$templates))
-		{
-			if (\Redshop::getConfig()->get('USE_AS_CATALOG'))
-			{
-				self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('cart');
-			}
-			else
-			{
-				self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('catalogue_cart');
-			}
-		}
-
-		return self::$templates['cart'];
+		return Cart::getCartTemplate();
 	}
 
 	/**
@@ -388,25 +377,5 @@ class Helper
 		$matches = \Redshop\Helper\Utility::findStringBetween($start, $end, $template);
 
 		return count($matches) > 0 ? (string) $matches[0] : '';
-	}
-
-	/**
-	 * @param   array  $tags     Array of tags
-	 * @param   string $template Template
-	 *
-	 * @return  string
-	 *
-	 * @since   2.1.0
-	 */
-	public static function replaceBlank($tags, $template)
-	{
-		if (empty($tags))
-		{
-			return $template;
-		}
-
-		$replace = array_fill(0, count($tags) - 1, '');
-
-		return str_replace($tags, $replace, $template);
 	}
 }

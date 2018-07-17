@@ -119,7 +119,7 @@ class RedshopModelCheckout extends RedshopModel
 	 *
 	 * @return  boolean|Tableuser_detail
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function store($data)
 	{
@@ -129,12 +129,9 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Disable check captcha if in One Step Checkout mode.
-		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
+		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && !Redshop\Helper\Utility::checkCaptcha((string) $data))
 		{
-			if (!Redshop\Helper\Utility::checkCaptcha($data))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		if (isset($data['user_id']) && $data['user_id'])

@@ -8,6 +8,7 @@
  */
 
 use Redshop\Helper\ExtraFields;
+use Redshop\Template\General;
 use Redshop\Template\Helper;
 
 defined('_JEXEC') or die;
@@ -316,7 +317,7 @@ if ($total > 0)
 		$index++;
 	}
 
-	$template = Helper::replaceBlank(array(
+	$template = General::replaceBlank(array(
 		'{expand_collapse}',
 		'{product_name}',
 		'{product_image}',
