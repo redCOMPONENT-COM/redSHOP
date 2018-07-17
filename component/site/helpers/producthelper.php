@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Template\Cart;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -2573,7 +2575,7 @@ class productHelper
 			$user_id = $user->id;
 		}
 
-		$data                  = \Redshop\Template\Helper::getCart();
+		$data                  = Cart::getCartTemplate();
 		$chktag                = \Redshop\Template\Helper::isApplyAttributeVat($data[0]->template_desc, $user_id);
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
@@ -2732,7 +2734,7 @@ class productHelper
 	 */
 	public function getCartTemplate()
 	{
-		return \Redshop\Template\Helper::getCart();
+		return Cart::getCartTemplate();
 	}
 
 	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')

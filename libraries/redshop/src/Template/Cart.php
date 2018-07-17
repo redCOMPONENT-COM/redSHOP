@@ -26,7 +26,7 @@ class Cart
 	/**
 	 * Method for get cart template
 	 *
-	 * @return  object
+	 * @return  array
 	 * @throws  \Exception
 	 *
 	 * @since   2.1.0
