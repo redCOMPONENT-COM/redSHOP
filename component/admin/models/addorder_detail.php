@@ -802,7 +802,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$this->_db->setQuery($query);
 		$shipping = $this->_db->loadObject();
 
-		if (!$shipping($shipping))
+		if (!$shipping)
 		{
 			$shipping = $this->setShipping();
 		}
