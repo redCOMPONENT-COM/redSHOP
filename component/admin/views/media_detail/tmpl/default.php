@@ -24,7 +24,7 @@ $section_name  = $jinput->get('section_name');
 $media_section = $jinput->get('media_section');
 $k = 0;
 
-if ($jinput->get('task') == "add")
+if ($jinput->getCmd('task') == "add")
 {
 	$this->detail->media_id = 0;
 	$this->detail->media_alternate_text = '';
@@ -339,7 +339,7 @@ if ($showbuttons)
 
 	<div class="clr"></div>
 	<input type="hidden" value="<?php echo isset($k) ? $k : ''; ?>" name="total_extra" id="total_extra">
-	<input type="hidden" name="media_id" value="<?php echo $this->detail->media_id; ?>"/>
+	<input type="hidden" name="media_id" value="<?php echo (int) $this->detail->media_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="media_detail"/>
 	<input type="hidden" name="oldmedia" value="<?php echo $this->detail->media_name; ?>"/>
