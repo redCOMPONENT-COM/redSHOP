@@ -267,31 +267,31 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$rowOrderStatus->customer_note = $row->customer_note;
 		$rowOrderStatus->store();
 
-		$billingaddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
+		$billingAddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
 		{
-			$shippingaddresses = $billingaddresses;
+			$shippingAddresses = $billingAddresses;
 		}
 		else
 		{
 			$key                 = 0;
-			$shippingaddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
-			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
+			$shippingAddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
+			$shippingUserInfoId = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
 
-			if ($shipp_users_info_id != 0)
+			if ($shippingUserInfoId != 0)
 			{
-				for ($o = 0, $on = count($shippingaddresses); $o < $on; $o++)
+				foreach ($shippingAddresses as $index => $shippingaddress)
 				{
-					if ($shippingaddresses[$o]->users_info_id == $shipp_users_info_id)
+					if ($shippingaddress->users_info_id == $shippingUserInfoId)
 					{
-						$key = $o;
+						$key = $index;
 						break;
 					}
 				}
 			}
 
-			$shippingaddresses = $shippingaddresses[$key];
+			$shippingAddresses = $shippingAddresses[$key];
 		}
 
 		// ORDER DELIVERY TIME IS REMAINING
@@ -693,7 +693,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
-		$userrow->load($billingaddresses->users_info_id);
+		$userrow->load($billingAddresses->users_info_id);
 		$orderuserrow = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
@@ -716,9 +716,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// Add shipping Info
 		$userrow = $this->getTable('user_detail');
 
-		if (isset($shippingaddresses->users_info_id))
+		if (isset($shippingAddresses->users_info_id))
 		{
-			$userrow->load($shippingaddresses->users_info_id);
+			$userrow->load($shippingAddresses->users_info_id);
 		}
 
 		$orderuserrow = $this->getTable('order_user_detail');

@@ -161,8 +161,8 @@ class RedshopModelCheckout extends RedshopModel
 	}
 
 	/**
-	 * @param   array  $data       Array of data
-	 * @param   object $joomlaUser Joomla! user objecet
+	 * @param   array          $data       Array of data
+	 * @param   object|boolean $joomlaUser Joomla! user objecet
 	 *
 	 * @return  boolean|Tableuser_detail
 	 *
@@ -837,7 +837,7 @@ class RedshopModelCheckout extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
 								$subproperty_id                = $subpropArr[$l]['subproperty_id'];
@@ -1380,7 +1380,7 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Method for return billing address.
 	 *
-	 * @return  object
+	 * @return  object|boolean
 	 */
 	public function billingaddresses()
 	{
