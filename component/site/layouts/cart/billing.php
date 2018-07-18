@@ -39,28 +39,28 @@ $extraSections = ($billingAddresses->is_company == 1) ?
         <div class="col-xs-7"><?php echo $billingAddresses->lastname; ?></div>
     </div>
 
-	<?php if ($billingAddresses->address != "") : ?>
+	<?php if (!empty($billingAddresses->address)) : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</label>
             <div class="col-xs-7"><?php echo $billingAddresses->address; ?></div>
         </div>
 	<?php endif; ?>
 
-	<?php if ($billingAddresses->zipcode != "") : ?>
+	<?php if (!empty($billingAddresses->zipcode)) : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</label>
             <div class="col-xs-7"><?php echo $billingAddresses->zipcode; ?></div>
         </div>
 	<?php endif; ?>
 
-	<?php if ($billingAddresses->city != "") : ?>
+	<?php if (!empty($billingAddresses->city)) : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</label>
             <div class="col-xs-7"><?php echo $billingAddresses->city; ?></div>
         </div>
 	<?php endif; ?>
 
-	<?php if ($billingAddresses->country_code != ""): ?>
+	<?php if (!empty($billingAddresses->country_code)): ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_COUNTRY') ?>:</label>
             <div class="col-xs-7"><?php echo JText::_(RedshopHelperOrder::getCountryName($billingAddresses->country_code)) ?></div>
@@ -68,21 +68,21 @@ $extraSections = ($billingAddresses->is_company == 1) ?
 	<?php endif; ?>
 
 	<?php $state = RedshopHelperOrder::getStateName($billingAddresses->state_code, $billingAddresses->country_code); ?>
-	<?php if ($state != "") : ?>
+	<?php if (!empty($state)) : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_STATE') ?>:</label>
             <div class="col-xs-7"><?php echo $state ?></div>
         </div>
 	<?php endif; ?>
 
-	<?php if ($billingAddresses->phone != "") : ?>
+	<?php if (!empty($billingAddresses->phone)) : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</label>
             <div class="col-xs-7"><?php echo $billingAddresses->phone; ?></div>
         </div>
 	<?php endif; ?>
 
-	<?php if ($billingAddresses->user_email != "") : ?>
+	<?php if (!empty($billingAddresses->user_email)) : ?>
         <div class="row">
             <label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</label>
             <div class="col-xs-7"><?php echo $billingAddresses->user_email ? $billingAddresses->user_email : $user->email; ?></div>
