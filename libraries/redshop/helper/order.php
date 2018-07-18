@@ -1714,7 +1714,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  mixed             Object data if success. False otherwise.
+	 * @return  object             Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -1724,11 +1724,6 @@ class RedshopHelperOrder
 		{
 			$user = JFactory::getUser();
 			$userId = $user->id;
-		}
-
-		if (!$userId)
-		{
-			return false;
 		}
 
 		if (!array_key_exists($userId, static::$billingAddresses))
