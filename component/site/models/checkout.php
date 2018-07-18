@@ -42,6 +42,12 @@ class RedshopModelCheckout extends RedshopModel
 
 	public $_redshopMail = null;
 
+	/**
+	 * RedshopModelCheckout constructor.
+	 * @throws Exception
+	 *
+	 * @since  1.0
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -133,21 +139,44 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
+		return $this->storeRedshopUser($data, $this->storeJoomlaUser($data));
+	}
+
+	/**
+	 * @param   array $data Array of data
+	 *
+	 * @return  boolean|JUser|stdClass
+	 *
+	 * @since   2.1.0
+	 * @throws  Exception
+	 */
+	protected function storeJoomlaUser($data)
+	{
 		if (isset($data['user_id']) && $data['user_id'])
 		{
-			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
-		}
-		else
-		{
-			$joomlauser = RedshopHelperJoomla::createJoomlaUser($data);
+			return RedshopHelperJoomla::updateJoomlaUser($data);
 		}
 
-		if (!$joomlauser)
+		return RedshopHelperJoomla::createJoomlaUser($data);
+	}
+
+	/**
+	 * @param   array  $data       Array of data
+	 * @param   object $joomlaUser Joomla! user objecet
+	 *
+	 * @return  boolean|Tableuser_detail
+	 *
+	 * @since   2.1.0
+	 * @throws  Exception
+	 */
+	protected function storeRedshopUser($data, $joomlaUser)
+	{
+		if (!$joomlaUser)
 		{
 			return false;
 		}
 
-		return RedshopHelperUser::storeRedshopUser($data, $joomlauser->id);
+		return RedshopHelperUser::storeRedshopUser($data, $joomlaUser->id);
 	}
 
 	/**
@@ -1323,6 +1352,7 @@ class RedshopModelCheckout extends RedshopModel
 				$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
 
 				JPluginHelper::importPlugin('redshop_pdf');
+				$backgroundImage = '';
 
 				$pdfFile = RedshopHelperUtility::getDispatcher()->trigger(
 					'onRedshopCreateGiftCardPdf',
@@ -1361,12 +1391,13 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($user->id)
 		{
-			$list = RedshopHelperOrder::getBillingAddress($user->id);
+			return RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid  = -$auth['users_info_id'];
-			$list = RedshopHelperOrder::getBillingAddress($uid);
+			$uid = -$auth['users_info_id'];
+
+			return RedshopHelperOrder::getBillingAddress($uid);
 		}
 
 		return $list;
@@ -1387,19 +1418,15 @@ class RedshopModelCheckout extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$list    = array();
 
 		if ($user->id)
 		{
-			$list = RedshopHelperOrder::getShippingAddress($user->id);
-		}
-		else
-		{
-			$uid  = -$auth['users_info_id'];
-			$list = RedshopHelperOrder::getShippingAddress($uid);
+			return RedshopHelperOrder::getShippingAddress($user->id);
 		}
 
-		return $list;
+		$uid = -$auth['users_info_id'];
+
+		return RedshopHelperOrder::getShippingAddress($uid);
 	}
 
 	public function getpaymentmethod()
@@ -2209,8 +2236,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$db->setQuery($query)->execute())
 		{
-			$msg = /** @scrutinizer ignore-deprecated */ $db->getErrorMsg();
-			/** @scrutinizer ignore-deprecated */ $this->setError($msg);
+			$msg = /** @scrutinizer ignore-deprecated */
+				$db->getErrorMsg();
+			/** @scrutinizer ignore-deprecated */
+			$this->setError($msg);
 
 			return false;
 		}
