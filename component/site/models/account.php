@@ -77,7 +77,7 @@ class RedshopModelAccount extends RedshopModel
 			$list = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
-		if (!$list)
+		if (!empty($list))
 		{
 			$list->email = $list->user_email;
 		}

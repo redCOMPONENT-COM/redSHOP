@@ -1387,20 +1387,22 @@ class RedshopModelCheckout extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$list    = new stdClass;
 
 		if ($user->id)
 		{
-			return RedshopHelperOrder::getBillingAddress($user->id);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid = -$auth['users_info_id'];
-
-			return RedshopHelperOrder::getBillingAddress($uid);
+			$billingAddress =RedshopHelperOrder::getBillingAddress(-$auth['users_info_id']);
 		}
 
-		return $list;
+		if (!$billingAddress)
+		{
+			return new stdClass;
+		}
+
+		return $billingAddress;
 	}
 
 	public function shipaddress($userInfoId)
@@ -2100,9 +2102,6 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (strstr($templateDesc, "{requisition_number}"))
 		{
-			$req_number     = '';
-			$req_number_lbl = '';
-
 			$req_number_lbl = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 			$req_number     = '<input class="inputbox" name="requisition_number" id="requisition_number" value="' . $requisitionNumber . '" />';
 
