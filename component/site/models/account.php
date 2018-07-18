@@ -65,7 +65,7 @@ class RedshopModelAccount extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$list    = array();
+		$list    = new stdClass;
 
 		if ($user->id)
 		{

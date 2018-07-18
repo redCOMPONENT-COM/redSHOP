@@ -1384,9 +1384,10 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function billingaddresses()
 	{
-		$user    = JFactory::getUser();
-		$session = JFactory::getSession();
-		$auth    = $session->get('auth');
+		$user           = JFactory::getUser();
+		$session        = JFactory::getSession();
+		$auth           = $session->get('auth');
+		$billingAddress = new stdClass;
 
 		if ($user->id)
 		{
@@ -1394,10 +1395,10 @@ class RedshopModelCheckout extends RedshopModel
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$billingAddress =RedshopHelperOrder::getBillingAddress(-$auth['users_info_id']);
+			$billingAddress = RedshopHelperOrder::getBillingAddress(-$auth['users_info_id']);
 		}
 
-		if (!$billingAddress)
+		if ($billingAddress === false || $billingAddress === null)
 		{
 			return new stdClass;
 		}
