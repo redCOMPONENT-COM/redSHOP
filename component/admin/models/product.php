@@ -544,7 +544,7 @@ class RedshopModelProduct extends RedshopModel
 
 				$list[$id]           = $v;
 				$list[$id]->treename = $txt;
-				$list[$id]->children = isset($children[$id]) ? count(@$children[$id]) : 0;
+				$list[$id]->children = isset($children[$id]) ? count($children[$id]) : 0;
 				$list                = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
 			}
 		}

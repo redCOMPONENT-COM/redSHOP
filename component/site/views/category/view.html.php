@@ -378,7 +378,7 @@ class RedshopViewCategory extends RedshopView
 			);
 		}
 
-		if (!empty($allCategoryTemplate))
+		if (count($allCategoryTemplate) > 1)
 		{
 			$lists['category_template'] = JHtml::_(
 				'select.genericlist',
