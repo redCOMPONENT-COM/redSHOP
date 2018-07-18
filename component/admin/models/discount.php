@@ -29,7 +29,7 @@ class RedshopModelDiscount extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		$tz  = date_default_timezone_get();
+		$tz  = JFactory::getConfig()->get('offset');
 		$UTC = new DateTimeZone('UTC');
 
 		if (!empty($data['start_date']) && !is_numeric($data['start_date']))

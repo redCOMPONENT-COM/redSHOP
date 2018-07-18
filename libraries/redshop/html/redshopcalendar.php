@@ -29,14 +29,16 @@ abstract class JHtmlRedshopcalendar
 	 * @param   string  $format  The date format
 	 * @param   mixed   $attribs Additional HTML attributes
 	 * @param   boolean $inline  Inline or not
+	 * @param   string  $tz      Timezone of input value
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
 	 */
-	public static function calendar($value, $name, $id, $format = '', $attribs = null, $inline = false)
+	public static function calendar($value, $name, $id, $format = '', $attribs = null, $inline = false, $tz = null)
 	{
 		$format = empty($format) ? Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d') : $format;
+		$userTz = JFactory::getConfig()->get('offset');
 
 		if (is_array($attribs))
 		{
@@ -48,18 +50,9 @@ abstract class JHtmlRedshopcalendar
 
 		JHtml::_('bootstrap.tooltip');
 
-		$tz = date_default_timezone_get();
-
-		// Format value when not null date ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if (!empty($value) && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
+		if (empty($tz))
 		{
-			date_default_timezone_set('UTC');
-			$inputvalue = strftime($format, strtotime($value));
-			date_default_timezone_set($tz);
-		}
-		else
-		{
-			$inputvalue = '';
+			$tz = date_default_timezone_get();
 		}
 
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment.min.js', false, true);
@@ -72,7 +65,16 @@ abstract class JHtmlRedshopcalendar
 
 		if (!empty($value))
 		{
-			$momentValue = DateTime::createFromFormat($format, $value);
+			// Convert to UTC time first because option 'defaultDate' in datetimepicker must be in UTC
+			$utcValue = $value;
+
+			if ($tz != 'UTC')
+			{
+				$utcDate  = JFactory::getDate($value, $tz)->setTimezone(new DateTimeZone('UTC'));
+				$utcValue = $utcDate->format($format);
+			}
+
+			$momentValue = DateTime::createFromFormat($format, $utcValue);
 			$momentValue = false !== $momentValue ? $momentValue->getTimestamp() : false;
 		}
 
@@ -82,7 +84,7 @@ abstract class JHtmlRedshopcalendar
 			'(function($){
 				$(document).ready(function(){
 					$("#' . $id . '_wrapper").datetimepicker({
-						timeZone: "' . $tz . '",
+						timeZone: "' . $userTz . '",
 						collapse: true,
 						sideBySide: true,
 						showTodayButton: false,
@@ -113,16 +115,14 @@ abstract class JHtmlRedshopcalendar
 			// Hide button using inline styles for readonly/disabled fields
 			return '<div class="input-group" id="' . $id . '_wrapper">'
 				. '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
-				. '<input type="text" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
-				. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
+				. '<input type="text" name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
 				. '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
 				. '</div>';
 		}
 
 		// Hide button using inline styles for readonly/disabled fields
 		return '<div class="input-group" id="' . $id . '_wrapper">'
-			. '<input type="hidden" title="' . ($inputvalue ? JHtml::_('date', $value, null, null) : '') . '"'
-			. ' name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
+			. '<input type="hidden" name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
 			. '</div>';
 	}
 }
