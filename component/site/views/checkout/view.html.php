@@ -86,7 +86,7 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany']  = "";
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 0)
 		{
 			$lists['allowCompany']  = "style='display:none;'";
 			$lists['allowCustomer'] = "style='display:none;'";
