@@ -107,7 +107,7 @@ class RedshopHelperBreadcrumb
 					$customPathways = array();
 					$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
-					if (count($menu) > 0 && $menu->home != 1)
+					if (!empty($menu) && $menu->home != 1)
 					{
 						if (isset($menu->parent))
 						{
@@ -209,13 +209,13 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
-				if (count($menu) > 0 && $menu->home != 1)
+				if (!empty($menu) && $menu->home != 1)
 				{
 					if (property_exists($menu, 'parent'))
 					{
 						$parentMenu = productHelper::getInstance()->getMenuInformation($menu->parent);
 
-						if (count($parentMenu) > 0)
+						if (!empty($parentMenu))
 						{
 							$main             = new stdClass;
 							$main->name       = $parentMenu->name;
@@ -234,7 +234,7 @@ class RedshopHelperBreadcrumb
 				{
 					$menu = productHelper::getInstance()->getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
 
-					if (count($menu) > 0)
+					if (!empty($menu))
 					{
 						$main             = new stdClass;
 						$main->name       = $menu->title;
@@ -245,7 +245,7 @@ class RedshopHelperBreadcrumb
 					{
 						$menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
-						if (count($menu) > 0)
+						if (!empty($menu))
 						{
 							$main             = new stdClass;
 							$main->name       = $menu->name;
@@ -261,7 +261,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation($itemId);
 
-				if (count($menu) > 0)
+				if (!empty($menu))
 				{
 					$main       = new stdClass;
 					$main->name = $menu->title;
@@ -310,7 +310,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
 
-				if (count($menu) > 0)
+				if (!empty($menu))
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;

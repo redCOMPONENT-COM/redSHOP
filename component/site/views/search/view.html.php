@@ -39,12 +39,9 @@ class RedshopViewSearch extends RedshopView
 			$Itemid       = $app->input->getInt('Itemid', 0);
 			$cntproduct   = $app->input->getInt('cnt', 0);
 			$getredfilter = $session->get('redfilter');
+			$redfilter    = array();
 
-			if (count($getredfilter) == 0)
-			{
-				$redfilter = array();
-			}
-			else
+			if (!empty($getredfilter))
 			{
 				$redfilter = $getredfilter;
 			}
@@ -344,7 +341,7 @@ class RedshopViewSearch extends RedshopView
 
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}
