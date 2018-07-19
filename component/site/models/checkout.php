@@ -116,7 +116,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		RedshopHelperCartSession::setCart($cart);
-		$this->_carthelper->carttodb();
+		RedshopHelperCart::addCartToDatabase;
 	}
 
 	/**
@@ -512,7 +512,7 @@ class RedshopModelCheckout extends RedshopModel
 		$row->encr_key             = $random_gen_enc_key;
 		$row->discount_type        = $this->discount_type;
 		$row->order_id             = $app->input->getInt('order_id', 0);
-		$row->barcode              = $orderFunctions->barcode_randon_number(12, 0);
+		$row->barcode              = null;
 
 		if (!$row->store())
 		{
@@ -807,7 +807,7 @@ class RedshopModelCheckout extends RedshopModel
 							}
 
 							$property_id                   = $propArr[$k]['property_id'];
-							$accessory_attribute           .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $this->_producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+							$accessory_attribute           .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr                    = $propArr[$k]['property_childs'];
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -841,7 +841,7 @@ class RedshopModelCheckout extends RedshopModel
 								}
 
 								$subproperty_id                = $subpropArr[$l]['subproperty_id'];
-								$accessory_attribute           .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $this->_producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+								$accessory_attribute           .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id     = $rowitem->order_item_id;
@@ -1685,7 +1685,7 @@ class RedshopModelCheckout extends RedshopModel
 		$session->set('issplit', null);
 		$session->set('userfield', null);
 		$user = JFactory::getUser();
-		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
+		RedshopHelperCart::removeCartFromDatabase($cart_id = 0, $user->id, $delCart = true);
 	}
 
 	/**
@@ -2035,8 +2035,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
-			$shippinPrice        = $this->_producthelper->getProductFormattedPrice($cart ['shipping'] - $cart['shipping_vat']);
+			$shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
+			$shippinPrice        = RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
 		}
 		else
 		{

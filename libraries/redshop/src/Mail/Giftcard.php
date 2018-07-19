@@ -38,7 +38,7 @@ class Giftcard
 		foreach ($giftCards as $eachOrders)
 		{
 			$giftcardData  = \RedshopEntityGiftcard::getInstance($eachOrders->product_id)->getItem();
-			$giftCardValue = $productHelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
+			$giftCardValue = RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
 			$giftCardPrice = $eachOrders->product_final_price;
 			$giftCode      = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
 			$userFields    = $productHelper->GetProdcutUserfield($eachOrders->order_item_id, 13);
@@ -57,7 +57,7 @@ class Giftcard
 			$couponItems->type          = 0;
 			$couponItems->value         = $giftcardData->giftcard_value;
 			$couponItems->start_date    = \JFactory::getDate()->toSql();
-			$couponItems->end_date      = $couponEndDate === false ? JFactory::getDbo()->getNullDate() : JFactory::getDate($couponEndDate)->toSql();
+			$couponItems->end_date      = $couponEndDate === false ? \JFactory::getDbo()->getNullDate() : \JFactory::getDate($couponEndDate)->toSql();
 			$couponItems->effect        = 0;
 			$couponItems->userid        = 0;
 			$couponItems->amount_left   = 1;
@@ -78,7 +78,7 @@ class Giftcard
 
 			$mailSubject = $giftCardTemplate->mail_subject;
 			$mailSubject = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $mailSubject);
-			$mailSubject = str_replace('{giftcard_price}', $productHelper->getProductFormattedPrice($giftCardPrice), $mailSubject);
+			$mailSubject = str_replace('{giftcard_price}', \RedshopHelperProductPrice::formattedPrice($giftCardPrice), $mailSubject);
 			$mailSubject = str_replace('{giftcard_value}', $giftCardValue, $mailSubject);
 			$mailSubject = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $mailSubject);
 
@@ -86,7 +86,7 @@ class Giftcard
 			$mailBody = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $mailBody);
 			$mailBody = str_replace("{product_userfields}", $userFields, $mailBody);
 			$mailBody = str_replace("{giftcard_price_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $mailBody);
-			$mailBody = str_replace("{giftcard_price}", $productHelper->getProductFormattedPrice($giftCardPrice), $mailBody);
+			$mailBody = str_replace("{giftcard_price}", \RedshopHelperProductPrice::formattedPrice($giftCardPrice), $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_name_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_email_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_email}", $eachOrders->giftcard_user_email, $mailBody);
