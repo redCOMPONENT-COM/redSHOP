@@ -531,12 +531,12 @@ class RedshopModelCheckout extends RedshopModel
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
 		}
 
-		$order_id = $row->order_id;
+		$orderId = $row->order_id;
 
-		$this->coupon($cart, $order_id);
-		$this->voucher($cart, $order_id);
+		$this->coupon($cart);
+		$this->voucher($cart, $orderId);
 
-		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
+		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $orderId;
 		$db->setQuery($query);
 		$db->execute();
 
@@ -553,14 +553,14 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			RedshopHelperClickatell::clickatellSMS($order_id);
+			RedshopHelperClickatell::clickatellSMS($orderId);
 		}
 
-		$session->set('order_id', $order_id);
+		$session->set('order_id', $orderId);
 
 		// Add order status log
 		$rowOrderStatus                = $this->getTable('order_status_log');
-		$rowOrderStatus->order_id      = $order_id;
+		$rowOrderStatus->order_id      = $orderId;
 		$rowOrderStatus->order_status  = $order_status;
 		$rowOrderStatus->date_changed  = time();
 		$rowOrderStatus->customer_note = $order_status_log;
@@ -618,7 +618,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!empty($cart[$i]['attributeImage']) && file_exists(JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage']))
 			{
-				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
+				$rowitem->attribute_image = $orderId . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
 				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
@@ -670,7 +670,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			$retAccArr                    = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
 			$cart_accessory               = $retAccArr[0];
-			$rowitem->order_id            = $order_id;
+			$rowitem->order_id            = $orderId;
 			$rowitem->user_info_id        = $users_info_id;
 			$rowitem->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$rowitem->order_status        = $order_status;
@@ -1053,7 +1053,7 @@ class RedshopModelCheckout extends RedshopModel
 				$add_day                    = $subscription_detail->period_type == 'days' ? $subscription_detail->subscription_period : 0;
 				$add_month                  = $subscription_detail->period_type == 'month' ? $subscription_detail->subscription_period : 0;
 				$add_year                   = $subscription_detail->period_type == 'year' ? $subscription_detail->subscription_period : 0;
-				$subscribe->order_id        = $order_id;
+				$subscribe->order_id        = $orderId;
 				$subscribe->order_item_id   = $rowitem->order_item_id;
 				$subscribe->product_id      = $product_id;
 				$subscribe->subscription_id = $cart[$i]['subscription_id'];
@@ -1080,7 +1080,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$rowpayment->order_id          = $order_id;
+		$rowpayment->order_id          = $orderId;
 		$rowpayment->payment_method_id = $payment_method_id;
 
 		$ccdata = $session->get('ccdata');
@@ -1127,7 +1127,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
+		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $orderId));
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
@@ -1142,7 +1142,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id     = $order_id;
+		$orderuserrow->order_id     = $orderId;
 		$orderuserrow->address_type = 'BT';
 
 		JPluginHelper::importPlugin('redshop_shipping');
@@ -1180,7 +1180,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id     = $order_id;
+		$orderuserrow->order_id     = $orderId;
 		$orderuserrow->address_type = 'ST';
 
 		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
@@ -1196,8 +1196,8 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			if (count($cart['extrafields_values']) > 0)
 			{
-				$this->_producthelper->insertPaymentShippingField($cart, $order_id, 18);
-				$this->_producthelper->insertPaymentShippingField($cart, $order_id, 19);
+				$this->_producthelper->insertPaymentShippingField($cart, $orderId, 18);
+				$this->_producthelper->insertPaymentShippingField($cart, $orderId, 19);
 			}
 		}
 
@@ -1743,10 +1743,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		foreach ($cart['voucher'] as $voucher)
 		{
-			$voucherId              = $voucher['voucher_id'];
-			$voucherVolume          = $voucher['used_voucher'];
+			$voucherId            = $voucher['voucher_id'];
+			$voucherVolume        = $voucher['used_voucher'];
 			$transactionVoucherId = 0;
-			$voucherType[]          = 'v:' . $voucher['voucher_code'];
+			$voucherType[]        = 'v:' . $voucher['voucher_code'];
 
 			$query->clear();
 			$query->update($db->quoteName('#__redshop_voucher'))
