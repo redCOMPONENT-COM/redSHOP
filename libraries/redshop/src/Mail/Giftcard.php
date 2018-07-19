@@ -172,7 +172,7 @@ class Giftcard
 	 */
 	protected static function executeSendMail($receipt, $mailSubject, $mailBody, $attachment)
 	{
-		$config   = JFactory::getConfig();
+		$config   = \JFactory::getConfig();
 		$from     = $config->get('mailfrom');
 		$fromname = $config->get('fromname');
 
