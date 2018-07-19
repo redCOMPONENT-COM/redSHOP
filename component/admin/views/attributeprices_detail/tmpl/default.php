@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -102,7 +102,7 @@ $producthelper = productHelper::getInstance();
 						$sdate = "";
 
 						if ($this->detail->discount_start_date) :
-							$sdate = date("d-m-Y", $this->detail->discount_start_date);
+							$sdate = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->discount_start_date);
 						endif;
 
 						echo JHtml::_(
@@ -126,7 +126,7 @@ $producthelper = productHelper::getInstance();
 						$sdate = "";
 
 						if ($this->detail->discount_end_date) :
-							$sdate = date("d-m-Y", $this->detail->discount_end_date);
+							$sdate = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->discount_end_date);
 						endif;
 
                         echo JHtml::_(
