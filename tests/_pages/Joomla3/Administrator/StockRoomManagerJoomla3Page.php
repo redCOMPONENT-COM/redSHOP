@@ -33,7 +33,7 @@ class StockRoomManagerJoomla3Page
     //button
     public static $newButton = "New";
 
-    public static $saveButton = "Save";
+    public static $saveButton = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('apply');\"]"];
 
     public static $unpublishButton = "Unpublish";
 

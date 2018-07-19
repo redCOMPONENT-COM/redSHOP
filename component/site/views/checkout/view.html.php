@@ -118,11 +118,11 @@ class RedshopViewCheckout extends RedshopView
 
 			if (!$users_info_id)
 			{
-				if ((!isset($users_info_id) || $users_info_id == 0) && count($shippingaddresses) > 0)
+				if ((!isset($users_info_id) || $users_info_id == 0) && !empty($shippingaddresses))
 				{
 					$users_info_id = $shippingaddresses[0]->users_info_id;
 				}
-				elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+				elseif ((!isset($users_info_id) || $users_info_id == 0) && !empty($billingaddresses))
 				{
 					$users_info_id = $billingaddresses->users_info_id;
 				}

@@ -353,7 +353,7 @@ class RedshopHelperCartTag
 
 				$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 
-				if (count($itemData) > 0)
+				if (!empty($itemData))
 				{
 					$itemId = $itemData->id;
 				}

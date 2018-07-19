@@ -35,6 +35,10 @@ class StockRoomCest
      */
     public function createUpdateStockRoom(AcceptanceTester $I, $scenario)
     {
+        $I = new AcceptanceTester\ConfigurationSteps($scenario);
+        $I->wantTo('Test use Stockroom in Administrator');
+        $I->featureUsedStockRoom();
+
         $I->wantTo('Test Stock Room creation in Administrator');
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
         $I->addStockRoom($this->name, $this->amount);
@@ -72,5 +76,9 @@ class StockRoomCest
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
         $I->deleteStockRoom($this->newName);
         $I->searchStockRoom($this->newName, 'Delete');
+
+        $I = new AcceptanceTester\ConfigurationSteps($scenario);
+        $I->wantTo('Test off Stockroom in Administrator');
+        $I->featureOffStockRoom();
     }
 }
