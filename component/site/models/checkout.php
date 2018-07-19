@@ -116,7 +116,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		RedshopHelperCartSession::setCart($cart);
-		RedshopHelperCart::addCartToDatabase;
+		RedshopHelperCart::addCartToDatabase();
 	}
 
 	/**
@@ -186,10 +186,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function orderplace()
 	{
-		$app = JFactory::getApplication();
-
-		$orderFunctions = order_functions::getInstance();
-
+		$app              = JFactory::getApplication();
 		$input            = $app->input;
 		$post             = $input->post->getArray();
 		$Itemid           = $input->post->getInt('Itemid', 0);
@@ -1509,8 +1506,6 @@ class RedshopModelCheckout extends RedshopModel
 			)
 		);
 
-		$ccErrorNo = 0;
-
 		$ccErrors [0] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_UNKNOWN_CCTYPE');
 		$ccErrors [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_PROVIDED');
 		$ccErrors [2] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDFORMAT');
@@ -1730,66 +1725,75 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function voucher($cart, $order_id)
 	{
-		$user        = JFactory::getUser();
-		$vouchertype = array();
-
-		if (isset($cart['voucher']))
+		if (!isset($cart['voucher']))
 		{
-			if ($this->discount_type)
-				$this->discount_type .= '@';
-
-			for ($i = 0, $countVoucher = count($cart['voucher']); $i < $countVoucher; $i++)
-			{
-				$voucher_id             = $cart['voucher'][$i]['voucher_id'];
-				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
-				$transaction_voucher_id = 0;
-				$vouchertype[]          = 'v:' . $cart['voucher'][$i]['voucher_code'];
-				$sql                    = "UPDATE " . $this->_table_prefix . "voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
-					. "WHERE `id`  = " . (int) $voucher_id;
-				$this->_db->setQuery($sql);
-				$this->_db->execute();
-
-				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
-				{
-					$rowvoucher = $this->getTable('transaction_voucher_detail');
-
-					if (!$rowvoucher->bind($cart))
-					{
-						$this->setError($this->_db->getErrorMsg());
-					}
-
-					if ($cart['voucher'][$i]['transaction_voucher_id'])
-					{
-						$transaction_voucher_id = $cart['voucher'][$i]['transaction_voucher_id'];
-					}
-
-					$rowvoucher->transaction_voucher_id = $transaction_voucher_id;
-					$rowvoucher->amount                 = $cart['voucher'][$i]['remaining_voucher_discount'];
-					$rowvoucher->voucher_code           = $cart['voucher'][$i]['voucher_code'];
-					$rowvoucher->user_id                = $user->id;
-					$rowvoucher->order_id               = $order_id;
-					$rowvoucher->voucher_id             = $voucher_id;
-					$rowvoucher->trancation_date        = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$rowvoucher->product_id             = $cart['voucher'][$i]['product_id'];
-					$rowvoucher->published              = 1;
-
-					if (!$rowvoucher->store())
-					{
-						$this->setError($this->_db->getErrorMsg());
-
-						return false;
-					}
-
-				}
-			}
-
-			$this->discount_type .= implode('@', $vouchertype);
+			return;
 		}
 
-		return;
+		if ($this->discount_type)
+		{
+			$this->discount_type .= '@';
+		}
+
+		$user        = JFactory::getUser();
+		$voucherType = array();
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		foreach ($cart['voucher'] as $voucher)
+		{
+			$voucherId              = $voucher['voucher_id'];
+			$voucherVolume          = $voucher['used_voucher'];
+			$transactionVoucherId = 0;
+			$voucherType[]          = 'v:' . $voucher['voucher_code'];
+
+			$query->clear();
+			$query->update($db->quoteName('#__redshop_voucher'))
+				->set($db->quoteName('voucher_left') . ' = ' . $db->quoteName('voucher_left') . ' - ' . (int) $voucherVolume)
+				->where($db->quoteName('id') . ' = ' . (int) $voucherId);
+
+			$db->setQuery($query)->execute();
+
+			if ($voucher['remaining_voucher_discount'] <= 0)
+			{
+				continue;
+			}
+
+			$table = $this->getTable('transaction_voucher_detail');
+
+			if (!$table->bind($cart))
+			{
+				$this->setError($this->_db->getErrorMsg());
+			}
+
+			if ($voucher['transaction_voucher_id'])
+			{
+				$transactionVoucherId = $voucher['transaction_voucher_id'];
+			}
+
+			$table->transaction_voucher_id = $transactionVoucherId;
+			$table->amount                 = $voucher['remaining_voucher_discount'];
+			$table->voucher_code           = $voucher['voucher_code'];
+			$table->user_id                = $user->id;
+			$table->order_id               = $order_id;
+			$table->voucher_id             = $voucherId;
+			$table->trancation_date        = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+			$table->product_id             = $voucher['product_id'];
+			$table->published              = 1;
+
+			if (!$table->store())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+
+		$this->discount_type .= implode('@', $voucherType);
 	}
 
-	public function coupon($cart, $order_id = 0)
+	public function coupon($cart)
 	{
 		$user       = JFactory::getUser();
 		$db         = JFactory::getDbo();
@@ -2006,18 +2010,18 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 			{
-				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+				$shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
 			elseif ($catItemId = RedshopHelperRouter::getCategoryItemid())
 			{
-				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+				$shopMoreLink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 			}
 			else
 			{
-				$shopmorelink = JRoute::_('index.php');
+				$shopMoreLink = JRoute::_('index.php');
 			}
 
-			$shop_more    = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
+			$shop_more    = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopMoreLink . '\'">';
 			$templateDesc = str_replace("{shop_more}", $shop_more, $templateDesc);
 		}
 
