@@ -31,6 +31,7 @@ class RedshopViewPrices_detail extends RedshopViewAdmin
 		$text         = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatrates48');
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)
