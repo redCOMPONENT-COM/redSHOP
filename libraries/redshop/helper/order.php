@@ -598,18 +598,18 @@ class RedshopHelperOrder
 	{
 		$order = RedshopEntityOrder::getInstance($orderId);
 
+		if ($order->get('order_status', '') == $newStatus)
+		{
+			return;
+		}
+
 		if ($order->isValid())
 		{
 			$order->set('order_status', $newStatus)
 				->set('mdate', (int) time())
 				->save();
 		}
-
-		if ($order->order_status == $newStatus)
-		{
-			return;
-		}
-
+		
 		self::generateInvoiceNumber($orderId);
 
 		$db    = JFactory::getDbo();
