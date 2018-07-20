@@ -422,17 +422,17 @@ class RedshopEconomic
 		{
 			$emailArray = $debtorEmailHandle[0]->DebtorHandle;
 
-			if (count($emailArray) > 1)
+			if (!empty($emailArray) && count($emailArray) > 1)
 			{
-				for ($i = 0, $in = count($emailArray); $i < $in; $i++)
+				foreach ($emailArray as $email)
 				{
-					if ($debtor[0]->Number == $emailArray[$i]->Number)
+					if ($debtor[0]->Number == $email->Number)
 					{
 						$eco['eco_user_number'] = $debtor[0]->Number;
 					}
 				}
 			}
-			elseif (count($emailArray) > 0)
+			elseif (!empty($emailArray) && count($emailArray) == 1)
 			{
 				$eco['eco_user_number'] = $emailArray->Number;
 			}
