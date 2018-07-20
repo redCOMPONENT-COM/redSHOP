@@ -605,6 +605,11 @@ class RedshopHelperOrder
 				->save();
 		}
 
+		if ($order->order_status == $newStatus)
+		{
+			return;
+		}
+
 		self::generateInvoiceNumber($orderId);
 
 		$db    = JFactory::getDbo();
