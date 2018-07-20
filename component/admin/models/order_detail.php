@@ -842,7 +842,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				RedshopEconomic::renewInvoiceInEconomic($orderData);
+				RedshopEconomic::renewInvoiceInEconomic($orderdata);
 			}
 
 			$tmpArr['special_discount'] = $orderdata->special_discount;
