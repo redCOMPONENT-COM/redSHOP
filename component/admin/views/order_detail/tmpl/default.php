@@ -160,7 +160,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
 								<td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
-									<?php if (count($model->getccdetail($orderId)) > 0): ?>
+									<?php if (!empty($model->getccdetail($orderId))): ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId); ?>"
 										   class="joom-box btn btn-primary"
 										   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'); ?></a>
@@ -612,7 +612,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$res              = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 							$cname            = '';
 
-							if (count($res) > 0)
+							if (!empty($res))
 							{
 								$cname = $res->name;
 								$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
@@ -629,7 +629,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								$itemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
 								$catIdMain = $productdetail->cat_in_sefurl;
 
-								if (count($itemData) > 0)
+								if (!empty($itemData))
 								{
 									$pItemid = $itemData->id;
 								}

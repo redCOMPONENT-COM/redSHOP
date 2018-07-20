@@ -103,21 +103,25 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
-
 		$auth = $session->get('auth');
-		$list = array();
+		$billingAddress = new stdClass;
 
 		if ($user->id)
 		{
-			$list = RedshopHelperOrder::getBillingAddress($user->id);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
 			$uid  = -$auth['users_info_id'];
-			$list = RedshopHelperOrder::getBillingAddress($uid);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
-		return $list;
+		if ($billingAddress === false || $billingAddress === null)
+		{
+			return new stdClass;
+		}
+
+		return $billingAddress;
 	}
 
 	/**
