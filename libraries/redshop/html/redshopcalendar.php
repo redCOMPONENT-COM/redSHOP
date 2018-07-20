@@ -65,16 +65,7 @@ abstract class JHtmlRedshopcalendar
 
 		if (!empty($value))
 		{
-			// Convert to UTC time first because option 'defaultDate' in datetimepicker must be in UTC
-			$utcValue = $value;
-
-			if ($tz != 'UTC')
-			{
-				$utcDate  = JFactory::getDate($value, $tz)->setTimezone(new DateTimeZone('UTC'));
-				$utcValue = $utcDate->format($format);
-			}
-
-			$momentValue = DateTime::createFromFormat($format, $utcValue);
+			$momentValue = DateTime::createFromFormat($format, $value, new DateTimeZone($tz));
 			$momentValue = false !== $momentValue ? $momentValue->getTimestamp() : false;
 		}
 
