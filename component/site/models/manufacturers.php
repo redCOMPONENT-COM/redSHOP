@@ -118,7 +118,7 @@ class RedshopModelManufacturers extends RedshopModel
 			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
 			$shopper_group_manufactures = Joomla\Utilities\ArrayHelper::toInteger($shopper_group_manufactures);
 			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
+			$and                        .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
@@ -166,9 +166,9 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$layout  = $app->input->getCmd('layout', '');
+		$db     = JFactory::getDbo();
+		$app    = JFactory::getApplication();
+		$layout = $app->input->getCmd('layout', '');
 		$params = $app->getParams('com_redshop');
 
 		if ($app->input->getString('order_by', '') != null)
@@ -224,7 +224,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('c.id', 'value'))
 			->select($db->qn('c.name', 'text'))
@@ -249,7 +249,7 @@ class RedshopModelManufacturers extends RedshopModel
 	}
 
 	/**
-	 * @param   string  $template_data  Template content
+	 * @param   string $template_data Template content
 	 *
 	 * @return  JDatabaseQuery
 	 */
@@ -293,7 +293,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$app        = JFactory::getApplication();
 		$menu       = $app->getMenu();
 		$active     = $menu->getActive();
-		$itemId     = $active->id;
+		$itemId     = isset($active->id) ? $active->id : null;
 		$menuParams = $menu->getParams($itemId);
 		$cid        = $menuParams->get('cid');
 
@@ -318,7 +318,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function getmanufacturercategory($mid, $tblobj)
 	{
 		$plg_manufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
-		$db = $this->_db;
+		$db               = $this->_db;
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT(c.id)')
@@ -335,7 +335,7 @@ class RedshopModelManufacturers extends RedshopModel
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('p.product_parent_id') . ' = 0');
 
-		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
+		if (!empty($plg_manufacturer) && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
 

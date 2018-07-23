@@ -306,7 +306,7 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 
 				$ItemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}

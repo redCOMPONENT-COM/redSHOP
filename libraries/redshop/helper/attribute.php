@@ -304,7 +304,7 @@ class RedshopHelperAttribute
 
 							$pricelist = $productHelper->getPropertyPrice($property[$i]->value, 1, 'property');
 
-							if (count($pricelist) > 0)
+							if (!empty($pricelist))
 							{
 								$property[$i]->property_price = $pricelist->product_price;
 							}
