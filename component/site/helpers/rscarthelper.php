@@ -2902,7 +2902,7 @@ class rsCarthelper
 	 * @param   number  $pid          default value can be null
 	 * @param   number  $areabetween  default value is 0
 	 *
-	 * @return object
+	 * @return  array
 	 */
 	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
 	{
@@ -2923,7 +2923,14 @@ class rsCarthelper
 				->where($this->_db->quoteName("area_end_converted") . ">=" . floatval($area));
 		}
 
-		return $this->_db->setQuery($query)->loadObjectList();
+		$list = $this->_db->setQuery($query)->loadObjectList();
+
+		if ($list)
+		{
+			return array();
+		}
+
+		return $list;
 	}
 
 	/**

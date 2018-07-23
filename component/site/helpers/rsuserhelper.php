@@ -41,8 +41,8 @@ class RsUserHelper
 	/**
 	 * Get RedSHOP User Info
 	 *
-	 * @param   int     $joomlaUserId  Joomla user id
-	 * @param   string  $addressType   Type user address BT (Billing Type) or ST (Shipping Type)
+	 * @param   int    $joomlaUserId Joomla user id
+	 * @param   string $addressType  Type user address BT (Billing Type) or ST (Shipping Type)
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
 	 *
@@ -56,7 +56,7 @@ class RsUserHelper
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer  $userId  User identifier
+	 * @param   integer $userId User identifier
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroup instead
 	 *
@@ -70,7 +70,7 @@ class RsUserHelper
 	/**
 	 * Get User groups
 	 *
-	 * @param   integer  $userId  User identifier
+	 * @param   integer $userId User identifier
 	 *
 	 * @return  array             Array of user groups
 	 *
@@ -84,8 +84,8 @@ class RsUserHelper
 	/**
 	 * Method for update term & conditions of user.
 	 *
-	 * @param   int  $userInfoId  RedSHOP User ID
-	 * @param   int  $isSet       Is set?
+	 * @param   int $userInfoId RedSHOP User ID
+	 * @param   int $isSet      Is set?
 	 *
 	 * @return  void
 	 *
@@ -99,7 +99,7 @@ class RsUserHelper
 	/**
 	 * Get Shopper Group Data
 	 *
-	 * @param   int  $userId  User id
+	 * @param   int $userId User id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroupData instead
 	 *
@@ -113,7 +113,7 @@ class RsUserHelper
 	/**
 	 * Get Shopper Group List
 	 *
-	 * @param   int  $shopperGroupId  Shopper Group Id
+	 * @param   int $shopperGroupId Shopper Group Id
 	 *
 	 * @return  array
 	 *
@@ -127,7 +127,7 @@ class RsUserHelper
 	/**
 	 * Create redshop user session
 	 *
-	 * @param   int  $userId  Joomla user id
+	 * @param   int $userId Joomla user id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::createUserSession instead
 	 *
@@ -141,8 +141,8 @@ class RsUserHelper
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param   string   $username  Username for validate
-	 * @param   integer  $id        ID of user
+	 * @param   string  $username Username for validate
+	 * @param   integer $id       ID of user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateUser instead
 	 *
@@ -156,8 +156,8 @@ class RsUserHelper
 	/**
 	 * This function is used to check if the 'email' already exist in the database with any other ID
 	 *
-	 * @param   string   $email  Email for validate
-	 * @param   integer  $id     ID of user
+	 * @param   string  $email Email for validate
+	 * @param   integer $id    ID of user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateEmail instead
 	 *
@@ -171,7 +171,7 @@ class RsUserHelper
 	/**
 	 * Method for update Joomla user.
 	 *
-	 * @param   array   $data  User data.
+	 * @param   array $data User data.
 	 *
 	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
 	 * @throws  Exception
@@ -186,8 +186,8 @@ class RsUserHelper
 	/**
 	 * Method for create Joomla user.
 	 *
-	 * @param   array  $data        User data.
-	 * @param   int    $createUser  Create user
+	 * @param   array $data       User data.
+	 * @param   int   $createUser Create user
 	 *
 	 * @return  boolean|JUser       JUser if success. False otherwise.
 	 * @throws  Exception
@@ -202,8 +202,8 @@ class RsUserHelper
 	/**
 	 * This function is for check captcha code
 	 *
-	 * @param   string   $data            The answer
-	 * @param   boolean  $displayWarning  Display warning or not.
+	 * @param   string  $data           The answer
+	 * @param   boolean $displayWarning Display warning or not.
 	 *
 	 * @deprecated  2.0.7
 	 *
@@ -218,9 +218,9 @@ class RsUserHelper
 	/**
 	 * Method for store redshop user.
 	 *
-	 * @param   array    $data    User data.
-	 * @param   integer  $userId  ID of user
-	 * @param   integer  $admin   Is admin user.
+	 * @param   array   $data   User data.
+	 * @param   integer $userId ID of user
+	 * @param   integer $admin  Is admin user.
 	 *
 	 * @return  boolean|\JTable      RedshopTableUser if success. False otherwise.
 	 * @throws  Exception
@@ -235,7 +235,7 @@ class RsUserHelper
 	/**
 	 * Method for store user shipping data
 	 *
-	 * @param   array  $data  Available data.
+	 * @param   array $data Available data.
 	 *
 	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
 	 * @throws  Exception
@@ -252,7 +252,7 @@ class RsUserHelper
 	 *
 	 * @return  int   Number of synchronized user.
 	 *
-	 * @since   2.0.6
+	 * @since       2.0.6
 	 *
 	 * @deprecated  2.0.6  Use RedshopInstall::synchronizeUser() instead.
 	 */
@@ -264,10 +264,10 @@ class RsUserHelper
 	/**
 	 * Method for add an subscriber for Newsletter
 	 *
-	 * @param   int    $userId    ID of user.
-	 * @param   array  $data      Data of subscriber
-	 * @param   int    $sendMail  True for send mail.
-	 * @param   null   $isNew     Capability for old method.
+	 * @param   int   $userId   ID of user.
+	 * @param   array $data     Data of subscriber
+	 * @param   int   $sendMail True for send mail.
+	 * @param   null  $isNew    Capability for old method.
 	 *
 	 * @return  boolean
 	 * @throws  Exception
@@ -282,7 +282,7 @@ class RsUserHelper
 	/**
 	 * Method for unsubscribe email from newsletter
 	 *
-	 * @param   string  $email  Email
+	 * @param   string $email Email
 	 *
 	 * @return  boolean
 	 *
@@ -296,12 +296,12 @@ class RsUserHelper
 	/**
 	 * Method for render billing layout
 	 *
-	 * @param   array    $post            Available data.
-	 * @param   integer  $isCompany       Is company?
-	 * @param   array    $lists           Lists
-	 * @param   integer  $showShipping    Show shipping?
-	 * @param   integer  $showNewsletter  Show newsletter?
-	 * @param   integer  $createAccount   Is create account?
+	 * @param   array   $post           Available data.
+	 * @param   integer $isCompany      Is company?
+	 * @param   array   $lists          Lists
+	 * @param   integer $showShipping   Show shipping?
+	 * @param   integer $showNewsletter Show newsletter?
+	 * @param   integer $createAccount  Is create account?
 	 *
 	 * @return  string                    HTML content layout.
 	 * @throws  Exception
@@ -316,9 +316,9 @@ class RsUserHelper
 	/**
 	 * Method for replace billing common fields
 	 *
-	 * @param   string  $templateHtml  Html content
-	 * @param   array   $data          Data
-	 * @param   array   $lists         Array select
+	 * @param   string $templateHtml Html content
+	 * @param   array  $data         Data
+	 * @param   array  $lists        Array select
 	 *
 	 * @return  string
 	 *
@@ -332,9 +332,9 @@ class RsUserHelper
 	/**
 	 * Method for replace private customer billing fields.
 	 *
-	 * @param   string  $templateHtml  Template content
-	 * @param   array   $post          Available data.
-	 * @param   array   $lists         Available list data.
+	 * @param   string $templateHtml Template content
+	 * @param   array  $post         Available data.
+	 * @param   array  $lists        Available list data.
 	 *
 	 * @return  string                 Html content after replace
 	 *
@@ -348,9 +348,9 @@ class RsUserHelper
 	/**
 	 * Method for replace company billing fields.
 	 *
-	 * @param   string  $templateHtml  Template content
-	 * @param   array   $post          Available data.
-	 * @param   array   $lists         Available list data.
+	 * @param   string $templateHtml Template content
+	 * @param   array  $post         Available data.
+	 * @param   array  $lists        Available list data.
 	 *
 	 * @return  string                 Html content after replace
 	 *
@@ -364,9 +364,9 @@ class RsUserHelper
 	/**
 	 * Method for get shipping table
 	 *
-	 * @param   array    $post       Available data.
-	 * @param   integer  $isCompany  Is company?
-	 * @param   array    $lists      List of data.
+	 * @param   array   $post      Available data.
+	 * @param   integer $isCompany Is company?
+	 * @param   array   $lists     List of data.
 	 *
 	 * @return  string
 	 * @throws  Exception
@@ -405,11 +405,10 @@ class RsUserHelper
 	/**
 	 * Display an error message
 	 *
-	 * @param   string  $error  Error message
+	 * @param   string $error Error message
 	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
+	 * @throws Exception
+	 * @deprecated  2.1.0 Use JFactory::getApplication()->enqueueMessage($error, 'error');
 	 */
 	public function setError($error)
 	{
