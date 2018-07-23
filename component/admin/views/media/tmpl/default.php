@@ -278,7 +278,7 @@ else
 <script type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
         submitbutton(pressbutton);
-    }
+    };
     submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton) {
@@ -288,11 +288,16 @@ else
             || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
             form.view.value = "media_detail";
         }
-        try {
-            form.onsubmit();
+        if (pressbutton == 'add')
+        {
+            form.submit();
         }
-        catch (e) {
+        else if (!$("input[type='checkbox'][id^='cb'][name^='cid']:checked").length)
+        {
+            alert("<?php echo JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') ?>");
         }
-        form.submit();
+        else {
+            form.submit();
+        }
     }
 </script>

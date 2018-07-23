@@ -25,7 +25,7 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @throws  Exception
 	 */
@@ -377,9 +377,9 @@ class RedshopModelProduct extends RedshopModel
 	}
 
 	/**
-	 * @param   integer  $template_id  Template ID
-	 * @param   integer  $product_id   Product ID
-	 * @param   integer  $section      Section
+	 * @param   integer $template_id Template ID
+	 * @param   integer $product_id  Product ID
+	 * @param   integer $section     Section
 	 *
 	 * @return  array|string|void
 	 * @throws  Exception
@@ -544,7 +544,7 @@ class RedshopModelProduct extends RedshopModel
 
 				$list[$id]           = $v;
 				$list[$id]->treename = $txt;
-				$list[$id]->children = count(@$children[$id]);
+				$list[$id]->children = isset($children[$id]) ? count($children[$id]) : 0;
 				$list                = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
 			}
 		}
