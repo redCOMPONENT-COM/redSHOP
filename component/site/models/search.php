@@ -60,10 +60,8 @@ class RedshopModelSearch extends RedshopModel
 		$item   = $menu->getActive();
 		$layout = $app->getUserStateFromRequest($this->context . '.layout', 'layout', 'default');
 		$this->setState('layout', $layout);
-
-		$templateid = $app->getUserStateFromRequest($this->context . '.templateid', 'templateid', '');
-
-		$cid = 0;
+		$templateId = $app->getUserStateFromRequest($this->context . '.templateid', 'templateid', '');
+		$cid        = 0;
 
 		if ($layout == 'newproduct')
 		{
@@ -71,14 +69,14 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($result != 0)
 			{
-				$templateid = $result;
+				$templateId = $result;
 			}
 			else
 			{
 				$cid = $item->query['categorytemplate'];
 			}
 		}
-        elseif ($layout == 'productonsale')
+		elseif ($layout == 'productonsale')
 		{
 			$cid = $item->params->get('categorytemplate');
 		}
@@ -89,23 +87,23 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($result != 0)
 			{
-				$templateid = $result;
+				$templateId = $result;
 				$cid        = 0;
 			}
 		}
 
-		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
+		if (empty($templateId) && JModuleHelper::isEnabled('redPRODUCTFILTER'))
 		{
-			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
-			$module_params = new Registry($module->params);
+			$module       = JModuleHelper::getModule('redPRODUCTFILTER');
+			$moduleParams = new Registry($module->params);
 
-			if ($module_params->get('filtertemplate') != "")
+			if ($moduleParams->get('filtertemplate') != "")
 			{
-				$templateid = $module_params->get('filtertemplate');
+				$templateId = $moduleParams->get('filtertemplate');
 			}
 		}
 
-		$this->setState('templateid', $templateid);
+		$this->setState('templateid', $templateId);
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -120,9 +118,9 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('c.id = ' . (int) $cid);
 		}
 
-		if ($templateid != 0)
+		if ($templateId != 0)
 		{
-			$query->where('t.id = ' . (int) $templateid);
+			$query->where('t.id = ' . (int) $templateId);
 		}
 
 		$templateDesc = null;
@@ -137,8 +135,8 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($module = JModuleHelper::getModule('redshop_search'))
 		{
-			$module_params  = new Registry($module->params);
-			$perpageproduct = $module_params->get('productperpage', 5);
+			$moduleParams   = new Registry($module->params);
+			$perpageproduct = $moduleParams->get('productperpage', 5);
 		}
 		else
 		{
