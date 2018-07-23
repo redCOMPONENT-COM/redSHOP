@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-
 class RedshopModelXmlexport_detail extends RedshopModel
 {
 	public $_id = null;
@@ -312,6 +311,9 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCategoryList()
 	{
 		$db    = $this->getDbo();
@@ -319,7 +321,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 			->select($db->qn('id', 'value'))
 			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('pcx.product_id') . ' = 1');
+			->where($db->qn('parent_id') . ' <> 0');
 
 		return $db->setQuery($query)->loadObjectList();
 	}
