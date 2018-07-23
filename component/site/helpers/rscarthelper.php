@@ -315,7 +315,6 @@ class rsCarthelper
 		$product_subtotal_excl_vat = $cart ['product_subtotal_excl_vat'];
 		$subtotal                  = $cart ['subtotal'];
 		$discount_ex_vat           = $cart['discount_ex_vat'];
-		$dis_tax                   = 0;
 		$discount_total            = $cart['voucher_discount'] + $cart['coupon_discount'];
 		$discount_amount           = $cart ["cart_discount"];
 		$tax                       = $cart ['tax'];
@@ -328,8 +327,6 @@ class rsCarthelper
 			$cart ['discount_type'] = 0;
 		}
 
-		$check_type                = $cart ['discount_type'];
-		$chktotal                  = 0;
 		$tmp_discount              = $discount_total;
 		$discount_total            = RedshopHelperProductPrice::formattedPrice($discount_total + $discount_amount, true);
 
@@ -628,7 +625,6 @@ class rsCarthelper
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
 		$shippingmethod       = RedshopHelperOrder::getShippingMethodInfo();
-		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
 		$d                    = array();
 		$d['user_id']         = $user_id;
@@ -655,13 +651,6 @@ class rsCarthelper
 				$template_rate_middle = $template1[0];
 			}
 
-			$oneShipping = false;
-
-			if (count($shippingmethod) == 1)
-			{
-				$oneShipping = true;
-			}
-
 			$rate_data = "";
 
 			if ($template_middle != "" && count($shippingmethod) > 0)
@@ -679,7 +668,7 @@ class rsCarthelper
 
 					$rate = $shippingrate[$s];
 
-					if (count($rate) > 0)
+					if (!empty($rate))
 					{
 						if (empty($shipping_rate_id))
 						{
@@ -802,13 +791,6 @@ class rsCarthelper
 
 		if ($rateExist == 0)
 		{
-			$errorMSG = '';
-
-			if (count($shippingmethod) > 0)
-			{
-				$errorMSG = RedshopHelperShipping::getShippingRateError($d);
-			}
-
 			$template_desc = "<div></div>";
 		}
 		elseif ($rateExist == 1 && empty($extrafield_total) && $classname != "default_shipping_gls")
@@ -1107,16 +1089,14 @@ class rsCarthelper
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
 					. "WHERE u.user_id='" . $user->id . "' "
 					. "AND address_type='BT' ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list = $this->_db->setQuery($query)->loadObjectList();
 			}
 			elseif (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)
 			{
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
 					. "WHERE u.users_info_id='" . $auth['users_info_id'] . "' "
 					. "AND address_type='BT' ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
+				$list = $this->_db->setQuery($query)->loadObjectList();
 			}
 
 			$terms_left_final = "";
@@ -1141,7 +1121,7 @@ class rsCarthelper
 				{
 					$dimension = explode(" ", $terms_left_final);
 
-					if (count($dimension) > 0)
+					if (!empty($dimension))
 					{
 						if (strpos($dimension[0], "width") !== false)
 						{
@@ -1196,8 +1176,7 @@ class rsCarthelper
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
 					. " WHERE user_id=" . (int) $user->id . " AND email=" . $db->quote($user->email);
-				$this->_db->setQuery($query);
-				$subscribe = $this->_db->loadResult();
+				$subscribe = $this->_db->setQuery($query)->loadResult();
 
 				if ($subscribe == 0)
 				{
@@ -1220,7 +1199,7 @@ class rsCarthelper
 		return $template_desc;
 	}
 
-	public function getCartProductPrice($product_id, $cart, $voucher_left)
+	public function getCartProductPrice($product_id, $cart)
 	{
 		$productArr             = array();
 		$affected_product_idArr = array();
@@ -1228,7 +1207,6 @@ class rsCarthelper
 		$product_price          = 0;
 		$product_price_excl_vat = 0;
 		$quantity               = 0;
-		$flag                   = false;
 		$product_idArr          = explode(',', $product_id);
 		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
 
@@ -2033,8 +2011,7 @@ class rsCarthelper
 		{
 			$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_accessory_item "
 				. "WHERE cart_item_id=" . (int) $cart_item_id;
-			$this->_db->setQuery($query);
-			$list = $this->_db->loadObjectlist();
+			return $this->_db->setQuery($query)->loadObjectList();
 		}
 
 		return $list;
@@ -2060,10 +2037,7 @@ class rsCarthelper
 			. "WHERE is_accessory_att=" . (int) $is_accessory . " "
 			. "AND section=" . $db->quote($section) . " "
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return $this->_db->setQuery($query)->loadObjectlist();
 	}
 
 	/**
@@ -2234,7 +2208,7 @@ class rsCarthelper
 													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($acc_subproperty_data[$isp]);
 													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
 
-													if (count($pricelist) > 0)
+													if (!empty($pricelist))
 													{
 														$subproperty_price = $pricelist->product_price;
 													}
@@ -2348,10 +2322,7 @@ class rsCarthelper
 			. "WHERE a.attribute_name!='' "
 			. $and
 			. " and attribute_published=1 ORDER BY a.ordering ASC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return $this->_db->setQuery($query)->loadObjectList();
 	}
 
 	public function getAttributeSetId($pid)
@@ -2952,10 +2923,7 @@ class rsCarthelper
 				->where($this->_db->quoteName("area_end_converted") . ">=" . floatval($area));
 		}
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return $this->_db->setQuery($query)->loadObjectList();
 	}
 
 	/**
