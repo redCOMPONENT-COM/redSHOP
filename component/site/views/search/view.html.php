@@ -320,7 +320,7 @@ class RedshopViewSearch extends RedshopView
 
 				if ($search_type == 'product_number')
 				{
-					$product_number = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $this->search[$i]->product_number);
+					$product_number = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $this->search[$i]->product_number);
 					$pro_s_desc     = $this->search[$i]->product_s_desc;
 					$pro_desc       = $this->search[$i]->product_desc;
 				}
