@@ -26,6 +26,11 @@ class OrderManagerPage extends AdminJ3Page
 
     public static $zipcode = ['id' => 'zipcode'];
 
+    /**
+     * @var string
+     */
+    public static $fistName = "#firstname";
+
     public static $city = ['id' => 'city'];
 
     public static $phone = ['id' => 'phone'];
