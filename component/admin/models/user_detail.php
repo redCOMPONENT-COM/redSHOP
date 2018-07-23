@@ -94,10 +94,9 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function _initData()
 	{
-		$data = JFactory::getApplication()->getUserState('com_redshop.user_detail.data');
-
-		if (!empty($data))
+		if (!empty($this->_data))
 		{
+			$data = JFactory::getApplication()->getUserState('com_redshop.user_detail.data');
 			$this->_data = (object) $data;
 
 			return (boolean) $this->_data;
