@@ -33,6 +33,24 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * [$fontPDF description]
+	 * @var  null
+	 */
+	protected $fontPDF = null;
+
+	/**
+	 * [__construct description]
+	 * @param  [type]  &$subject  [description]
+	 * @param  [type]  $config    [description]
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+
+		$this->fontPDF = $this->params->get('fontPDF');
+	}
+
+	/**
 	 * Event for create PDF file of order.
 	 *
 	 * @param   int      $orderId  Id of order.
@@ -46,8 +64,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function onRedshopOrderCreateInvoicePdf($orderId = 0, $pdfHtml = '', $code = 'F', $isEmail = false)
 	{
-		if (!$orderId || empty($pdfHtml))
-		{
+		if (!$orderId || empty($pdfHtml)) {
 			return false;
 		}
 
@@ -58,15 +75,14 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$pdfObj = new PlgRedshop_PdfTcPDFHelper;
 		$pdfObj->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_INVOICE_TITLE', $orderId));
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($pdfObj->defaultFont, '', 8));
-		$pdfObj->SetFont($pdfObj->defaultFont, "", 6);
+		$pdfObj->setHeaderFont(array($this->fontPDF, '', 8));
+		$pdfObj->SetFont($this->fontPDF, "", 6);
 		$pdfObj->AddPage();
 		$pdfObj->writeHTML($pdfHtml);
 
 		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
 
-		if (!$isEmail)
-		{
+		if (!$isEmail) {
 			ob_end_clean();
 			$pdfObj->Output($invoiceFolder . '/' . $orderId . ".pdf", $code);
 
@@ -77,8 +93,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$invoicePdf = 'invoice-' . round(microtime(true) * 1000);
 
 		// Delete currently order invoice
-		if (JFolder::exists($invoiceFolder))
-		{
+		if (JFolder::exists($invoiceFolder)) {
 			JFolder::delete($invoiceFolder);
 		}
 
@@ -102,12 +117,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function onRedshopOrderCreateMultiInvoicePdf($orderIds = array(), $pdfHtml = '')
 	{
-		if (empty($orderIds) || empty($pdfHtml))
-		{
+		if (empty($orderIds) || empty($pdfHtml)) {
 			return '';
 		}
 
-        RedshopHelperPayment::loadLanguages();
+		RedshopHelperPayment::loadLanguages();
 
 		$cartHelper = rsCarthelper::getInstance();
 
@@ -115,11 +129,10 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$pdfObj = new PlgRedshop_PdfTcPDFHelper;
 		$pdfObj->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_MULTI_INVOICE_TITLE'));
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($pdfObj->defaultFont, '', 8));
-		$pdfObj->SetFont($pdfObj->defaultFont, "", 6);
+		$pdfObj->setHeaderFont(array($this->fontPDF, '', 8));
+		$pdfObj->SetFont($this->fontPDF, "", 6);
 
-		foreach ($orderIds as $orderId)
-		{
+		foreach ($orderIds as $orderId) {
 			$ordersDetail = RedshopHelperOrder::getOrderDetails($orderId);
 			$message = $pdfHtml;
 
@@ -139,10 +152,8 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf", "F");
 		$storeFiles = array('index.html', '' . $invoicePdfName . '.pdf');
 
-		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file)
-		{
-			if (!in_array(basename($file), $storeFiles))
-			{
+		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) {
+			if (!in_array(basename($file), $storeFiles)) {
 				JFile::delete($file);
 			}
 		}
@@ -162,27 +173,25 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function onRedshopOrderCreateGiftCard($giftCard = null, $template = '')
 	{
-		if (empty($giftCard) || empty($template))
-		{
+		if (empty($giftCard) || empty($template)) {
 			return '';
 		}
 
 		$pdf = new PlgRedshop_PdfTcPDFHelper('P', 'mm', 'A4');
 
-		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftCard->giftcard_bgimage) && $giftCard->giftcard_bgimage)
-		{
+		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftCard->giftcard_bgimage) && $giftCard->giftcard_bgimage) {
 			$pdf->backgroundImage = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftCard->giftcard_bgimage;
 		}
 
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 		$pdf->SetHeaderMargin(0);
 		$pdf->SetFooterMargin(0);
 		$pdf->setPrintFooter(false);
 		$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-		$pdf->SetFont($pdf->defaultFont, '', 18);
+		$pdf->SetFont($this->fontPDF, '', 18);
 		$pdf->AddPage();
 
 		$pdf->writeHTML($template, true, false, false, false, '');
@@ -204,8 +213,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function onRedshopPdfCreateShippedInvoice($orderId = 0, $pdfHtml = '')
 	{
-		if (!$orderId || empty($pdfHtml))
-		{
+		if (!$orderId || empty($pdfHtml)) {
 			return false;
 		}
 
@@ -217,8 +225,8 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
 		$pdfObj->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_SHIPPED_INVOICE_TITLE'));
 		$pdfObj->SetMargins(20, 85, 20);
-		$pdfObj->setHeaderFont(array($pdfObj->defaultFont, '', 8));
-		$pdfObj->SetFont($pdfObj->defaultFont, "", 6);
+		$pdfObj->setHeaderFont(array($this->fontPDF, '', 8));
+		$pdfObj->SetFont($this->fontPDF, "", 6);
 
 		// Writing Body area
 		$pdfObj->AddPage();
@@ -242,8 +250,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function onRedshopOrderGenerateStockNotePdf($orderData = null, $pdfHtml = '')
 	{
-		if (empty($orderData) || empty($pdfHtml))
-		{
+		if (empty($orderData) || empty($pdfHtml)) {
 			return;
 		}
 
@@ -255,8 +262,8 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$pdfObj->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_ORDER_STOCK_NOTE_TITLE', $orderData->order_id));
 		$pdfObj->SetMargins(15, 15, 15);
 		$pdfObj->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
-		$pdfObj->setHeaderFont(array($pdfObj->defaultFont, '', 10));
-		$pdfObj->SetFont($pdfObj->defaultFont, "", 10);
+		$pdfObj->setHeaderFont(array($this->fontPDF, '', 10));
+		$pdfObj->SetFont($this->fontPDF, "", 10);
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($pdfHtml);
 		$pdfObj->Output('order_stock_note_' . $orderData->order_id . '.pdf', 'D');
@@ -274,8 +281,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function onRedshopOrderGenerateShippingPdf($orderData = null, $pdfHtml = '')
 	{
-		if (empty($orderData) || empty($pdfHtml))
-		{
+		if (empty($orderData) || empty($pdfHtml)) {
 			return;
 		}
 
@@ -287,8 +293,8 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$pdfObj->SetTitle(JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
 		$pdfObj->SetMargins(15, 15, 15);
 		$pdfObj->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
-		$pdfObj->setHeaderFont(array($pdfObj->defaultFont, '', 10));
-		$pdfObj->SetFont($pdfObj->defaultFont, '', 12);
+		$pdfObj->setHeaderFont(array($this->fontPDF, '', 10));
+		$pdfObj->SetFont($this->fontPDF, '', 12);
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($pdfHtml);
 		$pdfObj->Output('Order_' . $orderData->order_id . ".pdf", "D");
