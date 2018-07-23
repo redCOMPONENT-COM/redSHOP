@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Redshop\Bases\Object;
+use Redshop\BaseObject;
 
 /**
  * Base Entity.
  *
  * @since  2.0.3
  */
-abstract class RedshopEntityBase extends Object
+abstract class RedshopEntityBase extends BaseObject
 {
 	/**
 	 * @const  integer
