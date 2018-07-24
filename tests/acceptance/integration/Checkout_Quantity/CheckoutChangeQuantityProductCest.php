@@ -76,29 +76,38 @@ class CheckoutProductChangeQuantityCest
         $I->wantTo('Enable Quantity Change in Cart');
         $I = new ConfigurationSteps($scenario);
         $I->configChangeQuantityProduct();
+
         $I->wantTo('Create Category in Administrator');
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->addCategorySave($this->categoryName);
+
         $I->wantTo('I Want to add product inside the category');
         $I = new ProductManagerJoomla3Steps($scenario);
         $I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
+
         $I->wantTo('Test User creation with save button in Administrator');
         $I = new UserManagerJoomla3Steps($scenario);
         $I->createUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->address, $this->city, $this->phone, $this->zipcode);
+
         $I->wantTo('I want go to Product tab, Choose Product and Add to cart');
         $I = new CheckoutProductQuantityChangeSteps($scenario);
         $I->checkoutChangeQuantity($this->categoryName, $this->userName, $this->password);
+
         $I->wantTo('I want to login Site page with user just create');
         $I->doFrontendLogout();
+
         $I->wantTo('Delete product');
         $I = new ProductManagerJoomla3Steps($scenario);
         $I->deleteProduct($this->productName);
+
         $I->wantTo('Delete Category');
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->deleteCategory($this->categoryName);
+
 //        $I->wantTo('Delete account in redSHOP and Joomla');
 //        $I = new CheckoutProductQuantityChangeSteps($scenario);
 //        $I->deleteUser($this->firstName);
+
         $I->wantTo('Return Configuration in Administrator page');
         $I = new ConfigurationSteps($scenario);
         $I->returnConfigChangeQuantityProduct();
