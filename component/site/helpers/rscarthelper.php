@@ -1412,7 +1412,7 @@ class rsCarthelper
 
 				if (count($voucher) > 0)
 				{
-					$this->_r_voucher = 1;
+					return false;
 				}
 			}
 
@@ -1619,6 +1619,8 @@ class rsCarthelper
 			}
 
 			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+			empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
