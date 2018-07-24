@@ -449,7 +449,6 @@ class RedshopHelperAttribute
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
 
-						$chkListAttributes['id']       = $propertyid;
 						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
 					}
 
@@ -466,8 +465,7 @@ class RedshopHelperAttribute
 						$chkListAttributes,
 						'value',
 						'text',
-						$selectedProperty,
-						$propertyid . '_'
+						$selectedProperty
 					);
 
 					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";
