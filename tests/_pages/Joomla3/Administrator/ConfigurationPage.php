@@ -131,9 +131,9 @@ class ConfigurationPage extends AdminJ3Page
 
 	public static $minimunOrderTotal = ['id' => 'minimum_order_total'];
 
-    public static $showSameAddressForBillingYes = ['id' => 'optional_shipping_address1-lbl'];
+	public static $showSameAddressForBillingYes = ['id' => 'optional_shipping_address1-lbl'];
 
-    public static $showSameAddressForBillingNo = ['id' => 'optional_shipping_address0-lbl'];
+	public static $showSameAddressForBillingNo = ['id' => 'optional_shipping_address0-lbl'];
 
 	// price tab and discount
 
