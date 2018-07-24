@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Bases;
+namespace Redshop;
 
 defined('_JEXEC') or die;
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.1.0
  */
-class Object
+class BaseObject
 {
 	/**
 	 * Cached item
