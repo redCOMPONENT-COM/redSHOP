@@ -42,8 +42,37 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$bankTransfer);
 		$I->click(\CheckoutChangeQuantityProductPage::$bankTransfer);
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions,30);
 		$I->click(\CheckoutChangeQuantityProductPage::$termAndConditions);
+        $I->scrollTo(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 	}
+
+    public function searchUser($name, $functionName = 'filter')
+    {
+        $I = $this;
+        $I->wantTo('Search the User ');
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->waitForText(\UserManagerJoomla3Page::$namePage, 30, \UserManagerJoomla3Page::$headPage);
+        $I->filterListBySearching($name, $functionName = \UserManagerJoomla3Page::$filter);
+    }
+
+    public function deleteUser($name, $deleteJoomlaUser = true)
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($name);
+        $I->see($name, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$deleteButton);
+
+        if ($deleteJoomlaUser) {
+            $I->acceptPopup();
+        } else {
+            $I->cancelPopup();
+        }
+
+        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
+    }
 }

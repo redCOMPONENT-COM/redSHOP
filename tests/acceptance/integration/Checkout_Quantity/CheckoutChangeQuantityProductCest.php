@@ -105,7 +105,7 @@ class CheckoutChangeQuantityProductCest
 		$I->deleteCategory($this->categoryName);
 
 		$I->wantTo('Delete account in redSHOP and Joomla');
-		$I = new UserManagerJoomla3Steps($scenario);
+		$I = new CheckoutChangeQuantityProductSteps($scenario);
 		$I->deleteUser($this->firstName);
 
 		$I->wantTo('Return Configuration in Administrator page');
