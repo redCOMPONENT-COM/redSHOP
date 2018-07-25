@@ -29,7 +29,7 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $fistName = "#firstname";
+    public static $fistName = ['id' => 'firstname'];
 
     public static $city = ['id' => 'city'];
 
