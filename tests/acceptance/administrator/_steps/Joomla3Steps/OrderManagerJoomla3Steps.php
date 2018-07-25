@@ -43,6 +43,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($userOrderPage->returnSearch($nameUser));
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$username = $I->grabValueFrom(\OrderManagerPage::$fistName);
+
 		if($username != $nameUser)
 		{
 			$I->reloadPage();
