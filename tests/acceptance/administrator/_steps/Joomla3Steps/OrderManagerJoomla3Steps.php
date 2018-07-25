@@ -58,7 +58,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
-		$I->click(\OrderManagerPage::$applyUser)
+		$I->click(\OrderManagerPage::$applyUser);
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
 		$I->scrollTo(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
