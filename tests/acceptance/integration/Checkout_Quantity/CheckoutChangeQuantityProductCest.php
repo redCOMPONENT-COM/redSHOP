@@ -21,14 +21,76 @@ use AcceptanceTester\UserManagerJoomla3Steps;
  */
 class CheckoutChangeQuantityProductCest
 {
-	/**
-	 * @var string
-	 */
+     /**
+     * @var string
+     */
 	public $categoryName;
+
+    /**
+     * @var string
+     */
+	public $productName;
+
+    /**
+     * @var int
+     */
+    public $productPrice;
+
+    /**
+     * @var string
+     */
+    public $total;
+
+    /**
+     * @var int
+     */
+    public $randomProductNumber;
+
+    /**
+     * @var int
+     */
+    public $randomProductPrice;
+
+    /**
+     * @var string
+     */
+    public $userName;
+
+    /**
+     * @var string
+     */
+    public $password;
+
+    /**
+     * @var string
+     */
+	public $email;
+
+    /**
+     * @var string
+     */
+	public $shopperGroup;
+
+    /**
+     * @var string
+     */
+	public $group;
+
+    /**
+     * @var string
+     */
+	public $firstName;
+
+    /**
+     * @var string
+     */
+	public $lastName;
+
 	/**
 	 * @var \Faker\Generator
 	 */
 	public $faker;
+
 	public function __construct()
 	{
 		//Product & Category
@@ -47,10 +109,6 @@ class CheckoutChangeQuantityProductCest
 		$this->group = 'Super User';
 		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
 		$this->lastName = "LastName";
-		$this->address = "449 Tran Hung Dao";
-		$this->city = "Thanh pho Ho Chi Minh";
-		$this->phone = "0123456789";
-		$this->zipcode = "1";
 	}
 	public function _before(AcceptanceTester $I)
 	{
@@ -87,7 +145,7 @@ class CheckoutChangeQuantityProductCest
 
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->createUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->address, $this->city, $this->phone, $this->zipcode);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutChangeQuantityProductSteps($scenario);

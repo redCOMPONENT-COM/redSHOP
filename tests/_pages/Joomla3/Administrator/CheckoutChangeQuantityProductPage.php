@@ -19,19 +19,9 @@ class CheckoutChangeQuantityProductPage extends AdminJ3Page
 	 */
 	public static $categoryTitle = ".category_front_inside";
 
-    /**
-     * @var string
-     */
-	public static $fillUserName = "#modlgn-username";
-
-    /**
-     * @var string
-     */
-	public static $fillPassWord = "#modlgn-passwd";
-
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $submitButton = "Log in";
 
 	/**
@@ -39,12 +29,12 @@ class CheckoutChangeQuantityProductPage extends AdminJ3Page
 	 */
 	public static $quantityField = "#quantitybox0";
 
-    /**
-     * @var string
-     */
-    public static $bankTransfer = "#rs_payment_banktransfer";
+	/**
+	 * @var string
+	 */
+	public static $bankTransfer = "#rs_payment_banktransfer";
 
-    /**
+	/**
 	 * @var array
 	 */
 	public static $updateCartButton = "//img[@onclick=\"document.update_cart0.task.value='update';document.update_cart0.submit();\"]";
