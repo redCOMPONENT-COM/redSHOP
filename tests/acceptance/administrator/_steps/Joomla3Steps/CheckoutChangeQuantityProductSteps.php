@@ -21,8 +21,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CheckoutChangeQuantityProductPage::$url);
-		$I->doFrontEndLogin($userName, $password);
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$categoryTitle, 30);
 		$I->click($category);
 		$I->click(\CheckoutChangeQuantityProductPage::$addToCart);
 		$I->amOnPage(\CheckoutChangeQuantityProductPage::$cartPageUrL);
@@ -53,35 +51,5 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
-	}
-
-	public function searchUser($name, $functionName = 'filter')
-	{
-		$I = $this;
-		$I->wantTo('Search the User ');
-		$I->amOnPage(\UserManagerJoomla3Page::$URL);
-		$I->waitForText(\UserManagerJoomla3Page::$namePage, 30, \UserManagerJoomla3Page::$headPage);
-		$I->filterListBySearching($name, $functionName = \UserManagerJoomla3Page::$filter);
-	}
-
-	public function deleteUser($name, $deleteJoomlaUser = true)
-	{
-		$I = $this;
-		$I->amOnPage(\UserManagerJoomla3Page::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->searchUser($name);
-		$I->see($name, \UserManagerJoomla3Page::$firstResultRow);
-		$I->click(\UserManagerJoomla3Page::$selectFirst);
-		$I->click(\UserManagerJoomla3Page::$deleteButton);
-
-		if ($deleteJoomlaUser)
-		{
-			$I->acceptPopup();
-		} else
-		{
-			$I->cancelPopup();
-		}
-
-		$I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
 	}
 }

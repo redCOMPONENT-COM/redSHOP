@@ -15,11 +15,6 @@
 class CheckoutChangeQuantityProductPage extends AdminJ3Page
 {
 	/**
-	 * @var array
-	 */
-	public static $categoryTitle = ".category_front_inside";
-
-	/**
 	 * @var string
 	 */
 	public static $submitButton = "Log in";

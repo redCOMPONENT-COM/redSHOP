@@ -147,6 +147,9 @@ class CheckoutChangeQuantityProductCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
+		$I->wantTo('I want to login in site page');
+		$I->doFrontEndLogin($this->userName, $this->password);
+
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutChangeQuantityProductSteps($scenario);
 		$I->checkoutChangeQuantity($this->categoryName, $this->userName, $this->password);
@@ -163,8 +166,8 @@ class CheckoutChangeQuantityProductCest
 		$I->deleteCategory($this->categoryName);
 
 		$I->wantTo('Delete account in redSHOP and Joomla');
-		$I = new CheckoutChangeQuantityProductSteps($scenario);
-		$I->deleteUser($this->firstName);
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName, false);
 
 		$I->wantTo('Return Configuration in Administrator page');
 		$I = new ConfigurationSteps($scenario);
