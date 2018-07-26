@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class CouponPage extends AdminJ3Page
 {
@@ -28,7 +28,7 @@ class CouponPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $idFromCode = ['id' => 'jform_code'];
+	public static $idFromCode = "#jform_code";
 	
 	/**
 	 * @var string
@@ -38,5 +38,5 @@ class CouponPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $selectValueCoupon =  ['xpath' => '//a[contains(concat(\' \', @class, \' \'), \'btn-edit-item \')]'];
+	public static $selectValueCoupon =  "//a[contains(concat(\' \', @class, \' \'), \'btn-edit-item \')]";
 }

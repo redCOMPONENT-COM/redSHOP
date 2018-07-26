@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class QuotationManagerPage extends AdminJ3Page
 {
@@ -21,27 +21,27 @@ class QuotationManagerPage extends AdminJ3Page
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=quotation';
     
-    public static $userId = ['id' => 's2id_user_id'];
+    public static $userId = "#s2id_user_id";
 
-    public static $userSearch = ['id' => 's2id_autogen1_search'];
+    public static $userSearch = "#s2id_autogen1_search";
 
-    public static $productId = ['id' => 's2id_product1'];
+    public static $productId = "#s2id_product1";
 
-    public static $productsSearch = ['id' => 's2id_autogen2_search'];
+    public static $productsSearch = "#s2id_autogen2_search";
     
     public static $newProductLink = ['link' => 'New'];
 
-    public static $quanlityFirst = ['id' => 'quantityproduct1'];
+    public static $quanlityFirst = "#quantityproduct1";
 
-    public static $quantityp1 = ['id' => 'quantityp1'];
+    public static $quantityp1 = "#quantityp1";
 
-    public static $quotationStatusDropDown = ['id' => 's2id_quotation_status'];
+    public static $quotationStatusDropDown = "#s2id_quotation_status";
 
-    public static $quotationStatusSearch = ['id' => 's2id_autogen2_search'];
+    public static $quotationStatusSearch = "#s2id_autogen2_search";
     
-    public static $quotationId = ['xpath' => '//tr[@class=\'row0\']/td[3]/a'];
+    public static $quotationId = "#//tr[@class=\'row0\']/td[3]/a";
 
-    public static $quotationStatus = ['xpath' => '//tr[@class=\'row0\']/td[6]'];
+    public static $quotationStatus = "#//tr[@class=\'row0\']/td[6]";
     //button
 
     public static $buttonSend = "Send";
@@ -64,7 +64,7 @@ class QuotationManagerPage extends AdminJ3Page
 
     public function xPathSearch($userName)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $userName . "')]"];
+        $path = "//span[contains(text(), '" . $userName . "')]";
         return $path;
     }
 }

@@ -25,24 +25,25 @@ class MassDiscountManagerPage extends AdminJ3Page
 
 	public static $MassDicountResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
 
-	public static $categoryForm = ['xpath' => "//div[@id='s2id_jform_category_id']//ul/li"];
+	public static $categoryForm = "//div[@id='s2id_jform_category_id']//ul/li";
 
-	public static $categoryFormInput = ['xpath' => "//div[@id='s2id_jform_category_id']//ul/li//input"];
+	public static $categoryFormInput = "//div[@id='s2id_jform_category_id']//ul/li//input";
 
-	public static $discountForm = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li"];
+	public static $discountForm = "//div[@id='s2id_jform_discount_product']//ul/li";
 
-	public static $discountFormInput = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li//input"];
+	public static $discountFormInput = "//div[@id='s2id_jform_discount_product']//ul/li//input";
 
 	public static $dateCalender = '#jform_start_date_img';
 
-	public static $startDateIcon = ['id' => "jform_start_date_img"];
+	public static $startDateIcon = "#jform_start_date_img";
 
-	public static $endDateIcon = ['id' => "jform_end_date_img"];
+	public static $endDateIcon = "#jform_end_date_img";
 
-	public static $getToday = ['xpath' => "//td[contains(@class, 'selected')]"];
+	public static $getToday = "//td[contains(@class, 'selected')]";
 
-	public static $fieldStartDate = ['id' => 'jform_start_date'];
-	public static $fieldEndDate = ['id' => 'jform_end_date'];
+	public static $fieldStartDate = "#jform_start_date";
+
+	public static $fieldEndDate = "#jform_end_date";
 
 
 	//page name
@@ -64,9 +65,9 @@ class MassDiscountManagerPage extends AdminJ3Page
 	public static $messageError = "Error";
 	//selector
 
-	public static $selectorSuccess = ['class' => 'alert-success'];
+	public static $selectorSuccess = ".alert-success";
 
-	public static $selectorError = ['class' => 'alert-danger'];
+	public static $selectorError = ".alert-danger";
 
 
 	//button
@@ -93,7 +94,7 @@ class MassDiscountManagerPage extends AdminJ3Page
 
 	public function returnXpath($type)
 	{
-		$path = ['xpath' => "//span[contains(text(), '" . $type . "')]"];
+		$path = "//span[contains(text(), '" . $type . "')]";
 		return $path;
 	}
 

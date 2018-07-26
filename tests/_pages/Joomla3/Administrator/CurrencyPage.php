@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class CurrencyPage extends AdminJ3Page
 {
@@ -24,4 +24,14 @@ class CurrencyPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=currencies';
+
+    /**
+     * @var string
+     */
+	public static $fieldName = "#jform_name";
+
+    /**
+     * @var string
+     */
+	public static $fieldCode = "#jform_code";
 }

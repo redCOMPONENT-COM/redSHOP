@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class OrderManagerPage extends AdminJ3Page
 {
@@ -22,50 +22,50 @@ class OrderManagerPage extends AdminJ3Page
 
     public static $userSearch = "//input[@id='s2id_autogen1_search']";
 
-    public static $address = ['id' => 'address'];
+    public static $address = "#address";
 
-    public static $zipcode = ['id' => 'zipcode'];
+    public static $zipcode = "#zipcode";
 
     /**
      * @var string
      */
     public static $fistName = "#firstname";
 
-    public static $city = ['id' => 'city'];
+    public static $city = "#city";
 
-    public static $phone = ['id' => 'phone'];
+    public static $phone = "#phone";
 
-    public static $close = ['id' => 'toolbar-cancel'];
-
-
-    public static $filter = ['id' => 'filter'];
-
-    public static $applyUser = ['id' => 'toolbar-apply'];
+    public static $close = "#toolbar-cancel";
 
 
-    public static $productId = ['id' => 's2id_product1'];
+    public static $filter = "#filter";
 
-    public static $productsSearch = ['id' => 's2id_autogen2_search'];
+    public static $applyUser = "#toolbar-apply";
 
-    public static $quanlityFirst = ['id' => 'quantityproduct1'];
 
-    public static $quantityp1 = ['id' => 'quantity'];
+    public static $productId = "#s2id_product1";
 
-    public static $nameProductSuccess = ['id' => 'order_product_detail_3'];
+    public static $productsSearch = "#s2id_autogen2_search";
 
-    public static $statusOrder = ['id' => 's2id_status'];
+    public static $quanlityFirst = "#quantityproduct1";
 
-    public static $statusSearch = ['id' => 's2id_autogen2_search'];
+    public static $quantityp1 = "#quantity";
 
-    public static $statusPaymentStatus = ['id' => 's2id_order_paymentstatus'];
+    public static $nameProductSuccess = "#order_product_detail_3";
 
-    public static $statusPaymentSearch = ['id' => 's2id_autogen3_search'];
+    public static $statusOrder = "#s2id_status";
+
+    public static $statusSearch = "#s2id_autogen2_search";
+
+    public static $statusPaymentStatus = "#s2id_order_paymentstatus";
+
+    public static $statusPaymentSearch = "#s2id_autogen3_search";
 
     public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $deleteFirst = ['xpath' => '//input[@id=\'cb0\']'];
+    public static $deleteFirst = "//input[@id=\'cb0\']";
 
-    public static $nameXpath = ['xpath' => '//td[4]/a'];
+    public static $nameXpath = "//td[4]/a'";
     
     //button
     public static $buttonSavePay = "Save + Pay";
@@ -77,7 +77,7 @@ class OrderManagerPage extends AdminJ3Page
 
     public function returnSearch($userName)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $userName . "')]"];
+        $path = "//span[contains(text(), '" . $userName . "')]";
         return $path;
     }
 

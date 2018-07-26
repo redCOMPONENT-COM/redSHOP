@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class GiftCardManagerPage extends AdminJ3Page
 {
@@ -35,11 +35,11 @@ class GiftCardManagerPage extends AdminJ3Page
 
     public static $firstResult = "//input[@id='cb0']";
 
-    public static $getCartStatus = ['xpath'=>"//div[@class='btn-group']/a"];
+    public static $getCartStatus = "//div[@class='btn-group']/a";
 
-    public static $errorValid = ['xpath' => "//div[@id='system-message-container']/div/div"];
+    public static $errorValid = "//div[@id='system-message-container']/div/div";
 
-    public static $getGiftCard = ['xpath' => "//input[@id='cb0']"];
+    public static $getGiftCard = "//input[@id='cb0']";
 
     //message
     public static $messageSuccessUnpublish="items successfully unpublished";

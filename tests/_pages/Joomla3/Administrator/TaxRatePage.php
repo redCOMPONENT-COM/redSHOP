@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class TaxRatePage extends AdminJ3Page
 {
@@ -33,12 +33,12 @@ class TaxRatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_name'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldValue = ['id' => 'jform_tax_rate'];
+	public static $fieldValue = "#jform_tax_rate";
 
 	/**
 	 * @var array

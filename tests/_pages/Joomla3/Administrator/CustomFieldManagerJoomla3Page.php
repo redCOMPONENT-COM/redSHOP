@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class CustomFieldManagerJoomla3Page
 {
@@ -24,15 +24,15 @@ class CustomFieldManagerJoomla3Page
     public static $fieldTitle = "//input[@id='jform_title']";
 
 
-    public static $fieldTypeDropDown = ['id' => 's2id_jform_type'];
+    public static $fieldTypeDropDown = "#s2id_jform_type";
 
-    public static $fieldTypeSearch = ['id' => 's2id_autogen1_search'];
+    public static $fieldTypeSearch = "#s2id_autogen1_search";
 
-    public static $fieldSectionDropDown = ['id' => 's2id_jform_section'];
+    public static $fieldSectionDropDown = "#s2id_jform_section";
 
-    public static $fieldSectionSearch = ['id' => 's2id_autogen2_search'];
+    public static $fieldSectionSearch = "#s2id_autogen2_search";
 
-    public static $filterSearch = ['id' => 'filter_search'];
+    public static $filterSearch = "#filter_search";
 
 
     public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
@@ -95,7 +95,7 @@ class CustomFieldManagerJoomla3Page
 
     public function xPathChoice($typeChoice)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $typeChoice . "')]"];
+        $path = "//span[contains(text(), '" . $typeChoice . "')]";
         return $path;
     }
 

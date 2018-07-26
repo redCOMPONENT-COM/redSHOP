@@ -9,7 +9,7 @@
 /**
  * Class CategoryManagerJ3Page
  *
- * @since  1.4
+ * @since  2.4
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
@@ -23,11 +23,11 @@ class CategoryManagerJ3Page extends AdminJ3Page
     //page name
     public static $pageManageName = "Category Management";
 
-    public static $headPageName = ['xpath' => "//h1"];
+    public static $headPageName = "//h1";
 
     public static $categoryName = "#jform_name";
 
-    public static $categoryFilter = ['id' => 'filter_search'];
+    public static $categoryFilter = "#filter_search";
 
     public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
 
@@ -51,11 +51,11 @@ class CategoryManagerJ3Page extends AdminJ3Page
 
     public static $tabAccessory = ['link' => "Accessories"];
 
-    public static $accessorySearch = ['xpath' => '//div[@id="s2id_category_accessory_search"]//a'];
+    public static $accessorySearch = "//div[@id='s2id_category_accessory_search']//a";
 
-    public static $searchFirst = ['id' => "s2id_autogen1_search"];
+    public static $searchFirst = "#s2id_autogen1_search";
 
-    public static $getAccessory = ['xpath' => "//h3[text()='Accessories']"];
+    public static $getAccessory = "//h3[text()='Accessories']";
 
 
     //templatep

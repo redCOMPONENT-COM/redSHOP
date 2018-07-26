@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.1.0
+ * @since  2.4
  */
 class CategoryPage extends AdminJ3Page
 {
@@ -20,7 +20,7 @@ class CategoryPage extends AdminJ3Page
 	// Page name
 	public static $namePage = "Category Management";
 
-	public static $categoryFilter = ['id' => 'filter_search'];
+	public static $categoryFilter = "#filter_search";
 
 	public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
 
@@ -42,11 +42,11 @@ class CategoryPage extends AdminJ3Page
 
 	public static $tabAccessory = ['link' => "Accessories"];
 
-	public static $accessorySearch = ['xpath' => '//div[@id="s2id_category_accessory_search"]//a'];
+	public static $accessorySearch = "//div[@id='s2id_category_accessory_search']//a";
 
-	public static $searchFirst = ['id' => "s2id_autogen1_search"];
+	public static $searchFirst = "#s2id_autogen1_search";
 
-	public static $getAccessory = ['xpath' => "//h3[text()='Accessories']"];
+	public static $getAccessory = "//h3[text()='Accessories']";
 
 
 	//templatep
@@ -90,7 +90,7 @@ class CategoryPage extends AdminJ3Page
 
 	public function xPathAccessory($accessoryName)
 	{
-		$path = ['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"];
+		$path = "//span[contains(text(), '" . $accessoryName . "')]";
 
 		return $path;
 	}

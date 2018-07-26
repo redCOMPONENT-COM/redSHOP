@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class VoucherManagerPage extends AdminJ3Page
 {
@@ -43,17 +43,17 @@ class VoucherManagerPage extends AdminJ3Page
 
     public static $voucherSearchField = "#filter_search";
 
-    public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]/a"];
+    public static $xPathStatus = "//div[@class='table-responsive']/table/tbody/tr/td[10]/a";
 
-    public static $xPathInvalid = ['xpath' => "//div[@id='system-message-container']/div/div"];
+    public static $xPathInvalid = "//div[@id='system-message-container']/div/div";
 
-    public static $fillProduct = ['id' => 's2id_autogen1'];
+    public static $fillProduct = "#s2id_autogen1";
 
     public static $waitProduct = ['css' => 'span.select2-match'];
 
-    public static $messageContainer = ['id' => 'system-message-container'];
+    public static $messageContainer = "#system-message-container";
 
-	public static $searchField = ['id' => 'filter_search'];
+	public static $searchField = "#filter_search";
 
     //button
     public static $newButton = "New";
@@ -85,7 +85,7 @@ class VoucherManagerPage extends AdminJ3Page
 
     public static $selectorNamePage = '.page-title';
 
-    public static $headPageName = ['xpath' => "//h1"];
+    public static $headPageName = "//h1";
 
 
     //message

@@ -16,62 +16,62 @@ class ShopperGroupJ3Page extends AdminJ3Page
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=';
 
     //Id
-    public static $shopperName = ['id' => 'shopper_group_name'];
+    public static $shopperName = "#shopper_group_name";
 
-    public static $shopperGroupType = ['id' => 'select2-chosen-1'];
+    public static $shopperGroupType = "#select2-chosen-1";
 
-    public static $shopperType = ['id' => 's2id_autogen1_search'];
+    public static $shopperType = "#s2id_autogen1_search";
 
-    public static $customerType = ['id' => 'select2-chosen-2'];
+    public static $customerType = "#select2-chosen-2";
 
-    public static $customerTypeSearch = ['id' => 's2id_autogen2_search'];
+    public static $customerTypeSearch = "#s2id_autogen2_search";
 
-    public static $shopperGroupPortalYes = ['id' => 'shopper_group_portal1-lbl'];
+    public static $shopperGroupPortalYes = "#shopper_group_portal1-lbl";
 
-	public static $shopperGroupPortalNo = ['id' => 'shopper_group_portal0-lbl'];
+	public static $shopperGroupPortalNo = "#shopper_group_portal0-lbl";
 
-    public static $shippingYes = ['id' => 'default_shipping1-lbl'];
+    public static $shippingYes = "#default_shipping1-lbl";
 
-    public static $shippingNo = ['id' => 'default_shipping0-lbl'];
+    public static $shippingNo = "#default_shipping0-lbl";
 
-    public static $shippingRate = ['id' => 'default_shipping_rate'];
+    public static $shippingRate = "#default_shipping_rate";
 
 
-    public static $shippingCheckout = ['id' => 'shopper_group_cart_checkout_itemid'];
+    public static $shippingCheckout = "#shopper_group_cart_checkout_itemid";
 
-    public static $vatNo = ['id' => 'show_price_without_vat0-lbl'];
+    public static $vatNo = "#show_price_without_vat0-lbl";
 
-    public static $vatYes = ['id' => 'show_price_without_vat1-lbl'];
+    public static $vatYes = "#show_price_without_vat1-lbl";
 
-    public static $showPrice = ['id' => 's2id_show_price'];
+    public static $showPrice = "#s2id_show_price";
 
-    public static $showPriceSearch = ['id' => 's2id_autogen6_search'];
+    public static $showPriceSearch = "#s2id_autogen6_search";
 
-    public static $catalogId = ['id' => 's2id_use_as_catalog'];
+    public static $catalogId = "#s2id_use_as_catalog";
 
-    public static $catalogSearch = ['id' => 's2id_autogen7_search'];
+    public static $catalogSearch = "#s2id_autogen7_search";
 
-    public static $quoationNo = ['id' => 'shopper_group_quotation_mode0-lbl'];
+    public static $quoationNo = "#shopper_group_quotation_mode0-lbl";
 
-    public static $quotationYes = ['id' => 'shopper_group_quotation_mode1-lbl'];
+    public static $quotationYes = "#shopper_group_quotation_mode1-lbl";
 
-    public static $publishNo = ['id' => 'published0-lbl'];
+    public static $publishNo = "#published0-lbl";
 
-    public static $publishYes = ['id' => 'published1-lbl'];
+    public static $publishYes = "#published1-lbl";
 
-    public static $categoryFiled = ['id' => 's2id_shopper_group_categories'];
+    public static $categoryFiled = "#s2id_shopper_group_categories";
 
 //    public static $categoryFill = ['xpath' => "//div[@id='s2id_shopper_group_categories']//ul/li//input"];
     
-    public static  $categoryFill = ['xpath'=>"//input[@id='s2id_autogen3']"];
+    public static  $categoryFill = "//input[@id='s2id_autogen3']";
 
     public static $shopperFirst = " //input[@id='cb0']";
 
     public static $shopperFours = "//input[@id='cb3']";
 
-    public static $shopperFirstStatus = ['xpath' => "//tr[1]/td[5]/a"];
+    public static $shopperFirstStatus =  "//tr[1]/td[5]/a";
 
-    public static $nameShopperGroupsFirst = ['xpath' => "//tr[1]/td[3]/a"];
+    public static $nameShopperGroupsFirst = "//tr[1]/td[3]/a";
 
     //message
     public static $saveSuccess = 'Shopper Group Detail Saved';
@@ -86,7 +86,7 @@ class ShopperGroupJ3Page extends AdminJ3Page
 
     public function returnSearch($typeSearch)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $typeSearch . "')]"];
+        $path = "//span[contains(text(), '" . $typeSearch . "')]";
         return $path;
     }
 

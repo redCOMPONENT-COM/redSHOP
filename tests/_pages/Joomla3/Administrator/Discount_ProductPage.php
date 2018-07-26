@@ -1,12 +1,15 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: nhung
- * Date: 04/01/2018
- * Time: 10:37
+ *
+ * Discount Product Page at frontend
+ *
+ * @since  2.4
+ *
+ * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class Discount_ProductPage
 {
+
 
 }

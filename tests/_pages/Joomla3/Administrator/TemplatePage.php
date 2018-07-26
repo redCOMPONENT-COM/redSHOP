@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 
 class TemplatePage extends AdminJ3Page
@@ -34,7 +34,7 @@ class TemplatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_name'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var array

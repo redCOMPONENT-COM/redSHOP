@@ -2,10 +2,15 @@
 
 /**
  *
+ * Configuration Page at frontend
+ *
+ * @since  2.4
+ *
+ * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class ConfigurationPage extends AdminJ3Page
 {
-	//nam page
+	//name page
 	public static $namePage = "Configuration";
 
 	public static $URL = '/administrator/index.php?option=com_redshop&view=configuration';
@@ -27,25 +32,25 @@ class ConfigurationPage extends AdminJ3Page
 
 	public static $showPriceNo = "#show_price0-lbl";
 
-	public static $countryPrice = ['id' => 's2id_default_vat_country'];
+	public static $countryPrice = "#s2id_default_vat_country";
 
-	public static $countrySearchPrice = ['id' => 's2id_autogen35_search'];
+	public static $countrySearchPrice = "#s2id_autogen35_search";
 
-	public static $statePrice = ['id' => 's2id_default_vat_state'];
+	public static $statePrice = "#s2id_default_vat_state";
 
-	public static $stateSearchPrice = ['id' => 's2id_autogen36_search'];
+	public static $stateSearchPrice = "#s2id_autogen36_search";
 
-	public static $vatGroup = ['id' => 's2id_default_vat_group'];
+	public static $vatGroup = "#s2id_default_vat_group";
 
-	public static $vatSearchGroup = ['id' => 's2id_autogen37_search'];
+	public static $vatSearchGroup = "#s2id_autogen37_search";
 
-	public static $varFirstResults = ['xpath' => '//ul[@id=\'select2-results-37\']'];
+	public static $varFirstResults = "//ul[@id=\'select2-results-37\']";
 
-	public static $vatDefaultBase = ['id' => 's2id_vat_based_on'];
+	public static $vatDefaultBase = "#s2id_vat_based_on";
 
-	public static $vatSearchDefaultBase = ['id' => 's2id_autogen38_search'];
+	public static $vatSearchDefaultBase = "#'s2id_autogen38_search";
 
-	public static $searchDefaultFirstResult = ['xpath' => '//ul[@id=\'select2-results-38\']'];
+	public static $searchDefaultFirstResult = "//ul[@id=\'select2-results-38\']";
 
 	public static $applyDiscountAfter = "#apply_vat_on_discount0-lbl";
 
@@ -62,15 +67,15 @@ class ConfigurationPage extends AdminJ3Page
 	public static $vatNumberYes = "#required_vat_number1-lbl";
 
 	//xPath feature
-	public static $priceTab = ['xpath' => "//h3[text()='Main Price Settings']"];
+	public static $priceTab = "//h3[text()='Main Price Settings']";
 
-	public static $comparisonTab = ['xpath' => "//h3[text()='Comparison']"];
+	public static $comparisonTab = "//h3[text()='Comparison']";
 
-	public static $stockRoomTab = ['xpath' => "//h3[text()='Stockroom']"];
+	public static $stockRoomTab = "//h3[text()='Stockroom']";
 
-	public static $editInline = ['xpath' => "//h3[text()='Inline Edit']"];
+	public static $editInline = "//h3[text()='Inline Edit']";
 
-	public static $ratingTab = ['xpath' => "//h3[text()='Rating']"];
+	public static $ratingTab = "//h3[text()='Rating']";
 
 	//button
 	public static $featureSetting = "Feature Settings";
@@ -99,15 +104,15 @@ class ConfigurationPage extends AdminJ3Page
 
 	public static $enableAjaxYes = "#ajax_cart_box1-lbl";
 
-	public static $defaultCart = ['id' => 's2id_default_cart_checkout_itemid'];
+	public static $defaultCart = "#s2id_default_cart_checkout_itemid";
 
-	public static $defaultCartSearch = ['id' => 's2id_autogen42_search'];
+	public static $defaultCartSearch = "#s2id_autogen42_search";
 
-	public static $buttonCartLead = ['id' => 's2id_addtocart_behaviour'];
+	public static $buttonCartLead = "#s2id_addtocart_behaviour";
 
-	public static $buttonCartSearch = ['id' => 's2id_autogen43_search'];
+	public static $buttonCartSearch = "#s2id_autogen43_search";
 
-	public static $firstCartSearch = ['xpath' => '//ul[@id=\'select2-results-43\']'];
+	public static $firstCartSearch = "//ul[@id=\'select2-results-43\']";
 
 	public static $onePageNo = "#onestep_checkout_enable0-lbl";
 
@@ -127,7 +132,7 @@ class ConfigurationPage extends AdminJ3Page
 
 	public static $quantityInCart = "#default_quantity";
 
-	public static $defaultproductQuantity = ['id' => 'default_quantity_selectbox_value'];
+	public static $defaultproductQuantity = "#default_quantity_selectbox_value";
 
 	public static $minimunOrderTotal = "#minimum_order_total";
 
@@ -165,9 +170,9 @@ class ConfigurationPage extends AdminJ3Page
 
 	public static $calculateShippingBasedSubTotal = "#shipping_aftersubtotal-lbl";
 
-	public static $valueDiscountCouponId = ['id' => 's2id_discoupon_percent_or_total'];
+	public static $valueDiscountCouponId = "#s2id_discoupon_percent_or_total";
 
-	public static $valueDiscountCouponSearch = ['id' => 's2id_autogen40_search'];
+	public static $valueDiscountCouponSearch = "#s2id_autogen40_search";
 
 	public static $discountVoucherCoupon = 'Discount/voucher/coupon';
 

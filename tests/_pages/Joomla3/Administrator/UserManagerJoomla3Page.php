@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class UserManagerJoomla3Page
 {
@@ -23,9 +23,9 @@ class UserManagerJoomla3Page
 
     public static $URLJoomla = '/administrator/index.php?option=com_users&view=users';
 
-    public static $userJoomla = ['xpath' => "//table[@id='userList']//tbody/tr[1]"];
+    public static $userJoomla = "//table[@id='userList']//tbody/tr[1]";
 
-    public static $filter = ['id' => 'filter'];
+    public static $filter = "#filter";
 
     public static $URLShipping = '/administrator/index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=1&cid[]=0';
 
@@ -73,7 +73,7 @@ class UserManagerJoomla3Page
 
     public static $selectFirst = "//input[@id='cb0']";
 
-    public static $headPage = ['xpath' => "//h1"];
+    public static $headPage = "//h1";
 
 
     //button
@@ -108,9 +108,9 @@ class UserManagerJoomla3Page
     //selector
 
 
-    public static $xPathError = ['xpath' => "//div[@id='system-message']/div/div/p[1]"];
+    public static $xPathError = "//div[@id='system-message']/div/div/p[1]";
 
-    public static $errorUserReady = ['xpath' => "//div[@id='system-message']/div/h4"];
+    public static $errorUserReady = "//div[@id='system-message']/div/h4";
 
     public static $selectorPageManagement = '.page-title';
 
