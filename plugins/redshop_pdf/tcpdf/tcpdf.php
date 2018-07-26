@@ -35,6 +35,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
     protected $autoloadLanguage = true;
 
     /**
+<<<<<<< HEAD
      * [$fontFile description]
      * @var string
      */
@@ -157,9 +158,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
+
         $this->TCPDF->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_INVOICE_TITLE', $orderId));
         $this->settingTCPDF();
         $this->TCPDF->writeHTML($pdfHtml);
+
 
         $invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
 
@@ -181,7 +184,9 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         JFolder::create($invoiceFolder);
 
         ob_end_clean();
+
         $this->TCPDF->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", $code);
+
 
         return $invoicePdf;
     }
@@ -222,7 +227,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
             $message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
             $message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
             $message = Template::replaceTemplate($ordersDetail, $message, true);
-            $this->TCPDF->AddPage();
+
             $this->TCPDF->WriteHTML($message, true, false, true, false, '');
         }
 
@@ -366,3 +371,4 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $this->TCPDF->Output('Order_' . $orderData->order_id . ".pdf", "D");
     }
 }
+
