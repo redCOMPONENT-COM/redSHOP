@@ -68,8 +68,6 @@ class OrderCest
 
 		$this->status        = "Confirmed";
 		$this->paymentStatus = "Paid";
-
-
 	}
 
 	/**
