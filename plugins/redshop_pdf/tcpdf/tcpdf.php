@@ -35,6 +35,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
     protected $autoloadLanguage = true;
 
     /**
+<<<<<<< HEAD
      * [$fontFile description]
      * @var string
      */
@@ -57,6 +58,12 @@ class PlgRedshop_PdfTcPDF extends JPlugin
      * @protected
      */
     protected $CoreFonts;
+=======
+     * [$fontPDF description]
+     * @var  null
+     */
+    protected $fontPDF = null;
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
     /**
      * __construct
@@ -67,6 +74,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
     {
         parent::__construct($subject, $config);
 
+<<<<<<< HEAD
         $this->TCPDF = new PlgRedshop_PdfTcPDFHelper();
         $this->TCPDF->setFontSubsetting(true);
         $this->TCPDF->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
@@ -133,6 +141,9 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $this->fontFile = $ext[1] . '.' . $ext[0];
 
         return true;
+=======
+        $this->fontPDF = $this->params->get('fontPDF');
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
     }
 
     /**
@@ -157,15 +168,29 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
+<<<<<<< HEAD
         $this->TCPDF->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_INVOICE_TITLE', $orderId));
         $this->settingTCPDF();
         $this->TCPDF->writeHTML($pdfHtml);
+=======
+        $pdfObj = new PlgRedshop_PdfTcPDFHelper;
+        $pdfObj->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_INVOICE_TITLE', $orderId));
+        $pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $pdfObj->setHeaderFont(array($this->fontPDF, '', 8));
+        $pdfObj->SetFont($this->fontPDF, "", 6);
+        $pdfObj->AddPage();
+        $pdfObj->writeHTML($pdfHtml);
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
         $invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
 
         if (!$isEmail) {
             ob_end_clean();
+<<<<<<< HEAD
             $this->TCPDF->Output($invoiceFolder . '/' . $orderId . ".pdf", $code);
+=======
+            $pdfObj->Output($invoiceFolder . '/' . $orderId . ".pdf", $code);
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
             return $orderId;
         }
@@ -181,7 +206,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         JFolder::create($invoiceFolder);
 
         ob_end_clean();
+<<<<<<< HEAD
         $this->TCPDF->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", $code);
+=======
+        $pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", $code);
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
         return $invoicePdf;
     }
@@ -207,8 +236,16 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $cartHelper = rsCarthelper::getInstance();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
+<<<<<<< HEAD
         $this->TCPDF->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_MULTI_INVOICE_TITLE'));
         $this->settingTCPDF();
+=======
+        $pdfObj = new PlgRedshop_PdfTcPDFHelper;
+        $pdfObj->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_MULTI_INVOICE_TITLE'));
+        $pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $pdfObj->setHeaderFont(array($this->fontPDF, '', 8));
+        $pdfObj->SetFont($this->fontPDF, "", 6);
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
         foreach ($orderIds as $orderId) {
             $ordersDetail = RedshopHelperOrder::getOrderDetails($orderId);
@@ -222,12 +259,21 @@ class PlgRedshop_PdfTcPDF extends JPlugin
             $message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
             $message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
             $message = Template::replaceTemplate($ordersDetail, $message, true);
+<<<<<<< HEAD
             $this->TCPDF->AddPage();
             $this->TCPDF->WriteHTML($message, true, false, true, false, '');
         }
 
         $invoicePdfName = "multiprintorder" . round(microtime(true) * 1000);
         $this->TCPDF->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf", "F");
+=======
+            $pdfObj->AddPage();
+            $pdfObj->WriteHTML($message, true, false, true, false, '');
+        }
+
+        $invoicePdfName = "multiprintorder" . round(microtime(true) * 1000);
+        $pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf", "F");
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
         $storeFiles = array('index.html', '' . $invoicePdfName . '.pdf');
 
         foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) {
@@ -261,6 +307,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
             $pdf->backgroundImage = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftCard->giftcard_bgimage;
         }
 
+<<<<<<< HEAD
         $this->TCPDF->SetCreator(PDF_CREATOR);
         $this->TCPDF->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
         $this->TCPDF->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
@@ -272,6 +319,22 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $this->TCPDF->writeHTML($template, true, false, false, false, '');
         $pdfName = time();
         $this->TCPDF->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $pdfName . ".pdf", "F");
+=======
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(0);
+        $pdf->SetFooterMargin(0);
+        $pdf->setPrintFooter(false);
+        $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+        $pdf->SetFont($this->fontPDF, '', 18);
+        $pdf->AddPage();
+
+        $pdf->writeHTML($template, true, false, false, false, '');
+        $pdfName = time();
+        $pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $pdfName . ".pdf", "F");
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
         return $pdfName;
     }
@@ -296,6 +359,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
+<<<<<<< HEAD
 
         $this->TCPDF->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_SHIPPED_INVOICE_TITLE'));
         $pdfObj->SetMargins(20, 85, 20);
@@ -306,6 +370,21 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
         $pdfName = 'shipped_' . $orderId;
         $this->TCPDF->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $pdfName . ".pdf", "F");
+=======
+        $pdfObj = new PlgRedshop_PdfTcPDFHelper;
+
+        $pdfObj->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_SHIPPED_INVOICE_TITLE'));
+        $pdfObj->SetMargins(20, 85, 20);
+        $pdfObj->setHeaderFont(array($this->fontPDF, '', 8));
+        $pdfObj->SetFont($this->fontPDF, "", 6);
+
+        // Writing Body area
+        $pdfObj->AddPage();
+        $pdfObj->WriteHTML($pdfHtml, true, false, true, false, '');
+
+        $pdfName = 'shipped_' . $orderId;
+        $pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $pdfName . ".pdf", "F");
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
 
         return $pdfName;
     }
@@ -330,12 +409,24 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
+<<<<<<< HEAD
         $this->TCPDF->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_ORDER_STOCK_NOTE_TITLE', $orderData->order_id));
         $this->TCPDF->SetMargins(15, 15, 15);
         $this->TCPDF->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
         $this->settingTCPDF(10, 10);
         $this->TCPDF->WriteHTML($pdfHtml);
         $this->TCPDF->Output('order_stock_note_' . $orderData->order_id . '.pdf', 'D');
+=======
+        $pdfObj = new PlgRedshop_PdfTcPDFHelper;
+        $pdfObj->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_ORDER_STOCK_NOTE_TITLE', $orderData->order_id));
+        $pdfObj->SetMargins(15, 15, 15);
+        $pdfObj->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
+        $pdfObj->setHeaderFont(array($this->fontPDF, '', 10));
+        $pdfObj->SetFont($this->fontPDF, "", 10);
+        $pdfObj->AddPage();
+        $pdfObj->WriteHTML($pdfHtml);
+        $pdfObj->Output('order_stock_note_' . $orderData->order_id . '.pdf', 'D');
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
     }
 
     /**
@@ -358,6 +449,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
+<<<<<<< HEAD
         $this->TCPDF->SetTitle(JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
         $this->TCPDF->SetMargins(15, 15, 15);
         $this->TCPDF->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
@@ -366,3 +458,16 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $this->TCPDF->Output('Order_' . $orderData->order_id . ".pdf", "D");
     }
 }
+=======
+        $pdfObj = new PlgRedshop_PdfTcPDFHelper;
+        $pdfObj->SetTitle(JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
+        $pdfObj->SetMargins(15, 15, 15);
+        $pdfObj->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
+        $pdfObj->setHeaderFont(array($this->fontPDF, '', 10));
+        $pdfObj->SetFont($this->fontPDF, '', 12);
+        $pdfObj->AddPage();
+        $pdfObj->WriteHTML($pdfHtml);
+        $pdfObj->Output('Order_' . $orderData->order_id . ".pdf", "D");
+    }
+}
+>>>>>>> ff1146c33e294016e15be7f31da73d1316f7874b
