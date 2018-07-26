@@ -24,14 +24,6 @@ class PlgRedshop_PdfTcPDFHelper extends TCPDF
 	public $backgroundImage;
 
 	/**
-	 * @TODO: Add param config for plugin.
-	 * Default font for generate PDF.
-	 *
-	 * @var  string
-	 */
-	public $defaultFont = 'times';
-
-	/**
 	 * This is the class constructor.
 	 * It allows to set up the page format, the orientation and the measure unit used in all the methods (except for the font sizes).
 	 *
@@ -49,14 +41,6 @@ class PlgRedshop_PdfTcPDFHelper extends TCPDF
 		$isPdfA = false)
 	{
 		parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskCache, $isPdfA);
-
-		$this->setFontSubsetting(true);
-		$this->SetFont($this->defaultFont, '', 12);
-		$this->setHeaderFont(array($this->defaultFont, '', 10));
-		$this->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-		$this->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-		$this->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$this->SetMargins(8, 8, 8);
 	}
 
 	/**
