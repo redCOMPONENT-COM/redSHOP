@@ -35,7 +35,6 @@ class PlgRedshop_PdfTcPDF extends JPlugin
     protected $autoloadLanguage = true;
 
     /**
-<<<<<<< HEAD
      * [$fontFile description]
      * @var string
      */
