@@ -41,7 +41,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
-		$username = $I->grabValueFrom(\OrderManagerPage::$fistName);
+		$username = $I->grabTextFrom(\OrderManagerPage::$fistName);
 
 		if($username != $nameUser)
 		{
