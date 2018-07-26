@@ -21,69 +21,69 @@ use AcceptanceTester\UserManagerJoomla3Steps;
  */
 class CheckoutChangeQuantityProductCest
 {
-     /**
-     * @var string
-     */
+	 /**
+	 * @var string
+	 */
 	public $categoryName;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public $productName;
 
-    /**
-     * @var int
-     */
-    public $productPrice;
+	/**
+	 * @var int
+	 */
+	public $productPrice;
 
-    /**
-     * @var string
-     */
-    public $total;
+	/**
+	 * @var string
+	 */
+	public $total;
 
-    /**
-     * @var int
-     */
-    public $randomProductNumber;
+	/**
+	 * @var int
+	 */
+	public $randomProductNumber;
 
-    /**
-     * @var int
-     */
-    public $randomProductPrice;
+	/**
+	 * @var int
+	 */
+	public $randomProductPrice;
 
-    /**
-     * @var string
-     */
-    public $userName;
+	/**
+	 * @var string
+	 */
+	public $userName;
 
-    /**
-     * @var string
-     */
-    public $password;
+	/**
+	 * @var string
+	 */
+	public $password;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public $email;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public $shopperGroup;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public $group;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public $firstName;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public $lastName;
 
 	/**
@@ -97,8 +97,8 @@ class CheckoutChangeQuantityProductCest
 		$this->faker = Faker\Factory::create();
 		$this->productName = $this->faker->bothify('Product Name ?##?');;
 		$this->categoryName = $this->faker->bothify('Category Name ?##?');
-		$this->productPrice = 50;
-		$this->total = "DKK 50,00";;
+		$this->subtotal = "DKK 1.000,00";
+		$this->total = "DKK 1.000,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = 100;
 		//User
@@ -152,7 +152,7 @@ class CheckoutChangeQuantityProductCest
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutChangeQuantityProductSteps($scenario);
-		$I->checkoutChangeQuantity($this->categoryName, $this->userName, $this->password);
+		$I->checkoutChangeQuantity($this->categoryName, $this->total);
 
 		$I->wantTo('I want to login Site page with user just create');
 		$I->doFrontendLogout();

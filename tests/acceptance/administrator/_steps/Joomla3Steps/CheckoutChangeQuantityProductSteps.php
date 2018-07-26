@@ -17,7 +17,7 @@ namespace AcceptanceTester;
  */
 class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 {
-	public function checkoutChangeQuantity($category, $userName, $password)
+	public function checkoutChangeQuantity($category, $total)
 	{
 		$I = $this;
 		$I->amOnPage(\CheckoutChangeQuantityProductPage::$url);
@@ -48,6 +48,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
