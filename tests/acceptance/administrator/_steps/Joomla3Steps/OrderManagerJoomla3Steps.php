@@ -41,19 +41,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
-		$username = $I->grabValueFrom(\OrderManagerPage::$fistName);
-		$I->see($username);
-		if($username != $nameUser)
-		{
-			$I->reloadPage();
-			$I->click(\OrderManagerPage::$userId);
-			$I->waitForElement(\OrderManagerPage::$userSearch, 30);
-			$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-			$I->waitForElement($userOrderPage->returnSearch($nameUser));
-			$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
-			$I->click($userOrderPage->returnSearch($nameUser));
-			$I->waitForElement(\OrderManagerPage::$fistName, 30);
-		}
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
