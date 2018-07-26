@@ -73,7 +73,6 @@ class RoboFile extends \Robo\Tasks
 		$this->_exec("vendor/bin/codecept build");
 
 		$this->taskCodecept()
-			->arg('--steps')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -93,7 +92,6 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskCodecept()
 			->arg('--tap')
-			->arg('--steps')
 			->arg('--fail-fast')
 			->arg($folder . '/')
 			->run()
@@ -134,8 +132,6 @@ class RoboFile extends \Robo\Tasks
 
 		// Install Joomla + redSHOP
 		$this->taskCodecept()
-			// ->arg('--steps')
-			// ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -145,8 +141,6 @@ class RoboFile extends \Robo\Tasks
 		// Run specific task
 		$this->taskCodecept()
 			->test('tests/' . $testCase)
-			 ->arg('--steps')
-			 ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->run()
