@@ -478,17 +478,20 @@ class RedshopHelperCartTag
 						$productPrice .= RedshopHelperProductPrice::formattedPrice($cart[$i]['product_price'], true);
 					}
 
-					$productOldPrice = $product->product_price;
-
-					if ($isApplyVAT)
+					if (isset($cart[$i]['product_old_price']))
 					{
-						$productOldPrice += RedshopHelperProduct::getProductTax($productId, $productOldPrice);
+						$productOldPrice = $cart[$i]['product_old_price'];
+
+						if (!$isApplyVAT)
+						{
+							$productOldPrice = $cart[$i]['product_old_price_excl_vat'];
+						}
+
+						// Set Product Old Price without format
+						$productOldPriceNoFormat = $productOldPrice;
+
+						$productOldPrice = RedshopHelperProductPrice::formattedPrice($productOldPrice, true);
 					}
-
-					// Set Product Old Price without format
-					$productOldPriceNoFormat = $productOldPrice;
-
-					$productOldPrice = RedshopHelperProductPrice::formattedPrice($productOldPrice, true);
 				}
 
 				$productPrice .= "</div>";
