@@ -15,5 +15,8 @@
  */
 class MediaManagerPage
 {
+    /**
+     * @var string
+     */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=media';
 }

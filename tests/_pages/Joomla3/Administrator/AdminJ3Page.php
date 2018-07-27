@@ -25,8 +25,8 @@ abstract class AdminJ3Page
      */
     public static $link = ['link' => 'Install from URL'];
 
-    /*
-     *
+    /**
+     * @var string
      */
     public static $urlID = "#install_url";
 
@@ -460,7 +460,9 @@ abstract class AdminJ3Page
 	}
 
     /**
-     * @param $value
+     * Function get value
+     * @param String $value Value string
+     *
      * @return array
      */
 	public static function xPathATag($value)
@@ -469,7 +471,11 @@ abstract class AdminJ3Page
     }
 
     /**
-     * @param $id
+     * Function get ID
+     *
+     * @param String $id
+     *
+     * @return string
      */
     public static function radioCheckID($id)
     {
