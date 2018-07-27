@@ -465,7 +465,8 @@ class RedshopHelperAttribute
 						$chkListAttributes,
 						'value',
 						'text',
-						$selectedProperty
+						$selectedProperty,
+						$propertyid
 					);
 
 					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";
