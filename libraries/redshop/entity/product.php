@@ -366,6 +366,14 @@ class RedshopEntityProduct extends RedshopEntity
 		return $this;
 	}
 
+	/**
+	 * @param   integer $relatedId Related product id
+	 * @param   boolean $reset     Force query
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   2.1.0
+	 */
 	public function getRelated($relatedId, $reset = false)
 	{
 		static $relatedProducts;
@@ -376,12 +384,12 @@ class RedshopEntityProduct extends RedshopEntity
 		}
 
 		$db      = JFactory::getDbo();
-		$query   = $db->getQuery();
+		$query   = $db->getQuery(true);
 		$orderBy = $db->quoteName('p.product_id') . ' ASC ';
 
 		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
 		{
-			$orderBy = $db->quoteName(Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'));
+			$orderBy = Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
 		}
 
 		// Get related by current product
@@ -495,6 +503,13 @@ class RedshopEntityProduct extends RedshopEntity
 		return $relatedProducts;
 	}
 
+	/**
+	 * @param   array $productIds Product ids
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
 	protected function getRelatedProductsByIds($productIds)
 	{
 		$db              = JFactory::getDbo();
