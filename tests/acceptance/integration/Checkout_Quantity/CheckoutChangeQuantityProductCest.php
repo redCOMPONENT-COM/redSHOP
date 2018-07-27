@@ -41,6 +41,11 @@ class CheckoutChangeQuantityProductCest
 	 */
 	public $total;
 
+    /**
+     * @var string
+     */
+    public $subtotal;
+
 	/**
 	 * @var int
 	 */
