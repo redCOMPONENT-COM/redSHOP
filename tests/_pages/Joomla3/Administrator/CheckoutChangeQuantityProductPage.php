@@ -32,5 +32,5 @@ class CheckoutChangeQuantityProductPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $updateCartButton = "//img[@onclick=\"document.update_cart0.task.value='update';document.update_cart0.submit();\"]";
+	public static $updateCartButton = "//img[@class='update_cart']";
 }
