@@ -43,7 +43,7 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $fistName = "#firstname";
+    public static $fistName = "//input[@id=\"firstname\"]";
 
     /**
      * @var string
