@@ -375,9 +375,8 @@ class RedshopEntityProduct extends RedshopEntity
 			return $relatedProducts;
 		}
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery();
-
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery();
 		$orderBy = $db->quoteName('p.product_id') . ' ASC ';
 
 		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
@@ -418,24 +417,7 @@ class RedshopEntityProduct extends RedshopEntity
 					$extraQuery->order($db->quoteName(Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD')));
 				}
 
-				$extraQuery->select('*')
-					->from($db->quoteName('#__redshop_product_related', 'r'))
-					->where($db->quoteName('r.product_id') . ' IN (' . implode(',', $productIds) . ' ) '
-						. ' OR ' . $db->quoteName('r.related_id') . ' IN ( ' . implode(',', $productIds) . ' ) '
-					);
-				$list = $db->setQuery($extraQuery)->loadObjectList();
-
-				foreach ($list as $productRelated)
-				{
-					if ($productRelated->product_id == $this->getId())
-					{
-						$relatedProducts[] = $productRelated->related_id;
-					}
-					else
-					{
-						$relatedProducts[] = $productRelated->product_id;
-					}
-				}
+				$relatedProducts = $this->getRelatedProductsByIds($productIds);
 
 				if (empty($relatedProducts))
 				{
@@ -505,9 +487,44 @@ class RedshopEntityProduct extends RedshopEntity
 				$orderBy = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) DESC";
 			}
 		}
+
 		$query->order($orderBy);
 
 		$relatedProducts = $db->setQuery($query)->loadObjectlist();
+
+		return $relatedProducts;
+	}
+
+	protected function getRelatedProductsByIds($productIds)
+	{
+		$db              = JFactory::getDbo();
+		$query           = $db->getQuery(true);
+		$relatedProducts = array();
+
+		$query->select('*')
+			->from($db->quoteName('#__redshop_product_related', 'r'))
+			->where($db->quoteName('r.product_id') . ' IN (' . implode(',', $productIds) . ' ) '
+				. ' OR ' . $db->quoteName('r.related_id') . ' IN ( ' . implode(',', $productIds) . ' ) '
+			);
+
+		$list = $db->setQuery($query)->loadObjectList();
+
+		if (!$list)
+		{
+			return $relatedProducts;
+		}
+
+		foreach ($list as $productRelated)
+		{
+			if ($productRelated->product_id == $this->getId())
+			{
+				$relatedProducts[] = $productRelated->related_id;
+			}
+			else
+			{
+				$relatedProducts[] = $productRelated->product_id;
+			}
+		}
 
 		return $relatedProducts;
 	}
