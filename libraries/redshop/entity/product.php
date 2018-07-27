@@ -53,7 +53,7 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
-	 * @param   boolean  $reload  Force reload even it's cached
+	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
@@ -70,7 +70,7 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
-	 * @param   boolean  $reload  Force reload even it's cached
+	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
@@ -89,7 +89,7 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Method for get child products
 	 *
-	 * @param   boolean  $reload  Force reload even it's cached
+	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
@@ -108,8 +108,8 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Method for set categories to this product
 	 *
-	 * @param   array    $ids             Array of categories' ids
-	 * @param   boolean  $removeAssigned  Remove all assigned categories
+	 * @param   array   $ids            Array of categories' ids
+	 * @param   boolean $removeAssigned Remove all assigned categories
 	 *
 	 * @return  mixed                     A database cursor resource on success, boolean false on failure.
 	 */
@@ -160,7 +160,7 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Method for check if this product exist in category.
 	 *
-	 * @param   integer  $id  ID of category
+	 * @param   integer $id ID of category
 	 *
 	 * @return  boolean
 	 */
@@ -275,8 +275,8 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Assign a product with a custom field
 	 *
-	 * @param   integer  $fieldId  Field id
-	 * @param   string   $value    Field value
+	 * @param   integer $fieldId Field id
+	 * @param   string  $value   Field value
 	 *
 	 * @return boolean
 	 */
@@ -366,7 +366,7 @@ class RedshopEntityProduct extends RedshopEntity
 		return $this;
 	}
 
-	public function getRelated ($relatedId, $reset = false)
+	public function getRelated($relatedId, $reset = false)
 	{
 		static $relatedProducts;
 
@@ -375,141 +375,140 @@ class RedshopEntityProduct extends RedshopEntity
 			return $relatedProducts;
 		}
 
-		$and             = "";
-		$orderby         = "ORDER BY p.product_id ASC ";
-		$orderby_related = "";
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery();
+
+		$orderBy = $db->quoteName('p.product_id') . ' ASC ';
 
 		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
 		{
-			$orderby         = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
-			$orderby_related = "";
+			$orderBy = $db->quoteName(Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'));
 		}
 
+		// Get related by current product
 		if ($this->hasId())
 		{
 			// Sanitize ids
-			$productIds = explode(',', $this->getId());
-			$productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+			// @TODO Consider use productId as integer instead string and explode
+			$productIds      = explode(',', $this->getId());
+			$productIds      = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+			$finalTypeResult = array();
 
 			if (RedshopHelperUtility::isRedProductFinder())
 			{
-				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder_datepicker'";
-				$this->_db->setQuery($q);
-				$finaltypetype_result = $this->_db->loadObject();
-			}
-			else
-			{
-				$finaltypetype_result = array();
+				$finalTypeResult = $db->setQuery(
+					$db->getQuery(true)
+						->select($db->quoteName('extrafield'))
+						->from($db->quoteName('#__redshop_redproductfinder_types'))
+						->where($db->quoteName('type_select') . ' = ' . $db->quote('Productfinder_datepicker'))
+				)->loadObject();
 			}
 
-			$and .= "AND r.product_id IN (" . implode(',', $productIds) . ") ";
+			$query->where($db->quoteName('r.product_id') . ' IN (' . implode(',', $productIds) . ') ');
 
 			if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT'))
 			{
-				if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering ASC" || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering DESC")
+				$extraQuery = $db->getQuery(true);
+
+				if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering ASC"
+					|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering DESC"
+				)
 				{
-					$orderby         = "";
-					$orderby_related = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
+					$orderBy = "";
+					$extraQuery->order($db->quoteName(Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD')));
 				}
 
-				$InProduct = "";
+				$extraQuery->select('*')
+					->from($db->quoteName('#__redshop_product_related', 'r'))
+					->where($db->quoteName('r.product_id') . ' IN (' . implode(',', $productIds) . ' ) '
+						. ' OR ' . $db->quoteName('r.related_id') . ' IN ( ' . implode(',', $productIds) . ' ) '
+					);
+				$list = $db->setQuery($extraQuery)->loadObjectList();
 
-				$query = "SELECT * FROM " . $this->_table_prefix . "product_related AS r "
-					. "WHERE r.product_id IN (" . implode(',', $productIds) . ") OR r.related_id IN (" . implode(',', $productIds) . ")" . $orderby_related . "";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
-
-				$relatedArr = array();
-
-				for ($i = 0, $in = count($list); $i < $in; $i++)
+				foreach ($list as $productRelated)
 				{
-					if ($list[$i]->product_id == $this->getId())
+					if ($productRelated->product_id == $this->getId())
 					{
-						$relatedArr[] = $list[$i]->related_id;
+						$relatedProducts[] = $productRelated->related_id;
 					}
 					else
 					{
-						$relatedArr[] = $list[$i]->product_id;
+						$relatedProducts[] = $productRelated->product_id;
 					}
 				}
 
-				if (empty($relatedArr))
+				if (empty($relatedProducts))
 				{
-					return array();
+					return $relatedProducts;
 				}
 
 				// Sanitize ids
-				$relatedArr = Joomla\Utilities\ArrayHelper::toInteger($relatedArr);
+				$relatedArr = Joomla\Utilities\ArrayHelper::toInteger($relatedProducts);
 				$relatedArr = array_unique($relatedArr);
 
-				$query = "SELECT " . $this->getId() . " AS mainproduct_id,p.* "
-					. "FROM " . $this->_table_prefix . "product AS p "
-					. "WHERE p.published = 1 ";
-				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
-				$query .= $orderby;
+				$extraQuery->clear()
+					->select($this->getId() . ' AS ' . $db->quoteName('mainproduct_id'))
+					->select($db->quoteName('p.*'))
+					->from($db->quoteName('#__redshop_product', 'p'))
+					->where($db->quoteName('p.published') . ' = 1')
+					->where($db->quoteName('p.product_in') . ' IN ( ' . implode(', ', $relatedArr) . ' ) ')
+					->order($orderBy);
 
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
+				$relatedProducts = $db->setQuery($query)->loadObjectlist();
 
-				return $list;
+				return $relatedProducts;
 			}
 		}
 
 		if ($relatedId != 0)
 		{
-			$and .= "AND r.related_id = " . (int) $relatedId . " ";
+			$query->where($db->quoteName('r.related_id') . ' = ' . (int) $relatedId);
 		}
 
-		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
+		if (!empty($finalTypeResult) && $finalTypeResult->extrafield != ''
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			$add_e = ",e.*";
-		}
-		else
-		{
-			$add_e = " ";
+			$query->select($db->quoteName('e') . '.*');
 		}
 
-		$query = "SELECT r.product_id AS mainproduct_id,p.* " . $add_e . " "
-			. "FROM " . $this->_table_prefix . "product_related AS r "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = r.related_id ";
+		$query->select($db->quoteName('r.product_id', 'mainproduct_id'))
+			->from($db->quoteName('#__redshop_product_related', 'r'))
+			->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON ' . $db->quoteName('p.product_id') . ' = ' . $db->quoteName('r.related_id'));
 
-		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
+		if (!empty($finalTypeResult) && !empty($finalTypeResult->extrafield)
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
 				|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			$query .= " LEFT JOIN " . $this->_table_prefix . "fields_data  AS e ON p.product_id = e.itemid ";
+			$query->leftJoin($db->quoteName('#__redshop_fields_data', 'e') . ' ON  ' . $db->quoteName('p.product_id') . ' = ' . $db->quoteName('e.itemid'));
 		}
 
-		$query .= " WHERE p.published = 1 ";
+		$query->where($db->quoteName('p.published') . ' = 1');
 
-		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
+		if (!empty($finalTypeResult) && $finalTypeResult->extrafield != ''
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			$query .= " AND e.fieldid = " . (int) $finaltypetype_result->extrafield . " AND e.section=17 ";
+			$query->where($db->quoteName('e.fieldid') . ' = ' . (int) $finalTypeResult->extrafield)
+				->where($db->quoteName('e.section') . ' = 17');
 		}
 
-		$query .= " $and GROUP BY r.related_id ";
+		$query->group($db->quoteName('r.related_id'));
 
 		if ((Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
 			|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
 			if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC')
 			{
-				$s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) ASC";
+				$orderBy = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) ASC";
 			}
 			else
 			{
-				$s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) DESC";
+				$orderBy = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) DESC";
 			}
-
-			$query .= " ORDER BY " . $s;
 		}
-		else
-		{
-			$query .= " $orderby ";
-		}
+		$query->order($orderBy);
 
-		return $this->_db->setQuery($query)->loadObjectlist();
+		$relatedProducts = $db->setQuery($query)->loadObjectlist();
+
+		return $relatedProducts;
 	}
 }
