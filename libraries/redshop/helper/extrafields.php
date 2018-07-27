@@ -1754,7 +1754,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  array
 	 *
-	 * @since 2.0.3
+	 * @since   2.0.3
 	 */
 	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = null, $published = 1, $required = 0)
 	{
