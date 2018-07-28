@@ -15,11 +15,13 @@
  */
 class ProductManagerPage extends AdminJ3Page
 {
-
-
 	public static $namePage="Product Management";
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
+
+    public static $username = ['id' => 'username'];
+
+    public static $password = ['id' => 'password'];
 
     public static $categorySearch = ['id' => 's2id_category_id'];
     
@@ -88,8 +90,24 @@ class ProductManagerPage extends AdminJ3Page
     public static $buttonDeleteAttribute = 'Delete attribute';
     
     public static $buttonProductAttribute = 'Product Attributes';
-    
-    
+
+    public static $buttonAddToCart = ['xpath' => '//span[contains(@class, \'btn-primary\')]'];
+
+    public static $buttonGoToCheckOut = ['id' => 'mod_cart_checkout_ajax'];
+
+    public static $buttonSubmit = ['id' => 'coupon_button'];
+
+    public static $buttonCheckOut = ['xpath' => '//input[@ value="Checkout"]'];
+
+    public static $buttonLogin = ['xpath' => '//input[@ value="Log in"]'];
+
+    public static $iconEdit = ['xpath' => '//a[@ title="Edit order"]'];
+
+    public static $giftCode = ['id' => 'coupon_input'];
+
+    public static $quanlity = [];
+
+
     //tab 
      public static $attributeTab = ['xpath' => '//h3[text()=\'Product Attributes\']'];
     

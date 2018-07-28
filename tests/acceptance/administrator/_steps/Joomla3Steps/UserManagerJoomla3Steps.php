@@ -425,14 +425,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText(\UserManagerJoomla3Page::$namePage, 30, \UserManagerJoomla3Page::$headPage);
         $I->filterListBySearching($name, $functionName = \UserManagerJoomla3Page::$filter);
     }
-
     /**
-     * Function to Delete User
-     *
-     * @param   String $name Name of the User which is to be Deleted
-     * @param   Boolean $deleteJoomlaUser Boolean Parameter to decide weather to delete Joomla! user as well
-     *
-     * @return void
+     * @param $name
+     * @param bool $deleteJoomlaUser
      */
     public function deleteUser($name, $deleteJoomlaUser = true)
     {
@@ -455,11 +450,24 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
-
+        $I->wait('1');
         if ($deleteJoomlaUser) {
             $I->dontSee($name, \UserManagerJoomla3Page::$userJoomla);
         } else {
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
+        $I->wait('1');
+    }
+    public function deleteUserWithAccept($name)
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($name);
+        $I->see($name, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$deleteButton);
+        $I->acceptPopup();
+        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
     }
 }

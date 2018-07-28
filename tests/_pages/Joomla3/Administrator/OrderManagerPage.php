@@ -17,7 +17,6 @@ class OrderManagerPage extends AdminJ3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 
-
     public static $userId = "//div[@id='s2id_user_id']/a";
 
     public static $userSearch = "//input[@id='s2id_autogen1_search']";

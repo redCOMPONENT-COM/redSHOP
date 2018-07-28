@@ -106,7 +106,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @throws \Exception
 	 */
-	public function createProductSave($productName, $category, $productNumber, $prices, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
+	public function createProductSave($productName, $category, $productNumber, $prices, $minimumPerProduct, $minimumQuantity, $maximumQuantity)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
@@ -121,8 +121,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($category));
 		$I->click($usePage->returnChoice($category));
-		$I->fillField(ProductManagerPage::$discountStart, $discountStart);
-		$I->fillField(ProductManagerPage::$discountEnd, $discountEnd);
 		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
 		$I->fillField(ProductManagerPage::$minimumQuantity, $minimumQuantity);
 		$I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
@@ -256,7 +254,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
+		//$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$this->searchProduct($productName);
 		$I->checkAllResults();
@@ -706,5 +704,50 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($usePage->attributePreSelect($position),30);
 		$I->click($usePage->attributePreSelect($position));
     }
-
+    /**
+     * @param $name
+     * @throws \Exception
+     */
+    public function checkReview($name)
+    {
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->searchProduct($name);
+        $I->click(['link' => $name]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click(\ProductManagerPage::$buttonReview);
+        $I->switchToNextTab();
+        $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
+        $I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
+    }
+    /**
+     * @param $nameProduct
+     * @param $discountName
+     * @param $username
+     * @param $password
+     * @throws \Exception
+     */
+//    public function addToCart($nameProduct, $discountName, $username, $password)
+//    {
+//        $I = $this;
+//        $I->amOnPage(\ProductManagerPage::$URL);
+//        $I->checkReview($nameProduct);
+//        $I->see($nameProduct);
+//        $I->click(\ProductManagerPage::$buttonAddToCart);
+//        $I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+//        $I->see("Product has been added to your cart.", '.alert-message');
+//        $I->click(\ProductManagerPage::$buttonGoToCheckOut);
+//        $I->fillField(\ProductManagerPage::$giftCode, $discountName);
+//        $I->click(\ProductManagerPage::$buttonSubmit);
+//        $I->see('The discount code is not valid');
+//        $I->click(\ProductManagerPage::$buttonCheckOut);
+//        $I->fillField(\ProductManagerPage::$username, $username);
+//        $I->fillField(\ProductManagerPage::$password, $password);
+//        $I->click(\ProductManagerPage::$buttonLogin);
+//        $I->waitForElement(\AdminJ3Page::$acceptTerms, '30');
+//        $I->click(\AdminJ3Page::$acceptTerms);
+//        $I->click(\AdminJ3Page::$checkoutFinalStep);
+//        $I->see('Order Information');
+//        $I->wait('1');
+//    }
 }

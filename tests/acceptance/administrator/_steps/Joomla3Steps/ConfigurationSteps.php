@@ -8,6 +8,8 @@
 
 namespace AcceptanceTester;
 
+use phpDocumentor\Reflection\Types\Integer;
+
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
 	public function featureUsedStockRoom()
@@ -412,4 +414,48 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
+    /**
+     * @param $name
+     */
+    public function searchOrder($name)
+    {
+        $I = $this;
+        $I->wantTo('Search the User ');
+        $I->amOnPage(\OrderManagerPage::$URL);
+        $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+    }
+    /**
+     * @param $price
+     * @param $order
+     */
+    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(\ConfigurationPage::$URL);
+        $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+        $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+        $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+        $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+        $NumberZero= null;
+        for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+        {
+            $NumberZero = $NumberZero."0";
+        }
+        $I->amOnPage(\OrderManagerPage::$URL);
+        $I->searchOrder($order);
+        $I->click(\ProductManagerPage::$iconEdit);
+        $quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
+        $quantity = (int)$quantity;
+        $priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+        $priceTotal ='Total: '. $currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+        $firstName = 'First Name: '.$firstName;
+        $lastName = 'Last Name: '.$lastName;
+        $I->see($firstName);
+        $I->see($lastName);
+        $I->see($productName);
+        $I->see($categoryName);
+        $I->see($priceProduct);
+        $I->see($priceTotal);
+    }
+
 }
