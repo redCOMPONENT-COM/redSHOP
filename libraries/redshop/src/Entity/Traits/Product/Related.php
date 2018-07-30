@@ -9,6 +9,8 @@
 
 namespace Redshop\Entity\Traits\Product;
 
+use Redshop\Repositories\Product;
+
 /**
  * Trait Related
  * @package Redshop\Entity\Traits\Product
@@ -56,15 +58,7 @@ trait Related
 		}
 
 		$this->relatedProducts = new \RedshopEntitiesCollection;
-
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->quoteName('related_id'))
-			->from($db->quoteName('#__redshop_product_related'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->getId());
-
-		$productIds = $db->setQuery($query)->loadColumn();
+		$productIds            = Product::getRelatedProductById($this->getId());
 
 		foreach ($productIds as $productId)
 		{
