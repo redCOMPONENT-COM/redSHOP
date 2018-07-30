@@ -131,6 +131,4 @@ class RedshopEntityProduct extends RedshopEntity
 			)
 		);
 	}
-
-
 }

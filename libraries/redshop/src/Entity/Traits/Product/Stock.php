@@ -22,7 +22,7 @@ trait Stock
 	 * @param   integer $selectedPropertyId    Selected property id
 	 * @param   integer $selectedsubpropertyId Selected sub property id
 	 *
-	 * @return  $this|array
+	 * @return  boolean|array
 	 *
 	 * @since   2.1.0
 	 * @throws  \Exception
@@ -31,7 +31,7 @@ trait Stock
 	{
 		if (!$this->hasId())
 		{
-			return $this;
+			return false;
 		}
 
 		$productPreOrder        = trim($this->get('preorder'));
@@ -82,6 +82,17 @@ trait Stock
 
 		return $data;
 	}
+
+	/**
+	 * Get an item property
+	 *
+	 * @param   string $property Property to get
+	 * @param   mixed  $default  Default value to assign if property === null | property === ''
+	 *
+	 * @return  string
+	 * @since   2.1.0
+	 */
+	abstract public function get($property, $default = null);
 
 	/**
 	 * Check if we have an identifier loaded

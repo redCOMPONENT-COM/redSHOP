@@ -4529,16 +4529,14 @@ class productHelper
 	 * @param   integer $selectedPropertyId    Selected property id
 	 * @param   integer $selectedsubpropertyId Selected sub property id
 	 *
-	 * @return  $this|array
+	 * @return  boolean|array
 	 *
 	 * @since   2.1.0
 	 * @throws  \Exception
 	 */
 	public function getproductStockStatus($productId = 0, $totalAttribute = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$productEntity = RedshopEntityProduct::getInstance($productId);
-
-		return $productEntity->getStockstatus($totalAttribute, $selectedPropertyId, $selectedsubpropertyId);
+		return RedshopEntityProduct::getInstance($productId)->getStockstatus($totalAttribute, $selectedPropertyId, $selectedsubpropertyId);
 	}
 
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
