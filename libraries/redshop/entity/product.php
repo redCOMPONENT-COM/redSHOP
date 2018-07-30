@@ -18,10 +18,8 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityProduct extends RedshopEntity
 {
-	/**
-	 * @var   RedshopEntitiesCollection  Collections of categories
-	 */
-	protected $categories = null;
+	use \Redshop\Entity\Traits\Product\Categories;
+	use \Redshop\Entity\Traits\Product\Media;
 
 	/**
 	 * @var   RedshopEntitiesCollection  Collections of related products
@@ -32,13 +30,6 @@ class RedshopEntityProduct extends RedshopEntity
 	 * @var   RedshopEntitiesCollection  Collections of child products
 	 */
 	protected $childProducts = null;
-
-	/**
-	 * @var    RedshopEntitiesCollection
-	 *
-	 * @since  2.1.0
-	 */
-	protected $media;
 
 	/**
 	 * Get the associated table
@@ -53,24 +44,7 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
-	 * @param   boolean  $reload  Force reload even it's cached
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getCategories($reload = false)
-	{
-		if (null === $this->categories || $reload === true)
-		{
-			$this->loadCategories();
-		}
-
-		return $this->categories;
-	}
-
-	/**
-	 * @param   boolean  $reload  Force reload even it's cached
+	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
@@ -89,7 +63,7 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Method for get child products
 	 *
-	 * @param   boolean  $reload  Force reload even it's cached
+	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
@@ -105,106 +79,6 @@ class RedshopEntityProduct extends RedshopEntity
 		return $this->childProducts;
 	}
 
-	/**
-	 * Method for set categories to this product
-	 *
-	 * @param   array    $ids             Array of categories' ids
-	 * @param   boolean  $removeAssigned  Remove all assigned categories
-	 *
-	 * @return  mixed                     A database cursor resource on success, boolean false on failure.
-	 */
-	public function setCategories($ids, $removeAssigned = false)
-	{
-		// Merge with assigned categories
-		if ($removeAssigned === false)
-		{
-			$categoryIds = array_merge($this->getCategories()->ids(), $ids);
-		}
-		else
-		{
-			// Or just reset it with new ids
-			$categoryIds = $ids;
-		}
-
-		$categoryIds = array_unique($categoryIds);
-
-		$db = JFactory::getDbo();
-
-		// Delete old assigned categories
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->get('product_id'));
-		$db->setQuery($query)->execute();
-
-		// Assign new category
-		$query->clear()
-			->insert($db->qn('#__redshop_product_category_xref'))
-			->columns($db->qn(array('category_id', 'product_id')));
-
-		foreach ($categoryIds as $id)
-		{
-			$query->values((int) $id . ' , ' . (int) $this->get('product_id'));
-		}
-
-		if (!$db->setQuery($query)->execute())
-		{
-			return false;
-		}
-
-		// Reload new categories for this product
-		$this->loadCategories();
-
-		return true;
-	}
-
-	/**
-	 * Method for check if this product exist in category.
-	 *
-	 * @param   integer  $id  ID of category
-	 *
-	 * @return  boolean
-	 */
-	public function inCategory($id)
-	{
-		return in_array($id, is_array($this->getCategories()->ids()) ? $this->getCategories()->ids() : array());
-	}
-
-	/**
-	 * Method for load child categories
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadCategories()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
-
-		$this->categories = new RedshopEntitiesCollection;
-
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('category_id'))
-			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->getId());
-
-		$results = $db->setQuery($query)->loadColumn();
-
-		if (empty($results))
-		{
-			return $this;
-		}
-
-		foreach ($results as $categoryId)
-		{
-			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
-		}
-
-		return $this;
-	}
 
 	/**
 	 * Method to get related products
@@ -275,8 +149,8 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Assign a product with a custom field
 	 *
-	 * @param   integer  $fieldId  Field id
-	 * @param   string   $value    Field value
+	 * @param   integer $fieldId Field id
+	 * @param   string  $value   Field value
 	 *
 	 * @return boolean
 	 */
@@ -309,60 +183,5 @@ class RedshopEntityProduct extends RedshopEntity
 				'section'  => 1
 			)
 		);
-	}
-
-	/**
-	 * Method for get medias of current category
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getMedia()
-	{
-		if (null === $this->media)
-		{
-			$this->loadMedia();
-		}
-
-		return $this->media;
-	}
-
-	/**
-	 * Method for load medias
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadMedia()
-	{
-		$this->media = new RedshopEntitiesCollection;
-
-		if (!$this->hasId())
-		{
-			return $this;
-		}
-
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('media_id')
-			->from($db->qn('#__redshop_media'))
-			->where($db->qn('media_section') . ' = ' . $db->quote('product'))
-			->where($db->qn('section_id') . ' = ' . $db->quote($this->getId()));
-
-		$results = $db->setQuery($query)->loadColumn();
-
-		if (empty($results))
-		{
-			return $this;
-		}
-
-		foreach ($results as $mediaId)
-		{
-			$this->media->add(RedshopEntityMedia::getInstance($mediaId));
-		}
-
-		return $this;
 	}
 }
