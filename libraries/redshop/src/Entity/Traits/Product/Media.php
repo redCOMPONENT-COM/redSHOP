@@ -78,4 +78,31 @@ trait Media
 
 		return $this;
 	}
+
+	/**
+	 * Get an item property
+	 *
+	 * @param   string $property Property to get
+	 * @param   mixed  $default  Default value to assign if property === null | property === ''
+	 *
+	 * @return  string
+	 * @since   2.1.0
+	 */
+	abstract public function get($property, $default = null);
+
+	/**
+	 * Check if we have an identifier loaded
+	 *
+	 * @return  boolean
+	 * @since   2.1.0
+	 */
+	abstract public function hasId();
+
+	/**
+	 * Get the id
+	 *
+	 * @return  integer | null
+	 * @since   2.1.0
+	 */
+	abstract public function getId();
 }
