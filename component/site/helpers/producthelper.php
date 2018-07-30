@@ -1737,6 +1737,7 @@ class productHelper
 		 * @var RedshopEntityProduct $productEntity
 		 */
 		$productEntity = RedshopEntityProduct::getInstance($productId);
+
 		return $productEntity->getRelated($relatedId);
 	}
 

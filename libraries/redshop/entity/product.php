@@ -70,23 +70,6 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
-	 * @param   boolean $reload Force reload even it's cached
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getRelatedProducts($reload = false)
-	{
-		if (null === $this->relatedProducts || $reload === true)
-		{
-			$this->loadRelated();
-		}
-
-		return $this->relatedProducts;
-	}
-
-	/**
 	 * Method for get child products
 	 *
 	 * @param   boolean $reload Force reload even it's cached
@@ -201,39 +184,6 @@ class RedshopEntityProduct extends RedshopEntity
 		foreach ($results as $categoryId)
 		{
 			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Method to get related products
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadRelated()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
-
-		$this->relatedProducts = new RedshopEntitiesCollection;
-
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->quoteName('related_id'))
-			->from($db->quoteName('#__redshop_product_related'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->getId());
-
-		$productIds = $db->setQuery($query)->loadColumn();
-
-		foreach ($productIds as $productId)
-		{
-			$this->relatedProducts->add(self::getInstance($productId));
 		}
 
 		return $this;
