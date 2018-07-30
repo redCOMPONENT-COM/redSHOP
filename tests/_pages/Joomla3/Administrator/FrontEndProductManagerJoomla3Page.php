@@ -55,12 +55,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
-	public static $addToCompare = "//input[@name=\'rsProductCompareChk\']";
+
+    public static $addToCompare = "//input[@name='rsProductCompareChk']";
 
     /**
      * @var string
      */
-	public static $showProductToCompare = "//a[text() = \'Show Products To Compare\']";
+	public static $showProductToCompare = "//a[text() = 'Show Products To Compare']";
 
     /**
      * @var string
