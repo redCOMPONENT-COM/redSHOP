@@ -58,7 +58,7 @@ trait Related
 		}
 
 		$this->relatedProducts = new \RedshopEntitiesCollection;
-		$productIds            = Product::getRelatedProductById($this->getId());
+		$productIds            = Product::getRelatedProductIds($this->getId());
 
 		foreach ($productIds as $productId)
 		{

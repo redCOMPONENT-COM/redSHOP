@@ -52,4 +52,22 @@ class Product
 
 		return $db->setQuery($query)->loadColumn();
 	}
+
+	/**
+	 * @param   integer $productId ProductId
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getPrices($productId)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_price'))
+			->from($db->qn('#__redshop_product_price'))
+			->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+		return $db->setQuery($query)->loadColumn();
+	}
 }

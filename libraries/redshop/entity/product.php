@@ -171,7 +171,7 @@ class RedshopEntityProduct extends RedshopEntity
 			$productPrice = $this->get('product_price', $productPrice);
 		}
 
-		$productPrice = \RedshopHelperProductPrice::priceRound($productPrice);
+		$productPrice = \RedshopHelperProductPrice::priceRound((float) $productPrice);
 
 		if ($taxExempt)
 		{
