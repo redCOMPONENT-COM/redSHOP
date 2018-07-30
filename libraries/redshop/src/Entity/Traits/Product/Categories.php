@@ -8,6 +8,7 @@
  */
 
 namespace Redshop\Entity\Traits\Product;
+use Redshop\Repositories\Product;
 
 /**
  * Trait Categories
@@ -122,21 +123,14 @@ trait Categories
 		}
 
 		$this->categories = new \RedshopEntitiesCollection;
+		$categories = Product::getCategoryIds($this->getId());
 
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('category_id'))
-			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->getId());
-
-		$results = $db->setQuery($query)->loadColumn();
-
-		if (empty($results))
+		if (empty($categories))
 		{
 			return $this;
 		}
 
-		foreach ($results as $categoryId)
+		foreach ($categories as $categoryId)
 		{
 			$this->categories->add(\RedshopEntityCategory::getInstance($categoryId));
 		}

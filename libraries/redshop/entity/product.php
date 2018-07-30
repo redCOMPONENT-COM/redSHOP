@@ -18,10 +18,10 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityProduct extends RedshopEntity
 {
-	use \Redshop\Entity\Traits\Product\Related;
-	use \Redshop\Entity\Traits\Product\Categories;
-	use \Redshop\Entity\Traits\Product\Media;
-	use \Redshop\Entity\Traits\Product\Stock;
+	use \Redshop\Entity\Traits\Product\Related,
+		\Redshop\Entity\Traits\Product\Categories,
+		\Redshop\Entity\Traits\Product\Media,
+		\Redshop\Entity\Traits\Product\Stock;
 
 	/**
 	 * @var   RedshopEntitiesCollection  Collections of child products
@@ -58,7 +58,6 @@ class RedshopEntityProduct extends RedshopEntity
 
 		return $this->childProducts;
 	}
-
 
 	/**
 	 * Method to load child product
@@ -130,5 +129,74 @@ class RedshopEntityProduct extends RedshopEntity
 				'section'  => 1
 			)
 		);
+	}
+
+	/**
+	 * @param   float   $productPrice Product price
+	 * @param   integer $userId       User id
+	 * @param   integer $taxExempt    Tax
+	 *
+	 * @return  boolean|float|integer
+	 *
+	 * @since   2.1.0
+	 */
+	public function getTax($productPrice = 0.0, $userId = 0, $taxExempt = 0)
+	{
+		if (!$this->hasId())
+		{
+			return false;
+		}
+
+		$redshopUser = \JFactory::getSession()->get('rs_user');
+
+		if ($userId == 0)
+		{
+			$user   = \JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productTax  = 0;
+		$redshopUser = empty($redshopUser) ? array('rs_is_user_login' => 0) : $redshopUser;
+
+		if ($redshopUser['rs_is_user_login'] == 0 && $userId != 0)
+		{
+			\RedshopHelperUser::createUserSession($userId);
+		}
+
+		$vatRateData = \RedshopHelperTax::getVatRates($this->getId(), $userId);
+		$taxRate     = !empty($vatRateData) ? $vatRateData->tax_rate : 0;
+
+		if ($productPrice <= 0)
+		{
+			$productPrice = $this->get('product_price', $productPrice);
+		}
+
+		$productPrice = \RedshopHelperProductPrice::priceRound($productPrice);
+
+		if ($taxExempt)
+		{
+			return $productPrice * $taxRate;
+		}
+
+		if (!$taxRate)
+		{
+			return \RedshopHelperProductPrice::priceRound($productTax);
+		}
+
+		if (!$userId)
+		{
+			$productTax = $productPrice * $taxRate;
+		}
+		else
+		{
+			$userInformation = \RedshopHelperUser::getUserInformation($userId);
+
+			if (null === $userInformation || $userInformation->requesting_tax_exempt !== 1 || !$userInformation->tax_exempt_approved)
+			{
+				$productTax = $productPrice * $taxRate;
+			}
+		}
+
+		return \RedshopHelperProductPrice::priceRound($productTax);
 	}
 }
