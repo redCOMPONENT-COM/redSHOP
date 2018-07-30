@@ -221,7 +221,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$elementId = is_array($element) ? $element['id'] : $element;
-		$I->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
+		$I->executeJS('jQuery("' . $elementId . '").select2("search", "' . $text . '")');
 		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
 		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
 	}
