@@ -4523,56 +4523,22 @@ class productHelper
 		return $filter_products;
 	}
 
-	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
+	/**
+	 * @param   integer $productId             Product id
+	 * @param   integer $totalAttribute        Total attribute
+	 * @param   integer $selectedPropertyId    Selected property id
+	 * @param   integer $selectedsubpropertyId Selected sub property id
+	 *
+	 * @return  $this|array
+	 *
+	 * @since   2.1.0
+	 * @throws  \Exception
+	 */
+	public function getproductStockStatus($productId = 0, $totalAttribute = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$producDetail               = RedshopHelperProduct::getProductById($product_id);
-		$product_preorder           = trim($producDetail->preorder);
-		$rsltdata                   = array();
-		$rsltdata['preorder']       = 0;
-		$rsltdata['preorder_stock'] = 0;
+		$productEntity = RedshopEntityProduct::getInstance($productId);
 
-		if ($selectedPropertyId)
-		{
-			if ($selectedsubpropertyId)
-			{
-				// Count status for selected subproperty
-				$stocksts = RedshopHelperStockroom::isStockExists($selectedsubpropertyId, "subproperty");
-
-				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
-				{
-					$prestocksts                = RedshopHelperStockroom::isPreorderStockExists($selectedsubpropertyId, "subproperty");
-					$rsltdata['preorder']       = 1;
-					$rsltdata['preorder_stock'] = $prestocksts;
-				}
-			}
-			else
-			{
-				// Count status for selected property
-				$stocksts = RedshopHelperStockroom::isStockExists($selectedPropertyId, "property");
-
-				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
-				{
-					$prestocksts                = RedshopHelperStockroom::isPreorderStockExists($selectedPropertyId, "property");
-					$rsltdata['preorder']       = 1;
-					$rsltdata['preorder_stock'] = $prestocksts;
-				}
-			}
-		}
-		else
-		{
-			$stocksts = RedshopHelperStockroom::getFinalStockofProduct($product_id, $totalatt);
-
-			if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
-			{
-				$prestocksts                = RedshopHelperStockroom::getFinalPreorderStockofProduct($product_id, $totalatt);
-				$rsltdata['preorder']       = 1;
-				$rsltdata['preorder_stock'] = $prestocksts;
-			}
-		}
-
-		$rsltdata['regular_stock'] = $stocksts;
-
-		return $rsltdata;
+		return $productEntity->getStockstatus($totalAttribute, $selectedPropertyId, $selectedsubpropertyId);
 	}
 
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
