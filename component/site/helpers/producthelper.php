@@ -4529,7 +4529,7 @@ class productHelper
 	 * @param   integer $selectedPropertyId    Selected property id
 	 * @param   integer $selectedsubpropertyId Selected sub property id
 	 *
-	 * @return  boolean|array
+	 * @return  array
 	 *
 	 * @since   2.1.0
 	 * @throws  \Exception
