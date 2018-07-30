@@ -18,6 +18,13 @@ namespace Redshop\Entity\Traits\Product;
 trait Related
 {
 	/**
+	 * @var   \RedshopEntitiesCollection  Collections of related products
+	 *
+	 * @since 2.1.0
+	 */
+	protected $relatedProducts = null;
+
+	/**
 	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  \RedshopEntitiesCollection
@@ -48,7 +55,7 @@ trait Related
 			return $this;
 		}
 
-		$this->relatedProducts = new RedshopEntitiesCollection;
+		$this->relatedProducts = new \RedshopEntitiesCollection;
 
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);

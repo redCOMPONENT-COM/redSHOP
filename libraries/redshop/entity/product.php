@@ -24,11 +24,6 @@ class RedshopEntityProduct extends RedshopEntity
 	use \Redshop\Entity\Traits\Product\Stock;
 
 	/**
-	 * @var   RedshopEntitiesCollection  Collections of related products
-	 */
-	protected $relatedProducts = null;
-
-	/**
 	 * @var   RedshopEntitiesCollection  Collections of child products
 	 */
 	protected $childProducts = null;

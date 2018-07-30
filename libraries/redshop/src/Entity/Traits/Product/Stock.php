@@ -34,8 +34,7 @@ trait Stock
 			return $this;
 		}
 
-		$producDetail           = \RedshopHelperProduct::getProductById($this->getId());
-		$productPreOrder        = trim($producDetail->preorder);
+		$productPreOrder        = trim($this->get('preorder'));
 		$data                   = array();
 		$data['preorder']       = 0;
 		$data['preorder_stock'] = 0;
