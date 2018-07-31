@@ -209,7 +209,7 @@ function display_products($rows)
 						{
 							echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</span></div>";
 							$product_price = $product_price_discount;
-							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price_discount) . "</div>";
+							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . RedshopHelperProductPrice::formattedPrice((float)$product_price_discount) . "</div>";
 							echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
 						}
 						else
