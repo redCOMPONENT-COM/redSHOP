@@ -19,7 +19,11 @@ use Step\Acceptance\Redshop;
  */
 class AdminManagerJoomla3Steps extends Redshop
 {
-
+    /**
+     * @param $name
+     * @param $package
+     * @throws \Exception
+     */
 	public function installComponent($name, $package)
 	{
 		$I = $this;
@@ -190,7 +194,11 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
-
+    /**
+     * @param $text
+     * @param array $searchField
+     * @throws \Exception
+     */
 	public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter'])
 	{
 		$I = $this;

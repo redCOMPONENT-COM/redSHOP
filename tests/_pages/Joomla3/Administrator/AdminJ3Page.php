@@ -412,11 +412,10 @@ abstract class AdminJ3Page
      * @var string
      */
 	public static $scriftClickTransfer = 'document.getElementById("rs_payment_banktransfer0").checked = true;';
-
-	/**
-	 * @var array
-	 */
-	public static $acceptTerms = ['xpath' => "//input[@id='termscondition']"];
+    /**
+     * @var string
+     */
+	public static $acceptTerms = "//input[@id='termscondition']";
 	/**
 	 * @var string
 	 */

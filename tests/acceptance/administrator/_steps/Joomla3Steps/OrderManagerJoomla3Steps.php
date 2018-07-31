@@ -134,7 +134,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
     }
     /**
      * @param $nameProduct
-     * @param $discountName
      * @param $username
      * @param $password
      * @throws \Exception

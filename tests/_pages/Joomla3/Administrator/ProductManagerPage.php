@@ -152,11 +152,11 @@ class ProductManagerPage extends AdminJ3Page
     
     public static $relatedProduct = "//h3[text()='Related product']";
     
-    public static $accessorySearchID = 's2id_product_accessory_search';
+    public static $accessorySearchID = '#s2id_product_accessory_search';
     
-    public static $accessSearchField = 's2id_autogen3_search';
+    public static $accessSearchField = '#s2id_autogen3_search';
 
     // relate product
-    public static $relatedProductId = 's2id_related_product';
+    public static $relatedProductId = '#s2id_related_product';
    
 }
