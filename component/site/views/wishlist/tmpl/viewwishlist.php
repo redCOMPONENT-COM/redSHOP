@@ -436,7 +436,7 @@ function display_products($rows)
 						if ($this->show_discountpricelayout)
 						{
 							$product_price     = $product_price_discount;
-							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price_discount);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice((float)$product_price_discount);
 
 						}
 						else
