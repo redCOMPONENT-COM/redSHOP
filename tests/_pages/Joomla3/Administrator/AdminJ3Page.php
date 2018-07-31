@@ -150,17 +150,17 @@ abstract class AdminJ3Page
 	 *
 	 * @var string
 	 */
-	public static $statePath = "//a[contains(@class, \'btn-state-item\')]";
+	public static $statePath = "//a[contains(@class, 'btn-state-item')]";
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPathBlock = "//a[contains(@class, \'btn-checkin\')]";
+	public static $stateCheckInPathBlock = "//a[contains(@class, 'btn-checkin')]";
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPath = "//a[contains(@class, \'btn-edit-item\')]";
+	public static $stateCheckInPath = "//a[contains(@class, 'btn-edit-item')]";
 
 	/**
 	 * @var array
@@ -387,26 +387,27 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $saveInfoUser = "//input[@name=\'submitbtn\']";
+	public static $saveInfoUser = "//input[@value='Save']";
+
 	/**
 	 * @var array
 	 */
-	public static $paymentPayPad = "//input[@id='rs_payment_paypal1']";
+	public static $paymentPayPad = "//input[@id='rs_payment_paypal3']";
 
     /**
      * @var array
      */
-	public static $paymentId = ['rs_payment_paypal1'];
+	public static $paymentId = ['rs_payment_paypal'];
 
 	/**
 	 * @var array
 	 */
-	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
+	public static $bankTransfer = "//input[@id='rs_payment_banktransfer2']";
 
     /**
      * @var string
      */
-	public static $bankTransferId = 'rs_payment_banktransfer0';
+	public static $bankTransferId = ['rs_payment_banktransfer'];
 
     /**
      * @var string
