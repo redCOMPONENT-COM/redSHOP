@@ -114,10 +114,8 @@ class RedshopViewSearch extends RedshopView
 			$input->set('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = RedshopHelperUtility::getDispatcher();
-			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
 			$extraField       = extraField::getInstance();
-			$objhelper        = redhelper::getInstance();
 
 			$Itemid         = $app->input->getInt('Itemid');
 			$search_type    = $app->input->getCmd('search_type');
@@ -293,7 +291,7 @@ class RedshopViewSearch extends RedshopView
 			}
 
 			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
+			$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template            = \Redshop\Template\Helper::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
@@ -303,7 +301,7 @@ class RedshopViewSearch extends RedshopView
 			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
-			$fieldArray          = $extraField->getSectionFieldList(17, 0, 0);
+			$fieldArray          = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
 			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
