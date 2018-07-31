@@ -219,7 +219,6 @@ if ($mail == 0)
 					{
 						if ($parentid != $childproducts[$c]->product_parent_id)
 						{
-							$level = $level;
 						}
 					}
 

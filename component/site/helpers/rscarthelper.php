@@ -668,7 +668,7 @@ class rsCarthelper
 
 					$rate = $shippingrate[$s];
 
-					if (count($rate) > 0)
+					if (!empty($rate) > 0)
 					{
 						if (empty($shipping_rate_id))
 						{
@@ -762,7 +762,7 @@ class rsCarthelper
 
 						$extrafield_hidden  = "";
 
-						if (count($extrafield_payment) > 0)
+						if (!empty($extrafield_payment) )
 						{
 							$countExtrafield = count($extrafield_payment);
 
