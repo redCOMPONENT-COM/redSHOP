@@ -597,7 +597,7 @@ abstract class RedshopEntityBase extends BaseObject
 	/**
 	 * Get the id
 	 *
-	 * @return  int | null
+	 * @return  integer | null
 	 */
 	public function getId()
 	{
