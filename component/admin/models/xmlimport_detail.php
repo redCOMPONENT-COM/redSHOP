@@ -164,8 +164,6 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 	public function _initData()
 	{
-		$user = JFactory::getUser();
-
 		if (empty($this->_data))
 		{
 			$detail                             = new stdClass;
@@ -334,7 +332,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			return false;
 		}
 
-		$filename = $xmlhelper->writeXMLImportFile($row->xmlimport_id, $data['tmpxmlimport_url']);
+		$xmlhelper->writeXMLImportFile($row->xmlimport_id, $data['tmpxmlimport_url']);
 
 		if ($import == 1)
 		{

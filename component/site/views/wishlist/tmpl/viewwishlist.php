@@ -362,13 +362,6 @@ function display_products($rows)
 				if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 				{
 					$isChilds       = false;
-					$attributes_set = array();
-
-					if ($row->attribute_set_id > 0)
-					{
-						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
-					}
-
 					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($row->product_id);
 					$attributes = array_merge($attributes, $wishlist_data);
 				}
@@ -449,18 +442,18 @@ function display_products($rows)
 						else
 						{
 							$product_price     = $product_price_discount;
-							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice((float)$product_price);
 						}
 					}
 					else
 					{
-						$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
+						$mainproduct_price = RedshopHelperProductPrice::formattedPrice((float)$product_price);
 
 					}
 				}
 				else
 				{
-					$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
+					$mainproduct_price = RedshopHelperProductPrice::formattedPrice((float)$product_price);
 
 				}
 
@@ -558,7 +551,7 @@ function display_products($rows)
 			// Product User Field End
 
 			/////////////////////////////////// Product accessory Start /////////////////////////////////
-			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
+			$accessory      = RedshopHelperAccessory::getProductAccessories(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = RedshopHelperProductAccessory::replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
