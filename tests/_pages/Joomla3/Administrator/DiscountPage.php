@@ -90,19 +90,19 @@ class DiscountPage extends AdminJ3Page
     /**
      * @var array
      */
-    public static $productId = ['id' => 'jform_discount_product-lbl'];
+    public static $productId = '#jform_discount_product-lbl';
     /**
      * @var array
      */
-    public static $productFile = ['id' => 's2id_autogen1'];
+    public static $productFile = '#s2id_autogen1';
     /**
      * @var array
      */
-    public static $categoryId = ['id' => 'jform_category_id-lbl'];
+    public static $categoryId = '#jform_category_id-lbl';
     /**
      * @var array
      */
-    public static $categoryFile = ['id' => 's2id_autogen2'];
+    public static $categoryFile = '#s2id_autogen2';
 
 	/**
 	 * @return string
