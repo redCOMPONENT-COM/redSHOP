@@ -106,7 +106,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @throws \Exception
 	 */
-	public function createProductSave($productName, $category, $productNumber, $prices, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
+	public function createProductSave($productName, $category, $productNumber, $prices, $minimumPerProduct, $minimumQuantity, $maximumQuantity)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
@@ -121,8 +121,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($category));
 		$I->click($usePage->returnChoice($category));
-		$I->fillField(ProductManagerPage::$discountStart, $discountStart);
-		$I->fillField(ProductManagerPage::$discountEnd, $discountEnd);
 		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
 		$I->fillField(ProductManagerPage::$minimumQuantity, $minimumQuantity);
 		$I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
@@ -256,22 +254,18 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$I->waitForText('Product Management', 30);
 		$this->searchProduct($productName);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonDelete);
-
 		$I->wantTo('Test with delete product but then cancel');
 		$I->cancelPopup();
-
 		$I->wantTo('Test with delete product then accept');
 		$I->click(ProductManagerPage::$buttonDelete);
 		$I->acceptPopup();
 		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
 		$I->dontSee($productName);
 	}
-
 	/**
 	 * @param $productName
 	 */
@@ -282,7 +276,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->filterListBySearchingProduct($productName);
 	}
-
 	/**
 	 * @param $productName
 	 * @param $category

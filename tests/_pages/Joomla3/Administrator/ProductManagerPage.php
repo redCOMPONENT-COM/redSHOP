@@ -21,6 +21,10 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
+    public static $username = ['id' => 'username'];
+
+    public static $password = ['id' => 'password'];
+
     public static $categorySearch = ['id' => 's2id_category_id'];
     
     public static $categorySearchField = ['id' => 's2id_autogen2_search'];
@@ -79,6 +83,22 @@ class ProductManagerPage extends AdminJ3Page
     public static $messageCopySuccess = 'Product Copied';
     
     public static $messageCancel  =  'Product detail editing cancelled';
+
+    public static $buttonAddToCart = ['xpath' => '//span[contains(@class, \'btn-primary\')]'];
+
+    public static $buttonGoToCheckOut = ['id' => 'mod_cart_checkout_ajax'];
+
+    public static $buttonSubmit = ['id' => 'coupon_button'];
+
+    public static $buttonCheckOut = ['xpath' => '//input[@ value="Checkout"]'];
+
+    public static $buttonLogin = ['xpath' => '//input[@ value="Log in"]'];
+
+    public static $iconEdit = ['xpath' => '//a[@ title="Edit order"]'];
+
+    public static $giftCode = ['id' => 'coupon_input'];
+
+    public static $quanlity = [];
     
     // button 
     public static $buttonAssignNewCategory = 'Assign new Category';
