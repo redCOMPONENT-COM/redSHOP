@@ -62,7 +62,6 @@ class FrontEndNoticesCest
 	public function verifyNotices(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Presence of Notices, Warnings on FrontEnd Menus');
-		$I->pauseExecution();
 		$I->doFrontEndLogin();
 		foreach ($this->allFrontEndPages as $pageName => $url)
 		{
