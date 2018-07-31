@@ -124,7 +124,6 @@ class RedshopViewSearch extends RedshopView
 			$cid            = $app->input->getInt('category_id');
 			$manufacture_id = $app->input->getInt('manufacture_id');
 
-			$manisrch   = $this->search;
 			$templateid = $app->input->getInt('templateid');
 
 			// Cmd removes space between to words
@@ -139,7 +138,6 @@ class RedshopViewSearch extends RedshopView
 
 			$cat_name = $db->setQuery($query)->loadResult();
 
-			$session = JFactory::getSession();
 			$model   = $this->getModel('search');
 			$total   = $model->getTotal();
 
