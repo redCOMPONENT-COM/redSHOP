@@ -26,7 +26,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
         $this->randomProductName            = 'TestingProducts' . rand(99, 999);
         $this->randomDiscountName           = 'discount total order ' . rand(99, 999);
         $this->minimumPerProduct            = 2;
-        $this->minimumQuantity              = 1;
+        $this->minimumQuantity              = 2;
         $this->maximumQuantity              = 5;
         $this->discountStart                = "2018-04-04";
         $this->discountEnd                  = "2018-04-20";
@@ -125,8 +125,11 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
      * @param ProductManagerSteps $I
      * @throws Exception
      */
-    public function addProductToCart(OrderManagerJoomla3Steps $I)
+    public function addProductToCart(AcceptanceTester $I, $scenario)
     {
+        $I = new ConfigurationSteps($scenario);
+        $I->oneStepCheckoutYes();
+        $I = new OrderManagerJoomla3Steps($scenario);
         $I->wantTo('Add products in cart');
         $I->addProductToCart($this->randomProductName, $this->userName, $this->password );
     }
