@@ -21,9 +21,11 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
-    public static $username = '#username';
+    public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
 
-    public static $password = '#password';
+    public static $username = '#modlgn-username';
+
+    public static $password = '#modlgn-passwd';
 
     public static $categorySearch = '#s2id_category_id';
     
@@ -86,13 +88,11 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $buttonAddToCart = '//span[contains(@class, \'btn-primary\')]';
 
-    public static $buttonGoToCheckOut =  '//a[@ href="/joomla/index.php/component/redshop/cart?Itemid=0"]';
-
     public static $buttonSubmit = "#coupon_button";
 
     public static $buttonCheckOut = '//input[@ value="Checkout"]';
 
-    public static $buttonLogin = '//input[@ value="Log in"]';
+    public static $buttonLogin = '//button [@ name="Submit"]';
 
     public static $iconEdit = '//a[@ title="Edit order"]';
 

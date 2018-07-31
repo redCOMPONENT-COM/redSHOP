@@ -148,11 +148,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\ProductManagerPage::$buttonAddToCart);
         $I->waitForText("Product has been added to your cart.", 10, '.alert-message');
         $I->see("Product has been added to your cart.", '.alert-message');
-        $I->click(\ProductManagerPage::$buttonGoToCheckOut);
-        $I->click(\ProductManagerPage::$buttonCheckOut);
         $I->fillField(\ProductManagerPage::$username, $username);
         $I->fillField(\ProductManagerPage::$password, $password);
         $I->click(\ProductManagerPage::$buttonLogin);
+        $I->amOnPage(\ProductManagerPage::$cartPageUrL);
+        $I->click(\ProductManagerPage::$buttonCheckOut);
         $I->waitForElement(\AdminJ3Page::$acceptTerms, '30');
         $I->click(\AdminJ3Page::$acceptTerms);
         $I->click(\AdminJ3Page::$checkoutFinalStep);
