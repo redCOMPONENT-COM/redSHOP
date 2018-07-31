@@ -143,7 +143,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
      * @param   string   $code     Code when generate PDF.
      * @param   boolean  $isEmail  Is generate for use in Email?
      *
-     * @return  string            Name of PDF file.
+     * @return  string|boolean            Name of PDF file.
      *
      * @since   1.0.0
      */
@@ -207,8 +207,6 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         }
 
         RedshopHelperPayment::loadLanguages();
-
-        $cartHelper = rsCarthelper::getInstance();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
         $this->TCPDF->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_MULTI_INVOICE_TITLE'));
@@ -286,7 +284,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
      * @param   int     $orderId  Id of order.
      * @param   string  $pdfHtml  Html template of PDF
      *
-     * @return  string            Name of PDF file.
+     * @return  string|boolean            Name of PDF file.
      *
      * @since   1.0.0
      */
@@ -302,7 +300,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         // Changed font to support Unicode Characters - Specially Polish Characters
 
         $this->TCPDF->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_SHIPPED_INVOICE_TITLE'));
-        $pdfObj->SetMargins(20, 85, 20);
+	    $this->TCPDF->SetMargins(20, 85, 20);
         $this->settingTCPDF(); 
 
         // Writing Body area

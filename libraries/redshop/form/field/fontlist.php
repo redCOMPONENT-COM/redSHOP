@@ -39,36 +39,31 @@ class RedshopFormFieldFontList extends JFormFieldFileList
 		$filter = "ttf";
 		
 		$path = JPATH_ROOT . '/media/com_redshop/fonts';
-
+		
 		$path = JPath::clean($path);
-
-		$fontfile = JFolder::files($path, $filter);
-
-		if (is_array($fontfile))
+		
+		$fontFile = JFolder::files($path, $filter);
+		
+		foreach ($fontFile as $file)
 		{
-			foreach ($fontfile as $file)
+			// Check to see if the file is in the exclude mask.
+			if ($this->exclude)
 			{
-				// Check to see if the file is in the exclude mask.
-				if ($this->exclude)
+				if (preg_match(chr(1) . $this->exclude . chr(1), $file))
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $file))
-					{
-						continue;
-					}
+					continue;
 				}
-
-				// If the extension is to be stripped, do it.
-				if ($this->stripExt)
-				{
-					$file = JFile::stripExt($file);
-				}
-
-				$options[] = JHtml::_('select.option','ttf.' . $file, $file);
 			}
+			
+			// If the extension is to be stripped, do it.
+			if ($this->stripExt)
+			{
+				$file = JFile::stripExt($file);
+			}
+			
+			$options[] = JHtml::_('select.option', 'ttf.' . $file, $file);
 		}
-
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		
+		return array_merge(parent::getOptions(), $options);
 	}
 }
