@@ -213,7 +213,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $this->settingTCPDF();
 
         foreach ($orderIds as $orderId) {
-            $ordersDetail = RedshopHelperOrder::getOrderDetails($orderId);
+            $ordersDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
             $message = $pdfHtml;
 
             $printTag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"

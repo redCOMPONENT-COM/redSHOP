@@ -44,6 +44,8 @@ class RedshopFormFieldFontList extends JFormFieldFileList
 		
 		$fontFile = JFolder::files($path, $filter);
 		
+		$options = array();
+		
 		foreach ($fontFile as $file)
 		{
 			// Check to see if the file is in the exclude mask.
