@@ -207,25 +207,25 @@ function display_products($rows)
 
 						if ($this->show_discountpricelayout)
 						{
-							echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
+							echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</span></div>";
 							$product_price = $product_price_discount;
-							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-							echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
+							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price_discount) . "</div>";
+							echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
 						}
 						else
 						{
 							$product_price = $product_price_discount;
-							echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+							echo "<div class='mod_redproducts_price wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 						}
 					}
 					else
 					{
-						echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+						echo "<div class='mod_redproducts_price wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 					}
 				}
 				else
 				{
-					echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+					echo "<div class='mod_redproducts_price wishlist_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 				}
 			}
 
@@ -442,26 +442,26 @@ function display_products($rows)
 
 						if ($this->show_discountpricelayout)
 						{
-							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 							$product_price     = $product_price_discount;
-							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price_discount);
 
 						}
 						else
 						{
 							$product_price     = $product_price_discount;
-							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+							$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 						}
 					}
 					else
 					{
-						$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+						$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 
 					}
 				}
 				else
 				{
-					$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
+					$mainproduct_price = RedshopHelperProductPrice::formattedPrice($product_price);
 
 				}
 
