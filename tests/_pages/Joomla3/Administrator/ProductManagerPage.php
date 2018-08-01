@@ -21,6 +21,12 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
+    public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
+
+    public static $username = '#modlgn-username';
+
+    public static $password = '#modlgn-passwd';
+
     public static $categorySearch = ['id' => 's2id_category_id'];
     
     public static $categorySearchField = ['id' => 's2id_autogen2_search'];
@@ -58,6 +64,16 @@ class ProductManagerPage extends AdminJ3Page
     public static $vatDropdownList = ['xpath' => '//div[@id=\'s2id_product_tax_group_id\']'];
 
     public static $vatSearchField = ['id' => 's2id_autogen8_search'];
+
+    public static $buttonCheckOut = '//input[@ value="Checkout"]';
+
+    public static $buttonLogin = '//button [@ name="Submit"]';
+
+    public static $iconEdit = '//a[@ title="Edit order"]';
+
+    public static $giftCode = "#coupon_input";
+
+    public static $buttonAddToCart = '//span[contains(@class, \'btn-primary\')]';
     
 //    public static 
 

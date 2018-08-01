@@ -455,7 +455,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
-
+        $I->wait('1');
         if ($deleteJoomlaUser) {
             $I->dontSee($name, \UserManagerJoomla3Page::$userJoomla);
         } else {

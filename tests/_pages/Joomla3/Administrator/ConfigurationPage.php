@@ -178,4 +178,10 @@ class ConfigurationPage extends AdminJ3Page
 	public static $discountVoucherMultipleCouponMultiple = 'Discount + voucher (multiple) + coupon (multiple)';
 
 	public static $messageSaveSuccess = 'Configuration Saved';
+
+    public static $currencySymbol = '#currency_symbol';
+
+    public static $decimalSeparator = '#price_seperator';
+
+    public static $numberOfPriceDecimals =  '#price_decimal';
 }

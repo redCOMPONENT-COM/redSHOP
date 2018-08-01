@@ -104,4 +104,53 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 //		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
+    /**
+     * @param $productName
+     */
+    public function searchProduct($productName)
+    {
+        $I = $this;
+        $I->wantTo('Search the Product');
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->filterListBySearchingProduct($productName);
+    }
+    /**
+     * @param $name
+     * @throws \Exception
+     */
+    public function checkReview($name)
+    {
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->searchProduct($name);
+        $I->click(['link' => $name]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click(\ProductManagerPage::$buttonReview);
+        $I->switchToNextTab();
+        $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
+        $I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
+    }
+    /**
+     * @param $nameProduct
+     * @param $username
+     * @param $password
+     * @throws \Exception
+     */
+    public function addProductToCart($nameProduct, $username, $password)
+    {
+        $I = $this;
+        $I->checkReview($nameProduct);
+        $I->see($nameProduct);
+        $I->click(\ProductManagerPage::$buttonAddToCart);
+        $I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, '.alert-message');
+        $I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
+        $I->fillField(\ProductManagerPage::$username, $username);
+        $I->fillField(\ProductManagerPage::$password, $password);
+        $I->click(\ProductManagerPage::$buttonLogin);
+        $I->amOnPage(\ProductManagerPage::$cartPageUrL);
+        $I->click(\ProductManagerPage::$buttonCheckOut);
+        $I->waitForElement(\ProductManagerPage::$acceptTerms, '30');
+        $I->click(\ProductManagerPage::$acceptTerms);
+        $I->click(\ProductManagerPage::$checkoutFinalStep);
+    }
 }
