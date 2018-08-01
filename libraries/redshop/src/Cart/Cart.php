@@ -385,7 +385,6 @@ class Cart
 		$calcOutput      = "";
 		$calcOutputs     = array();
 		$productVatPrice = 0;
-		$productVatPrice = 0;
 
 		if (!empty($discounts))
 		{
