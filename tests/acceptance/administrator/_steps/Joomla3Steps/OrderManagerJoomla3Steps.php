@@ -141,7 +141,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function addProductToCart($nameProduct, $username, $password)
     {
         $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
         $I->checkReview($nameProduct);
         $I->see($nameProduct);
         $I->click(\ProductManagerPage::$buttonAddToCart);
@@ -152,9 +151,9 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\ProductManagerPage::$buttonLogin);
         $I->amOnPage(\ProductManagerPage::$cartPageUrL);
         $I->click(\ProductManagerPage::$buttonCheckOut);
-        $I->waitForElement(\AdminJ3Page::$acceptTerms, '30');
-        $I->click(\AdminJ3Page::$acceptTerms);
-        $I->click(\AdminJ3Page::$checkoutFinalStep);
+        $I->waitForElement(\ProductManagerPage::$acceptTermsId, '30');
+        $I->click(\ProductManagerPage::$acceptTermsId);
+        $I->click(\ProductManagerPage::$checkoutFinalStep);
         $I->see('Order Information');
     }
 }

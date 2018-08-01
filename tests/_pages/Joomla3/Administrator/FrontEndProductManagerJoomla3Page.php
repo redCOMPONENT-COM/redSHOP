@@ -92,7 +92,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	public static $termAndConditions = "//input[@id='termscondition']";
 
-	public static $termAndConditionsId = 'termscondition';
+	public static $termAndConditionsId = '#termscondition';
 
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
 

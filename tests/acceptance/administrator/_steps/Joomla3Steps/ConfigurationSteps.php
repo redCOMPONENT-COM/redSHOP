@@ -417,7 +417,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\ConfigurationPage::$URL);
         $I->click(\ConfigurationPage::$cartCheckout);
-        $I->click(\ConfigurationPage::$showShippingCartYes);
+        $I->see('Cart Settings');
+        $I->click(\ConfigurationPage::$onePageYes);
+        $I->click(\ConfigurationPage::$buttonSave);
+        $I->see('Configuration Saved');
     }
     /**
      * @param $name
@@ -448,7 +451,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
         }
         $I->amOnPage(\OrderManagerPage::$URL);
         $I->searchOrder($order);
-        $I->click(\ProductManagerPage::$iconEdit);
+        $I->click(\OrderManagerPage::$iconEdit);
         $quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
         $quantity = (int)$quantity;
         $priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;

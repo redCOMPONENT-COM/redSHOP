@@ -416,6 +416,8 @@ abstract class AdminJ3Page
      * @var string
      */
 	public static $acceptTerms = "//input[@id='termscondition']";
+
+	public static $acceptTermsId = "#termscondition";
 	/**
 	 * @var string
 	 */
