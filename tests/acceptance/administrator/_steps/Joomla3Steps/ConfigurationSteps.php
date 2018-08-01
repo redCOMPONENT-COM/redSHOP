@@ -412,16 +412,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
-	public function oneStepCheckoutYes()
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationPage::$URL);
-        $I->click(\ConfigurationPage::$cartCheckout);
-        $I->see('Cart Settings');
-        $I->click(\ConfigurationPage::$onePageYes);
-        $I->click(\ConfigurationPage::$buttonSave);
-        $I->see('Configuration Saved');
-    }
     /**
      * @param $name
      */

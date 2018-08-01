@@ -74,6 +74,23 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
         $this->emailWrong                 = "email";
         $this->userNameDelete             = $this->firstName;
         $this->searchOrder                = $this->firstName.$this->lastName ;
+
+        //configuration enable one page checkout
+        $this->addcart          = 'product';
+        $this->allowPreOrder    = 'yes';
+        $this->cartTimeOut      = $this->fake->numberBetween(100, 10000);
+        $this->enabldAjax       = 'no';
+        $this->defaultCart      = null;
+        $this->buttonCartLead   = 'Back to current view';
+        $this->onePage          = 'yes';
+        $this->showShippingCart = 'no';
+        $this->attributeImage   = 'no';
+        $this->quantityChange   = 'no';
+        $this->quantityInCart   = 0;
+        $this->minimunOrder     = 0;
+        $this->enableQuation    = 'no';
+        $this->onePageNo        = 'no';
+        $this->onePageYes       = 'yes';
     }
     /**
      * @param ProductManagerSteps $I
@@ -127,8 +144,10 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
      */
     public function addProductToCart(AcceptanceTester $I, $scenario)
     {
+        $I->wantTo('setup up one page checkout at admin');
         $I = new ConfigurationSteps($scenario);
-        $I->oneStepCheckoutYes();
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
         $I = new OrderManagerJoomla3Steps($scenario);
         $I->wantTo('Add products in cart');
         $I->addProductToCart($this->randomProductName, $this->userName, $this->password );
@@ -147,47 +166,47 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
      * @param $scenario
      * @throws Exception
      */
-    public function deleteProduct(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Deletion Product in Administrator');
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->deleteProduct($this->randomProductName);
-    }
+//    public function deleteProduct(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Deletion Product in Administrator');
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->deleteProduct($this->randomProductName);
+//    }
     /**
      * @param AcceptanceTester $I
      * @param $scenario
      */
-    public function deleteCategory(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Deletion Category in Administrator');
-        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-        $I->deleteCategory($this->randomCategoryName);
-    }
+//    public function deleteCategory(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Deletion Category in Administrator');
+//        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+//        $I->deleteCategory($this->randomCategoryName);
+//    }
     /**
      * @param AcceptanceTester $I
      * @param $scenario
      */
-    public function deleteUser(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Deletion of User in Administrator');
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->deleteUserWithAccept($this->userNameDelete);
-    }
+//    public function deleteUser(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Deletion of User in Administrator');
+//        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+//        $I->deleteUserWithAccept($this->userNameDelete);
+//    }
     /**
      * @param DiscountSteps $I
      */
-    public function deleteTotalDiscount(DiscountSteps $I)
-    {
-        $I->wantTo('Deletion of Total Discount in Administrator');
-        $I->deleteDiscount($this->randomDiscountName);
-    }
+//    public function deleteTotalDiscount(DiscountSteps $I)
+//    {
+//        $I->wantTo('Deletion of Total Discount in Administrator');
+//        $I->deleteDiscount($this->randomDiscountName);
+//    }
     /**
      * @param OrderManagerJoomla3Steps $I
      * @throws Exception
      */
-    public function deleteOrderTotalDiscount(OrderManagerJoomla3Steps $I)
-    {
-        $I->wantTo('Deletion of Order Total Discount in Administrator');
-        $I->deleteOrder( $this->searchOrder);
-    }
+//    public function deleteOrderTotalDiscount(OrderManagerJoomla3Steps $I)
+//    {
+//        $I->wantTo('Deletion of Order Total Discount in Administrator');
+//        $I->deleteOrder( $this->searchOrder);
+//    }
 }
