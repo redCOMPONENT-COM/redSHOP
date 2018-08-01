@@ -1064,7 +1064,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					$orderdata->ship_method_id     = $data['shipping_rate_id'];
 					$orderdata->order_shipping_tax = (isset($neworder_shipping[6]) && $neworder_shipping[6]) ? $neworder_shipping[6] : 0;
 					$orderdata->mdate              = time();
-					$orderdata->shop_id            = $data['shop_id'] . "###" . $data['gls_mobile'];
+					$orderdata->shop_id            = $data['shop_id'] . "###" . $data['gls_mobile'] . "###" . $data['gls_zipcode'];
 
 					if (!$orderdata->store())
 					{
