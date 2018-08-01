@@ -220,6 +220,8 @@ class productHelper
 
 		if ($userId)
 		{
+			RedshopHelperUser::createUserSession($userId);
+			
 			$query = $db->getQuery(true)
 				->select('ps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'ps'))
