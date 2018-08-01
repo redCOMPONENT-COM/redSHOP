@@ -118,7 +118,7 @@ abstract class AdminJ3Page
     /**
      * @var array
      */
-	public static $resetButton = "//input[@id=\'reset\']";
+	public static $resetButton = "//input[@id='reset']";
 
 	/**
 	 * @var array
@@ -318,7 +318,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $productFirst = "//div[@class=\'product_name\']/a";
+	public static $productFirst = "//div[@class='product_name']/a";
 
 	/**
 	 * @var string
@@ -432,7 +432,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $priceVAT = "//div[@class=\'form-group\'][3]//div[1]";
+	public static $priceVAT = "//div[@class='form-group'][3]//div[1]";
 	/**
 	 * @var array
 	 */
@@ -441,7 +441,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $shippingRate = "//span[@id=\'spnShippingrate\']";
+	public static $shippingRate = "//span[@id='spnShippingrate']";
 
 	/**
 	 * @var string

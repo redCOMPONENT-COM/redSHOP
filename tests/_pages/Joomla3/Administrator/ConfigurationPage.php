@@ -97,7 +97,7 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $varFirstResults = "//ul[@id=\'select2-results-37\']";
+	public static $varFirstResults = "//ul[@id='select2-results-37']";
 
     /**
      * @var string
@@ -107,12 +107,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $vatSearchDefaultBase = "#'s2id_autogen38_search";
+	public static $vatSearchDefaultBase = "#s2id_autogen38_search";
 
     /**
      * @var string
      */
-	public static $searchDefaultFirstResult = "//ul[@id=\'select2-results-38\']";
+	public static $searchDefaultFirstResult = "//ul[@id='select2-results-38']";
 
     /**
      * @var string
@@ -263,7 +263,7 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $firstCartSearch = "//ul[@id=\'select2-results-43\']";
+	public static $firstCartSearch = "//ul[@id='select2-results-43']";
 
     /**
      * @var string
@@ -278,7 +278,7 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $showShippingCartNo = "show_shipping_in_cart0-lbl";
+	public static $showShippingCartNo = "#show_shipping_in_cart0-lbl";
 
     /**
      * @var string
