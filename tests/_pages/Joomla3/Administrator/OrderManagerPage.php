@@ -66,6 +66,8 @@ class OrderManagerPage extends AdminJ3Page
     public static $deleteFirst = ['xpath' => '//input[@id=\'cb0\']'];
 
     public static $nameXpath = ['xpath' => '//td[4]/a'];
+
+    public static $iconEdit = '//a[@ title="Edit order"]';
     
     //button
     public static $buttonSavePay = "Save + Pay";

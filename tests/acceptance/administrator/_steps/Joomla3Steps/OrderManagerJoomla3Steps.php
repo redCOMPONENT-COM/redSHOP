@@ -92,7 +92,10 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
-
+    /**
+     * @param $nameUser
+     * @throws \Exception
+     */
 	public function deleteOrder($nameUser)
 	{
 		$I = $this;
@@ -102,6 +105,55 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\OrderManagerPage::$deleteFirst);
 		$I->click(\OrderManagerPage::$buttonDelete);
 		$I->acceptPopup();
-//		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
+    /**
+     * @param $productName
+     */
+    public function searchProduct($productName)
+    {
+        $I = $this;
+        $I->wantTo('Search the Product');
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->filterListBySearchingProduct($productName);
+    }
+    /**
+     * @param $name
+     * @throws \Exception
+     */
+    public function checkReview($name)
+    {
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->searchProduct($name);
+        $I->click(['link' => $name]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click(\ProductManagerPage::$buttonReview);
+        $I->switchToNextTab();
+        $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
+        $I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
+    }
+    /**
+     * @param $nameProduct
+     * @param $username
+     * @param $password
+     * @throws \Exception
+     */
+    public function addProductToCart($nameProduct, $username, $password)
+    {
+        $I = $this;
+        $I->checkReview($nameProduct);
+        $I->see($nameProduct);
+        $I->click(\ProductManagerPage::$buttonAddToCart);
+        $I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+        $I->see("Product has been added to your cart.", '.alert-message');
+        $I->fillField(\ProductManagerPage::$username, $username);
+        $I->fillField(\ProductManagerPage::$password, $password);
+        $I->click(\ProductManagerPage::$buttonLogin);
+        $I->amOnPage(\ProductManagerPage::$cartPageUrL);
+        $I->click(\ProductManagerPage::$buttonCheckOut);
+        $I->waitForElement(\ProductManagerPage::$acceptTermsId, '30');
+        $I->click(\ProductManagerPage::$acceptTermsId);
+        $I->click(\ProductManagerPage::$checkoutFinalStep);
+        $I->see('Order Information');
+    }
 }

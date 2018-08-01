@@ -29,6 +29,13 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
+    /**
+     * @param string $countryName
+     * @param string $stateName
+     * @param string $twoCode
+     * @param string $threeCode
+     * @throws \Exception
+     */
 	public function addState($countryName = 'Test Country', $stateName = 'Test State', $twoCode = '12', $threeCode = '123')
 	{
 		$client           = $this;
@@ -60,6 +67,11 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
+    /**
+     * @param string $stateName
+     * @param string $stateNewName
+     * @throws \Exception
+     */
 	public function updateState($stateName = 'Test State', $stateNewName = 'New State Name')
 	{
 		$client = $this;
@@ -105,6 +117,10 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
+    /**
+     * @param $stateName
+     * @throws \Exception
+     */
 	public function searchState($stateName)
 	{
 		$client = $this;

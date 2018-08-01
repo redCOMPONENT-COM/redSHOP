@@ -462,4 +462,19 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
     }
+    /**
+     * @param $name
+     */
+    public function deleteUserWithAccept($name)
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($name);
+        $I->see($name, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$deleteButton);
+        $I->acceptPopup();
+        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
+    }
 }

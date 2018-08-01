@@ -24,7 +24,6 @@ class DiscountPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=discounts';
-
     /**
      * @var array
      */
@@ -84,6 +83,26 @@ class DiscountPage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $discountCheckBox = ['xpath' => '//tr/td[2]'];
+    /**
+     * @var array
+     */
+    public static $fieldType = ['name' => 'jform[type]'];
+    /**
+     * @var array
+     */
+    public static $productId = '#jform_discount_product-lbl';
+    /**
+     * @var array
+     */
+    public static $productFile = '#s2id_autogen1';
+    /**
+     * @var array
+     */
+    public static $categoryId = '#jform_category_id-lbl';
+    /**
+     * @var array
+     */
+    public static $categoryFile = '#s2id_autogen2';
 
 	/**
 	 * @return string
@@ -94,4 +113,13 @@ class DiscountPage extends AdminJ3Page
 	{
 		return "DKK ";
 	}
+    /**
+     * @param $shopperGroup
+     * @return array
+     */
+    public function returnXpathShopperGroup($shopperGroup)
+    {
+        $path = ['xpath' => "//span[contains(text(), '" . $shopperGroup . "')]"];
+        return $path;
+    }
 }
