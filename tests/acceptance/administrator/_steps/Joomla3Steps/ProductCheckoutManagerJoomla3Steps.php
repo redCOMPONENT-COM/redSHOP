@@ -706,14 +706,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->comment($userName);
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
-			$I->click(\FrontEndProductManagerJoomla3Page::$idAddAccount);
-			try{
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
-			}catch (Exception $e)
-			{
-				$I->click(\FrontEndProductManagerJoomla3Page::$idAddAccount);
-			}
-			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
+			$I->executeJS("jQuery('#createaccount').click()");
+			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
 			$I->fillField(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, $userName);
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idPassOneStep, 30);
 			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idPassOneStep, 30);
