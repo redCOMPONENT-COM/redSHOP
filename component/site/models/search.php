@@ -184,7 +184,8 @@ class RedshopModelSearch extends RedshopModel
 
 		$orderBy = $app->input->getString('order_by', '');
 		$this->setState('order_by', $orderBy);
-		$this->setState('template_id', !empty($filter['template_id']) ? $filter['template_id'] : $templateid);
+
+		$this->setState('template_id', isset($filter['template_id']) ? $filter['template_id'] : null);
 
 		$this->setState('productperpage', $perpageproduct);
 		$this->setState('list.limit', $limit);
