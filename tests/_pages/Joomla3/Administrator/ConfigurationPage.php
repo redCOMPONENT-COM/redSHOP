@@ -183,5 +183,5 @@ class ConfigurationPage extends AdminJ3Page
 
     public static $decimalSeparator = '#price_seperator';
 
-    public static $numberOfPriceDecimals =  '#price_decimal';
+    public static $numberOfPriceDecimals = '#price_decimal';
 }

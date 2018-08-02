@@ -65,11 +65,11 @@ class ProductManagerPage extends AdminJ3Page
 
     public static $vatSearchField = ['id' => 's2id_autogen8_search'];
 
-    public static $buttonCheckOut = '//input[@ value="Checkout"]';
+    public static $buttonCheckOut = '//input[@value="Checkout"]';
 
-    public static $buttonLogin = '//button [@ name="Submit"]';
+    public static $buttonLogin = '//button [@name="Submit"]';
 
-    public static $iconEdit = '//a[@ title="Edit order"]';
+    public static $iconEdit = '//a[@title="Edit order"]';
 
     public static $giftCode = "#coupon_input";
 
