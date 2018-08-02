@@ -97,7 +97,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 *
 	 * @return void
 	 */
-	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = ['id' => 'filter_search'])
+	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = "#filter_search")
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
@@ -165,7 +165,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 *
 	 * @return void
 	 */
-	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = "#filter")
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
