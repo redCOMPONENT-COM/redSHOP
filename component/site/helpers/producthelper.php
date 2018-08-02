@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Redshop\Template\Cart;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -79,11 +81,11 @@ class productHelper
 	/**
 	 * Method for get Wishlist module base in element name
 	 *
-	 * @param   string  $elementName  Element name
+	 * @param   string $elementName Element name
 	 *
 	 * @return  object|null
 	 *
-	 * @since   1.6.0
+	 * @since       1.6.0
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperWishlist::getWishlistModule instead
 	 */
@@ -95,12 +97,12 @@ class productHelper
 	/**
 	 * Method for get Wishlist user field data
 	 *
-	 * @param   integer  $wishlistId  Wish list id
-	 * @param   integer  $productId   Product Id
+	 * @param   integer $wishlistId Wish list id
+	 * @param   integer $productId  Product Id
 	 *
 	 * @return  array
 	 *
-	 * @since   1.6.0
+	 * @since       1.6.0
 	 *
 	 * @deprecated  2.0.6
 	 */
@@ -112,8 +114,8 @@ class productHelper
 	/**
 	 * Get Main Product Query
 	 *
-	 * @param   bool|JDatabaseQuery  $query   Get query or false
-	 * @param   int                  $userId  User id
+	 * @param   bool|JDatabaseQuery $query  Get query or false
+	 * @param   int                 $userId User id
 	 *
 	 * @deprecated  1.5 Use RedshopHelperProduct::getMainProductQuery instead
 	 *
@@ -127,8 +129,8 @@ class productHelper
 	/**
 	 * Get product information
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $userId     User id
+	 * @param   int $productId Product id
+	 * @param   int $userId    User id
 	 *
 	 * @deprecated  1.5 Use RedshopHelperProduct::getProductById instead
 	 *
@@ -142,7 +144,7 @@ class productHelper
 	/**
 	 * Set product array
 	 *
-	 * @param   array  $products  Array product/s values
+	 * @param   array $products Array product/s values
 	 *
 	 * @return void
 	 *
@@ -156,11 +158,11 @@ class productHelper
 	/**
 	 * Method for check country in EU area or not
 	 *
-	 * @param   string  $country  Country code
+	 * @param   string $country Country code
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6.0
+	 * @since       1.6.0
 	 *
 	 * @deprecated  2.0.6
 	 */
@@ -172,9 +174,9 @@ class productHelper
 	/**
 	 * Get Product Prices
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $userId     User id
-	 * @param   int  $quantity   Quantity
+	 * @param   int $productId Product id
+	 * @param   int $userId    User id
+	 * @param   int $quantity  Quantity
 	 *
 	 * @return mixed
 	 * @deprecated 2.1.0
@@ -187,9 +189,9 @@ class productHelper
 	/**
 	 * Get Product Special Price
 	 *
-	 * @param   float   $productPrice       Product price
-	 * @param   string  $discountStringIds  Discount ids
-	 * @param   int     $productId          Product id
+	 * @param   float  $productPrice      Product price
+	 * @param   string $discountStringIds Discount ids
+	 * @param   int    $productId         Product id
 	 *
 	 * @return  null|object
 	 *
@@ -203,7 +205,7 @@ class productHelper
 	/**
 	 * Get Product Special Id
 	 *
-	 * @param   int  $userId  User Id
+	 * @param   int $userId User Id
 	 *
 	 * @return  string
 	 */
@@ -247,7 +249,7 @@ class productHelper
 
 		self::$productSpecialIds[$userId] = '0';
 
-		if (count($result) > 0)
+		if (!empty($result))
 		{
 			self::$productSpecialIds[$userId] .= ',' . implode(',', $result);
 		}
@@ -258,10 +260,10 @@ class productHelper
 	/**
 	 * Method for get product tax
 	 *
-	 * @param   integer  $productId     Product Id
-	 * @param   integer  $productPrice  Product price
-	 * @param   integer  $userId        User ID
-	 * @param   integer  $taxExempt     Tax exempt
+	 * @param   integer $productId    Product Id
+	 * @param   integer $productPrice Product price
+	 * @param   integer $userId       User ID
+	 * @param   integer $taxExempt    Tax exempt
 	 *
 	 * @return  integer
 	 *
@@ -275,13 +277,13 @@ class productHelper
 	/**
 	 * Method for replace tags about VAT information
 	 *
-	 * @param   string  $data  Template data.
+	 * @param   string $data Template data.
 	 *
 	 * @return  string
 	 *
 	 * @deprecated   2.0.6
 	 *
-	 * @see     RedshopHelperTax::replaceVatInformation
+	 * @see          RedshopHelperTax::replaceVatInformation
 	 */
 	public function replaceVatinfo($data)
 	{
@@ -291,14 +293,14 @@ class productHelper
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer  $userId                 User Information Id - Login user id
-	 * @param   integer  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
+	 * @param   integer $userId                User Information Id - Login user id
+	 * @param   integer $isShowButtonAddToCart Display Add to cart button for tax exemption user
 	 *
 	 * @return  boolean                          True if VAT applied else false
 	 *
 	 * @deprecated  2.0.6
 	 *
-	 * @see  RedshopHelperCart::taxExemptAddToCart
+	 * @see         RedshopHelperCart::taxExemptAddToCart
 	 */
 	public function taxexempt_addtocart($userId = 0, $isShowButtonAddToCart = 0)
 	{
@@ -308,7 +310,7 @@ class productHelper
 	/**
 	 * Get VAT User information
 	 *
-	 * @param   integer  $userId  User ID
+	 * @param   integer $userId User ID
 	 *
 	 * @return  object
 	 *
@@ -322,14 +324,14 @@ class productHelper
 	/**
 	 * get VAT rates from product or global
 	 *
-	 * @param   int  $productId  Id current product
-	 * @param   int  $userId     Id current user
+	 * @param   int $productId Id current product
+	 * @param   int $userId    Id current user
 	 *
 	 * @return  object|null  VAT rates information
 	 *
 	 * @deprecated  2.0.7
 	 *
-	 * @see  RedshopHelperTax::getVatRates
+	 * @see         RedshopHelperTax::getVatRates
 	 */
 	public function getVatRates($productId = 0, $userId = 0)
 	{
@@ -339,9 +341,9 @@ class productHelper
 	/**
 	 * Get ExtraFields For Current Template
 	 *
-	 * @param   array   $filedNames      Field name list
-	 * @param   string  $templateData    Template data
-	 * @param   int     $isCategoryPage  Flag change extra fields in category page
+	 * @param   array  $filedNames     Field name list
+	 * @param   string $templateData   Template data
+	 * @param   int    $isCategoryPage Flag change extra fields in category page
 	 *
 	 * @return  string
 	 *
@@ -355,11 +357,11 @@ class productHelper
 	/**
 	 * Parse extra fields for template for according to section.
 	 *
-	 * @param   array    $fieldNames       List of field names
-	 * @param   integer  $productId        ID of product
-	 * @param   integer  $section          Section
-	 * @param   string   $templateContent  Template content
-	 * @param   integer  $categoryPage     Argument for product section extra field for category page
+	 * @param   array   $fieldNames      List of field names
+	 * @param   integer $productId       ID of product
+	 * @param   integer $section         Section
+	 * @param   string  $templateContent Template content
+	 * @param   integer $categoryPage    Argument for product section extra field for category page
 	 *
 	 * @return  string
 	 *
@@ -373,7 +375,7 @@ class productHelper
 	/**
 	 * Method for replace price.
 	 *
-	 * @param   float  $productPrice  Product price
+	 * @param   float $productPrice Product price
 	 *
 	 * @return  string
 	 *
@@ -387,15 +389,15 @@ class productHelper
 	/**
 	 * Format Product Price
 	 *
-	 * @param   float    $productPrice    Product price
-	 * @param   boolean  $convert         Decide to convert price in Multi Currency
-	 * @param   string   $currencySymbol  Product Formatted Price
+	 * @param   float   $productPrice   Product price
+	 * @param   boolean $convert        Decide to convert price in Multi Currency
+	 * @param   string  $currencySymbol Product Formatted Price
 	 *
 	 * @return  string                    Formatted Product Price
 	 *
 	 * @deprecated  2.0.7
 	 *
-	 * @see RedshopHelperProductPrice::formattedPrice
+	 * @see         RedshopHelperProductPrice::formattedPrice
 	 */
 	public function getProductFormattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
@@ -405,7 +407,7 @@ class productHelper
 	/**
 	 * Method for round product price
 	 *
-	 * @param   float  $productPrice  Product price
+	 * @param   float $productPrice Product price
 	 *
 	 * @return  float
 	 *
@@ -431,19 +433,19 @@ class productHelper
 	/**
 	 * Get Product image
 	 *
-	 * @param   integer  $product_id               Product Id
-	 * @param   string   $link                     Product link
-	 * @param   integer  $width                    Product image width
-	 * @param   integer  $height                   Product image height
-	 * @param   integer  $Product_detail_is_light  Product detail is light
-	 * @param   integer  $enableHover              Enable hover
-	 * @param   integer  $suffixid                 Suffix id
-	 * @param   array    $preselectedresult        Preselected result
+	 * @param   integer $product_id              Product Id
+	 * @param   string  $link                    Product link
+	 * @param   integer $width                   Product image width
+	 * @param   integer $height                  Product image height
+	 * @param   integer $Product_detail_is_light Product detail is light
+	 * @param   integer $enableHover             Enable hover
+	 * @param   integer $suffixid                Suffix id
+	 * @param   array   $preselectedresult       Preselected result
 	 *
 	 * @return  string   Product Image
 	 *
 	 * @deprecated 2.1.0 Use Redshop\Product\Image\Image::getImage()
-	 * @see Redshop\Product\Image\Image::getImage
+	 * @see        Redshop\Product\Image\Image::getImage
 	 */
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0, $preselectedresult = array())
 	{
@@ -451,22 +453,22 @@ class productHelper
 	}
 
 	/**
-	 * @param   stdClass  $product                  Product data
-	 * @param   string    $imagename                Image name
-	 * @param   string    $linkimagename            Link image name
-	 * @param   string    $link                     Link
-	 * @param   integer   $width                    Width
-	 * @param   integer   $height                   Height
-	 * @param   integer   $Product_detail_is_light  Product detail is light
-	 * @param   integer   $enableHover              Enable hover or not
-	 * @param   array     $preselectedResult        Pre selected results
-	 * @param   integer   $suffixid                 Suffix ID
+	 * @param   stdClass $product                 Product data
+	 * @param   string   $imagename               Image name
+	 * @param   string   $linkimagename           Link image name
+	 * @param   string   $link                    Link
+	 * @param   integer  $width                   Width
+	 * @param   integer  $height                  Height
+	 * @param   integer  $Product_detail_is_light Product detail is light
+	 * @param   integer  $enableHover             Enable hover or not
+	 * @param   array    $preselectedResult       Pre selected results
+	 * @param   integer  $suffixid                Suffix ID
 	 *
 	 * @return  string                              Html content with replaced.
 	 * @throws  Exception
 	 *
 	 * @deprecated 2.1.0 Use Redshop\Product\Image\Render()
-	 * @see Redshop\Product\Image\Render
+	 * @see        Redshop\Product\Image\Render
 	 */
 	public function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
@@ -488,7 +490,7 @@ class productHelper
 				$product_hover_img = RedshopHelperMedia::watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$linkimage         = RedshopHelperMedia::watermark('category', $category_img, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $linkimage . "' " . $title . "  rel=\"myallimg\">";
-				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
+				$thum_image        .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 
 				$thum_image .= "</a>";
 			}
@@ -497,8 +499,8 @@ class productHelper
 				$product_img       = RedshopHelperMedia::watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$product_hover_img = RedshopHelperMedia::watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $link . "' " . $title . ">";
-				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
-				$thum_image .= "</a>";
+				$thum_image        .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
+				$thum_image        .= "</a>";
 			}
 		}
 
@@ -603,14 +605,14 @@ class productHelper
 	/**
 	 * Method for get default quantity
 	 *
-	 * @param   integer  $product_id  Product ID
-	 * @param   string   $data_add    Template html
+	 * @param   integer $product_id Product ID
+	 * @param   string  $data_add   Template html
 	 *
 	 * @return  integer
 	 * @throws  Exception
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Cart\Helper::getDefaultQuantity
+	 * @see        \Redshop\Cart\Helper::getDefaultQuantity
 	 */
 	public function GetDefaultQuantity($product_id = 0, $data_add = "")
 	{
@@ -620,18 +622,18 @@ class productHelper
 	/**
 	 * Method for get product show price
 	 *
-	 * @param   integer  $productId     Product ID
-	 * @param   string   $templateHtml  Template content
-	 * @param   string   $seoTemplate   SEO template
-	 * @param   int      $userId        User ID
-	 * @param   int      $isRel         Is Rel
-	 * @param   array    $attributes    Attributes
+	 * @param   integer $productId    Product ID
+	 * @param   string  $templateHtml Template content
+	 * @param   string  $seoTemplate  SEO template
+	 * @param   int     $userId       User ID
+	 * @param   int     $isRel        Is Rel
+	 * @param   array   $attributes   Attributes
 	 *
 	 * @return  mixed|string
 	 *
 	 * @deprecated   2.0.7
 	 *
-	 * @see  RedshopHelperProductPrice::getShowPrice()
+	 * @see          RedshopHelperProductPrice::getShowPrice()
 	 */
 	public function getProductShowPrice($productId, $templateHtml, $seoTemplate = "", $userId = 0, $isRel = 0, $attributes = array())
 	{
@@ -641,11 +643,11 @@ class productHelper
 	/**
 	 * Method for get product net price
 	 *
-	 * @param   integer  $productId   ID of product
-	 * @param   integer  $userId      ID of user
-	 * @param   integer  $quantity    Quantity for get
-	 * @param   string   $dataAdd     Template data
-	 * @param   array    $attributes  Attributes list.
+	 * @param   integer $productId  ID of product
+	 * @param   integer $userId     ID of user
+	 * @param   integer $quantity   Quantity for get
+	 * @param   string  $dataAdd    Template data
+	 * @param   array   $attributes Attributes list.
 	 *
 	 * @return  array
 	 *
@@ -659,8 +661,8 @@ class productHelper
 	/**
 	 * Get Layout product quantity price
 	 *
-	 * @param   int  $productId  Product Id
-	 * @param   int  $userId     User Id
+	 * @param   int $productId Product Id
+	 * @param   int $userId    User Id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperProduct::getProductQuantityPrice instead
 	 *
@@ -674,13 +676,13 @@ class productHelper
 	/**
 	 * Method for get discount
 	 *
-	 * @param   integer  $subTotal  Sub-total amount
-	 * @param   integer  $userId    User ID
+	 * @param   integer $subTotal Sub-total amount
+	 * @param   integer $userId   User ID
 	 *
 	 * @return  mixed
 	 *
 	 * @deprecated 2.0.3
-	 * @see RedshopHelperDiscount::getDiscount
+	 * @see        RedshopHelperDiscount::getDiscount
 	 */
 	public function getDiscountId($subTotal = 0, $userId = 0)
 	{
@@ -690,8 +692,8 @@ class productHelper
 	/**
 	 * Method for get discount amount fromm cart
 	 *
-	 * @param   array    $cart    Cart data
-	 * @param   integer  $userId  User ID
+	 * @param   array   $cart   Cart data
+	 * @param   integer $userId User ID
 	 *
 	 * @return  float
 	 *
@@ -705,9 +707,9 @@ class productHelper
 	/**
 	 * Method for get price of product
 	 *
-	 * @param   integer $product_id            Product ID
-	 * @param   integer $show_price_with_vat   True for include VAT. False for not include VAT
-	 * @param   integer $user_id               User ID
+	 * @param   integer $product_id          Product ID
+	 * @param   integer $show_price_with_vat True for include VAT. False for not include VAT
+	 * @param   integer $user_id             User ID
 	 *
 	 * @return  float
 	 * @since   2.1.0
@@ -720,13 +722,13 @@ class productHelper
 	/**
 	 * Method for get additional media images
 	 *
-	 * @param   int     $section_id  Section Id
-	 * @param   string  $section     Section name
-	 * @param   string  $mediaType   Media type
+	 * @param   int    $section_id Section Id
+	 * @param   string $section    Section name
+	 * @param   string $mediaType  Media type
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.3
+	 * @since       2.0.3
 	 *
 	 * @deprecated  2.0.7
 	 */
@@ -738,11 +740,11 @@ class productHelper
 	/**
 	 * Get alternative text for media
 	 *
-	 * @param   string  $mediaSection  Media section
-	 * @param   int     $sectionId     Section i
-	 * @param   string  $mediaName     Media name
-	 * @param   int     $mediaId       Media id
-	 * @param   string  $mediaType     Media type
+	 * @param   string $mediaSection Media section
+	 * @param   int    $sectionId    Section i
+	 * @param   string $mediaName    Media name
+	 * @param   int    $mediaId      Media id
+	 * @param   string $mediaType    Media type
 	 *
 	 * @return  string                 Alternative text from media
 	 *
@@ -756,9 +758,9 @@ class productHelper
 	/**
 	 * Get redshop user information
 	 *
-	 * @param   int     $userId       Id joomla user
-	 * @param   string  $addressType  Type user address BT (Billing Type) or ST (Shipping Type)
-	 * @param   int     $userInfoId   Id redshop user
+	 * @param   int    $userId      Id joomla user
+	 * @param   string $addressType Type user address BT (Billing Type) or ST (Shipping Type)
+	 * @param   int    $userInfoId  Id redshop user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
 	 *
@@ -772,13 +774,13 @@ class productHelper
 	/**
 	 * Method for check if template apply VAT or not
 	 *
-	 * @param   string   $template  Template content
-	 * @param   integer  $userId    User ID
+	 * @param   string  $template Template content
+	 * @param   integer $userId   User ID
 	 *
 	 * @return  boolean
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Template\Helper::isApplyVat
+	 * @see        \Redshop\Template\Helper::isApplyVat
 	 */
 	public function getApplyVatOrNot($template = "", $userId = 0)
 	{
@@ -788,13 +790,13 @@ class productHelper
 	/**
 	 * Method for check if template apply attribute VAT or not
 	 *
-	 * @param   string   $template  Template content
-	 * @param   integer  $userId    User ID
+	 * @param   string  $template Template content
+	 * @param   integer $userId   User ID
 	 *
 	 * @return  boolean
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Template\Helper::isApplyAttributeVat
+	 * @see        \Redshop\Template\Helper::isApplyAttributeVat
 	 */
 	public function getApplyattributeVatOrNot($template = "", $userId = 0)
 	{
@@ -816,13 +818,13 @@ class productHelper
 	/**
 	 * Get discount price from product with check discount date.
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return  float
 	 *
 	 * @deprecated   2.0.7
 	 *
-	 * @see  RedshopHelperDiscount::getDiscountPriceBaseDiscountDate()
+	 * @see          RedshopHelperDiscount::getDiscountPriceBaseDiscountDate()
 	 */
 	public function checkDiscountDate($productId)
 	{
@@ -832,10 +834,10 @@ class productHelper
 	/**
 	 * Method for get property price with discount
 	 *
-	 * @param   string   $sectionId  Section ID
-	 * @param   string   $quantity   Quantity
-	 * @param   string   $section    Section
-	 * @param   integer  $userId     User ID
+	 * @param   string  $sectionId Section ID
+	 * @param   string  $quantity  Quantity
+	 * @param   string  $section   Section
+	 * @param   integer $userId    User ID
 	 *
 	 * @return  object
 	 *
@@ -849,8 +851,8 @@ class productHelper
 	/**
 	 * Method for get property or sub object
 	 *
-	 * @param   string  $sectionId  Section ID
-	 * @param   string  $section    Section
+	 * @param   string $sectionId Section ID
+	 * @param   string $section   Section
 	 *
 	 * @return  object
 	 *
@@ -922,7 +924,7 @@ class productHelper
 	/**
 	 * Method for get list of pathway
 	 *
-	 * @param   array  $category  List of category
+	 * @param   array $category List of category
 	 *
 	 * @return  array             List of pathway
 	 *
@@ -941,7 +943,7 @@ class productHelper
 		$categorylist       = RedshopEntityCategory::getInstance($category_id)->getItem();
 		$category_parent_id = $this->getParentCategory($category_id);
 
-		if (count($categorylist) > 0 && $categorylist->parent_id > 0)
+		if (!empty($categorylist) && $categorylist->parent_id > 0)
 		{
 			$cItemid = RedshopHelperRouter::getCategoryItemid($categorylist->id);
 
@@ -951,7 +953,7 @@ class productHelper
 			}
 			else
 			{
-				$tmpItemid = $input  = JFactory::getApplication()->input->get('Itemid');
+				$tmpItemid = $input = JFactory::getApplication()->input->get('Itemid');
 			}
 
 			$category_list[$i]['category_id']   = $categorylist->id;
@@ -971,14 +973,14 @@ class productHelper
 	/**
 	 * Method for generate breadcrumb base on specific section
 	 *
-	 * @param   integer  $sectionId  Section ID
+	 * @param   integer $sectionId Section ID
 	 *
 	 * @return  void
 	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7
 	 *
-	 * @see RedshopHelperBreadcrumb::generate()
+	 * @see           RedshopHelperBreadcrumb::generate()
 	 */
 	public function generateBreadcrumb($sectionId = 0)
 	{
@@ -988,8 +990,8 @@ class productHelper
 	/**
 	 * Get section
 	 *
-	 * @param   string   $section  Section name
-	 * @param   integer  $id       Section id
+	 * @param   string  $section Section name
+	 * @param   integer $id      Section id
 	 *
 	 * @return  mixed|null
 	 * @deprecated 2.1.0
@@ -1008,13 +1010,13 @@ class productHelper
 					return RedshopHelperCategory::getCategoryById($id);
 					break;
 				default:
-					$db = JFactory::getDbo();
+					$db    = JFactory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from($db->qn('#__redshop_' . $section))
 						->where($db->qn($section . '_id') . ' = ' . (int) $id);
 
-					return  $db->setQuery($query)->loadObject();
+					return $db->setQuery($query)->loadObject();
 			}
 		}
 
@@ -1024,7 +1026,7 @@ class productHelper
 	/**
 	 * Get menu detail
 	 *
-	 * @param   string  $link  Link
+	 * @param   string $link Link
 	 *
 	 * @return  mixed|null
 	 * @throws  Exception
@@ -1043,17 +1045,17 @@ class productHelper
 	/**
 	 * Get Menu Information
 	 *
-	 * @param   int     $Itemid       Item id
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $sectionName  Section name
-	 * @param   string  $menuView     Menu view
-	 * @param   bool    $isRedshop    Is redshop
+	 * @param   int    $Itemid      Item id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $sectionName Section name
+	 * @param   string $menuView    Menu view
+	 * @param   bool   $isRedshop   Is redshop
 	 *
 	 * @return mixed|null
 	 */
 	public function getMenuInformation($Itemid = 0, $sectionId = 0, $sectionName = '', $menuView = '', $isRedshop = true)
 	{
-		$menu = JFactory::getApplication()->getMenu();
+		$menu   = JFactory::getApplication()->getMenu();
 		$values = array();
 
 		if ($menuView != "")
@@ -1063,11 +1065,11 @@ class productHelper
 				$values['view'] = $items[0];
 				unset($items[0]);
 
-				if (count($items) > 0)
+				if (!empty($items))
 				{
 					foreach ($items as $item)
 					{
-						$value = explode('=', $item);
+						$value             = explode('=', $item);
 						$values[$value[0]] = $value[1];
 					}
 				}
@@ -1141,7 +1143,7 @@ class productHelper
 	/**
 	 * Get Category Product
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return string
 	 */
@@ -1164,7 +1166,7 @@ class productHelper
 	{
 		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
-		$and = '';
+		$and                        = '';
 
 		if ($shopper_group_manufactures != "")
 		{
@@ -1188,14 +1190,14 @@ class productHelper
 	/**
 	 * Method to check product is downloadable or else
 	 *
-	 * @param   integer  $productId  Product Id
-	 * @param   boolean  $return     If yes, return object. False return number of download
+	 * @param   integer $productId Product Id
+	 * @param   boolean $return    If yes, return object. False return number of download
 	 *
 	 * @return  object|integer
 	 *
 	 * @deprecated   2.0.7
 	 *
-	 * @see  RedshopHelperProductDownload::checkDownload()
+	 * @see          RedshopHelperProductDownload::checkDownload()
 	 */
 	public function checkProductDownload($productId, $return = false)
 	{
@@ -1217,7 +1219,7 @@ class productHelper
 	/**
 	 * Method for get giftcard data
 	 *
-	 * @param   integer  $gid  ID of giftcard
+	 * @param   integer $gid ID of giftcard
 	 *
 	 * @return object
 	 *
@@ -1244,16 +1246,16 @@ class productHelper
 	/**
 	 * Method for calculate accessory price
 	 *
-	 * @param   integer  $productId           Product ID
-	 * @param   integer  $accessoryPrice      Accessory price
-	 * @param   integer  $accessoryMainPrice  Accessory main price
-	 * @param   integer  $hasVAT              Is include VAT?
-	 * @param   integer  $userId              User ID
+	 * @param   integer $productId          Product ID
+	 * @param   integer $accessoryPrice     Accessory price
+	 * @param   integer $accessoryMainPrice Accessory main price
+	 * @param   integer $hasVAT             Is include VAT?
+	 * @param   integer $userId             User ID
 	 *
 	 * @return  array
 	 *
 	 * @deprecated   2.1.0
-	 * @see \Redshop\Product\Accessory::getAccessoryPrice
+	 * @see          \Redshop\Product\Accessory::getAccessoryPrice
 	 */
 	public function getAccessoryPrice($productId = 0, $accessoryPrice = 0, $accessoryMainPrice = 0, $hasVAT = 0, $userId = 0)
 	{
@@ -1262,12 +1264,11 @@ class productHelper
 
 	public function getuserfield($orderitemid = 0, $section_id = 12)
 	{
-		$live_site = JUri::root();
 		$resultArr = array();
 
 		$userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $section_id);
 
-		if (count($userfield) > 0)
+		if (!empty($userfield))
 		{
 			$orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 			$product_id = $orderItem[0]->product_id;
@@ -1291,14 +1292,14 @@ class productHelper
 
 							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
-								$u_link = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
+								$u_link   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$data_txt .= "<a href='" . $u_link . "' target='_blank'>" . $files[$f] . "</a> ";
 							}
 
 							if (trim($data_txt) != "")
 							{
 								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
-								. ':</span><span class="userfield-value">' . stripslashes($data_txt) . '</span>';
+									. ':</span><span class="userfield-value">' . stripslashes($data_txt) . '</span>';
 							}
 						}
 						else
@@ -1306,7 +1307,7 @@ class productHelper
 							if (trim($userfield[$j]->data_txt) != "")
 							{
 								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
-								. '</span> : <span class="userfield-value">' . stripslashes($userfield[$j]->data_txt);
+									. '</span> : <span class="userfield-value">' . stripslashes($userfield[$j]->data_txt);
 							}
 						}
 					}
@@ -1316,12 +1317,12 @@ class productHelper
 
 		$resultstr = "";
 
-		if (count($resultArr) > 0)
+		if (empty($resultArr))
 		{
-			$resultstr = "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
+			return $resultstr;
 		}
 
-		return $resultstr;
+		return "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
 	}
 
 	public function getProductUserfieldFromTemplate($templatedata = "", $giftcard = 0)
@@ -1335,11 +1336,11 @@ class productHelper
 		{
 			$template_start = explode("{if giftcard_userfield}", $templatedata);
 
-			if (count($template_start) > 1)
+			if (!empty($template_start))
 			{
 				$template_end = explode("{giftcard_userfield end if}", $template_start[1]);
 
-				if (count($template_end) > 0)
+				if (!empty($template_end))
 				{
 					$template_middle = $template_end[0];
 				}
@@ -1353,7 +1354,7 @@ class productHelper
 			{
 				$template_end = explode("{product_userfield end if}", $template_start[1]);
 
-				if (count($template_end) > 0)
+				if (!empty($template_end))
 				{
 					$template_middle = $template_end[0];
 				}
@@ -1409,11 +1410,11 @@ class productHelper
 
 		if ($section_id == 12)
 		{
-			$product_id = $cart[$id]['product_id'];
+			$product_id    = $cart[$id]['product_id'];
 			$productdetail = RedshopHelperProduct::getProductById($product_id);
-			$temp_name = "product";
-			$temp_id   = $productdetail->product_template;
-			$giftcard  = 0;
+			$temp_name     = "product";
+			$temp_id       = $productdetail->product_template;
+			$giftcard      = 0;
 		}
 		else
 		{
@@ -1452,12 +1453,12 @@ class productHelper
 
 		$resultstr = "";
 
-		if (count($resultArr) > 0)
+		if (empty($resultArr))
 		{
-			$resultstr = "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
+			return $resultstr;
 		}
 
-		return $resultstr;
+		return "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
 	}
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
@@ -1483,12 +1484,12 @@ class productHelper
 
 		$resultstr = "";
 
-		if (count($resultArr) > 0)
+		if (empty($resultArr))
 		{
-			$resultstr = implode("<br/>", $resultArr);
+			return $resultstr;
 		}
 
-		return $resultstr;
+		return implode("<br/>", $resultArr);
 	}
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
@@ -1528,7 +1529,7 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 
-		$row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
@@ -1554,12 +1555,12 @@ class productHelper
 	/**
 	 * Get Product Attribute
 	 *
-	 * @param   int  $productId          Product id
-	 * @param   int  $attributeSetId     Attribute set id
-	 * @param   int  $attributeId        Attribute id
-	 * @param   int  $published          Published attribute set
-	 * @param   int  $attributeRequired  Attribute required
-	 * @param   int  $notAttributeId     Not attribute id
+	 * @param   int $productId         Product id
+	 * @param   int $attributeSetId    Attribute set id
+	 * @param   int $attributeId       Attribute id
+	 * @param   int $published         Published attribute set
+	 * @param   int $attributeRequired Attribute required
+	 * @param   int $notAttributeId    Not attribute id
 	 *
 	 * @return mixed
 	 *
@@ -1576,17 +1577,17 @@ class productHelper
 	/**
 	 * Get Attribute Property
 	 *
-	 * @param   int  $propertyId      Property id
-	 * @param   int  $attributeId     Attribute id
-	 * @param   int  $productId       Product id
-	 * @param   int  $attributeSetId  Attribute set id
-	 * @param   int  $required        Required
-	 * @param   int  $notPropertyId   Not property id
+	 * @param   int $propertyId     Property id
+	 * @param   int $attributeId    Attribute id
+	 * @param   int $productId      Product id
+	 * @param   int $attributeSetId Attribute set id
+	 * @param   int $required       Required
+	 * @param   int $notPropertyId  Not property id
 	 *
 	 * @return  mixed
 	 *
 	 * @deprecated   2.0.3  Use RedshopHelperProduct_Attribute::getAttributeProperties() instead.
-	 * @see RedshopHelperProduct_Attribute::getAttributeProperties
+	 * @see          RedshopHelperProduct_Attribute::getAttributeProperties
 	 */
 	public function getAttibuteProperty($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = 0, $required = 0, $notPropertyId = 0)
 	{
@@ -1598,12 +1599,12 @@ class productHelper
 	/**
 	 * Method for get attribute with stock
 	 *
-	 * @param   array  $property  List of property
+	 * @param   array $property List of property
 	 *
 	 * @return  array
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Helper\Stockroom::getAttributePropertyWithStock
+	 * @see        \Redshop\Helper\Stockroom::getAttributePropertyWithStock
 	 */
 	public function getAttibutePropertyWithStock($property = array())
 	{
@@ -1613,12 +1614,12 @@ class productHelper
 	/**
 	 * Method for get sub-attribute with stock
 	 *
-	 * @param   array  $subproperty  List of property
+	 * @param   array $subproperty List of property
 	 *
 	 * @return  array
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock
+	 * @see        \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock
 	 */
 	public function getAttibuteSubPropertyWithStock($subproperty)
 	{
@@ -1628,8 +1629,8 @@ class productHelper
 	/**
 	 * Method for get sub properties
 	 *
-	 * @param   int  $subproperty_id  Sub-Property ID
-	 * @param   int  $property_id     Property ID
+	 * @param   int $subproperty_id Sub-Property ID
+	 * @param   int $property_id    Property ID
 	 *
 	 * @return  mixed                List of sub-properties data.
 	 *
@@ -1643,14 +1644,14 @@ class productHelper
 	/**
 	 * Method for get attribute template
 	 *
-	 * @param   string   $templateHtml  Template html
-	 * @param   boolean  $display       Is display?
+	 * @param   string  $templateHtml Template html
+	 * @param   boolean $display      Is display?
 	 *
 	 * @return  object
 	 * @throws  \Exception
 	 *
 	 * @deprecated   2.1.0
-	 * @see \Redshop\Template\Helper::getAttribute
+	 * @see          \Redshop\Template\Helper::getAttribute
 	 */
 	public function getAttributeTemplate($templateHtml = '', $display = true)
 	{
@@ -1660,10 +1661,10 @@ class productHelper
 	/**
 	 * Method for get Product Accessories.
 	 *
-	 * @param   string  $accessory_id      ID of accessory.
-	 * @param   string  $product_id        ID of product.
-	 * @param   int     $child_product_id  ID of child product.
-	 * @param   int     $cid               ID of category.
+	 * @param   string $accessory_id     ID of accessory.
+	 * @param   string $product_id       ID of product.
+	 * @param   int    $child_product_id ID of child product.
+	 * @param   int    $cid              ID of category.
 	 *
 	 * @return  array                 List of accessories.
 	 *
@@ -1677,13 +1678,13 @@ class productHelper
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
 	 *
 	 * @deprecated   2.1.0
-	 * @see \Redshop\Template\Helper::getAddToCart
+	 * @see          \Redshop\Template\Helper::getAddToCart
 	 */
 	public function getAddtoCartTemplate($templateHtml = '')
 	{
@@ -1693,13 +1694,13 @@ class productHelper
 	/**
 	 * Method for get accessory template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  object
 	 * @throws  \Exception
 	 *
 	 * @deprecated   2.1.0
-	 * @see \Redshop\Template\Helper::getAccessory
+	 * @see          \Redshop\Template\Helper::getAccessory
 	 */
 	public function getAccessoryTemplate($templateHtml = "")
 	{
@@ -1709,22 +1710,29 @@ class productHelper
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  object
 	 * @throws  \Exception
 	 *
 	 * @deprecated   2.1.0
-	 * @see \Redshop\Template\Helper::getRelatedProduct
+	 * @see          \Redshop\Template\Helper::getRelatedProduct
 	 */
 	public function getRelatedProductTemplate($templateHtml = '')
 	{
 		return \Redshop\Template\Helper::getRelatedProduct($templateHtml);
 	}
 
-	public function getRelatedProduct($product_id = 0, $related_id = 0)
+	/**
+	 * @param   integer $productId Product id
+	 * @param   integer $relatedId Related id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
+	public function getRelatedProduct($productId = 0, $relatedId = 0)
 	{
-		$helper          = redhelper::getInstance();
 		$and             = "";
 		$orderby         = "ORDER BY p.product_id ASC ";
 		$orderby_related = "";
@@ -1735,10 +1743,10 @@ class productHelper
 			$orderby_related = "";
 		}
 
-		if ($product_id != 0)
+		if ($productId != 0)
 		{
 			// Sanitize ids
-			$productIds = explode(',', $product_id);
+			$productIds = explode(',', $productId);
 			$productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
 			if (RedshopHelperUtility::isRedProductFinder())
@@ -1773,7 +1781,7 @@ class productHelper
 
 				for ($i = 0, $in = count($list); $i < $in; $i++)
 				{
-					if ($list[$i]->product_id == $product_id)
+					if ($list[$i]->product_id == $productId)
 					{
 						$relatedArr[] = $list[$i]->related_id;
 					}
@@ -1792,7 +1800,7 @@ class productHelper
 				$relatedArr = Joomla\Utilities\ArrayHelper::toInteger($relatedArr);
 				$relatedArr = array_unique($relatedArr);
 
-				$query = "SELECT " . $product_id . " AS mainproduct_id,p.* "
+				$query = "SELECT " . $productId . " AS mainproduct_id,p.* "
 					. "FROM " . $this->_table_prefix . "product AS p "
 					. "WHERE p.published = 1 ";
 				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
@@ -1805,9 +1813,9 @@ class productHelper
 			}
 		}
 
-		if ($related_id != 0)
+		if ($relatedId != 0)
 		{
-			$and .= "AND r.related_id = " . (int) $related_id . " ";
+			$and .= "AND r.related_id = " . (int) $relatedId . " ";
 		}
 
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
@@ -1924,7 +1932,7 @@ class productHelper
 			{
 				$template_pd_sdata = strstr($data_add, '{if product_on_sale}', true);
 				$template_pd_edata = substr(strstr($data_add, '{product_on_sale end if}'), 24);
-				$data_add = $template_pd_sdata . $template_pd_edata;
+				$data_add          = $template_pd_sdata . $template_pd_edata;
 			}
 
 			$data_add = str_replace("{discount_start_date}", '', $data_add);
@@ -1995,13 +2003,13 @@ class productHelper
 	/**
 	 * Method for get ajax detail box template
 	 *
-	 * @param   object  $product  Product data
+	 * @param   object $product Product data
 	 *
 	 * @return  object
 	 * @throws  \Exception
 	 *
 	 * @deprecated    2.1.0
-	 * @see \Redshop\Template\Helper::getAjaxDetailBox
+	 * @see           \Redshop\Template\Helper::getAjaxDetailBox
 	 */
 	public function getAjaxDetailboxTemplate($product)
 	{
@@ -2011,16 +2019,16 @@ class productHelper
 	/**
 	 * Method for replace accessory data.
 	 *
-	 * @param   integer  $product_id     Product ID
-	 * @param   integer  $relproduct_id  Related product ID
-	 * @param   array    $accessory      Accessories data.
-	 * @param   string   $data_add       Template content
-	 * @param   boolean  $isChilds       True for accessory products is child.
-	 * @param   array    $selectAcc      Selected accessory.
+	 * @param   integer $product_id    Product ID
+	 * @param   integer $relproduct_id Related product ID
+	 * @param   array   $accessory     Accessories data.
+	 * @param   string  $data_add      Template content
+	 * @param   boolean $isChilds      True for accessory products is child.
+	 * @param   array   $selectAcc     Selected accessory.
 	 *
 	 * @return  mixed|string
 	 *
-	 * @since   1.6.0
+	 * @since       1.6.0
 	 *
 	 * @deprecated  2.1.0
 	 *
@@ -2034,18 +2042,18 @@ class productHelper
 	/**
 	 * Method for replace attribute data with allow add to cart in template.
 	 *
-	 * @param   int     $productId          Product ID
-	 * @param   int     $accessoryId        Accessory ID
-	 * @param   int     $relatedProductId   Related product ID
-	 * @param   array   $attributes         List of attribute data.
-	 * @param   string  $templateContent    HTML content of template.
-	 * @param   object  $attributeTemplate  List of attribute templates.
-	 * @param   bool    $isChild            Is child?
-	 * @param   bool    $onlySelected       True for just render selected / pre-selected attribute. False as normal.
+	 * @param   int    $productId         Product ID
+	 * @param   int    $accessoryId       Accessory ID
+	 * @param   int    $relatedProductId  Related product ID
+	 * @param   array  $attributes        List of attribute data.
+	 * @param   string $templateContent   HTML content of template.
+	 * @param   object $attributeTemplate List of attribute templates.
+	 * @param   bool   $isChild           Is child?
+	 * @param   bool   $onlySelected      True for just render selected / pre-selected attribute. False as normal.
 	 *
 	 * @return  string                      HTML content with replaced data.
 	 *
-	 * @since   1.6.1
+	 * @since        1.6.1
 	 *
 	 * @deprecated   2.0.3     Use RedshopHelperAttribute::replaceAttributeWithCartData() instead
 	 */
@@ -2059,14 +2067,14 @@ class productHelper
 	/**
 	 * Method for get hidden attributes cart image
 	 *
-	 * @param   integer  $product_id      Product Id
-	 * @param   integer  $property_id     Property Id
-	 * @param   integer  $subproperty_id  Sub-property Id
+	 * @param   integer $product_id     Product Id
+	 * @param   integer $property_id    Property Id
+	 * @param   integer $subproperty_id Sub-property Id
 	 *
 	 * @return  string
 	 *
 	 * @deprecated 2.1.0 Use Redshop\Product\Image\Image::getHiddenAttributeCartImage
-	 * @see Redshop\Product\Image\Image::getHiddenAttributeCartImage
+	 * @see        Redshop\Product\Image\Image::getHiddenAttributeCartImage
 	 */
 	public function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
 	{
@@ -2076,25 +2084,25 @@ class productHelper
 	/**
 	 * Method for replace attribute data in template.
 	 *
-	 * @param   int     $productId           Product ID
-	 * @param   int     $accessoryId         Accessory ID
-	 * @param   int     $relatedProductId    Related product ID
-	 * @param   array   $attributes          List of attribute data.
-	 * @param   string  $templateContent     HTML content of template.
-	 * @param   object  $attributeTemplate   List of attribute templates.
-	 * @param   bool    $isChild             Is child?
-	 * @param   array   $selectedAttributes  Preselected attribute list.
-	 * @param   int     $displayIndCart      Display in cart?
-	 * @param   bool    $onlySelected        True for just render selected / pre-selected attribute. False as normal.
+	 * @param   int    $productId          Product ID
+	 * @param   int    $accessoryId        Accessory ID
+	 * @param   int    $relatedProductId   Related product ID
+	 * @param   array  $attributes         List of attribute data.
+	 * @param   string $templateContent    HTML content of template.
+	 * @param   object $attributeTemplate  List of attribute templates.
+	 * @param   bool   $isChild            Is child?
+	 * @param   array  $selectedAttributes Preselected attribute list.
+	 * @param   int    $displayIndCart     Display in cart?
+	 * @param   bool   $onlySelected       True for just render selected / pre-selected attribute. False as normal.
 	 *
 	 * @return  string
 	 *
-	 * @since  1.6.1
+	 * @since       1.6.1
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperAttribute::replaceAttributeData() instead.
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent,
-	                                     $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
+	                                     $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $selectedAttributes, $displayIndCart, $onlySelected);
@@ -2105,7 +2113,8 @@ class productHelper
 		$attribute_table = "";
 		$subproperty     = array();
 
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.thumbscroller.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.thumbscroller.min.js', false, true);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
 
@@ -2134,19 +2143,18 @@ class productHelper
 			}
 
 			// Get stockroom and pre-order stockroom data.
-			$subPropertyIds = array_map(
-				function ($item)
-				{
+			$subPropertyIds     = array_map(
+				function ($item) {
 					return $item->value;
 				},
 				$subproperty
 			);
-			$stockrooms = RedshopHelperStockroom::getMultiSectionsStock($subPropertyIds, 'subproperty');
+			$stockrooms         = RedshopHelperStockroom::getMultiSectionsStock($subPropertyIds, 'subproperty');
 			$preOrderStockrooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock($subPropertyIds, 'subproperty');
 
 			foreach ($subproperty as $i => $item)
 			{
-				$subproperty[$i]->stock = isset($stockrooms[$item->value]) ? (int) $stockrooms[$item->value] : 0;
+				$subproperty[$i]->stock          = isset($stockrooms[$item->value]) ? (int) $stockrooms[$item->value] : 0;
 				$subproperty[$i]->preorder_stock = isset($preOrderStockrooms[$item->value]) ? (int) $preOrderStockrooms[$item->value] : 0;
 			}
 		}
@@ -2202,8 +2210,8 @@ class productHelper
 
 			if (count($subproperty) > 0)
 			{
-				$attribute_table = $subatthtml;
-				$attribute_table .= '<span id="subprop_lbl" style="display:none;">'
+				$attribute_table     = $subatthtml;
+				$attribute_table     .= '<span id="subprop_lbl" style="display:none;">'
 					. JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
 				$commonid            = $prefix . $product_id . '_' . $accessory_id . '_' . $attribute_id . '_'
 					. $property_id;
@@ -2215,7 +2223,7 @@ class productHelper
 
 				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
 				{
-					$attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
+					$attribute_table           = str_replace("{subproperty_image_scroller}", "", $attribute_table);
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
 				}
 
@@ -2260,7 +2268,7 @@ class productHelper
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
 								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
-								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='". $subproperty[$i]->text . "'></a></div>";
+								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='" . $subproperty[$i]->text . "'></a></div>";
 
 							$imgAdded++;
 						}
@@ -2350,7 +2358,7 @@ class productHelper
 				// Run event when prepare sub-properties data.
 				RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductSubProperties', array($product, &$subproperty));
 
-				$subproperties = array_merge(
+				$subproperties  = array_merge(
 					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
 					$subproperty
 				);
@@ -2398,7 +2406,7 @@ class productHelper
 				// Dropdown list
 				else
 				{
-					$attributeListType = 'select.genericlist';
+					$attributeListType             = 'select.genericlist';
 					$chkListAttributes['onchange'] = "javascript:" . $onChangeJSFunction;
 				}
 
@@ -2416,22 +2424,22 @@ class productHelper
 				$subPropertyScroller = RedshopLayoutHelper::render(
 					'product.subproperty_scroller',
 					array(
-							'subProperties'     => $subproperty,
-							'commonId'          => $commonid,
-							'productId'         => $product_id,
-							'propertyId'        => $property_id,
-							'subPropertyId'     => $subpropertyid,
-							'accessoryId'       => $accessory_id,
-							'relatedProductId'  => $relatedprd_id,
-							'selectSubproperty' => $selectedsubproperty,
-							'subPropertyArray'  => $subprop_Arry,
-							'width'             => $mpw_thumb,
-							'height'            => $mph_thumb
-						),
+						'subProperties'     => $subproperty,
+						'commonId'          => $commonid,
+						'productId'         => $product_id,
+						'propertyId'        => $property_id,
+						'subPropertyId'     => $subpropertyid,
+						'accessoryId'       => $accessory_id,
+						'relatedProductId'  => $relatedprd_id,
+						'selectSubproperty' => $selectedsubproperty,
+						'subPropertyArray'  => $subprop_Arry,
+						'width'             => $mpw_thumb,
+						'height'            => $mph_thumb
+					),
 					'',
 					array(
-							'component' => 'com_redshop'
-						)
+						'component' => 'com_redshop'
+					)
 				);
 
 				if ($imgAdded == 0 || $isAjax == 1)
@@ -2465,17 +2473,17 @@ class productHelper
 	/**
 	 * Method for display attribute price
 	 *
-	 * @param   integer  $productId     Product IID
-	 * @param   float    $showPrice     Show price
-	 * @param   string   $templateHtml  Template HTML
-	 * @param   integer  $userId        User ID
-	 * @param   integer  $applyTax      Is apply tax
-	 * @param   array    $attributes    Attributes data.
+	 * @param   integer $productId    Product IID
+	 * @param   float   $showPrice    Show price
+	 * @param   string  $templateHtml Template HTML
+	 * @param   integer $userId       User ID
+	 * @param   integer $applyTax     Is apply tax
+	 * @param   array   $attributes   Attributes data.
 	 *
 	 * @return  float
 	 *
 	 * @deprecated    2.1.0
-	 * @see RedshopHelperProduct_Attribute::defaultAttributePrice
+	 * @see           RedshopHelperProduct_Attribute::defaultAttributePrice
 	 */
 	public function defaultAttributeDataPrice($productId = 0, $showPrice = 0.0, $templateHtml = '', $userId = 0, $applyTax = 0, $attributes = array())
 	{
@@ -2498,7 +2506,7 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated 2.1.0 Redshop\Product\Property::replaceAddToCart
-	 * @see Redshop\Product\Property::replaceAddToCart
+	 * @see        Redshop\Product\Property::replaceAddToCart
 	 */
 	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
 	{
@@ -2525,7 +2533,7 @@ class productHelper
 	 * @throws  \Exception
 	 *
 	 * @deprecated 2.1.0 Use Redshop\Cart\Render::render
-	 * @see Redshop\Cart\Render::render
+	 * @see        Redshop\Cart\Render::render
 	 */
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
@@ -2535,12 +2543,12 @@ class productHelper
 	/**
 	 * Method for replace wishlist tag in template.
 	 *
-	 * @param   int     $productId        Product ID
-	 * @param   string  $templateContent  HTML data of template content
+	 * @param   int    $productId       Product ID
+	 * @param   string $templateContent HTML data of template content
 	 *
 	 * @return  string                    HTML data of replaced content.
 	 *
-	 * @since   1.5
+	 * @since       1.5
 	 *
 	 * @deprecated  2.0.3    Use RedshopHelperWishlist::replaceWishlistTag() instead
 	 */
@@ -2558,7 +2566,7 @@ class productHelper
 	 * @return  string
 	 *
 	 * @deprecated    2.1.0
-	 * @see Redshop\Product\Compare::replaceCompareProductsButton
+	 * @see           Redshop\Product\Compare::replaceCompareProductsButton
 	 */
 	public function replaceCompareProductsButton($productId = 0, $categoryId = 0, $html = "", $isRelatedProduct = 0)
 	{
@@ -2574,7 +2582,7 @@ class productHelper
 			$user_id = $user->id;
 		}
 
-		$data                  = \Redshop\Template\Helper::getCart();
+		$data                  = Cart::getCartTemplate();
 		$chktag                = \Redshop\Template\Helper::isApplyAttributeVat($data[0]->template_desc, $user_id);
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
@@ -2681,12 +2689,12 @@ class productHelper
 
 						if ($setPropEqual && $setSubpropEqual && isset($subprovatprice[$t]))
 						{
-							$accessory_priceArr = $this->makeTotalPriceByOprand(
+							$accessory_priceArr  = $this->makeTotalPriceByOprand(
 								$accessory_price,
 								$subprooprand[$t],
 								$subprovatprice[$t]
 							);
-							$accessory_vatArr   = $this->makeTotalPriceByOprand(
+							$accessory_vatArr    = $this->makeTotalPriceByOprand(
 								$accessory_vat_price,
 								$subprooprand[$t],
 								$subprovat[$t]
@@ -2705,15 +2713,15 @@ class productHelper
 			$displayaccessory .= RedshopLayoutHelper::render(
 				'product.product_accessory',
 				array(
-						'accessories' => $attArr,
-						'productId'   => $product_id,
-						'userId'      => $user_id,
-						'checkTag'    => $chktag
-					),
+					'accessories' => $attArr,
+					'productId'   => $product_id,
+					'userId'      => $user_id,
+					'checkTag'    => $chktag
+				),
 				'',
 				array(
-						'component' => 'com_redshop'
-					)
+					'component' => 'com_redshop'
+				)
 			);
 		}
 
@@ -2725,15 +2733,15 @@ class productHelper
 	/**
 	 * Method for get cart template
 	 *
-	 * @return  object
+	 * @return  array
 	 * @throws  \Exception
 	 *
 	 * @deprecated    2.1.0
-	 * @see \Redshop\Template\Helper::getCart
+	 * @see           \Redshop\Template\Helper::getCart
 	 */
 	public function getCartTemplate()
 	{
-		return \Redshop\Template\Helper::getCart();
+		return Cart::getCartTemplate();
 	}
 
 	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')
@@ -2766,7 +2774,7 @@ class productHelper
 		}
 		else
 		{
-			$productPrices   = RedshopHelperProductPrice::getNetPrice($productId, $userId, $quantity, $data);
+			$productPrices = RedshopHelperProductPrice::getNetPrice($productId, $userId, $quantity, $data);
 
 			// Using price without vat to proceed with calcualtion - we will apply vat in the end.
 			$productPrice    = $productPrices['product_price_novat'];
@@ -2855,7 +2863,7 @@ class productHelper
 							$subPropertyVat = 1;
 						}
 
-						if ($subPropertyOperator != '*' &&  $subPropertyOperator != '/')
+						if ($subPropertyOperator != '*' && $subPropertyOperator != '/')
 						{
 							$subPropertyVat = RedshopHelperProduct::getProductTax($productId, $subPropertyPriceWithoutVat, $userId);
 						}
@@ -2890,12 +2898,12 @@ class productHelper
 
 				if ($setPropEqual && $setSubpropEqual && isset($subPropertiesPriceWithVat[$t]))
 				{
-					$subPropertyPrices    = $this->makeTotalPriceByOprand($productPrice, $subPropertiesOperator[$t], $subPropertiesPriceWithVat[$t]);
+					$subPropertyPrices = $this->makeTotalPriceByOprand($productPrice, $subPropertiesOperator[$t], $subPropertiesPriceWithVat[$t]);
 
-					$productPrice     = $subPropertyPrices[1];
+					$productPrice = $subPropertyPrices[1];
 
 					$subPropertyOldPriceVats = $this->makeTotalPriceByOprand($productOldprice, $subPropertiesOperator[$t], $subPropertiesPrice[$t]);
-					$productOldprice   = $subPropertyOldPriceVats[1];
+					$productOldprice         = $subPropertyOldPriceVats[1];
 				}
 			}
 		}
@@ -2903,15 +2911,15 @@ class productHelper
 		$displayattribute = RedshopLayoutHelper::render(
 			'product.product_attribute',
 			array(
-					'attributes'       => $attributes,
-					'data'             => $data,
-					'displayAttribute' => $displayAttribute
-				),
+				'attributes'       => $attributes,
+				'data'             => $data,
+				'displayAttribute' => $displayAttribute
+			),
 			'',
 			array(
-					'component' => 'com_redshop',
-					'client'    => 0
-				)
+				'component' => 'com_redshop',
+				'client'    => 0
+			)
 		);
 
 		$productVatOldPrice = 0;
@@ -2954,7 +2962,7 @@ class productHelper
 	/**
 	 * Method for generate accessory of order.
 	 *
-	 * @param   integer  $orderItemId  Order item ID.
+	 * @param   integer $orderItemId Order item ID.
 	 *
 	 * @return  string
 	 *
@@ -2987,7 +2995,7 @@ class productHelper
 
 		// Get Attribute middle template
 		$attribute_middle_template = \Redshop\Template\Helper::getAttributeTemplateLoop($data);
-		$attribute_final_template = '';
+		$attribute_final_template  = '';
 
 		if (count($orderItemAttdata) > 0)
 		{
@@ -3010,7 +3018,7 @@ class productHelper
 
 				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 				{
-					$property_price = $orderPropdata[$p]->section_price;
+					$property_price                  = $orderPropdata[$p]->section_price;
 					$productAttributeCalculatedPrice = 0;
 
 					if ($stock == 1)
@@ -3036,7 +3044,7 @@ class productHelper
 						$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
 					}
 
-					$disPrice = '';
+					$disPrice           = '';
 					$hideAttributePrice = count($attribute) > 0 ? $attribute[0]->hide_attribute_price : 0;
 
 					if (strpos($data, '{product_attribute_price}') !== false)
@@ -3060,10 +3068,10 @@ class productHelper
 
 					// Initialize attribute child array
 					$attributeChilds = array(
-						'property_id' => $orderPropdata[$p]->section_id,
-						'property_name' => $orderPropdata[$p]->section_name,
+						'property_id'     => $orderPropdata[$p]->section_id,
+						'property_name'   => $orderPropdata[$p]->section_name,
 						'property_oprand' => $orderPropdata[$p]->section_oprand,
-						'property_price' => $property_price,
+						'property_price'  => $property_price,
 						'property_childs' => array()
 					);
 
@@ -3090,7 +3098,7 @@ class productHelper
 						{
 							$subPropertyOperand                  = $orderSubpropdata[$sp]->section_oprand;
 							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
-							$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
+								$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
 							);
 							$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
@@ -3128,18 +3136,18 @@ class productHelper
 			$displayattribute = RedshopLayoutHelper::render(
 				'product.order_attribute',
 				array(
-						'orderItemAttdata' => $orderItemAttdata,
-						'data'             => $data,
-						'orderItemId'      => $order_item_id,
-						'isAccessory'      => $is_accessory,
-						'chktag'           => $chktag,
-						'export'           => $export
-					),
+					'orderItemAttdata' => $orderItemAttdata,
+					'data'             => $data,
+					'orderItemId'      => $order_item_id,
+					'isAccessory'      => $is_accessory,
+					'chktag'           => $chktag,
+					'export'           => $export
+				),
 				'',
 				array(
-						'component' => 'com_redshop',
-						'client'    => 0
-					)
+					'component' => 'com_redshop',
+					'client'    => 0
+				)
 			);
 		}
 		else
@@ -3164,9 +3172,9 @@ class productHelper
 	/**
 	 * Method to get string between inputs
 	 *
-	 * @param   string  $start   Starting string where you need to start search
-	 * @param   string  $end     Ending string where you need to end search
-	 * @param   string  $string  Target string from where need to search
+	 * @param   string $start  Starting string where you need to start search
+	 * @param   string $end    Ending string where you need to end search
+	 * @param   string $string Target string from where need to search
 	 *
 	 * @return  array            Matched string array
 	 *
@@ -3180,12 +3188,12 @@ class productHelper
 	/**
 	 * Method to get attribute template loop
 	 *
-	 * @param   string  $template  Attribute Template data
+	 * @param   string $template Attribute Template data
 	 *
 	 * @return  string             Template middle data
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Template\Helper::getAttributeTemplateLoop
+	 * @see        \Redshop\Template\Helper::getAttributeTemplateLoop
 	 */
 	public function getAttributeTemplateLoop($template)
 	{
@@ -3231,7 +3239,7 @@ class productHelper
 
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
-		$displayattribute = "";
+		$displayattribute  = "";
 		$product_attribute = "";
 		$quantity          = 0;
 		$stockroom_id      = "0";
@@ -3253,18 +3261,18 @@ class productHelper
 		$displayattribute = RedshopLayoutHelper::render(
 			'product.quotation_attribute',
 			array(
-					'itemAttdata'     => $ItemAttdata,
-					'quotationItemId' => $quotation_item_id,
-					'isAccessory'     => $is_accessory,
-					'quotationStatus' => $quotation_status,
-					'parentSectionId' => $parent_section_id,
-					'stock'           => $stock
-				),
+				'itemAttdata'     => $ItemAttdata,
+				'quotationItemId' => $quotation_item_id,
+				'isAccessory'     => $is_accessory,
+				'quotationStatus' => $quotation_status,
+				'parentSectionId' => $parent_section_id,
+				'stock'           => $stock
+			),
 			'',
 			array(
-					'client'    => 0,
-					'component' => 'com_redshop'
-				)
+				'client'    => 0,
+				'component' => 'com_redshop'
+			)
 		);
 
 		return $displayattribute;
@@ -3295,7 +3303,7 @@ class productHelper
 
 		$this->_db->setQuery($catquery);
 		$category_ids_obj = $this->_db->loadObjectList();
-		if(empty($category_ids_obj))
+		if (empty($category_ids_obj))
 		{
 			return "";
 		}
@@ -3331,13 +3339,13 @@ class productHelper
 	/**
 	 * Method for convert Unit
 	 *
-	 * @param   string  $globalUnit  Base conversation unit
-	 * @param   string  $calcUnit    Unit ratio which to convert
+	 * @param   string $globalUnit Base conversation unit
+	 * @param   string $calcUnit   Unit ratio which to convert
 	 *
 	 * @return  float                Unit ratio
 	 *
 	 * @deprecated 2.1.0
-	 * @see \Redshop\Helper\Utility::getUnitConversation
+	 * @see        \Redshop\Helper\Utility::getUnitConversation
 	 */
 	public function getUnitConversation($globalUnit, $calcUnit)
 	{
@@ -3462,16 +3470,16 @@ class productHelper
 	/**
 	 * Function Get Question Answers
 	 *
-	 * @param   int  $questionId  default 0
-	 * @param   int  $productId   default 0
-	 * @param   int  $faq         is FAQ
-	 * @param   int  $front       show in Front or Not
+	 * @param   int $questionId default 0
+	 * @param   int $productId  default 0
+	 * @param   int $faq        is FAQ
+	 * @param   int $front      show in Front or Not
 	 *
 	 * @return  array
 	 */
 	public function getQuestionAnswer($questionId = 0, $productId = 0, $faq = 0, $front = 0)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$and = "";
@@ -3525,7 +3533,7 @@ class productHelper
 	/**
 	 * Get Product Rating
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return  string
 	 * @deprecated 2.1.0
@@ -3538,7 +3546,7 @@ class productHelper
 	/**
 	 * Get Product Review List
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return object
 	 */
@@ -3580,9 +3588,9 @@ class productHelper
 	/**
 	 * Method for calculate two price with oprand symbol
 	 *
-	 * @param   float   $firstPrice   First price
-	 * @param   string  $oprand       Operation symbol
-	 * @param   float   $secondPrice  Second price
+	 * @param   float  $firstPrice  First price
+	 * @param   string $oprand      Operation symbol
+	 * @param   float  $secondPrice Second price
 	 *
 	 * @return  float
 	 *
@@ -3599,7 +3607,7 @@ class productHelper
 	 * @return  string  HTML layout of compare div
 	 *
 	 * @deprecated   2.1.0
-	 * @see Redshop\Product\Compare::generateCompareProduct
+	 * @see          Redshop\Product\Compare::generateCompareProduct
 	 *
 	 * @throws  \Exception
 	 */
@@ -3611,13 +3619,13 @@ class productHelper
 	/**
 	 * Function which will return product tag array form  given template
 	 *
-	 * @param   integer  $section     Section field
-	 * @param   string   $html        Template HTML
+	 * @param   integer $section Section field
+	 * @param   string  $html    Template HTML
 	 *
 	 * @return  array
 	 *
 	 * @deprecated   2.1.0
-	 * @see Redshop\Helper\Utility::getProductTags()
+	 * @see          Redshop\Helper\Utility::getProductTags()
 	 */
 	public function product_tag($section, $html)
 	{
@@ -3626,7 +3634,7 @@ class productHelper
 
 	public function getJcommentEditor($product = array(), $data_add = "")
 	{
-		$app       = JFactory::getApplication();
+		$app             = JFactory::getApplication();
 		$product_reviews = "";
 		$product_id      = $product->product_id;
 
@@ -3658,7 +3666,7 @@ class productHelper
 
 		if (!empty($data['accessory_data']))
 		{
-			$accessoryData    = explode("@@", $data['accessory_data']);
+			$accessoryData   = explode("@@", $data['accessory_data']);
 			$accQuantityData = explode("@@", $data['acc_quantity_data']);
 
 			for ($i = 0, $in = count($accessoryData); $i < $in; $i++)
@@ -3689,7 +3697,7 @@ class productHelper
 
 				for ($ia = 0; $ia < $countAccessoryProperty; $ia++)
 				{
-					$accessoryPropertyData2 = explode(',,', $accessoryPropertyData1[$ia]);
+					$accessoryPropertyData2  = explode(',,', $accessoryPropertyData1[$ia]);
 					$countAccessoryProperty2 = count($accessoryPropertyData2);
 
 					if ($countAccessoryProperty2 == 0)
@@ -3717,7 +3725,7 @@ class productHelper
 			for ($i = 0, $in = count($accessorySubpropertyData); $i < $in; $i++)
 			{
 				$accessorySubpropertyData1 = explode('##', $accessorySubpropertyData[$i]);
-				$countAccessorySubroperty = count($accessorySubpropertyData1);
+				$countAccessorySubroperty  = count($accessorySubpropertyData1);
 
 				if ($countAccessorySubroperty == 0)
 				{
@@ -3773,7 +3781,7 @@ class productHelper
 			for ($ia = 0, $countProperty = count($acc_property_data); $ia < $countProperty; $ia++)
 			{
 				$acc_property_data1 = explode(',,', $acc_property_data[$ia]);
-				$countProperty1 = count($acc_property_data1);
+				$countProperty1     = count($acc_property_data1);
 
 				for ($ip = 0; $ip < $countProperty1; $ip++)
 				{
@@ -3788,17 +3796,17 @@ class productHelper
 		if (!empty($data['subproperty_data']))
 		{
 			$acc_subproperty_data = explode('##', $data['subproperty_data']);
-			$countSubproperty = count($acc_subproperty_data);
+			$countSubproperty     = count($acc_subproperty_data);
 
 			for ($ia = 0; $ia < $countSubproperty; $ia++)
 			{
 				$acc_subproperty_data1 = @explode('::', $acc_subproperty_data[$ia]);
-				$countSubproperty1 = count($acc_subproperty_data1);
+				$countSubproperty1     = count($acc_subproperty_data1);
 
 				for ($ip = 0; $ip < $countSubproperty1; $ip++)
 				{
 					$acc_subproperty_data2 = explode(',,', $acc_subproperty_data1[$ip]);
-					$countSubproperty2 = count($acc_subproperty_data2);
+					$countSubproperty2     = count($acc_subproperty_data2);
 
 					for ($isp = 0; $isp < $countSubproperty2; $isp++)
 					{
@@ -3827,7 +3835,7 @@ class productHelper
 	 * @return  mixed
 	 *
 	 * @deprecated 2.1.0 Redshop\Product\Stock::replaceInStock
-	 * @see Redshop\Product\Stock::replaceInStock
+	 * @see        Redshop\Product\Stock::replaceInStock
 	 */
 	public function replaceProductInStock($product_id = 0, $data_add, $attributes = array(), $attribute_template = array())
 	{
@@ -3837,11 +3845,11 @@ class productHelper
 	/**
 	 * Method for get child products of specific product
 	 *
-	 * @param   integer  $productId  Product ID
+	 * @param   integer $productId Product ID
 	 *
 	 * @return  array
 	 * @deprecated 2.1.0
-	 * @see RedshopHelperProduct::getChildProduct
+	 * @see        RedshopHelperProduct::getChildProduct
 	 */
 	public function getChildProduct($productId = 0)
 	{
@@ -3872,8 +3880,8 @@ class productHelper
 	/**
 	 * Get formatted number
 	 *
-	 * @param   float    $price          Price amount
-	 * @param   boolean  $convertSigned  True for convert negative price to absolution price.
+	 * @param   float   $price         Price amount
+	 * @param   boolean $convertSigned True for convert negative price to absolution price.
 	 *
 	 * @return  string                   Formatted price.
 	 */
@@ -4009,12 +4017,12 @@ class productHelper
 	/**
 	 * Method for get category compare product template
 	 *
-	 * @param   integer  $cid  Category ID
+	 * @param   integer $cid Category ID
 	 *
 	 * @return  integer
 	 *
 	 * @deprecated    2.1.0
-	 * @see Redshop\Product\Compare::getCategoryCompareTemplate
+	 * @see           Redshop\Product\Compare::getCategoryCompareTemplate
 	 */
 	public function getCategoryCompareTemplate($cid)
 	{
@@ -4024,8 +4032,8 @@ class productHelper
 	public function getProductCaterories($productId, $displayLink = 0)
 	{
 		$prodCatsObjectArray = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db                  = JFactory::getDbo();
+		$query               = $db->getQuery(true)
 			->select($db->qn('c.name'))
 			->select($db->qn('c.id'))
 			->from($db->qn('#__redshop_category'))
@@ -4048,9 +4056,9 @@ class productHelper
 
 			$parentCat = $db->setQuery($query)->loadObject();
 
-			if (count($parentCat) > 0 && $parentCat->parent_id)
+			if (!empty($parentCat) && $parentCat->parent_id)
 			{
-				$pCat  = $parentCat->name;
+				$pCat = $parentCat->name;
 
 				$query = $db->getQuery(true)
 					->select($db->qn('parent_id'))
@@ -4060,7 +4068,7 @@ class productHelper
 
 				$pparentCat = $db->setQuery($query)->loadObject();
 
-				if (count($pparentCat) > 0 && $pparentCat->parent_id)
+				if (!empty($pparentCat) && $pparentCat->parent_id)
 				{
 					$ppCat = $pparentCat->name;
 				}
@@ -4075,12 +4083,12 @@ class productHelper
 				$redhelper = redhelper::getInstance();
 				$catItem   = RedshopHelperRouter::getCategoryItemid($row->id);
 
-				if(!(boolean) $catItem)
+				if (!(boolean) $catItem)
 				{
 					$catItem = JFactory::getApplication()->input->getInt('Itemid');
 				}
 
-				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+				$catlink = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->id . '&Itemid=' . $catItem);
 			}
 
@@ -4096,18 +4104,18 @@ class productHelper
 	/**
 	 * Method for get display main image
 	 *
-	 * @param   integer $product_id      Product Id
-	 * @param   integer $property_id     Property Id
-	 * @param   integer $subproperty_id  Sub-property Id
-	 * @param   integer $pw_thumb        Width of thumb
-	 * @param   integer $ph_thumb        Height of thumb
-	 * @param   string  $redview         Red view
+	 * @param   integer $product_id     Product Id
+	 * @param   integer $property_id    Property Id
+	 * @param   integer $subproperty_id Sub-property Id
+	 * @param   integer $pw_thumb       Width of thumb
+	 * @param   integer $ph_thumb       Height of thumb
+	 * @param   string  $redview        Red view
 	 *
 	 * @return  array
 	 * @throws  Exception
 	 *
 	 * @deprecated    2.1.0 Redshop\Product\Image\Image::getDisplayMain()
-	 * @see Redshop\Product\Image\Image::getDisplayMain
+	 * @see           Redshop\Product\Image\Image::getDisplayMain
 	 */
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
@@ -4117,22 +4125,22 @@ class productHelper
 	/**
 	 * Method for get additional images of product.
 	 *
-	 * @param   integer  $productId         Id of product
-	 * @param   integer  $accessoryId       Accessory Id
-	 * @param   integer  $relatedProductId  Related product ID
-	 * @param   integer  $propertyId        Property ID
-	 * @param   integer  $subPropertyId     Sub-property ID
-	 * @param   integer  $mainImgWidth      Main image width
-	 * @param   integer  $mainImgHeight     Main image height
-	 * @param   string   $redView           redshop View
-	 * @param   string   $redLayout         redshop layout
+	 * @param   integer $productId        Id of product
+	 * @param   integer $accessoryId      Accessory Id
+	 * @param   integer $relatedProductId Related product ID
+	 * @param   integer $propertyId       Property ID
+	 * @param   integer $subPropertyId    Sub-property ID
+	 * @param   integer $mainImgWidth     Main image width
+	 * @param   integer $mainImgHeight    Main image height
+	 * @param   string  $redView          redshop View
+	 * @param   string  $redLayout        redshop layout
 	 *
 	 * @return  array
 	 * @throws  Exception
 	 *
 	 * @deprecated    2.0.7
 	 *
-	 * @see  RedshopHelperProductTag::displayAdditionalImage
+	 * @see           RedshopHelperProductTag::displayAdditionalImage
 	 */
 	public function displayAdditionalImage(
 		$productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0, $mainImgWidth = 0,
@@ -4144,27 +4152,29 @@ class productHelper
 		);
 	}
 
-	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
+	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldsArray = array(), $giftcard = 0)
 	{
-		if (count($fieldArray) > 0)
+		if (empty($fieldsArray))
 		{
-			for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
-			{
-				$fieldValueArray = RedshopHelperExtrafields::getData($fieldArray[$i]->id, 17, $productid);
+			return $templatedata;
+		}
 
-				if ($fieldValueArray->data_txt != ""
-					&& $fieldArray[$i]->show_in_front == 1
-					&& $fieldArray[$i]->published == 1
-					&& $giftcard == 0)
-				{
-					$templatedata = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $templatedata);
-					$templatedata = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $templatedata);
-				}
-				else
-				{
-					$templatedata = str_replace('{' . $fieldArray[$i]->name . '}', "", $templatedata);
-					$templatedata = str_replace('{' . $fieldArray[$i]->name . '_lbl}', "", $templatedata);
-				}
+		foreach ($fieldsArray as $fieldArray)
+		{
+			$fieldValueArray = RedshopHelperExtrafields::getData($fieldArray->id, 17, $productid);
+
+			if ($fieldValueArray->data_txt != ""
+				&& $fieldArray->show_in_front == 1
+				&& $fieldArray->published == 1
+				&& $giftcard == 0)
+			{
+				$templatedata = str_replace('{' . $fieldArray->name . '}', $fieldValueArray->data_txt, $templatedata);
+				$templatedata = str_replace('{' . $fieldArray->name . '_lbl}', $fieldArray->title, $templatedata);
+			}
+			else
+			{
+				$templatedata = str_replace('{' . $fieldArray->name . '}', "", $templatedata);
+				$templatedata = str_replace('{' . $fieldArray->name . '_lbl}', "", $templatedata);
 			}
 		}
 
@@ -4174,249 +4184,252 @@ class productHelper
 	/**
 	 * Parse related product template
 	 *
-	 * @param   string   $template_desc  Template Contents
-	 * @param   integer  $product_id     Product Id
+	 * @param   string  $templateDesc Template Contents
+	 * @param   integer $product_id   Product Id
 	 *
 	 * @todo    Move this functionality to library helper and convert this code into JLayout
 	 *
 	 * @return  string   Parsed Template HTML
 	 */
-	public function getRelatedtemplateView($template_desc, $product_id)
+	public function getRelatedtemplateView($templateDesc, $product_id)
 	{
-		$extra_field      = extraField::getInstance();
-		$related_product  = $this->getRelatedProduct($product_id);
-		$related_template = \Redshop\Template\Helper::getRelatedProduct($template_desc);
-		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
+		$relatedProduct  = $this->getRelatedProduct($product_id);
+		$relatedTemplate = \Redshop\Template\Helper::getRelatedProduct($templateDesc);
+		$fieldArray      = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
-		if (null !== $related_template)
+		if (null === $relatedTemplate)
 		{
-			if (count($related_product) > 0
-				&& strpos($related_template->template_desc, "{related_product_start}") !== false
-				&& strpos($related_template->template_desc, "{related_product_end}") !== false)
-			{
-				$related_template_data = '';
-				$product_start         = explode("{related_product_start}", $related_template->template_desc);
-				$product_end           = explode("{related_product_end}", $product_start [1]);
+			$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
 
-				$tempdata_div_start  = $product_start [0];
-				$tempdata_div_middle = $product_end [0];
-				$tempdata_div_end    = $product_end [1];
-
-				$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
-
-				// Extra field display
-				$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-
-				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
-				{
-					$related_template_data .= $tempdata_div_middle;
-
-					$dispatcher->trigger('onPrepareRelatedProduct', array(&$related_template_data, $related_product[$r]));
-
-					$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $related_product[$r]->product_id);
-
-					if (count($ItemData) > 0)
-					{
-						$pItemid = $ItemData->id;
-					}
-					else
-					{
-						$catidmain = $related_product[$r]->cat_in_sefurl;
-						$pItemid = RedshopHelperRouter::getItemId($related_product[$r]->product_id, $catidmain);
-					}
-
-					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
-
-					if (strpos($related_template_data, "{relproduct_image_3}") !== false)
-					{
-						$rpimg_tag = '{relproduct_image_3}';
-						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
-						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
-					}
-					elseif (strpos($related_template_data, "{relproduct_image_2}") !== false)
-					{
-						$rpimg_tag = '{relproduct_image_2}';
-						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
-						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
-					}
-					elseif (strpos($related_template_data, "{relproduct_image_1}") !== false)
-					{
-						$rpimg_tag = '{relproduct_image_1}';
-						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
-						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
-					}
-					else
-					{
-						$rpimg_tag = '{relproduct_image}';
-						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
-						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
-					}
-
-					$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
-						. $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
-						. $rph_thumb . "'>";
-					$relimage              = Redshop\Product\Image\Image::getImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
-					$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
-
-					if (strpos($related_template_data, "{relproduct_link}") !== false)
-					{
-						$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>"
-							. RedshopHelperUtility::maxChars($related_product [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'))
-							. "</a>";
-					}
-					else
-					{
-						$rpname = RedshopHelperUtility::maxChars($related_product [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'));
-					}
-
-					$rpdesc       = RedshopHelperUtility::maxChars($related_product [$r]->product_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_DESC_END_SUFFIX'));
-					$rp_shortdesc = RedshopHelperUtility::maxChars($related_product [$r]->product_s_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
-
-					$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
-
-					if (strpos($related_template_data, "{relproduct_link}") !== false)
-					{
-						$related_template_data = str_replace("{relproduct_name}", "", $related_template_data);
-					}
-					else
-					{
-						$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
-					}
-
-					$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
-					$related_template_data = str_replace("{relproduct_number}", $related_product [$r]->product_number, $related_template_data);
-					$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
-					$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
-
-					// ProductFinderDatepicker Extra Field Start
-					$related_template_data = $this->getProductFinderDatepickerValue($related_template_data, $related_product[$r]->product_id, $fieldArray);
-
-					if (strpos($related_template_data, "{manufacturer_name}") !== false || strpos($related_template_data, "{manufacturer_link}") !== false)
-					{
-						$manufacturer = RedshopEntityManufacturer::getInstance($related_product[$r]->manufacturer_id)->getItem();
-
-						if (count($manufacturer) > 0)
-						{
-							$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
-							$manufacturerLink      = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->name, $related_template_data);
-							$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
-						}
-						else
-						{
-							$related_template_data = str_replace("{manufacturer_name}", '', $related_template_data);
-							$related_template_data = str_replace("{manufacturer_link}", '', $related_template_data);
-						}
-					}
-
-					$rmore = '<a href="' . $rlink . '" title="' . $related_product [$r]->product_name . '">'
-						. JText::_('COM_REDSHOP_READ_MORE')
-						. '</a>';
-					$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);
-					$related_template_data = str_replace("{read_more_link}", $rlink, $related_template_data);
-
-					/*
-					 *  related product Required Attribute start
-					 * 	this will parse only Required Attributes
-					 */
-					$relid          = $related_product [$r]->product_id;
-					$attributes_set = array();
-
-					if ($related_product [$r]->attribute_set_id > 0)
-					{
-						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product [$r]->attribute_set_id);
-					}
-
-					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
-					$attributes = array_merge($attributes, $attributes_set);
-
-					$related_template_data = $this->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
-
-					// Check product for not for sale
-					$related_template_data = $this->getProductNotForSaleComment($related_product[$r], $related_template_data, $attributes, 1);
-
-					$related_template_data = Redshop\Cart\Render::replace($related_product[$r]->mainproduct_id, 0, 0, $related_product[$r]->product_id, $related_template_data, false, array(), count($attributes), 0, 0);
-					$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($related_product[$r]->product_id, 0, $related_template_data, 1);
-					$related_template_data = Redshop\Product\Stock::replaceInStock($related_product[$r]->product_id, $related_template_data);
-
-					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
-					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
-
-					$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
-
-					//  Extra field display
-					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, $isCategorypage);
-
-					// Related product attribute price list
-					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
-
-					if (strpos($related_template_data, "{wishlist_link}") !== false)
-					{
-						$wishlistLink = "<div class=\"wishlist\">" . $this->replaceWishlistButton($related_product[$r]->product_id, '{wishlist_link}') ."</div>";
-						$related_template_data =  str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
-					}
-
-					$childproduct = RedshopHelperProduct::getChildProduct($related_product[$r]->product_id);
-
-					if (count($childproduct) > 0)
-					{
-						$attributes = array();
-					}
-					else
-					{
-						// Get attributes
-						$attributes_set = array();
-
-						if ($related_product[$r]->attribute_set_id > 0)
-						{
-							$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product[$r]->attribute_set_id, 0, 1);
-						}
-
-						$attributes = RedshopHelperProduct_Attribute::getProductAttribute($related_product[$r]->product_id);
-						$attributes = array_merge($attributes, $attributes_set);
-					}
-
-					$totalatt = count($attributes);
-
-					$attributeproductStockStatus = array();
-
-					$productAvailabilityDate = strstr($related_template_data, "{product_availability_date}");
-					$stockNotifyFlag         = strstr($related_template_data, "{stock_notify_flag}");
-					$stockStatus             = strstr($related_template_data, "{stock_status");
-
-					if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
-					{
-						$attributeproductStockStatus = $this->getproductStockStatus($related_product[$r]->product_id, $totalatt);
-					}
-
-					$related_template_data = \Redshop\Helper\Stockroom::replaceProductStockData(
-						$related_product[$r]->product_id,
-						0,
-						0,
-						$related_template_data,
-						$attributeproductStockStatus
-					);
-
-					$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $related_product[$r]));
-				}
-
-				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
-
-				$template_desc = str_replace("{related_product:$related_template->name}", $related_template_data, $template_desc);
-				$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{related_product:$related_template->name}", "", $template_desc);
-			}
+			return $templateDesc;
 		}
 
-		$template_desc = RedshopHelperText::replaceTexts($template_desc);
+		if (!empty($relatedProduct)
+			&& strpos($relatedTemplate->template_desc, "{related_product_start}") !== false
+			&& strpos($relatedTemplate->template_desc, "{related_product_end}") !== false)
+		{
+			$related_template_data = '';
+			$product_start         = explode("{related_product_start}", $relatedTemplate->template_desc);
+			$product_end           = explode("{related_product_end}", $product_start [1]);
 
-		return $template_desc;
+			$tempdata_div_start  = $product_start [0];
+			$tempdata_div_middle = $product_end [0];
+			$tempdata_div_end    = $product_end [1];
+
+			$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
+
+			// Extra field display
+			$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+
+			for ($r = 0, $rn = count($relatedProduct); $r < $rn; $r++)
+			{
+				$related_template_data .= $tempdata_div_middle;
+
+				$dispatcher->trigger('onPrepareRelatedProduct', array(&$related_template_data, $relatedProduct[$r]));
+
+				$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $relatedProduct[$r]->product_id);
+
+				if (count($ItemData) > 0)
+				{
+					$pItemid = $ItemData->id;
+				}
+				else
+				{
+					$catidmain = $relatedProduct[$r]->cat_in_sefurl;
+					$pItemid   = RedshopHelperRouter::getItemId($relatedProduct[$r]->product_id, $catidmain);
+				}
+
+				$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $relatedProduct[$r]->product_id . '&cid=' . $relatedProduct[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
+
+				if (strpos($related_template_data, "{relproduct_image_3}") !== false)
+				{
+					$rpimg_tag = '{relproduct_image_3}';
+					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
+					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
+				}
+				elseif (strpos($related_template_data, "{relproduct_image_2}") !== false)
+				{
+					$rpimg_tag = '{relproduct_image_2}';
+					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
+					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
+				}
+				elseif (strpos($related_template_data, "{relproduct_image_1}") !== false)
+				{
+					$rpimg_tag = '{relproduct_image_1}';
+					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
+				}
+				else
+				{
+					$rpimg_tag = '{relproduct_image}';
+					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
+				}
+
+				$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
+					. $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
+					. $rph_thumb . "'>";
+				$relimage              = Redshop\Product\Image\Image::getImage($relatedProduct [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
+				$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
+
+				if (strpos($related_template_data, "{relproduct_link}") !== false)
+				{
+					$rpname = "<a href='" . $rlink . "' title='" . $relatedProduct [$r]->product_name . "'>"
+						. RedshopHelperUtility::maxChars($relatedProduct [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'))
+						. "</a>";
+				}
+				else
+				{
+					$rpname = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'));
+				}
+
+				$rpdesc       = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_DESC_END_SUFFIX'));
+				$rp_shortdesc = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_s_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
+
+				$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
+
+				if (strpos($related_template_data, "{relproduct_link}") !== false)
+				{
+					$related_template_data = str_replace("{relproduct_name}", "", $related_template_data);
+				}
+				else
+				{
+					$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
+				}
+
+				$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
+				$related_template_data = str_replace("{relproduct_number}", $relatedProduct [$r]->product_number, $related_template_data);
+				$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
+				$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
+
+				// ProductFinderDatepicker Extra Field Start
+				$related_template_data = $this->getProductFinderDatepickerValue($related_template_data, $relatedProduct[$r]->product_id, $fieldArray);
+
+				if (strpos($related_template_data, "{manufacturer_name}") !== false || strpos($related_template_data, "{manufacturer_link}") !== false)
+				{
+					$manufacturer = RedshopEntityManufacturer::getInstance($relatedProduct[$r]->manufacturer_id)->getItem();
+
+					if (!empty($manufacturer))
+					{
+						$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $relatedProduct[$r]->manufacturer_id . '&Itemid=' . $pItemid);
+						$manufacturerLink      = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+						$related_template_data = str_replace("{manufacturer_name}", $manufacturer->name, $related_template_data);
+						$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
+					}
+					else
+					{
+						$related_template_data = str_replace("{manufacturer_name}", '', $related_template_data);
+						$related_template_data = str_replace("{manufacturer_link}", '', $related_template_data);
+					}
+				}
+
+				$rmore                 = '<a href="' . $rlink . '" title="' . $relatedProduct [$r]->product_name . '">'
+					. JText::_('COM_REDSHOP_READ_MORE')
+					. '</a>';
+				$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);
+				$related_template_data = str_replace("{read_more_link}", $rlink, $related_template_data);
+
+				/*
+				 *  related product Required Attribute start
+				 * 	this will parse only Required Attributes
+				 */
+				$relid          = $relatedProduct [$r]->product_id;
+				$attributes_set = array();
+
+				if ($relatedProduct [$r]->attribute_set_id > 0)
+				{
+					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $relatedProduct [$r]->attribute_set_id);
+				}
+
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
+				$attributes = array_merge($attributes, $attributes_set);
+
+				$related_template_data = $this->replaceAttributeData($relatedProduct[$r]->mainproduct_id, 0, $relatedProduct[$r]->product_id, $attributes, $related_template_data, $attribute_template);
+
+				// Check product for not for sale
+				$related_template_data = $this->getProductNotForSaleComment($relatedProduct[$r], $related_template_data, $attributes, 1);
+
+				$related_template_data = Redshop\Cart\Render::replace($relatedProduct[$r]->mainproduct_id, 0, 0, $relatedProduct[$r]->product_id, $related_template_data, false, array(), count($attributes), 0, 0);
+				$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($relatedProduct[$r]->product_id, 0, $related_template_data, 1);
+				$related_template_data = Redshop\Product\Stock::replaceInStock($relatedProduct[$r]->product_id, $related_template_data);
+
+				$related_template_data = $this->getProductOnSaleComment($relatedProduct[$r], $related_template_data);
+				$related_template_data = $this->getSpecialProductComment($relatedProduct[$r], $related_template_data);
+
+				$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
+
+				//  Extra field display
+				$related_template_data = $this->getExtraSectionTag($extraFieldName, $relatedProduct[$r]->product_id, "1", $related_template_data, $isCategorypage);
+
+				// Related product attribute price list
+				$related_template_data = $this->replaceAttributePriceList($relatedProduct[$r]->product_id, $related_template_data);
+
+				if (strpos($related_template_data, "{wishlist_link}") !== false)
+				{
+					$wishlistLink          = "<div class=\"wishlist\">" . $this->replaceWishlistButton($relatedProduct[$r]->product_id, '{wishlist_link}') . "</div>";
+					$related_template_data = str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
+				}
+
+				$childproduct = RedshopHelperProduct::getChildProduct($relatedProduct[$r]->product_id);
+
+				if (count($childproduct) > 0)
+				{
+					$attributes = array();
+				}
+				else
+				{
+					// Get attributes
+					$attributes_set = array();
+
+					if ($relatedProduct[$r]->attribute_set_id > 0)
+					{
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $relatedProduct[$r]->attribute_set_id, 0, 1);
+					}
+
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relatedProduct[$r]->product_id);
+					$attributes = array_merge($attributes, $attributes_set);
+				}
+
+				$totalatt = count($attributes);
+
+				$attributeproductStockStatus = array();
+
+				$productAvailabilityDate = strstr($related_template_data, "{product_availability_date}");
+				$stockNotifyFlag         = strstr($related_template_data, "{stock_notify_flag}");
+				$stockStatus             = strstr($related_template_data, "{stock_status");
+
+				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
+				{
+					$attributeproductStockStatus = $this->getproductStockStatus($relatedProduct[$r]->product_id, $totalatt);
+				}
+
+				$related_template_data = \Redshop\Helper\Stockroom::replaceProductStockData(
+					$relatedProduct[$r]->product_id,
+					0,
+					0,
+					$related_template_data,
+					$attributeproductStockStatus
+				);
+
+				$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $relatedProduct[$r]));
+			}
+
+			$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
+
+			$templateDesc = str_replace("{related_product:$relatedTemplate->name}", $related_template_data, $templateDesc);
+			$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
+		}
+		else
+		{
+			$templateDesc = str_replace("{related_product:$relatedTemplate->name}", "", $templateDesc);
+		}
+
+		$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
+
+		return $templateDesc;
 	}
 
 	/**
@@ -4477,7 +4490,7 @@ class productHelper
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('c.name'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
@@ -4520,56 +4533,20 @@ class productHelper
 		return $filter_products;
 	}
 
-	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
+	/**
+	 * @param   integer $productId             Product id
+	 * @param   integer $totalAttribute        Total attribute
+	 * @param   integer $selectedPropertyId    Selected property id
+	 * @param   integer $selectedsubpropertyId Selected sub property id
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 * @throws  \Exception
+	 */
+	public function getproductStockStatus($productId = 0, $totalAttribute = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$producDetail               = RedshopHelperProduct::getProductById($product_id);
-		$product_preorder           = trim($producDetail->preorder);
-		$rsltdata                   = array();
-		$rsltdata['preorder']       = 0;
-		$rsltdata['preorder_stock'] = 0;
-
-		if ($selectedPropertyId)
-		{
-			if ($selectedsubpropertyId)
-			{
-				// Count status for selected subproperty
-				$stocksts = RedshopHelperStockroom::isStockExists($selectedsubpropertyId, "subproperty");
-
-				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
-				{
-					$prestocksts                = RedshopHelperStockroom::isPreorderStockExists($selectedsubpropertyId, "subproperty");
-					$rsltdata['preorder']       = 1;
-					$rsltdata['preorder_stock'] = $prestocksts;
-				}
-			}
-			else
-			{
-				// Count status for selected property
-				$stocksts = RedshopHelperStockroom::isStockExists($selectedPropertyId, "property");
-
-				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
-				{
-					$prestocksts                = RedshopHelperStockroom::isPreorderStockExists($selectedPropertyId, "property");
-					$rsltdata['preorder']       = 1;
-					$rsltdata['preorder_stock'] = $prestocksts;
-				}
-			}
-		}
-		else
-		{
-			$stocksts = RedshopHelperStockroom::getFinalStockofProduct($product_id, $totalatt);
-
-			if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
-			{
-				$prestocksts                = RedshopHelperStockroom::getFinalPreorderStockofProduct($product_id, $totalatt);
-				$rsltdata['preorder']       = 1;
-				$rsltdata['preorder_stock'] = $prestocksts;
-			}
-		}
-
-		$rsltdata['regular_stock'] = $stocksts;
-
-		return $rsltdata;
+		return RedshopEntityProduct::getInstance($productId)->getStockstatus($totalAttribute, $selectedPropertyId, $selectedsubpropertyId);
 	}
 
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
@@ -4580,10 +4557,10 @@ class productHelper
 	/**
 	 * Check already notified user
 	 *
-	 * @param   int  $user_id         User id
-	 * @param   int  $product_id      Product id
-	 * @param   int  $property_id     Property id
-	 * @param   int  $subproperty_id  Sub property id
+	 * @param   int $user_id        User id
+	 * @param   int $product_id     Product id
+	 * @param   int $property_id    Property id
+	 * @param   int $subproperty_id Sub property id
 	 *
 	 * @deprecated  1.5 Use RedshopHelperStockroom::isAlreadyNotifiedUser instead
 	 *
@@ -4595,9 +4572,9 @@ class productHelper
 	}
 
 	/**
-	 * @param   array    $cart
-	 * @param   integer  $orderId
-	 * @param   integer  $sectionId
+	 * @param   array   $cart
+	 * @param   integer $orderId
+	 * @param   integer $sectionId
 	 *
 	 * @return  false|mixed|void
 	 */
@@ -4640,8 +4617,8 @@ class productHelper
 	}
 
 	/**
-	 * @param   object   $order      Order object
-	 * @param   integer  $sectionId  Section Id
+	 * @param   object  $order     Order object
+	 * @param   integer $sectionId Section Id
 	 *
 	 * @return  string
 	 */
@@ -4673,7 +4650,7 @@ class productHelper
 	/**
 	 * Return checked if product is in session of compare product cart else blank
 	 *
-	 * @param   integer  $productId  Id of product
+	 * @param   integer $productId Id of product
 	 *
 	 * @return  string
 	 *
@@ -4711,16 +4688,16 @@ class productHelper
 	/**
 	 * Get Max and Min of Product Price
 	 *
-	 * @param   int  $productId  Product Id
+	 * @param   int $productId Product Id
 	 *
 	 * @return  array
 	 */
 	public function getProductMinMaxPrice($productId)
 	{
-		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($productId);
-		$propertyIds = array();
-		$subPropertyIds = array();
-		$propertyPriceList = array();
+		$attributes           = RedshopHelperProduct_Attribute::getProductAttribute($productId);
+		$propertyIds          = array();
+		$subPropertyIds       = array();
+		$propertyPriceList    = array();
 		$subPropertyPriceList = array();
 
 		foreach ($attributes as $key => $attribute)
@@ -4741,16 +4718,12 @@ class productHelper
 
 		if (!empty($productId))
 		{
-			$query = $db->getQuery(true)
-				->select($db->qn('product_price'))
-				->from($db->qn('#__redshop_product_price'))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
-			$productPriceList = $db->setQuery($query)->loadColumn();
+			$productPriceList = \Redshop\Repositories\Product::getPrices((int) $productId);
 		}
 
 		if (!empty($propertyIds))
 		{
-			$query = $db->getQuery(true)
+			$query             = $db->getQuery(true)
 				->select($db->qn('product_price'))
 				->from($db->qn('#__redshop_product_attribute_price'))
 				->where($db->qn('section') . ' = ' . $db->q('property'))
@@ -4760,7 +4733,7 @@ class productHelper
 
 		if (!empty($subPropertyIds))
 		{
-			$query = $db->getQuery(true)
+			$query                = $db->getQuery(true)
 				->select($db->qn('product_price'))
 				->from($db->qn('#__redshop_product_attribute_price'))
 				->where($db->qn('section') . ' = ' . $db->q('subproperty'))
@@ -4768,7 +4741,7 @@ class productHelper
 			$subPropertyPriceList = $db->setQuery($query)->loadColumn();
 		}
 
-		$productPriceList = array_unique(array_merge($productPriceList, $propertyPriceList, $subPropertyPriceList));
+		$productPriceList    = array_unique(array_merge($productPriceList, $propertyPriceList, $subPropertyPriceList));
 		$productPrice['min'] = min($productPriceList);
 		$productPrice['max'] = max($productPriceList);
 

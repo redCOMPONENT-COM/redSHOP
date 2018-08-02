@@ -264,7 +264,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		if (strpos($dataAdd, '{category_total_product}') !== false)
 		{
-			$totalprd = $producthelper->getProductCategory($row->id);
+			$totalprd = $productHelper->getProductCategory($row->id);
 			$dataAdd  = str_replace("{category_total_product}", count($totalprd), $dataAdd);
 			$dataAdd  = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
 		}
