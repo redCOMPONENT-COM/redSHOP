@@ -92,7 +92,7 @@ class ShippingCest
 	{
 	    $I = new AcceptanceTester\ShippingSteps($scenario);
 		$I->wantTo('Check create new Shipping rate with save button');
-		$I->createShippingRateStandard($this->shippingMethod, $this->shipping);
+		$I->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
 
         $I->wantTo('Check create new Shipping rate with save & close button');
         $I->createShippingRateStandard(
@@ -108,5 +108,8 @@ class ShippingCest
         $I->editShippingRateStandard(
             $this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose'
         );
+
+        $I->wantTo('Delete a shipping Rate');
+        $I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 	}
 }

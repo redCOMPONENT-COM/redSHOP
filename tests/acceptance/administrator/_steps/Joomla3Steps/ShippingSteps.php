@@ -176,11 +176,13 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
 				$I->waitForElement(ShippingPage::$selectorSuccess, 30);
-				$I->seeInField(ShippingPage::$shippingName,$shipping['shippingName']);
+				$I->click(ShippingPage::$buttonClose);
+				$I->seeLink($shipping['shippingName']);
 				break;
 
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
+                $I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				$I->seeLink($shipping['shippingName']);
 				break;
 
@@ -188,7 +190,13 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 	}
-
+    /**
+     * @param $shippingName
+     * @param $shippingNameEdit
+     * @param $shippingRate
+     * @param $function
+     * @throws \Exception
+     */
 	public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
 	{
 		$I = $this;
@@ -206,17 +214,24 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
-				$I->scrollTo(ShippingPage::$shippingName);
-				$I->seeInField(ShippingPage::$shippingName, $shippingNameEdit);
+				//$I->scrollTo(ShippingPage::$shippingName);
+                $I->waitForElement(ShippingPage::$selectorSuccess, 30);
+                $I->click(ShippingPage::$buttonClose);
+                $I->seeLink($shippingNameEdit);
 				break;
 
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
+                $I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				$I->seeLink($shippingNameEdit);
 		}
 
 	}
-
+    /**
+     * @param $shippingMethod
+     * @param $shippingName
+     * @throws \Exception
+     */
 	public function deleteShippingRate($shippingMethod, $shippingName)
 	{
 		$I = $this;
