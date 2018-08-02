@@ -34,9 +34,9 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->verifyNotices(false, $this->checkForNotices(), \TemplatePage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->fillField(\TemplatePage::$fieldName, $templateName);
-        $client->click(\TemplatePage::$fieldSection);
-        $client->click(\TemplatePage::$fieldSectionSearch);
-        $client->fillField(\TemplatePage::$fieldSectionSearch, $templateSection);
+		$client->click(\TemplatePage::$fieldSection);
+		$client->click(\TemplatePage::$fieldSectionSearch);
+		$client->fillField(\TemplatePage::$fieldSectionSearch, $templateSection);
 		$client->chooseOnSelect2(\TemplatePage::$fieldSectionID, $templateSection);
 		$client->click(\TemplatePage::$buttonSaveClose);
 		$client->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
