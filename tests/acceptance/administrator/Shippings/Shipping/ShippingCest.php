@@ -95,19 +95,13 @@ class ShippingCest
 	 	$I->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
 
 	 	$I->wantTo('Check create new Shipping rate with save & close button');
-	 	$I->createShippingRateStandard(
-			$this->shippingMethod, $this->shippingSaveClose, 'saveclose'
-        );
+		$I->createShippingRateStandard($this->shippingMethod, $this->shippingSaveClose, 'saveclose');
 
 	 	$I->wantTo('Edit a shipping Rate');
-	 	$I->editShippingRateStandard(
-			$this->shipping['shippingName'], $this->shippingNameEdit, $this->shippingRateEdit, 'save'
-        );
+		$I->editShippingRateStandard($this->shipping['shippingName'], $this->shippingNameEdit, $this->shippingRateEdit, 'save');
 
 	 	$I->wantTo('Edit a shipping Rate with Save Close');
-	 	$I->editShippingRateStandard(
-			$this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose'
-        );
+		$I->editShippingRateStandard($this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose');
 
 	 	$I->wantTo('Delete a shipping Rate');
 	 	$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
