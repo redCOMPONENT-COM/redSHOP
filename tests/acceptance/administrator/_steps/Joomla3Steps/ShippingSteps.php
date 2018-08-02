@@ -214,7 +214,6 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
-				//$I->scrollTo(ShippingPage::$shippingName);
                 $I->waitForElement(ShippingPage::$selectorSuccess, 30);
                 $I->click(ShippingPage::$buttonClose);
                 $I->seeLink($shippingNameEdit);
@@ -222,7 +221,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
-                $I->waitForElement(ShippingPage::$selectorSuccess, 30);
+				$I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				$I->seeLink($shippingNameEdit);
 		}
 
