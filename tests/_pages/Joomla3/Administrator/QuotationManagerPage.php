@@ -74,12 +74,12 @@ class QuotationManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $quotationId = "#//tr[@class=\'row0\']/td[3]/a";
+    public static $quotationId = "//tr[@class='row0']/td[3]/a";
 
     /**
      * @var string
      */
-    public static $quotationStatus = "#//tr[@class=\'row0\']/td[6]";
+    public static $quotationStatus = "//tr[@class='row0']/td[6]";
     //button
 
     /**

@@ -392,7 +392,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $paymentPayPad = "//input[@id='rs_payment_paypal3']";
+	public static $paymentPayPad = "//input[@id='rs_payment_paypal1']";
 
     /**
      * @var array
@@ -402,7 +402,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $bankTransfer = "//input[@id='rs_payment_banktransfer2']";
+	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
 
     /**
      * @var string

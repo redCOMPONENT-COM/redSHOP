@@ -43,7 +43,7 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $fistName = "//input[@id=\"firstname\"]";
+    public static $fistName = "//input[@id='firstname']";
 
     /**
      * @var string
@@ -123,12 +123,12 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $deleteFirst = "//input[@id=\'cb0\']";
+    public static $deleteFirst = "//input[@id='cb0']";
 
     /**
      * @var string
      */
-    public static $nameXpath = "//td[4]/a'";
+    public static $nameXpath = "//td[4]/a";
     
     //button
 

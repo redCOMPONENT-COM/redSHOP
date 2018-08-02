@@ -114,7 +114,7 @@ class ProductManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $vatDropdownList = "//div[@id=\'s2id_product_tax_group_id\']";
+    public static $vatDropdownList = "//div[@id='s2id_product_tax_group_id']";
 
     /**
      * @var string
@@ -128,7 +128,7 @@ class ProductManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $stockroomTab = "//a[contains(text(), \'Stockroom\')]";
+    public static $stockroomTab = "//a[contains(text(), 'Stockroom')]";
 
     /**
      * @var array
@@ -189,7 +189,7 @@ class ProductManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-     public static $attributeTab = "//h3[text()=\'Product Attributes\']";
+     public static $attributeTab = "//h3[text()='Product Attributes']";
 
     /**
      * @var string
@@ -258,7 +258,7 @@ class ProductManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $accessoryTab = 'Accessory/Related Product';
+    public static $accessoryTab = "Accessory/Related Product";
 
     /**
      * @var string

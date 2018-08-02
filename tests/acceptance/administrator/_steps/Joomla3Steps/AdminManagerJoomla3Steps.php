@@ -115,7 +115,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 *
 	 * @return void
 	 */
-	public function filterListBySearching($text, $searchField = ['id' => 'filter_search'])
+	public function filterListBySearching($text, $searchField = "#filter_search")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
@@ -182,7 +182,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		}
 	}
 
-	public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
+	public function filterListBySearchingProduct($text, $searchField = "#keyword")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
@@ -191,7 +191,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElement(['link' => $text]);
 	}
 
-	public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter'])
+	public function filterListBySearchDiscount($text, $searchField = "#name_filter")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
@@ -222,11 +222,11 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I = $this;
 		$elementId = is_array($element) ? $element['id'] : $element;
 		$I->executeJS('jQuery("' . $elementId . '").select2("search", "' . $text . '")');
-		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
-		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
+		$I->waitForElement("//ul[@class='select2-results']/li[1]/div", 60);
+		$I->click("//ul[@class='select2-results']/li[1]/div");
 	}
 
-	public function filterListBySearchOrder($text, $searchField = ['id' => 'filter']){
+	public function filterListBySearchOrder($text, $searchField = "#filter"){
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);

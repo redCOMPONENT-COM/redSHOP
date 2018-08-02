@@ -39,7 +39,17 @@ class TemplatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldSection = ['id' => 'jform_section'];
+	public static $fieldSection = "#s2id_jform_section";
+
+    /**
+     * @var string
+     */
+	public static $fieldSectionSearch = "#s2id_autogen1_search";
+
+    /**
+     * @var string
+     */
+	public static $fieldSectionID = "#select2-results-1";
 
 	/**
 	 * @var string
