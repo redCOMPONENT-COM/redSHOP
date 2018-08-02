@@ -35,7 +35,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
-	public static $addQuotation = '//input[@name=\'addquotation\']';
+	public static $addQuotation = "//input[@name='addquotation']";
 
     /**
      * @var string
@@ -106,7 +106,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
-	public static $userEmail = "//input[@id=\'user_email\']";
+	public static $userEmail = "//input[@id='user_email']";
 
     /**
      * @var string
@@ -181,7 +181,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
-	public static $selectSecondCountry = "//select[@id=\'rs_country_country_code\']/option[2]";
+	public static $selectSecondCountry = "//select[@id='rs_country_country_code']/option[2]";
 
     /**
      * @var string
@@ -236,82 +236,82 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
 	 * @var array
 	 */
-	public static $idUserNameOneStep = "//input[@id=\'onestep-createaccount-username\']";
+	public static $idUserNameOneStep = "//input[@id='onestep-createaccount-username']";
 
 	/**
 	 * @var array
 	 */
-	public static $idPassOneStep = "//input[@id=\'password1\']";
+	public static $idPassOneStep = "//input[@id='password1']";
 
 	/**
 	 * @var array
 	 */
-	public static $idPassConfirmOneStep = "//input[@id=\'password2\']";
+	public static $idPassConfirmOneStep = "//input[@id='password2']";
 
 	/**
 	 * @var array
 	 */
-	public static $radioCompany = "//input[@billing_type=\'company\']";
+	public static $radioCompany = "//input[@billing_type='company']";
 
 	/**
 	 * @var array
 	 */
-	public static $radioPrivate = "//input[@billing_type=\'private\']";
+	public static $radioPrivate = "//input[@billing_type='private']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyName = "//input[@id=\'company_name\']";
+	public static $idCompanyName = "//input[@id='company_name']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyNameOnePage = "//input[@id=\'company-company_name\']";
+	public static $idCompanyNameOnePage = "//input[@id='company-company_name']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyAddressOnePage = "//input[@id=\'company-address\']";
+	public static $idCompanyAddressOnePage = "//input[@id='company-address']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyEmailOnePage = "//input[@id=\'company-email1\']";
+	public static $idCompanyEmailOnePage = "//input[@id='company-email1']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyZipCodeOnePage = "//input[@id=\'company-zipcode\']";
+	public static $idCompanyZipCodeOnePage = "//input[@id='company-zipcode']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyCityOnePage = "//input[@id=\'company-city\']";
+	public static $idCompanyCityOnePage = "//input[@id='company-city']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyPhoneOnePage = "//input[@id=\'company-phone\']";
+	public static $idCompanyPhoneOnePage = "//input[@id='company-phone']";
 
 	/**
 	 * @var array
 	 */
-	public static $idBusinessNumber = "//input[@id=\'vat_number\']";
+	public static $idBusinessNumber = "//input[@id='vat_number']";
 
 	/**
 	 * @var array
 	 */
-	public static $idEanNumber = "//input[@id=\'ean_number\']";
+	public static $idEanNumber = "//input[@id='ean_number']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyFirstName = "//input[@id=\'company-firstname\']";
+	public static $idCompanyFirstName = "//input[@id='company-firstname']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyLastName = "//input[@id=\'company-lastname\']";
+	public static $idCompanyLastName = "//input[@id='company-lastname']";
 
 	/**
      * Function to get the Path $position for Attribute Dropdown List
@@ -322,7 +322,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public function attributeDropdown($position)
 	{
-		$xpath = "//span[@id=\'select2-chosen-'.$position.'\']";
+		$xpath = "//span[@id='select2-chosen-'.$position.'']";
 
 		return $xpath;
 	}
@@ -336,14 +336,14 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
      */
 	public function attributeDropdownSeach($position)
 	{
-		$xpath = "//input[@id=\'s2id_autogen'.$position.'_search\']";
+		$xpath = "//input[@id='s2id_autogen'.$position.'_search']";
 
 		return $xpath;
 	}
 	/**
 	 * @var array
 	 */
-	public static $attributeSearchFirst = "//input[@id=\'s2id_autogen1_search\']";
+	public static $attributeSearchFirst = "//input[@id='s2id_autogen1_search']";
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
