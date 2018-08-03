@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class ProductManagerPage extends AdminJ3Page
 {
@@ -21,56 +21,56 @@ class ProductManagerPage extends AdminJ3Page
 
 	public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 
-	public static $categorySearch = ['id' => 's2id_category_id'];
+	public static $categorySearch = "#s2id_category_id";
 
-	public static $categorySearchField = ['id' => 's2id_autogen2_search'];
+	public static $categorySearchField = "#s2id_autogen2_search";
 
-	public static $searchStatusId = ['id' => 's2id_product_sort'];
+	public static $searchStatusId = "#s2id_product_sort";
 
-	public static $searchStatusField = ['id' => 's2id_autogen3_search'];
+	public static $searchStatusField = "#s2id_autogen3_search";
 
-	public static $namePageXpath = ['xpath' => "//h1"];
+	public static $namePageXpath = "//h1";
 
-	public static $productFilter = ['id' => 'keyword'];
+	public static $productFilter = "#keyword";
 
-	public static $discountStart = ['id' => "discount_stratdate"];
+	public static $discountStart = "#discount_stratdate";
 
-	public static $discountEnd = ['id' => "discount_enddate"];
+	public static $discountEnd = "#discount_enddate";
 
-	public static $discountPrice = ['id' => "discount_price"];
+	public static $discountPrice = "#discount_price";
 
-	public static $minimumPerProduct = ['id' => "minimum_per_product_total"];
+	public static $minimumPerProduct = "#minimum_per_product_total";
 
-	public static $minimumQuantity = ['id' => "min_order_product_quantity"];
+	public static $minimumQuantity = "#min_order_product_quantity";
 
-	public static $maximumQuantity = ['id' => "max_order_product_quantity"];
+	public static $maximumQuantity = "#max_order_product_quantity";
 
-	public static $productNumber = ['id' => 'product_number'];
+	public static $productNumber = "#product_number";
 
-	public static $productPrice = ['id' => 'product_price'];
+	public static $productPrice = "#product_price";
 
-	public static $productName = ['id' => 'product_name'];
+	public static $productName = "#product_name";
 
-	public static $categoryId = ['id' => "s2id_product_category"];
+	public static $categoryId = "#s2id_product_category";
 
-	public static $categoryFile = ['id' => 's2id_autogen4'];
+	public static $categoryFile = "#s2id_autogen4";
 
-	public static $vatDropdownList = ['xpath' => '//div[@id=\'s2id_product_tax_group_id\']'];
+	public static $vatDropdownList = "//div[@id='s2id_product_tax_group_id']";
 
-	public static $vatSearchField = ['id' => 's2id_autogen8_search'];
+	public static $vatSearchField = "#s2id_autogen8_search";
 
 //    public static 
 
 	//stockroom for product
-	public static $stockroomTab = ['xpath' => '//a[contains(text(), \'Stockroom\')]'];
+	public static $stockroomTab = "//a[contains(text(), 'Stockroom')]";
 
 	/**
 	 * @var array
 	 */
 
-	public static $quantityInStock = ['xpath' => '//input[@name="quantity[]"]'];
+	public static $quantityInStock = "//input[@name='quantity[]']";
 
-	public static $preOrderStock = ['xpath' => '//input[@name="preorder_stock[]"]'];
+	public static $preOrderStock = "//input[@name='preorder_stock[]']";
 
 	public static $messageSaveSuccess = "Product details saved";
 
@@ -91,7 +91,7 @@ class ProductManagerPage extends AdminJ3Page
 
 
 	//tab
-	public static $attributeTab = ['xpath' => '//h3[text()=\'Product Attributes\']'];
+	public static $attributeTab = "//h3[text()='Product Attributes']";
 
 	public static $addAttribute = '+ Add Attribute parameter';
 
@@ -120,33 +120,40 @@ class ProductManagerPage extends AdminJ3Page
 		return $xpath;
 	}
 
-	// tab acc
-	public static $accessoryTab = 'Accessory/Related Product';
+    public function attributePreSelect($position)
+    {
+        $xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][default_sel]"]'];
 
-	public static $accessoriesValue = ['xpath' => "//h3[text()='Accessories']"];
+        return $xpath;
+    }
 
-	public static $relatedProduct = ['xpath' => "//h3[text()='Related product']"];
+    // tab acc
+    public static $accessoryTab = 'Accessory/Related Product';
 
-	public static $accessorySearchID = ['id' => 's2id_product_accessory_search'];
+    public static $accessoriesValue= "//h3[text()='Accessories']";
 
-	public static $accessSearchField = ['id' => 's2id_autogen3_search'];
+    public static $relatedProduct = "//h3[text()='Related product']";
 
-	// relate product
-	public static $relatedProductId = ['id' => 's2id_related_product'];
+    public static $accessorySearchID = "#s2id_product_accessory_search";
+
+    public static $accessSearchField = "#s2id_autogen3_search";
+
+    // relate product
+    public static $relatedProductId = "#s2id_related_product";
 
 	// product not for sale in frontend
-	public static $selectCategory = ['class' => 'select2-match'];
+	public static $selectCategory = ".select2-match";
 
-	public static $saleYes = ['xpath' => '//input[@id="not_for_sale1"]'];
+	public static $saleYes = "//input[@id='not_for_sale1']";
 
-	public static $saleNo = ['id' => 'not_for_sale0'];
+	public static $saleNo = "#not_for_sale0";
 
-	public static $showPriceYes = ['id' => 'not_for_sale_showprice1'];
+	public static $showPriceYes = "#not_for_sale_showprice1";
 
-	public static $showPriceNo = ['id' => 'not_for_sale_showprice0'];
+	public static $showPriceNo = "#not_for_sale_showprice0";
 
-	public static $categoryID = ['class' => 'category_front_inside'];
+	public static $categoryID = ".category_front_inside";
 
-	public static $productID = ['class' => 'category_box_inside'];
+	public static $productID = ".category_box_inside";
 
 }
