@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/helper.php';
+require_once __DIR__ . '/helper.php';
 JLoader::import('redshop.library');
 
 $productHelper      = productHelper::getInstance();
 $input              = JFactory::getApplication()->input;
 $cid                = $input->getInt('cid', 0);
 $mid                = $input->getInt('manufacturer_id', 0);
-$moduleClassSfx     = $params->get("moduleclass_sfx");
+$moduleClassSfx     = $params->get('moduleclass_sfx');
 $rootCategory       = $params->get('root_category', 0);
 $enableCategory     = $params->get('category');
 $enableManufacturer = $params->get('manufacturer');
@@ -26,21 +26,25 @@ $productFields      = $params->get('product_fields');
 $enableKeyword      = $params->get('keyword');
 $template           = $params->get('template_id');
 $limit              = $params->get('limit', 0);
-$restricted         = $params->get('restricted', 0);
+$restricted         = (boolean) $params->get('restricted', false);
+$enableClearButton  = (boolean) $params->get('show_clear', true);
 $option             = $input->getCmd('option', '');
 $view               = $input->getCmd('view', '');
 $layout             = $input->getCmd('layout', '');
 $itemId             = $input->getInt('Itemid', 0);
 $keyword            = $input->getString('keyword', '');
-$action             = JRoute::_("index.php?option=com_redshop&view=search");
+$action             = JRoute::_('index.php?option=com_redshop&view=search');
 $getData            = $input->getArray();
+$pids               = array();
+$rangePrice         = array('min' => 0.0, 'max' => 0.0);
 
 if (!empty($cid))
 {
+	/** @var RedshopModelCategory $categoryModel */
 	$categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 	$categoryModel->setId($cid);
 	$categoryModel->setState('include_sub_categories_products', true);
-	$productList = $categoryModel->getCategoryProduct(true, true);
+	$productList = $categoryModel->getCategoryProduct(1, true);
 	$catList     = array();
 	$manuList    = array();
 	$pids        = ModRedshopFilter::getProductByCategory($cid);
@@ -64,6 +68,7 @@ if (!empty($cid))
 }
 elseif (!empty($mid))
 {
+	/** @var RedshopModelManufacturers $manufacturerModel */
 	$manufacturerModel = JModelLegacy::getInstance('Manufacturers', 'RedshopModel');
 	$manufacturerModel->setId($mid);
 	$products      = $manufacturerModel->getManufacturerProducts();
@@ -82,7 +87,6 @@ elseif ($view == 'search')
 	$productList = RedshopHelperProduct::getProductsByIds($productIds);
 	$manuList    = array();
 	$catList     = array();
-	$pids        = array();
 
 	foreach ($productList as $k => $value)
 	{
@@ -103,16 +107,18 @@ elseif ($view == 'search')
 }
 
 $customFields = ModRedshopFilter::getCustomFields($pids, $productFields);
-$rangeMin     = isset($getData['filterprice']['min']) ? $getData['filterprice']['min'] : $rangePrice['min'];
-$rangeMax     = isset($getData['filterprice']['max']) ? $getData['filterprice']['max'] : $rangePrice['max'];
-
-$pids = array_filter(array_unique($pids));
+$currentMin   = !empty($getData['filterprice']['min']) ? $getData['filterprice']['min'] : $rangePrice['min'];
+$currentMax   = !empty($getData['filterprice']['max']) ? $getData['filterprice']['max'] : $rangePrice['max'];
+$rangeMin     = $rangePrice['min'];
+$rangeMax     = $rangePrice['max'];
+$pids         = array_filter(array_unique($pids));
 
 if ($enablePrice)
 {
-	JHtml::stylesheet('mod_redshop_filter/jquery-ui.min.css', false, true);
-	/** @scrutinizer ignore-deprecated */
-	JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
+	/** @scrutinizer ignore-deprecated */JHtml::stylesheet('mod_redshop_filter/jquery-ui.min.css', false, true);
+	/** @scrutinizer ignore-deprecated */JHtml::script('mod_redshop_filter/jquery-ui.min.js', false, true, false, false);
 }
+
+/** @scrutinizer ignore-deprecated */ JHtml::script('mod_redshop_filter/redshop.module.filter.min.js', false, true, false, false);
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
