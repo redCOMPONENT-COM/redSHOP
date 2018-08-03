@@ -13,13 +13,14 @@ var modBase   = "site";
 
 var baseTask = 'modules.frontend.' + modName;
 var extPath  = './modules/' + modBase + '/' + modFolder;
-var wwwPath  = config.wwwDir + '/modules/' + modFolder
+var wwwPath  = config.wwwDir + '/modules/' + modFolder;
 
 // Clean
 gulp.task('clean:' + baseTask,
     [
         'clean:' + baseTask + ':module',
-        'clean:' + baseTask + ':language'
+        'clean:' + baseTask + ':language',
+        'clean:' + baseTask + ':media'
     ],
     function() {
     });
@@ -34,11 +35,17 @@ gulp.task('clean:' + baseTask + ':language', function() {
     return del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', {force: true});
 });
 
+// Clean: Language
+gulp.task('clean:' + baseTask + ':media', function() {
+    return del(config.wwwDir + '/media/' + modFolder, {force: true});
+});
+
 // Copy: Module
 gulp.task('copy:' + baseTask,
     [
         'copy:' + baseTask + ':module',
-        'copy:' + baseTask + ':language'
+        'copy:' + baseTask + ':language',
+        'copy:' + baseTask + ':media'
     ],
     function() {
     });
@@ -59,11 +66,17 @@ gulp.task('copy:' + baseTask + ':language', ['clean:' + baseTask + ':language'],
         .pipe(gulp.dest(config.wwwDir + '/language'));
 });
 
+gulp.task('copy:' + baseTask + ':media', function() {
+    return gulp.src(extPath + '/media/' + modFolder + '/**')
+        .pipe(gulp.dest(config.wwwDir + '/media/' + modFolder));
+});
+
 // Watch
 gulp.task('watch:' + baseTask,
     [
         'watch:' + baseTask + ':module',
-        'watch:' + baseTask + ':language'
+        'watch:' + baseTask + ':language',
+        'watch:' + baseTask + ':media'
     ],
     function() {
     });
@@ -84,4 +97,11 @@ gulp.task('watch:' + baseTask + ':language', function() {
             extPath + '/language/**'
         ],
         ['copy:' + baseTask + ':language', browserSync.reload]);
+});
+
+gulp.task('watch:' + baseTask + ':media', function() {
+    gulp.watch([
+            extPath + '/media/' + modFolder + '/**'
+        ],
+        ['copy:' + baseTask + ':media', browserSync.reload]);
 });

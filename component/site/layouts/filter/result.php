@@ -18,6 +18,7 @@ $model      = $displayData["model"];
 $app        = JFactory::getApplication();
 $input      = $app->input;
 
+/** @var RedshopModelCategory $categoryModel */
 $categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 $categoryModel->setId($cid);
 $categoryData = $categoryModel->getData();
@@ -41,7 +42,7 @@ $list = array(
 $orderBy = JHtml::_(
 	'select.genericlist',
 	$list, 'orderBy',
-	'class="inputbox" size="1" onchange="order(this);" ',
+	'class="inputbox form-control" size="1" onchange="setSliderMinMax(this);" ',
 	'value',
 	'text',
 	$displayData['orderBy']
@@ -442,7 +443,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		if (!empty($keyword))
 		{
-			$productName = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productName);
+			$productName = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productName);
 		}
 
 		if (strstr($dataAdd, '{product_name_nolink}'))
@@ -482,7 +483,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if (!empty($keyword))
 			{
-				$productShortDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productShortDesc);
+				$productShortDesc = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productShortDesc);
 			}
 
 			$dataAdd = str_replace("{product_s_desc}", $productShortDesc, $dataAdd);
@@ -498,7 +499,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if (!empty($keyword))
 			{
-				$productDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productDesc);
+				$productDesc = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productDesc);
 			}
 
 			$dataAdd = str_replace("{product_desc}", $productDesc, $dataAdd);
@@ -854,8 +855,58 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$templateDesc = str_replace("{product_display_limit}", $limitBox, $templateDesc);
 	}
 
+	if (strpos($templateDesc, '{filter_by}') !== false)
+	{
+		/** @var JApplicationSite $app */
+		$app        = JFactory::getApplication();
+		$data       = $app->input->get('redform', array(), 'ARRAY');
+		$min        = isset($data['filterprice']['min']) ? (float) $data['filterprice']['min'] : 0.0;
+		$max        = isset($data['filterprice']['max']) ? (float) $data['filterprice']['max'] : 0.0;
+		$templateId = isset($data['template_id']) ? (int) $data['template_id'] : 0;
+
+		if (isset($data['cid']))
+		{
+			$app->input->set('cid', $data['cid']);
+		}
+
+		$temps = array(
+			(object) array(
+				'id'   => 0,
+				'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+			)
+		);
+
+		$manufacturers = array_merge($temps, $categoryModel->getManufacturer());
+		$manufacturers = JHtml::_(
+			'select.genericlist',
+			$manufacturers,
+			'manufacturer_id',
+			'class="inputbox form-control" onchange="javascript:setSliderMinMaxForManufactur();" ',
+			'id',
+			'name',
+			$categoryModel->getState('manufacturer_id')
+		);
+
+		$filterByForm = "<form name='filterby_form' action='' method='post'>";
+		$filterByForm .= $manufacturers;
+		$filterByForm .= "<input type='hidden' name='texpricemin' id='manuf_texpricemin' value='" . $min . "' />";
+		$filterByForm .= "<input type='hidden' name='texpricemax' id='manuf_texpricemax' value='" . $max . "' />";
+		$filterByForm .= "<input type='hidden' name='order_by' id='order_by' value='"
+			. $app->getUserStateFromRequest($model->context . '.order_by', 'order_by') . "' />";
+		$filterByForm .= '<input type="hidden" name="limitstart" value="0" />';
+		$filterByForm .= "<input type='hidden' name='category_template' id='category_template' value='" . $templateId . "' />";
+		$filterByForm .= "</form>";
+
+		$templateDesc = str_replace(
+			array('{filter_by_lbl}', '{filter_by}'),
+			array(JText::_('COM_REDSHOP_SELECT_FILTER_BY'), $filterByForm),
+			$templateDesc
+		);
+	}
+
 	$templateDesc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
 	$templateDesc = str_replace("{order_by}", $orderBy, $templateDesc);
+	$templateDesc = str_replace("{filter_by_lbl}", '', $templateDesc);
 	$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
 	$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
 	$templateDesc = str_replace("{category_main_name}", $categoryDetail->name, $templateDesc);
