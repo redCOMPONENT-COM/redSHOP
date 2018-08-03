@@ -18,12 +18,24 @@ $producthelper  = productHelper::getInstance();
             submitform(pressbutton);
             return;
         }
-        if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
-            alert("Product Price must have valid value");
-            form.product_price.focus();
-        } else {
-            submitform(pressbutton);
+        if (form.price_quantity_start.value > form.price_quantity_end.value)
+        {
+            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START', true ); ?>");
+            form.price_quantity_start.focus();
+            return;
         }
+        if (form.discount_start_date.value > form.discount_end_date.value)
+        {
+            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE', true ); ?>");
+            form.discount_start_date.focus();
+            return;
+        }
+        if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
+            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_INVALID', true ); ?>");
+            form.product_price.focus();
+            return;
+        }
+        submitform(pressbutton);
     };
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
@@ -83,7 +95,7 @@ $producthelper  = productHelper::getInstance();
 
 						if ($this->detail->discount_start_date)
 						{
-							$sdate = date("d-m-Y", $this->detail->discount_start_date);
+							$sdate = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->discount_start_date);
 						}
 
 						echo JHtml::_(
@@ -107,7 +119,7 @@ $producthelper  = productHelper::getInstance();
 
 						if ($this->detail->discount_end_date)
 						{
-							$sdate = date("d-m-Y", $this->detail->discount_end_date);
+							$sdate = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->discount_end_date);
 						}
 
 						echo JHtml::_(

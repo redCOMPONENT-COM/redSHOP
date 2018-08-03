@@ -59,7 +59,7 @@ class CategorySteps extends AbstractStep
 	{
 		$tester = $this;
 		$tester->amOnPage(CategoryPage::$url);
-		$tester->searchItem($categoryName);
+		$tester->searchItemCheckIn($categoryName);
 		$tester->click($categoryName);
 		$tester->click(CategoryPage::$tabAccessory);
 		$tester->waitForElement(CategoryPage::$getAccessory, 60);
