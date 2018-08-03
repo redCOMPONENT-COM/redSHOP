@@ -51,26 +51,26 @@ class ProductManagerPage extends AdminJ3Page
 
 	public static $productName = "#product_name";
 
-	public static $categoryId = "#s2id_product_category";
+	public static $categoryId = "s2id_product_category";
 
-	public static $categoryFile = "#s2id_autogen4";
+	public static $categoryFile = ['id' => 's2id_autogen4'];
 
-	public static $vatDropdownList = "//div[@id='s2id_product_tax_group_id']";
+	public static $vatDropdownList = ['xpath' => '//div[@id=\'s2id_product_tax_group_id\']'];
 
-	public static $vatSearchField = "#s2id_autogen8_search";
+	public static $vatSearchField = ['id' => 's2id_autogen8_search'];
 
-//    public static 
+//    public static
 
 	//stockroom for product
-	public static $stockroomTab = "//a[contains(text(), 'Stockroom')]";
+	public static $stockroomTab = ['xpath' => '//a[contains(text(), \'Stockroom\')]'];
 
 	/**
 	 * @var array
 	 */
 
-	public static $quantityInStock = "//input[@name='quantity[]']";
+	public static $quantityInStock = ['xpath' => '//input[@name="quantity[]"]'];
 
-	public static $preOrderStock = "//input[@name='preorder_stock[]']";
+	public static $preOrderStock = ['xpath' => '//input[@name="preorder_stock[]"]'];
 
 	public static $messageSaveSuccess = "Product details saved";
 
@@ -91,7 +91,7 @@ class ProductManagerPage extends AdminJ3Page
 
 
 	//tab
-	public static $attributeTab = "//h3[text()='Product Attributes']";
+	public static $attributeTab = ['xpath' => '//h3[text()=\'Product Attributes\']'];
 
 	public static $addAttribute = '+ Add Attribute parameter';
 
@@ -141,19 +141,19 @@ class ProductManagerPage extends AdminJ3Page
     // relate product
     public static $relatedProductId = "#s2id_related_product";
 
-	// product not for sale in frontend
-	public static $selectCategory = ".select2-match";
+    // product not for sale in frontend
+    public static $selectCategory = ".select2-match";
 
-	public static $saleYes = "//input[@id='not_for_sale1']";
+    public static $saleYes = "//input[@id='not_for_sale1'']";
 
-	public static $saleNo = "#not_for_sale0";
+    public static $saleNo = "#not_for_sale0";
 
-	public static $showPriceYes = "#not_for_sale_showprice1";
+    public static $showPriceYes = "#not_for_sale_showprice1";
 
-	public static $showPriceNo = "#not_for_sale_showprice0";
+    public static $showPriceNo = "#not_for_sale_showprice0";
 
-	public static $categoryID = ".category_front_inside";
+    public static $categoryID = ".category_front_inside";
 
-	public static $productID = ".category_box_inside";
+    public static $productID = ".category_box_inside";
 
 }
