@@ -44,7 +44,7 @@ class RoboFile extends \Robo\Tasks
 		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 		 */
-		$version = '3.8.10';
+		$version = '3.8.11';
 
 		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 
@@ -73,7 +73,6 @@ class RoboFile extends \Robo\Tasks
 		$this->_exec("vendor/bin/codecept build");
 
 		$this->taskCodecept()
-			->arg('--steps')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -93,7 +92,6 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskCodecept()
 			->arg('--tap')
-			->arg('--steps')
 			->arg('--fail-fast')
 			->arg($folder . '/')
 			->run()
@@ -134,8 +132,6 @@ class RoboFile extends \Robo\Tasks
 
 		// Install Joomla + redSHOP
 		$this->taskCodecept()
-			 ->arg('--steps')
-			 ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -145,8 +141,6 @@ class RoboFile extends \Robo\Tasks
 		// Run specific task
 		$this->taskCodecept()
 			->test('tests/' . $testCase)
-			// ->arg('--steps')
-			// ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->run()
