@@ -46,9 +46,9 @@ class StockImageCest
 		$I = new StockImageSteps($scenario);
 		$I->addStockImage($this->name);
 
-        /**
-         * Function to Update a Stock Image List
-         */
+		/**
+		 * Function to Update a Stock Image List
+		 */
 		$I->wantTo('Update Stock Image in Administrator page');
 		$I = new StockImageSteps($scenario);
 		$I->updateStockImage($this->name);
@@ -70,6 +70,6 @@ class StockImageCest
 		 */
 		$I->wantTo('Disable StockRoom in Administrator page');
 		$I = new ConfigurationSteps($scenario);
-		$I -> featureOffStockRoom();
+		$I->featureOffStockRoom();
 	}
 }

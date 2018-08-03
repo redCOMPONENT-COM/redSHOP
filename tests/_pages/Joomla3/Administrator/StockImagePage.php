@@ -31,46 +31,46 @@ class StockImagePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldStockName = ['id' => 'stock_amount_image_tooltip'];
+	public static $fieldStockName = "#stock_amount_image_tooltip";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldSearchStock = ['id' => 's2id_autogen1_search'];
+	public static $fieldSearchStock = "#s2id_autogen1_search";
 
 	/**
 	 * @var array
 	 */
-	public static $chooseStock = ['class' => 'select2-result-label'];
+	public static $chooseStock = ".select2-result-label";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldDropStock = ['id' => 's2id_stockroom_id'];
+	public static $fieldDropStock = "#s2id_stockroom_id";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldSearchAmount = ['id' => 's2id_autogen2_search'];
+	public static $fieldSearchAmount = "#s2id_autogen2_search";
 
 	/**
 	 * @var array
 	 */
-	public static $chooseAmount = ['class' => 'select2-result-label'];
+	public static $chooseAmount = ".select2-result-label";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldDropAmount = ['id' => 's2id_stock_option'];
+	public static $fieldDropAmount = "#s2id_stock_option";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldQuantity = ['id' => 'stock_quantity'];
+	public static $fieldQuantity = "#stock_quantity";
 
 	/**
 	 * @var array
 	 */
-	public static $search = ['id' => 'filter'];
+	public static $search = "#filter";
 
 }
