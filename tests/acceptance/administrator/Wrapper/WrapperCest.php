@@ -15,7 +15,7 @@ use AcceptanceTester\WrapperSteps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1
+ * @since    2.4
  */
 class WrapperCest
 {
@@ -87,7 +87,7 @@ class WrapperCest
 
 		$I->wantTo('Test Wrapper when user delete in Administrator');
 		$I = new WrapperSteps($scenario);
-		$I-> deleteWrapper($this->name);
+		$I->deleteWrapper($this->name);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete category');
