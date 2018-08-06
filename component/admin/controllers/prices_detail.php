@@ -27,13 +27,29 @@ class RedshopControllerPrices_detail extends RedshopController
 		parent::display();
 	}
 
-	public function save()
+	/**
+	 * Apply function
+	 *
+	 * @return void
+	 */
+	public function apply()
+	{
+		$this->save(1);
+	}
+
+	/**
+	 * Save function
+	 *
+	 * @param   int $apply stay in current page or not
+	 * @return  void
+	 */
+	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
 
-		$product_id           = $this->input->get('product_id');
-		$price_quantity_start = $this->input->get('price_quantity_start');
-		$price_quantity_end   = $this->input->get('price_quantity_end');
+		$productId          = $this->input->getInt('product_id');
+		$priceQuantityStart = $this->input->getInt('price_quantity_start');
+		$priceQuantityEnd   = $this->input->getInt('price_quantity_end');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate']            = time();
@@ -51,42 +67,32 @@ class RedshopControllerPrices_detail extends RedshopController
 		/** @var RedshopModelPrices_detail $model */
 		$model = $this->getModel('prices_detail');
 
-		if ($price_quantity_start == 0 && $price_quantity_end == 0)
+		$row = $model->store($post);
+
+		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
+
+		if ($priceQuantityStart == 0 && $priceQuantityEnd == 0 && $row)
 		{
-			if ($model->store($post))
-			{
-				$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
-			}
-			else
-			{
-				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
-			}
+			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
 		}
-		else
+		elseif (($priceQuantityStart < $priceQuantityEnd) && $row)
 		{
-			if ($price_quantity_start < $price_quantity_end)
-			{
-				if ($model->store($post))
-				{
-					$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
-				}
-				else
-				{
-					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
-				}
-			}
-			else
-			{
-				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
-			}
+			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		if ($apply == 0)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
+
+			return;
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $productId . '&cid[]=' . $row->price_id, $msg);
 	}
 
 	public function remove()
 	{
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -103,14 +109,14 @@ class RedshopControllerPrices_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
 	}
 
 	public function cancel()
 	{
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
 	}
 }
