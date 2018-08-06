@@ -23,9 +23,6 @@ jimport('joomla.filesystem.file');
  */
 class RedshopModelProduct_Detail extends RedshopModel
 {
-	use \Redshop\Entity\Traits\Product\Product;
-	use \Redshop\Entity\Traits\Product\Attributes;
-
 	public $id = null;
 
 	public $data = null;
