@@ -320,6 +320,10 @@ class ConfigurationPage extends AdminJ3Page
      */
 	public static $minimunOrderTotal = "#minimum_order_total";
 
+	public static $showSameAddressForBillingYes = "#optional_shipping_address1-lbl";
+
+	public static $showSameAddressForBillingNo = "#optional_shipping_address0-lbl";
+
 	// price tab and discount
 
     /**
