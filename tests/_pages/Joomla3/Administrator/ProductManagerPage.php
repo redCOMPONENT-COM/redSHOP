@@ -134,12 +134,12 @@ class ProductManagerPage extends AdminJ3Page
      * @var array
      */
 
-    public static $quantityInStock = ['xpath'=>'//input[@name="quantity[]"]'];
+    public static $quantityInStock = "//input[@name='quantity[]']";
 
     /**
      * @var array
      */
-	public static $preOrderStock = ['xpath'=>'//input[@name="preorder_stock[]"]'];
+	public static $preOrderStock = "//input[@name='preorder_stock[]']";
 
     /**
      * @var string
@@ -286,6 +286,6 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $relatedProductId = "#s2id_related_product";
-   
-    
+
+
 }
