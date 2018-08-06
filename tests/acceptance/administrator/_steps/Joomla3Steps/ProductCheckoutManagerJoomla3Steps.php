@@ -850,7 +850,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransferId);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
