@@ -31,7 +31,6 @@ class RedshopModelBarcode extends RedshopModel
 	{
 		parent::__construct();
 
-		$app                 = JFactory::getApplication();
 		$this->_table_prefix = '#__redshop_';
 	}
 

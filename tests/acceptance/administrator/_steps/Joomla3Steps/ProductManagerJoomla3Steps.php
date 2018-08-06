@@ -703,6 +703,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField($usePage->attributeNameProperty($position), $name);
 		$I->waitForElement($usePage->attributePriceProperty($position), 30);
 		$I->fillField($usePage->attributePriceProperty($position), $price);
+		$I->waitForElement($usePage->attributePreSelect($position),30);
+		$I->click($usePage->attributePreSelect($position));
     }
 
 }
