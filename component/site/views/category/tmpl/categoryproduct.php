@@ -64,7 +64,7 @@ if ($this->print)
 $print_url = $url . "index.php?option=com_redshop&view=category&layout=categoryproduct&print=1&tmpl=component&Itemid=" . $this->itemid;
 $onclick   = "onclick='window.print();'";
 
-$printHtml = JLayoutHelper::render('general.print', array('onclick' => $onclick));
+$printHtml = JLayoutHelper::render('general.print', /** @scrutinizer ignore-type */ array('onclick' => $onclick));
 
 $templateHtml = str_replace("{print}", ($this->print) ? '' : $printHtml, $templateHtml);
 $templateHtml = str_replace("{category_frontpage_introtext}", Redshop::getConfig()->get('CATEGORY_FRONTPAGE_INTROTEXT'), $templateHtml);
