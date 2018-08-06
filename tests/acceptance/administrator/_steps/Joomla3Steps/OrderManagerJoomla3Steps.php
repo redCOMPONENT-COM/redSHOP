@@ -102,7 +102,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\OrderManagerPage::$deleteFirst);
 		$I->click(\OrderManagerPage::$buttonDelete);
 		$I->acceptPopup();
-//		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
     /**
      * @param $productName
