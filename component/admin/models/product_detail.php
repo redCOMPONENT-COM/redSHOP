@@ -4788,6 +4788,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
+	 *
+	 * @return array
+	 *
+	 * @since  2.1.0
+	 */
+	public function getattributes()
+	{
+		return RedshopEntityProduct::getInstance($this->id)->getAttributes();
+	}
+
+	/**
 	 * Get product attributes for the getAttribute webservice
 	 *
 	 * @param   string $productNumber Product number of the product
