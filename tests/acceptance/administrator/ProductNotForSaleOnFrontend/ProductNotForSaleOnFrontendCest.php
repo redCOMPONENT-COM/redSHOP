@@ -12,7 +12,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1
+ * @since    2.4
  */
 class ProductNotForSaleOnFrontendCest
 {
@@ -28,11 +28,23 @@ class ProductNotForSaleOnFrontendCest
 		$this->price = 100;
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
 
+    /**
+     * @param AcceptanceTester $I
+     *
+     * @param   \Codeception\Scenario $scenario Scenario
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     */
 	public function productNotForSaleOnFrontend(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('create category in Administrator');
