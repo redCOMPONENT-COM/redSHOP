@@ -56,7 +56,7 @@ trait Attributes
 
 			foreach ($properties as $index => $property)
 			{
-				$property[$index]->subvalue = Product::getSubAttributes($property->property_id);
+				$properties[$index]->subvalue = Product::getSubAttributes($property->property_id);
 			}
 
 			$attributeData[] = array('attribute_id'             => $attribute_id, 'attribute_name' => $attribute_name,
@@ -69,4 +69,20 @@ trait Attributes
 
 		return $attributeData;
 	}
+
+	/**
+	 * Check if we have an identifier loaded
+	 *
+	 * @return  boolean
+	 * @since   2.1.0
+	 */
+	abstract public function hasId();
+
+	/**
+	 * Get the id
+	 *
+	 * @return  integer | null
+	 * @since   2.1.0
+	 */
+	abstract public function getId();
 }
