@@ -58,11 +58,6 @@ class CustomFieldManagerJoomla3Page
     /**
      * @var string
      */
-    public static $filterSearch = "#filter_search";
-
-    /**
-     * @var string
-     */
     public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
 
     /**

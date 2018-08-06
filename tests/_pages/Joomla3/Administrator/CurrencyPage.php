@@ -24,14 +24,4 @@ class CurrencyPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=currencies';
-
-    /**
-     * @var string
-     */
-	public static $fieldName = "#jform_name";
-
-    /**
-     * @var string
-     */
-	public static $fieldCode = "#jform_code";
 }
