@@ -15,7 +15,6 @@
  */
 class ProductManagerPage extends AdminJ3Page
 {
-
     /**
      * @var string
      */
@@ -130,16 +129,13 @@ class ProductManagerPage extends AdminJ3Page
      */
     public static $stockroomTab = "//a[contains(text(), 'Stockroom')]";
 
-    /**
-     * @var array
-     */
+	/**
+	 * @var array
+	 */
 
-    public static $quantityInStock = ['xpath'=>'//input[@name="quantity[]"]'];
+	public static $quantityInStock = "//input[@name='quantity[]']";
 
-    /**
-     * @var array
-     */
-	public static $preOrderStock = ['xpath'=>'//input[@name="preorder_stock[]"]'];
+	public static $preOrderStock = "//input[@name='preorder_stock[]'']";
 
     /**
      * @var string
@@ -208,8 +204,8 @@ class ProductManagerPage extends AdminJ3Page
     {
     	$xpath = ['xpath' => '//input[@name="attribute['.$position.'][name]"]'];
 
-    	return $xpath;
-    }
+		return $xpath;
+	}
 
     /**
      * Function to get Path $position in Attribute Name Property
@@ -222,8 +218,8 @@ class ProductManagerPage extends AdminJ3Page
     {
     	$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][name]"]'];
 
-    	return $xpath;
-    }
+		return $xpath;
+	}
 
     /**
      * Function to get Path $position in Attribute Price Property
@@ -234,7 +230,7 @@ class ProductManagerPage extends AdminJ3Page
      */
 	public function attributePriceProperty($position)
 	{
-		$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][price]"]'];
+		$xpath = ['xpath' => '//input[@name="attribute[' . $position . '][property][0][price]"]'];
 
 		return $xpath;
 	}
@@ -254,7 +250,6 @@ class ProductManagerPage extends AdminJ3Page
     }
 
     // tab acc
-
     /**
      * @var string
      */
@@ -286,6 +281,4 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $relatedProductId = "#s2id_related_product";
-   
-    
 }
