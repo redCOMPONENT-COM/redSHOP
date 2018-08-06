@@ -148,7 +148,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\ProductManagerPage::$buttonLogin);
         $I->amOnPage(\ProductManagerPage::$cartPageUrL);
         $I->click(\ProductManagerPage::$buttonCheckOut);
-        $I->waitForElement(\ProductManagerPage::$acceptTerms, '30');
+        $I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
         $I->click(\ProductManagerPage::$acceptTerms);
         $I->click(\ProductManagerPage::$checkoutFinalStep);
     }
