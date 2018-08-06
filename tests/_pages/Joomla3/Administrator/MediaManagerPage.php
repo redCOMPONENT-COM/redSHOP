@@ -11,9 +11,12 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class MediaManagerPage
 {
+    /**
+     * @var string
+     */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=media';
 }
