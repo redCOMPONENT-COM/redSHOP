@@ -7,20 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 JHtml::_('behavior.modal', 'a.joom-box');
 /** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
-
 $priceDecimal  = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');
 $editor        = JFactory::getEditor();
 $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-
 $media = RedshopEntityProduct::getInstance($this->detail->product_id)->getMedia();
-
 $fullMediaId = 0;
 $fullImage = "";
-
 foreach ($media->getAll() as $mediaItem)
 {
     if ($mediaItem->get('media_name') == $this->detail->product_full_image)
@@ -47,14 +42,12 @@ foreach ($media->getAll() as $mediaItem)
                     });
                 }
             });
-
             if ($("input[name=not_for_sale]:checked").val() == 1) {
                 $("#not_for_sale_showprice").show();
             }
             else {
                 $("#not_for_sale_showprice").hide();
             }
-
             $("input[name=not_for_sale]").change(function () {
                 if ($(this).val() == 1) {
                     $("#not_for_sale_showprice").show(500);
@@ -63,7 +56,6 @@ foreach ($media->getAll() as $mediaItem)
                     $("#not_for_sale_showprice").hide(500);
                 }
             });
-
             $("#product_price,#discount_price").inputmask({
                 "alias"             : "numeric",
                 "groupSeparator"    : '<?php echo $priceThousand ?>',
@@ -74,13 +66,10 @@ foreach ($media->getAll() as $mediaItem)
                 "autoUnmask"        : true,
                 "removeMaskOnSubmit": true
             });
-
             SqueezeBox.presets.onClose = function(e){
                 if (this.options.classWindow == 'additional-media-popup') {
                     var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
-
                     <?php JFactory::getApplication()->setUserState('com_redshop.product_detail.selectedTabPosition', 'general_data')  ?>
-
                     $('#general_data').html(reloading_img);
                     window.location.reload();
                 }
@@ -211,7 +200,7 @@ foreach ($media->getAll() as $mediaItem)
                             <div class="input-group">
                                 <span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span>
                                 <input class="form-control" type="text" name="product_price" id="product_price"
-                                       size="10" maxlength="10" value="<?php echo $this->detail->product_price ?>"/>
+                                       size="10" maxlength="100" value="<?php echo $this->detail->product_price ?>"/>
                             </div>
                         </div>
 
@@ -236,7 +225,7 @@ foreach ($media->getAll() as $mediaItem)
                             <div class="input-group">
                                 <span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span>
                                 <input class="form-control" type="text" name="discount_price" id="discount_price" size="10"
-                                       maxlength="10" style="text-align: left;" value="<?php echo $this->detail->discount_price; ?>"/>
+                                       maxlength="100" style="text-align: left;" value="<?php echo $this->detail->discount_price; ?>"/>
                             </div>
                         </div>
 
@@ -244,14 +233,12 @@ foreach ($media->getAll() as $mediaItem)
                             <label for="discount_stratdate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?></label>
                             <?php
                             $startDate = null;
-
 							if ($this->detail->discount_stratdate)
 							{
 								$startDate = is_numeric($this->detail->discount_stratdate) ?
                                     JFactory::getDate($this->detail->discount_stratdate)->format($calendarFormat)
                                     : $this->detail->discount_stratdate;
 							}
-
                             echo JHtml::_(
                                 'redshopcalendar.calendar',
                                 $startDate,
@@ -267,14 +254,12 @@ foreach ($media->getAll() as $mediaItem)
                             <label for="discount_enddate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?></label>
                             <?php
                             $endDate = null;
-
 							if ($this->detail->discount_enddate)
 							{
 								$endDate = is_numeric($this->detail->discount_enddate) ?
 									JFactory::getDate($this->detail->discount_enddate)->format($calendarFormat)
 									: $this->detail->discount_enddate;
 							}
-
                             echo JHtml::_(
                                 'redshopcalendar.calendar',
                                 $endDate,
@@ -655,12 +640,10 @@ foreach ($media->getAll() as $mediaItem)
                         </label>
                         <?php
                         $availability_date = "";
-
                         if ($this->detail->product_availability_date)
                         {
                             $availability_date = date("d-m-Y", $this->detail->product_availability_date);
                         }
-
                         echo JHtml::_(
                             'calendar',
                             $availability_date,
