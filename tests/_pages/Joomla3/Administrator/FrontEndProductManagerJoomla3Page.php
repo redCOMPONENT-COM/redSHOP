@@ -9,95 +9,223 @@
 /**
  * Class ProductFrontEndJoomla3Page
  *
- * @since  1.4
+ * @since  2.4
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 {
 	// Include url of current page
+
+    /**
+     * @var string
+     */
 	public static $URL = '/index.php?option=com_redshop';
 
+    /**
+     * @var string
+     */
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
+    /**
+     * @var string
+     */
 	public static $quotation = "/index.php?option=com_redshop&view=quotation";
 
-	public static $addQuotation = '//input[@name=\'addquotation\']';
+    /**
+     * @var string
+     */
+	public static $addQuotation = "//input[@name='addquotation']";
 
+    /**
+     * @var string
+     */
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
+    /**
+     * @var string
+     */
 	public static $productList = "//div[@id='redcatproducts']";
 
+    /**
+     * @var string
+     */
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
 
-	public static $addToCompare = ['xpath' => '//input[@name=\'rsProductCompareChk\']'];
+    /**
+     * @var string
+     */
 
-	public static $showProductToCompare = ['xpath' => '//a[text() = \'Show Products To Compare\']'];
+    public static $addToCompare = "//input[@name='rsProductCompareChk']";
 
+    /**
+     * @var string
+     */
+	public static $showProductToCompare = "//a[text() = 'Show Products To Compare']";
+
+    /**
+     * @var string
+     */
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
+    /**
+     * @var string
+     */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 
+    /**
+     * @var string
+     */
 	public static $alterOutOfStock = "Sorry, This product is out of stock....";
 
+    /**
+     * @var string
+     */
 	public static $addQuotationSuccess = 'Quotation detail has been sent successfully';
 
+    /**
+     * @var string
+     */
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
+    /**
+     * @var string
+     */
 	public static $headBilling = 'Billing Address Information';
 
+    /**
+     * @var string
+     */
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
+    /**
+     * @var string
+     */
 	public static $addressEmail = "#private-email1";
 
-	public static $userEmail = ['xpath' => '//input[@id=\'user_email\']'];
+    /**
+     * @var string
+     */
+	public static $userEmail = "//input[@id='user_email']";
 
+    /**
+     * @var string
+     */
 	public static $addressFirstName = "//input[@id='private-firstname']";
 
+    /**
+     * @var string
+     */
 	public static $addressLastName = "//input[@id='private-lastname']";
 
+    /**
+     * @var string
+     */
 	public static $addressAddress = "//input[@id='private-address']";
 
+    /**
+     * @var string
+     */
 	public static $addressPostalCode = "//input[@id='private-zipcode']";
 
+    /**
+     * @var string
+     */
 	public static $addressCity = "//input[@id='private-city']";
 
+    /**
+     * @var string
+     */
 	public static $addressCountry = "//select[@id='rs_country_country_code']";
 
+    /**
+     * @var string
+     */
 	public static $addressState = "//select[@id='state_code']";
 
+    /**
+     * @var string
+     */
 	public static $addressPhone = "//input[@id='private-phone']";
 
+    /**
+     * @var string
+     */
 	public static $shippingFirstName = "//input[@id='firstname_ST']";
 
+    /**
+     * @var string
+     */
 	public static $shippingLastName = "//input[@id='lastname_ST']";
 
+    /**
+     * @var string
+     */
 	public static $shippingAddress = "//input[@id='address_ST']";
 
+    /**
+     * @var string
+     */
 	public static $shippingPostalCode = "//input[@id='zipcode_ST']";
 
+    /**
+     * @var string
+     */
 	public static $shippingCity = "//input[@id='city_ST']";
 
-	public static $countryId = ['id' => 'rs_country_country_code'];
+    /**
+     * @var string
+     */
+	public static $countryId = "#rs_country_country_code";
 
-	public static $selectSecondCountry = ['xpath' => '//select[@id=\'rs_country_country_code\']/option[2]'];
+    /**
+     * @var string
+     */
+	public static $selectSecondCountry = "//select[@id='rs_country_country_code']/option[2]";
 
+    /**
+     * @var string
+     */
 	public static $shippingCountry = "//select[@id='country_code_ST']";
 
+    /**
+     * @var string
+     */
 	public static $shippingState = "//select[@id='state_code_ST']";
 
+    /**
+     * @var string
+     */
 	public static $shippingPhone = "//input[@id='phone_ST']";
 
+    /**
+     * @var string
+     */
 	public static $billingFinal = "//h3[text() = 'Bill to information']";
 
+    /**
+     * @var string
+     */
 	public static $termAndConditions = "//input[@id='termscondition']";
 
+    /**
+     * @var string
+     */
 	public static $termAndConditionsId = 'termscondition';
 
+    /**
+     * @var string
+     */
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
 
+    /**
+     * @var string
+     */
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
+    /**
+     * @var string
+     */
 	public static $orderReceipt = "Order Receipt";
 
 	/**
@@ -108,105 +236,114 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
 	 * @var array
 	 */
-	public static $idUserNameOneStep = ['xpath' => '//input[@id=\'onestep-createaccount-username\']'];
+	public static $idUserNameOneStep = "//input[@id='onestep-createaccount-username']";
 
 	/**
 	 * @var array
 	 */
-	public static $idPassOneStep = ['xpath' => '//input[@id=\'password1\']'];
+	public static $idPassOneStep = "//input[@id='password1']";
 
 	/**
 	 * @var array
 	 */
-	public static $idPassConfirmOneStep = ['xpath' => '//input[@id=\'password2\']'];
+	public static $idPassConfirmOneStep = "//input[@id='password2']";
 
 	/**
 	 * @var array
 	 */
-	public static $radioCompany = ['xpath' => '//input[@billing_type=\'company\']'];
+	public static $radioCompany = "//input[@billing_type='company']";
 
 	/**
 	 * @var array
 	 */
-	public static $radioPrivate = ['xpath' => '//input[@billing_type=\'private\']'];
+	public static $radioPrivate = "//input[@billing_type='private']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyName = ['xpath' => '//input[@id=\'company_name\']'];
+	public static $idCompanyName = "//input[@id='company_name']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyNameOnePage = ['xpath' => '//input[@id=\'company-company_name\']'];
+	public static $idCompanyNameOnePage = "//input[@id='company-company_name']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyAddressOnePage = ['xpath' => '//input[@id=\'company-address\']'];
+	public static $idCompanyAddressOnePage = "//input[@id='company-address']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyEmailOnePage = ['xpath' => '//input[@id=\'company-email1\']'];
+	public static $idCompanyEmailOnePage = "//input[@id='company-email1']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyZipCodeOnePage = ['xpath' => '//input[@id=\'company-zipcode\']'];
+	public static $idCompanyZipCodeOnePage = "//input[@id='company-zipcode']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyCityOnePage = ['xpath' => '//input[@id=\'company-city\']'];
+	public static $idCompanyCityOnePage = "//input[@id='company-city']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyPhoneOnePage = ['xpath' => '//input[@id=\'company-phone\']'];
+	public static $idCompanyPhoneOnePage = "//input[@id='company-phone']";
 
 	/**
 	 * @var array
 	 */
-	public static $idBusinessNumber = ['xpath' => '//input[@id=\'vat_number\']'];
+	public static $idBusinessNumber = "//input[@id='vat_number']";
 
 	/**
 	 * @var array
 	 */
-	public static $idEanNumber = ['xpath' => '//input[@id=\'ean_number\']'];
+	public static $idEanNumber = "//input[@id='ean_number']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyFirstName = ['xpath' => '//input[@id=\'company-firstname\']'];
+	public static $idCompanyFirstName = "//input[@id='company-firstname']";
 
 	/**
 	 * @var array
 	 */
-	public static $idCompanyLastName = ['xpath' => '//input[@id=\'company-lastname\']'];
+	public static $idCompanyLastName = "//input[@id='company-lastname']";
 
 	/**
+     * Function to get the Path $position for Attribute Dropdown List
+     *
 	 * @param $position
 	 *
 	 * @return array
 	 */
 	public function attributeDropdown($position)
 	{
-		$xpath = ['xpath' => '//span[@id=\'select2-chosen-'.$position.'\']'];
+		$xpath = "//span[@id='select2-chosen-'.$position.'']";
 
 		return $xpath;
 	}
 
+    /**
+     * Function to get the Path $position for Attribute Dropdown Search
+     *
+     * @param $position
+     *
+     * @return string
+     */
 	public function attributeDropdownSeach($position)
 	{
-		$xpath = ['xpath' => '//input[@id=\'s2id_autogen'.$position.'_search\']'];
+		$xpath = "//input[@id='s2id_autogen'.$position.'_search']";
 
 		return $xpath;
 	}
 	/**
 	 * @var array
 	 */
-	public static $attributeSearchFirst = ['xpath' => '//input[@id=\'s2id_autogen1_search\']'];
+	public static $attributeSearchFirst = "//input[@id='s2id_autogen1_search']";
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
@@ -251,7 +388,9 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	}
 
 	/**
-	 * @param $productName
+     * Function to get Path $productName in Product
+     *
+	 * @param String $productName Name of the Product
 	 *
 	 * @return string
 	 */

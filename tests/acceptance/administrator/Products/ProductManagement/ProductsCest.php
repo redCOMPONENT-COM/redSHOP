@@ -74,7 +74,7 @@ class ProductsCest
 		$I->doAdministratorLogin();
 	}
 
-	public function checkButton(ProductManagerSteps $I)
+    public function checkButton(ProductManagerSteps $I)
 	{
 		$I->checkButton('edit');
 		$I->checkButton('copy');
