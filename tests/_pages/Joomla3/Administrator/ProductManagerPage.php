@@ -287,5 +287,36 @@ class ProductManagerPage extends AdminJ3Page
      */
     public static $relatedProductId = "#s2id_related_product";
 
+    // product not for sale in frontend
+    public static $selectCategory = ".select2-match";
 
+    /**
+     * @var string
+     */
+    public static $saleYes = "//input[@id='not_for_sale1']";
+
+    /**
+     * @var string
+     */
+    public static $saleNo = "#not_for_sale0";
+
+    /**
+     * @var string
+     */
+    public static $showPriceYes = "#not_for_sale_showprice1";
+
+    /**
+     * @var string
+     */
+    public static $showPriceNo = "#not_for_sale_showprice0";
+
+    /**
+     * @var string
+     */
+    public static $categoryID = ".category_front_inside";
+
+    /**
+     * @var string
+     */
+    public static $productID = ".category_box_inside";
 }
