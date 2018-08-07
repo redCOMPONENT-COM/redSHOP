@@ -253,18 +253,25 @@ class xmlHelper
 		return array($result, $update);
 	}
 
-	public function explodeXMLFileString($xmlfiletag = "")
+	/**
+	 * @param   string $xmlFileTag  Xml file tag
+	 *
+	 * @return  array
+	 *
+	 */
+	public function explodeXMLFileString($xmlFileTag = '')
 	{
-		$value = array();
-
-		if ($xmlfiletag != "")
+		if (empty($xmlFileTag))
 		{
-			$field = explode(";", $xmlfiletag);
+			return array();
+		}
 
-			for ($i = 0, $in = count($field); $i < $in; $i++)
-			{
-				$value[$i] = explode("=", $field[$i]);
-			}
+		$value = array();
+		$fields = explode(";", $xmlFileTag);
+
+		foreach ($fields as $index => $field)
+		{
+			$value[$index] = explode("=", $field);
 		}
 
 		return $value;
@@ -1755,34 +1762,36 @@ class xmlHelper
 		return true;
 	}
 
-	public function getProductExist($product_number = "")
+	/**
+	 * @param   string $productNumber
+	 *
+	 * @return  boolean
+	 *
+	 */
+	public function getProductExist($productNumber = "")
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product "
-			. "WHERE product_number=" . $this->_db->quote($product_number) . "";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadobject();
-
-		if (count($list) > 0)
+		if (\Redshop\Repositories\Product::getProductByNumber($productNumber) === null)
 		{
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
-	public function getOrderExist($order_number = "")
+	/**
+	 * @param   string $orderNumber
+	 *
+	 * @return  boolean
+	 *
+	 */
+	public function getOrderExist($orderNumber = '')
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "orders "
-			. "WHERE order_number=" . $this->_db->quote($order_number) . "";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadobject();
-
-		if (count($list) > 0)
+		if (\Redshop\Repositories\Order::getOrderByNumber($orderNumber) === null)
 		{
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	public function getProductList($xmlarray = array(), $xmlExport = array())
@@ -1841,7 +1850,7 @@ class xmlHelper
 				}
 			}
 
-			if (count($field) > 0)
+			if (!empty($field))
 			{
 				$strfield = implode(", ", $field);
 			}
@@ -1868,32 +1877,36 @@ class xmlHelper
 		return $list;
 	}
 
-	public function getOrderList($xmlarray = array())
+	public function getOrderList($xmlArray = array())
 	{
+		if (empty($xmlArray))
+		{
+			return array();
+		}
+
 		$list     = array();
 		$field    = array();
 		$strfield = "";
 
-		if (count($xmlarray) > 0)
+		foreach ($xmlArray AS $key => $value)
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . ", order_id FROM " . $this->_table_prefix . "orders "
-					. "ORDER BY order_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
-			}
+			$field[] = $key . " AS " . $value;
 		}
+
+		if (!empty($field))
+		{
+			$strfield = implode(", ", $field);
+		}
+
+		if (empty($strfield))
+		{
+			return $list;
+		}
+
+		$query = "SELECT " . $strfield . ", order_id FROM " . $this->_table_prefix . "orders "
+			. "ORDER BY order_id ASC ";
+		$this->_db->setQuery($query);
+		$list = $this->_db->loadObjectlist();
 
 		return $list;
 	}
