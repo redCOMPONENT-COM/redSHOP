@@ -26,7 +26,7 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public $pagination;
 
-	// @ToDo In feature, when class Search extends RedshopModelList, replace filter_fields in constructor
+	// @TODO In feature, when class Search extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name ASC', 'product_name ASC',
 		'p.product_price ASC', 'product_price ASC',
@@ -49,6 +49,7 @@ class RedshopModelSearch extends RedshopModel
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
+	 * @throws  Exception
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -160,11 +161,11 @@ class RedshopModelSearch extends RedshopModel
 			{
 				$limit = $perpageproduct;
 			}
-            elseif (!$limit && $layout == 'productonsale')
+			elseif (!$limit && $layout == 'productonsale')
 			{
 				$limit = $params->get('productlimit', 5);
 			}
-            elseif (!$limit)
+			elseif (!$limit)
 			{
 				$limit = Redshop::getConfig()->get('MAXCATEGORY');
 			}
@@ -228,6 +229,7 @@ class RedshopModelSearch extends RedshopModel
 	 * @return  integer  The starting number of items available in the data set.
 	 *
 	 * @since   1.5
+	 * @throws  Exception
 	 */
 	public function getStart()
 	{
@@ -260,6 +262,7 @@ class RedshopModelSearch extends RedshopModel
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
 	 * @since   1.5
+	 * @throws  Exception
 	 */
 	public function getData()
 	{
@@ -284,7 +287,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				$db->setQuery($query);
 			}
-            elseif (strstr($templateDesc, "{pagination}") || $this->getState('productlimit') > 0)
+			elseif (strstr($templateDesc, "{pagination}") || $this->getState('productlimit') > 0)
 			{
 				$db->setQuery($query, $this->getStart(), $this->getState('list.limit'));
 			}
@@ -339,6 +342,7 @@ class RedshopModelSearch extends RedshopModel
 	 * @return  integer  The total number of items available in the data set.
 	 *
 	 * @since   1.5
+	 * @throws  Exception
 	 */
 	public function getTotal()
 	{
@@ -423,10 +427,11 @@ class RedshopModelSearch extends RedshopModel
 	/**
 	 * Build query
 	 *
-	 * @param   int|array $manudata Post request
-	 * @param   bool      $getTotal Get total product(true) or product data(false)
+	 * @param   integer|array $manudata Post request
+	 * @param   boolean       $getTotal Get total product(true) or product data(false)
 	 *
-	 * @return JDatabaseQuery
+	 * @return  JDatabaseQuery
+	 * @throws  Exception
 	 */
 	public function _buildQuery($manudata = 0, $getTotal = false)
 	{
@@ -588,11 +593,11 @@ class RedshopModelSearch extends RedshopModel
 				)
 			);
 		}
-        elseif ($layout == 'featuredproduct')
+		elseif ($layout == 'featuredproduct')
 		{
 			$query->where('p.product_special = 1');
 		}
-        elseif ($layout == 'newproduct')
+		elseif ($layout == 'newproduct')
 		{
 			$categoryid = $item->params->get('categorytemplate');
 
@@ -616,7 +621,7 @@ class RedshopModelSearch extends RedshopModel
 				->where('p.expired = 0')
 				->where('p.product_parent_id = 0');
 		}
-        elseif ($layout == 'redfilter')
+		elseif ($layout == 'redfilter')
 		{
 			$query->where('p.expired = 0');
 
@@ -714,8 +719,11 @@ class RedshopModelSearch extends RedshopModel
 
 	/**
 	 * Red Product Filter
+	 *
+	 * @return   array
+	 * @throws Exception
 	 */
-	public function getRedFilterProduct($remove = 0)
+	public function getRedFilterProduct()
 	{
 		// Get seeion filter data
 
@@ -730,9 +738,8 @@ class RedshopModelSearch extends RedshopModel
 		$lstproduct_id = array();
 		$products      = "";
 
-		if (count($getredfilter) != 0)
+		if (!empty($getredfilter))
 		{
-			$main_sal_sp   = array();
 			$main_sal_type = array();
 			$main_sal_tag  = array();
 
@@ -795,7 +802,7 @@ class RedshopModelSearch extends RedshopModel
 
 			$q .= implode(" AND ", $dep_cond);
 
-			$q       .= ") AND p.published = '1' AND x.category_id = " . (int) JRequest::getInt('cid', 0) . " order by p.product_name ";
+			$q       .= ") AND p.published = '1' AND x.category_id = " . (int) JFactory::getApplication()->input->getInt('cid', 0) . " order by p.product_name ";
 			$product = $this->_getList($q);
 
 			for ($i = 0, $in = count($product); $i < $in; $i++)
@@ -813,6 +820,10 @@ class RedshopModelSearch extends RedshopModel
 		return $products;
 	}
 
+	/**
+	 * @param   integer $Itemid Itemid
+	 *
+	 */
 	public function mod_redProductfilter($Itemid)
 	{
 		$db    = JFactory::getDbo();
@@ -832,121 +843,123 @@ class RedshopModelSearch extends RedshopModel
 
 		foreach ($types as $key => $type)
 		{
-			if (@!array_key_exists($type->id, $getredfilter))
+			if (array_key_exists($type->id, $getredfilter))
 			{
-				$str                        = htmlentities($type->type_name, ENT_COMPAT, "UTF-8");
-				$str                        = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde|elig|slash|ring);/', '$1', $str);
-				$str                        = str_replace(' ', '', $str);
-				$types[$key]->type_name_css = html_entity_decode($str);
+				continue;
+			}
 
-				$id         = $type->id;
-				$all        = 1;
-				$productids = "";
+			$str                        = htmlentities($type->type_name, ENT_COMPAT, "UTF-8");
+			$str                        = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde|elig|slash|ring);/', '$1', $str);
+			$str                        = str_replace(' ', '', $str);
+			$types[$key]->type_name_css = html_entity_decode($str);
 
-				if (count($getredfilter) > 0 && $all == 1)
+			$id         = $type->id;
+			$all        = 1;
+			$productids = "";
+
+			if (!empty($getredfilter) && $all == 1)
+			{
+				$type_id = array();
+				$tag_id  = array();
+
+				$k = 0;
+
+				foreach ($getredfilter as $typeid => $tags)
 				{
-					$type_id = array();
-					$tag_id  = array();
+					$type_id[] = $typeid;
+					$tags      = explode(".", $tags);
+					$tag_id[]  = $tags[0];
 
-					$k = 0;
-
-					foreach ($getredfilter as $typeid => $tags)
+					if (count($getredfilter) - 1 == $k)
 					{
-						$type_id[] = $typeid;
-						$tags      = explode(".", $tags);
-						$tag_id[]  = $tags[0];
-
-						if (count($getredfilter) - 1 == $k)
-						{
-							$lasttypeid = $typeid;
-							$lasttagid  = $tags[0];
-						}
-
-						$k++;
+						$lasttypeid = $typeid;
+						$lasttagid  = $tags[0];
 					}
 
-					$typeids = implode(",", $type_id);
-					$tagids  = implode(",", $tag_id);
+					$k++;
+				}
 
-					$query = "SELECT ra.product_id FROM `#__redproductfinder_association_tag` as rat
+				$typeids = implode(",", $type_id);
+				$tagids  = implode(",", $tag_id);
+
+				$query = "SELECT ra.product_id FROM `#__redproductfinder_association_tag` as rat
 					LEFT JOIN #__redproductfinder_associations as ra ON rat.`association_id` = ra.id
 					WHERE  rat.`type_id` = " . $db->quote($lasttypeid) . " ";
 
-					$query .= "AND  rat.`tag_id` = " . $db->quote($lasttagid) . " ";
+				$query .= "AND  rat.`tag_id` = " . $db->quote($lasttagid) . " ";
 
-					$product = $this->_getList($query);
+				$product = $this->_getList($query);
 
-					$products = array();
+				$products = array();
 
-					for ($i = 0, $in = count($product); $i < $in; $i++)
-					{
-						$products[] = $product[$i]->product_id;
-					}
-
-					$products   = ArrayHelper::toInteger($products);
-					$productids = implode(",", $products);
+				for ($i = 0, $in = count($product); $i < $in; $i++)
+				{
+					$products[] = $product[$i]->product_id;
 				}
 
-				$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
+				$products   = ArrayHelper::toInteger($products);
+				$productids = implode(",", $products);
+			}
+
+			$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
 			FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
 			LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
 			LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
 			WHERE j.tag_id = t.id
 			AND j.type_id = " . (int) $id . "  ";
 
-				if ($productids != "")
+			if ($productids != "")
+			{
+				// Sanitize ids
+				$productIds = explode(',', $productids);
+				$productIds = ArrayHelper::toInteger($productIds);
+
+				$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
+			}
+			$q .= " GROUP BY t.id ORDER BY t.ordering  ";
+
+			$tags = $this->_getList($q);
+
+			$tagname = "";
+
+			// Only show if the type has tags
+			if (!empty($tags))
+			{
+				// Create the selection boxes
+				for ($t = 0, $tn = count($tags); $t < $tn; $t++)
 				{
-					// Sanitize ids
-					$productIds = explode(',', $productids);
-					$productIds = ArrayHelper::toInteger($productIds);
+					$type_id = explode('.', $tags[$t]->tag_id);
 
-					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
-				}
-				$q .= " GROUP BY t.id ORDER BY t.ordering  ";
-
-				$tags = $this->_getList($q);
-
-				$tagname = "";
-
-				// Only show if the type has tags
-				if (count($tags) > 0)
-				{
-					// Create the selection boxes
-					for ($t = 0, $tn = count($tags); $t < $tn; $t++)
-					{
-						$type_id = explode('.', $tags[$t]->tag_id);
-
-						$query = "SELECT count(*) as count FROM #__redproductfinder_association_tag as ra
+					$query = "SELECT count(*) as count FROM #__redproductfinder_association_tag as ra
 							left join #__redproductfinder_associations as a on ra.association_id = a.id
 							left join #__redshop_product as rp on rp.product_id = a.product_id
 							WHERE type_id = " . $db->quote($type_id[1]) . " AND tag_id = " . $db->quote($type_id[0]) . " AND rp.published = 1";
 
-						$published = $this->_getList($query);
+					$published = $this->_getList($query);
 
-						if ($published[0]->count > $redproducttotal && $redproducttotal > 0)
-						{
-							$finalcount = $redproducttotal;
-						}
-						else
-						{
-							$finalcount = $published[0]->count;
-						}
-
-						if ($finalcount > 0)
-						{
-							$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
-						}
-					}
-
-					if ($tagname != "")
+					if ($published[0]->count > $redproducttotal && $redproducttotal > 0)
 					{
-						$lists['type' . $key] = $tagname;
+						$finalcount = $redproducttotal;
+					}
+					else
+					{
+						$finalcount = $published[0]->count;
+					}
+
+					if ($finalcount > 0)
+					{
+						$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
 					}
 				}
-				else
+
+				if ($tagname != "")
 				{
-					unset($types[$key]);
+					$lists['type' . $key] = $tagname;
 				}
+			}
+			else
+			{
+				unset($types[$key]);
 			}
 		}
 
@@ -968,7 +981,7 @@ class RedshopModelSearch extends RedshopModel
 						$tagname = "";
 
 						// Only show if the type has tags
-						if (count($tags) > 0)
+						if (!empty($tags))
 						{
 							// Create the selection boxes
 							for ($t = 0, $tn = count($tags); $t < $tn; $t++)
@@ -1045,7 +1058,7 @@ class RedshopModelSearch extends RedshopModel
 
 			foreach ($types as $key => $type)
 			{
-				if (@!array_key_exists($type->id, $getredfilter) && @array_key_exists('type' . $key, $lists))
+				if (!array_key_exists($type->id, $getredfilter) && array_key_exists('type' . $key, $lists))
 				{
 					?>
                     <div id="<?php echo $type->id; ?>"
@@ -1066,6 +1079,13 @@ class RedshopModelSearch extends RedshopModel
 		}
 	}
 
+	/**
+	 * @param   integer $id  Id
+	 * @param   integer $all All
+	 *
+	 * @return   mixed
+	 *
+	 */
 	public function getTagsDetail($id, $all = 1)
 	{
 		// For session
@@ -1132,6 +1152,10 @@ class RedshopModelSearch extends RedshopModel
 
 	/**
 	 * Get Category products selected in search Module
+	 *
+	 * @param   integer $cid Category id
+	 *
+	 * @return  mixed
 	 */
 	public function loadCatProductsManufacturer($cid)
 	{
@@ -1279,9 +1303,11 @@ class RedshopModelSearch extends RedshopModel
 	}
 
 	/**
-	 * Get List from product
+	 *
+	 * Get list from product
 	 *
 	 * @return  JDatabaseQuery
+	 * @throws  Exception
 	 */
 	public function getListQuery()
 	{
@@ -1326,7 +1352,7 @@ class RedshopModelSearch extends RedshopModel
 
 			$categoryList = implode(',', $categories);
 		}
-        elseif (!empty($cid))
+		elseif (!empty($cid))
 		{
 			$catList = RedshopHelperCategory::getCategoryListArray($cid);
 
@@ -1434,12 +1460,12 @@ class RedshopModelSearch extends RedshopModel
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
 			}
-            elseif (!empty($cid) || !empty($categories))
+			elseif (!empty($cid) || !empty($categories))
 			{
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
 		}
-        elseif (!empty($cid) || !empty($categories))
+		elseif (!empty($cid) || !empty($categories))
 		{
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
@@ -1448,7 +1474,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query->where($db->qn("p.manufacturer_id") . " IN (" . implode(',', $manufacturers) . ')');
 		}
-        elseif ($mid)
+		elseif ($mid)
 		{
 			$query->where($db->qn("p.manufacturer_id") . "=" . $db->q((int) $mid));
 		}
@@ -1464,15 +1490,17 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+		JEventDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
 
 		return $query;
 	}
 
 	/**
-	 * Get Items
+	 *
+	 * Get items
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
 	public function getItem()
 	{
@@ -1508,12 +1536,11 @@ class RedshopModelSearch extends RedshopModel
 	 * Get pagination.
 	 *
 	 * @return  JPagination
+	 * @throws  Exception
 	 */
 	public function getFilterPagination()
 	{
-		$endlimit         = $this->getState('list.limit');
-		$limitstart       = $this->getState('list.start');
-		$this->pagination = new JPagination($this->getFilterTotal(), $limitstart, $endlimit);
+		$this->pagination = new JPagination($this->getFilterTotal(), $this->getState('list.start'), $this->getState('list.limit'));
 
 		return $this->pagination;
 	}
@@ -1522,11 +1549,11 @@ class RedshopModelSearch extends RedshopModel
 	 * Get total.
 	 *
 	 * @return  integer
+	 * @throws  Exception
 	 */
 	public function getFilterTotal()
 	{
-		$query       = $this->getListQuery();
-		$this->total = $this->_getListCount($query);
+		$this->total = $this->_getListCount($this->getListQuery());
 
 		return $this->total;
 	}
