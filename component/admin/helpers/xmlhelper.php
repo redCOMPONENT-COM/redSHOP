@@ -33,23 +33,25 @@ class xmlHelper
 		return $section;
 	}
 
+	/**
+	 * @param   string $value  Value
+	 *
+	 * @return  string
+	 */
 	public function getSectionTypeName($value = '')
 	{
-		$name = "-";
-
-		switch ($value)
+		if ($value === 'product' || $value === 'order')
 		{
-			case 'product':
-				$name = JText::_('COM_REDSHOP_PRODUCT');
-				break;
-			case 'order':
-				$name = JText::_('COM_REDSHOP_ORDER');
-				break;
+			return JText::_('COM_REDSHOP_' . strtoupper($value));
 		}
 
-		return $name;
+		return '-';
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function getSynchIntervalList()
 	{
 		$section   = array();
@@ -61,24 +63,20 @@ class xmlHelper
 		return $section;
 	}
 
+	/**
+	 * @param   integer $value Value
+	 *
+	 * @return  string
+	 *
+	 */
 	public function getSynchIntervalName($value = 0)
 	{
-		$name = "-";
-
-		switch ($value)
+		if ($value == 6 || $value == 12 || $value == 24)
 		{
-			case 24:
-				$name = JText::_('COM_REDSHOP_24_HOURS');
-				break;
-			case 12:
-				$name = JText::_('COM_REDSHOP_12_HOURS');
-				break;
-			case 6:
-				$name = JText::_('COM_REDSHOP_6_HOURS');
-				break;
+			return JText::_('COM_REDSHOP_' . $value . '_HOURS');
 		}
 
-		return $name;
+		return '-';
 	}
 
 	public function getSectionColumnList($section = "", $childSection = "")
@@ -228,25 +226,27 @@ class xmlHelper
 		return $cols;
 	}
 
-	public function getXMLFileTag($fieldname = "", $xmlfiletag)
+	public function getXMLFileTag($fieldName = "", $xmlFileTag)
 	{
 		$result = "";
 		$update = 1;
 
-		if ($xmlfiletag != "")
+		if (empty($xmlFileTag))
 		{
-			$field = explode(";", $xmlfiletag);
+			return array($result, $update);
+		}
 
-			for ($i = 0, $in = count($field); $i < $in; $i++)
+		$fields = explode(";", $xmlFileTag);
+
+		foreach ($fields as $index => $field)
+		{
+			$value = explode("=", $field);
+
+			if ($value[0] == $fieldName)
 			{
-				$value = explode("=", $field[$i]);
-
-				if ($value[0] == $fieldname)
-				{
-					$result = trim($value[1]);
-					$update = (isset($value[2])) ? $value[2] : 0;
-					break;
-				}
+				$result = trim($value[1]);
+				$update = (isset($value[2])) ? $value[2] : 0;
+				break;
 			}
 		}
 
@@ -254,7 +254,7 @@ class xmlHelper
 	}
 
 	/**
-	 * @param   string $xmlFileTag  Xml file tag
+	 * @param   string $xmlFileTag Xml file tag
 	 *
 	 * @return  array
 	 *
@@ -266,7 +266,7 @@ class xmlHelper
 			return array();
 		}
 
-		$value = array();
+		$value  = array();
 		$fields = explode(";", $xmlFileTag);
 
 		foreach ($fields as $index => $field)
@@ -346,7 +346,7 @@ class xmlHelper
 	}
 
 	/**
-	 * @param   integer  $xmlexportId
+	 * @param   integer $xmlexportId
 	 *
 	 * @return  string|boolean
 	 */
@@ -507,7 +507,7 @@ class xmlHelper
 
 					while (list($prop, $val) = each($billinglist))
 					{
-						$val                  = html_entity_decode($val);
+						$val                 = html_entity_decode($val);
 						$xml_billingdocument .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 
@@ -525,7 +525,7 @@ class xmlHelper
 
 					while (list($prop, $val) = each($shippinglist))
 					{
-						$val                   = html_entity_decode($val);
+						$val                  = html_entity_decode($val);
 						$xml_shippingdocument .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 
@@ -547,7 +547,7 @@ class xmlHelper
 
 						while (list($prop, $val) = each($orderItemlist[$j]))
 						{
-							$val               = html_entity_decode($val);
+							$val              = html_entity_decode($val);
 							$xml_itemdocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
@@ -572,7 +572,7 @@ class xmlHelper
 
 						while (list($prop, $val) = each($stocklist[$j]))
 						{
-							$val                = html_entity_decode($val);
+							$val               = html_entity_decode($val);
 							$xml_stockdocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
@@ -602,7 +602,7 @@ class xmlHelper
 								continue;
 							}
 
-							$val                   = html_entity_decode($val);
+							$val                  = html_entity_decode($val);
 							$xml_prdextradocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
@@ -775,7 +775,7 @@ class xmlHelper
 		// Make the filename unique
 		$filename = RedshopHelperMedia::cleanFileName($xmlimportdata->display_filename . ".xml");
 
-		$xml_document  = "<?xml version='1.0' encoding='utf-8'?>";
+		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
 		$xml_document .= "<" . $xmlimportdata->element_name . "s>";
 
 		for ($i = 0, $in = count($datalist); $i < $in; $i++)
@@ -794,12 +794,12 @@ class xmlHelper
 
 						for ($j = 0, $jn = count($subdatalist); $j < $jn; $j++)
 						{
-							$childelement  = substr($prop, 0, -1);
+							$childelement = substr($prop, 0, -1);
 							$xml_document .= "<" . $childelement . ">";
 
 							while (list($subprop, $subval) = each($subdatalist[$j]))
 							{
-								$subval        = html_entity_decode($subval);
+								$subval       = html_entity_decode($subval);
 								$xml_document .= "<$subprop><![CDATA[$subval]]></$subprop>";
 							}
 
@@ -815,7 +815,7 @@ class xmlHelper
 
 						while (list($subprop, $subval) = each($subdatalist))
 						{
-							$subval        = html_entity_decode($subval);
+							$subval       = html_entity_decode($subval);
 							$xml_document .= "<$subprop><![CDATA[$subval]]></$subprop>";
 						}
 
@@ -824,7 +824,7 @@ class xmlHelper
 				}
 				else
 				{
-					$val           = html_entity_decode($val);
+					$val          = html_entity_decode($val);
 					$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
 				}
 			}
@@ -1441,7 +1441,7 @@ class xmlHelper
 													{
 														$fieldstring .= ",itemid,section";
 														$valuestring .= "," . (int) $product_id . ", '1' ";
-														$query        = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
+														$query       = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
 															. "($fieldstring) VALUES ($valuestring)";
 														$this->_db->setQuery($query);
 														$this->_db->execute();
@@ -1945,33 +1945,36 @@ class xmlHelper
 
 	public function getOrderItemList($xmlarray = array(), $order_id = 0)
 	{
+		if (empty($xmlarray))
+		{
+			return array();
+		}
+
 		$list     = array();
 		$field    = array();
 		$strfield = "";
 
-		if (count($xmlarray) > 0)
+		foreach ($xmlarray AS $key => $value)
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "order_item "
-					. "WHERE order_id=" . (int) $order_id . " "
-					. "ORDER BY order_item_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
+			$field[] = $key . " AS " . $value;
 		}
 
-		return $list;
+		if (count($field) > 0)
+		{
+			$strfield = implode(", ", $field);
+		}
+
+		if (empty($strfield))
+		{
+			return $list;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "order_item "
+			. "WHERE order_id=" . (int) $order_id . " "
+			. "ORDER BY order_item_id ASC ";
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function getStockroomList($xmls = array(), $product_id = 0)
@@ -1981,7 +1984,7 @@ class xmlHelper
 			return array();
 		}
 
-		$field    = array();
+		$field = array();
 
 		foreach ($xmls AS $key => $value)
 		{
@@ -2030,9 +2033,7 @@ class xmlHelper
 			->where($db->qn('fd.itemid') . ' = ' . (int) $section_id)
 			->where($db->qn('fd.section') . ' = ' . (int) $fieldsection);
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function importRemoteImage($src, $dest)
