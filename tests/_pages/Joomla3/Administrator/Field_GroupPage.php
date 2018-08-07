@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.1.0
+ * @since  2.4
  */
 class Field_GroupPage extends AdminJ3Page
 {
@@ -23,7 +23,7 @@ class Field_GroupPage extends AdminJ3Page
     /**
      * @var array
      */
-	public static $applyFieldGroup = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('field_group.apply');)\"]"];
+	public static $applyFieldGroup = "//button[@onclick=\"Joomla.submitbutton('field_group.apply');)\"]";
 
 	/**
 	 * @var string

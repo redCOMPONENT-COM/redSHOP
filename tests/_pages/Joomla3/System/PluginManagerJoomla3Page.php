@@ -9,27 +9,52 @@
 /**
  * Class PluginManagerJoomla3Page
  *
- * @since  1.4
+ * @since  2.4
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class PluginManagerJoomla3Page
 {
 	// Include url of current page
+
+    /**
+     * @var string
+     */
 	public static $URL = '/administrator/index.php?option=com_plugins';
 
+    /**
+     * @var string
+     */
 	public static $pluginSearch = "//input[@id='filter_search']";
 
+    /**
+     * @var string
+     */
 	public static $searchButton = "//button[@type='submit' and @data-original-title='Search']";
 
+    /**
+     * @var string
+     */
 	public static $searchResultRow = "//form[@id='adminForm']/div/table/tbody/tr[1]";
 
+    /**
+     * @var string
+     */
 	public static $pluginStatePath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[3]/a";
 
+    /**
+     * @var string
+     */
 	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
+    /**
+     * @var string
+     */
 	public static $firstCheck = "//input[@id='cb0']";
 
+    /**
+     * @var string
+     */
 	public static $pluginEnabledSuccessMessage = "Plugin successfully enabled";
 
 	/**
