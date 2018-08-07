@@ -707,33 +707,33 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($usePage->attributePreSelect($position));
     }
 
-    public function createProductNotForSale($productName, $productNumber, $prices, $productCategory)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->click(\ProductManagerPage::$buttonNew);
-        $I->waitForElement(ProductManagerPage::$productName, 30);
-        $I->fillField(\ProductManagerPage::$productName, $productName);
-        $I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-        $I->addValueForField(ProductManagerPage::$productPrice, $prices);
-        $I->click(\ProductManagerPage::$categoryId);
-        $I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
-        $usePage = new \ProductManagerPage();
-        $I->waitForElement($usePage->returnChoice($productCategory));
-        $I->click($usePage->returnChoice($productCategory));
-        $I->waitForElement(\ProductManagerPage::$saleYes, 30);
-        $I->scrollTo(\ProductManagerPage::$saleYes);
-        $I->click(\ProductManagerPage::$saleYes);
-        $I->scrollTo(\ProductManagerPage::$productName);
-        $I->click(\ProductManagerPage::$buttonSave);;
-    }
-    public function productFrontend($productCategory, $productID)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$url);
-        $I->waitForElement(\ProductManagerPage::$categoryID, 30);
-        $I->click($productCategory);
-        $I->waitForElement(\ProductManagerPage::$productID, 30);
-        $I->click($productID);
-    }
+	public function createProductNotForSale($productName, $productNumber, $prices, $productCategory)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(\ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(\ProductManagerPage::$productName, $productName);
+		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
+		$I->click(\ProductManagerPage::$categoryId);
+		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
+		$usePage = new \ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($productCategory));
+		$I->click($usePage->returnChoice($productCategory));
+		$I->waitForElement(\ProductManagerPage::$saleYes, 30);
+		$I->scrollTo(\ProductManagerPage::$saleYes);
+		$I->click(\ProductManagerPage::$saleYes);
+		$I->scrollTo(\ProductManagerPage::$productName);
+		$I->click(\ProductManagerPage::$buttonSave);;
+	}
+	public function productFrontend($productCategory, $productID)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$url);
+		$I->waitForElement(\ProductManagerPage::$categoryID, 30);
+		$I->click($productCategory);
+		$I->waitForElement(\ProductManagerPage::$productID, 30);
+		$I->click($productID);
+	}
 }
