@@ -207,6 +207,16 @@ defined('_JEXEC') or die;
         redSHOP.Module.Filter.submitFormAjax();
     }
 
+    function getParams(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+            return null;
+        }
+        else{
+            return decodeURI(results[1]) || 0;
+        }
+    }
+
     jQuery(document).ready(function () {
         redSHOP.Module.Filter.setup({
             "domId": "<?php echo $module->id ?>",
@@ -216,6 +226,14 @@ defined('_JEXEC') or die;
             "rangeMax": <?php echo $rangeMax; ?>,
             "currentMin": <?php echo $currentMin ?>,
             "currentMax": <?php echo $currentMax ?>
+        });
+
+        jQuery(window).load(function() {
+            var template_id = getParams('template_id');
+            var input_template = jQuery('input[name="redform[template_id]"]').val();
+            if (template_id == input_template) {
+                redSHOP.Module.Filter.submitFormAjax();
+            }
         });
     });
 </script>
