@@ -6,7 +6,7 @@
 namespace AcceptanceTester;
 
 use ShippingPage;
-
+use Exception;
 /**
  * Class StateSteps
  *
@@ -24,7 +24,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 	 * @param   string $function       Function
 	 *
 	 * @return  void
-	 * @throws  \Exception
+	 * @throws \Exception
 	 */
 	public function createShippingRateStandard($shippingMethod, $shipping = array(), $function = 'save')
 	{
@@ -175,20 +175,27 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$I->click(ShippingPage::$buttonSave);
+				try{
+					$I->seeInField(ShippingPage::$shippingName,$shipping['shippingName']);
+				}catch (Exception $e)
+				{
+					$I->fillField(ShippingPage::$shippingName, $shipping['shippingName']);
+					$I->click(ShippingPage::$buttonSave);
+				}
 				$I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				$I->click(ShippingPage::$buttonClose);
-				$I->seeLink($shipping['shippingName']);
 				break;
 
 			case 'saveclose':
 				$I->click(ShippingPage::$buttonSaveClose);
-				$I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				$I->seeLink($shipping['shippingName']);
+				$I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				break;
 
 			default:
 				break;
 		}
+		
 	}
     /**
      * @param $shippingName
