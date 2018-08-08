@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 class xmlHelper
 {
-	public $_db = null;
 
 	public $_data = null;
 
@@ -20,7 +19,7 @@ class xmlHelper
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db           = JFactory::getDbo();
+
 	}
 
 	public function getSectionTypeList()
@@ -34,7 +33,7 @@ class xmlHelper
 	}
 
 	/**
-	 * @param   string $value  Value
+	 * @param   string $value Value
 	 *
 	 * @return  string
 	 */
@@ -79,104 +78,99 @@ class xmlHelper
 		return '-';
 	}
 
+	/**
+	 * @param   string $section      Section
+	 * @param   string $childSection Child section
+	 *
+	 * @return  array|mixed
+	 */
 	public function getSectionColumnList($section = "", $childSection = "")
 	{
-		$cols   = array();
 		$catcol = array();
 		$table  = "";
 
 		switch ($section)
 		{
 			case 'product':
-				$table = "product";
-
 				switch ($childSection)
 				{
 					case "stockdetail":
-						$table = "stockroom"; // "product_stockroom_xref";
-						$q     = "SHOW COLUMNS FROM " . $this->_table_prefix . "product_stockroom_xref";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
+						// product_stockroom_xref;
+						$table  = "stockroom";
+						$fields = \Redshop\Repositories\Table::getFields('#__redshop_product_stockroom_xref');
 
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						foreach ($fields as $field)
 						{
-							if ($cat[$i]->Field == "quantity")
+							if ($field->Field != 'quantity')
 							{
-								$catcol[] = $cat[$i];
+								continue;
 							}
+
+							$catcol[] = $field;
 						}
 						break;
 					case "prdextrafield":
-						$table = ""; // "fields_data";
-						$q     = "SHOW COLUMNS FROM " . $this->_table_prefix . "fields_data";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
+						// fields_data;
+						$fields = \Redshop\Repositories\Table::getFields('#__redshop_fields_data');
 
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						foreach ($fields as $field)
 						{
-							if ($cat[$i]->Field != "user_email" && $cat[$i]->Field != "section")
+							if ($field->Field == "user_email" || $field->Field == "section")
 							{
-								$catcol[] = $cat[$i];
+								continue;
 							}
+
+							$catcol[] = $field;
 						}
 						break;
 					default:
-						$table = "product";
-						$q     = "SHOW COLUMNS FROM " . $this->_table_prefix . "category";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
+						$table  = "product";
+						$fields = \Redshop\Repositories\Table::getFields('#__redshop_category');
 
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						foreach ($fields as $field)
 						{
-							if ($cat[$i]->Field == "category_name")
+							if ($field->Field == 'category_name' || $field->Field == 'category_description')
 							{
-								$catcol[] = $cat[$i];
+								$catcol[] = $field;
 							}
-							elseif ($cat[$i]->Field == "category_description")
+							elseif ($field->Field == "category_template") // Start Code for display product_url
 							{
-								$catcol[] = $cat[$i];
+								$field->Field = "link";
+								$catcol[]     = $field;
 							}
-							elseif ($cat[$i]->Field == "category_template") // Start Code for display product_url
+							elseif ($field->Field == "category_thumb_image") // Start Code for display delivertime
 							{
-								$cat[$i]->Field = "link";
-								$catcol[]       = $cat[$i];
+								$field->Field = "delivertime";
+								$catcol[]     = $field;
 							}
-
-							elseif ($cat[$i]->Field == "category_thumb_image") // Start Code for display delivertime
+							elseif ($field->Field == "category_full_image") // Start Code for display pickup
 							{
-								$cat[$i]->Field = "delivertime";
-								$catcol[]       = $cat[$i];
+								$field->Field = "pickup";
+								$catcol[]     = $field;
 							}
-
-							elseif ($cat[$i]->Field == "category_full_image") // Start Code for display pickup
+							elseif ($field->Field == "category_back_full_image") // Start Code for display charges
 							{
-								$cat[$i]->Field = "pickup";
-								$catcol[]       = $cat[$i];
+								$field->Field = "charge";
+								$catcol[]     = $field;
 							}
-
-							elseif ($cat[$i]->Field == "category_back_full_image") // Start Code for display charges
+							elseif ($field->Field == "category_pdate") // Start Code for display freight
 							{
-								$cat[$i]->Field = "charge";
-								$catcol[]       = $cat[$i];
-							}
-							elseif ($cat[$i]->Field == "category_pdate") // Start Code for display freight
-							{
-								$cat[$i]->Field = "freight";
-								$catcol[]       = $cat[$i];
+								$field->Field = "freight";
+								$catcol[]     = $field;
 							}
 						}
 
 						// Start Code for display manufacturer name field
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "manufacturer";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
+						$fields = \Redshop\Repositories\Table::getFields('#__redshop_manufacturer');
 
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						foreach ($fields as $field)
 						{
-							if ($cat[$i]->Field == "name")
+							if ($field->Field !== "name")
 							{
-								$catcol[] = $cat[$i];
+								continue;
 							}
+
+							$catcol[] = $field;
 						}
 
 						break;
@@ -204,26 +198,27 @@ class xmlHelper
 				break;
 		}
 
+		// Reset fields
+		$fields = array();
+
 		if ($section != "" && $table != "")
 		{
-			$q = "SHOW COLUMNS FROM " . $this->_table_prefix . $table;
-			$this->_db->setQuery($q);
-			$cols = $this->_db->loadObjectList();
+			$fields = \Redshop\Repositories\Table::getFields('#__redshop_' . $table);
 		}
 
-		$cols = array_merge($cols, $catcol);
+		$fields = array_merge($fields, $catcol);
 
-		for ($i = 0, $in = count($cols); $i < $in; $i++)
+		foreach ($fields as $index => $field)
 		{
-			if (strtoupper($cols[$i]->Key) == "PRI")
+			if (strtoupper($fields[$index]->Key) == "PRI")
 			{
-				unset($cols[$i]);
+				unset($fields[$index]);
 			}
 		}
 
-		sort($cols);
+		sort($fields);
 
-		return $cols;
+		return $fields;
 	}
 
 	public function getXMLFileTag($fieldName = "", $xmlFileTag)
