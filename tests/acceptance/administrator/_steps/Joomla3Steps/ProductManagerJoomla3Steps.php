@@ -738,7 +738,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ProductManagerPage::$buttonSave);;
 	}
 
- /**
+	/**
 	 * @param $productCategory
 	 * @param $productID
 	 *
