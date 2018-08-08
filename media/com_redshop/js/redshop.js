@@ -140,3 +140,23 @@ jQuery(document).ready(function($) {
 		redSHOP.prepareStateList(jQuery(this), jQuery('#' + jQuery(this).attr('stateid')));
 	});
 });
+
+/**
+ * Trigger click on update cart
+ *
+ * @param event
+ * @param id
+ * @returns {boolean}
+ */
+function updateCartCheckout(event, id)
+{
+	// look for window.event in case event isn't passed in
+	event = event || window.event;
+
+	if (event.keyCode === 13)
+	{
+		jQuery('#update-cart-' + id).click();
+		return false;
+	}
+	return true;
+}
