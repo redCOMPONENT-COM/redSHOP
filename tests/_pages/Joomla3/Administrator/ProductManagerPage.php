@@ -25,12 +25,18 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
-
-
+	
+	/**
+	 * @var string
+	 */
     public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
-
+	/**
+	 * @var string
+	 */
     public static $username = '#modlgn-username';
-
+	/**
+	 * @var string
+	 */
     public static $password = '#modlgn-passwd';
 
     /**
@@ -123,15 +129,25 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $vatDropdownList = "//div[@id='s2id_product_tax_group_id']";
-
+	/**
+	 * @var string
+	 */
     public static $buttonCheckOut = '//input[@value="Checkout"]';
-
+	/**
+	 * @var string
+	 */
     public static $buttonLogin = '//button [@name="Submit"]';
-
+	/**
+	 * @var string
+	 */
     public static $iconEdit = '//a[@title="Edit order"]';
-
+	/**
+	 * @var string
+	 */
     public static $giftCode = "#coupon_input";
-
+	/**
+	 * @var string
+	 */
     public static $buttonAddToCart = '//span[contains(@class, \'btn-primary\')]';
 
     /**

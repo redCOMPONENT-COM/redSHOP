@@ -440,10 +440,16 @@ class ConfigurationPage extends AdminJ3Page
      * @var string
      */
 	public static $messageSaveSuccess = 'Configuration Saved';
-
+	/**
+	 * @var string
+	 */
     public static $currencySymbol = '#currency_symbol';
-
+	/**
+	 * @var string
+	 */
     public static $decimalSeparator = '#price_seperator';
-
+	/**
+	 * @var string
+	 */
     public static $numberOfPriceDecimals = '#price_decimal';
 }
